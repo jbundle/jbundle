@@ -9,7 +9,7 @@
          ================================= -->
     <target name="flatten" >
 		<copy flatten="yes" todir="${target}/docs/styles/xsl/cocoon/all" overwrite="true">
-			<fileset dir="${src}/docs/styles/xsl/cocoon">
+			<fileset dir="${resourceLocation}/docs/styles/xsl/cocoon">
 				<exclude name="base/**">
 				</exclude>
 				<exclude name="system/**">
@@ -19,7 +19,7 @@
 			</fileset>
 		</copy>
 		<copy overwrite="true" todir="${target}/docs/styles/xsl/ajax/base">
-			<fileset dir="${src}/docs/styles/xsl/flat/base">
+			<fileset dir="${resourceLocation}/docs/styles/xsl/flat/base">
 			</fileset>
 		</copy>        
     </target>

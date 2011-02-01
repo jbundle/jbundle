@@ -83,7 +83,7 @@
     <!-- dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.control.cocoon</artifactId>
-      <version>0.7.6-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency -->
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
@@ -103,7 +103,7 @@
     <!-- dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.view.swing.jaxe</artifactId>
-      <version>0.7.6-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency -->
 
     <dependency>

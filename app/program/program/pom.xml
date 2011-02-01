@@ -86,19 +86,19 @@
     <dependency>
       <groupId>org.jbundle.config</groupId>
       <artifactId>jbundle-config-dep-all</artifactId>
-      <version>0.7.6-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
       <type>pom</type>
       <!-- scope>runtime</scope **** WHY DOESN'T THIS WORK? -->
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.jdbc</artifactId>
-      <version>0.7.6-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.app</artifactId>
-      <version>0.7.6-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
       <!-- scope>runtime</scope **** WHY DOESN'T THIS WORK? -->
     </dependency>
   </dependencies>
