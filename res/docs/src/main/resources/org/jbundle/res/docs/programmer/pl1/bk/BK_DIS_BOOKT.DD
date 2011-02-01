@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_DIS_BOOKT File
+********************************************************************/
+
+declare	1 BK_DIS_BOOKT_RECORD,
+		3 DIS_TOUR_CODE        character (        4),
+		3 DIS_TOUR_DEP         fixed binary (15),
+		3 DIS_TOUR_NO          fixed binary (31);
+

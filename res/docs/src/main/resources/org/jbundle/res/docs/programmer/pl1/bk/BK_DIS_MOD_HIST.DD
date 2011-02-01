@@ -1,0 +1,19 @@
+/*********************************************************************
+	BK_DIS_MOD_HIST File
+********************************************************************/
+
+declare	1 BK_DIS_MOD_HIST_RECORD,
+		3 MOD_HOTEL            character (        1),
+		3 MOD_TOUR             character (        1),
+		3 MOD_AIR              character (        1),
+		3 MOD_REMARK           character (        1),
+		3 MOD_LINE             character (        1),
+		3 MOD_PAX              character (        1),
+		3 MOD_NO               fixed binary (15),
+		3 MOD_LAND             character (        1),
+		3 OLD_TOUR_NUM         fixed binary (31),
+		3 MOD_OFFSET           fixed binary (15),
+		3 MOD_NUMBER           fixed binary (15),
+		3 MOD_NEXT_MOD         fixed binary (15),
+		3 MOD_SELECT           fixed binary (15);
+

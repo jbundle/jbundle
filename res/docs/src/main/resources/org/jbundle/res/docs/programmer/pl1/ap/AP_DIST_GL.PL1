@@ -1,0 +1,1416 @@
+/****************************************************************
+	Module: AP_DIST_GL
+	Top Level Logic: POST_GL_LOGIC
+	Date:  1-Jul-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_DIST_GL
+	Post the G/L transactions to A/P
+****************************************************************/
+
+%replace AP_DIST_GL_1 by 674;
+AP_DIST_GL:
+   procedure;
+%replace AP_OPEN_NO by  32;
+%replace AP_GL_DIST_NO by  39;
+%replace GL_PERIOD_NO by  98;
+%replace GL_DETAIL_NO by  17;
+%replace AP_PYMT_HIST_NO by  33;
+%replace AP_CONTROL_NO by  29;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%include "AP_DIST_GL.DD";
+%include "AP_OPEN.DD";
+%include "AP_GL_DIST.DD";
+%include "GL_PERIOD.DD";
+%include "GL_DETAIL.DD";
+%include "AP_PYMT_HIST.DD";
+%include "AP_CONTROL.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_GET_LAST_PERIOD  bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		END_POST_DEP_EST     bit (1);
+declare		END_POST_INVOICE     bit (1);
+declare		END_POST_CR_MEMO     bit (1);
+declare		END_POST_PRPYMT      bit (1);
+declare		END_POST_DR_MEMO     bit (1);
+declare		END_POST_PAYMENT     bit (1);
+declare		END_POST_AP_DIST     bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		GL_DATE_CHECK        fixed binary (15);
+declare		ERROR_AP_GL_DIST     fixed binary (15);
+declare		END_READ_PER_THRU    bit (1);
+declare		END_POST_PAYMENTS    bit (1);
+   call INITIALIZE;
+   call POST_GL_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AP_GL_CUTOFF = TODAYS_DATE();
+   AP_POST_TODAY = TODAYS_DATE();
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   GL_TRX_DATE = TODAYS_DATE();
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_TRX_AMOUNT = 0;
+   AP_REC_NO = 9999;
+   AP_DEF_AC = 1;
+   TOUR_QUADS = 0;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_DIST_GL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AP_DIST_GL_RECORD) );
+   call OPEN_FILE (AP_OPEN_NO+?EXCLUSIVE_OPEN,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AP_GL_DIST_NO+?EXCLUSIVE_OPEN,"AP_GL_DIST",byteaddr(AP_GL_DIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_GL_DIST_NO,ERROR_CODE);
+   call OPEN_FILE (GL_PERIOD_NO+?EXCLUSIVE_OPEN,"GL_PERIOD",byteaddr(GL_PERIOD_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_PERIOD_NO,ERROR_CODE);
+   call OPEN_FILE (GL_DETAIL_NO+?EXCLUSIVE_OPEN,"GL_DETAIL",byteaddr(GL_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (AP_PYMT_HIST_NO+?EXCLUSIVE_OPEN,"AP_PYMT_HIST",byteaddr(AP_PYMT_HIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_PYMT_HIST_NO,ERROR_CODE);
+   call OPEN_FILE (AP_CONTROL_NO+?EXCLUSIVE_OPEN,"AP_CONTROL",byteaddr(AP_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO+?EXCLUSIVE_OPEN,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO+?EXCLUSIVE_OPEN,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	POST_GL_MAIN
+	Mainline logic to post G/L transactions
+****************************************************************/
+
+POST_GL_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+declare		ERROR_AP_CONTROL     fixed binary (15);
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CHECK_AP_PERIOD - Are all A/P transactions within periods */
+
+
+      /* SET_PER_FIRST - Set first */
+
+      GL_END_PERIOD = 0;
+      call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+      END_GET_LAST_PERIOD = NO;
+      do while (END_GET_LAST_PERIOD ^= YES);
+         call GET_LAST_PERIOD;
+      end;
+
+      /* CHECK_AP_PAST - Is the A/P G/L cutoff past the last per? */
+
+      if GL_END_PERIOD < AP_GL_CUTOFF then
+         do;
+         call DISPLAY_MESSAGE("Warning -- The G/L periods do not cover this cutoff<BEL>"c);
+         call PRESS_RETURN;
+         return;
+         end;
+
+
+   /* CHECK_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure?");
+   call INPUT_DATA(23,24,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* GET_AP_CONTROL - Read the A/P control file */
+
+
+      /* SET_AP_CONTROL - Set the key to read A/P control file */
+
+      AP_REC_NO = 0;
+      KEY_NO = 1;
+
+      /* READ_AP_CONTROL - Read the A/P control file */
+
+      call READ_KEYED (AP_CONTROL_NO,KEY_NO,ERROR_AP_CONTROL);
+      if ERROR_AP_CONTROL > 3 then
+         call PRINT_ERROR (AP_CONTROL_NO,ERROR_AP_CONTROL);
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+   END_POST_DEP_EST = NO;
+   do while (END_POST_DEP_EST ^= YES);
+      call POST_DEP_EST;
+   end;
+   END_POST_INVOICE = NO;
+   do while (END_POST_INVOICE ^= YES);
+      call POST_INVOICE;
+   end;
+   END_POST_CR_MEMO = NO;
+   do while (END_POST_CR_MEMO ^= YES);
+      call POST_CR_MEMO;
+   end;
+   END_POST_PRPYMT = NO;
+   do while (END_POST_PRPYMT ^= YES);
+      call POST_PRPYMT;
+   end;
+   END_POST_DR_MEMO = NO;
+   do while (END_POST_DR_MEMO ^= YES);
+      call POST_DR_MEMO;
+   end;
+   END_POST_PAYMENT = NO;
+   do while (END_POST_PAYMENT ^= YES);
+      call POST_PAYMENT;
+   end;
+   END_POST_AP_DIST = NO;
+   do while (END_POST_AP_DIST ^= YES);
+      call POST_AP_DIST;
+   end;
+return;
+end;	/* POST_GL_MAIN         */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   2;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_AP_CUTOFF - Is the A/P cutoff in-range? */
+
+      if AP_GL_CUTOFF > TODAYS_DATE() then
+         do;
+         call DISPLAY_MESSAGE("<BEL>The cut-off date cannot be after the current date"c);
+         call PRESS_RETURN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  2,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  2 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_AP_CUTOFF - Is the A/P cutoff in-range? */
+
+      if AP_GL_CUTOFF > TODAYS_DATE() then
+         do;
+         call DISPLAY_MESSAGE("<BEL>The cut-off date cannot be after the current date"c);
+         call PRESS_RETURN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	GET_LAST_PERIOD
+	Read thru the G/L Period file till EOF
+****************************************************************/
+
+GET_LAST_PERIOD:
+	procedure;
+
+
+   /* READNEXT_PER - Read the next period */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_END_PER - Last period? */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_GET_LAST_PERIOD = YES;
+      return;
+      end;
+return;
+end;	/* GET_LAST_PERIOD      */
+
+/****************************************************************
+	POST_DEP_EST
+	Post all departure estimates
+****************************************************************/
+
+POST_DEP_EST:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_GL_STATUS = DEP_TYPE;
+   AP_GL_ACTION_DATE = 0;
+   AP_OPEN_VENDOR = "";
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_GL_STATUS > DEP_TYPE) !
+   (AP_GL_ACTION_DATE > AP_GL_CUTOFF) then
+      do;
+      END_POST_DEP_EST = YES;
+      return;
+      end;
+
+   /* SET_AP_DATE - Set the G/L period target date */
+
+   GL_DATE_CHECK = AP_GL_ACTION_DATE;
+
+   call GET_GL_PERIOD;
+   call GET_AP_ACCTS;
+
+   /* SETUP_AP_DIST - Set up the A/P G/L Dist file */
+
+   AP_GL_NUMBER = AP_OPEN_TOUR_GL;
+   AP_GL_DATE = GL_END_PERIOD;
+   AP_GL_TYPE = AP_GL_STATUS;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+   if ERROR_AP_GL_DIST > 3 then
+      call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+   if ERROR_AP_GL_DIST = NORMAL_RETURN then
+      do;
+      AP_GL_AMOUNT = floor((AP_GL_AMOUNT + AP_DEP_EST_USD) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AP_GL_AMOUNT = AP_DEP_EST_USD;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   AP_GL_NUMBER = AP_EST_GL;
+   AP_GL_TYPE = AP_GL_STATUS;
+   AP_GL_DATE = GL_END_PERIOD;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+   if ERROR_AP_GL_DIST > 3 then
+      call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+   if ERROR_AP_GL_DIST = NORMAL_RETURN then
+      do;
+      AP_GL_AMOUNT = floor((AP_GL_AMOUNT - AP_DEP_EST_USD) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AP_GL_AMOUNT = -AP_DEP_EST_USD;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   AP_DEP_EST_GL = AP_DEP_EST_USD;
+   AP_GL_STATUS = IN_TYPE;
+   if AP_ENTRY_TYPE = DEP_EST then
+      AP_GL_ACTION_DATE = LARGE_DATE;
+   else
+      AP_GL_ACTION_DATE = AP_INV_ENTERED;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+return;
+end;	/* POST_DEP_EST         */
+
+/****************************************************************
+	GET_GL_PERIOD
+	Get the correct G/L Period
+****************************************************************/
+
+GET_GL_PERIOD:
+	procedure;
+
+
+   /* CURRENT_GL_OK - Is the current G/L Period correct? */
+
+   if GL_DATE_CHECK >= GL_START_PERIOD then if GL_DATE_CHECK <= GL_END_PERIOD then
+      return;
+
+
+   /* SET_FIRST_PER - Set for the first period */
+
+   GL_END_PERIOD = GL_DATE_CHECK;
+   call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_PER - Read the next period */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_GL_AFTER - Is this range after the periods? */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+
+      /* SET_PER_FIRST - Set first */
+
+      GL_END_PERIOD = 0;
+      call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+      END_READ_PER_THRU = NO;
+      do while (END_READ_PER_THRU ^= YES);
+         call READ_PER_THRU;
+      end;
+      GL_END_PERIOD = GL_END_PERIOD + 1;
+      GL_START_PERIOD = GL_END_PERIOD + 1;
+      return;
+      end;
+
+
+   /* CHECK_GL_RANGE - Is this doc in range? */
+
+   if GL_DATE_CHECK >= GL_START_PERIOD then if GL_DATE_CHECK <= GL_END_PERIOD then
+      return;
+
+   if GL_DATE_CHECK < GL_START_PERIOD then
+      do;
+      GL_END_PERIOD = GL_START_PERIOD - 1;
+      return;
+      end;
+
+return;
+end;	/* GET_GL_PERIOD        */
+
+/****************************************************************
+	READ_PER_THRU
+	Get last period
+****************************************************************/
+
+READ_PER_THRU:
+	procedure;
+
+
+   /* READNEXT_PER - Read the next period */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_END_PER - Last period? */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_READ_PER_THRU = YES;
+      return;
+      end;
+return;
+end;	/* READ_PER_THRU        */
+
+/****************************************************************
+	GET_AP_ACCTS
+	Get the accounts to post to
+****************************************************************/
+
+GET_AP_ACCTS:
+	procedure;
+
+declare		ERROR_BK_TOUR        fixed binary (15);
+
+   /* CHECK_AP_TR - Is this a tour A/P item */
+
+   if AP_REREAD ^= "Y" then
+      do;
+      if AP_GL_STATUS = DEP_TYPE then
+         if AP_OPEN_TOUR_GL ^= 0 then if AP_EST_GL ^= 0 then
+            return;
+      if AP_GL_STATUS = IN_TYPE then
+         if AP_OPEN_AP_ACCT ^= 0 then if AP_EST_GL ^= 0 then if AP_OVER_UNDER_GL ^= 0 then
+            return;
+      if AP_GL_STATUS = PA_TYPE then
+         if AP_OPEN_AP_ACCT ^= 0 then if AP_GAIN_LOSS_GL ^= 0 then
+            return;
+      if AP_GL_STATUS = CM_TYPE then
+         if AP_OPEN_AP_ACCT ^= 0 then if AP_OVER_UNDER_GL ^= 0 then
+            return;
+      if AP_GL_STATUS = DM_TYPE then
+         if AP_OPEN_AP_ACCT ^= 0 then if AP_OPEN_TOUR_GL ^= 0 then
+            return;
+      if AP_GL_STATUS = PU_TYPE then
+         if AP_OPEN_AP_ACCT ^= 0 then
+            return;
+      end;
+   else
+      do;
+      if AP_GL_STATUS = DEP_TYPE then
+         do;
+         AP_OPEN_TOUR_GL = 0;
+         AP_EST_GL = 0;
+         end;
+      if AP_GL_STATUS = IN_TYPE then
+         do;
+         if AP_OPEN_TOUR ^= 0 then
+            do;
+            AP_OPEN_AP_ACCT = 0;
+            AP_OVER_UNDER_GL = 0;
+            end;
+         end;
+      if AP_GL_STATUS = PA_TYPE then
+         do;
+         AP_GAIN_LOSS_GL = 0;
+         end;
+      end;
+
+   if AP_OPEN_TOUR ^= 0 then
+      do;
+
+      /* SETUP_KEY - Set up this key for a read */
+
+      TOUR_NO = AP_OPEN_TOUR;
+      KEY_NO = 1;
+
+      /* READ_RECORD - Read the record */
+
+      call READ_KEYED (BK_TOUR_NO,KEY_NO,ERROR_BK_TOUR);
+      if ERROR_BK_TOUR > 3 then
+         call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+      if ERROR_BK_TOUR = NORMAL_RETURN then
+         do;
+
+         /* READ_TR_TOUR_HDR - Read the tour header - Given tour rec. */
+
+
+            /* SET_FIRST_THDR - Set first tour hdr using tour record */
+
+            HDR_TOUR_CODE = TOUR_CODE;
+            HDR_END_ON = TOUR_DEP_DATE;
+            call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+            /* READNEXT_THDR - Read the next one */
+
+            call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE > 3 then
+            	call PRINT_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+
+            /* CHECK_THDR_OK - Is the header ok? */
+
+            if (TOUR_CODE ^= HDR_TOUR_CODE) !
+               (TOUR_DEP_DATE < HDR_START_ON) !
+               (TOUR_DEP_DATE > HDR_END_ON) then
+                  ERROR_CODE = END_OF_FILE;
+
+         end;
+      else
+         do;
+         ERROR_CODE = END_OF_FILE;
+         end;
+      if ERROR_CODE ^= NORMAL_RETURN then
+         do;
+         HDR_LAND_GL = 0;
+         if AP_GL_STATUS = DEP_TYPE then
+            HDR_UNINV_GL = 0;
+         if (AP_GL_STATUS = DEP_TYPE) ! (AP_GL_STATUS = IN_TYPE) then
+            HDR_COST_OU_GL = 0;
+         HDR_AP_GL = 0;
+         HDR_CURR_OU_GL = 0;
+         end;
+      end;
+   else
+      do;
+      HDR_UNINV_GL = 0;
+      HDR_CURR_OU_GL = 0;
+      HDR_AP_GL = 0;
+      HDR_COST_OU_GL = 0;
+      HDR_LAND_GL = 0;
+      end;
+
+
+   /* INIT_AP_DATA - Init data for any invoice */
+
+   if AP_OPEN_TOUR_GL = 0 then
+      AP_OPEN_TOUR_GL = HDR_LAND_GL;
+   if AP_OPEN_TOUR_GL = 0 then
+      AP_OPEN_TOUR_GL = AP_DEF_TOUR_GL;
+   if AP_EST_GL = 0 then
+      AP_EST_GL = HDR_UNINV_GL;
+   if AP_EST_GL = 0 then
+      AP_EST_GL = AP_DEF_EST;
+   if AP_OVER_UNDER_GL = 0 then
+      AP_OVER_UNDER_GL = HDR_COST_OU_GL;
+   if AP_OVER_UNDER_GL = 0 then
+      AP_OVER_UNDER_GL = AP_DEF_OU;
+   if AP_OPEN_AP_ACCT = 0 then
+      AP_OPEN_AP_ACCT = HDR_AP_GL;
+   if AP_OPEN_AP_ACCT = 0 then
+      AP_OPEN_AP_ACCT = AP_DEF_AP;
+   if AP_GAIN_LOSS_GL = 0 then
+      AP_GAIN_LOSS_GL = HDR_CURR_OU_GL;
+   if AP_GAIN_LOSS_GL = 0 then
+      AP_GAIN_LOSS_GL = AP_DEF_GL;
+
+
+return;
+end;	/* GET_AP_ACCTS         */
+
+/****************************************************************
+	POST_INVOICE
+	Post the invoices to G/L
+****************************************************************/
+
+POST_INVOICE:
+	procedure;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   AP_GL_STATUS = IN_TYPE;
+   AP_GL_ACTION_DATE = 0;
+   AP_OPEN_VENDOR = "";
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_GL_STATUS > IN_TYPE) !
+   (AP_GL_ACTION_DATE > AP_GL_CUTOFF) then
+      do;
+      END_POST_INVOICE = YES;
+      return;
+      end;
+
+   /* SET_AP_DATE - Set the G/L period target date */
+
+   GL_DATE_CHECK = AP_GL_ACTION_DATE;
+
+   call GET_GL_PERIOD;
+   call GET_AP_ACCTS;
+
+   /* SETUP_INV_DIST - Setup the distribution for invoices */
+
+   if AP_DEP_EST_GL ^= 0 then
+      do;
+      AP_GL_NUMBER = AP_EST_GL;
+      AP_GL_DATE = GL_END_PERIOD;
+      AP_GL_TYPE = AP_GL_STATUS;
+
+
+      /* READ_RECORD_4 - Read record */
+
+      call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+      if ERROR_AP_GL_DIST > 3 then
+         call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+      if ERROR_AP_GL_DIST = NORMAL_RETURN then
+         do;
+         AP_GL_AMOUNT = floor((AP_GL_AMOUNT + AP_DEP_EST_GL) * 100 + 0.5) / 100;
+
+         /* UPDATE_RECORD_4 - Update the record */
+
+         call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+         end;
+      else
+         do;
+         AP_GL_AMOUNT = AP_DEP_EST_GL;
+
+         /* WRITE_RECORD_4 - Write the record */
+
+         call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+         end;
+      end;
+
+   AP_GL_NUMBER = AP_OPEN_AP_ACCT;
+   AP_GL_TYPE = AP_GL_STATUS;
+   AP_GL_DATE = GL_END_PERIOD;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+   if ERROR_AP_GL_DIST > 3 then
+      call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+   if ERROR_AP_GL_DIST = NORMAL_RETURN then
+      do;
+      AP_GL_AMOUNT = floor((AP_GL_AMOUNT - AP_VEN_INV_USD) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AP_GL_AMOUNT = -AP_VEN_INV_USD;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   if AP_VEN_INV_USD ^= AP_DEP_EST_GL then
+      do;
+      AP_GL_NUMBER = AP_OVER_UNDER_GL;
+      AP_GL_TYPE = AP_GL_STATUS;
+      AP_GL_DATE = GL_END_PERIOD;
+
+
+      /* READ_RECORD_4 - Read record */
+
+      call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+      if ERROR_AP_GL_DIST > 3 then
+         call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+      if ERROR_AP_GL_DIST = NORMAL_RETURN then
+         do;
+         AP_GL_AMOUNT = floor((AP_GL_AMOUNT + AP_VEN_INV_USD - AP_DEP_EST_GL) * 100 + 0.5) / 100;
+
+         /* UPDATE_RECORD_4 - Update the record */
+
+         call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+         end;
+      else
+         do;
+         AP_GL_AMOUNT =floor((AP_VEN_INV_USD - AP_DEP_EST_GL) * 100 + 0.5) / 100;
+
+         /* WRITE_RECORD_4 - Write the record */
+
+         call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+         end;
+      end;
+
+   AP_VEN_INV_GL = AP_VEN_INV_USD;
+   AP_GL_STATUS = PA_TYPE;
+   if (AP_ENTRY_TYPE = INVOICE) & (AP_INV_BAL = AP_VEN_INV_AMT) then
+      AP_GL_ACTION_DATE = LARGE_DATE;
+   else
+      AP_GL_ACTION_DATE = AP_PYMT_DATE;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+return;
+end;	/* POST_INVOICE         */
+
+/****************************************************************
+	POST_CR_MEMO
+	Post all the credit memos
+****************************************************************/
+
+POST_CR_MEMO:
+	procedure;
+
+
+   /* SET_FIRST_3 - Set first */
+
+   AP_GL_STATUS = CM_TYPE;
+   AP_GL_ACTION_DATE = 0;
+   AP_OPEN_VENDOR = "";
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_3 - Check for end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_GL_STATUS > CM_TYPE) !
+   (AP_GL_ACTION_DATE > AP_GL_CUTOFF) then
+      do;
+      END_POST_CR_MEMO = YES;
+      return;
+      end;
+
+   /* SET_AP_DATE - Set the G/L period target date */
+
+   GL_DATE_CHECK = AP_GL_ACTION_DATE;
+
+   call GET_GL_PERIOD;
+   call GET_AP_ACCTS;
+
+   /* SETUP_CR_DIST - Set up the posting for a CR memo */
+
+   AP_GL_NUMBER = AP_OVER_UNDER_GL;
+   AP_GL_DATE = GL_END_PERIOD;
+   AP_GL_TYPE = AP_GL_STATUS;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+   if ERROR_AP_GL_DIST > 3 then
+      call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+   if ERROR_AP_GL_DIST = NORMAL_RETURN then
+      do;
+      AP_GL_AMOUNT = floor((AP_GL_AMOUNT + AP_VEN_INV_USD) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AP_GL_AMOUNT = AP_VEN_INV_USD;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   AP_GL_NUMBER = AP_OPEN_AP_ACCT;
+   AP_GL_TYPE = AP_GL_STATUS;
+   AP_GL_DATE = GL_END_PERIOD;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+   if ERROR_AP_GL_DIST > 3 then
+      call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+   if ERROR_AP_GL_DIST = NORMAL_RETURN then
+      do;
+      AP_GL_AMOUNT = floor((AP_GL_AMOUNT - AP_VEN_INV_USD) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AP_GL_AMOUNT = -AP_VEN_INV_USD;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   AP_VEN_INV_GL = AP_VEN_INV_USD;
+   AP_GL_STATUS = PA_TYPE;
+   if (AP_ENTRY_TYPE = CR_MEMO) & (AP_INV_BAL = AP_VEN_INV_AMT) then
+      AP_GL_ACTION_DATE = LARGE_DATE;
+   else
+      AP_GL_ACTION_DATE = AP_PYMT_DATE;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+return;
+end;	/* POST_CR_MEMO         */
+
+/****************************************************************
+	POST_PRPYMT
+	Post the prepayment
+****************************************************************/
+
+POST_PRPYMT:
+	procedure;
+
+
+   /* SET_FIRST_4 - Set first */
+
+   AP_GL_STATUS = PU_TYPE;
+   AP_GL_ACTION_DATE = 0;
+   AP_OPEN_VENDOR = "";
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_4 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_GL_STATUS > PU_TYPE) !
+   (AP_GL_ACTION_DATE > AP_GL_CUTOFF) then
+      do;
+      END_POST_PRPYMT = YES;
+      return;
+      end;
+
+   /* INIT_INV_COUNT - Initialize the count variable */
+
+   AP_INV_COUNT = AP_VEN_INV_AMT;
+   AP_INV_COUNT_USD = AP_VEN_INV_USD;
+
+
+   /* SET_FIRST_7 - Set first */
+
+   AP_HIST_ENTRY = AP_ENTRY_NO;
+   AP_HIST_CHECK_DATE = 0;
+   AP_HIST_SEQ = 0;
+   call SET_POSITION (AP_PYMT_HIST_NO,KEY_AREA_1,ERROR_CODE);
+   END_POST_PAYMENTS = NO;
+   do while (END_POST_PAYMENTS ^= YES);
+      call POST_PAYMENTS;
+   end;
+
+   /* UPDATE_PRE - Update the Prepayment */
+
+   if (ERROR_CODE = NORMAL_RETURN) & (AP_HIST_ENTRY = AP_ENTRY_NO) then
+      AP_GL_ACTION_DATE = AP_HIST_CHECK_DATE;
+   else
+      do;
+      AP_GL_STATUS = AP_GL_DONE;
+      AP_GL_ACTION_DATE = LARGE_DATE;
+      end;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+return;
+end;	/* POST_PRPYMT          */
+
+/****************************************************************
+	POST_PAYMENTS
+	Go thru and post the individual payments
+****************************************************************/
+
+POST_PAYMENTS:
+	procedure;
+
+declare		ERROR_AP_PYMT_HIST   fixed binary (15);
+
+   /* READNEXT_7 - Read next record */
+
+   call READ_NEXT (AP_PYMT_HIST_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_PYMT_HIST_NO,ERROR_CODE);
+
+   /* CHECK_END_7 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_HIST_ENTRY > AP_ENTRY_NO) !
+   (AP_HIST_CHECK_DATE > AP_GL_CUTOFF) then
+      do;
+      END_POST_PAYMENTS = YES;
+      return;
+      end;
+
+   /* SET_PYMT_DATE - Set up the invoice paid date */
+
+   if (AP_INV_BAL = 0) & (floor((AP_INV_COUNT - AP_HIST_AMT_APPL) * 100 + 0.1) = 0) then
+      AP_INV_PYMT = AP_INV_COUNT_USD;
+   else
+      AP_INV_PYMT = floor(AP_HIST_AMT_APPL * AP_DEP_EXCH * 100 + 0.5) / 100;
+   AP_INV_COUNT = AP_INV_COUNT - AP_HIST_AMT_APPL; /* Don't normalize */
+   AP_INV_COUNT_USD=floor((AP_INV_COUNT_USD - AP_INV_PYMT)*100 + 0.5) /100;
+
+   if AP_HIST_APPL_GL ^= 0 then
+      return;
+
+   GL_DATE_CHECK = AP_HIST_CHECK_DATE;
+
+   call GET_GL_PERIOD;
+   call GET_AP_ACCTS;
+
+   /* SETUP_PYMT_DIST - Setup the payment distribution */
+
+   AP_GL_NUMBER = AP_HIST_GL;
+   AP_GL_DATE = GL_END_PERIOD;
+   AP_GL_TYPE = AP_GL_STATUS;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+   if ERROR_AP_GL_DIST > 3 then
+      call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+   if ERROR_AP_GL_DIST = NORMAL_RETURN then
+      do;
+      AP_GL_AMOUNT=floor((AP_GL_AMOUNT - AP_HIST_APPL_USD) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AP_GL_AMOUNT = -AP_HIST_APPL_USD;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   AP_GL_NUMBER = AP_OPEN_AP_ACCT;
+   AP_GL_DATE = GL_END_PERIOD;
+   AP_GL_TYPE = AP_GL_STATUS;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+   if ERROR_AP_GL_DIST > 3 then
+      call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+   if ERROR_AP_GL_DIST = NORMAL_RETURN then
+      do;
+      AP_GL_AMOUNT=floor((AP_GL_AMOUNT + AP_INV_PYMT) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AP_GL_AMOUNT = AP_INV_PYMT;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   if AP_HIST_APPL_USD ^= AP_INV_PYMT then
+      do;
+      AP_GL_NUMBER = AP_GAIN_LOSS_GL;
+      AP_GL_DATE = GL_END_PERIOD;
+      AP_GL_TYPE = AP_GL_STATUS;
+
+
+      /* READ_RECORD_4 - Read record */
+
+      call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+      if ERROR_AP_GL_DIST > 3 then
+         call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+      if ERROR_AP_GL_DIST = NORMAL_RETURN then
+         do;
+         AP_GL_AMOUNT=floor((AP_GL_AMOUNT + AP_HIST_APPL_USD - AP_INV_PYMT) * 100 + 0.5) / 100;
+
+         /* UPDATE_RECORD_4 - Update the record */
+
+         call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+         end;
+      else
+         do;
+         AP_GL_AMOUNT=floor((AP_HIST_APPL_USD - AP_INV_PYMT) * 100 + 0.5)/100;
+
+         /* WRITE_RECORD_4 - Write the record */
+
+         call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+         end;
+      end;
+
+   AP_HIST_APPL_GL = AP_INV_PYMT;
+
+
+   /* UPDATE_RECORD_2 - Update the record */
+
+   call UPDATE_RECORD (AP_PYMT_HIST_NO,ERROR_CODE);
+
+   /* READ_RECORD_2 - Read from another file */
+
+   call READ_KEYED (AP_PYMT_HIST_NO,KEY_AREA_1,ERROR_AP_PYMT_HIST);
+   if ERROR_AP_PYMT_HIST > 3 then
+      call PRINT_ERROR (AP_PYMT_HIST_NO,ERROR_AP_PYMT_HIST);
+return;
+end;	/* POST_PAYMENTS        */
+
+/****************************************************************
+	POST_DR_MEMO
+	Post the Debit Memo
+****************************************************************/
+
+POST_DR_MEMO:
+	procedure;
+
+
+   /* SET_FIRST_5 - Set first */
+
+   AP_GL_STATUS = DM_TYPE;
+   AP_GL_ACTION_DATE = 0;
+   AP_OPEN_VENDOR = "";
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_5 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_GL_STATUS > DM_TYPE) !
+   (AP_GL_ACTION_DATE > AP_GL_CUTOFF) then
+      do;
+      END_POST_DR_MEMO = YES;
+      return;
+      end;
+
+   /* SET_AP_DATE - Set the G/L period target date */
+
+   GL_DATE_CHECK = AP_GL_ACTION_DATE;
+
+   call GET_GL_PERIOD;
+   call GET_AP_ACCTS;
+
+   /* SETUP_DR_DIST - Set up the Debit memo dist */
+
+   AP_GL_NUMBER = AP_OPEN_AP_ACCT;
+   AP_GL_DATE = GL_END_PERIOD;
+   AP_GL_TYPE = AP_GL_STATUS;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+   if ERROR_AP_GL_DIST > 3 then
+      call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+   if ERROR_AP_GL_DIST = NORMAL_RETURN then
+      do;
+      AP_GL_AMOUNT = floor((AP_GL_AMOUNT + AP_VEN_INV_USD) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AP_GL_AMOUNT = AP_VEN_INV_USD;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   AP_GL_NUMBER = AP_OPEN_TOUR_GL;
+   AP_GL_TYPE = AP_GL_STATUS;
+   AP_GL_DATE = GL_END_PERIOD;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AP_GL_DIST_NO,KEY_AREA_1,ERROR_AP_GL_DIST);
+   if ERROR_AP_GL_DIST > 3 then
+      call PRINT_ERROR (AP_GL_DIST_NO,ERROR_AP_GL_DIST);
+
+   if ERROR_AP_GL_DIST = NORMAL_RETURN then
+      do;
+      AP_GL_AMOUNT = floor((AP_GL_AMOUNT - AP_VEN_INV_USD) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AP_GL_AMOUNT = -AP_VEN_INV_USD;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   AP_VEN_INV_GL = AP_VEN_INV_USD;
+   AP_GL_STATUS = AP_GL_DONE;
+   AP_GL_ACTION_DATE = LARGE_DATE;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+return;
+end;	/* POST_DR_MEMO         */
+
+/****************************************************************
+	POST_PAYMENT
+	Post the invoice payments
+****************************************************************/
+
+POST_PAYMENT:
+	procedure;
+
+
+   /* SET_FIRST_6 - Set first */
+
+   AP_GL_STATUS = PA_TYPE;
+   AP_GL_ACTION_DATE = 0;
+   AP_OPEN_VENDOR = "";
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_6 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_GL_STATUS > PA_TYPE) !
+   (AP_GL_ACTION_DATE > AP_GL_CUTOFF) then
+      do;
+      END_POST_PAYMENT = YES;
+      return;
+      end;
+
+   /* INIT_INV_COUNT - Initialize the count variable */
+
+   AP_INV_COUNT = AP_VEN_INV_AMT;
+   AP_INV_COUNT_USD = AP_VEN_INV_USD;
+
+
+   /* SET_FIRST_7 - Set first */
+
+   AP_HIST_ENTRY = AP_ENTRY_NO;
+   AP_HIST_CHECK_DATE = 0;
+   AP_HIST_SEQ = 0;
+   call SET_POSITION (AP_PYMT_HIST_NO,KEY_AREA_1,ERROR_CODE);
+   END_POST_PAYMENTS = NO;
+   do while (END_POST_PAYMENTS ^= YES);
+      call POST_PAYMENTS;
+   end;
+
+   /* UPDATE_PP - Update the payment */
+
+   if (ERROR_CODE = NORMAL_RETURN) & (AP_HIST_ENTRY = AP_ENTRY_NO) then
+      AP_GL_ACTION_DATE = AP_HIST_CHECK_DATE;
+   else
+      do;
+      if AP_INV_BAL = 0 then
+         AP_GL_STATUS = AP_GL_DONE;
+      AP_GL_ACTION_DATE = LARGE_DATE;
+      end;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+return;
+end;	/* POST_PAYMENT         */
+
+/****************************************************************
+	POST_AP_DIST
+	Post the A/P to G/L
+****************************************************************/
+
+POST_AP_DIST:
+	procedure;
+
+
+   /* SET_FIRST_8 - Set to first record */
+
+   AP_GL_DATE = 0;
+   AP_GL_TYPE = 0;
+   AP_GL_NUMBER = 0;
+   call SET_POSITION (AP_GL_DIST_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_4 - Read next */
+
+   call READ_NEXT (AP_GL_DIST_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_GL_DIST_NO,ERROR_CODE);
+
+   /* CHECK_END_8 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_POST_AP_DIST = YES;
+      return;
+      end;
+
+   /* SETUP_AP_GL - Setup A/P G/L */
+
+   GL_AC_NO = AP_GL_NUMBER;
+   GL_TRX_DATE = AP_GL_DATE;
+   GL_TRX_ENTRY = AP_POST_TODAY;
+   GL_SEQ_NO = 1;
+   GL_TRX_AMOUNT = AP_GL_AMOUNT;
+   GL_SOURCE = "Accts/Pay";
+   do case (AP_GL_TYPE - DEP_TYPE + 1);
+      GL_REFERENCE = "A/P auto post - Departure ests";
+      GL_REFERENCE = "A/P auto post - Invoices";
+      GL_REFERENCE = "A/P auto post - Credit memos";
+      GL_REFERENCE = "A/P auto post - Prepayments";
+      GL_REFERENCE = "A/P auto post - Debit memos";
+      GL_REFERENCE = "A/P auto post - Payments";
+   end;
+   otherwise
+      GL_REFERENCE = "Posting from A/P";
+
+
+   /* WRITE_RECORD_5 - Write record */
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (GL_DETAIL_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         GL_SEQ_NO = GL_SEQ_NO + 1;
+   end;
+
+   /* DELETE_RECORD_4 - Delete */
+
+   call DELETE_RECORD (AP_GL_DIST_NO,ERROR_CODE);
+return;
+end;	/* POST_AP_DIST         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (AP_GL_DIST_NO);
+   call CLOSE_FILE (GL_PERIOD_NO);
+   call CLOSE_FILE (GL_DETAIL_NO);
+   call CLOSE_FILE (AP_PYMT_HIST_NO);
+   call CLOSE_FILE (AP_CONTROL_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

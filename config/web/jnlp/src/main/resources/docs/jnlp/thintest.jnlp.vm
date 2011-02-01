@@ -1,0 +1,31 @@
+<!DOCTYPE jnlp PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<jnlp codebase="$$context" spec="1.0+">
+<information>
+<title>Thin Test Application Resources</title>
+<vendor>tourapp.com</vendor>
+<homepage href="index.html"></homepage>
+<description kind="one-line">Thin Test Application Resources</description>
+<description kind="short">Thin Test Application Resources</description>
+<icon href="images/tour/icons/Tour.gif"></icon>
+<offline-allowed></offline-allowed>
+<keywords>tour</keywords>
+</information>
+<security></security>
+<resources>
+<java max-heap-size="512m" initial-heap-size="128m" version="1.6+"></java>
+<property value="true" name="jnlp.packEnabled"></property>
+<jar href="lib/restest.jar" part="restest" download="lazy"></jar>
+<package name="com.tourapp.res.test.test.*" part="restest" recursive="true"></package>
+<package name="com.tourapp.res.test.test.db.*" part="restest" recursive="true"></package>
+<jar href="lib/resvet.jar" part="resvet" download="lazy"></jar>
+<package name="com.tourapp.res.test.vet.*" part="resvet" recursive="true"></package>
+<jar href="lib/thindbtest.jar" part="thindbtest" download="lazy"></jar>
+<package name="com.tourapp.thin.test.test.*" part="thindbtest" recursive="true"></package>
+<jar href="lib/thindbvet.jar" part="thindbvet" download="lazy"></jar>
+<package name="com.tourapp.thin.test.vet.*" part="thindbvet" recursive="true"></package>
+<jar href="lib/thintest.jar" part="thintest" download="lazy"></jar>
+<package name="com.tourapp.thin.test.manual.*" part="thintest" recursive="true"></package>
+<package name="com.tourapp.thin.test.hotel.*" part="thintest" recursive="true"></package>
+</resources>
+<component-desc></component-desc>
+</jnlp>

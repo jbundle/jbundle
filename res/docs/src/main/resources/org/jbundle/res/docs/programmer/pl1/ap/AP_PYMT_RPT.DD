@@ -1,0 +1,23 @@
+/*********************************************************************
+	AP_PYMT_RPT File
+********************************************************************/
+
+declare	1 AP_PYMT_RPT_RECORD,
+		3 PYMT_DATE            fixed binary (15),
+		3 PYMT_TIME            fixed binary (15),
+		3 PYMT_CUTOFF          fixed binary (15),
+		3 PYMT_PAGE            fixed binary (31),
+		3 PYMT_START_CURR      character (        3),
+		3 PYMT_END_CURR        character (        3),
+		3 PP_VEN_TOT           float binary (53),
+		3 PP_VEN_USD_TOT       float binary (53),
+		3 PP_VEN_BAL_TOT       float binary (53),
+		3 PP_VEN_USD_BAL_TOT   float binary (53),
+		3 PP_CURR_TOT          float binary (53),
+		3 PP_CUR_USD_TOT       float binary (53),
+		3 PP_CUR_BAL_TOT       float binary (53),
+		3 PP_CUR_TOT_USD_BAL   float binary (53),
+		3 PP_TOTAL             float binary (53),
+		3 PP_USD_TOTAL         float binary (53),
+		3 PYMT_USER            character (       16);
+

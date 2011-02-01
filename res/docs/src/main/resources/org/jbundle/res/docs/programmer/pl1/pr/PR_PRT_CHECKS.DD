@@ -1,0 +1,18 @@
+/*********************************************************************
+	PR_PRT_CHECKS File
+********************************************************************/
+
+declare	1 PR_PRT_CHECKS_RECORD,
+		3 PAY_HOURS            float binary (21),
+		3 PAY_DESC             character (       15),
+		3 PAY_EARNINGS         float binary (21),
+		3 PAY_YTD              float binary (53),
+		3 PAY_DESC_2           character (       15),
+		3 PAY_DED_EARN         float binary (21),
+		3 PAY_DE_YTD           float binary (53),
+		3 PAY_GROSS            float binary (21),
+		3 PAY_DED              float binary (21),
+		3 PAY_TAXES            float binary (21),
+		3 PR_END_DTE           fixed binary (15),
+		3 PR_TEXT_AMT          character (       75);
+

@@ -1,0 +1,16 @@
+/*********************************************************************
+	BK_LAND_ITIN File
+********************************************************************/
+
+declare	1 BK_LAND_ITIN_RECORD,
+		3 QA_LAND_NO           character (       10),
+		3 QA_QUES_CODE         character (       10),
+		3 QA_QUES_TEXT         character (       30),
+		3 QA_ANSWER_SEQ        fixed binary (15),
+		3 QA_ANSWER_TEXT       character (       30),
+		3 QA_ITIN_ANSWER       character (       60),
+		3 QA_TO_DESC_TYPE      character (        1),
+		3 QA_TOUR_DESC_1       character (       30),
+		3 QA_TOUR_DESC_2       character (       30),
+		3 QA_COMPUTER_BLT      character (1);
+

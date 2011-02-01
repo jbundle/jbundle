@@ -1,0 +1,629 @@
+/****************************************************************
+	Module: AP_CUTOFF_RPT
+	Top Level Logic: REPORT_LOGIC
+	Date: 12-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_CUTOFF_RPT
+	Standard report logic
+****************************************************************/
+
+%replace AP_CUTOFF_RPT_1 by 598;
+%replace AP_CUTOFF_RPT_2 by 599;
+%replace AP_CUTOFF_RPT_3 by 600;
+AP_CUTOFF_RPT:
+   procedure;
+%replace AP_OPEN_NO by  32;
+%replace AD_CURR_NO by  25;
+%replace AP_VENDOR_NO by  30;
+%replace AP_PYMT_HIST_NO by  33;
+%include "AP_CUTOFF_RPT.DD";
+%include "AP_OPEN.DD";
+%include "AD_CURR.DD";
+%include "AP_VENDOR.DD";
+%include "AP_PYMT_HIST.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_READ_THRU_PYMTS  bit (1);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AP_CUTOFF = TODAYS_DATE();
+   AP_DATE = TODAYS_DATE();
+   AP_TIME = CURRENT_TIME();
+   AP_VEN_EST_TOTAL = 0;
+   AP_VEN_EST_INV_TOTAL = 0;
+   AP_VEN_EST_USD_TOT = 0;
+   AP_VEN_INV_EST_USD_T = 0;
+   AP_VEN_INV_TOTAL = 0;
+   AP_VEN_INV_USD_TOTAL = 0;
+   AP_VEN_INV_BAL_TOTAL = 0;
+   AP_VEN_INV_BAL_USD_T = 0;
+   AP_CURR_EST_TOTAL = 0;
+   AP_CURR_EST_USD_TOT = 0;
+   AP_CURR_INV_TOTAL = 0;
+   AP_CURR_INV_USD_TOT = 0;
+   AP_CURR_INVOICE_TOT = 0;
+   AP_CURR_INVOICE_USDT = 0;
+   AP_CURR_INV_BAL_TOT = 0;
+   AP_CURR_INV_BAL_USDT = 0;
+   AP_EST_TOTAL = 0;
+   AP_INV_EST_TOTAL = 0;
+   AP_INV_TOTAL = 0;
+   AP_INV_BAL_TOTAL = 0;
+   AP_EST_TOTAL_USD = 0;
+   AP_PAGE = 1;
+   AP_USER = USER_NAME();
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_DEP_EXCH = 0;
+   AP_VEN_INV_USD = 0;
+   AP_OPEN_AP_ACCT = 0;
+   AP_V_BASED_SEQ = 0;
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_CUTOFF_RPT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AP_CUTOFF_RPT_RECORD) );
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_PYMT_HIST_NO,"AP_PYMT_HIST",byteaddr(AP_PYMT_HIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_PYMT_HIST_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (AP_CUTOFF_RPT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_OPEN_CURR = AP_CURR_START;
+   AP_OPEN_VENDOR = "";
+   AP_ENTRY_TYPE = 0;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_4,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   call SETUP_PRINT_FORMAT (AP_CUTOFF_RPT_3);
+
+   /* ADD_EST_TOTAL - Add the two estimates together */
+
+   AP_EST_TOTAL_USD = floor((AP_EST_TOTAL + AP_INV_EST_TOTAL) * 100 + 0.5) / 100;
+
+   do LOOP_INDEX =   5 to  11;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+AP_CURR_END = AP_CURR_START;
+do LOOP_INDEX =   1 to   3;
+   if LOOP_INDEX =   2 then
+      AP_CURR_END = AP_CURR_START;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         AP_CURR_START = "";
+         AP_CURR_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  3,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  3 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         AP_CURR_START = "";
+         AP_CURR_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   3;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+AP_PAGE = AP_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+declare		OLD_AP_OPEN_CURR     character (        3);
+declare		OLD_AP_OPEN_VENDOR   character (        6);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_4,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_CURR > AP_CURR_END) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_CUTOFF_TYPE - Check the cutoff type */
+
+   if (AP_ENTRY_TYPE ^= DEP_EST) &
+      (AP_ENTRY_TYPE ^= INVOICE) &
+      (AP_ENTRY_TYPE ^= CR_INV) &
+      (AP_ENTRY_TYPE ^= CR_MEMO) &
+      (AP_ENTRY_TYPE ^= PD_INV) &
+      (AP_ENTRY_TYPE ^= PD_CINV) &
+      (AP_ENTRY_TYPE ^= PD_CRMM) then
+         return;
+
+   if AP_OPEN_DEP > AP_CUTOFF then
+      return;
+
+   if AP_OPEN_DEP = 0 then
+      return;
+
+   if AP_ENTRY_TYPE = INVOICE then if AP_VEN_INV_AMT = 0 then
+      return;
+
+   AP_INV_CUTOFF_BAL = 0;
+   AP_CUTOFF_BAL_USD = 0;
+
+   if AP_ENTRY_TYPE ^= DEP_EST then
+      do;
+      AP_INV_CUTOFF_BAL = AP_VEN_INV_AMT;
+      AP_CUTOFF_BAL_USD = AP_VEN_INV_USD;
+      end;
+
+   if (((AP_ENTRY_TYPE = INVOICE) ! (AP_ENTRY_TYPE = CR_INV) ! (AP_ENTRY_TYPE = CR_MEMO)) &
+      (AP_INV_BAL ^= AP_VEN_INV_AMT)) !
+      (AP_ENTRY_TYPE = PD_INV) ! (AP_ENTRY_TYPE = PD_CINV) ! (AP_ENTRY_TYPE = PD_CRMM) then
+         do;
+
+         /* ADD_CUTOFF_PYMTS - Add the payments made after the cutoff */
+
+
+            /* SET_FIRST_2 - Set the file pointer to the first key */
+
+            AP_HIST_ENTRY = AP_ENTRY_NO;
+            AP_HIST_CHECK_DATE = 0;
+            AP_HIST_SEQ = 0;
+            call SET_POSITION (AP_PYMT_HIST_NO,KEY_AREA_1,ERROR_CODE);
+            END_READ_THRU_PYMTS = NO;
+            do while (END_READ_THRU_PYMTS ^= YES);
+               call READ_THRU_PYMTS;
+            end;
+         end;
+
+   if AP_ENTRY_TYPE ^= DEP_EST then if AP_INV_CUTOFF_BAL = 0 then
+      return;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      OLD_AP_OPEN_CURR = "~";
+      OLD_AP_OPEN_VENDOR = "~";
+      end;
+   if AP_OPEN_VENDOR ^= OLD_AP_OPEN_VENDOR then
+      do;
+      if ^FIRST_TIME then
+         do;
+         do LOOP_INDEX =  10 to  11;
+            call PRINT_REPORT_LINE;
+         end;
+         AP_VEN_EST_TOTAL = 0;
+         AP_VEN_EST_USD_TOT = 0;
+         AP_VEN_EST_INV_TOTAL = 0;
+         AP_VEN_INV_EST_USD_T = 0;
+         AP_VEN_INV_TOTAL = 0;
+         AP_VEN_INV_USD_TOTAL = 0;
+         AP_VEN_INV_BAL_TOTAL = 0;
+         AP_VEN_INV_BAL_USD_T = 0;
+         end;
+      end;
+   if AP_OPEN_CURR ^= OLD_AP_OPEN_CURR then
+      do;
+      if ^FIRST_TIME then
+         do;
+         do LOOP_INDEX =  12 to  13;
+            call PRINT_REPORT_LINE;
+         end;
+         AP_CURR_EST_TOTAL = 0;
+         AP_CURR_EST_USD_TOT = 0;
+         AP_CURR_INV_TOTAL = 0;
+         AP_CURR_INV_USD_TOT = 0;
+         AP_CURR_INVOICE_TOT = 0;
+         AP_CURR_INVOICE_USDT = 0;
+         AP_CURR_INV_BAL_TOT = 0;
+         AP_CURR_INV_BAL_USDT = 0;
+         end;
+      end;
+   if AP_OPEN_CURR ^= OLD_AP_OPEN_CURR then
+      do;
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      CURR_CODE = AP_OPEN_CURR;
+      call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         CURR_DESC = "** RECORD NOT FOUND **";
+         end;
+      do LOOP_INDEX =   4 to   5;
+         call PRINT_REPORT_LINE;
+      end;
+      OLD_AP_OPEN_CURR = AP_OPEN_CURR;
+      end;
+   if AP_OPEN_VENDOR ^= OLD_AP_OPEN_VENDOR then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      AP_VEN_NO = AP_OPEN_VENDOR;
+      call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         AP_VEN_NAME = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         end;
+      do LOOP_INDEX =   6 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+      OLD_AP_OPEN_VENDOR = AP_OPEN_VENDOR;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+
+   /* SET_AP_TYPE - Set up the type description */
+
+   do case (AP_ENTRY_TYPE);
+      AP_ENTRY_TYPE_DESC = "Brk Pmt";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Brk Dft";
+      AP_ENTRY_TYPE_DESC = "PP Req ";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dep Est";
+      AP_ENTRY_TYPE_DESC = "Fin Est";
+   end;
+   otherwise
+      AP_ENTRY_TYPE_DESC = "";
+
+   do LOOP_INDEX =   9 to   9;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_CUTOFF_TOTALS - Add to the totals */
+
+   if AP_ENTRY_TYPE = DEP_EST then
+      do;
+      AP_VEN_EST_TOTAL  = floor((AP_VEN_EST_TOTAL + AP_DEP_EST) * 100 + 0.5) / 100;
+      AP_VEN_EST_USD_TOT  = floor((AP_VEN_EST_USD_TOT + AP_DEP_EST_USD) * 100 + 0.5) / 100;
+      AP_CURR_EST_TOTAL  = floor((AP_CURR_EST_TOTAL + AP_DEP_EST) * 100 + 0.5) / 100;
+      AP_CURR_EST_USD_TOT  = floor((AP_CURR_EST_USD_TOT + AP_DEP_EST_USD) * 100 + 0.5) / 100;
+      AP_EST_TOTAL  = floor((AP_EST_TOTAL + AP_DEP_EST_USD) * 100 + 0.5) / 100;
+      end;
+   else
+      do;
+      AP_VEN_EST_INV_TOTAL  = floor((AP_VEN_EST_INV_TOTAL + AP_DEP_EST) * 100 + 0.5) / 100;
+      AP_VEN_INV_EST_USD_T  = floor((AP_VEN_INV_EST_USD_T + AP_DEP_EST_USD) * 100 + 0.5) / 100;
+
+      AP_CURR_INV_TOTAL  = floor((AP_CURR_INV_TOTAL + AP_DEP_EST) * 100 + 0.5) / 100;
+      AP_CURR_INV_USD_TOT  = floor((AP_CURR_INV_USD_TOT + AP_DEP_EST_USD) * 100 + 0.5) / 100;
+
+      AP_INV_EST_TOTAL  = floor((AP_INV_EST_TOTAL + AP_DEP_EST_USD) * 100 + 0.5) / 100;
+      AP_INV_TOTAL  = floor((AP_INV_TOTAL + AP_VEN_INV_USD) * 100 + 0.5) / 100;
+      AP_INV_BAL_TOTAL  = floor((AP_INV_BAL_TOTAL + AP_CUTOFF_BAL_USD) * 100 + 0.5) / 100;
+      end;
+
+
+   /* ADD_TOTALS - Add to the total fields */
+
+   AP_VEN_INV_TOTAL = floor((AP_VEN_INV_TOTAL + AP_VEN_INV_AMT) * 100 + 0.5) / 100;
+   AP_VEN_INV_USD_TOTAL = floor((AP_VEN_INV_USD_TOTAL + AP_VEN_INV_USD) * 100 + 0.5) / 100;
+   AP_VEN_INV_BAL_TOTAL = floor((AP_VEN_INV_BAL_TOTAL + AP_INV_CUTOFF_BAL) * 100 + 0.5) / 100;
+   AP_VEN_INV_BAL_USD_T = floor((AP_VEN_INV_BAL_USD_T + AP_CUTOFF_BAL_USD) * 100 + 0.5) / 100;
+   AP_CURR_INVOICE_TOT = floor((AP_CURR_INVOICE_TOT + AP_VEN_INV_AMT) * 100 + 0.5) / 100;
+   AP_CURR_INVOICE_USDT = floor((AP_CURR_INVOICE_USDT + AP_VEN_INV_USD) * 100 + 0.5) / 100;
+   AP_CURR_INV_BAL_TOT = floor((AP_CURR_INV_BAL_TOT + AP_INV_CUTOFF_BAL) * 100 + 0.5) / 100;
+   AP_CURR_INV_BAL_USDT = floor((AP_CURR_INV_BAL_USDT + AP_CUTOFF_BAL_USD) * 100 + 0.5) / 100;
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	READ_THRU_PYMTS
+	Read thru all the payments
+****************************************************************/
+
+READ_THRU_PYMTS:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (AP_PYMT_HIST_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_PYMT_HIST_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_HIST_ENTRY > AP_ENTRY_NO) then
+      do;
+      END_READ_THRU_PYMTS = YES;
+      return;
+      end;
+
+   /* CHECK_CUTOFF_PYMT - Is the payment made after the cutoff? */
+
+   if AP_HIST_CHECK_DATE <= AP_CUTOFF then
+      do;
+      AP_INV_CUTOFF_BAL = floor((AP_INV_CUTOFF_BAL - AP_HIST_AMT_APPL) * 100 + 0.5) / 100;
+      AP_CUTOFF_BAL_USD = floor((AP_CUTOFF_BAL_USD - AP_HIST_APPL_USD) * 100 + 0.5) / 100;
+      end;
+
+return;
+end;	/* READ_THRU_PYMTS      */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (AP_PYMT_HIST_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

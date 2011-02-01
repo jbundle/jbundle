@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>XSLT example</title>
+
+<script type="text/javascript">
+
+function main()
+{
+  var doc = LoadDOM("test.xxml");
+  var xsl = LoadDOM("test.xsl "); var str = doc.transformNode(xsl);
+//  alert("\ndoc.transformNode:\n"+str);
+	document.getElementById("src").value = str;
+
+  var out = MakeDOM(null);
+  
+//  var out = document.cloneNode(false);
+//	var out = document.createDocumentFragment();
+
+  doc.transformNodeToObject(xsl, out);
+//  alert("\ndoc.transformNodeToObject:\n"+out.xml);
+//  document.getElementById("dest").value = out.xml;
+//	document.getElementById("area2").appendChild(document.createTextNode("hello"));
+
+//	document.getElementById("area2").appendChild(out);
+	var outNode = out.getElementsByTagName("div").item(0);
+//	var range = document.createRange();
+//	range.selectNode(oldnode);
+	
+//	var frag = range.extractContents();
+//	var frag = document.importNode(oldnode, true);
+//	var frag = oldnode.cloneNode(true);
+//	var frag5 = document.createDocumentFragment();
+//	frag5.appendChild(document.createTextNode("hello"));
+//	var zbc = frag5.innerHTML;
+	
+//	var frag = document.createDocumentFragment();
+//	frag.innerHTML = outNode.xml;
+	
+//	var xyz = document;
+//	var frag2 = document.createDocumentFragment();
+	var frag3 = document.getElementById("area2");
+//	var frag4 = doc.getElementsByTagName("div").item(0);
+	
+//	frag4.appendChild(frag);
+	
+//	frag2.appendChild(frag);
+	
+//	frag3.appendChild(frag);
+	
+	frag3.innerHTML =  outNode.xml;
+}
+
+function LoadDOM(file)
+{
+   var dom;
+   try {
+     dom = MakeDOM(null);
+     dom.load(file);
+   }
+   catch (e) {
+     alert(e.description );
+   }
+   return dom;
+}
+
+function MakeDOM(progID)
+{
+  if (progID == null ) {
+    progID = "msxml2.DOMDocument.3.0";
+  }
+
+  var dom;
+  try {
+    dom = new ActiveXObject(progID);
+    dom.async = false;
+    dom.validateOnParse = false;
+    dom.resolveExternals = false;
+  }
+  catch (e) {
+    alert(e.description);
+  }
+  return dom;
+}
+
+</script>
+
+</head>
+
+<body>
+
+<button onclick="main();">Show First Dialog</button>
+
+<textarea rows="10" cols="100" id="src">Source</textarea>
+
+<textarea rows="10" cols="100" id="dest">Dest</textarea>
+
+<div id="area1">area1</div>
+
+<div id="area2">area2</div>
+
+</body>
+</html>

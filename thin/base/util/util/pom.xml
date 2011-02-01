@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jbundle-thin-base-util-reactor</artifactId>
+    <groupId>org.jbundle.thin.base</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
+  <artifactId>org.jbundle.thin.base.util</artifactId>
+  <name>jbundle-thin-base-util</name>
+  <packaging>bundle</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <inherited>true</inherited>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>${maven-bundle-pluginVersion}</version>
+        <configuration>
+          <instructions>
+            <Export-Package>
+            org.jbundle.thin.base.util;version=${project.version},
+            org.jbundle.thin.base.util.osgi;version=${project.version},
+            </Export-Package>
+            <Import-Package>
+            	*;resolution:=optional,
+            	<!-- org.jbundle.base.db.Jdbc;resolution:=optional,	 Class.createInstance() looks up bundle in obr -->
+                org.jbundle.main.schedule.app;resolution:=optional, <!-- Trx message listener creates JobSchedulerApp -->
+                org.jbundle.main.msg.process;resolution:=optional,	<!-- Process runner task creates MessageTimeoutProcess -->
+                org.jbundle.main.msg.app;resolution:=optional,
+                org.jbundle.base.field.event;resolution:=optional,
+            </Import-Package>
+            <Bundle-Activator>org.jbundle.thin.base.util.osgi.OsgiClassService</Bundle-Activator>
+            <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>	<!-- This is not supported -->
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle</groupId>
+      <artifactId>org.jbundle.model</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jbundle.thin.base</groupId>
+      <artifactId>jbundle-thin-base-mixed</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>

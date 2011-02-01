@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<?cocoon-process type="xslt"?>
+<?xml-stylesheet href="formtest.xsl" type="text/xsl"?>
+<?xml-stylesheet href="formtest-ie.xsl" type="text/xsl" media="explorer"?>
+
+<page>
+<country code="ca">Canada</country>
+<country code="de">Germany</country>
+<country code="fr">France</country>
+<country code="uk">United Kingdom</country>
+<country code="us">United States</country>
+<country code="es">Spain</country>
+</page>
+

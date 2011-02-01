@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<xs:schema elementFormDefault="qualified"
+targetNamespace="http://www.xmlmind.com/xmleditor/schema/itin"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:e2="http://www.xmlmind.com/xmleditor/schema/itin"
+xmlns:hfp="http://www.w3.org/2001/XMLSchema-hasFacetAndProperty">
+  <xs:element name="doc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="e2:Para" maxOccurs="unbounded" name="para"
+        minOccurs="1"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="Para" mixed="true">
+    <xs:attribute default="left" name="align" type="e2:Align"></xs:attribute>
+  </xs:complexType>
+
+  <xs:simpleType name="Align">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="left"></xs:enumeration>
+      <xs:enumeration value="center"></xs:enumeration>
+      <xs:enumeration value="right"></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

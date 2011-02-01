@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<Dance ID="1">
+		<LastChanged>2006-10-06T00:34:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Country Two Step</Name>
+	</Dance>
+	<Dance ID="2">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Name>Nightclub Two Step</Name>
+	</Dance>
+	<Dance ID="3">
+		<LastChanged>2006-10-06T00:34:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Swing - West Coast</Name>
+	</Dance>
+	<Dance ID="4">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Name>Cha Cha</Name>
+	</Dance>
+	<Dance ID="5">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Name>Salsa</Name>
+	</Dance>
+	<Dance ID="6">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Name>Waltz</Name>
+	</Dance>
+	<Dance ID="7">
+		<LastChanged>2006-10-06T00:34:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Swing - East Coast</Name>
+	</Dance>
+	<Dance ID="8">
+		<LastChanged>2006-10-06T00:33:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Foxtrot - International</Name>
+	</Dance>
+	<Dance ID="9">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Name>Merengue</Name>
+	</Dance>
+	<Dance ID="10">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Name>Samba</Name>
+	</Dance>
+	<Dance ID="11">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Name>Rumba</Name>
+	</Dance>
+	<Dance ID="12">
+		<LastChanged>2006-10-06T00:34:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Cha Cha - Cowboy</Name>
+	</Dance>
+	<Dance ID="13">
+		<LastChanged>2006-10-06T00:33:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Tango - Argentine</Name>
+	</Dance>
+	<Dance ID="14">
+		<LastChanged>2006-12-14T20:09:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Waltz - Viennese</Name>
+	</Dance>
+	<Dance ID="15">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Name>Quickstep</Name>
+	</Dance>
+	<Dance ID="16">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Name>Hustle</Name>
+	</Dance>
+	<Dance ID="17">
+		<LastChanged>2006-10-06T00:33:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Tango - American</Name>
+	</Dance>
+	<Dance ID="18">
+		<LastChanged>2006-10-06T00:33:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Foxtrot - American</Name>
+	</Dance>
+	<Dance ID="19">
+		<LastChanged>2007-06-03T23:37:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Tango - International</Name>
+	</Dance>
+</file>

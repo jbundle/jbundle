@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_INVOICE File
+********************************************************************/
+
+declare	1 BK_INVOICE_RECORD,
+		3 INVOICE_PAGE         fixed binary (15),
+		3 BK_CODE              character (        5),
+		3 BK_AMT_PAID          float binary (53),
+		3 BK_MCO_AMOUNT        float binary (21);
+

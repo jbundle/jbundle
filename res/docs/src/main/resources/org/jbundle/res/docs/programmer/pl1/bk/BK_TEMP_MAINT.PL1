@@ -1,0 +1,306 @@
+/****************************************************************
+	Module: BK_TEMP_MAINT
+	Top Level Logic: STD_FILE_MAINT
+	Date: 16-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_TEMP_MAINT
+	Enter Group A, Display B File maint
+****************************************************************/
+
+%replace BK_TEMP_MAINT_1 by 301;
+BK_TEMP_MAINT:
+   procedure;
+%replace BK_OPT_ALT_NO by  62;
+%include "BK_OPT_ALT.DD";
+
+declare		END_SCR_IO           bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   END_SCR_IO = NO;
+   do while (END_SCR_IO ^= YES);
+      call SCR_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   ALT_SELECT_BY = "N";
+   ALT_ANSWER = " ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_TEMP_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_OPT_ALT_NO,"BK_OPT_ALT",byteaddr(BK_OPT_ALT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SCR_IO
+	Screen I/O (Enter A, Display B)
+****************************************************************/
+
+SCR_IO:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_OPT_ALT     fixed binary (15);
+
+   /* RESET_INP_ERR - Reset the input error flag */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_TEMP_MAINT_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_SCR_IO = YES;
+      return;
+      end;
+
+
+   /* KEY_TO_ONE - Set KEY_NO to 1 */
+
+   KEY_NO = 1;
+
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (BK_OPT_ALT_NO+?LOCK_RECORD,KEY_NO,ERROR_BK_OPT_ALT);
+   if ERROR_BK_OPT_ALT = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_BK_OPT_ALT > 3 then
+      call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_BK_OPT_ALT);
+
+   /* RECORD_FOUND - Was the record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_OPT_ALT = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* ENTER_SCREEN - Enter screen for the first time */
+
+
+         /* CLEAR_FIELDS - Clear non-screen file fields */
+
+         call INPUT_SCREEN;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_BK_OPT_ALT = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (BK_OPT_ALT_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (BK_OPT_ALT_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (BK_OPT_ALT_NO,ERROR_CODE);
+         end;
+      end;
+return;
+end;	/* SCR_IO               */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+ALT_SEQ = 0;
+ALT_ANSW_SEQ = 0;
+do LOOP_INDEX =   1 to   3;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX =   4 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+ALT_OR_OPT = "";
+ALT_QUESTION = "";
+ALT_START = 0;
+ALT_END = 0;
+ALT_GATEWAY = "";
+ALT_DAY_OF_WEEK = "";
+ALT_COMMENT = "";
+ALT_USE_SEQ = 0;
+do LOOP_INDEX =   4 to  13;
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO ( 31);
+   if LOOP_INDEX =   5 then
+      call DISPLAY_MSG_NO ( 32);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 13,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 13 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO ( 31);
+   if LOOP_INDEX =   5 then
+      call DISPLAY_MSG_NO ( 32);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_OPT_ALT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

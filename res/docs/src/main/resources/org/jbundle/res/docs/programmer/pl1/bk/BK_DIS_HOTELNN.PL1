@@ -1,0 +1,69 @@
+/****************************************************************
+	Module: BK_DIS_HOTELNN
+	Top Level Logic: CALL_HOTELN_LOGIC
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_HOTELNN
+	Top level
+****************************************************************/
+
+BK_DIS_HOTELNN:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD);
+%replace BK_HOTEL_NO by   8;
+%replace BK_HOTEL_DET_NO by  52;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%include "BK_HOTEL.DD";
+%include "BK_HOTEL_DET.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_DET_NO,"BK_HOTEL_DET",byteaddr(BK_HOTEL_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_DET_NO,ERROR_CODE);
+
+   /* BK_DIS_HOTELN - Call Program */
+
+   %include "BK_DIS_HOTELN.DCL";
+   call BK_DIS_HOTELN(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_HOTEL_RECORD,
+      BK_HOTEL_DET_RECORD);
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_FILE (BK_HOTEL_DET_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

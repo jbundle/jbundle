@@ -1,0 +1,1202 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<ClassProject ID="16777217">
+		<LastChanged>2010-04-09T19:40:27</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-main</Name>
+		<ParentFolderID>16,777,227</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Main support project (linked to base)</Description>
+		<SystemClasses/>
+		<PackageName>.main</PackageName>
+		<ProjectPath>jbundle-base/jbundle-base-mixed</ProjectPath>
+		<ThinPackage>.main</ThinPackage>
+		<ThinProjectPath>jbundle-thin/jbundle-thin-main</ThinProjectPath>
+		<ResourcePackage>.main</ResourcePackage>
+		<ResProjectPath>jbundle-res/jbundle-res-core</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777221">
+		<LastChanged>2010-04-29T04:03:42</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-program-core</Name>
+		<ParentFolderID>16,777,296</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Program Generator Project</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath>../../jbundle-thin/jbundle-thin-app/jbundle-thin-app-program</ThinProjectPath>
+		<ResourcePackage/>
+		<ResProjectPath>../../jbundle-res/jbundle-res-app/jbundle-res-app-program</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777227">
+		<LastChanged>2010-06-09T17:48:20</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-root</Name>
+		<ParentFolderID>16,777,257</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>jbundle - jbundle parent project</Description>
+		<SystemClasses/>
+		<PackageName>org.jbundle</PackageName>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777240">
+		<LastChanged>2010-04-09T11:17:59</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-mixed</Name>
+		<ParentFolderID>16,777,256</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Base code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath>../jbundle-thin/jbundle-thin-base</ThinProjectPath>
+		<ResourcePackage/>
+		<ResProjectPath>../jbundle-res/jbundle-res-core</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777250">
+		<LastChanged>2010-02-17T14:56:42</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin</Name>
+		<ParentFolderID>16,777,227</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.thin</PackageName>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777251">
+		<LastChanged>2010-02-17T14:56:48</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-system</Name>
+		<ParentFolderID>16,777,227</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>System classes (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777253">
+		<LastChanged>2010-04-10T00:46:01</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-mixed</Name>
+		<ParentFolderID>16,777,258</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin base code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777254">
+		<LastChanged>2010-02-20T16:14:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-app</Name>
+		<ParentFolderID>16,777,250</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin application code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.app</PackageName>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777255">
+		<LastChanged>2010-06-06T21:35:33</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-screen-cal-other</Name>
+		<ParentFolderID>16,777,304</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin optional calendar code (not generat</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777256">
+		<LastChanged>2010-02-25T13:18:16</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base</Name>
+		<ParentFolderID>16,777,227</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Base code parent</Description>
+		<SystemClasses/>
+		<PackageName>.base</PackageName>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777257">
+		<LastChanged>2010-02-23T03:19:33</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-workspace</Name>
+		<ParentFolderID>16,777,278</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>JBundle parent</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777258">
+		<LastChanged>2010-02-25T13:16:37</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base</Name>
+		<ParentFolderID>16,777,250</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin base code parent (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.base</PackageName>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777259">
+		<LastChanged>2010-03-20T02:49:46</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-db</Name>
+		<ParentFolderID>16,777,256</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Database code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777260">
+		<LastChanged>2010-03-20T02:49:41</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-screen</Name>
+		<ParentFolderID>16,777,256</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Screen code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777261">
+		<LastChanged>2010-02-25T13:20:18</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-db-client</Name>
+		<ParentFolderID>16,777,259</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Database implementation (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777262">
+		<LastChanged>2010-02-25T13:20:35</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-db-jdbc</Name>
+		<ParentFolderID>16,777,259</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Database implementation (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777263">
+		<LastChanged>2010-02-25T13:20:39</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-db-mapped</Name>
+		<ParentFolderID>16,777,259</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Database implementation (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777264">
+		<LastChanged>2010-02-25T13:20:44</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-db-memory</Name>
+		<ParentFolderID>16,777,259</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Database implementation (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777265">
+		<LastChanged>2010-02-25T13:20:49</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-db-net</Name>
+		<ParentFolderID>16,777,259</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Database implementation (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777266">
+		<LastChanged>2010-02-25T13:20:55</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-db-physical</Name>
+		<ParentFolderID>16,777,259</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Database implementation (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777267">
+		<LastChanged>2010-02-25T13:21:01</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-db-proxy</Name>
+		<ParentFolderID>16,777,259</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Database implementation (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777268">
+		<LastChanged>2010-02-25T13:21:07</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-db-serial</Name>
+		<ParentFolderID>16,777,259</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Database implementation (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777269">
+		<LastChanged>2010-02-25T13:21:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-db-xml</Name>
+		<ParentFolderID>16,777,259</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Database implementation (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777270">
+		<LastChanged>2010-02-25T13:22:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-screen-view</Name>
+		<ParentFolderID>16,777,260</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Screen code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777271">
+		<LastChanged>2010-02-25T13:22:34</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-screen-control</Name>
+		<ParentFolderID>16,777,260</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Screen code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777272">
+		<LastChanged>2010-02-25T13:24:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-screen-view-xml</Name>
+		<ParentFolderID>16,777,270</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Screen code (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777273">
+		<LastChanged>2010-02-25T13:24:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-screen-view-html</Name>
+		<ParentFolderID>16,777,270</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Screen code (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777274">
+		<LastChanged>2010-02-25T13:24:18</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-screen-view-swing</Name>
+		<ParentFolderID>16,777,270</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Screen code (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777275">
+		<LastChanged>2010-02-25T13:24:23</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-screen-view-swing-jaxe</Name>
+		<ParentFolderID>16,777,270</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Screen code (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777276">
+		<LastChanged>2010-02-25T13:25:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-screen-control-cocoon</Name>
+		<ParentFolderID>16,777,271</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Screen code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777277">
+		<LastChanged>2010-06-09T18:06:59</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-util-root</Name>
+		<ParentFolderID>16,777,257</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>jbundle utilities</Description>
+		<SystemClasses/>
+		<PackageName>org.jbundle</PackageName>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777278">
+		<LastChanged>2010-02-27T04:07:54</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>workspace</Name>
+		<ParentFolderID>0</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>User workspace</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777279">
+		<LastChanged>2010-02-27T04:09:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-util-muffinmanager</Name>
+		<ParentFolderID>16,777,277</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Muffin manager (system files)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777280">
+		<LastChanged>2010-06-09T17:48:33</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jcalendarbutton</Name>
+		<ParentFolderID>16,777,257</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>jcalendar button (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777281">
+		<LastChanged>2010-03-02T11:09:46</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-opt</Name>
+		<ParentFolderID>16,777,250</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin optional code (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.opt</PackageName>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777282">
+		<LastChanged>2010-03-02T11:08:51</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-db</Name>
+		<ParentFolderID>16,777,258</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin db code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777283">
+		<LastChanged>2010-05-15T20:30:07</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-opt-calendar-core</Name>
+		<ParentFolderID>16,777,297</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin calendar code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777284">
+		<LastChanged>2010-03-02T12:42:50</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-opt-location</Name>
+		<ParentFolderID>16,777,281</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin location code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777285">
+		<LastChanged>2010-03-02T12:42:53</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-opt-chat</Name>
+		<ParentFolderID>16,777,281</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin chat code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777286">
+		<LastChanged>2010-06-06T16:57:15</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-screen-cal-grid</Name>
+		<ParentFolderID>16,777,304</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin calendar grid code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777287">
+		<LastChanged>2010-12-03T04:03:23</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-message</Name>
+		<ParentFolderID>16,777,256</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Message code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.message</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.message</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.message</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777288">
+		<LastChanged>2010-03-20T02:52:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-message-jibx</Name>
+		<ParentFolderID>16,777,287</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Jibx messaging (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777289">
+		<LastChanged>2010-03-20T02:52:15</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-message-jaxb</Name>
+		<ParentFolderID>16,777,287</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>JAXB messaging (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777290">
+		<LastChanged>2010-03-20T02:52:20</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-message-xmlbeans</Name>
+		<ParentFolderID>16,777,287</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>xmlbeans messaging (Not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777291">
+		<LastChanged>2010-04-09T14:46:44</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app</Name>
+		<ParentFolderID>16,777,227</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Application parent</Description>
+		<SystemClasses/>
+		<PackageName>.app</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.app</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.app</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777292">
+		<LastChanged>2010-04-17T05:28:56</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-model</Name>
+		<ParentFolderID>16,777,227</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Application model (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.model</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.model</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.model</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777293">
+		<LastChanged>2010-06-06T22:11:28</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-screen</Name>
+		<ParentFolderID>16,777,258</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin screen code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.screen</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.screen</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.screen</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777294">
+		<LastChanged>2010-04-17T21:47:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-screen-splash</Name>
+		<ParentFolderID>16,777,293</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin screen splash module (Not generated</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777295">
+		<LastChanged>2010-04-18T05:29:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-db-core</Name>
+		<ParentFolderID>16,777,282</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Core thin database (manual)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777296">
+		<LastChanged>2010-04-29T04:02:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-program</Name>
+		<ParentFolderID>16,777,291</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Program Generator Project (parent)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.program</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.program</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.program</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777297">
+		<LastChanged>2010-06-06T16:53:49</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-screen-calendar-core</Name>
+		<ParentFolderID>16,777,303</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin calendar code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777298">
+		<LastChanged>2010-05-27T12:48:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-util</Name>
+		<ParentFolderID>16,777,258</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin screen utilities (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.util</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.util</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.util</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777299">
+		<LastChanged>2010-05-27T12:48:56</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-util-base64</Name>
+		<ParentFolderID>16,777,298</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Base 64 conversion utilities (Not genera</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.base64</PackageName>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777300">
+		<LastChanged>2010-06-05T12:31:55</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-base-screen-control-servlet</Name>
+		<ParentFolderID>16,777,271</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Servlet code (not generated)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777301">
+		<LastChanged>2010-06-05T18:05:25</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-program-plugin</Name>
+		<ParentFolderID>16,777,296</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Maven plugin (manual)</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777302">
+		<LastChanged>2010-06-05T18:05:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-program-manual</Name>
+		<ParentFolderID>16,777,296</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Manual code</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777303">
+		<LastChanged>2010-06-09T21:10:19</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-screen-calendar-root</Name>
+		<ParentFolderID>16,777,257</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin calendar component</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.thin.base.screen.calendar</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.thin.base.screen.calendar</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.thin.base.screen.calendar</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777304">
+		<LastChanged>2010-06-06T22:10:31</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-thin-base-screen-cal</Name>
+		<ParentFolderID>16,777,293</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin calendar implementation parent</Description>
+		<SystemClasses/>
+		<PackageName>.cal</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.cal</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.cal</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777305">
+		<LastChanged>2010-10-19T16:20:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>base64coder</Name>
+		<ParentFolderID>16,777,257</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>base64coder (not generated)</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777306">
+		<LastChanged>2010-10-27T05:55:50</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-program-demo</Name>
+		<ParentFolderID>16,777,296</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Demo setup code</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath>../../jbundle-thin/jbundle-thin-app/jbundle-thin-app-program</ThinProjectPath>
+		<ResourcePackage/>
+		<ResProjectPath>../../jbundle-res/jbundle-res-app/jbundle-res-app-program</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+</file>

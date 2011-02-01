@@ -1,0 +1,963 @@
+/****************************************************************
+	Module: BK_ENT_TELEX
+	Top Level Logic: TELEX_LOGIC
+	Date:  1-Jul-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ENT_TELEX
+	Top-Level Logic for telex entry
+****************************************************************/
+
+%replace BK_ENT_TELEX_1 by 434;
+%replace BK_ENT_TELEX_2 by 435;
+BK_ENT_TELEX:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD);
+%replace BK_TELEX_NO by  88;
+%replace BK_TELEX_DET_NO by  89;
+%replace AP_VENDOR_NO by  30;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%include "BK_TELEX.DD";
+%include "BK_TELEX_DET.DD";
+%include "AP_VENDOR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+
+declare		END_TELEX_MAIN       bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AP_VENDOR      fixed binary (15);
+declare		ERROR_BK_TELEX       fixed binary (15);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		TELEX_SEQ_NO_ARRAY(10) fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_DELETE_SEQ       bit (1);
+   call INITIALIZE;
+   END_TELEX_MAIN = NO;
+   do while (END_TELEX_MAIN ^= YES);
+      call TELEX_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TELEX_USER = USER_NAME();
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ENT_TELEX_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_TELEX_NO,"BK_TELEX",byteaddr(BK_TELEX_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TELEX_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TELEX_DET_NO,"BK_TELEX_DET",byteaddr(BK_TELEX_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TELEX_DET_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	TELEX_MAIN
+	Main-line logic for telex-entry
+****************************************************************/
+
+TELEX_MAIN:
+	procedure;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_ENT_TELEX_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_DATA_C;
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_TELEX_MAIN = YES;
+      return;
+      end;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+
+   /* CHECK_NEW_TELEX - Did they type zero (new telex)? */
+
+   if TELEX_NO = 0 then
+      do;
+      call GET_NEXT_TELEX;
+      end;
+   else
+      do;
+      call READ_OLD_TELEX;
+      end;
+
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_TELEX_MAIN = YES;
+      return;
+      end;
+
+
+   /* RET_IF_ERROR - return if ERROR_CODE <> 0 */
+
+   if ERROR_CODE ^= 0 then
+      return;
+
+   call TABLE_MAINT;
+
+   /* AGAIN_IF_DEL - return (Do again) if delete */
+
+   if RETURN_CODE = DELETE_TYPED then
+      return;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (BK_TELEX_NO,ERROR_CODE);
+return;
+end;	/* TELEX_MAIN           */
+
+/****************************************************************
+	ENTER_DATA_C
+	Enter the screen data in group C
+****************************************************************/
+
+ENTER_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_C         */
+
+/****************************************************************
+	GET_NEXT_TELEX
+	Get the next sequential telex number
+****************************************************************/
+
+GET_NEXT_TELEX:
+	procedure;
+
+   call ENTER_DATA_D;
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+
+   /* CHECK_ENTRY_TYPE - Check to see if vendor should be read */
+
+   if TELEX_VENDOR ^= "" then
+      do;
+
+      /* SETUP_KEY - Set up this key for a read */
+
+      AP_VEN_NO = TELEX_VENDOR;
+      KEY_NO = 1;
+
+      /* READ_RECORD_2 - Read from another file */
+
+      call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_AP_VENDOR);
+      if ERROR_AP_VENDOR > 3 then
+         call PRINT_ERROR (AP_VENDOR_NO,ERROR_AP_VENDOR);
+
+      /* CHECK_VEN_FOUND - Was the vendor found? */
+
+      if ERROR_AP_VENDOR ^= 0 then
+         do;
+         ERROR_CODE = 1;
+         call DISPLAY_MESSAGE ("Vendor not found<BEL>"c);
+         call PRESS_RETURN;
+         return;
+         end;
+
+      end;
+   else
+      do;
+      TELEX_OR_FAX = "T";
+      AP_VEN_TELEX = "";
+      AP_VEN_FAX = "";
+      AP_VEN_NO = "";
+      call ENTER_DATA;
+
+      /* RETURN_IF_END - Return if end typed */
+
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         return;
+
+      AP_COMM_CODE = TELEX_OR_FAX;
+      AP_VEN_TELEX = TELEX_NUMBER;
+      AP_VEN_FAX = TELEX_NUMBER;
+      AP_VEN_NAME = TELEX_NAME;
+      AP_ADDR_1 = "";
+      AP_ADDR_2 = "";
+      AP_ADDR_3 = "";
+      AP_ADDR_4 = "";
+      end;
+
+
+   /* GET_NEXT_NO - Get the next sequential telex number */
+
+   TELEX_NO = 0;
+   call SET_POSITION(BK_TELEX_NO,KEY_AREA_1,ERROR_CODE);
+
+   do while (ERROR_CODE ^= END_OF_FILE);
+      call READ_NEXT(BK_TELEX_NO+?KEY_ONLY,KEY_AREA_1,ERROR_CODE);
+   end;
+
+   TELEX_NO = TELEX_NO + 1;
+
+
+   /* WRITE_TELEX - Write the empty telex record */
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (BK_TELEX_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         TELEX_NO = TELEX_NO + 1;
+   end;
+
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (BK_TELEX_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TELEX);
+   if ERROR_BK_TELEX = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_BK_TELEX > 3 then
+      call PRINT_ERROR (BK_TELEX_NO,ERROR_BK_TELEX);
+   call DISPLAY_DATA_C;
+
+   /* SET_UP_TELEX - Set up the telex record */
+
+   TELEX_OR_FAX = AP_COMM_CODE;
+   if TELEX_OR_FAX ^= "E" then if TELEX_OR_FAX ^= "M" then if TELEX_OR_FAX ^= "F" then
+      TELEX_OR_FAX = "T";
+   TELEX_NUMBER = AP_VEN_TELEX;
+
+   if (AP_COMM_CODE = "F") ! (TELEX_NUMBER = "") then
+      do;
+      TELEX_OR_FAX = "F";
+      TELEX_NUMBER = AP_VEN_FAX;
+      end;
+
+   TELEX_ITIN_FMT = "N";
+   TELEX_VENDOR = AP_VEN_NO;
+   TELEX_NAME = AP_VEN_NAME;
+   TELEX_ADDR_1 = AP_ADDR_1;
+   TELEX_ADDR_2 = AP_ADDR_2;
+   TELEX_ADDR_3 = AP_ADDR_3;
+   TELEX_ADDR_4 = AP_ADDR_4;
+
+   TELEX_FILE = "";
+   TELEX_USER = USER_NAME();
+   TELEX_REF = BK_TOUR_NUM;
+
+   call DISPLAY_DATA_A;
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+return;
+end;	/* GET_NEXT_TELEX       */
+
+/****************************************************************
+	ENTER_DATA_D
+	Enter screen group D
+****************************************************************/
+
+ENTER_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  12 to  12;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_D         */
+
+/****************************************************************
+	ENTER_DATA
+	Input date
+****************************************************************/
+
+ENTER_DATA:
+	procedure;
+
+TELEX_OR_FAX = "F";
+TELEX_NUMBER = "";
+TELEX_NAME = "";
+do LOOP_INDEX =  13 to  14;
+   if LOOP_INDEX =  13 then
+      call DISPLAY_MSG_NO (107);
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* CHECK_BK_FAX - Fax to agent if bk ^= 0 and vendor = "" */
+
+      if TELEX_VENDOR = "" then if BOOKING_NO ^= 0 then if TELEX_OR_FAX = "F" then
+         do;
+         TELEX_NUMBER = BK_FAX;
+         TELEX_NAME = BK_AGENCY_NAME;
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* SET_TF_NO - Set the telex or fax number and display */
+
+      if (TELEX_OR_FAX ^= "T") & (TELEX_OR_FAX ^= "M") & (TELEX_OR_FAX ^= "E")then
+         TELEX_OR_FAX = "F";
+
+      if TELEX_OR_FAX = "T" then
+         TELEX_NUMBER = AP_VEN_TELEX;
+      if TELEX_OR_FAX = "E" then
+         TELEX_NUMBER = AP_VEN_TELEX;
+      if TELEX_OR_FAX = "F" then
+         TELEX_NUMBER = AP_VEN_FAX;
+      if TELEX_OR_FAX = "M" then
+         TELEX_NUMBER = AP_VEN_NO;
+
+      call KEEP_TRAILING_SPACES;
+      call OUTPUT_FIELD(LOOP_INDEX+1);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  16 to  16;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA           */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  13 to  14;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  16 to  16;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  15 to  15;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  17 to  21;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	READ_OLD_TELEX
+	Read the old telex number
+****************************************************************/
+
+READ_OLD_TELEX:
+	procedure;
+
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (BK_TELEX_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TELEX);
+   if ERROR_BK_TELEX = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_BK_TELEX > 3 then
+      call PRINT_ERROR (BK_TELEX_NO,ERROR_BK_TELEX);
+
+   /* TELEX_FOUND - Was the record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_TELEX = NORMAL_RETURN then
+      do;
+
+      /* DIS_DATA_A_C - Display data */
+
+         call DISPLAY_DATA_A;
+         call DISPLAY_DATA_D;
+      end;
+   else
+      do;
+
+      /* SET_ERROR - Set the error code */
+
+      ERROR_CODE = 1;
+
+      if ERROR_INPUT_SCREEN then return;
+      end;
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   AP_VEN_NO = TELEX_VENDOR;
+   KEY_NO = 1;
+
+   /* READ_RECORD_2 - Read from another file */
+
+   call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_AP_VENDOR);
+   if ERROR_AP_VENDOR > 3 then
+      call PRINT_ERROR (AP_VENDOR_NO,ERROR_AP_VENDOR);
+return;
+end;	/* READ_OLD_TELEX       */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  12 to  12;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	TABLE_MAINT
+	Table display/maintenance
+****************************************************************/
+
+TABLE_MAINT:
+	procedure;
+
+declare		TELEX_DET_NO_SAVE    fixed binary (31);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		BK_TELEX_DET_ERROR   fixed binary (15);
+declare		TELEX_SEQ_NO_SAVE    fixed binary (15);
+declare		ANSWER               character (1);
+TELEX_DET_NO = TELEX_NO;
+TELEX_DET_NO_SAVE = TELEX_DET_NO;
+TELEX_SEQ_NO = 0;
+call SET_POSITION (BK_TELEX_DET_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_TELEX_DET_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (TELEX_DET_NO > TELEX_DET_NO_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 10;
+      TELEX_SEQ_NO_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_TELEX_DET_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_TELEX_DET_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 10) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  22 to  22;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         TELEX_SEQ_NO_ARRAY(RECORD_NUMBER) = TELEX_SEQ_NO;
+         call READ_NEXT (BK_TELEX_DET_NO,KEY_AREA_1,BK_TELEX_DET_ERROR);
+         if (TELEX_DET_NO > TELEX_DET_NO_SAVE) then
+            BK_TELEX_DET_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      TELEX_SEQ_NO_SAVE = TELEX_SEQ_NO_ARRAY(10);
+      TELEX_DET_NO = TELEX_DET_NO_SAVE;
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = DELETE_TYPED) then
+         GET_OUT = YES;
+      else
+         if BK_TELEX_DET_ERROR ^= END_OF_FILE then
+            do;
+            TELEX_SEQ_NO = TELEX_SEQ_NO_SAVE;
+            call SET_POSITION (BK_TELEX_DET_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (BK_TELEX_DET_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (BK_TELEX_DET_NO,KEY_AREA_1,ERROR_CODE);
+            end;
+         else
+            if TELEX_SEQ_NO_ARRAY(10) = 0 then
+               GET_OUT = YES;
+            else
+               do;
+               call OUTPUT_LINE (24,10,"Enter more data?");
+               call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+               if ANSWER = "N" then
+                  GET_OUT = YES;
+               else
+                  DISPLAY_RECORDS = NO;
+               end;
+      end;
+   else	/*DISPLAY_RECORDS = NO*/
+      do;
+      TELEX_DET_NO = TELEX_DET_NO_SAVE;
+      INPUT_LENGTH = 1;
+      RECORD_NUMBER = 1;
+      do while ( (INPUT_LENGTH ^= 0) & (RECORD_NUMBER <= 10) );
+         call BK_TELEX_DET_LINE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) !
+      (RETURN_CODE = DELETE_TYPED) ! (TELEX_SEQ_NO_ARRAY(10) = 0) then
+         GET_OUT = YES;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 10;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if TELEX_SEQ_NO_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =22 to  22;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_MAINT          */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 52,SELECT,RETURN_CODE);
+
+/* CHECK_DEL_TELEX - Check to see if typed DELETE */
+
+if RETURN_CODE = DELETE_TYPED then
+   do;
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (BK_TELEX_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TELEX);
+   if ERROR_BK_TELEX = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_BK_TELEX > 3 then
+      call PRINT_ERROR (BK_TELEX_NO,ERROR_BK_TELEX);
+
+   /* DELETE_RECORD_2 - Delete the record */
+
+   call DELETE_RECORD (BK_TELEX_NO,ERROR_CODE);
+   END_DELETE_SEQ = NO;
+   do while (END_DELETE_SEQ ^= YES);
+      call DELETE_SEQ;
+   end;
+   end;
+
+
+/* EDIT_TELEX - Edit the telex text */
+
+if SELECT = 20 then
+   do;
+
+   if TELEX_FILE = "" then
+      do;
+      TELEX_FILE = TELEX_NO;
+      do SELECT = 1 to 9;
+         if substr(TELEX_FILE,1,1) = " " then
+            TELEX_FILE = substr(TELEX_FILE,2,8);
+         end;
+      TELEX_FILE = ":TELEX:TELEX_" !! TELEX_FILE;
+      declare	BK_TEXT_4 file;
+      open file (BK_TEXT_4) stream output title (CUT_SPACES(TELEX_FILE)
+         ) environment (filetype(68)lineend);
+      close file (BK_TEXT_4);
+   end;
+
+   if CRT_TYPE() = 7 then
+      return;
+
+   if substr(TELEX_FILE,1,1) = ":" then
+      call XEQ(":WPOFFICE:WPOEXE:PE.VS.PR,1," !! CUT_SPACES(TELEX_FILE) !! " ");
+   else
+      call XEQ(":WPOFFICE:WPOEXE:PE.VS.PR,1," !! ":UDD:" !!
+      CUT_SPACES(USER_NAME()) !! ":" !! CUT_SPACES(TELEX_FILE) !! " ");
+
+   /* DISPLAY_SCREEN_2 - Display the second screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ENT_TELEX_2);
+   call DISPLAY_DATA_E;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ENT_TELEX_1);
+   call DISPLAY_DATA_D;
+   call DISPLAY_DATA_A;
+   call DISPLAY_DATA_C;
+
+   SELECT = 99;
+   end;
+
+
+/* SEND_TELEX - Send this telex now! */
+
+if (SELECT = 21) ! (SELECT = 22) then
+   do;
+   if SELECT = 22 then
+      TELEX_ITIN_FMT = "Y";
+   declare TLX_MSG character(20);
+   declare TLX_NUM character(10);
+   TLX_NUM = TELEX_NO;
+   do while (substr(TLX_NUM,1,1) = " ");
+      TLX_NUM = substr(TLX_NUM,2,19);
+   end;
+
+   TLX_MSG = "REC_MBX.PR,FAX" !! "," !! CUT_SPACES(TLX_NUM) !! " ";
+   if TELEX_OR_FAX = "T" then
+      TLX_MSG = "REC_MBX.PR,TLX" !! "," !! CUT_SPACES(TLX_NUM) !! " ";
+   if TELEX_OR_FAX = "E" then
+      TLX_MSG = "REC_MBX.PR,EML" !! "," !! CUT_SPACES(TLX_NUM) !! " ";
+   if TELEX_OR_FAX = "M" then
+      TLX_MSG = "REC_MBX.PR,MAL" !! "," !! CUT_SPACES(TLX_NUM) !! " ";
+
+   call SND_IPC ("TELEX ",TLX_MSG);
+   SELECT = 0;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+
+
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  9 then
+   do;
+
+      LOOP_INDEX = SELECT +  12;
+   if LOOP_INDEX =  13 then
+      call DISPLAY_MSG_NO (107);
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* CHECK_BK_FAX - Fax to agent if bk ^= 0 and vendor = "" */
+
+      if TELEX_VENDOR = "" then if BOOKING_NO ^= 0 then if TELEX_OR_FAX = "F" then
+         do;
+         TELEX_NUMBER = BK_FAX;
+         TELEX_NAME = BK_AGENCY_NAME;
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* SET_TF_NO - Set the telex or fax number and display */
+
+      if (TELEX_OR_FAX ^= "T") & (TELEX_OR_FAX ^= "M") & (TELEX_OR_FAX ^= "E")then
+         TELEX_OR_FAX = "F";
+
+      if TELEX_OR_FAX = "T" then
+         TELEX_NUMBER = AP_VEN_TELEX;
+      if TELEX_OR_FAX = "E" then
+         TELEX_NUMBER = AP_VEN_TELEX;
+      if TELEX_OR_FAX = "F" then
+         TELEX_NUMBER = AP_VEN_FAX;
+      if TELEX_OR_FAX = "M" then
+         TELEX_NUMBER = AP_VEN_NO;
+
+      call KEEP_TRAILING_SPACES;
+      call OUTPUT_FIELD(LOOP_INDEX+1);
+
+      end;
+   end;
+if SELECT >= 10 then if SELECT <= 20 then
+   do;
+   RECORD_NUMBER = SELECT - 9;
+   call BK_TELEX_DET_LINE;
+   call SET_ROW_OFFSET (0);
+   end;
+if SELECT = 52 then
+   do;
+   call INPUT_FIELD ( 12,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	DELETE_SEQ
+	Read thru and delete sequentially
+****************************************************************/
+
+DELETE_SEQ:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TELEX_DET_NO = TELEX_NO;
+   TELEX_SEQ_NO = 0;
+   call SET_POSITION (BK_TELEX_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT - Read the next record */
+
+   call READ_NEXT (BK_TELEX_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TELEX_DET_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TELEX_DET_NO > TELEX_NO) then
+      do;
+      END_DELETE_SEQ = YES;
+      return;
+      end;
+
+   /* DELETE_RECORD - Delete the record */
+
+   call DELETE_RECORD (BK_TELEX_DET_NO,ERROR_CODE);
+return;
+end;	/* DELETE_SEQ           */
+
+/****************************************************************
+	DISPLAY_DATA_E
+	Display the data in screen group E
+****************************************************************/
+
+DISPLAY_DATA_E:
+	procedure;
+
+do LOOP_INDEX =   1 to  10;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_E       */
+
+/****************************************************************
+	BK_TELEX_DET_LINE
+	Change one line in the secondary file
+****************************************************************/
+
+BK_TELEX_DET_LINE:
+	procedure;
+
+declare		REWRITE              bit (1);
+declare		DEL_RECORD           bit (1);
+call SET_ROW_OFFSET (RECORD_NUMBER - 1);
+REWRITE = NO;
+if TELEX_SEQ_NO_ARRAY(RECORD_NUMBER) ^= 0 then
+   do;
+   REWRITE = YES;
+   TELEX_SEQ_NO = TELEX_SEQ_NO_ARRAY(RECORD_NUMBER);
+   call READ_KEYED (BK_TELEX_DET_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      return;
+      end;
+   do LOOP_INDEX = 22 to  22;
+      call CLEAR_FIELD (LOOP_INDEX);
+   end;
+   end;
+else
+   do;
+   TELEX_SEQ_NO = 0;
+   TELEX_TEXT = "";
+   end;
+ERROR_CODE = 1;
+do while (ERROR_CODE ^= 0);
+   ERROR_CODE = 0;
+   do LOOP_INDEX =  22 to  22;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   DEL_RECORD = YES;
+   if (INPUT_LENGTH ^= 0) & (RETURN_CODE ^= END_TYPED) then
+      do;
+      DEL_RECORD = NO;
+      INPUT_LENGTH = 1;
+      end;
+   ERROR_CODE = 0;
+   if DEL_RECORD = YES then
+      do;
+      TELEX_SEQ_NO = TELEX_SEQ_NO_ARRAY(RECORD_NUMBER);
+      if REWRITE = YES then
+         call DELETE_RECORD (BK_TELEX_DET_NO,ERROR_CODE);
+      call CLEAR_FIELD(LOOP_INDEX);
+      TELEX_SEQ_NO = 0;
+      end;
+   else
+      do;
+      if REWRITE = NO then
+         do;
+         if RECORD_NUMBER = 1 then
+            TELEX_SEQ_NO = 1;
+         else
+            TELEX_SEQ_NO = TELEX_SEQ_NO_ARRAY(RECORD_NUMBER - 1) + 1;
+         ERROR_CODE = KEY_ALREADY_EXISTS;
+         do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+            call WRITE_RECORD (BK_TELEX_DET_NO,ERROR_CODE);
+            if ERROR_CODE = KEY_ALREADY_EXISTS then
+               TELEX_SEQ_NO = TELEX_SEQ_NO + 1;
+         end;
+         end;
+      else
+         call UPDATE_RECORD (BK_TELEX_DET_NO,ERROR_CODE);
+      end;
+   if ERROR_CODE ^= KEY_ALREADY_EXISTS then
+      do;
+      TELEX_SEQ_NO_ARRAY(RECORD_NUMBER) = TELEX_SEQ_NO;
+      end;
+end;
+return;
+end;	/* BK_TELEX_DET_LINE    */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_TELEX_NO);
+   call CLOSE_FILE (BK_TELEX_DET_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

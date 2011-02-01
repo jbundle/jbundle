@@ -1,0 +1,57 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>PROGRAM DESCRIPTION:
+
+<br wp="br1"><br wp="br2">
+<p>This program is the initial program in the booking entry process.
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>After opening the files, this program asks the user for a booking number.
+
+<br wp="br1"><br wp="br2">
+<p>If the user hits return, the menu screen is displayed. A new booking is not initiated until either agency,
+passenger, or tour information are entered.
+
+<br wp="br1"><br wp="br2">
+<p>If the user types a booking number, then the booking is read and the appropriate menu is displayed.
+
+<br wp="br1"><br wp="br2">
+<p>After the booking is complete, the system checks to see if all of the information for a complete
+booking is entered.
+
+<br wp="br1"><br wp="br2">
+<p>If this is a modification of a current booking, then the system first checks to see that all the information
+is still complete. If it is not, the user will get a warning, and be returned to the booking menu. Only
+a cancelled booking can be incomplete.
+
+<br wp="br1"><br wp="br2">
+<p>If the booking is a modification, then the system reads the original to see if there were any changes.
+
+<br wp="br1"><br wp="br2">
+<p>For new bookings:
+
+<p>If all the information is entered, then:
+
+<p>	The system asks if the user wants to make a booking.
+
+<p>		If not, then all of the booking information is cleared. 			(For FITs,
+the system continues to the next Q) 		If yes, then the ALT/OPT file is scanned to create 		the booking line-items. In the date range, Alternate 		0 and any selected records
+will be read. Then the 		corresponding pricing records will be read from the 		tour pricing file and written to the booking line-item 		detail file. The remaining manual
+line-items will be 		added to the total and the booking totals will be 		calculated.
+
+<p>If all the information is not entered, then:
+
+<p>	The system asks if the user wants to disregard the information. If not, then the user will return
+to the booking menu to finish the booking.
+
+<br wp="br1"><br wp="br2">
+<p>Then the program continues so the user can enter the next booking.
+</body>
+</html>

@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_FIT_TRANS File
+********************************************************************/
+
+declare	1 BK_FIT_TRANS_RECORD,
+		3 TRANS_MARKUP         float binary (21),
+		3 TRANS_CL_PRICE( 9) float binary (53),
+		3 TRANS_LAST           fixed binary (15),
+		3 LAST_CL_PRICE        float binary (53);
+

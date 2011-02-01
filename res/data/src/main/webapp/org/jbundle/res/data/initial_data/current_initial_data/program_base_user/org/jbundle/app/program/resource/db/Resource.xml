@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<Resource ID="3">
+		<LastChanged>2010-02-27T09:20:28</LastChanged>
+		<Deleted>N</Deleted>
+		<Code>Amount</Code>
+		<Description>Numeric amounts (for checks)</Description>
+		<Location>.base.screen</Location>
+		<Type>Properties</Type>
+		<BaseResourceID/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+	</Resource>
+	<Resource ID="6">
+		<LastChanged>2010-02-27T09:19:25</LastChanged>
+		<Deleted>N</Deleted>
+		<Code>Default</Code>
+		<Description>Default descriptions</Description>
+		<Location>.base.screen</Location>
+		<Type>Properties</Type>
+		<BaseResourceID/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+	</Resource>
+	<Resource ID="7">
+		<LastChanged>2010-02-04T20:44:25</LastChanged>
+		<Deleted>N</Deleted>
+		<Code>Error</Code>
+		<Description>Error strings</Description>
+		<Location>.res.thin.base.screen</Location>
+		<Type>Properties</Type>
+		<BaseResourceID/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+	</Resource>
+	<Resource ID="9">
+		<LastChanged>2010-02-27T09:19:56</LastChanged>
+		<Deleted>N</Deleted>
+		<Code>Html</Code>
+		<Description>Html strings</Description>
+		<Location>.base.screen</Location>
+		<Type>ListResourceBundle</Type>
+		<BaseResourceID/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+	</Resource>
+	<Resource ID="10">
+		<LastChanged>2010-02-27T09:20:17</LastChanged>
+		<Deleted>N</Deleted>
+		<Code>Main</Code>
+		<Description>Main</Description>
+		<Location>.base.screen</Location>
+		<Type>Properties</Type>
+		<BaseResourceID/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+	</Resource>
+	<Resource ID="11">
+		<LastChanged>2010-02-04T20:44:02</LastChanged>
+		<Deleted>N</Deleted>
+		<Code>Menu</Code>
+		<Description>Menu strings</Description>
+		<Location>.res.thin.base.screen</Location>
+		<Type>Properties</Type>
+		<BaseResourceID/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+	</Resource>
+	<Resource ID="15">
+		<LastChanged>2010-02-04T20:44:32</LastChanged>
+		<Deleted>N</Deleted>
+		<Code>DialogBundle</Code>
+		<Description>Screen look and feel preferences</Description>
+		<Location>.res.thin.base.screen</Location>
+		<Type>Properties</Type>
+		<BaseResourceID/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+	</Resource>
+	<Resource ID="17">
+		<LastChanged>2010-02-27T09:20:38</LastChanged>
+		<Deleted>N</Deleted>
+		<Code>Xml</Code>
+		<Description>XML Ajax XSLT strings</Description>
+		<Location>.base.screen</Location>
+		<Type/>
+		<BaseResourceID/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+	</Resource>
+	<Resource ID="18">
+		<LastChanged>2010-11-30T11:58:13</LastChanged>
+		<Deleted>N</Deleted>
+		<Code>HtmlApplet</Code>
+		<Description>Html part of applet display</Description>
+		<Location>.base.screen</Location>
+		<Type>Properties</Type>
+		<BaseResourceID>9</BaseResourceID>
+		<ClassProjectID>16,777,240</ClassProjectID>
+	</Resource>
+	<Resource ID="19">
+		<LastChanged>2010-04-18T08:04:33</LastChanged>
+		<Deleted>N</Deleted>
+		<Code>Jnlp</Code>
+		<Description>Jnlp strings</Description>
+		<Location>.base.screen</Location>
+		<Type>Properties</Type>
+		<BaseResourceID/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+	</Resource>
+</file>

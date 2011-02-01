@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_DIS_LANDV File
+********************************************************************/
+
+declare	1 BK_DIS_LANDV_RECORD,
+		3 DIS_LANDV            character (        6),
+		3 DIS_PAXV             fixed binary (15),
+		3 DIS_LDATEV           fixed binary (15);
+

@@ -1,0 +1,798 @@
+/****************************************************************
+	Module: TK_TICKET_PRT
+	Top Level Logic: REPORT_LOGIC
+	Date: 17-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	TK_TICKET_PRT
+	Standard report logic
+****************************************************************/
+
+%replace TK_TICKET_PRT_1 by 689;
+%replace TK_TICKET_PRT_2 by 690;
+TK_TICKET_PRT:
+   procedure;
+%replace TK_HEADER_NO by  56;
+%replace TK_CONTROL_NO by 109;
+%replace TK_DETAIL_NO by  57;
+%include "TK_TICKET_PRT.DD";
+%include "TK_HEADER.DD";
+%include "TK_CONTROL.DD";
+%include "TK_DETAIL.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_LOCK_THRU_TK     bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		END_SCAN_TK_DETAIL   bit (1);
+declare		END_PRT_TK_DETAIL    bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TK_ISSUE = TODAYS_DATE();
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   TK_REC_NO = 9999;
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (TK_TICKET_PRT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (TK_TICKET_PRT_RECORD) );
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (TK_CONTROL_NO,"TK_CONTROL",byteaddr(TK_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_TK_CONTROL     fixed binary (15);
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (TK_TICKET_PRT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* LOCK_AUTO_TK - Lock all the tickets to be printed */
+
+
+      /* SET_FIRST - Set the record pointer to the first rec */
+
+      TK_MODIFICATION = 0;
+      TK_UD_STATUS = AUTO_TK;
+      TK_NUMBER = "";
+      TK_BK_TK_NO = 0;
+      TK_ALT_SEQ = 0;
+      TK_ANSW_SEQ = 0;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+      END_LOCK_THRU_TK = NO;
+      do while (END_LOCK_THRU_TK ^= YES);
+         call LOCK_THRU_TK;
+      end;
+
+      /* RETURN_IF_LOCK - Return if ERROR_CODE = locked */
+
+      if ERROR_CODE = RECORD_LOCKED then
+         do;
+         END_REPORT_MAIN = YES;
+         return;
+         end;
+
+
+      /* READ_TK_CONTROL - Read the control file */
+
+
+         /* SET_TK_KEY - Set up key */
+
+         TK_REC_NO = 0;
+         KEY_NO = 1;
+
+         /* READ_TK_REC - Read the record */
+
+         call READ_KEYED (TK_CONTROL_NO,KEY_NO,ERROR_TK_CONTROL);
+         if ERROR_TK_CONTROL > 3 then
+            call PRINT_ERROR (TK_CONTROL_NO,ERROR_TK_CONTROL);
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TK_MODIFICATION = 0;
+   TK_UD_STATUS = AUTO_TK;
+   TK_NUMBER = "";
+   TK_BK_TK_NO = 0;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+TK_START_NO = "";
+do LOOP_INDEX =   1 to   2;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* SET_TK_NUM - Set the number (float) */
+
+      TK_TEMP_NUM = TK_START_NO;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  2,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  2 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* SET_TK_NUM - Set the number (float) */
+
+      TK_TEMP_NUM = TK_START_NO;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	LOCK_THRU_TK
+	Lock all the tickets
+****************************************************************/
+
+LOCK_THRU_TK:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (TK_HEADER_NO+?LOCK_RECORD,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE  = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > 0) !
+   (TK_UD_STATUS > AUTO_TK) then
+      do;
+      END_LOCK_THRU_TK = YES;
+      return;
+      end;
+
+   /* RETURN_IF_LOCK - Return if ERROR_CODE = locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      END_LOCK_THRU_TK = YES;
+      return;
+      end;
+
+return;
+end;	/* LOCK_THRU_TK         */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =  24 to   1;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (TK_HEADER_NO+?LOCK_RECORD,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE  = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > 0) !
+   (TK_UD_STATUS > AUTO_TK) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_TICKET - Is this a valid ticket to print? */
+
+   if (TK_NUMBER ^= "") ! (TK_ISSUE_DATE ^= 0) ! (TK_TICKET_BY = "A") then
+      return;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+   call PRINT_TICKET;
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_TICKET
+	Print this ticket
+****************************************************************/
+
+PRINT_TICKET:
+	procedure;
+
+
+   /* ZERO_TK_DETAIL - Reset detail count */
+
+   TK_CONJ = 0;
+   TK_OLD_CITY = "";
+
+   TK_DATE_SAVE = 0;
+   TK_SEQ_SAVE = 0;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   TK_DET_MOD = TK_MODIFICATION;
+   TK_DET_BK_TK = TK_BK_TK_NO;
+   TK_DET_ALT_SEQ = TK_ALT_SEQ;
+   TK_DET_ANSW_SEQ = TK_ANSW_SEQ;
+   TK_DATE = TK_DATE_SAVE;
+   TK_SEQ = TK_SEQ_SAVE;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_TK_DETAIL = NO;
+   do while (END_SCAN_TK_DETAIL ^= YES);
+      call SCAN_TK_DETAIL;
+   end;
+
+   /* SET_CONJ_COUNT - Set the number of conjunction tickets */
+
+   TK_CONJ = divide((TK_CONJ + 3),4,15);
+
+
+   /* PRT_THIS_TICKET - Print this ticket */
+
+   if TK_ALT_SEQ ^= 0 then
+      do;
+      declare LAST_TWO fixed binary;
+      declare COUNT fixed binary;
+      declare LAST_CHAR character(20);
+
+      call CONV_FP(TK_TEMP_NUM,LAST_CHAR);
+
+      TK_TEMP_NO = "";
+      LAST_TWO = 1;
+      do COUNT = 1 to 20;
+         if substr(LAST_CHAR,COUNT,1) = "." then
+            goto TEMP_DONE;
+         if substr(LAST_CHAR,COUNT,1) >= "0" then if substr(LAST_CHAR,COUNT,1) <= "9" then
+            do;
+            substr(TK_TEMP_NO,LAST_TWO,1) = substr(LAST_CHAR,COUNT,1);
+            LAST_TWO = LAST_TWO + 1;
+            end;
+      end;
+
+      TEMP_DONE:
+      TK_NUMBER = TK_TEMP_NO;
+      if TK_CONJ = 1 then
+         TK_TEMP_NO = "";
+
+      do COUNT = 2 to TK_CONJ;
+         TK_TEMP_NUM = TK_TEMP_NUM + 1;
+         LAST_TWO = floor(TK_TEMP_NUM - floor(TK_TEMP_NUM / 100 + 0.001) * 100 + 0.5);
+         LAST_CHAR = LAST_TWO;
+         if substr(LAST_CHAR,8,1) = " " then
+            substr(LAST_CHAR,8,1) = "0";
+         TK_TEMP_NO = CUT_SPACES(TK_TEMP_NO) !! "/" !! substr(LAST_CHAR,8,2);
+      end;
+
+      TK_TEMP_NUM = TK_TEMP_NUM + 1;
+
+      COUNT = TK_CONJ;
+
+      /* ZERO_TK_DETAIL - Reset detail count */
+
+      TK_CONJ = 0;
+      TK_OLD_CITY = "";
+
+      TK_DATE_SAVE = 0;
+      TK_SEQ_SAVE = 0;
+
+
+      do LAST_TWO = 1 to COUNT;
+         if LAST_TWO > 1 then
+            do;
+            TK_COMM10 = "CONJ";
+            TK_TAX10 = "CONJ";
+            end;
+         else
+            do;
+            TK_COMM10 = TK_COMM;
+            TK_TAX10 = TK_TAX;
+            end;
+         call PRT_TICKET;
+      end;
+      end;
+
+
+   /* UPDATE_TICKET - Update the Ticket information */
+
+   if TK_ALT_SEQ = 0 then
+      do;
+      TK_UD_STATUS = NO_TK_STAT;
+      TK_ISSUE_DATE = TK_ISSUE;
+      end;
+   else
+      do
+      TK_UD_STATUS = TICK_TK;
+      TK_ISSUE_DATE = TK_ISSUE;
+      end;
+   call UPDATE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   TK_UD_STATUS = AUTO_TK;
+   TK_NUMBER = "";
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+
+return;
+end;	/* PRINT_TICKET         */
+
+/****************************************************************
+	SCAN_TK_DETAIL
+	Read through the ticket detail
+****************************************************************/
+
+SCAN_TK_DETAIL:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > TK_MODIFICATION) !
+   (TK_DET_BK_TK > TK_BK_TK_NO) !
+   (TK_DET_ALT_SEQ > TK_ALT_SEQ) !
+   (TK_DET_ANSW_SEQ > TK_ANSW_SEQ) then
+      do;
+      END_SCAN_TK_DETAIL = YES;
+      return;
+      end;
+
+   /* ADD_TK_DETAIL - Count the Ticket detail lines */
+
+   TK_CONJ = TK_CONJ + 1;
+   if TK_CONJ ^= 1 then if TK_OLD_CITY ^= TK_CITY then
+      TK_CONJ = TK_CONJ + 1;
+
+   TK_OLD_CITY = TK_ARR_CITY;
+
+return;
+end;	/* SCAN_TK_DETAIL       */
+
+/****************************************************************
+	PRT_TICKET
+	Print this ticket
+****************************************************************/
+
+PRT_TICKET:
+	procedure;
+
+
+   /* PRINT_LINE_D1 -  */
+
+   do LOOP_INDEX =   2 to   7;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* RESET_TK_COUNT - Reset the line item count */
+
+   TK_CONJ = 0;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   TK_DET_MOD = TK_MODIFICATION;
+   TK_DET_BK_TK = TK_BK_TK_NO;
+   TK_DET_ALT_SEQ = TK_ALT_SEQ;
+   TK_DET_ANSW_SEQ = TK_ANSW_SEQ;
+   TK_DATE = TK_DATE_SAVE;
+   TK_SEQ = TK_SEQ_SAVE;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_PRT_TK_DETAIL = NO;
+   do while (END_PRT_TK_DETAIL ^= YES);
+      call PRT_TK_DETAIL;
+   end;
+
+   /* CHECK_MORE_TK - More Line Item Lines to Fill? */
+
+   declare	COUNT	fixed binary;
+
+   do COUNT = TK_CONJ to 3;
+      do;
+      if COUNT = TK_CONJ then
+         do;
+
+         /* PRINT_LINE_D5 - Print lines */
+
+         do LOOP_INDEX =  11 to  11;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      else
+         do;
+
+         /* PRINT_LINE_D6 - Print lines */
+
+         do LOOP_INDEX =  12 to  12;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      TK_ARR_DESC = "";
+      end;
+   end;
+
+   TK_DESC_SAVE = TK_ARR_DESC;
+
+
+   /* PRINT_LINE_D3 - Print lines */
+
+   do LOOP_INDEX =  10 to  10;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* PRINT_LINE_D4 - PRINT */
+
+
+   /* GET_TFARE - Get the fare const. */
+
+   TK_TFARE_1 = TK_FARE_1;
+   TK_TFARE_2 = TK_FARE_2;
+   TK_TFARE_3 = TK_FARE_3;
+
+
+   /* SET_AIR_NO - Set the air numbers */
+
+   declare TEMP_STRING character(10);
+   TEMP_STRING = TK_AIRLINE_IATA;
+   if substr(TEMP_STRING,6,1) = " " then
+      substr(TEMP_STRING,6,1) = "0";
+   if substr(TEMP_STRING,7,1) = " " then
+      substr(TEMP_STRING,7,1) = "0";
+   TK_AIR3 = substr(TEMP_STRING,6,3);
+   TK_AIR4 = substr(TEMP_STRING,6,4);
+
+   do LOOP_INDEX =  14 to  21;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_TICKET           */
+
+/****************************************************************
+	PRT_TK_DETAIL
+	Print the ticket line-items
+****************************************************************/
+
+PRT_TK_DETAIL:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > TK_MODIFICATION) !
+   (TK_DET_BK_TK > TK_BK_TK_NO) !
+   (TK_DET_ALT_SEQ > TK_ALT_SEQ) !
+   (TK_DET_ANSW_SEQ > TK_ANSW_SEQ) then
+      do;
+      END_PRT_TK_DETAIL = YES;
+      return;
+      end;
+
+   /* PRT_TK_LINE - Print this line */
+
+   if TK_CONJ ^= 0 then if TK_OLD_CITY ^= TK_CITY then
+      do;
+
+      /* PRINT_LINE_D5 - Print lines */
+
+      do LOOP_INDEX =  11 to  11;
+         call PRINT_REPORT_LINE;
+      end;
+      TK_CONJ = TK_CONJ + 1;
+      if TK_CONJ = 5 then
+         do;
+         do;
+         END_PRT_TK_DETAIL = YES;
+         return;
+         end;
+         end;
+      end;
+
+   TK_CONJ = TK_CONJ + 1;
+   if TK_CONJ = 5 then
+      do;
+      TK_ARR_DESC = TK_DESC_SAVE;
+      do;
+      END_PRT_TK_DETAIL = YES;
+      return;
+      end;
+      end;
+
+   TK_DATE_SAVE = TK_DATE;
+   TK_SEQ_SAVE = TK_SEQ + 1;
+   TK_OLD_CITY = TK_ARR_CITY;
+   TK_DESC_SAVE = TK_ARR_DESC;
+
+
+   /* PRINT_LINE_D2 - Print lines */
+
+
+   /* SET_DATE5 - Set up the date */
+
+   declare	TEMP_DATE	character(10);
+   declare	TEMP_TIME	character(8);
+   TEMP_DATE = SET_DATE(TK_DATE);
+   TEMP_TIME = SET_TIME(TK_TIME);
+   TK_DATE5 = substr(TEMP_DATE,1,2) !! substr(TEMP_DATE,4,3);
+   TK_TIME5 = substr(TEMP_TIME,1,2) !! substr(TEMP_TIME,4,3);
+
+   do LOOP_INDEX =   9 to   9;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_TK_DETAIL        */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_CONTROL_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

@@ -1,0 +1,13 @@
+/*********************************************************************
+	TK_CITY_RPT File
+********************************************************************/
+
+declare	1 TK_CITY_RPT_RECORD,
+		3 AIRPORT_START        character (        3),
+		3 AIRPORT_END          character (        3),
+		3 TK_C_DATE            fixed binary (15),
+		3 TK_C_TIME            fixed binary (15),
+		3 TK_C_USER            character (       16),
+		3 TK_C_PAGE            fixed binary (31),
+		3 TK_C_COUNT           fixed binary (31);
+

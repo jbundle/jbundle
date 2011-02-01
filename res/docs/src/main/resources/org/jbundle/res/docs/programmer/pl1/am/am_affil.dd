@@ -1,0 +1,11 @@
+/*********************************************************************
+	AM_AFFIL File
+********************************************************************/
+
+declare	1 AM_AFFIL_RECORD,
+		3 AM_AFFIL_CODE        character (        4),
+		3 AM_AFFIL_DESC        character (       30),
+		3 AM_AFFIL_BK_COMM     fixed binary (15),
+		3 AM_AFFIL_COMM        fixed binary (15),
+		3 AM_AFFIL_VEN         character (        6);
+

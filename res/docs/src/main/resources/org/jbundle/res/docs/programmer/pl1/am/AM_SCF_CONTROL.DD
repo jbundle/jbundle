@@ -1,0 +1,12 @@
+/*********************************************************************
+	AM_SCF_CONTROL File
+********************************************************************/
+
+declare	1 AM_SCF_CONTROL_RECORD,
+		3 SCF_FROM             character (        3),
+		3 SCF_TO               character (        3),
+		3 SALESPERSON_TERR     fixed binary (15),
+		3 SALES_REGION         character (        4),
+		3 UPS_ZONE             character (        1),
+		3 SCF_DESCRIPTION      character (       25);
+

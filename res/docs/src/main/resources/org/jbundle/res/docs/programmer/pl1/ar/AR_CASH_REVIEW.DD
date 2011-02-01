@@ -1,0 +1,26 @@
+/*********************************************************************
+	AR_CASH_REVIEW File
+********************************************************************/
+
+declare	1 AR_CASH_REVIEW_RECORD,
+		3 AR_DETAIL            character (1),
+		3 AR_CR_DATE           fixed binary (15),
+		3 AR_CR_TIME           fixed binary (15),
+		3 AR_CR_PAGE           fixed binary (31),
+		3 AR_SUM_TYPE          character (        7),
+		3 AR_SUM_DATE          fixed binary (15),
+		3 AR_SUM_TOTAL         float binary (53),
+		3 AR_SUM_GRAND         float binary (53),
+		3 AR_SUM_POST          character (        1),
+		3 AR_SUM_CASH          character (1),
+		3 AR_SUM_START         fixed binary (15),
+		3 AR_SUM_END           fixed binary (15),
+		3 AR_SUM_TOTALS(10) float binary (53),
+		3 AR_START_POST        fixed binary (15),
+		3 AR_END_POST          fixed binary (15),
+		3 AR_REV_USER          character (       16),
+		3 AR_SUM_DATE_TYPE     character (        1),
+		3 AR_TRX_POSTED        character (1),
+		3 AR_GRAND_TOTAL( 8) float binary (53),
+		3 AR_SUM_BK_DET        character (1);
+

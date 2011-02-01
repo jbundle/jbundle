@@ -1,0 +1,1379 @@
+/****************************************************************
+	Module: GL_JOUR_ENT
+	Top Level Logic: GL_JOUR_LOGIC
+	Date: 27-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_JOUR_ENT
+	G/L Journal entry logic
+****************************************************************/
+
+%replace GL_JOUR_ENT_1 by 608;
+GL_JOUR_ENT:
+   procedure(
+      GL_DET_BATCH_RECORD);
+%replace GL_DET_TRX_NO by  18;
+%replace GL_CHART_NO by  16;
+%replace GL_CONTROL_NO by  20;
+%replace GL_AUTO_DIST_NO by  99;
+%replace GL_DET_BATCH_NO by  19;
+%include "GL_JOUR_ENT.DD";
+%include "GL_DET_TRX.DD";
+%include "GL_CHART.DD";
+%include "GL_CONTROL.DD";
+%include "GL_AUTO_DIST.DD";
+%include "GL_DET_BATCH.DD";
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_CODE           fixed binary (15);
+declare		END_GL_JOUR_MAIN     bit (1);
+declare		NOT_FIRST_TIME       bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		GL_DET_SEQ_NO_ARRAY(17) fixed binary (15);
+declare		END_CHANGE_UNTIL     bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_DELETE_ALL_GL    bit (1);
+declare		END_CHANGE_ALL_GL    bit (1);
+declare		ERROR_GL_DET_TRX     fixed binary (15);
+declare		END_READ_THRU_ACCR   bit (1);
+declare		END_READ_THRU_AUTO   bit (1);
+declare		ERROR_GL_CONTROL     fixed binary (15);
+   call INITIALIZE;
+
+   /* SETUP_KEY_2 - Setup the key */
+
+   GL_REC_NUMBER = 0;
+   KEY_NO = 1;
+
+   /* READ_RECORD_2 - Read from another file */
+
+   call READ_KEYED (GL_CONTROL_NO,KEY_NO,ERROR_GL_CONTROL);
+   if ERROR_GL_CONTROL > 3 then
+      call PRINT_ERROR (GL_CONTROL_NO,ERROR_GL_CONTROL);
+   END_GL_JOUR_MAIN = NO;
+   do while (END_GL_JOUR_MAIN ^= YES);
+      call GL_JOUR_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   GL_JOUR_REF = "";
+   GL_JOUR_SOURCE = "";
+   GL_AGAIN = "N";
+   GL_DET_BATCH_USER = GL_DBATCH_USER;
+   GL_DET_TRX_NUM = 1;
+   GL_DET_TRX_AMT = 0;
+   GL_DET_SOURCE = GL_DBATCH_DEF_SOURCE;
+   GL_DET_REF = GL_DBATCH_DEF_COM;
+   GL_DET_ACREV = "N";
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+   GL_REC_NUMBER = 9999;
+   GL_NEXT_SEQ = 1;
+   GL_LAST_POST = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_JOUR_ENT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (GL_JOUR_ENT_RECORD) );
+   call OPEN_FILE (GL_DET_TRX_NO,"GL_DET_TRX",byteaddr(GL_DET_TRX_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DET_TRX_NO,ERROR_CODE);
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call OPEN_FILE (GL_CONTROL_NO,"GL_CONTROL",byteaddr(GL_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (GL_AUTO_DIST_NO,"GL_AUTO_DIST",byteaddr(GL_AUTO_DIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_AUTO_DIST_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	GL_JOUR_MAIN
+	Mainline logic
+****************************************************************/
+
+GL_JOUR_MAIN:
+	procedure;
+
+
+   /* RESET_ERRORS - Reset all the error codes */
+
+   ERROR_CODE = 0;
+   RETURN_CODE = 0;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (GL_JOUR_ENT_1);
+   NOT_FIRST_TIME = YES;
+   call DISPLAY_DATA_C;
+
+   /* CHECK_GL_AGAIN - Display mode? */
+
+   if GL_AGAIN = "N" then
+      do;
+      call ENTER_DATA_A;
+      end;
+   else
+      do;
+      call DISPLAY_DATA_A;
+      end;
+
+
+   /* NOT_AGAIN - Reset the flag */
+
+   GL_AGAIN = "N";
+
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_ERR - Return if error/end typed */
+
+   if RETURN_CODE = END_TYPED then
+      do;
+      END_GL_JOUR_MAIN = YES;
+      return;
+      end;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   GL_DET_BATCH_USER = GL_DBATCH_USER;
+   GL_DET_TRX_NUM = GL_JOUR_TRX_NO;
+   GL_DET_SEQ_NO = 0;
+   call SET_POSITION (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DET_TRX_NO,ERROR_CODE);
+
+   /* CHECK_TRX_MODE - Check whether input or output mode */
+
+   if (ERROR_CODE = END_OF_FILE) !
+      (GL_DET_BATCH_USER > GL_DBATCH_USER) !
+      (GL_DET_TRX_NUM > GL_JOUR_TRX_NO) then
+         do;
+         GL_INPUT = "Y";
+         GL_DET_ACREV = "N";
+         call ENTER_DATA_D;
+         end;
+   else
+         do;
+         GL_INPUT = "N";
+         call DISPLAY_DATA_D;
+         GL_JOUR_REF = GL_DET_REF;
+         GL_JOUR_SOURCE = GL_DET_SOURCE;
+         call DISPLAY_DATA_E;
+         end;
+
+   call TABLE_MAINT;
+
+   /* CHECK_GL_ZERO - Balance must equal zero or do again */
+
+   if GL_DBATCH_BAL ^= 0 then
+      do;
+      GL_AGAIN = "Y";
+      end;
+
+return;
+end;	/* GL_JOUR_MAIN         */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =   1 to   1;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+GL_JOUR_TRX_NO = GL_DBATCH_NEXT_TRX;
+do LOOP_INDEX =   2 to   2;
+   if LOOP_INDEX =   2 then
+      GL_JOUR_TRX_NO = GL_DBATCH_NEXT_TRX;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =   2 to   2;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	ENTER_DATA_D
+	Enter screen group D
+****************************************************************/
+
+ENTER_DATA_D:
+	procedure;
+
+do LOOP_INDEX =   3 to   3;
+   if LOOP_INDEX =   3 then
+      GL_DET_TRX_DATE = GL_DBATCH_DEF_DATE;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_RECURRING - Skip date if in recurring mode */
+
+      if (GL_DBATCH_USER = " * FIXED * ") ! (GL_DBATCH_USER = " * VARIABLE * ") then
+         do;
+         LOOP_INDEX = 99;
+         GL_DET_TRX_DATE = 0;
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_D         */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =   3 to   3;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_RECURRING - Skip date if in recurring mode */
+
+      if (GL_DBATCH_USER = " * FIXED * ") ! (GL_DBATCH_USER = " * VARIABLE * ") then
+         do;
+         LOOP_INDEX = 99;
+         GL_DET_TRX_DATE = 0;
+         end;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	DISPLAY_DATA_E
+	Display the data in screen group E
+****************************************************************/
+
+DISPLAY_DATA_E:
+	procedure;
+
+do LOOP_INDEX =   7 to   8;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_E       */
+
+/****************************************************************
+	TABLE_MAINT
+	Table display/maintenance
+****************************************************************/
+
+TABLE_MAINT:
+	procedure;
+
+declare		GL_DET_BATCH_USER_SA character (       16);
+declare		GL_DET_TRX_NUM_SAVE  fixed binary (15);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		GL_DET_TRX_ERROR     fixed binary (15);
+declare		GL_DET_SEQ_NO_SAVE   fixed binary (15);
+declare		ANSWER               character (1);
+GL_DBATCH_BAL = 0;
+GL_DET_BATCH_USER = GL_DBATCH_USER;
+GL_DET_BATCH_USER_SA = GL_DET_BATCH_USER;
+GL_DET_TRX_NUM = GL_JOUR_TRX_NO;
+GL_DET_TRX_NUM_SAVE = GL_DET_TRX_NUM;
+GL_DET_SEQ_NO = 0;
+call SET_POSITION (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (GL_DET_BATCH_USER > GL_DET_BATCH_USER_SA) !
+   (GL_DET_TRX_NUM > GL_DET_TRX_NUM_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 17;
+      GL_DET_SEQ_NO_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      GL_DET_TRX_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (GL_DET_TRX_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 17) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =   4 to   6;
+            if LOOP_INDEX =   5 then
+               do;
+
+               /* CHECK_AND_READ - Check whether DR or CR and read second */
+
+
+               /* READ_SECOND_DIS - Read Second - Display line version */
+
+               GL_ACCOUNT_NO = GL_AC_NUMBER;
+               call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+                  end;
+
+               if GL_DET_TRX_AMT < 0 then
+                  do;
+                  call SET_COL_OFFSET (+10);
+                  end;
+
+               end;
+            if LOOP_INDEX =   6 then
+               do;
+
+               /* DISPLAY_DR_CR - Display the balance in the right place */
+
+               if GL_DET_TRX_AMT < 0 then
+                  do;
+                  GL_DET_TRX_AMT = -GL_DET_TRX_AMT;
+                  call SET_COL_OFFSET (+10);
+                  call OUTPUT_FIELD(LOOP_INDEX);
+                  call SET_COL_OFFSET (0);
+                  GL_DET_TRX_AMT = -GL_DET_TRX_AMT;
+                  LOOP_INDEX = 99;
+                  end;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         GL_DBATCH_BAL = floor((GL_DBATCH_BAL + GL_DET_TRX_AMT) * 100 + 0.5) / 100;
+         GL_DET_SEQ_NO_ARRAY(RECORD_NUMBER) = GL_DET_SEQ_NO;
+         call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,GL_DET_TRX_ERROR);
+         if (GL_DET_BATCH_USER > GL_DET_BATCH_USER_SA) !
+         (GL_DET_TRX_NUM > GL_DET_TRX_NUM_SAVE) then
+            GL_DET_TRX_ERROR = END_OF_FILE;
+         if GL_DET_TRX_ERROR = END_OF_FILE then
+            do;
+            call SET_ROW_OFFSET (0);
+            do LOOP_INDEX =   9 to   9;
+               if LOOP_INDEX =   9 then
+                  do;
+
+                  /* DISPLAY_DR_CR_BAL - Display in the DR/CR position */
+
+                  if GL_DBATCH_BAL < 0 then
+                     do;
+                     call CLEAR_FIELD(LOOP_INDEX);
+                     GL_DBATCH_BAL = -GL_DBATCH_BAL;
+                     call SET_COL_OFFSET (+10);
+                     call OUTPUT_FIELD(LOOP_INDEX);
+                     call SET_COL_OFFSET (0);
+                     GL_DBATCH_BAL = -GL_DBATCH_BAL;
+                     LOOP_INDEX = 99;
+                     end;
+                  else
+                     do;
+                     call SET_COL_OFFSET (+10);
+                     call CLEAR_FIELD(LOOP_INDEX);
+                     call SET_COL_OFFSET (0);
+                     end;
+
+                  end;
+               call OUTPUT_FIELD (LOOP_INDEX);
+            end;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      GL_DET_SEQ_NO_SAVE = GL_DET_SEQ_NO_ARRAY(17);
+      GL_DET_BATCH_USER = GL_DET_BATCH_USER_SA;
+      GL_DET_TRX_NUM = GL_DET_TRX_NUM_SAVE;
+
+      /* CHANGE_JOUR - Change this journal entry */
+
+
+         /* CHECK_AGAIN_GL - Is the G/L flag set? */
+
+         if GL_AGAIN = "Y" then
+            return;
+
+
+         /* ENTER_COMM_IF_END - Enter comment if end of input */
+
+         if DISPLAY_RECORDS = NO then if GL_DET_SEQ_NO_ARRAY(17) = 0 then
+            do;
+
+            /* SET_FIRST - Set the record pointer to the first rec */
+
+            GL_DET_BATCH_USER = GL_DBATCH_USER;
+            GL_DET_TRX_NUM = GL_JOUR_TRX_NO;
+            GL_DET_SEQ_NO = 0;
+            call SET_POSITION (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+
+            /* READNEXT - Read the next record */
+
+            call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE > 3 then
+            	call PRINT_ERROR (GL_DET_TRX_NO,ERROR_CODE);
+
+            /* CHECK_ANY_ENTRIES - Any entries made? */
+
+            if (ERROR_CODE = END_OF_FILE) !
+               (GL_DET_BATCH_USER > GL_DBATCH_USER) !
+               (GL_DET_TRX_NUM > GL_JOUR_TRX_NO) then
+                  do;
+                  end;
+               else
+                  do;
+                  call SET_ROW_OFFSET(0);
+                  GL_JOUR_REF = GL_DBATCH_DEF_COM;
+                  GL_JOUR_SOURCE = GL_DBATCH_DEF_SOURCE;
+                  call ENTER_DATA_E;
+                  end;
+
+            end;
+
+         END_CHANGE_UNTIL = NO;
+         do while (END_CHANGE_UNTIL ^= YES);
+            call CHANGE_UNTIL;
+         end;
+      if RETURN_CODE = END_TYPED then
+         if GL_DET_SEQ_NO_ARRAY(17) ^= 0 then
+            do;
+            GL_DET_TRX_ERROR = NORMAL_RETURN;
+            do while (GL_DET_TRX_ERROR ^= END_OF_FILE);
+               GL_DBATCH_BAL = floor((GL_DBATCH_BAL + GL_DET_TRX_AMT) * 100 + 0.5) / 100;
+               call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,GL_DET_TRX_ERROR);
+               if (GL_DET_BATCH_USER > GL_DET_BATCH_USER_SA) !
+               (GL_DET_TRX_NUM > GL_DET_TRX_NUM_SAVE) then
+                  GL_DET_TRX_ERROR = END_OF_FILE;
+            end;
+            end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = DELETE_TYPED) then
+         GET_OUT = YES;
+      else
+         if GL_DET_TRX_ERROR ^= END_OF_FILE then
+            do;
+            GL_DET_SEQ_NO = GL_DET_SEQ_NO_SAVE;
+            call SET_POSITION (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+            end;
+         else
+            if GL_DET_SEQ_NO_ARRAY(17) = 0 then
+               GET_OUT = YES;
+            else
+               do;
+               call OUTPUT_LINE (24,10,"Enter more data?");
+               call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+               if ANSWER = "N" then
+                  GET_OUT = YES;
+               else
+                  DISPLAY_RECORDS = NO;
+               end;
+      end;
+   else	/*DISPLAY_RECORDS = NO*/
+      do;
+      GL_DET_BATCH_USER = GL_DET_BATCH_USER_SA;
+      GL_DET_TRX_NUM = GL_DET_TRX_NUM_SAVE;
+      INPUT_LENGTH = 1;
+      RECORD_NUMBER = 1;
+      do while ( (INPUT_LENGTH ^= 0) & (RECORD_NUMBER <= 17) );
+         call GL_DET_TRX_LINE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+
+      /* CHANGE_JOUR - Change this journal entry */
+
+
+         /* CHECK_AGAIN_GL - Is the G/L flag set? */
+
+         if GL_AGAIN = "Y" then
+            return;
+
+
+         /* ENTER_COMM_IF_END - Enter comment if end of input */
+
+         if DISPLAY_RECORDS = NO then if GL_DET_SEQ_NO_ARRAY(17) = 0 then
+            do;
+
+            /* SET_FIRST - Set the record pointer to the first rec */
+
+            GL_DET_BATCH_USER = GL_DBATCH_USER;
+            GL_DET_TRX_NUM = GL_JOUR_TRX_NO;
+            GL_DET_SEQ_NO = 0;
+            call SET_POSITION (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+
+            /* READNEXT - Read the next record */
+
+            call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE > 3 then
+            	call PRINT_ERROR (GL_DET_TRX_NO,ERROR_CODE);
+
+            /* CHECK_ANY_ENTRIES - Any entries made? */
+
+            if (ERROR_CODE = END_OF_FILE) !
+               (GL_DET_BATCH_USER > GL_DBATCH_USER) !
+               (GL_DET_TRX_NUM > GL_JOUR_TRX_NO) then
+                  do;
+                  end;
+               else
+                  do;
+                  call SET_ROW_OFFSET(0);
+                  GL_JOUR_REF = GL_DBATCH_DEF_COM;
+                  GL_JOUR_SOURCE = GL_DBATCH_DEF_SOURCE;
+                  call ENTER_DATA_E;
+                  end;
+
+            end;
+
+         END_CHANGE_UNTIL = NO;
+         do while (END_CHANGE_UNTIL ^= YES);
+            call CHANGE_UNTIL;
+         end;
+      if (RETURN_CODE = END_TYPED) !
+      (RETURN_CODE = DELETE_TYPED) ! (GL_DET_SEQ_NO_ARRAY(17) = 0) then
+         GET_OUT = YES;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 17;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if GL_DET_SEQ_NO_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX = 4 to   6;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_MAINT          */
+
+/****************************************************************
+	ENTER_DATA_E
+	Enter the data in screen group E
+****************************************************************/
+
+ENTER_DATA_E:
+	procedure;
+
+do LOOP_INDEX =   7 to   8;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_E         */
+
+/****************************************************************
+	CHANGE_UNTIL
+	Change items until bal = 0
+****************************************************************/
+
+CHANGE_UNTIL:
+	procedure;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* CHECK_AGAIN_GL - Is the G/L flag set? */
+
+   if GL_AGAIN = "Y" then
+      do;
+      END_CHANGE_UNTIL = YES;
+      return;
+      end;
+
+
+   /* CHECK_GL_DEL - Did they type DEL? */
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+      END_DELETE_ALL_GL = NO;
+      do while (END_DELETE_ALL_GL ^= YES);
+         call DELETE_ALL_GL;
+      end;
+      do;
+      END_CHANGE_UNTIL = YES;
+      return;
+      end;
+      end;
+
+
+   /* CHECK_ZERO_BAL - Zero balance? */
+
+   if GL_DBATCH_BAL ^= 0 then
+      do;
+      if GL_DET_SEQ_NO_ARRAY(17) = 0 then
+         do;
+         call DISPLAY_MESSAGE ("<BEL>Warning - Transaction must equal Zero"c);
+         call PRESS_RETURN;
+         return;
+         end;
+      else
+         do;
+         END_CHANGE_UNTIL = YES;
+         return;
+         end;
+      end;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   GL_DET_BATCH_USER = GL_DBATCH_USER;
+   GL_DET_TRX_NUM = GL_JOUR_TRX_NO;
+   GL_DET_SEQ_NO = 0;
+   call SET_POSITION (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DET_TRX_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_DET_BATCH_USER > GL_DBATCH_USER) !
+   (GL_DET_TRX_NUM > GL_JOUR_TRX_NO) then
+      do;
+      END_CHANGE_UNTIL = YES;
+      return;
+      end;
+   END_CHANGE_ALL_GL = NO;
+   do while (END_CHANGE_ALL_GL ^= YES);
+      call CHANGE_ALL_GL;
+   end;
+
+   /* CHECK_NEXT_TRX - Bump the next TRX no? */
+
+   if GL_JOUR_TRX_NO >= GL_DBATCH_NEXT_TRX then
+      GL_DBATCH_NEXT_TRX = GL_JOUR_TRX_NO + 1;
+
+
+   /* CHECK_ACCRUAL_REV - Check to see if this is an Accrual Revs */
+
+   if GL_JOUR_SOURCE = GL_ACCRUAL_CODE then if GL_INPUT = "Y" then
+      do;
+      call OUTPUT_LINE(23,14,"Create accrual-reversal entry?");
+      call ENTER_DATA_G;
+      call CLEAR_TO_BOS(23);
+      if GL_ANSWER = "Y" then
+         do;
+         call CREATE_ACCRUAL_REV;
+         GL_JOUR_TRX_NO = GL_DBATCH_NEXT_TRX;
+         GL_AGAIN = "Y";
+         end;
+      end;
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_CHANGE_UNTIL = YES;
+   return;
+   end;
+
+return;
+end;	/* CHANGE_UNTIL         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 92,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 17 then
+   do;
+   RECORD_NUMBER = SELECT;
+   call GL_DET_TRX_LINE;
+   call SET_ROW_OFFSET (0);
+
+   /* CHECK_AGAIN_GL - Is the G/L flag set? */
+
+   if GL_AGAIN = "Y" then
+      do;
+      END_CHANGE_ITEM = YES;
+      return;
+      end;
+
+   end;
+if SELECT >= 18 then if SELECT <= 19 then
+   do;
+
+      LOOP_INDEX = SELECT + -11;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+
+   /* CHECK_AGAIN_GL - Is the G/L flag set? */
+
+   if GL_AGAIN = "Y" then
+      do;
+      END_CHANGE_ITEM = YES;
+      return;
+      end;
+
+   end;
+if SELECT >= 90 then if SELECT <= 92 then
+   do;
+   if SELECT <= 91 then
+      LOOP_INDEX = SELECT + -88;
+   if SELECT = 92 then
+      LOOP_INDEX = 10;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_RECURRING - Skip date if in recurring mode */
+
+      if (GL_DBATCH_USER = " * FIXED * ") ! (GL_DBATCH_USER = " * VARIABLE * ") then
+         do;
+         LOOP_INDEX = 99;
+         GL_DET_TRX_DATE = 0;
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+
+   /* CHECK_AGAIN_GL - Is the G/L flag set? */
+
+   if GL_AGAIN = "Y" then
+      do;
+      END_CHANGE_ITEM = YES;
+      return;
+      end;
+
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	DELETE_ALL_GL
+	Delete the G/L Detail
+****************************************************************/
+
+DELETE_ALL_GL:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   GL_DET_BATCH_USER = GL_DBATCH_USER;
+   GL_DET_TRX_NUM = GL_JOUR_TRX_NO;
+   GL_DET_SEQ_NO = 0;
+   call SET_POSITION (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DET_TRX_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_DET_BATCH_USER > GL_DBATCH_USER) !
+   (GL_DET_TRX_NUM > GL_JOUR_TRX_NO) then
+      do;
+      END_DELETE_ALL_GL = YES;
+      return;
+      end;
+
+   /* DELETE_RECORD - Delete the record */
+
+   call DELETE_RECORD (GL_DET_TRX_NO,ERROR_CODE);
+return;
+end;	/* DELETE_ALL_GL        */
+
+/****************************************************************
+	CHANGE_ALL_GL
+	Change all the detail G/L entries
+****************************************************************/
+
+CHANGE_ALL_GL:
+	procedure;
+
+
+   /* SET_COMM_SRC - Set the comment and source */
+
+   GL_DET_SOURCE = GL_JOUR_SOURCE;
+   GL_DET_REF = GL_JOUR_REF;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (GL_DET_TRX_NO,ERROR_CODE);
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (GL_DET_TRX_NO,KEY_AREA_1,ERROR_GL_DET_TRX);
+   if ERROR_GL_DET_TRX > 3 then
+      call PRINT_ERROR (GL_DET_TRX_NO,ERROR_GL_DET_TRX);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DET_TRX_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_DET_BATCH_USER > GL_DBATCH_USER) !
+   (GL_DET_TRX_NUM > GL_JOUR_TRX_NO) then
+      do;
+      END_CHANGE_ALL_GL = YES;
+      return;
+      end;
+return;
+end;	/* CHANGE_ALL_GL        */
+
+/****************************************************************
+	ENTER_DATA_G
+	Enter the data in group G
+****************************************************************/
+
+ENTER_DATA_G:
+	procedure;
+
+GL_ANSWER = "Y";
+do LOOP_INDEX =  10 to  10;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_G         */
+
+/****************************************************************
+	CREATE_ACCRUAL_REV
+	Create the accrual reversal entries
+****************************************************************/
+
+CREATE_ACCRUAL_REV:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   GL_DET_BATCH_USER = GL_DBATCH_USER;
+   GL_DET_TRX_NUM = GL_JOUR_TRX_NO;
+   GL_DET_SEQ_NO = 0;
+   call SET_POSITION (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_ACCR = NO;
+   do while (END_READ_THRU_ACCR ^= YES);
+      call READ_THRU_ACCR;
+   end;
+return;
+end;	/* CREATE_ACCRUAL_REV   */
+
+/****************************************************************
+	READ_THRU_ACCR
+	Read thru and change the accrual-revsl
+****************************************************************/
+
+READ_THRU_ACCR:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_DET_TRX_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DET_TRX_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_DET_BATCH_USER > GL_DBATCH_USER) !
+   (GL_DET_TRX_NUM > GL_JOUR_TRX_NO) then
+      do;
+      END_READ_THRU_ACCR = YES;
+      return;
+      end;
+
+   /* SET_REV_ENTRY - Set up for Reversal entry */
+
+   GL_DET_TRX_NUM = GL_DBATCH_NEXT_TRX;
+   GL_DET_TRX_AMT = -GL_DET_TRX_AMT;
+
+   GL_DET_TRX_DATE = GL_DET_TRX_DATE + 1;
+   GL_DET_ACREV = "Y";
+
+
+   /* WRITE_RECORD - Write the record */
+
+   call WRITE_RECORD (GL_DET_TRX_NO,ERROR_CODE);
+
+   /* SET_REV_BACK - Set the entry back */
+
+   GL_DET_TRX_NUM = GL_JOUR_TRX_NO;
+   GL_DET_TRX_AMT = -GL_DET_TRX_AMT;
+
+   GL_DET_TRX_DATE = GL_DET_TRX_DATE - 1;
+   GL_DET_ACREV = "N";
+
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (GL_DET_TRX_NO,KEY_AREA_1,ERROR_GL_DET_TRX);
+   if ERROR_GL_DET_TRX > 3 then
+      call PRINT_ERROR (GL_DET_TRX_NO,ERROR_GL_DET_TRX);
+return;
+end;	/* READ_THRU_ACCR       */
+
+/****************************************************************
+	GL_DET_TRX_LINE
+	Change one line in the secondary file
+****************************************************************/
+
+GL_DET_TRX_LINE:
+	procedure;
+
+declare		REWRITE              bit (1);
+declare		DEL_RECORD           bit (1);
+call SET_ROW_OFFSET (RECORD_NUMBER - 1);
+REWRITE = NO;
+if GL_DET_SEQ_NO_ARRAY(RECORD_NUMBER) ^= 0 then
+   do;
+   REWRITE = YES;
+   GL_DET_SEQ_NO = GL_DET_SEQ_NO_ARRAY(RECORD_NUMBER);
+   call READ_KEYED (GL_DET_TRX_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      return;
+      end;
+   do LOOP_INDEX =  4 to   6;
+      call CLEAR_FIELD (LOOP_INDEX);
+   end;
+   GL_DBATCH_BAL = floor((GL_DBATCH_BAL - GL_DET_TRX_AMT) * 100 + 0.5) / 100;
+   end;
+else
+   do;
+   GL_AC_NUMBER = 0;
+   GL_DET_TRX_DATE = GL_DET_TRX_DATE;
+   GL_DET_SEQ_NO = 0;
+   GL_DET_TRX_AMT = 0;
+   GL_DET_SOURCE = GL_DBATCH_DEF_SOURCE;
+   GL_DET_REF = GL_DBATCH_DEF_COM;
+   GL_DET_ACREV = "N";
+   end;
+ERROR_CODE = 1;
+do while (ERROR_CODE ^= 0);
+   ERROR_CODE = 0;
+   do LOOP_INDEX =   4 to   4;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =   4 then
+         do;
+
+         /* READ_SECOND_DIS - Read Second - Display line version */
+
+         if (INPUT_LENGTH ^= 0) & (RETURN_CODE ^= END_TYPED) then
+            do;
+            GL_ACCOUNT_NO = GL_AC_NUMBER;
+            call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE = RECORD_NOT_FOUND then
+               do;
+               call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+               call PRESS_RETURN;
+               call CLEAR_MESSAGE;
+               RETURN_CODE = DO_AGAIN;
+               LOOP_INDEX = LOOP_INDEX - 1;
+               end;
+            end;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   DEL_RECORD = YES;
+   if (INPUT_LENGTH ^= 0) & (RETURN_CODE ^= END_TYPED) then
+      do;
+      DEL_RECORD = NO;
+      do LOOP_INDEX =   5 to   6;
+         if LOOP_INDEX =   5 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+         if LOOP_INDEX =   6 then
+            do;
+
+            /* CHECK_DR_ENTERED - Check to see if a CR has to be entered */
+
+            if GL_DET_TRX_AMT = 0 then
+               do;
+               call CLEAR_FIELD(LOOP_INDEX);
+               call CLEAR_FIELD(LOOP_INDEX-1);
+               call SET_COL_OFFSET (+10);
+               call OUTPUT_FIELD(LOOP_INDEX-1);
+               call INPUT_FIELD(LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+               call SET_COL_OFFSET (0);
+               GL_DET_TRX_AMT = -GL_DET_TRX_AMT;
+               LOOP_INDEX = 99;
+               end;
+
+            if GL_DET_TRX_AMT < 0 then
+               do;
+               GL_DET_TRX_AMT = -GL_DET_TRX_AMT;
+               call CLEAR_FIELD(LOOP_INDEX);
+               call CLEAR_FIELD(LOOP_INDEX-1);
+               call SET_COL_OFFSET (+10);
+               call OUTPUT_FIELD(LOOP_INDEX-1);
+               call OUTPUT_FIELD(LOOP_INDEX);
+               call SET_COL_OFFSET (0);
+               GL_DET_TRX_AMT = -GL_DET_TRX_AMT;
+               LOOP_INDEX = 99;
+               end;
+
+            if RECORD_NUMBER = 1 then if GL_DET_SEQ_NO_ARRAY(1) = 0 then
+               do;
+               if GL_AUTO_CODE ^= "" then
+                  do;
+                  call SET_ROW_OFFSET(0);
+                  call OUTPUT_LINE(23,13,"Create auto-distribution entry?");
+                  call ENTER_DATA_G;
+                  call CLEAR_TO_BOS(23);
+                  if GL_ANSWER = "Y" then
+                     do;
+                     call CREATE_AUTO_DIST;
+                     GL_AGAIN = "Y";
+                     RECORD_NUMBER = 20;
+                     RETURN_CODE = END_TYPED;
+                     return;
+                     end;
+                  end;
+
+               if COUNTER_BAL_AC ^= 0 then
+                  do;
+                  call SET_ROW_OFFSET(0);
+                  call OUTPUT_LINE(23,13,"Create counter-balancing entry?");
+                  call ENTER_DATA_G;
+                  call CLEAR_TO_BOS(23);
+                  if GL_ANSWER = "Y" then
+                     do;
+                     call CREATE_COUNTER_BAL;
+                     GL_AGAIN = "Y";
+                     RECORD_NUMBER = 20;
+                     RETURN_CODE = END_TYPED;
+                     return;
+                     end;
+                  end;
+               end;
+
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      INPUT_LENGTH = 1;
+      end;
+   ERROR_CODE = 0;
+   if DEL_RECORD = YES then
+      do;
+      GL_DET_SEQ_NO = GL_DET_SEQ_NO_ARRAY(RECORD_NUMBER);
+      if REWRITE = YES then
+         call DELETE_RECORD (GL_DET_TRX_NO,ERROR_CODE);
+      call CLEAR_FIELD(LOOP_INDEX);
+      GL_DET_SEQ_NO = 0;
+      end;
+   else
+      do;
+      if REWRITE = NO then
+         do;
+         if RECORD_NUMBER = 1 then
+            GL_DET_SEQ_NO = 1;
+         else
+            GL_DET_SEQ_NO = GL_DET_SEQ_NO_ARRAY(RECORD_NUMBER - 1) + 1;
+         ERROR_CODE = KEY_ALREADY_EXISTS;
+         do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+            call WRITE_RECORD (GL_DET_TRX_NO,ERROR_CODE);
+            if ERROR_CODE = KEY_ALREADY_EXISTS then
+               GL_DET_SEQ_NO = GL_DET_SEQ_NO + 1;
+         end;
+         end;
+      else
+         call UPDATE_RECORD (GL_DET_TRX_NO,ERROR_CODE);
+      GL_DBATCH_BAL = floor((GL_DBATCH_BAL + GL_DET_TRX_AMT) * 100 + 0.5) / 100;
+      end;
+   call SET_ROW_OFFSET(0);
+   do LOOP_INDEX =   9 to   9;
+      if LOOP_INDEX =   9 then
+         do;
+
+         /* DISPLAY_DR_CR_BAL - Display in the DR/CR position */
+
+         if GL_DBATCH_BAL < 0 then
+            do;
+            call CLEAR_FIELD(LOOP_INDEX);
+            GL_DBATCH_BAL = -GL_DBATCH_BAL;
+            call SET_COL_OFFSET (+10);
+            call OUTPUT_FIELD(LOOP_INDEX);
+            call SET_COL_OFFSET (0);
+            GL_DBATCH_BAL = -GL_DBATCH_BAL;
+            LOOP_INDEX = 99;
+            end;
+         else
+            do;
+            call SET_COL_OFFSET (+10);
+            call CLEAR_FIELD(LOOP_INDEX);
+            call SET_COL_OFFSET (0);
+            end;
+
+         end;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   call SET_ROW_OFFSET (RECORD_NUMBER - 1);
+   if ERROR_CODE ^= KEY_ALREADY_EXISTS then
+      do;
+      GL_DET_SEQ_NO_ARRAY(RECORD_NUMBER) = GL_DET_SEQ_NO;
+      end;
+end;
+return;
+end;	/* GL_DET_TRX_LINE      */
+
+/****************************************************************
+	CREATE_AUTO_DIST
+	Create the auto distribution entries
+****************************************************************/
+
+CREATE_AUTO_DIST:
+	procedure;
+
+
+   /* SET_GL_SEQ_NO - Set the sequence number */
+
+   GL_DET_SEQ_NO = 1;
+
+
+   /* WRITE_RECORD - Write the record */
+
+   call WRITE_RECORD (GL_DET_TRX_NO,ERROR_CODE);
+
+   /* SAVE_AUTO_AMT - Save the amount */
+
+   GL_AUTO_TOTAL_AMT = GL_DET_TRX_AMT;
+   GL_AUTO_RUNNING = GL_DET_TRX_AMT;
+   GL_PER_RUNNING = 100;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   GL_DIST_CODE = GL_AUTO_CODE;
+   GL_DIST_ACCT = 0;
+   call SET_POSITION (GL_AUTO_DIST_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_AUTO = NO;
+   do while (END_READ_THRU_AUTO ^= YES);
+      call READ_THRU_AUTO;
+   end;
+return;
+end;	/* CREATE_AUTO_DIST     */
+
+/****************************************************************
+	READ_THRU_AUTO
+	Read thru the automatic dist acct
+****************************************************************/
+
+READ_THRU_AUTO:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (GL_AUTO_DIST_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_AUTO_DIST_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_DIST_CODE > GL_AUTO_CODE) then
+      do;
+      END_READ_THRU_AUTO = YES;
+      return;
+      end;
+
+   /* SETUP_AUTO_ENTRY - Set up the automatic entry */
+
+   GL_AC_NUMBER = GL_DIST_ACCT;
+   GL_DET_SEQ_NO = GL_DET_SEQ_NO + 1;
+   GL_PER_RUNNING =floor((GL_PER_RUNNING - GL_DIST_PERCT) * 100 + 0.5)/100;
+   if GL_PER_RUNNING = 0 then
+      GL_DET_TRX_AMT = -GL_AUTO_RUNNING;
+   else
+      GL_DET_TRX_AMT = floor(-GL_AUTO_TOTAL_AMT * GL_DIST_PERCT + 0.5) / 100;
+   GL_AUTO_RUNNING = floor((GL_AUTO_RUNNING + GL_DET_TRX_AMT)*100+0.5)/100;
+
+
+   /* WRITE_RECORD - Write the record */
+
+   call WRITE_RECORD (GL_DET_TRX_NO,ERROR_CODE);
+return;
+end;	/* READ_THRU_AUTO       */
+
+/****************************************************************
+	CREATE_COUNTER_BAL
+	Create the counter balance entry
+****************************************************************/
+
+CREATE_COUNTER_BAL:
+	procedure;
+
+
+   /* SET_GL_SEQ_NO - Set the sequence number */
+
+   GL_DET_SEQ_NO = 1;
+
+
+   /* WRITE_RECORD - Write the record */
+
+   call WRITE_RECORD (GL_DET_TRX_NO,ERROR_CODE);
+
+   /* SET_COUNTER_REC - Set up the Counter-bal record */
+
+   GL_AC_NUMBER = COUNTER_BAL_AC;
+   GL_DET_SEQ_NO = 2;
+   GL_DET_TRX_AMT = -GL_DET_TRX_AMT;
+
+
+   /* WRITE_RECORD - Write the record */
+
+   call WRITE_RECORD (GL_DET_TRX_NO,ERROR_CODE);
+return;
+end;	/* CREATE_COUNTER_BAL   */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (GL_DET_TRX_NO);
+   call CLOSE_FILE (GL_CHART_NO);
+   call CLOSE_FILE (GL_CONTROL_NO);
+   call CLOSE_FILE (GL_AUTO_DIST_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

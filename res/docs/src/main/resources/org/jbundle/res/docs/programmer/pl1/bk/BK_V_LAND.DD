@@ -1,0 +1,29 @@
+/*********************************************************************
+	BK_V_LAND File
+********************************************************************/
+
+declare	1 BK_V_LAND_RECORD,
+		3 LV_LAND(50) character (       10),
+		3 LV_DATE(50) fixed binary (15),
+		3 LV_SEQ(50) fixed binary (15),
+		3 LV_SIC_PMC(50) character (        1),
+		3 LV_VENDOR(50) character (        6),
+		3 LV_FIRST_BK(50) fixed binary (31),
+		3 LV_PAX_SEQ(50) fixed binary (15),
+		3 LV_MATCH_COUNT(50) fixed binary (15),
+		3 LV_VOUCHER(50) fixed binary (31),
+		3 LS_INV               character (1),
+		3 LS_LAND              character (       10),
+		3 LS_DATE              fixed binary (15),
+		3 LS_SEQ               fixed binary (15),
+		3 LS_SIC_PMC           character (        1),
+		3 LS_VENDOR            character (        6),
+		3 LS_FIRST_BK          fixed binary (31),
+		3 LS_PAX_SEQ           fixed binary (15),
+		3 LS_MANUAL            character (       30),
+		3 LS_SEND_TO           character (1),
+		3 LV_INV(50) character (1),
+		3 LV_SEND_TO(50) character (1),
+		3 LAND_SAME            character (1),
+		3 BK_V_PAX             fixed binary (15);
+

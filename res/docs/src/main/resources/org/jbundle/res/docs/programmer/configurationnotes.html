@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <title>Configuration Notes</title>
+</head>
+<body>
+<h3>To set up a new J2ee Server:</h3>
+1. Modify bin/setenv.sh<br>
+ &nbsp;&nbsp; a. just before EXPORT CPATH, type:<br>
+. /data/java/bin/setenv.sh<br>
+CPATH=$CPATH:$CLASSPATH<br>
+2. Start up the server by typing:<br>
+ &nbsp; &nbsp; j2ee -verbose &amp;<br>
+ &nbsp;&nbsp; &nbsp; &nbsp; (make sure /usr/local/bin/j2ee is linked here)<br>
+3. Deploy the tourbean from /data/java/tour<br>
+<br>
+(To stop j2ee type: j2ee -stop)<br>
+<h3>To set up tomcat:</h3>
+1. Open the conf/server.xml file and:<br>
+ &nbsp;&nbsp; a. Change port 8000 to 80<br>
+ &nbsp;&nbsp; b. Add my contexts:<br>
+ &nbsp; &nbsp; &nbsp; &lt;Context path="" <br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; docBase="/data/java/tour"
+<br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; crossContext="false"<br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; debug="1" <br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reloadable="false"
+&gt; <br>
+ &nbsp;&nbsp; &nbsp; &nbsp; &lt;/Context&gt;<br>
+ &nbsp; &nbsp; &nbsp; &lt;Context path="/examples" <br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; docBase="webapps/examples"
+<br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; crossContext="false"<br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; debug="0" <br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reloadable="true"
+&gt; <br>
+ &nbsp;&nbsp; &nbsp; &nbsp; &lt;/Context&gt;<br>
+ &nbsp;&nbsp; c. Add the jini context:<br>
+ &nbsp;&nbsp; &nbsp; &nbsp; &lt;Context path="/jini" <br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; docBase="/usr/local/java/jdk/jini1_1/lib"
+<br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; crossContext="true"<br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; debug="0" <br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reloadable="true"
+<br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; trusted="false"
+&gt; <br>
+ &nbsp;&nbsp; &nbsp; &nbsp; &lt;/Context&gt;<br>
+<br>
+2. Edit tomcat.sh (set my classpath - remember to include the cocoon parser
+first)<br>
+*# **********Don********** - This is my code:<br>
+* &nbsp;&nbsp; . /data/java/bin/setenv.sh<br>
+ &nbsp;&nbsp; oldCP=$CLASSPATH<br>
+ <br>
+ &nbsp;&nbsp; unset CLASSPATH<br>
+* &nbsp;&nbsp; # **********Don********** - This is my code:<br>
+* &nbsp;&nbsp; java_dir=/usr/local/java<br>
+* &nbsp;&nbsp; CLASSPATH=$java_dir/util/xml/jaxp-1.1/jaxp.jar<br>
+* &nbsp;&nbsp; CLASSPATH=$CLASSPATH:$java_dir/util/xml/jaxp-1.1/xalan.jar<br>
+<br>
+3. Start tomcat by typing:<br>
+ &nbsp;&nbsp; tomcat start &nbsp;&nbsp; &nbsp; &nbsp; (shutdown is tomcat
+stop)<br>
+<h3>To setup ftp:</h3>
+1. Type:<br>
+ &nbsp;&nbsp; ftp.sh<br>
+User: don<br>
+<h3>To start the JINI server:</h3>
+1. Type:<br>
+jini.sh&nbsp; (As superuser)<br>
+<br>
+<h3>To start the mail server:</h3>
+1. Type:<br>
+mail.sh (As superuser)<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>

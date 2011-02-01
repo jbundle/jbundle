@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<ProgramControl ID="1">
+		<LastChanged>2010-06-06T17:07:18</LastChanged>
+		<Deleted>N</Deleted>
+		<ProjectName>jbundle</ProjectName>
+		<BaseDirectory>/home/don/</BaseDirectory>
+		<SourceDirectory>src/main/java/</SourceDirectory>
+		<ClassDirectory>target/classes/</ClassDirectory>
+		<ArchiveDirectory>archive/</ArchiveDirectory>
+		<ResourceType>Properties</ResourceType>
+		<ClassResourceType>ListResourceBundle</ClassResourceType>
+		<PackageName/>
+		<ThinPackage>.thin</ThinPackage>
+		<ResourcePackage>.res</ResourcePackage>
+		<LastPackageUpdate>2010-06-06T16:58:25</LastPackageUpdate>
+		<PackagesBasePath/>
+		<PackagesPath/>
+	</ProgramControl>
+</file>

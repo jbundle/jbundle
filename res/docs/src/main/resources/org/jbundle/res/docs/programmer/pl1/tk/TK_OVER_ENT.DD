@@ -1,0 +1,11 @@
+/*********************************************************************
+	TK_OVER_ENT File
+********************************************************************/
+
+declare	1 TK_OVER_ENT_RECORD,
+		3 TK_OVER_AIRL         character (        2),
+		3 TK_START_OVER        fixed binary (15),
+		3 TK_END_OVER          fixed binary (15),
+		3 TK_CASH_SUM          fixed binary (31),
+		3 TK_COLL_DATE         fixed binary (15);
+

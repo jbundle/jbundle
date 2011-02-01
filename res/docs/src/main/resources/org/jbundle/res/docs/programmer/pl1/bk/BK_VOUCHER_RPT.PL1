@@ -1,0 +1,723 @@
+/****************************************************************
+	Module: BK_VOUCHER_RPT
+	Top Level Logic: REPORT_LOGIC
+	Date: 14-Aug-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_VOUCHER_RPT
+	Standard report logic
+****************************************************************/
+
+%replace BK_VOUCHER_RPT_1 by 817;
+%replace BK_VOUCHER_RPT_2 by 818;
+BK_VOUCHER_RPT:
+   procedure;
+%replace BK_TOUR_DOC_NO by  76;
+%replace AP_OPEN_NO by  32;
+%replace AP_VENDOR_NO by  30;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_HOTEL_NO by   8;
+%replace TK_DETAIL_NO by  57;
+%replace BK_CONTROL_NO by  47;
+%replace BK_LAND_NO by  54;
+%replace BK_TRANS_NO by  64;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_ITIN_DET_NO by  79;
+%replace BK_HOTEL_CAT_NO by 116;
+%include "BK_VOUCHER_RPT.DD";
+%include "BK_TOUR_DOC.DD";
+%include "AP_OPEN.DD";
+%include "AP_VENDOR.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_HOTEL.DD";
+%include "TK_DETAIL.DD";
+%include "BK_CONTROL.DD";
+%include "BK_LAND.DD";
+%include "BK_TRANS.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_ITIN_DET.DD";
+%include "BK_HOTEL_CAT.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE2                fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   PRT_HOTEL_LAND = "H";
+   VCHR_DATE = TODAYS_DATE();
+   VCHR_TIME = CURRENT_TIME();
+   VCHR_USER = USER_NAME();
+   VCHR_PAGE = 1;
+   VCHR_TOTAL = 0;
+   ACTION_DESC = "";
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   TOUR_QUADS = 0;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   BK_REC_NO = 9999;
+   LAND_TAX = 0;
+   LAND_SVC_CHG = 0;
+   LAND_COMM = 0;
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE2 = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_VOUCHER_RPT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_VOUCHER_RPT_RECORD) );
+   call OPEN_FILE (BK_TOUR_DOC_NO,"BK_TOUR_DOC",byteaddr(BK_TOUR_DOC_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_DOC_NO,ERROR_CODE);
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_PASSENGERS_NO,"BK_PASSENGERS",byteaddr(BK_PASSENGERS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_CONTROL_NO,"BK_CONTROL",byteaddr(BK_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_NO,"BK_TRANS",byteaddr(BK_TRANS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_ITIN_DET_NO,"BK_ITIN_DET",byteaddr(BK_ITIN_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_ITIN_DET_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_CAT_NO,"BK_HOTEL_CAT",byteaddr(BK_HOTEL_CAT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_CAT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("MULTIFORM");
+   call PRINT_LINE("[FORM: INVOICE]");
+   call SETUP_PRINT_FORMAT (BK_VOUCHER_RPT_2);
+   call OPEN_PRINTER_2("REPORT");
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_GL_STATUS = VP_TYPE;
+   AP_GL_ACTION_DATE = 0;
+   AP_OPEN_VENDOR = "";
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   call SETUP_PRINT_FORMAT (BK_VOUCHER_RPT_2);
+   do LOOP_INDEX =   9 to  10;
+      call PRINT_REPORT_LINE_2;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+PRT_VOUCHER_TYPE = "N";
+VP_DATE = TODAYS_DATE();
+DOC_NAME = "";
+do LOOP_INDEX =   1 to   5;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO ( 84);
+   if LOOP_INDEX =   2 then
+      VP_DATE = TODAYS_DATE();
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO ( 36);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* SET_VP_STATUS - Set the voucher printing status type */
+
+      if PRT_VOUCHER_TYPE = "P" then
+         VP_TYPE = REQ_VCHR;
+      if PRT_VOUCHER_TYPE = "X" then
+         VP_TYPE = CXL_REQ;
+      if PRT_VOUCHER_TYPE = "R" then
+         VP_TYPE = REQ_REPRT;
+
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* SET_DOC_DEFAULT - Set the document default */
+
+      DOC_DOC_TYPE = PRT_HOTEL_LAND;
+
+      end;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* SET_DOC_DESC - Set the default document description */
+
+      if DOC_DESC = "" then
+         do;
+         do case (index("RSQBHLTVWICOP",DOC_DOC_TYPE));
+            DOC_DESC = "Hotel Request";
+            DOC_DESC = "Land Request";
+            DOC_DESC = "Air Request";
+            DOC_DESC = "Booking Confirmation";
+            DOC_DESC = "Hotel Tour Order";
+            DOC_DESC = "Land Tour Order";
+            DOC_DESC = "Ticket Request";
+            DOC_DESC = "Hotel Vouchers";
+            DOC_DESC = "Land Vouchers";
+            DOC_DESC = "Itinerary";
+            DOC_DESC = "Tour Checklist";
+            DOC_DESC = "Rooming List";
+            DOC_DESC = "Passenger List";
+         end;
+      otherwise
+         do;
+         end;
+         end;
+
+      end;
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* SET_FORM - Set the forms for voucher(s)_ */
+
+      BK_H_FORM = "VOUCHER";
+      BK_L_FORM = "VOUCHER";
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  5,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  5 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO ( 84);
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO ( 36);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* SET_VP_STATUS - Set the voucher printing status type */
+
+      if PRT_VOUCHER_TYPE = "P" then
+         VP_TYPE = REQ_VCHR;
+      if PRT_VOUCHER_TYPE = "X" then
+         VP_TYPE = CXL_REQ;
+      if PRT_VOUCHER_TYPE = "R" then
+         VP_TYPE = REQ_REPRT;
+
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* SET_DOC_DEFAULT - Set the document default */
+
+      DOC_DOC_TYPE = PRT_HOTEL_LAND;
+
+      end;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* SET_DOC_DESC - Set the default document description */
+
+      if DOC_DESC = "" then
+         do;
+         do case (index("RSQBHLTVWICOP",DOC_DOC_TYPE));
+            DOC_DESC = "Hotel Request";
+            DOC_DESC = "Land Request";
+            DOC_DESC = "Air Request";
+            DOC_DESC = "Booking Confirmation";
+            DOC_DESC = "Hotel Tour Order";
+            DOC_DESC = "Land Tour Order";
+            DOC_DESC = "Ticket Request";
+            DOC_DESC = "Hotel Vouchers";
+            DOC_DESC = "Land Vouchers";
+            DOC_DESC = "Itinerary";
+            DOC_DESC = "Tour Checklist";
+            DOC_DESC = "Rooming List";
+            DOC_DESC = "Passenger List";
+         end;
+      otherwise
+         do;
+         end;
+         end;
+
+      end;
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* SET_FORM - Set the forms for voucher(s)_ */
+
+      BK_H_FORM = "VOUCHER";
+      BK_L_FORM = "VOUCHER";
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_VOUCHER_RPT_2);
+do LOOP_INDEX =   1 to   7;
+   call PRINT_REPORT_LINE_2;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+VCHR_PAGE = VCHR_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_6,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_GL_STATUS > VP_TYPE) !
+   (AP_GL_ACTION_DATE > VP_DATE) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_VP_TYPE - Check if user selected Hotel or Land */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      return;
+
+   if AP_V_BASED_BK = 0 then
+      return;
+
+   if PRT_HOTEL_LAND = "H" then if AP_V_BASED_SEQ = -1 then
+      return;
+
+   if PRT_HOTEL_LAND = "L" then if AP_V_BASED_SEQ ^= -1 then
+      return;
+
+   VP_SAVE_DATE = AP_GL_ACTION_DATE;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   call SETUP_PRINT_FORMAT (BK_VOUCHER_RPT_2);
+
+   /* READ_SECOND - Read info and display secondary fileinfo */
+
+   AP_VEN_NO = AP_OPEN_VENDOR;
+   call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      AP_VEN_NAME = "** RECORD NOT FOUND **";
+      end;
+   else
+      do;
+      end;
+
+   /* READ_SECOND_2 - Read secondary info */
+
+   TOUR_NO = AP_OPEN_TOUR;
+   call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      TOUR_DESC = "** RECORD NOT FOUND **";
+      end;
+   do LOOP_INDEX =   8 to   8;
+      call PRINT_REPORT_LINE_2;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+   VCHR_TOTAL = VCHR_TOTAL + 1;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* PRINT_VOUCHER - Print the land or hotel voucher */
+
+   if AP_V_BASED_BK ^= 0 then
+      do;
+      if AP_V_BASED_SEQ = -1 then
+         do;
+
+         /* BK_L_VOUCHER - Call the module to print this voucher */
+
+         %include "BK_L_VOUCHER.DCL";
+         call BK_L_VOUCHER(
+            BK_TOUR_RECORD,
+            BK_TOUR_HDR_RECORD,
+            BK_BOOKING_RECORD,
+            BK_PASSENGERS_RECORD,
+            BK_DET_LAND_RECORD,
+            AP_OPEN_RECORD,
+            BK_LAND_RECORD,
+            BK_TRANS_RECORD,
+            TK_DETAIL_RECORD,
+            AP_VENDOR_RECORD,
+            BK_HOTEL_RECORD,
+            BK_TOUR_DOC_RECORD,
+            BK_CONTROL_RECORD,
+            BK_DET_HOTEL_RECORD,
+            BK_ITIN_DET_RECORD);
+         end;
+      else
+         do;
+
+         /* BK_H_VOUCHER - Call to print this voucher */
+
+         %include "BK_H_VOUCHER.DCL";
+         call BK_H_VOUCHER(
+            BK_TOUR_RECORD,
+            BK_TOUR_HDR_RECORD,
+            BK_BOOKING_RECORD,
+            BK_PASSENGERS_RECORD,
+            BK_DET_HOTEL_RECORD,
+            AP_OPEN_RECORD,
+            BK_HOTEL_RECORD,
+            TK_DETAIL_RECORD,
+            AP_VENDOR_RECORD,
+            BK_TOUR_DOC_RECORD,
+            BK_CONTROL_RECORD,
+            BK_HOTEL_CAT_RECORD);
+         end;
+      end;
+
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (BK_VOUCHER_RPT_RECORD) );
+
+   /* SET_POSITION - Set the file position */
+
+   AP_GL_STATUS = VP_TYPE;
+   AP_GL_ACTION_DATE = VP_SAVE_DATE;
+   AP_ENTRY_NO = AP_ENTRY_NO+1;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_6,ERROR_CODE);
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_REPORT_LINE_2
+	Print the detail report line
+****************************************************************/
+
+PRINT_REPORT_LINE_2:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE2 = LINE2 + 1;
+if LINE2 > 60 then
+   do;
+   call PRINT_LINE_2 ("<FF>"c);
+   LINE2 = 0;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING_2;
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT_2 (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE_2  */
+
+/****************************************************************
+	PRT_PAGE_HEADING_2
+	Print the heading on printer 2
+****************************************************************/
+
+PRT_PAGE_HEADING_2:
+	procedure;
+
+do LOOP_INDEX =   1 to   7;
+   call PRINT_REPORT_LINE_2;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+VCHR_PAGE = VCHR_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING_2   */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_TOUR_DOC_NO);
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_PASSENGERS_NO);
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (BK_CONTROL_NO);
+   call CLOSE_FILE (BK_LAND_NO);
+   call CLOSE_FILE (BK_TRANS_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (BK_ITIN_DET_NO);
+   call CLOSE_FILE (BK_HOTEL_CAT_NO);
+   call CLOSE_PRINTER;
+   call CLOSE_PRINTER_2;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

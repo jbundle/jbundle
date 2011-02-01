@@ -1,0 +1,13 @@
+/*********************************************************************
+	AP_INV_ENTRY File
+********************************************************************/
+
+declare	1 AP_INV_ENTRY_RECORD,
+		3 AP_INV_DEF_VEN       character (        6),
+		3 AP_INV_VAGAIN        character (1),
+		3 AP_INV_NEW           character (1),
+		3 INV_DONE             character (        1),
+		3 AP_INV_DEF_NO        character (       10),
+		3 AP_INV_DEF_DATE      fixed binary (15),
+		3 AP_OLD_INV_AMT       float binary (53);
+

@@ -1,0 +1,13 @@
+/*********************************************************************
+	BK_BROC_RPT File
+********************************************************************/
+
+declare	1 BK_BROC_RPT_RECORD,
+		3 BROC_START           character (        4),
+		3 BROC_END             character (        4),
+		3 BROC_DATE            fixed binary (15),
+		3 BROC_TIME            fixed binary (15),
+		3 BROC_USER            character (       16),
+		3 BROC_PAGE            fixed binary (15),
+		3 BROC_COUNT           fixed binary (15);
+

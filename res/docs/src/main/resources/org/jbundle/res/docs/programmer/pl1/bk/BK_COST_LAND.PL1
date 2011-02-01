@@ -1,0 +1,379 @@
+/****************************************************************
+	Module: BK_COST_LAND
+	Top Level Logic: COST_LAND_LOGIC
+	Date:  3-Aug-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_COST_LAND
+	Top-Level Logic
+****************************************************************/
+
+BK_COST_LAND:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_DET_LAND_RECORD,
+      BK_LAND_RECORD,
+      AD_CURR_RECORD,
+      BK_LAND_DET_RECORD,
+      BK_TRANS_RECORD,
+      BK_TRANS_PRICE_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_LAND_NO by  54;
+%replace AD_CURR_NO by  25;
+%replace BK_LAND_DET_NO by  91;
+%replace BK_TRANS_NO by  64;
+%replace BK_TRANS_PRICE_NO by  69;
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_LAND.DD";
+%include "AD_CURR.DD";
+%include "BK_LAND_DET.DD";
+%include "BK_TRANS.DD";
+%include "BK_TRANS_PRICE.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AD_CURR        fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* OPEN_FILES - Open all the files for this program */
+
+
+   /* COST_LAND_TRANS - Dedending on type, cost land or trans. */
+
+   if LDET_TORT = "L" then
+      do;
+      call COST_LAND_MAIN;
+      end;
+   if LDET_TORT = "T" then
+      do;
+      call COST_TRANS_MAIN;
+      end;
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	COST_LAND_MAIN
+	Re-cost the land detail
+****************************************************************/
+
+COST_LAND_MAIN:
+	procedure;
+
+declare		ERROR_BK_LAND        fixed binary (15);
+
+   /* GET_COST_LAND - Read in the land rec if neccessary */
+
+   if LDET_TOUR_NO = "" then
+      return;
+
+   if LDET_MANUAL = "" then if LDET_TOUR_NO ^= LAND_CODE then
+      do;
+      LAND_CODE = LDET_TOUR_NO;
+
+      /* READ_LAND - Read the land file */
+
+      call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_BK_LAND);
+      if ERROR_BK_LAND > 3 then
+         call PRINT_ERROR (BK_LAND_NO,ERROR_BK_LAND);
+      if ERROR_BK_LAND ^= NORMAL_RETURN then
+         do;
+         LAND_CODE = "";
+         return;
+         end;
+      end;
+
+
+   /* GET_CURR_LAND - Read currency if hasn't been read */
+
+   if LDET_EXCHANGE = 0 then
+      do;
+      if LAND_CURR ^= CURR_CODE then
+         do;
+         CURR_CODE = LAND_CURR;
+
+         /* READ_CURR - Read in the currency */
+
+         call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_AD_CURR);
+         if ERROR_AD_CURR > 3 then
+            call PRINT_ERROR (AD_CURR_NO,ERROR_AD_CURR);
+         if ERROR_AD_CURR ^= NORMAL_RETURN then
+            return;
+         end;
+      LDET_EXCHANGE = COSTING_EXCH;
+      end;
+
+
+   /* READ_LAND_COST - Read all the land costs */
+
+   if LDET_VARIES_CODE(1) = "" then
+      do;
+      LDET_VARIES_CODE = "";
+      LDET_VARIES_QTY = 0;
+      LDET_VARIES_COST = 0;
+      LOOP_INDEX = 0;
+      LDET_SIC = 0;
+      LDET_PMC = 0;
+      LDET_TOUR_COST = 0;
+      LDET_TOUR_PP_COST = 0;
+
+      LAND_PR_NO = LAND_CODE;
+      LAND_VARIES_ON = "";
+      LAND_TO = TOUR_PAX;
+      LAND_END = LDET_DATE;
+      call SET_POSITION (BK_LAND_DET_NO,KEY_AREA_2,ERROR_CODE);
+
+      ERROR_CODE = NORMAL_RETURN;
+      do while (ERROR_CODE = NORMAL_RETURN);
+         call READ_NEXT (BK_LAND_DET_NO,KEY_AREA_2,ERROR_CODE);
+         if LAND_PR_NO ^= LAND_CODE then
+            ERROR_CODE = END_OF_FILE;
+         if (ERROR_CODE = NORMAL_RETURN) &
+            (LAND_START <= LDET_DATE) &
+            (LAND_END >= LDET_DATE) &
+            (LAND_FROM <= TOUR_PAX) &
+            (LAND_TO >= TOUR_PAX) then
+               do;
+               if (LOOP_INDEX = 0) ! (LAND_VARIES_ON ^= LDET_VARIES_CODE(LOOP_INDEX)) then
+                  do;
+                  if LOOP_INDEX < 4 then
+                     LOOP_INDEX = LOOP_INDEX + 1;
+                  LDET_VARIES_CODE(LOOP_INDEX) = LAND_VARIES_ON;
+                  end;
+               LDET_VARIES_COST(LOOP_INDEX) = LAND_PRICE;
+               if LAND_MARKUP_LINE >= 1 then if LAND_MARKUP_LINE <= 3 then
+                  do;
+                  LDET_VARIES_COST(LOOP_INDEX) = LDET_VARIES_COST(LOOP_INDEX) *
+                     (1 + (LAND_TAX(LAND_MARKUP_LINE) + LAND_SVC_CHG(LAND_MARKUP_LINE) -
+                     LAND_COMM(LAND_MARKUP_LINE))/100);
+                  end;
+               LAND_VARIES_ON = ascii(rank(LAND_VARIES_ON) + 1);
+               call SET_POSITION (BK_LAND_DET_NO,KEY_AREA_2,ERROR_CODE);
+               end;
+      end;
+      end;
+
+
+   /* CALC_LAND_COST - Calc land cost */
+
+   LDET_SIC = 0;
+   LDET_PMC = 0;
+
+   do LOOP_INDEX = 1 to 4;
+      if LDET_VARIES_CODE(LOOP_INDEX) ^= "" then
+         do case (index ("S01234FD",LDET_VARIES_CODE(LOOP_INDEX)));
+            do;
+            LDET_VARIES_QTY(LOOP_INDEX) = 1;
+            LDET_SIC = LDET_SIC +
+               LDET_VARIES_COST(LOOP_INDEX) * LDET_VARIES_QTY(LOOP_INDEX);
+            end;
+            do;
+            LDET_VARIES_QTY(LOOP_INDEX) = 1;
+            LDET_PMC = LDET_PMC +
+               LDET_VARIES_COST(LOOP_INDEX) * LDET_VARIES_QTY(LOOP_INDEX);
+            end;
+            do;
+            LDET_VARIES_QTY(LOOP_INDEX) = TOUR_SINGLES;
+            LDET_PMC = LDET_PMC +
+               LDET_VARIES_COST(LOOP_INDEX) * LDET_VARIES_QTY(LOOP_INDEX) / TOUR_PAX;
+            end;
+            do;
+            LDET_VARIES_QTY(LOOP_INDEX) = TOUR_DOUBLES;
+            LDET_PMC = LDET_PMC +
+               LDET_VARIES_COST(LOOP_INDEX) * LDET_VARIES_QTY(LOOP_INDEX) / TOUR_PAX;
+            end;
+            do;
+            LDET_VARIES_QTY(LOOP_INDEX) = TOUR_TRIPLES;
+            LDET_PMC = LDET_PMC +
+               LDET_VARIES_COST(LOOP_INDEX) * LDET_VARIES_QTY(LOOP_INDEX) / TOUR_PAX;
+            end;
+            do;
+            LDET_VARIES_QTY(LOOP_INDEX) = TOUR_QUADS;
+            LDET_PMC = LDET_PMC +
+               LDET_VARIES_COST(LOOP_INDEX) * LDET_VARIES_QTY(LOOP_INDEX) / TOUR_PAX;
+            end;
+            do;
+            LDET_VARIES_QTY(LOOP_INDEX) = 1;
+            LDET_PMC = LDET_PMC +
+               LDET_VARIES_COST(LOOP_INDEX) * LDET_VARIES_QTY(LOOP_INDEX) / TOUR_PAX;
+            end;
+            do;
+            LDET_PMC = LDET_PMC +
+               LDET_VARIES_COST(LOOP_INDEX) * LDET_VARIES_QTY(LOOP_INDEX) / TOUR_PAX;
+            end;
+         end;
+      otherwise
+         do;
+         LDET_PMC = LDET_PMC +
+            LDET_VARIES_COST(LOOP_INDEX) * LDET_VARIES_QTY(LOOP_INDEX) / TOUR_PAX;
+         end;
+   end;
+
+   if (LDET_SIC_PMC = "") & ((LDET_SIC ^=0) ! (LDET_PMC ^= 0)) then
+      do;
+      LDET_SIC_PMC = "P";
+      if ((LDET_SIC < LDET_PMC) & (LDET_SIC ^= 0))!(LDET_PMC = 0) then
+         LDET_SIC_PMC = "S";
+      end;
+
+   if LDET_CUTOFF = 0 then
+      LDET_CUTOFF = TOUR_DEF_CUTOFF;
+
+   if LDET_CUTOFF ^= 0 then
+      do;
+      if TOUR_PAX < LDET_CUTOFF then
+         LDET_SIC_PMC = "S";
+      else
+         LDET_SIC_PMC = "P";
+      end;
+
+   if LDET_SIC_PMC = "S" then if LDET_SIC = 0 then
+      LDET_SIC_PMC = "P";
+   if LDET_SIC_PMC = "P" then if LDET_PMC = 0 then
+      LDET_SIC_PMC = "S";
+
+   do LOOP_INDEX = 1 to 4;
+      if LDET_VARIES_CODE(LOOP_INDEX) ^= "" then
+         if LDET_VARIES_QTY(LOOP_INDEX) = 0 then
+            if index("1234",LDET_VARIES_CODE(LOOP_INDEX)) = 0 then
+               LDET_SIC_PMC = " ";
+   end;
+
+   if LDET_SIC_PMC = "P" then
+      do;
+      LDET_TOUR_PP_COST = LDET_PMC;
+      LDET_TOUR_COST = TOUR_PAX * LDET_EXCHANGE * LDET_PMC;
+      end;
+   if LDET_SIC_PMC = "S" then
+      do;
+      LDET_TOUR_PP_COST = LDET_SIC;
+      LDET_TOUR_COST = TOUR_PAX * LDET_EXCHANGE * LDET_SIC;
+      end;
+
+return;
+end;	/* COST_LAND_MAIN       */
+
+/****************************************************************
+	COST_TRANS_MAIN
+	Cost transportation
+****************************************************************/
+
+COST_TRANS_MAIN:
+	procedure;
+
+declare		ERROR_BK_TRANS       fixed binary (15);
+
+   /* GET_COST_TRANS - Read in trans header if neccessary */
+
+   if LDET_MANUAL = "" then if TDTT_TRANS_NO ^= TRANS_NO then
+      do;
+      TRANS_NO = TDTT_TRANS_NO;
+
+      /* READ_TRANS - Read a transportation record */
+
+      call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_BK_TRANS);
+      if ERROR_BK_TRANS > 3 then
+         call PRINT_ERROR (BK_TRANS_NO,ERROR_BK_TRANS);
+      if ERROR_BK_TRANS ^= NORMAL_RETURN then
+         do;
+         TRANS_NO = "";
+         return;
+         end;
+      end;
+
+
+   /* GET_CURR_TRANS - Get the currency if new */
+
+   if LDET_EXCHANGE = 0 then
+      do;
+      if TRANS_CURR ^= CURR_CODE then
+         do;
+         CURR_CODE = TRANS_CURR;
+
+         /* READ_CURR - Read in the currency */
+
+         call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_AD_CURR);
+         if ERROR_AD_CURR > 3 then
+            call PRINT_ERROR (AD_CURR_NO,ERROR_AD_CURR);
+         if ERROR_AD_CURR ^= NORMAL_RETURN then
+            return;
+         end;
+      LDET_EXCHANGE = COSTING_EXCH;
+      end;
+
+
+   /* READ_TRANS_COST - Read in the transportation costs */
+
+   if LDET_VARIES_CODE(1) = "" then
+      do;
+      LDET_VARIES_CODE = "";
+      LDET_VARIES_QTY = 0;
+      LDET_VARIES_COST = 0;
+
+
+      TRANS_PR_NO = TRANS_NO;
+      TRANS_END = LDET_DATE;
+      TRANS_CL_NO = 0;
+      TRANS_TO_PAX = TOUR_PAX;
+      call SET_POSITION (BK_TRANS_PRICE_NO,KEY_AREA_1,ERROR_CODE);
+
+      ERROR_CODE = NORMAL_RETURN;
+      do while (ERROR_CODE = NORMAL_RETURN);
+         call READ_NEXT (BK_TRANS_PRICE_NO,KEY_AREA_1,ERROR_CODE);
+         if TRANS_PR_NO ^= TRANS_NO then
+            ERROR_CODE = END_OF_FILE;
+         if (ERROR_CODE = NORMAL_RETURN) &
+            (TRANS_START <= LDET_DATE) &
+            (TRANS_END >= LDET_DATE) &
+            (TRANS_FROM_PAX <= TOUR_PAX) &
+            (TRANS_TO_PAX >= TOUR_PAX) &
+            (TRANS_CL_NO < 5) then
+               LDET_VARIES_COST(TRANS_CL_NO) = TRANS_PRICE;
+      end;
+      LDET_VARIES_CODE(1) = "XX";
+      end;
+
+
+   /* CALC_TRANS_COST - Calculate trans. cost */
+
+   if LDTT_CLASS > 0 then if LDTT_CLASS < 5 then
+      LDET_TOUR_PP_COST= LDET_VARIES_COST(LDTT_CLASS);
+   LDET_TOUR_COST= TOUR_PAX * LDET_EXCHANGE * LDET_TOUR_PP_COST;
+
+return;
+end;	/* COST_TRANS_MAIN      */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

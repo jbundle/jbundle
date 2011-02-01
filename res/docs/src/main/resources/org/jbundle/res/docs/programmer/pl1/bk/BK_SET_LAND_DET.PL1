@@ -1,0 +1,216 @@
+/****************************************************************
+	Module: BK_SET_LAND_DET
+	Top Level Logic: BK_SETUP_LAND
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_SET_LAND_DET
+	Top level to set up the land detail
+****************************************************************/
+
+%replace BK_SET_LAND_DET_1 by 334;
+BK_SET_LAND_DET:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_DET_LAND_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_DET_LAND_NO by  68;
+%include "BK_SET_LAND_DET.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_DET_LAND.DD";
+
+declare		END_SETUP_LAND_DET   bit (1);
+declare		ALT_OPT_INDEX        fixed binary (15);
+declare		SET_ALT_ANSW         fixed binary (15);
+declare		SET_ALT_OPT          fixed binary (15);
+
+   /* INIT_LAND_DET - Init for land detail */
+
+   NEXT_L_SEQ = 1;
+   BK_L_NX_SEQ = 0;
+
+
+   /* SCAN_ALT_OPT - Go through the selected alt & opt 1 by 1 */
+
+   SET_ALT_OPT = 1;
+   ALT_OPT_INDEX = 1;
+   do while (SET_ALT_OPT ^= 0);
+      SET_ALT_OPT = BK_ALT_OPT_SQ(ALT_OPT_INDEX);
+      SET_ALT_ANSW = BK_AO_ANSW_SQ(ALT_OPT_INDEX);
+      if SET_ALT_OPT ^= 0 then
+         do;
+         ALT_OPT_INDEX = ALT_OPT_INDEX + 1;
+
+         /* INIT_LOGIC - Initialize for the read */
+
+
+         /* NEXT_LAND_DET - Set up for next land write */
+
+         BK_L_ALT_SEQ = SET_ALT_OPT;
+         BK_L_ANSW_SEQ = SET_ALT_ANSW;
+         BK_L_DAY = 0;
+         BK_L_SEQ = 0;
+
+
+         /* XFER_LOGIC - Logic to transfer the records */
+
+         END_SETUP_LAND_DET = NO;
+         do while (END_SETUP_LAND_DET ^= YES);
+            call SETUP_LAND_DET;
+         end;
+         end;
+   end;
+
+
+   /* SET_LAND_MOD - Set the modification code for land */
+
+   BK_TOUR_MOD = BK_NEXT_MOD;
+
+return;
+
+/****************************************************************
+	SETUP_LAND_DET
+	Re-write the land detail
+****************************************************************/
+
+SETUP_LAND_DET:
+	procedure;
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_DET_LAND    fixed binary (15);
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   LDET_MOD = -1;
+   LDET_TOUR_CODE = HDR_TOUR_CODE;
+   LDET_ALT_SEQ = BK_L_ALT_SEQ;
+   LDET_ANSW_SEQ = BK_L_ANSW_SEQ;
+   LDET_DAY = BK_L_DAY;
+   LDET_SEQ = BK_L_SEQ;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > -1) !
+   (LDET_TOUR_CODE > HDR_TOUR_CODE) !
+   (LDET_ALT_SEQ > BK_L_ALT_SEQ) !
+   (LDET_ANSW_SEQ > BK_L_ANSW_SEQ) then
+      do;
+      END_SETUP_LAND_DET = YES;
+      return;
+      end;
+
+   /* SET_LAND_TEMP - Save the current key for next read-next */
+
+   BK_L_DAY = LDET_DAY;
+   BK_L_SEQ = LDET_SEQ;
+
+
+   /* SETUP_LAND_KEY - Set up the key for a write */
+
+   LDET_MOD = 0;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DATE = BK_DEPARTURE + LDET_DAY - 1;
+
+   LDET_MODULE = HDR_TOUR_CODE;
+
+
+   /* DEL_LAND_COPY - Delete old if "R" or "A"dd */
+
+   if BK_L_ALT_SEQ ^= BK_ALT_OPT_SQ(1) then
+      if (LDET_MOD_CODE = "R") ! (LDET_MOD_CODE = "D") then
+         do;
+
+         /* DEL_LAND_REC - Delete the old record and restore this 1 */
+
+
+            /* READ_RECORD - Read the record */
+
+            call READ_KEYED (BK_DET_LAND_NO,KEY_AREA_1,ERROR_BK_DET_LAND);
+            if ERROR_BK_DET_LAND > 3 then
+               call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+
+            /* DELETE_RECORD - Delete the record */
+
+            call DELETE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+            /* SET_DKEY_LAND - Set back to the key to write */
+
+            LDET_MOD = -1;
+            LDET_TOUR_CODE = HDR_TOUR_CODE;
+            LDET_ALT_SEQ = BK_L_ALT_SEQ;
+            LDET_ANSW_SEQ = BK_L_ANSW_SEQ;
+            LDET_DAY = BK_L_DAY;
+            LDET_SEQ = BK_L_SEQ;
+            KEY_NO = 1;
+
+            /* READ_RECORD - Read the record */
+
+            call READ_KEYED (BK_DET_LAND_NO,KEY_AREA_1,ERROR_BK_DET_LAND);
+            if ERROR_BK_DET_LAND > 3 then
+               call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+
+            /* SETUP_LAND_KEY - Set up the key for a write */
+
+            LDET_MOD = 0;
+            LDET_BK_TK_NO = BOOKING_NO;
+            LDET_ALT_SEQ = 0;
+            LDET_ANSW_SEQ = 0;
+            LDET_DATE = BK_DEPARTURE + LDET_DAY - 1;
+
+            LDET_MODULE = HDR_TOUR_CODE;
+
+         end;
+
+
+   /* ADD_LAND_REC - Add a land record */
+
+   if LDET_MOD_CODE ^= "D" then
+      do;
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            LDET_SEQ = LDET_SEQ + 1;
+      end;
+
+      /* SET_LAND_UINV - Set the land inventory used flag if set */
+
+      if LDET_INV = "Y" then
+         BK_LAND_UINV = "Y";
+
+      end;
+
+
+   /* SET_NEXT_LAND - Set up the temp flds for the next read */
+
+   BK_L_SEQ = BK_L_SEQ + 1;
+
+return;
+end;	/* SETUP_LAND_DET       */
+end;	/* SETUP_LAND_DET       */
+/*********************************End of Program*********************/

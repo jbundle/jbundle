@@ -1,0 +1,15 @@
+/*********************************************************************
+	BK_PAX_MAINT File
+********************************************************************/
+
+declare	1 BK_PAX_MAINT_RECORD,
+		3 PA_PAX_1             character (       30),
+		3 PA_PAX_2             character (       30),
+		3 PA_PAX_3             character (       30),
+		3 PA_PAX_4             character (       30),
+		3 PA_TYPE_1            fixed binary (15),
+		3 PA_TYPE_2            fixed binary (15),
+		3 PA_TYPE_3            fixed binary (15),
+		3 PA_TYPE_4            fixed binary (15),
+		3 PA_COUNT             fixed binary (15);
+

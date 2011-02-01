@@ -1,0 +1,91 @@
+/*********************************************************************
+	AP_OPEN File
+********************************************************************/
+
+declare	1 AP_OPEN_RECORD,
+		3 AP_ENTRY_NO          fixed binary (31),
+		3 AP_ENTRY_TYPE        fixed binary (15),
+		3 AP_OPEN_VENDOR       character (        6),
+		3 AP_OPEN_CURR         character (        3),
+		3 AP_OPEN_TOUR         fixed binary (31),
+		3 AP_OPEN_TOUR_CODE    character (        4),
+		3 AP_OPEN_TOUR_GL      fixed binary (31),
+		3 AP_OPEN_DEP          fixed binary (15),
+		3 AP_SERVICES          character (       30),
+		3 AP_START_SVC         fixed binary (15),
+		3 AP_END_SVC           fixed binary (15),
+		3 AP_FINL_EST          float binary (53),
+		3 AP_FINL_DATE         fixed binary (15),
+		3 AP_DEP_EST           float binary (53),
+		3 AP_DEP_EXCH          float binary (53),
+		3 AP_DEP_EST_USD       float binary (53),
+		3 AP_DEP_EST_GL        float binary (53),
+		3 AP_EST_GL            fixed binary (31),
+		3 AP_VEN_INV_NO        character (       10),
+		3 AP_INV_ENTERED       fixed binary (15),
+		3 AP_VEN_INV_DATE      fixed binary (15),
+		3 AP_VEN_INV_GL        float binary (53),
+		3 AP_VEN_INV_AMT       float binary (53),
+		3 AP_VEN_INV_USD       float binary (53),
+		3 AP_INV_BAL           float binary (53),
+		3 AP_INV_BAL_USD       float binary (53),
+		3 AP_OPEN_AP_ACCT      fixed binary (31),
+		3 AP_OVER_UNDER_GL     fixed binary (31),
+		3 AP_OPEN_SELECT       character (1),
+		3 AP_AMT_SELECTED      float binary (53),
+		3 AP_GAIN_LOSS_GL      fixed binary (31),
+		3 AP_PAID_USD          float binary (53),
+		3 AP_PYMT_DATE         fixed binary (15),
+		3 AP_V_BASED_BK        fixed binary (31),
+		3 AP_V_BASED_MOD       fixed binary (15),
+		3 AP_V_BASED_PAX       fixed binary (15),
+		3 AP_V_BASED_SEQ       fixed binary (15),
+		3 BK_V_DATE            fixed binary (15),
+		3 AP_ACK_DATE          fixed binary (15),
+		3 AP_ACKED_ON          fixed binary (15),
+		3 AP_ACK_BY            character (       16),
+		3 AP_GL_STATUS         fixed binary (15),
+		3 AP_GL_ACTION_DATE    fixed binary (15),
+		3 AP_ENTRY_TYPE_DESC   character (        7),
+		3 AP_V_DESC            character (        8),
+		3 AP_OPEN_TYPE         character (        5),
+		3 AP_OPEN_CURRENT      character (1);
+
+declare	1 AP_OPEN_01_RECORD defined (AP_EST_GL),
+		3 AP_EST_GL01          fixed binary (31),
+		3 AP_OPEN_BROKER       character (        6);
+
+%replace FIN_EST              by 15;
+%replace DEP_EST              by 14;
+%replace INVOICE              by 13;
+%replace CR_INV               by 12;
+%replace CR_MEMO              by 11;
+%replace PP_REQ               by 10;
+%replace BROKER               by 9;
+%replace PRPYMT               by 8;
+%replace DR_MEMO              by 7;
+%replace PD_INV               by 6;
+%replace PD_CINV              by 5;
+%replace PD_CRMM              by 4;
+%replace DIST_PP              by 3;
+%replace DIST_DR              by 2;
+%replace PD_BROK              by 1;
+%replace HOLD_VCHR            by 0;
+%replace NO_VCHR              by 1;
+%replace REQ_VCHR             by 2;
+%replace ACK_VCHR             by 3;
+%replace REC_ACK              by 4;
+%replace VCHR_PRTD            by 5;
+%replace CXL_REQ              by 6;
+%replace ACK_CXL              by 7;
+%replace REC_CXL              by 8;
+%replace CXL_PRTD             by 9;
+%replace REQ_REPRT            by 10;
+%replace MAN_FINL             by 11;
+%replace DEP_TYPE             by 12;
+%replace IN_TYPE              by 13;
+%replace CM_TYPE              by 14;
+%replace PU_TYPE              by 15;
+%replace DM_TYPE              by 16;
+%replace PA_TYPE              by 17;
+%replace AP_GL_DONE           by 18;

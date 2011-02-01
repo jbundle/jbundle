@@ -1,0 +1,21 @@
+/*********************************************************************
+	AP_JOURNAL File
+********************************************************************/
+
+declare	1 AP_JOURNAL_RECORD,
+		3 AP_START_VEN         character (        6),
+		3 AP_END_VENDOR        character (        6),
+		3 AP_SHOW_ZERO         character (1),
+		3 AP_SHOW_EST          character (1),
+		3 AP_EST_NOTE          character (        5),
+		3 AP_TOTAL_EST         float binary (53),
+		3 AP_TOTAL_INVOICE     float binary (53),
+		3 AP_TOTAL_BALANCE     float binary (53),
+		3 AP_TOTAL_USD_BAL     float binary (53),
+		3 AP_GRAND_USD_BAL     float binary (53),
+		3 AP_TOTAL_VENDORS     fixed binary (31),
+		3 JOUR_DATE            fixed binary (15),
+		3 JOUR_TIME            fixed binary (15),
+		3 JOUR_USER            character (       16),
+		3 JOUR_PAGE            fixed binary (31);
+

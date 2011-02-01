@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_DIS_TOURC File
+********************************************************************/
+
+declare	1 BK_DIS_TOURC_RECORD,
+		3 START_CARR           character (        2),
+		3 START_CARR_DATE      fixed binary (15),
+		3 END_CARR_DATE        fixed binary (15);
+

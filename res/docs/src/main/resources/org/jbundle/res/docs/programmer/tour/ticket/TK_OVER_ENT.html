@@ -1,0 +1,62 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to reconcile the amounts estimated as air overrides with the amounts actually
+paid by a carrier.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>Enter the carrier code and the starting and ending TICKET departure date to process overrides
+receipts for (The same dates entered when the submission report was run). Then enter the temporary
+cash summary account and the date the override payment was received.
+
+<br wp="br1"><br wp="br2">
+<p>All the tickets in the range for the carrier selected will default in departure date order.
+
+<br wp="br1"><br wp="br2">
+<p>Either press return to select the ticket number displayed, or enter a ticket number to enter the amount
+received for. For each ticket, enter the amount of override received. The amount defaults to the
+amount submitted to the carrier.
+
+<br wp="br1"><br wp="br2">
+<p>You may change a receipt by entering the ticket number and re-entering the amount. The amount can't
+be changed after is has been posted to the General Ledger.
+
+<br wp="br1"><br wp="br2">
+<p>If you have entered a amount which actually wasn't received, you can clear the amount by typing DEL
+at the CHANGE ITEM prompt. This doesn't delete the ticket, it only clears the override received
+amount.
+
+<br wp="br1"><br wp="br2">
+<p>The next time the G/L posting program is run, the overrides will be posted to the General Ledger. For
+example:
+
+<p>11/17/90	Override Summary Account		55.50
+
+<p>		Gain/Loss on Overrides recvd	11.50
+
+<p>			Overrides Receivable			67.00
+
+<p>If is therefore important that the check received from the carrier is distributed to the override summary
+account:
+
+<p>11/17/90	Cash						55.50
+
+<p>			Override Summary Account			55.50
+
+</body>
+</html>

@@ -1,0 +1,899 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<FileHdr ID="16777273">
+		<LastChanged>2009-10-14T20:58:26</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ClassFields</FileName>
+		<FileDesc>Fields in this class</FileDesc>
+		<FileMainFilename>ClassFields</FileMainFilename>
+		<Type>REMOTE | SHARED_DATA | HIERARCHICAL</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled>Field</FileRecCalled>
+		<DisplayClass>ClassFieldsGridScreen</DisplayClass>
+		<MaintClass>ClassFieldsScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777274">
+		<LastChanged>2010-02-03T11:11:38</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ClassInfo</FileName>
+		<FileDesc>Class information file</FileDesc>
+		<FileMainFilename>ClassInfo</FileMainFilename>
+		<Type>REMOTE | SHARED_DATA | HIERARCHICAL | LOCALIZABLE</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled>Class</FileRecCalled>
+		<DisplayClass>ClassInfoGridScreen</DisplayClass>
+		<MaintClass>ClassInfoScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777294">
+		<LastChanged>2009-10-14T20:59:28</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>FieldData</FileName>
+		<FileDesc>Field Information</FileDesc>
+		<FileMainFilename>FieldData</FileMainFilename>
+		<Type>REMOTE | SHARED_DATA | HIERARCHICAL</Type>
+		<FileNotes>Yes</FileNotes>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled>Field</FileRecCalled>
+		<DisplayClass>FieldDataGridScreen</DisplayClass>
+		<MaintClass>FieldDataScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777295">
+		<LastChanged>2009-10-14T20:59:50</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>FileHdr</FileName>
+		<FileDesc>File information</FileDesc>
+		<FileMainFilename>FileHdr</FileMainFilename>
+		<Type>REMOTE | SHARED_DATA | HIERARCHICAL</Type>
+		<FileNotes>Yes</FileNotes>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled>File</FileRecCalled>
+		<DisplayClass/>
+		<MaintClass>FileHdrScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777312">
+		<LastChanged>2009-10-14T21:00:10</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>KeyInfo</FileName>
+		<FileDesc>Key Information</FileDesc>
+		<FileMainFilename>KeyInfo</FileMainFilename>
+		<Type>REMOTE | SHARED_DATA | HIERARCHICAL</Type>
+		<FileNotes>Yes</FileNotes>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled>Key</FileRecCalled>
+		<DisplayClass>KeyInfoGridScreen</DisplayClass>
+		<MaintClass>KeyInfoScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777318">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Layout</FileName>
+		<FileDesc>Layout for Corba</FileDesc>
+		<FileMainFilename>Layout</FileMainFilename>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled>Layout</FileRecCalled>
+		<DisplayClass>LayoutGridScreen</DisplayClass>
+		<MaintClass>LayoutScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777319">
+		<LastChanged>2009-10-14T21:00:28</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>LogicFile</FileName>
+		<FileDesc>Logic step description file</FileDesc>
+		<FileMainFilename>LogicFile</FileMainFilename>
+		<Type>REMOTE | SHARED_DATA | HIERARCHICAL</Type>
+		<FileNotes>Yes</FileNotes>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled>Logic</FileRecCalled>
+		<DisplayClass>LogicFileGridScreen</DisplayClass>
+		<MaintClass>LogicFileScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777323">
+		<LastChanged>2009-11-18T15:15:39</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Menus</FileName>
+		<FileDesc>Menu Info</FileDesc>
+		<FileMainFilename>Menus</FileMainFilename>
+		<Type>LOCAL | SHARED_DATA | LOCALIZABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>Menu</FileRecCalled>
+		<DisplayClass>MenuScreen</DisplayClass>
+		<MaintClass>MenuScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777324">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Messages</FileName>
+		<FileDesc>Message transmission file</FileDesc>
+		<FileMainFilename>Messages</FileMainFilename>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>Message</FileRecCalled>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777351">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Registration</FileName>
+		<FileDesc>Temp file to fake a key registry</FileDesc>
+		<FileMainFilename>Registration</FileMainFilename>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled>Registration</FileRecCalled>
+		<DisplayClass>RegistrationGridScreen</DisplayClass>
+		<MaintClass>RegistrationScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777361">
+		<LastChanged>2009-10-14T21:00:44</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ScreenIn</FileName>
+		<FileDesc>Screen Information</FileDesc>
+		<FileMainFilename>ScreenIn</FileMainFilename>
+		<Type>REMOTE | SHARED_DATA | HIERARCHICAL</Type>
+		<FileNotes>Yes</FileNotes>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled>Screen</FileRecCalled>
+		<DisplayClass>ScreenInGridScreen</DisplayClass>
+		<MaintClass>ScreenInScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777393">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>UserInfo</FileName>
+		<FileDesc>User Table</FileDesc>
+		<FileMainFilename>UserInfo</FileMainFilename>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>User</FileRecCalled>
+		<DisplayClass>UserInfoGridScreen</DisplayClass>
+		<MaintClass>UserEntryScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777398">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>UserRegistration</FileName>
+		<FileDesc>User Registration Information</FileDesc>
+		<FileMainFilename>UserRegistration</FileMainFilename>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>User Registration</FileRecCalled>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777403">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ClassResource</FileName>
+		<FileDesc>Resources for this Properties class</FileDesc>
+		<FileMainFilename>ClassResource</FileMainFilename>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled>Class Resource</FileRecCalled>
+		<DisplayClass>ClassResourceGridScreen</DisplayClass>
+		<MaintClass>ClassResourceScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777404">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Folder</FileName>
+		<FileDesc>Hierarchial Folder</FileDesc>
+		<FileMainFilename>Folder</FileMainFilename>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>Folder</FileRecCalled>
+		<DisplayClass>FolderGridScreen</DisplayClass>
+		<MaintClass>FolderScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777405">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>BaseFolder</FileName>
+		<FileDesc>Hierarchial Folder</FileDesc>
+		<FileMainFilename>Folder</FileMainFilename>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777409">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Anniversary</FileName>
+		<FileDesc>Anniversary dates</FileDesc>
+		<FileMainFilename>CalendarEntry</FileMainFilename>
+		<Type>REMOTE | SHARED_TABLE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777413">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Appointment</FileName>
+		<FileDesc>Calendar Appointments</FileDesc>
+		<FileMainFilename>CalendarEntry</FileMainFilename>
+		<Type>REMOTE | SHARED_TABLE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>Appointment</FileRecCalled>
+		<DisplayClass>AppointmentGridScreen</DisplayClass>
+		<MaintClass>AppointmentScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777414">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>CalendarEntry</FileName>
+		<FileDesc>Entry in a calendar</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | BASE_TABLE_CLASS | SHARED_TABLE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>Entry</FileRecCalled>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777415">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>AnnivMaster</FileName>
+		<FileDesc>The master file for anniverssaries.</FileDesc>
+		<FileMainFilename>AnnivMaster</FileMainFilename>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>Anniversary</FileRecCalled>
+		<DisplayClass>AnnivMasterGridScreen</DisplayClass>
+		<MaintClass>AnnivMasterScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777416">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>RepeatInterval</FileName>
+		<FileDesc>Repeat Interval</FileDesc>
+		<FileMainFilename/>
+		<Type>LOCAL</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>Interval</FileRecCalled>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777454">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MessageDetail</FileName>
+		<FileDesc>Message Detail</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>Message detail specifications</FileRecCalled>
+		<DisplayClass>MessageDetailGridScreen</DisplayClass>
+		<MaintClass>MessageDetailScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777455">
+		<LastChanged>2010-03-18T16:00:48</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MessageTransport</FileName>
+		<FileDesc>Message send by</FileDesc>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777456">
+		<LastChanged>2009-11-18T21:45:18</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ContactType</FileName>
+		<FileDesc>Contact type</FileDesc>
+		<FileMainFilename/>
+		<Type>TABLE | SHARED_DATA | LOCALIZABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777457">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MessageInfo</FileName>
+		<FileDesc>Message info</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>MessageInfoGridScreen</DisplayClass>
+		<MaintClass>MessageInfoScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777458">
+		<LastChanged>2009-11-18T21:45:20</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MessageStatus</FileName>
+		<FileDesc>Message status</FileDesc>
+		<FileMainFilename/>
+		<Type>TABLE | SHARED_DATA | LOCALIZABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777459">
+		<LastChanged>2009-07-11T03:18:19</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MessageLog</FileName>
+		<FileDesc>Message log file</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA | SERVER_REWRITES | DONT_LOG_TRX</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>Message</FileRecCalled>
+		<DisplayClass>MessageLogGridScreen</DisplayClass>
+		<MaintClass>MessageLogScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777468">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Script</FileName>
+		<FileDesc>Script file</FileDesc>
+		<FileMainFilename>Script</FileMainFilename>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>ScriptScreen</DisplayClass>
+		<MaintClass>ScriptGridScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777469">
+		<LastChanged>2009-10-14T20:58:47</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ClassIncludes</FileName>
+		<FileDesc>Included classes</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>ClassIncludesGridScreen</DisplayClass>
+		<MaintClass>ClassIncludesScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777470">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Packages</FileName>
+		<FileDesc>JNLP Packages</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>PackagesGridScreen</DisplayClass>
+		<MaintClass>PackagesScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777471">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Part</FileName>
+		<FileDesc>Part description file</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777473">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>JnlpFile</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>JnlpFileGridScreen</DisplayClass>
+		<MaintClass>JnlpFileScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777486">
+		<LastChanged>2009-11-18T21:45:31</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>RequestType</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>TABLE | SHARED_DATA | LOCALIZABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777487">
+		<LastChanged>2009-11-18T21:45:34</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ProcessType</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>TABLE | SHARED_DATA | LOCALIZABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777488">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MessageProcessInfo</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>MessageProcessInfoGridScreen</DisplayClass>
+		<MaintClass>MessageProcessInfoScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777489">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MessageTransportInfo</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>MessageTransportInfoGridScreen</DisplayClass>
+		<MaintClass>MessageTransportInfoScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777490">
+		<LastChanged>2009-11-18T21:45:35</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MessageType</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>TABLE | SHARED_DATA | LOCALIZABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777491">
+		<LastChanged>2009-11-18T21:45:38</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MessageInfoType</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>TABLE | SHARED_DATA | LOCALIZABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777514">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Resource</FileName>
+		<FileDesc>Resource Bundle File Info</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>ResourceScreen</DisplayClass>
+		<MaintClass>ResourceGridScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777517">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Issue</FileName>
+		<FileDesc>Issue or Bug</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled>Issue</FileRecCalled>
+		<DisplayClass>IssueGridScreen</DisplayClass>
+		<MaintClass>IssueScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777518">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Project</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>ProjectGridScreen</DisplayClass>
+		<MaintClass>ProjectScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777520">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>IssueStatus</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777521">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>IssuePriority</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777522">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>IssueType</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777525">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ProjectVersion</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777526">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>IssueControl</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777527">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>IssueHistory</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>IssueHistoryGridScreen</DisplayClass>
+		<MaintClass>IssueHistoryScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777528">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ProjectTask</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>ProjectTaskGridScreen</DisplayClass>
+		<MaintClass>ProjectTaskScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777529">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ProjectControl</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777530">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ProjectTaskPredecessor</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>ProjectTaskPredecessorGridScreen</DisplayClass>
+		<MaintClass>ProjectTaskPredecessorScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777531">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ProgramControl</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777532">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>PropertiesInput</FileName>
+		<FileDesc>Properties input temp table</FileDesc>
+		<FileMainFilename/>
+		<Type>UNSHAREABLE_MEMORY</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>Properties</FileRecCalled>
+		<DisplayClass>PropertiesInputGridScreen</DisplayClass>
+		<MaintClass>PropertiesInputGridScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777534">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>CalendarControl</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777535">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>CalendarCategory</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>TABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777536">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>QueueName</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>TABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled>Queue</FileRecCalled>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777547">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>UserGroup</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>UserGroupGridScreen</DisplayClass>
+		<MaintClass>UserGroupScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777548">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>UserResource</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>UserResourceGridScreen</DisplayClass>
+		<MaintClass>UserResourceScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="16777549">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>UserPermission</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777550">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>UserControl</FileName>
+		<FileDesc>User control file</FileDesc>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777551">
+		<LastChanged>2009-07-11T03:18:58</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>UserLog</FileName>
+		<FileDesc>User log</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA | SERVER_REWRITES | DONT_LOG_TRX</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777552">
+		<LastChanged>2009-11-18T21:46:24</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>UserLogType</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>TABLE | SHARED_DATA | LOCALIZABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777556">
+		<LastChanged>2009-10-14T20:57:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>AnalysisLog</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777557">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MessageControl</FileName>
+		<FileDesc>Message Control File</FileDesc>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777561">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MessageVersion</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>TABLE | SHARED_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777568">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>EmptyMemoryRecord</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>UNSHAREABLE_MEMORY</Type>
+		<FileNotes>Empty as in 'no fields'</FileNotes>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777572">
+		<LastChanged>2009-11-18T23:05:40</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>ClassProject</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | SHARED_DATA | HIERARCHICAL</Type>
+		<FileNotes/>
+		<DatabaseName>program</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777573">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>BaseStatus</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>TABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777574">
+		<LastChanged>2009-11-18T23:52:44</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>DatabaseInfo</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | SHARED_DATA</Type>
+		<FileNotes>This table can be in any database</FileNotes>
+		<DatabaseName/>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="16777575">
+		<LastChanged>2010-02-19T12:39:04</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MainControl</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | SHARED_DATA | LOCALIZABLE</Type>
+		<FileNotes/>
+		<DatabaseName>main</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+</file>

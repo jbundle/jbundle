@@ -1,0 +1,331 @@
+/****************************************************************
+	Module: TK_FLIGHT_MAINT
+	Top Level Logic: FLIGHT_MAINT_LOGIC
+	Date: 27-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	TK_FLIGHT_MAINT
+	Top level for flight maint.
+****************************************************************/
+
+%replace TK_FLIGHT_MAINT_1 by 465;
+TK_FLIGHT_MAINT:
+   procedure;
+%replace TK_FLIGHTS_NO by  73;
+%include "TK_FLIGHTS.DD";
+
+declare		END_FLIGHT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_FLIGHT_MAIN = NO;
+   do while (END_FLIGHT_MAIN ^= YES);
+      call FLIGHT_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   FLIGHT_ADD = 0;
+   FLIGHT_DAYS = "";
+   FLIGHT_SEGMENT = 1;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (TK_FLIGHT_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (TK_FLIGHTS_NO,"TK_FLIGHTS",byteaddr(TK_FLIGHTS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_FLIGHTS_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	FLIGHT_MAIN
+	Mainline code
+****************************************************************/
+
+FLIGHT_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_TK_FLIGHTS     fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (TK_FLIGHT_MAINT_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_FLIGHT_NO;
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_FLIGHT_MAIN = YES;
+      return;
+      end;
+
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (TK_FLIGHTS_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_TK_FLIGHTS);
+   if ERROR_TK_FLIGHTS = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_TK_FLIGHTS > 3 then
+      call PRINT_ERROR (TK_FLIGHTS_NO,ERROR_TK_FLIGHTS);
+
+   /* FLIGHT_FOUND - Flight found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_TK_FLIGHTS = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA_B;
+      end;
+   else
+      do;
+      call ENTER_DATA_B;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_TK_FLIGHTS = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (TK_FLIGHTS_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (TK_FLIGHTS_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (TK_FLIGHTS_NO,ERROR_CODE);
+         end;
+      end;
+return;
+end;	/* FLIGHT_MAIN          */
+
+/****************************************************************
+	ENTER_FLIGHT_NO
+	Enter key
+****************************************************************/
+
+ENTER_FLIGHT_NO:
+	procedure;
+
+   call ENTER_DATA_A;
+return;
+end;	/* ENTER_FLIGHT_NO      */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+FLIGHT_NO = "";
+FLIGHT_END = 0;
+do LOOP_INDEX =   1 to   4;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* FIX_FLIGHT_NO - Standardize Airline Flight number */
+
+      declare LOOP fixed binary;
+      do LOOP = 1 to length(FLIGHT_NO);
+         if substr(FLIGHT_NO,LOOP,1) = "0" then
+            substr(FLIGHT_NO,LOOP,1) = " ";
+         if substr(FLIGHT_NO,LOOP,1) ^= " " then
+            goto LOOP_DONE;
+      end;
+      LOOP = 4;
+      LOOP_DONE:
+      FLIGHT_NO = substr(FLIGHT_NO,LOOP,5-LOOP);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =   5 to  15;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	ENTER_DATA_B
+	Enter the screen data for group B
+****************************************************************/
+
+ENTER_DATA_B:
+	procedure;
+
+FLIGHT_START = 0;
+FLIGHT_FROM = "";
+FLIGHT_TO = "";
+FLIGHT_DEPART = 0;
+FLIGHT_ARRIVE = 0;
+FLIGHT_EQUIP = "";
+FLIGHT_MEALS = "";
+FLIGHT_CLASSES = "";
+FLIGHT_STOPS = 0;
+FLIGHT_COMMENTS = "";
+do LOOP_INDEX =   5 to  15;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_B         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 15,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 15 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* FIX_FLIGHT_NO - Standardize Airline Flight number */
+
+      declare LOOP fixed binary;
+      do LOOP = 1 to length(FLIGHT_NO);
+         if substr(FLIGHT_NO,LOOP,1) = "0" then
+            substr(FLIGHT_NO,LOOP,1) = " ";
+         if substr(FLIGHT_NO,LOOP,1) ^= " " then
+            goto LOOP_DONE;
+      end;
+      LOOP = 4;
+      LOOP_DONE:
+      FLIGHT_NO = substr(FLIGHT_NO,LOOP,5-LOOP);
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (TK_FLIGHTS_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

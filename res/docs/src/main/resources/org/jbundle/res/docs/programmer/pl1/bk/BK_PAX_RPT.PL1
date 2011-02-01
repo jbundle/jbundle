@@ -1,0 +1,264 @@
+/****************************************************************
+	Module: BK_PAX_RPT
+	Top Level Logic: PAX_RPT_LOGIC
+	Date: 22-Feb-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_PAX_RPT
+	Print the alpha passenger report
+****************************************************************/
+
+%replace BK_PAX_RPT_1 by 845;
+%replace BK_PAX_RPT_2 by 847;
+BK_PAX_RPT:
+   procedure;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_DOC_NO by  76;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_CONTROL_NO by  47;
+%include "BK_TOUR.DD";
+%include "BK_TOUR_DOC.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_CONTROL.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   call PAX_RPT_MAIN;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TOUR_QUADS = 0;
+   ACTION_DESC = "";
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   BK_REC_NO = 9999;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_PAX_RPT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_DOC_NO,"BK_TOUR_DOC",byteaddr(BK_TOUR_DOC_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_DOC_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_PASSENGERS_NO,"BK_PASSENGERS",byteaddr(BK_PASSENGERS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+   call OPEN_FILE (BK_CONTROL_NO,"BK_CONTROL",byteaddr(BK_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	PAX_RPT_MAIN
+	Mainline logic to print pax report
+****************************************************************/
+
+PAX_RPT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (BK_PAX_RPT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* INIT_PAX_RPT - Initialize for passenger report */
+
+   DOC_DOC_TYPE = " ";
+   BK_H_FORM = "";
+   DOC_NAME = "";
+
+
+   /* BK_PAX_LIST - Print the tour passenger list */
+
+   %include "BK_PAX_LIST.DCL";
+   call BK_PAX_LIST(
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD);
+return;
+end;	/* PAX_RPT_MAIN         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 95,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT = 95 then
+   do;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_TOUR_DOC_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_PASSENGERS_NO);
+   call CLOSE_FILE (BK_CONTROL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

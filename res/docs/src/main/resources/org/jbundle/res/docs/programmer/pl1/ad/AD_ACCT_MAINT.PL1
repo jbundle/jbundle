@@ -1,0 +1,346 @@
+/****************************************************************
+	Module: AD_ACCT_MAINT
+	Top Level Logic: STANDARD_FILE_MAINT
+	Date: 19-Jun-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AD_ACCT_MAINT
+	Screen file maintenance (standard)
+****************************************************************/
+
+%replace AD_ACCT_MAINT_1 by  71;
+AD_ACCT_MAINT:
+   procedure;
+%replace AD_ACCT_NO by  24;
+%replace GL_CHART_NO by  16;
+%include "AD_ACCT.DD";
+%include "GL_CHART.DD";
+
+declare		END_SCREEN_IO        bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_SCREEN_IO = NO;
+   do while (END_SCREEN_IO ^= YES);
+      call SCREEN_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AD_BALANCE = 0;
+   AD_LAST_CHECK = 0;
+   AD_LAST_SEQ = 0;
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AD_ACCT_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AD_ACCT_NO,"AD_ACCT",byteaddr(AD_ACCT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_ACCT_NO,ERROR_CODE);
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SCREEN_IO
+	Screen I/O (Input display write)
+****************************************************************/
+
+SCREEN_IO:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AD_ACCT        fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AD_ACCT_MAINT_1);
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_SCREEN_IO = YES;
+      return;
+      end;
+   FIRST_ITEM = 2;
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (AD_ACCT_NO+?LOCK_RECORD,KEY_NO,ERROR_AD_ACCT);
+   if ERROR_AD_ACCT = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_AD_ACCT > 3 then
+      call PRINT_ERROR (AD_ACCT_NO,ERROR_AD_ACCT);
+
+   /* RECORD_FOUND - Was the record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_AD_ACCT = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* ENTER_SCREEN - Enter screen for the first time */
+
+
+         /* CLEAR_FIELDS - Clear non-screen file fields */
+
+         call INPUT_SCREEN;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_AD_ACCT = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (AD_ACCT_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (AD_ACCT_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (AD_ACCT_NO,ERROR_CODE);
+         end;
+      end;
+return;
+end;	/* SCREEN_IO            */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX = FIRST_ITEM to   7;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = AD_GL_ACCT_NO;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =   7 to   7;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+AD_AC_DESC = "";
+AD_AC_CURR = "USD";
+AD_BANK_ABA = "";
+AD_BANK_AC_NO = "";
+AD_GL_ACCT_NO = 0;
+GL_ACCOUNT_DESC = "";
+do LOOP_INDEX = FIRST_ITEM to   6;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = AD_GL_ACCT_NO;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   7 to   7;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX = max(FIRST_ITEM,  7) to   7;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  6,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  6 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = AD_GL_ACCT_NO;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   7 to   7;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AD_ACCT_NO);
+   call CLOSE_FILE (GL_CHART_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

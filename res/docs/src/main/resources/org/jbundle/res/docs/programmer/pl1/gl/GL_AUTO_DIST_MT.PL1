@@ -1,0 +1,469 @@
+/****************************************************************
+	Module: GL_AUTO_DIST_MT
+	Top Level Logic: DIST_TABLE_MAINT
+	Date: 25-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_AUTO_DIST_MT
+	Top Level Logic
+****************************************************************/
+
+%replace GL_AUTO_DIST_MT_1 by 604;
+GL_AUTO_DIST_MT:
+   procedure;
+%replace GL_AUTO_DIST_NO by  99;
+%replace GL_CHART_NO by  16;
+%include "GL_AUTO_DIST.DD";
+%include "GL_CHART.DD";
+%include "GL_AUTO_DIST_MT.DD";
+
+declare		END_AUTO_DIST_IO     bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_DIST_MAINT       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		GL_DIST_ACCT_ARRAY(17) fixed binary (31);
+declare		END_CHANGE_ITEM      bit (1);
+   call INITIALIZE;
+   END_AUTO_DIST_IO = NO;
+   do while (END_AUTO_DIST_IO ^= YES);
+      call AUTO_DIST_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_AUTO_DIST_MT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (GL_AUTO_DIST_NO,"GL_AUTO_DIST",byteaddr(GL_AUTO_DIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_AUTO_DIST_NO,ERROR_CODE);
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (GL_AUTO_DIST_MT_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	AUTO_DIST_IO
+	Mainline logic
+****************************************************************/
+
+AUTO_DIST_IO:
+	procedure;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (GL_AUTO_DIST_MT_1);
+   NOT_FIRST_TIME = YES;
+   call INPUT_HDR_INFO;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_ERR - Return if error/end typed */
+
+   if RETURN_CODE = END_TYPED then
+      do;
+      END_AUTO_DIST_IO = YES;
+      return;
+      end;
+   END_DIST_MAINT = NO;
+   do while (END_DIST_MAINT ^= YES);
+      call DIST_MAINT;
+   end;
+return;
+end;	/* AUTO_DIST_IO         */
+
+/****************************************************************
+	INPUT_HDR_INFO
+	Input the table header information
+****************************************************************/
+
+INPUT_HDR_INFO:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_HDR_INFO       */
+
+/****************************************************************
+	DIST_MAINT
+	Table maintenance - Check total
+****************************************************************/
+
+DIST_MAINT:
+	procedure;
+
+call TABLE_MAINT;
+if (GL_PERCENT_TOTAL = 0) ! (GL_PERCENT_TOTAL = 100) then
+   do;
+   END_DIST_MAINT = YES;
+   return;
+   end;
+
+call DISPLAY_MESSAGE("<BEL>Warning - Percentage total must equal 100"c);
+call PRESS_RETURN;
+
+return;
+end;	/* DIST_MAINT           */
+
+/****************************************************************
+	TABLE_MAINT
+	Table display/maintenance
+****************************************************************/
+
+TABLE_MAINT:
+	procedure;
+
+declare		GL_DIST_CODE_SAVE    character (        6);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		GL_AUTO_DIST_ERROR   fixed binary (15);
+declare		GL_DIST_ACCT_SAVE    fixed binary (31);
+declare		ANSWER               character (1);
+GL_PERCENT_TOTAL = 0;
+GL_DIST_CODE_SAVE = GL_DIST_CODE;
+GL_DIST_ACCT = 0;
+call SET_POSITION (GL_AUTO_DIST_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (GL_AUTO_DIST_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (GL_DIST_CODE > GL_DIST_CODE_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 17;
+      GL_DIST_ACCT_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      GL_AUTO_DIST_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (GL_AUTO_DIST_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 17) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =   2 to   4;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =   2 then
+               do;
+
+               /* READ_SECOND_DIS - Read Second - Display line version */
+
+               GL_ACCOUNT_NO = GL_DIST_ACCT;
+               call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+                  end;
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         GL_PERCENT_TOTAL = floor((GL_PERCENT_TOTAL + GL_DIST_PERCT) * 100 + 0.5) / 100;
+         GL_DIST_ACCT_ARRAY(RECORD_NUMBER) = GL_DIST_ACCT;
+         call READ_NEXT (GL_AUTO_DIST_NO,KEY_AREA_1,GL_AUTO_DIST_ERROR);
+         if (GL_DIST_CODE > GL_DIST_CODE_SAVE) then
+            GL_AUTO_DIST_ERROR = END_OF_FILE;
+         if GL_AUTO_DIST_ERROR = END_OF_FILE then
+            do;
+            call SET_ROW_OFFSET (0);
+            do LOOP_INDEX =   5 to   5;
+               call OUTPUT_FIELD (LOOP_INDEX);
+            end;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      GL_DIST_ACCT_SAVE = GL_DIST_ACCT_ARRAY(17);
+      GL_DIST_CODE = GL_DIST_CODE_SAVE;
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if RETURN_CODE = END_TYPED then
+         if GL_DIST_ACCT_ARRAY(17) ^= 0 then
+            do;
+            GL_AUTO_DIST_ERROR = NORMAL_RETURN;
+            do while (GL_AUTO_DIST_ERROR ^= END_OF_FILE);
+               GL_PERCENT_TOTAL = floor((GL_PERCENT_TOTAL + GL_DIST_PERCT) * 100 + 0.5) / 100;
+               call READ_NEXT (GL_AUTO_DIST_NO,KEY_AREA_1,GL_AUTO_DIST_ERROR);
+               if (GL_DIST_CODE > GL_DIST_CODE_SAVE) then
+                  GL_AUTO_DIST_ERROR = END_OF_FILE;
+            end;
+            end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = DELETE_TYPED) then
+         GET_OUT = YES;
+      else
+         if GL_AUTO_DIST_ERROR ^= END_OF_FILE then
+            do;
+            GL_DIST_ACCT = GL_DIST_ACCT_SAVE;
+            call SET_POSITION (GL_AUTO_DIST_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (GL_AUTO_DIST_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (GL_AUTO_DIST_NO,KEY_AREA_1,ERROR_CODE);
+            end;
+         else
+            if GL_DIST_ACCT_ARRAY(17) = 0 then
+               GET_OUT = YES;
+            else
+               do;
+               call OUTPUT_LINE (24,10,"Enter more data?");
+               call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+               if ANSWER = "N" then
+                  GET_OUT = YES;
+               else
+                  DISPLAY_RECORDS = NO;
+               end;
+      end;
+   else	/*DISPLAY_RECORDS = NO*/
+      do;
+      GL_DIST_CODE = GL_DIST_CODE_SAVE;
+      INPUT_LENGTH = 1;
+      RECORD_NUMBER = 1;
+      do while ( (INPUT_LENGTH ^= 0) & (RECORD_NUMBER <= 17) );
+         call GL_AUTO_DIST_LINE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) !
+      (RETURN_CODE = DELETE_TYPED) ! (GL_DIST_ACCT_ARRAY(17) = 0) then
+         GET_OUT = YES;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 17;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if GL_DIST_ACCT_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX = 2 to   4;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_MAINT          */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 99,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 17 then
+   do;
+   RECORD_NUMBER = SELECT;
+   call GL_AUTO_DIST_LINE;
+   call SET_ROW_OFFSET (0);
+   end;
+if SELECT = 99 then
+   do;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	GL_AUTO_DIST_LINE
+	Change one line in the secondary file
+****************************************************************/
+
+GL_AUTO_DIST_LINE:
+	procedure;
+
+declare		REWRITE              bit (1);
+declare		DEL_RECORD           bit (1);
+call SET_ROW_OFFSET (RECORD_NUMBER - 1);
+REWRITE = NO;
+if GL_DIST_ACCT_ARRAY(RECORD_NUMBER) ^= 0 then
+   do;
+   REWRITE = YES;
+   GL_DIST_ACCT = GL_DIST_ACCT_ARRAY(RECORD_NUMBER);
+   call READ_KEYED (GL_AUTO_DIST_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      return;
+      end;
+   do LOOP_INDEX =  2 to   4;
+      call CLEAR_FIELD (LOOP_INDEX);
+   end;
+   GL_PERCENT_TOTAL = floor((GL_PERCENT_TOTAL - GL_DIST_PERCT) * 100 + 0.5) / 100;
+   end;
+else
+   do;
+   GL_DIST_ACCT = 0;
+   GL_DIST_PERCT = 0;
+   end;
+ERROR_CODE = 1;
+do while (ERROR_CODE ^= 0);
+   ERROR_CODE = 0;
+   do LOOP_INDEX =   2 to   2;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =   2 then
+         do;
+
+         /* READ_SECOND_DIS - Read Second - Display line version */
+
+         if (INPUT_LENGTH ^= 0) & (RETURN_CODE ^= END_TYPED) then
+            do;
+            GL_ACCOUNT_NO = GL_DIST_ACCT;
+            call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE = RECORD_NOT_FOUND then
+               do;
+               call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+               call PRESS_RETURN;
+               call CLEAR_MESSAGE;
+               RETURN_CODE = DO_AGAIN;
+               LOOP_INDEX = LOOP_INDEX - 1;
+               end;
+            end;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   if GL_DIST_ACCT = 0 then
+      do;
+      GL_PERCENT_TOTAL = floor((GL_PERCENT_TOTAL + GL_DIST_PERCT) * 100 + 0.5) / 100;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   DEL_RECORD = YES;
+   if (INPUT_LENGTH ^= 0) & (RETURN_CODE ^= END_TYPED) then
+      do;
+      DEL_RECORD = NO;
+      do LOOP_INDEX =   3 to   4;
+         if LOOP_INDEX =   3 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      INPUT_LENGTH = 1;
+      end;
+   ERROR_CODE = 0;
+   if DEL_RECORD = YES then
+      do;
+      GL_DIST_ACCT = GL_DIST_ACCT_ARRAY(RECORD_NUMBER);
+      if REWRITE = YES then
+         call DELETE_RECORD (GL_AUTO_DIST_NO,ERROR_CODE);
+      call CLEAR_FIELD(LOOP_INDEX);
+      GL_DIST_ACCT = 0;
+      end;
+   else
+      do;
+      if REWRITE = NO then
+         call WRITE_RECORD (GL_AUTO_DIST_NO,ERROR_CODE);
+      else
+         call UPDATE_RECORD (GL_AUTO_DIST_NO,ERROR_CODE);
+      GL_PERCENT_TOTAL = floor((GL_PERCENT_TOTAL + GL_DIST_PERCT) * 100 + 0.5) / 100;
+      end;
+   call SET_ROW_OFFSET(0);
+   do LOOP_INDEX =   5 to   5;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   call SET_ROW_OFFSET (RECORD_NUMBER - 1);
+   if ERROR_CODE ^= KEY_ALREADY_EXISTS then
+      do;
+      GL_DIST_ACCT_ARRAY(RECORD_NUMBER) = GL_DIST_ACCT;
+      end;
+end;
+return;
+end;	/* GL_AUTO_DIST_LINE    */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (GL_AUTO_DIST_NO);
+   call CLOSE_FILE (GL_CHART_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,104 @@
+package id3ablwckja1b9fckjafvl0;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:design#Class#id3k7wkckja1b9fckjafwjn.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#acctrec:oiref> 
+*/
+class reference {
+}/**
+@__ref <oiref:design#Class#id2b7d2ckja1b9fckjafwmz.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#genled:oiref> 
+*/
+class reference1 {
+}/**
+@__ref <oiref:design#Class#id1dmgdckja1b9fckjafwkr.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#assetdr:oiref> 
+*/
+class reference2 {
+}/**
+@__ref <oiref:design#Class#id3lhzeckja1b9fckjafwli.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#booking:oiref> 
+*/
+class reference3 {
+}/**
+@__ref <oiref:design#Class#idncsuckja1b9fckjafwk7.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#agency:oiref> 
+*/
+class reference4 {
+}/**
+@__ref <oiref:design#Class#id3duh5ckja1b9fckjafwo8.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#payroll:oiref> 
+*/
+class reference5 {
+}/**
+@__ref <oiref:design#Class#id28x6qckja1b9fckjafwsv.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#ticket:oiref> 
+*/
+class reference6 {
+}/**
+@__ref <oiref:design#Class#id1chinckja1b9fckjafwru.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#screen:oiref> 
+*/
+class reference7 {
+}/**
+@__ref <oiref:design#Class#id10lfvckja1b9fckjafwnn.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#market:oiref> 
+*/
+class reference8 {
+}/**
+@__ref <oiref:design#Class#id3frarckja1b9fckjafwr6.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#product:oiref> 
+*/
+class reference9 {
+}/**
+@__ref <oiref:design#Class#id2w2qgckja1b9fckjafwj0.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#acctpay:oiref> 
+*/
+class reference10 {
+}/**
+@__ref <oiref:java#Class#Environment:oiref><oihard>
+@__modelType reference 
+*/
+class reference11 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:design#Class#id10lfvckja1b9fckjafwnn.diagram:oiref>=259,130,63,63,1:oigroup>
+<oigroup:<oiref:design#Class#id2b7d2ckja1b9fckjafwmz.diagram:oiref>=93,10,63,63,1:oigroup>
+<oigroup:<oiref:java#Class#Environment:oiref>=336,116,99,59,1:oigroup>
+<oigroup:<oiref:design#Class#id3k7wkckja1b9fckjafwjn.diagram:oiref>=10,10,63,63,1:oigroup>
+<oigroup:<oiref:design#Class#id3duh5ckja1b9fckjafwo8.diagram:oiref>=176,110,63,63,1:oigroup>
+<oigroup:<oiref:design#Class#id3frarckja1b9fckjafwr6.diagram:oiref>=10,310,64,63,1:oigroup>
+<oigroup:<oiref:design#Class#idncsuckja1b9fckjafwk7.diagram:oiref>=93,110,63,63,1:oigroup>
+<oigroup:<oiref:design#Class#id3lhzeckja1b9fckjafwli.diagram:oiref>=176,10,67,63,1:oigroup>
+<oigroup:<oiref:design#Class#id2w2qgckja1b9fckjafwj0.diagram:oiref>=94,230,63,63,1:oigroup>
+<oigroup:<oiref:design#Class#id1chinckja1b9fckjafwru.diagram:oiref>=263,10,63,78,1:oigroup>
+<oigroup:<oiref:design#Class#id28x6qckja1b9fckjafwsv.diagram:oiref>=10,210,63,63,1:oigroup>
+<oigroup:<oiref:design#Class#id1dmgdckja1b9fckjafwkr.diagram:oiref>=10,110,63,63,1:oigroup>
+*/
+class __positions {
+}

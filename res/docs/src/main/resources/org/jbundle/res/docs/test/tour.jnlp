@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for tourapp Application -->
+<jnlp spec="1.0+" codebase="http://www.tourapp.com" href="docs/test/tourapp.jnlp">
+  <information>
+    <title>tourapp Application</title>
+    <vendor>tourapp.com</vendor>
+    <homepage href="index.html"/>
+    <description kind="one-line">tourapp Application</description>
+    <description kind="short">
+tourapp is an on-line booking application.
+    </description>
+    <icon href="images/tour/icons/Tour.gif"/>
+    <offline-allowed/>
+	<keywords>tour,reservation,booking,travel</keywords>
+  </information>
+  <security>
+  </security>
+  <resources>
+    <j2se version="1.3"/>
+    <jar href="classes/bio.jar"/>
+  </resources>
+  <application-desc
+	main-class="com.tourapp.biorhythm.Biorhythm">
+  </application-desc>
+</jnlp>

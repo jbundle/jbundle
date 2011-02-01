@@ -1,0 +1,265 @@
+/****************************************************************
+	Module: BK_DIS_AAVAIL
+	Top Level Logic: ENTER_AND_DIS
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_AAVAIL
+	Enter Header and Display Table
+****************************************************************/
+
+%replace BK_DIS_AAVAIL_1 by 798;
+BK_DIS_AAVAIL:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_INV_DET_RECORD);
+%replace TK_FLIGHTS_NO by  73;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace BK_INV_DET_NO by  61;
+%include "TK_FLIGHTS.DD";
+%include "BK_DIS_AAVAIL.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_INV_DET.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   call ENT_DIS_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   FLIGHT_ADD = 0;
+   FLIGHT_DAYS = "";
+   FLIGHT_SEGMENT = 1;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_DIS_AAVAIL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (TK_FLIGHTS_NO,"TK_FLIGHTS",byteaddr(TK_FLIGHTS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_FLIGHTS_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (BK_DIS_AAVAIL_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	ENT_DIS_MAIN
+	Enter and Display - Main Logic
+****************************************************************/
+
+ENT_DIS_MAIN:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - set input erro to no */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_DIS_AAVAIL_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+return;
+end;	/* ENT_DIS_MAIN         */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+FLIGHT_NO = "";
+AIR_START_INV = TODAYS_DATE();
+do LOOP_INDEX =  11 to  13;
+   if LOOP_INDEX =  13 then
+      AIR_START_INV = TODAYS_DATE();
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* FIX_FLIGHT_NO - Standardize Airline Flight number */
+
+      declare LOOP fixed binary;
+      do LOOP = 1 to length(FLIGHT_NO);
+         if substr(FLIGHT_NO,LOOP,1) = "0" then
+            substr(FLIGHT_NO,LOOP,1) = " ";
+         if substr(FLIGHT_NO,LOOP,1) ^= " " then
+            goto LOOP_DONE;
+      end;
+      LOOP = 4;
+      LOOP_DONE:
+      FLIGHT_NO = substr(FLIGHT_NO,LOOP,5-LOOP);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		INV_DET_TYPE_SAVE    character (        1);
+declare		INV_DET_ENTRY_SAVE   character (       10);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		INV_DET_DATE_ARRAY(14) fixed binary (15);
+declare		INV_CODE_TYPE_ARRAY(14) character (        1);
+declare		INV_ROOM_TYPE_ARRAY(14) fixed binary (15);
+declare		BK_INV_DET_ERROR     fixed binary (15);
+declare		INV_DET_DATE_SAVE    fixed binary (15);
+declare		INV_CODE_TYPE_SAVE   character (        1);
+declare		INV_ROOM_TYPE_SAVE   fixed binary (15);
+declare		ANSWER               character (1);
+INV_DET_TYPE = "A";
+INV_DET_TYPE_SAVE = INV_DET_TYPE;
+INV_DET_ENTRY = FLIGHT_AIRLINE!!FLIGHT_NO;
+INV_DET_ENTRY_SAVE = INV_DET_ENTRY;
+INV_DET_DATE = AIR_START_INV;
+INV_CODE_TYPE = "";
+INV_ROOM_TYPE = 0;
+call SET_POSITION (BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (INV_DET_TYPE > INV_DET_TYPE_SAVE) !
+   (INV_DET_ENTRY > INV_DET_ENTRY_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 14;
+      INV_DET_DATE_ARRAY(RECORD_NUMBER) = 0;
+      INV_CODE_TYPE_ARRAY(RECORD_NUMBER) = "";
+      INV_ROOM_TYPE_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_INV_DET_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_INV_DET_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 14) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  14 to  17;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         INV_DET_DATE_ARRAY(RECORD_NUMBER) = INV_DET_DATE;
+         INV_CODE_TYPE_ARRAY(RECORD_NUMBER) = INV_CODE_TYPE;
+         INV_ROOM_TYPE_ARRAY(RECORD_NUMBER) = INV_ROOM_TYPE;
+         call READ_NEXT (BK_INV_DET_NO,KEY_AREA_1,BK_INV_DET_ERROR);
+         if (INV_DET_TYPE > INV_DET_TYPE_SAVE) !
+         (INV_DET_ENTRY > INV_DET_ENTRY_SAVE) then
+            BK_INV_DET_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      INV_DET_DATE_SAVE = INV_DET_DATE_ARRAY(14);
+      INV_CODE_TYPE_SAVE = INV_CODE_TYPE_ARRAY(14);
+      INV_ROOM_TYPE_SAVE = INV_ROOM_TYPE_ARRAY(14);
+      INV_DET_TYPE = INV_DET_TYPE_SAVE;
+      INV_DET_ENTRY = INV_DET_ENTRY_SAVE;
+      if BK_INV_DET_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 14;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if INV_DET_DATE_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =14 to  17;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (TK_FLIGHTS_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

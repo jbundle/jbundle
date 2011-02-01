@@ -1,0 +1,14 @@
+/*********************************************************************
+	BK_AO_MAINT File
+********************************************************************/
+
+declare	1 BK_AO_MAINT_RECORD,
+		3 OLD_QUES_SEQ         fixed binary (15),
+		3 OLD_ANSW_SEQ         fixed binary (15),
+		3 OLD_QUESTION         character (       30),
+		3 OLD_RESOLVE          character (1),
+		3 OLD_ASK_ANSW         character (1),
+		3 NEW_QUESTION         character (       30),
+		3 NEW_RESOLVE          character (1),
+		3 NEW_ASK_ANSW         character (1);
+

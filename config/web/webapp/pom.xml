@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jbundle-config-web-reactor</artifactId>
+    <groupId>org.jbundle.config.web</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>jbundle-config-web-webapp</artifactId>
+  <packaging>war</packaging>
+  <name>jbundle-config-web-webapp - Web resources</name>
+
+  <properties>
+    <dev.home>/usr/local/java</dev.home>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>${jetty-maven-pluginVersion}</version>
+        <configuration>
+          <connectors>
+            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+              <port>8888</port>
+              <maxIdleTime>30000</maxIdleTime>
+            </connector>
+          </connectors>
+          <webAppSourceDirectory>${project.build.directory}/${project.artifactId}-${project.version}</webAppSourceDirectory>
+          <contextPath>/</contextPath>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>${maven-dependency-pluginVersion}</version>
+        <executions>
+          <execution>
+            <id>move-dojo-resources</id> <!--  Copy dojo resources before packaging starts. -->
+            <phase>process-resources</phase>
+            <goals>
+                <goal>unpack</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <artifactItems>
+            <artifactItem>
+              <groupId>org.dojotoolkit</groupId>
+              <artifactId>dojo</artifactId>
+              <version>${dojoVersion}</version>
+              <type>zip</type>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+            </artifactItem>
+            <artifactItem>
+              <groupId>org.jbundle.res</groupId>
+              <artifactId>org.jbundle.res.images</artifactId>
+              <version>${project.version}</version>
+              <type>jar</type>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+            </artifactItem>
+            <artifactItem>
+              <groupId>org.jbundle.res</groupId>
+              <artifactId>org.jbundle.res.docs</artifactId>
+              <version>${project.version}</version>
+              <type>jar</type>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+            </artifactItem>
+            <artifactItem>
+              <groupId>org.jbundle.config.web</groupId>
+              <artifactId>jbundle-config-web-jnlp</artifactId>
+              <version>${project.version}</version>
+              <classifier>bin</classifier>
+              <type>zip</type>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+            </artifactItem>
+            <!-- artifactItem>
+              <groupId>org.jbundle.config</groupId>
+              <artifactId>org.jbundle.config.web.cocoon</artifactId>
+              <version>${project.version}</version>
+              <type>war</type>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+            </artifactItem -->
+          </artifactItems>
+      </configuration>
+      </plugin>
+      
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${maven-resources-pluginVersion}</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}/docs/styles/js</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>${project.build.directory}/dojo-${dojoVersion}</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    
+    <resources>
+      <!-- resource>
+        <directory>${dev.home}/lib/dojo</directory>
+        <targetPath>${basedir}/target/${project.artifactId}-${project.version}/docs/styles/js</targetPath>
+      </resource -->
+      <resource>
+        <directory>${dev.home}/lib/sha</directory>
+        <targetPath>${basedir}/target/${project.artifactId}-${project.version}/docs/styles/js/sha</targetPath>
+      </resource>
+    </resources>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle.config.dep</groupId>
+      <artifactId>jbundle-config-dep-all</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+      <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>org.jbundle.util.webapp.redirect</artifactId>
+      <version>0.9.1-SNAPSHOT</version>
+      <classifier>classes</classifier>
+    </dependency>
+    <dependency>
+      <groupId>jardiff</groupId>
+      <artifactId>jardiff</artifactId>
+      <version>${jardiffVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.mojo.webstart</groupId> <!-- Hopefully this will become available from java.net -->
+      <artifactId>webstart-jnlp-servlet</artifactId>
+      <version>${webstart-jnlp-servletVersion}</version>
+      <!-- systemPath ${java.home}/../sample/jnlp/servlet/jnlp-servlet.jar -->
+    </dependency>
+  </dependencies>
+  
+</project>

@@ -1,0 +1,20 @@
+/*********************************************************************
+	BK_HOTEL_RPT File
+********************************************************************/
+
+declare	1 BK_HOTEL_RPT_RECORD,
+		3 START_HOTEL          character (       10),
+		3 END_HOTEL            character (       10),
+		3 HOTEL_DETAIL         character (1),
+		3 HOTEL_CODE_START     character (       10),
+		3 HOTEL_CODE_END       character (       10),
+		3 HOTEL_CODE_DETAIL    character (1),
+		3 HOTEL_PRICES         character (1),
+		3 HOTEL_START_PRICE    fixed binary (15),
+		3 HOTEL_END_DATE       fixed binary (15),
+		3 HOTEL_DATE           fixed binary (15),
+		3 HOTEL_TIME           fixed binary (15),
+		3 HOTEL_USER           character (       16),
+		3 HOTEL_PAGE           fixed binary (31),
+		3 HOTEL_COUNT          fixed binary (31);
+

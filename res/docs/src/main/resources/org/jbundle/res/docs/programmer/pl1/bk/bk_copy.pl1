@@ -1,0 +1,354 @@
+/****************************************************************
+	Module: BK_PURGE
+	Top Level Logic: BK_PURGE_LOGIC
+	Date: 16-Feb-94
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_PURGE
+	Top Level Logic to purge booking file
+****************************************************************/
+
+%replace BK_PURGE_1 by 902;
+BK_PURGE:
+   procedure;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_COMMENT_NO by  48;
+%replace BK_LINE_NO by  51;
+%replace BK_PASSENGERS_NO by  49;
+%replace TK_HEADER_NO by  56;
+%replace TK_DETAIL_NO by  57;
+%replace BK_TELEX_NO by  88;
+%replace BK_TELEX_DET_NO by  89;
+
+%replace BK_LINE_NEW_NO by 90;
+%replace SRC_FILE_NO by BK_LINE_NO;
+%replace NEW_FILE_NO by BK_LINE_NEW_NO;
+%replace OLD_FILE_NO by 0;
+
+%include "BK_PURGE.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_COMMENT.DD";
+%include "BK_LINE.DD";
+%include "BK_PASSENGERS.DD";
+%include "TK_HEADER.DD";
+%include "TK_DETAIL.DD";
+%include "BK_TELEX.DD";
+%include "BK_TELEX_DET.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_BK_PURGE_THRU    bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_DELETE_HOTEL     bit (1);
+declare		END_DELETE_TOUR      bit (1);
+declare		END_DEL_TKHDR        bit (1);
+declare		END_DELETE_TKDET     bit (1);
+declare		END_DEL_REMARK       bit (1);
+declare		END_DELETE_LINE      bit (1);
+declare		END_DELETE_PAX       bit (1);
+
+declare		COUNT			fixed binary;
+COUNT = 100;
+   call INITIALIZE;
+   call BK_PURGE_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_PURGE_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_PURGE_RECORD) );
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_COMMENT_NO,"BK_COMMENT",byteaddr(BK_COMMENT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_COMMENT_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LINE_NO,"BK_LINE",byteaddr(BK_LINE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LINE_NO,ERROR_CODE);
+   call OPEN_FILE (BK_PASSENGERS_NO,"BK_PASSENGERS",byteaddr(BK_PASSENGERS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TELEX_NO,"BK_TELEX",byteaddr(BK_TELEX_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TELEX_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LINE_NEW_NO,"BK_LINE_NEW",byteaddr(BK_LINE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LINE_NEW_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	BK_PURGE_MAIN
+	Mainline logic
+****************************************************************/
+
+BK_PURGE_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CHECK_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure?");
+   call INPUT_DATA(23,24,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   END_BK_PURGE_THRU = NO;
+   do while (END_BK_PURGE_THRU ^= YES);
+      call BK_PURGE_THRU;
+   end;
+return;
+end;	/* BK_PURGE_MAIN        */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+BK_START_RECORD = 0;
+BK_END_RECORD = 0;
+call GET_RECORDS(SRC_FILE_NO, BK_RECORDS, ERROR_CODE);
+if ERROR_CODE ^= NORMAL_RETURN then
+	stop;
+call OUTPUT_FIELD(4);
+call OUTPUT_FIELD(5);
+call OUTPUT_FIELD(6);
+
+do LOOP_INDEX = FIRST_ITEM to   3;
+   if LOOP_INDEX =   2 then
+      call DISPLAY_MSG_NO (116);
+   if LOOP_INDEX =   3 then
+      call DISPLAY_MSG_NO (116);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_PASS - Check the password */
+
+      if BK_FIX_PASS ^= "DONWPP" then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  6,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  6 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   2 then
+      call DISPLAY_MSG_NO (116);
+   if LOOP_INDEX =   3 then
+      call DISPLAY_MSG_NO (116);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_PASS - Check the password */
+
+      if BK_FIX_PASS ^= "DONWPP" then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         do;
+         END_CHANGE_ITEM = YES;
+         return;
+         end;
+         end;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	BK_PURGE_THRU
+	Purge thru the file
+****************************************************************/
+
+BK_PURGE_THRU:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+declare		ERROR_BK_BOOKING     fixed binary (15);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (BK_END_RECORD >= BK_RECORDS) then
+      do;
+      END_BK_PURGE_THRU = YES;
+      return;
+      end;
+
+   /* READNEXT - Read the next record */
+
+   call READ_REC  (SRC_FILE_NO,BK_END_RECORD,ERROR_CODE);
+BK_END_RECORD = BK_END_RECORD + 1;
+if COUNT <= 0 then
+do;
+	COUNT = 100;
+	call OUTPUT_FIELD(5);
+	call DUMP_BUFFER();
+end;
+COUNT = COUNT - 1;
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+if ERROR_CODE ^= 0 then
+	return;		/* Deleted record */
+
+call WRITE_REC(NEW_FILE_NO, ERROR_CODE);
+if ERROR_CODE ^= 0 then
+	stop;
+return;
+
+   /* CHECK_BK_PURGE - Delete this record? */
+
+   if BK_MODIFICATION = 0 then
+      do;
+      if (BK_PURGE_DATE = 0) ! (BK_DEPARTURE >= BK_PURGE_DATE) then
+         return;
+      end;
+   else
+      do;
+      if (BK_PURGE_HIST = 0) ! (BK_DEPARTURE >= BK_PURGE_HIST) then
+         do;
+         if (BK_PURGE_DATE = 0) ! (BK_DEPARTURE >= BK_PURGE_DATE) then
+            return;
+         end;
+      end;
+
+return;
+end;	/* BK_PURGE_THRU        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (BK_COMMENT_NO);
+   call CLOSE_FILE (BK_LINE_NO);
+   call CLOSE_FILE (BK_PASSENGERS_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

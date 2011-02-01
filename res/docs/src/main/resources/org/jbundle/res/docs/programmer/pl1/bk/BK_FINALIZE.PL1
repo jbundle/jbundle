@@ -1,0 +1,1902 @@
+/****************************************************************
+	Module: BK_FINALIZE
+	Top Level Logic: TOUR_DOC_LOGIC
+	Date:  9-Feb-92
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_FINALIZE
+	Top Level Logic for Tour Document Prting
+****************************************************************/
+
+%replace BK_FINALIZE_1 by 272;
+%replace BK_FINALIZE_2 by 273;
+%replace BK_FINALIZE_3 by 274;
+%replace BK_FINALIZE_4 by 337;
+%replace BK_FINALIZE_5 by 338;
+%replace BK_FINALIZE_6 by 339;
+%replace BK_FINALIZE_7 by 340;
+%replace BK_FINALIZE_8 by 341;
+%replace BK_FINALIZE_9 by 342;
+%replace BK_FINALIZE_10 by 343;
+%replace BK_FINALIZE_11 by 345;
+%replace BK_FINALIZE_12 by 371;
+%replace BK_FINALIZE_13 by 372;
+%replace BK_FINALIZE_14 by 373;
+%replace BK_FINALIZE_15 by 380;
+%replace BK_FINALIZE_16 by 403;
+%replace BK_FINALIZE_17 by 404;
+%replace BK_FINALIZE_18 by 408;
+%replace BK_FINALIZE_19 by 409;
+%replace BK_FINALIZE_20 by 410;
+%replace BK_FINALIZE_21 by 411;
+%replace BK_FINALIZE_22 by 413;
+%replace BK_FINALIZE_23 by 416;
+%replace BK_FINALIZE_24 by 417;
+%replace BK_FINALIZE_25 by 418;
+%replace BK_FINALIZE_26 by 419;
+%replace BK_FINALIZE_27 by 427;
+%replace BK_FINALIZE_28 by 458;
+%replace BK_FINALIZE_29 by 560;
+%replace BK_FINALIZE_30 by 561;
+%replace BK_FINALIZE_31 by 562;
+BK_FINALIZE:
+   procedure(
+      BK_FINALIZE_RECORD);
+%replace BK_TOUR_NO by  34;
+%replace BK_LINE_NO by  51;
+%replace AP_CONTROL_NO by  29;
+%replace BK_LAND_DET_NO by  91;
+%replace BK_HOTEL_DET_NO by  52;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_DOC_NO by  76;
+%replace BK_CONTROL_NO by  47;
+%replace AM_AGCY_NO by  10;
+%replace TK_DETAIL_NO by  57;
+%replace TK_HEADER_NO by  56;
+%replace AD_CURR_NO by  25;
+%replace BK_COMMENT_NO by  48;
+%replace BK_TRANS_NO by  64;
+%replace BK_TRANS_PRICE_NO by  69;
+%replace AP_OPEN_NO by  32;
+%replace BK_ITIN_DET_NO by  79;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_HOTEL_NO by   8;
+%replace AP_VENDOR_NO by  30;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_LAND_NO by  54;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_HOTEL_CAT_NO by 116;
+%include "BK_FINALIZE.DD";
+%include "BK_TOUR.DD";
+%include "BK_LINE.DD";
+%include "AP_CONTROL.DD";
+%include "BK_LAND_DET.DD";
+%include "BK_HOTEL_DET.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR_DOC.DD";
+%include "BK_CONTROL.DD";
+%include "AM_AGCY.DD";
+%include "TK_DETAIL.DD";
+%include "TK_HEADER.DD";
+%include "AD_CURR.DD";
+%include "BK_COMMENT.DD";
+%include "BK_TRANS.DD";
+%include "BK_TRANS_PRICE.DD";
+%include "AP_OPEN.DD";
+%include "BK_ITIN_DET.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_HOTEL.DD";
+%include "AP_VENDOR.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_LAND.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_HOTEL_CAT.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_PROCESS_DOCS     bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+declare		END_CHECK_ALL_BK     bit (1);
+declare		END_PROCESS_LIST     bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		END_TK_THRU_BK       bit (1);
+declare		END_GO_THRU_TK       bit (1);
+declare		END_READ_THRU_DOCS   bit (1);
+declare		END_GO_THRU_H_VCHRS  bit (1);
+declare		ERROR_AP_OPEN        fixed binary (15);
+declare		END_GO_THRU_L_VCHRS  bit (1);
+declare		END_BK_THRU_BK       bit (1);
+declare		LINE2                fixed binary (15);
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   LINE2 = 0;
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   FIN_ACTION_DATE = 0;
+   FIN_ACTION_TYPE = 0;
+   FIN_TOUR_NO = 0;
+   FIN_DATE = TODAYS_DATE();
+   FIN_TIME = CURRENT_TIME();
+   FIN_USER = USER_NAME();
+   FIN_PAGE = 1;
+   TOUR_QUADS = 0;
+   AP_REC_NO = 9999;
+   AP_DEF_AC = 1;
+   LAND_MARKUP_LINE = 0;
+   LAND_VARIES_ON = 0;
+   HOTEL_USE_RATE_TYPE = "";
+   HOTEL_USE_CLASS = "";
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   ACTION_DESC = "";
+   BK_REC_NO = 9999;
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   BK_TOUR_MOD_CODE = "A";
+   BK_TOUR_SEQ = 0;
+   BK_COMM_MOD_CODE = "";
+   TRANS_CLASS = "";
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   LAND_TAX = 0;
+   LAND_SVC_CHG = 0;
+   LAND_COMM = 0;
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_FINALIZE_RECORD) );
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LINE_NO,"BK_LINE",byteaddr(BK_LINE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LINE_NO,ERROR_CODE);
+   call OPEN_FILE (AP_CONTROL_NO,"AP_CONTROL",byteaddr(AP_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_DET_NO,"BK_LAND_DET",byteaddr(BK_LAND_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_DET_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_DET_NO,"BK_HOTEL_DET",byteaddr(BK_HOTEL_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_DET_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_DOC_NO,"BK_TOUR_DOC",byteaddr(BK_TOUR_DOC_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_DOC_NO,ERROR_CODE);
+   call OPEN_FILE (BK_CONTROL_NO,"BK_CONTROL",byteaddr(BK_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (AM_AGCY_NO,"AM_AGCY",byteaddr(AM_AGCY_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_AGCY_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_COMMENT_NO,"BK_COMMENT",byteaddr(BK_COMMENT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_COMMENT_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_NO,"BK_TRANS",byteaddr(BK_TRANS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_PRICE_NO,"BK_TRANS_PRICE",byteaddr(BK_TRANS_PRICE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_PRICE_NO,ERROR_CODE);
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (BK_ITIN_DET_NO,"BK_ITIN_DET",byteaddr(BK_ITIN_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_ITIN_DET_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_PASSENGERS_NO,"BK_PASSENGERS",byteaddr(BK_PASSENGERS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_CAT_NO,"BK_HOTEL_CAT",byteaddr(BK_HOTEL_CAT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_CAT_NO,ERROR_CODE);
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("MULTIFORM");
+   call PRINT_LINE("[FORM: INVOICE]");
+   call SETUP_PRINT_FORMAT (BK_FINALIZE_2);
+   call OPEN_PRINTER_2("REPORT");
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+   call PRT_PAGE_HEADING;
+   call PRT_PAGE_HEADING_2;
+
+   /* INIT_ACTION - Init the action variables */
+
+   FIN_ACTION_DATE = 0;
+   FIN_ACTION_TYPE = 0;
+   FIN_TOUR_NO = 0;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   ACTION_DATE = FIN_ACTION_DATE;
+   ACTION_TYPE = FIN_ACTION_TYPE;
+   TOUR_NO = FIN_TOUR_NO;
+   call SET_POSITION (BK_TOUR_NO,KEY_AREA_4,ERROR_CODE);
+   END_PROCESS_DOCS = NO;
+   do while (END_PROCESS_DOCS ^= YES);
+      call PROCESS_DOCS;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   call SETUP_PRINT_FORMAT (BK_FINALIZE_11);
+   do LOOP_INDEX =  10 to  10;
+      call PRINT_REPORT_LINE_2;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =  24 to   1;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	PRT_PAGE_HEADING_2
+	Print the heading on printer 2
+****************************************************************/
+
+PRT_PAGE_HEADING_2:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_FINALIZE_11);
+do LOOP_INDEX =   1 to   4;
+   call PRINT_REPORT_LINE_2;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+FIN_PAGE = FIN_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING_2   */
+
+/****************************************************************
+	PROCESS_DOCS
+	Process the tour documents
+****************************************************************/
+
+PROCESS_DOCS:
+	procedure;
+
+
+   /* RELEASE_LOCKS - Release all locks on this file */
+
+   call RELEASE_LOCKS (BK_BOOKING_NO);
+
+   /* RELEASE_LOCKS_2 - Release Locks */
+
+   call RELEASE_LOCKS (AP_OPEN_NO);
+
+   /* RELEASE_LOCKS_3 - Release Locks */
+
+   call RELEASE_LOCKS (BK_TOUR_NO);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_TOUR_NO+?LOCK_RECORD,KEY_AREA_4,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TOUR_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (ACTION_DATE > DATE_CUT_OFF) then
+      do;
+      END_PROCESS_DOCS = YES;
+      return;
+      end;
+
+   /* SET_ACTION - Set the action variables for next time */
+
+   FIN_ACTION_DATE = ACTION_DATE;
+   FIN_ACTION_TYPE = ACTION_TYPE;
+   FIN_TOUR_NO = TOUR_NO + 1;
+
+
+   /* CHECK_TOUR_SELECT - Check tour selection */
+
+   if PRT_TOUR_TYPE ^= "" then if PRT_TOUR_TYPE ^= TOUR_TYPE then
+      return;
+
+   if PRT_TOUR_CODE ^= "" then if PRT_TOUR_CODE ^= TOUR_CODE then
+      return;
+
+   if PRT_DOC_TYPE ^= 0 then if PRT_DOC_TYPE ^= ACTION_TYPE then
+      do;
+      if PRT_DOC_TYPE = BOOK_UD then
+         do;
+         if TOUR_BOOKING = "Y" then
+            return;
+         ACTION_TYPE = BOOK_UD;
+         end;
+      if PRT_DOC_TYPE ^= BOOK_UD then
+         return;
+      end;
+
+
+   /* CHECK_BK_ERRORS - Any errors locking the records? */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+
+      /* PRINT_LINE_D2 - Print lines */
+
+      call SETUP_PRINT_FORMAT (BK_FINALIZE_11);
+
+      /* SET_TYPE_DESC - Set the action type desc */
+
+      do case (ACTION_TYPE);
+         ACTION_TYPE_DESC = "Booking";
+         ACTION_TYPE_DESC = "Deposit rec";
+         ACTION_TYPE_DESC = "Serv. conf";
+         ACTION_TYPE_DESC = "Final pymt";
+         ACTION_TYPE_DESC = "Finalize";
+         ACTION_TYPE_DESC = "Final docs";
+         ACTION_TYPE_DESC = "Ticketing";
+         ACTION_TYPE_DESC = "Special 1";
+         ACTION_TYPE_DESC = "Special 2";
+         ACTION_TYPE_DESC = "Departure";
+         ACTION_TYPE_DESC = "Cancel";
+      end;
+      otherwise
+         do;
+         ACTION_TYPE_DESC = "";
+         end;
+
+      do LOOP_INDEX =   6 to   6;
+         call PRINT_REPORT_LINE_2;
+      end;
+      return;
+      end;
+
+
+   /* FAKE_TOUR_INFO - Fake the booking tour info to get hdr */
+
+   BK_TOUR_CODE = TOUR_CODE;
+   BK_DEPARTURE = TOUR_DEP_DATE;
+
+
+   /* GET_TOUR_HDR - Get the tour header */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   HDR_TOUR_CODE = BK_TOUR_CODE;
+   HDR_END_ON = BK_DEPARTURE;
+   if HDR_END_ON = 0 then
+      HDR_END_ON = TODAYS_DATE();
+   call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= END_OF_FILE then
+      call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+   if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+      ERROR_CODE = END_OF_FILE;
+   if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+      ERROR_CODE = END_OF_FILE;
+
+
+   /* INIT_PYMT_FLAG - Initialize the payments received flag */
+
+   FINL_PYMT_REC = "Y";
+   ALL_FULLY_PAID = "Y";
+
+   TOUR_BK_COUNT = 0;
+
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_CHECK_ALL_BK = NO;
+   do while (END_CHECK_ALL_BK ^= YES);
+      call CHECK_ALL_BK;
+   end;
+
+   /* CHECK_PYMT_FLAG - Don't finalize if all pymts not rec'd */
+
+   if ACTION_TYPE = FINALIZED_UD then if FINL_PYMT_REC = "N" then
+      return;
+
+
+   /* CHECK_BK_ERRORS - Any errors locking the records? */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+
+      /* PRINT_LINE_D2 - Print lines */
+
+      call SETUP_PRINT_FORMAT (BK_FINALIZE_11);
+
+      /* SET_TYPE_DESC - Set the action type desc */
+
+      do case (ACTION_TYPE);
+         ACTION_TYPE_DESC = "Booking";
+         ACTION_TYPE_DESC = "Deposit rec";
+         ACTION_TYPE_DESC = "Serv. conf";
+         ACTION_TYPE_DESC = "Final pymt";
+         ACTION_TYPE_DESC = "Finalize";
+         ACTION_TYPE_DESC = "Final docs";
+         ACTION_TYPE_DESC = "Ticketing";
+         ACTION_TYPE_DESC = "Special 1";
+         ACTION_TYPE_DESC = "Special 2";
+         ACTION_TYPE_DESC = "Departure";
+         ACTION_TYPE_DESC = "Cancel";
+      end;
+      otherwise
+         do;
+         ACTION_TYPE_DESC = "";
+         end;
+
+      do LOOP_INDEX =   6 to   6;
+         call PRINT_REPORT_LINE_2;
+      end;
+      return;
+      end;
+
+
+   /* CHECK_NO_TOUR_BK - Print a line if there are no detail bks */
+
+   if TOUR_BK_COUNT = 0 then
+      do;
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (BK_FINALIZE_RECORD) );
+
+      /* PRINT_LINE_D4 - PRINT */
+
+      call SETUP_PRINT_FORMAT (BK_FINALIZE_11);
+
+      /* SET_TYPE_DESC - Set the action type desc */
+
+      do case (ACTION_TYPE);
+         ACTION_TYPE_DESC = "Booking";
+         ACTION_TYPE_DESC = "Deposit rec";
+         ACTION_TYPE_DESC = "Serv. conf";
+         ACTION_TYPE_DESC = "Final pymt";
+         ACTION_TYPE_DESC = "Finalize";
+         ACTION_TYPE_DESC = "Final docs";
+         ACTION_TYPE_DESC = "Ticketing";
+         ACTION_TYPE_DESC = "Special 1";
+         ACTION_TYPE_DESC = "Special 2";
+         ACTION_TYPE_DESC = "Departure";
+         ACTION_TYPE_DESC = "Cancel";
+      end;
+      otherwise
+         do;
+         ACTION_TYPE_DESC = "";
+         end;
+
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE_2;
+      end;
+      end;
+
+   END_PROCESS_LIST = NO;
+   do while (END_PROCESS_LIST ^= YES);
+      call PROCESS_LIST;
+   end;
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (BK_FINALIZE_RECORD) );
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (BK_TOUR_NO,ERROR_CODE);
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   ACTION_DATE = FIN_ACTION_DATE;
+   ACTION_TYPE = FIN_ACTION_TYPE;
+   TOUR_NO = FIN_TOUR_NO;
+   call SET_POSITION (BK_TOUR_NO,KEY_AREA_4,ERROR_CODE);
+return;
+end;	/* PROCESS_DOCS         */
+
+/****************************************************************
+	CHECK_ALL_BK
+	Read, lock and check all bookings for tr
+****************************************************************/
+
+CHECK_ALL_BK:
+	procedure;
+
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* RESET_LOCK_NOMATCH - Is this is not a match, reset lock error */
+
+   if (BK_MODIFICATION > 0) !
+      (BK_TOUR_NUM > TOUR_NO) then
+         ERROR_CODE = NORMAL_RETURN;
+
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_CHECK_ALL_BK = YES;
+      return;
+      end;
+
+   /* RETURN_BK_LOCK - Return if the booking is locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      END_CHECK_ALL_BK = YES;
+      return;
+      end;
+
+
+   /* SKIP_NS_BK - Skip bookings with no status */
+
+   if BK_STATUS = "NS" then
+      return;
+
+
+   /* CHECK_FIN_PYMT - On finalization, make sure all pymts in */
+
+   if ACTION_TYPE ^= XL_UD then
+      do;
+
+      /* SKIP_XL_BK - Skip cancelled bookings */
+
+      if BK_STATUS = "XL" then
+         return;
+
+      if TOUR_FINALIZED = "N" then if TOUR_FINALIZE <= DATE_CUT_OFF then
+         if (BK_BALANCE > 0) ! (BK_STATUS ^= "OK") then
+            do;
+
+            /* PRINT_LINE_D3 - Print lines */
+
+            call SETUP_PRINT_FORMAT (BK_FINALIZE_11);
+
+            /* SET_TYPE_DESC - Set the action type desc */
+
+            do case (ACTION_TYPE);
+               ACTION_TYPE_DESC = "Booking";
+               ACTION_TYPE_DESC = "Deposit rec";
+               ACTION_TYPE_DESC = "Serv. conf";
+               ACTION_TYPE_DESC = "Final pymt";
+               ACTION_TYPE_DESC = "Finalize";
+               ACTION_TYPE_DESC = "Final docs";
+               ACTION_TYPE_DESC = "Ticketing";
+               ACTION_TYPE_DESC = "Special 1";
+               ACTION_TYPE_DESC = "Special 2";
+               ACTION_TYPE_DESC = "Departure";
+               ACTION_TYPE_DESC = "Cancel";
+            end;
+            otherwise
+               do;
+               ACTION_TYPE_DESC = "";
+               end;
+
+            do LOOP_INDEX =   7 to   7;
+               call PRINT_REPORT_LINE_2;
+            end;
+            FINL_PYMT_REC = "N";
+            return;
+            end;
+      end;
+
+   if BK_STATUS ^= "XL" then if BK_BALANCE > 0 then
+      ALL_FULLY_PAID = "N";
+
+   TOUR_BK_COUNT = TOUR_BK_COUNT + 1;
+
+
+   /* PRINT_TOUR_LINE - Print the tour detail line */
+
+   call SETUP_PRINT_FORMAT (BK_FINALIZE_11);
+
+   /* SET_TYPE_DESC - Set the action type desc */
+
+   do case (ACTION_TYPE);
+      ACTION_TYPE_DESC = "Booking";
+      ACTION_TYPE_DESC = "Deposit rec";
+      ACTION_TYPE_DESC = "Serv. conf";
+      ACTION_TYPE_DESC = "Final pymt";
+      ACTION_TYPE_DESC = "Finalize";
+      ACTION_TYPE_DESC = "Final docs";
+      ACTION_TYPE_DESC = "Ticketing";
+      ACTION_TYPE_DESC = "Special 1";
+      ACTION_TYPE_DESC = "Special 2";
+      ACTION_TYPE_DESC = "Departure";
+      ACTION_TYPE_DESC = "Cancel";
+   end;
+   otherwise
+      do;
+      ACTION_TYPE_DESC = "";
+      end;
+
+   do LOOP_INDEX =   5 to   5;
+      call PRINT_REPORT_LINE_2;
+   end;
+return;
+end;	/* CHECK_ALL_BK         */
+
+/****************************************************************
+	PROCESS_LIST
+	Process this tour
+****************************************************************/
+
+PROCESS_LIST:
+	procedure;
+
+
+   /* CHECK_FOR_UD - Check to see if any updates must be done */
+
+   if ACTION_TYPE = DEPARTURE_UD then
+      do;
+      call DEPART_UD;
+      end;
+   if ACTION_TYPE = TICKET_UD then
+      do;
+      call TICKETING_UD;
+      end;
+   if ACTION_TYPE = FINALIZED_UD then
+      do;
+      call FINALIZATION_UD;
+      end;
+   if ACTION_TYPE = XL_UD then
+      do;
+      call CANCELLATION_UD;
+      end;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+   call PRINT_THE_DOCS;
+
+   /* RETURN_IF_LOCK - Return if ERROR_CODE = locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      END_PROCESS_LIST = YES;
+      return;
+      end;
+
+
+   /* SET_NEXT_EVENT - Update the action date for this tour */
+
+   do case (ACTION_TYPE);
+      TOUR_BOOKING = "Y";
+      TOUR_DEP_REC = "Y";
+      TOUR_SERV_CONF = "Y";
+      TOUR_FIN_PAY = "Y";
+      TOUR_FINALIZED = "Y";
+      TOUR_FINAL_DOCS = "Y";
+      TOUR_TICKETS = "Y";
+      TOUR_SP1 = "Y";
+      TOUR_SP2 = "Y";
+      TOUR_DEPARTED = "Y";
+      TOUR_STATUS = "XL";
+   end;
+   otherwise
+   do;
+   end;
+
+   ACTION_DATE = 32767;
+
+   if TOUR_DEPARTED = "Y" then
+      do;
+      ACTION_TYPE = NO_STATUS_UD;
+      end;
+
+   if (TOUR_DEPARTED ^= "Y") & (TOUR_DEP_DATE <= ACTION_DATE) then
+      do;
+      ACTION_TYPE = DEPARTURE_UD;
+      ACTION_DATE = TOUR_DEP_DATE;
+      end;
+
+   if (TOUR_SP2 ^= "Y") & (TOUR_SP2_DATE <= ACTION_DATE) then
+      do;
+      ACTION_TYPE = SP2_UD;
+      ACTION_DATE = TOUR_SP2_DATE;
+      end;
+
+   if (TOUR_SP1 ^= "Y") & (TOUR_SP1_DATE <= ACTION_DATE) then
+      do;
+      ACTION_TYPE = SP1_UD;
+      ACTION_DATE = TOUR_SP1_DATE;
+      end;
+
+   if (TOUR_TICKETS ^= "Y") & (TOUR_TICKET <= ACTION_DATE) then
+      do;
+      ACTION_TYPE = TICKET_UD;
+      ACTION_DATE = TOUR_TICKET;
+      end;
+
+   if (TOUR_FINAL_DOCS ^= "Y") & (TOUR_FINAL_DOC <= ACTION_DATE) then
+      do;
+      ACTION_TYPE = FINAL_DOCS_UD;
+      ACTION_DATE = TOUR_FINAL_DOC;
+      end;
+
+   if (TOUR_FINALIZED ^= "Y") & (TOUR_FINALIZE <= ACTION_DATE) then
+      do;
+      ACTION_TYPE = FINALIZED_UD;
+      ACTION_DATE = TOUR_FINALIZE;
+      end;
+
+   if (TOUR_SERV_CONF = "X") then
+      do;
+      /* These are safegards in case 2 or 3 of these are done before conf. */
+      ACTION_TYPE = SERV_CONF_UD;
+      ACTION_DATE = TODAYS_DATE();
+      end;
+
+   if (TOUR_BOOKING = "N") then
+      do;
+      ACTION_TYPE = BOOK_UD;
+      ACTION_DATE = TODAYS_DATE();
+      end;
+
+   if ALL_FULLY_PAID = "Y" then
+      do;
+      if TOUR_FIN_PAY = "N" then
+         do;
+         ACTION_TYPE = FIN_PAY_UD;
+         ACTION_DATE = TODAYS_DATE();
+         end;
+      if TOUR_DEP_REC = "N" then
+         do;
+         /* This will only be used on deposit after re-finalization */
+         ACTION_TYPE = DEP_REC_UD;
+         ACTION_DATE = TODAYS_DATE();
+         end;
+      end;
+
+   if TOUR_STATUS = "XL" then
+      do;
+      ACTION_TYPE = NO_STATUS_UD;
+      ACTION_DATE = 32767;
+      end;
+
+   if TOUR_STATUS = "NS" then
+      do;
+      ACTION_TYPE = NO_STATUS_UD;
+      ACTION_DATE = 32767;
+      end;
+
+
+   /* PROCESS_THIS_TOUR - Continue processing this tour??? */
+
+   if PRT_DOC_TYPE ^= 0 then if PRT_DOC_TYPE ^= ACTION_TYPE then
+      do;
+      END_PROCESS_LIST = YES;
+      return;
+      end;
+
+   if ACTION_TYPE = FINALIZED_UD then
+      do;
+      if FINL_PYMT_REC = "N" then
+         do;
+         do;
+         END_PROCESS_LIST = YES;
+         return;
+         end;
+         end;
+      end;
+
+   if ACTION_DATE <= DATE_CUT_OFF then
+      do;
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (BK_FINALIZE_RECORD) );
+
+      /* PRINT_LINE_D4 - PRINT */
+
+      call SETUP_PRINT_FORMAT (BK_FINALIZE_11);
+
+      /* SET_TYPE_DESC - Set the action type desc */
+
+      do case (ACTION_TYPE);
+         ACTION_TYPE_DESC = "Booking";
+         ACTION_TYPE_DESC = "Deposit rec";
+         ACTION_TYPE_DESC = "Serv. conf";
+         ACTION_TYPE_DESC = "Final pymt";
+         ACTION_TYPE_DESC = "Finalize";
+         ACTION_TYPE_DESC = "Final docs";
+         ACTION_TYPE_DESC = "Ticketing";
+         ACTION_TYPE_DESC = "Special 1";
+         ACTION_TYPE_DESC = "Special 2";
+         ACTION_TYPE_DESC = "Departure";
+         ACTION_TYPE_DESC = "Cancel";
+      end;
+      otherwise
+         do;
+         ACTION_TYPE_DESC = "";
+         end;
+
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE_2;
+      end;
+      return;
+      end;
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_PROCESS_LIST = YES;
+   return;
+   end;
+
+return;
+end;	/* PROCESS_LIST         */
+
+/****************************************************************
+	DEPART_UD
+	Departure date update
+****************************************************************/
+
+DEPART_UD:
+	procedure;
+
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   call AGENCY_UD;
+   call BK_V_HOTEL;
+   call BK_V_LAND;
+return;
+end;	/* DEPART_UD            */
+
+/****************************************************************
+	AGENCY_UD
+	Update the Agency info for each booking
+****************************************************************/
+
+AGENCY_UD:
+	procedure;
+
+declare		ERROR_AM_AGCY        fixed binary (15);
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* RESET_LOCK_NOMATCH - Is this is not a match, reset lock error */
+
+   if (BK_MODIFICATION > 0) !
+      (BK_TOUR_NUM > TOUR_NO) then
+         ERROR_CODE = NORMAL_RETURN;
+
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      return;
+
+   /* SKIP_BK_NOT_OK - Skip the booking if not "OK" */
+
+   if BK_STATUS ^= "OK" then
+      return;
+
+
+   /* SET_AGCY_KEY - Set the agency key from the booking rec. */
+
+   AGENCY_NUMBER = BK_AGENCY;
+   KEY_NO = 1;
+
+   /* READ_AGCY_REC - Read the agency record */
+
+   call READ_KEYED (AM_AGCY_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_AM_AGCY);
+   if ERROR_AM_AGCY > 3 then
+      call PRINT_ERROR (AM_AGCY_NO,ERROR_AM_AGCY);
+
+   /* RET_ON_NO_AGCY - return if agency not found */
+
+   if ERROR_AM_AGCY ^= NORMAL_RETURN then
+      return;
+
+
+   /* UD_AGCY_INFO - Update the agency info to current */
+
+   if (AGENCY_TYPE = "T") !
+      (AGENCY_TYPE = "A") ! (AGENCY_TYPE = "X") ! (AGENCY_TYPE = "U") then
+         return;
+
+   AGENCY_SALES_YTD = AGENCY_SALES_YTD + BK_TOUR_PRICE;
+   AGENCY_SALES_TO_DATE = AGENCY_SALES_TO_DATE + BK_TOUR_PRICE;
+   AGENCY_NO_BOOKINGS = AGENCY_NO_BOOKINGS + 1;
+   if HDR_UPGRADE_AGCY = " " then
+      HDR_UPGRADE_AGCY = "A";
+   AGENCY_TYPE = HDR_UPGRADE_AGCY;
+
+
+   /* UD_AGCY_REC - Update agency record */
+
+   call UPDATE_RECORD (AM_AGCY_NO,ERROR_CODE);
+return;
+end;	/* AGENCY_UD            */
+
+/****************************************************************
+	BK_V_HOTEL
+	Create the hotel A/P estimates/Vouchers
+****************************************************************/
+
+BK_V_HOTEL:
+	procedure;
+
+%include "BK_V_HOTEL.DCL";
+call BK_V_HOTEL(
+   BK_TOUR_RECORD,
+   BK_TOUR_HDR_RECORD,
+   BK_BOOKING_RECORD,
+   BK_PASSENGERS_RECORD,
+   BK_DET_HOTEL_RECORD,
+   AP_OPEN_RECORD,
+   AP_CONTROL_RECORD,
+   BK_HOTEL_RECORD,
+   BK_HOTEL_DET_RECORD,
+   AD_CURR_RECORD,
+   ERROR_CODE);
+return;
+end;	/* BK_V_HOTEL           */
+
+/****************************************************************
+	BK_V_LAND
+	Create the A/P est/vouchers for land
+****************************************************************/
+
+BK_V_LAND:
+	procedure;
+
+%include "BK_V_LAND.DCL";
+call BK_V_LAND(
+   BK_TOUR_RECORD,
+   BK_TOUR_HDR_RECORD,
+   BK_BOOKING_RECORD,
+   BK_PASSENGERS_RECORD,
+   BK_DET_LAND_RECORD,
+   AP_OPEN_RECORD,
+   AP_CONTROL_RECORD,
+   BK_LAND_RECORD,
+   BK_LAND_DET_RECORD,
+   AD_CURR_RECORD,
+   BK_TRANS_RECORD,
+   BK_TRANS_PRICE_RECORD,
+   ERROR_CODE);
+return;
+end;	/* BK_V_LAND            */
+
+/****************************************************************
+	TICKETING_UD
+	Ticketing date Update
+****************************************************************/
+
+TICKETING_UD:
+	procedure;
+
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_TK_THRU_BK = NO;
+   do while (END_TK_THRU_BK ^= YES);
+      call TK_THRU_BK;
+   end;
+return;
+end;	/* TICKETING_UD         */
+
+/****************************************************************
+	TK_THRU_BK
+	Go thru eack booking's tickets
+****************************************************************/
+
+TK_THRU_BK:
+	procedure;
+
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* RESET_LOCK_NOMATCH - Is this is not a match, reset lock error */
+
+   if (BK_MODIFICATION > 0) !
+      (BK_TOUR_NUM > TOUR_NO) then
+         ERROR_CODE = NORMAL_RETURN;
+
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_TK_THRU_BK = YES;
+      return;
+      end;
+
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+
+   /* SET_FIRST_AIRH - Set to read the first Air header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   END_GO_THRU_TK = NO;
+   do while (END_GO_THRU_TK ^= YES);
+      call GO_THRU_TK;
+   end;
+return;
+end;	/* TK_THRU_BK           */
+
+/****************************************************************
+	GO_THRU_TK
+	Go thru eack ticket in this booking
+****************************************************************/
+
+GO_THRU_TK:
+	procedure;
+
+declare		ERROR_TK_HEADER      fixed binary (15);
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH - Last header? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) !
+   (TK_ALT_SEQ > TK_ALT_SEQ) !
+   (TK_ANSW_SEQ > TK_ANSW_SEQ) then
+      do;
+      END_GO_THRU_TK = YES;
+      return;
+      end;
+
+   /* CHECK_UD_TK - Update the ticket? */
+
+   if ERROR_CODE = NORMAL_RETURN then if TK_UD_STATUS = NO_TK_STAT then
+      do;
+      TK_UD_STATUS = REQ_TK;
+
+      /* UPDATE_AIRH - Update the record */
+
+      call UPDATE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+      /* READ_TKHDR - Read the previous header */
+
+      call READ_KEYED (TK_HEADER_NO,KEY_AREA_1,ERROR_TK_HEADER);
+      if ERROR_TK_HEADER > 3 then
+         call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+      end;
+
+return;
+end;	/* GO_THRU_TK           */
+
+/****************************************************************
+	FINALIZATION_UD
+	Finalization date update
+****************************************************************/
+
+FINALIZATION_UD:
+	procedure;
+
+   call BK_V_HOTEL;
+   call BK_V_LAND;
+return;
+end;	/* FINALIZATION_UD      */
+
+/****************************************************************
+	CANCELLATION_UD
+	Logic for cancellation
+****************************************************************/
+
+CANCELLATION_UD:
+	procedure;
+
+   call BK_V_HOTEL;
+   call BK_V_LAND;
+return;
+end;	/* CANCELLATION_UD      */
+
+/****************************************************************
+	PRINT_THE_DOCS
+	Print the appropriate documents
+****************************************************************/
+
+PRINT_THE_DOCS:
+	procedure;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   DOC_TOUR_HDR_NO = TOUR_CODE;
+   DOC_PRINT_ON = ACTION_TYPE;
+   DOC_SEQ = 0;
+   call SET_POSITION (BK_TOUR_DOC_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_DOCS = NO;
+   do while (END_READ_THRU_DOCS ^= YES);
+      call READ_THRU_DOCS;
+   end;
+return;
+end;	/* PRINT_THE_DOCS       */
+
+/****************************************************************
+	READ_THRU_DOCS
+	Read thru the doc file and print alldocs
+****************************************************************/
+
+READ_THRU_DOCS:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (BK_TOUR_DOC_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TOUR_DOC_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (DOC_TOUR_HDR_NO > TOUR_CODE) !
+   (DOC_PRINT_ON > ACTION_TYPE) then
+      do;
+      END_READ_THRU_DOCS = YES;
+      return;
+      end;
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (BK_FINALIZE_RECORD) );
+
+   /* PRINT_DOC_LINE - Print the document detail line */
+
+   call SETUP_PRINT_FORMAT (BK_FINALIZE_11);
+   do LOOP_INDEX =   9 to   9;
+      call PRINT_REPORT_LINE_2;
+   end;
+
+   /* SET_DOC_FMT - Set up the document format */
+
+   BK_REC_NO = index("RSQBHLTVWICOP",DOC_DOC_TYPE);
+   if BK_REC_NO ^= 0 then
+      do;
+      call READ_KEYED (BK_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+      if BK_H_FORM ^= "" then
+         call PRINT_LINE ("[FORM: " !! CUT_SPACES(BK_H_FORM) !! "]");
+      end;
+   else
+      do;
+      BK_H_FORM = "";
+      end;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+
+   /* PRT_RIGHT_DOC - Print the right documents */
+
+   if (DOC_DOC_TYPE = "R") ! (DOC_DOC_TYPE = "H") ! (DOC_DOC_TYPE = "V") then
+      do;
+      call HOTEL_ORDER;
+      ERROR_CODE = ERROR_AP_OPEN;
+      end;
+
+   if (DOC_DOC_TYPE = "S") ! (DOC_DOC_TYPE = "L") ! (DOC_DOC_TYPE = "W") then
+      do;
+      call LAND_ORDER;
+      ERROR_CODE = ERROR_AP_OPEN;
+      end;
+
+   if (DOC_DOC_TYPE = "Q") ! (DOC_DOC_TYPE = "T") then
+      do;
+      call AIR_ORDER;
+      end;
+
+   if (DOC_DOC_TYPE = "B") ! (DOC_DOC_TYPE = "C") ! (DOC_DOC_TYPE = "I") then
+      do;
+      call BOOKING_ORDER;
+      end;
+
+   if (DOC_DOC_TYPE = "O") ! (DOC_DOC_TYPE = "P") then
+      do;
+      call PAX_ORDER;
+      end;
+
+
+   /* RETURN_IF_LOCK - Return if ERROR_CODE = locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      END_READ_THRU_DOCS = YES;
+      return;
+      end;
+
+return;
+end;	/* READ_THRU_DOCS       */
+
+/****************************************************************
+	HOTEL_ORDER
+	Print the hotel ordered documents
+****************************************************************/
+
+HOTEL_ORDER:
+	procedure;
+
+
+   /* CHECK_AP_HOTEL - Re-finalize if the hotels haven't been */
+
+   if ACTION_DATE ^= FINALIZED_UD then if TOUR_FINALIZED = "N" then
+      do;
+      call BK_V_HOTEL;
+      end;
+
+
+   /* SET_FIRST_AP_OPEN - Set to the first tour detail */
+
+   AP_OPEN_TOUR = TOUR_NO;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+   END_GO_THRU_H_VCHRS = NO;
+   do while (END_GO_THRU_H_VCHRS ^= YES);
+      call GO_THRU_H_VCHRS;
+   end;
+
+   /* RELEASE_LOCKS_2 - Release Locks */
+
+   call RELEASE_LOCKS (AP_OPEN_NO);
+return;
+end;	/* HOTEL_ORDER          */
+
+/****************************************************************
+	GO_THRU_H_VCHRS
+	Go thru all the hotel vouchers
+****************************************************************/
+
+GO_THRU_H_VCHRS:
+	procedure;
+
+
+   /* READ_NEXT_AP_OPEN - Read next */
+
+   call READ_NEXT (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_AP_OPEN - Last detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_TOUR > TOUR_NO) then
+      do;
+      END_GO_THRU_H_VCHRS = YES;
+      return;
+      end;
+
+   /* TRY_AGAIN_IF_LOCK - Return if record locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      return;
+
+
+   /* SKIP_AP_LAND - Skip A/P land vouchers */
+
+   if AP_V_BASED_SEQ = -1 then
+      return;
+
+
+   /* SKIP_MAN_VOUCHER - Skip manually entered A/P voucher */
+
+   if AP_V_BASED_BK = 0 then
+      return;
+
+
+   /* SKIP_NO_HREQ - Skip if the document isn't requested */
+
+   if DOC_DOC_TYPE = "H" then
+      if (AP_GL_STATUS ^= REQ_VCHR) &
+         (AP_GL_STATUS ^= REQ_REPRT) &
+         (AP_GL_STATUS ^= CXL_REQ) then
+            return;
+
+
+   /* BEFORE_LOGIC_1 - Before logic */
+
+
+   /* BK_H_VOUCHER - Call to print this voucher */
+
+   %include "BK_H_VOUCHER.DCL";
+   call BK_H_VOUCHER(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_DET_HOTEL_RECORD,
+      AP_OPEN_RECORD,
+      BK_HOTEL_RECORD,
+      TK_DETAIL_RECORD,
+      AP_VENDOR_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD,
+      BK_HOTEL_CAT_RECORD);
+
+   /* AFTER_LOGIC_1 - After logic */
+
+
+   /* READ_AP_OPEN - Read the A/P Open record */
+
+   call READ_KEYED (AP_OPEN_NO,KEY_AREA_3,ERROR_AP_OPEN);
+   if ERROR_AP_OPEN > 3 then
+      call PRINT_ERROR (AP_OPEN_NO,ERROR_AP_OPEN);
+return;
+end;	/* GO_THRU_H_VCHRS      */
+
+/****************************************************************
+	LAND_ORDER
+	Land ordered documents
+****************************************************************/
+
+LAND_ORDER:
+	procedure;
+
+
+   /* CHECK_AP_LANDD - Re-finalize if land vouchers not set up */
+
+   if ACTION_DATE ^= FINALIZED_UD then if TOUR_FINALIZED = "N" then
+      do;
+      call BK_V_LAND;
+      end;
+
+
+   /* SET_FIRST_AP_OPEN - Set to the first tour detail */
+
+   AP_OPEN_TOUR = TOUR_NO;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+   END_GO_THRU_L_VCHRS = NO;
+   do while (END_GO_THRU_L_VCHRS ^= YES);
+      call GO_THRU_L_VCHRS;
+   end;
+
+   /* RELEASE_LOCKS_2 - Release Locks */
+
+   call RELEASE_LOCKS (AP_OPEN_NO);
+return;
+end;	/* LAND_ORDER           */
+
+/****************************************************************
+	GO_THRU_L_VCHRS
+	Go thru the land vouchers and print
+****************************************************************/
+
+GO_THRU_L_VCHRS:
+	procedure;
+
+
+   /* READ_NEXT_AP_OPEN - Read next */
+
+   call READ_NEXT (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_AP_OPEN - Last detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_TOUR > TOUR_NO) then
+      do;
+      END_GO_THRU_L_VCHRS = YES;
+      return;
+      end;
+
+   /* TRY_AGAIN_IF_LOCK - Return if record locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      return;
+
+
+   /* SKIP_AP_HOTEL - Skip hotel A/P estimates */
+
+   if AP_V_BASED_SEQ ^= -1 then
+      return;
+
+
+   /* SKIP_MAN_VOUCHER - Skip manually entered A/P voucher */
+
+   if AP_V_BASED_BK = 0 then
+      return;
+
+
+   /* SKIP_NO_LREQ - Skip if document isn't requested */
+
+   if DOC_DOC_TYPE = "L" then
+      if (AP_GL_STATUS ^= REQ_VCHR) &
+         (AP_GL_STATUS ^= REQ_REPRT) &
+         (AP_GL_STATUS ^= CXL_REQ) then
+            return;
+
+
+   /* BEFORE_LOGIC_2 - Before logic */
+
+
+   /* BK_L_VOUCHER - Call the module to print this voucher */
+
+   %include "BK_L_VOUCHER.DCL";
+   call BK_L_VOUCHER(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_DET_LAND_RECORD,
+      AP_OPEN_RECORD,
+      BK_LAND_RECORD,
+      BK_TRANS_RECORD,
+      TK_DETAIL_RECORD,
+      AP_VENDOR_RECORD,
+      BK_HOTEL_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_ITIN_DET_RECORD);
+
+   /* AFTER_LOGIC_2 - After logic */
+
+
+   /* READ_AP_OPEN - Read the A/P Open record */
+
+   call READ_KEYED (AP_OPEN_NO,KEY_AREA_3,ERROR_AP_OPEN);
+   if ERROR_AP_OPEN > 3 then
+      call PRINT_ERROR (AP_OPEN_NO,ERROR_AP_OPEN);
+return;
+end;	/* GO_THRU_L_VCHRS      */
+
+/****************************************************************
+	AIR_ORDER
+	Air ordered documents
+****************************************************************/
+
+AIR_ORDER:
+	procedure;
+
+   call BOOKING_ORDER;
+return;
+end;	/* AIR_ORDER            */
+
+/****************************************************************
+	BOOKING_ORDER
+	Booking ordered documents
+****************************************************************/
+
+BOOKING_ORDER:
+	procedure;
+
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_BK_THRU_BK = NO;
+   do while (END_BK_THRU_BK ^= YES);
+      call BK_THRU_BK;
+   end;
+return;
+end;	/* BOOKING_ORDER        */
+
+/****************************************************************
+	BK_THRU_BK
+	Read thru all bookings and print form
+****************************************************************/
+
+BK_THRU_BK:
+	procedure;
+
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* RESET_LOCK_NOMATCH - Is this is not a match, reset lock error */
+
+   if (BK_MODIFICATION > 0) !
+      (BK_TOUR_NUM > TOUR_NO) then
+         ERROR_CODE = NORMAL_RETURN;
+
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_BK_THRU_BK = YES;
+      return;
+      end;
+
+   /* SKIP_CAN_BK - Skip Cancelled bookings if not xl */
+
+   if ((BK_STATUS = "XL") & (DOC_PRINT_ON ^= XL_UD)) !
+   ((BK_STATUS ^= "XL") & (DOC_PRINT_ON = XL_UD)) then
+      return;
+
+
+   /* PRINT_BK_FORM - Print the form for this booking */
+
+   if DOC_DOC_TYPE = "B" then
+      do;
+
+      /* BK_PRT_INV - Print the booking invoice format */
+
+
+         /* SET_INVOICE_FORM - Set the form type to "INVOICE" */
+
+         call PRINT_LINE ("[FORM: INVOICE]");
+
+
+         /* FAKE_BK_FORM - If a form is specified, use that form */
+
+         declare TEMPFORM character(20);
+         TEMPFORM = TOUR_CONF_NAME;
+         if DOC_NAME ^= "" then
+            TOUR_CONF_NAME = DOC_NAME;
+
+
+         /* BK_INVOICE - Print an invoice for this booking */
+
+         %include "BK_INVOICE.DCL";
+         call BK_INVOICE(
+            BK_BOOKING_RECORD,
+            BK_TOUR_RECORD,
+            BK_TOUR_HDR_RECORD,
+            BK_PASSENGERS_RECORD,
+            BK_LINE_RECORD,
+            BK_DET_HOTEL_RECORD,
+            BK_COMMENT_RECORD,
+            TK_HEADER_RECORD,
+            TK_DETAIL_RECORD,
+            BK_HOTEL_RECORD,
+            BK_DET_LAND_RECORD,
+            BK_LAND_RECORD,
+            BK_TRANS_RECORD);
+
+         /* RESTORE_BK_FORM - Set the form back */
+
+         TOUR_CONF_NAME = TEMPFORM;
+
+      end;
+   if DOC_DOC_TYPE = "I" then
+      do;
+
+      /* BK_PRT_ITIN - Set up this booking's itinerary */
+
+
+         /* INCLUDE_ITIN - Include the itin data */
+
+         %include "BK_IT_BUILD.DD";
+
+
+         /* SET_ITIN_FLAGS - Set the default flags for itin building */
+
+         BK_IT_VERSION = " ";
+         BK_IT_DATE = 9;
+         BK_IT_DAY = 1;
+         BK_IT_DEP_ARV = 1;
+         BK_IT_TEMPLATE = TOUR_IT_NAME;
+         if BK_IT_TEMPLATE = "" then
+            BK_IT_TEMPLATE = HDR_ITIN;
+         if DOC_NAME ^= "" then
+            BK_IT_TEMPLATE = DOC_NAME;
+
+
+         /* BK_IT_BUILD - Call the itinerary building program */
+
+         %include "BK_IT_BUILD.DCL";
+         call BK_IT_BUILD(
+            BK_TOUR_RECORD,
+            BK_TOUR_HDR_RECORD,
+            BK_BOOKING_RECORD,
+            BK_PASSENGERS_RECORD,
+            BK_DET_HOTEL_RECORD,
+            BK_DET_LAND_RECORD,
+            TK_DETAIL_RECORD,
+            BK_HOTEL_RECORD,
+            BK_ITIN_DET_RECORD,
+            AP_VENDOR_RECORD,
+            BK_LINE_RECORD,
+            BK_IT_BUILD_RECORD);
+      end;
+   if DOC_DOC_TYPE = "C" then
+      do;
+
+      /* BK_PRT_CHECK - Print the booking checklist */
+
+         call PRINT_DOC;
+      end;
+
+return;
+end;	/* BK_THRU_BK           */
+
+/****************************************************************
+	PRINT_DOC
+	Print text document format
+****************************************************************/
+
+PRINT_DOC:
+	procedure;
+
+
+   /* BK_PRINT_DOC - Print the free form document format */
+
+   %include "BK_PRINT_DOC.DCL";
+   call BK_PRINT_DOC(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD);
+return;
+end;	/* PRINT_DOC            */
+
+/****************************************************************
+	PAX_ORDER
+	Pax ordered documents
+****************************************************************/
+
+PAX_ORDER:
+	procedure;
+
+
+   /* CHECK_PAX_TYPE - Which pax document do you want? */
+
+   if DOC_DOC_TYPE = "O" then
+      do;
+
+      /* BK_ROOM_LIST - Print the pax rooming list */
+
+      %include "BK_ROOM_LIST.DCL";
+      call BK_ROOM_LIST(
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_TOUR_DOC_RECORD,
+         BK_CONTROL_RECORD);
+      end;
+
+   if DOC_DOC_TYPE = "P" then
+      do;
+
+      /* BK_PAX_LIST - Print the tour passenger list */
+
+      %include "BK_PAX_LIST.DCL";
+      call BK_PAX_LIST(
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_TOUR_DOC_RECORD,
+         BK_CONTROL_RECORD);
+      end;
+
+return;
+end;	/* PAX_ORDER            */
+
+/****************************************************************
+	PRINT_REPORT_LINE_2
+	Print the detail report line
+****************************************************************/
+
+PRINT_REPORT_LINE_2:
+	procedure;
+
+LINE2 = LINE2 + 1;
+if LINE2 > 60 then
+   do;
+   call PRINT_LINE_2 ("<FF>"c);
+   LINE2 = 0;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING_2;
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT_2 (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE_2  */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_LINE_NO);
+   call CLOSE_FILE (AP_CONTROL_NO);
+   call CLOSE_FILE (BK_LAND_DET_NO);
+   call CLOSE_FILE (BK_HOTEL_DET_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_TOUR_DOC_NO);
+   call CLOSE_FILE (BK_CONTROL_NO);
+   call CLOSE_FILE (AM_AGCY_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (BK_COMMENT_NO);
+   call CLOSE_FILE (BK_TRANS_NO);
+   call CLOSE_FILE (BK_TRANS_PRICE_NO);
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (BK_ITIN_DET_NO);
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (BK_LAND_NO);
+   call CLOSE_FILE (BK_PASSENGERS_NO);
+   call CLOSE_FILE (BK_HOTEL_CAT_NO);
+   call CLOSE_PRINTER;
+   call CLOSE_PRINTER_2;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

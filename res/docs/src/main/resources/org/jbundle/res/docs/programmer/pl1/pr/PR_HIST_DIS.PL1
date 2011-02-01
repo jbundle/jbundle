@@ -1,0 +1,295 @@
+/****************************************************************
+	Module: PR_HIST_DIS
+	Top Level Logic: TABLE_FILE_DIS
+	Date: 14-May-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	PR_HIST_DIS
+	Display table logic
+****************************************************************/
+
+%replace PR_HIST_DIS_1 by  84;
+PR_HIST_DIS:
+   procedure;
+%replace PR_HIST_NO by  27;
+%replace EMPLOYEE_NO by   6;
+%include "PR_HIST.DD";
+%include "EMPLOYEE.DD";
+%include "PR_HIST_DIS.DD";
+
+declare		END_DISPLAY_IO       bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_DISPLAY_IO = NO;
+   do while (END_DISPLAY_IO ^= YES);
+      call DISPLAY_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   PR_HIST_SS_GROSS = 0;
+   PR_HIST_STATE_GROSS = 0;
+   EMP_STATE = "CA";
+   FED_ALLOW = 2;
+   PAY_FREQ = "W";
+   PAY_TYPE = "H";
+   IN_PENSION = "Y";
+   DE_1 = "";
+   DE_2 = "";
+   DE_3 = "";
+   DE_4 = "";
+   QTD_SS_GROSS = 0;
+   QTD_STATE_GROSS = 0;
+   YTD_SS_GROSS = 0;
+   YTD_STATE_GROSS = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (PR_HIST_DIS_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (PR_HIST_NO,"PR_HIST",byteaddr(PR_HIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (PR_HIST_NO,ERROR_CODE);
+   call OPEN_FILE (EMPLOYEE_NO,"EMPLOYEE",byteaddr(EMPLOYEE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (EMPLOYEE_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (PR_HIST_DIS_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DISPLAY_IO
+	Main logic for table display
+****************************************************************/
+
+DISPLAY_IO:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (PR_HIST_DIS_1);
+   NOT_FIRST_TIME = YES;
+   call INPUT_HDR_INFO;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_DISPLAY_IO = YES;
+      return;
+      end;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* DISPLAY_IO           */
+
+/****************************************************************
+	INPUT_HDR_INFO
+	Input the table header information
+****************************************************************/
+
+INPUT_HDR_INFO:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_EMPLOYEE       fixed binary (15);
+EMP_NAME = "";
+do LOOP_INDEX =  14 to  17;
+   if LOOP_INDEX =  15 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* READ_RECORD_2 - Read from another file */
+
+      call READ_KEYED (EMPLOYEE_NO,KEY_AREA_1,ERROR_EMPLOYEE);
+      if ERROR_EMPLOYEE > 3 then
+         call PRINT_ERROR (EMPLOYEE_NO,ERROR_EMPLOYEE);
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* EMP_CK_ALL - Check to see if all was typed */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         START_EMP_DATE = 0;
+         END_EMP_DATE = 32000;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_HDR_INFO       */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		EMP_NO_HIST_SAVE     fixed binary (31);
+declare		PR_HIST_CK_DATE_SAVE fixed binary (15);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		PR_HIST_CK_NO_ARRAY( 8) fixed binary (31);
+declare		PR_HIST_SEQ_ARRAY( 8) fixed binary (15);
+declare		PR_HIST_ERROR        fixed binary (15);
+declare		PR_HIST_CK_NO_SAVE   fixed binary (31);
+declare		PR_HIST_SEQ_SAVE     fixed binary (15);
+declare		ANSWER               character (1);
+EMP_NO_HIST = EMP_NO;
+EMP_NO_HIST_SAVE = EMP_NO_HIST;
+PR_HIST_CK_DATE = START_EMP_DATE;
+PR_HIST_CK_DATE_SAVE = PR_HIST_CK_DATE;
+PR_HIST_CK_NO = 0;
+PR_HIST_SEQ = 0;
+call SET_POSITION (PR_HIST_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (PR_HIST_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (EMP_NO_HIST > EMP_NO_HIST_SAVE) !
+   (PR_HIST_CK_DATE > END_EMP_DATE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to  8;
+      PR_HIST_CK_NO_ARRAY(RECORD_NUMBER) = 0;
+      PR_HIST_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      PR_HIST_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (PR_HIST_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <=  8) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+         do LOOP_INDEX =   1 to  13;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         PR_HIST_CK_NO_ARRAY(RECORD_NUMBER) = PR_HIST_CK_NO;
+         PR_HIST_SEQ_ARRAY(RECORD_NUMBER) = PR_HIST_SEQ;
+         call READ_NEXT (PR_HIST_NO,KEY_AREA_1,PR_HIST_ERROR);
+         if (EMP_NO_HIST > EMP_NO_HIST_SAVE) !
+         (PR_HIST_CK_DATE > END_EMP_DATE) then
+            PR_HIST_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      PR_HIST_CK_NO_SAVE = PR_HIST_CK_NO_ARRAY( 8);
+      PR_HIST_SEQ_SAVE = PR_HIST_SEQ_ARRAY( 8);
+      EMP_NO_HIST = EMP_NO_HIST_SAVE;
+      PR_HIST_CK_DATE = PR_HIST_CK_DATE_SAVE;
+      if PR_HIST_ERROR = END_OF_FILE then
+         do;
+         GET_OUT = YES;
+         call PRESS_RETURN;
+         end;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      do;
+      GET_OUT = YES;
+      call PRESS_RETURN;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to  8;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+      if PR_HIST_CK_NO_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX = 1 to  13;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (PR_HIST_NO);
+   call CLOSE_FILE (EMPLOYEE_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

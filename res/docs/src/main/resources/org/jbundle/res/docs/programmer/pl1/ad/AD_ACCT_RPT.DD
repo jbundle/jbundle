@@ -1,0 +1,14 @@
+/*********************************************************************
+	AD_ACCT_RPT File
+********************************************************************/
+
+declare	1 AD_ACCT_RPT_RECORD,
+		3 AD_BANK_DATE         fixed binary (15),
+		3 AD_BANK_TIME         fixed binary (15),
+		3 AD_BANK_USER         character (       16),
+		3 AD_BANK_PAGE         fixed binary (15),
+		3 AD_BAL_DATE          fixed binary (15),
+		3 AD_START_ACCT        fixed binary (15),
+		3 AD_END_ACCT          fixed binary (15),
+		3 AD_TOTAL_ACCTS       fixed binary (15);
+

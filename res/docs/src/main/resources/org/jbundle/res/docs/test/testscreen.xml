@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="testscreen.xsl"?>
+<?cocoon-process type="xslt"?>
+<full-screen>
+<title>My Screen</title>
+	<top-menu>
+	</top-menu>
+	<navigation-menu>
+		<navigation-item>
+			<name>Home</name>
+			<link>.</link>
+			<icon>Home.gif</icon>
+		</navigation-item>
+		<navigation-item>
+			<name>Email Center</name>
+			<link>mailto:don@donandann.com</link>
+			<icon>Mail.gif</icon>
+		</navigation-item>
+		<navigation-item>
+			<name>Favorites</name>
+			<link>docs/favorites.html</link>
+			<icon>Help.gif</icon>
+		</navigation-item>
+	</navigation-menu>
+</full-screen>

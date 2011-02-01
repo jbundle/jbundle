@@ -1,0 +1,114 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program prints a tour order or voucher for the current A/P voucher in this tour.
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>For this program to work the following information must be passed in:
+
+<br wp="br1"><br wp="br2">
+<p>- Tour (Current)
+
+<p>  - Voucher format
+
+<p>- Tour Header (Current)
+
+<p>- Hotel A/P Open Voucher
+
+<br wp="br1"><br wp="br2">
+<p>- Printer must be open for correct form already
+
+<br wp="br1"><br wp="br2">
+<p>NOTE: The A/P voucher status is updated by this program
+
+<br wp="br1"><br wp="br2">
+<p>For voucher formats, the following codes are valid:
+
+<p>HDR0 - Standard header
+
+<p>	HDR1 - Header line (Tour Order/Change)
+
+<p>		** Hotel Tour Order**
+
+<p>		** Hotel Modification **
+
+<p>		** Hotel Cancellation **
+
+<p>		** Hotel Voucher **
+
+<p>	HDR1L - Header line (Left justified for faxes, telexes)
+
+<p>	HDR2 - Voucher number
+
+<p>	HDR3 - Vendor, date, flight info, Tour info, and Room Config
+
+<br wp="br1"><br wp="br2">
+<p>	HDR4 - Voucher number (left justified)
+
+<p>	HDR5 - Voucher date
+
+<p>	HDR6 - Tour code/desc
+
+<p>	HDR7 - Force Tour Order Format (Same as HDR0)
+
+<p>	HDR8 - Force Tour Voucher Format (Same as HDR0)
+
+<p>	HDR9 - Passengers will arrive on and stay for ...
+
+<p>PAX0 - Passenger Information (Vertical)
+
+<p>PAX1 - Passenger Information (Horizontal) &lt;--&gt;
+
+<p>PAX2 - Room Config.
+
+<p>FLT0 - Default in/out flights
+
+<p>FLT1 - Default in/out flights (includes origin and destination)
+
+<p>HTL0 - Hotel Name (If ever booked through land operators)
+
+<p>HTL1 - Hotel Name (Can be included in text)
+
+<p>MEA0 - Meal Plan/Meals
+
+<p>MEA1 - Meals are on client's account
+
+<p>RCL0 - Please provide XXX class rooms.
+
+<p>AGT0 - Operation agent's name
+
+<p>	Can be included in text:
+
+<p>CWD0 - Word describing action (Confirm/Change/Cancel)
+
+<p>CWD1 - Tour description (Can be included in text)
+
+<p>CWD2 - Issue date (Can be included in text)
+
+<p>RTE0 - Hotel rate
+
+<p>RCL1 - Please provide XXX class rooms. (YYY rate)
+
+<p>TVA1 - Travel Agency Name
+
+<p>TVA2 - Travel Agency City &amp; State
+
+<p>TVA3 - Travel Agency Contact
+
+<p>VEN0 - Vendor Name
+
+<p>VEN1 - Vendor Contact
+
+<p>RMC0 - Room Configuration
+
+</body>
+</html>

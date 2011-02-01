@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_STATUS_RPT File
+********************************************************************/
+
+declare	1 BK_STATUS_RPT_RECORD,
+		3 START_BOOKING        fixed binary (31),
+		3 END_AGENCY           fixed binary (31);
+

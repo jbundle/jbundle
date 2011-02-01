@@ -1,0 +1,100 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program builds the itinerary for a tour.
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>First, enter to booking number to print the itinerary for.
+
+<br wp="br1"><br wp="br2">
+<p>This program will build a complete itinerary for virtually any type of tour, from the itinerary for each
+departure of a group series tour, to the complete itinerary for an FIT which was built from scratch.
+
+<br wp="br1"><br wp="br2">
+<p>When the tour file is read, the itinerary file is created using the tour number as the name. Then, the
+itinerary specified in the tour file is read, line-by-line and added to the itinerary file. The text is
+transfered as-is unless a special code is in the text. If a special code is encountered, the action depends
+on the code.
+
+<br wp="br1"><br wp="br2">
+<p>Here are the list of codes:
+
+<br wp="br1"><br wp="br2">
+<p>DTAIL -	Inserts the itinerary codes associated with the tour detail here.
+
+<p>DAYxx -	Converts to the day relative to the start of the tour. The 	format depends on the
+format selected. (For example, Format 1 is: Thu, Mar 15)
+
+<p>DATE  -	Converts to this date (usually for tour desc. paragraphs) (Same as DATE1)
+
+<p>DATEx -	Converts to day relative to start of module
+
+<p>DDATE -	Departure date
+
+<p>HOTEL -	Converts to the hotel name at this date or the next day.
+
+<p>THOTL -	Converts to the hotel name at this date or the next day. Note: If the hotel doesn't start
+with a "the," one is added.
+
+<p>FCITY -	Departure city (ie., Los Angeles)
+
+<p>FAIRL -	Departure Airline (ie., United Airlines)
+
+<p>FFLNO -	Departure Flight number (ie., 122)
+
+<p>FTIME -	Departure time (ie., 12:44 pm)
+
+<p>FFLGT -	Departure Flight (ie., UA 122)
+
+<p>FACTY -	Arrival City
+
+<p>FATME -	Arrival Time
+
+<p>FAIRI -	Standard Air Info format (City, Flight, Time)
+
+<p>TNAME -	Name of the tour
+
+<p>MEALS -	Meals on this day (ie., (AB D)
+
+<p>TRPAX -	Passengers on this Tour
+
+<p>BKPAX -	Passengers on this booking
+
+<p>HNAME -	Lists all the hotel names, addresses, phones, and cable address.
+
+<p>LNAME -	Lists all the Tour Operators on this tour.
+
+<p>AGENT -	Name of the agent building the itinerary
+
+<p>PRICE -	Pricing detail
+
+<p>TPRCE -	Total Price
+
+<p>PCOST -	Cost detail (same as PRICE, but lists nets)
+
+<p>TCOST -	Total cost
+
+<p>LINEI -	Line item detail for this booking
+
+<p>PDPST -	Deposit per-person
+
+<p>TDPST -	Total Deposit
+
+<p>ANAME -	Travel Agency name
+
+<p>AADDR -	Travel Agency address
+
+<p>ACNTC -	Travel Agency Contact
+
+<p>ACSAL -	Travel Agenct Contact First Name (for Dear XXX)
+</body>
+</html>

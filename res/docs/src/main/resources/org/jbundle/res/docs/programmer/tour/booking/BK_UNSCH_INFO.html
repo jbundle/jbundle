@@ -1,0 +1,119 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to maintain the tour header information.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<p>/SDESC1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>Enter or change to Tour Header Information fields.
+
+<br wp="br1"><br wp="br2">
+<p>The default rate and type should be set to the typical hotel rate and type for this type of tour.
+
+<br wp="br1"><br wp="br2">
+<p>The default PMC cutoff usually will be set to 0 to allow you to select the PMC cutoff for each land
+item. If the PMC cutoff is set to a non-zero number, ALL the land items will have the default cutoff
+unless the cutoff is manually set in FIT land entry.
+
+<br wp="br1"><br wp="br2">
+<p>If you answer Yes to the ACK? question, the acknowledgement days in hotel and land detail entry will
+default to ten days if they are not taken from inventory. A No answer will default the
+acknowledgement days to zero. Remember, this field does NOT affect detail copied from a tour
+header.
+
+<br wp="br1"><br wp="br2">
+<p>Remember to enter the correct initial tour status field. This will be the initial booking status for all
+bookings and the initial tour status for non-series tours. The valid status codes are as follows:
+
+<p>Booking status codes:
+
+<p>	XL - Booking canceled, return money received.
+
+<p>	OK - Booking okay (accepted), make sure money comes in
+
+<p>	RQ - Requesting services, wait. (invoices will not print)
+
+<p>	NS - No status, in proposal stage or scratch
+
+<p>Tour Status codes:
+
+<p>	XL - Tour cancelled, all services ordered must be xld
+
+<p>	OK - Tour okay, order services at finalization date
+
+<p>			(If all bookings are fully paid)
+
+<p>	RQ - Requesting services (manually order, no auto orders)
+
+<p>	NS - No status, no ordering can be done
+
+<p>	CL - Closed tour, same as "OK"
+
+<p>	GB - Group blocked tour, same as "OK"
+
+<p>Hotel, Land, Transportation, Air codes:
+
+<p>	RQ - Not confirmed
+
+<p>	OK - Confirmed
+
+<p>		(Look at the tour order status to see the detail)
+
+<p>	Remember: If you change the booking status, the tour status will automatically change. If you change the tour
+status, the booking status remains the same.
+
+<p>The itinerary form field must match a text file in the :TRAVEL:FORM directory. The file can be free
+text, with special codes for standard information:
+
+<br wp="br1"><br wp="br2">
+<p>For invoice formats, the following codes are valid:
+
+<p>HDR0 - Standard header
+
+<p>	HDR1 - Header
+
+<p>	HDR2 - Reservation number
+
+<p>	HDR3 - Booking agent and date
+
+<p>	HDR4 - Agency and Tour Information
+
+<p>PAX0 - Passenger Information
+
+<p>LIN0 - Price Line Items and totals
+
+<p>FLT0 - Flight Information
+
+<p>REM0 - Remark Information
+
+<p>MSC1 - MCO Information
+
+<p>MSC2 - Tour Min to Op warning
+
+<p>MSC3 - Refer to brochure for xln policy
+
+<p>MSC4 - Agent's responsibility
+
+<p>MSC5 - Flt bags, etc will be sent...
+
+<p>MSC6 - Thank you
+
+<p>HTL0 - Hotel status
+</body>
+</html>

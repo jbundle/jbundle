@@ -1,0 +1,284 @@
+/****************************************************************
+	Module: AP_DIS_BOOKP
+	Top Level Logic: TABLE_FILE_DIS
+	Date: 29-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_DIS_BOOKP
+	Display table logic
+****************************************************************/
+
+%replace AP_DIS_BOOKP_1 by 569;
+AP_DIS_BOOKP:
+   procedure;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_BOOKING_NO by   9;
+%include "AP_DIS_BOOKP.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_BOOKING.DD";
+
+declare		END_DISPLAY_IO       bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   END_DISPLAY_IO = NO;
+   do while (END_DISPLAY_IO ^= YES);
+      call DISPLAY_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_DIS_BOOKP_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AP_DIS_BOOKP_RECORD) );
+   call OPEN_FILE (BK_PASSENGERS_NO,"BK_PASSENGERS",byteaddr(BK_PASSENGERS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DISPLAY_IO
+	Main logic for table display
+****************************************************************/
+
+DISPLAY_IO:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AP_DIS_BOOKP_1);
+   NOT_FIRST_TIME = YES;
+   call INPUT_HDR_INFO;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_DISPLAY_IO = YES;
+      return;
+      end;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* DISPLAY_IO           */
+
+/****************************************************************
+	INPUT_HDR_INFO
+	Input the table header information
+****************************************************************/
+
+INPUT_HDR_INFO:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* BOOKP_UPPER - Convert to upper case */
+
+      call CONVERT_TO_UPPER(BOOKP_LAST_NAME);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_HDR_INFO       */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		BK_PAX_MOD_SAVE      fixed binary (15);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		BK_PAX_LAST_NAME_ARR(18) character (       10);
+declare		BK_PAX_BK_NO_ARRAY(18) fixed binary (31);
+declare		BK_PAX_SEQ_ARRAY(18) fixed binary (15);
+declare		BK_PASSENGERS_ERROR  fixed binary (15);
+declare		BK_PAX_LAST_NAME_SAV character (       10);
+declare		BK_PAX_BK_NO_SAVE    fixed binary (31);
+declare		BK_PAX_SEQ_SAVE      fixed binary (15);
+declare		ANSWER               character (1);
+BK_PAX_MOD = 0;
+BK_PAX_MOD_SAVE = BK_PAX_MOD;
+BK_PAX_LAST_NAME = BOOKP_LAST_NAME;
+BK_PAX_BK_NO = 0;
+BK_PAX_SEQ = 0;
+call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_2,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_2,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_PAX_MOD_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 18;
+      BK_PAX_LAST_NAME_ARR(RECORD_NUMBER) = "";
+      BK_PAX_BK_NO_ARRAY(RECORD_NUMBER) = 0;
+      BK_PAX_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_PASSENGERS_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_PASSENGERS_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 18) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =   2 to  11;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =   3 then
+               do;
+
+               /* READ_SECOND - Read info and display secondary fileinfo */
+
+               BK_MODIFICATION = 0;
+               BOOKING_NO = BK_PAX_BK_NO;
+               call READ_KEYED (BK_BOOKING_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  end;
+               else
+                  do;
+                  end;
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         BK_PAX_LAST_NAME_ARR(RECORD_NUMBER) = BK_PAX_LAST_NAME;
+         BK_PAX_BK_NO_ARRAY(RECORD_NUMBER) = BK_PAX_BK_NO;
+         BK_PAX_SEQ_ARRAY(RECORD_NUMBER) = BK_PAX_SEQ;
+         call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_2,BK_PASSENGERS_ERROR);
+         if (BK_PAX_MOD > BK_PAX_MOD_SAVE) then
+            BK_PASSENGERS_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      BK_PAX_LAST_NAME_SAV = BK_PAX_LAST_NAME_ARR(18);
+      BK_PAX_BK_NO_SAVE = BK_PAX_BK_NO_ARRAY(18);
+      BK_PAX_SEQ_SAVE = BK_PAX_SEQ_ARRAY(18);
+      BK_PAX_MOD = BK_PAX_MOD_SAVE;
+      if BK_PASSENGERS_ERROR = END_OF_FILE then
+         do;
+         GET_OUT = YES;
+         call PRESS_RETURN;
+         end;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      do;
+      GET_OUT = YES;
+      call PRESS_RETURN;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 18;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if BK_PAX_LAST_NAME_ARR(RECORD_NUMBER) ^= "" then
+         do LOOP_INDEX = 2 to  11;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_PASSENGERS_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

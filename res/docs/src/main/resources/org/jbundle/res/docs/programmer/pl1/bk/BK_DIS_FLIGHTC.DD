@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_DIS_FLIGHTC File
+********************************************************************/
+
+declare	1 BK_DIS_FLIGHTC_RECORD,
+		3 DIS_FLIGHT_FROM      character (        3),
+		3 DIS_CITY_TO          character (        3),
+		3 START_FLT            character (        3),
+		3 END_FLT              character (        3);
+

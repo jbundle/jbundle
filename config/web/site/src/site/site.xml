@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Maven">
+  <bannerLeft>
+    <name>JBundle Open Source Software Projects</name>
+  </bannerLeft>
+  <body>
+    <links>
+      <item name="JBundle" href="http://www.jbundle.org/" />
+    </links>
+
+    <menu name="JBundle Projects">
+      <item name="Simple Servlets" href="/simpleservlets"/>
+      <item name="JCalendarButton" href="/jcalendarbutton"/>
+      <item name="Calendar Panel" href="/calendarpanel"/>      
+    </menu>
+  </body>
+</project>

@@ -1,0 +1,69 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to enter credit memos, debit memos, and requests for refunds to the A/R open
+file.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Explanation:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used for entering credit memos, debit memos, and refund requests into the A/R open
+item file. A credit memo is treated exactly like a payment in the A/R system; It reduces the amount
+owed by the customer. A debit memo is treated exactly like a charge in the A/R system; It increases
+the amount owed by the customer. A refund request tells the A/R system to create a check on the next
+refund check printing run.
+
+<br wp="br1"><br wp="br2">
+<p>For example, the customer did some marketing for you and instead of being reimbursed, you could
+credit the amount to a booking by entering a credit memo. If a customer bounced a check, a debit
+memo would be entered.
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>Enter the booking number that you want to adjust. The booking information and the current A/R
+transactions will display.
+
+<br wp="br1"><br wp="br2">
+<p>Enter the Transaction code (C=credit memo, D=Debit memo, and R=refund), the date (defaults to
+today), G/L number, and the reference. The G/L number is the account which is Debited for Credits
+and Credited for Debits. The counter account is always Accounts Receivable. As a default, the counter
+account defaults to the Cost of Tours account.
+
+<br wp="br1"><br wp="br2">
+<p>The transaction is displayed as it will be posted. You can okay or cancel it at this time.
+
+<br wp="br1"><br wp="br2">
+<p>All of the transactions entered will be posted to G/L after entering the transactions.
+
+<br wp="br1"><br wp="br2">
+<p>	Sample G/L entries:
+
+<p>1/12/87 Marketing Expense   120.00
+
+<p>          Accounts Receivable - tours    120.00
+
+<p>            (Credit booking; Marketing done by agent)
+
+<br wp="br1"><br wp="br2">
+<p>1/12/87 Accounts Receivable - tours   120.00
+
+<p>          Cash - Trust account           120.00
+
+<p>            (Debit booking; Bounced check)
+</body>
+</html>

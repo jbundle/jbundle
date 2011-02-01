@@ -1,0 +1,485 @@
+/****************************************************************
+	Module: AP_TOUR_DET
+	Top Level Logic: REPORT_LOGIC
+	Date: 13-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_TOUR_DET
+	Standard report logic
+****************************************************************/
+
+%replace AP_TOUR_DET_1 by 137;
+%replace AP_TOUR_DET_2 by 136;
+AP_TOUR_DET:
+   procedure;
+%replace AP_OPEN_NO by  32;
+%replace BK_TOUR_NO by  34;
+%include "AP_TOUR_DET.DD";
+%include "AP_OPEN.DD";
+%include "BK_TOUR.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TOUR_DATE = TODAYS_DATE();
+   TOUR_TIME = CURRENT_TIME();
+   TOUR_USER = USER_NAME();
+   TOUR_PAGE = 1;
+   TOUR_DET_COUNT = 0;
+   TOUR_TOT_COST = 0;
+   TOTAL_TOUR = 0;
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   TOUR_QUADS = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_TOUR_DET_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AP_TOUR_DET_RECORD) );
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (AP_TOUR_DET_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_OPEN_TOUR = AP_START_TOUR;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =  11 to  14;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+AP_END_TOUR = AP_START_TOUR;
+do LOOP_INDEX =   1 to   3;
+   if LOOP_INDEX =   2 then
+      AP_END_TOUR = AP_START_TOUR;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         AP_START_TOUR = 0;
+         AP_END_TOUR = 999999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  3,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  3 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         AP_START_TOUR = 0;
+         AP_END_TOUR = 999999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+TOUR_PAGE = TOUR_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+declare		OLD_AP_OPEN_TOUR     fixed binary (31);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_TOUR > AP_END_TOUR) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_INCL_EST - Include estimates in the list? */
+
+   if AP_EST_INCL = "N" then
+      if (AP_ENTRY_TYPE = DEP_EST) ! (AP_ENTRY_TYPE = FIN_EST) then
+         return;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      OLD_AP_OPEN_TOUR = -1;
+      end;
+   if AP_OPEN_TOUR ^= OLD_AP_OPEN_TOUR then
+      do;
+      if ^FIRST_TIME then
+         do;
+         do LOOP_INDEX =  11 to  12;
+            call PRINT_REPORT_LINE;
+         end;
+         TOUR_DET_COUNT = 0;
+         TOUR_TOT_COST = 0;
+         end;
+      end;
+   if AP_OPEN_TOUR ^= OLD_AP_OPEN_TOUR then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      TOUR_NO = AP_OPEN_TOUR;
+      call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         TOUR_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         end;
+      do LOOP_INDEX =   6 to   7;
+         call PRINT_REPORT_LINE;
+      end;
+      OLD_AP_OPEN_TOUR = AP_OPEN_TOUR;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+
+   /* SET_AP_TYPE - Set up the type description */
+
+   do case (AP_ENTRY_TYPE);
+      AP_ENTRY_TYPE_DESC = "Brk Pmt";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Brk Dft";
+      AP_ENTRY_TYPE_DESC = "PP Req ";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dep Est";
+      AP_ENTRY_TYPE_DESC = "Fin Est";
+   end;
+   otherwise
+      AP_ENTRY_TYPE_DESC = "";
+
+
+   /* SET_V_DESC - Set the Voucher Status Description */
+
+   do case (AP_GL_STATUS + 1);
+      AP_V_DESC = "Vch Held";
+      AP_V_DESC = "No stat.";
+      AP_V_DESC = "Vchr Rqd";
+      AP_V_DESC = "Wait Ack";
+      AP_V_DESC = "Ack Rcvd";
+      AP_V_DESC = "Vch Prtd";
+      AP_V_DESC = "Xln Reqd";
+      AP_V_DESC = "Wait Xln";
+      AP_V_DESC = "Ackn Xln";
+      AP_V_DESC = "Xln Prtd";
+      AP_V_DESC = "Reprt Vh";
+      AP_V_DESC = "Manual V";
+      AP_V_DESC = "Dep Est ";
+      AP_V_DESC = "Invoice ";
+      AP_V_DESC = "Cr memo ";
+      AP_V_DESC = "Prepaymt";
+      AP_V_DESC = "Dr memo ";
+      AP_V_DESC = "Payment ";
+      AP_V_DESC = "Posted  ";
+   end;
+   otherwise
+      AP_V_DESC = "No Vchr ";
+
+
+   /* SET_V_TYPE - Set voucher type (hotel or land) */
+
+   if AP_V_BASED_BK = 0 then
+      AP_OPEN_TYPE = "";
+   else
+      do;
+      if AP_V_BASED_SEQ = -1 then
+         AP_OPEN_TYPE = "Land";
+      else
+         AP_OPEN_TYPE = "Hotel";
+      end;
+
+
+   /* SET_TOUR_BAL - Set tour balance for estimates */
+
+   if AP_ENTRY_TYPE = DEP_EST then
+      do;
+      AP_VEN_INV_AMT = AP_DEP_EST;
+      AP_INV_BAL = AP_DEP_EST;
+      AP_INV_BAL_USD = AP_DEP_EST_USD;
+      end;
+   if AP_ENTRY_TYPE = FIN_EST then
+      do;
+      AP_VEN_INV_AMT = AP_FINL_EST;
+      AP_INV_BAL = AP_FINL_EST;
+      if (AP_GL_STATUS ^= NO_VCHR) &
+         (AP_GL_STATUS ^= REC_ACK) &
+         (AP_GL_STATUS ^= VCHR_PRTD) &
+         (AP_GL_STATUS ^= MAN_FINL) then
+            AP_INV_BAL = 0;
+      AP_INV_BAL_USD = 0;
+      end;
+
+   do LOOP_INDEX =   9 to   9;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+   TOTAL_TOUR = floor((TOTAL_TOUR + AP_INV_BAL_USD) * 100 + 0.5) / 100;
+   TOUR_DET_COUNT = TOUR_DET_COUNT + 1;
+   TOUR_TOT_COST = floor((TOUR_TOT_COST + AP_INV_BAL_USD) * 100 + 0.5) / 100;
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

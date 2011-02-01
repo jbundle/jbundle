@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_LAND_CHANGE File
+********************************************************************/
+
+declare	1 BK_LAND_CHANGE_RECORD,
+		3 BK_LAND_START        fixed binary (15),
+		3 BK_LAND_END          fixed binary (15),
+		3 BK_LAND_PAX          fixed binary (15),
+		3 BK_PAX_OVERSELL      fixed binary (15);
+

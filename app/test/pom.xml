@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.app.program</groupId>
+    <artifactId>jbundle-app-mixed-reactor</artifactId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.jbundle.app.test</groupId>
+  <artifactId>org.jbundle.app.test</artifactId>
+  <packaging>bundle</packaging>
+  <name>jbundle-app-test - Test code</name>
+
+  <properties>
+    <maven.test.skip>true</maven.test.skip> <!-- TODO Need to add a profile that will run this on the build server (ie if jdbc.url exists) -->
+    <jbundle.package>org.jbundle.test.manual</jbundle.package>	<!-- Bundle packages to export -->
+  </properties>
+  
+  <build>
+
+   <resources>
+     <resource>
+       <directory>${basedir}/src/main/java</directory>
+       <includes>
+       <include>**/*.properties</include>
+       </includes>
+       <filtering>false</filtering>
+     </resource>
+   </resources>
+
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junitVersion}</version>
+      <scope>test</scope>
+    </dependency>
+	<dependency>
+	  <groupId>log4j</groupId>
+	  <artifactId>log4j</artifactId>
+	  <version>1.2.16</version>
+      <scope>test</scope>
+	</dependency>
+
+    <dependency>
+      <groupId>org.jbundle.config.dep</groupId>
+      <artifactId>jbundle-config-dep-main</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+	  <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.calendarpanel</groupId>
+      <artifactId>org.jbundle.util.calendarpanel</artifactId>
+      <version>${jbundle-calendarpanelVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.thin.base.screen</groupId>
+      <artifactId>org.jbundle.thin.base.screen.cal.other</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.thin.base.screen</groupId>
+      <artifactId>org.jbundle.thin.base.screen.cal.grid</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.wsdl</groupId>
+      <artifactId>org.jbundle.util.wsdl.xmlschema</artifactId>
+      <version>${jbundle-util-wsdlVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.wsdl</groupId>
+      <artifactId>org.jbundle.util.wsdl.wsdl11</artifactId>
+      <version>${jbundle-util-wsdlVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.wsdl</groupId>
+      <artifactId>org.jbundle.util.wsdl.wsdl20</artifactId>
+      <version>${jbundle-util-wsdlVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.thin.main</groupId>
+      <artifactId>org.jbundle.thin.main</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>${jsonVersion}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-apiVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.wsdl</groupId>
+      <artifactId>org.jbundle.util.wsdl.wsdl20</artifactId>
+      <version>${jbundle-util-wsdlVersion}</version>
+    </dependency>
+  </dependencies>
+
+</project>

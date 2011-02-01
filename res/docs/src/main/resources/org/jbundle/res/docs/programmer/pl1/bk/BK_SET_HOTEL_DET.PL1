@@ -1,0 +1,216 @@
+/****************************************************************
+	Module: BK_SET_HOTEL_DET
+	Top Level Logic: BK_SETUP_HOTEL
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_SET_HOTEL_DET
+	Top level to set up the booking hotel dt
+****************************************************************/
+
+%replace BK_SET_HOTEL_DET_1 by 335;
+BK_SET_HOTEL_DET:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_DET_HOTEL_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_DET_HOTEL_NO by  67;
+%include "BK_SET_HOTEL_DET.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_DET_HOTEL.DD";
+
+declare		END_SETUP_HOTEL_DET  bit (1);
+declare		ALT_OPT_INDEX        fixed binary (15);
+declare		SET_ALT_ANSW         fixed binary (15);
+declare		SET_ALT_OPT          fixed binary (15);
+
+   /* INIT_HOTEL_DET - Initialize the hotel detail */
+
+   NEXT_H_SEQ = 1;
+   BK_H_NX_SEQ = 0;
+
+
+   /* SCAN_ALT_OPT - Go through the selected alt & opt 1 by 1 */
+
+   SET_ALT_OPT = 1;
+   ALT_OPT_INDEX = 1;
+   do while (SET_ALT_OPT ^= 0);
+      SET_ALT_OPT = BK_ALT_OPT_SQ(ALT_OPT_INDEX);
+      SET_ALT_ANSW = BK_AO_ANSW_SQ(ALT_OPT_INDEX);
+      if SET_ALT_OPT ^= 0 then
+         do;
+         ALT_OPT_INDEX = ALT_OPT_INDEX + 1;
+
+         /* INIT_LOGIC - Initialize for the read */
+
+
+         /* NEXT_HOTEL_DET - Set for next hotel detail */
+
+         BK_H_ALT_SEQ = SET_ALT_OPT;
+         BK_H_ANSW_SEQ = SET_ALT_ANSW;
+         BK_H_DAY = 0;
+         BK_H_SEQ = 0;
+
+
+         /* XFER_LOGIC - Logic to transfer the records */
+
+         END_SETUP_HOTEL_DET = NO;
+         do while (END_SETUP_HOTEL_DET ^= YES);
+            call SETUP_HOTEL_DET;
+         end;
+         end;
+   end;
+
+
+   /* SET_HOTEL_MOD - Set the hotel mod to the next mod */
+
+   BK_HOTEL_MOD = BK_NEXT_MOD;
+
+return;
+
+/****************************************************************
+	SETUP_HOTEL_DET
+	Setup the hotel detail
+****************************************************************/
+
+SETUP_HOTEL_DET:
+	procedure;
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_DET_HOTEL   fixed binary (15);
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   HDET_MOD = -1;
+   HDET_TOUR_HDR = HDR_TOUR_CODE;
+   HDET_ALT_SEQ = BK_H_ALT_SEQ;
+   HDET_ANSW_SEQ = BK_H_ANSW_SEQ;
+   HDET_DAY = BK_H_DAY;
+   HDET_SEQ = BK_H_SEQ;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > -1) !
+   (HDET_TOUR_HDR > HDR_TOUR_CODE) !
+   (HDET_ALT_SEQ > BK_H_ALT_SEQ) !
+   (HDET_ANSW_SEQ > BK_H_ANSW_SEQ) then
+      do;
+      END_SETUP_HOTEL_DET = YES;
+      return;
+      end;
+
+   /* SET_HOTEL_TEMP - Save current key for next time */
+
+   BK_H_DAY = HDET_DAY;
+   BK_H_SEQ = HDET_SEQ;
+
+
+   /* SETUP_HOTEL_KEY - Sey up the new fields for write */
+
+   HDET_MOD = 0;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DATE = BK_DEPARTURE + HDET_DAY - 1;
+
+   HDET_MODULE = HDR_TOUR_CODE;
+
+
+   /* DEL_HOTEL_COPY - Delete the old version if "D" or "R" */
+
+   if BK_H_ALT_SEQ ^= BK_ALT_OPT_SQ(1) then
+      if (HDET_MOD_CODE = "R") ! (HDET_MOD_CODE = "D") then
+         do;
+
+         /* DEL_HOTEL_REC - Delete the old record and restore this 1 */
+
+
+            /* READ_RECORD - Read the record */
+
+            call READ_KEYED (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_BK_DET_HOTEL);
+            if ERROR_BK_DET_HOTEL > 3 then
+               call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_BK_DET_HOTEL);
+
+            /* DELETE_RECORD - Delete the record */
+
+            call DELETE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+            /* SET_DKEY_HOTEL - Set back to the key to write */
+
+            HDET_MOD = -1;
+            HDET_TOUR_HDR = HDR_TOUR_CODE;
+            HDET_ALT_SEQ = BK_H_ALT_SEQ;
+            HDET_ANSW_SEQ = BK_H_ANSW_SEQ;
+            HDET_DAY = BK_H_DAY;
+            HDET_SEQ = BK_H_SEQ;
+            KEY_NO = 1;
+
+            /* READ_RECORD - Read the record */
+
+            call READ_KEYED (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_BK_DET_HOTEL);
+            if ERROR_BK_DET_HOTEL > 3 then
+               call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_BK_DET_HOTEL);
+
+            /* SETUP_HOTEL_KEY - Sey up the new fields for write */
+
+            HDET_MOD = 0;
+            HDET_BK_TR_NO = BOOKING_NO;
+            HDET_ALT_SEQ = 0;
+            HDET_ANSW_SEQ = 0;
+            HDET_DATE = BK_DEPARTURE + HDET_DAY - 1;
+
+            HDET_MODULE = HDR_TOUR_CODE;
+
+         end;
+
+
+   /* ADD_HOTEL_REC - If this is not delete, add the record */
+
+   if HDET_MOD_CODE ^= "D" then
+      do;
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            HDET_SEQ = HDET_SEQ + 1;
+      end;
+
+      /* SET_HOTEL_UINV - Set hotel inv used flag if used */
+
+      if HDET_INV = "Y" then
+         BK_HOTEL_UINV = "Y";
+
+      end;
+
+
+   /* SET_NEXT_HOTEL - Set up the temp fields for the next read */
+
+   BK_H_SEQ = BK_H_SEQ + 1;
+
+return;
+end;	/* SETUP_HOTEL_DET      */
+end;	/* SETUP_HOTEL_DET      */
+/*********************************End of Program*********************/

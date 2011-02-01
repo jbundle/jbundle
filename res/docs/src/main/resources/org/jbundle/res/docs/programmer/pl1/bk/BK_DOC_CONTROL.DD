@@ -1,0 +1,18 @@
+/*********************************************************************
+	BK_DOC_CONTROL File
+********************************************************************/
+
+declare	1 BK_DOC_CONTROL_RECORD,
+		3 DOC_PRINT_DESC       character (       20),
+		3 DOC_BOOKING          character (1),
+		3 DOC_DEP_REC          character (1),
+		3 DOC_SVC_CONF         character (1),
+		3 DOC_FIN_PYMT         character (1),
+		3 DOC_FINALIZE         character (1),
+		3 DOC_FINAL_DOCS       character (1),
+		3 DOC_TICKETING        character (1),
+		3 DOC_SP1              character (1),
+		3 DOC_SP2              character (1),
+		3 DOC_TOUR_STATUS      character (        2),
+		3 DOC_FILE_NO          character (       10);
+

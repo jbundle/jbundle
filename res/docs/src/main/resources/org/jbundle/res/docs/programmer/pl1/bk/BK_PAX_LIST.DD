@@ -1,0 +1,12 @@
+/*********************************************************************
+	BK_PAX_LIST File
+********************************************************************/
+
+declare	1 BK_PAX_LIST_RECORD,
+		3 PAX_NUMBER           fixed binary (15),
+		3 SORT_PAX_NAME(99) character (       30),
+		3 SORT_PAX_LAST_NAME(99) character (       10),
+		3 PAX_COUNTL           fixed binary (15),
+		3 PAX_LOOP_1           fixed binary (15),
+		3 PAX_LOOP_2           fixed binary (15);
+

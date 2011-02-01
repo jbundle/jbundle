@@ -1,0 +1,10 @@
+/*********************************************************************
+	AR_MCO_COLL File
+********************************************************************/
+
+declare	1 AR_MCO_COLL_RECORD,
+		3 AR_COLL_CARR         character (        2),
+		3 AR_MCO_NUMBER        character (       16),
+		3 AR_MCO_DATE          fixed binary (15),
+		3 AR_MCO_LAST_SQ       fixed binary (15);
+

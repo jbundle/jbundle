@@ -1,0 +1,13 @@
+/*********************************************************************
+	AM_AFFIL_RPT File
+********************************************************************/
+
+declare	1 AM_AFFIL_RPT_RECORD,
+		3 AM_AFFIL_START       character (        4),
+		3 AM_AFFIL_END         character (        4),
+		3 AFFIL_DATE           fixed binary (15),
+		3 AFFIL_TIME           fixed binary (15),
+		3 AFFIL_USER           character (       16),
+		3 AFFIL_PAGE           fixed binary (15),
+		3 AFFIL_COUNT          fixed binary (31);
+

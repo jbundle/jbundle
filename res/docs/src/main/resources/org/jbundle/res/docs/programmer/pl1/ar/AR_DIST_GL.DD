@@ -1,0 +1,12 @@
+/*********************************************************************
+	AR_DIST_GL File
+********************************************************************/
+
+declare	1 AR_DIST_GL_RECORD,
+		3 GL_LAST_DATE         fixed binary (15),
+		3 AR_POST_START        fixed binary (15),
+		3 AR_POST_END          fixed binary (15),
+		3 AR_POST_TODAY        fixed binary (15),
+		3 AR_READ_GL           character (1),
+		3 AR_VAR_AMOUNT        float binary (53);
+

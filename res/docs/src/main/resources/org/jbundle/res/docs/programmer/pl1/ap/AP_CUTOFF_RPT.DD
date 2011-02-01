@@ -1,0 +1,36 @@
+/*********************************************************************
+	AP_CUTOFF_RPT File
+********************************************************************/
+
+declare	1 AP_CUTOFF_RPT_RECORD,
+		3 AP_CURR_START        character (        3),
+		3 AP_CURR_END          character (        3),
+		3 AP_CUTOFF            fixed binary (15),
+		3 AP_DATE              fixed binary (15),
+		3 AP_TIME              fixed binary (15),
+		3 AP_INV_CUTOFF_BAL    float binary (53),
+		3 AP_CUTOFF_BAL_USD    float binary (53),
+		3 AP_VEN_EST_TOTAL     float binary (53),
+		3 AP_VEN_EST_INV_TOTAL float binary (53),
+		3 AP_VEN_EST_USD_TOT   float binary (53),
+		3 AP_VEN_INV_EST_USD_T float binary (53),
+		3 AP_VEN_INV_TOTAL     float binary (53),
+		3 AP_VEN_INV_USD_TOTAL float binary (53),
+		3 AP_VEN_INV_BAL_TOTAL float binary (53),
+		3 AP_VEN_INV_BAL_USD_T float binary (53),
+		3 AP_CURR_EST_TOTAL    float binary (53),
+		3 AP_CURR_EST_USD_TOT  float binary (53),
+		3 AP_CURR_INV_TOTAL    float binary (53),
+		3 AP_CURR_INV_USD_TOT  float binary (53),
+		3 AP_CURR_INVOICE_TOT  float binary (53),
+		3 AP_CURR_INVOICE_USDT float binary (53),
+		3 AP_CURR_INV_BAL_TOT  float binary (53),
+		3 AP_CURR_INV_BAL_USDT float binary (53),
+		3 AP_EST_TOTAL         float binary (53),
+		3 AP_INV_EST_TOTAL     float binary (53),
+		3 AP_INV_TOTAL         float binary (53),
+		3 AP_INV_BAL_TOTAL     float binary (53),
+		3 AP_EST_TOTAL_USD     float binary (53),
+		3 AP_PAGE              fixed binary (31),
+		3 AP_USER              character (       16);
+

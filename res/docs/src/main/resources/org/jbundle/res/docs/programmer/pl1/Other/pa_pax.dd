@@ -1,0 +1,22 @@
+/*********************************************************************
+	PA_PAX File
+********************************************************************/
+
+declare	1 PA_PAX_RECORD,
+		3 PAX_NO               fixed binary (31),
+		3 PAX_NAME             character (       30),
+		3 PAX_ADDR_1           character (       30),
+		3 PAX_ADDR_2           character (       30),
+		3 PAX_ADDR_3           character (       20),
+		3 PAX_ZIP              character (       10),
+		3 PAX_PHONE            character (       15),
+		3 PAX_WORK_PHONE       character (       15),
+		3 PAX_TYPE             character (        2),
+		3 PAX_INTEREST(10) character (        2),
+		3 PAX_COMMENT1         character (       30),
+		3 PAX_COMMENT2         character (       30),
+		3 PAX_LAST_NAME        character (       10),
+		3 PAX_BOOKING          fixed binary (31),
+		3 PAX_ENTERED          fixed binary (15),
+		3 PAX_SALUTATION       character (       30);
+

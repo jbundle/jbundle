@@ -1,0 +1,2288 @@
+/****************************************************************
+	Module: BK_FIT_LAST
+	Top Level Logic: COSTING_LOGIC
+	Date: 14-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_FIT_LAST
+	Fit tour costing logic
+****************************************************************/
+
+%replace BK_FIT_LAST_1 by 261;
+BK_FIT_LAST:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_LINE_RECORD,
+      AD_CURR_RECORD,
+      BK_HOTEL_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_LAND_RECORD,
+      BK_DET_LAND_RECORD,
+      BK_HOTEL_DET_RECORD,
+      BK_LAND_DET_RECORD,
+      BK_TRANS_RECORD,
+      BK_PASSENGERS_RECORD,
+      TK_DETAIL_RECORD,
+      TK_HEADER_RECORD,
+      BK_TRANS_PRICE_RECORD,
+      BK_ENT_HDR_RECORD,
+      BK_ITIN_DET_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_LINE_NO by  51;
+%replace AD_CURR_NO by  25;
+%replace BK_HOTEL_NO by   8;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_LAND_NO by  54;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_HOTEL_DET_NO by  52;
+%replace BK_LAND_DET_NO by  91;
+%replace BK_TRANS_NO by  64;
+%replace BK_PASSENGERS_NO by  49;
+%replace TK_DETAIL_NO by  57;
+%replace TK_HEADER_NO by  56;
+%replace BK_TRANS_PRICE_NO by  69;
+%replace BK_ITIN_DET_NO by  79;
+%include "BK_FIT_LAST.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_LINE.DD";
+%include "AD_CURR.DD";
+%include "BK_HOTEL.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_LAND.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_HOTEL_DET.DD";
+%include "BK_LAND_DET.DD";
+%include "BK_TRANS.DD";
+%include "BK_PASSENGERS.DD";
+%include "TK_DETAIL.DD";
+%include "TK_HEADER.DD";
+%include "BK_TRANS_PRICE.DD";
+%include "BK_ENT_HDR.DD";
+%include "BK_ITIN_DET.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_COST_EACH_HOTEL  bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		END_COST_EACH_LAND   bit (1);
+declare		END_COST_EACH_AIR    bit (1);
+declare		END_COST_EACH_OTHER  bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_GET_BASIC_PRICE  bit (1);
+declare		END_GO_THRU_LINE     bit (1);
+declare		END_DELETE_LINES     bit (1);
+   call INITIALIZE;
+   call COSTING_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   BK_HOTEL_COST = 0;
+   BK_MEAL_COST = 0;
+   BK_LAND_COST = 0;
+   BK_TRANS_COST = 0;
+   BK_AIR_COST = 0;
+   BK_TOUR_COST = 0;
+   BK_DOUBLE_PRICE = 0;
+   BK_SINGLE_PRICE = 0;
+   BK_TRIPLE_PRICE = 0;
+   BK_MARKUP_AMT = 0;
+   BK_COMM_AMT = 0;
+   BK_OTHER_COSTS = 0;
+   BK_TEMP_COMM = 0;
+   BK_DOUBLE_COST = 0;
+   BK_SS_COST = 0;
+   BK_TR_COST = 0;
+   BK_QUAD_PRICE = 0;
+   BK_LAND_MARKUP = BK_MARKUP;
+   BK_GROUND_COMM = BK_STD_COMM;
+   BK_AIR_MARKUP = BK_MARKUP;
+   BK_AIR_NET_MARKUP = 0;
+   BK_AIR_COMM = BK_STD_COMM;
+   BK_PAX_1 = 0;
+   BK_PAX_2 = 0;
+   BK_PAX_3 = 0;
+   BK_PAX_4 = 0;
+   BK_SS_PRICE = 0;
+   BK_TR_PRICE = 0;
+   BK_QR_PRICE = 0;
+   BK_SINGLE_COST = 0;
+   BK_TRIPLE_COST = 0;
+   BK_QUAD_COST = 0;
+   BK_SINGLE_GO = "Y";
+   BK_DOUBLE_GO = "Y";
+   BK_TRIPLE_GO = "Y";
+   BK_QUAD_GO = "Y";
+   BK_BASIC_MARKUP = 0;
+   BK_AVG_AIR_COST = 0;
+   BK_AVG_AIR_NET = 0;
+   COST_FOUND = "Y";
+   BK_AIR_NET = 0;
+   AIR_PAX_COUNT = 0;
+   AIR_PAX_MATCH = 0;
+   AIR_PAX_COST = 0;
+   RECOST_PAX = "N";
+   UPDATE_COSTS = "Y";
+   BK_FIT_BASIS = "BASIS";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_FIT_LAST_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_FIT_LAST_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	COSTING_MAIN
+	Main-line logic for tour costing
+****************************************************************/
+
+COSTING_MAIN:
+	procedure;
+
+   call COST_HOTELS;
+   call COST_LAND;
+   call COST_AIR;
+   call COST_OTHER;
+   call DISPLAY_DATA_C;
+
+   /* CHECK_COST_FOUND - Were the applicable costs found? */
+
+   if COST_FOUND = "N" then
+      do;
+      call PRESS_RETURN;
+      return;
+      end;
+
+   if BK_SINGLE_GO = "N" then
+      do;
+      BK_SINGLE_COST = 0;
+      if BK_SINGLE ^= 0 then
+         do;
+         call DISPLAY_MESSAGE ("Single cost not calculated");
+         call PRESS_RETURN;
+         return;
+         end;
+      end;
+
+   if BK_TRIPLE_GO = "N" then
+      do;
+      BK_TRIPLE_COST = 0;
+      if BK_TRIPLE ^= 0 then
+         do;
+         call DISPLAY_MESSAGE ("Triple cost not calculated");
+         call PRESS_RETURN;
+         return;
+         end;
+      end;
+
+   if BK_QUAD_GO = "N" then
+      do;
+      BK_QUAD_COST = 0;
+      if BK_QUAD ^= 0 then
+         do;
+         call DISPLAY_MESSAGE ("Quad cost not calculated");
+         call PRESS_RETURN;
+         return;
+         end;
+      end;
+
+
+
+/* SET_MU_BASIC - If Original Price, Set the Markup basis */
+
+if BK_SAVE_DOUBLE_COST = 0 then
+   do;
+   BK_SAVE_SINGLE_COST = BK_SINGLE_COST;
+   BK_SAVE_DOUBLE_COST = BK_DOUBLE_COST;
+   BK_SAVE_TRIPLE_COST = BK_TRIPLE_COST;
+   BK_SAVE_QUAD_COST = BK_QUAD_COST;
+   call DISPLAY_DATA_A;
+   end;
+
+
+/* SAVE_MARKUP_COMM - Save markup and comm for a sec. */
+
+BK_TEMP_MARKUP = BK_MARKUP;
+BK_TEMP_COMM = BK_STD_COMM;
+BK_MARKUP = 0;
+BK_STD_COMM = 0;
+BK_LAND_MARKUP = 0;
+BK_AIR_MARKUP = 0;
+BK_GROUND_COMM = 0;
+BK_AIR_COMM = 0;
+
+call DISPLAY_DATA_G;
+
+/* RESTORE_MARKUP - Restore markup */
+
+BK_MARKUP = BK_TEMP_MARKUP;
+BK_LAND_MARKUP = BK_MARKUP;
+BK_AIR_MARKUP = BK_MARKUP;
+
+
+/* RESTORE_COMM - Restore the commission */
+
+BK_STD_COMM = BK_TEMP_COMM;
+BK_GROUND_COMM = BK_STD_COMM;
+BK_AIR_COMM = BK_STD_COMM;
+
+call ENTER_DATA_H;
+
+/* SAVE_COMM - Save the commission temp. */
+
+BK_TEMP_COMM = BK_STD_COMM;
+BK_STD_COMM = 0;
+BK_GROUND_COMM = 0;
+BK_AIR_COMM = 0;
+
+call DISPLAY_DATA_G;
+
+/* RESTORE_COMM - Restore the commission */
+
+BK_STD_COMM = BK_TEMP_COMM;
+BK_GROUND_COMM = BK_STD_COMM;
+BK_AIR_COMM = BK_STD_COMM;
+
+call ENTER_DATA_I;
+END_CHANGE_ITEM = NO;
+do while (END_CHANGE_ITEM ^= YES);
+   call CHANGE_ITEM;
+end;
+call CREATE_NEW_LINE;
+return;
+end;	/* COSTING_MAIN         */
+
+/****************************************************************
+	COST_HOTELS
+	Cost the hotel components
+****************************************************************/
+
+COST_HOTELS:
+	procedure;
+
+
+   /* SET_FIRST_HOTEL - First hotel */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   END_COST_EACH_HOTEL = NO;
+   do while (END_COST_EACH_HOTEL ^= YES);
+      call COST_EACH_HOTEL;
+   end;
+return;
+end;	/* COST_HOTELS          */
+
+/****************************************************************
+	COST_EACH_HOTEL
+	Get the cost for each hotel
+****************************************************************/
+
+COST_EACH_HOTEL:
+	procedure;
+
+declare		ERROR_BK_DET_HOTEL   fixed binary (15);
+
+   /* READ_NEXT_HOTEL - Read the next hotel detail */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTEL - Check for the end of the hotel detail */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) !
+   (HDET_ALT_SEQ > 0) !
+   (HDET_ANSW_SEQ > 0) then
+      do;
+      END_COST_EACH_HOTEL = YES;
+      return;
+      end;
+
+   /* SAVE_OLD_HOTEL - Save the current (old) hotel prices */
+
+   SDET_EXCHANGE = HDET_EXCHANGE;
+   SDET_DOUBLE = HDET_DOUBLE;
+   SDET_SINGLE = HDET_SINGLE;
+   SDET_TRIPLE = HDET_TRIPLE;
+   SDET_QUAD = HDET_QUAD;
+   SDET_MEAL_PRICE = HDET_MEAL_PRICE;
+
+
+   /* CHECK_RECOST_HOTEL - Recost/Cost Hotel? */
+
+   if RECOST_PAX = "Y" then
+      do;
+      if HDET_MANUAL = "" then
+         do;
+         HDET_EXCHANGE = 0;
+         HDET_MEAL_PRICE = 0;
+         HDET_DOUBLE = 0;
+         end;
+      HDET_ROOM_COST = 0;
+      HDET_MEAL_COST = 0;
+      end;
+
+   if (HDET_ROOM_COST = 0) ! ((HDET_MEAL_COST=0) & (HDET_MEAL(1)^="")) then
+      do;
+      if HDET_ROOM_COST = 0 then
+         do;
+         call BK_COST_HOTEL;
+
+         if HDET_ROOM_COST = 0 then
+            do;
+            if HDET_EXCHANGE = 0 then
+               HDET_EXCHANGE = SDET_EXCHANGE;
+            if HDET_DOUBLE = 0 then
+               do;
+               HDET_DOUBLE = SDET_DOUBLE;
+               HDET_SINGLE = SDET_SINGLE;
+               HDET_TRIPLE = SDET_TRIPLE;
+               HDET_QUAD = SDET_QUAD;
+               end;
+            call BK_COST_HOTEL;
+            if HDET_ROOM_COST ^= 0 then
+               call DISPLAY_MESSAGE(HDET_HOTEL !! "- Actual Hotel Price not found");
+            end;
+         end;
+
+      do LOOP_INDEX = 1 to 4;
+         if HDET_MEAL(LOOP_INDEX)^="" then if HDET_MEAL_PRICE(LOOP_INDEX)=0 then
+            HDET_MEAL_COST = 0;
+      end;
+      if (HDET_MEAL_COST=0) & (HDET_MEAL(1)^="") then
+         do;
+         call BK_COST_HOTEL;
+
+         SDET_EXCHANGE = 1;
+         do LOOP_INDEX = 1 to 4;
+            if HDET_MEAL(LOOP_INDEX)^="" then if HDET_MEAL_PRICE(LOOP_INDEX)=0 then
+               do;
+               HDET_MEAL_PRICE(LOOP_INDEX) = SDET_MEAL_PRICE(LOOP_INDEX);
+               SDET_EXCHANGE = -1;
+               end;
+         end;
+         if SDET_EXCHANGE = -1 then
+            do;
+            call BK_COST_HOTEL;
+            do LOOP_INDEX = 1 to 4;
+               if HDET_MEAL(LOOP_INDEX)^="" then if HDET_MEAL_PRICE(LOOP_INDEX)=0 then
+                  HDET_MEAL_COST = 0;
+            end;
+            if HDET_MEAL_COST ^= 0 then
+               call DISPLAY_MESSAGE(HDET_HOTEL !! "- Actual Meal Price not found");
+            end;
+         end;
+
+      if UPDATE_COSTS = "Y" then
+         do;
+
+         /* UPDATE_HOTELD - Update */
+
+         call UPDATE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+         /* READ_HOTELD - Read the hotel detail record */
+
+         call READ_KEYED (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_BK_DET_HOTEL);
+         if ERROR_BK_DET_HOTEL > 3 then
+            call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_BK_DET_HOTEL);
+         end;
+
+      if HDET_ROOM_COST = 0 then
+         do;
+         call DISPLAY_MESSAGE (HDET_HOTEL !! "- Hotel price not found");
+         COST_FOUND = "N";
+         end;
+      if HDET_MEAL(1) ^= "" then if HDET_MEAL_COST = 0 then
+         do;
+         call DISPLAY_MESSAGE (HDET_HOTEL !! "- Hotel meal price not found");
+         COST_FOUND = "N";
+         end;
+      end;
+
+
+   /* ADD_HOTEL_COST - Add this hotel to the hotel cost */
+
+   BK_HOTEL_COST = BK_HOTEL_COST + HDET_ROOM_COST;
+   BK_MEAL_COST = BK_MEAL_COST + HDET_MEAL_COST;
+
+   BK_TEMP_COST = HDET_MEAL_COST / TOUR_PAX;
+   BK_DOUBLE_COST = BK_DOUBLE_COST +
+      HDET_EXCHANGE * HDET_DOUBLE / 2 * HDET_NIGHTS + BK_TEMP_COST;
+   BK_SINGLE_COST = BK_SINGLE_COST +
+      HDET_EXCHANGE * HDET_SINGLE * HDET_NIGHTS + BK_TEMP_COST;
+   BK_TRIPLE_COST = BK_TRIPLE_COST +
+      HDET_EXCHANGE * HDET_TRIPLE / 3 * HDET_NIGHTS + BK_TEMP_COST;
+   BK_QUAD_COST = BK_QUAD_COST +
+      HDET_EXCHANGE * HDET_QUAD / 4 * HDET_NIGHTS + BK_TEMP_COST;
+
+   if HDET_SINGLE = 0 then
+      BK_SINGLE_GO = "N";
+   if HDET_DOUBLE = 0 then
+      BK_DOUBLE_GO = "N";
+   if HDET_TRIPLE = 0 then
+      BK_TRIPLE_GO = "N";
+   if HDET_QUAD = 0 then
+      BK_QUAD_GO = "N";
+
+return;
+end;	/* COST_EACH_HOTEL      */
+
+/****************************************************************
+	BK_COST_HOTEL
+	Do a hotel costing
+****************************************************************/
+
+BK_COST_HOTEL:
+	procedure;
+
+%include "BK_COST_HOTEL.DCL";
+call BK_COST_HOTEL(
+   BK_BOOKING_RECORD,
+   BK_TOUR_RECORD,
+   BK_TOUR_HDR_RECORD,
+   BK_DET_HOTEL_RECORD,
+   BK_HOTEL_RECORD,
+   BK_HOTEL_DET_RECORD,
+   AD_CURR_RECORD);
+return;
+end;	/* BK_COST_HOTEL        */
+
+/****************************************************************
+	COST_LAND
+	Cost the land Components
+****************************************************************/
+
+COST_LAND:
+	procedure;
+
+
+   /* SET_FIRST_LAND - Set to the first land record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_COST_EACH_LAND = NO;
+   do while (END_COST_EACH_LAND ^= YES);
+      call COST_EACH_LAND;
+   end;
+return;
+end;	/* COST_LAND            */
+
+/****************************************************************
+	COST_EACH_LAND
+	Cost each land component
+****************************************************************/
+
+COST_EACH_LAND:
+	procedure;
+
+declare		ERROR_BK_DET_LAND    fixed binary (15);
+
+   /* READ_NEXT_LAND - Read next */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LAND - Last one? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > 0) !
+   (LDET_ANSW_SEQ > 0) then
+      do;
+      END_COST_EACH_LAND = YES;
+      return;
+      end;
+
+   /* SAVE_OLD_LAND - Save the current (old) land prices */
+
+   SDET_EXCHANGE = LDET_EXCHANGE;
+   SDET_VARIES_CODE = LDET_VARIES_CODE;
+   SDET_VARIES_QTY = LDET_VARIES_QTY;
+   SDET_VARIES_COST = LDET_VARIES_COST;
+
+
+   /* CHECK_RECOST_LAND - Cost/Recost the land info? */
+
+   if RECOST_PAX = "Y" then
+      do;
+      if LDET_MANUAL = "" then
+         do;
+         LDET_EXCHANGE = 0;
+         LDET_VARIES_CODE(1)="";
+         end;
+      LDET_TOUR_COST = 0;
+      LDET_TOUR_PP_COST = 0;
+      end;
+
+   if LDET_TOUR_COST = 0 then if LDET_TORT ^= "I" then
+      do;
+      call BK_COST_LAND;
+      if LDET_TOUR_COST = 0 then
+      do;
+         if LDET_EXCHANGE = 0 then
+            LDET_EXCHANGE = SDET_EXCHANGE;
+         LDET_VARIES_CODE = SDET_VARIES_CODE;
+         LDET_VARIES_QTY = SDET_VARIES_QTY;
+         LDET_VARIES_COST = SDET_VARIES_COST;
+         call BK_COST_LAND;
+         if LDET_TOUR_COST ^= 0 then
+            call DISPLAY_MESSAGE (LDET_TOUR_NO !! "- Actual land cost not found");
+      end;
+
+      if UPDATE_COSTS = "Y" then
+         do;
+
+         /* UPDATE_LANDD - Update the land detail */
+
+         call UPDATE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+         /* READ_LANDD - Read the land detail record */
+
+         call READ_KEYED (BK_DET_LAND_NO,KEY_AREA_1,ERROR_BK_DET_LAND);
+         if ERROR_BK_DET_LAND > 3 then
+            call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+         end;
+
+      if LDET_TOUR_COST = 0 then
+         do;
+         call DISPLAY_MESSAGE (LDET_TOUR_NO !! "- Land cost not found");
+         COST_FOUND = "N";
+         end;
+      end;
+
+
+   /* ADD_LAND_COST - Add the cost for this land component */
+
+   if LDET_TORT ^= "T" then
+      BK_LAND_COST = BK_LAND_COST + LDET_TOUR_COST;
+   else
+      BK_TRANS_COST = BK_TRANS_COST + LDET_TOUR_COST;
+
+   BK_TEMP_COST = LDET_TOUR_PP_COST * LDET_EXCHANGE;
+   BK_DOUBLE_COST = BK_DOUBLE_COST + BK_TEMP_COST;
+   BK_SINGLE_COST = BK_SINGLE_COST + BK_TEMP_COST;
+   BK_TRIPLE_COST = BK_TRIPLE_COST + BK_TEMP_COST;
+   BK_QUAD_COST = BK_QUAD_COST + BK_TEMP_COST;
+
+return;
+end;	/* COST_EACH_LAND       */
+
+/****************************************************************
+	BK_COST_LAND
+	Call the module to cost this land mod
+****************************************************************/
+
+BK_COST_LAND:
+	procedure;
+
+%include "BK_COST_LAND.DCL";
+call BK_COST_LAND(
+   BK_BOOKING_RECORD,
+   BK_TOUR_RECORD,
+   BK_TOUR_HDR_RECORD,
+   BK_DET_LAND_RECORD,
+   BK_LAND_RECORD,
+   AD_CURR_RECORD,
+   BK_LAND_DET_RECORD,
+   BK_TRANS_RECORD,
+   BK_TRANS_PRICE_RECORD);
+return;
+end;	/* BK_COST_LAND         */
+
+/****************************************************************
+	COST_AIR
+	Cost the air components
+****************************************************************/
+
+COST_AIR:
+	procedure;
+
+
+   /* SET_FIRST_AIRH - Set to read the first Air header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   END_COST_EACH_AIR = NO;
+   do while (END_COST_EACH_AIR ^= YES);
+      call COST_EACH_AIR;
+   end;
+
+   /* CALC_PP_AIR - Calc the P/P air costs */
+
+   BK_AIR_COST= BK_AIR_COST + ((TOUR_PAX-AIR_PAX_COUNT) * BK_AVG_AIR_COST);
+   BK_AIR_NET = BK_AIR_NET + ((TOUR_PAX-AIR_PAX_COUNT) * BK_AVG_AIR_NET);
+   AIR_PAX_COST = BK_AIR_COST / TOUR_PAX;
+   AIR_PAX_NET = BK_AIR_NET / TOUR_PAX;
+
+return;
+end;	/* COST_AIR             */
+
+/****************************************************************
+	COST_EACH_AIR
+	Cost each air ticket
+****************************************************************/
+
+COST_EACH_AIR:
+	procedure;
+
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_TKHDR - Last TK header? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_COST_EACH_AIR = YES;
+      return;
+      end;
+
+   /* SKIP_XL_TK - Skip cancelled tickets */
+
+   if TK_UD_STATUS >= XL_TK then
+      return;
+
+
+   /* SKIP_AGENT_TK - Skip agent ticket */
+
+   if TK_TICKET_BY = "A" then
+      return;
+
+
+   /* SET_AVG_AIR - Set the average air cost */
+
+   if TK_ALT_SEQ = 0 then
+      do;
+      BK_AVG_AIR_COST = BK_AVG_AIR_COST + TK_NET;
+      BK_AVG_AIR_NET = BK_AVG_AIR_NET + TK_NET_FARE;
+      return;
+      end;
+
+
+   /* ADD_AIR_COST - Add the cost of this ticket */
+
+   BK_AIR_COST = BK_AIR_COST + TK_NET;
+   BK_AIR_NET = BK_AIR_NET + TK_NET_FARE;
+   if TK_ALT_SEQ ^= AIR_PAX_MATCH then
+      do;
+      AIR_PAX_MATCH = TK_ALT_SEQ;
+      AIR_PAX_COUNT = AIR_PAX_COUNT + 1;
+      end;
+
+return;
+end;	/* COST_EACH_AIR        */
+
+/****************************************************************
+	COST_OTHER
+	Cost the other costs
+****************************************************************/
+
+COST_OTHER:
+	procedure;
+
+
+   /* SET_FIRST_OTHER - Set first */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 1;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_COST_EACH_OTHER = NO;
+   do while (END_COST_EACH_OTHER ^= YES);
+      call COST_EACH_OTHER;
+   end;
+return;
+end;	/* COST_OTHER           */
+
+/****************************************************************
+	COST_EACH_OTHER
+	Add in the other costs
+****************************************************************/
+
+COST_EACH_OTHER:
+	procedure;
+
+
+   /* READ_NEXT_OTHER - Read next rec */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_OTHER - Last one? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > 0) !
+   (LDET_ANSW_SEQ > 1) !
+   (LDET_DAY > 0) then
+      do;
+      END_COST_EACH_OTHER = YES;
+      return;
+      end;
+
+   /* ADD_OTHER_COST - Add the cost */
+
+   if LDET_TOUR_COST ^= 0 then
+      do;
+      BK_OTHER_COSTS = BK_OTHER_COSTS + LDET_TOUR_COST;
+
+      BK_SINGLE_COST = BK_SINGLE_COST + LDET_TOUR_COST / TOUR_PAX;
+      BK_TRIPLE_COST = BK_TRIPLE_COST + LDET_TOUR_COST / TOUR_PAX;
+      BK_QUAD_COST = BK_QUAD_COST + LDET_TOUR_COST / TOUR_PAX;
+      BK_DOUBLE_COST = BK_DOUBLE_COST + LDET_TOUR_COST / TOUR_PAX;
+      end;
+   else
+      do;
+      BK_OTHER_COSTS = BK_OTHER_COSTS + LDET_TOUR_PP_COST * TOUR_PAX;
+
+      BK_SINGLE_COST = BK_SINGLE_COST + LDET_TOUR_PP_COST;
+      BK_TRIPLE_COST = BK_TRIPLE_COST + LDET_TOUR_PP_COST;
+      BK_QUAD_COST = BK_QUAD_COST + LDET_TOUR_PP_COST;
+      BK_DOUBLE_COST = BK_DOUBLE_COST + LDET_TOUR_PP_COST;
+      end;
+
+return;
+end;	/* COST_EACH_OTHER      */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  22 to  28;
+   if LOOP_INDEX =  28 then
+      do;
+
+      /* CALC_TOTAL_COST - Calc total cost */
+
+      BK_TOUR_COST = BK_HOTEL_COST + BK_MEAL_COST + BK_LAND_COST +
+         BK_TRANS_COST + BK_AIR_COST + BK_OTHER_COSTS;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  52 to  52;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	DISPLAY_DATA_G
+	Display the data in group G
+****************************************************************/
+
+DISPLAY_DATA_G:
+	procedure;
+
+do LOOP_INDEX =  33 to  39;
+   if LOOP_INDEX =  33 then
+      do;
+
+      /* CALC_NEW_TWS - Calc. new twin share rates */
+
+      BK_TEMP_COST = ((100 + 1 + BK_LAND_MARKUP) / 100) / ((100 - BK_GROUND_COMM) / 100);
+      BK_TEMP_TEMP = ((100 + 1 + BK_AIR_MARKUP) / 100) / ((100 - BK_AIR_COMM) / 100);
+      BK_DOUBLE_PRICE = floor((BK_DOUBLE_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+      BK_SINGLE_PRICE = floor((BK_SINGLE_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+      if BK_SINGLE_GO = "N" then
+         BK_SINGLE_PRICE = 0;
+      BK_TRIPLE_PRICE = floor((BK_TRIPLE_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+      if BK_TRIPLE_GO = "N" then
+         BK_TRIPLE_PRICE = 0;
+      BK_QUAD_PRICE = floor((BK_QUAD_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+      if BK_QUAD_GO = "N" then
+         BK_QUAD_PRICE = 0;
+      if BK_SINGLE_PRICE ^= 0 then
+         BK_SS_PRICE = BK_SINGLE_PRICE - BK_DOUBLE_PRICE;
+      if BK_TRIPLE_PRICE ^= 0 then
+         BK_TR_PRICE = BK_DOUBLE_PRICE - BK_TRIPLE_PRICE;
+      if BK_QUAD_PRICE ^= 0 then
+         BK_QR_PRICE = BK_DOUBLE_PRICE - BK_QUAD_PRICE;
+      BK_NET_ROUNDED =
+         floor(BK_DOUBLE * BK_DOUBLE_PRICE * 2 + BK_SINGLE * BK_SINGLE_PRICE +
+         + BK_TRIPLE * BK_TRIPLE_PRICE * 3 + BK_QUAD * BK_QUAD_PRICE * 4 + 0.5);
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  47 to  47;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_G       */
+
+/****************************************************************
+	ENTER_DATA_H
+	Enter group H
+****************************************************************/
+
+ENTER_DATA_H:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* DIS_NEW_MARKUP - Set the other markup fields and display */
+
+
+         /* MOVE_MARKUP - Set the other markup fields */
+
+         BK_LAND_MARKUP = BK_MARKUP;
+         BK_AIR_MARKUP = BK_MARKUP;
+
+         call DISPLAY_DATA_J;
+         call DISPLAY_DATA_L;
+
+         /* CALC_GROSS_MARGIN - Calc Gross Margin */
+
+         if BK_MARKUP ^= -100 then
+            BK_GROSS_MARGIN = 100 - 10000 / (BK_MARKUP + 100);
+
+         call DISPLAY_DATA_H;
+         call DIS_NEW_PRICE;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  12 to  12;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_H         */
+
+/****************************************************************
+	DISPLAY_DATA_J
+	Display screen group J
+****************************************************************/
+
+DISPLAY_DATA_J:
+	procedure;
+
+do LOOP_INDEX =  14 to  15;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* CALC_LAND_MARGIN - Calculate land margin */
+
+      if BK_LAND_MARKUP ^= -100 then
+         BK_LAND_MARGIN = 100 - 10000 / (BK_LAND_MARKUP + 100);
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_J       */
+
+/****************************************************************
+	DISPLAY_DATA_L
+	Display the data in group L
+****************************************************************/
+
+DISPLAY_DATA_L:
+	procedure;
+
+do LOOP_INDEX =  17 to  18;
+   if LOOP_INDEX =  18 then
+      do;
+
+      /* CALC_AIR_MARGIN - Calculate the margin */
+
+      if BK_AIR_MARKUP ^= -100 then
+         BK_AIR_MARGIN = 100 - 10000 / (BK_AIR_MARKUP + 100);
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_L       */
+
+/****************************************************************
+	DISPLAY_DATA_H
+	Display screen group H
+****************************************************************/
+
+DISPLAY_DATA_H:
+	procedure;
+
+do LOOP_INDEX =  11 to  12;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_H       */
+
+/****************************************************************
+	DIS_NEW_PRICE
+	Display the costs and prices
+****************************************************************/
+
+DIS_NEW_PRICE:
+	procedure;
+
+   call DISPLAY_DATA_E;
+   call DISPLAY_DATA_G;
+
+   /* HIGH_LOOP - Set LOOP_INDEX to 99 */
+
+   LOOP_INDEX = 99;
+
+return;
+end;	/* DIS_NEW_PRICE        */
+
+/****************************************************************
+	DISPLAY_DATA_E
+	Display the data in screen group E
+****************************************************************/
+
+DISPLAY_DATA_E:
+	procedure;
+
+do LOOP_INDEX =  29 to  32;
+   if LOOP_INDEX =  29 then
+      do;
+
+      /* CALC_NET_COST - Calc net to agent */
+
+      BK_TEMP_COST = BK_HOTEL_COST + BK_MEAL_COST + BK_LAND_COST + BK_TRANS_COST + BK_OTHER_COSTS;
+      BK_TEMP_TEMP = BK_AIR_COST;
+BK_OVERHEAD_AMT = (BK_TEMP_COST + BK_TEMP_TEMP) / 100;
+      BK_TEMP_COST = floor((BK_TEMP_COST * (100 + 1 + BK_LAND_MARKUP)) + 0.5) / 100;
+      BK_TEMP_TEMP = floor((BK_TEMP_TEMP * (100 + 1 + BK_AIR_MARKUP)) + 0.5) / 100;
+      BK_TOUR_NET = BK_TEMP_COST + BK_TEMP_TEMP;
+      BK_MARKUP_AMT = BK_TOUR_NET - BK_TOUR_COST - BK_OVERHEAD_AMT;
+      BK_TEMP_COST = floor(BK_TEMP_COST / (1-BK_GROUND_COMM/100)*100+0.5)/100;
+      BK_TEMP_TEMP = floor(BK_TEMP_TEMP / (1-BK_AIR_COMM/100)*100+0.5)/100;
+      BK_TOUR_GROSS = BK_TEMP_COST + BK_TEMP_TEMP;
+      BK_COMM_AMT = BK_TOUR_GROSS - BK_TOUR_NET;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+do LOOP_INDEX =  53 to  53;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_E       */
+
+/****************************************************************
+	ENTER_DATA_I
+	Enter screen group I
+****************************************************************/
+
+ENTER_DATA_I:
+	procedure;
+
+do LOOP_INDEX =  13 to  13;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* DIS_NEW_COMM - Display the new commissions */
+
+
+         /* MOVE_COMM - Move the commission fields */
+
+         BK_GROUND_COMM = BK_STD_COMM;
+         BK_AIR_COMM = BK_STD_COMM;
+
+         call DISPLAY_DATA_K;
+
+         /* DISPLAY_DATA_N - Display data N */
+
+         do LOOP_INDEX =  20 to  20;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         call DIS_NEW_PRICE;
+
+         /* DIS_BASIC_MU - Display the basic markup if applicable */
+
+         if BK_BASIC_MARKUP ^= 0 then
+            do;
+            call CALC_BASIC;
+            end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_I         */
+
+/****************************************************************
+	DISPLAY_DATA_K
+	Display screen group K
+****************************************************************/
+
+DISPLAY_DATA_K:
+	procedure;
+
+do LOOP_INDEX =  16 to  16;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_K       */
+
+/****************************************************************
+	CALC_BASIC
+	Calculate the basic markup
+****************************************************************/
+
+CALC_BASIC:
+	procedure;
+
+BK_DOUBLE_PRICE = 0;
+BK_SINGLE_PRICE = 0;
+BK_TRIPLE_PRICE = 0;
+BK_QUAD_PRICE = 0;
+/* First get the current prices */
+
+/* SET_FIRST_LINE - Set for first read */
+
+BK_LINE_MOD = BK_MODIFICATION;
+BK_LINE_BK_NO = BOOKING_NO;
+BK_LINE_SEQ = 0;
+call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+END_GET_BASIC_PRICE = NO;
+do while (END_GET_BASIC_PRICE ^= YES);
+   call GET_BASIC_PRICE;
+end;
+/* Temp until I can figure out these numbers correctly */
+BK_DOUBLE_PRICE = 0;
+BK_SINGLE_PRICE = 0;
+BK_TRIPLE_PRICE = 0;
+BK_QUAD_PRICE = 0;
+if BK_DOUBLE_COST <= BK_SAVE_DOUBLE_COST then
+   BK_DOUBLE_PRICE =BK_DOUBLE_PRICE + BK_DOUBLE_COST - BK_SAVE_DOUBLE_COST;
+else
+   BK_DOUBLE_PRICE = BK_DOUBLE_PRICE +
+      (BK_DOUBLE_COST - BK_SAVE_DOUBLE_COST) * (100 + 1 + BK_BASIC_MARKUP) / 100;
+BK_DOUBLE_PRICE = BK_DOUBLE_PRICE / (1 - BK_STD_COMM / 100);
+
+if BK_SINGLE_COST <= BK_SAVE_SINGLE_COST then
+   BK_SINGLE_PRICE =BK_SINGLE_PRICE + BK_SINGLE_COST - BK_SAVE_SINGLE_COST;
+else
+   BK_SINGLE_PRICE = BK_SINGLE_PRICE +
+      (BK_SINGLE_COST - BK_SAVE_SINGLE_COST) * (100 + 1 + BK_BASIC_MARKUP) / 100;
+BK_SINGLE_PRICE = BK_SINGLE_PRICE / (1 - BK_STD_COMM / 100);
+
+if BK_TRIPLE_COST <= BK_SAVE_TRIPLE_COST then
+   BK_TRIPLE_PRICE =BK_TRIPLE_PRICE + BK_TRIPLE_COST - BK_SAVE_TRIPLE_COST;
+else
+   BK_TRIPLE_PRICE = BK_TRIPLE_PRICE +
+      (BK_TRIPLE_COST - BK_SAVE_TRIPLE_COST) * (100 + 1 + BK_BASIC_MARKUP) / 100;
+
+if BK_QUAD_COST <= BK_SAVE_QUAD_COST then
+   BK_QUAD_PRICE =BK_QUAD_PRICE + BK_QUAD_COST - BK_SAVE_QUAD_COST;
+else
+   BK_QUAD_PRICE = BK_QUAD_PRICE +
+      (BK_QUAD_COST - BK_SAVE_QUAD_COST) * (100 + 1 + BK_BASIC_MARKUP) / 100;
+
+BK_TRIPLE_PRICE = BK_SINGLE_PRICE;	/* Temp */
+
+/* DISPLAY_DATA_X - Display */
+
+do LOOP_INDEX =  48 to  50;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+LOOP_INDEX = 99;
+
+/* CALC_NEW_TWS - Calc. new twin share rates */
+
+BK_TEMP_COST = ((100 + 1 + BK_LAND_MARKUP) / 100) / ((100 - BK_GROUND_COMM) / 100);
+BK_TEMP_TEMP = ((100 + 1 + BK_AIR_MARKUP) / 100) / ((100 - BK_AIR_COMM) / 100);
+BK_DOUBLE_PRICE = floor((BK_DOUBLE_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+BK_SINGLE_PRICE = floor((BK_SINGLE_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+if BK_SINGLE_GO = "N" then
+   BK_SINGLE_PRICE = 0;
+BK_TRIPLE_PRICE = floor((BK_TRIPLE_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+if BK_TRIPLE_GO = "N" then
+   BK_TRIPLE_PRICE = 0;
+BK_QUAD_PRICE = floor((BK_QUAD_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+if BK_QUAD_GO = "N" then
+   BK_QUAD_PRICE = 0;
+if BK_SINGLE_PRICE ^= 0 then
+   BK_SS_PRICE = BK_SINGLE_PRICE - BK_DOUBLE_PRICE;
+if BK_TRIPLE_PRICE ^= 0 then
+   BK_TR_PRICE = BK_DOUBLE_PRICE - BK_TRIPLE_PRICE;
+if BK_QUAD_PRICE ^= 0 then
+   BK_QR_PRICE = BK_DOUBLE_PRICE - BK_QUAD_PRICE;
+BK_NET_ROUNDED =
+   floor(BK_DOUBLE * BK_DOUBLE_PRICE * 2 + BK_SINGLE * BK_SINGLE_PRICE +
+   + BK_TRIPLE * BK_TRIPLE_PRICE * 3 + BK_QUAD * BK_QUAD_PRICE * 4 + 0.5);
+
+
+return;
+end;	/* CALC_BASIC           */
+
+/****************************************************************
+	GET_BASIC_PRICE
+	Read thru the current line items
+****************************************************************/
+
+GET_BASIC_PRICE:
+	procedure;
+
+
+   /* READ_NEXT_LINE - Read the next line record */
+
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LINE_NO,ERROR_CODE);
+
+   /* CHECK_END_LINE - Last record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_LINE_MOD > BK_MODIFICATION) !
+   (BK_LINE_BK_NO > BOOKING_NO) then
+      do;
+      END_GET_BASIC_PRICE = YES;
+      return;
+      end;
+
+   /* SET_CURR_PRICE - Add to the current (old) price fields */
+
+   if BK_LINE_QTY = BK_PAX then
+      do;
+      BK_DOUBLE_PRICE = BK_DOUBLE_PRICE + BK_LINE_PRICE;
+      BK_SINGLE_PRICE = BK_SINGLE_PRICE + BK_LINE_PRICE;
+      end;
+
+   if BK_LINE_QTY = BK_SINGLE then
+      BK_SINGLE_PRICE = BK_SINGLE_PRICE + BK_LINE_PRICE;
+
+return;
+end;	/* GET_BASIC_PRICE      */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+call ANY_CHANGE (1, 11,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  8 then
+   do;
+   if SELECT =  1 then
+      LOOP_INDEX = 11;
+   if SELECT >=  2 then if SELECT <=  3 then
+      LOOP_INDEX = SELECT +  11;
+   if SELECT >=  4 then if SELECT <=  5 then
+      LOOP_INDEX = SELECT +  12;
+   if SELECT >=  6 then
+      LOOP_INDEX = SELECT +  13;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* DATE_CHANGE_CK - Is it ok to change the departure date? */
+
+      if TOUR_STATUS = "OK" then
+         do;
+         call DISPLAY_MESSAGE ("Can't change confirmed bookings");
+         call PRESS_RETURN;
+         return;
+         end;
+
+      if (TOUR_TYPE = "G") ! (TOUR_TYPE = "U") then
+         do;
+         call DISPLAY_MESSAGE ("Can't change this type of tour");
+         call PRESS_RETURN;
+         return;
+         end;
+
+      AIR_PAX_COUNT = BK_DEPARTURE;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* DIS_NEW_MARKUP - Set the other markup fields and display */
+
+
+         /* MOVE_MARKUP - Set the other markup fields */
+
+         BK_LAND_MARKUP = BK_MARKUP;
+         BK_AIR_MARKUP = BK_MARKUP;
+
+         call DISPLAY_DATA_J;
+         call DISPLAY_DATA_L;
+
+         /* CALC_GROSS_MARGIN - Calc Gross Margin */
+
+         if BK_MARKUP ^= -100 then
+            BK_GROSS_MARGIN = 100 - 10000 / (BK_MARKUP + 100);
+
+         call DISPLAY_DATA_H;
+         call DIS_NEW_PRICE;
+      end;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* DIS_NEW_COMM - Display the new commissions */
+
+
+         /* MOVE_COMM - Move the commission fields */
+
+         BK_GROUND_COMM = BK_STD_COMM;
+         BK_AIR_COMM = BK_STD_COMM;
+
+         call DISPLAY_DATA_K;
+
+         /* DISPLAY_DATA_N - Display data N */
+
+         do LOOP_INDEX =  20 to  20;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         call DIS_NEW_PRICE;
+
+         /* DIS_BASIC_MU - Display the basic markup if applicable */
+
+         if BK_BASIC_MARKUP ^= 0 then
+            do;
+            call CALC_BASIC;
+            end;
+
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* CALC_LAND_PRICE - Redisplay all new numbers after change */
+
+         call DISPLAY_DATA_J;
+         call DIS_NEW_PRICE;
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* CALC_LAND_PRICE - Redisplay all new numbers after change */
+
+         call DISPLAY_DATA_J;
+         call DIS_NEW_PRICE;
+      end;
+   if LOOP_INDEX =  17 then
+      do;
+
+      /* CALC_AIR_PRICE - Redisplay the new air price */
+
+         call DISPLAY_DATA_L;
+         call DIS_NEW_PRICE;
+      end;
+   if LOOP_INDEX =  19 then
+      do;
+
+      /* CALC_NEW_AIR_MU - Calc air markup from net to agent markup */
+
+      BK_TEMP_COST= floor(BK_AIR_NET * (100 + 1 + BK_AIR_NET_MARKUP) + 0.5) / 100;
+      if BK_AIR_COST = 0 then
+         BK_AIR_MARKUP = 0;
+      else
+         BK_AIR_MARKUP = ((BK_TEMP_COST - BK_AIR_COST) / BK_AIR_COST) * 100;
+      call DISPLAY_DATA_L;
+      call DIS_NEW_PRICE;
+
+      end;
+   if LOOP_INDEX =  20 then
+      do;
+
+      /* CALC_AIR_PRICE - Redisplay the new air price */
+
+         call DISPLAY_DATA_L;
+         call DIS_NEW_PRICE;
+      end;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* DATE_CHANGE - Change the service dates to corespond */
+
+      if (AIR_PAX_COUNT = BK_DEPARTURE) ! (BK_DEPARTURE = 0) then
+         do;
+         BK_DEPARTURE = AIR_PAX_COUNT;
+         return;
+         end;
+
+
+      /* LOCK_CUR_TOUR - Read and lock the current tour record */
+
+      if BK_TOUR_NUM ^= 0 then
+         do;
+         TOUR_NO = BK_TOUR_NUM;
+
+         /* READ_TOUR_LOCK - Read the tour record and lock it */
+
+         ERROR_BK_TOUR = RECORD_LOCKED;
+         do while (ERROR_BK_TOUR = RECORD_LOCKED);
+
+            /* READ_TOUR_LK - Read and lock the tour */
+
+            call READ_KEYED (BK_TOUR_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TOUR);
+            if ERROR_BK_TOUR > 3 then
+               call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+         end;
+
+         end;
+
+
+      /* RETURN_TOUR_LOCK - Return if the tour is locked */
+
+      if ERROR_BK_TOUR = RECORD_LOCKED then
+         do;
+         END_CHANGE_ITEM = YES;
+         return;
+         end;
+
+      AIR_PAX_MATCH = BK_MOD_DATE;
+      BK_MOD_DATE = AIR_PAX_COUNT;
+
+      /* BK_ADJUST_FIT - Adjust all FIT arrangements */
+
+      %include "BK_ADJUST_FIT.DCL";
+      call BK_ADJUST_FIT(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_DET_HOTEL_RECORD,
+         BK_DET_LAND_RECORD,
+         TK_HEADER_RECORD,
+         TK_DETAIL_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_ITIN_DET_RECORD);
+      BK_MOD_DATE = AIR_PAX_MATCH;
+      AIR_PAX_MATCH = BK_ALT_OPT_SQ(1);
+
+      TOUR_DEP_DATE = BK_DEPARTURE;
+      TOUR_FINALIZE = TOUR_DEP_DATE - HDR_FINALIZE;
+      TOUR_FINAL_DOC = TOUR_DEP_DATE - HDR_FINAL_DOCS;
+      TOUR_TICKET = TOUR_DEP_DATE - HDR_TICKET;
+      TOUR_SP1_DATE = 0;
+      if HDR_SP1_DAYS = 0 then
+         TOUR_SP1 = "Y";
+      else
+         TOUR_SP1_DATE = TOUR_DEP_DATE - HDR_SP1_DAYS;
+
+      TOUR_SP2_DATE = 0;
+      if HDR_SP2_DAYS = 0 then
+         TOUR_SP2 = "Y";
+      else
+         TOUR_SP2_DATE = TOUR_DEP_DATE - HDR_SP2_DAYS;
+
+      /* UPDATE_TOUR_REC - Update the tour record */
+
+      call UPDATE_RECORD (BK_TOUR_NO,ERROR_CODE);
+
+      /* SETUP_BK_TOUR - Set up the booking tour stuff */
+
+      BK_TOUR_NUM = TOUR_NO;
+      BK_TOUR_CODE = TOUR_CODE;
+      BK_DEPARTURE = TOUR_DEP_DATE;
+      BK_DEPOSIT_DUE = BK_DATE + HDR_DEPOSIT_DUE;
+      BK_FINAL_DUE = TOUR_DEP_DATE - HDR_FINAL_PAY;
+      if TODAYS_DATE() > BK_FINAL_DUE then
+         BK_FINAL_DUE = TODAYS_DATE();
+      if BK_DEPOSIT_DUE > BK_FINAL_DUE then
+         BK_DEPOSIT_DUE = BK_FINAL_DUE;
+      BK_STATUS = TOUR_STATUS;
+      BK_ALT_OPT_SQ(1) = 0;
+
+      BK_ALT_OPT_SQ(1) = AIR_PAX_MATCH;
+
+      RECOST_PAX = "Y";
+      UPDATE_COSTS = "Y";
+
+      /* INIT_COST_VARS - Initialize the costing vars to zero */
+
+      BK_HOTEL_COST = 0;
+      BK_MEAL_COST = 0;
+      BK_LAND_COST = 0;
+      BK_TRANS_COST = 0;
+      BK_AIR_COST = 0;
+      BK_TOUR_COST = 0;
+      BK_DOUBLE_PRICE = 0;
+      BK_SINGLE_PRICE = 0;
+      BK_TRIPLE_PRICE = 0;
+      BK_OTHER_COSTS = 0;
+      BK_DOUBLE_COST = 0;
+      BK_SS_COST = 0;
+      BK_TR_COST = 0;
+      BK_QUAD_PRICE = 0;
+      BK_SS_PRICE = 0;
+      BK_TR_PRICE = 0;
+      BK_QR_PRICE = 0;
+      BK_SINGLE_COST = 0;
+      BK_TRIPLE_COST = 0;
+      BK_QUAD_COST = 0;
+      BK_SINGLE_GO = "Y";
+      BK_DOUBLE_GO = "Y";
+      BK_TRIPLE_GO = "Y";
+      BK_QUAD_GO = "Y";
+      BK_AVG_AIR_COST = 0;
+      BK_AVG_AIR_NET = 0;
+      COST_FOUND = "Y";
+      BK_AIR_NET = 0;
+      AIR_PAX_COUNT = 0;
+      AIR_PAX_MATCH = 0;
+      AIR_PAX_COST = 0;
+      AIR_PAX_NET = 0;
+
+      call COST_HOTELS;
+      call COST_LAND;
+      call COST_AIR;
+      call COST_OTHER;
+      call DISPLAY_DATA_C;
+
+      /* CHECK_COST_FOUND - Were the applicable costs found? */
+
+      if COST_FOUND = "N" then
+         do;
+         call PRESS_RETURN;
+         do;
+         END_CHANGE_ITEM = YES;
+         return;
+         end;
+         end;
+
+      if BK_SINGLE_GO = "N" then
+         do;
+         BK_SINGLE_COST = 0;
+         if BK_SINGLE ^= 0 then
+            do;
+            call DISPLAY_MESSAGE ("Single cost not calculated");
+            call PRESS_RETURN;
+            do;
+            END_CHANGE_ITEM = YES;
+            return;
+            end;
+            end;
+         end;
+
+      if BK_TRIPLE_GO = "N" then
+         do;
+         BK_TRIPLE_COST = 0;
+         if BK_TRIPLE ^= 0 then
+            do;
+            call DISPLAY_MESSAGE ("Triple cost not calculated");
+            call PRESS_RETURN;
+            do;
+            END_CHANGE_ITEM = YES;
+            return;
+            end;
+            end;
+         end;
+
+      if BK_QUAD_GO = "N" then
+         do;
+         BK_QUAD_COST = 0;
+         if BK_QUAD ^= 0 then
+            do;
+            call DISPLAY_MESSAGE ("Quad cost not calculated");
+            call PRESS_RETURN;
+            do;
+            END_CHANGE_ITEM = YES;
+            return;
+            end;
+            end;
+         end;
+
+
+   call DISPLAY_DATA_D;
+   call DIS_NEW_PRICE;
+   RECOST_PAX = "N";
+   UPDATE_COSTS = "Y";
+
+   end;
+end;
+if SELECT =  9 then
+   do;
+   do LOOP_INDEX =  44 to  46;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  44 then
+         do;
+
+         /* CHECK_PAX_RECOST - Recost pax on new basis? */
+
+         if INPUT_LENGTH = 0 then
+            do;
+            call PAX_RECOST;
+            return;
+            end;
+
+         end;
+      if LOOP_INDEX =  45 then
+         do;
+
+         /* CHECK_PAX_RECOST - Recost pax on new basis? */
+
+         if INPUT_LENGTH = 0 then
+            do;
+            call PAX_RECOST;
+            return;
+            end;
+
+         end;
+      if LOOP_INDEX =  46 then
+         do;
+         call PAX_RECOST;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT >= 10 then if SELECT <= 11 then
+   do;
+   if SELECT = 10 then
+      LOOP_INDEX = 48;
+   if SELECT = 11 then
+      LOOP_INDEX = 51;
+   if LOOP_INDEX =  48 then
+      do;
+
+      /* CHECK_BASIC - Is there a basic price to calc the m/u? */
+
+      if (BK_SAVE_DOUBLE_COST = 0)!(BK_SAVE_DOUBLE_COST = BK_DOUBLE_COST) then
+         return;
+
+      if BK_BASIC_MARKUP = 0 then
+         BK_BASIC_MARKUP = BK_MARKUP;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  48 then
+      do;
+      call CALC_BASIC;
+      end;
+   if LOOP_INDEX =  51 then
+      do;
+
+      /* RECOST_ALL - Recost the booking? */
+
+      if RECOST_PAX = "Y" then
+         do;
+
+         /* INIT_COST_VARS - Initialize the costing vars to zero */
+
+         BK_HOTEL_COST = 0;
+         BK_MEAL_COST = 0;
+         BK_LAND_COST = 0;
+         BK_TRANS_COST = 0;
+         BK_AIR_COST = 0;
+         BK_TOUR_COST = 0;
+         BK_DOUBLE_PRICE = 0;
+         BK_SINGLE_PRICE = 0;
+         BK_TRIPLE_PRICE = 0;
+         BK_OTHER_COSTS = 0;
+         BK_DOUBLE_COST = 0;
+         BK_SS_COST = 0;
+         BK_TR_COST = 0;
+         BK_QUAD_PRICE = 0;
+         BK_SS_PRICE = 0;
+         BK_TR_PRICE = 0;
+         BK_QR_PRICE = 0;
+         BK_SINGLE_COST = 0;
+         BK_TRIPLE_COST = 0;
+         BK_QUAD_COST = 0;
+         BK_SINGLE_GO = "Y";
+         BK_DOUBLE_GO = "Y";
+         BK_TRIPLE_GO = "Y";
+         BK_QUAD_GO = "Y";
+         BK_AVG_AIR_COST = 0;
+         BK_AVG_AIR_NET = 0;
+         COST_FOUND = "Y";
+         BK_AIR_NET = 0;
+         AIR_PAX_COUNT = 0;
+         AIR_PAX_MATCH = 0;
+         AIR_PAX_COST = 0;
+         AIR_PAX_NET = 0;
+
+         call COST_HOTELS;
+         call COST_LAND;
+         call COST_AIR;
+         call COST_OTHER;
+
+         /* CHECK_COST_FOUND - Were the applicable costs found? */
+
+         if COST_FOUND = "N" then
+            do;
+            call PRESS_RETURN;
+            do;
+            END_CHANGE_ITEM = YES;
+            return;
+            end;
+            end;
+
+         if BK_SINGLE_GO = "N" then
+            do;
+            BK_SINGLE_COST = 0;
+            if BK_SINGLE ^= 0 then
+               do;
+               call DISPLAY_MESSAGE ("Single cost not calculated");
+               call PRESS_RETURN;
+               do;
+               END_CHANGE_ITEM = YES;
+               return;
+               end;
+               end;
+            end;
+
+         if BK_TRIPLE_GO = "N" then
+            do;
+            BK_TRIPLE_COST = 0;
+            if BK_TRIPLE ^= 0 then
+               do;
+               call DISPLAY_MESSAGE ("Triple cost not calculated");
+               call PRESS_RETURN;
+               do;
+               END_CHANGE_ITEM = YES;
+               return;
+               end;
+               end;
+            end;
+
+         if BK_QUAD_GO = "N" then
+            do;
+            BK_QUAD_COST = 0;
+            if BK_QUAD ^= 0 then
+               do;
+               call DISPLAY_MESSAGE ("Quad cost not calculated");
+               call PRESS_RETURN;
+               do;
+               END_CHANGE_ITEM = YES;
+               return;
+               end;
+               end;
+            end;
+
+
+      call DISPLAY_DATA_C;
+      call DIS_NEW_PRICE;
+      RECOST_PAX = "N";
+      BK_SAVE_DOUBLE_COST = 0;
+
+      /* SET_MU_BASIC - If Original Price, Set the Markup basis */
+
+      if BK_SAVE_DOUBLE_COST = 0 then
+         do;
+         BK_SAVE_SINGLE_COST = BK_SINGLE_COST;
+         BK_SAVE_DOUBLE_COST = BK_DOUBLE_COST;
+         BK_SAVE_TRIPLE_COST = BK_TRIPLE_COST;
+         BK_SAVE_QUAD_COST = BK_QUAD_COST;
+         call DISPLAY_DATA_A;
+         end;
+
+      end;
+
+   end;
+end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =   8 to   8;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	PAX_RECOST
+	Recost based on each passenger category
+****************************************************************/
+
+PAX_RECOST:
+	procedure;
+
+PAX_SAVE = TOUR_PAX;
+SINGLE_SAVE = TOUR_SINGLES;
+DOUBLE_SAVE = TOUR_DOUBLES;
+TRIPLE_SAVE = TOUR_TRIPLES;
+QUAD_SAVE = TOUR_QUADS;
+
+RECOST_PAX = "Y";
+UPDATE_COSTS = "N";
+
+do PAX_INDEX = 1 to 4;
+   do CASE(PAX_INDEX);
+      TOUR_PAX = BK_PAX_1;
+      TOUR_PAX = BK_PAX_2;
+      TOUR_PAX = BK_PAX_3;
+      TOUR_PAX = BK_PAX_4;
+   end;
+
+   if TOUR_PAX = 0 then
+      goto PAX_DIS_OVER;
+
+   TOUR_SINGLES = 0;
+   TOUR_TRIPLES = 0;
+   TOUR_QUADS = 0;
+   if TOUR_PAX > 9 then
+      TOUR_QUADS = 1;
+   if TOUR_PAX > 5 then
+      TOUR_TRIPLES = 1;
+   if TOUR_PAX ^= 2 then
+      TOUR_SINGLES = 1;
+   TOUR_DOUBLES =
+      divide((TOUR_PAX-TOUR_SINGLES- TOUR_TRIPLES * 3 - TOUR_QUADS * 4),2,15);
+   TOUR_SINGLES=(TOUR_PAX - TOUR_DOUBLES*2 - TOUR_TRIPLES*3 - TOUR_QUADS*4);
+
+
+   /* INIT_COST_VARS - Initialize the costing vars to zero */
+
+   BK_HOTEL_COST = 0;
+   BK_MEAL_COST = 0;
+   BK_LAND_COST = 0;
+   BK_TRANS_COST = 0;
+   BK_AIR_COST = 0;
+   BK_TOUR_COST = 0;
+   BK_DOUBLE_PRICE = 0;
+   BK_SINGLE_PRICE = 0;
+   BK_TRIPLE_PRICE = 0;
+   BK_OTHER_COSTS = 0;
+   BK_DOUBLE_COST = 0;
+   BK_SS_COST = 0;
+   BK_TR_COST = 0;
+   BK_QUAD_PRICE = 0;
+   BK_SS_PRICE = 0;
+   BK_TR_PRICE = 0;
+   BK_QR_PRICE = 0;
+   BK_SINGLE_COST = 0;
+   BK_TRIPLE_COST = 0;
+   BK_QUAD_COST = 0;
+   BK_SINGLE_GO = "Y";
+   BK_DOUBLE_GO = "Y";
+   BK_TRIPLE_GO = "Y";
+   BK_QUAD_GO = "Y";
+   BK_AVG_AIR_COST = 0;
+   BK_AVG_AIR_NET = 0;
+   COST_FOUND = "Y";
+   BK_AIR_NET = 0;
+   AIR_PAX_COUNT = 0;
+   AIR_PAX_MATCH = 0;
+   AIR_PAX_COST = 0;
+   AIR_PAX_NET = 0;
+
+   call COST_HOTELS;
+   call COST_LAND;
+   call COST_AIR;
+   call COST_OTHER;
+   call SET_COL_OFFSET(PAX_INDEX * 14 - 14);
+
+   /* CHECK_COST_CLEAR - If the costs aren't found, clear fields */
+
+   if COST_FOUND = "N" then
+      do;
+      BK_SINGLE_PRICE = 0;
+      BK_DOUBLE_PRICE = 0;
+      BK_TRIPLE_PRICE = 0;
+      BK_QUAD_PRICE = 0;
+      end;
+
+   if BK_SINGLE_GO = "N" then
+      BK_DOUBLE_PRICE = 0;
+
+   if BK_TRIPLE_GO = "N" then
+      BK_TRIPLE_PRICE = 0;
+
+   if BK_QUAD_GO = "N" then
+      BK_QUAD_PRICE = 0;
+
+
+   /* DISPLAY_DATA_Z - Display data */
+
+   do LOOP_INDEX =  40 to  43;
+      if LOOP_INDEX =  40 then
+         do;
+
+         /* CALC_NEW_TWS - Calc. new twin share rates */
+
+         BK_TEMP_COST = ((100 + 1 + BK_LAND_MARKUP) / 100) / ((100 - BK_GROUND_COMM) / 100);
+         BK_TEMP_TEMP = ((100 + + 1 + BK_AIR_MARKUP) / 100) / ((100 - BK_AIR_COMM) / 100);
+         BK_DOUBLE_PRICE = floor((BK_DOUBLE_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+         BK_SINGLE_PRICE = floor((BK_SINGLE_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+         if BK_SINGLE_GO = "N" then
+            BK_SINGLE_PRICE = 0;
+         BK_TRIPLE_PRICE = floor((BK_TRIPLE_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+         if BK_TRIPLE_GO = "N" then
+            BK_TRIPLE_PRICE = 0;
+         BK_QUAD_PRICE = floor((BK_QUAD_COST * BK_TEMP_COST + AIR_PAX_COST * BK_TEMP_TEMP) + 0.5);
+         if BK_QUAD_GO = "N" then
+            BK_QUAD_PRICE = 0;
+         if BK_SINGLE_PRICE ^= 0 then
+            BK_SS_PRICE = BK_SINGLE_PRICE - BK_DOUBLE_PRICE;
+         if BK_TRIPLE_PRICE ^= 0 then
+            BK_TR_PRICE = BK_DOUBLE_PRICE - BK_TRIPLE_PRICE;
+         if BK_QUAD_PRICE ^= 0 then
+            BK_QR_PRICE = BK_DOUBLE_PRICE - BK_QUAD_PRICE;
+         BK_NET_ROUNDED =
+            floor(BK_DOUBLE * BK_DOUBLE_PRICE * 2 + BK_SINGLE * BK_SINGLE_PRICE +
+            + BK_TRIPLE * BK_TRIPLE_PRICE * 3 + BK_QUAD * BK_QUAD_PRICE * 4 + 0.5);
+
+         end;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+end;
+
+PAX_DIS_OVER:
+call SET_COL_OFFSET(0);
+TOUR_PAX = PAX_SAVE;
+TOUR_SINGLES = SINGLE_SAVE;
+TOUR_DOUBLES = DOUBLE_SAVE;
+TOUR_TRIPLES = TRIPLE_SAVE;
+TOUR_QUADS = QUAD_SAVE;
+
+RECOST_PAX = "N";
+
+/* INIT_COST_VARS - Initialize the costing vars to zero */
+
+BK_HOTEL_COST = 0;
+BK_MEAL_COST = 0;
+BK_LAND_COST = 0;
+BK_TRANS_COST = 0;
+BK_AIR_COST = 0;
+BK_TOUR_COST = 0;
+BK_DOUBLE_PRICE = 0;
+BK_SINGLE_PRICE = 0;
+BK_TRIPLE_PRICE = 0;
+BK_OTHER_COSTS = 0;
+BK_DOUBLE_COST = 0;
+BK_SS_COST = 0;
+BK_TR_COST = 0;
+BK_QUAD_PRICE = 0;
+BK_SS_PRICE = 0;
+BK_TR_PRICE = 0;
+BK_QR_PRICE = 0;
+BK_SINGLE_COST = 0;
+BK_TRIPLE_COST = 0;
+BK_QUAD_COST = 0;
+BK_SINGLE_GO = "Y";
+BK_DOUBLE_GO = "Y";
+BK_TRIPLE_GO = "Y";
+BK_QUAD_GO = "Y";
+BK_AVG_AIR_COST = 0;
+BK_AVG_AIR_NET = 0;
+COST_FOUND = "Y";
+BK_AIR_NET = 0;
+AIR_PAX_COUNT = 0;
+AIR_PAX_MATCH = 0;
+AIR_PAX_COST = 0;
+AIR_PAX_NET = 0;
+
+call COST_HOTELS;
+call COST_LAND;
+call COST_AIR;
+call COST_OTHER;
+call DISPLAY_DATA_G;
+UPDATE_COSTS = "Y";
+
+return;
+end;	/* PAX_RECOST           */
+
+/****************************************************************
+	CREATE_NEW_LINE
+	Create the new line items
+****************************************************************/
+
+CREATE_NEW_LINE:
+	procedure;
+
+declare		ANSWER               character (1);
+
+   /* NEW_LINE - Ask if they want new line item? */
+
+   call DISPLAY_MESSAGE ("Create new line items?");
+   call INPUT_DATA(23,24,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   if ANSWER ^= "Y" then
+   return;
+
+
+   /* COPY_LINE_DETL - Copy if change */
+
+   if BK_LINE_CHGD ^= BK_NEXT_MOD then
+      do;
+
+      /* SET_FIRST_LINE - Set for first read */
+
+      BK_LINE_MOD = BK_MODIFICATION;
+      BK_LINE_BK_NO = BOOKING_NO;
+      BK_LINE_SEQ = 0;
+      call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+      END_GO_THRU_LINE = NO;
+      do while (END_GO_THRU_LINE ^= YES);
+         call GO_THRU_LINE;
+      end;
+      BK_LINE_CHGD = BK_NEXT_MOD;
+      end;
+
+   END_DELETE_LINES = NO;
+   do while (END_DELETE_LINES ^= YES);
+      call DELETE_LINES;
+   end;
+
+   /* SETUP_LINE_ITEM - Set up the line item record */
+
+   BK_BALANCE = BK_BALANCE - BK_NET_PRICE;
+   BK_TOUR_PRICE = 0;
+   BK_NET_PRICE = 0;
+
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 1;
+   BK_LINE_MOD = 0;
+   BK_LINE_DESC = "Basic Tour Price";
+   if BK_GROUND_COMM = BK_AIR_COMM then
+      BK_LINE_PRICE = BK_DOUBLE_PRICE;
+   else
+      BK_LINE_PRICE = floor(BK_DOUBLE_PRICE * 100 -
+         ((BK_AIR_COST * (100 + 1 + BK_AIR_MARKUP)) / (1 - BK_AIR_COMM/100) / TOUR_PAX) + 0.5) / 100;
+   BK_LINE_QTY = BK_PAX;
+   BK_LINE_EXTEN = BK_PAX * BK_LINE_PRICE;
+   BK_LINE_COMM = BK_GROUND_COMM;
+   BK_LINE_NET = floor(BK_LINE_EXTEN * (100 - BK_LINE_COMM) + 0.5) / 100;
+   BK_LINE_MAN = "N";
+   BK_LINE_PAY_AT = "F";
+   BK_LINE_FULL_COMM = "Y";
+   BK_LINE_TOUR_CODE = "";
+
+   BK_TOUR_PRICE = BK_TOUR_PRICE + BK_LINE_EXTEN;
+   BK_NET_PRICE = BK_NET_PRICE + BK_LINE_NET;
+   BK_BALANCE = BK_BALANCE + BK_LINE_NET;
+
+
+   /* WRITE_RECORD - Write the record */
+
+   call WRITE_RECORD (BK_LINE_NO,ERROR_CODE);
+
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 2;
+   BK_LINE_MOD = 0;
+   BK_LINE_DESC = "Single Supplement";
+   BK_LINE_PRICE = BK_SS_PRICE;
+   BK_LINE_QTY = BK_SINGLE;
+   BK_LINE_EXTEN = BK_LINE_QTY * BK_LINE_PRICE;
+   BK_LINE_COMM = BK_GROUND_COMM;
+   BK_LINE_NET = floor(BK_LINE_EXTEN * (100 - BK_LINE_COMM) + 0.5) / 100;
+   BK_LINE_MAN = "N";
+   BK_LINE_PAY_AT = "F";
+   BK_LINE_FULL_COMM = "Y";
+   BK_LINE_TOUR_CODE = "";
+
+   BK_TOUR_PRICE = BK_TOUR_PRICE + BK_LINE_EXTEN;
+   BK_NET_PRICE = BK_NET_PRICE + BK_LINE_NET;
+   BK_BALANCE = BK_BALANCE + BK_LINE_NET;
+
+   if BK_SINGLE ^= 0 then if BK_LINE_NET ^= 0 then
+      do;
+
+      /* WRITE_RECORD - Write the record */
+
+      call WRITE_RECORD (BK_LINE_NO,ERROR_CODE);
+      end;
+
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 3;
+   BK_LINE_MOD = 0;
+   BK_LINE_DESC = "Triple Reduction";
+   BK_LINE_PRICE = -BK_TR_PRICE;
+   BK_LINE_QTY = BK_TRIPLE * 3;
+   BK_LINE_EXTEN = BK_LINE_QTY * BK_LINE_PRICE;
+   BK_LINE_COMM = BK_GROUND_COMM;
+   BK_LINE_NET = floor(BK_LINE_EXTEN * (100 - BK_LINE_COMM) + 0.5) / 100;
+   BK_LINE_MAN = "N";
+   BK_LINE_PAY_AT = "F";
+   BK_LINE_FULL_COMM = "Y";
+   BK_LINE_TOUR_CODE = "";
+
+   BK_TOUR_PRICE = BK_TOUR_PRICE + BK_LINE_EXTEN;
+   BK_NET_PRICE = BK_NET_PRICE + BK_LINE_NET;
+   BK_BALANCE = BK_BALANCE + BK_LINE_NET;
+
+   if BK_LINE_NET ^= 0 then
+      do;
+
+      /* WRITE_RECORD - Write the record */
+
+      call WRITE_RECORD (BK_LINE_NO,ERROR_CODE);
+      end;
+
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 4;
+   BK_LINE_MOD = 0;
+   BK_LINE_DESC = "Quad Reduction";
+   BK_LINE_PRICE = -BK_QR_PRICE;
+   BK_LINE_QTY = BK_QUAD * 4;
+   BK_LINE_EXTEN = BK_LINE_QTY * BK_LINE_PRICE;
+   BK_LINE_COMM = BK_GROUND_COMM;
+   BK_LINE_NET = floor(BK_LINE_EXTEN * (100 - BK_LINE_COMM) + 0.5) / 100;
+   BK_LINE_MAN = "N";
+   BK_LINE_PAY_AT = "F";
+   BK_LINE_FULL_COMM = "Y";
+   BK_LINE_TOUR_CODE = "";
+
+   BK_TOUR_PRICE = BK_TOUR_PRICE + BK_LINE_EXTEN;
+   BK_NET_PRICE = BK_NET_PRICE + BK_LINE_NET;
+   BK_BALANCE = BK_BALANCE + BK_LINE_NET;
+
+   if BK_LINE_NET ^= 0 then
+      do;
+
+      /* WRITE_RECORD - Write the record */
+
+      call WRITE_RECORD (BK_LINE_NO,ERROR_CODE);
+      end;
+
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 5;
+   BK_LINE_MOD = 0;
+   BK_LINE_DESC = "Air Price";
+   if BK_GROUND_COMM = BK_AIR_COMM then
+      BK_LINE_PRICE = 0;
+   else
+      BK_LINE_PRICE = floor(
+         ((BK_AIR_COST * (100 + 1 + BK_AIR_MARKUP)) / (1 - BK_AIR_COMM/100) / TOUR_PAX) + 0.5) / 100;
+   BK_LINE_QTY = BK_PAX;
+   BK_LINE_EXTEN = BK_PAX * BK_LINE_PRICE;
+   BK_LINE_COMM = BK_AIR_COMM;
+   BK_LINE_NET = floor(BK_LINE_EXTEN * (100 - BK_LINE_COMM) + 0.5) / 100;
+   BK_LINE_MAN = "N";
+   BK_LINE_PAY_AT = "F";
+   BK_LINE_FULL_COMM = "Y";
+   BK_LINE_TOUR_CODE = "";
+
+   BK_TOUR_PRICE = BK_TOUR_PRICE + BK_LINE_EXTEN;
+   BK_NET_PRICE = BK_NET_PRICE + BK_LINE_NET;
+   BK_BALANCE = BK_BALANCE + BK_LINE_NET;
+
+   if BK_LINE_NET ^= 0 then
+      do;
+
+      /* WRITE_RECORD - Write the record */
+
+      call WRITE_RECORD (BK_LINE_NO,ERROR_CODE);
+      end;
+
+   BK_LINE_CHGD = BK_NEXT_MOD;
+
+return;
+end;	/* CREATE_NEW_LINE      */
+
+/****************************************************************
+	GO_THRU_LINE
+	Read thru the pax info and copy to mod
+****************************************************************/
+
+GO_THRU_LINE:
+	procedure;
+
+
+   /* READ_NEXT_LINE - Read the next line record */
+
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LINE_NO,ERROR_CODE);
+
+   /* CHECK_END_LINE - Last record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_LINE_MOD > BK_MODIFICATION) !
+   (BK_LINE_BK_NO > BOOKING_NO) then
+      do;
+      END_GO_THRU_LINE = YES;
+      return;
+      end;
+
+   /* SET_MOD_LINE - Set the line to the correct mod number */
+
+   BK_LINE_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_LINE - Write the line detail record */
+
+   call WRITE_RECORD (BK_LINE_NO,ERROR_CODE);
+
+   /* SET_LINE_POS - Set the position for the next read */
+
+   BK_LINE_MOD = BK_MODIFICATION;
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = BK_LINE_SEQ+1;
+   call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* GO_THRU_LINE         */
+
+/****************************************************************
+	DELETE_LINES
+	Delete the line item detail
+****************************************************************/
+
+DELETE_LINES:
+	procedure;
+
+
+   /* SET_FIRST_LINE - Set for first read */
+
+   BK_LINE_MOD = BK_MODIFICATION;
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 0;
+   call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_LINE - Read the next line record */
+
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LINE_NO,ERROR_CODE);
+
+   /* CHECK_END_LINE - Last record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_LINE_MOD > BK_MODIFICATION) !
+   (BK_LINE_BK_NO > BOOKING_NO) then
+      do;
+      END_DELETE_LINES = YES;
+      return;
+      end;
+
+   /* DELETE_LINE_ITEM - Delete this line item */
+
+   call DELETE_RECORD (BK_LINE_NO,ERROR_CODE);
+return;
+end;	/* DELETE_LINES         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

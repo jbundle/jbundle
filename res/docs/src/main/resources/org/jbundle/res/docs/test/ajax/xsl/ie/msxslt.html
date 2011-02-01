@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>XSLT example</title>
+
+<script type="text/javascript">
+
+function main()
+{
+  var doc = LoadDOM("remove.xml");
+  var xsl = LoadDOM("remove.xsl ");
+  var str = doc.transformNode(xsl);
+
+	document.getElementById("src").value = str;
+
+	var out = MakeDOM(null);
+  
+	doc.transformNodeToObject(xsl, out);
+
+	var outNode = out.getElementsByTagName("div").item(0);
+
+	var frag3 = document.getElementById("area2");
+	frag3.innerHTML =  outNode.xml;
+}
+
+function LoadDOM(file)
+{
+   var dom;
+   try {
+     dom = MakeDOM(null);
+     dom.load(file);
+   }
+   catch (e) {
+     alert(e.description );
+   }
+   return dom;
+}
+
+function MakeDOM(progID)
+{
+  if (progID == null ) {
+    progID = "msxml2.DOMDocument.3.0";
+  }
+
+  var dom;
+  try {
+    dom = new ActiveXObject(progID);
+    dom.async = false;
+    dom.validateOnParse = false;
+    dom.resolveExternals = false;
+  }
+  catch (e) {
+    alert(e.description);
+  }
+  return dom;
+}
+
+</script>
+
+</head>
+
+<body>
+
+<button onclick="main();">Show First Dialog</button>
+
+<textarea rows="10" cols="100" id="src">Source</textarea>
+
+<textarea rows="10" cols="100" id="dest">Dest</textarea>
+
+<div id="area1">area1</div>
+
+<div id="area2">area2</div>
+
+</body>
+</html>

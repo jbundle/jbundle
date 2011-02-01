@@ -1,0 +1,921 @@
+/****************************************************************
+	Module: BK_AO_SELECT
+	Top Level Logic: BK_AO_LOGIC
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_AO_SELECT
+	Main logic for the Alt/Opt selection
+****************************************************************/
+
+%replace BK_AO_SELECT_1 by 250;
+BK_AO_SELECT:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_OPT_ALT_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_OPT_ALT_NO by  62;
+%include "BK_AO_SELECT.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_OPT_ALT.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_GET_ALTS         bit (1);
+declare		END_GET_OPT          bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_OPT_ALT     fixed binary (15);
+declare		END_GET_NXT_MATCH    bit (1);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_PROCESS_QUESTION bit (1);
+declare		END_GET_OPTS         bit (1);
+declare		END_FIND_ALT_MATCH   bit (1);
+   call INIT_AO;
+   call AO_PROCESS;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INIT_AO
+	Initialize the A/O stuff
+****************************************************************/
+
+INIT_AO:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   ALT_INDEX = 1;
+   GATEWAY = "N";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_AO_SELECT_RECORD) );
+
+   /* SET_FIRST_TIME - Set the not first time flag to Yes */
+
+   NOT_FIRST_TIME = YES;
+
+return;
+end;	/* INIT_AO              */
+
+/****************************************************************
+	AO_PROCESS
+	Mainline code
+****************************************************************/
+
+AO_PROCESS:
+	procedure;
+
+
+   /* SET_ALTS - Set for ALTS */
+
+   TEMP_TYPE = "Y";
+
+
+   /* ZERO_NEXT - Set the next alt to zero */
+
+   NEXT_SEQ = -1;
+
+   END_GET_ALTS = NO;
+   do while (END_GET_ALTS ^= YES);
+      call GET_ALTS;
+   end;
+
+   /* SET_OPTS - Set for opts */
+
+   TEMP_TYPE = "N";
+
+
+   /* ZERO_NEXT - Set the next alt to zero */
+
+   NEXT_SEQ = -1;
+
+   END_GET_OPT = NO;
+   do while (END_GET_OPT ^= YES);
+      call GET_OPT;
+   end;
+
+   /* SET_LAST_ALT - Set a 0 delimiter in the booking rec. */
+
+   BK_ALT_OPT_SQ(ALT_INDEX) = 0;
+   BK_AO_ANSW_SQ(ALT_INDEX) = 0;
+
+return;
+end;	/* AO_PROCESS           */
+
+/****************************************************************
+	GET_ALTS
+	Read through all of the alts and resolve
+****************************************************************/
+
+GET_ALTS:
+	procedure;
+
+
+   /* BUMP_ALT - Bump the next alt code */
+
+   NEXT_SEQ = NEXT_SEQ + 1;
+
+
+   /* GET_NEXT_ALT - Set for reading the next ALT */
+
+   ALT_TOUR_CODE = HDR_TOUR_CODE;
+   ALT_OR_OPT = TEMP_TYPE;
+   ALT_SEQ = NEXT_SEQ;
+   ALT_END = 0;
+   ALT_ANSW_SEQ = 0;
+   call SET_POSITION (BK_OPT_ALT_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* READ_NEXT_ALT - Read the next ALT (KEY ONLY) */
+
+   call READ_NEXT(BK_OPT_ALT_NO+?KEY_ONLY,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+      call PRINT_ERROR(BK_OPT_ALT_NO,ERROR_CODE);
+
+
+   /* SET_THIS_ALT - Set up this alt code for match */
+
+   NEXT_SEQ = ALT_SEQ;
+
+
+   /* GET_NEXT_VALID - Get next valid opt in this ques seq. */
+
+   ALT_END = BK_DEPARTURE;
+   ALT_ANSW_SEQ = 0;
+   call SET_POSITION (BK_OPT_ALT_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* READ_NEXT_ALT - Read the next ALT (KEY ONLY) */
+
+   call READ_NEXT(BK_OPT_ALT_NO+?KEY_ONLY,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+      call PRINT_ERROR(BK_OPT_ALT_NO,ERROR_CODE);
+
+
+   /* CK_NEXT_ALT - End of optionals? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (ALT_TOUR_CODE > HDR_TOUR_CODE) !
+   (ALT_OR_OPT > TEMP_TYPE) then
+      do;
+      END_GET_ALTS = YES;
+      return;
+      end;
+
+   /* CK_THIS_ALT - Is this record part of this ALT? */
+
+   if ALT_SEQ ^= NEXT_SEQ then
+      return;
+
+
+   /* READ_RECORD_2 - Read from another file */
+
+   call READ_KEYED (BK_OPT_ALT_NO,KEY_AREA_2,ERROR_BK_OPT_ALT);
+   if ERROR_BK_OPT_ALT > 3 then
+      call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_BK_OPT_ALT);
+   END_GET_NXT_MATCH = NO;
+   do while (END_GET_NXT_MATCH ^= YES);
+      call GET_NXT_MATCH;
+   end;
+return;
+end;	/* GET_ALTS             */
+
+/****************************************************************
+	GET_NXT_MATCH
+	Get the next matching record in this alt
+****************************************************************/
+
+GET_NXT_MATCH:
+	procedure;
+
+
+   /* CHECK_ALT_MATCH - Is this a valid selection? */
+
+   MATCH = "N";
+
+   if ALT_GATEWAY ^= "" then if BK_GATEWAY = "" then if GATEWAY = "N" then
+      do;
+
+      /* REDISPLAY_SCREEN - Re-display the screen */
+
+      if NOT_FIRST_TIME then
+         call DISPLAY_SCREEN (BK_AO_SELECT_1);
+      NOT_FIRST_TIME = YES;
+      call ENTER_DATA_G;
+      GATEWAY = "Y";
+      end;
+
+   if (ALT_START <= BK_DEPARTURE) &
+      ((ALT_GATEWAY = "") ! (ALT_GATEWAY = BK_GATEWAY)) &
+      ((ALT_DAY_OF_WEEK = "") !
+      ((index(ALT_DAY_OF_WEEK,substr("7123456",(mod(BK_DEPARTURE,7)+1),1))) ^= 0)) then
+         MATCH = "Y";
+
+
+   /* ANSWER_SEL - Select by "A"nswer? */
+
+   if MATCH = "Y" then
+      do;
+      if ALT_SELECT_BY = "Y" then
+         do;
+         call SELECT_ANSWER;
+         end;
+      else
+         do;
+
+         /* SET_NEXT_ALT - Set the next alt to this record */
+
+
+            /* SET_TEMP_ANSW - Set temp variables for seq. compare */
+
+            TEMP_QUES_SEQ = ALT_SEQ;
+
+
+            /* SET_ALT_ARRAY - Set the next alt to current alt */
+
+            if ALT_INDEX < 20 then
+               do;
+               BK_ALT_OPT_SQ(ALT_INDEX) = TEMP_QUES_SEQ;
+               if ALT_USE_SEQ = 0 then
+                  BK_AO_ANSW_SQ(ALT_INDEX) = ALT_ANSW_SEQ;
+               else
+                  BK_AO_ANSW_SQ(ALT_INDEX) = ALT_USE_SEQ;
+
+               ALT_INDEX = ALT_INDEX + 1;
+               end;
+
+         end;
+      do;
+      END_GET_NXT_MATCH = YES;
+      return;
+      end;
+      end;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_OPT_ALT_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+
+   /* CK_LAST_ALT - Last answer in this group? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (ALT_TOUR_CODE > HDR_TOUR_CODE) !
+   (ALT_OR_OPT > TEMP_TYPE) !
+   (ALT_SEQ > NEXT_SEQ) then
+      do;
+      END_GET_NXT_MATCH = YES;
+      return;
+      end;
+return;
+end;	/* GET_NXT_MATCH        */
+
+/****************************************************************
+	ENTER_DATA_G
+	Enter the data in group G
+****************************************************************/
+
+ENTER_DATA_G:
+	procedure;
+
+BK_GATEWAY = "";
+do LOOP_INDEX =  16 to  16;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_G         */
+
+/****************************************************************
+	SELECT_ANSWER
+	Dislpay the current question & A's & sel
+****************************************************************/
+
+SELECT_ANSWER:
+	procedure;
+
+
+   /* RESET_OPT - Reset OPT seq no. */
+
+   OPT_SEQ = 1;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_AO_SELECT_1);
+   NOT_FIRST_TIME = YES;
+
+   /* SET_THIS_ALT - Set up this alt code for match */
+
+   NEXT_SEQ = ALT_SEQ;
+
+
+   /* ZERO_A_SEQ - Reset the answer index */
+
+   TEMP_QUES_SEQ = 1;
+
+   call DISPLAY_DATA_D;
+   END_PROCESS_QUESTION = NO;
+   do while (END_PROCESS_QUESTION ^= YES);
+      call PROCESS_QUESTION;
+   end;
+return;
+end;	/* SELECT_ANSWER        */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  12 to  12;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* SET_Q_OFFSET - Set the question offset */
+
+      call SET_ROW_OFFSET(OPT_SEQ - 1);
+      OPT_Q_SEQ(OPT_SEQ) = ALT_SEQ;
+      OPT_A_SEQ(OPT_SEQ) = ALT_ANSW_SEQ;
+      OPT_SEQ = OPT_SEQ + 1;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	PROCESS_QUESTION
+	Display all the answers and get select'n
+****************************************************************/
+
+PROCESS_QUESTION:
+	procedure;
+
+
+   /* CHECK_ALT_MATCH - Is this a valid selection? */
+
+   MATCH = "N";
+
+   if ALT_GATEWAY ^= "" then if BK_GATEWAY = "" then if GATEWAY = "N" then
+      do;
+
+      /* REDISPLAY_SCREEN - Re-display the screen */
+
+      if NOT_FIRST_TIME then
+         call DISPLAY_SCREEN (BK_AO_SELECT_1);
+      NOT_FIRST_TIME = YES;
+      call ENTER_DATA_G;
+      GATEWAY = "Y";
+      end;
+
+   if (ALT_START <= BK_DEPARTURE) &
+      ((ALT_GATEWAY = "") ! (ALT_GATEWAY = BK_GATEWAY)) &
+      ((ALT_DAY_OF_WEEK = "") !
+      ((index(ALT_DAY_OF_WEEK,substr("7123456",(mod(BK_DEPARTURE,7)+1),1))) ^= 0)) then
+         MATCH = "Y";
+
+
+   /* ALT_ANSW_MATCH - Is this a valid ALT? */
+
+   if MATCH = "Y" then
+      do;
+      call DISPLAY_ANSWER;
+      end;
+   else
+      do;
+
+      /* GET_NEXT_ANSWER - Read the next answer and check for end */
+
+
+         /* READNEXT - Read the next record */
+
+         call READ_NEXT (BK_OPT_ALT_NO,KEY_AREA_2,ERROR_CODE);
+         if ERROR_CODE > 3 then
+         	call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+
+         /* CHECK_LAST_ALT - Last alt read? */
+
+         if (ERROR_CODE = END_OF_FILE) !
+            (ALT_TOUR_CODE > HDR_TOUR_CODE) !
+            (ALT_OR_OPT > TEMP_TYPE) !
+            (ALT_SEQ > NEXT_SEQ) then
+               do;
+               call ENTER_ANSWER;
+               END_PROCESS_QUESTION = YES;
+               do;
+               END_PROCESS_QUESTION = YES;
+               return;
+               end;
+               end;
+
+      end;
+
+return;
+end;	/* PROCESS_QUESTION     */
+
+/****************************************************************
+	DISPLAY_ANSWER
+	Display this answer and check
+****************************************************************/
+
+DISPLAY_ANSWER:
+	procedure;
+
+
+   /* CHECK_FULL - Is the screen full already? */
+
+   if TEMP_QUES_SEQ > 9 then
+      do;
+      call ENTER_ANSWER;
+      if SELECTED_ANSWER ^= 0 then
+         do;
+         END_PROCESS_QUESTION = YES;
+         return;
+         end;
+
+         /* REDISPLAY_SCREEN - Re-display the screen */
+
+         if NOT_FIRST_TIME then
+            call DISPLAY_SCREEN (BK_AO_SELECT_1);
+         NOT_FIRST_TIME = YES;
+
+         /* ZERO_A_SEQ - Reset the answer index */
+
+         TEMP_QUES_SEQ = 1;
+
+
+         /* RESET_OFFSET - Set row offset to 0 */
+
+         call SET_ROW_OFFSET(0);
+
+
+         /* RESET_OPT - Reset OPT seq no. */
+
+         OPT_SEQ = 1;
+
+         call DISPLAY_DATA_D;
+      end;
+
+   call DISPLAY_DATA_B;
+
+   /* GET_NEXT_ANSWER - Read the next answer and check for end */
+
+
+      /* READNEXT - Read the next record */
+
+      call READ_NEXT (BK_OPT_ALT_NO,KEY_AREA_2,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+
+      /* CHECK_LAST_ALT - Last alt read? */
+
+      if (ERROR_CODE = END_OF_FILE) !
+         (ALT_TOUR_CODE > HDR_TOUR_CODE) !
+         (ALT_OR_OPT > TEMP_TYPE) !
+         (ALT_SEQ > NEXT_SEQ) then
+            do;
+            call ENTER_ANSWER;
+            END_PROCESS_QUESTION = YES;
+            return;
+            end;
+
+return;
+end;	/* DISPLAY_ANSWER       */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  13 to  14;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* SET_A_OFFSET - Set the answer offset */
+
+      call SET_ROW_OFFSET(TEMP_QUES_SEQ - 2);
+      OPT_A_SEQ(TEMP_QUES_SEQ) = ALT_ANSW_SEQ;
+      if ALT_USE_SEQ ^= 0 then
+         OPT_A_SEQ(TEMP_QUES_SEQ) = ALT_USE_SEQ;
+      TEMP_QUES_SEQ = TEMP_QUES_SEQ + 1;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	ENTER_ANSWER
+	Have the user enter an answer
+****************************************************************/
+
+ENTER_ANSWER:
+	procedure;
+
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+   call ENTER_DATA_C;
+
+   /* RETURN_IF_ZERO - Return if return hit */
+
+   if SELECTED_ANSWER = 0 then
+      return;
+
+
+   /* SET_UP_ANSW - Set up the answer seq */
+
+   TEMP_QUES_SEQ = NEXT_SEQ;
+   ALT_USE_SEQ = 0;
+   ALT_ANSW_SEQ = OPT_A_SEQ(SELECTED_ANSWER);
+
+   if ALT_ANSW_SEQ = 0 then
+      return;
+
+
+   /* SET_ALT_ARRAY - Set the next alt to current alt */
+
+   if ALT_INDEX < 20 then
+      do;
+      BK_ALT_OPT_SQ(ALT_INDEX) = TEMP_QUES_SEQ;
+      if ALT_USE_SEQ = 0 then
+         BK_AO_ANSW_SQ(ALT_INDEX) = ALT_ANSW_SEQ;
+      else
+         BK_AO_ANSW_SQ(ALT_INDEX) = ALT_USE_SEQ;
+
+      ALT_INDEX = ALT_INDEX + 1;
+      end;
+
+return;
+end;	/* ENTER_ANSWER         */
+
+/****************************************************************
+	ENTER_DATA_C
+	Enter the screen data in group C
+****************************************************************/
+
+ENTER_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  15 to  15;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_C         */
+
+/****************************************************************
+	GET_OPT
+	Get the optional selection
+****************************************************************/
+
+GET_OPT:
+	procedure;
+
+
+   /* RESET_OPT - Reset OPT seq no. */
+
+   OPT_SEQ = 1;
+
+   END_GET_OPTS = NO;
+   do while (END_GET_OPTS ^= YES);
+      call GET_OPTS;
+   end;
+
+   /* AGAIN_IF_FULL - Display again if full */
+
+   if OPT_SEQ > 9 then if SELECTED_ANSWER = 0 then
+      return;
+
+
+   /* RETURN_IF_ZERO - Return if return hit */
+
+   if SELECTED_ANSWER = 0 then
+      do;
+      END_GET_OPT = YES;
+      return;
+      end;
+
+
+   /* SETUP_S_KEY - Setup the selected key */
+
+   if SELECTED_ANSWER > OPT_SEQ then
+      do;
+      END_GET_OPT = YES;
+      return;
+      end;
+   ALT_TOUR_CODE = HDR_TOUR_CODE;
+   ALT_SEQ = OPT_Q_SEQ(SELECTED_ANSWER);
+   ALT_ANSW_SEQ = OPT_A_SEQ(SELECTED_ANSWER);
+
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_BK_OPT_ALT);
+   if ERROR_BK_OPT_ALT > 3 then
+      call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_BK_OPT_ALT);
+
+   /* READ_RECORD_2 - Read from another file */
+
+   call READ_KEYED (BK_OPT_ALT_NO,KEY_AREA_2,ERROR_BK_OPT_ALT);
+   if ERROR_BK_OPT_ALT > 3 then
+      call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_BK_OPT_ALT);
+   call SELECT_ANSWER;
+
+   /* ZERO_NEXT - Set the next alt to zero */
+
+   NEXT_SEQ = -1;
+
+return;
+end;	/* GET_OPT              */
+
+/****************************************************************
+	GET_OPTS
+	Read through OPTs and resolve
+****************************************************************/
+
+GET_OPTS:
+	procedure;
+
+
+   /* BUMP_ALT - Bump the next alt code */
+
+   NEXT_SEQ = NEXT_SEQ + 1;
+
+
+   /* GET_NEXT_ALT - Set for reading the next ALT */
+
+   ALT_TOUR_CODE = HDR_TOUR_CODE;
+   ALT_OR_OPT = TEMP_TYPE;
+   ALT_SEQ = NEXT_SEQ;
+   ALT_END = 0;
+   ALT_ANSW_SEQ = 0;
+   call SET_POSITION (BK_OPT_ALT_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* READ_NEXT_ALT - Read the next ALT (KEY ONLY) */
+
+   call READ_NEXT(BK_OPT_ALT_NO+?KEY_ONLY,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+      call PRINT_ERROR(BK_OPT_ALT_NO,ERROR_CODE);
+
+
+   /* SET_THIS_ALT - Set up this alt code for match */
+
+   NEXT_SEQ = ALT_SEQ;
+
+
+   /* GET_NEXT_VALID - Get next valid opt in this ques seq. */
+
+   ALT_END = BK_DEPARTURE;
+   ALT_ANSW_SEQ = 0;
+   call SET_POSITION (BK_OPT_ALT_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* READ_NEXT_ALT - Read the next ALT (KEY ONLY) */
+
+   call READ_NEXT(BK_OPT_ALT_NO+?KEY_ONLY,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+      call PRINT_ERROR(BK_OPT_ALT_NO,ERROR_CODE);
+
+
+   /* CK_NEXT_OPT - Check to see if end of optionals */
+
+   if (ERROR_CODE = END_OF_FILE) !
+      (ALT_TOUR_CODE > HDR_TOUR_CODE) !
+      (ALT_OR_OPT > TEMP_TYPE) then
+         do;
+         call SELECT_OPT;
+         do;
+         END_GET_OPTS = YES;
+         return;
+         end;
+         end;
+
+
+   /* CK_THIS_ALT - Is this record part of this ALT? */
+
+   if ALT_SEQ ^= NEXT_SEQ then
+      return;
+
+
+   /* READ_RECORD_2 - Read from another file */
+
+   call READ_KEYED (BK_OPT_ALT_NO,KEY_AREA_2,ERROR_BK_OPT_ALT);
+   if ERROR_BK_OPT_ALT > 3 then
+      call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_BK_OPT_ALT);
+   END_FIND_ALT_MATCH = NO;
+   do while (END_FIND_ALT_MATCH ^= YES);
+      call FIND_ALT_MATCH;
+   end;
+return;
+end;	/* GET_OPTS             */
+
+/****************************************************************
+	SELECT_OPT
+	Select an opt from the screen
+****************************************************************/
+
+SELECT_OPT:
+	procedure;
+
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* RETURN_IF_NO_OPTS - Return if not optionals */
+
+   if OPT_SEQ = 1 then
+      do;
+      SELECTED_ANSWER = 0;
+      return;
+      end;
+
+   call ENTER_DATA_C;
+
+   /* RETURN_IF_ZERO - Return if return hit */
+
+   if SELECTED_ANSWER = 0 then
+      return;
+
+return;
+end;	/* SELECT_OPT           */
+
+/****************************************************************
+	FIND_ALT_MATCH
+	Find the Alt match
+****************************************************************/
+
+FIND_ALT_MATCH:
+	procedure;
+
+
+   /* CHECK_ALT_MATCH - Is this a valid selection? */
+
+   MATCH = "N";
+
+   if ALT_GATEWAY ^= "" then if BK_GATEWAY = "" then if GATEWAY = "N" then
+      do;
+
+      /* REDISPLAY_SCREEN - Re-display the screen */
+
+      if NOT_FIRST_TIME then
+         call DISPLAY_SCREEN (BK_AO_SELECT_1);
+      NOT_FIRST_TIME = YES;
+      call ENTER_DATA_G;
+      GATEWAY = "Y";
+      end;
+
+   if (ALT_START <= BK_DEPARTURE) &
+      ((ALT_GATEWAY = "") ! (ALT_GATEWAY = BK_GATEWAY)) &
+      ((ALT_DAY_OF_WEEK = "") !
+      ((index(ALT_DAY_OF_WEEK,substr("7123456",(mod(BK_DEPARTURE,7)+1),1))) ^= 0)) then
+         MATCH = "Y";
+
+
+   /* DISPLAY_IF_MATCH - Display if match */
+
+   if MATCH = "Y" then
+      do;
+      if OPT_SEQ > 9 then
+         do;
+         call SELECT_OPT;
+         if SELECTED_ANSWER = 0 then
+            do;
+
+            /* RESET_OPT - Reset OPT seq no. */
+
+            OPT_SEQ = 1;
+
+            end;
+         else
+            do;
+            END_GET_OPTS = YES;
+            do;
+            END_FIND_ALT_MATCH = YES;
+            return;
+            end;
+            end;
+         end;
+      if OPT_SEQ = 1 then
+         do;
+
+         /* REDISPLAY_SCREEN - Re-display the screen */
+
+         if NOT_FIRST_TIME then
+            call DISPLAY_SCREEN (BK_AO_SELECT_1);
+         NOT_FIRST_TIME = YES;
+         end;
+      call DISPLAY_DATA_A;
+      do;
+      END_FIND_ALT_MATCH = YES;
+      return;
+      end;
+      end;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_OPT_ALT_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+
+   /* CK_LAST_ALT - Last answer in this group? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (ALT_TOUR_CODE > HDR_TOUR_CODE) !
+   (ALT_OR_OPT > TEMP_TYPE) !
+   (ALT_SEQ > NEXT_SEQ) then
+      do;
+      END_FIND_ALT_MATCH = YES;
+      return;
+      end;
+return;
+end;	/* FIND_ALT_MATCH       */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* SET_Q_OFFSET - Set the question offset */
+
+      call SET_ROW_OFFSET(OPT_SEQ - 1);
+      OPT_Q_SEQ(OPT_SEQ) = ALT_SEQ;
+      OPT_A_SEQ(OPT_SEQ) = ALT_ANSW_SEQ;
+      OPT_SEQ = OPT_SEQ + 1;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

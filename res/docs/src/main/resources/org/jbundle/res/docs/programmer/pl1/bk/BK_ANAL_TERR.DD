@@ -1,0 +1,30 @@
+/*********************************************************************
+	BK_ANAL_TERR File
+********************************************************************/
+
+declare	1 BK_ANAL_TERR_RECORD,
+		3 RD_ANALYZE_BY        character (        1),
+		3 RD_START_CODE        character (        4),
+		3 RD_END_CODE          character (        4),
+		3 RD_START_DATE        fixed binary (15),
+		3 RD_END_DATE          fixed binary (15),
+		3 RD_CUR_DATE          fixed binary (15),
+		3 RD_TIME              fixed binary (15),
+		3 RD_USER              character (       16),
+		3 RD_PAGE              fixed binary (31),
+		3 RD_TERR              character (        4),
+		3 RD_DATE              fixed binary (15),
+		3 RD_PAX_REG           fixed binary (31),
+		3 RD_GROSS_REG         float binary (53),
+		3 RD_NET_REG           float binary (53),
+		3 RD_BAL_REG           float binary (53),
+		3 RD_PAX_TOT           fixed binary (31),
+		3 RD_GROSS_TOT         float binary (53),
+		3 RD_NET_TOT           float binary (53),
+		3 RD_BAL_TOT           float binary (53),
+		3 RD_REPORT_TYPE       character (        1),
+		3 RD_LAST_TERR         character (        4),
+		3 RD_COUNT             fixed binary (31),
+		3 RD_COUNT_TOTAL       fixed binary (31),
+		3 RD_DATE_TYPE         character (        1);
+

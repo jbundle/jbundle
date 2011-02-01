@@ -1,0 +1,27 @@
+<project name="Tour" default="flatten" basedir=".">
+
+	<property name="src" value="${basedir}/src/main/resources"/>
+	<property name="target" value="${basedir}/target/flat"/>
+	
+	<!-- ================================= 
+          target: flatten - Set up the flat javascript directories
+          TODO: Can I flatten in maven?
+         ================================= -->
+    <target name="flatten" >
+		<copy flatten="yes" todir="${target}/docs/styles/xsl/cocoon/all" overwrite="true">
+			<fileset dir="${src}/docs/styles/xsl/cocoon">
+				<exclude name="base/**">
+				</exclude>
+				<exclude name="system/**">
+				</exclude>
+				<exclude name="all/**">
+				</exclude>
+			</fileset>
+		</copy>
+		<copy overwrite="true" todir="${target}/docs/styles/xsl/ajax/base">
+			<fileset dir="${src}/docs/styles/xsl/flat/base">
+			</fileset>
+		</copy>        
+    </target>
+
+</project>

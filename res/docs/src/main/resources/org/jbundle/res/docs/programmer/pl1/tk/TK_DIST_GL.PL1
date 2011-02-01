@@ -1,0 +1,1138 @@
+/****************************************************************
+	Module: TK_DIST_GL
+	Top Level Logic: POST_TK_LOGIC
+	Date: 19-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	TK_DIST_GL
+	Main Logic for Ticket G/L posting
+****************************************************************/
+
+%replace TK_DIST_GL_1 by 694;
+TK_DIST_GL:
+   procedure;
+%replace TK_HEADER_NO by  56;
+%replace TK_GL_DIST_NO by 108;
+%replace GL_DETAIL_NO by  17;
+%replace GL_PERIOD_NO by  98;
+%replace TK_CONTROL_NO by 109;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%include "TK_DIST_GL.DD";
+%include "TK_HEADER.DD";
+%include "TK_GL_DIST.DD";
+%include "GL_DETAIL.DD";
+%include "GL_PERIOD.DD";
+%include "TK_CONTROL.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		END_POST_TK_ISSUE    bit (1);
+declare		END_POST_TK_DEP      bit (1);
+declare		END_POST_TK_OVER     bit (1);
+declare		END_POST_TK_DIST     bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		GL_DATE_CHECK        fixed binary (15);
+declare		ERROR_TK_GL_DIST     fixed binary (15);
+declare		END_READ_PER_THRU    bit (1);
+   call INITIALIZE;
+   call POST_TK_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TK_POST_DATE = TODAYS_DATE();
+   TK_POST_TODAY = TODAYS_DATE();
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   TK_GL_AMOUNT = 0;
+   GL_TRX_DATE = TODAYS_DATE();
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_TRX_AMOUNT = 0;
+   TK_REC_NO = 9999;
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   TOUR_QUADS = 0;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (TK_DIST_GL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (TK_DIST_GL_RECORD) );
+   call OPEN_FILE (TK_HEADER_NO+?EXCLUSIVE_OPEN,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (TK_GL_DIST_NO+?EXCLUSIVE_OPEN,"TK_GL_DIST",byteaddr(TK_GL_DIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_GL_DIST_NO,ERROR_CODE);
+   call OPEN_FILE (GL_DETAIL_NO+?EXCLUSIVE_OPEN,"GL_DETAIL",byteaddr(GL_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (GL_PERIOD_NO+?EXCLUSIVE_OPEN,"GL_PERIOD",byteaddr(GL_PERIOD_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_PERIOD_NO,ERROR_CODE);
+   call OPEN_FILE (TK_CONTROL_NO+?EXCLUSIVE_OPEN,"TK_CONTROL",byteaddr(TK_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO+?EXCLUSIVE_OPEN,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO+?EXCLUSIVE_OPEN,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO+?EXCLUSIVE_OPEN,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	POST_TK_MAIN
+	Mainline Logic for Ticket posting
+****************************************************************/
+
+POST_TK_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+declare		ERROR_TK_CONTROL     fixed binary (15);
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* AR_POST_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure you want to post to G/L?");
+   call INPUT_DATA(23,48,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* READ_TK_CONTROL - Read the control file */
+
+
+      /* SET_TK_KEY - Set up key */
+
+      TK_REC_NO = 0;
+      KEY_NO = 1;
+
+      /* READ_TK_REC - Read the record */
+
+      call READ_KEYED (TK_CONTROL_NO,KEY_NO,ERROR_TK_CONTROL);
+      if ERROR_TK_CONTROL > 3 then
+         call PRINT_ERROR (TK_CONTROL_NO,ERROR_TK_CONTROL);
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TK_MODIFICATION = 0;
+   TK_UD_STATUS = TICK_TK;
+   TK_NUMBER = "";
+   TK_BK_TK_NO = 0;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+   END_POST_TK_ISSUE = NO;
+   do while (END_POST_TK_ISSUE ^= YES);
+      call POST_TK_ISSUE;
+   end;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TK_MODIFICATION = 0;
+   TK_UD_STATUS = TICK_TK;
+   TK_NUMBER = "";
+   TK_BK_TK_NO = 0;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+   END_POST_TK_DEP = NO;
+   do while (END_POST_TK_DEP ^= YES);
+      call POST_TK_DEP;
+   end;
+
+   /* SET_FIRST_3 - Set first */
+
+   TK_MODIFICATION = 0;
+   TK_UD_STATUS = ALL_TK;
+   TK_NUMBER = "";
+   TK_BK_TK_NO = 0;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+   END_POST_TK_OVER = NO;
+   do while (END_POST_TK_OVER ^= YES);
+      call POST_TK_OVER;
+   end;
+   END_POST_TK_DIST = NO;
+   do while (END_POST_TK_DIST ^= YES);
+      call POST_TK_DIST;
+   end;
+return;
+end;	/* POST_TK_MAIN         */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   2;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_TK_CUTOFF - Check the G/L distribution cutoff */
+
+      if TK_POST_DATE > TODAYS_DATE() then
+         do;
+         call DISPLAY_MESSAGE("<BEL>The cut-off date cannot be after the current date"c);
+         call PRESS_RETURN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  2,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  2 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_TK_CUTOFF - Check the G/L distribution cutoff */
+
+      if TK_POST_DATE > TODAYS_DATE() then
+         do;
+         call DISPLAY_MESSAGE("<BEL>The cut-off date cannot be after the current date"c);
+         call PRESS_RETURN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	POST_TK_ISSUE
+	Post the tickets issued
+****************************************************************/
+
+POST_TK_ISSUE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > 0) !
+   (TK_UD_STATUS > TICK_TK) then
+      do;
+      END_POST_TK_ISSUE = YES;
+      return;
+      end;
+
+   /* CHECK_TK_ISSUE - Is the issue date in range? */
+
+   if TK_NUMBER = "" then
+      return;
+
+   if TK_ISSUE_DATE = 0 then
+      return;
+
+   if TK_VOID = "N" then
+      do;
+      if TK_NET_POSTED = TK_NET_FARE then
+         return;
+
+      if TK_ISSUE_DATE > TK_POST_DATE then
+         return;
+      end;
+   else
+      do;
+      if TK_NET_POSTED = 0 then
+         return;
+
+      if TK_VOID_DATE > TK_POST_DATE then
+         return;
+      end;
+
+
+   /* SET_TK_ISSUE - Set the issue date */
+
+   GL_DATE_CHECK = TK_ISSUE_DATE;
+
+   TK_GL_TYPE = 1;
+
+   call GET_GL_PERIOD;
+   call GET_TK_ACCTS;
+
+   /* SETUP_TK_DIST - Set up the distribution date */
+
+   TK_GL_NUMBER = TK_PP_TICKETS;
+   TK_GL_DATE = GL_END_PERIOD;
+   TK_GL_TYPE = 1;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (TK_GL_DIST_NO,KEY_AREA_1,ERROR_TK_GL_DIST);
+   if ERROR_TK_GL_DIST > 3 then
+      call PRINT_ERROR (TK_GL_DIST_NO,ERROR_TK_GL_DIST);
+
+   if ERROR_TK_GL_DIST = NORMAL_RETURN then
+      do;
+      if TK_VOID = "N" then
+         TK_GL_AMOUNT = floor((TK_GL_AMOUNT + (TK_NET_FARE - TK_NET_POSTED)) * 100 + 0.5) / 100;
+      else
+         TK_GL_AMOUNT = floor((TK_GL_AMOUNT - TK_NET_POSTED) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      if TK_VOID = "N" then
+         TK_GL_AMOUNT = floor((TK_NET_FARE - TK_NET_POSTED) * 100 + 0.5) / 100;
+      else
+         TK_GL_AMOUNT = -TK_NET_POSTED;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   TK_GL_NUMBER = TK_CASH_AC;
+   TK_GL_TYPE = 1;
+   TK_GL_DATE = GL_END_PERIOD;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (TK_GL_DIST_NO,KEY_AREA_1,ERROR_TK_GL_DIST);
+   if ERROR_TK_GL_DIST > 3 then
+      call PRINT_ERROR (TK_GL_DIST_NO,ERROR_TK_GL_DIST);
+
+   if ERROR_TK_GL_DIST = NORMAL_RETURN then
+      do;
+      if TK_VOID = "N" then
+         TK_GL_AMOUNT = floor((TK_GL_AMOUNT - (TK_NET_FARE - TK_NET_POSTED)) * 100 + 0.5) / 100;
+      else
+         TK_GL_AMOUNT = floor((TK_GL_AMOUNT + TK_NET_POSTED) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      if TK_VOID = "N" then
+         TK_GL_AMOUNT = -(TK_NET_FARE - TK_NET_POSTED);
+      else
+         TK_GL_AMOUNT = TK_NET_POSTED;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+
+
+   /* UPDATE_TK_ISSUE - Update the Issue information */
+
+   TK_ISSUE_UD_DATE = TODAYS_DATE();
+   if TK_VOID = "N" then
+      TK_NET_POSTED = TK_NET_FARE;
+   else
+      TK_NET_POSTED = 0;
+
+
+   /* UD_TK_STATUS - Does the ticket status need updating? */
+
+   if TK_ISSUE_UD_DATE ^= 0 then
+      if TK_ARC_UD_DATE ^= 0 then
+      if TK_DEP_UD_DATE ^= 0 then
+         TK_UD_STATUS = ALL_TK;
+
+   if TK_VOID = "Y" then
+      if (TK_ARC_UD_DATE ^= 0) & (TK_ARC_COST = 0) then
+      if (TK_ISSUE_UD_DATE ^= 0) & (TK_NET_POSTED = 0) then
+         TK_UD_STATUS = OVER_TK;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   TK_MODIFICATION = 0;
+   TK_UD_STATUS = TICK_TK;
+   TK_ANSW_SEQ = TK_ANSW_SEQ+1;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+return;
+end;	/* POST_TK_ISSUE        */
+
+/****************************************************************
+	GET_GL_PERIOD
+	Get the correct G/L Period
+****************************************************************/
+
+GET_GL_PERIOD:
+	procedure;
+
+
+   /* CURRENT_GL_OK - Is the current G/L Period correct? */
+
+   if GL_DATE_CHECK >= GL_START_PERIOD then if GL_DATE_CHECK <= GL_END_PERIOD then
+      return;
+
+
+   /* SET_FIRST_PER - Set for the first period */
+
+   GL_END_PERIOD = GL_DATE_CHECK;
+   call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_PER - Read the next period */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_GL_AFTER - Is this range after the periods? */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+
+      /* SET_PER_FIRST - Set first */
+
+      GL_END_PERIOD = 0;
+      call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+      END_READ_PER_THRU = NO;
+      do while (END_READ_PER_THRU ^= YES);
+         call READ_PER_THRU;
+      end;
+      GL_END_PERIOD = GL_END_PERIOD + 1;
+      GL_START_PERIOD = GL_END_PERIOD + 1;
+      return;
+      end;
+
+
+   /* CHECK_GL_RANGE - Is this doc in range? */
+
+   if GL_DATE_CHECK >= GL_START_PERIOD then if GL_DATE_CHECK <= GL_END_PERIOD then
+      return;
+
+   if GL_DATE_CHECK < GL_START_PERIOD then
+      do;
+      GL_END_PERIOD = GL_START_PERIOD - 1;
+      return;
+      end;
+
+return;
+end;	/* GET_GL_PERIOD        */
+
+/****************************************************************
+	READ_PER_THRU
+	Get last period
+****************************************************************/
+
+READ_PER_THRU:
+	procedure;
+
+
+   /* READNEXT_PER - Read the next period */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_END_PER - Last period? */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_READ_PER_THRU = YES;
+      return;
+      end;
+return;
+end;	/* READ_PER_THRU        */
+
+/****************************************************************
+	GET_TK_ACCTS
+	Get the G/L accts for this trx
+****************************************************************/
+
+GET_TK_ACCTS:
+	procedure;
+
+declare		ERROR_BK_BOOKING     fixed binary (15);
+
+   /* CHECK_TK_BK - Get the current Tour Ticket G/L accts? */
+
+   if TK_RE_READ ^= "Y" then
+      do;
+      do case (TK_GL_TYPE);
+         do;
+         if (TK_PP_TICKETS ^= 0) & (TK_CASH_AC ^= 0) then
+            return;
+         end;
+         do;
+         if (TK_PP_TICKETS ^= 0) & (TK_COAS_GL ^= 0) & (TK_OVER_REC ^= 0) then
+            return;
+         end;
+         do;
+         if (TK_OVER_REC ^= 0) & (TK_OVER_CASH ^= 0) & (TK_OVER_VAR ^= 0) then
+            return;
+         end;
+      end;
+   otherwise
+      return;
+   end;
+else
+   do;
+   do case (TK_GL_TYPE);
+      do;
+      TK_PP_TICKETS = 0;
+      end;
+      do;
+      TK_COAS_GL = 0;
+      TK_OVER_REC = 0;
+      end;
+      do;
+      TK_OVER_VAR = 0;
+      end;
+   end;
+   otherwise
+      do;
+      end;
+   end;
+
+if TK_BK_TK_NO ^= 0 then
+   do;
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   BK_MODIFICATION = 0;
+   BOOKING_NO = TK_BK_TK_NO;
+   KEY_NO = 1;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (BK_BOOKING_NO,KEY_NO,ERROR_BK_BOOKING);
+   if ERROR_BK_BOOKING > 3 then
+      call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+   if ERROR_BK_BOOKING = NORMAL_RETURN then
+      do;
+
+      /* GET_TOUR_HDR - Get the tour header */
+
+      ERROR_CODE = NORMAL_RETURN;
+
+      HDR_TOUR_CODE = BK_TOUR_CODE;
+      HDR_END_ON = BK_DEPARTURE;
+      if HDR_END_ON = 0 then
+         HDR_END_ON = TODAYS_DATE();
+      call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE ^= END_OF_FILE then
+         call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+      if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+         ERROR_CODE = END_OF_FILE;
+      if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+         ERROR_CODE = END_OF_FILE;
+
+      end;
+   else
+      do;
+      ERROR_CODE = END_OF_FILE;
+      end;
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      HDR_AIR_GL = 0;
+      HDR_PP_TIC_GL = 0;
+      HDR_OVERRIDE_GL = 0;
+      HDR_OVER_VAR_GL = 0;
+      end;
+   end;
+else
+   do;
+   HDR_AIR_GL = 0;
+   HDR_PP_TIC_GL = 0;
+   HDR_OVERRIDE_GL = 0;
+   HDR_OVER_VAR_GL = 0;
+   end;
+
+do case (TK_GL_TYPE);
+   do;	/* Issue posting */
+   if TK_CASH_AC = 0 then
+      TK_CASH_AC = TK_DEF_ARC_SUM;
+   if TK_PP_TICKETS = 0 then
+      TK_PP_TICKETS = HDR_PP_TIC_GL;
+   if TK_PP_TICKETS = 0 then
+      TK_PP_TICKETS = TK_DEF_PP;
+   end;
+   do;
+   if TK_COAS_GL = 0 then
+      TK_COAS_GL = HDR_AIR_GL;
+   if TK_COAS_GL = 0 then
+      TK_COAS_GL = TK_DEF_AIR_COST;
+   if TK_PP_TICKETS = 0 then
+      TK_PP_TICKETS = HDR_PP_TIC_GL;
+   if TK_PP_TICKETS = 0 then
+      TK_PP_TICKETS = TK_DEF_PP;
+   if TK_OVER_REC = 0 then
+      TK_OVER_REC = HDR_OVERRIDE_GL;
+   if TK_OVER_REC = 0 then
+      TK_OVER_REC = TK_DEF_OR_REC;
+   end;
+   do;
+   if TK_OVER_CASH = 0 then
+      TK_OVER_CASH = TK_DEF_OR_CASH;
+   if TK_OVER_REC = 0 then
+      TK_OVER_REC = HDR_OVERRIDE_GL;
+   if TK_OVER_REC = 0 then
+      TK_OVER_REC = TK_DEF_OR_REC;
+   if TK_OVER_VAR = 0 then
+      TK_OVER_VAR = HDR_OVER_VAR_GL;
+   if TK_OVER_VAR = 0 then
+      TK_OVER_VAR = TK_DEF_OR_VAR;
+   end;
+end;
+otherwise
+   do;
+   end;
+
+return;
+end;	/* GET_TK_ACCTS         */
+
+/****************************************************************
+	POST_TK_DEP
+	Post the Tickets for tours departing
+****************************************************************/
+
+POST_TK_DEP:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > 0) !
+   (TK_UD_STATUS > TICK_TK) then
+      do;
+      END_POST_TK_DEP = YES;
+      return;
+      end;
+
+   /* CHECK_TK_DEPART - Departure date in range? */
+
+   if TK_NUMBER = "" then
+      return;
+
+   if TK_BK_DEP_DATE = 0 then
+      return;
+
+   if TK_DEP_UD_DATE ^= 0 then
+      return;
+
+   if TK_VOID = "Y" then
+      return;
+
+   if TK_BK_DEP_DATE > TK_POST_DATE then
+      return;
+
+
+   /* SET_TK_DATE - Set the Date for G/L lookup */
+
+   GL_DATE_CHECK = TK_BK_DEP_DATE;
+
+   call GET_GL_PERIOD;
+   call GET_TK_ACCTS;
+
+   /* SETUP_TK_DEP - Set up the departure */
+
+   TK_GL_NUMBER = TK_COAS_GL;
+   TK_GL_DATE = GL_END_PERIOD;
+   TK_GL_TYPE = 2;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (TK_GL_DIST_NO,KEY_AREA_1,ERROR_TK_GL_DIST);
+   if ERROR_TK_GL_DIST > 3 then
+      call PRINT_ERROR (TK_GL_DIST_NO,ERROR_TK_GL_DIST);
+
+   if ERROR_TK_GL_DIST = NORMAL_RETURN then
+      do;
+      TK_GL_AMOUNT = floor((TK_GL_AMOUNT + TK_NET) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      TK_GL_AMOUNT = TK_NET;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   TK_GL_NUMBER = TK_PP_TICKETS;
+   TK_GL_TYPE = 2;
+   TK_GL_DATE = GL_END_PERIOD;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (TK_GL_DIST_NO,KEY_AREA_1,ERROR_TK_GL_DIST);
+   if ERROR_TK_GL_DIST > 3 then
+      call PRINT_ERROR (TK_GL_DIST_NO,ERROR_TK_GL_DIST);
+
+   if ERROR_TK_GL_DIST = NORMAL_RETURN then
+      do;
+      TK_GL_AMOUNT = floor((TK_GL_AMOUNT - TK_NET_POSTED) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      TK_GL_AMOUNT = -TK_NET_POSTED;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   TK_GL_NUMBER = TK_OVER_REC;
+   TK_GL_TYPE = 2;
+   TK_GL_DATE = GL_END_PERIOD;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (TK_GL_DIST_NO,KEY_AREA_1,ERROR_TK_GL_DIST);
+   if ERROR_TK_GL_DIST > 3 then
+      call PRINT_ERROR (TK_GL_DIST_NO,ERROR_TK_GL_DIST);
+
+   if ERROR_TK_GL_DIST = NORMAL_RETURN then
+      do;
+      TK_GL_AMOUNT = floor((TK_GL_AMOUNT + (TK_NET_POSTED - TK_NET)) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      TK_GL_AMOUNT = floor((TK_NET_POSTED - TK_NET) * 100 + 0.5) / 100;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+
+
+   /* UPDATE_TK_DEPART - Update the departure status */
+
+   TK_DEP_UD_DATE = TODAYS_DATE();
+   TK_COST_POSTED = TK_NET;
+
+
+   /* UD_TK_STATUS - Does the ticket status need updating? */
+
+   if TK_ISSUE_UD_DATE ^= 0 then
+      if TK_ARC_UD_DATE ^= 0 then
+      if TK_DEP_UD_DATE ^= 0 then
+         TK_UD_STATUS = ALL_TK;
+
+   if TK_VOID = "Y" then
+      if (TK_ARC_UD_DATE ^= 0) & (TK_ARC_COST = 0) then
+      if (TK_ISSUE_UD_DATE ^= 0) & (TK_NET_POSTED = 0) then
+         TK_UD_STATUS = OVER_TK;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   TK_MODIFICATION = 0;
+   TK_UD_STATUS = TICK_TK;
+   TK_ANSW_SEQ = TK_ANSW_SEQ+1;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+return;
+end;	/* POST_TK_DEP          */
+
+/****************************************************************
+	POST_TK_OVER
+	Post the overrides received
+****************************************************************/
+
+POST_TK_OVER:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_3 - Check for end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > 0) !
+   (TK_UD_STATUS > ALL_TK) then
+      do;
+      END_POST_TK_OVER = YES;
+      return;
+      end;
+
+   /* CHECK_TK_OVER - Ready for the override update? */
+
+   if TK_NUMBER = "" then
+      return;
+
+   if TK_ISSUE_DATE = 0 then
+      return;
+
+   if TK_VOID = "Y" then
+      return;
+
+   if TK_OR_COLL_DATE = 0 then
+      return;
+
+   if TK_OR_UD_DATE ^= 0 then
+      return;
+
+   if TK_OR_COLL_DATE > TK_POST_DATE then
+      return;
+
+
+   /* SET_TK_OVER - Set the override received date */
+
+   GL_DATE_CHECK = TK_OR_COLL_DATE;
+
+   call GET_GL_PERIOD;
+   call GET_TK_ACCTS;
+
+   /* SETUP_TK_OVER - Set up the override distribution */
+
+   TK_GL_NUMBER = TK_OVER_CASH;
+   TK_GL_DATE = GL_END_PERIOD;
+   TK_GL_TYPE = 3;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (TK_GL_DIST_NO,KEY_AREA_1,ERROR_TK_GL_DIST);
+   if ERROR_TK_GL_DIST > 3 then
+      call PRINT_ERROR (TK_GL_DIST_NO,ERROR_TK_GL_DIST);
+
+   if ERROR_TK_GL_DIST = NORMAL_RETURN then
+      do;
+      TK_GL_AMOUNT = floor((TK_GL_AMOUNT + TK_OR_COLL) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      TK_GL_AMOUNT = TK_OR_COLL;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   TK_GL_NUMBER = TK_OVER_REC;
+   TK_GL_TYPE = 3;
+   TK_GL_DATE = GL_END_PERIOD;
+
+   if TK_NET_POSTED ^= TK_COST_POSTED then
+      do;
+
+      /* READ_RECORD_4 - Read record */
+
+      call READ_KEYED (TK_GL_DIST_NO,KEY_AREA_1,ERROR_TK_GL_DIST);
+      if ERROR_TK_GL_DIST > 3 then
+         call PRINT_ERROR (TK_GL_DIST_NO,ERROR_TK_GL_DIST);
+
+      if ERROR_TK_GL_DIST = NORMAL_RETURN then
+         do;
+         TK_GL_AMOUNT = floor((TK_GL_AMOUNT - (TK_NET_POSTED - TK_COST_POSTED)) * 100 + 0.5) / 100;
+
+         /* UPDATE_RECORD_4 - Update the record */
+
+         call UPDATE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+         end;
+      else
+         do;
+         TK_GL_AMOUNT = -(TK_NET_POSTED - TK_COST_POSTED);
+
+         /* WRITE_RECORD_4 - Write the record */
+
+         call WRITE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+         end;
+      end;
+
+   TK_GL_NUMBER = TK_OVER_VAR;
+   TK_GL_TYPE = 3;
+   TK_GL_DATE = GL_END_PERIOD;
+
+   if TK_COST_POSTED - TK_NET_POSTED ^= TK_OR_COLL then
+      do;
+
+      /* READ_RECORD_4 - Read record */
+
+      call READ_KEYED (TK_GL_DIST_NO,KEY_AREA_1,ERROR_TK_GL_DIST);
+      if ERROR_TK_GL_DIST > 3 then
+         call PRINT_ERROR (TK_GL_DIST_NO,ERROR_TK_GL_DIST);
+
+      if ERROR_TK_GL_DIST = NORMAL_RETURN then
+         do;
+         TK_GL_AMOUNT = floor((TK_GL_AMOUNT + (TK_NET_POSTED - TK_COST_POSTED - TK_OR_COLL)) * 100 + 0.5) / 100;
+
+         /* UPDATE_RECORD_4 - Update the record */
+
+         call UPDATE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+         end;
+      else
+         do;
+         TK_GL_AMOUNT = floor((TK_NET_POSTED - TK_COST_POSTED - TK_OR_COLL) * 100 + 0.5) / 100;
+
+         /* WRITE_RECORD_4 - Write the record */
+
+         call WRITE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+         end;
+      end;
+
+
+   /* UPDATE_TK_OVER - Set to - Override update done! */
+
+   TK_OR_UD_DATE = TODAYS_DATE();
+   TK_OR_POSTED = TK_OR_COLL;
+
+   TK_UD_STATUS = OVER_TK;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_FIRST_5 - Set first */
+
+   TK_MODIFICATION = 0;
+   TK_UD_STATUS = ALL_TK;
+   TK_ANSW_SEQ = TK_ANSW_SEQ+1;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+return;
+end;	/* POST_TK_OVER         */
+
+/****************************************************************
+	POST_TK_DIST
+	Post the TK Distribution to G/L
+****************************************************************/
+
+POST_TK_DIST:
+	procedure;
+
+
+   /* SET_FIRST_4 - Set first */
+
+   TK_GL_DATE = 0;
+   TK_GL_TYPE = 0;
+   TK_GL_NUMBER = 0;
+   call SET_POSITION (TK_GL_DIST_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_4 - Read next */
+
+   call READ_NEXT (TK_GL_DIST_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_GL_DIST_NO,ERROR_CODE);
+
+   /* CHECK_END_4 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_POST_TK_DIST = YES;
+      return;
+      end;
+
+   /* SETUP_TK_GL - Set up the entry for posting to G/L */
+
+   GL_AC_NO = TK_GL_NUMBER;
+   GL_TRX_DATE = TK_GL_DATE;
+   GL_TRX_ENTRY = TK_POST_TODAY;
+   GL_SEQ_NO = 1;
+   GL_TRX_AMOUNT = TK_GL_AMOUNT;
+   GL_SOURCE = "Ticketing";
+   do case (TK_GL_TYPE);
+      GL_REFERENCE = "Ticketing auto post - Issue";
+      GL_REFERENCE = "Ticketing auto post - Depart.";
+      GL_REFERENCE = "Ticketing auto post - Override";
+   end;
+   otherwise
+      GL_REFERENCE = "Ticketing auto-post";
+
+
+   /* WRITE_RECORD_5 - Write record */
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (GL_DETAIL_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         GL_SEQ_NO = GL_SEQ_NO + 1;
+   end;
+
+   /* DELETE_RECORD_4 - Delete */
+
+   call DELETE_RECORD (TK_GL_DIST_NO,ERROR_CODE);
+return;
+end;	/* POST_TK_DIST         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_GL_DIST_NO);
+   call CLOSE_FILE (GL_DETAIL_NO);
+   call CLOSE_FILE (GL_PERIOD_NO);
+   call CLOSE_FILE (TK_CONTROL_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

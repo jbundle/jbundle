@@ -1,0 +1,593 @@
+/****************************************************************
+	Module: AR_PAST_DUE
+	Top Level Logic: REPORT_LOGIC
+	Date: 11-Jan-96
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_PAST_DUE
+	Standard report logic
+****************************************************************/
+
+%replace AR_PAST_DUE_1 by 162;
+%replace AR_PAST_DUE_2 by 163;
+%replace AR_PAST_DUE_3 by 164;
+AR_PAST_DUE:
+   procedure;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace AR_OPEN_NO by  43;
+%include "AR_PAST_DUE.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "AR_OPEN.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		END_SCAN_AR_BK       bit (1);
+declare		END_ADD_AR_DETAIL    bit (1);
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+declare		LINE2                fixed binary (15);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AR_AS_OF_DATE = TODAYS_DATE();
+   AR_CHECK_DEP = "Y";
+   AR_CHECK_FINAL = "Y";
+   AR_PRINT_RPT = "Y";
+   AR_PRT_NOTICE = "Y";
+   AR_PAST_DATE = TODAYS_DATE();
+   AR_PAST_DUE_TIME = CURRENT_TIME();
+   AR_PAST_PAGE = 1;
+   AR_PAST_TOTAL = 0;
+   AR_MCO_PER = 15;
+   AR_USER_NAME = USER_NAME();
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   TOUR_QUADS = 0;
+   AR_ACCT_DR = 0;
+   AR_ACCT_DEP = 0;
+   AR_POSTED = 0;
+   AR_ACTION = 0;
+   AR_DEPARTURE = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE2 = 0;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_PAST_DUE_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AR_PAST_DUE_RECORD) );
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (AR_OPEN_NO,"AR_OPEN",byteaddr(AR_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_OPEN_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (AR_PAST_DUE_2);
+   call OPEN_PRINTER_2("NOTICE");
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TOUR_DEP_DATE = 0;
+   TOUR_NO = 0;
+   call SET_POSITION (BK_TOUR_NO,KEY_AREA_3,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   call SETUP_PRINT_FORMAT (AR_PAST_DUE_2);
+   do LOOP_INDEX =  14 to  14;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  6,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  6 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+call SETUP_PRINT_FORMAT (AR_PAST_DUE_2);
+do LOOP_INDEX =   1 to   6;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+AR_PAST_PAGE = AR_PAST_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_TOUR_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TOUR_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+   call SCAN_AR_BOOKINGS;
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	SCAN_AR_BOOKINGS
+	Scan all the bookings for this tour
+****************************************************************/
+
+SCAN_AR_BOOKINGS:
+	procedure;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_SCAN_AR_BK = NO;
+   do while (END_SCAN_AR_BK ^= YES);
+      call SCAN_AR_BK;
+   end;
+return;
+end;	/* SCAN_AR_BOOKINGS     */
+
+/****************************************************************
+	SCAN_AR_BK
+	Scan all bookings
+****************************************************************/
+
+SCAN_AR_BK:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_SCAN_AR_BK = YES;
+      return;
+      end;
+
+if BK_DATE < TODAYS_DATE() - 365 then
+	return;
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+
+   /* SKIP_NS_BK - Skip bookings with no status */
+
+   if BK_STATUS = "NS" then
+      return;
+
+
+   /* ZERO_TEMP_PYMTS - Zero these temp fields */
+
+   AR_PAST_PYMT = 0;
+   AR_PAST_MCO = 0;
+
+
+   /* CALC_BK_BALANCE - Calculate the balance from the A/R detl */
+
+
+      /* SET_INIT_BALANCE - Set up the initial balance */
+
+      BK_BALANCE = BK_NET_PRICE;
+      if BK_STATUS = "XL" then
+         BK_BALANCE = 0;
+
+
+      /* SET_FIRST_AR - Set on the first A/R open record */
+
+      AR_BOOKING_NO = BOOKING_NO;
+      AR_SEQ_NO = 0;
+      call SET_POSITION (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+
+      /* READ_NEXT_AR - Read the next A/R record */
+
+      call READ_NEXT (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (AR_OPEN_NO,ERROR_CODE);
+
+      /* GET_AR_TOTAL - Get the A/R total if there is detail */
+
+      if ERROR_CODE = NORMAL_RETURN then
+         if AR_BOOKING_NO = BOOKING_NO then
+            do;
+            BK_BALANCE = 0;
+            END_ADD_AR_DETAIL = NO;
+            do while (END_ADD_AR_DETAIL ^= YES);
+               call ADD_AR_DETAIL;
+            end;
+            end;
+
+
+   /* CHECK_AR_LATE - Are any payments late? */
+
+   AR_DEP_OR_PYMT = " ";
+   AR_AMT_DUE = 0;
+   AR_DUE_DATE = 0;
+
+   if BK_BALANCE = 0 then
+      return;
+
+   if AR_CHECK_DEP = "Y" then
+      if BK_DEPOSIT_DUE <= AR_AS_OF_DATE then
+      if AR_PAST_PYMT - AR_PAST_MCO + (AR_PAST_MCO * (1 + AR_MCO_PER / 100)) + 0.005 < BK_DEPOSIT then
+         do;
+         AR_AMT_DUE = BK_DEPOSIT - AR_PAST_PYMT;
+         AR_DUE_DATE = BK_DEPOSIT_DUE;
+         AR_PAST_DESC = "   deposit";
+         AR_DEP_OR_PYMT = "D";
+         end;
+
+   if AR_CHECK_FINAL = "Y" then
+      if BK_FINAL_DUE <= AR_AS_OF_DATE then
+         do;
+         AR_AMT_DUE = BK_BALANCE;
+         AR_DUE_DATE = BK_FINAL_DUE;
+         AR_PAST_DESC = "final payment";
+         AR_DEP_OR_PYMT = "F";
+         end;
+
+   if (AR_DEP_OR_PYMT = " ") ! (AR_AMT_DUE = 0) then
+      return;
+
+
+   /* PRINT_LINE_D1 -  */
+
+   call SETUP_PRINT_FORMAT (AR_PAST_DUE_2);
+   do LOOP_INDEX =   7 to  13;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS_2 - Add to the totals */
+
+   AR_PAST_TOTAL = AR_PAST_TOTAL + 1;
+
+   /* CHECK_NOTICE - Print notice */
+
+   if AR_PRT_NOTICE = "Y" then
+      do;
+
+      /* PRINT_LINE_D2 - Print lines */
+
+      call SETUP_PRINT_FORMAT (AR_PAST_DUE_3);
+      do LOOP_INDEX =   1 to  21;
+         call PRINT_REPORT_LINE_2;
+      end;
+      end;
+
+return;
+end;	/* SCAN_AR_BK           */
+
+/****************************************************************
+	ADD_AR_DETAIL
+	Add up the A/R detail
+****************************************************************/
+
+ADD_AR_DETAIL:
+	procedure;
+
+
+   /* ADD_BK_BALANCE - Add to the BK balance */
+
+   BK_BALANCE = floor((BK_BALANCE + AR_AMOUNT) * 100 + 0.5) / 100;
+
+
+   /* OTHER_LOGIC_2 - Other logic */
+
+
+   /* ADD_PYMT_UP - Add up the valid payments */
+
+   if (AR_DOC_TYPE = "P") ! (AR_DOC_TYPE = "M") ! (AR_DOC_TYPE = "C") then
+      AR_PAST_PYMT = AR_PAST_PYMT - AR_AMOUNT;
+
+   if AR_DOC_TYPE = "M" then
+      AR_PAST_MCO = AR_PAST_MCO - AR_AMOUNT;
+
+
+   /* READ_NEXT_AR - Read the next A/R record */
+
+   call READ_NEXT (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_AR - Last A/R booking detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_BOOKING_NO > BOOKING_NO) then
+      do;
+      END_ADD_AR_DETAIL = YES;
+      return;
+      end;
+return;
+end;	/* ADD_AR_DETAIL        */
+
+/****************************************************************
+	PRINT_REPORT_LINE_2
+	Print the detail report line
+****************************************************************/
+
+PRINT_REPORT_LINE_2:
+	procedure;
+
+LINE2 = LINE2 + 1;
+if LINE2 > 21 then
+   do;
+   call PRINT_LINE_2 ("<FF>"c);
+   LINE2 = 0;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING_2;
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT_2 (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE_2  */
+
+/****************************************************************
+	PRT_PAGE_HEADING_2
+	Print the heading on printer 2
+****************************************************************/
+
+PRT_PAGE_HEADING_2:
+	procedure;
+
+do LOOP_INDEX =  24 to   1;
+   call PRINT_REPORT_LINE_2;
+end;
+return;
+end;	/* PRT_PAGE_HEADING_2   */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (AR_OPEN_NO);
+   call CLOSE_PRINTER;
+   call CLOSE_PRINTER_2;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

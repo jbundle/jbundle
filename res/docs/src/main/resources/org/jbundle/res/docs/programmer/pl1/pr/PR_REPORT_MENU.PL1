@@ -1,0 +1,160 @@
+/****************************************************************
+	Module: PR_REPORT_MENU
+	Top Level Logic: MENU_LOGIC
+	Date:  3-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	PR_REPORT_MENU
+	Logic for menu programs
+****************************************************************/
+
+%replace PR_REPORT_MENU_1 by  74;
+PR_REPORT_MENU:
+   procedure;
+%include "PR_REPORT_MENU.DD";
+
+declare		END_SELECT_AND_RUN   bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+   call INITIALIZE;
+   END_SELECT_AND_RUN = NO;
+   do while (END_SELECT_AND_RUN ^= YES);
+      call SELECT_AND_RUN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (PR_REPORT_MENU_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (PR_REPORT_MENU_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SELECT_AND_RUN
+	Select option and run
+****************************************************************/
+
+SELECT_AND_RUN:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+
+   /* REDIS_AND_SET - Redisplay the screen and set the var ptr */
+
+   if NOT_FIRST_TIME then
+      do;
+      call DISPLAY_SCREEN (PR_REPORT_MENU_1);
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (PR_REPORT_MENU_RECORD) );
+      end;
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_OPTION - Input the option on the screen */
+
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (PR_REPORT_SELECT = 0) !
+        (RETURN_CODE ^= NORMAL_RETURN) then
+      do;
+      END_SELECT_AND_RUN = YES;
+      return;
+      end;
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   declare PR_TAX_RPT entry;
+   declare PR_DEPT_RPT entry;
+   declare PR_JOB_RPT entry;
+   declare PR_DE_RPT entry;
+   declare PR_EMP_RPT entry;
+   declare PR_HIST_RPT entry;
+   declare PR_CAL_RPT entry;
+   declare PR_QTRY_RPT entry;
+   declare PR_W2_RPT entry;
+   declare PR_YEAR_RPT entry;
+   declare PR_RECOUNT entry;
+   do case (PR_REPORT_SELECT);
+         /* Option   1 */
+      call PR_TAX_RPT(
+);
+         /* Option   2 */
+      call PR_DEPT_RPT(
+);
+         /* Option   3 */
+      call PR_JOB_RPT(
+);
+         /* Option   4 */
+      call PR_DE_RPT(
+);
+         /* Option   5 */
+      call PR_EMP_RPT(
+);
+         /* Option   6 */
+      call PR_HIST_RPT(
+);
+         /* Option   7 */
+      call PR_CAL_RPT(
+);
+         /* Option   8 */
+      call PR_QTRY_RPT(
+);
+         /* Option   9 */
+      call PR_W2_RPT(
+);
+         /* Option  10 */
+      call PR_YEAR_RPT(
+);
+         /* Option  11 */
+      call PR_RECOUNT(
+);
+   end;
+   otherwise
+      do;
+      end;
+return;
+end;	/* SELECT_AND_RUN       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

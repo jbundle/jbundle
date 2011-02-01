@@ -1,0 +1,35 @@
+/*********************************************************************
+	AR_CASH_PLAN File
+********************************************************************/
+
+declare	1 AR_CASH_PLAN_RECORD,
+		3 AR_START_1           fixed binary (15),
+		3 AR_START_2           fixed binary (15),
+		3 AR_START_3           fixed binary (15),
+		3 AR_START_4           fixed binary (15),
+		3 AR_END_1             fixed binary (15),
+		3 AR_END_2             fixed binary (15),
+		3 AR_END_3             fixed binary (15),
+		3 AR_END_4             fixed binary (15),
+		3 AR_PLAN_START        fixed binary (15),
+		3 AR_PLAN_PERIOD       character (        1),
+		3 AR_PLAN_PERIODS      fixed binary (15),
+		3 AR_PLAN_DATE         fixed binary (15),
+		3 AR_PLAN_TIME         fixed binary (15),
+		3 AR_PLAN_PAGE         fixed binary (15),
+		3 AR_PLAN_FROM         fixed binary (15),
+		3 AR_PLAN_DAYS         fixed binary (15),
+		3 AR_PLAN_DEPOSITS     float binary (53),
+		3 AR_DEP_REC           float binary (53),
+		3 AR_PLAN_FINAL        float binary (53),
+		3 AR_PLAN_FIN_REC      float binary (53),
+		3 AR_PLAN_BAL          float binary (53),
+		3 AR_PLAN_END          fixed binary (15),
+		3 AR_INDEX             fixed binary (15),
+		3 AR_PLAN_BY           character (       16),
+		3 AR_PLAN_DEP(99) float binary (53),
+		3 AR_PLAN_DER(99) float binary (53),
+		3 AR_PLAN_FIN(99) float binary (53),
+		3 AR_PLAN_FIR(99) float binary (53),
+		3 AR_PLAN_USER         character (       16);
+

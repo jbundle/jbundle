@@ -1,0 +1,22 @@
+/*********************************************************************
+	BK_HOTEL_DET File
+********************************************************************/
+
+declare	1 BK_HOTEL_DET_RECORD,
+		3 HOTEL_CODE_DET       character (       10),
+		3 HOTEL_RATE_TYPE      character (        1),
+		3 HOTEL_CLASS          character (        2),
+		3 HOTEL_START          fixed binary (15),
+		3 HOTEL_END            fixed binary (15),
+		3 HOTEL_MARKUP_LINE    fixed binary (15),
+		3 HOTEL_SINGLE         float binary (53),
+		3 HOTEL_DOUBLE         float binary (53),
+		3 HOTEL_TRIPLE         float binary (53),
+		3 HOTEL_QUAD           float binary (53),
+		3 HOTEL_MEALS          character (        2),
+		3 HOTEL_INV            character (1),
+		3 HOTEL_USE_RATE_TYPE  character (        1),
+		3 HOTEL_USE_CLASS      character (        2),
+		3 INV_USE_RATE_TYPE    character (        1),
+		3 INV_USE_ROOM_TYPE    character (        2);
+

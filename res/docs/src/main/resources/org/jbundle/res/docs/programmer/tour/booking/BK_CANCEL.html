@@ -1,0 +1,61 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to cancel a booking.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>First, the booking information and current A/R status are displayed.
+
+<br wp="br1"><br wp="br2">
+<p>Then, you are asked to enter the amount of cancellation charge (defaults to tour cancellation charge
+if enough has already been received). If you answer "Y" to the Cancel booking question, then the
+booking will be cancelled.
+
+<br wp="br1"><br wp="br2">
+<p>The A/R detail will have the following entries added to it:
+
+<br wp="br1"><br wp="br2">
+<p>1) Cancellation charge (positive)
+
+<p>2) Refund pending (negative) will be processed by A/R
+
+<p>3) Adjustment (Adjusts A/R balance to zero)
+
+<br wp="br1"><br wp="br2">
+<p>The G/L entries made by the A/R system will be as follows:
+
+<br wp="br1"><br wp="br2">
+<p>Trx date	a/r acct  accounts receivable (from tr hdr)	amount
+
+<p>			xl acct	Cancellation acct (from A/R control)
+
+<br wp="br1"><br wp="br2">
+<p>Trx date	a/r acct	accounts receivable (from tr hdr)	amount
+
+<p>			ref pnd	Refund pending acct (a/r ctl)
+
+<br wp="br1"><br wp="br2">
+<p>Trx date	p/p acct	Customer prepayments (from tr hdr)	amount
+
+<p>			a/r acct	Accounts receivable (from tr hdr)
+
+<br wp="br1"><br wp="br2">
+<p>	Note: If any of the tour header accounts aren't entered in the tour's header, then the default account in the A/R
+control file will be used.
+</body>
+</html>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<?cocoon-process type="xslt"?>
+<?xml-stylesheet href="hworld.xsl" type="text/xsl"?>
+
+<page>
+<title>Hello World!</title>
+<content>
+<paragraph>This is my first Cocoon page!</paragraph>
+</content>
+</page>

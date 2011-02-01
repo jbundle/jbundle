@@ -1,0 +1,70 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to display a land product's prices and/or enter the land info needed for FIT
+building.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>The program operation depends on what information is passed in:
+
+<br wp="br1"><br wp="br2">
+<p>If the land code is not passed in, then the land code is entered, the file is read, and the land
+information is displayed.
+
+<br wp="br1"><br wp="br2">
+<p>If the date has not been passed in, then the date is entered. The date is used to read the correct land
+rate.
+
+<br wp="br1"><br wp="br2">
+<p>Next, the rates are checked to see if they exist. The Seat-in-Coach rate and the Private
+Car/MotorCoach rates are displayed.
+
+<br wp="br1"><br wp="br2">
+<p>If only one rate or the other are available, the system automatically chooses the correct rate-type and
+displays it.
+
+<br wp="br1"><br wp="br2">
+<p>If there is a rate for both SIC and PMC, then the two rates are displayed for the current number of
+passengers and the range of PMC prices are displayed. You are asked to enter the SIC cutoff (The
+number of passengers it will take to make this tour go with PC/PMC). The default cutoff is at the point
+where the price differential reverses. Entering zero will force you to answer the PMC/SIC question
+and you will have to make a new selection at each re-costing. Entering one will always select SIC.
+Entering 999 will always select PMC.
+
+<br wp="br1"><br wp="br2">
+<p>NOTE: If one rate or the other aren't available then the cutoff will be set to 1 or 999 to always select
+the same type. If the prices were marked up from a previous year or entered manually, the cutoff will
+be set to -1. (You will still answer the SIC/PMC question, so the tour order will be correct).
+
+<br wp="br1"><br wp="br2">
+<p>If both the rates aren't found, then the system will check to see if the prior year's rates are available.
+If either rate is found, it is displayed and you are asked if you want to use last year's rates and mark
+them up. If you use last year's rates, you will have to enter the markup percentage, and then select the
+rate type if both rates are available.
+
+<br wp="br1"><br wp="br2">
+<p>Next, if any itinerary questions exist, then the question and all the possible answers are displayed. You
+must select an answer which is appropriate.
+
+<br wp="br1"><br wp="br2">
+<p>The answer test for each question will automatically display.
+
+<br wp="br1"><br wp="br2">
+<p>After all the selections have been made, the correct tour-order description is displayed.
+</body>
+</html>

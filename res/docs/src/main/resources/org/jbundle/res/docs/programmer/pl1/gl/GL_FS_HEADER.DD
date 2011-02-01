@@ -1,0 +1,9 @@
+/*********************************************************************
+	GL_FS_HEADER File
+********************************************************************/
+
+declare	1 GL_FS_HEADER_RECORD,
+		3 GL_FS_CODE           character (        6),
+		3 GL_FS_DESC           character (       50),
+		3 GL_FS_NUMBER         character (        1);
+

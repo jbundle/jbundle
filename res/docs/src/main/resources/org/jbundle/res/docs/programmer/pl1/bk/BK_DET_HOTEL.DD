@@ -1,0 +1,46 @@
+/*********************************************************************
+	BK_DET_HOTEL File
+********************************************************************/
+
+declare	1 BK_DET_HOTEL_RECORD,
+		3 HDET_MOD             fixed binary (15),
+		3 HDET_BK_TR_NO        fixed binary (31),
+		3 HDET_DAY             fixed binary (15),
+		3 HDET_SEQ             fixed binary (15),
+		3 HDET_ALT_SEQ         fixed binary (15),
+		3 HDET_ANSW_SEQ        fixed binary (15),
+		3 HDET_MOD_CODE        character (        1),
+		3 HDET_INV             character (1),
+		3 HDET_INV_MOD         fixed binary (15),
+		3 HDET_INV_RATE        character (        2),
+		3 HDET_HOTEL           character (       10),
+		3 HDET_NIGHTS          fixed binary (15),
+		3 HDET_RATE_TYPE       character (        1),
+		3 HDET_CLASS           character (        2),
+		3 HDET_MANUAL          character (       30),
+		3 HDET_SEND_TO         character (1),
+		3 HDET_ACK_DAYS        fixed binary (15),
+		3 HDET_VOUCHER         fixed binary (31),
+		3 HDET_MEAL( 4) character (        2),
+		3 HDET_MEAL_QTY( 4) fixed binary (15),
+		3 HDET_MEAL_DAYS( 4) fixed binary (31),
+		3 HDET_MEAL_PRICE( 4) float binary (21),
+		3 HDET_MEAL_PLAN       character (        2),
+		3 HDET_SINGLE          float binary (53),
+		3 HDET_DOUBLE          float binary (53),
+		3 HDET_TRIPLE          float binary (53),
+		3 HDET_QUAD            float binary (53),
+		3 HDET_EXCHANGE        float binary (53),
+		3 HDET_ROOM_COST       float binary (53),
+		3 HDET_MEAL_COST       float binary (53),
+		3 HDET_MODULE          character (        4),
+		3 HDET_LINKED_TOUR     fixed binary (31),
+		3 HDET_STATUS          character (        2),
+		3 HDET_RM_COST         float binary (53),
+		3 HDET_ML_COST         float binary (53);
+
+declare	1 BK_DET_HOTEL_01_RECORD defined (HDET_MOD),
+		3 HDET_MOD01           fixed binary (15),
+		3 HDET_TOUR_HDR        character (        4),
+		3 HDET_DATE            fixed binary (15);
+

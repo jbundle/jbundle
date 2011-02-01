@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_AIRH_MAINT File
+********************************************************************/
+
+declare	1 BK_AIRH_MAINT_RECORD,
+		3 TEM_FARE_1           character (       60),
+		3 TEM_FARE_2           character (       60),
+		3 TEM_FARE_3           character (       60);
+

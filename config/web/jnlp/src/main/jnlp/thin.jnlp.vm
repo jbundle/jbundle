@@ -1,0 +1,184 @@
+<!DOCTYPE jnlp PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<jnlp codebase="$$context" spec="1.0+">
+<information>
+<title></title>
+<vendor>tourapp.com</vendor>
+<homepage href="index.html"></homepage>
+<description kind="one-line"></description>
+<description kind="short"></description>
+<icon href=""></icon>
+<offline-allowed></offline-allowed>
+<keywords>tour</keywords>
+</information>
+<security></security>
+<resources>
+<java max-heap-size="512m" initial-heap-size="128m" version="1.6+"></java>
+<property value="true" name="jnlp.packEnabled"></property>
+<jar href="lib/jbundle-base-db-client-${project.version}.jar" part="jbundle-base-db-client"></jar>
+<package name="org.jbundle.base.db.client.*" part="jbundle-base-db-client" recursive="true"></package>
+<jar href="lib/jbundle-base-db-core-${project.version}.jar" part="jbundle-base-db-core" download="eager"></jar>
+<package name="org.jbundle.base.db.*" part="jbundle-base-db-core"></package>
+<package name="org.jbundle.base.db.event.*" part="jbundle-base-db-core" recursive="true"></package>
+<package name="org.jbundle.base.db.filter.*" part="jbundle-base-db-core" recursive="true"></package>
+<package name="org.jbundle.base.db.util.*" part="jbundle-base-db-core" recursive="true"></package>
+<package name="org.jbundle.base.db.grid.*" part="jbundle-base-db-core" recursive="true"></package>
+<package name="org.jbundle.base.db.lock.*" part="jbundle-base-db-core" recursive="true"></package>
+<package name="org.jbundle.base.db.shared.*" part="jbundle-base-db-core" recursive="true"></package>
+<package name="org.jbundle.base.field.*" part="jbundle-base-db-core" recursive="true"></package>
+<package name="org.jbundle.base.db.netutil.*" part="jbundle-base-db-core" recursive="true"></package>
+<package name="org.jbundle.base.db.xmlutil.*" part="jbundle-base-db-core" recursive="true"></package>
+<jar href="lib/jbundle-base-db-mapped-${project.version}.jar" part="jbundle-base-db-mapped" download="lazy"></jar>
+<package name="org.jbundle.base.db.Mapped.*" part="jbundle-base-db-mapped" recursive="true"></package>
+<jar href="lib/jbundle-base-db-memory-${project.version}.jar" part="jbundle-base-db-memory"></jar>
+<package name="org.jbundle.base.db.Memory.*" part="jbundle-base-db-memory" recursive="true"></package>
+<jar href="lib/jbundle-base-db-net-${project.version}.jar" part="jbundle-base-db-net"></jar>
+<package name="org.jbundle.base.db.Net.*" part="jbundle-base-db-net" recursive="true"></package>
+<jar href="lib/jbundle-base-db-physical-${project.version}.jar" part="jbundle-base-db-physical"></jar>
+<package name="org.jbundle.base.db.Physical.*" part="jbundle-base-db-physical" recursive="true"></package>
+<jar href="lib/jbundle-base-db-proxy-${project.version}.jar" part="jbundle-base-db-proxy"></jar>
+<package name="org.jbundle.base.db.Proxy.*" part="jbundle-base-db-proxy" recursive="true"></package>
+<jar href="lib/jbundle-base-db-serial-${project.version}.jar" part="jbundle-base-db-serial" download="lazy"></jar>
+<package name="org.jbundle.base.db.Serial.*" part="jbundle-base-db-serial" recursive="true"></package>
+<jar href="lib/jbundle-base-db-xml-${project.version}.jar" part="jbundle-base-db-xml" download="lazy"></jar>
+<package name="org.jbundle.base.db.Xml.*" part="jbundle-base-db-xml" recursive="true"></package>
+<jar href="lib/jbundle-base-other-${project.version}.jar" part="jbundle-base-other" download="eager"></jar>
+<package name="org.jbundle.base.util.*" part="jbundle-base-other" recursive="true"></package>
+<package name="org.jbundle.base.message.*" part="jbundle-base-other" recursive="true"></package>
+<package name="org.jbundle.base.thread.*" part="jbundle-base-other" recursive="true"></package>
+<package name="org.jbundle.base.remote.*" part="jbundle-base-other" recursive="true"></package>
+<package name="org.jbundle.base.services.*" part="jbundle-base-other" recursive="true"></package>
+<jar href="lib/jbundle-base-screen-misc-${project.version}.jar" part="jbundle-base-screen-misc" download="eager"></jar>
+<package name="org.jbundle.*" part="jbundle-base-screen-misc"></package>
+<package name="org.jbundle.base.screen.model.*" part="jbundle-base-screen-misc" recursive="true"></package>
+<package name="org.jbundle.base.screen.view.*" part="jbundle-base-screen-misc"></package>
+<package name="org.jbundle.base.screen.view.data.*" part="jbundle-base-screen-misc" recursive="true"></package>
+<package name="org.jbundle.base.screen.view.zml.*" part="jbundle-base-screen-misc" recursive="true"></package>
+<jar href="lib/jbundle-base-screen-view-swing-${project.version}.jar" part="jbundle-base-screen-view-swing"></jar>
+<package name="org.jbundle.base.screen.view.swing.*" part="jbundle-base-screen-view-swing"></package>
+<package name="org.jbundle.base.screen.view.swing.calendar.*" part="jbundle-base-screen-view-swing" recursive="true"></package>
+<package name="org.jbundle.base.screen.view.swing.grid.*" part="jbundle-base-screen-view-swing" recursive="true"></package>
+<package name="org.jbundle.base.screen.view.swing.opt.*" part="jbundle-base-screen-view-swing"></package>
+<package name="org.jbundle.base.screen.view.swing.report.*" part="jbundle-base-screen-view-swing" recursive="true"></package>
+<package name="org.jbundle.base.screen.view.swing.menu.*" part="jbundle-base-screen-view-swing" recursive="true"></package>
+<package name="org.jbundle.base.screen.control.swing.*" part="jbundle-base-screen-view-swing" recursive="true"></package>
+<jar href="lib/jbundle-base-screen-view-swing-jaxe-${project.version}.jar" part="jbundle-base-screen-view-swing-jaxe" download="lazy"></jar>
+<package name="org.jbundle.base.screen.view.swing.opt.jaxe.*" part="jbundle-base-screen-view-swing-jaxe" recursive="true"></package>
+<jar href="lib/jbundle-main-calendar-${project.version}.jar" part="jbundle-main-calendar" download="lazy"></jar>
+<package name="org.jbundle.main.calendar.*" part="jbundle-main-calendar" recursive="true"></package>
+<jar href="lib/jbundle-main-db-${project.version}.jar" part="jbundle-main-db" download="lazy"></jar>
+<package name="org.jbundle.main.db.*" part="jbundle-main-db" recursive="true"></package>
+<package name="org.jbundle.main.user.db.*" part="jbundle-main-db" recursive="true"></package>
+<jar href="lib/jbundle-main-misc-${project.version}.jar" part="jbundle-main-misc" download="lazy"></jar>
+<package name="org.jbundle.main.screen.*" part="jbundle-main-misc" recursive="true"></package>
+<package name="org.jbundle.main.properties.*" part="jbundle-main-misc" recursive="true"></package>
+<package name="org.jbundle.main.user.screen.*" part="jbundle-main-misc" recursive="true"></package>
+<jar href="lib/jbundle-main-msg-${project.version}.jar" part="jbundle-main-msg" download="lazy"></jar>
+<package name="org.jbundle.main.msg.*" part="jbundle-main-msg" recursive="true"></package>
+<jar href="lib/base64coder-${base64coder-version}.jar" part="base64coder" download="lazy"></jar>
+<package name="biz.source_code.base64Coder.*" part="base64coder" recursive="true"></package>
+<jar href="lib/jbundle-calendarpanel-core-${jbundle-calendarpanel-core-version}.jar" part="jbundle-calendarpanel-core" download="lazy"></jar>
+<package name="org.jbundle.thin.base.screen.calendar.*" part="jbundle-calendarpanel-core" recursive="true"></package>
+<jar href="lib/jbundle-config-web-images-${project.version}.jar" part="jbundle-config-web-images"></jar>
+<package name="images.buttons.*" part="jbundle-config-web-images"></package>
+<package name="images.icons.*" part="jbundle-config-web-images"></package>
+<jar href="lib/jbundle-jcalendarbutton-${jcalendar-button-version}.jar" part="jbundle-jcalendarbutton" download="lazy"></jar>
+<package name="org.jbundle.thin.base.screen.jcalendarbutton.*" part="jbundle-jcalendarbutton" recursive="true"></package>
+<jar href="lib/jbundle-model-${project.version}.jar" part="jbundle-model"></jar>
+<package name="org.jbundle.model.*" part="jbundle-model"></package>
+<jar href="lib/jbundle-res-core-${project.version}.jar" part="jbundle-res-core" download="lazy"></jar>
+<package name="org.jbundle.res.base.*" part="jbundle-res-core" recursive="true"></package>
+<package name="org.jbundle.res.thin.*" part="jbundle-res-core" recursive="true"></package>
+<package name="org.jbundle.res.main.*" part="jbundle-res-core" recursive="true"></package>
+<jar href="lib/jbundle-thin-base-db-core-${project.version}.jar" part="jbundle-thin-base-db-core"></jar>
+<package name="org.jbundle.thin.base.db.*" part="jbundle-thin-base-db-core"></package>
+<package name="org.jbundle.thin.base.db.mem.*" part="jbundle-thin-base-db-core"></package>
+<package name="org.jbundle.thin.base.db.util.*" part="jbundle-thin-base-db-core" recursive="true"></package>
+<package name="org.jbundle.thin.base.db.mem.base.*" part="jbundle-thin-base-db-core" recursive="true"></package>
+<package name="org.jbundle.thin.base.db.buff.*" part="jbundle-thin-base-db-core" recursive="true"></package>
+<jar href="lib/jbundle-thin-base-db-misc-${project.version}.jar" part="jbundle-thin-base-db-misc"></jar>
+<package name="org.jbundle.thin.base.db.mem.proxy.*" part="jbundle-thin-base-db-misc" recursive="true"></package>
+<package name="org.jbundle.thin.base.db.mem.memory.*" part="jbundle-thin-base-db-misc" recursive="true"></package>
+<package name="org.jbundle.thin.base.db.mem.serial.*" part="jbundle-thin-base-db-misc" recursive="true"></package>
+<package name="org.jbundle.thin.base.db.mem.net.*" part="jbundle-thin-base-db-misc" recursive="true"></package>
+<package name="org.jbundle.thin.base.db.client.*" part="jbundle-thin-base-db-misc" recursive="true"></package>
+<package name="org.jbundle.thin.base.db.converter.*" part="jbundle-thin-base-db-misc" recursive="true"></package>
+<jar href="lib/jbundle-thin-base-message-${project.version}.jar" part="jbundle-thin-base-message"></jar>
+<package name="org.jbundle.thin.base.message.*" part="jbundle-thin-base-message" recursive="true"></package>
+<jar href="lib/jbundle-thin-base-remote-${project.version}.jar" part="jbundle-thin-base-remote" download="lazy"></jar>
+<package name="org.jbundle.thin.base.remote.*" part="jbundle-thin-base-remote" recursive="true"></package>
+<jar href="lib/jbundle-thin-base-screen-cal-grid-${project.version}.jar" part="jbundle-thin-base-screen-cal-grid" download="lazy"></jar>
+<package name="org.jbundle.thin.base.screen.cal.grid.*" part="jbundle-thin-base-screen-cal-grid"></package>
+<jar href="lib/jbundle-thin-base-screen-cal-other-${project.version}.jar" part="jbundle-thin-base-screen-cal-other" download="lazy"></jar>
+<package name="org.jbundle.thin.base.screen.cal.popup.*" part="jbundle-thin-base-screen-cal-other"></package>
+<package name="org.jbundle.thin.base.screen.cal.opt.*" part="jbundle-thin-base-screen-cal-other"></package>
+<jar href="lib/jbundle-thin-base-screen-core-${project.version}.jar" part="jbundle-thin-base-screen-core"></jar>
+<package name="org.jbundle.thin.*" part="jbundle-thin-base-screen-core"></package>
+<package name="org.jbundle.thin.base.screen.*" part="jbundle-thin-base-screen-core"></package>
+<package name="org.jbundle.thin.base.screen.comp.*" part="jbundle-thin-base-screen-core" recursive="true"></package>
+<package name="org.jbundle.thin.base.screen.print.*" part="jbundle-thin-base-screen-core" recursive="true"></package>
+<package name="org.jbundle.thin.base.screen.action.*" part="jbundle-thin-base-screen-core" recursive="true"></package>
+<package name="org.jbundle.thin.base.screen.menu.*" part="jbundle-thin-base-screen-core" recursive="true"></package>
+<package name="org.jbundle.thin.base.screen.landf.*" part="jbundle-thin-base-screen-core" recursive="true"></package>
+<jar href="lib/jbundle-thin-base-screen-grid-${project.version}.jar" part="jbundle-thin-base-screen-grid" download="lazy"></jar>
+<package name="org.jbundle.thin.base.screen.grid.*" part="jbundle-thin-base-screen-grid" recursive="true"></package>
+<jar href="lib/jbundle-thin-base-screen-util-core-${project.version}.jar" part="jbundle-thin-base-screen-util-core" download="lazy"></jar>
+<package name="org.jbundle.thin.base.screen.util.*" part="jbundle-thin-base-screen-util-core"></package>
+<package name="org.jbundle.thin.base.screen.util.cal.*" part="jbundle-thin-base-screen-util-core" recursive="true"></package>
+<jar href="lib/jbundle-thin-base-screen-util-misc-${project.version}.jar" part="jbundle-thin-base-screen-util-misc"></jar>
+<package name="org.jbundle.thin.base.screen.util.html.*" part="jbundle-thin-base-screen-util-misc" recursive="true"></package>
+<package name="org.jbundle.thin.base.screen.util.mail.*" part="jbundle-thin-base-screen-util-misc" recursive="true"></package>
+<jar href="lib/jbundle-thin-base-thread-${project.version}.jar" part="jbundle-thin-base-thread"></jar>
+<package name="org.jbundle.thin.base.thread.*" part="jbundle-thin-base-thread" recursive="true"></package>
+<jar href="lib/jbundle-thin-base-util-base64-${project.version}.jar" part="jbundle-thin-base-util-base64"></jar>
+<package name="org.jbundle.thin.base.util.base64.*" part="jbundle-thin-base-util-base64" recursive="true"></package>
+<jar href="lib/jbundle-thin-base-util-core-${project.version}.jar" part="jbundle-thin-base-util-core"></jar>
+<package name="org.jbundle.thin.base.util.*" part="jbundle-thin-base-util-core"></package>
+<jar href="lib/jbundle-thin-main-${project.version}.jar" part="jbundle-thin-main" download="lazy"></jar>
+<package name="org.jbundle.thin.main.calendar.*" part="jbundle-thin-main" recursive="true"></package>
+<package name="org.jbundle.thin.main.user.*" part="jbundle-thin-main" recursive="true"></package>
+<package name="org.jbundle.thin.main.msg.*" part="jbundle-thin-main" recursive="true"></package>
+<package name="org.jbundle.thin.main.db.*" part="jbundle-thin-main" recursive="true"></package>
+<package name="org.jbundle.thin.main.properties.*" part="jbundle-thin-main" recursive="true"></package>
+<jar href="lib/jbundle-thin-opt-location-${project.version}.jar" part="jbundle-thin-opt-location" download="lazy"></jar>
+<package name="org.jbundle.thin.opt.location.*" part="jbundle-thin-opt-location" recursive="true"></package>
+<jar href="lib/jbundle-util-muffinmanager-${jbundle-util-muffinmanager-version}.jar" part="jbundle-util-muffinmanager" download="lazy"></jar>
+<package name="org.jbundle.thin.base.util.muffinmanager.*" part="jbundle-util-muffinmanager" recursive="true"></package>
+<jar href="lib/jbundle-app-program-plugin-${project.version}.jar" part="jbundle-app-program-plugin"></jar>
+<package name="org.jbundle.app.program.plugin.*" part="jbundle-app-program-plugin" recursive="true"></package>
+<jar href="lib/jbundle-base-db-jdbc-${project.version}.jar" part="jbundle-base-db-jdbc"></jar>
+<package name="org.jbundle.base.db.Jdbc.*" part="jbundle-base-db-jdbc" recursive="true"></package>
+<jar href="lib/jbundle-base-screen-control-cocoon-${project.version}.jar" part="jbundle-base-screen-control-cocoon"></jar>
+<package name="org.jbundle.base.screen.control.servlet.xml.cocoon.*" part="jbundle-base-screen-control-cocoon" recursive="true"></package>
+<jar href="lib/jbundle-base-screen-control-servlet-${project.version}.jar" part="jbundle-base-screen-control-servlet"></jar>
+<package name="org.jbundle.base.screen.control.servlet.*" part="jbundle-base-screen-control-servlet"></package>
+<package name="org.jbundle.base.screen.control.servlet.xml.*" part="jbundle-base-screen-control-servlet"></package>
+<package name="org.jbundle.base.screen.control.servlet.html.*" part="jbundle-base-screen-control-servlet" recursive="true"></package>
+<jar href="lib/jbundle-base-screen-view-html-${project.version}.jar" part="jbundle-base-screen-view-html"></jar>
+<package name="org.jbundle.base.screen.view.html.*" part="jbundle-base-screen-view-html" recursive="true"></package>
+<jar href="lib/jbundle-base-screen-view-xml-${project.version}.jar" part="jbundle-base-screen-view-xml"></jar>
+<package name="org.jbundle.base.screen.view.xml.*" part="jbundle-base-screen-view-xml" recursive="true"></package>
+<jar href="lib/jbundle-main-other-${project.version}.jar" part="jbundle-main-other"></jar>
+<package name="org.jbundle.main.remote.*" part="jbundle-main-other" recursive="true"></package>
+<package name="org.jbundle.main.schedule.*" part="jbundle-main-other" recursive="true"></package>
+<jar href="lib/jbundle-thin-opt-chat-${project.version}.jar" part="jbundle-thin-opt-chat"></jar>
+<package name="org.jbundle.thin.opt.chat.*" part="jbundle-thin-opt-chat" recursive="true"></package>
+<jar href="lib/jbundle-app-program-${project.version}.jar" part="jbundle-app-program"></jar>
+<package name="org.jbundle.app.program.manual.*" part="jbundle-app-program" recursive="true"></package>
+<package name="org.jbundle.app.program.screen.*" part="jbundle-app-program" recursive="true"></package>
+<package name="org.jbundle.app.program.resource.*" part="jbundle-app-program" recursive="true"></package>
+<package name="org.jbundle.app.program.project.*" part="jbundle-app-program" recursive="true"></package>
+<package name="org.jbundle.app.program.issue.*" part="jbundle-app-program" recursive="true"></package>
+<package name="org.jbundle.app.program.db.*" part="jbundle-app-program" recursive="true"></package>
+<package name="org.jbundle.app.program.packages.*" part="jbundle-app-program" recursive="true"></package>
+<package name="org.jbundle.app.program.access.*" part="jbundle-app-program" recursive="true"></package>
+<package name="org.jbundle.app.program.script.*" part="jbundle-app-program" recursive="true"></package>
+<package name="org.jbundle.app.program.demo.*" part="jbundle-app-program" recursive="true"></package>
+<jar href="lib/jbundle-res-app-program-${project.version}.jar" part="jbundle-res-app-program"></jar>
+<package name="org.jbundle.res.app.program.*" part="jbundle-res-app-program" recursive="true"></package>
+<jar href="lib/jbundle-thin-app-program-${project.version}.jar" part="jbundle-thin-app-program"></jar>
+<package name="org.jbundle.thin.app.program.*" part="jbundle-thin-app-program" recursive="true"></package>
+<jar href="lib/jbundle-splash-${project.version}.jar" part="jbundle-splash"></jar>
+<package name="org.jbundle.thin.base.screen.splash.*" part="jbundle-splash" recursive="true"></package>
+</resources>
+<component-desc></component-desc>
+</jnlp>

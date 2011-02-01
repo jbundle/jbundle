@@ -1,0 +1,216 @@
+/****************************************************************
+	Module: BK_DIS_PAX_AIRH
+	Top Level Logic: DIS_TABLE_DISPLAY
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_PAX_AIRH
+	Top Level - Table Display
+****************************************************************/
+
+%replace BK_DIS_PAX_AIRH_1 by 751;
+BK_DIS_PAX_AIRH:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD);
+%replace TK_HEADER_NO by  56;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%include "TK_HEADER.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   call DIS_TABLE_DIS;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_DIS_PAX_AIRH_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_TABLE_DIS
+	Mainline logic
+****************************************************************/
+
+DIS_TABLE_DIS:
+	procedure;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call DISPLAY_DATA_C;
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+return;
+end;	/* DIS_TABLE_DIS        */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =  19 to  20;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		TK_MODIFICATION_SAVE fixed binary (15);
+declare		TK_BK_TK_NO_SAVE     fixed binary (31);
+declare		TK_ALT_SEQ_SAVE      fixed binary (15);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		TK_ANSW_SEQ_ARRAY( 7) fixed binary (15);
+declare		TK_HEADER_ERROR      fixed binary (15);
+declare		TK_ANSW_SEQ_SAVE     fixed binary (15);
+declare		ANSWER               character (1);
+TK_MODIFICATION = BK_MODIFICATION;
+TK_MODIFICATION_SAVE = TK_MODIFICATION;
+TK_BK_TK_NO = BOOKING_NO;
+TK_BK_TK_NO_SAVE = TK_BK_TK_NO;
+TK_ALT_SEQ = BK_PAX_SEQ;
+TK_ALT_SEQ_SAVE = TK_ALT_SEQ;
+TK_ANSW_SEQ = 0;
+call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > TK_MODIFICATION_SAVE) !
+   (TK_BK_TK_NO > TK_BK_TK_NO_SAVE) !
+   (TK_ALT_SEQ > TK_ALT_SEQ_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to  7;
+      TK_ANSW_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      TK_HEADER_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (TK_HEADER_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <=  7) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+         do LOOP_INDEX =  11 to  18;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         TK_ANSW_SEQ_ARRAY(RECORD_NUMBER) = TK_ANSW_SEQ;
+         call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,TK_HEADER_ERROR);
+         if (TK_MODIFICATION > TK_MODIFICATION_SAVE) !
+         (TK_BK_TK_NO > TK_BK_TK_NO_SAVE) !
+         (TK_ALT_SEQ > TK_ALT_SEQ_SAVE) then
+            TK_HEADER_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      TK_ANSW_SEQ_SAVE = TK_ANSW_SEQ_ARRAY( 7);
+      TK_MODIFICATION = TK_MODIFICATION_SAVE;
+      TK_BK_TK_NO = TK_BK_TK_NO_SAVE;
+      TK_ALT_SEQ = TK_ALT_SEQ_SAVE;
+      if TK_HEADER_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to  7;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+      if TK_ANSW_SEQ_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =11 to  18;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (TK_HEADER_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

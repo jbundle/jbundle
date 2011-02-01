@@ -1,0 +1,10 @@
+/*********************************************************************
+	AM_AGCY_EXPORT File
+********************************************************************/
+
+declare	1 AM_AGCY_EXPORT_RECORD,
+		3 AM_EXPORT_START      character (       10),
+		3 AM_EXPORT_END        character (       10),
+		3 AM_EXPORT_TYPE       character (        1),
+		3 AM_EXPORT_STATE      character (        2);
+

@@ -1,0 +1,542 @@
+/****************************************************************
+	Module: AP_VENDOR_ANL
+	Top Level Logic: REPORT_LOGIC
+	Date: 20-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_VENDOR_ANL
+	Standard report logic
+****************************************************************/
+
+%replace AP_VENDOR_ANL_1 by 146;
+%replace AP_VENDOR_ANL_2 by 145;
+%replace AP_VENDOR_ANL_3 by 681;
+AP_VENDOR_ANL:
+   procedure;
+%replace AP_OPEN_NO by  32;
+%replace AP_VENDOR_NO by  30;
+%replace AD_CURR_NO by  25;
+%replace BK_TOUR_NO by  34;
+%include "AP_VENDOR_ANL.DD";
+%include "AP_OPEN.DD";
+%include "AP_VENDOR.DD";
+%include "AD_CURR.DD";
+%include "BK_TOUR.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		END_READ_THRU_D2     bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   VANL_DATE = TODAYS_DATE();
+   VANL_TIME = CURRENT_TIME();
+   VANL_USER = USER_NAME();
+   VANL_PAGE = 1;
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   TOUR_QUADS = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_VENDOR_ANL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AP_VENDOR_ANL_RECORD) );
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (AP_VENDOR_ANL_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_VEN_NO = AP_VENDOR_START;
+   call SET_POSITION (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+AP_VENDOR_END = AP_VENDOR_START;
+AP_END_DEPART = AP_START_DEPART;
+do LOOP_INDEX =   1 to   4;
+   if LOOP_INDEX =   2 then
+      AP_VENDOR_END = AP_VENDOR_START;
+   if LOOP_INDEX =   4 then
+      AP_END_DEPART = AP_START_DEPART;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         AP_VENDOR_START = "";
+         AP_VENDOR_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         AP_START_DEPART = 0;
+         AP_END_DEPART = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  4,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  4 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         AP_VENDOR_START = "";
+         AP_VENDOR_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         AP_START_DEPART = 0;
+         AP_END_DEPART = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+VANL_PAGE = VANL_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_VENDOR_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_VEN_NO > AP_VENDOR_END) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* VENDOR_SELECT - Valid vendor? */
+
+
+      /* SET_FIRST_2 - Set the file pointer to the first key */
+
+      AP_OPEN_VENDOR = AP_VEN_NO;
+      AP_ENTRY_TYPE = 0;
+      AP_START_SVC = 0;
+      AP_ENTRY_NO = 0;
+      call SET_POSITION (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+
+      /* READNEXT_2 - Read the next record */
+
+      call READ_NEXT (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+      /* CHECK_END_AP_VEN - Skip if no match */
+
+      if (ERROR_CODE = END_OF_FILE) !
+         (AP_OPEN_VENDOR > AP_VEN_NO) then
+            return;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+
+   /* READ_SECOND_2 - Read secondary info */
+
+   CURR_CODE = AP_VEN_CURR;
+   call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      CURR_DESC = "** RECORD NOT FOUND **";
+      end;
+   do LOOP_INDEX =   6 to   7;
+      call PRINT_REPORT_LINE;
+   end;
+   call PRINT_ALL_D2;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_ALL_D2
+	Read thru and print
+****************************************************************/
+
+PRINT_ALL_D2:
+	procedure;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   AP_OPEN_VENDOR = AP_VEN_NO;
+   AP_ENTRY_TYPE = 0;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+   END_READ_THRU_D2 = NO;
+   do while (END_READ_THRU_D2 ^= YES);
+      call READ_THRU_D2;
+   end;
+return;
+end;	/* PRINT_ALL_D2         */
+
+/****************************************************************
+	READ_THRU_D2
+	Read thru the secondary detail
+****************************************************************/
+
+READ_THRU_D2:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_VENDOR > AP_VEN_NO) then
+      do;
+      END_READ_THRU_D2 = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT_2 - Check for the selection criteria */
+
+
+   /* CHECK_VENDOR_DATES - Check the dates on this entry */
+
+   if AP_OPEN_DEP < AP_START_DEPART then
+      return;
+
+   if AP_OPEN_DEP > AP_END_DEPART then
+      return;
+
+
+   /* PRINT_LINE_D2 - Print lines */
+
+
+   /* SET_AP_TYPE - Set up the type description */
+
+   do case (AP_ENTRY_TYPE);
+      AP_ENTRY_TYPE_DESC = "Brk Pmt";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Brk Dft";
+      AP_ENTRY_TYPE_DESC = "PP Req ";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dep Est";
+      AP_ENTRY_TYPE_DESC = "Fin Est";
+   end;
+   otherwise
+      AP_ENTRY_TYPE_DESC = "";
+
+
+   /* READ_SECOND - Read info and display secondary fileinfo */
+
+   TOUR_NO = AP_OPEN_TOUR;
+   call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      TOUR_DESC = "** RECORD NOT FOUND **";
+      end;
+   else
+      do;
+      end;
+   do LOOP_INDEX =   8 to  12;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* READ_THRU_D2         */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

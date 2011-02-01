@@ -1,0 +1,2197 @@
+/****************************************************************
+	Module: BK_VOUCHERS
+	Top Level Logic: PROC_VCHR_LOGIC
+	Date: 10-Feb-94
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_VOUCHERS
+	Main logic to process the vouchers
+****************************************************************/
+
+%replace BK_VOUCHERS_1 by 783;
+%replace BK_VOUCHERS_2 by 916;
+BK_VOUCHERS:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_CONTROL_RECORD,
+      BK_PASSENGERS_RECORD);
+%replace BK_TOUR_DOC_NO by  76;
+%replace AP_VENDOR_NO by  30;
+%replace AP_OPEN_NO by  32;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_HOTEL_NO by   8;
+%replace TK_DETAIL_NO by  57;
+%replace BK_TELEX_NO by  88;
+%replace BK_LAND_NO by  54;
+%replace BK_TRANS_NO by  64;
+%replace AP_CONTROL_NO by  29;
+%replace BK_HOTEL_DET_NO by  52;
+%replace AD_CURR_NO by  25;
+%replace BK_LAND_DET_NO by  91;
+%replace BK_TRANS_PRICE_NO by  69;
+%replace BK_ITIN_DET_NO by  79;
+%replace BK_HOTEL_CAT_NO by 116;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_CONTROL_NO by  47;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_VOUCHERS.DD";
+%include "BK_TOUR_DOC.DD";
+%include "AP_VENDOR.DD";
+%include "AP_OPEN.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_HOTEL.DD";
+%include "TK_DETAIL.DD";
+%include "BK_TELEX.DD";
+%include "BK_LAND.DD";
+%include "BK_TRANS.DD";
+%include "AP_CONTROL.DD";
+%include "BK_HOTEL_DET.DD";
+%include "AD_CURR.DD";
+%include "BK_LAND_DET.DD";
+%include "BK_TRANS_PRICE.DD";
+%include "BK_ITIN_DET.DD";
+%include "BK_HOTEL_CAT.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_CONTROL.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_BOOKING     fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_ENTER_DOC_FORMAT bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		AP_OPEN_TOUR_SAVE    fixed binary (31);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		AP_START_SVC_ARRAY(12) fixed binary (15);
+declare		AP_ENTRY_NO_ARRAY(12) fixed binary (31);
+declare		AP_OPEN_ERROR        fixed binary (15);
+declare		AP_START_SVC_SAVE    fixed binary (15);
+declare		AP_ENTRY_NO_SAVE     fixed binary (31);
+declare		ANSWER               character (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_GO_THRU_H_VCHRS  bit (1);
+declare		END_GO_THRU_L_VCHRS  bit (1);
+declare		ERROR_AP_OPEN        fixed binary (15);
+   call INITIALIZE;
+
+   /* SAVE_BK_INFO - Save the current booking for a sec */
+
+   declare BOOKING_NO_SAVE fixed binary(31);
+   BOOKING_NO_SAVE = BOOKING_NO;
+
+   if BOOKING_NO ^= 0 then
+      do;
+
+      /* UPDATE_BOOK_NUL - Update the booking record - Don't unlock */
+
+      call UPDATE_RECORD (BK_BOOKING_NO+?LOCK_RECORD,ERROR_CODE);
+      end;
+
+   call PROC_VCHR_MAIN;
+
+   /* RESTORE_BK_INFO - Restore the original booking information */
+
+   if BOOKING_NO_SAVE = 0 then
+      do;
+
+      /* INIT_HDR_DATA - Zero everything before starting */
+
+      BOOKING_NO = 0;
+      BK_MODIFICATION = 0;
+      BK_NEXT_MOD = 0;
+      BK_AGENCY = -1;
+      BK_PAX = 0;
+      BK_TOUR_NUM = 0;
+      BK_TOUR_CODE = "";
+      BK_DEPARTURE = 0;
+
+      TOUR_NO = 0;
+      TOUR_DEP_DATE = 0;
+      TOUR_TYPE = " ";
+      TOUR_RATE_DEF = "";
+      TOUR_RATE_CLASS = "";
+      TOUR_DEF_CUTOFF = 0;
+
+      HDR_TOUR_CODE = "";
+      HDR_END_ON = 0;
+
+      end;
+   else
+      do;
+      if (BK_MODIFICATION ^= 0) ! (BOOKING_NO ^= BOOKING_NO_SAVE) then
+         do;
+         BK_MODIFICATION = 0;
+         BOOKING_NO = BOOKING_NO_SAVE;
+
+         /* READ_BOOK_LOCK - Read the booking record and lock it */
+
+         call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_BOOKING);
+         if ERROR_BK_BOOKING = RECORD_LOCKED then
+            do;
+            call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+            call PRESS_RETURN;
+            end;
+         if ERROR_BK_BOOKING > 3 then
+            call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+         end;
+      end;
+
+   /* RESTORE_BK_TOUR - Restore the tour and tour header info */
+
+   if BOOKING_NO ^= 0 then
+      do;
+      if BK_TOUR_CODE ^= "" then if BK_DEPARTURE ^= 0 then
+         if (BK_TOUR_CODE ^= HDR_TOUR_CODE) !
+            (BK_DEPARTURE < HDR_START_ON) ! (BK_DEPARTURE > HDR_END_ON) then
+               do;
+
+               /* GET_TOUR_HDR - Get the tour header */
+
+               ERROR_CODE = NORMAL_RETURN;
+
+               HDR_TOUR_CODE = BK_TOUR_CODE;
+               HDR_END_ON = BK_DEPARTURE;
+               if HDR_END_ON = 0 then
+                  HDR_END_ON = TODAYS_DATE();
+               call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE ^= END_OF_FILE then
+                  call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+               if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+                  ERROR_CODE = END_OF_FILE;
+               if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+                  ERROR_CODE = END_OF_FILE;
+
+               end;
+      if BK_TOUR_NUM ^= 0 then
+         if BK_TOUR_NUM ^= TOUR_NO then
+            do;
+            TOUR_NO = BK_TOUR_NUM;
+
+            /* READ_TOUR_REC - Read the tour file record */
+
+            call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+            if ERROR_BK_TOUR > 3 then
+               call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+            end;
+      end;
+
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   UPDATE_V_STATUS = "";
+   AP_NEW_STATUS = "";
+   DOC_DOC_TYPE = "";
+   ACTION_DESC = "";
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   TELEX_USER = USER_NAME();
+   LAND_TAX = 0;
+   LAND_SVC_CHG = 0;
+   LAND_COMM = 0;
+   AP_REC_NO = 9999;
+   AP_DEF_AC = 1;
+   HOTEL_USE_RATE_TYPE = "";
+   HOTEL_USE_CLASS = "";
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   LAND_MARKUP_LINE = 0;
+   LAND_VARIES_ON = 0;
+   TRANS_CLASS = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_VOUCHERS_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_VOUCHERS_RECORD) );
+   call OPEN_FILE (BK_TOUR_DOC_NO,"BK_TOUR_DOC",byteaddr(BK_TOUR_DOC_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_DOC_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TELEX_NO,"BK_TELEX",byteaddr(BK_TELEX_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TELEX_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_NO,"BK_TRANS",byteaddr(BK_TRANS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_NO,ERROR_CODE);
+   call OPEN_FILE (AP_CONTROL_NO,"AP_CONTROL",byteaddr(AP_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_DET_NO,"BK_HOTEL_DET",byteaddr(BK_HOTEL_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_DET_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_DET_NO,"BK_LAND_DET",byteaddr(BK_LAND_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_DET_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_PRICE_NO,"BK_TRANS_PRICE",byteaddr(BK_TRANS_PRICE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_PRICE_NO,ERROR_CODE);
+   call OPEN_FILE (BK_ITIN_DET_NO,"BK_ITIN_DET",byteaddr(BK_ITIN_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_ITIN_DET_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_CAT_NO,"BK_HOTEL_CAT",byteaddr(BK_HOTEL_CAT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_CAT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	PROC_VCHR_MAIN
+	Mainline logic
+****************************************************************/
+
+PROC_VCHR_MAIN:
+	procedure;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_VOUCHERS_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* READ_TOUR_REC - Read the tour file record */
+
+   call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+   if ERROR_BK_TOUR > 3 then
+      call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+
+   /* RETURN_IF_NO_TOUR - Return if tour record not read */
+
+   if ERROR_BK_TOUR ^= NORMAL_RETURN then
+      return;
+
+   call DISPLAY_DATA_C;
+   call TABLE_DISPLAY;
+
+   /* CHECK_TOUR_FINAL - Has the tour been finalized yet? */
+
+   if TOUR_FINALIZED = "Y" then
+      UPDATE_V_STATUS = "N";
+   else
+      do;
+      call ENTER_DATA_D;
+      end;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CHECK_UD_STATUS - Update the status? */
+
+   call CONVERT_TO_UPPER(UPDATE_V_STATUS);
+
+   if (UPDATE_V_STATUS = "Y") !
+      (UPDATE_V_STATUS = "A") !
+      (UPDATE_V_STATUS = "H") !
+      (UPDATE_V_STATUS = "L") !
+      (RETURN_CODE = ALL_TYPED) then
+         do;
+
+         /* UD_STATUS - Update the voucher status */
+
+
+            /* CHECK_SAME_BK - If this booking is on screen, check */
+
+            if BOOKING_NO_SAVE ^= 0 then if BK_TOUR_NUM = TOUR_NO then
+               do;
+               if (BK_PAX_CHGD = BK_NEXT_MOD) !
+                  (BK_AIR_MOD = BK_NEXT_MOD) !
+                  (BK_TOUR_MOD = BK_NEXT_MOD) !
+                  (BK_HOTEL_MOD = BK_NEXT_MOD) then
+                     do;
+                     call DISPLAY_MESSAGE ("<BEL>You must okay changes before operating this tour"c);
+                     call PRESS_RETURN;
+                     return;
+                     end;
+               BK_NEXT_MOD = BK_NEXT_MOD - 1;
+
+               /* UPDATE_BOOK_NUL - Update the booking record - Don't unlock */
+
+               call UPDATE_RECORD (BK_BOOKING_NO+?LOCK_RECORD,ERROR_CODE);
+               end;
+
+
+            /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+            call PROCESSING_OCCURRING;
+            call DUMP_BUFFER;
+
+
+            /* RESTORE_SAME_BK - Re-finalize & Restore booking */
+
+            ERROR_CODE = 0;
+            if UPDATE_V_STATUS ^= "L" then
+               do;
+               call BK_V_HOTEL;
+               end;
+            if ERROR_CODE ^= RECORD_LOCKED then
+               if UPDATE_V_STATUS ^= "H" then
+                  do;
+                  call BK_V_LAND;
+                  end;
+
+
+            /* SAVE_ERROR_CODE - Save the error code */
+
+            declare ERROR_SAVE fixed binary;
+            ERROR_SAVE = ERROR_CODE;
+
+            if BOOKING_NO_SAVE ^= 0 then
+               do;
+               BK_MODIFICATION = 0;
+               BOOKING_NO = BOOKING_NO_SAVE;
+
+               /* READ_BOOK_LOCK - Read the booking record and lock it */
+
+               call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_BOOKING);
+               if ERROR_BK_BOOKING = RECORD_LOCKED then
+                  do;
+                  call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+                  call PRESS_RETURN;
+                  end;
+               if ERROR_BK_BOOKING > 3 then
+                  call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+               if BK_TOUR_NUM = TOUR_NO then
+                  do;
+                  BK_NEXT_MOD = BK_NEXT_MOD + 1;
+
+                  /* UPDATE_BOOK_NUL - Update the booking record - Don't unlock */
+
+                  call UPDATE_RECORD (BK_BOOKING_NO+?LOCK_RECORD,ERROR_CODE);
+                  end;
+               end;
+
+            /* RESTORE_ERROR_CODE - Restore the error code */
+
+            ERROR_CODE = ERROR_SAVE;
+
+
+            if ERROR_CODE = RECORD_LOCKED then
+               do;
+               call DISPLAY_MESSAGE ("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+               call PRESS_RETURN;
+               return;
+               end;
+
+
+            /* SET_SCRN_VARS - Set the screen variables pointer */
+
+            call SET_SCREEN_VARS (byteaddr (BK_VOUCHERS_RECORD) );
+
+            /* DISPLAY_SCREEN - Display the screen */
+
+            call OPEN_SCREEN;
+            call DISPLAY_SCREEN (BK_VOUCHERS_1);
+            call DISPLAY_DATA_A;
+            call DISPLAY_DATA_C;
+            call DISPLAY_DATA_D;
+            call TABLE_MAINT;
+         end;
+
+   END_ENTER_DOC_FORMAT = NO;
+   do while (END_ENTER_DOC_FORMAT ^= YES);
+      call ENTER_DOC_FORMAT;
+   end;
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (BK_VOUCHERS_RECORD) );
+return;
+end;	/* PROC_VCHR_MAIN       */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  12 to  15;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+AP_OPEN_TOUR = TOUR_NO;
+AP_OPEN_TOUR_SAVE = AP_OPEN_TOUR;
+AP_START_SVC = 0;
+AP_ENTRY_NO = 0;
+call SET_POSITION (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_TOUR > AP_OPEN_TOUR_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 12;
+      AP_START_SVC_ARRAY(RECORD_NUMBER) = 0;
+      AP_ENTRY_NO_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      AP_OPEN_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (AP_OPEN_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 12) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  22 to  28;
+            if LOOP_INDEX =  24 then
+               do;
+
+               /* SET_V_TYPE - Set voucher type (hotel or land) */
+
+               if AP_V_BASED_BK = 0 then
+                  AP_OPEN_TYPE = "";
+               else
+                  do;
+                  if AP_V_BASED_SEQ = -1 then
+                     AP_OPEN_TYPE = "Land";
+                  else
+                     AP_OPEN_TYPE = "Hotel";
+                  end;
+
+               end;
+            if LOOP_INDEX =  25 then
+               do;
+
+               /* READ_SECOND - Read info and display secondary fileinfo */
+
+               AP_VEN_NO = AP_OPEN_VENDOR;
+               call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  AP_VEN_NAME = "** RECORD NOT FOUND **";
+                  end;
+               else
+                  do;
+                  end;
+               end;
+            if LOOP_INDEX =  27 then
+               do;
+
+               /* NO_NEW_STATUS - Blank status code */
+
+               AP_NEW_STATUS = "";
+
+               end;
+            if LOOP_INDEX =  28 then
+               do;
+
+               /* SET_V_DESC - Set the Voucher Status Description */
+
+               do case (AP_GL_STATUS + 1);
+                  AP_V_DESC = "TO Held";
+                  AP_V_DESC = "No stat.";
+                  AP_V_DESC = "T.O. Rqd";
+                  AP_V_DESC = "Wait Ack";
+                  AP_V_DESC = "Ack Rcvd";
+                  AP_V_DESC = "TO Prtd";
+                  AP_V_DESC = "Xln Reqd";
+                  AP_V_DESC = "Wait Xln";
+                  AP_V_DESC = "Ackn Xln";
+                  AP_V_DESC = "Xln Prtd";
+                  AP_V_DESC = "Reprt TO";
+                  AP_V_DESC = "Manual T";
+                  AP_V_DESC = "Dep Est ";
+                  AP_V_DESC = "Invoice ";
+                  AP_V_DESC = "Cr memo ";
+                  AP_V_DESC = "Prepaymt";
+                  AP_V_DESC = "Dr memo ";
+                  AP_V_DESC = "Payment ";
+                  AP_V_DESC = "Posted  ";
+               end;
+               otherwise
+                  AP_V_DESC = "No TO   ";
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  22 then
+               do;
+
+               /* FAKE_INPUT_LENGTH - Set the input length to a non-zero no. */
+
+               INPUT_LENGTH = 1;
+
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         AP_START_SVC_ARRAY(RECORD_NUMBER) = AP_START_SVC;
+         AP_ENTRY_NO_ARRAY(RECORD_NUMBER) = AP_ENTRY_NO;
+         call READ_NEXT (AP_OPEN_NO,KEY_AREA_3,AP_OPEN_ERROR);
+         if (AP_OPEN_TOUR > AP_OPEN_TOUR_SAVE) then
+            AP_OPEN_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      AP_START_SVC_SAVE = AP_START_SVC_ARRAY(12);
+      AP_ENTRY_NO_SAVE = AP_ENTRY_NO_ARRAY(12);
+      AP_OPEN_TOUR = AP_OPEN_TOUR_SAVE;
+      if AP_OPEN_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 12;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if AP_START_SVC_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =22 to  28;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	ENTER_DATA_D
+	Enter screen group D
+****************************************************************/
+
+ENTER_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  16 to  16;
+   if LOOP_INDEX =  16 then
+      call DISPLAY_MSG_NO ( 93);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_D         */
+
+/****************************************************************
+	BK_V_HOTEL
+	Create the hotel A/P estimates/Vouchers
+****************************************************************/
+
+BK_V_HOTEL:
+	procedure;
+
+%include "BK_V_HOTEL.DCL";
+call BK_V_HOTEL(
+   BK_TOUR_RECORD,
+   BK_TOUR_HDR_RECORD,
+   BK_BOOKING_RECORD,
+   BK_PASSENGERS_RECORD,
+   BK_DET_HOTEL_RECORD,
+   AP_OPEN_RECORD,
+   AP_CONTROL_RECORD,
+   BK_HOTEL_RECORD,
+   BK_HOTEL_DET_RECORD,
+   AD_CURR_RECORD,
+   ERROR_CODE);
+return;
+end;	/* BK_V_HOTEL           */
+
+/****************************************************************
+	BK_V_LAND
+	Create the A/P est/vouchers for land
+****************************************************************/
+
+BK_V_LAND:
+	procedure;
+
+%include "BK_V_LAND.DCL";
+call BK_V_LAND(
+   BK_TOUR_RECORD,
+   BK_TOUR_HDR_RECORD,
+   BK_BOOKING_RECORD,
+   BK_PASSENGERS_RECORD,
+   BK_DET_LAND_RECORD,
+   AP_OPEN_RECORD,
+   AP_CONTROL_RECORD,
+   BK_LAND_RECORD,
+   BK_LAND_DET_RECORD,
+   AD_CURR_RECORD,
+   BK_TRANS_RECORD,
+   BK_TRANS_PRICE_RECORD,
+   ERROR_CODE);
+return;
+end;	/* BK_V_LAND            */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  16 to  16;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	TABLE_MAINT
+	Table display/maintenance
+****************************************************************/
+
+TABLE_MAINT:
+	procedure;
+
+AP_OPEN_TOUR = TOUR_NO;
+AP_OPEN_TOUR_SAVE = AP_OPEN_TOUR;
+AP_START_SVC = 0;
+AP_ENTRY_NO = 0;
+call SET_POSITION (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_TOUR > AP_OPEN_TOUR_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 12;
+      AP_START_SVC_ARRAY(RECORD_NUMBER) = 0;
+      AP_ENTRY_NO_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      AP_OPEN_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (AP_OPEN_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 12) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  22 to  28;
+            if LOOP_INDEX =  24 then
+               do;
+
+               /* SET_V_TYPE - Set voucher type (hotel or land) */
+
+               if AP_V_BASED_BK = 0 then
+                  AP_OPEN_TYPE = "";
+               else
+                  do;
+                  if AP_V_BASED_SEQ = -1 then
+                     AP_OPEN_TYPE = "Land";
+                  else
+                     AP_OPEN_TYPE = "Hotel";
+                  end;
+
+               end;
+            if LOOP_INDEX =  25 then
+               do;
+
+               /* READ_SECOND - Read info and display secondary fileinfo */
+
+               AP_VEN_NO = AP_OPEN_VENDOR;
+               call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  AP_VEN_NAME = "** RECORD NOT FOUND **";
+                  end;
+               else
+                  do;
+                  end;
+               end;
+            if LOOP_INDEX =  27 then
+               do;
+
+               /* NO_NEW_STATUS - Blank status code */
+
+               AP_NEW_STATUS = "";
+
+               end;
+            if LOOP_INDEX =  28 then
+               do;
+
+               /* SET_V_DESC - Set the Voucher Status Description */
+
+               do case (AP_GL_STATUS + 1);
+                  AP_V_DESC = "TO Held";
+                  AP_V_DESC = "No stat.";
+                  AP_V_DESC = "T.O. Rqd";
+                  AP_V_DESC = "Wait Ack";
+                  AP_V_DESC = "Ack Rcvd";
+                  AP_V_DESC = "TO Prtd";
+                  AP_V_DESC = "Xln Reqd";
+                  AP_V_DESC = "Wait Xln";
+                  AP_V_DESC = "Ackn Xln";
+                  AP_V_DESC = "Xln Prtd";
+                  AP_V_DESC = "Reprt TO";
+                  AP_V_DESC = "Manual T";
+                  AP_V_DESC = "Dep Est ";
+                  AP_V_DESC = "Invoice ";
+                  AP_V_DESC = "Cr memo ";
+                  AP_V_DESC = "Prepaymt";
+                  AP_V_DESC = "Dr memo ";
+                  AP_V_DESC = "Payment ";
+                  AP_V_DESC = "Posted  ";
+               end;
+               otherwise
+                  AP_V_DESC = "No TO   ";
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  22 then
+               do;
+
+               /* FAKE_INPUT_LENGTH - Set the input length to a non-zero no. */
+
+               INPUT_LENGTH = 1;
+
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         AP_START_SVC_ARRAY(RECORD_NUMBER) = AP_START_SVC;
+         AP_ENTRY_NO_ARRAY(RECORD_NUMBER) = AP_ENTRY_NO;
+         call READ_NEXT (AP_OPEN_NO,KEY_AREA_3,AP_OPEN_ERROR);
+         if (AP_OPEN_TOUR > AP_OPEN_TOUR_SAVE) then
+            AP_OPEN_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      AP_START_SVC_SAVE = AP_START_SVC_ARRAY(12);
+      AP_ENTRY_NO_SAVE = AP_ENTRY_NO_ARRAY(12);
+      AP_OPEN_TOUR = AP_OPEN_TOUR_SAVE;
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = DELETE_TYPED) then
+         GET_OUT = YES;
+      else
+         if AP_OPEN_ERROR ^= END_OF_FILE then
+            do;
+            AP_START_SVC = AP_START_SVC_SAVE;
+            AP_ENTRY_NO = AP_ENTRY_NO_SAVE;
+            call SET_POSITION (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+            call READ_NEXT (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+            call READ_NEXT (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+            end;
+         else
+            if AP_START_SVC_ARRAY(12) = 0 then
+               GET_OUT = YES;
+            else
+               do;
+               ANSWER = "N";
+               if ANSWER = "N" then
+                  GET_OUT = YES;
+               else
+                  DISPLAY_RECORDS = NO;
+               end;
+      end;
+   else	/*DISPLAY_RECORDS = NO*/
+      do;
+      call DISPLAY_MESSAGE("There are no records to display");
+      call PRESS_RETURN;
+      GET_OUT = YES;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 12;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if AP_START_SVC_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =22 to  28;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_MAINT          */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 96,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 12 then
+   do;
+   RECORD_NUMBER = SELECT;
+   call BK_VOUCHERS_LINE;
+   call SET_ROW_OFFSET (0);
+   end;
+if SELECT = 92 then
+   do;
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO ( 93);
+   call INPUT_FIELD( 16,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   5 then
+      call DISPLAY_MSG_NO ( 83);
+   call INPUT_FIELD( 19,INPUT_LENGTH,RETURN_CODE);
+      do;
+
+      /* PRINT_H_VOUCHERS - Print all the hotel vouchers */
+
+      if H_FORM = "" then
+         H_FORM = "MULTIFORM";
+
+      if H_FORM = "DEFAULT" then
+         H_FORM = "MULTIFORM";
+
+      BK_H_FORM = "";
+
+      if (H_FORM ^= "T") & (H_FORM ^= "M") then
+         do;
+         declare PRINTER_NAME character(20) varying;
+         PRINTER_NAME = CUT_SPACES(H_FORM);
+         call OPEN_PRINTER(PRINTER_NAME);
+         if H_FORM = "MULTIFORM" then
+            do;
+            if (DOC_DOC_TYPE ^= "O") & (DOC_DOC_TYPE ^= "P") then
+               BK_H_FORM = "VOUCHER";
+            else
+               BK_H_FORM = "PAPER";
+            end;
+         end;
+
+      call PRINTING_OCCURRING;
+      call DUMP_BUFFER;
+
+
+      /* SET_FIRST_AP_OPEN - Set to the first tour detail */
+
+      AP_OPEN_TOUR = TOUR_NO;
+      AP_START_SVC = 0;
+      AP_ENTRY_NO = 0;
+      call SET_POSITION (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+      if (DOC_DOC_TYPE = "H")!(DOC_DOC_TYPE = "V")!(DOC_DOC_TYPE = "R") then
+         do;
+         END_GO_THRU_H_VCHRS = NO;
+         do while (END_GO_THRU_H_VCHRS ^= YES);
+            call GO_THRU_H_VCHRS;
+         end;
+         end;
+      if (DOC_DOC_TYPE = "L")!(DOC_DOC_TYPE = "W")!(DOC_DOC_TYPE = "S") then
+         do;
+         END_GO_THRU_L_VCHRS = NO;
+         do while (END_GO_THRU_L_VCHRS ^= YES);
+            call GO_THRU_L_VCHRS;
+         end;
+         end;
+      if DOC_DOC_TYPE = "O" then
+         do;
+         call PRT_ROOM_LIST;
+         end;
+      if DOC_DOC_TYPE = "P" then
+         do;
+         call PRT_PAX_LIST;
+         end;
+      call CLEAR_MESSAGE;
+
+      if (H_FORM ^= "T") & (H_FORM ^= "M") then
+         call CLOSE_PRINTER;
+
+
+      /* DISPLAY_SCREEN - Display the screen */
+
+      call OPEN_SCREEN;
+      call DISPLAY_SCREEN (BK_VOUCHERS_1);
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (BK_VOUCHERS_RECORD) );
+      call DISPLAY_DATA_A;
+      call TABLE_DISPLAY;
+      call DISPLAY_DATA_C;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = 99;
+
+      end;
+   end;
+if SELECT >= 95 then if SELECT <= 96 then
+   do;
+   if SELECT = 95 then
+      LOOP_INDEX = 20;
+   if SELECT = 96 then
+      LOOP_INDEX = 17;
+   if LOOP_INDEX =  17 then
+      call DISPLAY_MSG_NO ( 36);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  20 then
+      do;
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      AP_VEN_NO = AP_VEN_NO;
+      call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  21 to  21;
+            if LOOP_INDEX =  21 then
+               do;
+
+               /* READ_SECOND - Read info and display secondary fileinfo */
+
+               AP_VEN_NO = AP_OPEN_VENDOR;
+               call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  AP_VEN_NAME = "** RECORD NOT FOUND **";
+                  end;
+               else
+                  do;
+                  end;
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  17 then
+      do;
+
+      /* CHECK_H_REPRINT - Reprint hotel vouchers? */
+
+      if DOC_DOC_TYPE = " " then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         do;
+         END_CHANGE_ITEM = YES;
+         return;
+         end;
+         end;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	BK_VOUCHERS_LINE
+	Change one line in the secondary file
+****************************************************************/
+
+BK_VOUCHERS_LINE:
+	procedure;
+
+declare		REWRITE              bit (1);
+declare		DEL_RECORD           bit (1);
+call SET_ROW_OFFSET (RECORD_NUMBER - 1);
+REWRITE = NO;
+if AP_START_SVC_ARRAY(RECORD_NUMBER) ^= 0 then
+   do;
+   REWRITE = YES;
+   AP_START_SVC = AP_START_SVC_ARRAY(RECORD_NUMBER);
+   AP_ENTRY_NO = AP_ENTRY_NO_ARRAY(RECORD_NUMBER);
+   call READ_KEYED (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      return;
+      end;
+   do LOOP_INDEX = 22 to  28;
+      call CLEAR_FIELD (LOOP_INDEX);
+   end;
+   end;
+else
+   do;
+   call DISPLAY_MESSAGE ("Records may not be added!!!<BEL>"c);
+   call PRESS_RETURN;
+   return;
+   end;
+ERROR_CODE = 1;
+do while (ERROR_CODE ^= 0);
+   ERROR_CODE = 0;
+   do LOOP_INDEX =  22 to  22;
+      if LOOP_INDEX =  22 then
+         do;
+         call OUTPUT_FIELD (LOOP_INDEX);
+         LOOP_INDEX = 99;
+         end;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  22 then
+         do;
+
+         /* FAKE_INPUT_LENGTH - Set the input length to a non-zero no. */
+
+         INPUT_LENGTH = 1;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   if AP_ENTRY_NO = 0 then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   DEL_RECORD = YES;
+   if (INPUT_LENGTH ^= 0) & (RETURN_CODE ^= END_TYPED) then
+      do;
+      DEL_RECORD = NO;
+      do LOOP_INDEX =  23 to  28;
+         if LOOP_INDEX =  23 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =  24 then
+            do;
+
+            /* SET_V_TYPE - Set voucher type (hotel or land) */
+
+            if AP_V_BASED_BK = 0 then
+               AP_OPEN_TYPE = "";
+            else
+               do;
+               if AP_V_BASED_SEQ = -1 then
+                  AP_OPEN_TYPE = "Land";
+               else
+                  AP_OPEN_TYPE = "Hotel";
+               end;
+
+            end;
+         if LOOP_INDEX =  24 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =  25 then
+            do;
+
+            /* READ_SECOND - Read info and display secondary fileinfo */
+
+            AP_VEN_NO = AP_OPEN_VENDOR;
+            call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE = RECORD_NOT_FOUND then
+               do;
+               call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+               call PRESS_RETURN;
+               call CLEAR_MESSAGE;
+               RETURN_CODE = DO_AGAIN;
+               LOOP_INDEX = LOOP_INDEX - 1;
+               end;
+            else
+               do;
+               end;
+            end;
+         if LOOP_INDEX =  25 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =  26 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =  27 then
+            call DISPLAY_MSG_NO ( 99);
+         if LOOP_INDEX =  28 then
+            do;
+
+            /* SET_V_DESC - Set the Voucher Status Description */
+
+            do case (AP_GL_STATUS + 1);
+               AP_V_DESC = "TO Held";
+               AP_V_DESC = "No stat.";
+               AP_V_DESC = "T.O. Rqd";
+               AP_V_DESC = "Wait Ack";
+               AP_V_DESC = "Ack Rcvd";
+               AP_V_DESC = "TO Prtd";
+               AP_V_DESC = "Xln Reqd";
+               AP_V_DESC = "Wait Xln";
+               AP_V_DESC = "Ackn Xln";
+               AP_V_DESC = "Xln Prtd";
+               AP_V_DESC = "Reprt TO";
+               AP_V_DESC = "Manual T";
+               AP_V_DESC = "Dep Est ";
+               AP_V_DESC = "Invoice ";
+               AP_V_DESC = "Cr memo ";
+               AP_V_DESC = "Prepaymt";
+               AP_V_DESC = "Dr memo ";
+               AP_V_DESC = "Payment ";
+               AP_V_DESC = "Posted  ";
+            end;
+            otherwise
+               AP_V_DESC = "No TO   ";
+
+            end;
+         if LOOP_INDEX =  28 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = 99;
+            end;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+         if LOOP_INDEX =  27 then
+            do;
+
+            /* SET_NEW_STATUS - Set the new status */
+
+            if AP_NEW_STATUS = "H" then
+               do;
+               if (AP_GL_STATUS = REQ_VCHR) ! (AP_GL_STATUS = REQ_REPRT) then
+                  AP_GL_STATUS = HOLD_VCHR;
+               end;
+
+            if AP_NEW_STATUS = "P" then
+               do;
+               if (AP_GL_STATUS <= REQ_VCHR) & (AP_GL_STATUS ^= HOLD_VCHR) then
+                  AP_GL_STATUS = REQ_VCHR;
+               if (AP_GL_STATUS >= ACK_VCHR) & (AP_GL_STATUS <= VCHR_PRTD) !
+               (AP_GL_STATUS = HOLD_VCHR) then
+                  AP_GL_STATUS = REQ_REPRT;
+               if (AP_GL_STATUS >= CXL_REQ) & (AP_GL_STATUS <= CXL_PRTD) then
+                  AP_GL_STATUS = CXL_REQ;
+               end;
+
+            if AP_NEW_STATUS = "D" then
+               do;
+               if (AP_GL_STATUS = REQ_VCHR) ! (AP_GL_STATUS = REQ_REPRT) then
+                  AP_GL_STATUS = VCHR_PRTD;
+               if (AP_GL_STATUS = CXL_REQ) then
+                  AP_GL_STATUS = CXL_PRTD;
+               end;
+
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      INPUT_LENGTH = 1;
+      end;
+   ERROR_CODE = 0;
+   if DEL_RECORD = YES then
+      do;
+      AP_START_SVC = AP_START_SVC_ARRAY(RECORD_NUMBER);
+      if REWRITE = YES then
+         call DELETE_RECORD (AP_OPEN_NO,ERROR_CODE);
+      call CLEAR_FIELD(LOOP_INDEX);
+      AP_START_SVC = 0;
+      end;
+   else
+      do;
+      if REWRITE = NO then
+         call WRITE_RECORD (AP_OPEN_NO,ERROR_CODE);
+      else
+         call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+      end;
+   if ERROR_CODE ^= KEY_ALREADY_EXISTS then
+      do;
+      AP_START_SVC_ARRAY(RECORD_NUMBER) = AP_START_SVC;
+      AP_ENTRY_NO_ARRAY(RECORD_NUMBER) = AP_ENTRY_NO;
+      end;
+end;
+return;
+end;	/* BK_VOUCHERS_LINE     */
+
+/****************************************************************
+	GO_THRU_H_VCHRS
+	Go thru all the hotel vouchers
+****************************************************************/
+
+GO_THRU_H_VCHRS:
+	procedure;
+
+
+   /* READ_NEXT_AP_OPEN - Read next */
+
+   call READ_NEXT (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE  = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_AP_OPEN - Last detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_TOUR > TOUR_NO) then
+      do;
+      END_GO_THRU_H_VCHRS = YES;
+      return;
+      end;
+
+   /* TRY_AGAIN_IF_LOCK - Return if record locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      return;
+
+
+   /* SKIP_AP_LAND - Skip A/P land vouchers */
+
+   if AP_V_BASED_SEQ = -1 then
+      return;
+
+
+   /* SKIP_MAN_VOUCHER - Skip manually entered A/P voucher */
+
+   if AP_V_BASED_BK = 0 then
+      return;
+
+
+   /* SKIP_NO_HREQ - Skip if the document isn't requested */
+
+   if DOC_DOC_TYPE = "H" then
+      if (AP_GL_STATUS ^= REQ_VCHR) &
+         (AP_GL_STATUS ^= REQ_REPRT) &
+         (AP_GL_STATUS ^= CXL_REQ) then
+            return;
+
+
+   /* BEFORE_LOGIC_1 - Before logic */
+
+
+   /* CHECK_H_TELEX - Is this a telex voucher? */
+
+   if (H_FORM = "T") ! (H_FORM = "M") then
+      do;
+      declare VCHR_NO character(20);
+      VCHR_NO = AP_ENTRY_NO;
+      do LOOP_INDEX = 1 to 20;
+         if substr(VCHR_NO,1,1) = " " then
+            VCHR_NO = substr(VCHR_NO,2,19);
+      end;
+      declare PRINTER_FILE character(20) varying;
+      PRINTER_FILE = ":TELEX:" !! CUT_SPACES(VCHR_NO);
+      call OPEN_PRINTER(PRINTER_FILE);
+      end;
+
+
+   /* BK_H_VOUCHER - Call to print this voucher */
+
+   %include "BK_H_VOUCHER.DCL";
+   call BK_H_VOUCHER(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_DET_HOTEL_RECORD,
+      AP_OPEN_RECORD,
+      BK_HOTEL_RECORD,
+      TK_DETAIL_RECORD,
+      AP_VENDOR_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD,
+      BK_HOTEL_CAT_RECORD);
+
+   /* AFTER_LOGIC_1 - After logic */
+
+
+   /* CHECK_H_TELEX_A - If telex, close and set up telex */
+
+   if (H_FORM = "T") ! (H_FORM = "M") then
+      do;
+      call CLOSE_PRINTER;
+
+      /* GET_NEXT_NO - Get the next sequential telex number */
+
+      TELEX_NO = 0;
+      call SET_POSITION(BK_TELEX_NO,KEY_AREA_1,ERROR_CODE);
+
+      do while (ERROR_CODE ^= END_OF_FILE);
+         call READ_NEXT(BK_TELEX_NO+?KEY_ONLY,KEY_AREA_1,ERROR_CODE);
+      end;
+
+      TELEX_NO = TELEX_NO + 1;
+
+
+      /* SET_UP_TELEX - Set up the telex record */
+
+      TELEX_OR_FAX = AP_COMM_CODE;
+      if TELEX_OR_FAX ^= "E" then if TELEX_OR_FAX ^= "M" then if TELEX_OR_FAX ^= "F" then
+         TELEX_OR_FAX = "T";
+      TELEX_NUMBER = AP_VEN_TELEX;
+
+      if (AP_COMM_CODE = "F") ! (TELEX_NUMBER = "") then
+         do;
+         TELEX_OR_FAX = "F";
+         TELEX_NUMBER = AP_VEN_FAX;
+         end;
+
+      TELEX_ITIN_FMT = "N";
+      TELEX_VENDOR = AP_VEN_NO;
+      TELEX_NAME = AP_VEN_NAME;
+      TELEX_ADDR_1 = AP_ADDR_1;
+      TELEX_ADDR_2 = AP_ADDR_2;
+      TELEX_ADDR_3 = AP_ADDR_3;
+      TELEX_ADDR_4 = AP_ADDR_4;
+
+      TELEX_FILE = "";
+      TELEX_USER = USER_NAME();
+      TELEX_REF = BK_TOUR_NUM;
+
+      TELEX_FILE = PRINTER_FILE;
+      if H_FORM = "M" then
+         do;
+         TELEX_OR_FAX="M";
+         TELEX_NUMBER = AP_VEN_NO;
+         end;
+
+      /* WRITE_TELEX - Write the empty telex record */
+
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+         call WRITE_RECORD (BK_TELEX_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            TELEX_NO = TELEX_NO + 1;
+      end;
+
+      end;
+
+   if H_FORM ^= "T" then if H_FORM ^= "M" then if H_FORM ^= "MULTIFORM" then
+      call PRINT_LINE ("<FF>"c);
+
+
+   /* READ_AP_OPEN - Read the A/P Open record */
+
+   call READ_KEYED (AP_OPEN_NO,KEY_AREA_3,ERROR_AP_OPEN);
+   if ERROR_AP_OPEN > 3 then
+      call PRINT_ERROR (AP_OPEN_NO,ERROR_AP_OPEN);
+return;
+end;	/* GO_THRU_H_VCHRS      */
+
+/****************************************************************
+	GO_THRU_L_VCHRS
+	Go thru the land vouchers and print
+****************************************************************/
+
+GO_THRU_L_VCHRS:
+	procedure;
+
+
+   /* READ_NEXT_AP_OPEN - Read next */
+
+   call READ_NEXT (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE  = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_AP_OPEN - Last detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_TOUR > TOUR_NO) then
+      do;
+      END_GO_THRU_L_VCHRS = YES;
+      return;
+      end;
+
+   /* TRY_AGAIN_IF_LOCK - Return if record locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      return;
+
+
+   /* SKIP_AP_HOTEL - Skip hotel A/P estimates */
+
+   if AP_V_BASED_SEQ ^= -1 then
+      return;
+
+
+   /* SKIP_MAN_VOUCHER - Skip manually entered A/P voucher */
+
+   if AP_V_BASED_BK = 0 then
+      return;
+
+
+   /* SKIP_NO_LREQ - Skip if document isn't requested */
+
+   if DOC_DOC_TYPE = "L" then
+      if (AP_GL_STATUS ^= REQ_VCHR) &
+         (AP_GL_STATUS ^= REQ_REPRT) &
+         (AP_GL_STATUS ^= CXL_REQ) then
+            return;
+
+
+   /* BEFORE_LOGIC_2 - Before logic */
+
+
+   /* CHECK_H_TELEX - Is this a telex voucher? */
+
+   if (H_FORM = "T") ! (H_FORM = "M") then
+      do;
+      declare VCHR_NO character(20);
+      VCHR_NO = AP_ENTRY_NO;
+      do LOOP_INDEX = 1 to 20;
+         if substr(VCHR_NO,1,1) = " " then
+            VCHR_NO = substr(VCHR_NO,2,19);
+      end;
+      declare PRINTER_FILE character(20) varying;
+      PRINTER_FILE = ":TELEX:" !! CUT_SPACES(VCHR_NO);
+      call OPEN_PRINTER(PRINTER_FILE);
+      end;
+
+
+   /* BK_L_VOUCHER - Call the module to print this voucher */
+
+   %include "BK_L_VOUCHER.DCL";
+   call BK_L_VOUCHER(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_DET_LAND_RECORD,
+      AP_OPEN_RECORD,
+      BK_LAND_RECORD,
+      BK_TRANS_RECORD,
+      TK_DETAIL_RECORD,
+      AP_VENDOR_RECORD,
+      BK_HOTEL_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_ITIN_DET_RECORD);
+
+   /* AFTER_LOGIC_2 - After logic */
+
+
+   /* CHECK_H_TELEX_A - If telex, close and set up telex */
+
+   if (H_FORM = "T") ! (H_FORM = "M") then
+      do;
+      call CLOSE_PRINTER;
+
+      /* GET_NEXT_NO - Get the next sequential telex number */
+
+      TELEX_NO = 0;
+      call SET_POSITION(BK_TELEX_NO,KEY_AREA_1,ERROR_CODE);
+
+      do while (ERROR_CODE ^= END_OF_FILE);
+         call READ_NEXT(BK_TELEX_NO+?KEY_ONLY,KEY_AREA_1,ERROR_CODE);
+      end;
+
+      TELEX_NO = TELEX_NO + 1;
+
+
+      /* SET_UP_TELEX - Set up the telex record */
+
+      TELEX_OR_FAX = AP_COMM_CODE;
+      if TELEX_OR_FAX ^= "E" then if TELEX_OR_FAX ^= "M" then if TELEX_OR_FAX ^= "F" then
+         TELEX_OR_FAX = "T";
+      TELEX_NUMBER = AP_VEN_TELEX;
+
+      if (AP_COMM_CODE = "F") ! (TELEX_NUMBER = "") then
+         do;
+         TELEX_OR_FAX = "F";
+         TELEX_NUMBER = AP_VEN_FAX;
+         end;
+
+      TELEX_ITIN_FMT = "N";
+      TELEX_VENDOR = AP_VEN_NO;
+      TELEX_NAME = AP_VEN_NAME;
+      TELEX_ADDR_1 = AP_ADDR_1;
+      TELEX_ADDR_2 = AP_ADDR_2;
+      TELEX_ADDR_3 = AP_ADDR_3;
+      TELEX_ADDR_4 = AP_ADDR_4;
+
+      TELEX_FILE = "";
+      TELEX_USER = USER_NAME();
+      TELEX_REF = BK_TOUR_NUM;
+
+      TELEX_FILE = PRINTER_FILE;
+      if H_FORM = "M" then
+         do;
+         TELEX_OR_FAX="M";
+         TELEX_NUMBER = AP_VEN_NO;
+         end;
+
+      /* WRITE_TELEX - Write the empty telex record */
+
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+         call WRITE_RECORD (BK_TELEX_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            TELEX_NO = TELEX_NO + 1;
+      end;
+
+      end;
+
+   if H_FORM ^= "T" then if H_FORM ^= "M" then if H_FORM ^= "MULTIFORM" then
+      call PRINT_LINE ("<FF>"c);
+
+
+   /* READ_AP_OPEN - Read the A/P Open record */
+
+   call READ_KEYED (AP_OPEN_NO,KEY_AREA_3,ERROR_AP_OPEN);
+   if ERROR_AP_OPEN > 3 then
+      call PRINT_ERROR (AP_OPEN_NO,ERROR_AP_OPEN);
+return;
+end;	/* GO_THRU_L_VCHRS      */
+
+/****************************************************************
+	PRT_ROOM_LIST
+	Print the rooming list
+****************************************************************/
+
+PRT_ROOM_LIST:
+	procedure;
+
+
+   /* ENTER_V_IF_T - Enter the voucher if this is a teles */
+
+   if (H_FORM = "T") ! (H_FORM = "M") then
+      do;
+      call ENTER_DATA_F;
+
+      /* RETURN_IF_INP_ERR - Return if input error */
+
+      if ERROR_INPUT_SCREEN then
+         return;
+
+      AP_ENTRY_NO = abs(CURRENT_TIME());
+      end;
+
+
+   /* CHECK_H_TELEX - Is this a telex voucher? */
+
+   if (H_FORM = "T") ! (H_FORM = "M") then
+      do;
+      declare VCHR_NO character(20);
+      VCHR_NO = AP_ENTRY_NO;
+      do LOOP_INDEX = 1 to 20;
+         if substr(VCHR_NO,1,1) = " " then
+            VCHR_NO = substr(VCHR_NO,2,19);
+      end;
+      declare PRINTER_FILE character(20) varying;
+      PRINTER_FILE = ":TELEX:" !! CUT_SPACES(VCHR_NO);
+      call OPEN_PRINTER(PRINTER_FILE);
+      end;
+
+
+   /* BK_ROOM_LIST - Print the pax rooming list */
+
+   %include "BK_ROOM_LIST.DCL";
+   call BK_ROOM_LIST(
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD);
+
+   /* CHECK_P_TELEX_A - Set up if telex */
+
+   if H_FORM = "T" then
+      do;
+      call CLOSE_PRINTER;
+
+      /* RETURN_IF_INP_ERR - Return if input error */
+
+      if ERROR_INPUT_SCREEN then
+         return;
+
+
+      /* GET_NEXT_NO - Get the next sequential telex number */
+
+      TELEX_NO = 0;
+      call SET_POSITION(BK_TELEX_NO,KEY_AREA_1,ERROR_CODE);
+
+      do while (ERROR_CODE ^= END_OF_FILE);
+         call READ_NEXT(BK_TELEX_NO+?KEY_ONLY,KEY_AREA_1,ERROR_CODE);
+      end;
+
+      TELEX_NO = TELEX_NO + 1;
+
+
+      /* SET_UP_TELEX - Set up the telex record */
+
+      TELEX_OR_FAX = AP_COMM_CODE;
+      if TELEX_OR_FAX ^= "E" then if TELEX_OR_FAX ^= "M" then if TELEX_OR_FAX ^= "F" then
+         TELEX_OR_FAX = "T";
+      TELEX_NUMBER = AP_VEN_TELEX;
+
+      if (AP_COMM_CODE = "F") ! (TELEX_NUMBER = "") then
+         do;
+         TELEX_OR_FAX = "F";
+         TELEX_NUMBER = AP_VEN_FAX;
+         end;
+
+      TELEX_ITIN_FMT = "N";
+      TELEX_VENDOR = AP_VEN_NO;
+      TELEX_NAME = AP_VEN_NAME;
+      TELEX_ADDR_1 = AP_ADDR_1;
+      TELEX_ADDR_2 = AP_ADDR_2;
+      TELEX_ADDR_3 = AP_ADDR_3;
+      TELEX_ADDR_4 = AP_ADDR_4;
+
+      TELEX_FILE = "";
+      TELEX_USER = USER_NAME();
+      TELEX_REF = BK_TOUR_NUM;
+
+      TELEX_FILE = PRINTER_FILE;
+
+      /* WRITE_TELEX - Write the empty telex record */
+
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+         call WRITE_RECORD (BK_TELEX_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            TELEX_NO = TELEX_NO + 1;
+      end;
+
+      end;
+
+   if H_FORM ^= "T" then if H_FORM ^= "MULTIFORM" then
+      call PRINT_LINE ("<FF>"c);
+
+return;
+end;	/* PRT_ROOM_LIST        */
+
+/****************************************************************
+	ENTER_DATA_F
+	Enter the data in group F
+****************************************************************/
+
+ENTER_DATA_F:
+	procedure;
+
+do LOOP_INDEX =  20 to  20;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  20 then
+      do;
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      AP_VEN_NO = AP_VEN_NO;
+      call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  21 to  21;
+            if LOOP_INDEX =  21 then
+               do;
+
+               /* READ_SECOND - Read info and display secondary fileinfo */
+
+               AP_VEN_NO = AP_OPEN_VENDOR;
+               call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  AP_VEN_NAME = "** RECORD NOT FOUND **";
+                  end;
+               else
+                  do;
+                  end;
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_F         */
+
+/****************************************************************
+	PRT_PAX_LIST
+	Print the passenger list
+****************************************************************/
+
+PRT_PAX_LIST:
+	procedure;
+
+
+   /* ENTER_V_IF_T - Enter the voucher if this is a teles */
+
+   if (H_FORM = "T") ! (H_FORM = "M") then
+      do;
+      call ENTER_DATA_F;
+
+      /* RETURN_IF_INP_ERR - Return if input error */
+
+      if ERROR_INPUT_SCREEN then
+         return;
+
+      AP_ENTRY_NO = abs(CURRENT_TIME());
+      end;
+
+
+   /* CHECK_H_TELEX - Is this a telex voucher? */
+
+   if (H_FORM = "T") ! (H_FORM = "M") then
+      do;
+      declare VCHR_NO character(20);
+      VCHR_NO = AP_ENTRY_NO;
+      do LOOP_INDEX = 1 to 20;
+         if substr(VCHR_NO,1,1) = " " then
+            VCHR_NO = substr(VCHR_NO,2,19);
+      end;
+      declare PRINTER_FILE character(20) varying;
+      PRINTER_FILE = ":TELEX:" !! CUT_SPACES(VCHR_NO);
+      call OPEN_PRINTER(PRINTER_FILE);
+      end;
+
+
+   /* BK_PAX_LIST - Print the tour passenger list */
+
+   %include "BK_PAX_LIST.DCL";
+   call BK_PAX_LIST(
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD);
+
+   /* CHECK_H_TELEX_A - If telex, close and set up telex */
+
+   if (H_FORM = "T") ! (H_FORM = "M") then
+      do;
+      call CLOSE_PRINTER;
+
+      /* GET_NEXT_NO - Get the next sequential telex number */
+
+      TELEX_NO = 0;
+      call SET_POSITION(BK_TELEX_NO,KEY_AREA_1,ERROR_CODE);
+
+      do while (ERROR_CODE ^= END_OF_FILE);
+         call READ_NEXT(BK_TELEX_NO+?KEY_ONLY,KEY_AREA_1,ERROR_CODE);
+      end;
+
+      TELEX_NO = TELEX_NO + 1;
+
+
+      /* SET_UP_TELEX - Set up the telex record */
+
+      TELEX_OR_FAX = AP_COMM_CODE;
+      if TELEX_OR_FAX ^= "E" then if TELEX_OR_FAX ^= "M" then if TELEX_OR_FAX ^= "F" then
+         TELEX_OR_FAX = "T";
+      TELEX_NUMBER = AP_VEN_TELEX;
+
+      if (AP_COMM_CODE = "F") ! (TELEX_NUMBER = "") then
+         do;
+         TELEX_OR_FAX = "F";
+         TELEX_NUMBER = AP_VEN_FAX;
+         end;
+
+      TELEX_ITIN_FMT = "N";
+      TELEX_VENDOR = AP_VEN_NO;
+      TELEX_NAME = AP_VEN_NAME;
+      TELEX_ADDR_1 = AP_ADDR_1;
+      TELEX_ADDR_2 = AP_ADDR_2;
+      TELEX_ADDR_3 = AP_ADDR_3;
+      TELEX_ADDR_4 = AP_ADDR_4;
+
+      TELEX_FILE = "";
+      TELEX_USER = USER_NAME();
+      TELEX_REF = BK_TOUR_NUM;
+
+      TELEX_FILE = PRINTER_FILE;
+      if H_FORM = "M" then
+         do;
+         TELEX_OR_FAX="M";
+         TELEX_NUMBER = AP_VEN_NO;
+         end;
+
+      /* WRITE_TELEX - Write the empty telex record */
+
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+         call WRITE_RECORD (BK_TELEX_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            TELEX_NO = TELEX_NO + 1;
+      end;
+
+      end;
+
+   if H_FORM ^= "T" then if H_FORM ^= "M" then if H_FORM ^= "MULTIFORM" then
+      call PRINT_LINE ("<FF>"c);
+
+return;
+end;	/* PRT_PAX_LIST         */
+
+/****************************************************************
+	ENTER_DOC_FORMAT
+	Enter the document format (until end)
+****************************************************************/
+
+ENTER_DOC_FORMAT:
+	procedure;
+
+   call ENTER_DATA_E;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ENTER_DOC_FORMAT = YES;
+      return;
+      end;
+
+return;
+end;	/* ENTER_DOC_FORMAT     */
+
+/****************************************************************
+	ENTER_DATA_E
+	Enter the data in screen group E
+****************************************************************/
+
+ENTER_DATA_E:
+	procedure;
+
+H_FORMAT = "DEFAULT";
+H_FORM = "T";
+do LOOP_INDEX =  17 to  19;
+   if LOOP_INDEX =  17 then
+      call DISPLAY_MSG_NO ( 36);
+   if LOOP_INDEX =  18 then
+      call DISPLAY_MSG_NO ( 81);
+   if LOOP_INDEX =  18 then
+      do;
+
+      /* SET_H_DEFAULT - Set up the H default */
+
+      if DOC_DOC_TYPE = "L" then
+         H_FORMAT = "LTL";
+      if DOC_DOC_TYPE = "H" then
+         H_FORMAT = "HTL";
+
+      end;
+   if LOOP_INDEX =  19 then
+      call DISPLAY_MSG_NO ( 83);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  17 then
+      do;
+
+      /* CHECK_H_REPRINT - Reprint hotel vouchers? */
+
+      if DOC_DOC_TYPE = " " then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+
+      end;
+   if LOOP_INDEX =  18 then
+      do;
+
+      /* CHECK_H_FORM - Hotel format */
+
+      if H_FORMAT = "DEFAULT" then
+         H_FORMAT = "";
+
+      DOC_NAME = H_FORMAT;
+
+      end;
+   if LOOP_INDEX =  19 then
+      do;
+
+      /* PRINT_H_VOUCHERS - Print all the hotel vouchers */
+
+      if H_FORM = "" then
+         H_FORM = "MULTIFORM";
+
+      if H_FORM = "DEFAULT" then
+         H_FORM = "MULTIFORM";
+
+      BK_H_FORM = "";
+
+      if (H_FORM ^= "T") & (H_FORM ^= "M") then
+         do;
+         declare PRINTER_NAME character(20) varying;
+         PRINTER_NAME = CUT_SPACES(H_FORM);
+         call OPEN_PRINTER(PRINTER_NAME);
+         if H_FORM = "MULTIFORM" then
+            do;
+            if (DOC_DOC_TYPE ^= "O") & (DOC_DOC_TYPE ^= "P") then
+               BK_H_FORM = "VOUCHER";
+            else
+               BK_H_FORM = "PAPER";
+            end;
+         end;
+
+      call PRINTING_OCCURRING;
+      call DUMP_BUFFER;
+
+
+      /* SET_FIRST_AP_OPEN - Set to the first tour detail */
+
+      AP_OPEN_TOUR = TOUR_NO;
+      AP_START_SVC = 0;
+      AP_ENTRY_NO = 0;
+      call SET_POSITION (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+      if (DOC_DOC_TYPE = "H")!(DOC_DOC_TYPE = "V")!(DOC_DOC_TYPE = "R") then
+         do;
+         END_GO_THRU_H_VCHRS = NO;
+         do while (END_GO_THRU_H_VCHRS ^= YES);
+            call GO_THRU_H_VCHRS;
+         end;
+         end;
+      if (DOC_DOC_TYPE = "L")!(DOC_DOC_TYPE = "W")!(DOC_DOC_TYPE = "S") then
+         do;
+         END_GO_THRU_L_VCHRS = NO;
+         do while (END_GO_THRU_L_VCHRS ^= YES);
+            call GO_THRU_L_VCHRS;
+         end;
+         end;
+      if DOC_DOC_TYPE = "O" then
+         do;
+         call PRT_ROOM_LIST;
+         end;
+      if DOC_DOC_TYPE = "P" then
+         do;
+         call PRT_PAX_LIST;
+         end;
+      call CLEAR_MESSAGE;
+
+      if (H_FORM ^= "T") & (H_FORM ^= "M") then
+         call CLOSE_PRINTER;
+
+
+      /* DISPLAY_SCREEN - Display the screen */
+
+      call OPEN_SCREEN;
+      call DISPLAY_SCREEN (BK_VOUCHERS_1);
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (BK_VOUCHERS_RECORD) );
+      call DISPLAY_DATA_A;
+      call TABLE_DISPLAY;
+      call DISPLAY_DATA_C;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = 99;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_E         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_TOUR_DOC_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (BK_TELEX_NO);
+   call CLOSE_FILE (BK_LAND_NO);
+   call CLOSE_FILE (BK_TRANS_NO);
+   call CLOSE_FILE (AP_CONTROL_NO);
+   call CLOSE_FILE (BK_HOTEL_DET_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (BK_LAND_DET_NO);
+   call CLOSE_FILE (BK_TRANS_PRICE_NO);
+   call CLOSE_FILE (BK_ITIN_DET_NO);
+   call CLOSE_FILE (BK_HOTEL_CAT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

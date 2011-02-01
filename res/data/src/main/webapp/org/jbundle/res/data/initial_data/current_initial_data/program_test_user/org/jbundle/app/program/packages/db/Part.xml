@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<Part ID="18">
+		<LastChanged>2009-02-12T14:51:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>thindbtest</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>3</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="19">
+		<LastChanged>2009-02-12T14:51:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>thindbvet</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>3</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="20">
+		<LastChanged>2009-02-12T14:51:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>restest</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>3</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="21">
+		<LastChanged>2009-02-12T14:51:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>resvet</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>3</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="22">
+		<LastChanged>2009-02-12T14:51:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>thintest</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>3</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="23">
+		<LastChanged>2009-02-12T14:51:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>notusedtest</Description>
+		<Sequence/>
+		<Kind/>
+		<PartType/>
+		<JnlpFileID>5</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="64">
+		<LastChanged>2009-02-12T14:51:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>thicktest</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>10</JnlpFileID>
+		<Path/>
+	</Part>
+</file>

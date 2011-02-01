@@ -1,0 +1,672 @@
+/****************************************************************
+	Module: BK_CTL_MAINT
+	Top Level Logic: CONTROL_FILE_MAINT
+	Date: 19-Jun-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_CTL_MAINT
+	Control file maintenance
+****************************************************************/
+
+%replace BK_CTL_MAINT_1 by 306;
+BK_CTL_MAINT:
+   procedure;
+%replace BK_CONTROL_NO by  47;
+%replace GL_CHART_NO by  16;
+%include "BK_CONTROL.DD";
+%include "GL_CHART.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		DISPLAY_REC          bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		ERROR_BK_CONTROL     fixed binary (15);
+declare		END_CTL_CHANGE_ITEM  bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   call CTL_SCREEN_IO;
+   call CTL_END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   BK_REC_NO = 9999;
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   DISPLAY_REC = YES;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_CTL_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_CONTROL_NO,"BK_CONTROL",byteaddr(BK_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	CTL_SCREEN_IO
+	Screen I/O for control file maint.
+****************************************************************/
+
+CTL_SCREEN_IO:
+	procedure;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_CTL_MAINT_1);
+   NOT_FIRST_TIME = YES;
+
+   /* CHECK_FIRST - Check to see if this is the first time! */
+
+   DISPLAY_REC = YES;
+   LOOP_INDEX = 1;
+   call GET_CORRECT_REC;	/* If first time - will return an error */
+   FIRST_ITEM = 1;
+
+
+   /* CTL_RECORD_FOUND - Record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_CONTROL = NORMAL_RETURN then
+      do;
+      call CTL_DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* CTL_INPUT_STUFF - This is the first time, Input the data */
+
+
+         /* SET_DISPLAY_NO - Set the display flag to NO */
+
+         DISPLAY_REC = NO;
+
+         call CTL_INPUT_SCREEN;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+
+   /* SET_DISPLAY_NO - Set the display flag to NO */
+
+   DISPLAY_REC = NO;
+
+   END_CTL_CHANGE_ITEM = NO;
+   do while (END_CTL_CHANGE_ITEM ^= YES);
+      call CTL_CHANGE_ITEM;
+   end;
+return;
+end;	/* CTL_SCREEN_IO        */
+
+/****************************************************************
+	CTL_DISPLAY_DATA
+	Display the items on the screen
+****************************************************************/
+
+CTL_DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX = FIRST_ITEM to  30;
+   call GET_CORRECT_REC;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =   8 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = BK_INCOME_DEF;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =   9 to   9;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  10 then
+      do;
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      GL_ACCOUNT_NO = BK_COST_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  11 to  11;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* READ_SECOND_3 - Read second */
+
+      GL_ACCOUNT_NO = BK_AIR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  13 to  13;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* READ_SECOND_4 - read secondary file */
+
+      GL_ACCOUNT_NO = BK_PP_AIR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  15 to  15;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = BK_OVERRIDES_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  17 to  17;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* CTL_DISPLAY_DATA     */
+
+/****************************************************************
+	GET_CORRECT_REC
+	Get the correct record for this field
+****************************************************************/
+
+GET_CORRECT_REC:
+	procedure;
+
+declare		NEW_REC_NO           fixed binary (15);
+if LOOP_INDEX = 0 then
+   NEW_REC_NO = 9999;
+
+ERROR_BK_CONTROL = NORMAL_RETURN;
+if LOOP_INDEX >=  1 then if LOOP_INDEX <= 17 then
+   NEW_REC_NO =   0;
+if LOOP_INDEX = 18 then
+   NEW_REC_NO =   1;
+if LOOP_INDEX = 19 then
+   NEW_REC_NO =   2;
+if LOOP_INDEX = 20 then
+   NEW_REC_NO =   3;
+if LOOP_INDEX = 21 then
+   NEW_REC_NO =   4;
+if LOOP_INDEX = 22 then
+   NEW_REC_NO =   5;
+if LOOP_INDEX = 23 then
+   NEW_REC_NO =   6;
+if LOOP_INDEX = 24 then
+   NEW_REC_NO =   7;
+if LOOP_INDEX = 25 then
+   NEW_REC_NO =   8;
+if LOOP_INDEX = 26 then
+   NEW_REC_NO =   9;
+if LOOP_INDEX = 27 then
+   NEW_REC_NO =  10;
+if LOOP_INDEX = 28 then
+   NEW_REC_NO =  11;
+if LOOP_INDEX = 29 then
+   NEW_REC_NO =  12;
+if LOOP_INDEX = 30 then
+   NEW_REC_NO =  13;
+if NEW_REC_NO ^= BK_REC_NO then
+   do;
+   if DISPLAY_REC ^= YES then
+      call UPDATE_RECORD (BK_CONTROL_NO,ERROR_BK_CONTROL);
+   BK_REC_NO = NEW_REC_NO;
+   if LOOP_INDEX ^= 0 then
+      do;
+      call READ_KEYED (BK_CONTROL_NO,KEY_AREA_1,ERROR_BK_CONTROL);
+      if ERROR_BK_CONTROL = RECORD_NOT_FOUND then
+         do;
+         call WRITE_RECORD (BK_CONTROL_NO,ERROR_BK_CONTROL);
+         ERROR_BK_CONTROL = RECORD_NOT_FOUND;
+         end;
+      end;
+   end;
+return;
+end;	/* GET_CORRECT_REC      */
+
+/****************************************************************
+	CTL_INPUT_SCREEN
+	Input thhe items on the screen
+****************************************************************/
+
+CTL_INPUT_SCREEN:
+	procedure;
+
+BK_DEPOSIT_DAYS = 10;
+BK_FINAL_DAYS = 30;
+BK_FINALIZATION = 30;
+BK_FINAL_DOCS = 15;
+BK_TICKETING_DAYS = 5;
+BK_INCOME_DEF = 0;
+GL_ACCOUNT_DESC = "";
+BK_COST_GL = 0;
+GL_ACCOUNT_DESC = "";
+BK_AIR_GL = 0;
+GL_ACCOUNT_DESC = "";
+BK_PP_AIR_GL = 0;
+GL_ACCOUNT_DESC = "";
+BK_OVERRIDES_GL = 0;
+GL_ACCOUNT_DESC = "";
+BK_R_FORM = "";
+BK_S_FORM = "";
+BK_Q_FORM = "";
+BK_B_FORM = "";
+BK_H_FORM = "";
+BK_L_FORM = "";
+BK_T_FORM = "";
+BK_V_FORM = "";
+BK_W_FORM = "";
+BK_I_FORM = "";
+BK_C_FORM = "";
+BK_O_FORM = "";
+BK_P_FORM = "";
+do LOOP_INDEX = FIRST_ITEM to  30;
+   call GET_CORRECT_REC;
+   if LOOP_INDEX =   9 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =  11 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =  13 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =  17 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   8 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = BK_INCOME_DEF;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   9 to   9;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  10 then
+      do;
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      GL_ACCOUNT_NO = BK_COST_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  11 to  11;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* READ_SECOND_3 - Read second */
+
+      GL_ACCOUNT_NO = BK_AIR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  13 to  13;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* READ_SECOND_4 - read secondary file */
+
+      GL_ACCOUNT_NO = BK_PP_AIR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  15 to  15;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = BK_OVERRIDES_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  17 to  17;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* CTL_INPUT_SCREEN     */
+
+/****************************************************************
+	CTL_CHANGE_ITEM
+	Change items on the screen
+****************************************************************/
+
+CTL_CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+call ANY_CHANGE (1, 25,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CTL_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CTL_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 25 then
+   do;
+   if SELECT <=  8 then
+      LOOP_INDEX = SELECT;
+   if SELECT =  9 then
+      LOOP_INDEX = 10;
+   if SELECT = 10 then
+      LOOP_INDEX = 12;
+   if SELECT = 11 then
+      LOOP_INDEX = 14;
+   if SELECT = 12 then
+      LOOP_INDEX = 16;
+   if SELECT >= 13 then
+      LOOP_INDEX = SELECT +   5;
+   call GET_CORRECT_REC;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   8 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = BK_INCOME_DEF;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   9 to   9;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  10 then
+      do;
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      GL_ACCOUNT_NO = BK_COST_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  11 to  11;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* READ_SECOND_3 - Read second */
+
+      GL_ACCOUNT_NO = BK_AIR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  13 to  13;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* READ_SECOND_4 - read secondary file */
+
+      GL_ACCOUNT_NO = BK_PP_AIR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  15 to  15;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = BK_OVERRIDES_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  17 to  17;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CTL_CHANGE_ITEM      */
+
+/****************************************************************
+	CTL_END_PROGRAM
+	End of control maint program
+****************************************************************/
+
+CTL_END_PROGRAM:
+	procedure;
+
+
+   /* WRITE_LAST_CTL - Write out the last control file record */
+
+   LOOP_INDEX = 0;
+   call GET_CORRECT_REC;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_CONTROL_NO);
+   call CLOSE_FILE (GL_CHART_NO);
+return;
+end;	/* CTL_END_PROGRAM      */
+end;	/* CTL_END_PROGRAM      */
+/*********************************End of Program*********************/

@@ -1,0 +1,420 @@
+/****************************************************************
+	Module: PR_GL_POST
+	Top Level Logic: REPORT_LOGIC
+	Date: 14-May-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	PR_GL_POST
+	Standard report logic
+****************************************************************/
+
+%replace PR_GL_POST_1 by  85;
+%replace PR_GL_POST_2 by  86;
+PR_GL_POST:
+   procedure;
+%replace PR_GL_DIST_NO by  28;
+%replace GL_DETAIL_NO by  17;
+%include "PR_GL_POST.DD";
+%include "PR_GL_DIST.DD";
+%include "GL_DETAIL.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+declare		END_POST_PR_DIST     bit (1);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   START_GL_DATE = 0;
+   END_GL_DATE = TODAYS_DATE();
+   PR_POST_TODAY = TODAYS_DATE();
+   PR_POST_TIME = CURRENT_TIME();
+   PR_POST_USER = USER_NAME();
+   PR_POST_PAGE = 1;
+   PR_POST_TOTAL = 0;
+   GL_TRX_DATE = TODAYS_DATE();
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_TRX_AMOUNT = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (PR_GL_POST_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (PR_GL_POST_RECORD) );
+   call OPEN_FILE (PR_GL_DIST_NO,"PR_GL_DIST",byteaddr(PR_GL_DIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (PR_GL_DIST_NO,ERROR_CODE);
+   call OPEN_FILE (GL_DETAIL_NO,"GL_DETAIL",byteaddr(GL_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (PR_GL_POST_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   PR_GL_DATE = START_GL_DATE;
+   PR_GL_NUMBER = 0;
+   call SET_POSITION (PR_GL_DIST_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =   7 to   8;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+   call POST_PAYROLL;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  1,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT =  1 then
+   do;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+PR_POST_PAGE = PR_POST_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (PR_GL_DIST_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (PR_GL_DIST_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (PR_GL_DATE > END_GL_DATE) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =   6 to   6;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+   PR_POST_TOTAL = PR_POST_TOTAL + 1;
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	POST_PAYROLL
+	Post the payroll files
+****************************************************************/
+
+POST_PAYROLL:
+	procedure;
+
+declare		ANSWER               character (1);
+
+   /* CHECK_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure?");
+   call INPUT_DATA(23,24,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+   END_POST_PR_DIST = NO;
+   do while (END_POST_PR_DIST ^= YES);
+      call POST_PR_DIST;
+   end;
+return;
+end;	/* POST_PAYROLL         */
+
+/****************************************************************
+	POST_PR_DIST
+	Post the P/R distribution
+****************************************************************/
+
+POST_PR_DIST:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   PR_GL_DATE = START_GL_DATE;
+   PR_GL_NUMBER = 0;
+   call SET_POSITION (PR_GL_DIST_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (PR_GL_DIST_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (PR_GL_DIST_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (PR_GL_DATE > END_GL_DATE) then
+      do;
+      END_POST_PR_DIST = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* SETUP_PR_GL - Setup up the P/R G/L distribution rec. */
+
+   GL_AC_NO = PR_GL_NUMBER;
+   GL_TRX_DATE = PR_GL_DATE;
+   GL_TRX_ENTRY = PR_POST_TODAY;
+   GL_SEQ_NO = 1;
+   GL_TRX_AMOUNT = PR_GL_AMOUNT;
+   GL_SOURCE = "Payroll";
+   GL_REFERENCE = "Payroll auto post";
+
+
+   /* WRITE_RECORD_5 - Write record */
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (GL_DETAIL_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         GL_SEQ_NO = GL_SEQ_NO + 1;
+   end;
+
+   /* DELETE_RECORD - Delete the record */
+
+   call DELETE_RECORD (PR_GL_DIST_NO,ERROR_CODE);
+return;
+end;	/* POST_PR_DIST         */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (PR_GL_DIST_NO);
+   call CLOSE_FILE (GL_DETAIL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

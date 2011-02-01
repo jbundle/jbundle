@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_AVAIL_CLEAR File
+********************************************************************/
+
+declare	1 BK_AVAIL_CLEAR_RECORD,
+		3 CLEAR_START_DATE     fixed binary (15),
+		3 CLEAR_END_DATE       fixed binary (15);
+

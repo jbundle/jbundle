@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<ContactCategory ID="1">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Family</Description>
+	</ContactCategory>
+	<ContactCategory ID="2">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Friend</Description>
+	</ContactCategory>
+	<ContactCategory ID="3">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Dancer</Description>
+	</ContactCategory>
+	<ContactCategory ID="4">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>IBM</Description>
+	</ContactCategory>
+</file>

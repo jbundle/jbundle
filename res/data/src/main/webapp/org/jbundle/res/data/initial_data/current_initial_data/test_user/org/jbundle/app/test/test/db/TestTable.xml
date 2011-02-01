@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<TestTable ID="1">
+		<LastChanged>2010-11-30T17:51:21</LastChanged>
+		<Deleted>N</Deleted>
+		<TestCode/>
+		<TestName>TEST 1</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>2010-11-30T17:51:15</TestDateTime>
+		<TestDate/>
+		<TestTime>17:51:21</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>12,345.67000000</TestReal>
+		<TestCurrency/>
+		<TestPassword/>
+		<TestVirtual/>
+		<TestKey/>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+		<TestProperties/>
+		<TestSecond/>
+		<TestEncrypted/>
+	</TestTable>
+	<TestTable ID="2">
+		<LastChanged>2010-11-30T17:51:25</LastChanged>
+		<Deleted>N</Deleted>
+		<TestCode/>
+		<TestName>TEST 2</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>2010-11-30T17:51:21</TestDateTime>
+		<TestDate/>
+		<TestTime>17:51:25</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>12,345.67000000</TestReal>
+		<TestCurrency/>
+		<TestPassword/>
+		<TestVirtual/>
+		<TestKey/>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+		<TestProperties/>
+		<TestSecond/>
+		<TestEncrypted/>
+	</TestTable>
+</file>

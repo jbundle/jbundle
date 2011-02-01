@@ -1,0 +1,13 @@
+/*********************************************************************
+	BK_AVAIL_ADD File
+********************************************************************/
+
+declare	1 BK_AVAIL_ADD_RECORD,
+		3 AVAIL_MAX_RMS        fixed binary (15),
+		3 DTL_ROOM_TYPE        fixed binary (15),
+		3 DTL_DATE             fixed binary (15),
+		3 DTL_NO_DAYS          fixed binary (15),
+		3 DTL_BOOKING_NO       fixed binary (31),
+		3 DTL_NO_ROOMS         fixed binary (15),
+		3 DAY_OF_WEEK          character (        9);
+

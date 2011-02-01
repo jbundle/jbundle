@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+  <properties>
+    <title>Welcome</title>
+    <author email="don@tourgeek.com">Don Corley</author>
+  </properties>
+  <body>
+    <section name="JBundle - Creating a sample application">
+      <p>
+      
+<![CDATA[
+      Fix it all!
+      
+      1. jbundle deploy
+         1. Fix packages
+            1. Fix thin.jnlp.vm (in database)
+         2. Split util-web-schema project off
+         3. OSGify JiBX project
+            2. Move to test dir.
+            3. Compile, test
+            4. Compile opentravel schema
+            5. Simple Schema test - Call it the jibx schema project org.ow2.jibx.org.opentravel._2010b.Xxxx
+            	1. Create currency convert project (See jaxb project)
+            	2. -- Keep archetype in mind --
+            6. EMail to Dennis/Chameleon
+            	1. Look at sample project
+            	2. What package name (jibx?) (schema?) org.ow2.jibx
+            7. Sample opentravel project
+            8. -- keep traveltech article in mind
+         4. OSGify JBundle project
+            1. Get rid of JAXB schemas
+            2. Fix package paths on doc and images
+            3. Add IPOJO plugins and manifests
+            4. OSGify other servlets in util-webapp.xxx
+            5. Fix MessageReceivingServlet in xx-webbundle module
+         	3. Find and fix all non-OSGi dependencies
+         		1. JSON
+         		2. javax.mail
+         		3. DOJO
+         		4. Test vs Glassfish
+         5. Finish JBundle code.
+         	1. XSL Servlet (dump cocoon)
+         	2. Finish Contact test app in workspace-xxx, 
+         	3. Contact webdeploy test vs glassfish/new felix/OSGi
+         	4. Finish docs
+         	5. Translate plugin
+         	6. Add open source headers to source code (see plugin)
+         	7. Deploy to maven (@jbundle.org)
+         	8. Finish new jbundle-site
+         	9. Add sf/ow2/xx project
+         6. DW article schema vs cfx? vs currency converter
+      2. Tourapp finish
+      	1. Payment Screen (paypal)
+      		1. Thick
+      		2. Thin
+      		3. Batch//server
+      3. Deploy sites
+      	1. http
+      	2. google sites
+      	3. mslive
+      	4. open source
+      	5. blog
+      	6. brocure request/newsletter
+      	7. skype/facebook/twitter
+      4. Upload to u/g
+      	1. Brochures
+      	2. Menus
+      	3. release web xml
+      	4. TestSecond
+      	5. ArControl
+      5. Other
+      	1. Status box on applet window
+      5. Market
+      	1. Letter to Dave Herbert
+      	2. 
+      
+]]>
+      
+      </p>
+      <p>
+      	Now that your code is compiled, you need to place it into a web server<br></br>
+      	I use glassfish for this demonstration, because it contains a web server, an OSGi server,
+      	and a database in a single install.<br></br>
+      	You can download the latest glassfish (v3) from <a href="http://glassfish.dev.java.net">glassfish.dev.java.net</a>.
+      	Run the glassfish install, then startup glassfish and tweek some of the settings:<br></br>
+      	<code>
+      	glassfish-3.0.1-unix.sh <em>(install glassfish)</em><br/>
+      	cd [glassfish home]<br/>
+      	bin/asadmin start-domain<br/>
+      	bin/asadmin delete-jvm-options "-XX\:PermSize=256m"<br/>
+      	bin/asadmin create-jvm-options "-XX\:PermSize=256m"<br/>
+      	bin/asadmin delete-jvm-options "-XX\:MaxPermSize=512m"<br/>
+      	bin/asadmin create-jvm-options "-XX\:MaxPermSize=512m"<br/>
+      	bin/asadmin delete-jvm-options -- -Xmx512m<br/>
+      	bin/asadmin create-jvm-options -- -Xmx1024m<br/>
+      	bin/asadmin delete-jvm-options -- -Xms512m <em>(ignore any warnings)</em><br/>
+      	bin/asadmin create-jvm-options -- -Xms512m<br/>
+      	<br/>
+      	bin/asadmin create-jdbc-resource --connectionpoolid DerbyPool jdbc/app_user<br/>
+      	bin/asadmin create-jdbc-resource --connectionpoolid DerbyPool jdbc/app_shared<br/>
+      	bin/asadmin create-jdbc-resource --connectionpoolid DerbyPool jdbc/main_user<br/>
+      	bin/asadmin create-jdbc-resource --connectionpoolid DerbyPool jdbc/main_shared<br/>
+      	<br/>
+      	bin/asadmin restart-domain<br/>
+      	<br/>
+      	bin/asadmin deploy --name contact --contextroot /contact --upload false [project name]/jbundle-app-contact-root/jbundle-app-contact-webapp/target/jbundle-app-contact-webapp-${project.version}/<br/>
+      	<br/>
+      	bin/asadmin start-database<br/>
+      	</code> 
+      </p>
+      <p>
+      	Now you're ready to try it out!<br></br>
+      	Open your favorite browser and type <a href="http://localhost:8080/contact">http://localhost:8080/contact</a> into the location bar.
+      	Select the <strong>Contact Application</strong> and you're in!
+      	<br/>
+      	Try this url:
+      	<br/>
+      	http://localhost:8080/contact/tourapp?applet=org.jbundle.Main&amp;jnlpjars=lib%2Fjbundle-base-screen-view-swing&amp;userid=1&amp;jnlpextensions=docs%2Fjnlp%2Fapp%2Cdocs%2Fjnlp%2Fthin%2Cdocs%2Fjnlp%2Fthick%2C&amp;background=backgrounds%2Fworldmapalpha.gif&amp;backgroundcolor=%23eeeeff&amp;jbundleversion=&amp;menu=dev.tourapp.com
+      	<br/>
+      	http://localhost:8080/contact/tourapp?applet=org.jbundle.Main&amp;jnlpjars=lib%2Fjbundle-base-screen-view-swing&amp;userid=1&amp;jnlpextensions=docs%2Fjnlp%2Fapp%2Cdocs%2Fjnlp%2Fthin%2Cdocs%2Fjnlp%2Fthick%2C&amp;background=backgrounds%2Fworldmapalpha.gif&amp;backgroundcolor=%23eeeeff&amp;jbundleversion=&amp;screen=org.jbundle.app.contact.screen.ContactGridScreen
+      	<br/>
+      	http://localhost:8080/contact/tourapp?applet=org.jbundle.Main&amp;jnlpjars=lib%2Fjbundle-base-screen-view-swing&amp;userid=1&amp;jnlpextensions=docs%2Fjnlp%2Fapp%2Cdocs%2Fjnlp%2Fthin%2Cdocs%2Fjnlp%2Fthick%2C&amp;background=backgrounds%2Fworldmapalpha.gif&amp;backgroundcolor=%23eeeeff&amp;jbundleversion=&amp;menu=dev.tourapp.com#%3Fscreen%3Dorg.jbundle.app.contact.screen.ContactGridScreen%26jnlpjars%3Dlib%252Fjbundle-base-screen-view-swing%26background%3Dbackgrounds%252Fworldmapalpha.gif%26userid%3D1%26applet%3Dorg.jbundle.Main%26backgroundcolor%3D%2523eeeeff%26jnlpextensions%3Ddocs%252Fjnlp%252Fapp%252Cdocs%252Fjnlp%252Fthin%252Cdocs%252Fjnlp%252Fthick%252C
+      	<br/>
+      </p>
+      <p>
+
+      	mv /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.war /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.jar
+		java -jar ~/Download/bindex.jar -r ~/.m2/full-repository.xml ~/.m2/repository
+		mv /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.jar /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.war
+		jedit ~/.m2/full-repository.xml    (change jar to war)
+
+      	<br/>
+
+        telnet localhost 6666
+        
+        repos add file:/home/don/.m2/full-repository.xml
+        
+        deploy 'jbundle-app-contact - Contact example'@1.0.0-SNAPSHOT
+        
+        deploy -s 'jbundle-config-web-bundle - OSGi Bundle'@0.7.6.SNAPSHOT
+        
+        deploy -s 'jbundle-config-web-webbundle - Hybrid web osgi webapp'@0.7.6.SNAPSHOT
+        
+      	<br/>
+
+      	http://localhost:8080/contact/tourapp?applet=org.jbundle.Main&amp;jnlpjars=lib%2Fjbundle-base-screen-view-swing&amp;userid=1&amp;jnlpextensions=docs%2Fjnlp%2Fapp%2Cdocs%2Fjnlp%2Fthin%2Cdocs%2Fjnlp%2Fthick%2C&amp;background=backgrounds%2Fworldmapalpha.gif&amp;backgroundcolor=%23eeeeff&amp;jbundleversion=&amp;menu=dev.tourapp.com
+      	<br/>
+      	http://localhost:8080/contact/tourapp?applet=org.jbundle.Main&amp;jnlpjars=lib%2Fjbundle-base-screen-view-swing&amp;userid=1&amp;jnlpextensions=docs%2Fjnlp%2Fapp%2Cdocs%2Fjnlp%2Fthin%2Cdocs%2Fjnlp%2Fthick%2C&amp;background=backgrounds%2Fworldmapalpha.gif&amp;backgroundcolor=%23eeeeff&amp;jbundleversion=&amp;screen=org.jbundle.app.contact.screen.ContactGridScreen
+      	<br/>
+      	http://localhost:8080/tourapp?applet=org.jbundle.Main&amp;jnlpjars=lib%2Fjbundle-base-screen-view-swing&amp;userid=1&amp;jnlpextensions=docs%2Fjnlp%2Fapp%2Cdocs%2Fjnlp%2Fthin%2Cdocs%2Fjnlp%2Fthick%2C&amp;background=backgrounds%2Fworldmapalpha.gif&amp;backgroundcolor=%23eeeeff&amp;jbundleversion=&amp;screen=org.jbundle.app.contact.screen.ContactGridScreen
+      	<br/>
+      	http://localhost:8080/contact/tourapp?applet=org.jbundle.Main&amp;jnlpjars=lib%2Fjbundle-base-screen-view-swing&amp;userid=1&amp;jnlpextensions=docs%2Fjnlp%2Fapp%2Cdocs%2Fjnlp%2Fthin%2Cdocs%2Fjnlp%2Fthick%2C&amp;background=backgrounds%2Fworldmapalpha.gif&amp;backgroundcolor=%23eeeeff&amp;jbundleversion=&amp;menu=dev.tourapp.com#%3Fscreen%3Dorg.jbundle.app.contact.screen.ContactGridScreen%26jnlpjars%3Dlib%252Fjbundle-base-screen-view-swing%26background%3Dbackgrounds%252Fworldmapalpha.gif%26userid%3D1%26applet%3Dorg.jbundle.Main%26backgroundcolor%3D%2523eeeeff%26jnlpextensions%3Ddocs%252Fjnlp%252Fapp%252Cdocs%252Fjnlp%252Fthin%252Cdocs%252Fjnlp%252Fthick%252C
+      	<br/>
+      </p>
+      <p>
+      cd /home/don/workspace/jbundle-workspace
+      rm ~/.m2/repository/repository.xml
+      rm -fr ~/.m2/repository/org/jbundle
+      cd jbundle-parent/
+      mvn install
+      cd ../jbundle-util-root/
+      mvn install
+      cd ../jbundle-util-webapp-root/
+      mvn install
+      cd ../jbundle-calendarpanel-root/
+      mvn install
+      cd ../jbundle-root/jbundle-model/
+      mvn install
+      cd ..
+      mvn install > ~/mvn.log
+      
+      
+      cd /home/don/workspace/jbundle-workspace/jbundle-root/jbundle-thin/jbundle-thin-base/jbundle-thin-base-db/jbundle-thin-base-db-core
+
+/home/don/.m2/repository/org/jbundle/app/contact/jbundle-app-contact-jnlp/1.0.0-SNAPSHOT
+/home/don/.m2/repository/org/jbundle/app/contact/jbundle-app-contact-web-jnlp/1.0.0-SNAPSHOT
+
+
+start felix...
+g! deploy -s 'Apache Felix iPOJO'
+g! repos add http://chameleon.ow2.org/repository/chameleon-releases.xml
+g! repos add http://chameleon.ow2.org/repository/chameleon-commons.xml
+g! deploy -s 'OW2 Chameleon - json.org JSON Service Implementation'
+g! start file:/home/don/workspace-ow2/jsontest/target/jsontest-0.0.1-SNAPSHOT.jar
+
+      </p>
+	</section>
+  </body>
+</document>
+

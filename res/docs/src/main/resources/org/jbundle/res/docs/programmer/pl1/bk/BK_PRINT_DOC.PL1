@@ -1,0 +1,88 @@
+/****************************************************************
+	Module: BK_PRINT_DOC
+	Top Level Logic: PRINT_DOC_LOGIC
+	Date: 22-Feb-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_PRINT_DOC
+	Top-Level logic
+****************************************************************/
+
+%replace BK_PRINT_DOC_1 by 844;
+BK_PRINT_DOC:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD);
+%replace BK_TEXT_NO by  83;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_DOC_NO by  76;
+%replace BK_CONTROL_NO by  47;
+%include "BK_TEXT.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_DOC.DD";
+%include "BK_CONTROL.DD";
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   call PRINT_DOC_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	PRINT_DOC_MAIN
+	Mainline logic
+****************************************************************/
+
+PRINT_DOC_MAIN:
+	procedure;
+
+declare		ERROR_CODE           fixed binary (15);
+if DOC_NAME = "" then
+return;
+
+call OPEN_SFILE (BK_TEXT_NO,"FORM:" !! CUT_SPACES(DOC_NAME),
+   byteaddr(BK_TEXT_RECORD),ERROR_CODE);
+if ERROR_CODE ^= NORMAL_RETURN then
+   return;
+
+do while (YES);		/* Until EOF */
+   call READ_SEQN(BK_TEXT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = END_OF_FILE then
+      goto END_SEQN_READ;
+   call PRINT_LINE(CUT_SPACES_LONG(BK_STRING));
+   end;
+END_SEQN_READ:
+call CLOSE_SFILE (BK_TEXT_NO);
+
+return;
+end;	/* PRINT_DOC_MAIN       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_SFILE (BK_TEXT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

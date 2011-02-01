@@ -1,0 +1,9 @@
+/*********************************************************************
+	AR_MCO_STATUS File
+********************************************************************/
+
+declare	1 AR_MCO_STATUS_RECORD,
+		3 AR_BK_SAVE           fixed binary (31),
+		3 AR_MCO_SAVE          character (       16),
+		3 AR_MCO_AMT_SAVE      float binary (53);
+

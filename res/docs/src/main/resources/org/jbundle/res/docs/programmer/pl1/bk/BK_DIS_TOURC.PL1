@@ -1,0 +1,302 @@
+/****************************************************************
+	Module: BK_DIS_TOURC
+	Top Level Logic: ENTER_AND_DIS
+	Date:  6-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_TOURC
+	Enter Header and Display Table
+****************************************************************/
+
+%replace BK_DIS_TOURC_1 by 804;
+BK_DIS_TOURC:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD);
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%include "BK_DIS_TOURC.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   call ENT_DIS_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   START_CARR = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_DIS_TOURC_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_DIS_TOURC_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	ENT_DIS_MAIN
+	Enter and Display - Main Logic
+****************************************************************/
+
+ENT_DIS_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_DIS_TOURC_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RESTORE_BK_TOUR - Restore the tour and tour header info */
+
+   if BOOKING_NO ^= 0 then
+      do;
+      if BK_TOUR_CODE ^= "" then if BK_DEPARTURE ^= 0 then
+         if (BK_TOUR_CODE ^= HDR_TOUR_CODE) !
+            (BK_DEPARTURE < HDR_START_ON) ! (BK_DEPARTURE > HDR_END_ON) then
+               do;
+
+               /* GET_TOUR_HDR - Get the tour header */
+
+               ERROR_CODE = NORMAL_RETURN;
+
+               HDR_TOUR_CODE = BK_TOUR_CODE;
+               HDR_END_ON = BK_DEPARTURE;
+               if HDR_END_ON = 0 then
+                  HDR_END_ON = TODAYS_DATE();
+               call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE ^= END_OF_FILE then
+                  call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+               if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+                  ERROR_CODE = END_OF_FILE;
+               if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+                  ERROR_CODE = END_OF_FILE;
+
+               end;
+      if BK_TOUR_NUM ^= 0 then
+         if BK_TOUR_NUM ^= TOUR_NO then
+            do;
+            TOUR_NO = BK_TOUR_NUM;
+
+            /* READ_TOUR_REC - Read the tour file record */
+
+            call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+            if ERROR_BK_TOUR > 3 then
+               call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+            end;
+      end;
+
+return;
+end;	/* ENT_DIS_MAIN         */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+START_CARR_DATE = TODAYS_DATE();
+END_CARR_DATE = TODAYS_DATE()+365;
+do LOOP_INDEX =  11 to  13;
+   if LOOP_INDEX =  12 then
+      START_CARR_DATE = TODAYS_DATE();
+   if LOOP_INDEX =  13 then
+      END_CARR_DATE = TODAYS_DATE()+365;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		HDR_CARRIER_ARRAY(14) character (        2);
+declare		HDR_TOUR_CODE_ARRAY(14) character (        4);
+declare		HDR_START_ON_ARRAY(14) fixed binary (15);
+declare		BK_TOUR_HDR_ERROR    fixed binary (15);
+declare		HDR_CARRIER_SAVE     character (        2);
+declare		HDR_TOUR_CODE_SAVE   character (        4);
+declare		HDR_START_ON_SAVE    fixed binary (15);
+declare		ANSWER               character (1);
+HDR_CARRIER = START_CARR;
+HDR_TOUR_CODE = "";
+HDR_START_ON = 0;
+call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_3,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+ERROR_CODE = 1;
+do while (ERROR_CODE = 1);
+   call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_3,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) then
+         DISPLAY_RECORDS = NO;
+   ERROR_CODE = 0;
+   if DISPLAY_RECORDS = YES then
+      do;
+
+      /* CHECK_HDR_CARRIER - Carrier in range? */
+
+      if HDR_START_ON > END_CARR_DATE then
+         ERROR_CODE = 1;
+
+      if HDR_END_ON < START_CARR_DATE then
+         ERROR_CODE = 1;
+
+      end;
+end;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 14;
+      HDR_CARRIER_ARRAY(RECORD_NUMBER) = "";
+      HDR_TOUR_CODE_ARRAY(RECORD_NUMBER) = "";
+      HDR_START_ON_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_TOUR_HDR_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_TOUR_HDR_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 14) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  14 to  20;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         HDR_CARRIER_ARRAY(RECORD_NUMBER) = HDR_CARRIER;
+         HDR_TOUR_CODE_ARRAY(RECORD_NUMBER) = HDR_TOUR_CODE;
+         HDR_START_ON_ARRAY(RECORD_NUMBER) = HDR_START_ON;
+         ERROR_CODE = 1;
+         do while (ERROR_CODE = 1);
+            call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_3,BK_TOUR_HDR_ERROR);
+            ERROR_CODE = 0;
+            if BK_TOUR_HDR_ERROR ^= END_OF_FILE then
+               do;
+
+               /* CHECK_HDR_CARRIER - Carrier in range? */
+
+               if HDR_START_ON > END_CARR_DATE then
+                  ERROR_CODE = 1;
+
+               if HDR_END_ON < START_CARR_DATE then
+                  ERROR_CODE = 1;
+
+               end;
+         end;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      HDR_CARRIER_SAVE = HDR_CARRIER_ARRAY(14);
+      HDR_TOUR_CODE_SAVE = HDR_TOUR_CODE_ARRAY(14);
+      HDR_START_ON_SAVE = HDR_START_ON_ARRAY(14);
+      if BK_TOUR_HDR_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 14;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if HDR_CARRIER_ARRAY(RECORD_NUMBER) ^= "" then
+         do LOOP_INDEX =14 to  20;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

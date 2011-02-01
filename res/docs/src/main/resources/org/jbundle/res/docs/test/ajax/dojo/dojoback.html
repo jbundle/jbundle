@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Example 15</title>
+ 
+ 
+ <script type="text/javascript">
+ djConfig = {
+   isDebug: false,
+   preventBackButtonFix: false
+ };
+ </script>
+
+<script type="text/javascript" src="../../../styles/js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+<style type="text/css">
+        @import "../../../styles/js/dijit/themes/tundra/tundra.css";
+</style>
+
+<script type="text/javascript">
+
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.Dialog");
+dojo.require("dojo.parser");
+
+<!-- ==================================== -->
+dojo.require("dojo.back");
+
+var state1 = {
+	    back: function() { changeTarget('back1'); },
+	    forward: function() { changeTarget('forward1'); }
+	};
+var state2 = {
+	    back: function() { changeTarget('back2'); },
+	    forward: function() { changeTarget('forward2'); }
+	};
+var state3 = {
+	    back: function() { changeTarget('back3'); },
+	    forward: function() { changeTarget('forward3'); }
+	};
+var stateinit = {
+	    back: function() { changeTarget('backinit'); },
+	    forward: function() { changeTarget('forwardinit'); }
+	};
+var stateinit2 = {
+	    back: function() { changeTarget('backinit2'); },
+	    forward: function() { changeTarget('forwardinit2'); }
+	};
+var state4 = {
+	    back: function() { changeTarget('back4'); },
+	    forward: function() { changeTarget('forward4'); }
+	};
+var state5 = {
+	    back: function() { changeTarget('back5'); },
+	    forward: function() { changeTarget('forward5'); }
+	};
+
+dojo.back.setInitialState(stateinit);
+<!-- ==================================== -->
+
+
+function changeTarget(data)
+{
+	var domToAppendTo = dijit.byId("changeButton");
+	if (domToAppendTo)
+		domToAppendTo.setLabel(data);
+};
+function changeTarget2(data)
+{
+//	var domToAppendTo = dijit.byId("targetarea");
+	var domToAppendTo = document.getElementById("targetarea");
+	if (domToAppendTo)
+		domToAppendTo.childNodes[0].data = "\n" + data + "\n";
+};
+function press3()
+{
+//	dojo.back.init();
+//	dojo.back.setInitialState(stateinit2);
+	dojo.back.addToHistory(state3);
+//	dojo.back.addToHistory(state4);
+	//dojo.back.addToHistory(state5);
+//	changeTarget('done');
+};
+</script>
+
+</head>
+
+<body class="tundra">
+<script src="http://java.com/js/deployJava.txt" type="text/javascript"></script>
+
+<!-- ==================================== -->
+<script type="text/javascript">dojo.back.init();</script>
+<!-- ==================================== -->
+
+
+	<form id="myForm" action="">
+
+		<p><button dojoType="dijit.form.Button" id="changeButton" onClick="dojo.back.addToHistory(state2);">Change button</button><p/>
+		<p><button dojoType="dijit.form.Button" id="changeTarget" onClick="press3();">Change button</button><p/>
+
+	</form>
+
+	<div id="targetarea">
+	Target area
+	</div>
+
+</body>
+</html>

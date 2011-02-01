@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_BOOK_EXPORT File
+********************************************************************/
+
+declare	1 BK_BOOK_EXPORT_RECORD,
+		3 BK_BOOK_START        fixed binary (15),
+		3 BK_BOOK_END          fixed binary (15);
+

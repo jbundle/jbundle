@@ -1,0 +1,14 @@
+/*********************************************************************
+	AR_PYMT_HIST File
+********************************************************************/
+
+declare	1 AR_PYMT_HIST_RECORD,
+		3 AR_HIST_BANK         fixed binary (15),
+		3 AR_HIST_BOOKING      fixed binary (31),
+		3 AR_HIST_SEQ          fixed binary (15),
+		3 AR_HIST_CHECK        fixed binary (31),
+		3 AR_HIST_CHECK_DATE   fixed binary (15),
+		3 AR_HIST_CK_AMT       float binary (53),
+		3 AR_HIST_AR           fixed binary (31),
+		3 AR_HIST_TYPE         character (        1);
+

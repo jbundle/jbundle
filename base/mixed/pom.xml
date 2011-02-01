@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!-- NOTE: This is a phantom project. DO NOT include it as a dependency in your POMs
+             or expect dependencies entered here to be included in your distribution. 
+             It is waiting to be split into independent projects - use these projects:
+             jbundle-base-screen-core (org.jbundle.screen [which is a packaging only project (mixed is provided)])
+             I do this because Maven does not allow circular dependencies... but OSGi does! -->
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.base</groupId>
+    <artifactId>jbundle-base-reactor</artifactId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.jbundle.base</groupId>
+  <artifactId>jbundle-base-mixed</artifactId>
+  <packaging>jar</packaging>	<!-- This is NOT an OSGi bundle -->
+
+  <name>jbundle-base-mixed - Thick mixed nodeploy</name>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>${exec-maven-pluginVersion}</version>
+        <executions>
+          <execution>
+            <phase>run</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+            <mainClass>org.jbundle.Main</mainClass>
+          <executable>java</executable>
+            <arguments>
+            <!-- 
+              <argument>-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=y</argument>
+              <argument>-classpath</argument>
+              <classpath />
+            <argument>org.jbundle.Main</argument>
+              <argument>local=Jdbc</argument>
+              <argument>remote=Jdbc</argument>
+              <argument>table=Jdbc</argument>
+              <argument>menu=dev.jbundle.com</argument>
+              <argument>background=backgrounds/worldmapalpha.gif</argument>
+              <argument>backgroundcolor=#FFFFCC</argument>
+              <argument>remotehost=linux-laptop</argument>
+              <argument>codebase=linux-laptop:8080/</argument>
+               -->
+              <argument>-agentlib:jdwp=transport=dt_socket,address=8001,server=y,suspend=y</argument>
+              <argument>-classpath</argument>
+              <classpath />
+              <argument>-Xms256m</argument>
+              <argument>-Xmx512m</argument>
+              <argument>-Djava.rmi.server.codebase=http://linux-laptop/classes/</argument>
+              <argument>-Djava.security.policy=/home/don/workspace/jbundleold/bin/policy/policy.all</argument>
+              <argument>org.jbundle.server.Server</argument>
+              <argument>jmsserver=true</argument>
+              <argument>remoteapp=msgapp</argument>
+              <argument>provider=linux-laptop</argument>
+             </arguments>
+        </configuration>
+      </plugin>
+      
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-apiVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>    <!-- This is in the java.net repository -->
+      <version>${mailVersion}</version>
+      <!-- scope>provided</scope - removed from glassfish in 3.1-->
+    </dependency>
+    <dependency>
+      <groupId>com.sun.messaging.mq</groupId>
+      <artifactId>jaxm-api</artifactId>    <!-- This is in the java.net repository -->
+      <version>${jaxm-apiVersion}</version>
+      <!-- NOTE: This is not provided, because it is not in the glassfish dist (it is, but it isn't on the classpath) -->
+      <!-- scope>system</scope -->
+      <!-- systemPath>/usr/local/java/web/glassfish/mq/lib/jaxm-api.jar</systemPath -->
+    </dependency>
+
+    <dependency>
+      <groupId>org.jbundle.thin.app</groupId>
+      <artifactId>org.jbundle.thin.app.calendar</artifactId> <!-- I should be able to eventually change this to jbundle-thinbase -->
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jbundle.thin.base.screen</groupId>
+      <artifactId>org.jbundle.thin.base.screen.splash</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jbundle.util.jcalendarbutton</groupId>
+      <artifactId>org.jbundle.util.jcalendarbutton</artifactId>
+      <version>${jbundle-jcalendarbuttonVersion}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res</artifactId> <!-- I should be able to eventually change this to jbundle-thinbase -->
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util</groupId>
+      <artifactId>org.jbundle.util.jbackup</artifactId>
+      <version>${jbundle-utilVersion}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jbundle.util.wsdl</groupId>
+      <artifactId>org.jbundle.util.wsdl.xmlschema</artifactId>
+      <version>${jbundle-util-wsdlVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.wsdl</groupId>
+      <artifactId>org.jbundle.util.wsdl.wsdl11</artifactId>
+      <version>${jbundle-util-wsdlVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.wsdl</groupId>
+      <artifactId>org.jbundle.util.wsdl.wsdl20</artifactId>
+      <version>${jbundle-util-wsdlVersion}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>${jsonVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>${org.osgi.coreVersion}</version>
+      <scope>provided</scope> <!-- This better be provided -->
+    </dependency>
+
+  </dependencies>
+
+  <!-- All the j2ee stuff is not in the central repository -->
+  <repositories>
+    <repository>
+      <id>maven2-repository.dev.java.net</id>
+      <name>Java.net Repository for Maven</name>
+      <url>http://download.java.net/maven/2</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
+</project>

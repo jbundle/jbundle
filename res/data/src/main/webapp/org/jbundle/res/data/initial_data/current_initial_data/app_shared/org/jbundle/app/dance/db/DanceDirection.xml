@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<DanceDirection ID="1">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Forward</Description>
+	</DanceDirection>
+	<DanceDirection ID="2">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Backward</Description>
+	</DanceDirection>
+	<DanceDirection ID="3">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Rightward</Description>
+	</DanceDirection>
+	<DanceDirection ID="4">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Leftward</Description>
+	</DanceDirection>
+	<DanceDirection ID="5">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>NW</Description>
+	</DanceDirection>
+	<DanceDirection ID="6">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>SW</Description>
+	</DanceDirection>
+	<DanceDirection ID="7">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>NE</Description>
+	</DanceDirection>
+	<DanceDirection ID="8">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>SE</Description>
+	</DanceDirection>
+</file>

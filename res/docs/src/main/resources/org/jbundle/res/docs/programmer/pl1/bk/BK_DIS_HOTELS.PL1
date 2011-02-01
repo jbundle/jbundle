@@ -1,0 +1,424 @@
+/****************************************************************
+	Module: BK_DIS_HOTELS
+	Top Level Logic: HOTEL_S_LOGIC
+	Date: 14-Jul-92
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_HOTELS
+	Main Logic - Seasonal display
+****************************************************************/
+
+%replace BK_DIS_HOTELS_1 by 542;
+BK_DIS_HOTELS:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_HOTEL_RECORD,
+      BK_HOTEL_DET_RECORD);
+%replace BK_HOTEL_CAT_NO by 116;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_HOTEL_NO by   8;
+%replace BK_HOTEL_DET_NO by  52;
+%include "BK_DIS_HOTELS.DD";
+%include "BK_HOTEL_CAT.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_HOTEL.DD";
+%include "BK_HOTEL_DET.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_READ_THRU_RATES  bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   call SEASONAL_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   HOTELS_RATE_TYPE = " ";
+   HOTELS_CLASS = "  ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_DIS_HOTELS_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_DIS_HOTELS_RECORD) );
+   call OPEN_FILE (BK_HOTEL_CAT_NO,"BK_HOTEL_CAT",byteaddr(BK_HOTEL_CAT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_CAT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SEASONAL_MAIN
+	Main logic for seasonal display
+****************************************************************/
+
+SEASONAL_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_HOTEL       fixed binary (15);
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+
+   /* READ_DATA - Read the record from the file */
+
+   call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_BK_HOTEL);
+   if ERROR_BK_HOTEL > 3 then
+      call PRINT_ERROR (BK_HOTEL_NO,ERROR_BK_HOTEL);
+
+   /* RET_IF_HOTEL_ERR - Return if hotel read error */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_HOTEL = NORMAL_RETURN then
+      do;
+
+      /* NO_CODE - This section has no code */
+
+      /* No code in this section */
+      end;
+   else
+      do;
+
+      /* RETURN - Normal Return */
+
+      return;
+
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   call DISPLAY_DATA_C;
+   call ENTER_DATA_D;
+
+   /* RESET_LINE - Init the line offset to 0 */
+
+   LINE = 0;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   HOTEL_CODE_DET = HOTEL_CODE;
+   HOTEL_RATE_TYPE = HOTELS_RATE_TYPE;
+   HOTEL_CLASS = HOTELS_CLASS;
+   HOTEL_END = HOTELS_START;
+   call SET_POSITION (BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_RATES = NO;
+   do while (END_READ_THRU_RATES ^= YES);
+      call READ_THRU_RATES;
+   end;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+return;
+end;	/* SEASONAL_MAIN        */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  12 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	ENTER_DATA_D
+	Enter screen group D
+****************************************************************/
+
+ENTER_DATA_D:
+	procedure;
+
+HOTELS_END = HOTELS_START;
+do LOOP_INDEX =  14 to  17;
+   if LOOP_INDEX =  14 then
+      call DISPLAY_MSG_NO ( 25);
+   if LOOP_INDEX =  15 then
+      call DISPLAY_MSG_NO ( 42);
+   if LOOP_INDEX =  17 then
+      HOTELS_END = HOTELS_START;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         HOTELS_START = 0;
+         HOTELS_END = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_D         */
+
+/****************************************************************
+	READ_THRU_RATES
+	Read thru the hotel rates
+****************************************************************/
+
+READ_THRU_RATES:
+	procedure;
+
+declare		ANSWER               character (1);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_HOTEL_DET_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HOTEL_CODE_DET > HOTEL_CODE) then
+      do;
+      END_READ_THRU_RATES = YES;
+      return;
+      end;
+
+   /* CHECK_RATE_OK - Is this hotel rate okay? */
+
+   if HOTEL_RATE_TYPE = " " then
+      return;
+
+   if HOTELS_RATE_TYPE ^= " " then
+      if HOTELS_RATE_TYPE ^= HOTEL_RATE_TYPE then
+         return;
+
+   if HOTELS_CLASS ^= " " then
+      if HOTELS_CLASS ^= HOTEL_CLASS then
+         return;
+
+   if HOTELS_START > HOTEL_END then
+      return;
+
+   if HOTELS_END ^= -1 then
+      if HOTELS_END < HOTEL_START then
+         return;
+
+
+   /* CHECK_LINE_OFFSET - Check to see if screen if full */
+
+   if LINE > 14 then
+      do;
+      call OUTPUT_LINE (24,10,"Stop Displaying?");
+      call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_TO_BOS (24);
+      if ANSWER = "Y" then
+         do;
+         call SET_ROW_OFFSET(0);
+         do;
+         END_READ_THRU_RATES = YES;
+         return;
+         end;
+         end;
+      LINE = 0;
+      call SET_ROW_OFFSET(0);
+
+      /* DISPLAY_SCREEN - Display the screen */
+
+      call OPEN_SCREEN;
+      call DISPLAY_SCREEN (BK_DIS_HOTELS_1);
+      call DISPLAY_DATA_A;
+      call DISPLAY_DATA_C;
+      call DISPLAY_DATA_D;
+      end;
+
+
+   /* SET_LINE_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET(LINE);
+
+   call DISPLAY_DATA_B;
+
+   /* INC_LINE - Increment the line */
+
+   LINE = LINE + 1;
+
+return;
+end;	/* READ_THRU_RATES      */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  14 to  17;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  18 to  19;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  19 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      HOTEL_CAT = HOTEL_CLASS;
+      call READ_KEYED (BK_HOTEL_CAT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         HOTEL_CAT_DESC = "";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  20 to  20;
+            if LOOP_INDEX =  20 then
+               do;
+
+               /* MOVE_SHORT_CAT_DESC - Move desc */
+
+               SHORT_CAT_DESC = HOTEL_CAT_DESC;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  21 to  29;
+   if LOOP_INDEX =  26 then
+      do;
+
+      /* CALC_MARKUPS - Calculate markups */
+
+      if HOTEL_MARKUP_LINE >= 1 then if HOTEL_MARKUP_LINE <= 3 then
+         do;
+         HOTEL_SINGLE = HOTEL_SINGLE *
+            (1 + (HOTEL_TAX(HOTEL_MARKUP_LINE) + HOTEL_SVC_CHG(HOTEL_MARKUP_LINE) -
+            HOTEL_COMM(HOTEL_MARKUP_LINE))/100);
+         HOTEL_DOUBLE = HOTEL_DOUBLE *
+            (1 + (HOTEL_TAX(HOTEL_MARKUP_LINE) + HOTEL_SVC_CHG(HOTEL_MARKUP_LINE) -
+            HOTEL_COMM(HOTEL_MARKUP_LINE))/100);
+         HOTEL_TRIPLE = HOTEL_TRIPLE *
+            (1 + (HOTEL_TAX(HOTEL_MARKUP_LINE) + HOTEL_SVC_CHG(HOTEL_MARKUP_LINE) -
+            HOTEL_COMM(HOTEL_MARKUP_LINE))/100);
+         end;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_HOTEL_CAT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

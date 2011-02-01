@@ -1,0 +1,2023 @@
+/****************************************************************
+	Module: BK_MOD_MAINT
+	Top Level Logic: MOD_MAINT_LOGIC
+	Date: 27-Oct-94
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_MOD_MAINT
+	Top Level Logic
+****************************************************************/
+
+%replace BK_MOD_MAINT_1 by 557;
+%replace BK_MOD_MAINT_2 by 559;
+BK_MOD_MAINT:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_LINE_RECORD);
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_DET_LAND_NO by  68;
+%replace TK_DETAIL_NO by  57;
+%replace TK_HEADER_NO by  56;
+%replace BK_COMMENT_NO by  48;
+%replace BK_OPT_ALT_NO by  62;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_LINE_NO by  51;
+%include "BK_MOD_MAINT.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "TK_DETAIL.DD";
+%include "TK_HEADER.DD";
+%include "BK_COMMENT.DD";
+%include "BK_OPT_ALT.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_LINE.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		END_CHANGE_MOD       bit (1);
+declare		END_SCAN_LINE_CODES  bit (1);
+declare		END_SCAN_HOTEL_CODES bit (1);
+declare		END_SCAN_LAND_CODES  bit (1);
+declare		END_SCAN_AIRD_CODES  bit (1);
+declare		END_SCAN_REMARK_CODE bit (1);
+declare		END_ENTER_ALL_MODS   bit (1);
+declare		LINE                 fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_DEL_LINE_CODES   bit (1);
+declare		END_DEL_HOTEL_CODES  bit (1);
+declare		END_DEL_LAND_CODES   bit (1);
+declare		END_DEL_AIRD_CODES   bit (1);
+declare		END_DEL_REMARK_CODES bit (1);
+declare		END_COPY_HOTEL       bit (1);
+declare		END_COPY_TOUR        bit (1);
+declare		END_COPY_AIRH	bit(1);
+declare		END_COPY_AIR	bit(1);
+declare		END_COPY_REMARK	bit(1);
+declare		END_GO_THRU_LINE	bit(1);
+declare		END_DISPLAY_ALL_MODS bit (1);
+declare		ERROR_TK_HEADER		fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+   call INITIALIZE;
+   call MOD_MAINT_MAIN;
+
+   /* RESTORE_BK_TOUR - Restore the tour and tour header info */
+
+   if BOOKING_NO ^= 0 then
+      do;
+      if BK_TOUR_CODE ^= "" then if BK_DEPARTURE ^= 0 then
+         if (BK_TOUR_CODE ^= HDR_TOUR_CODE) !
+            (BK_DEPARTURE < HDR_START_ON) ! (BK_DEPARTURE > HDR_END_ON) then
+               do;
+
+               /* GET_TOUR_HDR - Get the tour header */
+
+               ERROR_CODE = NORMAL_RETURN;
+
+               HDR_TOUR_CODE = BK_TOUR_CODE;
+               HDR_END_ON = BK_DEPARTURE;
+               if HDR_END_ON = 0 then
+                  HDR_END_ON = TODAYS_DATE();
+               call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE ^= END_OF_FILE then
+                  call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+               if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+                  ERROR_CODE = END_OF_FILE;
+               if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+                  ERROR_CODE = END_OF_FILE;
+
+               end;
+      if BK_TOUR_NUM ^= 0 then
+         if BK_TOUR_NUM ^= TOUR_NO then
+            do;
+            TOUR_NO = BK_TOUR_NUM;
+
+            /* READ_TOUR_REC - Read the tour file record */
+
+            call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+            if ERROR_BK_TOUR > 3 then
+               call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+            end;
+      end;
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   MODULE_DATE = 0;
+   MODULE_CODE = "";
+   MODULE_REMARKS = "";
+   MODULE_LINE = "";
+   MODULE_HOTEL = "";
+   MODULE_LAND = "";
+   MODULE_AIR = "";
+   MOD_DATE = 0;
+   MOD_CODE = "";
+   MOD_BK_LINE = "N";
+   MOD_BK_HOTEL = "N";
+   MOD_BK_LAND = "N";
+   MOD_BK_AIR = "N";
+   MOD_BK_REMARK = "N";
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   BK_TOUR_MOD_CODE = "A";
+   BK_TOUR_SEQ = 0;
+   BK_COMM_MOD_CODE = "";
+   ALT_SELECT_BY = "N";
+   ALT_ANSWER = " ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   LINE = 0;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_MOD_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_MOD_MAINT_RECORD) );
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (BK_COMMENT_NO,"BK_COMMENT",byteaddr(BK_COMMENT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_COMMENT_NO,ERROR_CODE);
+   call OPEN_FILE (BK_OPT_ALT_NO,"BK_OPT_ALT",byteaddr(BK_OPT_ALT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	MOD_MAINT_MAIN
+	Mainline logic for module maintenance
+****************************************************************/
+
+MOD_MAINT_MAIN:
+	procedure;
+
+
+   /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+   if BOOKING_NO = 0 then
+      return;
+
+
+   /* CHECK_ALL_INFO - Are all Agency, Pax, and Tour in? */
+
+   if BK_AGENCY = -1 then
+      do;
+      call DISPLAY_MESSAGE ("Agency not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   if BK_PAX = 0 then
+      do;
+      call DISPLAY_MESSAGE ("Passengers not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   if BK_TOUR_NUM = 0 then
+      do;
+      call DISPLAY_MESSAGE ("Tour not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+
+   /* SETUP_HOTEL_IF_NEW - If new, setup the hotel detail */
+
+   if BK_HOTEL_MOD = -1 then
+      do;
+
+      /* BK_SET_HOTEL_DET - Setup hotel detail */
+
+      %include "BK_SET_HOTEL_DET.DCL";
+      call BK_SET_HOTEL_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_HOTEL_RECORD);
+      end;
+
+
+   /* SETUP_LAND_IF_NEW - Set up the land detail if new */
+
+   if BK_TOUR_MOD = -1 then
+      do;
+
+      /* BK_SET_LAND_DET - Set up the land detail */
+
+      %include "BK_SET_LAND_DET.DCL";
+      call BK_SET_LAND_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_LAND_RECORD);
+      end;
+
+
+   /* SETUP_AIR_IF_NEW - Has the air detail been changed before? */
+
+   if BK_AIR_MOD = -1 then
+      do;
+
+      /* BK_SET_AIR_DET - Call the program to set up air */
+
+      %include "BK_SET_AIR_DET.DCL";
+      call BK_SET_AIR_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         TK_DETAIL_RECORD,
+         TK_HEADER_RECORD);
+      end;
+
+
+   /* SETUP_REM_IF_NEW - If first time, set up the remarks */
+
+   if BK_REMARK_MOD = -1 then
+      do;
+
+      /* BK_SET_REMARK_DET - Call program to set up the detail */
+
+      %include "BK_SET_REMARK_DET.DCL";
+      call BK_SET_REMARK_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_COMMENT_RECORD);
+      end;
+
+   call SCAN_CURR_DETAIL;
+
+   /* CHECK_ANY_MODS - Any modules found? */
+
+   if MOD_CODE(1) = "" then
+      do;
+      call ENTER_MOD_CODES;
+      end;
+   else
+      do;
+      call DIS_MOD_CODES;
+      end;
+
+   END_CHANGE_MOD = NO;
+   do while (END_CHANGE_MOD ^= YES);
+      call CHANGE_MOD;
+   end;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+return;
+end;	/* MOD_MAINT_MAIN       */
+
+/****************************************************************
+	SCAN_CURR_DETAIL
+	Scan the current detail files for module
+****************************************************************/
+
+SCAN_CURR_DETAIL:
+	procedure;
+
+
+   /* INIT_MOD_ARRAY - Clear the module array */
+
+   do LOOP_INDEX = 1 to 16;
+      MOD_CODE(LOOP_INDEX) = "";
+   end;
+
+
+   /* SET_FIRST_LINE - Set for first read */
+
+   BK_LINE_MOD = BK_MODIFICATION;
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 0;
+   call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_LINE_CODES = NO;
+   do while (END_SCAN_LINE_CODES ^= YES);
+      call SCAN_LINE_CODES;
+   end;
+
+   /* SET_FIRST_HOTEL - First hotel */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_HOTEL_CODES = NO;
+   do while (END_SCAN_HOTEL_CODES ^= YES);
+      call SCAN_HOTEL_CODES;
+   end;
+
+   /* SET_FIRST_LAND - Set to the first land record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_LAND_CODES = NO;
+   do while (END_SCAN_LAND_CODES ^= YES);
+      call SCAN_LAND_CODES;
+   end;
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_AIRD_CODES = NO;
+   do while (END_SCAN_AIRD_CODES ^= YES);
+      call SCAN_AIRD_CODES;
+   end;
+
+   /* SET_FIRST_REMARKD - Set first */
+
+   BK_TOUR_MOD_NO = BK_MODIFICATION;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_COMM_ALT_SEQ = 0;
+   BK_COMM_ANSW_SEQ = 0;
+   BK_TOUR_C_R = "R";
+   BK_TOUR_SEQ = 0;
+   call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_REMARK_CODE = NO;
+   do while (END_SCAN_REMARK_CODE ^= YES);
+      call SCAN_REMARK_CODES;
+   end;
+
+   /* SORT_MOD_CODES - Sort the module codes into date order */
+
+   declare LOOP_1 fixed binary;
+   declare LOOP_2 fixed binary;
+
+   do LOOP_1 = 1 to 16;
+      if MOD_DATE(LOOP_1) = 32767 then
+         MOD_DATE(LOOP_1) = BK_DEPARTURE;
+   end;
+
+   do LOOP_1 = 1 to 16;
+      if MOD_CODE(LOOP_1) ^= "" then
+         do LOOP_2 = LOOP_1 + 1 to 16;
+            if MOD_CODE(LOOP_2) ^= "" then
+               do;
+               if MOD_DATE(LOOP_2) < MOD_DATE(LOOP_1) then
+                  do;
+                  MODULE_CODE = MOD_CODE(LOOP_2);
+                  MODULE_DATE = MOD_DATE(LOOP_2);
+                  MOD_CODE(LOOP_2) = MOD_CODE(LOOP_1);
+                  MOD_DATE(LOOP_2) = MOD_DATE(LOOP_1);
+                  MOD_CODE(LOOP_1) = MODULE_CODE;
+                  MOD_DATE(LOOP_1) = MODULE_DATE;
+                  end;
+               end;
+         end;
+   end;
+
+return;
+end;	/* SCAN_CURR_DETAIL     */
+
+/****************************************************************
+	SCAN_LINE_CODES
+	Go through all line item and get modules
+****************************************************************/
+
+SCAN_LINE_CODES:
+	procedure;
+
+
+   /* READ_NEXT_LINE - Read the next line record */
+
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LINE_NO,ERROR_CODE);
+
+   /* CHECK_END_LINE - Last record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_LINE_MOD > BK_MODIFICATION) !
+   (BK_LINE_BK_NO > BOOKING_NO) then
+      do;
+      END_SCAN_LINE_CODES = YES;
+      return;
+      end;
+
+   /* GET_LINE_CODE - Get the line mod code */
+
+   MODULE_CODE = BK_LINE_TOUR_CODE;
+   MODULE_DATE = 32767;
+
+
+   /* SKIP_IF_NO_MOD - Skip this one if it doesn't have a code */
+
+   if MODULE_CODE = "" then
+      return;
+
+   if MODULE_CODE = HDR_TOUR_CODE then
+      return;
+
+
+   /* ADD_MOD_CODE - Add the module code to the module array */
+
+   do LOOP_INDEX = 1 to 16;
+      if MOD_CODE(LOOP_INDEX) = "" then
+         do;
+         MOD_DATE(LOOP_INDEX) = MODULE_DATE;
+         MOD_CODE(LOOP_INDEX) = MODULE_CODE;
+         return;
+         end;
+      if MODULE_CODE = MOD_CODE(LOOP_INDEX) then
+         do;
+         if MODULE_DATE < MOD_DATE(LOOP_INDEX) then
+            MOD_DATE(LOOP_INDEX) = MODULE_DATE;
+         return;
+         end;
+   end;
+
+return;
+end;	/* SCAN_LINE_CODES      */
+
+/****************************************************************
+	SCAN_HOTEL_CODES
+	Find module codes in the hotel detail
+****************************************************************/
+
+SCAN_HOTEL_CODES:
+	procedure;
+
+
+   /* READ_NEXT_HOTEL - Read the next hotel detail */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTEL - Check for the end of the hotel detail */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) !
+   (HDET_ALT_SEQ > 0) !
+   (HDET_ANSW_SEQ > 0) then
+      do;
+      END_SCAN_HOTEL_CODES = YES;
+      return;
+      end;
+
+   /* GET_HOTEL_CODE - Get the hotel mod code */
+
+   MODULE_CODE = HDET_MODULE;
+   MODULE_DATE = HDET_DATE;
+
+
+   /* SKIP_IF_NO_MOD - Skip this one if it doesn't have a code */
+
+   if MODULE_CODE = "" then
+      return;
+
+   if MODULE_CODE = HDR_TOUR_CODE then
+      return;
+
+
+   /* ADD_MOD_CODE - Add the module code to the module array */
+
+   do LOOP_INDEX = 1 to 16;
+      if MOD_CODE(LOOP_INDEX) = "" then
+         do;
+         MOD_DATE(LOOP_INDEX) = MODULE_DATE;
+         MOD_CODE(LOOP_INDEX) = MODULE_CODE;
+         return;
+         end;
+      if MODULE_CODE = MOD_CODE(LOOP_INDEX) then
+         do;
+         if MODULE_DATE < MOD_DATE(LOOP_INDEX) then
+            MOD_DATE(LOOP_INDEX) = MODULE_DATE;
+         return;
+         end;
+   end;
+
+return;
+end;	/* SCAN_HOTEL_CODES     */
+
+/****************************************************************
+	SCAN_LAND_CODES
+	Scan the land detail for module codes
+****************************************************************/
+
+SCAN_LAND_CODES:
+	procedure;
+
+
+   /* READ_NEXT_LAND - Read next */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LAND - Last one? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > 0) !
+   (LDET_ANSW_SEQ > 0) then
+      do;
+      END_SCAN_LAND_CODES = YES;
+      return;
+      end;
+
+   /* GET_LAND_CODE - Get the land module code */
+
+   MODULE_CODE = LDET_MODULE;
+   MODULE_DATE = LDET_DATE;
+
+
+   /* SKIP_IF_NO_MOD - Skip this one if it doesn't have a code */
+
+   if MODULE_CODE = "" then
+      return;
+
+   if MODULE_CODE = HDR_TOUR_CODE then
+      return;
+
+
+   /* ADD_MOD_CODE - Add the module code to the module array */
+
+   do LOOP_INDEX = 1 to 16;
+      if MOD_CODE(LOOP_INDEX) = "" then
+         do;
+         MOD_DATE(LOOP_INDEX) = MODULE_DATE;
+         MOD_CODE(LOOP_INDEX) = MODULE_CODE;
+         return;
+         end;
+      if MODULE_CODE = MOD_CODE(LOOP_INDEX) then
+         do;
+         if MODULE_DATE < MOD_DATE(LOOP_INDEX) then
+            MOD_DATE(LOOP_INDEX) = MODULE_DATE;
+         return;
+         end;
+   end;
+
+return;
+end;	/* SCAN_LAND_CODES      */
+
+/****************************************************************
+	SCAN_AIRD_CODES
+	Scan the air detail for module codes
+****************************************************************/
+
+SCAN_AIRD_CODES:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > 0) !
+   (TK_DET_ANSW_SEQ > 0) then
+      do;
+      END_SCAN_AIRD_CODES = YES;
+      return;
+      end;
+
+   /* GET_AIRD_CODE - Get the air detail module code */
+
+   MODULE_CODE = TK_DETAIL_MODULE;
+   MODULE_DATE = TK_DATE;
+
+
+   /* SKIP_IF_NO_MOD - Skip this one if it doesn't have a code */
+
+   if MODULE_CODE = "" then
+      return;
+
+   if MODULE_CODE = HDR_TOUR_CODE then
+      return;
+
+
+   /* ADD_MOD_CODE - Add the module code to the module array */
+
+   do LOOP_INDEX = 1 to 16;
+      if MOD_CODE(LOOP_INDEX) = "" then
+         do;
+         MOD_DATE(LOOP_INDEX) = MODULE_DATE;
+         MOD_CODE(LOOP_INDEX) = MODULE_CODE;
+         return;
+         end;
+      if MODULE_CODE = MOD_CODE(LOOP_INDEX) then
+         do;
+         if MODULE_DATE < MOD_DATE(LOOP_INDEX) then
+            MOD_DATE(LOOP_INDEX) = MODULE_DATE;
+         return;
+         end;
+   end;
+
+return;
+end;	/* SCAN_AIRD_CODES      */
+
+/****************************************************************
+	SCAN_REMARK_CODES
+	Scan remarks for module codes
+****************************************************************/
+
+SCAN_REMARK_CODES:
+	procedure;
+
+
+   /* READ_NEXT_REMARKD - Read next */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END_REMARKD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > BK_MODIFICATION) !
+   (BK_OR_TOUR_NO > BOOKING_NO) !
+   (BK_COMM_ALT_SEQ > 0) !
+   (BK_COMM_ANSW_SEQ > 0) !
+   (BK_TOUR_C_R > "R") then
+      do;
+      END_SCAN_REMARK_CODE = YES;
+      return;
+      end;
+
+   /* GET_REMARK_CODE - Get the remark detail's tour code */
+
+   MODULE_CODE = BK_COMM_MOD_CODE;
+   MODULE_DATE = 32767;
+
+
+   /* SKIP_IF_NO_MOD - Skip this one if it doesn't have a code */
+
+   if MODULE_CODE = "" then
+      return;
+
+   if MODULE_CODE = HDR_TOUR_CODE then
+      return;
+
+
+   /* ADD_MOD_CODE - Add the module code to the module array */
+
+   do LOOP_INDEX = 1 to 16;
+      if MOD_CODE(LOOP_INDEX) = "" then
+         do;
+         MOD_DATE(LOOP_INDEX) = MODULE_DATE;
+         MOD_CODE(LOOP_INDEX) = MODULE_CODE;
+         return;
+         end;
+      if MODULE_CODE = MOD_CODE(LOOP_INDEX) then
+         do;
+         if MODULE_DATE < MOD_DATE(LOOP_INDEX) then
+            MOD_DATE(LOOP_INDEX) = MODULE_DATE;
+         return;
+         end;
+   end;
+
+return;
+end;	/* SCAN_REMARK_CODES    */
+
+/****************************************************************
+	ENTER_MOD_CODES
+	No modules found, enter new modules
+****************************************************************/
+
+ENTER_MOD_CODES:
+	procedure;
+
+
+   /* RESET_LINE - Init the line offset to 0 */
+
+   LINE = 0;
+
+   END_ENTER_ALL_MODS = NO;
+   do while (END_ENTER_ALL_MODS ^= YES);
+      call ENTER_ALL_MODS;
+   end;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+return;
+end;	/* ENTER_MOD_CODES      */
+
+/****************************************************************
+	ENTER_ALL_MODS
+	Enter all the modules
+****************************************************************/
+
+ENTER_ALL_MODS:
+	procedure;
+
+
+   /* INC_LINE - Increment the line */
+
+   LINE = LINE + 1;
+
+   call ENTER_LINE_MOD;
+
+   /* RETURN_IF_LAST_MOD - Return if this is the last module */
+
+   if MOD_CODE(LINE) = "" then
+      do;
+      END_ENTER_ALL_MODS = YES;
+      return;
+      end;
+
+
+   /* RETURN_IF_LAST_LINE - Return if the last line was displayed */
+
+   if LINE = 16 then
+      do;
+      END_ENTER_ALL_MODS = YES;
+      return;
+      end;
+
+return;
+end;	/* ENTER_ALL_MODS       */
+
+/****************************************************************
+	ENTER_LINE_MOD
+	Enter the module on this line (LINE)
+****************************************************************/
+
+ENTER_LINE_MOD:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+
+   /* DELETE_OLD_MOD - Delete the detail for the old module */
+
+   if MOD_CODE(LINE) ^= "" then
+      do;
+      call DELETE_ALL_MODS;
+      end;
+
+
+   /* DEC_LINE - Decrement the line count by one */
+
+   LINE = LINE - 1;
+
+
+   /* SET_LINE_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET(LINE);
+
+
+   /* INC_LINE - Increment the line */
+
+   LINE = LINE + 1;
+
+
+   /* SET_MOD_DEFAULT - Set module default */
+
+   MODULE_CODE = MOD_CODE(LINE);
+   MODULE_DATE = MOD_DATE(LINE);
+   if MODULE_DATE = 0 then
+      MODULE_DATE = BK_DEPARTURE;
+
+   MOD_CODE(LINE) = "";
+   MOD_DATE(LINE) = 0;
+
+   call CLEAR_DATA_B;
+
+   /* ENTER_DATA_BA - Enter data in this group */
+
+   do LOOP_INDEX =  11 to  11;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* CLEAR_IF_NO_INP - Clear the current field if inp len = 0 */
+
+   if INPUT_LENGTH = 0 then
+      call CLEAR_FIELD (LOOP_INDEX);
+
+
+   /* RETURN_IF_NO_INPUT - Return if input length = 0 */
+
+   if INPUT_LENGTH = 0 then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* ENTER_DATA_BB - Enter data in this group */
+
+   do LOOP_INDEX =  12 to  12;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* CLEAR_IF_NO_INP - Clear the current field if inp len = 0 */
+
+   if INPUT_LENGTH = 0 then
+      call CLEAR_FIELD (LOOP_INDEX);
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* RETURN_IF_NO_INPUT - Return if input length = 0 */
+
+   if INPUT_LENGTH = 0 then
+      return;
+
+
+   /* MOD_ENTERED - Module already entered??? */
+
+   do LOOP_INDEX = 1 to 16;
+      if MOD_CODE(LOOP_INDEX) = MODULE_CODE then
+         do;
+         call DISPLAY_MESSAGE("This module has already been entered!!!<BEL>"c);
+         call PRESS_RETURN;
+         return;
+         end;
+   end;
+
+   MOD_CODE(LINE) = MODULE_CODE;
+   MOD_DATE(LINE) = MODULE_DATE;
+
+
+   /* READ_MOD_HDR - Read the module header */
+
+   HDR_TOUR_CODE = MODULE_CODE;
+   HDR_END_ON = MODULE_DATE;
+   call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      if MODULE_CODE ^= HDR_TOUR_CODE then
+         ERROR_CODE = 1;
+
+      if HDR_START_ON > MODULE_DATE then
+         ERROR_CODE = 1;
+
+      if HDR_TOUR_TYPE ^= "H" then
+         ERROR_CODE = 1;
+      end;
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      HDR_TOUR_DESC = "** Module not found **";
+
+
+   /* RETURN_IF_ERROR - Return if ERROR_CODE <> 0 */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+
+   /* DISPLAY_DATA_BC - Display the data */
+
+   do LOOP_INDEX =  13 to  19;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   call ADD_NEW_MOD;
+return;
+end;	/* ENTER_LINE_MOD       */
+
+/****************************************************************
+	DELETE_ALL_MODS
+	Delete all the detail for this module
+****************************************************************/
+
+DELETE_ALL_MODS:
+	procedure;
+
+
+   /* SET_FIRST_LINE - Set for first read */
+
+   BK_LINE_MOD = BK_MODIFICATION;
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 0;
+   call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   END_DEL_LINE_CODES = NO;
+   do while (END_DEL_LINE_CODES ^= YES);
+      call DEL_LINE_CODES;
+   end;
+
+   /* SET_FIRST_HOTEL - First hotel */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   END_DEL_HOTEL_CODES = NO;
+   do while (END_DEL_HOTEL_CODES ^= YES);
+      call DEL_HOTEL_CODES;
+   end;
+
+   /* SET_FIRST_LAND - Set to the first land record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_DEL_LAND_CODES = NO;
+   do while (END_DEL_LAND_CODES ^= YES);
+      call DEL_LAND_CODES;
+   end;
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_DEL_AIRD_CODES = NO;
+   do while (END_DEL_AIRD_CODES ^= YES);
+      call DEL_AIRD_CODES;
+   end;
+
+   /* SET_FIRST_REMARKD - Set first */
+
+   BK_TOUR_MOD_NO = BK_MODIFICATION;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_COMM_ALT_SEQ = 0;
+   BK_COMM_ANSW_SEQ = 0;
+   BK_TOUR_C_R = "R";
+   BK_TOUR_SEQ = 0;
+   call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   END_DEL_REMARK_CODES = NO;
+   do while (END_DEL_REMARK_CODES ^= YES);
+      call DEL_REMARK_CODES;
+   end;
+return;
+end;	/* DELETE_ALL_MODS      */
+
+/****************************************************************
+	DEL_LINE_CODES
+	Delete all line items with this code
+****************************************************************/
+
+DEL_LINE_CODES:
+	procedure;
+
+declare		ERROR_BK_LINE        fixed binary (15);
+
+   /* READ_NEXT_LINE - Read the next line record */
+
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LINE_NO,ERROR_CODE);
+
+   /* CHECK_END_LINE - Last record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_LINE_MOD > BK_MODIFICATION) !
+   (BK_LINE_BK_NO > BOOKING_NO) then
+      do;
+      END_DEL_LINE_CODES = YES;
+      return;
+      end;
+
+   /* GET_LINE_CODE - Get the line mod code */
+
+   MODULE_CODE = BK_LINE_TOUR_CODE;
+   MODULE_DATE = 32767;
+
+
+   /* SKIP_IF_NO_MATCH - Skip if this code doesn't match */
+
+   if MODULE_CODE ^= MOD_CODE(LINE) then
+      return;
+
+
+   /* SUBTRACT_LINE - Subtract this line item from the price */
+
+   BK_TOUR_PRICE =floor((BK_TOUR_PRICE - BK_LINE_EXTEN) * 100 + 0.5) / 100;
+   BK_NET_PRICE = floor((BK_NET_PRICE - BK_LINE_NET) * 100 + 0.5) / 100;
+   BK_BALANCE = floor((BK_BALANCE - BK_LINE_NET) * 100 + 0.5) / 100;
+
+
+   /* DELETE_LINED - Delete a detail line */
+
+   call DELETE_RECORD (BK_LINE_NO,ERROR_CODE);
+
+   /* READ_LINED - Read the line detail */
+
+   call READ_KEYED (BK_LINE_NO,KEY_AREA_1,ERROR_BK_LINE);
+   if ERROR_BK_LINE > 3 then
+      call PRINT_ERROR (BK_LINE_NO,ERROR_BK_LINE);
+return;
+end;	/* DEL_LINE_CODES       */
+
+/****************************************************************
+	DEL_HOTEL_CODES
+	Delete all hotel detail with this code
+****************************************************************/
+
+DEL_HOTEL_CODES:
+	procedure;
+
+declare		ERROR_BK_DET_HOTEL   fixed binary (15);
+
+   /* READ_NEXT_HOTEL - Read the next hotel detail */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTEL - Check for the end of the hotel detail */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) !
+   (HDET_ALT_SEQ > 0) !
+   (HDET_ANSW_SEQ > 0) then
+      do;
+      END_DEL_HOTEL_CODES = YES;
+      return;
+      end;
+
+   /* GET_HOTEL_CODE - Get the hotel mod code */
+
+   MODULE_CODE = HDET_MODULE;
+   MODULE_DATE = HDET_DATE;
+
+
+   /* SKIP_IF_NO_MATCH - Skip if this code doesn't match */
+
+   if MODULE_CODE ^= MOD_CODE(LINE) then
+      return;
+
+
+   /* DELETE_HOTELD - Delete */
+
+   call DELETE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* READ_HOTELD - Read the hotel detail record */
+
+   call READ_KEYED (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_BK_DET_HOTEL);
+   if ERROR_BK_DET_HOTEL > 3 then
+      call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_BK_DET_HOTEL);
+return;
+end;	/* DEL_HOTEL_CODES      */
+
+/****************************************************************
+	DEL_LAND_CODES
+	Delete all land detail with this code
+****************************************************************/
+
+DEL_LAND_CODES:
+	procedure;
+
+declare		ERROR_BK_DET_LAND    fixed binary (15);
+
+   /* READ_NEXT_LAND - Read next */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LAND - Last one? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > 0) !
+   (LDET_ANSW_SEQ > 0) then
+      do;
+      END_DEL_LAND_CODES = YES;
+      return;
+      end;
+
+   /* GET_LAND_CODE - Get the land module code */
+
+   MODULE_CODE = LDET_MODULE;
+   MODULE_DATE = LDET_DATE;
+
+
+   /* SKIP_IF_NO_MATCH - Skip if this code doesn't match */
+
+   if MODULE_CODE ^= MOD_CODE(LINE) then
+      return;
+
+
+   /* DELETE_LANDD - Delete land detail */
+
+   call DELETE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* READ_LANDD - Read the land detail record */
+
+   call READ_KEYED (BK_DET_LAND_NO,KEY_AREA_1,ERROR_BK_DET_LAND);
+   if ERROR_BK_DET_LAND > 3 then
+      call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+return;
+end;	/* DEL_LAND_CODES       */
+
+/****************************************************************
+	DEL_AIRD_CODES
+	Delete all the air detail with this code
+****************************************************************/
+
+DEL_AIRD_CODES:
+	procedure;
+
+declare		ERROR_TK_DETAIL      fixed binary (15);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > 0) !
+   (TK_DET_ANSW_SEQ > 0) then
+      do;
+      END_DEL_AIRD_CODES = YES;
+      return;
+      end;
+
+   /* GET_AIRD_CODE - Get the air detail module code */
+
+   MODULE_CODE = TK_DETAIL_MODULE;
+   MODULE_DATE = TK_DATE;
+
+
+   /* SKIP_IF_NO_MATCH - Skip if this code doesn't match */
+
+   if MODULE_CODE ^= MOD_CODE(LINE) then
+      return;
+
+
+   /* DELETE_AIRD - Delete */
+
+   call DELETE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+   /* READ_AIRD - Read the air detail record */
+
+   call READ_KEYED (TK_DETAIL_NO,KEY_AREA_1,ERROR_TK_DETAIL);
+   if ERROR_TK_DETAIL > 3 then
+      call PRINT_ERROR (TK_DETAIL_NO,ERROR_TK_DETAIL);
+return;
+end;	/* DEL_AIRD_CODES       */
+
+/****************************************************************
+	DEL_REMARK_CODES
+	Delete all the remarks with this code
+****************************************************************/
+
+DEL_REMARK_CODES:
+	procedure;
+
+declare		ERROR_BK_COMMENT     fixed binary (15);
+
+   /* READ_NEXT_REMARKD - Read next */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END_REMARKD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > BK_MODIFICATION) !
+   (BK_OR_TOUR_NO > BOOKING_NO) !
+   (BK_COMM_ALT_SEQ > 0) !
+   (BK_COMM_ANSW_SEQ > 0) !
+   (BK_TOUR_C_R > "R") then
+      do;
+      END_DEL_REMARK_CODES = YES;
+      return;
+      end;
+
+   /* GET_REMARK_CODE - Get the remark detail's tour code */
+
+   MODULE_CODE = BK_COMM_MOD_CODE;
+   MODULE_DATE = 32767;
+
+
+   /* SKIP_IF_NO_MATCH - Skip if this code doesn't match */
+
+   if MODULE_CODE ^= MOD_CODE(LINE) then
+      return;
+
+
+   /* DEL_REMARKD_DET - Delete the remark record */
+
+   call DELETE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+
+   /* READ_REMARKD - Read the remark detail */
+
+   call READ_KEYED (BK_COMMENT_NO,KEY_AREA_1,ERROR_BK_COMMENT);
+   if ERROR_BK_COMMENT > 3 then
+      call PRINT_ERROR (BK_COMMENT_NO,ERROR_BK_COMMENT);
+return;
+end;	/* DEL_REMARK_CODES     */
+
+/****************************************************************
+	CLEAR_DATA_B
+	Clear the data in group B
+****************************************************************/
+
+CLEAR_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  11 to  19;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+return;
+end;	/* CLEAR_DATA_B         */
+
+/****************************************************************
+	ADD_NEW_MOD
+	Add the detail for the new module code
+****************************************************************/
+
+ADD_NEW_MOD:
+	procedure;
+
+
+   /* SAVE_CURR_BK - Save the current booking information */
+
+   declare SAVE_DATE fixed binary;
+   declare SAVE_ALT(20) fixed binary;
+   declare SAVE_ANSW(20) fixed binary;
+
+   SAVE_DATE = BK_DEPARTURE;
+   do LOOP_INDEX = 1 to 20;
+      SAVE_ALT(LOOP_INDEX) = BK_ALT_OPT_SQ(LOOP_INDEX);
+      SAVE_ANSW(LOOP_INDEX) = BK_AO_ANSW_SQ(LOOP_INDEX);
+   end;
+
+   BK_DEPARTURE = MOD_DATE(LINE);
+
+
+   /* BK_AO_SELECT - Call the program to select the OPT/ALTs */
+
+   %include "BK_AO_SELECT.DCL";
+   call BK_AO_SELECT(
+      BK_BOOKING_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_OPT_ALT_RECORD);
+
+   /* DISPLAY_SCREEN_2 - Display the second screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_MOD_MAINT_2);
+
+   /* COPY_HOTEL_DETL - Copy the hotel detail if change */
+
+   if BK_NEXT_MOD ^= BK_HOTEL_MOD then
+      do;
+
+      /* SET_FIRST_HOTELD - Set first hotel detail */
+
+      HDET_MOD = BK_MODIFICATION;
+      HDET_BK_TR_NO = BOOKING_NO;
+      HDET_ALT_SEQ = 0;
+      HDET_ANSW_SEQ = 0;
+      HDET_DAY = 0;
+      HDET_SEQ = 0;
+      call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_HOTEL = NO;
+      do while (END_COPY_HOTEL ^= YES);
+         call COPY_HOTEL;
+      end;
+      BK_HOTEL_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* COPY_TOUR_DETL - Copy land detail if any changes */
+
+   if BK_NEXT_MOD ^= BK_TOUR_MOD then
+      do;
+
+      /* SET_FIRST_LANDD - Set to the first land detail record */
+
+      LDET_MOD = BK_MODIFICATION;
+      LDET_BK_TK_NO = BOOKING_NO;
+      LDET_ALT_SEQ = 0;
+      LDET_ANSW_SEQ = 0;
+      LDET_DAY = 0;
+      LDET_SEQ = 0;
+      call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_TOUR = NO;
+      do while (END_COPY_TOUR ^= YES);
+         call COPY_TOUR;
+      end;
+      BK_TOUR_MOD = BK_NEXT_MOD;
+      end;
+
+   if BK_NEXT_MOD ^= BK_AIR_MOD then
+      do;
+
+      /* SET_FIRST_AIRH_COPY - Set to first header to copy */
+
+      TK_MODIFICATION = BK_MODIFICATION;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = 0;
+      TK_ANSW_SEQ = 0;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIRH = NO;
+      do while (END_COPY_AIRH ^= YES);
+         call COPY_AIRH;
+      end;
+
+      /* SETUP_KEY_AIRH - Set up the key for air header record */
+
+      TK_MODIFICATION = BK_MODIFICATION;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = 0;
+      TK_ANSW_SEQ = 0;
+      KEY_NO = 1;
+
+      /* READ_AND_LOCK_AIRH - Read the record and lock it */
+
+      call READ_KEYED (TK_HEADER_NO+?LOCK_RECORD,KEY_NO,ERROR_TK_HEADER);
+      if ERROR_TK_HEADER = RECORD_LOCKED then
+         do;
+         call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+         call PRESS_RETURN;
+         end;
+      if ERROR_TK_HEADER > 3 then
+         call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+      /* SET_FIRST_AIRD_COPY - First air detail of this record */
+
+      TK_DET_MOD = BK_MODIFICATION;
+      TK_DET_BK_TK = BOOKING_NO;
+      TK_DET_ALT_SEQ = 0;
+      TK_DET_ANSW_SEQ = 0;
+      TK_DATE = 0;
+      TK_SEQ = 0;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIR = NO;
+      do while (END_COPY_AIR ^= YES);
+         call COPY_AIR;
+      end;
+      BK_AIR_MOD = BK_NEXT_MOD;
+      end;
+if BK_LINE_CHGD ^= BK_NEXT_MOD then
+   do;
+
+   /* SET_FIRST_LINE - Set for first read */
+
+   BK_LINE_MOD = 0;
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 0;
+   call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   END_GO_THRU_LINE = NO;
+   do while (END_GO_THRU_LINE ^= YES);
+      call GO_THRU_LINE;
+   end;
+   BK_LINE_CHGD = BK_NEXT_MOD;
+   end;
+
+if BK_NEXT_MOD ^= BK_REMARK_MOD then
+   do;
+
+   /* SET_FIRST_REMARKD - Set first */
+
+   BK_TOUR_MOD_NO = BK_MODIFICATION;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_COMM_ALT_SEQ = 0;
+   BK_COMM_ANSW_SEQ = 0;
+   BK_TOUR_C_R = "R";
+   BK_TOUR_SEQ = 0;
+   call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   END_COPY_REMARK = NO;
+   do while (END_COPY_REMARK ^= YES);
+      call COPY_REMARK;
+   end;
+   BK_REMARK_MOD = BK_NEXT_MOD;
+   end;
+
+
+   /* BK_SET_LINE - Call the program to set the line items */
+
+   %include "BK_SET_LINE.DCL";
+   call BK_SET_LINE(
+      BK_LINE_RECORD,
+      BK_BOOKING_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD);
+
+   /* BK_SET_HOTEL_DET - Setup hotel detail */
+
+   %include "BK_SET_HOTEL_DET.DCL";
+   call BK_SET_HOTEL_DET(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_DET_HOTEL_RECORD);
+
+   /* BK_SET_LAND_DET - Set up the land detail */
+
+   %include "BK_SET_LAND_DET.DCL";
+   call BK_SET_LAND_DET(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_DET_LAND_RECORD);
+
+   /* BK_SET_AIR_DET - Call the program to set up air */
+
+   %include "BK_SET_AIR_DET.DCL";
+   call BK_SET_AIR_DET(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      TK_DETAIL_RECORD,
+      TK_HEADER_RECORD);
+
+   /* BK_SET_REMARK_DET - Call program to set up the detail */
+
+   %include "BK_SET_REMARK_DET.DCL";
+   call BK_SET_REMARK_DET(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_COMMENT_RECORD);
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (BK_MOD_MAINT_RECORD) );
+
+   /* RESTORE_CURR_BK - Restore the current booking record */
+
+   BK_DEPARTURE = SAVE_DATE;
+   do LOOP_INDEX = 1 to 20;
+      BK_ALT_OPT_SQ(LOOP_INDEX) = SAVE_ALT(LOOP_INDEX);
+      BK_AO_ANSW_SQ(LOOP_INDEX) = SAVE_ANSW(LOOP_INDEX);
+   end;
+
+
+   /* LINE_TO_SIX - Line to sixth row, clear header */
+
+   declare	LINE_SAVE fixed binary;
+   LINE_SAVE = LINE;
+
+   LINE = 5;
+   HDR_TOUR_CODE = "";
+
+   END_DISPLAY_ALL_MODS = NO;
+   do while (END_DISPLAY_ALL_MODS ^= YES);
+      call DISPLAY_ALL_MODS;
+   end;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* SET_LINE_BACK - Set the line back */
+
+   LINE = LINE_SAVE;
+
+return;
+end;	/* ADD_NEW_MOD          */
+
+/****************************************************************
+	COPY_HOTEL
+	Make a copy of the current hotel detail
+****************************************************************/
+
+COPY_HOTEL:
+	procedure;
+
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) then
+      do;
+      END_COPY_HOTEL = YES;
+      return;
+      end;
+
+   /* CHANGE_HOTELD - Set mod to 0 */
+
+   HDET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_HOTELD - Write the hotel detail */
+
+   call WRITE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* SET_FIRST_HOTELC - Set for first read */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_SEQ = HDET_SEQ+1;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_HOTEL           */
+
+/****************************************************************
+	COPY_TOUR
+	Copy the tour detail
+****************************************************************/
+
+COPY_TOUR:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDD - Last land detail record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_COPY_TOUR = YES;
+      return;
+      end;
+
+   /* CHANGE_TOURD - Change mod code to 0 */
+
+   LDET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_LANDD - Write the land detail record */
+
+   call WRITE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* SET_FIRST_TOURC - Set next record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_SEQ = LDET_SEQ+1;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_TOUR            */
+
+/****************************************************************
+	COPY_AIRH
+	Copy all the headers to the last md
+****************************************************************/
+
+COPY_AIRH:
+	procedure;
+
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH_COPY - Last air header in booking? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_COPY_AIRH = YES;
+      return;
+      end;
+
+   /* SET_TKHDR - Set to next mod */
+
+   TK_MODIFICATION = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRH - Write the air header record */
+
+   call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRHC - Set to the next air Header */
+
+   TK_MODIFICATION = 0;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ANSW_SEQ = TK_ANSW_SEQ+1;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIRH            */
+
+/****************************************************************
+	COPY_AIR
+	Copy the air detail
+****************************************************************/
+
+COPY_AIR:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_COPY_AIR = YES;
+      return;
+      end;
+
+   /* CHANGE_AIRD - Change mod code to 0 */
+
+   TK_DET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRD - Write the air detail record */
+
+   call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRC - Set to the next record */
+
+   TK_DET_MOD = 0;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_SEQ = TK_SEQ+1;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIR             */
+
+/****************************************************************
+	GO_THRU_LINE
+	Read thru the pax info and copy to mod
+****************************************************************/
+
+GO_THRU_LINE:
+	procedure;
+
+
+   /* READ_NEXT_LINE - Read the next line record */
+
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LINE_NO,ERROR_CODE);
+
+   /* CHECK_END_LINE - Last record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_LINE_MOD > 0) !
+   (BK_LINE_BK_NO > BOOKING_NO) then
+      do;
+      END_GO_THRU_LINE = YES;
+      return;
+      end;
+
+   /* SET_MOD_LINE - Set the line to the correct mod number */
+
+   BK_LINE_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_LINE - Write the line detail record */
+
+   call WRITE_RECORD (BK_LINE_NO,ERROR_CODE);
+
+   /* SET_LINE_POS - Set the position for the next read */
+
+   BK_LINE_MOD = 0;
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = BK_LINE_SEQ+1;
+   call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* GO_THRU_LINE         */
+
+/****************************************************************
+	COPY_REMARK
+	Copy the remarks to the next mod
+****************************************************************/
+
+COPY_REMARK:
+	procedure;
+
+
+   /* READ_NEXT_REMARKD - Read next */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END_REMARKD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > BK_MODIFICATION) !
+   (BK_OR_TOUR_NO > BOOKING_NO) !
+   (BK_COMM_ALT_SEQ > 0         ) !
+   (BK_COMM_ANSW_SEQ > 0               ) !
+   (BK_TOUR_C_R > "R") then
+      do;
+      END_COPY_REMARK = YES;
+      return;
+      end;
+
+   /* CHANGE_REMARKD - Change remark mod code to 0 */
+
+   BK_TOUR_MOD_NO = BK_NEXT_MOD;
+
+
+   /* WRITE_REMARKD - Write a remark record */
+
+   call WRITE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+
+   /* SET_FIRST_REMARKC - Set for the next remark */
+
+   BK_TOUR_MOD_NO = BK_MODIFICATION;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_TOUR_SEQ = BK_TOUR_SEQ+1;
+   call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_REMARK          */
+
+/****************************************************************
+	DISPLAY_ALL_MODS
+	Display all the current mod codes
+****************************************************************/
+
+DISPLAY_ALL_MODS:
+	procedure;
+
+
+   /* SET_LINE_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET(LINE);
+
+
+   /* RETURN_IF_LAST_LINE - Return if the last line was displayed */
+
+   if LINE = 16 then
+      do;
+      END_DISPLAY_ALL_MODS = YES;
+      return;
+      end;
+
+
+   /* INC_LINE - Increment the line */
+
+   LINE = LINE + 1;
+
+
+   /* SET_MOD_CODE - Set the MODULE code */
+
+   MODULE_CODE = MOD_CODE(LINE);
+   MODULE_DATE = MOD_DATE(LINE);
+
+
+   /* SKIP_IF_NO_MOD - Skip this one if it doesn't have a code */
+
+   if MODULE_CODE = "" then
+      return;
+
+   if MODULE_CODE = HDR_TOUR_CODE then
+      return;
+
+
+   /* READ_MOD_HDR - Read the module header */
+
+   HDR_TOUR_CODE = MODULE_CODE;
+   HDR_END_ON = MODULE_DATE;
+   call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      if MODULE_CODE ^= HDR_TOUR_CODE then
+         ERROR_CODE = 1;
+
+      if HDR_START_ON > MODULE_DATE then
+         ERROR_CODE = 1;
+
+      if HDR_TOUR_TYPE ^= "H" then
+         ERROR_CODE = 1;
+      end;
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      HDR_TOUR_DESC = "** Module not found **";
+
+   call DISPLAY_DATA_B;
+
+   /* RETURN_IF_LAST_LINE - Return if the last line was displayed */
+
+   if LINE = 16 then
+      do;
+      END_DISPLAY_ALL_MODS = YES;
+      return;
+      end;
+
+return;
+end;	/* DISPLAY_ALL_MODS     */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  11 to  19;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	DIS_MOD_CODES
+	Display all the module codes
+****************************************************************/
+
+DIS_MOD_CODES:
+	procedure;
+
+
+   /* RESET_LINE - Init the line offset to 0 */
+
+   LINE = 0;
+
+   END_DISPLAY_ALL_MODS = NO;
+   do while (END_DISPLAY_ALL_MODS ^= YES);
+      call DISPLAY_ALL_MODS;
+   end;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+return;
+end;	/* DIS_MOD_CODES        */
+
+/****************************************************************
+	CHANGE_MOD
+	Change a module
+****************************************************************/
+
+CHANGE_MOD:
+	procedure;
+
+call SET_ROW_OFFSET(0);
+
+call ANY_CHANGE (1, 16,LINE,RETURN_CODE);
+if LINE = 0 then
+   do;
+   END_CHANGE_MOD = YES;
+   return;
+   end;
+if LINE >=  1 then if LINE <= 16 then
+   do;
+   call ENTER_LINE_MOD;
+   end;
+
+return;
+end;	/* CHANGE_MOD           */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (BK_COMMENT_NO);
+   call CLOSE_FILE (BK_OPT_ALT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

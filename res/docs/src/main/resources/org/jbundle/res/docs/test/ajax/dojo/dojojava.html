@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Example 15</title>
+
+<script type="text/javascript" src="../../../styles/js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+<style type="text/css">
+        @import "../../../styles/js/dijit/themes/tundra/tundra.css";
+</style>
+
+<script type="text/javascript">
+
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.Dialog");
+dojo.require("dojo.parser");
+
+function change()
+{
+	var domToAppendTo = dijit.byId("changeButton");
+	if (domToAppendTo)
+		domToAppendTo.setLabel("new label");
+};
+function changeTarget()
+{
+//	var domToAppendTo = dijit.byId("targetarea");
+	var domToAppendTo = document.getElementById("targetarea");
+	if (domToAppendTo)
+		domToAppendTo.childNodes[0].data = "\nnew label\n";
+};
+</script>
+
+</head>
+
+<body class="tundra">
+<script src="http://java.com/js/deployJava.txt" type="text/javascript"></script>
+	<form id="myForm" action="">
+
+		<p><button dojoType="dijit.form.Button" id="changeButton" onClick="change();">Change button</button><p/>
+		<p><button dojoType="dijit.form.Button" id="changeTarget" onClick="changeTarget();">Change button</button><p/>
+
+	</form>
+
+	<div id="targetarea">
+	Target area
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,1075 @@
+/****************************************************************
+	Module: BK_TOUR_COPY
+	Top Level Logic: TOUR_COPY_LOGIC
+	Date: 28-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_TOUR_COPY
+	Copy tour info - Top Level
+****************************************************************/
+
+%replace BK_TOUR_COPY_1 by 792;
+BK_TOUR_COPY:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_OPT_ALT_RECORD);
+%replace BK_TOUR_DOC_NO by  76;
+%replace BK_PRICING_NO by  59;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_DET_LAND_NO by  68;
+%replace TK_HEADER_NO by  56;
+%replace TK_DETAIL_NO by  57;
+%replace BK_COMMENT_NO by  48;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_OPT_ALT_NO by  62;
+%include "BK_TOUR_COPY.DD";
+%include "BK_TOUR_DOC.DD";
+%include "BK_PRICING.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "TK_HEADER.DD";
+%include "TK_DETAIL.DD";
+%include "BK_COMMENT.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_OPT_ALT.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_COPY_TOUR_DOCS   bit (1);
+declare		END_COPY_THRU_QA     bit (1);
+declare		END_COPY_THRU_PRICES bit (1);
+declare		END_COPY_THRU_HOTELS bit (1);
+declare		END_COPY_THRU_LANDS  bit (1);
+declare		END_COPY_THRU_AIRH   bit (1);
+declare		END_COPY_THRU_AIRD   bit (1);
+declare		END_COPY_THRU_REMS   bit (1);
+declare		END_COPY_THRU_COMS   bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_OPT_ALT     fixed binary (15);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_BK_COMMENT     fixed binary (15);
+   call INITIALIZE;
+   call TOUR_COPY_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   ACTION_DESC = "";
+   PRICE_MOD_CODE = "A";
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   TK_SEQ = 1;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   BK_TOUR_MOD_CODE = "A";
+   BK_TOUR_SEQ = 0;
+   BK_COMM_MOD_CODE = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_TOUR_COPY_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_TOUR_COPY_RECORD) );
+   call OPEN_FILE (BK_TOUR_DOC_NO,"BK_TOUR_DOC",byteaddr(BK_TOUR_DOC_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_DOC_NO,ERROR_CODE);
+   call OPEN_FILE (BK_PRICING_NO,"BK_PRICING",byteaddr(BK_PRICING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PRICING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_COMMENT_NO,"BK_COMMENT",byteaddr(BK_COMMENT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_COMMENT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	TOUR_COPY_MAIN
+	Mainline logic
+****************************************************************/
+
+TOUR_COPY_MAIN:
+	procedure;
+
+declare		ERROR_BK_TOUR_HDR    fixed binary (15);
+   call DISPLAY_DATA_A;
+   call ENTER_DATA_B;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* SAVE_COPY_TOUR - Save the current (source) tour info. */
+
+   SAVE_TOUR_HDR = HDR_TOUR_CODE;
+   SAVE_TOUR_END = HDR_END_ON;
+   SAVE_Q_SEQ = ALT_SEQ;
+   SAVE_A_SEQ = ALT_ANSW_SEQ;
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+
+   /* COPY_TOUR_HDR - Copy this header to the new copy */
+
+   HDR_TOUR_CODE = NEW_TOUR_CODE;
+
+   /* WRITE_TOUR_HDR - Write the tour header record */
+
+   call WRITE_RECORD (BK_TOUR_HDR_NO,ERROR_CODE);
+
+
+   /* COPY_DOCS - Copy the tour doc control file */
+
+   if COPY_DOC = "Y" then
+      do;
+
+      /* SET_FIRST_DOC - First in tour doc file */
+
+      DOC_TOUR_HDR_NO = SAVE_TOUR_HDR;
+      DOC_PRINT_ON = 0;
+      DOC_SEQ = 0;
+      call SET_POSITION (BK_TOUR_DOC_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_TOUR_DOCS = NO;
+      do while (END_COPY_TOUR_DOCS ^= YES);
+         call COPY_TOUR_DOCS;
+      end;
+      end;
+
+
+   /* COPY_TOUR_AO - Copy the Questions/Answers */
+
+
+      /* SET_FIRST_QA - Set first Alt/Opt */
+
+      ALT_TOUR_CODE = SAVE_TOUR_HDR;
+      ALT_SEQ = START_Q_NO;
+      ALT_ANSW_SEQ = START_A_NO;
+      call SET_POSITION (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_THRU_QA = NO;
+      do while (END_COPY_THRU_QA ^= YES);
+         call COPY_THRU_QA;
+      end;
+
+   /* COPY_TOUR_PRICES - Copy the price detail? */
+
+   if COPY_PRICE = "Y" then
+      do;
+
+      /* SET_FIRST_PRICE - Set first price */
+
+      PRICE_TOUR_CODE = SAVE_TOUR_HDR;
+      PRICE_ALT_OPT = START_Q_NO;
+      PRICE_ALT_SEQ = START_A_NO;
+      PRICE_PAX_CAT = "";
+      PRICE_SEQ = 0;
+      call SET_POSITION (BK_PRICING_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_THRU_PRICES = NO;
+      do while (END_COPY_THRU_PRICES ^= YES);
+         call COPY_THRU_PRICES;
+      end;
+      end;
+
+
+   /* COPY_TOUR_HOTELS - Copy the hotel detail? */
+
+   if COPY_HOTEL = "Y" then
+      do;
+
+      /* SET_FIRST_HOTEL - First hotel */
+
+      HDET_MOD = -1;
+      HDET_TOUR_HDR = SAVE_TOUR_HDR;
+      HDET_ALT_SEQ = START_Q_NO;
+      HDET_ANSW_SEQ = START_A_NO;
+      HDET_DAY = 0;
+      HDET_SEQ = 0;
+      call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_THRU_HOTELS = NO;
+      do while (END_COPY_THRU_HOTELS ^= YES);
+         call COPY_THRU_HOTELS;
+      end;
+      end;
+
+
+   /* COPY_TOUR_LANDS - Copy the land detail? */
+
+   if COPY_LAND = "Y" then
+      do;
+
+      /* SET_FIRST_LAND - Set to the first land record */
+
+      LDET_MOD = -1;
+      LDET_TOUR_CODE = SAVE_TOUR_HDR;
+      LDET_ALT_SEQ = START_Q_NO;
+      LDET_ANSW_SEQ = START_A_NO;
+      LDET_DAY = 0;
+      LDET_SEQ = 0;
+      call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_THRU_LANDS = NO;
+      do while (END_COPY_THRU_LANDS ^= YES);
+         call COPY_THRU_LANDS;
+      end;
+      end;
+
+
+   /* COPY_TOUR_AIRH - Copy the air header? */
+
+   if COPY_AIR_HDR = "Y" then
+      do;
+
+      /* SET_FIRST_AIRH - Set to read the first Air header */
+
+      TK_MODIFICATION = -1;
+      TK_TOUR_HDR = SAVE_TOUR_HDR;
+      TK_ALT_SEQ = START_Q_NO;
+      TK_ANSW_SEQ = START_A_NO;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_THRU_AIRH = NO;
+      do while (END_COPY_THRU_AIRH ^= YES);
+         call COPY_THRU_AIRH;
+      end;
+      end;
+
+
+   /* COPY_TOUR_AIRD - Copy the air detail? */
+
+   if COPY_AIR_DET = "Y" then
+      do;
+
+      /* SET_FIRST_AIRD - Set first air */
+
+      TK_DET_MOD = -1;
+      TK_DET_TR_CODE = SAVE_TOUR_HDR;
+      TK_DET_ALT_SEQ = START_Q_NO;
+      TK_DET_ANSW_SEQ = START_A_NO;
+      TK_DATE = 0;
+      TK_SEQ = 0;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_THRU_AIRD = NO;
+      do while (END_COPY_THRU_AIRD ^= YES);
+         call COPY_THRU_AIRD;
+      end;
+      end;
+
+
+   /* COPY_TOUR_REMARKS - Copy the remarks? */
+
+   if COPY_REMARK = "Y" then
+      do;
+
+      /* SET_FIRST_REMARKD - Set first */
+
+      BK_TOUR_MOD_NO = -1;
+      BK_COMM_TOUR_CODE = SAVE_TOUR_HDR;
+      BK_COMM_ALT_SEQ = START_Q_NO;
+      BK_COMM_ANSW_SEQ = START_A_NO;
+      BK_TOUR_C_R = "";
+      BK_TOUR_SEQ = 0;
+      call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_THRU_REMS = NO;
+      do while (END_COPY_THRU_REMS ^= YES);
+         call COPY_THRU_REMS;
+      end;
+      end;
+
+
+   /* COPY_TOUR_COMMENTS - Copy the comments? */
+
+   if COPY_COMMENT = "Y" then
+      do;
+
+      /* SET_FIRST_REMARKD - Set first */
+
+      BK_TOUR_MOD_NO = -1;
+      BK_COMM_TOUR_CODE = SAVE_TOUR_HDR;
+      BK_COMM_ALT_SEQ = START_Q_NO;
+      BK_COMM_ANSW_SEQ = START_A_NO;
+      BK_TOUR_C_R = "";
+      BK_TOUR_SEQ = 0;
+      call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_THRU_COMS = NO;
+      do while (END_COPY_THRU_COMS ^= YES);
+         call COPY_THRU_COMS;
+      end;
+      end;
+
+
+   /* RESTORE_COPY_TOUR - Restore the tour information */
+
+   HDR_TOUR_CODE = SAVE_TOUR_HDR;
+   HDR_END_ON = SAVE_TOUR_END;
+   ALT_TOUR_CODE = SAVE_TOUR_HDR;
+   ALT_SEQ = SAVE_Q_SEQ;
+   ALT_ANSW_SEQ = SAVE_A_SEQ;
+
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_BK_TOUR_HDR);
+   if ERROR_BK_TOUR_HDR > 3 then
+      call PRINT_ERROR (BK_TOUR_HDR_NO,ERROR_BK_TOUR_HDR);
+
+   /* READ_RECORD_2 - Read from another file */
+
+   call READ_KEYED (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_BK_OPT_ALT);
+   if ERROR_BK_OPT_ALT > 3 then
+      call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_BK_OPT_ALT);
+
+   /* CHECK_AO_ERR - Set A/O fields if not found */
+
+   if ERROR_BK_OPT_ALT = RECORD_NOT_FOUND then
+      do;
+      ALT_QUESTION = "* Question/Answer not found *";
+      ALT_ANSWER = "* Question/Answer not found *";
+      ALT_START = 0;
+      ALT_END = 0;
+      end;
+
+return;
+end;	/* TOUR_COPY_MAIN       */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =   1 to   8;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	ENTER_DATA_B
+	Enter the screen data for group B
+****************************************************************/
+
+ENTER_DATA_B:
+	procedure;
+
+END_Q_NO = START_Q_NO;
+END_A_NO = START_A_NO;
+COPY_DOC = "Y";
+COPY_PRICE = "Y";
+COPY_HOTEL = "Y";
+COPY_LAND = "Y";
+COPY_AIR_HDR = "Y";
+COPY_AIR_DET = "Y";
+COPY_REMARK = "Y";
+COPY_COMMENT = "Y";
+do LOOP_INDEX =   9 to  21;
+   if LOOP_INDEX =  11 then
+      END_Q_NO = START_Q_NO;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* CHECK_ALL_Q - Have they selected all Questions? */
+
+      if START_Q_NO ^= END_Q_NO then
+         do;
+         START_A_NO = 0;
+         END_A_NO = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+
+      end;
+   if LOOP_INDEX =  13 then
+      END_A_NO = START_A_NO;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* CHECK_ALL_Q - Have they selected all Questions? */
+
+      if START_Q_NO ^= END_Q_NO then
+         do;
+         START_A_NO = 0;
+         END_A_NO = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  10 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         START_Q_NO = 0;
+         END_Q_NO = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         START_A_NO = 0;
+         END_A_NO = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_B         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 13,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 13 then
+   do;
+
+      LOOP_INDEX = SELECT +   8;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* CHECK_ALL_Q - Have they selected all Questions? */
+
+      if START_Q_NO ^= END_Q_NO then
+         do;
+         START_A_NO = 0;
+         END_A_NO = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+
+      end;
+   if LOOP_INDEX =  12 then
+      call DISPLAY_MSG_NO (  3);
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* CHECK_ALL_Q - Have they selected all Questions? */
+
+      if START_Q_NO ^= END_Q_NO then
+         do;
+         START_A_NO = 0;
+         END_A_NO = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+
+      end;
+   if LOOP_INDEX =  13 then
+      call DISPLAY_MSG_NO (  3);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  10 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         START_Q_NO = 0;
+         END_Q_NO = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         START_A_NO = 0;
+         END_A_NO = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	COPY_TOUR_DOCS
+	Copy the tour doc file
+****************************************************************/
+
+COPY_TOUR_DOCS:
+	procedure;
+
+declare		ERROR_BK_TOUR_DOC    fixed binary (15);
+
+   /* READ_NEXT_DOC - Next in tour doc file */
+
+   call READ_NEXT (BK_TOUR_DOC_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TOUR_DOC_NO,ERROR_CODE);
+
+   /* CHECK_END_DOC - Last doc? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (DOC_TOUR_HDR_NO > SAVE_TOUR_HDR) then
+      do;
+      END_COPY_TOUR_DOCS = YES;
+      return;
+      end;
+
+   /* SET_NEW_DOC - Set to new tour */
+
+   DOC_TOUR_HDR_NO = NEW_TOUR_CODE;
+
+
+   /* WRITE_DOC - Write the doc file */
+
+   call WRITE_RECORD (BK_TOUR_DOC_NO,ERROR_CODE);
+
+   /* SET_OLD_DOC - Set the doc header to the original */
+
+   DOC_TOUR_HDR_NO = SAVE_TOUR_HDR;
+
+
+   /* READ_DOC - Read from the tour doc file */
+
+   call READ_KEYED (BK_TOUR_DOC_NO,KEY_AREA_1,ERROR_BK_TOUR_DOC);
+   if ERROR_BK_TOUR_DOC > 3 then
+      call PRINT_ERROR (BK_TOUR_DOC_NO,ERROR_BK_TOUR_DOC);
+return;
+end;	/* COPY_TOUR_DOCS       */
+
+/****************************************************************
+	COPY_THRU_QA
+	Copy all the questions and answers
+****************************************************************/
+
+COPY_THRU_QA:
+	procedure;
+
+
+   /* READ_NEXT_QA - Read next alt/opt */
+
+   call READ_NEXT (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+
+   /* CHECK_END_QA - Last Alt/Opt? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (ALT_TOUR_CODE > SAVE_TOUR_HDR) !
+   (ALT_SEQ > END_Q_NO) !
+   (ALT_ANSW_SEQ > END_A_NO) then
+      do;
+      END_COPY_THRU_QA = YES;
+      return;
+      end;
+
+   /* SET_NEW_QA - Set to the new header */
+
+   ALT_TOUR_CODE = NEW_TOUR_CODE;
+
+
+   /* WRITE_QA - Write the Alt/Opt file */
+
+   call WRITE_RECORD (BK_OPT_ALT_NO,ERROR_CODE);
+
+   /* SET_OLD_QA - Set tpo the original Q/A */
+
+   ALT_TOUR_CODE = SAVE_TOUR_HDR;
+
+
+   /* READ_QA - Read from the Alt/Opt file */
+
+   call READ_KEYED (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_BK_OPT_ALT);
+   if ERROR_BK_OPT_ALT > 3 then
+      call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_BK_OPT_ALT);
+return;
+end;	/* COPY_THRU_QA         */
+
+/****************************************************************
+	COPY_THRU_PRICES
+	Copy all the prices
+****************************************************************/
+
+COPY_THRU_PRICES:
+	procedure;
+
+declare		ERROR_BK_PRICING     fixed binary (15);
+
+   /* READ_NEXT_PRICE - Read the next recorsd */
+
+   call READ_NEXT (BK_PRICING_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PRICING_NO,ERROR_CODE);
+
+   /* CHECK_END_PRICE - Last price? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (PRICE_TOUR_CODE > SAVE_TOUR_HDR) !
+   (PRICE_ALT_OPT > END_Q_NO) !
+   (PRICE_ALT_SEQ > END_A_NO) then
+      do;
+      END_COPY_THRU_PRICES = YES;
+      return;
+      end;
+
+   /* SET_NEW_PRICE - Set the new price header */
+
+   PRICE_TOUR_CODE = NEW_TOUR_CODE;
+
+
+   /* WRITE_PRICE - Write this price record */
+
+   call WRITE_RECORD (BK_PRICING_NO,ERROR_CODE);
+
+   /* SET_OLD_PRICE - Set the price header back */
+
+   PRICE_TOUR_CODE = SAVE_TOUR_HDR;
+
+
+   /* READ_PRICE - Read this price record */
+
+   call READ_KEYED (BK_PRICING_NO,KEY_AREA_1,ERROR_BK_PRICING);
+   if ERROR_BK_PRICING > 3 then
+      call PRINT_ERROR (BK_PRICING_NO,ERROR_BK_PRICING);
+return;
+end;	/* COPY_THRU_PRICES     */
+
+/****************************************************************
+	COPY_THRU_HOTELS
+	Copy all the tour hotel detail
+****************************************************************/
+
+COPY_THRU_HOTELS:
+	procedure;
+
+declare		ERROR_BK_DET_HOTEL   fixed binary (15);
+
+   /* READ_NEXT_HOTEL - Read the next hotel detail */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTEL - Check for the end of the hotel detail */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > -1) !
+   (HDET_TOUR_HDR > SAVE_TOUR_HDR) !
+   (HDET_ALT_SEQ > END_Q_NO) !
+   (HDET_ANSW_SEQ > END_A_NO) then
+      do;
+      END_COPY_THRU_HOTELS = YES;
+      return;
+      end;
+
+   /* SET_NEW_HTL - Set the new hotel header */
+
+   HDET_TOUR_HDR = NEW_TOUR_CODE;
+
+
+   /* WRITE_HOTELD - Write the hotel detail */
+
+   call WRITE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* SET_OLD_HTL - Restore the hotel tour code */
+
+   HDET_TOUR_HDR = SAVE_TOUR_HDR;
+
+
+   /* READ_HOTELD - Read the hotel detail record */
+
+   call READ_KEYED (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_BK_DET_HOTEL);
+   if ERROR_BK_DET_HOTEL > 3 then
+      call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_BK_DET_HOTEL);
+return;
+end;	/* COPY_THRU_HOTELS     */
+
+/****************************************************************
+	COPY_THRU_LANDS
+	Copy the tour land detail
+****************************************************************/
+
+COPY_THRU_LANDS:
+	procedure;
+
+declare		ERROR_BK_DET_LAND    fixed binary (15);
+
+   /* READ_NEXT_LAND - Read next */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LAND - Last one? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > -1) !
+   (LDET_TOUR_CODE > SAVE_TOUR_HDR) !
+   (LDET_ALT_SEQ > END_Q_NO) !
+   (LDET_ANSW_SEQ > END_A_NO) then
+      do;
+      END_COPY_THRU_LANDS = YES;
+      return;
+      end;
+
+   /* SET_NEW_LND - Set to the new land detail */
+
+   LDET_TOUR_CODE = NEW_TOUR_CODE;
+
+
+   /* WRITE_LANDD - Write the land detail record */
+
+   call WRITE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* SET_OLD_LND - Restore the land tour header */
+
+   LDET_TOUR_CODE = SAVE_TOUR_HDR;
+
+
+   /* READ_LANDD - Read the land detail record */
+
+   call READ_KEYED (BK_DET_LAND_NO,KEY_AREA_1,ERROR_BK_DET_LAND);
+   if ERROR_BK_DET_LAND > 3 then
+      call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+return;
+end;	/* COPY_THRU_LANDS      */
+
+/****************************************************************
+	COPY_THRU_AIRH
+	Copy the tour air headers
+****************************************************************/
+
+COPY_THRU_AIRH:
+	procedure;
+
+declare		ERROR_TK_HEADER      fixed binary (15);
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH - Last header? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > -1) !
+   (TK_TOUR_HDR > SAVE_TOUR_HDR) !
+   (TK_ALT_SEQ > END_Q_NO) !
+   (TK_ANSW_SEQ > END_A_NO) then
+      do;
+      END_COPY_THRU_AIRH = YES;
+      return;
+      end;
+
+   /* SET_NEW_AIR_HDR - Set the new air header tour code */
+
+   TK_TOUR_HDR = NEW_TOUR_CODE;
+
+
+   /* WRITE_AIRH - Write the air header record */
+
+   call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_OLD_AIR_HDR - Set the air tour code back */
+
+   TK_TOUR_HDR = SAVE_TOUR_HDR;
+
+
+   /* READ_AIRH - Read the Air header record */
+
+   call READ_KEYED (TK_HEADER_NO,KEY_AREA_1,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+return;
+end;	/* COPY_THRU_AIRH       */
+
+/****************************************************************
+	COPY_THRU_AIRD
+	Copy the tour air detail
+****************************************************************/
+
+COPY_THRU_AIRD:
+	procedure;
+
+declare		ERROR_TK_DETAIL      fixed binary (15);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > -1) !
+   (TK_DET_TR_CODE > SAVE_TOUR_HDR) !
+   (TK_DET_ALT_SEQ > END_Q_NO) !
+   (TK_DET_ANSW_SEQ > END_A_NO) then
+      do;
+      END_COPY_THRU_AIRD = YES;
+      return;
+      end;
+
+   /* SET_NEW_AIR_DET - Set the new air detail */
+
+   TK_DET_TR_CODE = NEW_TOUR_CODE;
+
+
+   /* WRITE_AIRD - Write the air detail record */
+
+   call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+   /* SET_OLD_AIR_DET - Set the air detail header back */
+
+   TK_DET_TR_CODE = SAVE_TOUR_HDR;
+
+
+   /* READ_AIRD - Read the air detail record */
+
+   call READ_KEYED (TK_DETAIL_NO,KEY_AREA_1,ERROR_TK_DETAIL);
+   if ERROR_TK_DETAIL > 3 then
+      call PRINT_ERROR (TK_DETAIL_NO,ERROR_TK_DETAIL);
+return;
+end;	/* COPY_THRU_AIRD       */
+
+/****************************************************************
+	COPY_THRU_REMS
+	Copy thru all the remarks
+****************************************************************/
+
+COPY_THRU_REMS:
+	procedure;
+
+
+   /* READ_NEXT_REMARKD - Read next */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END_REMARKD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > -1) !
+   (BK_COMM_TOUR_CODE > SAVE_TOUR_HDR) !
+   (BK_COMM_ALT_SEQ > END_Q_NO) !
+   (BK_COMM_ANSW_SEQ > END_A_NO) !
+   (BK_TOUR_C_R > BK_TOUR_C_R) then
+      do;
+      END_COPY_THRU_REMS = YES;
+      return;
+      end;
+
+   /* SKIP_NON_REMARKS - Skip all not remarks */
+
+   if BK_TOUR_C_R ^= "C" then
+      return;
+
+
+   /* SET_NEW_REM - Set the new remark tour code */
+
+   BK_COMM_TOUR_CODE = NEW_TOUR_CODE;
+
+
+   /* WRITE_REMARKD - Write a remark record */
+
+   call WRITE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+
+   /* SET_OLD_REM - Set the old remark tour header */
+
+   BK_COMM_TOUR_CODE = SAVE_TOUR_HDR;
+
+
+   /* READ_REMARKD - Read the remark detail */
+
+   call READ_KEYED (BK_COMMENT_NO,KEY_AREA_1,ERROR_BK_COMMENT);
+   if ERROR_BK_COMMENT > 3 then
+      call PRINT_ERROR (BK_COMMENT_NO,ERROR_BK_COMMENT);
+return;
+end;	/* COPY_THRU_REMS       */
+
+/****************************************************************
+	COPY_THRU_COMS
+	Copy the Tour booking comments
+****************************************************************/
+
+COPY_THRU_COMS:
+	procedure;
+
+
+   /* READ_NEXT_REMARKD - Read next */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END_REMARKD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > -1) !
+   (BK_COMM_TOUR_CODE > SAVE_TOUR_HDR) !
+   (BK_COMM_ALT_SEQ > END_Q_NO) !
+   (BK_COMM_ANSW_SEQ > END_A_NO) !
+   (BK_TOUR_C_R > BK_TOUR_C_R) then
+      do;
+      END_COPY_THRU_COMS = YES;
+      return;
+      end;
+
+   /* SKIP_NON_COMMENTS - Slip if not a tour booking comment */
+
+   if BK_TOUR_C_R ^= "B" then
+      return;
+
+
+   /* SET_NEW_REM - Set the new remark tour code */
+
+   BK_COMM_TOUR_CODE = NEW_TOUR_CODE;
+
+
+   /* WRITE_REMARKD - Write a remark record */
+
+   call WRITE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+
+   /* SET_OLD_REM - Set the old remark tour header */
+
+   BK_COMM_TOUR_CODE = SAVE_TOUR_HDR;
+
+
+   /* READ_REMARKD - Read the remark detail */
+
+   call READ_KEYED (BK_COMMENT_NO,KEY_AREA_1,ERROR_BK_COMMENT);
+   if ERROR_BK_COMMENT > 3 then
+      call PRINT_ERROR (BK_COMMENT_NO,ERROR_BK_COMMENT);
+return;
+end;	/* COPY_THRU_COMS       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_TOUR_DOC_NO);
+   call CLOSE_FILE (BK_PRICING_NO);
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (BK_COMMENT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

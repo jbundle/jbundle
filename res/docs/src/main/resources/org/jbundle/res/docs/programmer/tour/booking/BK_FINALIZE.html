@@ -1,0 +1,257 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This programs prints all of the scheduled documentation out for each tour on the correct date.
+
+<br wp="br1"><br wp="br2">
+<p>Program Explanation:
+
+<br wp="br1"><br wp="br2">
+<p>Vendors usually receive some of the following documents:
+
+<p>  * Tour Orders
+
+<p>  * Passenger lists
+
+<p>      (Sometimes with detailed passenger information)
+
+<p>  * Rooming lists
+
+<p>  * Itineraries
+
+<p>  * Prepayments (handled by A/P system)
+
+<p>  * Recaps
+
+<br wp="br1"><br wp="br2">
+<p>Passengers usually receive some of the following documents:
+
+<p>  * Tour Vouchers (usually copies of tour orders)
+
+<p>  * Passenger lists
+
+<p>  * Tickets (handled by TK system)
+
+<p>  * Rooming lists
+
+<p>  * Itineraries
+
+<p>  * Checklist of items (Flight bags, baggage tags, etc)
+
+<br wp="br1"><br wp="br2">
+<p>Documentation can be printed on the:
+
+<p>	1 - Booking date
+
+<p>	2 - Date deposit is received
+
+<p>	3 - Date all services are confirmed ("OK")
+
+<p>	4 - Date final payment is received
+
+<p>	5 - Tour Finalization date (Close tour) (AP also updated) 	6 - Final Documents date (Send
+final docs)
+
+<p>	7 - Ticketing date (TK also updated)
+
+<p>	8 - Special date 1
+
+<p>	9 - Special date 2
+
+<p>	10- Departure date (AP, AR, GL, TK, TOUR and BK also U/D)
+
+<p>	11- Cancellation date (Documentation to be processed)
+
+<br wp="br1"><br wp="br2">
+<p>Some dates do special updating:
+
+<p>	5 - Tour Finalization date
+
+<p>		- Check all bookings are paid in full and status = OK
+
+<p>		- Write/update all of the A/P estimates for the tour
+
+<p>	7 - Ticketing date
+
+<p>		- Transfer information to be ticketed to ticketing
+
+<p>	10- Departure date
+
+<p>		- Update agency sales, type information
+
+<p>		- Write/update all A/P departure estimates
+
+<br wp="br1"><br wp="br2">
+<p>The finalization knows what to print by the Documentation file maintenance screen in the tour header
+maintenance. When the action date comes up, the system looks at the documentation file to see what
+should be printed on this date. After the documents have been created, the action date is set to the next
+item in the documentation file.
+
+<br wp="br1"><br wp="br2">
+<p>The finalization system knows what format to use for a document by the text file name in the
+document screen. If the name is blank, the system uses the name in the header file and if that name
+is blank, the system will use the default in the booking control file. If the filename is a number, then
+the corresponding default format will be used.
+
+<br wp="br1"><br wp="br2">
+<p>The finalization knows how to scan the file information by the document type code in the
+documentation screen. The following table lists all the document type codes:
+
+<br wp="br1"><br wp="br2">
+<p>Order			Code	Examples
+
+<p>TOUR,HOTEL
+
+<p>			R	Hotel Request form (internal)
+
+<p>			H	Hotel Tour Orders
+
+<p>			V	Hotel Vouchers
+
+<p>TOUR,LAND VENDOR
+
+<p>			S	Land &amp; Transportation Request form
+
+<p>			L	Land &amp; Transportation Tour Orders
+
+<p>			W	Land &amp; Transportation Vouchers
+
+<p>TOUR,AIR
+
+<p>			Q	Air Request form (internal)
+
+<p>			T	Ticket Request form (internal)
+
+<p>TOUR,BOOKING
+
+<p>			B	Booking Confirmation
+
+<p>			I	Tour Itinerary
+
+<p>			C	Tour Checklist
+
+<p>TOUR,BOOKING,PAX
+
+<p>			P	Passenger list
+
+<p> 			O	Rooming list
+
+<br wp="br1"><br wp="br2">
+<p>	NOTE: On the Finalization date, before anything is run, the system will check every booking to make sure
+that they are paid in full and the status is OK.
+
+<br wp="br1"><br wp="br2">
+<p>	NOTE: On the Finalization date, A/P is updated before the documentation is printed. This way the A/P
+voucher reference number can be included on the tour orders. This will make payments much easier.
+This also updates A/P so prepayments can be made.
+
+<br wp="br1"><br wp="br2">
+<p>	NOTE: On the ticketing date, the ticketing information is transfered to the ticketing system for each passenger
+(if it is not there already). The ticketing system will handle it from there. It will print the tickets or the
+ticket requests and keep track of commissions and overrides.
+
+<br wp="br1"><br wp="br2">
+<p>If a booking is modified or cancelled after tour documents have been sent, the tour finalization is
+scheculed to re-run.  This program will create all of the back-documents and compare them to the
+versions at the original date. If they are different, then the system will and print ** Revised ** on the
+new documents.
+
+<br wp="br1"><br wp="br2">
+<p>Usually, this program will run in a batch nightly. In the morning, operators will load each type of paper
+and print the documents which were created during the run.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN11/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>The Cut-off-date is the last action date to check.
+
+<br wp="br1"><br wp="br2">
+<p>Following is a detailed explanation of each process:
+
+<br wp="br1"><br wp="br2">
+<p>Order			Code	Examples
+
+<p>TOUR,HOTEL		(Also See BK_H_VOUCHER)
+
+<p>			R	Hotel Request form (internal)
+
+<p>			H	Hotel Tour Orders
+
+<p>			V	Hotel Vouchers
+
+<p>The document selected is printed once for each hotel in the hotel detail
+
+<br wp="br1"><br wp="br2">
+<p>This is the information available to documents using these formats:
+
+<p>	Voucher Number - After finalization date only
+
+<p>	Arrival Information - Carrier, Flight no, Date, time (Starts search two days before arrival; Any flight with
+matching arrival City or First flight on arrival day. If no flights on arrival day, then takes flight from
+previous day. Stops on arrival day.
+
+<p>			Departure Information - Carrier, Flight no, Date, time (Starts search on departure date; Any flight with
+matching departure city or First flight on departure day. If no flights on departure day, takes flight on
+next day. Stops on next day.
+
+<p>	Hotel Information - Reads the hotel information record.
+
+<br wp="br1"><br wp="br2">
+<p>TOUR,LAND VENDOR	(See BK_L_VOUCHER)
+
+<p>	S	Land &amp; Transportation Request form
+
+<p>	L	Land &amp; Transportation Tour Orders
+
+<p>	W	Land &amp; Transportation Vouchers
+
+<p>First, All the land and transportation for this tour are scanned to get a starting and ending date for each
+vendor involved (20 max). Then a tour order/whatever is printed for each vendor, printing only the
+detail that belongs to the vendor.
+
+<p>The other information is the same as Hotel Information except: 	Hotel Information - If specified, will list
+all hotels, dates and length of stays.
+
+<br wp="br1"><br wp="br2">
+<p>The following documents actually print in BOOKING order:
+
+<p>TOUR,AIR
+
+<p>			Q	Air Request form (internal)
+
+<p>			T	Ticket Request form (internal)
+
+<p>TOUR,BOOKING
+
+<p>			B	Booking Confirmation
+
+<p>			I	Tour Itinerary
+
+<p>			C	Tour Checklist
+
+<p>TOUR,BOOKING,PAX	(See BK_PAX_LIST and BK_ROOM_LIST)
+
+<p>			P	Passenger list
+
+<p> 			O	Rooming list
+
+<br wp="br1"><br wp="br2">
+<p>/USE: BK_V_HOTEL/
+
+<p>/USE: BK_V_LAND/
+
+</body>
+</html>

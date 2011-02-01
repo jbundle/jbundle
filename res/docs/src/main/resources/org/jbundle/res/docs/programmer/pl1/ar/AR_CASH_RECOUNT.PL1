@@ -1,0 +1,116 @@
+/****************************************************************
+	Module: AR_CASH_RECOUNT
+	Top Level Logic: RECOUNT_LOGIC
+	Date: 22-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_CASH_RECOUNT
+	Recount A/R batch totals - Top Level
+****************************************************************/
+
+%replace AR_CASH_RECOUNT_1 by 514;
+AR_CASH_RECOUNT:
+   procedure(
+      AR_CASH_REC_RECORD,
+      AR_CASH_BATCH_RECORD);
+%replace AR_CASH_REC_NO by  42;
+%replace AR_CASH_BATCH_NO by  96;
+%include "AR_CASH_REC.DD";
+%include "AR_CASH_BATCH.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_RECOUNT_THRU     bit (1);
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   call RECOUNT_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	RECOUNT_MAIN
+	Main logic to re-count the cash batch
+****************************************************************/
+
+RECOUNT_MAIN:
+	procedure;
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+
+   /* ZERO_RECOUNT - Zero the batch numbers for count */
+
+   BATCH_CHECKS_ACT = 0;
+   BATCH_TOTAL_ACT = 0;
+   AR_CHECKS_FRA = 0;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AR_CASH_USER = BATCH_USER;
+   AR_CASH_BK_SEQ = 0;
+   call SET_POSITION (AR_CASH_REC_NO,KEY_AREA_1,ERROR_CODE);
+   END_RECOUNT_THRU = NO;
+   do while (END_RECOUNT_THRU ^= YES);
+      call RECOUNT_THRU;
+   end;
+return;
+end;	/* RECOUNT_MAIN         */
+
+/****************************************************************
+	RECOUNT_THRU
+	Add up all the batch detail
+****************************************************************/
+
+RECOUNT_THRU:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AR_CASH_REC_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_CASH_REC_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_CASH_USER > BATCH_USER) then
+      do;
+      END_RECOUNT_THRU = YES;
+      return;
+      end;
+
+   /* ADD_BATCH_TOTALS - Add to the cash batch totals */
+
+   AR_CHECKS_FRA = AR_CHECKS_FRA + (AR_AMT_APPLIED / AR_REC_AMOUNT);
+   BATCH_CHECKS_ACT = AR_CHECKS_FRA + 0.1;
+   BATCH_TOTAL_ACT = floor((BATCH_TOTAL_ACT + AR_AMT_APPLIED)*100+0.5)/100;
+
+return;
+end;	/* RECOUNT_THRU         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,5 @@
+These files are overwritten automatically with the flatten utility.
+Modify the files in:
+../ajax/base
+Then run the utility.
+(Chrome bug)

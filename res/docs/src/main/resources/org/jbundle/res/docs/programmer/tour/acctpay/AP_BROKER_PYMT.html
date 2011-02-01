@@ -1,0 +1,71 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to enter foreign currency draft(s) purchased from a currency broker or a bank.
+
+<br wp="br1"><br wp="br2">
+<p>The system needs to know who each draft is payable to, the amount, and which invoices the draft
+covers. It also needs to know the exchange rates on each draft, and the total U.S. dollar amount so a
+check can be printed for the broker.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>The first information to enter is the vendor code of the broker you are purchasing the draft from
+(defaults to most vendor in to control file).
+
+<br wp="br1"><br wp="br2">
+<p>Then, if drafts have already been entered, then they will display on the screen.
+
+<br wp="br1"><br wp="br2">
+<p>For each draft that you are going to purchase, you have to enter the vendor code of the payee, and
+the amount of the draft (The amount defaults to the current selected amount). If the amount is
+different than the amount selected, it will be set up as a pre-payment.
+
+<br wp="br1"><br wp="br2">
+<p>The system will ask for either the U.S. Dollar amount of the purchase, or you can enter the exchange
+rate and the system will calculate the U.S. dollar amount for you.
+
+<br wp="br1"><br wp="br2">
+<p>If you want to enter more than one draft purchase, enter the first batch, then request a check. When
+you enter this program again, the selected broker purchase will not display.
+
+<br wp="br1"><br wp="br2">
+<p>After all of the amounts have been entered, you should request either a manual or automatic check
+request.
+
+<br wp="br1"><br wp="br2">
+<p>If auto-update is selected in the control file, then the current exchange rate in the currency file will be
+updated when the check for the broker is printed.
+
+<br wp="br1"><br wp="br2">
+<p>Note:	If you don't know the distribution of a broker payment, then you can enter a prepayment and
+distribute it to the broker selection later (see prepayment request entry).
+
+<br wp="br1"><br wp="br2">
+<p>If the broker charges a service change on the exchange, enter an invoice amount for the service
+change. The service charge will automatically be selected for payment along with the broker amounts.
+Do not enter the service charge in this program. To see the total check amount, use vendor payment
+selection.
+
+<br wp="br1"><br wp="br2">
+<p>The G/L entry isn't made until the check is printed.
+
+<br wp="br1"><br wp="br2">
+<p>To see the resulting G/L entries, take a look at the check printing program. This program has no effect
+on any balances. The check printing program updates the vendor A/P balances.
+</body>
+</html>

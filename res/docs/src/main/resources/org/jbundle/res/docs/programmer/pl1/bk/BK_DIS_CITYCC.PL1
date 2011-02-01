@@ -1,0 +1,51 @@
+/****************************************************************
+	Module: BK_DIS_CITYCC
+	Top Level Logic: DIS_CITYCC
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_CITYCC
+	Open, Call and return
+****************************************************************/
+
+BK_DIS_CITYCC:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD);
+%replace TK_AIRPORT_NO by  72;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%include "TK_AIRPORT.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (TK_AIRPORT_NO,"TK_AIRPORT",byteaddr(TK_AIRPORT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_AIRPORT_NO,ERROR_CODE);
+
+   /* BK_DIS_CITYC - Call this program */
+
+   %include "BK_DIS_CITYC.DCL";
+   call BK_DIS_CITYC(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      TK_AIRPORT_RECORD);
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (TK_AIRPORT_NO);
+return;
+end;	/* DIS_CITYCC           */
+/*********************************End of Program*********************/

@@ -1,0 +1,13 @@
+/*********************************************************************
+	PR_DE_RPT File
+********************************************************************/
+
+declare	1 PR_DE_RPT_RECORD,
+		3 START_DE             character (        3),
+		3 END_DE               character (        3),
+		3 DE_DATE              fixed binary (15),
+		3 DE_TIME              fixed binary (15),
+		3 DE_USER              character (       16),
+		3 DE_PAGE              fixed binary (15),
+		3 DE_COUNT             fixed binary (15);
+

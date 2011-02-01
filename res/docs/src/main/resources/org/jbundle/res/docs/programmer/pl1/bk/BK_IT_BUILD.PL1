@@ -1,0 +1,2054 @@
+/****************************************************************
+	Module: BK_IT_BUILD
+	Top Level Logic: ITIN_BLD_LOGIC
+	Date: 27-Dec-92
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_IT_BUILD
+	Main logic for itinerary building
+****************************************************************/
+
+%replace BK_IT_BUILD_1 by 280;
+BK_IT_BUILD:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_DET_LAND_RECORD,
+      TK_DETAIL_RECORD,
+      BK_HOTEL_RECORD,
+      BK_ITIN_DET_RECORD,
+      AP_VENDOR_RECORD,
+      BK_LINE_RECORD,
+      BK_IT_BUILD_RECORD);
+%replace TK_AIRLINE_NO by  71;
+%replace TK_AIRPORT_NO by  72;
+%replace BK_USERS_NO by 110;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_DET_LAND_NO by  68;
+%replace TK_DETAIL_NO by  57;
+%replace BK_HOTEL_NO by   8;
+%replace BK_ITIN_DET_NO by  79;
+%replace AP_VENDOR_NO by  30;
+%replace BK_LINE_NO by  51;
+%include "TK_AIRLINE.DD";
+%include "TK_AIRPORT.DD";
+%include "BK_IT_BUILD.DD";
+%include "BK_USERS.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "TK_DETAIL.DD";
+%include "BK_HOTEL.DD";
+%include "BK_ITIN_DET.DD";
+%include "AP_VENDOR.DD";
+%include "BK_LINE.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_SCAN_TOUR_IT     bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		ERROR_BK_HOTEL       fixed binary (15);
+declare		ERROR_TK_AIRPORT     fixed binary (15);
+declare		END_WRITE_THRU_PAX   bit (1);
+declare		END_WRITE_ALL_HOTELS bit (1);
+declare		END_WRITE_THRU_LANDS bit (1);
+declare		END_SCAN_LAND_IT     bit (1);
+declare		END_ADD_LAND_IT      bit (1);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   IT_DAY = 1;
+   SKIP_IT_LINE = "N";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (TK_AIRLINE_NO,"TK_AIRLINE",byteaddr(TK_AIRLINE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_AIRLINE_NO,ERROR_CODE);
+   call OPEN_FILE (TK_AIRPORT_NO,"TK_AIRPORT",byteaddr(TK_AIRPORT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_AIRPORT_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (BK_IT_BUILD_RECORD) );
+   call OPEN_FILE (BK_USERS_NO,"BK_USERS",byteaddr(BK_USERS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_USERS_NO,ERROR_CODE);
+
+   /* INIT_TEXT - Include the text formats */
+
+   declare		BK_TEXT		file;
+   declare		BK_TEXT_2	file;
+   declare		BK_TEXT_3	file;
+   declare		BK_STRING	character(255) varying;
+   declare		BK_STRING_2	character(255) varying;
+   declare		BK_STRING_3	character(255) varying;
+
+   declare (START_CHAR,END_CHAR,CODE) fixed binary;
+   declare (BEGIN_TEXT,CODE_TEXT,END_TEXT) character(255) varying;
+   declare LOOP_INDEX fixed binary;
+   declare (CONV_IT_DATE,CONV_IT_TYPE,MD_DAY) fixed binary;
+   declare DAYS character(63);
+   declare MONTHS character(120);
+   MONTHS="January   February  March     April     May       June      " !!
+   "July      August    September October   November  December  ";
+   DAYS= "Sunday   Monday   Tuesday  WednesdayThursday Friday   Saturday ";
+
+   HDET_DATE = 0;
+
+   call IT_BUILD;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	IT_BUILD
+	Build the Itinerary
+****************************************************************/
+
+IT_BUILD:
+	procedure;
+
+
+   /* OPEN_IT - Open the tour itinerary paragraph */
+
+   if BOOKING_NO = 0 then
+      return;
+   declare BK_TEMP character(20);
+   BK_TEMP = BOOKING_NO;
+   do while (substr(BK_TEMP,1,1) = " ");
+      BK_TEMP = substr(BK_TEMP,2,19);
+   end;
+   BK_TEMP = "WP:" !! BK_TEMP;
+
+   ERROR_CODE = 0;
+   open file (BK_TEXT) stream output title(CUT_SPACES(BK_TEMP))
+      linesize(255) environment(filetype(150) lineend);
+
+   ERROR_CODE = 0;
+   on syserror(BK_TEXT_2)
+      begin;
+      ERROR_CODE = 1;
+      end;
+
+   ERROR_CODE = 0;
+   open file (BK_TEXT_2) stream input title ("ITIN:" !!
+      CUT_SPACES(BK_IT_TEMPLATE)) environment(lineend recsize(255));
+
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      END_SCAN_TOUR_IT = NO;
+      do while (END_SCAN_TOUR_IT ^= YES);
+         call SCAN_TOUR_IT;
+      end;
+      end;
+   else
+      do;
+      call SCAN_DET_IT;
+      end;
+
+   close file (BK_TEXT);
+   close file (BK_TEXT_2);
+
+return;
+end;	/* IT_BUILD             */
+
+/****************************************************************
+	SCAN_TOUR_IT
+	Scan the tour itinerary text
+****************************************************************/
+
+SCAN_TOUR_IT:
+	procedure;
+
+
+   /* READ_NEXT_TOUR_IT - Read the next tour itinerary line */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   read file (BK_TEXT_2) into (BK_STRING_2);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      END_SCAN_TOUR_IT = YES;
+      return;
+      end;
+
+
+   /* MOVE_TOUR_IT - Move the tour itinerary to the itinerary */
+
+   BK_STRING = BK_STRING_2;
+
+   call PROCESS_IT;
+return;
+end;	/* SCAN_TOUR_IT         */
+
+/****************************************************************
+	PROCESS_IT
+	Process this Itinerary line
+****************************************************************/
+
+PROCESS_IT:
+	procedure;
+
+
+   /* CHECK_IT_CODES - Check for IT codes in this line */
+
+   START_CHAR = 1;
+   do while (START_CHAR ^= 0);
+      START_CHAR = index(BK_STRING,"[!");
+      if START_CHAR ^= 0 then
+         do;
+         END_CHAR=index(substr(BK_STRING,START_CHAR+3,255),"]") + START_CHAR + 2;
+         if END_CHAR = 0 then
+            START_CHAR = 0;
+         end;
+      if START_CHAR ^= 0 then
+         do;
+         MD_DAY = 1;
+         BEGIN_TEXT = substr(BK_STRING,1,START_CHAR-1);
+         CODE_TEXT = substr(BK_STRING,START_CHAR+2,END_CHAR-START_CHAR-2);
+         END_TEXT = substr(BK_STRING,END_CHAR+1,length(BK_STRING)-END_CHAR);
+         if substr(CODE_TEXT,1,3) = "DAY" then
+            do;
+            if ((length(CODE_TEXT) = 4) ! (length(CODE_TEXT) = 5)) then
+               do;
+               if ((substr(CODE_TEXT,4,1) >= "0")&(substr(CODE_TEXT,4,1) <= "9")) then
+                  do;
+                  if length(CODE_TEXT) = 4 then
+                     IT_DAY = substr(CODE_TEXT,4,1);
+                  else
+                     do;
+                     if ((substr(CODE_TEXT,5,1) >= "0")&(substr(CODE_TEXT,5,1) <= "9")) then
+                        IT_DAY = substr(CODE_TEXT,4,2);
+                     end;
+                  end;
+               end;
+            length(CODE_TEXT) = 3;
+            end;
+         if substr(CODE_TEXT,1,4) = "DATE" then
+            do;
+            if ((length(CODE_TEXT) = 5) ! (length(CODE_TEXT) = 6)) then
+               do;
+               if ((substr(CODE_TEXT,5,1) >= "0")&(substr(CODE_TEXT,5,1) <= "9")) then
+                  do;
+                  if length(CODE_TEXT) = 5 then
+                     MD_DAY = substr(CODE_TEXT,5,1);
+                  else
+                     do;
+                     if ((substr(CODE_TEXT,6,1) >= "0")&(substr(CODE_TEXT,6,1) <= "9")) then
+                        MD_DAY = substr(CODE_TEXT,5,2);
+                     end;
+                  end;
+               end;
+            length(CODE_TEXT) = 4;
+            end;
+         IT_DATE = TOUR_DEP_DATE + IT_DAY - 1;
+         if (CONV_IT_DATE < IT_DATE) ! (MD_DAY ^= 1) then
+            CONV_IT_DATE = IT_DATE + MD_DAY - 1;
+         if (substr(CODE_TEXT,1,1) = "F") ! (substr(CODE_TEXT,1,1) = "U") then
+            do;
+            call SET_FLIGHT_DEF;
+            end;
+         CODE = 0;
+         declare NAMES character(400)varying;
+         NAMES= "DTAIL DATE  DDATE HOTEL THOTL FCITY FAIRL FFLNO FTIME FFLGT " !!
+            "FACTY FATME FAIRI FAIRA DAY   TNAME MEALS TRPAX BKPAX HNAME LNAME " !!
+            "XCITY XAIRL XFLNO XTIME XFLGT XACTY XATME AGENT " !!
+            "PRICE TPRCE PCOST TCOST LINEI PDPST TDPST ANAME AADDR ACNTC ACSAL " !!
+            "UHOTE UTHOT UFCIT UFAIR UFACT UAIRI UAIRA BOOKN ";
+         CODE = index(NAMES,CODE_TEXT);
+         if CODE ^= 0 then
+            CODE = divide(CODE+5,6,15);
+         SKIP_IT_LINE = "N";
+         do case(CODE + 1);
+
+            /* IT_DISPATCH - Dispatch to the correct I/T routine */
+
+               call GET_QA;
+               call SET_UP_DET;
+               call SET_DAY;
+               call SET_DDATE;
+               call GET_HOTEL;
+               call SET_THOTL;
+               call SET_FCITY;
+               call SET_FAIRL;
+               call SET_FFLNO;
+               call SET_FTIME;
+               call SET_FFLGT;
+               call SET_FACTY;
+               call SET_FATME;
+               call SET_FAIRI;
+               call SET_FAIRA;
+               call SET_DAY;
+               call SET_TNAME;
+               call SET_MEALS;
+               call SET_TRPAX;
+               call SET_BKPAX;
+               call SET_HNAME;
+               call SET_LNAME;
+               call SET_FCITY;
+               call SET_FAIRL;
+               call SET_FFLNO;
+               call SET_FTIME;
+               call SET_FFLGT;
+               call SET_FACTY;
+               call SET_FATME;
+               call SET_AGENT;
+               call SET_PRICE;
+               call SET_TPRCE;
+               call SET_PCOST;
+               call SET_TCOST;
+               call SET_LINEI;
+               call SET_PDPST;
+               call SET_TDPST;
+               call SET_ANAME;
+               call SET_AADDR;
+               call SET_ACNTC;
+               call SET_ACSAL;
+               call GET_HOTEL;
+               call SET_THOTL;
+               call SET_FCITY;
+               call SET_FAIRL;
+               call SET_FACTY;
+               call SET_FAIRI;
+               call SET_FAIRA;
+               call SET_BOOKN;
+         end;
+         otherwise
+            do;
+            end;
+         BK_STRING = BEGIN_TEXT !! CODE_TEXT !! END_TEXT;
+         end;
+   end;
+
+   if SKIP_IT_LINE = "Y" then
+      SKIP_IT_LINE = "N";	/* return; */
+
+
+   /* WRITE_IT - Write the itinerary line */
+
+   declare RETURN_POS fixed binary;
+   declare TEXT_LENGTH fixed binary;
+
+   TEXT_LENGTH = 1;
+
+   do while (TEXT_LENGTH ^= 0);
+      write file (BK_TEXT) from (BK_STRING);
+
+      RETURN_POS = index(BK_STRING,"<12>"c);
+      if RETURN_POS = 0 then
+         TEXT_LENGTH = 0;
+      else
+         do;
+         TEXT_LENGTH = length(BK_STRING);
+         BK_STRING = substr(BK_STRING,RETURN_POS+1,TEXT_LENGTH-RETURN_POS);
+         TEXT_LENGTH = length(BK_STRING);
+         end;
+
+   end;
+
+return;
+end;	/* PROCESS_IT           */
+
+/****************************************************************
+	SET_FLIGHT_DEF
+	Set up the flight defaults
+****************************************************************/
+
+SET_FLIGHT_DEF:
+	procedure;
+
+
+   /* RESET_DEF_FLIGHT - Reset the flight info */
+
+   IT_FCITY = "";
+   IT_FAIRL = "";
+   IT_FFLNO = "";
+   IT_FTIME = NO_TIME;
+   IT_FACTY = "";
+   IT_FATME = NO_TIME;
+
+   IT_SAVE_DATE = 0;
+   IT_SAVE_SEQ = 0;
+
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = 0;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = CONV_IT_DATE-2;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* IT_GET_DEF_AIR - Get the Default flight */
+
+   do while ("1"b);
+
+      /* READ_NEXT_AIRD - Read next */
+
+      call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+      if (ERROR_CODE = END_OF_FILE) !
+         (TK_DET_MOD > 0) !
+         (TK_DET_BK_TK > BOOKING_NO) !
+         (TK_DET_ALT_SEQ > 0) !
+         (TK_DET_ANSW_SEQ > 0) !
+         (TK_DATE > CONV_IT_DATE) then
+            do;
+            if IT_SAVE_DATE ^= 0 then
+               do;
+               TK_DET_MOD = 0;
+               TK_DET_BK_TK = BOOKING_NO;
+               TK_DET_ALT_SEQ = 0;
+               TK_DET_ANSW_SEQ = 0;
+               TK_DATE = IT_SAVE_DATE;
+               TK_SEQ = IT_SAVE_SEQ;
+               call READ_KEYED (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+               end;
+            return;
+            end;
+
+      /* SET_DEF_FLIGHT - Set up the flight info */
+
+      IT_SAVE_DATE = TK_DATE;
+      IT_SAVE_SEQ = TK_SEQ;
+
+      IT_FCITY = TK_CITY;
+      IT_FAIRL = TK_CARRIER;
+      IT_FFLNO = TK_FLIGHT;
+      IT_FTIME = TK_TIME;
+      IT_FACTY = TK_ARR_CITY;
+      IT_FATME = TK_ARR_TIME;
+
+   end;
+
+return;
+end;	/* SET_FLIGHT_DEF       */
+
+/****************************************************************
+	GET_QA
+	Get the answer
+****************************************************************/
+
+GET_QA:
+	procedure;
+
+declare		ERROR_BK_ITIN_DET    fixed binary (15);
+
+   /* SET_QA - Set up the answer file's key */
+
+   ITIN_BK_NO = BOOKING_NO;
+   ITIN_DATE = LDET_DATE;
+   ITIN_CODE = CODE_TEXT;
+   KEY_NO = 1;
+
+   /* READ_DET_RECORD - Read the itin detail record */
+
+   call READ_KEYED (BK_ITIN_DET_NO,KEY_NO,ERROR_BK_ITIN_DET);
+   if ERROR_BK_ITIN_DET > 3 then
+      call PRINT_ERROR (BK_ITIN_DET_NO,ERROR_BK_ITIN_DET);
+
+   /* REC_DET_FOUND - Was the detail record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_ITIN_DET = NORMAL_RETURN then
+      do;
+
+      /* SET_ANSWER_TEXT - Set up the answer text */
+
+      CODE_TEXT = CUT_SPACES_LONG(ITIN_ANSWER);
+
+      end;
+   else
+      do;
+
+      /* SET_ANSW_TEXT - Set up the answer text */
+
+      CODE_TEXT = "";
+
+      if ERROR_INPUT_SCREEN then return;
+      end;
+return;
+end;	/* GET_QA               */
+
+/****************************************************************
+	SET_UP_DET
+	Write the detail itinerary
+****************************************************************/
+
+SET_UP_DET:
+	procedure;
+
+   call SCAN_DET_IT;
+
+   /* NO_CODE_TEXT - Clear the code text string */
+
+   CODE_TEXT = "";
+
+
+   /* NO_BE_TEXT - No Beginning or ending text */
+
+   BEGIN_TEXT = "";
+   END_TEXT = "";
+
+return;
+end;	/* SET_UP_DET           */
+
+/****************************************************************
+	SET_DAY
+	Set the day of this tour
+****************************************************************/
+
+SET_DAY:
+	procedure;
+
+CONV_IT_DATE = IT_DATE + MD_DAY - 1;
+CONV_IT_TYPE = BK_IT_DAY;
+call GET_IT_DATE;
+
+return;
+end;	/* SET_DAY              */
+
+/****************************************************************
+	GET_IT_DATE
+	Convert the date and return
+****************************************************************/
+
+GET_IT_DATE:
+	procedure;
+
+declare MONTH character(2)varying;
+declare DAY_STRING character(20);
+declare MONTH_STRING character(20);
+declare LONG_MONTH character(10);
+declare DAY_DAY character(2) varying;
+declare DAY character(2) varying;
+declare YEAR character(4);
+declare DAY_OF_WEEK character(9);
+
+DAY_STRING = CONV_IT_DATE - TOUR_DEP_DATE + 1;
+do CODE = 1 to 20;
+   if substr(DAY_STRING,1,1) = " " then
+      DAY_STRING = substr(DAY_STRING,2,length(DAY_STRING)-1);
+end;
+DAY_DAY = CUT_SPACES(DAY_STRING);
+
+BK_STRING = SET_DATE(CONV_IT_DATE);
+DAY_OF_WEEK = substr(DAYS,
+   fixed((float(CONV_IT_DATE,21)/7-trunc(float(CONV_IT_DATE,21)/7))*7+0.5,15)*9+1,9);
+
+if substr(BK_STRING,8,2) > "60" then
+   YEAR = "19" !! substr(BK_STRING,8,2);
+else
+   YEAR = "20" !! substr(BK_STRING,8,2);
+
+if substr(BK_STRING,1,1) = " " then
+   DAY = substr(BK_STRING,2,1);
+else
+   DAY = substr(BK_STRING,1,2);
+
+do CODE = 1 to 12;
+   if substr(BK_STRING,4,3) = substr(MONTHS,CODE*10-9,3) then
+      do;
+      MONTH_STRING = CODE;
+      LONG_MONTH = CUT_SPACES(substr(MONTHS,CODE*10-9,10)) !! " ";
+      CODE = 12;
+      end;
+end;
+
+do CODE = 1 to 20;
+   if substr(MONTH_STRING,1,1) = " " then
+      MONTH_STRING = substr(MONTH_STRING,2,length(MONTH_STRING)-1);
+end;
+
+MONTH = CUT_SPACES(MONTH_STRING);
+
+if (CONV_IT_TYPE = 2) ! (CONV_IT_TYPE = 4) !
+   (CONV_IT_TYPE = 8) ! (CONV_IT_TYPE = 10) then
+      do;
+      call CONVERT_TO_UPPER(DAY_OF_WEEK);
+      call CONVERT_TO_UPPER(LONG_MONTH);
+      end;
+
+do case (CONV_IT_TYPE);
+   CODE_TEXT = substr(DAY_OF_WEEK,1,3) !! ", " !! substr(LONG_MONTH,1,3) !! " " !! DAY;
+   CODE_TEXT = substr(DAY_OF_WEEK,1,3) !! ", " !! substr(LONG_MONTH,1,3) !! " " !! DAY;
+   CODE_TEXT = substr(LONG_MONTH,1,3) !! " " !! DAY !! " (" !! substr(DAY_OF_WEEK,1,3) !! ")";
+   CODE_TEXT = substr(LONG_MONTH,1,3) !! " " !! DAY !! " (" !! substr(DAY_OF_WEEK,1,3) !! ")";
+   CODE_TEXT = CUT_SPACES(DAY_OF_WEEK) !! ", " !! CUT_SPACES(LONG_MONTH) !! " " !! DAY;
+   CODE_TEXT = CUT_SPACES(LONG_MONTH) !! " " !! DAY !! " (" !! CUT_SPACES(DAY_OF_WEEK) !! ")";
+   CODE_TEXT = "DAY " !! DAY_DAY !! " (" !! substr(DAY_OF_WEEK,1,3) !! ")";
+   CODE_TEXT = "Day " !! DAY_DAY !! " (" !! substr(DAY_OF_WEEK,1,3) !! ")";
+   CODE_TEXT = CUT_SPACES(LONG_MONTH) !! " " !! DAY !! ", " !! YEAR;
+   CODE_TEXT = substr(LONG_MONTH,1,3) !! " " !! DAY !! ", " !! YEAR;
+   CODE_TEXT = MONTH !! "/" !! DAY !! "/" !! substr(YEAR,3,2);
+end;
+otherwise
+   do;
+   CODE_TEXT = "";
+   end;
+
+return;
+end;	/* GET_IT_DATE          */
+
+/****************************************************************
+	SET_DDATE
+	Set up the departure date
+****************************************************************/
+
+SET_DDATE:
+	procedure;
+
+CONV_IT_DATE = TOUR_DEP_DATE;
+CONV_IT_TYPE = BK_IT_DATE;
+call GET_IT_DATE;
+
+return;
+end;	/* SET_DDATE            */
+
+/****************************************************************
+	GET_HOTEL
+	Get the hotel name
+****************************************************************/
+
+GET_HOTEL:
+	procedure;
+
+call SET_AHOTL;
+if substr(CODE_TEXT,1,1) = "U" then
+   do;
+   call CONVERT_TO_UPPER(IT_HOTEL_NAME);
+   call CONVERT_TO_UPPER(IT_HOTEL_NAME_2);
+   end;
+CODE_TEXT = CUT_SPACES(IT_HOTEL_NAME);
+if IT_HOTEL_NAME_2 ^= "" then
+   CODE_TEXT = CODE_TEXT !! " " !! CUT_SPACES(IT_HOTEL_NAME_2);
+
+return;
+end;	/* GET_HOTEL            */
+
+/****************************************************************
+	SET_AHOTL
+	Set the hotel name
+****************************************************************/
+
+SET_AHOTL:
+	procedure;
+
+
+   /* INIT_BK_STRING - Initialize the string */
+
+   IT_HOTEL_NAME = "";
+   IT_HOTEL_NAME_2 = "";
+
+
+   /* CHECK_HOTEL_HERE - Set up save area */
+
+   declare SAVE_DATE fixed binary;
+
+   if HDET_DATE = CONV_IT_DATE then
+      do;
+
+      /* SET_HOTEL_NAME - Set the hotel name */
+
+      if HDET_MANUAL ^= "" then
+         do;
+         IT_HOTEL_NAME = HDET_MANUAL;
+         return;
+         end;
+
+      if ERROR_BK_HOTEL ^= NORMAL_RETURN then
+         return;
+
+      IT_HOTEL_NAME = HOTEL_NAME;
+      IT_HOTEL_NAME_2 = HOTEL_NAME_2;
+
+      return;
+      end;
+
+   if CONV_IT_DATE = HDET_DATE + HDET_NIGHTS then
+      SAVE_DATE = HDET_DATE;
+   else
+      SAVE_DATE = 0;
+
+
+   /* SET_FIRST_HOTEL - First hotel */
+
+   HDET_MOD = 0;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = CONV_IT_DATE;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_HOTEL - Read the next hotel detail */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* SET_HOTEL_KEY - Set the hotel key up */
+
+   HOTEL_CODE = HDET_HOTEL;
+   KEY_NO = 1;
+
+   /* READ_HOTEL - Read hotel record */
+
+   call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_BK_HOTEL);
+   if ERROR_BK_HOTEL > 3 then
+      call PRINT_ERROR (BK_HOTEL_NO,ERROR_BK_HOTEL);
+
+   /* CHECK_HOTEL_SAVE - Restore to old hotel? */
+
+   if SAVE_DATE ^= 0 then
+      do;
+      HDET_DATE = CONV_IT_DATE;
+      CONV_IT_DATE = SAVE_DATE;
+      SAVE_DATE = HDET_DATE;
+
+      /* SET_FIRST_HOTEL - First hotel */
+
+      HDET_MOD = 0;
+      HDET_BK_TR_NO = BOOKING_NO;
+      HDET_ALT_SEQ = 0;
+      HDET_ANSW_SEQ = 0;
+      HDET_DAY = CONV_IT_DATE;
+      HDET_SEQ = 0;
+      call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+      /* READ_NEXT_HOTEL - Read the next hotel detail */
+
+      call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+      CONV_IT_DATE = SAVE_DATE;
+      end;
+
+
+   /* CHECK_END_HOTEL - Check for the end of the hotel detail */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > 0) !
+   (HDET_BK_TR_NO > BOOKING_NO) !
+   (HDET_ALT_SEQ > 0) !
+   (HDET_ANSW_SEQ > 0) !
+   (HDET_DAY > CONV_IT_DATE) then
+      return;
+
+   /* RETURN_IF_ERROR - Return if ERROR_CODE <> 0 */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+
+   /* SET_HOTEL_NAME - Set the hotel name */
+
+   if HDET_MANUAL ^= "" then
+      do;
+      IT_HOTEL_NAME = HDET_MANUAL;
+      return;
+      end;
+
+   if ERROR_BK_HOTEL ^= NORMAL_RETURN then
+      return;
+
+   IT_HOTEL_NAME = HOTEL_NAME;
+   IT_HOTEL_NAME_2 = HOTEL_NAME_2;
+
+return;
+end;	/* SET_AHOTL            */
+
+/****************************************************************
+	SET_THOTL
+	Set The hotel name
+****************************************************************/
+
+SET_THOTL:
+	procedure;
+
+call SET_AHOTL;
+if substr(CODE_TEXT,1,1) = "U" then
+   do;
+   call CONVERT_TO_UPPER(IT_HOTEL_NAME);
+   call CONVERT_TO_UPPER(IT_HOTEL_NAME_2);
+   end;
+declare	PREHOTEL	character(4);
+PREHOTEL = IT_HOTEL_NAME;
+call CONVERT_TO_UPPER(PREHOTEL);
+if PREHOTEL = "THE " then
+   CODE_TEXT = CUT_SPACES(IT_HOTEL_NAME);
+else
+   CODE_TEXT = "the " !! CUT_SPACES(IT_HOTEL_NAME);
+if IT_HOTEL_NAME_2 ^= "" then
+   CODE_TEXT = CODE_TEXT !! " " !! CUT_SPACES(IT_HOTEL_NAME_2);
+
+return;
+end;	/* SET_THOTL            */
+
+/****************************************************************
+	SET_FCITY
+	Set the city text
+****************************************************************/
+
+SET_FCITY:
+	procedure;
+
+
+/* SETUP_KEY - Set up this key for a read */
+
+AIRPORT_CODE = IT_FCITY;
+KEY_NO = 1;
+
+/* READ_RECORD - Read the record */
+
+call READ_KEYED (TK_AIRPORT_NO,KEY_NO,ERROR_TK_AIRPORT);
+if ERROR_TK_AIRPORT > 3 then
+   call PRINT_ERROR (TK_AIRPORT_NO,ERROR_TK_AIRPORT);
+if substr(CODE_TEXT,1,1) = "U" then
+   call CONVERT_TO_UPPER(AIRPORT_CITY_DESC);
+if ERROR_TK_AIRPORT = NORMAL_RETURN then
+   CODE_TEXT = CUT_SPACES(AIRPORT_CITY_DESC);
+else
+   CODE_TEXT = AIRPORT_CODE;
+
+return;
+end;	/* SET_FCITY            */
+
+/****************************************************************
+	SET_FAIRL
+	Set the Departure airline name
+****************************************************************/
+
+SET_FAIRL:
+	procedure;
+
+declare		ERROR_TK_AIRLINE     fixed binary (15);
+
+/* SETUP_KEY_2 - Setup the key */
+
+AIRLINE_CODE = IT_FAIRL;
+KEY_NO = 1;
+
+/* READ_RECORD_2 - Read from another file */
+
+call READ_KEYED (TK_AIRLINE_NO,KEY_NO,ERROR_TK_AIRLINE);
+if ERROR_TK_AIRLINE > 3 then
+   call PRINT_ERROR (TK_AIRLINE_NO,ERROR_TK_AIRLINE);
+if substr(CODE_TEXT,1,1) = "U" then
+   call CONVERT_TO_UPPER(AIRLINE_DESC_LONG);
+if ERROR_TK_AIRLINE = NORMAL_RETURN then
+   CODE_TEXT = CUT_SPACES_LONG(AIRLINE_DESC_LONG);
+else
+   CODE_TEXT = AIRLINE_CODE;
+
+return;
+end;	/* SET_FAIRL            */
+
+/****************************************************************
+	SET_FFLNO
+	Set up the flight number
+****************************************************************/
+
+SET_FFLNO:
+	procedure;
+
+CODE_TEXT = CUT_SPACES(IT_FFLNO);
+
+return;
+end;	/* SET_FFLNO            */
+
+/****************************************************************
+	SET_FTIME
+	Set up the time
+****************************************************************/
+
+SET_FTIME:
+	procedure;
+
+if IT_FTIME ^= NO_TIME then
+   do;
+   BK_STRING = SET_TIME(IT_FTIME);
+   CODE_TEXT = substr(BK_STRING,1,5) !! " " !! substr(BK_STRING,6,2);
+   end;
+else
+   CODE_TEXT = "";
+
+return;
+end;	/* SET_FTIME            */
+
+/****************************************************************
+	SET_FFLGT
+	Set up the departure flight number
+****************************************************************/
+
+SET_FFLGT:
+	procedure;
+
+CODE_TEXT = IT_FAIRL !! " " !! CUT_SPACES(IT_FFLNO);
+
+return;
+end;	/* SET_FFLGT            */
+
+/****************************************************************
+	SET_FACTY
+	Set the arrival city
+****************************************************************/
+
+SET_FACTY:
+	procedure;
+
+
+/* SETUP_KEY_3 - Set up the key */
+
+AIRPORT_CODE = IT_FACTY;
+KEY_NO = 1;
+
+/* READ_RECORD - Read the record */
+
+call READ_KEYED (TK_AIRPORT_NO,KEY_NO,ERROR_TK_AIRPORT);
+if ERROR_TK_AIRPORT > 3 then
+   call PRINT_ERROR (TK_AIRPORT_NO,ERROR_TK_AIRPORT);
+if substr(CODE_TEXT,1,1) = "U" then
+   call CONVERT_TO_UPPER(AIRPORT_CITY_DESC);
+if ERROR_TK_AIRPORT = NORMAL_RETURN then
+   CODE_TEXT = CUT_SPACES(AIRPORT_CITY_DESC);
+else
+   CODE_TEXT = AIRPORT_CODE;
+
+return;
+end;	/* SET_FACTY            */
+
+/****************************************************************
+	SET_FATME
+	Set arrival time
+****************************************************************/
+
+SET_FATME:
+	procedure;
+
+if IT_FATME ^= NO_TIME then
+   do;
+   BK_STRING = SET_TIME(IT_FATME);
+   CODE_TEXT = substr(BK_STRING,1,5) !! " " !! substr(BK_STRING,6,2);
+   end;
+else
+   CODE_TEXT = "";
+
+return;
+end;	/* SET_FATME            */
+
+/****************************************************************
+	SET_FAIRI
+	Standard flight format
+****************************************************************/
+
+SET_FAIRI:
+	procedure;
+
+declare UPPER_CASE char(1);
+if substr(CODE_TEXT,1,1) = "U" then
+   UPPER_CASE = "Y";
+else
+   UPPER_CASE = "N";
+
+IT_FIRST_TIME = "Y";
+
+if TK_DATE = CONV_IT_DATE then
+   do;
+   TK_DET_MOD = 0;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = CONV_IT_DATE;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO, KEY_AREA_1, ERROR_CODE);
+   call READ_NEXT (TK_DETAIL_NO, KEY_AREA_1, ERROR_CODE);
+   end;
+
+do while (YES);
+
+   BEGIN_TEXT = "";
+   CODE_TEXT = "";
+   END_TEXT = "";
+
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > 0) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > 0) !
+   (TK_DET_ANSW_SEQ > 0) !
+   (TK_DATE > CONV_IT_DATE) then
+      return;
+
+   if IT_FIRST_TIME = "N" then
+      do;
+      if UPPER_CASE = "N" then
+         do;
+         if BK_IT_DEP_ARV = 1 then
+            BK_STRING = "Ar. [!XACTY]<304><12><0><0><304>[!XATME]<204>"c;
+         else
+            BK_STRING = "<TAB>Ar. [!XACTY]<TAB><TAB>[!XATME]"c;
+         end;
+      else
+         do;
+         if BK_IT_DEP_ARV = 1 then
+            BK_STRING = "Ar. [!UFACT]<304><12><0><0><304>[!XATME]<204>"c;
+         else
+            BK_STRING = "<TAB>Ar. [!UFACT]<TAB><TAB>[!XATME]"c;
+         end;
+      call PROCESS_IT;
+      end;
+   IT_FIRST_TIME = "N";
+
+
+   /* SET_DEF_FLIGHT - Set up the flight info */
+
+   IT_SAVE_DATE = TK_DATE;
+   IT_SAVE_SEQ = TK_SEQ;
+
+   IT_FCITY = TK_CITY;
+   IT_FAIRL = TK_CARRIER;
+   IT_FFLNO = TK_FLIGHT;
+   IT_FTIME = TK_TIME;
+   IT_FACTY = TK_ARR_CITY;
+   IT_FATME = TK_ARR_TIME;
+
+
+   if UPPER_CASE = "N" then
+      do;
+      if BK_IT_DEP_ARV = 1 then
+         BK_STRING = "Lv. [!XCITY]<303><0><0><0><303>[!XAIRL] #[!XFLNO]<203><304><12><0><0><304>[!XTIME]<204>"c;
+      else
+         BK_STRING = "<TAB>Lv. [!XCITY]<TAB>[!XAIRL] #[!XFLNO]<TAB>[!XTIME]"c;
+      end;
+   else
+      do;
+      if BK_IT_DEP_ARV = 1 then
+         BK_STRING = "Lv. [!UFCIT]<303><0><0><0><303>[!UFAIR] #[!XFLNO]<203><304><12><0><0><304>[!XTIME]<204>"c;
+      else
+         BK_STRING = "<TAB>Lv. [!UFCIT]<TAB>[!UFAIR] #[!XFLNO]<TAB>[!XTIME]"c;
+      end;
+   call PROCESS_IT;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   end;
+
+return;
+end;	/* SET_FAIRI            */
+
+/****************************************************************
+	SET_FAIRA
+	Get the Arrival Flight
+****************************************************************/
+
+SET_FAIRA:
+	procedure;
+
+declare UPPER_CASE char(1);
+if substr(CODE_TEXT,1,1) = "U" then
+   UPPER_CASE = "Y";
+else
+   UPPER_CASE = "N";
+
+BEGIN_TEXT = "";
+CODE_TEXT = "";
+END_TEXT = "";
+
+if UPPER_CASE = "N" then
+   do;
+   if BK_IT_DEP_ARV = 1 then
+      BK_STRING = "Ar. [!XACTY]<304><12><0><0><304>[!XATME]<204>"c;
+   else
+      BK_STRING = "<TAB>Ar. [!XACTY]<TAB><TAB>[!XATME]"c;
+   end;
+else
+   do;
+   if BK_IT_DEP_ARV = 1 then
+      BK_STRING = "Ar. [!UACTY]<304><12><0><0><304>[!XATME]<204>"c;
+   else
+      BK_STRING = "<TAB>Ar. [!UACTY]<TAB><TAB>[!XATME]"c;
+   end;
+call PROCESS_IT;
+
+BEGIN_TEXT = "";
+CODE_TEXT = "";
+END_TEXT = "";
+
+return;
+end;	/* SET_FAIRA            */
+
+/****************************************************************
+	SET_TNAME
+	Set the tour name
+****************************************************************/
+
+SET_TNAME:
+	procedure;
+
+CODE_TEXT = CUT_SPACES(TOUR_DESC);
+if TOUR_DESC_2 ^= "" then
+   CODE_TEXT = CODE_TEXT !! " " !! CUT_SPACES(TOUR_DESC_2);
+
+return;
+end;	/* SET_TNAME            */
+
+/****************************************************************
+	SET_MEALS
+	Set up the meals for this day
+****************************************************************/
+
+SET_MEALS:
+	procedure;
+
+
+   /* SET_MEAL - Set the meals for this day */
+
+   declare CODE_SAVE character(20) varying;
+   CODE_TEXT = "";
+   if (CONV_IT_DATE < HDET_DATE) ! (CONV_IT_DATE > HDET_DATE + HDET_NIGHTS) then
+      do;
+      if HDET_DATE = 0 then
+         do;
+
+         /* SET_FIRST_HOTELD - Set first hotel detail */
+
+         HDET_MOD = BK_MODIFICATION;
+         HDET_BK_TR_NO = BOOKING_NO;
+         HDET_ALT_SEQ = 0;
+         HDET_ANSW_SEQ = 0;
+         HDET_DAY = 0;
+         HDET_SEQ = 0;
+         call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+         /* READ_NEXT_HOTELD - Read next */
+
+         call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE > 3 then
+         	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+         /* CHECK_END_HOTELZ - Last hotel in mod zero? */
+
+         if (ERROR_CODE = END_OF_FILE) !
+         (HDET_MOD > BK_MODIFICATION) !
+         (HDET_BK_TR_NO > BOOKING_NO) !
+         (HDET_ALT_SEQ > 0) !
+         (HDET_ANSW_SEQ > 0) then
+            return;
+         end;
+      if CONV_IT_DATE < HDET_DATE then
+         do;
+         return;
+         end;
+      if CONV_IT_DATE > HDET_DATE + HDET_NIGHTS then
+         do while (CONV_IT_DATE > HDET_DATE + HDET_NIGHTS);
+            do;
+
+            /* READ_NEXT_HOTELD - Read next */
+
+            call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE > 3 then
+            	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+            /* CHECK_END_HOTELZ - Last hotel in mod zero? */
+
+            if (ERROR_CODE = END_OF_FILE) !
+            (HDET_MOD > BK_MODIFICATION) !
+            (HDET_BK_TR_NO > BOOKING_NO) !
+            (HDET_ALT_SEQ > 0) !
+            (HDET_ANSW_SEQ > 0) then
+               return;
+            end;
+         end;
+      end;
+
+   if CONV_IT_DATE = HDET_DATE + HDET_NIGHTS then
+      do;
+      call GET_MEALS;
+      CODE_SAVE = CODE_TEXT;
+
+      /* READ_NEXT_HOTELD - Read next */
+
+      call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+      /* CHECK_END_HOTELZ - Last hotel in mod zero? */
+
+      if (ERROR_CODE = END_OF_FILE) !
+      (HDET_MOD > BK_MODIFICATION) !
+      (HDET_BK_TR_NO > BOOKING_NO) !
+      (HDET_ALT_SEQ > 0) !
+      (HDET_ANSW_SEQ > 0) then
+         return;
+      call SET_MEALS;
+      if CODE_SAVE ^= "" then
+         CODE_TEXT = CODE_SAVE !! " " !! CODE_TEXT;
+      return;
+      end;
+
+   call GET_MEALS;
+
+return;
+end;	/* SET_MEALS            */
+
+/****************************************************************
+	GET_MEALS
+	Get the meals on this day
+****************************************************************/
+
+GET_MEALS:
+	procedure;
+
+declare MEAL_DATE fixed binary;
+declare MEAL_STRING character(20);
+declare (X,Y) fixed binary(31);
+declare LOOP_2 fixed binary;
+
+if HDET_MEAL(1) = "" then
+   if HDET_MEAL(2) = "" then
+   if HDET_MEAL(3) = "" then
+   if HDET_MEAL(4) = "" then
+      do;
+      if (HDET_DATE = CONV_IT_DATE) ! (HDET_MEAL_PLAN = "EP") ! (HDET_MEAL_PLAN = "  ") then
+         return;
+      end;
+
+MEAL_DATE = CONV_IT_DATE;
+
+MEAL_STRING = "No Meals";
+if HDET_DATE ^= CONV_IT_DATE then if HDET_MEAL_PLAN ^= "EP" then if HDET_MEAL_PLAN ^= "  " then
+   MEAL_STRING = HDET_MEAL_PLAN;
+do LOOP_INDEX = 1 to 4;
+   if HDET_MEAL(LOOP_INDEX) ^= "" then if HDET_MEAL_QTY(LOOP_INDEX) >0 then
+      do;
+      X = HDET_MEAL_DAYS(LOOP_INDEX);
+      if X = 0 then
+         Y = 1;
+      do LOOP_2 = 1 to HDET_MEAL_QTY(LOOP_INDEX);
+         if X > 0 then
+            do;
+            Y = X - divide(X,10,31) * 10;
+            X = divide(X,10,31);
+            end;
+         else
+            Y = Y + 1;
+         if MEAL_DATE = HDET_DATE + Y - 1 then
+            do;
+            if MEAL_STRING = "No Meals" then
+               MEAL_STRING = HDET_MEAL(LOOP_INDEX);
+            else
+               MEAL_STRING = CUT_SPACES(MEAL_STRING) !! " " !! HDET_MEAL(LOOP_INDEX);
+            end;
+      end;
+      end;
+end;
+if MEAL_STRING = "No Meals" then
+   MEAL_STRING = "";
+CODE_TEXT = CUT_SPACES(MEAL_STRING);
+
+return;
+end;	/* GET_MEALS            */
+
+/****************************************************************
+	SET_TRPAX
+	Print the tour passengers
+****************************************************************/
+
+SET_TRPAX:
+	procedure;
+
+   call SET_BKPAX;
+return;
+end;	/* SET_TRPAX            */
+
+/****************************************************************
+	SET_BKPAX
+	Print the booking passengers
+****************************************************************/
+
+SET_BKPAX:
+	procedure;
+
+
+   /* SET_FIRST_PAXD - Set first */
+
+   BK_PAX_MOD = BK_MODIFICATION;
+   BK_PAX_BK_NO = BOOKING_NO;
+   BK_PAX_SEQ = 0;
+   call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   END_WRITE_THRU_PAX = NO;
+   do while (END_WRITE_THRU_PAX ^= YES);
+      call WRITE_THRU_PAX;
+   end;
+
+   /* NO_CODE_TEXT - Clear the code text string */
+
+   CODE_TEXT = "";
+
+
+   /* SET_SKIP_LINE - Don't write the last line */
+
+   SKIP_IT_LINE = "Y";
+
+return;
+end;	/* SET_BKPAX            */
+
+/****************************************************************
+	WRITE_THRU_PAX
+	Write all the passenger's names
+****************************************************************/
+
+WRITE_THRU_PAX:
+	procedure;
+
+
+   /* READ_NEXT_PAXD - Read next */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_END_PAXD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_WRITE_THRU_PAX = YES;
+      return;
+      end;
+
+   /* WRITE_OUT_PAX - Write out this passenger's name */
+
+   BK_STRING = CUT_SPACES(BK_PAX_NAME);
+   call WRITE_STRING;
+
+return;
+end;	/* WRITE_THRU_PAX       */
+
+/****************************************************************
+	WRITE_STRING
+	Write this string to the file
+****************************************************************/
+
+WRITE_STRING:
+	procedure;
+
+if length(BK_STRING) = 0 then
+   return;
+if BK_STRING = " " then
+   BK_STRING = "";
+write file (BK_TEXT) from (BK_STRING);
+
+return;
+end;	/* WRITE_STRING         */
+
+/****************************************************************
+	SET_HNAME
+	Print all the hotel name & addrs
+****************************************************************/
+
+SET_HNAME:
+	procedure;
+
+
+   /* RESET_CODES - Clear the codes array */
+
+   do LOOP_INDEX = 1 to 20;
+      CODES_ARRAY(LOOP_INDEX) = "";
+   end;
+
+
+   /* SET_FIRST_HOTELD - Set first hotel detail */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   END_WRITE_ALL_HOTELS = NO;
+   do while (END_WRITE_ALL_HOTELS ^= YES);
+      call WRITE_ALL_HOTELS;
+   end;
+
+   /* NO_CODE_TEXT - Clear the code text string */
+
+   CODE_TEXT = "";
+
+return;
+end;	/* SET_HNAME            */
+
+/****************************************************************
+	WRITE_ALL_HOTELS
+	Write out all the hotel's names
+****************************************************************/
+
+WRITE_ALL_HOTELS:
+	procedure;
+
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELZ - Last hotel in mod zero? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) !
+   (HDET_ALT_SEQ > 0) !
+   (HDET_ANSW_SEQ > 0) then
+      do;
+      END_WRITE_ALL_HOTELS = YES;
+      return;
+      end;
+
+   /* WRITE_THIS_HOTEL - Print the hotel out */
+
+   do LOOP_INDEX = 1 to 20;
+      if CODES_ARRAY(LOOP_INDEX) = "" then
+         do;
+         CODES_ARRAY(LOOP_INDEX) = HDET_HOTEL;
+         HOTEL_CODE = HDET_HOTEL;
+
+         /* READ_HOTEL - Read hotel record */
+
+         call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_BK_HOTEL);
+         if ERROR_BK_HOTEL > 3 then
+            call PRINT_ERROR (BK_HOTEL_NO,ERROR_BK_HOTEL);
+         if ERROR_BK_HOTEL = NORMAL_RETURN then
+            do;
+            BK_STRING = CUT_SPACES(HOTEL_NAME);
+            call WRITE_STRING;
+            BK_STRING = CUT_SPACES(HOTEL_NAME_2);
+            call WRITE_STRING;
+            BK_STRING = CUT_SPACES(HOTEL_ADDR_1);
+            call WRITE_STRING;
+            BK_STRING = CUT_SPACES(HOTEL_ADDR_2);
+            call WRITE_STRING;
+            BK_STRING = CUT_SPACES(HOTEL_ADDR_3);
+            call WRITE_STRING;
+            BK_STRING = CUT_SPACES(HOTEL_ADDR_4);
+            call WRITE_STRING;
+            if HOTEL_PHONE ^= "" then
+               do;
+               BK_STRING = "Phone: " !! CUT_SPACES(HOTEL_PHONE);
+               call WRITE_STRING;
+               end;
+            if HOTEL_CABLE ^= "" then
+               do;
+               BK_STRING = "Cable: " !! CUT_SPACES(HOTEL_CABLE);
+               call WRITE_STRING;
+               end;
+            BK_STRING = " ";
+            call WRITE_STRING;
+            end;
+         LOOP_INDEX = 20;
+         end;
+      if CODES_ARRAY(LOOP_INDEX) = HDET_HOTEL then
+         LOOP_INDEX = 20;
+      end;
+
+return;
+end;	/* WRITE_ALL_HOTELS     */
+
+/****************************************************************
+	SET_LNAME
+	Print all the tour operator's names
+****************************************************************/
+
+SET_LNAME:
+	procedure;
+
+
+   /* RESET_CODES - Clear the codes array */
+
+   do LOOP_INDEX = 1 to 20;
+      CODES_ARRAY(LOOP_INDEX) = "";
+   end;
+
+
+   /* SET_FIRST_LANDD - Set to the first land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_WRITE_THRU_LANDS = NO;
+   do while (END_WRITE_THRU_LANDS ^= YES);
+      call WRITE_THRU_LANDS;
+   end;
+
+   /* NO_CODE_TEXT - Clear the code text string */
+
+   CODE_TEXT = "";
+
+return;
+end;	/* SET_LNAME            */
+
+/****************************************************************
+	WRITE_THRU_LANDS
+	Go thru the land and print all vendors
+****************************************************************/
+
+WRITE_THRU_LANDS:
+	procedure;
+
+declare		ERROR_AP_VENDOR      fixed binary (15);
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDZ - Last land detail in general info? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > 0) !
+   (LDET_ANSW_SEQ > 0) then
+      do;
+      END_WRITE_THRU_LANDS = YES;
+      return;
+      end;
+
+   /* WRITE_THIS_LAND - Print this land vendor out */
+
+   do LOOP_INDEX = 1 to 20;
+      if CODES_ARRAY(LOOP_INDEX) = "" then
+         do;
+         CODES_ARRAY(LOOP_INDEX) = LDET_VENDOR;
+         AP_VEN_NO = LDET_VENDOR;
+
+         /* READ_VENDOR - Read the vendor with this code */
+
+         call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_AP_VENDOR);
+         if ERROR_AP_VENDOR > 3 then
+            call PRINT_ERROR (AP_VENDOR_NO,ERROR_AP_VENDOR);
+         if ERROR_AP_VENDOR = NORMAL_RETURN then
+            do;
+            BK_STRING = CUT_SPACES(AP_VEN_NAME);
+            call WRITE_STRING;
+            BK_STRING = CUT_SPACES(AP_ADDR_1);
+            call WRITE_STRING;
+            BK_STRING = CUT_SPACES(AP_ADDR_2);
+            call WRITE_STRING;
+            BK_STRING = CUT_SPACES(AP_ADDR_3);
+            call WRITE_STRING;
+            BK_STRING = CUT_SPACES(AP_ADDR_4);
+            call WRITE_STRING;
+            if AP_VEN_PHONE ^= "" then
+               do;
+               BK_STRING = "Phone: " !! CUT_SPACES(AP_VEN_PHONE);
+               call WRITE_STRING;
+               end;
+            if AP_VEN_CABLE ^= "" then
+               do;
+               BK_STRING = "Cable: " !! CUT_SPACES(AP_VEN_CABLE);
+               call WRITE_STRING;
+               end;
+            BK_STRING = " ";
+            call WRITE_STRING;
+            end;
+         LOOP_INDEX = 20;
+         end;
+      if CODES_ARRAY(LOOP_INDEX) = LDET_VENDOR then
+         LOOP_INDEX = 20;
+      end;
+
+return;
+end;	/* WRITE_THRU_LANDS     */
+
+/****************************************************************
+	SET_AGENT
+	Set the res. agent's name
+****************************************************************/
+
+SET_AGENT:
+	procedure;
+
+BK_USER = USER_NAME();
+call READ_KEYED (BK_USERS_NO,KEY_AREA_1,ERROR_CODE);
+if ERROR_CODE = NORMAL_RETURN then
+   do;
+   CODE_TEXT = CUT_SPACES(BK_USER_NAME);
+   end;
+else
+   do;
+   do LOOP_INDEX = 2 to 16;
+      if substr(BK_USER,LOOP_INDEX,1) = "_" then
+         substr(BK_USER,LOOP_INDEX,16-LOOP_INDEX+1) = "";
+      if substr(BK_USER,LOOP_INDEX,1) >= "A" then if substr(BK_USER,LOOP_INDEX,1) <= "Z" then
+         substr(BK_USER,LOOP_INDEX,1) = ascii(rank(substr(BK_USER,LOOP_INDEX,1))+32);
+   end;
+   CODE_TEXT = CUT_SPACES(BK_USER);
+   end;
+
+return;
+end;	/* SET_AGENT            */
+
+/****************************************************************
+	SET_PRICE
+	Set up the Per Person Pricing
+****************************************************************/
+
+SET_PRICE:
+	procedure;
+
+BK_LINE_MOD = BK_MODIFICATION;
+BK_LINE_BK_NO = BOOKING_NO;
+BK_LINE_SEQ = 0;
+call SET_POSITION(BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+ERROR_CODE = NORMAL_RETURN;
+do while (ERROR_CODE = NORMAL_RETURN);
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if BK_LINE_MOD ^= BK_MODIFICATION then
+      ERROR_CODE = END_OF_FILE;
+   if BK_LINE_BK_NO ^= BOOKING_NO then
+      ERROR_CODE = END_OF_FILE;
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      declare PRICE character(20);
+      call CONV_FP(BK_LINE_PRICE,PRICE);
+      BK_STRING = BK_LINE_DESC !! PRICE;
+      call WRITE_STRING;
+      end;
+end;
+
+CODE_TEXT = "";
+SKIP_IT_LINE = "Y";
+
+return;
+end;	/* SET_PRICE            */
+
+/****************************************************************
+	SET_TPRCE
+	Set the total price
+****************************************************************/
+
+SET_TPRCE:
+	procedure;
+
+declare PRICE character(20);
+call CONV_FP(BK_TOUR_PRICE,PRICE);
+
+do LOOP_INDEX = 1 to 20;
+   if substr(PRICE,1,1) = " " then
+      PRICE = substr(PRICE,2,19);
+   else
+      LOOP_INDEX = 20;
+end;
+
+CODE_TEXT = CUT_SPACES(PRICE);
+
+return;
+end;	/* SET_TPRCE            */
+
+/****************************************************************
+	SET_PCOST
+	Set the net to agent price
+****************************************************************/
+
+SET_PCOST:
+	procedure;
+
+BK_LINE_MOD = BK_MODIFICATION;
+BK_LINE_BK_NO = BOOKING_NO;
+BK_LINE_SEQ = 0;
+call SET_POSITION(BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+ERROR_CODE = NORMAL_RETURN;
+do while (ERROR_CODE = NORMAL_RETURN);
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if BK_LINE_MOD ^= BK_MODIFICATION then
+      ERROR_CODE = END_OF_FILE;
+   if BK_LINE_BK_NO ^= BOOKING_NO then
+      ERROR_CODE = END_OF_FILE;
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      declare PRICE character(20);
+      BK_LINE_NET = BK_LINE_NET / BK_LINE_QTY;
+      call CONV_FP(BK_LINE_NET,PRICE);
+      BK_STRING = BK_LINE_DESC !! PRICE;
+      call WRITE_STRING;
+      end;
+end;
+
+CODE_TEXT = "";
+SKIP_IT_LINE = "Y";
+
+return;
+end;	/* SET_PCOST            */
+
+/****************************************************************
+	SET_TCOST
+	Set up the net to agent price
+****************************************************************/
+
+SET_TCOST:
+	procedure;
+
+declare PRICE character(20);
+call CONV_FP(BK_NET_PRICE,PRICE);
+
+do LOOP_INDEX = 1 to 20;
+   if substr(PRICE,1,1) = " " then
+      PRICE = substr(PRICE,2,19);
+   else
+      LOOP_INDEX = 20;
+end;
+
+CODE_TEXT = CUT_SPACES(PRICE);
+
+return;
+end;	/* SET_TCOST            */
+
+/****************************************************************
+	SET_LINEI
+	Set up the line items
+****************************************************************/
+
+SET_LINEI:
+	procedure;
+
+BK_LINE_MOD = BK_MODIFICATION;
+BK_LINE_BK_NO = BOOKING_NO;
+BK_LINE_SEQ = 0;
+call SET_POSITION(BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+ERROR_CODE = NORMAL_RETURN;
+do while (ERROR_CODE = NORMAL_RETURN);
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if BK_LINE_MOD ^= BK_MODIFICATION then
+      ERROR_CODE = END_OF_FILE;
+   if BK_LINE_BK_NO ^= BOOKING_NO then
+      ERROR_CODE = END_OF_FILE;
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      declare PRICE character(20);
+      call CONV_FP(BK_LINE_NET,PRICE);
+      BK_STRING = BK_LINE_DESC !! PRICE;
+      call WRITE_STRING;
+      end;
+end;
+
+CODE_TEXT = "";
+SKIP_IT_LINE = "Y";
+
+return;
+end;	/* SET_LINEI            */
+
+/****************************************************************
+	SET_PDPST
+	Set the deposit per person
+****************************************************************/
+
+SET_PDPST:
+	procedure;
+
+declare DEPOSIT float binary(53);
+declare DEP_STRING character(20);
+
+DEPOSIT = BK_DEPOSIT / BK_PAX;
+call CONV_FP(DEPOSIT,DEP_STRING);
+
+do LOOP_INDEX = 1 to 20;
+   if substr(DEP_STRING,1,1) = " " then
+      DEP_STRING = substr(DEP_STRING,2,19);
+   else
+      LOOP_INDEX = 20;
+end;
+
+CODE_TEXT = CUT_SPACES(DEP_STRING);
+
+return;
+end;	/* SET_PDPST            */
+
+/****************************************************************
+	SET_TDPST
+	Set the total deposit due
+****************************************************************/
+
+SET_TDPST:
+	procedure;
+
+declare DEPOSIT float binary(53);
+declare DEP_STRING character(20);
+
+DEPOSIT = BK_DEPOSIT;
+call CONV_FP(DEPOSIT,DEP_STRING);
+
+do LOOP_INDEX = 1 to 20;
+   if substr(DEP_STRING,1,1) = " " then
+      DEP_STRING = substr(DEP_STRING,2,19);
+   else
+      LOOP_INDEX = 20;
+end;
+
+CODE_TEXT = CUT_SPACES(DEP_STRING);
+
+return;
+end;	/* SET_TDPST            */
+
+/****************************************************************
+	SET_ANAME
+	Agency Name
+****************************************************************/
+
+SET_ANAME:
+	procedure;
+
+CODE_TEXT = CUT_SPACES(BK_AGENCY_NAME);
+
+return;
+end;	/* SET_ANAME            */
+
+/****************************************************************
+	SET_AADDR
+	Set the agency address
+****************************************************************/
+
+SET_AADDR:
+	procedure;
+
+BK_STRING = CUT_SPACES(BK_AGENCY_ADD_1);
+call WRITE_STRING;
+BK_STRING = CUT_SPACES(BK_AGENCY_ADD_2);
+call WRITE_STRING;
+CODE_TEXT = CUT_SPACES(BK_AGENCY_ADD_3) !! "  " !! CUT_SPACES(BK_AGENCY_ZIP);
+
+return;
+end;	/* SET_AADDR            */
+
+/****************************************************************
+	SET_ACNTC
+	Set contact name
+****************************************************************/
+
+SET_ACNTC:
+	procedure;
+
+CODE_TEXT = CUT_SPACES(BK_CONTACT);
+
+return;
+end;	/* SET_ACNTC            */
+
+/****************************************************************
+	SET_ACSAL
+	Set the agent salutation
+****************************************************************/
+
+SET_ACSAL:
+	procedure;
+
+CODE_TEXT = CUT_SPACES(BK_CONTACT);
+LOOP_INDEX = index( substr(CODE_TEXT,1,5),"." );
+if LOOP_INDEX ^= 0 then
+   CODE_TEXT =
+      substr(CODE_TEXT,LOOP_INDEX+2,length(CODE_TEXT)-LOOP_INDEX+3);
+LOOP_INDEX = index(CODE_TEXT," ");
+if LOOP_INDEX ^= 0 then
+   CODE_TEXT =
+      substr(CODE_TEXT,1,LOOP_INDEX-1);
+
+return;
+end;	/* SET_ACSAL            */
+
+/****************************************************************
+	SET_BOOKN
+	SET THE BOOKING NUMBER
+****************************************************************/
+
+SET_BOOKN:
+	procedure;
+
+declare BOOKNO character(20);
+BOOKNO = BOOKING_NO;
+
+do LOOP_INDEX = 1 to 20;
+   if substr(BOOKNO,1,1) = " " then
+      BOOKNO = substr(BOOKNO,2,19);
+   else
+      LOOP_INDEX = 20;
+end;
+
+CODE_TEXT = CUT_SPACES(BOOKNO);
+
+return;
+end;	/* SET_BOOKN            */
+
+/****************************************************************
+	SCAN_DET_IT
+	Scan the detail tour itinerary paragrphs
+****************************************************************/
+
+SCAN_DET_IT:
+	procedure;
+
+
+   /* SET_FIRST_LANDD - Set to the first land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_LAND_IT = NO;
+   do while (END_SCAN_LAND_IT ^= YES);
+      call SCAN_LAND_IT;
+   end;
+return;
+end;	/* SCAN_DET_IT          */
+
+/****************************************************************
+	SCAN_LAND_IT
+	Read thru all land and get it paragraphs
+****************************************************************/
+
+SCAN_LAND_IT:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDZ - Last land detail in general info? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > 0) !
+   (LDET_ANSW_SEQ > 0) then
+      do;
+      END_SCAN_LAND_IT = YES;
+      return;
+      end;
+
+   /* SET_IT_DAY - Set up this day */
+
+   IT_DATE = LDET_DATE;
+   IT_DAY = LDET_DATE - TOUR_DEP_DATE + 1;
+
+   CONV_IT_DATE = IT_DATE;
+
+
+   /* OPEN_LAND_IT - Open the land itinerary detail */
+
+   ERROR_CODE = NORMAL_RETURN;
+   on syserror(BK_TEXT_3)
+      begin;
+      ERROR_CODE = 1;
+      end;
+
+   ERROR_CODE = NORMAL_RETURN;
+   declare TEMP character (30);
+   if LDET_MANUAL = "" then
+      do;
+      if BK_IT_VERSION = " " then
+         TEMP = "ITIN:" !! CUT_SPACES(LDET_TOUR_NO);
+      else
+         TEMP= "ITIN:" !! CUT_SPACES(LDET_TOUR_NO) !! "." !! BK_IT_VERSION;
+      end;
+   else
+      TEMP = "ITIN:" !! CUT_SPACES(LDET_TOUR_NO) !! ".MAN";
+   open file (BK_TEXT_3) stream input title (CUT_SPACES(TEMP))
+      environment(lineend recsize(255));
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+   END_ADD_LAND_IT = NO;
+   do while (END_ADD_LAND_IT ^= YES);
+      call ADD_LAND_IT;
+   end;
+
+   /* CLOSE_LAND_IT - Close the land itinerary file */
+
+   close file (BK_TEXT_3);
+
+return;
+end;	/* SCAN_LAND_IT         */
+
+/****************************************************************
+	ADD_LAND_IT
+	Add the land itinerary text
+****************************************************************/
+
+ADD_LAND_IT:
+	procedure;
+
+
+   /* READ_NEXT_DET_IT - Read next line of this tour's text */
+
+   read file (BK_TEXT_3) into (BK_STRING_3);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      END_ADD_LAND_IT = YES;
+      return;
+      end;
+
+
+   /* MOVE_DET_IT - Move the detail to output */
+
+   BK_STRING = BK_STRING_3;
+
+   call PROCESS_IT;
+return;
+end;	/* ADD_LAND_IT          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (TK_AIRLINE_NO);
+   call CLOSE_FILE (TK_AIRPORT_NO);
+   call CLOSE_FILE (BK_USERS_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

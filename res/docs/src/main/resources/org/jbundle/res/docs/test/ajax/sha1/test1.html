@@ -1,0 +1,28 @@
+<html>
+<head>
+<script type="text/javascript" src="sha1.js"></script>
+
+<script type="text/javascript">
+
+function go()
+{
+      var data = "donwpp";
+//      alert("" + dojo.crypto.SHA1.core(dojo.crypto.SHA1.toWord(data), data.length() * dojo.crypto.SHA1.chrsz));
+//	alert(dojo.crypto.SHA1.compute(data));
+//alert(dojo.crypto.SHA1.toWord(data));
+      //var q = {};
+     // q[0] = 0;
+  ///    q = dojo.crypto.SHA1.core(q, 4 * dojo.crypto.SHA1.chrsz);
+//      alert(q);
+	var binarray = [];
+	binarray[0] = 1;
+	alert(dojo.crypto.SHA1.toBase64(binarray));
+}
+
+</script>
+</head>
+<body>
+This is a test
+<button onClick="go();">Press me</button>
+</body>
+</html>

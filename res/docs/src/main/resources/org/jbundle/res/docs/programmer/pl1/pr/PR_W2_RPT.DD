@@ -1,0 +1,10 @@
+/*********************************************************************
+	PR_W2_RPT File
+********************************************************************/
+
+declare	1 PR_W2_RPT_RECORD,
+		3 PR_LAST_NAME         character (       20),
+		3 EMP_FED_ID           character (       11),
+		3 EMP_STATE_ID         character (       11),
+		3 PR_SS_WAGES          float binary (21);
+

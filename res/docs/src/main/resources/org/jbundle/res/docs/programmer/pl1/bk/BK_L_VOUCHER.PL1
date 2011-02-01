@@ -1,0 +1,2375 @@
+/****************************************************************
+	Module: BK_L_VOUCHER
+	Top Level Logic: L_VOUCHER_LOGIC
+	Date: 20-Sep-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_L_VOUCHER
+	Mainline logic
+****************************************************************/
+
+%replace BK_L_VOUCHER_1 by 772;
+%replace BK_L_VOUCHER_2 by 776;
+%replace BK_L_VOUCHER_3 by 777;
+%replace BK_L_VOUCHER_4 by 778;
+%replace BK_L_VOUCHER_5 by 841;
+BK_L_VOUCHER:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_DET_LAND_RECORD,
+      AP_OPEN_RECORD,
+      BK_LAND_RECORD,
+      BK_TRANS_RECORD,
+      TK_DETAIL_RECORD,
+      AP_VENDOR_RECORD,
+      BK_HOTEL_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_ITIN_DET_RECORD);
+%replace BK_TEXT_NO by  83;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_DET_LAND_NO by  68;
+%replace AP_OPEN_NO by  32;
+%replace BK_LAND_NO by  54;
+%replace BK_TRANS_NO by  64;
+%replace TK_DETAIL_NO by  57;
+%replace AP_VENDOR_NO by  30;
+%replace BK_HOTEL_NO by   8;
+%replace BK_TOUR_DOC_NO by  76;
+%replace BK_CONTROL_NO by  47;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_ITIN_DET_NO by  79;
+%include "BK_L_VOUCHER.DD";
+%include "BK_TEXT.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_DET_LAND.DD";
+%include "AP_OPEN.DD";
+%include "BK_LAND.DD";
+%include "BK_TRANS.DD";
+%include "TK_DETAIL.DD";
+%include "AP_VENDOR.DD";
+%include "BK_HOTEL.DD";
+%include "BK_TOUR_DOC.DD";
+%include "BK_CONTROL.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_ITIN_DET.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		LINE                 fixed binary (15);
+declare		ERROR_BK_LAND        fixed binary (15);
+declare		ERROR_BK_TRANS       fixed binary (15);
+declare		END_PRT_THRU_PAXZ    bit (1);
+declare		END_READ_THRU_PAX    bit (1);
+declare		PAX_COUNT            fixed binary (15);
+declare		ROOM_TYPE_DESC       character (        6);
+declare		END_PRT_THRU_PAXT    bit (1);
+declare		END_PRT_THRU_PAXY    bit (1);
+declare		END_PRT_LV_LND_DET   bit (1);
+declare		END_GET_ITIND        bit (1);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   LVOUCHER_PAGE = 1;
+   LDET_ACK = 0;
+   LVOUCHER_DATE = TODAYS_DATE();
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   LINE = 0;
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (BK_L_VOUCHER_RECORD) );
+   call LVOUCHER_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	LVOUCHER_MAIN
+	Mainline logic (print land vouchers)
+****************************************************************/
+
+LVOUCHER_MAIN:
+	procedure;
+
+declare		ERROR_BK_BOOKING     fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+
+   /* SET_THIS_FMT - Set up the document's format */
+
+   if BK_H_FORM ^= "" then
+      call PRINT_LINE ("[FORM: " !! CUT_SPACES(BK_H_FORM) !! "]");
+
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   BK_MODIFICATION = 0;
+   BOOKING_NO = AP_V_BASED_BK;
+   KEY_NO = 1;
+
+   /* GET_LANDD - Get the land detail */
+
+   if AP_GL_STATUS = CXL_REQ then
+      do;
+      declare TEMP_NEXT_MOD fixed binary;
+      TEMP_NEXT_MOD = BK_TOUR_MOD;
+      do BK_MODIFICATION = AP_V_BASED_MOD + 1 to TEMP_NEXT_MOD;
+
+         /* READ_RECORD - Read the record */
+
+         call READ_KEYED (BK_BOOKING_NO,KEY_AREA_1,ERROR_BK_BOOKING);
+         if ERROR_BK_BOOKING > 3 then
+            call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+         if ERROR_BK_BOOKING=NORMAL_RETURN then if BK_TOUR_MOD = BK_NEXT_MOD then
+            BK_MODIFICATION = TEMP_NEXT_MOD + 1;
+      end;
+      BK_MODIFICATION = BK_TOUR_MOD;
+      if BK_TOUR_MOD ^= BK_NEXT_MOD then
+         do;
+
+         /* SETUP_KEY - Set up this key for a read */
+
+         BK_MODIFICATION = 0;
+         BOOKING_NO = AP_V_BASED_BK;
+         KEY_NO = 1;
+
+         /* READ_RECORD - Read the record */
+
+         call READ_KEYED (BK_BOOKING_NO,KEY_AREA_1,ERROR_BK_BOOKING);
+         if ERROR_BK_BOOKING > 3 then
+            call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+         end;
+      end;
+
+
+   /* READ_SECOND - Read info and display secondary fileinfo */
+
+   AP_VEN_NO = AP_OPEN_VENDOR;
+   call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+      call PRESS_RETURN;
+      call CLEAR_MESSAGE;
+      RETURN_CODE = DO_AGAIN;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+   else
+      do;
+      do LOOP_INDEX =  27 to  28;
+         call OUTPUT_FIELD (LOOP_INDEX);
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+
+   /* LVOUCHER_PRT - Open the land format and read it */
+
+   if DOC_NAME = "" then
+      DOC_NAME = "[1]";
+
+   if substr(DOC_NAME,1,1) = "[" then
+      do case (index("1234",substr(DOC_NAME,2,1)));
+         call PRT_DEF_LV1;
+         call PRT_DEF_LV2;
+      end;
+   else
+      do;
+      call OPEN_SFILE (BK_TEXT_NO,"FORM:" !! CUT_SPACES(DOC_NAME),
+         byteaddr(BK_TEXT_RECORD),ERROR_CODE);
+      if ERROR_CODE ^= NORMAL_RETURN then
+         do;
+         call PRT_DEF_LV1;
+         LINE = 100;
+         goto END_SEQN_READ;
+         end;
+      do while (YES);		/* Until EOF */
+      call READ_SEQN(BK_TEXT_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = END_OF_FILE then
+            do;
+            LINE = 100;
+            goto END_SEQN_READ;
+            end;
+         START_LV_CODE = index(BK_STRING,"[!");
+         if START_LV_CODE = 0 then
+            do;
+            call SETUP_PRINT_FORMAT (BK_L_VOUCHER_3);
+            LOOP_INDEX = 1;
+            if BK_STRING = "<FF>"c then
+               LINE = 0;
+            call PRINT_REPORT_LINE;
+            end;
+         else
+            do;
+            LV_CODE = substr(BK_STRING,START_LV_CODE+2,5);
+            do case (divide(index("HDR PAX HTL LND MSC FLT AGT CWD RTE TVA VEN ",substr(LV_CODE,1,3))+3,4,15));
+
+               /* LVOUCHER_CASE - Dispatch to the correct printing code */
+
+                  call PRT_LV_HDR;
+                  call PRT_LV_PAX;
+                  call PRT_LV_HTL;
+                  call PRT_LV_LND;
+                  call PRT_LV_MSC;
+                  call PRT_LV_FLT;
+                  call PRT_LV_AGT;
+                  call PRT_LV_CWD;
+                  call PRT_LV_RTE;
+                  call PRT_LV_TVA;
+                  call PRT_LV_VEN;
+            end;
+            otherwise
+               do;
+               call SETUP_PRINT_FORMAT (BK_L_VOUCHER_3);
+               LOOP_INDEX = 1;
+               if BK_STRING = "<FF>"c then
+                  LINE = 0;
+               call PRINT_REPORT_LINE;
+               end;
+            end;
+      end;
+      end;
+   END_SEQN_READ:
+   LINE = 100;
+   call CLOSE_SFILE (BK_TEXT_NO);
+
+
+   /* SET_LVOUCHER_DATE - Voucher being printed today */
+
+   if DOC_DOC_TYPE = "L" then
+      do;
+      BK_V_DATE = TODAYS_DATE();
+
+      if LDET_ACK ^= 0 then
+         do;
+         if AP_GL_STATUS = CXL_REQ then
+            AP_GL_STATUS = ACK_CXL;
+         else
+            AP_GL_STATUS = ACK_VCHR;
+         AP_ACK_DATE = BK_V_DATE + LDET_ACK;
+         AP_ACKED_ON = 0;
+         AP_GL_ACTION_DATE = AP_ACK_DATE;
+         end;
+      else
+         do;
+         if AP_GL_STATUS = CXL_REQ then
+            AP_GL_STATUS = CXL_PRTD;
+         else
+            AP_GL_STATUS = VCHR_PRTD;
+         end;
+      end;
+
+
+   /* UPDATE_AP_OPEN - Update the A/P Open Record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+return;
+end;	/* LVOUCHER_MAIN        */
+
+/****************************************************************
+	PRT_DEF_LV1
+	Print the default land voucher format
+****************************************************************/
+
+PRT_DEF_LV1:
+	procedure;
+
+   call PRT_LV_HDR_STD;
+   call PRT_LV_HTL;
+   call PRT_LV_LND;
+return;
+end;	/* PRT_DEF_LV1          */
+
+/****************************************************************
+	PRT_LV_HDR_STD
+	Print the standard land voucher lines
+****************************************************************/
+
+PRT_LV_HDR_STD:
+	procedure;
+
+   call PRT_LV_HDR_LINE;
+
+   /* PRINT_LINE_D -  */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_1);
+
+   /* SET_VOUCHER_DATE - Voucher being printed today */
+
+   BK_V_DATE = TODAYS_DATE();
+
+   do LOOP_INDEX =   2 to   2;
+      call PRINT_REPORT_LINE;
+   end;
+   call PRT_LV_HDR_INFO;
+return;
+end;	/* PRT_LV_HDR_STD       */
+
+/****************************************************************
+	PRT_LV_HDR_LINE
+	Print the header line (form type)
+****************************************************************/
+
+PRT_LV_HDR_LINE:
+	procedure;
+
+if substr(LV_CODE,5,1) ^= "L" then
+   do;
+   if DOC_DOC_TYPE ^= "W" then
+      do;
+      if AP_GL_STATUS ^= CXL_REQ then
+         if AP_GL_STATUS ^= REQ_REPRT then
+            do;
+
+            /* PRINT_LINE_H1 - Print */
+
+            call SETUP_PRINT_FORMAT (BK_L_VOUCHER_1);
+            do LOOP_INDEX =   1 to   1;
+               call PRINT_REPORT_LINE;
+            end;
+            end;
+
+      if AP_GL_STATUS = REQ_REPRT then
+         do;
+
+         /* PRINT_LINE_H2 -  */
+
+         call SETUP_PRINT_FORMAT (BK_L_VOUCHER_1);
+         do LOOP_INDEX =  21 to  21;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      end;
+   else
+      do;
+
+      /* PRINT_LINE_H4 - Print */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_2);
+      do LOOP_INDEX =   1 to   1;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+   if AP_GL_STATUS = CXL_REQ then
+      do;
+
+      /* PRINT_LINE_H3 -  */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_1);
+      do LOOP_INDEX =  22 to  22;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   end;
+else
+   do;
+   if DOC_DOC_TYPE ^= "W" then
+      do;
+      if AP_GL_STATUS ^= CXL_REQ then
+         if AP_GL_STATUS ^= REQ_REPRT then
+            do;
+
+            /* PRINT_LINE_H5 - Print */
+
+            call SETUP_PRINT_FORMAT (BK_L_VOUCHER_2);
+            do LOOP_INDEX =  14 to  14;
+               call PRINT_REPORT_LINE;
+            end;
+            end;
+
+      if AP_GL_STATUS = REQ_REPRT then
+         do;
+
+         /* PRINT_LINE_H6 - Print */
+
+         call SETUP_PRINT_FORMAT (BK_L_VOUCHER_2);
+         do LOOP_INDEX =  15 to  15;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      end;
+   else
+      do;
+
+      /* PRINT_LINE_H8 - Print */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_2);
+      do LOOP_INDEX =  17 to  17;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+   if AP_GL_STATUS = CXL_REQ then
+      do;
+
+      /* PRINT_LINE_H7 - Print */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_2);
+      do LOOP_INDEX =  16 to  16;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   end;
+
+return;
+end;	/* PRT_LV_HDR_LINE      */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 28 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_L_VOUCHER_3);
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+LVOUCHER_PAGE = LVOUCHER_PAGE + 1;
+do LOOP_INDEX =   4 to   6;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	PRT_LV_HDR_INFO
+	Print the general header info
+****************************************************************/
+
+PRT_LV_HDR_INFO:
+	procedure;
+
+if DOC_DOC_TYPE ^= "W" then
+   do;
+
+   /* PRINT_LINE_B - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_1);
+
+   /* GET_L_FLIGHTS - Get the land detail flights */
+
+   BK_PAX_SEQ = 0;
+
+
+   /* SET_FIRST_LANDD - Set to the first land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = AP_START_SVC;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   ERROR_CODE = NORMAL_RETURN;
+   do while (ERROR_CODE = NORMAL_RETURN);
+
+      /* READ_NEXT_LANDD - Read the next land detail record */
+
+      call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+      if (ERROR_CODE ^= NORMAL_RETURN) !
+         (LDET_MOD ^= BK_MODIFICATION) !
+         (LDET_BK_TK_NO > BOOKING_NO) !
+         (LDET_ALT_SEQ > BK_PAX_SEQ) !
+         (LDET_ANSW_SEQ > 0) !
+         (LDET_DATE > AP_START_SVC) then
+            ERROR_CODE = END_OF_FILE;
+      if ERROR_CODE = NORMAL_RETURN then
+      if LDET_MOD = BK_MODIFICATION then
+      if LDET_BK_TK_NO = BOOKING_NO then
+      if LDET_ALT_SEQ = BK_PAX_SEQ then
+      if LDET_ANSW_SEQ = 0 then
+      if LDET_DATE = AP_START_SVC then
+      if LDET_VENDOR = AP_OPEN_VENDOR then
+         do;
+         if LDET_TORT ^= "T" then
+            do;
+            LAND_CODE = LDET_TOUR_NO;
+
+            /* READ_LAND - Read the land file */
+
+            call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_BK_LAND);
+            if ERROR_BK_LAND > 3 then
+               call PRINT_ERROR (BK_LAND_NO,ERROR_BK_LAND);
+            TK_DATE = LDET_DATE;
+            TK_CITY = TOUR_CITY;
+            end;
+         else
+            do;
+            TRANS_NO = LDET_TOUR_NO;
+
+            /* READ_TRANS - Read a transportation record */
+
+            call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_BK_TRANS);
+            if ERROR_BK_TRANS > 3 then
+               call PRINT_ERROR (BK_TRANS_NO,ERROR_BK_TRANS);
+            TK_DATE = LDET_DATE;
+            TK_CITY = TRANS_TO;
+            end;
+         ERROR_CODE = END_OF_FILE;
+         end;
+   end;
+
+   /* SET_FIRST_LANDD_2 - Set to the first land detail */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = BK_PAX_SEQ;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = AP_END_SVC;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   ERROR_CODE = NORMAL_RETURN;
+   do while (ERROR_CODE = NORMAL_RETURN);
+
+      /* READ_NEXT_LANDD - Read the next land detail record */
+
+      call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+      if (ERROR_CODE ^= NORMAL_RETURN) !
+         (LDET_MOD ^= BK_MODIFICATION) !
+         (LDET_BK_TK_NO > BOOKING_NO) !
+         (LDET_ALT_SEQ > BK_PAX_SEQ) !
+         (LDET_ANSW_SEQ > 0) !
+         (LDET_DATE > AP_END_SVC) then
+            ERROR_CODE = END_OF_FILE;
+      if ERROR_CODE = NORMAL_RETURN then
+      if LDET_MOD = BK_MODIFICATION then
+      if LDET_BK_TK_NO = BOOKING_NO then
+      if LDET_ALT_SEQ = BK_PAX_SEQ then
+      if LDET_ANSW_SEQ = 0 then
+      if LDET_DATE = AP_END_SVC then
+      if LDET_VENDOR = AP_OPEN_VENDOR then
+         do;
+         if LDET_TORT ^= "T" then
+            do;
+            LAND_CODE = LDET_TOUR_NO;
+
+            /* READ_LAND - Read the land file */
+
+            call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_BK_LAND);
+            if ERROR_BK_LAND > 3 then
+               call PRINT_ERROR (BK_LAND_NO,ERROR_BK_LAND);
+            TK_ARR_DATE = LDET_DATE;
+            TK_ARR_CITY = TOUR_CITY;
+            end;
+         else
+            do;
+            TRANS_NO = LDET_TOUR_NO;
+
+            /* READ_TRANS - Read a transportation record */
+
+            call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_BK_TRANS);
+            if ERROR_BK_TRANS > 3 then
+               call PRINT_ERROR (BK_TRANS_NO,ERROR_BK_TRANS);
+            TK_ARR_DATE = LDET_DATE;
+            TK_ARR_CITY = TRANS_FROM;
+            end;
+         end;
+   end;
+   call GET_FLIGHTS;
+
+   do LOOP_INDEX =   3 to  10;
+      call PRINT_REPORT_LINE;
+   end;
+   end;
+else
+   do;
+
+   /* PRINT_LINE_J -  */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_2);
+   do LOOP_INDEX =   3 to  10;
+      call PRINT_REPORT_LINE;
+   end;
+   end;
+
+return;
+end;	/* PRT_LV_HDR_INFO      */
+
+/****************************************************************
+	GET_FLIGHTS
+	Get the arrival & Departure flights
+****************************************************************/
+
+GET_FLIGHTS:
+	procedure;
+
+/* This routine get the most obvious arrival and departure flights
+   for a hotel or land/transportation voucher */
+
+/* To get accurate information, the calling routine should supply:
+	TK_DATE - First date of service
+	TK_ARR_DATE - Last date of service
+	TK_CITY - Departure CITY
+	TK_ARR_CITY  - Arrival CITY
+Returns:
+TK_DATE,TK_TIME,TK_CARRIER,TK_FLIGHT,TK_CITY,TK_CITY_DESC - Dep. info.
+TK_ARR_DATE,TK_ARR_TIME,TK_STATUS,TK_DETAIL_MODULE,TK_ARR_CITY,DESC-Arr
+   This routine automatically puts the right values in the right flds */
+
+declare	FIRST_DATE fixed binary;
+declare	LAST_DATE fixed binary;
+declare	FIRST_CITY character(3);
+declare	LAST_CITY character(3);
+
+declare	ARRIVE_CARRIER character(2);
+declare ARRIVE_FLT_NO character(4);
+declare ARRIVE_DATE fixed binary;
+declare ARRIVE_TIME fixed binary;
+declare ARRIVE_CITY character(3);
+declare ARRIVE_CITY_DESC character(17);
+declare DEPART_CARRIER character(2);
+declare DEPART_FLT_NO character(4);
+declare DEPART_DATE fixed binary;
+declare DEPART_TIME fixed binary;
+declare DEPART_CITY character(3);
+declare DEPART_CITY_DESC character(17);
+
+ARRIVE_CARRIER = "";
+ARRIVE_FLT_NO = "";
+ARRIVE_DATE = 0;
+ARRIVE_TIME = NO_TIME;
+ARRIVE_CITY = "";
+ARRIVE_CITY_DESC = "";
+DEPART_CARRIER = "";
+DEPART_FLT_NO = "";
+DEPART_DATE = 0;
+DEPART_TIME = NO_TIME;
+DEPART_CITY = "";
+DEPART_CITY_DESC = "";
+
+FIRST_DATE = TK_DATE;
+LAST_DATE = TK_ARR_DATE;
+FIRST_CITY = TK_CITY;
+LAST_CITY = TK_ARR_CITY;
+
+TK_DET_MOD = 0;
+TK_DET_BK_TK = BOOKING_NO;
+TK_DET_ALT_SEQ = BK_PAX_SEQ;
+TK_DET_ANSW_SEQ = 0;
+TK_DATE = FIRST_DATE - 2;
+TK_SEQ = 0;
+call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+ERROR_CODE = NORMAL_RETURN;
+do while (ERROR_CODE = NORMAL_RETURN);
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if (TK_DET_MOD > 0) !
+      (TK_DET_BK_TK > BOOKING_NO) !
+      (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+      (TK_DET_ANSW_SEQ > 0) !
+      (TK_DATE > FIRST_DATE) then
+         ERROR_CODE = END_OF_FILE;
+
+   if ERROR_CODE ^= END_OF_FILE then
+      do;
+      ARRIVE_CARRIER = TK_CARRIER;
+      ARRIVE_FLT_NO = TK_FLIGHT;
+      ARRIVE_DATE = TK_DATE + TK_ARR_DAY;
+      ARRIVE_TIME = TK_ARR_TIME;
+      ARRIVE_CITY = TK_CITY;
+      ARRIVE_CITY_DESC = TK_CITY_DESC;
+      if TK_ARR_CITY = LAST_CITY then
+         ERROR_CODE = END_OF_FILE;	/* Okay */
+      end;
+end;	/* do while */
+
+TK_DET_MOD = 0;
+TK_DET_BK_TK = BOOKING_NO;
+TK_DET_ALT_SEQ = BK_PAX_SEQ;
+TK_DET_ANSW_SEQ = 0;
+TK_DATE = LAST_DATE;
+TK_SEQ = 0;
+call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+declare FIRST_FLIGHT bit(1);
+FIRST_FLIGHT = YES;
+
+do while (ERROR_CODE = 0);
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if (TK_DET_MOD > 0) !
+      (TK_DET_BK_TK > BOOKING_NO) !
+      (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+      (TK_DET_ANSW_SEQ > 0) !
+      (TK_DATE > LAST_DATE + 1) then
+         ERROR_CODE = END_OF_FILE;
+
+   if ERROR_CODE ^= END_OF_FILE then
+      do;
+      if FIRST_FLIGHT ! (FIRST_CITY = TK_CITY) then
+         do;
+         DEPART_CARRIER = TK_CARRIER;
+         DEPART_FLT_NO = TK_FLIGHT;
+         DEPART_DATE = TK_DATE;
+         DEPART_TIME = TK_TIME;
+         DEPART_CITY = TK_ARR_CITY;
+         DEPART_CITY_DESC = TK_ARR_DESC;
+         if TK_CITY = FIRST_CITY then
+            ERROR_CODE = END_OF_FILE;	/* Ok */
+         end;
+      end;
+   FIRST_FLIGHT = NO;
+end;	/* do while */
+
+TK_CARRIER = ARRIVE_CARRIER;
+TK_FLIGHT = ARRIVE_FLT_NO;
+TK_DATE = ARRIVE_DATE;
+TK_TIME = ARRIVE_TIME;
+TK_CITY = ARRIVE_CITY;
+TK_CITY_DESC = ARRIVE_CITY_DESC;
+TK_STATUS = DEPART_CARRIER;
+TK_DETAIL_MODULE = DEPART_FLT_NO;
+TK_ARR_DATE = DEPART_DATE;
+TK_ARR_TIME = DEPART_TIME;
+TK_ARR_CITY = DEPART_CITY;
+TK_ARR_DESC = DEPART_CITY_DESC;
+
+return;
+end;	/* GET_FLIGHTS          */
+
+/****************************************************************
+	PRT_DEF_LV2
+	Print the second default format
+****************************************************************/
+
+PRT_DEF_LV2:
+	procedure;
+
+   call PRT_DEF_LV1;
+return;
+end;	/* PRT_DEF_LV2          */
+
+/****************************************************************
+	PRT_LV_HDR
+	Print the land header information
+****************************************************************/
+
+PRT_LV_HDR:
+	procedure;
+
+do case (index("012345678",substr(LV_CODE,4,1)));
+   do;
+   call PRT_LV_HDR_STD;
+   end;
+   do;
+   call PRT_LV_HDR_LINE;
+   end;
+   do;
+
+   /* PRINT_LINE_D -  */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_1);
+
+   /* SET_VOUCHER_DATE - Voucher being printed today */
+
+   BK_V_DATE = TODAYS_DATE();
+
+   do LOOP_INDEX =   2 to   2;
+      call PRINT_REPORT_LINE;
+   end;
+   end;
+   do;
+   call PRT_LV_HDR_INFO;
+   end;
+   do;
+
+   /* PRINT_LINE_R - Print LInes */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_5);
+   do LOOP_INDEX =   2 to   2;
+      call PRINT_REPORT_LINE;
+   end;
+   end;
+   do;
+
+   /* PRINT_LINE_S - Print lines */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_5);
+   do LOOP_INDEX =   3 to   3;
+      call PRINT_REPORT_LINE;
+   end;
+   end;
+   do;
+
+   /* PRINT_LINE_U - Print lines */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_5);
+   do LOOP_INDEX =   7 to   9;
+      call PRINT_REPORT_LINE;
+   end;
+   end;
+   do;
+   declare DOC_DOC_SAVE character(1);
+   DOC_DOC_SAVE = DOC_DOC_TYPE;
+   DOC_DOC_TYPE = "R";
+   call PRT_LV_HDR_INFO;
+   DOC_DOC_TYPE = DOC_DOC_SAVE;
+   end;
+   do;
+   DOC_DOC_SAVE = DOC_DOC_TYPE;
+   DOC_DOC_TYPE = "W";
+   call PRT_LV_HDR_INFO;
+   DOC_DOC_TYPE = DOC_DOC_SAVE;
+   end;
+end;
+otherwise
+do;
+call PRT_LV_HDR_STD;
+end;
+
+return;
+end;	/* PRT_LV_HDR           */
+
+/****************************************************************
+	PRT_LV_PAX
+	Print the hotel passengers
+****************************************************************/
+
+PRT_LV_PAX:
+	procedure;
+
+do case (index("012",substr(LV_CODE,4,1)));
+   do;
+   if TOUR_TYPE ^= "G" then
+      do;
+      call PRT_DATA_C;
+      end;
+   else
+      do;
+      call PRINT_LV_PAXT;
+      end;
+   end;
+   do;
+   if TOUR_TYPE ^= "G" then
+      do;
+
+      /* PRINT_LV_PAXZ - Print out the passengers */
+
+
+         /* SET_FIRST_PAXD - Set first */
+
+         BK_PAX_MOD = BK_MODIFICATION;
+         BK_PAX_BK_NO = BOOKING_NO;
+         BK_PAX_SEQ = 0;
+         call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+         END_PRT_THRU_PAXZ = NO;
+         do while (END_PRT_THRU_PAXZ ^= YES);
+            call PRT_THRU_PAXZ;
+         end;
+      end;
+   else
+      do;
+      call PRINT_LV_PAXY;
+      end;
+   end;
+   do;
+
+   /* PRINT_LINE_Q -  */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_5);
+   do LOOP_INDEX =  10 to  10;
+      call PRINT_REPORT_LINE;
+   end;
+   end;
+end;
+otherwise
+do;
+/* Logic name not found: PRINT_DATA_C         */
+end;
+
+return;
+end;	/* PRT_LV_PAX           */
+
+/****************************************************************
+	PRT_DATA_C
+	Print the Passenger information
+****************************************************************/
+
+PRT_DATA_C:
+	procedure;
+
+
+   /* PRINT_LINE_C1 -  */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+   do LOOP_INDEX =   1 to   2;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* SET_FIRST_PAXD - Set first */
+
+   BK_PAX_MOD = BK_MODIFICATION;
+   BK_PAX_BK_NO = BOOKING_NO;
+   BK_PAX_SEQ = 0;
+   call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* INIT_PAX - Init the pax count */
+
+   PAX_COUNT = 1;
+
+   END_READ_THRU_PAX = NO;
+   do while (END_READ_THRU_PAX ^= YES);
+      call READ_THRU_PAX;
+   end;
+
+   /* FINISH_PAX - Finish printing the lines if not done */
+
+   BK_PAX_ROOM_CODE = 0;
+   BK_PAX_NAME = "";
+
+   do while (PAX_COUNT < 7);
+      if (PAX_COUNT = 2) & (BK_SINGLE = 0) then
+         PAX_COUNT = 3;
+
+      if (PAX_COUNT = 3) & (BK_DOUBLE = 0) then
+         PAX_COUNT = 4;
+
+      if (PAX_COUNT = 4) & (BK_TRIPLE = 0) then
+         PAX_COUNT = 5;
+
+      if (PAX_COUNT = 5) & (BK_QUAD = 0) then
+         PAX_COUNT = 6;
+
+      do case (PAX_COUNT);
+         do;
+
+         /* PRINT_LINE_C2 -  */
+
+         call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   3 to   3;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C3 -  */
+
+         call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   4 to   4;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C4 -  */
+
+         call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   5 to   5;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C5 -  */
+
+         call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   6 to   6;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C6 -  */
+
+         call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   7 to   7;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C7 - Print lines */
+
+         call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   8 to   8;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      end;
+      PAX_COUNT = PAX_COUNT + 1;
+   end;
+
+return;
+end;	/* PRT_DATA_C           */
+
+/****************************************************************
+	READ_THRU_PAX
+	Print out each pax
+****************************************************************/
+
+READ_THRU_PAX:
+	procedure;
+
+
+   /* READ_NEXT_PAXD - Read next */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_END_PAXD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_READ_THRU_PAX = YES;
+      return;
+      end;
+
+   /* PRINT_PAX - Print out the pax information */
+
+   if (PAX_COUNT = 2) & (BK_SINGLE = 0) then
+      PAX_COUNT = 3;
+
+   if (PAX_COUNT = 3) & (BK_DOUBLE = 0) then
+      PAX_COUNT = 4;
+
+   if (PAX_COUNT = 4) & (BK_TRIPLE = 0) then
+      PAX_COUNT = 5;
+
+   if (PAX_COUNT = 5) & (BK_QUAD = 0) then
+      PAX_COUNT = 6;
+
+   do case (PAX_COUNT);
+      do;
+
+      /* PRINT_LINE_C2 -  */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   3 to   3;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C3 -  */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   4 to   4;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C4 -  */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   5 to   5;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C5 -  */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   6 to   6;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C6 -  */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   7 to   7;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C7 - Print lines */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   end;
+   PAX_COUNT = PAX_COUNT + 1;
+   if PAX_COUNT > 6 then
+      PAX_COUNT = 6;
+
+return;
+end;	/* READ_THRU_PAX        */
+
+/****************************************************************
+	PRINT_LV_PAXT
+	Print the passengers for this tour
+****************************************************************/
+
+PRINT_LV_PAXT:
+	procedure;
+
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_PRT_THRU_PAXT = NO;
+   do while (END_PRT_THRU_PAXT ^= YES);
+      call PRT_THRU_PAXT;
+   end;
+return;
+end;	/* PRINT_LV_PAXT        */
+
+/****************************************************************
+	PRT_THRU_PAXT
+	Print the the tour pax's bookings
+****************************************************************/
+
+PRT_THRU_PAXT:
+	procedure;
+
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_PRT_THRU_PAXT = YES;
+      return;
+      end;
+
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+   call PRT_DATA_C;
+return;
+end;	/* PRT_THRU_PAXT        */
+
+/****************************************************************
+	PRT_THRU_PAXZ
+	Print the passenger detail
+****************************************************************/
+
+PRT_THRU_PAXZ:
+	procedure;
+
+
+   /* READ_NEXT_PAXD - Read next */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_END_PAXD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_PRT_THRU_PAXZ = YES;
+      return;
+      end;
+
+   /* PRINT_LINE_Z - Print MCO line */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_5);
+   do LOOP_INDEX =  12 to  12;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_THRU_PAXZ        */
+
+/****************************************************************
+	PRINT_LV_PAXY
+	Print thru the tour pax detail
+****************************************************************/
+
+PRINT_LV_PAXY:
+	procedure;
+
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_PRT_THRU_PAXY = NO;
+   do while (END_PRT_THRU_PAXY ^= YES);
+      call PRT_THRU_PAXY;
+   end;
+return;
+end;	/* PRINT_LV_PAXY        */
+
+/****************************************************************
+	PRT_THRU_PAXY
+	Print thru the passenger bk detail
+****************************************************************/
+
+PRT_THRU_PAXY:
+	procedure;
+
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_PRT_THRU_PAXY = YES;
+      return;
+      end;
+
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+
+   /* PRINT_LV_PAXZ - Print out the passengers */
+
+
+      /* SET_FIRST_PAXD - Set first */
+
+      BK_PAX_MOD = BK_MODIFICATION;
+      BK_PAX_BK_NO = BOOKING_NO;
+      BK_PAX_SEQ = 0;
+      call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+      END_PRT_THRU_PAXZ = NO;
+      do while (END_PRT_THRU_PAXZ ^= YES);
+         call PRT_THRU_PAXZ;
+      end;
+return;
+end;	/* PRT_THRU_PAXY        */
+
+/****************************************************************
+	PRT_LV_HTL
+	Print the default hotel information
+****************************************************************/
+
+PRT_LV_HTL:
+	procedure;
+
+declare		ERROR_BK_HOTEL       fixed binary (15);
+
+   /* SET_FIRST_HOTELD - Set first hotel detail */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = AP_START_SVC;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_LV_HOTEL - Is this the correct hotel for this land? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+      (HDET_MOD > BK_MODIFICATION) !
+      (HDET_BK_TR_NO > BOOKING_NO) !
+      (HDET_ALT_SEQ > 0) !
+      (HDET_ANSW_SEQ > 0) !
+      (HDET_DAY > AP_END_SVC) then
+         do;
+
+         /* GET_L_FLIGHTS - Get the land detail flights */
+
+         BK_PAX_SEQ = 0;
+
+
+         /* SET_FIRST_LANDD - Set to the first land detail record */
+
+         LDET_MOD = BK_MODIFICATION;
+         LDET_BK_TK_NO = BOOKING_NO;
+         LDET_ALT_SEQ = 0;
+         LDET_ANSW_SEQ = 0;
+         LDET_DAY = AP_START_SVC;
+         LDET_SEQ = 0;
+         call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+         ERROR_CODE = NORMAL_RETURN;
+         do while (ERROR_CODE = NORMAL_RETURN);
+
+            /* READ_NEXT_LANDD - Read the next land detail record */
+
+            call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE > 3 then
+            	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+            if (ERROR_CODE ^= NORMAL_RETURN) !
+               (LDET_MOD ^= BK_MODIFICATION) !
+               (LDET_BK_TK_NO > BOOKING_NO) !
+               (LDET_ALT_SEQ > BK_PAX_SEQ) !
+               (LDET_ANSW_SEQ > 0) !
+               (LDET_DATE > AP_START_SVC) then
+                  ERROR_CODE = END_OF_FILE;
+            if ERROR_CODE = NORMAL_RETURN then
+            if LDET_MOD = BK_MODIFICATION then
+            if LDET_BK_TK_NO = BOOKING_NO then
+            if LDET_ALT_SEQ = BK_PAX_SEQ then
+            if LDET_ANSW_SEQ = 0 then
+            if LDET_DATE = AP_START_SVC then
+            if LDET_VENDOR = AP_OPEN_VENDOR then
+               do;
+               if LDET_TORT ^= "T" then
+                  do;
+                  LAND_CODE = LDET_TOUR_NO;
+
+                  /* READ_LAND - Read the land file */
+
+                  call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_BK_LAND);
+                  if ERROR_BK_LAND > 3 then
+                     call PRINT_ERROR (BK_LAND_NO,ERROR_BK_LAND);
+                  TK_DATE = LDET_DATE;
+                  TK_CITY = TOUR_CITY;
+                  end;
+               else
+                  do;
+                  TRANS_NO = LDET_TOUR_NO;
+
+                  /* READ_TRANS - Read a transportation record */
+
+                  call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_BK_TRANS);
+                  if ERROR_BK_TRANS > 3 then
+                     call PRINT_ERROR (BK_TRANS_NO,ERROR_BK_TRANS);
+                  TK_DATE = LDET_DATE;
+                  TK_CITY = TRANS_TO;
+                  end;
+               ERROR_CODE = END_OF_FILE;
+               end;
+         end;
+
+         /* SET_FIRST_LANDD_2 - Set to the first land detail */
+
+         LDET_MOD = BK_MODIFICATION;
+         LDET_BK_TK_NO = BOOKING_NO;
+         LDET_ALT_SEQ = BK_PAX_SEQ;
+         LDET_ANSW_SEQ = 0;
+         LDET_DAY = AP_END_SVC;
+         LDET_SEQ = 0;
+         call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+         ERROR_CODE = NORMAL_RETURN;
+         do while (ERROR_CODE = NORMAL_RETURN);
+
+            /* READ_NEXT_LANDD - Read the next land detail record */
+
+            call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE > 3 then
+            	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+            if (ERROR_CODE ^= NORMAL_RETURN) !
+               (LDET_MOD ^= BK_MODIFICATION) !
+               (LDET_BK_TK_NO > BOOKING_NO) !
+               (LDET_ALT_SEQ > BK_PAX_SEQ) !
+               (LDET_ANSW_SEQ > 0) !
+               (LDET_DATE > AP_END_SVC) then
+                  ERROR_CODE = END_OF_FILE;
+            if ERROR_CODE = NORMAL_RETURN then
+            if LDET_MOD = BK_MODIFICATION then
+            if LDET_BK_TK_NO = BOOKING_NO then
+            if LDET_ALT_SEQ = BK_PAX_SEQ then
+            if LDET_ANSW_SEQ = 0 then
+            if LDET_DATE = AP_END_SVC then
+            if LDET_VENDOR = AP_OPEN_VENDOR then
+               do;
+               if LDET_TORT ^= "T" then
+                  do;
+                  LAND_CODE = LDET_TOUR_NO;
+
+                  /* READ_LAND - Read the land file */
+
+                  call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_BK_LAND);
+                  if ERROR_BK_LAND > 3 then
+                     call PRINT_ERROR (BK_LAND_NO,ERROR_BK_LAND);
+                  TK_ARR_DATE = LDET_DATE;
+                  TK_ARR_CITY = TOUR_CITY;
+                  end;
+               else
+                  do;
+                  TRANS_NO = LDET_TOUR_NO;
+
+                  /* READ_TRANS - Read a transportation record */
+
+                  call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_BK_TRANS);
+                  if ERROR_BK_TRANS > 3 then
+                     call PRINT_ERROR (BK_TRANS_NO,ERROR_BK_TRANS);
+                  TK_ARR_DATE = LDET_DATE;
+                  TK_ARR_CITY = TRANS_FROM;
+                  end;
+               end;
+         end;
+         call GET_FLIGHTS;
+
+         HDET_MOD = BK_MODIFICATION;
+         HDET_BK_TR_NO = BOOKING_NO;
+         HDET_ALT_SEQ = 0;
+         HDET_ANSW_SEQ = 0;
+         HDET_DAY = BK_DEPARTURE;
+         HDET_SEQ = 0;
+         call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+         ERROR_CODE = NORMAL_RETURN;
+         do while (ERROR_CODE = NORMAL_RETURN);
+
+            /* READ_NEXT_HOTELD - Read next */
+
+            call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE > 3 then
+            	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+            /* CHECK_END_HOTELD - Check end */
+
+            if (ERROR_CODE = END_OF_FILE) !
+            (HDET_MOD > BK_MODIFICATION) !
+            (HDET_BK_TR_NO > BOOKING_NO) !
+            (HDET_ALT_SEQ > 0) !
+            (HDET_ANSW_SEQ > 0) !
+            (HDET_DAY > AP_END_SVC) then
+               return;
+
+            /* SETUP_HOTEL - Set up the key for a hotel read */
+
+            HOTEL_CODE = HDET_HOTEL;
+            KEY_NO = 1;
+
+            /* READ_HOTEL - Read hotel record */
+
+            call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_BK_HOTEL);
+            if ERROR_BK_HOTEL > 3 then
+               call PRINT_ERROR (BK_HOTEL_NO,ERROR_BK_HOTEL);
+         if ((LDET_TORT ^= "T") & (TOUR_CITY = HOTEL_CITY)) !
+            ((LDET_TORT = "T") & (TOUR_CITY = TRANS_FROM)) then
+               ERROR_CODE = 1;
+      end;
+      end;
+
+
+/* SETUP_HOTEL - Set up the key for a hotel read */
+
+HOTEL_CODE = HDET_HOTEL;
+KEY_NO = 1;
+
+/* READ_HOTEL - Read hotel record */
+
+call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_BK_HOTEL);
+if ERROR_BK_HOTEL > 3 then
+   call PRINT_ERROR (BK_HOTEL_NO,ERROR_BK_HOTEL);
+
+/* PRT_HOTEL_LINE - Print the appropriate hotel line */
+
+if substr(LV_CODE,4,1) ^= "1" then
+   do;
+
+   /* PRINT_LINE_M -  */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_1);
+   do LOOP_INDEX =  12 to  12;
+      call PRINT_REPORT_LINE;
+   end;
+   end;
+else
+   do;
+   declare THE character(3);
+   THE = substr(HOTEL_NAME,1,3);
+   call CONVERT_TO_UPPER(THE);
+   if THE = "THE" then
+      THE = "";
+   else
+      THE = "The";
+   declare FULL_HOTEL_NAME character(60)varying;
+   if HOTEL_NAME_2 = "" then
+      FULL_HOTEL_NAME = CUT_SPACES(THE) !! " " !! CUT_SPACES(HOTEL_NAME);
+   else
+      FULL_HOTEL_NAME = CUT_SPACES(THE) !! " " !! CUT_SPACES(HOTEL_NAME) !! " " !! CUT_SPACES(HOTEL_NAME_2);
+   declare TEMP_STRING character(132)varying;
+   TEMP_STRING = substr(BK_STRING,1,START_LV_CODE-1) !!
+      FULL_HOTEL_NAME !!
+      substr(BK_STRING,START_LV_CODE+7,132-START_LV_CODE-7);
+   BK_STRING = TEMP_STRING;
+   call SETUP_PRINT_FORMAT(BK_L_VOUCHER_3);
+   LOOP_INDEX = 1;
+   call PRINT_REPORT_LINE;
+   end;
+
+return;
+end;	/* PRT_LV_HTL           */
+
+/****************************************************************
+	PRT_LV_LND
+	Print the land detail
+****************************************************************/
+
+PRT_LV_LND:
+	procedure;
+
+
+   /* SET_FIRST_LANDD - Set to the first land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = AP_START_SVC;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* SET_FIRST_ITIND - Set to the first itinerary detail record */
+
+   ITIN_BK_NO = BOOKING_NO;
+   ITIN_DATE = LDET_DAY;
+   ITIN_CODE = "";
+   call SET_POSITION (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_ITIND - Read the next itin detail record */
+
+   call READ_NEXT (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_ITIN_DET_NO,ERROR_CODE);
+
+   /* CHECK_ITIND_END - If this is the last, fake CHECK_END_ITIN */
+
+   if ERROR_CODE = END_OF_FILE then
+      ITIN_BK_NO = 9999999;
+
+   END_PRT_LV_LND_DET = NO;
+   do while (END_PRT_LV_LND_DET ^= YES);
+      call PRT_LV_LND_DET;
+   end;
+return;
+end;	/* PRT_LV_LND           */
+
+/****************************************************************
+	PRT_LV_LND_DET
+	Print the detail lines
+****************************************************************/
+
+PRT_LV_LND_DET:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDD - Last land detail record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > 0) !
+   (LDET_ANSW_SEQ > 0) !
+   (LDET_DAY > AP_END_SVC) then
+      do;
+      END_PRT_LV_LND_DET = YES;
+      return;
+      end;
+
+   /* CHECK_LAND_VENDOR - Does this land belong to this vendor? */
+
+   if LDET_VENDOR ^= AP_OPEN_VENDOR then
+      return;
+
+
+   /* CHECK_LDET_ACK - Check the number of days to ack */
+
+   if LDET_ACK < LDET_ACK_DAYS then
+      LDET_ACK = LDET_ACK_DAYS;
+
+
+   /* CHECK_TRAN - Print trans if this is trans detail */
+
+   if LDET_TORT = "T" then
+      do;
+
+      /* SETUP_TRANS - Setup the trans key */
+
+      TRANS_NO = LDET_TOUR_NO;
+      KEY_NO = 1;
+
+      /* READ_TRANS - Read a transportation record */
+
+      call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_BK_TRANS);
+      if ERROR_BK_TRANS > 3 then
+         call PRINT_ERROR (BK_TRANS_NO,ERROR_BK_TRANS);
+
+      /* PRINT_LINE_E - Print lines */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_1);
+      do LOOP_INDEX =  19 to  19;
+         call PRINT_REPORT_LINE;
+      end;
+      return;
+      end;
+
+
+   /* SETUP_LAND - Set the land key */
+
+   LAND_CODE = LDET_TOUR_NO;
+   KEY_NO = 1;
+
+   /* READ_LAND - Read the land file */
+
+   call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_BK_LAND);
+   if ERROR_BK_LAND > 3 then
+      call PRINT_ERROR (BK_LAND_NO,ERROR_BK_LAND);
+   call CHECK_ITIND;
+
+   /* PRINT_LINE_N1 - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_1);
+   do LOOP_INDEX =  13 to  13;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* PRINT_LINE_I -  */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_1);
+
+   /* SET_PS_DESC - Set the PMC/SIC description */
+
+   if LDET_SIC_PMC = "P" then
+      SIC_PMC_DESC = "Private car/mc";
+   else
+      SIC_PMC_DESC = "Seat-in-coach";
+
+   do LOOP_INDEX =  14 to  14;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_LV_LND_DET       */
+
+/****************************************************************
+	CHECK_ITIND
+	Check to see if there is an itin tour ds
+****************************************************************/
+
+CHECK_ITIND:
+	procedure;
+
+
+   /* CHECK_END_ITIND - End of itinerary detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (ITIN_BK_NO > BOOKING_NO) !
+   (ITIN_DATE > LDET_DATE) then
+      return;
+
+   /* SET_FIRST_ITIND - Set to the first itinerary detail record */
+
+   ITIN_BK_NO = BOOKING_NO;
+   ITIN_DATE = LDET_DAY;
+   ITIN_CODE = "";
+   call SET_POSITION (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+   END_GET_ITIND = NO;
+   do while (END_GET_ITIND ^= YES);
+      call GET_ITIND;
+   end;
+
+   /* SET_FIRST_ITIND - Set to the first itinerary detail record */
+
+   ITIN_BK_NO = BOOKING_NO;
+   ITIN_DATE = LDET_DAY;
+   ITIN_CODE = "";
+   call SET_POSITION (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_ITIND - Read the next itin detail record */
+
+   call READ_NEXT (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_ITIN_DET_NO,ERROR_CODE);
+return;
+end;	/* CHECK_ITIND          */
+
+/****************************************************************
+	GET_ITIND
+	Get the matching itin detail
+****************************************************************/
+
+GET_ITIND:
+	procedure;
+
+
+   /* READ_NEXT_ITIND - Read the next itin detail record */
+
+   call READ_NEXT (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_ITIN_DET_NO,ERROR_CODE);
+
+   /* CHECK_END_ITIND - End of itinerary detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (ITIN_BK_NO > BOOKING_NO) !
+   (ITIN_DATE > LDET_DATE) then
+      do;
+      END_GET_ITIND = YES;
+      return;
+      end;
+
+   /* CHECK_ITIND_MATCH - Does this itin detail match this land? */
+
+   if ITIN_DATE = LDET_DATE then
+      if ITIN_LAND_CODE = LAND_CODE then
+         do;
+         if ITIN_DESC_1 = "" then if ITIN_DESC_2 = "" then
+            do;
+            END_GET_ITIND = YES;
+            return;
+            end;
+         LAND_DESC_1 = ITIN_DESC_1;
+         LAND_DESC_2 = ITIN_DESC_2;
+         do;
+         END_GET_ITIND = YES;
+         return;
+         end;
+         end;
+
+return;
+end;	/* GET_ITIND            */
+
+/****************************************************************
+	PRT_LV_MSC
+	Print the miscellaneous stuff
+****************************************************************/
+
+PRT_LV_MSC:
+	procedure;
+
+
+   /* PRINT_LINE_O -  */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_1);
+   do LOOP_INDEX =  17 to  18;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_LV_MSC           */
+
+/****************************************************************
+	PRT_LV_FLT
+	Print land flights
+****************************************************************/
+
+PRT_LV_FLT:
+	procedure;
+
+
+   /* GET_L_FLIGHTS - Get the land detail flights */
+
+   BK_PAX_SEQ = 0;
+
+
+   /* SET_FIRST_LANDD - Set to the first land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = AP_START_SVC;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   ERROR_CODE = NORMAL_RETURN;
+   do while (ERROR_CODE = NORMAL_RETURN);
+
+      /* READ_NEXT_LANDD - Read the next land detail record */
+
+      call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+      if (ERROR_CODE ^= NORMAL_RETURN) !
+         (LDET_MOD ^= BK_MODIFICATION) !
+         (LDET_BK_TK_NO > BOOKING_NO) !
+         (LDET_ALT_SEQ > BK_PAX_SEQ) !
+         (LDET_ANSW_SEQ > 0) !
+         (LDET_DATE > AP_START_SVC) then
+            ERROR_CODE = END_OF_FILE;
+      if ERROR_CODE = NORMAL_RETURN then
+      if LDET_MOD = BK_MODIFICATION then
+      if LDET_BK_TK_NO = BOOKING_NO then
+      if LDET_ALT_SEQ = BK_PAX_SEQ then
+      if LDET_ANSW_SEQ = 0 then
+      if LDET_DATE = AP_START_SVC then
+      if LDET_VENDOR = AP_OPEN_VENDOR then
+         do;
+         if LDET_TORT ^= "T" then
+            do;
+            LAND_CODE = LDET_TOUR_NO;
+
+            /* READ_LAND - Read the land file */
+
+            call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_BK_LAND);
+            if ERROR_BK_LAND > 3 then
+               call PRINT_ERROR (BK_LAND_NO,ERROR_BK_LAND);
+            TK_DATE = LDET_DATE;
+            TK_CITY = TOUR_CITY;
+            end;
+         else
+            do;
+            TRANS_NO = LDET_TOUR_NO;
+
+            /* READ_TRANS - Read a transportation record */
+
+            call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_BK_TRANS);
+            if ERROR_BK_TRANS > 3 then
+               call PRINT_ERROR (BK_TRANS_NO,ERROR_BK_TRANS);
+            TK_DATE = LDET_DATE;
+            TK_CITY = TRANS_TO;
+            end;
+         ERROR_CODE = END_OF_FILE;
+         end;
+   end;
+
+   /* SET_FIRST_LANDD_2 - Set to the first land detail */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = BK_PAX_SEQ;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = AP_END_SVC;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   ERROR_CODE = NORMAL_RETURN;
+   do while (ERROR_CODE = NORMAL_RETURN);
+
+      /* READ_NEXT_LANDD - Read the next land detail record */
+
+      call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+      if (ERROR_CODE ^= NORMAL_RETURN) !
+         (LDET_MOD ^= BK_MODIFICATION) !
+         (LDET_BK_TK_NO > BOOKING_NO) !
+         (LDET_ALT_SEQ > BK_PAX_SEQ) !
+         (LDET_ANSW_SEQ > 0) !
+         (LDET_DATE > AP_END_SVC) then
+            ERROR_CODE = END_OF_FILE;
+      if ERROR_CODE = NORMAL_RETURN then
+      if LDET_MOD = BK_MODIFICATION then
+      if LDET_BK_TK_NO = BOOKING_NO then
+      if LDET_ALT_SEQ = BK_PAX_SEQ then
+      if LDET_ANSW_SEQ = 0 then
+      if LDET_DATE = AP_END_SVC then
+      if LDET_VENDOR = AP_OPEN_VENDOR then
+         do;
+         if LDET_TORT ^= "T" then
+            do;
+            LAND_CODE = LDET_TOUR_NO;
+
+            /* READ_LAND - Read the land file */
+
+            call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_BK_LAND);
+            if ERROR_BK_LAND > 3 then
+               call PRINT_ERROR (BK_LAND_NO,ERROR_BK_LAND);
+            TK_ARR_DATE = LDET_DATE;
+            TK_ARR_CITY = TOUR_CITY;
+            end;
+         else
+            do;
+            TRANS_NO = LDET_TOUR_NO;
+
+            /* READ_TRANS - Read a transportation record */
+
+            call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_BK_TRANS);
+            if ERROR_BK_TRANS > 3 then
+               call PRINT_ERROR (BK_TRANS_NO,ERROR_BK_TRANS);
+            TK_ARR_DATE = LDET_DATE;
+            TK_ARR_CITY = TRANS_FROM;
+            end;
+         end;
+   end;
+   call GET_FLIGHTS;
+
+
+   /* PRT_FLT_LINE - Print the correct flight line format */
+
+   if substr(LV_CODE,4,1) ^= "1" then
+      do;
+
+      /* PRINT_LINE_T -  */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_5);
+      do LOOP_INDEX =   4 to   5;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   else
+      do;
+
+      /* PRINT_LINE_Y - Print */
+
+      call SETUP_PRINT_FORMAT (BK_L_VOUCHER_5);
+      do LOOP_INDEX =  14 to  15;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+return;
+end;	/* PRT_LV_FLT           */
+
+/****************************************************************
+	PRT_LV_AGT
+	Print the agent's name
+****************************************************************/
+
+PRT_LV_AGT:
+	procedure;
+
+declare TEMP_STRING character(132)varying;
+TEMP_STRING = substr(BK_STRING,1,START_LV_CODE-1) !!
+   CUT_SPACES(USER_NAME()) !!
+   substr(BK_STRING,START_LV_CODE+7,132-START_LV_CODE-7);
+BK_STRING = TEMP_STRING;
+call SETUP_PRINT_FORMAT(BK_L_VOUCHER_3);
+LOOP_INDEX = 1;
+call PRINT_REPORT_LINE;
+
+return;
+end;	/* PRT_LV_AGT           */
+
+/****************************************************************
+	PRT_LV_CWD
+	Print the word Confirm/Reconfirm/Cancel
+****************************************************************/
+
+PRT_LV_CWD:
+	procedure;
+
+declare TEMP_STRING character(132)varying;
+declare WORD character(62)varying;
+WORD = "Confirm";
+if AP_GL_STATUS = REQ_REPRT then
+   WORD = "Change";
+if AP_GL_STATUS = CXL_REQ then
+   WORD = "Cancel";
+if substr(LV_CODE,4,1) = "1" then
+   do;
+   if TOUR_DESC_2 = "" then
+      WORD = CUT_SPACES(TOUR_DESC);
+   else
+      WORD = CUT_SPACES(TOUR_DESC) !! " " !! CUT_SPACES(TOUR_DESC_2);
+   end;
+if substr(LV_CODE,4,1) = "2" then
+   WORD = SET_DATE(LVOUCHER_DATE);
+TEMP_STRING = substr(BK_STRING,1,START_LV_CODE-1) !!
+   WORD !!
+   substr(BK_STRING,START_LV_CODE+7,132-START_LV_CODE-7);
+BK_STRING = TEMP_STRING;
+call SETUP_PRINT_FORMAT(BK_L_VOUCHER_3);
+LOOP_INDEX = 1;
+call PRINT_REPORT_LINE;
+
+return;
+end;	/* PRT_LV_CWD           */
+
+/****************************************************************
+	PRT_LV_RTE
+	Print the land rate
+****************************************************************/
+
+PRT_LV_RTE:
+	procedure;
+
+
+   /* PRINT_LINE_X - Print lines */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_5);
+   do LOOP_INDEX =  17 to  17;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_LV_RTE           */
+
+/****************************************************************
+	PRT_LV_TVA
+	Print travel agency info
+****************************************************************/
+
+PRT_LV_TVA:
+	procedure;
+
+declare TEMP_STRING character(132)varying;
+do case (index("123",substr(LV_CODE,4,1)));
+   TEMP_STRING = substr(BK_STRING,1,START_LV_CODE-1) !!
+      CUT_SPACES(BK_AGENCY_NAME) !!
+      substr(BK_STRING,START_LV_CODE+7,132-START_LV_CODE-7);
+   TEMP_STRING = substr(BK_STRING,1,START_LV_CODE-1) !!
+      CUT_SPACES(BK_AGENCY_ADD_3) !!
+      substr(BK_STRING,START_LV_CODE+7,132-START_LV_CODE-7);
+   TEMP_STRING = substr(BK_STRING,1,START_LV_CODE-1) !!
+      CUT_SPACES(BK_CONTACT) !!
+      substr(BK_STRING,START_LV_CODE+7,132-START_LV_CODE-7);
+end;
+otherwise
+   do;
+   end;
+BK_STRING = TEMP_STRING;
+call SETUP_PRINT_FORMAT(BK_L_VOUCHER_3);
+LOOP_INDEX = 1;
+call PRINT_REPORT_LINE;
+
+return;
+end;	/* PRT_LV_TVA           */
+
+/****************************************************************
+	PRT_LV_VEN
+	Print the vendor info
+****************************************************************/
+
+PRT_LV_VEN:
+	procedure;
+
+declare TEMP_STRING character(132)varying;
+do case (index("012",substr(LV_CODE,4,1)));
+   TEMP_STRING = substr(BK_STRING,1,START_LV_CODE-1) !!
+      CUT_SPACES(AP_VEN_NAME) !!
+      substr(BK_STRING,START_LV_CODE+7,132-START_LV_CODE-7);
+   TEMP_STRING = substr(BK_STRING,1,START_LV_CODE-1) !!
+      CUT_SPACES(AP_VEN_CONTACT) !!
+      substr(BK_STRING,START_LV_CODE+7,132-START_LV_CODE-7);
+   do;
+
+   /* PRINT_LINE_W - PRINT LINES */
+
+   call SETUP_PRINT_FORMAT (BK_L_VOUCHER_4);
+   do LOOP_INDEX =  11 to  15;
+      call PRINT_REPORT_LINE;
+   end;
+   return;
+   end;
+end;
+otherwise
+   do;
+   end;
+BK_STRING = TEMP_STRING;
+call SETUP_PRINT_FORMAT(BK_L_VOUCHER_3);
+LOOP_INDEX = 1;
+call PRINT_REPORT_LINE;
+
+return;
+end;	/* PRT_LV_VEN           */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_SFILE (BK_TEXT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,310 @@
+/****************************************************************
+	Module: BK_DIS_MCO_STAT
+	Top Level Logic: DIS_TABLE_DISPLAY
+	Date:  6-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_MCO_STAT
+	Top Level - Table Display
+****************************************************************/
+
+%replace BK_DIS_MCO_STAT_1 by 839;
+BK_DIS_MCO_STAT:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD);
+%replace AR_MCO_DET_NO by  50;
+%replace AR_OPEN_NO by  43;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%include "BK_DIS_MCO_STAT.DD";
+%include "AR_MCO_DET.DD";
+%include "AR_OPEN.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   call DIS_TABLE_DIS;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AR_MCO_STATUS = 1;
+   AR_MCO_CARRIER = "";
+   AR_MCO_AMT_APLY = 0;
+   AR_MCO_DATE_SUBM = 0;
+   AR_MCO_DATE_PAID = 0;
+   AR_MCO_AMT_PAID = 0;
+   AR_ACCT_DR = 0;
+   AR_ACCT_DEP = 0;
+   AR_POSTED = 0;
+   AR_ACTION = 0;
+   AR_DEPARTURE = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_DIS_MCO_STAT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_DIS_MCO_STAT_RECORD) );
+   call OPEN_FILE (AR_MCO_DET_NO,"AR_MCO_DET",byteaddr(AR_MCO_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+   call OPEN_FILE (AR_OPEN_NO,"AR_OPEN",byteaddr(AR_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_OPEN_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_TABLE_DIS
+	Mainline logic
+****************************************************************/
+
+DIS_TABLE_DIS:
+	procedure;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* DIS_PYMT_BEFORE - Before Logic */
+
+
+      /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+      if BOOKING_NO = 0 then
+         return;
+
+
+      /* CHECK_ALL_INFO - Are all Agency, Pax, and Tour in? */
+
+      if BK_AGENCY = -1 then
+         do;
+         call DISPLAY_MESSAGE ("Agency not entered!");
+         call PRESS_RETURN;
+         return;
+         end;
+
+      if BK_PAX = 0 then
+         do;
+         call DISPLAY_MESSAGE ("Passengers not entered!");
+         call PRESS_RETURN;
+         return;
+         end;
+
+      if BK_TOUR_NUM = 0 then
+         do;
+         call DISPLAY_MESSAGE ("Tour not entered!");
+         call PRESS_RETURN;
+         return;
+         end;
+
+      call DISPLAY_DATA_A;
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+return;
+end;	/* DIS_TABLE_DIS        */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =  11 to  18;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* CALC_MCO_DIS - Calculate the MCO display amount */
+
+      BK_MCO_DIS_AMOUNT = floor(BK_TOUR_PRICE * 2 + 0.5) / 100;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		AR_MCO_BK_NO_SAVE    fixed binary (31);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		AR_MCO_SEQ_NO_ARRAY( 3) fixed binary (15);
+declare		AR_MCO_DET_ERROR     fixed binary (15);
+declare		AR_MCO_SEQ_NO_SAVE   fixed binary (15);
+declare		ANSWER               character (1);
+AR_MCO_BK_NO = BOOKING_NO;
+AR_MCO_BK_NO_SAVE = AR_MCO_BK_NO;
+AR_MCO_SEQ_NO = 0;
+call SET_POSITION (AR_MCO_DET_NO,KEY_AREA_2,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (AR_MCO_DET_NO,KEY_AREA_2,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (AR_MCO_BK_NO > AR_MCO_BK_NO_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to  3;
+      AR_MCO_SEQ_NO_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      AR_MCO_DET_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (AR_MCO_DET_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <=  3) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 3 - 3);
+         do LOOP_INDEX =  19 to  38;
+            if LOOP_INDEX =  22 then
+               do;
+
+               /* SET_MCO_STATUS - Set up the MCO status description */
+
+               do case (AR_MCO_STATUS);
+                  AR_MCO_STATUS_DESC = "Entered";
+                  AR_MCO_STATUS_DESC = "Posted";
+                  AR_MCO_STATUS_DESC = "Submitted";
+                  AR_MCO_STATUS_DESC = "Paid";
+                  AR_MCO_STATUS_DESC = "Paid G/L";
+               end;
+               otherwise
+                  AR_MCO_STATUS_DESC = "";
+
+               end;
+            if LOOP_INDEX =  35 then
+               do;
+
+               /* SET_TRX_DESC - Set the transaction description for A/R */
+
+               do case (index("IPCDRAM",AR_DOC_TYPE) + 1);
+                  AR_TRX_DESC = "";
+                  AR_TRX_DESC = "Invoice";
+                  AR_TRX_DESC = "Payment";
+                  AR_TRX_DESC = "Cr memo";
+                  AR_TRX_DESC = "Dr memo";
+                  AR_TRX_DESC = "Refund";
+                  AR_TRX_DESC = "Adjment";
+                  AR_TRX_DESC = "MCO rec";
+               end;
+               otherwise
+                  AR_TRX_DESC = "";
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  33 then
+               do;
+
+               /* MCO_DIS_AR - Display the MCO status for this booking */
+
+               if AR_MCO_STATUS > 1 then
+                  do;
+
+                  /* READ_SECOND - Read info and display secondary fileinfo */
+
+                  AR_BOOKING_NO = AR_MCO_BK_NO;
+                  AR_SEQ_NO = AR_MCO_SEQ_NO;
+                  call READ_KEYED (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+                  if ERROR_CODE = RECORD_NOT_FOUND then
+                     do;
+                     end;
+                  else
+                     do;
+                     end;
+                  end;
+               else
+                  LOOP_INDEX = 99;
+
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         AR_MCO_SEQ_NO_ARRAY(RECORD_NUMBER) = AR_MCO_SEQ_NO;
+         call READ_NEXT (AR_MCO_DET_NO,KEY_AREA_2,AR_MCO_DET_ERROR);
+         if (AR_MCO_BK_NO > AR_MCO_BK_NO_SAVE) then
+            AR_MCO_DET_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      AR_MCO_SEQ_NO_SAVE = AR_MCO_SEQ_NO_ARRAY( 3);
+      AR_MCO_BK_NO = AR_MCO_BK_NO_SAVE;
+      if AR_MCO_DET_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to  3;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 3 - 3);
+      if AR_MCO_SEQ_NO_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =19 to  38;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AR_MCO_DET_NO);
+   call CLOSE_FILE (AR_OPEN_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

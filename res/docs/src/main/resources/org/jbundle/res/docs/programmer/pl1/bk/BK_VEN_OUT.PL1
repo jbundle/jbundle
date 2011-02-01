@@ -1,0 +1,402 @@
+/****************************************************************
+	Module: BK_VEN_OUT
+	Top Level Logic: VEN_OUT_LOGIC
+	Date: 25-Jul-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_VEN_OUT
+	Top-Level to output vendors
+****************************************************************/
+
+%replace BK_VEN_OUT_1 by 899;
+BK_VEN_OUT:
+   procedure;
+%replace BK_HOTEL_NO by   8;
+%replace BK_LAND_NO by  54;
+%replace AP_VENDOR_NO by  30;
+%include "BK_VEN_OUT.DD";
+%include "BK_HOTEL.DD";
+%include "BK_LAND.DD";
+%include "AP_VENDOR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_VEN_OUT_HOTELS   bit (1);
+declare		END_VEN_OUT_LAND     bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AP_VENDOR      fixed binary (15);
+
+   /* DECLARE_WP - Declare the file for the merge file */
+
+   declare BK_TEXT file;
+
+   call INITIALIZE;
+   call VEN_OUT_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   VEN_H_OR_L = "H";
+   LAND_TAX = 0;
+   LAND_SVC_CHG = 0;
+   LAND_COMM = 0;
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_VEN_OUT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_VEN_OUT_RECORD) );
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	VEN_OUT_MAIN
+	Mainline logic
+****************************************************************/
+
+VEN_OUT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* OPEN_VWP - Open the vendor WP files */
+
+   ERROR_CODE = 0;
+   open file (BK_TEXT) stream output title("ITIN:" !! CUT_SPACES(BK_VEN_MERGE))
+      linesize(255) environment(filetype(150) lineend);
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+
+   /* VEN_OUT_DETAIL - Output the detail */
+
+   if VEN_H_OR_L = "H" then
+      do;
+
+      /* SET_FIRST - Set the record pointer to the first rec */
+
+      HOTEL_CODE = "";
+      call SET_POSITION (BK_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      END_VEN_OUT_HOTELS = NO;
+      do while (END_VEN_OUT_HOTELS ^= YES);
+         call VEN_OUT_HOTELS;
+      end;
+      end;
+   else
+      do;
+
+      /* SET_FIRST_2 - Set the file pointer to the first key */
+
+      LAND_VENDOR_NO = "";
+      LAND_CODE = "";
+      call SET_POSITION (BK_LAND_NO,KEY_AREA_3,ERROR_CODE);
+      END_VEN_OUT_LAND = NO;
+      do while (END_VEN_OUT_LAND ^= YES);
+         call VEN_OUT_LAND;
+      end;
+      end;
+
+
+   /* CLOSE_WP - Close merge file */
+
+   close file (BK_TEXT);
+
+return;
+end;	/* VEN_OUT_MAIN         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+BK_VEN_MERGE = "";
+do LOOP_INDEX = FIRST_ITEM to   2;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* SET_MERGE_NAME - Set up the default hotel/land merge name */
+
+      if VEN_H_OR_L = "H" then
+         BK_VEN_MERGE = "HOTELS";
+      else
+         BK_VEN_MERGE = "LAND";
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  2,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  2 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* SET_MERGE_NAME - Set up the default hotel/land merge name */
+
+      if VEN_H_OR_L = "H" then
+         BK_VEN_MERGE = "HOTELS";
+      else
+         BK_VEN_MERGE = "LAND";
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	VEN_OUT_HOTELS
+	Output the hotel detail
+****************************************************************/
+
+VEN_OUT_HOTELS:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_VEN_OUT_HOTELS = YES;
+      return;
+      end;
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   AP_VEN_NO = HOTEL_VENDOR_NO;
+   KEY_NO = 1;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (AP_VENDOR_NO,KEY_NO,ERROR_AP_VENDOR);
+   if ERROR_AP_VENDOR > 3 then
+      call PRINT_ERROR (AP_VENDOR_NO,ERROR_AP_VENDOR);
+
+   /* WRITE_HOTEL_WP - Output the information for this hotel */
+
+   declare BK_STRING character (80) varying;
+
+   BK_STRING = CUT_SPACES(AP_VEN_NAME) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(AP_ADDR_1) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(AP_ADDR_2) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(AP_ADDR_3) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(AP_ADDR_4) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(AP_VEN_CONTACT) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+
+   if HOTEL_NAME_2 = "" then
+      do;
+      BK_STRING = CUT_SPACES(HOTEL_NAME) !! "<22>"c;
+      write file (BK_TEXT) from (BK_STRING);
+      end;
+   else
+      do;
+      BK_STRING = CUT_SPACES(HOTEL_NAME) !! " " !! CUT_SPACES(HOTEL_NAME_2) !! "<22>"c;
+      write file (BK_TEXT) from (BK_STRING);
+      end;
+   BK_STRING = CUT_SPACES(HOTEL_ADDR_1) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(HOTEL_ADDR_2) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(HOTEL_ADDR_3) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(HOTEL_ADDR_4) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(HOTEL_GEN_MGR) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+
+   BK_STRING = "<5>"c;
+   write file (BK_TEXT) from (BK_STRING);
+
+return;
+end;	/* VEN_OUT_HOTELS       */
+
+/****************************************************************
+	VEN_OUT_LAND
+	Output all the land detail
+****************************************************************/
+
+VEN_OUT_LAND:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (BK_LAND_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_VEN_OUT_LAND = YES;
+      return;
+      end;
+
+   /* SETUP_KEY_2 - Setup the key */
+
+   AP_VEN_NO = LAND_VENDOR_NO;
+   KEY_NO = 1;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (AP_VENDOR_NO,KEY_NO,ERROR_AP_VENDOR);
+   if ERROR_AP_VENDOR > 3 then
+      call PRINT_ERROR (AP_VENDOR_NO,ERROR_AP_VENDOR);
+
+   /* WRITE_LAND_WP - Write the information for this land */
+
+   declare BK_STRING character (80) varying;
+   BK_STRING = CUT_SPACES(AP_VEN_NAME) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(AP_ADDR_1) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(AP_ADDR_2) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(AP_ADDR_3) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(AP_ADDR_4) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = CUT_SPACES(AP_VEN_CONTACT) !! "<22>"c;
+   write file (BK_TEXT) from (BK_STRING);
+   BK_STRING = "<5>"c;
+   write file (BK_TEXT) from (BK_STRING);
+
+   substr(AP_VEN_NO,6,1)=ascii(rank(substr(LAND_VENDOR_NO,6,1))+1);
+
+
+   /* SET_POSITION - Set the file position */
+
+   LAND_VENDOR_NO = AP_VEN_NO;
+   LAND_CODE = "";
+   call SET_POSITION (BK_LAND_NO,KEY_AREA_3,ERROR_CODE);
+return;
+end;	/* VEN_OUT_LAND         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_FILE (BK_LAND_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

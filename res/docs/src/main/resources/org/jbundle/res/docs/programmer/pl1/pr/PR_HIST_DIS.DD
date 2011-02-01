@@ -1,0 +1,8 @@
+/*********************************************************************
+	PR_HIST_DIS File
+********************************************************************/
+
+declare	1 PR_HIST_DIS_RECORD,
+		3 START_EMP_DATE       fixed binary (15),
+		3 END_EMP_DATE         fixed binary (15);
+

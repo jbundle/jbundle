@@ -1,0 +1,15 @@
+/*********************************************************************
+	AR_MCO_POST File
+********************************************************************/
+
+declare	1 AR_MCO_POST_RECORD,
+		3 AR_MCO_DATEP         fixed binary (15),
+		3 AR_MCO_TIMEP         fixed binary (15),
+		3 AR_MCO_PAGEP         fixed binary (15),
+		3 AR_TOTAL_MCOP        fixed binary (31),
+		3 AR_MCO_TOTALP        float binary (53),
+		3 AR_MCO_AR_ACCT       fixed binary (31),
+		3 AR_MCO_LAST_SEQ      fixed binary (15),
+		3 SAVE_BK_MCO_BAL      float binary (53),
+		3 AR_MCO_USERP         character (       16);
+

@@ -1,0 +1,398 @@
+/****************************************************************
+	Module: GL_JOUR_MENU
+	Top Level Logic: ENTER_AND_MENU
+	Date: 25-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_JOUR_MENU
+	Enter/Display file and dispatch via menu
+****************************************************************/
+
+%replace GL_JOUR_MENU_1 by 607;
+GL_JOUR_MENU:
+   procedure;
+%replace GL_DET_BATCH_NO by  19;
+%include "GL_DET_BATCH.DD";
+%include "GL_JOUR_MENU.DD";
+
+declare		END_ENTER_MENU_MAIN  bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_SELECT_AND_GO    bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_ENTER_MENU_MAIN = NO;
+   do while (END_ENTER_MENU_MAIN ^= YES);
+      call ENTER_MENU_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   GL_DBATCH_USER = USER_NAME();
+   GL_DBATCH_DEF_DATE = TODAYS_DATE();
+   GL_DBATCH_DEF_SOURCE = "";
+   GL_DBATCH_DEF_COM = "";
+   GL_DBATCH_NEXT_TRX = 1;
+   GL_DBATCH_BAL = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_JOUR_MENU_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (GL_DET_BATCH_NO,"GL_DET_BATCH",byteaddr(GL_DET_BATCH_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DET_BATCH_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (GL_JOUR_MENU_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	ENTER_MENU_MAIN
+	Enter/Display file and dispatch
+****************************************************************/
+
+ENTER_MENU_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_GL_DET_BATCH   fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (GL_JOUR_MENU_1);
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_ENTER_MENU_MAIN = YES;
+      return;
+      end;
+   FIRST_ITEM = 2;
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (GL_DET_BATCH_NO+?LOCK_RECORD,KEY_NO,ERROR_GL_DET_BATCH);
+   if ERROR_GL_DET_BATCH = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_GL_DET_BATCH > 3 then
+      call PRINT_ERROR (GL_DET_BATCH_NO,ERROR_GL_DET_BATCH);
+
+   /* RECORD_FOUND_AB - Record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_GL_DET_BATCH = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA_AB;
+      end;
+   else
+      do;
+      call ENTER_DATA_AB;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ENTER_MENU_MAIN = YES;
+      return;
+      end;
+
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_GL_DET_BATCH = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (GL_DET_BATCH_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (GL_DET_BATCH_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (GL_DET_BATCH_NO,ERROR_CODE);
+         end;
+      end;
+
+   /* RETURN_IF_DEL - Return if the batch header was deleted */
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+
+      /* TRY_AGAIN - Return from this routine and try again */
+
+      END_ENTER_MENU_MAIN = YES;
+      return;
+      end;
+   else
+      do;
+
+      /* NO_CODE - This section has no code */
+
+      /* No code in this section */
+      end;
+   END_SELECT_AND_GO = NO;
+   do while (END_SELECT_AND_GO ^= YES);
+      call SELECT_AND_GO;
+   end;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* RETURN_IF_GL_POST - Return if this trx was posted */
+
+   if GL_DBATCH_BAL = -1 then
+      do;
+      END_ENTER_MENU_MAIN = YES;
+      return;
+      end;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (GL_DET_BATCH_NO,ERROR_CODE);
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_ENTER_MENU_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* ENTER_MENU_MAIN      */
+
+/****************************************************************
+	DISPLAY_DATA_AB
+	Display data
+****************************************************************/
+
+DISPLAY_DATA_AB:
+	procedure;
+
+do LOOP_INDEX =   2 to   4;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_AB      */
+
+/****************************************************************
+	ENTER_DATA_AB
+	Input screen data
+****************************************************************/
+
+ENTER_DATA_AB:
+	procedure;
+
+do LOOP_INDEX =   2 to   4;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_AB        */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 99,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  3 then
+   do;
+
+      LOOP_INDEX = SELECT +   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+if SELECT = 99 then
+   do;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	SELECT_AND_GO
+	Select option, dispatch, and redisplay
+****************************************************************/
+
+SELECT_AND_GO:
+	procedure;
+
+
+   /* INPUT_OPTION - Input the option on the screen */
+
+   call INPUT_FIELD (  5,INPUT_LENGTH,RETURN_CODE);
+   if (GL_JOUR_SELECT = 0) !
+        (RETURN_CODE ^= NORMAL_RETURN) then
+      do;
+      END_SELECT_AND_GO = YES;
+      return;
+      end;
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   %include "GL_JOUR_ENT.DCL";
+   %include "GL_JOUR_PRT.DCL";
+   %include "GL_JOUR_POST.DCL";
+   do case (GL_JOUR_SELECT);
+         /* Option   1 */
+      call GL_JOUR_ENT(
+         GL_DET_BATCH_RECORD);
+         /* Option   2 */
+      call GL_JOUR_PRT(
+         GL_DET_BATCH_RECORD);
+         /* Option   3 */
+      call GL_JOUR_POST(
+         GL_DET_BATCH_RECORD);
+   end;
+   otherwise
+      do;
+      end;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* RETURN_IF_GL_POST - Return if this trx was posted */
+
+   if GL_DBATCH_BAL = -1 then
+      do;
+      END_SELECT_AND_GO = YES;
+      return;
+      end;
+
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_JOUR_MENU_1);
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (GL_JOUR_MENU_RECORD) );
+   call DISPLAY_DATA_AZ;
+return;
+end;	/* SELECT_AND_GO        */
+
+/****************************************************************
+	DISPLAY_DATA_AZ
+	Display all data A*
+****************************************************************/
+
+DISPLAY_DATA_AZ:
+	procedure;
+
+do LOOP_INDEX =   1 to   4;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_AZ      */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (GL_DET_BATCH_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

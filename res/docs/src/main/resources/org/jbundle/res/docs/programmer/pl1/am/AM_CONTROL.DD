@@ -1,0 +1,16 @@
+/*********************************************************************
+	AM_CONTROL File
+********************************************************************/
+
+declare	1 AM_CONTROL_RECORD,
+		3 AM_REC_NO            fixed binary (15),
+		3 AM_NAME_1            character (       30),
+		3 AM_NAME_2            character (       30),
+		3 AM_NAME_3            character (       30),
+		3 AM_NAME_4            character (       30),
+		3 AM_BULK_1            character (       15),
+		3 AM_BULK_2            character (       15),
+		3 AM_BULK_3            character (       15),
+		3 AM_BULK_4            character (       15),
+		3 AM_BULK_5            character (       15);
+

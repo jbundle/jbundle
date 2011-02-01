@@ -1,0 +1,787 @@
+/****************************************************************
+	Module: AP_FIN_EST
+	Top Level Logic: AP_FIN_LOGIC
+	Date: 24-Feb-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_FIN_EST
+	Top Level - Finalization estimates
+****************************************************************/
+
+%replace AP_FIN_EST_1 by  96;
+AP_FIN_EST:
+   procedure;
+%replace BK_TOUR_NO by  34;
+%replace AP_OPEN_NO by  32;
+%replace AP_VENDOR_NO by  30;
+%replace AP_CONTROL_NO by  29;
+%include "BK_TOUR.DD";
+%include "AP_OPEN.DD";
+%include "AP_VENDOR.DD";
+%include "AP_CONTROL.DD";
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_CODE           fixed binary (15);
+declare		END_AP_FIN_MAIN      bit (1);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		ERROR_BK_TOUR        fixed binary (15);
+declare		END_DISPLAY_THRU     bit (1);
+declare		END_ENTER_ALL_EST    bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		LINE                 fixed binary (15);
+declare		END_ENTER_VENDOR     bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		ERROR_AP_CONTROL     fixed binary (15);
+   call INITIALIZE;
+
+   /* GET_AP_CONTROL - Read the A/P control file */
+
+
+      /* SET_AP_CONTROL - Set the key to read A/P control file */
+
+      AP_REC_NO = 0;
+      KEY_NO = 1;
+
+      /* READ_AP_CONTROL - Read the A/P control file */
+
+      call READ_KEYED (AP_CONTROL_NO,KEY_NO,ERROR_AP_CONTROL);
+      if ERROR_AP_CONTROL > 3 then
+         call PRINT_ERROR (AP_CONTROL_NO,ERROR_AP_CONTROL);
+
+   /* ZERO_AP_ENTRY - Set a/p entry no to a low number */
+
+   AP_ENTRY_NO = 0;
+
+   END_AP_FIN_MAIN = NO;
+   do while (END_AP_FIN_MAIN ^= YES);
+      call AP_FIN_MAIN;
+   end;
+
+   /* BACK_OUT_AP - Set the AP entry number back */
+
+   AP_REC_NO = 0;
+
+   call READ_KEYED (AP_CONTROL_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      if AP_ENTRY_NO >= AP_NEXT_ENTRY then
+         AP_NEXT_ENTRY = AP_ENTRY_NO;
+      call UPDATE_RECORD (AP_CONTROL_NO,ERROR_CODE);
+      end;
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TOUR_QUADS = 0;
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   AP_REC_NO = 9999;
+   AP_DEF_AC = 1;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_FIN_EST_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_CONTROL_NO,"AP_CONTROL",byteaddr(AP_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	AP_FIN_MAIN
+	Mainline logic
+****************************************************************/
+
+AP_FIN_MAIN:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AP_FIN_EST_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_AP_FIN_MAIN = YES;
+      return;
+      end;
+
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+   if ERROR_BK_TOUR > 3 then
+      call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+
+   /* DISPLAY_REC_FOUND - Display is found, otherwise try again */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_TOUR = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* REC_NOT_FOUND - Display rec not found and do again */
+
+
+         /* RECORD_NOT_FOUND - Record not found */
+
+         call DISPLAY_MESSAGE("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         ERROR_INPUT_SCREEN = YES;
+
+
+         /* DO_AGAIN - Return to do it again */
+
+         return;
+
+      if ERROR_INPUT_SCREEN then return;
+      end;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_OPEN_TOUR = TOUR_NO;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+   END_DISPLAY_THRU = NO;
+   do while (END_DISPLAY_THRU ^= YES);
+      call DISPLAY_THRU;
+   end;
+   END_ENTER_ALL_EST = NO;
+   do while (END_ENTER_ALL_EST ^= YES);
+      call ENTER_ALL_EST;
+   end;
+
+   /* RESET_LINE - Init the line offset to 0 */
+
+   LINE = 0;
+
+
+   /* DELETE_RECORD - Delete the record */
+
+   call DELETE_RECORD (AP_OPEN_NO,ERROR_CODE);
+
+   /* BACK_AP_NEXT - Drop the next number back one */
+
+   AP_NEXT_ENTRY = AP_NEXT_ENTRY - 1;
+
+return;
+end;	/* AP_FIN_MAIN          */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX =   2 to   6;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	DISPLAY_THRU
+	Display all the detail records
+****************************************************************/
+
+DISPLAY_THRU:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_TOUR > TOUR_NO) then
+      do;
+      END_DISPLAY_THRU = YES;
+      return;
+      end;
+
+   /* SET_LINE_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET(LINE);
+
+   call DISPLAY_DATA_B;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* INC_LINE - Increment the line */
+
+   LINE = LINE + 1;
+
+
+   /* CHECK_LINE_END - Is line at 10 yet? */
+
+   declare ANSWER character(1);
+   if LINE >= 10 then
+      do;
+      call DISPLAY_MESSAGE("Continue displaying?");
+      call INPUT_DATA (23,23,1,"Y",byteaddr(ANSWER),RETURN_CODE,INPUT_LENGTH);
+      if ANSWER = "N" then
+         do;
+         END_DISPLAY_THRU = YES;
+         return;
+         end;
+      do LINE = 0 to 9;
+         call SET_ROW_OFFSET(LINE);
+         call CLEAR_DATA_B;
+      end;
+      LINE = 0;
+      call SET_ROW_OFFSET(0);
+      end;
+
+return;
+end;	/* DISPLAY_THRU         */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  16 to  21;
+   if LOOP_INDEX =  17 then
+      do;
+
+      /* SET_AP_TYPE - Set up the type description */
+
+      do case (AP_ENTRY_TYPE);
+         AP_ENTRY_TYPE_DESC = "Brk Pmt";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Brk Dft";
+         AP_ENTRY_TYPE_DESC = "PP Req ";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dep Est";
+         AP_ENTRY_TYPE_DESC = "Fin Est";
+      end;
+      otherwise
+         AP_ENTRY_TYPE_DESC = "";
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	CLEAR_DATA_B
+	Clear the data in group B
+****************************************************************/
+
+CLEAR_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  16 to  21;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+return;
+end;	/* CLEAR_DATA_B         */
+
+/****************************************************************
+	ENTER_ALL_EST
+	Enter all the estimates
+****************************************************************/
+
+ENTER_ALL_EST:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* SET_FIELDS - Set the values for these fields */
+
+   AP_ENTRY_TYPE = 0;
+   AP_OPEN_CURR = "";
+   AP_OPEN_TOUR = 0;
+   AP_OPEN_TOUR_CODE = "";
+   AP_OPEN_TOUR_GL = 0;
+   AP_OPEN_DEP = 0;
+   AP_SERVICES = "";
+   AP_FINL_EST = 0;
+   AP_FINL_DATE = 0;
+   AP_DEP_EST = 0;
+   AP_DEP_EXCH = 0;
+   AP_DEP_EST_USD = 0;
+   AP_DEP_EST_GL = 0;
+   AP_EST_GL = 0;
+   AP_VEN_INV_NO = "";
+   AP_INV_ENTERED = 0;
+   AP_VEN_INV_DATE = 0;
+   AP_VEN_INV_GL = 0;
+   AP_VEN_INV_AMT = 0;
+   AP_VEN_INV_USD = 0;
+   AP_INV_BAL = 0;
+   AP_INV_BAL_USD = 0;
+   AP_OPEN_AP_ACCT = 0;
+   AP_OVER_UNDER_GL = 0;
+   AP_OPEN_SELECT = "N";
+   AP_AMT_SELECTED = 0;
+   AP_GAIN_LOSS_GL = 0;
+   AP_PAID_USD = 0;
+   AP_PYMT_DATE = 0;
+   AP_V_BASED_BK = 0;
+   AP_V_BASED_MOD = 0;
+   AP_V_BASED_PAX = 0;
+   AP_V_BASED_SEQ = 0;
+   BK_V_DATE = 0;
+   AP_ACK_DATE = 0;
+   AP_ACKED_ON = 0;
+   AP_ACK_BY = "";
+   AP_GL_STATUS = 0;
+   AP_GL_ACTION_DATE = 0;
+   AP_ENTRY_TYPE_DESC = "";
+   AP_V_DESC = "";
+   AP_OPEN_TYPE = "";
+   AP_OPEN_CURRENT = "N";
+
+   /* INIT_AP_FIELDS - Init the special A/P open fields */
+
+   AP_ENTRY_NO = AP_NEXT_ENTRY;
+   AP_ENTRY_TYPE = FIN_EST;
+   AP_OPEN_TOUR = TOUR_NO;
+   AP_OPEN_TOUR_CODE = TOUR_CODE;
+   AP_OPEN_DEP = TOUR_DEP_DATE;
+   AP_START_SVC = TOUR_DEP_DATE;
+   AP_END_SVC = TOUR_DEP_DATE;
+   AP_FINL_DATE = TODAYS_DATE();
+
+   AP_GL_STATUS = MAN_FINL;
+   AP_GL_ACTION_DATE = TODAYS_DATE();
+
+
+   /* GET_AP_ENTRY - Get the next A/P number and assign */
+
+
+      /* WRITE_AP - Write the A/P entry number */
+
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+         call WRITE_RECORD (AP_OPEN_NO+?LOCK_RECORD,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            AP_ENTRY_NO = AP_ENTRY_NO + 1;
+      end;
+
+      /* SET_NEXT_ENTRY - Set up for exit */
+
+      AP_NEXT_ENTRY = AP_ENTRY_NO + 1;
+
+   call DISPLAY_DATA_D;
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   END_ENTER_VENDOR = NO;
+   do while (END_ENTER_VENDOR ^= YES);
+      call ENTER_VENDOR;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ENTER_ALL_EST = YES;
+      return;
+      end;
+
+
+   /* MOVE_AP_VENDOR - Move the vendor info to the record */
+
+   AP_OPEN_CURR = AP_VEN_CURR;
+
+   call ENTER_DATA_G;
+
+   /* DEL_AP_IF_INP_ERR - Delete A/P open and try again if END ty */
+
+   if (ERROR_INPUT_SCREEN) ! (RETURN_CODE = DELETE_TYPED) then
+      do;
+
+      /* DELETE_RECORD - Delete the record */
+
+      call DELETE_RECORD (AP_OPEN_NO,ERROR_CODE);
+
+      /* BACK_AP_NEXT - Drop the next number back one */
+
+      AP_NEXT_ENTRY = AP_NEXT_ENTRY - 1;
+
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* CLEAR_DATA_E - Clear fields */
+
+   do LOOP_INDEX =   8 to   8;
+      call CLEAR_FIELD(LOOP_INDEX);
+   end;
+
+   /* CLEAR_DATA_F - Clear the F data */
+
+   do LOOP_INDEX =   9 to   9;
+      call CLEAR_FIELD(LOOP_INDEX);
+   end;
+
+   /* CLEAR_DATA_G - Clear data */
+
+   do LOOP_INDEX =  10 to  15;
+      call CLEAR_FIELD(LOOP_INDEX);
+   end;
+
+   /* DEL_AP_IF_INP_ERR - Delete A/P open and try again if END ty */
+
+   if (ERROR_INPUT_SCREEN) ! (RETURN_CODE = DELETE_TYPED) then
+      do;
+
+      /* DELETE_RECORD - Delete the record */
+
+      call DELETE_RECORD (AP_OPEN_NO,ERROR_CODE);
+
+      /* BACK_AP_NEXT - Drop the next number back one */
+
+      AP_NEXT_ENTRY = AP_NEXT_ENTRY - 1;
+
+      return;
+      end;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+
+   /* RET_LINE_END - Don't display if lines are full */
+
+   if LINE >= 10 then
+      return;
+
+
+   /* SET_LINE_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET(LINE);
+
+   call DISPLAY_DATA_B;
+
+   /* INC_LINE - Increment the line */
+
+   LINE = LINE + 1;
+
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+return;
+end;	/* ENTER_ALL_EST        */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =   7 to   7;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	ENTER_VENDOR
+	Enter the vendor number and read
+****************************************************************/
+
+ENTER_VENDOR:
+	procedure;
+
+   call ENTER_DATA_E;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ENTER_VENDOR = YES;
+      return;
+      end;
+
+
+   /* READ_RECORD_3 - Read the record */
+
+   call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+   if ERROR_BK_TOUR > 3 then
+      call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+
+   /* READ_SECOND - Read info and display secondary fileinfo */
+
+   AP_VEN_NO = AP_OPEN_VENDOR;
+   call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+      call PRESS_RETURN;
+      call CLEAR_MESSAGE;
+      RETURN_CODE = DO_AGAIN;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+   else
+      do;
+      do LOOP_INDEX =   9 to   9;
+         call OUTPUT_FIELD (LOOP_INDEX);
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_OK - Return if ERROR_CODE = 0 */
+
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      END_ENTER_VENDOR = YES;
+      return;
+      end;
+
+return;
+end;	/* ENTER_VENDOR         */
+
+/****************************************************************
+	ENTER_DATA_E
+	Enter the data in screen group E
+****************************************************************/
+
+ENTER_DATA_E:
+	procedure;
+
+do LOOP_INDEX =   8 to   8;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_E         */
+
+/****************************************************************
+	ENTER_DATA_G
+	Enter the data in group G
+****************************************************************/
+
+ENTER_DATA_G:
+	procedure;
+
+AP_FINL_EST = 0;
+AP_FINL_DATE = TODAYS_DATE();
+do LOOP_INDEX =  10 to  15;
+   if LOOP_INDEX =  13 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =  15 then
+      AP_FINL_DATE = TODAYS_DATE();
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_G         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 89,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  1 then
+   do;
+   if SELECT =  1 then
+      LOOP_INDEX = 10;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+if SELECT =  2 then
+   do;
+   do LOOP_INDEX =  11 to  12;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT >=  3 then if SELECT <=  4 then
+   do;
+
+      LOOP_INDEX = SELECT +  11;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+if SELECT >= 88 then if SELECT <= 89 then
+   do;
+   if SELECT = 88 then
+      LOOP_INDEX =  1;
+   if SELECT = 89 then
+      LOOP_INDEX =  8;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (AP_CONTROL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

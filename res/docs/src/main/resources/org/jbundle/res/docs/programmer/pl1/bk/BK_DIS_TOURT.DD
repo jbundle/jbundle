@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_DIS_TOURT File
+********************************************************************/
+
+declare	1 BK_DIS_TOURT_RECORD,
+		3 BK_START_TOUR        character (        4),
+		3 BK_START_DEPART      fixed binary (15);
+

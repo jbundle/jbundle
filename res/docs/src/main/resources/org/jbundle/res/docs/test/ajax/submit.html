@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>XSLT example</title>
+
+<script type="text/javascript">
+
+function main()
+{
+}
+
+	/**
+	 * Get all the form data from this screen and stick it in a name/value object.
+	 */
+function getFormData()
+{
+	var form = document.getElementById("submit1");
+	var formValues = {};
+	for (var i = 0; i < form.elements.length; i++) {
+		var elem = form.elements[i];
+		if ((elem.name == "button") || (elem.name == "") || (!elem.name))
+			continue;
+		formValues[elem.name] = elem.value;
+	}
+	alert( formValues);
+}
+
+</script>
+
+</head>
+
+<body>
+
+<button onclick="getFormData()">Submit</button>
+
+<form method="get" action="tourappxhtml" id="submit1">
+<div id="status-area"></div>
+<input type="hidden" name="record" value="com.tourapp.test.vet.db.Cat"><input type="hidden" name="forms" value="display"><input type="hidden" name="screen" value="com.tourapp.test.vet.screen.TestReport">
+<table xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xfm="http://www.w3.org/2000/12/xforms">
+<tr>
+<td valign="top" align="right"></td><td align="baseline"></td>
+</tr>
+<tr>
+<td valign="top" align="right">Vet</td><td align="baseline">
+
+<select name="VetID" style="list-ui:listbox;" value="">
+	<option value="" selected></option>
+	<option value="2">Dr. Jones</option>
+	<option value="1">Dr. Smith</option>
+</select>
+
+
+</td>
+</tr>
+</table>
+<table class="toolbars">
+
+<tr>
+<td><input type="Submit" value="Submit" name="command"></td><td><input type="Reset"></td>
+</tr>
+</table>
+</form>
+
+</body>
+</html>

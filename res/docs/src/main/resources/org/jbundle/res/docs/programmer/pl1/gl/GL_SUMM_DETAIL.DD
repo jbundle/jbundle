@@ -1,0 +1,19 @@
+/*********************************************************************
+	GL_SUMM_DETAIL File
+********************************************************************/
+
+declare	1 GL_SUMM_DETAIL_RECORD,
+		3 RD_PERIOD_TYPE       character (        1),
+		3 RD_PERIOD_LENGTH     fixed binary (15),
+		3 RD_PERIOD_START      fixed binary (15),
+		3 RD_PERIOD_END        fixed binary (15),
+		3 GL_DETAIL_DATE       fixed binary (15),
+		3 GL_DETAIL_TIME       fixed binary (15),
+		3 GL_DETAIL_USER       character (       16),
+		3 RD_GL_DATE           fixed binary (15),
+		3 RD_TRX_AMOUNT        float binary (53),
+		3 GL_SUMM_DATE         fixed binary (15),
+		3 RD_MONTH             fixed binary (15),
+		3 RD_DAY               fixed binary (15),
+		3 RD_YEAR              fixed binary (15);
+

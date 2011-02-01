@@ -1,0 +1,210 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program posts the A/P transactions to the General Ledger.
+
+<br wp="br1"><br wp="br2">
+<p>WARNING: This program requires exclusive use of the A/P files. This means that no one can access
+the booking or A/P system while this program is running.
+
+<br wp="br1"><br wp="br2">
+<p>Program Explanation:
+
+<br wp="br1"><br wp="br2">
+<p>Enter the date of the last transaction to process. The posting process will run automatically. This date
+should be the last date of the last period of your current finacial statements.
+
+<br wp="br1"><br wp="br2">
+<p>There are 6 classes of G/L postings:
+
+<br wp="br1"><br wp="br2">
+<p>1. Departure date estimate updates:
+
+<br wp="br1"><br wp="br2">
+<p>	On the departure date of the tour, the estimated costs must be posted to the expense account(s)
+to match the income which is being posted from the A/R system.
+
+<br wp="br1"><br wp="br2">
+<p>	The cost of tours account in the Tour header is debited, and the Uninvoiced Tour Cost
+account in the Tour header is credited.
+
+<br wp="br1"><br wp="br2">
+<p>	5-Dec-89	Cost of Tours Sold		100.00
+
+<p>				Uninvoiced Tour Cost	100.00
+
+<br wp="br1"><br wp="br2">
+<p>	The amount isn't adjusted again until the invoice date.
+
+<br wp="br1"><br wp="br2">
+<p>2. Invoice update:
+
+<br wp="br1"><br wp="br2">
+<p>	On the day that the invoice is received, the tour cost is adjusted to the actual amount (There
+may have been changes to the cost due to service changes, incorrect estimates, etc.)
+
+<br wp="br1"><br wp="br2">
+<p>	The Uninvoiced Tour Cost account is debited for the exact amount that it was credited for at
+the departure date. The Accounts Payable Account (From the Tour Header) is credited for
+the exact amount of the invoice, and a Over/Under estimate account (From Tour Header) is
+debited/credited for the difference.
+
+<p>	
+
+<p>	8-Jan-90	Uninvoiced Tour Cost		100.00
+
+<p>			Over/Under estimate			  1.00
+
+<p>				Accounts Payable			101.00
+
+<br wp="br1"><br wp="br2">
+<p>	If the invoice was entered without a departure estimate, then the cost of tours account is
+debited on the entry date. This type of transaction should be rare.
+
+<br wp="br1"><br wp="br2">
+<p>	8-Jan-90	Cost of Tours				100.00
+
+<p>				Accounts Payable			100.00
+
+<br wp="br1"><br wp="br2">
+<p>	If an invoice is entered without a tour, Then the account entered in invoice entry is debited.
+
+<br wp="br1"><br wp="br2">
+<p>	8-Jan-90	Postage/UPS Cost		200.00
+
+<p>				Non-tour A/P				200.00
+
+<br wp="br1"><br wp="br2">
+<p>	The amount isn't adjusted again until the payment date.
+
+<br wp="br1"><br wp="br2">
+<p>3. Credit Memo update
+
+<br wp="br1"><br wp="br2">
+<p>	Usually Credit Memos are entered as invoices, but the cost is not associated with a tour. For
+example, if a payment were to get lost in transit, the charge against your account would have
+to be re-entered. This charge should not be entered as an invoice. After the check was
+cancelled and the checking account adjusted, the following entry would have to be made:
+
+<br wp="br1"><br wp="br2">
+<p>	12-Dec-89	Printing Expense	200.00
+
+<p>				Accounts Payable		200.00
+
+<br wp="br1"><br wp="br2">
+<p>	The credit memo isn't adjusted again until the payment date.
+
+<br wp="br1"><br wp="br2">
+<p>4. Prepayment Paid Update
+
+<br wp="br1"><br wp="br2">
+<p>	When a prepayment is paid, the amount has to be set-up in a prepayment account (Upon
+prepayment distribution, the amount is reversed).
+
+<br wp="br1"><br wp="br2">
+<p>	2-Feb-89	Prepayment		150.00
+
+<p>				Cash					 150.00
+
+<br wp="br1"><br wp="br2">
+<p>	No more adjustments are required for a prepayment.
+
+<br wp="br1"><br wp="br2">
+<p>5.  Debit Memo update
+
+<br wp="br1"><br wp="br2">
+<p>	A debit memo is very similar to a Prepayment. A debit memo is usually a payment by a means
+other than cash. The amount of the Debit memo can be distributed to invoices just like
+prepayments.
+
+<br wp="br1"><br wp="br2">
+<p>	For example, some co-op advertising is done for a vendor and debited to their account:
+
+<br wp="br1"><br wp="br2">
+<p>	6-Mar-89	Prepayment		170.00
+
+<p>				Advertising expense		170.00
+
+<br wp="br1"><br wp="br2">
+<p>	No more adjustments are required for a Debit memo.
+
+<br wp="br1"><br wp="br2">
+<p>6. Payment Applied Update --&gt; 6 or 0 (if bal = 0)
+
+<p>   Broker Payment Applied Update
+
+<p>   Prepayment Distributed Update
+
+<p>   Debit memo Distributed Update
+
+<br wp="br1"><br wp="br2">
+<p>	As the invoices are paid off, the Accounts Payable account must be adjusted to reflect the new
+balances.
+
+<br wp="br1"><br wp="br2">
+<p>	The Accounts Payable account should be debited on the payment date for the exact amount
+of the credit on the invoice date. The cash account should be debited for the amount of
+payment, and any difference should be debited/credited to a Gain/Loss on currency account.
+
+<br wp="br1"><br wp="br2">
+<p>Payment Applied/Broker Payment:
+
+<p>	22-Jan-89	Accounts Payable	100.00
+
+<p>			Gain/Loss on curr.	 10.00
+
+<p>				Cash					 110.00
+
+<p>A partial payment would be handled the same way:
+
+<p>	22-Jan-89 Accounts Payable	 22.50
+
+<p>			Gain/Loss on curr.	  2.25
+
+<p>				Cash					24.75
+
+<br wp="br1"><br wp="br2">
+<p>Prepayment Distributed:
+
+<p>	22-Jan-89	Accounts Payable	100.00
+
+<p>			Gain/Loss on curr.	 10.00
+
+<p>				Preaid Tour Cost		110.00
+
+<br wp="br1"><br wp="br2">
+<p>Debit memo Distributed:
+
+<p>	22-Jan-89	Accounts Payable	100.00
+
+<p>			Gain/Loss on curr	 10.00
+
+<p>				Prepayment			110.00
+
+<br wp="br1"><br wp="br2">
+<p>After the invoice (or credit memo) is fully paid, no more adjustments are required.
+
+<br wp="br1"><br wp="br2">
+<p>	Note: No G/L entries are required for broker payments, as long as the cash account numbers are transfered
+to the invoices at the time of payment.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>Enter the date of the last transaction to process. The posting process will run automatically. This date
+should be the last transaction date to post.
+</body>
+</html>

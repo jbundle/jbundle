@@ -1,0 +1,12 @@
+/*********************************************************************
+	BK_PURGE File
+********************************************************************/
+
+declare	1 BK_PURGE_RECORD,
+		3 BK_PURGE_DATE        fixed binary (15),
+		3 BK_PURGE_HIST        fixed binary (15),
+		3 BK_FIX_PASS          character (       16),
+		3 BK_START_RECORD      fixed binary (31),
+		3 BK_END_RECORD        fixed binary (31),
+		3 BK_RECORDS           fixed binary (31);
+

@@ -1,0 +1,16 @@
+/*********************************************************************
+	BK_LAND_DET File
+********************************************************************/
+
+declare	1 BK_LAND_DET_RECORD,
+		3 LAND_PR_NO           character (       10),
+		3 LAND_SEQ             fixed binary (15),
+		3 LAND_START           fixed binary (15),
+		3 LAND_END             fixed binary (15),
+		3 LAND_FROM            fixed binary (15),
+		3 LAND_TO              fixed binary (15),
+		3 LAND_MARKUP_LINE     fixed binary (15),
+		3 LAND_PRICE           float binary (53),
+		3 LAND_VARIES_ON       character (        1),
+		3 LAND_VAR_DESC        character (       10);
+

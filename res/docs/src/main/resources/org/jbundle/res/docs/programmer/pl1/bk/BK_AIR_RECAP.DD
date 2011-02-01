@@ -1,0 +1,13 @@
+/*********************************************************************
+	BK_AIR_RECAP File
+********************************************************************/
+
+declare	1 BK_AIR_RECAP_RECORD,
+		3 ARECAP_START         character (        2),
+		3 ARECAP_END           character (        2),
+		3 ARECAP_SFLT          character (        4),
+		3 ARECAP_EFLT          character (        4),
+		3 ARECAP_AINV          character (1),
+		3 ARECAP_SDATE         fixed binary (15),
+		3 ARECAP_EDATE         fixed binary (15);
+

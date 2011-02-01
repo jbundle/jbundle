@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<ClassProject ID="65537">
+		<LastChanged>2010-04-09T14:42:19</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-test</Name>
+		<ParentFolderID>16,777,291</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Test</Description>
+		<SystemClasses/>
+		<PackageName>.test</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.test</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.test</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+</file>

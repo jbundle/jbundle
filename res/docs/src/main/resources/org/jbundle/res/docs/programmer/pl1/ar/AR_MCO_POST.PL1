@@ -1,0 +1,862 @@
+/****************************************************************
+	Module: AR_MCO_POST
+	Top Level Logic: REPORT_LOGIC
+	Date:  9-Nov-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_MCO_POST
+	Standard report logic
+****************************************************************/
+
+%replace AR_MCO_POST_1 by 643;
+%replace AR_MCO_POST_2 by 644;
+AR_MCO_POST:
+   procedure;
+%replace GL_CHART_NO by  16;
+%replace AR_MCO_DET_NO by  50;
+%replace BK_BOOKING_NO by   9;
+%replace AR_OPEN_NO by  43;
+%replace AR_CONTROL_NO by  41;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%include "AR_MCO_POST.DD";
+%include "GL_CHART.DD";
+%include "AR_MCO_DET.DD";
+%include "BK_BOOKING.DD";
+%include "AR_OPEN.DD";
+%include "AR_CONTROL.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		ANSWER               character (1);
+declare		ERROR_BK_BOOKING     fixed binary (15);
+declare		LINE                 fixed binary (15);
+declare		END_POST_THRU_MCO    bit (1);
+declare		END_ADD_THRU_AR      bit (1);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AR_MCO_DATEP = TODAYS_DATE();
+   AR_MCO_TIMEP = CURRENT_TIME();
+   AR_MCO_PAGEP = 1;
+   AR_TOTAL_MCOP = 0;
+   AR_MCO_TOTALP = 0;
+   AR_MCO_USERP = USER_NAME();
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+   AR_MCO_STATUS = 1;
+   AR_MCO_CARRIER = "";
+   AR_MCO_AMT_APLY = 0;
+   AR_MCO_DATE_SUBM = 0;
+   AR_MCO_DATE_PAID = 0;
+   AR_MCO_AMT_PAID = 0;
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   AR_ACCT_DR = 0;
+   AR_ACCT_DEP = 0;
+   AR_POSTED = 0;
+   AR_ACTION = 0;
+   AR_DEPARTURE = 0;
+   AR_REC_NO = 9999;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+   TOUR_QUADS = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_MCO_POST_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AR_MCO_POST_RECORD) );
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call OPEN_FILE (AR_MCO_DET_NO,"AR_MCO_DET",byteaddr(AR_MCO_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (AR_OPEN_NO,"AR_OPEN",byteaddr(AR_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AR_CONTROL_NO,"AR_CONTROL",byteaddr(AR_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (AR_MCO_POST_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AR_MCO_STATUS = 1;
+   AR_MCO_DATE_REC = 0;
+   AR_MCO_SEQ = 0;
+   call SET_POSITION (AR_MCO_DET_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =   9 to  10;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+   call POST_MCO_CASH;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+declare		ERROR_AR_CONTROL     fixed binary (15);
+AR_MCO_AR_ACCT = 0;
+do LOOP_INDEX =   1 to   1;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* SET_MCO_DEF - Set up the MCO default G/L acct number */
+
+
+      /* GET_AR_CONTROL - Get the A/R control record */
+
+
+         /* SET_AR_CONTROL - Set up the key */
+
+         AR_REC_NO = 0;
+         KEY_NO = 1;
+
+         /* READ_AR_CONTROL - Read the record */
+
+         call READ_KEYED (AR_CONTROL_NO,KEY_NO,ERROR_AR_CONTROL);
+         if ERROR_AR_CONTROL > 3 then
+            call PRINT_ERROR (AR_CONTROL_NO,ERROR_AR_CONTROL);
+      AR_MCO_AR_ACCT = AR_MCO_ACCT;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = AR_MCO_AR_ACCT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  1,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT =  1 then
+   do;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = AR_MCO_AR_ACCT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   6;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+AR_MCO_PAGEP = AR_MCO_PAGEP + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AR_MCO_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_MCO_STATUS > 1) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+
+   /* GET_MCO_TOUR - Lock the booking for this MCO */
+
+   BK_TOUR_NUM = 0;
+
+   BOOKING_NO = AR_MCO_BK_NO;
+   if AR_MCO_BK_NO ^= 0 then
+      do;
+      KEY_NO = 1;
+      BK_MODIFICATION = 0;
+      BOOKING_NO = AR_MCO_BK_NO;
+      ERROR_BK_BOOKING = RECORD_LOCKED;
+      do while (ERROR_BK_BOOKING = RECORD_LOCKED);
+
+         /* READ_BOOK - Read the booking record */
+
+         call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_NO,ERROR_BK_BOOKING);
+         if ERROR_BK_BOOKING > 3 then
+            call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+         if ERROR_BK_BOOKING = RECORD_LOCKED then
+            do;
+            call OUTPUT_LINE(23,10,"<BEL>Booking locked by "c !! LOCK_NAME() !! " Continue?");
+            call INPUT_DATA(23,55,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+            call CLEAR_TO_BOS(23);
+            call DUMP_BUFFER;
+            if ANSWER ^= "Y" then
+               do;
+               END_READ_THRU_FILE = YES;
+               return;
+               end;
+            end;
+      end;
+      if ERROR_BK_BOOKING ^= NORMAL_RETURN then
+         do;
+         BOOKING_NO = 0;
+         BK_TOUR_NUM = 0;
+         BK_TOUR_CODE = "";
+         BK_DEPARTURE = 0;
+         end;
+      end;
+
+   do LOOP_INDEX =   7 to   8;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+   AR_TOTAL_MCOP = AR_TOTAL_MCOP + 1;
+   AR_MCO_TOTALP = floor((AR_MCO_TOTALP + AR_MCO_AMT_APPLIED) * 100 + 0.5) / 100;
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	POST_MCO_CASH
+	Post the MCO amounts to A/R
+****************************************************************/
+
+POST_MCO_CASH:
+	procedure;
+
+
+   /* RETURN_IF_BK_LOCK - Return if booking record is locked */
+
+   if ERROR_BK_BOOKING = RECORD_LOCKED then
+      return;
+
+
+   /* CLOSE_LPT - Close the printer */
+
+   call CLOSE_PRINTER;
+
+
+   /* SURE_POST_MCO - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure you want to post these MCOs?");
+   call INPUT_DATA(23,52,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+   END_POST_THRU_MCO = NO;
+   do while (END_POST_THRU_MCO ^= YES);
+      call POST_THRU_MCO;
+   end;
+return;
+end;	/* POST_MCO_CASH        */
+
+/****************************************************************
+	POST_THRU_MCO
+	Post all the MCO's to A/R
+****************************************************************/
+
+POST_THRU_MCO:
+	procedure;
+
+declare		ERROR_BK_TOUR        fixed binary (15);
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AR_MCO_STATUS = 1;
+   AR_MCO_DATE_REC = 0;
+   AR_MCO_SEQ = 0;
+   call SET_POSITION (AR_MCO_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AR_MCO_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_MCO_STATUS > 1) then
+      do;
+      END_POST_THRU_MCO = YES;
+      return;
+      end;
+
+   /* GET_MCO_TOUR - Lock the booking for this MCO */
+
+   BK_TOUR_NUM = 0;
+
+   BOOKING_NO = AR_MCO_BK_NO;
+   if AR_MCO_BK_NO ^= 0 then
+      do;
+      KEY_NO = 1;
+      BK_MODIFICATION = 0;
+      BOOKING_NO = AR_MCO_BK_NO;
+      ERROR_BK_BOOKING = RECORD_LOCKED;
+      do while (ERROR_BK_BOOKING = RECORD_LOCKED);
+
+         /* READ_BOOK - Read the booking record */
+
+         call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_NO,ERROR_BK_BOOKING);
+         if ERROR_BK_BOOKING > 3 then
+            call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+         if ERROR_BK_BOOKING = RECORD_LOCKED then
+            do;
+            call OUTPUT_LINE(23,10,"<BEL>Booking locked by "c !! LOCK_NAME() !! " Continue?");
+            call INPUT_DATA(23,55,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+            call CLEAR_TO_BOS(23);
+            call DUMP_BUFFER;
+            if ANSWER ^= "Y" then
+               do;
+               END_POST_THRU_MCO = YES;
+               return;
+               end;
+            end;
+      end;
+      if ERROR_BK_BOOKING ^= NORMAL_RETURN then
+         do;
+         BOOKING_NO = 0;
+         BK_TOUR_NUM = 0;
+         BK_TOUR_CODE = "";
+         BK_DEPARTURE = 0;
+         end;
+      end;
+
+
+   /* INIT_MCO_SEQ - Initialize the MCO sequence number */
+
+   AR_MCO_LAST_SEQ = -1;
+
+   call GET_BK_BALANCE;
+
+   /* CHECK_NO_MCO_SEQ - No A/R detail yet? */
+
+   if BOOKING_NO ^= 0 then if AR_MCO_LAST_SEQ = -1 then
+      do;
+
+      /* GET_TOUR_HDR - Get the tour header */
+
+      ERROR_CODE = NORMAL_RETURN;
+
+      HDR_TOUR_CODE = BK_TOUR_CODE;
+      HDR_END_ON = BK_DEPARTURE;
+      if HDR_END_ON = 0 then
+         HDR_END_ON = TODAYS_DATE();
+      call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE ^= END_OF_FILE then
+         call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+      if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+         ERROR_CODE = END_OF_FILE;
+      if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+         ERROR_CODE = END_OF_FILE;
+
+
+      if ERROR_CODE = END_OF_FILE then
+         do;
+         HDR_AR_GL = 0;
+         HDR_PP_GL = 0;
+         end;
+
+      AR_BOOKING_NO = AR_MCO_BK_NO;
+      AR_MCO_LAST_SEQ = 1;
+      AR_SEQ_NO = AR_MCO_LAST_SEQ;
+      AR_TRX_DATE = AR_MCO_DATEP;
+      AR_DOC_TYPE = "I";
+      AR_AMOUNT = BK_NET_PRICE;
+      BK_BALANCE = BK_NET_PRICE;
+      AR_REF = "Starting balance";
+      AR_ACCT = HDR_AR_GL;
+      if AR_ACCT = 0 then
+         AR_ACCT = AR_DEF_AR;
+      AR_ACCT_DR = HDR_PP_GL;
+      if AR_ACCT_DR = 0 then
+         AR_ACCT_DR = AR_PRE_GL;
+      AR_ACCT_DEP = HDR_INCOME_GL;
+      if AR_ACCT_DEP = 0 then
+         AR_ACCT_DEP = AR_INCOME_GL;
+      AR_POSTED = 0;
+      AR_ACTION = AR_TRX_DATE;
+      AR_DEPARTURE = BK_DEPARTURE;
+      AR_OPEN_MOD = BK_NEXT_MOD;
+      AR_OPEN_BY = USER_NAME();
+
+      /* WRITE_RECORD_3 - Write the record */
+
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+         call WRITE_RECORD (AR_OPEN_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            AR_SEQ_NO = AR_SEQ_NO + 1;
+      end;
+      end;
+
+
+   /* MOVE_MCO_OPEN - Set up the Open item record */
+
+   AR_BOOKING_NO = AR_MCO_BK_NO;
+   AR_SEQ_NO = AR_MCO_LAST_SEQ + 1;
+   AR_TRX_DATE = AR_MCO_DATEP;
+   AR_DOC_TYPE = "M";
+   AR_AMOUNT = -AR_MCO_AMT_APPLIED;
+   AR_REF = AR_MCO_REMARK;
+   AR_ACCT = AR_MCO_GL_ACCT;
+   AR_ACCT_DR = AR_MCO_AR_ACCT;
+   AR_ACCT_DEP = 0;
+   AR_POSTED = 0;
+   AR_ACTION = AR_TRX_DATE;
+   AR_DEPARTURE = BK_DEPARTURE;
+   AR_OPEN_MOD = BK_MODIFICATION;
+   AR_OPEN_BY = USER_NAME();
+
+
+   /* WRITE_RECORD_3 - Write the record */
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (AR_OPEN_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         AR_SEQ_NO = AR_SEQ_NO + 1;
+   end;
+
+   /* ADD_BK_BALANCE - Add to the BK balance */
+
+   BK_BALANCE = floor((BK_BALANCE + AR_AMOUNT) * 100 + 0.5) / 100;
+
+
+   /* CHECK_TOUR_REC - Update tour deposit or payment received */
+
+   if (BK_NET_PRICE - BK_BALANCE >= BK_DEPOSIT) !
+      ((AR_DOC_TYPE="M")&((BK_NET_PRICE-BK_BALANCE)*1.15 >= BK_DEPOSIT)) then
+         if BK_TOUR_NUM ^= 0 then
+            do;
+
+            /* LOCK_CUR_TOUR - Read and lock the current tour record */
+
+            if BK_TOUR_NUM ^= 0 then
+               do;
+               TOUR_NO = BK_TOUR_NUM;
+
+               /* READ_TOUR_LOCK - Read the tour record and lock it */
+
+               ERROR_BK_TOUR = RECORD_LOCKED;
+               do while (ERROR_BK_TOUR = RECORD_LOCKED);
+
+                  /* READ_TOUR_LK - Read and lock the tour */
+
+                  call READ_KEYED (BK_TOUR_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TOUR);
+                  if ERROR_BK_TOUR > 3 then
+                     call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+               end;
+
+               end;
+
+            if TOUR_DEP_REC ^= "Y" then
+               do;
+               ACTION_DATE = TODAYS_DATE();
+               ACTION_TYPE = DEP_REC_UD;
+               end;
+            else
+               do;
+               if TOUR_FIN_PAY ^= "Y" then if BK_BALANCE <= 0 then
+                  do;
+                  ACTION_DATE = TODAYS_DATE();
+                  ACTION_TYPE = FIN_PAY_UD;
+                  end;
+               end;
+
+            /* BK_TOUR_UPDATE - Update the tour record */
+
+            call UPDATE_RECORD (BK_TOUR_NO,ERROR_CODE);
+            end;
+
+
+   /* UPDATE_MCO_INFO - Update the MCO info */
+
+   AR_MCO_SEQ_NO = AR_SEQ_NO;
+   AR_MCO_GL_ACCT = AR_MCO_AR_ACCT;
+   AR_MCO_STATUS = 2;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AR_MCO_DET_NO,ERROR_CODE);
+
+   /* UD_BK_MCO_BAL - Update the booking record balance */
+
+
+      /* SKIP_IF_NO_BK - Skip if no booking */
+
+      if BOOKING_NO = 0 then
+         return;
+
+
+      /* UPDATE_RECORD_2 - Update the record */
+
+      call UPDATE_RECORD (BK_BOOKING_NO,ERROR_CODE);
+return;
+end;	/* POST_THRU_MCO        */
+
+/****************************************************************
+	GET_BK_BALANCE
+	Get the booking balance
+****************************************************************/
+
+GET_BK_BALANCE:
+	procedure;
+
+
+   /* SET_BK_BALANCE - Set BK_BALANCE to BK_NET_PRICE */
+
+   BK_BALANCE = BK_NET_PRICE;
+
+
+   /* SET_FIRST_AR - Set on the first A/R open record */
+
+   AR_BOOKING_NO = BOOKING_NO;
+   AR_SEQ_NO = 0;
+   call SET_POSITION (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* ZERO_BK_BALANCE - Zero the field */
+
+   BK_BALANCE = 0;
+
+   END_ADD_THRU_AR = NO;
+   do while (END_ADD_THRU_AR ^= YES);
+      call ADD_THRU_AR;
+   end;
+return;
+end;	/* GET_BK_BALANCE       */
+
+/****************************************************************
+	ADD_THRU_AR
+	Add all the booking's A/R detail
+****************************************************************/
+
+ADD_THRU_AR:
+	procedure;
+
+
+   /* READ_NEXT_AR - Read the next A/R record */
+
+   call READ_NEXT (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_AR - Last A/R booking detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_BOOKING_NO > BOOKING_NO) then
+      do;
+      END_ADD_THRU_AR = YES;
+      return;
+      end;
+
+   /* ADD_BK_BALANCE - Add to the BK balance */
+
+   BK_BALANCE = floor((BK_BALANCE + AR_AMOUNT) * 100 + 0.5) / 100;
+
+
+   /* OTHER_LOGIC_2 - Other logic */
+
+
+   /* SAVE_LAST_MCO_SEQ - Save the last seq number for a second */
+
+   AR_MCO_LAST_SEQ = AR_SEQ_NO;
+
+return;
+end;	/* ADD_THRU_AR          */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (GL_CHART_NO);
+   call CLOSE_FILE (AR_MCO_DET_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (AR_OPEN_NO);
+   call CLOSE_FILE (AR_CONTROL_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

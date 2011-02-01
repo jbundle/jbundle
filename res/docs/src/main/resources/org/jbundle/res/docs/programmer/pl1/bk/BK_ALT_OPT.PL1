@@ -1,0 +1,200 @@
+/****************************************************************
+	Module: BK_ALT_OPT
+	Top Level Logic: AO_REVIEW_LOGIC
+	Date:  5-Dec-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ALT_OPT
+	Top Level to Review/Change A/O
+****************************************************************/
+
+%replace BK_ALT_OPT_1 by 243;
+BK_ALT_OPT:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_LINE_RECORD,
+      BK_PASSENGERS_RECORD);
+%replace BK_OPT_ALT_NO by  62;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_LINE_NO by  51;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_OPT_ALT.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_LINE.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+   call INITIALIZE;
+   call AO_REVIEW_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   ALT_SELECT_BY = "N";
+   ALT_ANSWER = " ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ALT_OPT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_OPT_ALT_NO,"BK_OPT_ALT",byteaddr(BK_OPT_ALT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	AO_REVIEW_MAIN
+	Mainline Logic
+****************************************************************/
+
+AO_REVIEW_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_OPT_ALT     fixed binary (15);
+
+   /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+   if BOOKING_NO = 0 then
+      return;
+
+
+   /* AO_REVIEW_DIS - Display all the current A/O combinations */
+
+   if BK_TOUR_NUM = 0 then
+      do;
+      call DISPLAY_MESSAGE ("Tour not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   declare INDEX fixed binary;
+   INDEX = 1;
+
+   do while ( (BK_ALT_OPT_SQ(INDEX) ^= 0) & (INDEX < 17) );
+      ALT_TOUR_CODE = TOUR_CODE;
+      ALT_SEQ = BK_ALT_OPT_SQ(INDEX);
+      ALT_ANSW_SEQ = BK_AO_ANSW_SQ(INDEX);
+
+      /* READ_OPT_ALT - Read the OPT ALT record */
+
+      call READ_KEYED (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_BK_OPT_ALT);
+      if ERROR_BK_OPT_ALT > 3 then
+         call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_BK_OPT_ALT);
+      if ERROR_BK_OPT_ALT = NORMAL_RETURN then
+         do;
+         call SET_ROW_OFFSET(INDEX - 1);
+         call DISPLAY_DATA_B;
+         INDEX = INDEX + 1;
+         end;
+   end;
+   call SET_ROW_OFFSET(0);
+
+   if BK_ALT_OPT_SQ(1) ^= 0 then
+      do;
+      call OUTPUT_LINE(23,10,"Would you like to clear the current answers?");
+      call INPUT_DATA(23,55,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_TO_BOS(23);
+      call DUMP_BUFFER;
+      if ANSWER ^= "Y" then
+         return;
+      if (BK_LINE_CHGD ^= -1) ! (BK_HOTEL_MOD ^= -1) !
+         (BK_TOUR_MOD ^= -1) ! (BK_AIR_MOD ^= -1) then
+            do;
+            call OUTPUT_LINE(23,10,"Are you sure you want to clear the current tour detail?");
+            call INPUT_DATA(23,66,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+            call CLEAR_TO_BOS(23);
+            call DUMP_BUFFER;
+            if ANSWER ^= "Y" then
+               return;
+
+            /* BK_NEW_INFO - Call program to update & delete detail */
+
+            %include "BK_NEW_INFO.DCL";
+            call BK_NEW_INFO(
+               BK_TOUR_RECORD,
+               BK_TOUR_HDR_RECORD,
+               BK_BOOKING_RECORD,
+               BK_LINE_RECORD,
+               BK_PASSENGERS_RECORD);
+            end;
+      BK_ALT_OPT_SQ(1) = 0;
+      BK_AO_ANSW_SQ(1) = 0;
+      BK_GATEWAY = "";
+
+      /* BK_AO_SELECT - Call the program to select the OPT/ALTs */
+
+      %include "BK_AO_SELECT.DCL";
+      call BK_AO_SELECT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_OPT_ALT_RECORD);
+      end;
+
+return;
+end;	/* AO_REVIEW_MAIN       */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+do LOOP_INDEX =  11 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_OPT_ALT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

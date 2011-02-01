@@ -1,0 +1,16 @@
+/*********************************************************************
+	GL_RECUR_POST File
+********************************************************************/
+
+declare	1 GL_RECUR_POST_RECORD,
+		3 GL_RECUR_DATE        fixed binary (15),
+		3 GL_RECUR_ACREV       fixed binary (15),
+		3 GL_RECUR_TODAY       fixed binary (15),
+		3 GL_RECUR_TIME        fixed binary (15),
+		3 GL_RECUR_PAGE        fixed binary (15),
+		3 GL_RECUR_COUNT       fixed binary (31),
+		3 GL_RECUR_DR          float binary (53),
+		3 GL_RECUR_CR          float binary (53),
+		3 GL_RECUR_DR_TOTAL    float binary (53),
+		3 GL_RECUR_CR_TOTAL    float binary (53);
+

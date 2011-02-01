@@ -1,0 +1,11 @@
+/*********************************************************************
+	GL_JOURNAL_ENT File
+********************************************************************/
+
+declare	1 GL_JOURNAL_ENT_RECORD,
+		3 GL_JOURNAL_BAL       float binary (53),
+		3 GL_TRX_SAVE          fixed binary (15),
+		3 GL_DATE_SAVE         fixed binary (15),
+		3 GL_ACCT_SAVE         fixed binary (31),
+		3 GL_SEQ_SAVE          fixed binary (15);
+

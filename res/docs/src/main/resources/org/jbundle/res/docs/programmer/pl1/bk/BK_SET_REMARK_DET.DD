@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_SET_REMARK_DET File
+********************************************************************/
+
+declare	1 BK_SET_REMARK_DET_RECORD,
+		3 NEXT_R_SEQ           fixed binary (15),
+		3 BK_R_ALT_SEQ         fixed binary (15),
+		3 BK_R_ANSW_SEQ        fixed binary (15),
+		3 BK_R_SEQ             fixed binary (15);
+

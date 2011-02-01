@@ -1,0 +1,23 @@
+/*********************************************************************
+	PR_HIST File
+********************************************************************/
+
+declare	1 PR_HIST_RECORD,
+		3 EMP_NO_HIST          fixed binary (31),
+		3 PR_HIST_CK_NO        fixed binary (31),
+		3 PR_HIST_SEQ          fixed binary (15),
+		3 PR_HIST_CK_DATE      fixed binary (15),
+		3 PR_HIST_PD_DATE      fixed binary (15),
+		3 PR_HIST_GROSS        float binary (21),
+		3 PR_HIST_SS_GROSS     float binary (21),
+		3 PR_HIST_STATE_GROSS  float binary (21),
+		3 PR_HIST_NON_TAX      float binary (21),
+		3 PR_HIST_FED          float binary (21),
+		3 PR_HIST_STATE        float binary (21),
+		3 PR_HIST_LOCAL        float binary (21),
+		3 PR_HIST_FICA         float binary (21),
+		3 PR_HIST_SDI          float binary (21),
+		3 PR_HIST_ALL_DED      float binary (21),
+		3 PR_HIST_NET          float binary (21),
+		3 PR_HIST_WEEKS        float binary (21);
+

@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+
+<full-screen>
+<content-area>
+<controls>
+	<heading>
+		<form xmlns:xfm="http://www.w3.org/2000/12/xforms" xmlns:fo="http://www.w3.org/1999/XSL/Format" height="30cm">
+ 			<xfm:textbox xform="form1" ref="ReportDate" cols="12">
+ 				<xfm:caption>Date</xfm:caption>
+ 			</xfm:textbox>
+ 			<xfm:textbox xform="form1" ref="ReportTime" cols="8">
+   				<xfm:caption>Time</xfm:caption>
+ 			</xfm:textbox>
+			<fo:block ref="UserInfo.UserName">don
+   				<xfm:caption>User</xfm:caption>
+			</fo:block>
+ 			<xfm:textbox xform="form1" ref="ReportPage" cols="5">
+   				<xfm:caption>Page no</xfm:caption>
+ 			</xfm:textbox>
+ 			<xfm:textbox xform="form1" ref="Description" cols="5">
+   				<xfm:caption>Desc</xfm:caption>
+ 			</xfm:textbox>
+		</form>
+	</heading>
+	<detail name="FinStmt">
+		<form xmlns:xfm="http://www.w3.org/2000/12/xforms" xmlns:fo="http://www.w3.org/1999/XSL/Format" height="30cm">
+ 			<xfm:textbox xform="form1" ref="FinStmt.StatementDesc" cols="40">
+   				<xfm:caption>Statement description</xfm:caption>
+ 			</xfm:textbox>
+ 			<xfm:textbox xform="form1" ref="FinStmt.StatementType" cols="40">
+   				<xfm:caption>Statement type</xfm:caption>
+ 			</xfm:textbox>
+ 			<xfm:textbox xform="form1" ref="FinStmt.StatementFormat" cols="40">
+   				<xfm:caption>Statement format</xfm:caption>
+ 			</xfm:textbox>
+ 			<xfm:textbox xform="form1" ref="FinStmt.StatementNumber" cols="40">
+   				<xfm:caption>Statement number</xfm:caption>
+ 			</xfm:textbox>
+		</form>
+		<detail name="FinStmtDetail">
+			<form xmlns:xfm="http://www.w3.org/2000/12/xforms" xmlns:fo="http://www.w3.org/1999/XSL/Format" height="30cm">
+ 				<xfm:textbox xform="form1" ref="FinStmtDetail.AccountID" cols="10">
+   					<xfm:caption>Account ID</xfm:caption>
+ 				</xfm:textbox>
+ 				<xfm:textbox xform="form1" ref="FinStmtDetail.AccountDesc" cols="30">
+   					<xfm:caption>Account Desc</xfm:caption>
+ 				</xfm:textbox>
+ 				<xfm:textbox xform="form1" ref="FinStmtDetail.Indent" cols="30">
+   					<xfm:caption>Indent column</xfm:caption>
+ 				</xfm:textbox>
+ 				<xfm:textbox xform="form1" ref="FinStmtDetail.Invisible" cols="30">
+   					<xfm:caption>Invisible?</xfm:caption>
+ 				</xfm:textbox>
+ 				<xfm:textbox xform="form1" ref="FinStmtDetail.TypicalBalance" cols="30">
+   					<xfm:caption>Typical Balance</xfm:caption>
+ 				</xfm:textbox>
+ 				<xfm:textbox xform="form1" ref="FinStmtDetail.SubTotalLevel" cols="30">
+   					<xfm:caption>Sub-Total Level</xfm:caption>
+ 				</xfm:textbox>
+ 				<xfm:textbox xform="form1" ref="FinStmtDetail.DataColumn" cols="30">
+   					<xfm:caption>Data Column</xfm:caption>
+ 				</xfm:textbox>
+ 				<xfm:textbox xform="form1" ref="FinStmtDetail.SpecialFormat" cols="30">
+   					<xfm:caption>Special Format</xfm:caption>
+ 				</xfm:textbox>
+ 				<xfm:textbox xform="form1" ref="FinStmtDetail.Amount" cols="30">
+   					<xfm:caption>Amount</xfm:caption>
+ 				</xfm:textbox>
+			</form>
+		</detail>
+	</detail>
+	<trailer>
+		<form xmlns:xfm="http://www.w3.org/2000/12/xforms" xmlns:fo="http://www.w3.org/1999/XSL/Format" height="30cm">
+ 			<xfm:textbox xform="form1" ref="ReportCount" cols="10">
+   				<xfm:caption>Count</xfm:caption>
+ 			</xfm:textbox>
+		</form>
+	</trailer>
+</controls>
+
+
+<data>
+	<heading>
+		<file>
+			<FinStmtHeader>
+    			<ReportDate>Feb 11, 2002</ReportDate>
+    			<ReportTime>2:29 AM</ReportTime>
+    			<UserInfo.UserName>don</UserInfo.UserName>
+    			<ReportPage>1</ReportPage>
+				
+				<Description>Management Financial Statements</Description>
+				
+			</FinStmtHeader>
+		</file>
+	</heading>
+	<detail>
+		<file>
+			<FinStmt id="2" >
+	    		<FinStmt.StatementDesc>Income Statement</FinStmt.StatementDesc>
+	    		<FinStmt.StatementType>Income statement</FinStmt.StatementType>
+	    		<FinStmt.StatementFormat>Columnar</FinStmt.StatementFormat>
+	    		<FinStmt.StatementNumber>Decimals</FinStmt.StatementNumber>
+				<detail>
+					<file>
+						<FinStmtDetail id="3" >
+    						<FinStmtDetail.AccountID>4010-100</FinStmtDetail.AccountID>
+    						<FinStmtDetail.AccountDesc>Income</FinStmtDetail.AccountDesc>
+    						<FinStmtDetail.Indent>1</FinStmtDetail.Indent>
+    						<FinStmtDetail.Invisible>false</FinStmtDetail.Invisible>
+    						<FinStmtDetail.TypicalBalance>Debit</FinStmtDetail.TypicalBalance>
+    						<FinStmtDetail.SubTotalLevel>1</FinStmtDetail.SubTotalLevel>
+    						<FinStmtDetail.DataColumn>2</FinStmtDetail.DataColumn>
+    						<FinStmtDetail.SpecialFormat>Underline</FinStmtDetail.SpecialFormat>
+    						<FinStmtDetail.Amount>100.00</FinStmtDetail.Amount>
+						</FinStmtDetail>
+						<FinStmtDetail id="4" >
+    						<FinStmtDetail.AccountID>5010-100</FinStmtDetail.AccountID>
+    						<FinStmtDetail.AccountDesc>Expense</FinStmtDetail.AccountDesc>
+    						<FinStmtDetail.Indent>1</FinStmtDetail.Indent>
+    						<FinStmtDetail.Invisible>false</FinStmtDetail.Invisible>
+    						<FinStmtDetail.TypicalBalance>Debit</FinStmtDetail.TypicalBalance>
+    						<FinStmtDetail.SubTotalLevel>1</FinStmtDetail.SubTotalLevel>
+    						<FinStmtDetail.DataColumn>2</FinStmtDetail.DataColumn>
+    						<FinStmtDetail.SpecialFormat>Underline</FinStmtDetail.SpecialFormat>
+    						<FinStmtDetail.Amount>100.00</FinStmtDetail.Amount>
+						</FinStmtDetail>
+					</file>
+				</detail>
+			</FinStmt>
+			<FinStmt id="1" >
+    			<FinStmt.StatementDesc>Balance Sheet</FinStmt.StatementDesc>
+	    		<FinStmt.StatementType>Balance sheet</FinStmt.StatementType>
+	    		<FinStmt.StatementFormat>Comparasion</FinStmt.StatementFormat>
+	    		<FinStmt.StatementNumber>Fractions</FinStmt.StatementNumber>
+				<detail>
+					<file>
+						<FinStmtDetail id="1" >
+    						<FinStmtDetail.AccountID>1010-100</FinStmtDetail.AccountID>
+    						<FinStmtDetail.AccountDesc>Income</FinStmtDetail.AccountDesc>
+    						<FinStmtDetail.Indent>1</FinStmtDetail.Indent>
+    						<FinStmtDetail.Invisible>false</FinStmtDetail.Invisible>
+    						<FinStmtDetail.TypicalBalance>Debit</FinStmtDetail.TypicalBalance>
+    						<FinStmtDetail.SubTotalLevel>1</FinStmtDetail.SubTotalLevel>
+    						<FinStmtDetail.DataColumn>2</FinStmtDetail.DataColumn>
+    						<FinStmtDetail.SpecialFormat>Underline</FinStmtDetail.SpecialFormat>
+    						<FinStmtDetail.Amount>100.00</FinStmtDetail.Amount>
+						</FinStmtDetail>
+						<FinStmtDetail id="2" >
+    						<FinStmtDetail.AccountID>1010-100</FinStmtDetail.AccountID>
+    						<FinStmtDetail.AccountDesc>Income</FinStmtDetail.AccountDesc>
+    						<FinStmtDetail.Indent>1</FinStmtDetail.Indent>
+    						<FinStmtDetail.Invisible>false</FinStmtDetail.Invisible>
+    						<FinStmtDetail.TypicalBalance>Debit</FinStmtDetail.TypicalBalance>
+    						<FinStmtDetail.SubTotalLevel>1</FinStmtDetail.SubTotalLevel>
+    						<FinStmtDetail.DataColumn>2</FinStmtDetail.DataColumn>
+    						<FinStmtDetail.SpecialFormat>Underline</FinStmtDetail.SpecialFormat>
+    						<FinStmtDetail.Amount>100.00</FinStmtDetail.Amount>
+						</FinStmtDetail>
+					</file>
+				</detail>
+			</FinStmt>
+		</file>
+	</detail>
+	<trailer>
+<file>
+<FinStmt>
+    <ReportCount>2</ReportCount>
+</FinStmt>
+</file>
+</trailer>
+</data>
+</content-area>
+</full-screen>

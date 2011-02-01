@@ -1,0 +1,520 @@
+/****************************************************************
+	Module: PR_PRT_CHECKS
+	Top Level Logic: PRINT_CHECKS
+	Date: 18-Feb-92
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	PR_PRT_CHECKS
+	Print the paychecks
+****************************************************************/
+
+%replace PR_PRT_CHECKS_1 by 906;
+%replace PR_PRT_CHECKS_2 by 290;
+%replace PR_PRT_CHECKS_3 by 905;
+PR_PRT_CHECKS:
+   procedure(
+      PR_PAYROLL_RECORD,
+      PR_TIME_TRX_RECORD,
+      DED_EARN_RECORD,
+      EMP_CONTROL_RECORD,
+      TAX_RATES_RECORD,
+      EMPLOYEE_RECORD);
+%replace PR_TIME_TRX_NO by   7;
+%replace DED_EARN_NO by   5;
+%replace EMP_CONTROL_NO by   1;
+%replace TAX_RATES_NO by   2;
+%replace EMPLOYEE_NO by   6;
+%include "PR_PRT_CHECKS.DD";
+%include "PR_PAYROLL.DD";
+%include "PR_TIME_TRX.DD";
+%include "DED_EARN.DD";
+%include "EMP_CONTROL.DD";
+%include "TAX_RATES.DD";
+%include "EMPLOYEE.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_READ_THROUGH_CKS bit (1);
+declare		DED_NO               fixed binary (15);
+declare		EARN_NO              fixed binary (15);
+declare		END_SETUP_EARNINGS   bit (1);
+declare		END_SETUP_TAXES      bit (1);
+declare		DE_FREQ_CODES        character (        7);
+
+   /* SET_REPORT_SCRN - Setup the report format */
+
+   call SETUP_PRINT_FORMAT (PR_PRT_CHECKS_2);
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (PR_PRT_CHECKS_RECORD) );
+
+   /* SET_DATE - Set the date for output */
+
+   PR_END_DTE = PR_END_DATE;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   PAY_ENDING = PR_END_DATE;
+   TIME_EMP_NO = 0;
+   PAY_SEQ = 0;
+   call SET_POSITION (PR_TIME_TRX_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* GET_CTL_DESC - Get the descriptions from control file */
+
+   CTRL_REC_NO = 3;
+   call READ_KEYED (EMP_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      stop;
+
+   END_READ_THROUGH_CKS = NO;
+   do while (END_READ_THROUGH_CKS ^= YES);
+      call READ_THROUGH_CKS;
+   end;
+return;
+
+/****************************************************************
+	READ_THROUGH_CKS
+	Read through the timecards & print cks
+****************************************************************/
+
+READ_THROUGH_CKS:
+	procedure;
+
+declare		LOOP_INDEX           fixed binary (15);
+declare		LOOP                 fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (PR_TIME_TRX_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (PR_TIME_TRX_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (PAY_ENDING > PR_END_DATE) then
+      do;
+      END_READ_THROUGH_CKS = YES;
+      return;
+      end;
+
+   /* GET_EMP_INFO - Get the employee info */
+
+   EMP_NO = TIME_EMP_NO;
+   call READ_KEYED (EMPLOYEE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+   	EMP_NAME = "** Employee not on file **";
+
+
+   /* PRT_CHECK - Print a paycheck and stub */
+
+
+      /* PRT_CHECK_HDG - Print the check heading */
+
+      call SETUP_PAY_DESC;
+      do LOOP_INDEX =   1 to   9;
+         call PRINT_LINE_OUT(LOOP_INDEX);
+      end;
+
+      /* INIT_SETUPS - Initialize the setup counts */
+
+      EARN_NO = 1;
+      DED_NO = 1;
+
+
+      /* PRT_CHECK_DETAIL - Print the detail information on check */
+
+      do LOOP = 1 to 9;
+         END_SETUP_EARNINGS = NO;
+         do while (END_SETUP_EARNINGS ^= YES);
+            call SETUP_EARNINGS;
+         end;
+         END_SETUP_TAXES = NO;
+         do while (END_SETUP_TAXES ^= YES);
+            call SETUP_TAXES;
+         end;
+
+         /* PRINT_DET - Print the detail line */
+
+         do LOOP_INDEX =  10 to  10;
+            call PRINT_LINE_OUT(LOOP_INDEX);
+         end;
+      end;
+
+
+      /* PRINT_CHECK_TLR - Print the check trailer information */
+
+
+      /* SETUP_DETAIL_STUFF - Set up the stuff in the detail line */
+
+      PAY_GROSS = GROSS_PAY + NON_TAX_PAY;
+      PAY_DED = OTHER_DED;
+      PAY_TAXES = FED_TAXES + STATE_TAXES + LOCAL_TAXES +
+         FICA_TAXES + SDI_TAXES;
+
+      do LOOP_INDEX =  11 to  11;
+         call PRINT_LINE_OUT(LOOP_INDEX);
+      end;
+
+   /* FORM_FEED - Print a form feed to the printer */
+
+   call PRINT_LINE ("<FF>"c);
+
+return;
+end;	/* READ_THROUGH_CKS     */
+
+/****************************************************************
+	SETUP_PAY_DESC
+	Set up the pay description for the check
+****************************************************************/
+
+SETUP_PAY_DESC:
+	procedure;
+
+declare		STRING		character(60)varying;
+declare		CENTS		character(9);
+declare		NUMBERS		character (45);
+declare		TEENS		character (90);
+declare		TEN		character (56);
+declare		THOUSANDS	fixed binary;
+declare		SETUP		fixed binary;
+declare		(ONES,TENS,HUNDREDS)	fixed binary;
+declare		AMOUNT		fixed binary;
+declare		REST		fixed binary;
+
+NUMBERS = "One  Two  ThreeFour Five Six  SevenEightNine ";
+TEENS = "Ten      Eleven   Twelve   Thirteen Fourteen Fifteen  Sixteen  SeventeenEighteen Nineteen ";
+TEN = "Twenty Thirty Forty  Fifty  Sixty  SeventyEighty Ninety ";
+THOUSANDS = (NET_PAY + 0.005) / 1000;
+REST = NET_PAY - THOUSANDS * 1000 + 0.005;
+
+STRING = "";
+if trunc(NET_PAY) = 0 then
+   STRING = "Zero ";
+else
+   do SETUP = 1 to 2;
+      IF SETUP = 1 then
+         AMOUNT = THOUSANDS;
+      else
+         AMOUNT = REST;
+
+      HUNDREDS = divide(AMOUNT,100,15);
+      TENS = divide((AMOUNT - HUNDREDS * 100),10,15);
+      ONES = AMOUNT - HUNDREDS * 100 - TENS * 10;
+      if HUNDREDS ^= 0 then
+      	STRING= STRING !! CUT_SPACES(substr(NUMBERS,HUNDREDS * 5 - 4,5))
+      			!! " Hundred ";
+      if TENS * 10 + ONES > 19 then
+      	STRING = STRING !! CUT_SPACES(substr(TEN,TENS*7-13,7)) !! " ";
+      else
+      	do;
+      	if TENS = 1 then
+      		do;
+      		STRING = STRING !! CUT_SPACES(substr(TEENS,ONES*9+1,9)) !! " ";
+      		ONES = 0;
+      		end;
+      	end;
+      if ONES ^= 0 then
+         STRING =STRING !! CUT_SPACES(substr(NUMBERS,ONES*5-4,5)) !! " ";
+      if SETUP = 1 then if AMOUNT ^= 0 then
+         STRING = STRING !! "Thousand ";
+
+   end; /* do loop */
+
+declare STR_FP float binary(53);
+declare STR_NUM character(20);
+if (length(STRING) > 54) ! (NET_PAY > 1000000) then
+   do;
+   STR_FP = floor(NET_PAY + 0.5);
+   call CONV_FP(STR_FP,STR_NUM);
+   do SETUP = 1 to 20;
+      if substr(STR_NUM,1,1) = " " then
+         STR_NUM = substr(STR_NUM,2,19);
+   end;
+   STRING = CUT_SPACES(STR_NUM);
+   STRING = substr(STRING,1,length(STRING)-3) !! " ";
+   end;
+
+CENTS = fixed((NET_PAY - trunc(NET_PAY + 0.001) + 0.005) * 100,15);
+if substr(CENTS,8,1) = " " then
+   substr(CENTS,8,1) = "0";
+
+AMOUNT = divide(55-length(STRING),2,15); /*Starting byte to center*/
+PR_TEXT_AMT = "";
+substr(PR_TEXT_AMT,AMOUNT,86-AMOUNT) =
+"*****" !! STRING !! "Dollars and" !! substr(CENTS,7,3) !! " Cents*****";
+
+return;
+end;	/* SETUP_PAY_DESC       */
+
+/****************************************************************
+	SETUP_EARNINGS
+	Set up the earnings display
+****************************************************************/
+
+SETUP_EARNINGS:
+	procedure;
+
+PAY_EARNINGS = 0;
+DE_FREQ_CODES = "ENISVzz";
+ERROR_CODE = 0;
+
+do case (EARN_NO);
+   do;	/* Regular pay */
+   PAY_HOURS = REGULAR_HRS;
+   PAY_DESC = REG_PAY_DESC;
+   PAY_EARNINGS = REGULAR_PAY;
+   PAY_YTD = YTD_REGULAR + REGULAR_PAY;
+   end;
+   do;	/* Overtime pay */
+   PAY_HOURS = OVERTIME_HRS;
+   PAY_DESC = OT_PAY_DESC;
+   PAY_EARNINGS = OVERTIME_PAY;
+   PAY_YTD = YTD_OT + OVERTIME_PAY;
+   end;
+   do;	/* Special 1 pay */
+   PAY_HOURS = SP1_HOURS;
+   PAY_DESC = SP1_DESC;
+   PAY_EARNINGS = SPECIAL_1_PAY;
+   PAY_YTD = YTD_SP_1 + SPECIAL_1_PAY;
+   end;
+   do;	/* Special 2 pay */
+   PAY_HOURS = SP2_HOURS;
+   PAY_DESC = SP2_DESC;
+   PAY_EARNINGS = SPECIAL_2_PAY;
+   PAY_YTD = YTD_SP_2 + SPECIAL_2_PAY;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_HOURS = TIME_HRS_1;
+   PAY_EARNINGS = TIME_AMT_1;
+   DE_CODE = TIME_DE_1;
+   call GET_DE_CODE;
+   PAY_DESC = DE_SHORT;
+   PAY_YTD = 0;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_HOURS = TIME_HRS_2;
+   PAY_EARNINGS = TIME_AMT_2;
+   DE_CODE = TIME_DE_2;
+   call GET_DE_CODE;
+   PAY_DESC = DE_SHORT;
+   PAY_YTD = 0;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_HOURS = TIME_HRS_3;
+   PAY_EARNINGS = TIME_AMT_3;
+   DE_CODE = TIME_DE_3;
+   call GET_DE_CODE;
+   PAY_DESC = DE_SHORT;
+   PAY_YTD = 0;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_HOURS = TIME_HRS_4;
+   PAY_EARNINGS = TIME_AMT_4;
+   DE_CODE = TIME_DE_4;
+   call GET_DE_CODE;
+   PAY_DESC = DE_SHORT;
+   PAY_YTD = 0;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_HOURS = 0;
+   DE_CODE = DE_1;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_1) ^= 0 then
+      PAY_EARNINGS = AMT_1;
+   PAY_DESC = DE_SHORT;
+   PAY_YTD = AMT_1 + YTD_1;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_HOURS = 0;
+   DE_CODE = DE_2;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_2) ^= 0 then
+      PAY_EARNINGS = AMT_2;
+   PAY_DESC = DE_SHORT;
+   PAY_YTD = AMT_2 + YTD_2;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_HOURS = 0;
+   DE_CODE = DE_3;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_3) ^= 0 then
+      PAY_EARNINGS = AMT_3;
+   PAY_DESC = DE_SHORT;
+   PAY_YTD = AMT_3 + YTD_3;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_HOURS = 0;
+   DE_CODE = DE_4;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_4) ^= 0 then
+      PAY_EARNINGS = AMT_4;
+   PAY_DESC = DE_SHORT;
+   PAY_YTD = AMT_4 + YTD_4;
+   end;
+end;
+otherwise
+   do;	/* Ded/Earnings */
+   PAY_HOURS = 0;
+   PAY_DESC = "";
+   PAY_EARNINGS = 0;
+   PAY_YTD = 0;
+   END_SETUP_EARNINGS = YES;
+   end;
+
+if ERROR_CODE = 1 then
+   PAY_EARNINGS = 0;
+
+if (EARN_NO = 2) & (PAY_YTD ^= 0) then
+   END_SETUP_EARNINGS = YES;
+
+EARN_NO = EARN_NO + 1;
+if PAY_EARNINGS ^= 0 then
+   END_SETUP_EARNINGS = YES;
+
+return;
+end;	/* SETUP_EARNINGS       */
+
+/****************************************************************
+	GET_DE_CODE
+	Get the Deduction/Earnings code
+****************************************************************/
+
+GET_DE_CODE:
+	procedure;
+
+call READ_KEYED (DED_EARN_NO,KEY_AREA_1,ERROR_CODE);
+if index(DE_FREQ_CODES,DE_TYPE) = 0 then
+   ERROR_CODE = 1;
+
+return;
+end;	/* GET_DE_CODE          */
+
+/****************************************************************
+	SETUP_TAXES
+	Set up the next tax/deduction display
+****************************************************************/
+
+SETUP_TAXES:
+	procedure;
+
+PAY_DED_EARN = 0;
+DE_FREQ_CODES = "DTRzzzz";
+ERROR_CODE = 0;
+
+do case (DED_NO);
+   do;	/* Federal taxes */
+   PAY_DESC_2 = FED_TAX_DESC;
+   PAY_DED_EARN = FED_TAXES;
+   PAY_DE_YTD = YTD_FED_WH + FED_TAXES;
+   end;
+   do;	/* State taxes */
+   PAY_DESC_2 = STATE_TAX_DESC;
+   PAY_DED_EARN = STATE_TAXES;
+   PAY_DE_YTD = YTD_STATE_WH + STATE_TAXES;
+   end;
+   do;	/* Local taxes */
+   PAY_DESC_2 = LOCAL_TAX_DESC;
+   PAY_DED_EARN = LOCAL_TAXES;
+   PAY_DE_YTD = YTD_LOCAL_WH + LOCAL_TAXES;
+   end;
+   do;	/* FICA */
+   PAY_DESC_2 = FICA_TAX_DESC;
+   PAY_DED_EARN = FICA_TAXES;
+   PAY_DE_YTD = YTD_EMP_FICA + FICA_TAXES;
+   end;
+   do;	/* SDI */
+   PAY_DESC_2 = SDI_TAX_DESC;
+   PAY_DED_EARN = SDI_TAXES;
+   PAY_DE_YTD = YTD_SDI_WH + SDI_TAXES;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_DED_EARN = TIME_AMT_1;
+   DE_CODE = TIME_DE_1;
+   call GET_DE_CODE;
+   PAY_DESC_2 = DE_SHORT;
+   PAY_DE_YTD = 0;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_DED_EARN = TIME_AMT_2;
+   DE_CODE = TIME_DE_2;
+   call GET_DE_CODE;
+   PAY_DESC_2 = DE_SHORT;
+   PAY_DE_YTD = 0;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_DED_EARN = TIME_AMT_3;
+   DE_CODE = TIME_DE_3;
+   call GET_DE_CODE;
+   PAY_DESC_2 = DE_SHORT;
+   PAY_DE_YTD = 0;
+   end;
+   do;	/* Ded/Earnings */
+   PAY_DED_EARN = TIME_AMT_4;
+   DE_CODE = TIME_DE_4;
+   call GET_DE_CODE;
+   PAY_DESC_2 = DE_SHORT;
+   PAY_DE_YTD = 0;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_1;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_1) ^= 0 then
+      PAY_DED_EARN = AMT_1;
+   PAY_DESC_2 = DE_SHORT;
+   PAY_DE_YTD = AMT_1 + YTD_1;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_2;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_2) ^= 0 then
+      PAY_DED_EARN = AMT_2;
+   PAY_DESC_2 = DE_SHORT;
+   PAY_DE_YTD = AMT_2 + YTD_2;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_3;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_3) ^= 0 then
+      PAY_DED_EARN = AMT_3;
+   PAY_DESC_2 = DE_SHORT;
+   PAY_DE_YTD = AMT_3 + YTD_3;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_4;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_4) ^= 0 then
+      PAY_DED_EARN = AMT_4;
+   PAY_DESC_2 = DE_SHORT;
+   PAY_DE_YTD = AMT_4 + YTD_4;
+   end;
+end;
+otherwise
+   do;
+   PAY_DESC_2 = "";
+   PAY_DED_EARN = 0;
+   PAY_DE_YTD = 0;
+   END_SETUP_TAXES = YES;
+   end;
+
+if ERROR_CODE = 1 then
+   PAY_DED_EARN = 0;
+
+if PAY_DED_EARN > 0.00 then if PAY_DED_EARN < 1.00 then
+if DED_NO > 5 then
+   PAY_DED_EARN = floor(GROSS_PAY * PAY_DED_EARN * 100 + 0.5) / 100;
+
+DED_NO = DED_NO + 1;
+if PAY_DED_EARN ^= 0 then
+   END_SETUP_TAXES = YES;
+
+return;
+end;	/* SETUP_TAXES          */
+end;	/* SETUP_TAXES          */
+/*********************************End of Program*********************/

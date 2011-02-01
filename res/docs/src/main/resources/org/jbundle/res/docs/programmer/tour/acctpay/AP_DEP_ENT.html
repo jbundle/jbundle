@@ -1,0 +1,85 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>A Departure estimate is an estimate of the amount due to a vendor (hotel or land operator) on the
+departure date of a tour. The departure date is the date that income is recognized for a tour, so this
+estimate is reflected in the financial statements as the cost of this tour.
+
+<br wp="br1"><br wp="br2">
+<p>Of course, the actual cost can change by the time it is paid, but these changes are usually not material,
+so they are recoginzed at the time the are realized.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>When you enter this program, you have two choices. You can enter the entry number and have the
+finalization estimate come up, or you can enter the tour number and have all the departure and
+finalization estimates display. To enter a new departure estimate (no finalization estimate exists), enter
+a zero under the entry number and a new departure estimate will be created.
+
+<br wp="br1"><br wp="br2">
+<p>The departure estimate amount defaults to the amount entered in the finalization estimate. Then the
+system automatically displays the current exchange rate and the equivalent U.S. Dollar amount. You
+can change any of the values at the Any Change? prompt.
+
+<br wp="br1"><br wp="br2">
+<p>To delete a departure estimate, type DEL at the CHANGE ITEM prompt. a departure estimate can't
+be deleted if it has been posted to the General Ledger.
+
+<br wp="br1"><br wp="br2">
+<p>After entering the departure estimate, the cursor returns to the "Entry number" field.
+
+<br wp="br1"><br wp="br2">
+<p>To return to the A/P menu, hit return twice.
+
+<br wp="br1"><br wp="br2">
+<p>	Note: The departure estimate can be changed at any time, until the invoice amountis entered. The estimate
+amount on the day the departure update is done is the amount posted as an estimate to the G/L
+program. This is also the amount that is used to calculate the over/under from estimate.
+
+<br wp="br1"><br wp="br2">
+<p>This program will hardly be used. The departure estimates will automatically be sent to the A/P system
+from the booking system on the night of departure.
+
+<br wp="br1"><br wp="br2">
+<p>	Note: The departure estimate doesn't have to be entered on the departure date. The system will automatically
+post the entry to the G/L depending on the departure date, not the entry date.
+
+<br wp="br1"><br wp="br2">
+<p>A disadvantage of entering departure estimates too early is that if a change in service occurs after
+entering a departure estimate, the new vouchers will NOT be created. They must be manually done,
+then the new departure estimate should be entered in A/P.
+
+<br wp="br1"><br wp="br2">
+<p>The disadvantage of entering departure estimates too late is the estimate amount has to be in before
+the A/P G/L distribution is done. If it isn't in on time, it will be adjusted in a subsequent G/L posting,
+giving you untimely financial data.
+
+<br wp="br1"><br wp="br2">
+<p>The G/L entry is posted to the G/L distribution file. For example:
+
+<br wp="br1"><br wp="br2">
+<p>5/12/86  Cost of Tours - Group Series  925.00
+
+<p>             Accounts Payable - Tours - Estimate  925.00
+
+<p>                (Departure date estimate)
+
+<br wp="br1"><br wp="br2">
+<p>	Remember: Manually entered departure estimates will override the computer generated estimates. This means
+that if you enter a departure estimate, the computer generated estimates will NOT be generated)
+</body>
+</html>

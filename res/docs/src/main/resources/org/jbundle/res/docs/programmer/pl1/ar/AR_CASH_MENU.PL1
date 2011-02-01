@@ -1,0 +1,704 @@
+/****************************************************************
+	Module: AR_CASH_MENU
+	Top Level Logic: ENTER_AND_MENU
+	Date: 23-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_CASH_MENU
+	Enter/Display file and dispatch via menu
+****************************************************************/
+
+%replace AR_CASH_MENU_1 by 505;
+%replace AR_CASH_MENU_2 by 506;
+AR_CASH_MENU:
+   procedure;
+%replace AR_CASH_BATCH_NO by  96;
+%replace AD_ACCT_NO by  24;
+%replace AR_CASH_REC_NO by  42;
+%replace AR_CONTROL_NO by  41;
+%include "AR_CASH_BATCH.DD";
+%include "AD_ACCT.DD";
+%include "AR_CASH_MENU.DD";
+%include "AR_CASH_REC.DD";
+%include "AR_CONTROL.DD";
+
+declare		END_ENTER_MENU_MAIN  bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_SELECT_AND_GO    bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		ERROR_AR_CONTROL     fixed binary (15);
+declare		END_DEL_CASH_DET     bit (1);
+   call INITIALIZE;
+   END_ENTER_MENU_MAIN = NO;
+   do while (END_ENTER_MENU_MAIN ^= YES);
+      call ENTER_MENU_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   BATCH_USER = USER_NAME();
+   BATCH_DATE = TODAYS_DATE();
+   BATCH_CHECKS = 0;
+   BATCH_CHECKS_ACT = 0;
+   BATCH_TOTAL = 0;
+   BATCH_TOTAL_ACT = 0;
+   BATCH_NEXT_SEQ = 0;
+   AR_UNDIST = 0;
+   AR_CHECKS_FRA = 0;
+   AD_BALANCE = 0;
+   AD_LAST_CHECK = 0;
+   AD_LAST_SEQ = 0;
+   AR_CASH_USER = BATCH_USER;
+   AR_REC_NO = 9999;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_CASH_MENU_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AR_CASH_BATCH_NO,"AR_CASH_BATCH",byteaddr(AR_CASH_BATCH_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_CASH_BATCH_NO,ERROR_CODE);
+   call OPEN_FILE (AD_ACCT_NO,"AD_ACCT",byteaddr(AD_ACCT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_ACCT_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (AR_CASH_MENU_RECORD) );
+   call OPEN_FILE (AR_CASH_REC_NO,"AR_CASH_REC",byteaddr(AR_CASH_REC_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_CASH_REC_NO,ERROR_CODE);
+   call OPEN_FILE (AR_CONTROL_NO,"AR_CONTROL",byteaddr(AR_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	ENTER_MENU_MAIN
+	Enter/Display file and dispatch
+****************************************************************/
+
+ENTER_MENU_MAIN:
+	procedure;
+
+declare		ERROR_AR_CASH_BATCH  fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AR_CASH_MENU_1);
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   BATCH_USER = USER_NAME();
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_ENTER_MENU_MAIN = YES;
+      return;
+      end;
+   FIRST_ITEM = 2;
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (AR_CASH_BATCH_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_AR_CASH_BATCH);
+   if ERROR_AR_CASH_BATCH = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      return;
+      end;
+   if ERROR_AR_CASH_BATCH > 3 then
+      call PRINT_ERROR (AR_CASH_BATCH_NO,ERROR_AR_CASH_BATCH);
+
+   /* RECORD_FOUND_AB - Record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_AR_CASH_BATCH = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA_AB;
+      end;
+   else
+      do;
+      call ENTER_DATA_AB;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ENTER_MENU_MAIN = YES;
+      return;
+      end;
+
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_AR_CASH_BATCH = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (AR_CASH_BATCH_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (AR_CASH_BATCH_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (AR_CASH_BATCH_NO,ERROR_CODE);
+         end;
+      end;
+
+   /* RETURN_IF_DEL - Return if the batch header was deleted */
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+
+      /* TRY_AGAIN - Return from this routine and try again */
+
+      END_ENTER_MENU_MAIN = YES;
+      return;
+      end;
+   else
+      do;
+
+      /* NO_CODE - This section has no code */
+
+      /* No code in this section */
+      end;
+   END_SELECT_AND_GO = NO;
+   do while (END_SELECT_AND_GO ^= YES);
+      call SELECT_AND_GO;
+   end;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* RETURN_IF_AR_POST - Return if the header has been deleted */
+
+   if BATCH_DATE = -1 then
+      do;
+      END_ENTER_MENU_MAIN = YES;
+      return;
+      end;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AR_CASH_BATCH_NO,ERROR_CODE);
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_ENTER_MENU_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* ENTER_MENU_MAIN      */
+
+/****************************************************************
+	DISPLAY_DATA_AB
+	Display data
+****************************************************************/
+
+DISPLAY_DATA_AB:
+	procedure;
+
+do LOOP_INDEX =   2 to   2;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      AD_ACCOUNT_NO = BATCH_CASH;
+      call READ_KEYED (AD_ACCT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         AD_AC_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =   3 to   4;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   5 to   9;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* GET_AR_CONTROL - Get the A/R control record */
+
+
+         /* SET_AR_CONTROL - Set up the key */
+
+         AR_REC_NO = 0;
+         KEY_NO = 1;
+
+         /* READ_AR_CONTROL - Read the record */
+
+         call READ_KEYED (AR_CONTROL_NO,KEY_NO,ERROR_AR_CONTROL);
+         if ERROR_AR_CONTROL > 3 then
+            call PRINT_ERROR (AR_CONTROL_NO,ERROR_AR_CONTROL);
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_AB      */
+
+/****************************************************************
+	ENTER_DATA_AB
+	Input screen data
+****************************************************************/
+
+ENTER_DATA_AB:
+	procedure;
+
+do LOOP_INDEX =   2 to   2;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* GET_AC_DEF - Get the account number default */
+
+
+      /* GET_AR_CONTROL - Get the A/R control record */
+
+
+         /* SET_AR_CONTROL - Set up the key */
+
+         AR_REC_NO = 0;
+         KEY_NO = 1;
+
+         /* READ_AR_CONTROL - Read the record */
+
+         call READ_KEYED (AR_CONTROL_NO,KEY_NO,ERROR_AR_CONTROL);
+         if ERROR_AR_CONTROL > 3 then
+            call PRINT_ERROR (AR_CONTROL_NO,ERROR_AR_CONTROL);
+      BATCH_CASH = AR_DEF_AC;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      AD_ACCOUNT_NO = BATCH_CASH;
+      call READ_KEYED (AD_ACCT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   3 to   4;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   5 to   5;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* GET_AR_CONTROL - Get the A/R control record */
+
+
+         /* SET_AR_CONTROL - Set up the key */
+
+         AR_REC_NO = 0;
+         KEY_NO = 1;
+
+         /* READ_AR_CONTROL - Read the record */
+
+         call READ_KEYED (AR_CONTROL_NO,KEY_NO,ERROR_AR_CONTROL);
+         if ERROR_AR_CONTROL > 3 then
+            call PRINT_ERROR (AR_CONTROL_NO,ERROR_AR_CONTROL);
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   6 to   8;
+   if LOOP_INDEX =   7 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   9 to   9;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_AB        */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  4,SELECT,RETURN_CODE);
+
+/* CHECK_AR_DEL - Delete the A/R detail? */
+
+if RETURN_CODE = DELETE_TYPED then
+   do;
+   END_DEL_CASH_DET = NO;
+   do while (END_DEL_CASH_DET ^= YES);
+      call DEL_CASH_DET;
+   end;
+   end;
+
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  4 then
+   do;
+   if SELECT =  1 then
+      LOOP_INDEX =  2;
+   if SELECT >=  2 then if SELECT <=  3 then
+      LOOP_INDEX = SELECT +   3;
+   if SELECT =  4 then
+      LOOP_INDEX =  8;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* GET_AC_DEF - Get the account number default */
+
+
+      /* GET_AR_CONTROL - Get the A/R control record */
+
+
+         /* SET_AR_CONTROL - Set up the key */
+
+         AR_REC_NO = 0;
+         KEY_NO = 1;
+
+         /* READ_AR_CONTROL - Read the record */
+
+         call READ_KEYED (AR_CONTROL_NO,KEY_NO,ERROR_AR_CONTROL);
+         if ERROR_AR_CONTROL > 3 then
+            call PRINT_ERROR (AR_CONTROL_NO,ERROR_AR_CONTROL);
+      BATCH_CASH = AR_DEF_AC;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      AD_ACCOUNT_NO = BATCH_CASH;
+      call READ_KEYED (AD_ACCT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   3 to   4;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	DEL_CASH_DET
+	Delete the cash receipts detail
+****************************************************************/
+
+DEL_CASH_DET:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AR_CASH_USER = BATCH_USER;
+   AR_CASH_BK_SEQ = 0;
+   call SET_POSITION (AR_CASH_REC_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT - Read the next record */
+
+   call READ_NEXT (AR_CASH_REC_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_CASH_REC_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_CASH_USER > BATCH_USER) then
+      do;
+      END_DEL_CASH_DET = YES;
+      return;
+      end;
+
+   /* DELETE_RECORD_2 - Delete the record */
+
+   call DELETE_RECORD (AR_CASH_REC_NO,ERROR_CODE);
+return;
+end;	/* DEL_CASH_DET         */
+
+/****************************************************************
+	SELECT_AND_GO
+	Select option, dispatch, and redisplay
+****************************************************************/
+
+SELECT_AND_GO:
+	procedure;
+
+
+   /* INPUT_OPTION - Input the option on the screen */
+
+   call INPUT_FIELD ( 10,INPUT_LENGTH,RETURN_CODE);
+   if (AR_BATCH_SELECT = 0) !
+        (RETURN_CODE ^= NORMAL_RETURN) then
+      do;
+      END_SELECT_AND_GO = YES;
+      return;
+      end;
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   %include "AR_CASH_ENT.DCL";
+   %include "AR_CASH_REV.DCL";
+   %include "AR_CASH_DEPOSIT.DCL";
+   %include "AR_CASH_CONF.DCL";
+   %include "AR_CASH_POST.DCL";
+   %include "AR_CASH_RECOUNT.DCL";
+   do case (AR_BATCH_SELECT);
+         /* Option   1 */
+      call AR_CASH_ENT(
+         AR_CASH_BATCH_RECORD,
+         AR_CASH_REC_RECORD,
+         AR_CONTROL_RECORD);
+         /* Option   2 */
+      call AR_CASH_REV(
+         AR_CASH_BATCH_RECORD,
+         AR_CASH_REC_RECORD,
+         AD_ACCT_RECORD);
+         /* Option   3 */
+      call AR_CASH_DEPOSIT(
+         AR_CASH_BATCH_RECORD,
+         AR_CASH_REC_RECORD);
+         /* Option   4 */
+      call AR_CASH_CONF(
+         AR_CASH_BATCH_RECORD,
+         AR_CASH_REC_RECORD);
+         /* Option   5 */
+      call AR_CASH_POST(
+         AR_CASH_BATCH_RECORD,
+         AR_CASH_REC_RECORD,
+         AD_ACCT_RECORD,
+         AR_CONTROL_RECORD);
+         /* Option   6 */
+      call AR_CASH_RECOUNT(
+         AR_CASH_REC_RECORD,
+         AR_CASH_BATCH_RECORD);
+   end;
+   otherwise
+      do;
+      end;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* RETURN_IF_AR_POST - Return if the header has been deleted */
+
+   if BATCH_DATE = -1 then
+      do;
+      END_SELECT_AND_GO = YES;
+      return;
+      end;
+
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_CASH_MENU_1);
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (AR_CASH_MENU_RECORD) );
+   call DISPLAY_DATA_AZ;
+return;
+end;	/* SELECT_AND_GO        */
+
+/****************************************************************
+	DISPLAY_DATA_AZ
+	Display all data A*
+****************************************************************/
+
+DISPLAY_DATA_AZ:
+	procedure;
+
+do LOOP_INDEX =   1 to   2;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      AD_ACCOUNT_NO = BATCH_CASH;
+      call READ_KEYED (AD_ACCT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         AD_AC_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =   3 to   4;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   5 to   9;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* GET_AR_CONTROL - Get the A/R control record */
+
+
+         /* SET_AR_CONTROL - Set up the key */
+
+         AR_REC_NO = 0;
+         KEY_NO = 1;
+
+         /* READ_AR_CONTROL - Read the record */
+
+         call READ_KEYED (AR_CONTROL_NO,KEY_NO,ERROR_AR_CONTROL);
+         if ERROR_AR_CONTROL > 3 then
+            call PRINT_ERROR (AR_CONTROL_NO,ERROR_AR_CONTROL);
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_AZ      */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AR_CASH_BATCH_NO);
+   call CLOSE_FILE (AD_ACCT_NO);
+   call CLOSE_FILE (AR_CASH_REC_NO);
+   call CLOSE_FILE (AR_CONTROL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

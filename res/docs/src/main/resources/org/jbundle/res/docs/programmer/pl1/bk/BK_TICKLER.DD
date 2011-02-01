@@ -1,0 +1,12 @@
+/*********************************************************************
+	BK_TICKLER File
+********************************************************************/
+
+declare	1 BK_TICKLER_RECORD,
+		3 TIC_BK_NO            fixed binary (31),
+		3 TIC_ACK              fixed binary (15),
+		3 TIC_SEQ              fixed binary (15),
+		3 TIC_DESC             character (       30),
+		3 TIC_COMPLETED        fixed binary (15),
+		3 TIC_ACK_DATE         fixed binary (15);
+

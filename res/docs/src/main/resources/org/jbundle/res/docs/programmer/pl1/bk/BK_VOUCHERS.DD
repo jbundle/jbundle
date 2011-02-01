@@ -1,0 +1,14 @@
+/*********************************************************************
+	BK_VOUCHERS File
+********************************************************************/
+
+declare	1 BK_VOUCHERS_RECORD,
+		3 PRT_H_VOUCHER        character (1),
+		3 PRT_L_VOUCHER        character (1),
+		3 H_FORMAT             character (       20),
+		3 L_FORMAT             character (       20),
+		3 UPDATE_V_STATUS      character (1),
+		3 H_FORM               character (       20),
+		3 L_FORM               character (       20),
+		3 AP_NEW_STATUS        character (        1);
+

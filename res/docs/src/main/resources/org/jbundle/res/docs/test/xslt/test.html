@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+          "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>transformToFragment</title>
+<script type="text/javascript">
+function InsertTransformTo (xmlUrl, xslUrl, elementToInsert) {
+  this.xmlUrl = xmlUrl;
+  this.xslUrl = xslUrl;
+  this.xmlLoaded = this.xslLoaded = false;
+  this.elementToInsert = elementToInsert;
+  this.load(xmlUrl, 'xml');
+  this.load(xslUrl, 'xsl');
+}
+
+InsertTransformTo.prototype.load = function (url, propertyName) {
+  var httpRequest = null;
+  if (typeof XMLHttpRequest != 'undefined') {
+    httpRequest = new XMLHttpRequest();
+  }
+  else if (typeof ActiveXObject != 'undefined') {
+    try {
+      httpRequest = new ActiveXObject('Msxml2.XMLHTTP.3.0');
+    }
+    catch (e) {}
+  }
+  if (httpRequest != null) {
+    var thisObject = this;
+    httpRequest.open('GET', url, true);
+    httpRequest.onreadystatechange = function () {
+      if (httpRequest.readyState == 4) {
+        thisObject[propertyName + 'Loaded'] = true;
+        thisObject[propertyName] = httpRequest.responseXML;
+        if (thisObject.xmlLoaded && thisObject.xslLoaded) {
+          thisObject.transformAndInsert();
+        }
+      }
+    };
+    httpRequest.send(null);
+  }
+};
+
+InsertTransformTo.prototype.transformAndInsert = function () {
+  if (typeof XSLTProcessor != 'undefined') {
+    var xsltProcessor = new XSLTProcessor();
+    xsltProcessor.importStylesheet(this.xsl);
+    this.elementToInsert.appendChild(xsltProcessor.transformToFragment(this.xml, this.elementToInsert.ownerDocument));
+  }
+  else if (typeof this.xml.transformNode != 'undefined') {
+    this.elementToInsert.insertAdjacentHTML('beforeEnd', this.xml.transformNode(this.xsl));
+  }
+};
+
+
+window.onload = function (evt) {
+	var content = document.getElementById('content');
+	new InsertTransformTo('test.xml', 'test.xsl', content);
+};
+</script>
+</head>
+<body>
+
+<h1>XSLT example</h1>
+
+<div id="main">This is main</div>
+
+<div id="content">This is content</div>
+
+<div id="trailer">This is trailer</div>
+
+</body>
+</html>

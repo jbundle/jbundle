@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_SET_LINE File
+********************************************************************/
+
+declare	1 BK_SET_LINE_RECORD,
+		3 NEXT_PRICE_SEQ       fixed binary (15),
+		3 OLD_NET_PRICE        float binary (53);
+

@@ -1,0 +1,240 @@
+/****************************************************************
+	Module: BK_ALT_HOTEL
+	Top Level Logic: DIS_FILE_DISPLAY
+	Date: 20-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ALT_HOTEL
+	Top - Level Display using info passed in
+****************************************************************/
+
+%replace BK_ALT_HOTEL_1 by 746;
+BK_ALT_HOTEL:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_OPT_ALT_RECORD);
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_HOTEL_NO by   8;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_OPT_ALT_NO by  62;
+%include "BK_DET_HOTEL.DD";
+%include "BK_HOTEL.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_OPT_ALT.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+   call INITIALIZE;
+   call DIS_TABLE_DIS;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ALT_HOTEL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_TABLE_DIS
+	Mainline logic
+****************************************************************/
+
+DIS_TABLE_DIS:
+	procedure;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+return;
+end;	/* DIS_TABLE_DIS        */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		HDET_MOD_SAVE        fixed binary (15);
+declare		HDET_TOUR_HDR_SAVE   character (        4);
+declare		HDET_ALT_SEQ_SAVE    fixed binary (15);
+declare		HDET_ANSW_SEQ_SAVE   fixed binary (15);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		HDET_DAY_ARRAY( 7) fixed binary (15);
+declare		HDET_SEQ_ARRAY( 7) fixed binary (15);
+declare		BK_DET_HOTEL_ERROR   fixed binary (15);
+declare		HDET_DAY_SAVE        fixed binary (15);
+declare		HDET_SEQ_SAVE        fixed binary (15);
+declare		ANSWER               character (1);
+HDET_MOD = -1;
+HDET_MOD_SAVE = HDET_MOD;
+HDET_TOUR_HDR = BK_TOUR_CODE;
+HDET_TOUR_HDR_SAVE = HDET_TOUR_HDR;
+HDET_ALT_SEQ = ALT_SEQ;
+HDET_ALT_SEQ_SAVE = HDET_ALT_SEQ;
+HDET_ANSW_SEQ = ALT_ANSW_SEQ;
+HDET_ANSW_SEQ_SAVE = HDET_ANSW_SEQ;
+HDET_DAY = 0;
+HDET_SEQ = 0;
+call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > HDET_MOD_SAVE) !
+   (HDET_TOUR_HDR > HDET_TOUR_HDR_SAVE) !
+   (HDET_ALT_SEQ > HDET_ALT_SEQ_SAVE) !
+   (HDET_ANSW_SEQ > HDET_ANSW_SEQ_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to  7;
+      HDET_DAY_ARRAY(RECORD_NUMBER) = 0;
+      HDET_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_DET_HOTEL_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_DET_HOTEL_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <=  7) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+         do LOOP_INDEX =  11 to  26;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  13 then
+               do;
+
+               /* READ_SECOND_DIS - Read Second - Display line version */
+
+               HOTEL_CODE = HDET_HOTEL;
+               call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  HOTEL_NAME = "** RECORD NOT FOUND **";
+                  end;
+               else
+                  do;
+                  end;
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         HDET_DAY_ARRAY(RECORD_NUMBER) = HDET_DAY;
+         HDET_SEQ_ARRAY(RECORD_NUMBER) = HDET_SEQ;
+         call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,BK_DET_HOTEL_ERROR);
+         if (HDET_MOD > HDET_MOD_SAVE) !
+         (HDET_TOUR_HDR > HDET_TOUR_HDR_SAVE) !
+         (HDET_ALT_SEQ > HDET_ALT_SEQ_SAVE) !
+         (HDET_ANSW_SEQ > HDET_ANSW_SEQ_SAVE) then
+            BK_DET_HOTEL_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      HDET_DAY_SAVE = HDET_DAY_ARRAY( 7);
+      HDET_SEQ_SAVE = HDET_SEQ_ARRAY( 7);
+      HDET_MOD = HDET_MOD_SAVE;
+      HDET_TOUR_HDR = HDET_TOUR_HDR_SAVE;
+      HDET_ALT_SEQ = HDET_ALT_SEQ_SAVE;
+      HDET_ANSW_SEQ = HDET_ANSW_SEQ_SAVE;
+      if BK_DET_HOTEL_ERROR = END_OF_FILE then
+         do;
+         GET_OUT = YES;
+         call PRESS_RETURN;
+         end;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      do;
+      GET_OUT = YES;
+      call PRESS_RETURN;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to  7;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+      if HDET_DAY_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =11 to  26;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_HOTEL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

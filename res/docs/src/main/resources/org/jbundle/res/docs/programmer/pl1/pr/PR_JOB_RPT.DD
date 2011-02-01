@@ -1,0 +1,13 @@
+/*********************************************************************
+	PR_JOB_RPT File
+********************************************************************/
+
+declare	1 PR_JOB_RPT_RECORD,
+		3 START_JOB            fixed binary (15),
+		3 END_JOB              fixed binary (15),
+		3 JOB_DATE             fixed binary (15),
+		3 JOB_TIME             fixed binary (15),
+		3 JOB_USER             character (       16),
+		3 JOB_PAGE             fixed binary (15),
+		3 JOB_COUNT            fixed binary (15);
+

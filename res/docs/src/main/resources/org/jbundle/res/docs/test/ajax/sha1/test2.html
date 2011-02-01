@@ -1,0 +1,27 @@
+<html>
+<head>
+<script type="text/javascript" src="sha2.js"></script>
+
+<script type="text/javascript">
+
+function go()
+{
+//	alert(hex_sha1("don"));
+//	var binarray = [];
+//	binarray[0] = 1;
+//	alert(binb2b64(binarray));
+//	alert(binb2b64(str2binb("donw")));
+	var data = "donwpp";
+	data = b64_sha1(data);
+	while (data.length % 4 != 0)
+		data = data + "=";
+	alert(data);
+}
+
+</script>
+</head>
+<body>
+This is a test
+<button onClick="go();">Press me</button>
+</body>
+</html>

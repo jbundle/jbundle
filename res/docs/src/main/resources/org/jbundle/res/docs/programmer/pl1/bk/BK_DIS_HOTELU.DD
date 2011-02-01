@@ -1,0 +1,12 @@
+/*********************************************************************
+	BK_DIS_HOTELU File
+********************************************************************/
+
+declare	1 BK_DIS_HOTELU_RECORD,
+		3 DIS_HOTELU           character (        2),
+		3 DIS_RATEU            character (        1),
+		3 DIS_CLASSU           character (        2),
+		3 DIS_DATEU            fixed binary (15),
+		3 DIS_RATEU_SAVE       character (        1),
+		3 DIS_CLASSU_SAVE      character (        2);
+

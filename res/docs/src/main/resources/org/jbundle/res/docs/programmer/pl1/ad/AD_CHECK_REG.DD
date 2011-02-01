@@ -1,0 +1,14 @@
+/*********************************************************************
+	AD_CHECK_REG File
+********************************************************************/
+
+declare	1 AD_CHECK_REG_RECORD,
+		3 AD_CHECK_ACCT        fixed binary (15),
+		3 AD_TRX_START         fixed binary (15),
+		3 AD_TRX_END           fixed binary (15),
+		3 AD_DATE_TRX          fixed binary (15),
+		3 AD_TIME_TRX          fixed binary (15),
+		3 AD_USER_TRX          character (       16),
+		3 AD_TRX_PAGE          fixed binary (31),
+		3 AD_TRX_COUNT         fixed binary (31);
+

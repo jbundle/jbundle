@@ -1,0 +1,11 @@
+/*********************************************************************
+	AP_VEN_DIS_SEL File
+********************************************************************/
+
+declare	1 AP_VEN_DIS_SEL_RECORD,
+		3 TOTAL_CURR           character (        3),
+		3 CURR_TOTAL           float binary (53),
+		3 AP_SEL_AMOUNT        float binary (53),
+		3 VEN_CURR_START       character (        3),
+		3 VEN_CURR_END         character (        3);
+

@@ -1,0 +1,13 @@
+/*********************************************************************
+	BK_FIT_HOTEL File
+********************************************************************/
+
+declare	1 BK_FIT_HOTEL_RECORD,
+		3 USD_SINGLE           fixed binary (15),
+		3 USD_DOUBLE           fixed binary (15),
+		3 USD_TRIPLE           fixed binary (15),
+		3 USD_MEAL             fixed binary (15),
+		3 MARKUP_FROM_LAST     float binary (21),
+		3 USD_QUAD             fixed binary (15),
+		3 HOTEL_CAT_STRING     character (       20);
+

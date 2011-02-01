@@ -1,0 +1,939 @@
+/****************************************************************
+	Module: BK_ENT_SERIES
+	Top Level Logic: BK_SERIES_LOGIC
+	Date: 14-Nov-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ENT_SERIES
+	To level logic for group series ent
+****************************************************************/
+
+%replace BK_ENT_SERIES_1 by 238;
+BK_ENT_SERIES:
+   procedure(
+      BK_ENT_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_LINE_RECORD,
+      BK_INV_DET_RECORD,
+      BK_CONTROL_RECORD,
+      BK_PASSENGERS_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_LINE_NO by  51;
+%replace BK_INV_DET_NO by  61;
+%replace BK_CONTROL_NO by  47;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_ENT_SERIES.DD";
+%include "BK_ENT_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_LINE.DD";
+%include "BK_INV_DET.DD";
+%include "BK_CONTROL.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		END_SERIES_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		END_ENTER_HDR        bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		ANSWER               character (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+
+   /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+   if BOOKING_NO = 0 then
+      return;
+
+   call INITIALIZE;
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+   END_SERIES_MAIN = NO;
+   do while (END_SERIES_MAIN ^= YES);
+      call SERIES_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ENT_SERIES_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_ENT_SERIES_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SERIES_MAIN
+	Main line logic for group series tr ent.
+****************************************************************/
+
+SERIES_MAIN:
+	procedure;
+
+
+   /* RESET_RETURN_CODE - Set RETURN_CODE to zero */
+
+   RETURN_CODE = 0;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_ENT_SERIES_1);
+   NOT_FIRST_TIME = YES;
+
+   /* TOUR_ENTERED - Has the tour code already been entered? */
+
+   if BK_TOUR_CODE ^= "" then
+      do;
+      call DISPLAY_DATA_A;
+      end;
+   else
+      do;
+      END_ENTER_HDR = NO;
+      do while (END_ENTER_HDR ^= YES);
+         call ENTER_HDR;
+      end;
+      end;
+
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_SERIES_MAIN = YES;
+      return;
+      end;
+
+
+   /* RETURN_IF_NOT_SERIES - Return if this is not a group series tr */
+
+   if HDR_TOUR_TYPE ^= "G" then
+      do;
+      call DISPLAY_MESSAGE ("This is not a Group Series Tour!!!<BEL>"c);
+      call PRESS_RETURN;
+      do;
+      END_SERIES_MAIN = YES;
+      return;
+      end;
+      end;
+
+   call DISPLAY_DATA_B;
+
+   /* DATE_ENTERED - Has the date been entered? */
+
+   if BK_DEPARTURE = 0 then
+      do;
+      call ENTER_DATA_C;
+      end;
+   else
+      do;
+      call DISPLAY_DATA_C;
+      end;
+
+
+   /* SAVE_ORIG_TOUR - Save the original tour number */
+
+   ORIG_TOUR_NO = BK_TOUR_NUM;
+
+
+   /* CHECK_ZERO_DEP - Check if no departure entered */
+
+   if BK_DEPARTURE = 0 then
+      RETURN_CODE = END_TYPED;
+
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_SERIES_MAIN = YES;
+      return;
+      end;
+
+
+   /* FAKE_TOUR_STATUS - If the tour isn't set up yet, fake stats */
+
+   if BK_TOUR_NUM = 0 then
+      do;
+      TOUR_STATUS = HDR_INIT_STATUS;
+      TOUR_DESC = HDR_TOUR_DESC;
+      TOUR_DESC_2 = HDR_TOUR_DESC2;
+      BK_DEPOSIT_DUE = BK_DATE + HDR_DEPOSIT_DUE;
+      BK_FINAL_DUE = BK_DEPARTURE - HDR_FINAL_PAY;
+      if TODAYS_DATE() > BK_FINAL_DUE then
+         BK_FINAL_DUE = TODAYS_DATE();
+      if BK_DEPOSIT_DUE > BK_FINAL_DUE then
+         BK_DEPOSIT_DUE = BK_FINAL_DUE;
+      end;
+
+
+   /* CHECK_TOUR_FIN - Issue warning if within finalize date */
+
+   if BK_DEPARTURE - HDR_FINALIZE < TODAYS_DATE() then
+      do;
+      call DISPLAY_MESSAGE ("Warning--This departure is within the finalization period!"c);
+      call PRESS_RETURN;
+      end;
+
+
+   /* READ_GROUP_TOUR - Read the group series tour with this dep */
+
+   if BK_TOUR_NUM = 0 then
+      do;
+
+      /* SET_FIRST_TOURF - Set for the first tour file read */
+
+      TOUR_CODE = BK_TOUR_CODE;
+      TOUR_DEP_DATE = BK_DEPARTURE;
+      TOUR_NO = 0;
+      call SET_POSITION (BK_TOUR_NO,KEY_AREA_2,ERROR_CODE);
+
+      /* READ_NEXT_TOUR - Read the next tour header */
+
+      call READ_NEXT (BK_TOUR_NO,KEY_AREA_2,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_TOUR_NO,ERROR_CODE);
+
+      /* CHECK_END_TOURF - Check for end of tour */
+
+      if (ERROR_CODE = END_OF_FILE) !
+         (TOUR_CODE > BK_TOUR_CODE) !
+         (TOUR_DEP_DATE > BK_DEPARTURE) then
+            do;
+
+            /* CLEAR_TOUR_INFO - Clear the tour info */
+
+            BK_TOUR_NUM = 0;
+            BK_DEPARTURE = 0;
+            BK_TOUR_CODE = "";
+            TOUR_NO = 0;
+            TOUR_CODE = "";
+            HDR_TOUR_CODE = "";
+
+            TOUR_TYPE = "";
+
+            call DISPLAY_MESSAGE ("This tour does not exist!<bel>"c);
+            call PRESS_RETURN;
+            return;
+            end;
+
+      if TOUR_STATUS = "XL" then
+         do;
+
+         /* CLEAR_TOUR_INFO - Clear the tour info */
+
+         BK_TOUR_NUM = 0;
+         BK_DEPARTURE = 0;
+         BK_TOUR_CODE = "";
+         TOUR_NO = 0;
+         TOUR_CODE = "";
+         HDR_TOUR_CODE = "";
+
+         TOUR_TYPE = "";
+
+         call DISPLAY_MESSAGE ("This tour has been canceled!<bel>"c);
+         call PRESS_RETURN;
+         return;
+         end;
+
+      if TOUR_STATUS ^= "OK" then
+         do;
+         call DISPLAY_MESSAGE ('Warning -- Tour Status is "' !! TOUR_STATUS !! '"');
+         call OUTPUT_LINE(23,65,"Continue?");
+         call INPUT_DATA(23,75,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS(23);
+         call DUMP_BUFFER;
+         if ANSWER ^= "Y" then
+            do;
+
+            /* CLEAR_TOUR_INFO - Clear the tour info */
+
+            BK_TOUR_NUM = 0;
+            BK_DEPARTURE = 0;
+            BK_TOUR_CODE = "";
+            TOUR_NO = 0;
+            TOUR_CODE = "";
+            HDR_TOUR_CODE = "";
+
+            TOUR_TYPE = "";
+
+            return;
+            end;
+         end;
+
+      end;
+
+   call DISPLAY_DATA_D;
+   call GET_INV;
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* AGAIN_IF_ERROR - return if ERROR ^= 0 */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+
+   /* SET_TOUR_NEW_PAX - If new tour, pax entered, adjust tour px */
+
+   if ORIG_TOUR_NO = 0 then
+      if BK_SINGLE + BK_DOUBLE + BK_TRIPLE + BK_QUAD + BK_FOC + BK_PAX ^= 0 then
+         do;
+
+         /* READ_TOUR_LOCK - Read the tour record and lock it */
+
+         ERROR_BK_TOUR = RECORD_LOCKED;
+         do while (ERROR_BK_TOUR = RECORD_LOCKED);
+
+            /* READ_TOUR_LK - Read and lock the tour */
+
+            call READ_KEYED (BK_TOUR_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TOUR);
+            if ERROR_BK_TOUR > 3 then
+               call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+         end;
+
+
+         /* ADD_TOUR_PAX - Add these pax to this group series tour */
+
+         TOUR_SINGLES = TOUR_SINGLES + BK_SINGLE;
+         TOUR_DOUBLES = TOUR_DOUBLES + BK_DOUBLE;
+         TOUR_TRIPLES = TOUR_TRIPLES + BK_TRIPLE;
+         TOUR_QUADS = TOUR_QUADS + BK_QUAD;
+         TOUR_FOCS = TOUR_FOCS + BK_FOC;
+         TOUR_PAX = TOUR_PAX + BK_PAX;
+
+
+         /* UPDATE_TOUR_REC - Update the tour record */
+
+         call UPDATE_RECORD (BK_TOUR_NO,ERROR_CODE);
+         end;
+
+
+   /* CHECK_TOUR_HDR - Check to see that the right header read */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   if (BK_DEPARTURE < HDR_START_ON) ! (BK_DEPARTURE > HDR_END_ON) then
+      do;
+
+      /* GET_TOUR_HDR - Get the tour header */
+
+      ERROR_CODE = NORMAL_RETURN;
+
+      HDR_TOUR_CODE = BK_TOUR_CODE;
+      HDR_END_ON = BK_DEPARTURE;
+      if HDR_END_ON = 0 then
+         HDR_END_ON = TODAYS_DATE();
+      call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE ^= END_OF_FILE then
+         call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+      if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+         ERROR_CODE = END_OF_FILE;
+      if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+         ERROR_CODE = END_OF_FILE;
+
+      end;
+
+
+   /* CK_HDR_FOUND - Warning if header not found */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      call DISPLAY_MESSAGE ("<BEL>Warning -- Couldn't find Tour header"c);
+      call PRESS_RETURN;
+      end;
+
+
+   /* RETURN_IF_EOF - Return if end-of-file error */
+
+   if ERROR_CODE = END_OF_FILE then
+      do;
+      END_SERIES_MAIN = YES;
+      return;
+      end;
+
+
+   /* SETUP_BK_TOUR - Set up the booking tour stuff */
+
+   BK_TOUR_NUM = TOUR_NO;
+   BK_TOUR_CODE = TOUR_CODE;
+   BK_DEPARTURE = TOUR_DEP_DATE;
+   BK_DEPOSIT_DUE = BK_DATE + HDR_DEPOSIT_DUE;
+   BK_FINAL_DUE = TOUR_DEP_DATE - HDR_FINAL_PAY;
+   if TODAYS_DATE() > BK_FINAL_DUE then
+      BK_FINAL_DUE = TODAYS_DATE();
+   if BK_DEPOSIT_DUE > BK_FINAL_DUE then
+      BK_DEPOSIT_DUE = BK_FINAL_DUE;
+   BK_STATUS = TOUR_STATUS;
+   BK_ALT_OPT_SQ(1) = 0;
+
+
+   /* UPDATE_BOOK_NUL - Update the booking record - Don't unlock */
+
+   call UPDATE_RECORD (BK_BOOKING_NO+?LOCK_RECORD,ERROR_CODE);
+
+   /* BK_PRICE_STUFF - Display prices, enter OPT/ALT, or LINE */
+
+   if BK_ALT_OPT_SQ(1) = 0 then
+      do;
+
+      /* BK_AO_OPEN - Call the A/O open, select program */
+
+      %include "BK_AO_OPEN.DCL";
+      call BK_AO_OPEN(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD);
+      end;
+
+   call DISPLAY_DATA_F;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_SERIES_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* SERIES_MAIN          */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	ENTER_HDR
+	Enter the tour header
+****************************************************************/
+
+ENTER_HDR:
+	procedure;
+
+   call ENTER_DATA_A;
+
+   /* CLEAR_IF_END - Clear the tour info if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+
+      /* CLEAR_TOUR_INFO - Clear the tour info */
+
+      BK_TOUR_NUM = 0;
+      BK_DEPARTURE = 0;
+      BK_TOUR_CODE = "";
+      TOUR_NO = 0;
+      TOUR_CODE = "";
+      HDR_TOUR_CODE = "";
+
+      TOUR_TYPE = "";
+
+      end;
+
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_ENTER_HDR = YES;
+      return;
+      end;
+
+
+   /* GET_TOUR_HDR - Get the tour header */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   HDR_TOUR_CODE = BK_TOUR_CODE;
+   HDR_END_ON = BK_DEPARTURE;
+   if HDR_END_ON = 0 then
+      HDR_END_ON = TODAYS_DATE();
+   call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= END_OF_FILE then
+      call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+   if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+      ERROR_CODE = END_OF_FILE;
+   if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+      ERROR_CODE = END_OF_FILE;
+
+
+   /* CK_HDR_FOUND - Warning if header not found */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      call DISPLAY_MESSAGE ("<BEL>Warning -- Couldn't find Tour header"c);
+      call PRESS_RETURN;
+      end;
+
+
+   /* TRY_AGAIN_IF_ERR - Return in a loop to try again */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_ENTER_HDR = YES;
+   return;
+   end;
+
+return;
+end;	/* ENTER_HDR            */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* BK_HDR_UC - Convert to upper case */
+
+      call CONVERT_TO_UPPER(BK_TOUR_CODE);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  12 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	ENTER_DATA_C
+	Enter the screen data in group C
+****************************************************************/
+
+ENTER_DATA_C:
+	procedure;
+
+BK_DEPARTURE = 0;
+do LOOP_INDEX =  14 to  14;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_C         */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  14 to  14;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  15 to  23;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	GET_INV
+	Get the inventory for this tour
+****************************************************************/
+
+GET_INV:
+	procedure;
+
+
+   /* SET_INV_KEY - Set the Inventory key for a read */
+
+   INV_DET_TYPE = "T";
+   INV_DET_ENTRY = HDR_TOUR_CODE;
+   INV_DET_DATE = BK_DEPARTURE;
+   INV_CODE_TYPE = "";
+   INV_ROOM_TYPE = 0;
+   call SET_POSITION (BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_INV - Read the next record */
+
+   call READ_NEXT (BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_INV_DET_NO,ERROR_CODE);
+
+   /* CHECK_END_INV - Is this the right record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (INV_DET_TYPE > "T") !
+   (INV_DET_ENTRY > HDR_TOUR_CODE) !
+   (INV_DET_DATE > BK_DEPARTURE) !
+   (INV_CODE_TYPE > "") !
+   (INV_ROOM_TYPE > 0) then
+      return;
+   call DISPLAY_DATA_E;
+
+   /* CHECK_INV - Is inventory sufficient? */
+
+   if INV_AVAIL < BK_PAX then
+      call DISPLAY_MESSAGE ("<Bel>Insufficient Inventory!"c);
+
+return;
+end;	/* GET_INV              */
+
+/****************************************************************
+	DISPLAY_DATA_E
+	Display the data in screen group E
+****************************************************************/
+
+DISPLAY_DATA_E:
+	procedure;
+
+do LOOP_INDEX =  24 to  27;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_E       */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+declare		ERROR_BK_CONTROL     fixed binary (15);
+call ANY_CHANGE (1,  3,SELECT,RETURN_CODE);
+
+/* CHECK_SERIES_CHGS - Adjust for any tour changes */
+
+ERROR_CODE = NORMAL_RETURN;
+
+/* CHECK_NEW_TOUR - If this was just entered, del and redo */
+
+if (RETURN_CODE = DELETE_TYPED) !  (SELECT = 1) ! (SELECT = 2) then
+   if (BK_LINE_CHGD = -1) & (BK_HOTEL_MOD = -1) &
+      (BK_TOUR_MOD = -1) & (BK_AIR_MOD = -1) then
+         do;
+         if BK_TOUR_NUM ^= 0 then
+            do;
+            declare ERROR_BK_TOUR fixed binary;
+            ERROR_BK_TOUR = NORMAL_RETURN;
+
+            /* DELETE_TOUR_REC - Delete the tour record */
+
+            if TOUR_NO ^= 0 then if TOUR_TYPE ^= "G" then
+               do;
+
+               /* READ_TOUR_LOCK - Read the tour record and lock it */
+
+               ERROR_BK_TOUR = RECORD_LOCKED;
+               do while (ERROR_BK_TOUR = RECORD_LOCKED);
+
+                  /* READ_TOUR_LK - Read and lock the tour */
+
+                  call READ_KEYED (BK_TOUR_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TOUR);
+                  if ERROR_BK_TOUR > 3 then
+                     call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+               end;
+
+
+               /* DELETE_BK_TOUR - Delete the tour record */
+
+               call DELETE_RECORD (BK_TOUR_NO,ERROR_CODE);
+
+               /* SET_REC_NO - Set the booking record number */
+
+               BK_REC_NO = 0;
+
+               ERROR_BK_CONTROL = RECORD_LOCKED;
+               do while (ERROR_BK_CONTROL = RECORD_LOCKED);
+
+                  /* READ_BK_CONTROL - Read and lock the control file */
+
+                  call READ_KEYED (BK_CONTROL_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_CONTROL);
+                  if ERROR_BK_CONTROL > 3 then
+                     call PRINT_ERROR (BK_CONTROL_NO,ERROR_BK_CONTROL);
+               end;
+
+
+               /* CHECK_TR_NO - Check to see if tour no should change */
+
+               if TOUR_NO < BK_NEXT_TOUR then
+                  BK_NEXT_TOUR = TOUR_NO;
+
+
+               /* UPDATE_CONTROL - Update the control file */
+
+               call UPDATE_RECORD (BK_CONTROL_NO,ERROR_CODE);
+               end;
+
+            end;
+         BK_TOUR_NUM = 0;
+         BK_DEPARTURE = 0;
+         if SELECT ^= 2 then
+            BK_TOUR_CODE = "";
+         ERROR_CODE = 1;
+         do;
+         END_CHANGE_ITEM = YES;
+         return;
+         end;
+         end;
+
+
+if (RETURN_CODE = DELETE_TYPED) ! (SELECT = 1) ! (SELECT = 2) then
+   do;
+   if BK_TOUR_NUM ^= 0 then
+      do;
+      call OUTPUT_LINE(23,10,"Are you sure you want to cancel the current tour information?");
+      call INPUT_DATA(23,73,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_TO_BOS(23);
+      call DUMP_BUFFER;
+      if ANSWER ^= "Y" then
+         do;
+         END_CHANGE_ITEM = YES;
+         return;
+         end;
+
+      /* BK_NEW_INFO - Call program to update & delete detail */
+
+      %include "BK_NEW_INFO.DCL";
+      call BK_NEW_INFO(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_LINE_RECORD,
+         BK_PASSENGERS_RECORD);
+
+      /* CHECK_TOUR_OLD_PAX - If old tour, subtract the passengers */
+
+      if ORIG_TOUR_NO ^= 0 then
+         do;
+
+         /* READ_TOUR_LOCK - Read the tour record and lock it */
+
+         ERROR_BK_TOUR = RECORD_LOCKED;
+         do while (ERROR_BK_TOUR = RECORD_LOCKED);
+
+            /* READ_TOUR_LK - Read and lock the tour */
+
+            call READ_KEYED (BK_TOUR_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TOUR);
+            if ERROR_BK_TOUR > 3 then
+               call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+         end;
+
+
+         /* SUB_TOUR_PAX - Subtract these pax from this group tour */
+
+         TOUR_SINGLES = TOUR_SINGLES - BK_SINGLE;
+         TOUR_DOUBLES = TOUR_DOUBLES - BK_DOUBLE;
+         TOUR_TRIPLES = TOUR_TRIPLES - BK_TRIPLE;
+         TOUR_QUADS = TOUR_QUADS - BK_QUAD;
+         TOUR_FOCS = TOUR_FOCS - BK_FOC;
+         TOUR_PAX = TOUR_PAX - BK_PAX;
+
+
+         /* UPDATE_TOUR_REC - Update the tour record */
+
+         call UPDATE_RECORD (BK_TOUR_NO,ERROR_CODE);
+         ORIG_TOUR_NO = 0;
+         end;
+
+
+      /* CLEAR_DATA_F - Clear the F data */
+
+      do LOOP_INDEX =   3 to   3;
+         call CLEAR_FIELD(LOOP_INDEX);
+      end;
+      do LOOP_INDEX =   7 to  10;
+         call CLEAR_FIELD(LOOP_INDEX);
+      end;
+      end;
+   BK_TOUR_NUM = 0;
+   BK_DEPARTURE = 0;
+   if SELECT ^= 2 then
+      BK_TOUR_CODE = "";
+   ERROR_CODE = 1;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  3 then
+   do;
+   if SELECT =  1 then
+      LOOP_INDEX = 11;
+   if SELECT >=  2 then
+      LOOP_INDEX = SELECT +  12;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* BK_HDR_UC - Convert to upper case */
+
+      call CONVERT_TO_UPPER(BK_TOUR_CODE);
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* RECALC_DEPOSIT - Recalculate the deposit amount */
+
+      if BK_DEPOSIT ^= 0 then if BK_PAX ^= 0 then
+         BK_DEPOSIT = floor(HDR_DEPOSIT_AMT * BK_PAX * 100 + 0.5) / 100;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	DISPLAY_DATA_F
+	Display the data in group F
+****************************************************************/
+
+DISPLAY_DATA_F:
+	procedure;
+
+do LOOP_INDEX =   3 to   3;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   7 to  10;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_F       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,14 @@
+/*********************************************************************
+	GL_AUTO_RPT File
+********************************************************************/
+
+declare	1 GL_AUTO_RPT_RECORD,
+		3 GL_AUTO_DATE         fixed binary (15),
+		3 GL_AUTO_TIME         fixed binary (15),
+		3 GL_AUTO_PAGE         fixed binary (15),
+		3 GL_AUTO_TOTAL        fixed binary (31),
+		3 GL_AUTO_START        character (        6),
+		3 GL_AUTO_END          character (        6),
+		3 Q                    character (        1),
+		3 GL_AUTO_USER         character (       16);
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<MoveClass ID="1">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Rotator</Description>
+	</MoveClass>
+	<MoveClass ID="2">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Natural Top</Description>
+	</MoveClass>
+	<MoveClass ID="3">
+		<LastChanged>2007-01-25T05:43:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Left side pass</Description>
+	</MoveClass>
+	<MoveClass ID="4">
+		<LastChanged>2007-01-25T06:25:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Underarm turn</Description>
+	</MoveClass>
+	<MoveClass ID="5">
+		<LastChanged>2007-01-25T05:43:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Throwout</Description>
+	</MoveClass>
+	<MoveClass ID="6">
+		<LastChanged>2007-01-25T05:43:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Tuck turn</Description>
+	</MoveClass>
+	<MoveClass ID="7">
+		<LastChanged>2007-01-25T05:43:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Whip</Description>
+	</MoveClass>
+	<MoveClass ID="8">
+		<LastChanged>2007-01-25T05:43:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Basket whip</Description>
+	</MoveClass>
+	<MoveClass ID="9">
+		<LastChanged>2007-01-25T05:59:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Sugar push</Description>
+	</MoveClass>
+</file>

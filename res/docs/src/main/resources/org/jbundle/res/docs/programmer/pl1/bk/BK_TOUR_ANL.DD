@@ -1,0 +1,30 @@
+/*********************************************************************
+	BK_TOUR_ANL File
+********************************************************************/
+
+declare	1 BK_TOUR_ANL_RECORD,
+		3 TA_START             fixed binary (15),
+		3 TA_END               fixed binary (15),
+		3 TOUR_ANL_DATE        fixed binary (15),
+		3 TOUR_ANL_TIME        fixed binary (15),
+		3 TOUR_ANL_USER        character (       16),
+		3 TOUR_ANL_PAGE        fixed binary (31),
+		3 BK_ACTUAL_FLAG       character (        1),
+		3 ANL_PROFIT           float binary (53),
+		3 ANL_AIR_COST         float binary (53),
+		3 ANL_TOUR_COST        float binary (53),
+		3 ANL_REVENUE          float binary (53),
+		3 ANL_PERCENT          float binary (21),
+		3 TA_BOOKINGS          character (1),
+		3 TA_AR_DETAIL         character (1),
+		3 TA_VOUCHERS          character (1),
+		3 TA_TOUR_DETAIL       character (1),
+		3 TA_AIR               character (1),
+		3 TA_AIR_SEG           character (1),
+		3 TA_BASED_BK          fixed binary (31),
+		3 TOTAL_REVENUE        float binary (53),
+		3 TOTAL_TOUR_COST      float binary (53),
+		3 TOTAL_AIR_COST       float binary (53),
+		3 TOTAL_PROFIT         float binary (53),
+		3 TOTAL_MARGIN         float binary (21);
+

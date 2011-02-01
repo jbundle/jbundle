@@ -1,0 +1,17 @@
+/*********************************************************************
+	AD_CURR File
+********************************************************************/
+
+declare	1 AD_CURR_RECORD,
+		3 CURR_CODE            character (        3),
+		3 CURR_DESC            character (       16),
+		3 LAST_EXCHANGE        float binary (53),
+		3 LAST_EX_DATE         fixed binary (15),
+		3 LAST_EX_CHG_BY       character (       16),
+		3 COSTING_EXCH         float binary (53),
+		3 COST_EX_DATE         fixed binary (15),
+		3 COST_EXCH_CHG_BY     character (       16),
+		3 CURR_ROUND_AT        fixed binary (15),
+		3 CURR_INT_DESC        character (       15),
+		3 CURR_FRA_DESC        character (       15);
+

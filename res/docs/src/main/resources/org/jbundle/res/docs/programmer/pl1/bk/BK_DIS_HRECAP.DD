@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_DIS_HRECAP File
+********************************************************************/
+
+declare	1 BK_DIS_HRECAP_RECORD,
+		3 HRECAP_START         fixed binary (15),
+		3 HRECAP_INV           character (1);
+

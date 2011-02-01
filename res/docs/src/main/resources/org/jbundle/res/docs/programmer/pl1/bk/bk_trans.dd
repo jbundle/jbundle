@@ -1,0 +1,21 @@
+/*********************************************************************
+	BK_TRANS File
+********************************************************************/
+
+declare	1 BK_TRANS_RECORD,
+		3 TRANS_NO             character (       10),
+		3 TRANS_FROM           character (        3),
+		3 TRANS_TO             character (        3),
+		3 TRANS_REV_CODE       character (       10),
+		3 TRANS_VEN_NO         character (        6),
+		3 TRANS_CURR           character (        3),
+		3 TRANS_FREQ           character (       15),
+		3 TRANS_HRS            fixed binary (15),
+		3 TRANS_DISTANCE       character (       15),
+		3 TRANS_COMMENT( 3) character (       30),
+		3 TRANS_OP_CODE        character (       20),
+		3 TRANS_SOURCE         character (       30),
+		3 TRANS_BREAKFAST      fixed binary (15),
+		3 TRANS_LUNCH          fixed binary (15),
+		3 TRANS_DINNER         fixed binary (15);
+

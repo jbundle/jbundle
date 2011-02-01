@@ -1,0 +1,17 @@
+/*********************************************************************
+	BK_H_RECAP File
+********************************************************************/
+
+declare	1 BK_H_RECAP_RECORD,
+		3 HRECAP_DATE          fixed binary (15),
+		3 HRECAP_TIME          fixed binary (15),
+		3 HRECAP_USER          character (       16),
+		3 HRECAP_PAGE          fixed binary (15),
+		3 HRECAP_DATE_OUT      fixed binary (15),
+		3 HRECAP_HOTEL         character (       10),
+		3 HRECAP_START_DATE    fixed binary (15),
+		3 HRECAP_END_DATE      fixed binary (15),
+		3 HRECAP_INV_ONLY      character (1),
+		3 HRECAP_PAX           character (1),
+		3 HRECAP_FLTS          character (1);
+

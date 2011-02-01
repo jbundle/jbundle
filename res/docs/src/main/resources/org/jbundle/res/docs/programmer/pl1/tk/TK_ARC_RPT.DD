@@ -1,0 +1,21 @@
+/*********************************************************************
+	TK_ARC_RPT File
+********************************************************************/
+
+declare	1 TK_ARC_RPT_RECORD,
+		3 TK_ARC_END           fixed binary (15),
+		3 ARC_DATE             fixed binary (15),
+		3 ARC_TIME             fixed binary (15),
+		3 ARC_USER             character (       16),
+		3 ARC_PAGE             fixed binary (31),
+		3 ARC_TOTAL_TK         fixed binary (31),
+		3 ARC_CASH_AC          fixed binary (31),
+		3 TK_NET_TOTAL         float binary (53),
+		3 TK_CASH_FARE         float binary (53),
+		3 TK_CREDIT_FARE       float binary (53),
+		3 TK_TOTAL_CASH        float binary (53),
+		3 TK_TOTAL_CREDIT      float binary (53),
+		3 TK_TOTAL_REMIT       float binary (53),
+		3 TK_TOTAL_FARE        float binary (53),
+		3 TK_TAX_TOTAL         float binary (53);
+

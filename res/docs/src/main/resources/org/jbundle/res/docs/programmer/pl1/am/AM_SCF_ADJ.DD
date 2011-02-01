@@ -1,0 +1,11 @@
+/*********************************************************************
+	AM_SCF_ADJ File
+********************************************************************/
+
+declare	1 AM_SCF_ADJ_RECORD,
+		3 START_SCF            character (        3),
+		3 END_SCF              character (        3),
+		3 TERR_SCF             character (        3),
+		3 REGION_SCF           character (        4),
+		3 ZONE_SCF             character (        1);
+

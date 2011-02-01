@@ -1,0 +1,16 @@
+/*********************************************************************
+	BK_AO_SELECT File
+********************************************************************/
+
+declare	1 BK_AO_SELECT_RECORD,
+		3 ALT_INDEX            fixed binary (15),
+		3 TEMP_QUES_SEQ        fixed binary (15),
+		3 TEMP_TYPE            character (        1),
+		3 SELECTED_ANSWER      fixed binary (15),
+		3 OPT_SEQ              fixed binary (15),
+		3 OPT_Q_SEQ( 9) fixed binary (15),
+		3 OPT_A_SEQ( 9) fixed binary (15),
+		3 NEXT_SEQ             fixed binary (15),
+		3 MATCH                character (1),
+		3 GATEWAY              character (1);
+

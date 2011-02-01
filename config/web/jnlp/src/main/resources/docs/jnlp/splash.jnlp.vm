@@ -1,0 +1,21 @@
+<!DOCTYPE jnlp PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<jnlp codebase="$$context" spec="1.0+">
+<information>
+<title>Splash Screen Resources</title>
+<vendor>tourapp.com</vendor>
+<homepage href="index.html"></homepage>
+<description kind="one-line">Splash (starter screen)</description>
+<description kind="short">Splash Screen Resources</description>
+<icon href="images/tour/icons/Tour.gif"></icon>
+<offline-allowed></offline-allowed>
+<keywords>tour</keywords>
+</information>
+<security></security>
+<resources>
+<java max-heap-size="512m" initial-heap-size="128m" version="1.6+"></java>
+<property value="true" name="jnlp.packEnabled"></property>
+<jar href="lib/jbundle-splash-${project.version}.jar" part="jbundle-splash"></jar>
+<package name="org.jbundle.thin.base.screen.splash.*" part="jbundle-splash" recursive="true"></package>
+</resources>
+<component-desc></component-desc>
+</jnlp>

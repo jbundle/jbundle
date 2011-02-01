@@ -1,0 +1,13 @@
+/*********************************************************************
+	BK_DIS_HOTELT File
+********************************************************************/
+
+declare	1 BK_DIS_HOTELT_RECORD,
+		3 DIS_HOTELT           character (        3),
+		3 DIS_RATET            character (        1),
+		3 DIS_CLASST           character (        2),
+		3 DIS_DATET            fixed binary (15),
+		3 ZZZZ                 character (        1),
+		3 DIS_RATET_SAVE       character (        1),
+		3 DIS_CLASST_SAVE      character (        2);
+

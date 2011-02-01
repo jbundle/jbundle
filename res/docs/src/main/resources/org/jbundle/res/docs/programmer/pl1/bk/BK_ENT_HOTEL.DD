@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_ENT_HOTEL File
+********************************************************************/
+
+declare	1 BK_ENT_HOTEL_RECORD,
+		3 BK_DAY_OF_WEEK       character (        9),
+		3 HDETL_MEAL_QTY       fixed binary (15),
+		3 HDETL_MEAL_DAYS      fixed binary (31);
+

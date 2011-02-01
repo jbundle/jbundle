@@ -1,0 +1,165 @@
+/****************************************************************
+	Module: BK_MKTG_MENU
+	Top Level Logic: MENU_LOGIC
+	Date: 21-Jul-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_MKTG_MENU
+	Logic for menu programs
+****************************************************************/
+
+%replace BK_MKTG_MENU_1 by 707;
+%replace BK_MKTG_MENU_2 by 887;
+BK_MKTG_MENU:
+   procedure;
+%include "BK_MKTG_MENU.DD";
+
+declare		END_SELECT_AND_RUN   bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+   call INITIALIZE;
+   END_SELECT_AND_RUN = NO;
+   do while (END_SELECT_AND_RUN ^= YES);
+      call SELECT_AND_RUN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_MKTG_MENU_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_MKTG_MENU_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SELECT_AND_RUN
+	Select option and run
+****************************************************************/
+
+SELECT_AND_RUN:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+
+   /* REDIS_AND_SET - Redisplay the screen and set the var ptr */
+
+   if NOT_FIRST_TIME then
+      do;
+      call DISPLAY_SCREEN (BK_MKTG_MENU_1);
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (BK_MKTG_MENU_RECORD) );
+      end;
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_OPTION - Input the option on the screen */
+
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (BK_MKTG_SELECT = 0) !
+        (RETURN_CODE ^= NORMAL_RETURN) then
+      do;
+      END_SELECT_AND_RUN = YES;
+      return;
+      end;
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   declare BK_BROC_MAINT entry;
+   declare BK_USER_MAINT entry;
+   declare BK_BROC_RPT entry;
+   declare BK_USER_RPT entry;
+   declare BK_ZIP_SALES entry;
+   declare BK_AFFIL_SALES entry;
+   declare BK_ANAL_BK entry;
+   declare BK_SUMM_BK entry;
+   declare BK_ANAL_TERR entry;
+   declare BK_SUMM_TERR entry;
+   declare BK_ANAL_TOUR entry;
+   declare BK_SUMM_TOUR entry;
+   do case (BK_MKTG_SELECT);
+         /* Option   1 */
+      call BK_BROC_MAINT(
+);
+         /* Option   2 */
+      call BK_USER_MAINT(
+);
+         /* Option   3 */
+      call BK_BROC_RPT(
+);
+         /* Option   4 */
+      call BK_USER_RPT(
+);
+         /* Option   5 */
+      call BK_ZIP_SALES(
+);
+         /* Option   6 */
+      call BK_AFFIL_SALES(
+);
+         /* Option   7 */
+      call BK_ANAL_BK(
+);
+         /* Option   8 */
+      call BK_SUMM_BK(
+);
+         /* Option   9 */
+      call BK_ANAL_TERR(
+);
+         /* Option  10 */
+      call BK_SUMM_TERR(
+);
+         /* Option  11 */
+      call BK_ANAL_TOUR(
+);
+         /* Option  12 */
+      call BK_SUMM_TOUR(
+);
+   end;
+   otherwise
+      do;
+      end;
+return;
+end;	/* SELECT_AND_RUN       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

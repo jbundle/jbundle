@@ -1,0 +1,9 @@
+/*********************************************************************
+	AD_DIST_GL File
+********************************************************************/
+
+declare	1 AD_DIST_GL_RECORD,
+		3 AD_POST_CUTOFF       fixed binary (15),
+		3 FIRST_POST_DATE      fixed binary (15),
+		3 LAST_POST_DATE       fixed binary (15);
+

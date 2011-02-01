@@ -1,0 +1,535 @@
+/****************************************************************
+	Module: GL_SUMM_DETAIL
+	Top Level Logic: GL_SUMM_LOGIC
+	Date: 24-Jul-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_SUMM_DETAIL
+	Top-Level Logic to send GL_DETAIL to SS
+****************************************************************/
+
+%replace GL_SUMM_DETAIL_1 by 894;
+%replace GL_SUMM_DETAIL_2 by 895;
+GL_SUMM_DETAIL:
+   procedure;
+%replace GL_CHART_NO by  16;
+%replace GL_DETAIL_NO by  17;
+%include "GL_SUMM_DETAIL.DD";
+%include "GL_CHART.DD";
+%include "GL_DETAIL.DD";
+
+declare		END_GL_SUMM_MAIN     bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_GL_SHEET_THRU    bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		LINE                 fixed binary (15);
+declare		END_GL_GET_BALANCE   bit (1);
+declare		END_GL_SHEET_2       bit (1);
+declare		END_ADD_GL_SUMM      bit (1);
+   call INITIALIZE;
+   END_GL_SUMM_MAIN = NO;
+   do while (END_GL_SUMM_MAIN ^= YES);
+      call GL_SUMM_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   RD_PERIOD_TYPE = "M";
+   RD_PERIOD_LENGTH = 1;
+   RD_PERIOD_START = 0;
+   GL_DETAIL_DATE = TODAYS_DATE();
+   GL_DETAIL_TIME = CURRENT_TIME();
+   GL_DETAIL_USER = USER_NAME();
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+   GL_TRX_DATE = TODAYS_DATE();
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_TRX_AMOUNT = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_SUMM_DETAIL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (GL_SUMM_DETAIL_RECORD) );
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call OPEN_FILE (GL_DETAIL_NO,"GL_DETAIL",byteaddr(GL_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	GL_SUMM_MAIN
+	Mainline logic to SSHEET the GL_DETAIL
+****************************************************************/
+
+GL_SUMM_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_GL_SUMM_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* OPEN_SSHEET - Open the spreadsheet file */
+
+   call OPEN_PRINTER("SSHEET");
+   call SETUP_PRINT_FORMAT (GL_SUMM_DETAIL_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   GL_ACCOUNT_NO = 0;
+   call SET_POSITION (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+   END_GL_SHEET_THRU = NO;
+   do while (END_GL_SHEET_THRU ^= YES);
+      call GL_SHEET_THRU;
+   end;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_GL_SUMM_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* GL_SUMM_MAIN         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+RD_PERIOD_END = RD_PERIOD_START;
+do LOOP_INDEX = FIRST_ITEM to   4;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (110);
+   if LOOP_INDEX =   4 then
+      RD_PERIOD_END = RD_PERIOD_START;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CALC_RD_MONTH - Get the start day,month,year */
+
+      call DAY_TO_DMY(RD_PERIOD_START,RD_DAY,RD_MONTH,RD_YEAR);
+
+      end;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* CALC_RD_END - Set the ending date */
+
+      declare PERIOD_LENGTH fixed binary;
+      if RD_PERIOD_TYPE ^= "M" then
+         do;
+         PERIOD_LENGTH = RD_PERIOD_LENGTH;
+         if RD_PERIOD_TYPE = "W" then
+            PERIOD_LENGTH = RD_PERIOD_LENGTH * 7;
+         RD_PERIOD_END = RD_PERIOD_START +
+            divide((RD_PERIOD_END-RD_PERIOD_START),PERIOD_LENGTH,15)*PERIOD_LENGTH + PERIOD_LENGTH - 1;
+         end;
+      else
+         do;
+         declare (DAY,MONTH,YEAR) fixed binary;
+         call DAY_TO_DMY(RD_PERIOD_END,DAY,MONTH,YEAR);
+         if DAY >= RD_DAY then
+            MONTH = MONTH + 1;
+         DAY = RD_DAY;
+         MONTH = RD_MONTH +
+            divide((((MONTH+YEAR*12)-(RD_MONTH+RD_YEAR*12))+RD_PERIOD_LENGTH-1),RD_PERIOD_LENGTH,15) *
+               RD_PERIOD_LENGTH;
+         YEAR = RD_YEAR;
+         do while (MONTH > 12);
+            MONTH = MONTH - 12;
+            YEAR = YEAR + 1;
+         end;
+         call DMY_TO_DAY(RD_PERIOD_END,DAY,MONTH,YEAR);
+         RD_PERIOD_END = RD_PERIOD_END - 1;
+         end;
+
+      call OUTPUT_FIELD (LOOP_INDEX);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  4,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  4 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (110);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CALC_RD_MONTH - Get the start day,month,year */
+
+      call DAY_TO_DMY(RD_PERIOD_START,RD_DAY,RD_MONTH,RD_YEAR);
+
+      end;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* CALC_RD_END - Set the ending date */
+
+      declare PERIOD_LENGTH fixed binary;
+      if RD_PERIOD_TYPE ^= "M" then
+         do;
+         PERIOD_LENGTH = RD_PERIOD_LENGTH;
+         if RD_PERIOD_TYPE = "W" then
+            PERIOD_LENGTH = RD_PERIOD_LENGTH * 7;
+         RD_PERIOD_END = RD_PERIOD_START +
+            divide((RD_PERIOD_END-RD_PERIOD_START),PERIOD_LENGTH,15)*PERIOD_LENGTH + PERIOD_LENGTH - 1;
+         end;
+      else
+         do;
+         declare (DAY,MONTH,YEAR) fixed binary;
+         call DAY_TO_DMY(RD_PERIOD_END,DAY,MONTH,YEAR);
+         if DAY >= RD_DAY then
+            MONTH = MONTH + 1;
+         DAY = RD_DAY;
+         MONTH = RD_MONTH +
+            divide((((MONTH+YEAR*12)-(RD_MONTH+RD_YEAR*12))+RD_PERIOD_LENGTH-1),RD_PERIOD_LENGTH,15) *
+               RD_PERIOD_LENGTH;
+         YEAR = RD_YEAR;
+         do while (MONTH > 12);
+            MONTH = MONTH - 12;
+            YEAR = YEAR + 1;
+         end;
+         call DMY_TO_DAY(RD_PERIOD_END,DAY,MONTH,YEAR);
+         RD_PERIOD_END = RD_PERIOD_END - 1;
+         end;
+
+      call OUTPUT_FIELD (LOOP_INDEX);
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   4;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	GL_SHEET_THRU
+	Read thru and output the spreadsheet
+****************************************************************/
+
+GL_SHEET_THRU:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_CHART_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_GL_SHEET_THRU = YES;
+      return;
+      end;
+
+   /* GL_RESET_BAL - Reset the chart of accounts balance */
+
+   ACCOUNT_BALANCE = 0;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   GL_AC_NO = GL_ACCOUNT_NO;
+   GL_TRX_DATE = 0;
+   GL_SEQ_NO = 0;
+   call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* SET_GL_START - Set the first G/L detail cut-off date */
+
+   GL_SUMM_DATE = RD_PERIOD_START - 1;
+
+   END_GL_GET_BALANCE = NO;
+   do while (END_GL_GET_BALANCE ^= YES);
+      call GL_GET_BALANCE;
+   end;
+   END_GL_SHEET_2 = NO;
+   do while (END_GL_SHEET_2 ^= YES);
+      call GL_SHEET_2;
+   end;
+return;
+end;	/* GL_SHEET_THRU        */
+
+/****************************************************************
+	GL_GET_BALANCE
+	Get the balance as of the cut-off date
+****************************************************************/
+
+GL_GET_BALANCE:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_ACCOUNT_NO) !
+   (GL_TRX_DATE > GL_SUMM_DATE) then
+      do;
+      END_GL_GET_BALANCE = YES;
+      return;
+      end;
+
+   /* GL_ADD_BAL - Add the the running balance */
+
+   ACCOUNT_BALANCE = floor((ACCOUNT_BALANCE + GL_TRX_AMOUNT) * 100 + 0.5) / 100;
+
+return;
+end;	/* GL_GET_BALANCE       */
+
+/****************************************************************
+	GL_SHEET_2
+	Output all the G/L detail to chart
+****************************************************************/
+
+GL_SHEET_2:
+	procedure;
+
+
+   /* CHECK_RD_BREAK - Bump date, end of this account? */
+
+   GL_SUMM_DATE = GL_SUMM_DATE + 1;
+
+   declare PERIOD_LENGTH fixed binary;
+   if RD_PERIOD_TYPE ^= "M" then
+      do;
+      PERIOD_LENGTH = RD_PERIOD_LENGTH;
+      if RD_PERIOD_TYPE = "W" then
+         PERIOD_LENGTH = RD_PERIOD_LENGTH * 7;
+      GL_SUMM_DATE = GL_SUMM_DATE + PERIOD_LENGTH;
+      end;
+   else
+      do;
+      declare (DAY,MONTH,YEAR) fixed binary;
+      call DAY_TO_DMY(GL_SUMM_DATE,DAY,MONTH,YEAR);
+      DAY = 1;
+      MONTH = MONTH + RD_PERIOD_LENGTH;
+      if MONTH > 12 then
+         do;
+         MONTH = MONTH - 12;
+         YEAR = YEAR + 1;
+         end;
+      call DMY_TO_DAY(GL_SUMM_DATE,DAY,MONTH,YEAR);
+      end;
+
+   GL_SUMM_DATE = GL_SUMM_DATE - 1;
+   if GL_SUMM_DATE > RD_PERIOD_END then
+      ERROR_CODE = 1;
+
+   if ERROR_CODE = 1 then
+      do;
+      END_GL_SHEET_2 = YES;
+      return;
+      end;
+
+   RD_TRX_AMOUNT = 0;
+   END_ADD_GL_SUMM = NO;
+   do while (END_ADD_GL_SUMM ^= YES);
+      call ADD_GL_SUMM;
+   end;
+   if ERROR_CODE = END_OF_FILE then
+      GL_AC_NO = 9999999;
+
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =   5 to   5;
+      call SPREAD_SHEET_OUT(LOOP_INDEX);
+   end;
+return;
+end;	/* GL_SHEET_2           */
+
+/****************************************************************
+	ADD_GL_SUMM
+	Add this trx to the bal and trx totals
+****************************************************************/
+
+ADD_GL_SUMM:
+	procedure;
+
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_ACCOUNT_NO) !
+   (GL_TRX_DATE > GL_SUMM_DATE) then
+      do;
+      END_ADD_GL_SUMM = YES;
+      return;
+      end;
+
+   /* GL_ADD_BAL - Add the the running balance */
+
+   ACCOUNT_BALANCE = floor((ACCOUNT_BALANCE + GL_TRX_AMOUNT) * 100 + 0.5) / 100;
+
+
+   /* GL_ADD_TRX - Add this trx to the total */
+
+   RD_TRX_AMOUNT =floor((RD_TRX_AMOUNT + GL_TRX_AMOUNT) * 100 + 0.5) / 100;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* ADD_GL_SUMM          */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (GL_CHART_NO);
+   call CLOSE_FILE (GL_DETAIL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

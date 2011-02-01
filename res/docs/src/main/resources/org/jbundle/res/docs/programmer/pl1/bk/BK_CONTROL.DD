@@ -1,0 +1,71 @@
+/*********************************************************************
+	BK_CONTROL File
+********************************************************************/
+
+declare	1 BK_CONTROL_RECORD,
+		3 BK_REC_NO            fixed binary (15),
+		3 BK_NEXT_BK_NO        fixed binary (31),
+		3 BK_NEXT_TOUR         fixed binary (31),
+		3 BK_DEPOSIT_DAYS      fixed binary (15),
+		3 BK_FINAL_DAYS        fixed binary (15),
+		3 BK_FINALIZATION      fixed binary (15),
+		3 BK_FINAL_DOCS        fixed binary (15),
+		3 BK_TICKETING_DAYS    fixed binary (15),
+		3 BK_INCOME_DEF        fixed binary (31),
+		3 BK_COST_GL           fixed binary (31),
+		3 BK_AIR_GL            fixed binary (31),
+		3 BK_PP_AIR_GL         fixed binary (31),
+		3 BK_OVERRIDES_GL      fixed binary (31);
+
+declare	1 BK_CONTROL_01_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO01          fixed binary (15),
+		3 BK_R_FORM            character (       20);
+
+declare	1 BK_CONTROL_02_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO02          fixed binary (15),
+		3 BK_S_FORM            character (       20);
+
+declare	1 BK_CONTROL_03_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO03          fixed binary (15),
+		3 BK_Q_FORM            character (       20);
+
+declare	1 BK_CONTROL_04_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO04          fixed binary (15),
+		3 BK_B_FORM            character (       20);
+
+declare	1 BK_CONTROL_05_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO05          fixed binary (15),
+		3 BK_H_FORM            character (       20);
+
+declare	1 BK_CONTROL_06_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO06          fixed binary (15),
+		3 BK_L_FORM            character (       20);
+
+declare	1 BK_CONTROL_07_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO07          fixed binary (15),
+		3 BK_T_FORM            character (       20);
+
+declare	1 BK_CONTROL_08_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO08          fixed binary (15),
+		3 BK_V_FORM            character (       20);
+
+declare	1 BK_CONTROL_09_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO09          fixed binary (15),
+		3 BK_W_FORM            character (       20);
+
+declare	1 BK_CONTROL_10_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO10          fixed binary (15),
+		3 BK_I_FORM            character (       20);
+
+declare	1 BK_CONTROL_11_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO11          fixed binary (15),
+		3 BK_C_FORM            character (       20);
+
+declare	1 BK_CONTROL_12_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO12          fixed binary (15),
+		3 BK_O_FORM            character (       20);
+
+declare	1 BK_CONTROL_13_RECORD defined (BK_REC_NO),
+		3 BK_REC_NO13          fixed binary (15),
+		3 BK_P_FORM            character (       20);
+

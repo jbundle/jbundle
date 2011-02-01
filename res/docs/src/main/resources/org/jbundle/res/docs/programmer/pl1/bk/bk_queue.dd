@@ -1,0 +1,13 @@
+/*********************************************************************
+	BK_QUEUE File
+********************************************************************/
+
+declare	1 BK_QUEUE_RECORD,
+		3 BK_QUEUE_FROM        character (       16),
+		3 BK_QUEUE_TO          character (       16),
+		3 BK_QUEUE_SEQ         fixed binary (15),
+		3 BK_QUEUE_NO          fixed binary (31),
+		3 BK_QUEUE_DATE        fixed binary (15),
+		3 BK_QUEUE_TIME        fixed binary (15),
+		3 BK_QUEUE_COMMENT     character (       30);
+

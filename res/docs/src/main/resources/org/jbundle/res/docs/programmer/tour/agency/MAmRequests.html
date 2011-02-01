@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>Brochure request entry</title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p><center><H1>Brochure request entry</H1></center>
+<p><CENTER>
+<A HREF=../../../programmer/tree.html><IMG SRC="../../images/technical.gif" ALT="Technical Info"></A>
+<A HREF=../../basic/index.html><IMG SRC="../../images/mainmenu.gif" ALT="Main Index"></A>
+<A HREF=../../basic/index.html><IMG SRC="../../images/runprogram.gif" ALT="Run Program"></A>
+<A HREF=index.html><IMG SRC="../../images/systemmenu.gif" ALT="System Index"></A>
+<A HREF=../../basic/index.html><IMG SRC="../../images/reportbugs.gif" ALT="Report bugs and enhancements"></A>
+</CENTER>
+
+<p><H2><a name="description">Program Description:</a></H2>
+
+<p>The Brochure request program is used to enter brochure requests.
+
+<p><CENTER>/SCREEN1/</CENTER>
+
+<p><H2><a name="operation">Program Operation:</a></H2>
+
+<p>Entering a value in the "IATA/Key" field will retrieve an Agent by their IATA number, or a Passenger by their Key
+depending on the value in the "Agent/Pax" popup box. To enter a manual Brochure request, tab past this field.</p>
+
+<p>Pressing the lookup <IMG SRC="../../../../images/buttons/Lookup.gif"> button will display 
+the <A HREF="DAmAgcy.html">Agency lookup screen</A> where you can select an agency.
+<BR>Pressing the form <IMG SRC="../../../../images/buttons/Form.gif"> button will display 
+the <A HREF="MAmAgcy.html">Agency maintenance screen</A> where you can enter, lookup, or change an Agency. 
+Any changes to the main record is reflected in the current brochure request.</p>
+
+<p>Pressing the lookup <IMG SRC="../../../../images/buttons/Lookup.gif"> button next to the "Passenger:" label will display 
+the <A HREF="DPaPax.html">Passenger lookup screen</A>.
+<BR>Pressing the form <IMG SRC="../../../../images/buttons/Form.gif"> button will display 
+the <A HREF="MPaPax.html">Passenger maintenance screen</A>.</p>
+
+<p>The <A HREF=MSendVia.html>"Send Via"</A> popup box can be used to select the method to mail brochures, or 
+to group brochure requests so they will not auto-print with the general brochure requests.
+This field defaults to the value in the <A HREF=MAmControl.html>Agency control file</A> the first time this screen is entered.</P>
+
+<p>The "Bundle" and "Quantity" fields can be used to select a <A HREF=MAmBrocBundle.html>bundle</A> of brochures to mail. These 
+fields also default to the <A HREF=MAmControl.html>Agency control file</A> values for the first brochure request.</p>
+
+<p>The Text field can be used to enter free text to appear on the brochure request label.</p>
+
+<p>The <A HREF=DAmBrocDetail.html>Brochure Detail</A> button brings up the <A HREF=DAmBrocDetail.html>Brochure Detail Display Screen</A> where
+you can enter individual brochures to mail.</P>
+
+<p>The <A HREF=DAmBrocHist.html>Brochure History</A> button brings up the <A HREF=DAmBrocHist.html>Brochure History Display Screen</A> which 
+displays the brochures mailed to this agency or passenger in the past. The history 
+screen tracks <A HREF=MAmBrocBundle.html>bundles</A> and individual <A HREF=MAmBrochure.html>brochures</A> mailed.</P>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<html>
+<head>
+<meta http-equiv="Content-Type"
+	content="text/html; charset=windows-1252">
+<meta name="Generator" content="Microsoft Word 97">
+<title>Tour Costing and Booking System</title>
+<meta name="Version" content="8.0.3410">
+<meta name="Date" content="10/11/96">
+<meta name="Template"
+	content="C:\Program Files\Microsoft Office\Office\HTML.DOT">
+</head>
+<body text="#000000" bgcolor="#ffffff">
+
+<b><font face="Arial" size="4">
+<p>Tour Costing and Booking System</p>
+</font><i><font face="Arial">
+<p>Summary:</p>
+</font></i></b>
+<i></i>
+<font></font>
+<p>The Tour Costing and Booking System is used by the customer to
+select the products that they would like to purchase, get the
+availability for each product, and get a final price for the complete
+package.</p>
+<p>This system is tied closely with the product search system.
+(Products are usually dragged and dropped onto the tour calendar)</p>
+<b><i><font face="Arial">
+<p>Objects:</p>
+
+<ul>
+</ul>
+</font></i></b>
+<i></i>
+<font></font>
+<li>Booking - Booking object (usually held locally on the client's
+machine)</li>
+<li>Passenger - Passenger on this booking</li>
+<li>Product - Product added to this booking (Hotel Room, Land, Air
+Seat, Cruise Cabin, Car, or Tour)</li>
+<ul></ul>
+
+<b><i><font face="Arial">
+<p>Objects from Other Subsystems:</p>
+
+<ul>
+</ul>
+</font></i></b>
+<i></i>
+<font></font>
+<li>Person - Booking contact (Usually travel agent) (Could be
+supplied by the browser's personal certificate)</li>
+<ul></ul>
+
+<p></p>
+<hr align="RIGHT">
+<p></p>
+<b><i><font face="Arial">
+<p>Booking - Booking object (usually held locally on the client's
+machine)</p>
+</font></i></b>
+<i></i>
+<font></font>
+<p>A booking is an object containing all that the passenger
+purchased. (ie., for Air this would be the PNR)</p>
+<p>Methods:</p>
+<dir>
+	<dir>
+
+		<p>SetContact - Set the mail-to address info</p>
+		<p>AddPassenger - Add a passenger and set up rooming information</p>
+		<p>AddProduct - Add a product to the list</p>
+		<p>GetPrice - Get the customer's cost</p>
+	</dir>
+</dir>
+
+<b><i><font face="Arial">
+<p>Product - Product added to this booking (Hotel Room, Land, Air
+Seat, Cruise Cabin, Car, or Tour)</p>
+</font></i></b>
+<i></i>
+<font></font>
+<p>A product is the actual product purchased. For example, 4 Air
+seats 24A-24D for the 4 passengers on this booking from LAX to SAN on
+Flight UA221 on 5-Dec-97.</p>
+<p>Methods (The methods vary widely in the overriding classes)</p>
+<dir>
+	<dir>
+
+		<p>AddPassenger - Usually, you add all the passengers on the tour.</p>
+		<p>SetDate - Set the start date and time of the service.</p>
+		<p>GetCost - Get the product's net cost to the supplier (me).</p>
+		<p>GetStatus - Is this product available?</p>
+		<p>SellIt - Tell the Vendor to create a reservation</p>
+		<p>GetVendor - Get the product vendor</p>
+		<p>&nbsp;</p>
+	</dir>
+</dir>
+</body>
+</html>

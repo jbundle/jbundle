@@ -1,0 +1,17 @@
+/*********************************************************************
+	AR_MCO_COL_RPT File
+********************************************************************/
+
+declare	1 AR_MCO_COL_RPT_RECORD,
+		3 AR_COLL_DATE         fixed binary (15),
+		3 AR_COLL_TIME         fixed binary (15),
+		3 AR_CARR_COLL         character (        2),
+		3 AR_COLL_PAGE         fixed binary (15),
+		3 AR_TOTAL_GROSS       float binary (53),
+		3 AR_COLL_COUNT        fixed binary (31),
+		3 AR_TOTAL_MNET        float binary (53),
+		3 AR_TOTAL_REC         float binary (53),
+		3 AR_TOTAL_APPLIED     float binary (53),
+		3 AR_MCO_REC_VAR       float binary (53),
+		3 AR_MCO_USER          character (       16);
+

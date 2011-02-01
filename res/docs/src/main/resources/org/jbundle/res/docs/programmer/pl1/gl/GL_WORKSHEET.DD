@@ -1,0 +1,17 @@
+/*********************************************************************
+	GL_WORKSHEET File
+********************************************************************/
+
+declare	1 GL_WORKSHEET_RECORD,
+		3 GL_WORK_START        fixed binary (31),
+		3 GL_WORK_END          fixed binary (31),
+		3 GL_WORK_DATE         fixed binary (15),
+		3 GL_WORKSHEET_DATE    fixed binary (15),
+		3 GL_WORKSHEET_TIME    fixed binary (15),
+		3 GL_WORK_PAGE         fixed binary (15),
+		3 GL_WORK_DR           float binary (53),
+		3 GL_WORK_CR           float binary (53),
+		3 GL_WORK_DR_TOTAL     float binary (53),
+		3 GL_WORK_CR_TOTAL     float binary (53),
+		3 GL_WS_USER           character (       16);
+

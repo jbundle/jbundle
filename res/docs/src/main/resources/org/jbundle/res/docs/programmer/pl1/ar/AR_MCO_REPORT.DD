@@ -1,0 +1,18 @@
+/*********************************************************************
+	AR_MCO_REPORT File
+********************************************************************/
+
+declare	1 AR_MCO_REPORT_RECORD,
+		3 AR_MCO_SUB_CARR      character (        2),
+		3 AR_MCO_START         fixed binary (31),
+		3 AR_MCO_END           fixed binary (31),
+		3 AR_SVC_CHG_PER       float binary (21),
+		3 AR_SUB_DATE          fixed binary (15),
+		3 AR_SUB_PAGE          fixed binary (15),
+		3 AR_NET_MCO           float binary (53),
+		3 AR_MCO_NET_TOTAL     float binary (53),
+		3 AR_TOTAL_MCO         fixed binary (31),
+		3 AR_TOTAL_NET         float binary (53),
+		3 AR_SERVICE_CHARGE    float binary (53),
+		3 AR_AMOUNT_DUE        float binary (53);
+

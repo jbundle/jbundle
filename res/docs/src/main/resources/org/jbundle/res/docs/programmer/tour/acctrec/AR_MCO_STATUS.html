@@ -1,0 +1,61 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program displays the current status of an MCO.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>You can access an MCO either by the booking number, or the actual MCO number. Entering the first
+numbers of the MCO number will display all matching MCOs in order.
+
+<br wp="br1"><br wp="br2">
+<p>If there are more than one MCOs for one booking, then they will all display.
+
+<br wp="br1"><br wp="br2">
+<p>If the MCO has not been posted to the General Ledger yet, the amounts may be changed. The
+amounts may only be changed for report use, the actual amount posted to the booking may not be
+changed.
+
+<br wp="br1"><br wp="br2">
+<p>If the amount posted to a booking is incorrect, first change the MCO information to the correct values,
+so the MCO submission will be correct, then enter a credit or debit memo to the booking with
+distribution to the MCO variance account. This will insure all entries are correct.
+
+<br wp="br1"><br wp="br2">
+<p>For example:
+
+<p>MCO net should have been $900, but was posted as $1000.
+
+<br wp="br1"><br wp="br2">
+<p>First, change the MCO amount to 1000. Then enter a debit memo for $100. The booking will show
+the correct amount. If the carrier pays $1000, the G/L entries will be:
+
+<p>Cash			1000.00
+
+<p>	A/R MCOs			900.00
+
+<p>	MCO Variances		100.00
+
+<p>The debit memo will produce:
+
+<p>MCO Variance	100.00
+
+<p>	Accounts Receivable	100.00
+
+<p>leaving all accounts in the correct state.
+</body>
+</html>

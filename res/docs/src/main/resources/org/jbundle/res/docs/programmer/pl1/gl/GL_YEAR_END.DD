@@ -1,0 +1,14 @@
+/*********************************************************************
+	GL_YEAR_END File
+********************************************************************/
+
+declare	1 GL_YEAR_END_RECORD,
+		3 GL_CUTOFF            fixed binary (15),
+		3 GL_RE_ACCT           fixed binary (31),
+		3 PERIOD_NO            fixed binary (15),
+		3 CURRENT_PERIOD       fixed binary (15),
+		3 CURRENT_BALANCE      float binary (53),
+		3 PERIOD_ARRAY(53) fixed binary (15),
+		3 GL_RE_AMT            float binary (53),
+		3 GL_ERROR_SAVE        fixed binary (15);
+

@@ -1,0 +1,1034 @@
+/****************************************************************
+	Module: TK_ANAL_RPT
+	Top Level Logic: REPORT_LOGIC
+	Date:  4-Jan-92
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	TK_ANAL_RPT
+	Standard report logic
+****************************************************************/
+
+%replace TK_ANAL_RPT_1 by 595;
+%replace TK_ANAL_RPT_2 by 594;
+TK_ANAL_RPT:
+   procedure;
+%replace TK_HEADER_NO by  56;
+%replace TK_DETAIL_NO by  57;
+%include "TK_ANAL_RPT.DD";
+%include "TK_HEADER.DD";
+%include "TK_DETAIL.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TK_MONTH_GROSS = 0;
+   TK_MONTH_TAX = 0;
+   TK_MONTH_COMM = 0;
+   TK_MONTH_NET = 0;
+   TK_TOTAL_GROSS = 0;
+   TK_TOTAL_TAX = 0;
+   TK_TOTAL_COMM = 0;
+   TK_TOTAL_NET = 0;
+   TK_MATCH_AIRL = "";
+   TK_MATCH_COMMENT = "";
+   TK_MONTH_SAVE = 0;
+   TK_MONTH_DESC = "";
+   TK_ANL_DATE = TODAYS_DATE();
+   TK_ANL_TIME = CURRENT_TIME();
+   TK_ANL_USER = USER_NAME();
+   TK_ANL_PAGE = 1;
+   TK_INCL_DETAIL = "Y";
+   TK_MONTH_PAX = 0;
+   TK_TOTAL_PAX = 0;
+   TK_ANAL_SS = "R";
+   TK_MATCH_INTER = "";
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (TK_ANAL_RPT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (TK_ANAL_RPT_RECORD) );
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("SSHEET");
+   call SETUP_PRINT_FORMAT (TK_ANAL_RPT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* CHECK_TK_FORMAT - Report or spreadsheet format? */
+
+   if TK_ANAL_SS = "R" then
+      do;
+
+      /* CLOSE_LPT - Close the printer */
+
+      call CLOSE_PRINTER;
+
+
+      /* OPEN_RPT - Open the "REPORT" print file */
+
+      call OPEN_PRINTER("REPORT");
+      call SETUP_PRINT_FORMAT (TK_ANAL_RPT_2);
+      call PRINTING_OCCURRING;
+      call DUMP_BUFFER;
+      end;
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TK_MODIFICATION = 0;
+   TK_DEP_DATE = TK_START_DEP;
+   TK_BK_TK_NO = 0;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_3,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+
+   /* GET_TK_MONTH - Get the month for the report */
+
+   TK_MONTH_DESC = substr(
+      "         January  February March    April    May      June     July     August   SeptemberOctober  November December "
+      ,TK_MONTH_SAVE*9+1,9);
+
+   do LOOP_INDEX =   7 to  10;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+TK_END_DEP = TK_START_DEP;
+TK_END_ENT = TK_START_ENT;
+do LOOP_INDEX =   1 to  28;
+   if LOOP_INDEX =   3 then
+      TK_END_DEP = TK_START_DEP;
+   if LOOP_INDEX =   5 then
+      TK_END_ENT = TK_START_ENT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TK_START_DEP = 0;
+         TK_END_DEP = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TK_START_ENT = 0;
+         TK_END_ENT = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   8 then
+      do;
+
+      /* CHECK_NO_AIRL - Check if no airline entered */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 17;
+
+      end;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* CHECK_NO_AIRL - Check if no airline entered */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 17;
+
+      end;
+   if LOOP_INDEX =  10 then
+      do;
+
+      /* CHECK_NO_AIRL - Check if no airline entered */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 17;
+
+      end;
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* CHECK_NO_AIRL - Check if no airline entered */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 17;
+
+      end;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* CHECK_NO_AIRL - Check if no airline entered */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 17;
+
+      end;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* CHECK_NO_AIRL - Check if no airline entered */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 17;
+
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* CHECK_NO_AIRL - Check if no airline entered */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 17;
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* CHECK_NO_AIRL - Check if no airline entered */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 17;
+
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* CHECK_NO_AIRL - Check if no airline entered */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 17;
+
+      end;
+   if LOOP_INDEX =  17 then
+      do;
+
+      /* CHECK_NO_AIRL - Check if no airline entered */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 17;
+
+      end;
+   if LOOP_INDEX =  18 then
+      do;
+
+      /* CHECK_NO_COMMENTS - Comment to match = 0 */
+
+      if TK_COMM_MATCH = 0 then
+         LOOP_INDEX = 23;
+
+      end;
+   if LOOP_INDEX =  19 then
+      do;
+
+      /* CHECK_NO_COMMENT - Blank comment match entered? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 23;
+
+      end;
+   if LOOP_INDEX =  20 then
+      do;
+
+      /* CHECK_NO_COMMENT - Blank comment match entered? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 23;
+
+      end;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* CHECK_NO_COMMENT - Blank comment match entered? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 23;
+
+      end;
+   if LOOP_INDEX =  22 then
+      do;
+
+      /* CHECK_NO_COMMENT - Blank comment match entered? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 23;
+
+      end;
+   if LOOP_INDEX =  23 then
+      do;
+
+      /* CHECK_NO_COMMENT - Blank comment match entered? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 23;
+
+      end;
+   if LOOP_INDEX =  24 then
+      do;
+
+      /* CHECK_NO_INTER - Interline carriers? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =  25 then
+      do;
+
+      /* CHECK_NO_INTER - Interline carriers? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =  26 then
+      do;
+
+      /* CHECK_NO_INTER - Interline carriers? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =  27 then
+      do;
+
+      /* CHECK_NO_INTER - Interline carriers? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =  28 then
+      do;
+
+      /* CHECK_NO_INTER - Interline carriers? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 14,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  7 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TK_START_DEP = 0;
+         TK_END_DEP = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TK_START_ENT = 0;
+         TK_END_ENT = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+if SELECT =  8 then
+   do;
+   do LOOP_INDEX =   8 to  17;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =   8 then
+         do;
+
+         /* CHECK_NO_AIRL - Check if no airline entered */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 17;
+
+         end;
+      if LOOP_INDEX =   9 then
+         do;
+
+         /* CHECK_NO_AIRL - Check if no airline entered */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 17;
+
+         end;
+      if LOOP_INDEX =  10 then
+         do;
+
+         /* CHECK_NO_AIRL - Check if no airline entered */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 17;
+
+         end;
+      if LOOP_INDEX =  11 then
+         do;
+
+         /* CHECK_NO_AIRL - Check if no airline entered */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 17;
+
+         end;
+      if LOOP_INDEX =  12 then
+         do;
+
+         /* CHECK_NO_AIRL - Check if no airline entered */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 17;
+
+         end;
+      if LOOP_INDEX =  13 then
+         do;
+
+         /* CHECK_NO_AIRL - Check if no airline entered */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 17;
+
+         end;
+      if LOOP_INDEX =  14 then
+         do;
+
+         /* CHECK_NO_AIRL - Check if no airline entered */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 17;
+
+         end;
+      if LOOP_INDEX =  15 then
+         do;
+
+         /* CHECK_NO_AIRL - Check if no airline entered */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 17;
+
+         end;
+      if LOOP_INDEX =  16 then
+         do;
+
+         /* CHECK_NO_AIRL - Check if no airline entered */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 17;
+
+         end;
+      if LOOP_INDEX =  17 then
+         do;
+
+         /* CHECK_NO_AIRL - Check if no airline entered */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 17;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT >=  9 then if SELECT <=  9 then
+   do;
+   if SELECT =  9 then
+      LOOP_INDEX = 18;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  18 then
+      do;
+
+      /* CHECK_NO_COMMENTS - Comment to match = 0 */
+
+      if TK_COMM_MATCH = 0 then
+         LOOP_INDEX = 23;
+
+      end;
+   end;
+if SELECT = 10 then
+   do;
+   do LOOP_INDEX =  19 to  23;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  19 then
+         do;
+
+         /* CHECK_NO_COMMENT - Blank comment match entered? */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 23;
+
+         end;
+      if LOOP_INDEX =  20 then
+         do;
+
+         /* CHECK_NO_COMMENT - Blank comment match entered? */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 23;
+
+         end;
+      if LOOP_INDEX =  21 then
+         do;
+
+         /* CHECK_NO_COMMENT - Blank comment match entered? */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 23;
+
+         end;
+      if LOOP_INDEX =  22 then
+         do;
+
+         /* CHECK_NO_COMMENT - Blank comment match entered? */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 23;
+
+         end;
+      if LOOP_INDEX =  23 then
+         do;
+
+         /* CHECK_NO_COMMENT - Blank comment match entered? */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 23;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT >= 11 then if SELECT <= 13 then
+   do;
+   if SELECT = 11 then
+      LOOP_INDEX = 28;
+   if SELECT = 12 then
+      LOOP_INDEX = 27;
+   if SELECT = 13 then
+      LOOP_INDEX = 26;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  28 then
+      do;
+
+      /* CHECK_NO_INTER - Interline carriers? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =  27 then
+      do;
+
+      /* CHECK_NO_INTER - Interline carriers? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =  26 then
+      do;
+
+      /* CHECK_NO_INTER - Interline carriers? */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   end;
+if SELECT = 14 then
+   do;
+   do LOOP_INDEX =  24 to  25;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  24 then
+         do;
+
+         /* CHECK_NO_INTER - Interline carriers? */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 99;
+
+         end;
+      if LOOP_INDEX =  25 then
+         do;
+
+         /* CHECK_NO_INTER - Interline carriers? */
+
+         if INPUT_LENGTH = 0 then
+            LOOP_INDEX = 99;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+
+/* CHECK_SS_TK - Don't Print heading if SS format */
+
+if TK_ANAL_SS ^= "R" then
+   return;
+
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+TK_ANL_PAGE = TK_ANL_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > 0) !
+   (TK_DEP_DATE > TK_END_DEP) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_TK_SELECT - Is this ticket included on the report? */
+
+
+   /* SKIP_NO_TK - Skip if this is not an actual ticket */
+
+   if (TK_NUMBER = "") ! (TK_ISSUE_DATE = 0) ! (TK_ALT_SEQ = 0) then
+      return;
+
+
+   declare (DAY,MONTH,YEAR) fixed binary;
+   declare TK_MATCH_TEMP character(20);
+   declare I fixed binary;
+
+   if TK_ISSUE_DATE < TK_START_ENT then
+      return;
+
+   if TK_ISSUE_DATE > TK_END_ENT then
+      return;
+
+   if TK_VOIDED_TIC = "N" then if TK_VOID = "Y" then
+      return;
+
+   if TK_MATCH_AIRL(1) ^= "" then
+      do;
+      do I = 1 to 10;
+         if TK_MATCH_AIRL(I) = "" then
+            return;
+         if TK_MATCH_AIRL(I) = TK_AIRL_CODE then
+            goto MATCH_1_OK;
+      end;
+      return;
+      MATCH_1_OK:
+      end;
+
+   if TK_COMM_MATCH > 0 then if TK_COMM_MATCH < 4 then
+      do;
+      do I = 1 to 5;
+         if I > 1 then if TK_MATCH_COMMENT(I) = "" then
+            return;
+         do case (TK_COMM_MATCH);
+            TK_MATCH_TEMP = TK_COMMENT1;
+            TK_MATCH_TEMP = TK_COMMENT2;
+            TK_MATCH_TEMP = TK_COMMENT3;
+         end;
+         if TK_MATCH_COMMENT(I) = TK_MATCH_TEMP then
+            goto MATCH_2_OK;
+      end;
+      return;
+      MATCH_2_OK:
+      end;
+
+   if TK_MATCH_INTER(1) ^= "" then
+      do;
+      do LOOP_INDEX = 1 to 5;
+         if TK_MATCH_INTER(LOOP_INDEX) ^= "" then
+         if TK_MATCH_INTER(LOOP_INDEX) = TK_AIRL_CODE then
+            goto MATCHED;
+      end;
+      TK_DET_MOD = TK_MODIFICATION;
+      TK_DET_BK_TK = TK_BK_TK_NO;
+      TK_DET_ALT_SEQ = TK_ALT_SEQ;
+      TK_DET_ANSW_SEQ = TK_ANSW_SEQ;
+      TK_DATE = 0;
+      TK_SEQ = 0;
+      call SET_POSITION(TK_DETAIL_NO, KEY_AREA_1, ERROR_CODE);
+      ERROR_CODE = NORMAL_RETURN;
+      do while (ERROR_CODE = NORMAL_RETURN);
+         call READ_NEXT(TK_DETAIL_NO, KEY_AREA_1, ERROR_CODE);
+         if (TK_DET_MOD ^= TK_MODIFICATION) !
+            (TK_DET_BK_TK ^= TK_BK_TK_NO) !
+            (TK_DET_ALT_SEQ ^= TK_ALT_SEQ) !
+            (TK_DET_ANSW_SEQ ^= TK_ANSW_SEQ) then
+               ERROR_CODE = END_OF_FILE;
+         if ERROR_CODE = NORMAL_RETURN then
+            do;
+            do LOOP_INDEX = 1 to 5;
+               if TK_MATCH_INTER(LOOP_INDEX) ^= "" then
+               if TK_MATCH_INTER(LOOP_INDEX) = TK_CARRIER then
+                  goto MATCHED;
+            end;
+            end;
+      end;
+      return;
+      MATCHED:
+      end;
+
+   call DAY_TO_DMY(TK_DEP_DATE,DAY,MONTH,YEAR);
+   if TK_MONTH_SAVE ^= MONTH then
+      do;
+      if TK_MONTH_SAVE ^= 0 then
+         do;
+
+         /* PRINT_LINE_G2 - Print */
+
+
+         /* GET_TK_MONTH - Get the month for the report */
+
+         TK_MONTH_DESC = substr(
+            "         January  February March    April    May      June     July     August   SeptemberOctober  November December "
+            ,TK_MONTH_SAVE*9+1,9);
+
+         do LOOP_INDEX =   7 to   8;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      TK_MONTH_GROSS = 0;
+      TK_MONTH_TAX = 0;
+      TK_MONTH_COMM = 0;
+      TK_MONTH_NET = 0;
+      TK_MONTH_PAX = 0;
+
+      TK_MONTH_SAVE = MONTH;
+      end;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* PRINT_TK_COMMENTS - Print the comments? */
+
+   if TK_INCL_DETAIL = "Y" then
+      do;
+
+      /* PRINT_LINE_D1 -  */
+
+
+      /* SET_TAXES - Set the totals tax amount */
+
+      TK_TAXES = TK_TAX_1 + TK_TAX_2;
+
+
+      /* CHECK_TK_SS - Print spreadsheet format if SS */
+
+      if TK_ANAL_SS = "S" then
+         do;
+         call SPREAD_SHEET_OUT(12);
+         return;
+         end;
+
+      do LOOP_INDEX =   6 to   6;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+
+   /* ADD_TK_TOTALS - Add to the ticketing totals */
+
+   TK_MONTH_GROSS =floor((TK_MONTH_GROSS + TK_TOTAL) * 100 + 0.5) / 100;
+   TK_MONTH_TAX = floor((TK_MONTH_TAX + TK_TAXES) * 100 + 0.5) / 100;
+   TK_MONTH_COMM = floor((TK_MONTH_COMM + TK_COMM_AMT) * 100 + 0.5) / 100;
+   TK_MONTH_NET = floor((TK_MONTH_NET + TK_NET_FARE) * 100 + 0.5) / 100;
+   TK_TOTAL_GROSS =floor((TK_TOTAL_GROSS + TK_TOTAL) * 100 + 0.5) / 100;
+   TK_TOTAL_TAX = floor((TK_TOTAL_TAX + TK_TAXES) * 100 + 0.5) / 100;
+   TK_TOTAL_COMM = floor((TK_TOTAL_COMM + TK_COMM_AMT) * 100 + 0.5) / 100;
+   TK_TOTAL_NET = floor((TK_TOTAL_NET + TK_NET_FARE) * 100 + 0.5) / 100;
+
+   TK_MONTH_PAX = TK_MONTH_PAX + 1;
+   TK_TOTAL_PAX = TK_TOTAL_PAX + 1;
+
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

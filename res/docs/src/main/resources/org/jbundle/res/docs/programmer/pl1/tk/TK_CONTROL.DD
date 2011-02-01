@@ -1,0 +1,17 @@
+/*********************************************************************
+	TK_CONTROL File
+********************************************************************/
+
+declare	1 TK_CONTROL_RECORD,
+		3 TK_REC_NO            fixed binary (15),
+		3 TK_AGENCY_NAME       character (       19),
+		3 AGENCY_NAME_2        character (       13),
+		3 AGENCY_ISSUE         character (       17),
+		3 AGENCY_ARC_NO        character (       10),
+		3 TK_DEF_ARC_SUM       fixed binary (31),
+		3 TK_DEF_OR_CASH       fixed binary (31),
+		3 TK_DEF_AIR_COST      fixed binary (31),
+		3 TK_DEF_PP            fixed binary (31),
+		3 TK_DEF_OR_REC        fixed binary (31),
+		3 TK_DEF_OR_VAR        fixed binary (31);
+

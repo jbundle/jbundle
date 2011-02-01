@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jbundle-main-reactor</artifactId>
+    <groupId>org.jbundle.main</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
+  <artifactId>org.jbundle.main.db</artifactId>
+  <name>jbundle-main-db</name>
+  <packaging>bundle</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <inherited>true</inherited>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>${maven-bundle-pluginVersion}</version>
+        <configuration>
+          <instructions>
+            <Export-Package>
+            org.jbundle.main.db.*;version=${project.version},
+            org.jbundle.main.user.db.*;version=${project.version},
+            </Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle.base</groupId>
+      <artifactId>jbundle-base-mixed</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+	    <groupId>org.jbundle.config.dep</groupId>
+	    <artifactId>jbundle-config-dep-thin-base</artifactId>
+	    <version>0.7.7-SNAPSHOT</version>
+	    <type>pom</type>
+    </dependency>
+  </dependencies>
+
+</project>

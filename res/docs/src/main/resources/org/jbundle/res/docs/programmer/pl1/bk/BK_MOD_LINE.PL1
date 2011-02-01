@@ -1,0 +1,197 @@
+/****************************************************************
+	Module: BK_MOD_LINE
+	Top Level Logic: DIS_TABLE_DISPLAY
+	Date: 23-Dec-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_MOD_LINE
+	Top Level - Table Display
+****************************************************************/
+
+%replace BK_MOD_LINE_1 by 758;
+BK_MOD_LINE:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_LINE_RECORD);
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_LINE_NO by  51;
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_LINE.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+   call INITIALIZE;
+   call DIS_TABLE_DIS;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_MOD_LINE_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_TABLE_DIS
+	Mainline logic
+****************************************************************/
+
+DIS_TABLE_DIS:
+	procedure;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+return;
+end;	/* DIS_TABLE_DIS        */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		BK_LINE_MOD_SAVE     fixed binary (15);
+declare		BK_LINE_BK_NO_SAVE   fixed binary (31);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		BK_LINE_SEQ_ARRAY(16) fixed binary (15);
+declare		BK_LINE_ERROR        fixed binary (15);
+declare		BK_LINE_SEQ_SAVE     fixed binary (15);
+declare		ANSWER               character (1);
+BK_TOUR_PRICE = 0;
+BK_NET_PRICE = 0;
+BK_LINE_MOD = BK_MODIFICATION;
+BK_LINE_MOD_SAVE = BK_LINE_MOD;
+BK_LINE_BK_NO = BOOKING_NO;
+BK_LINE_BK_NO_SAVE = BK_LINE_BK_NO;
+BK_LINE_SEQ = 0;
+call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (BK_LINE_MOD > BK_LINE_MOD_SAVE) !
+   (BK_LINE_BK_NO > BK_LINE_BK_NO_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 16;
+      BK_LINE_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_LINE_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_LINE_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 16) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  11 to  16;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         BK_TOUR_PRICE = floor((BK_TOUR_PRICE + BK_LINE_EXTEN) * 100 + 0.5) / 100;
+         BK_NET_PRICE = floor((BK_NET_PRICE + BK_LINE_NET) * 100 + 0.5) / 100;
+         BK_LINE_SEQ_ARRAY(RECORD_NUMBER) = BK_LINE_SEQ;
+         call READ_NEXT (BK_LINE_NO,KEY_AREA_1,BK_LINE_ERROR);
+         if (BK_LINE_MOD > BK_LINE_MOD_SAVE) !
+         (BK_LINE_BK_NO > BK_LINE_BK_NO_SAVE) then
+            BK_LINE_ERROR = END_OF_FILE;
+         if BK_LINE_ERROR = END_OF_FILE then
+            do;
+            call SET_ROW_OFFSET (0);
+            do LOOP_INDEX =  17 to  18;
+               call OUTPUT_FIELD (LOOP_INDEX);
+            end;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      BK_LINE_SEQ_SAVE = BK_LINE_SEQ_ARRAY(16);
+      BK_LINE_MOD = BK_LINE_MOD_SAVE;
+      BK_LINE_BK_NO = BK_LINE_BK_NO_SAVE;
+      if BK_LINE_ERROR = END_OF_FILE then
+         do;
+         GET_OUT = YES;
+         call PRESS_RETURN;
+         end;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      do;
+      GET_OUT = YES;
+      call PRESS_RETURN;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 16;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if BK_LINE_SEQ_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =11 to  16;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

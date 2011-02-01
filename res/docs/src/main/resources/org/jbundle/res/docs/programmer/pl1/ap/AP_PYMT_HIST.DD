@@ -1,0 +1,18 @@
+/*********************************************************************
+	AP_PYMT_HIST File
+********************************************************************/
+
+declare	1 AP_PYMT_HIST_RECORD,
+		3 AP_HIST_BANK         fixed binary (15),
+		3 AP_HIST_ENTRY        fixed binary (31),
+		3 AP_HIST_CHECK        fixed binary (31),
+		3 AP_HIST_SEQ          fixed binary (15),
+		3 AP_HIST_TYPE         character (        1),
+		3 AP_HIST_CHECK_DATE   fixed binary (15),
+		3 AP_HIST_CK_AMT       float binary (53),
+		3 AP_HIST_AMT_APPL     float binary (53),
+		3 AP_HIST_APPL_USD     float binary (53),
+		3 AP_HIST_APPL_GL      float binary (53),
+		3 AP_HIST_GL           fixed binary (31),
+		3 AP_HIST_TYPE_DESC    character (        7);
+

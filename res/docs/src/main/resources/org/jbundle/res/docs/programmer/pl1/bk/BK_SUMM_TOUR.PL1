@@ -1,0 +1,1160 @@
+/****************************************************************
+	Module: BK_SUMM_TOUR
+	Top Level Logic: SUMMARY_LOGIC
+	Date: 20-Jul-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_SUMM_TOUR
+	Top-level Analyze and Summarize data
+****************************************************************/
+
+%replace BK_SUMM_TOUR_1 by 888;
+%replace BK_SUMM_TOUR_2 by 889;
+BK_SUMM_TOUR:
+   procedure;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace AD_CURR_NO by  25;
+%replace AP_OPEN_NO by  32;
+%replace TK_HEADER_NO by  56;
+%include "BK_SUMM_TOUR.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "AD_CURR.DD";
+%include "AP_OPEN.DD";
+%include "TK_HEADER.DD";
+
+declare		END_SUMMARY_MAIN     bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		KEY_LENGTH           fixed binary (15);
+declare		RECORD_LENGTH        fixed binary (15);
+declare		TEMP_RECORD          character (     1000);
+declare		END_ANAL_THRU_SUMM   bit (1);
+declare		END_PRINT_THRU_SUMM  bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		LINE                 fixed binary (15);
+declare		END_RT_SCAN_BK       bit (1);
+declare		END_RT_SCAN_AP       bit (1);
+declare		END_RT_SCAN_AIR      bit (1);
+   call INITIALIZE;
+   END_SUMMARY_MAIN = NO;
+   do while (END_SUMMARY_MAIN ^= YES);
+      call SUMMARY_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   RT_ANALYZE_BY = "X";
+   RT_PERIOD_TYPE = "D";
+   TR_PERIOD_LENGTH = 1;
+   RT_DATE_RPT = TODAYS_DATE();
+   RT_TIME = CURRENT_TIME();
+   RT_USER = USER_NAME();
+   RT_TOURS = 0;
+   RT_BOOKINGS = 0;
+   RT_PAX = 0;
+   RT_GROSS = 0;
+   RT_NET = 0;
+   RT_TOUR_COST = 0;
+   RT_AIR_COST = 0;
+   TOUR_QUADS = 0;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_SUMM_TOUR_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_SUMM_TOUR_RECORD) );
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SUMMARY_MAIN
+	Mainline logic
+****************************************************************/
+
+SUMMARY_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_SUMMARY_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_SUMMARY_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("SSHEET");
+   call SETUP_PRINT_FORMAT (BK_SUMM_TOUR_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+   call PRT_PAGE_HEADING;
+
+   /* SET_TEMP_FILE - Set up the temporary file */
+
+   declare CREATE_TEMP entry(fixed binary,fixed binary);
+   KEY_LENGTH =
+      bytesize(RT_CODE) +
+      bytesize(RT_CODE_2) +
+      bytesize(RT_DATE);
+   RECORD_LENGTH = KEY_LENGTH  +
+      bytesize(RT_TOURS) +
+      bytesize(RT_BOOKINGS) +
+      bytesize(RT_PAX) +
+      bytesize(RT_GROSS) +
+      bytesize(RT_NET) +
+      bytesize(RT_TOUR_COST) +
+      bytesize(RT_AIR_COST);
+   call CREATE_TEMP(KEY_LENGTH,RECORD_LENGTH);
+   %replace TEMP_DB by 512;
+   call OPEN_FILE (TEMP_DB,"?TEMP_DB",byteaddr(TEMP_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      END_SUMMARY_MAIN = YES;
+      return;
+      end;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TOUR_DEP_DATE = RT_START_DATE;
+   TOUR_NO = 0;
+   call SET_POSITION (BK_TOUR_NO,KEY_AREA_3,ERROR_CODE);
+   END_ANAL_THRU_SUMM = NO;
+   do while (END_ANAL_THRU_SUMM ^= YES);
+      call ANAL_THRU_SUMM;
+   end;
+
+   /* SET_FIELDS - Set the values for these fields */
+
+   RT_CODE = "";
+   RT_CODE_2 = "";
+   RT_DATE = 0;
+   RT_TOURS = 0;
+   RT_BOOKINGS = 0;
+   RT_PAX = 0;
+   RT_GROSS = 0;
+   RT_NET = 0;
+   RT_TOUR_COST = 0;
+   RT_AIR_COST = 0;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* SET_FIRST_RT - Initialize for first read */
+
+   RT_CODE = "<0>"c;
+
+
+   /* SET_ERROR_CODE - Set the ERROR_CODE flag to a 1 */
+
+   ERROR_CODE = 1;
+
+   END_PRINT_THRU_SUMM = NO;
+   do while (END_PRINT_THRU_SUMM ^= YES);
+      call PRINT_THRU_SUMM;
+   end;
+
+   /* CLOSE_TEMP_FILE - Close the temporary file */
+
+   call CLOSE_FILE (TEMP_DB);
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_SUMMARY_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* SUMMARY_MAIN         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   6;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (112);
+   if LOOP_INDEX =   3 then
+      call DISPLAY_MSG_NO (110);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* CALC_RT_MONTH - Set the start day month year for later */
+
+      call DAY_TO_DMY (RT_START_DATE,RT_DAY,RT_MONTH,RT_YEAR);
+
+      end;
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* CALC_RT_END - Round up the month to vaild end month */
+
+      declare PERIOD_LENGTH fixed binary;
+      if RT_PERIOD_TYPE ^= "M" then
+         do;
+         PERIOD_LENGTH = TR_PERIOD_LENGTH;
+         if RT_PERIOD_TYPE = "W" then
+            PERIOD_LENGTH = TR_PERIOD_LENGTH * 7;
+         RT_END_DATE = RT_START_DATE+divide((RT_END_DATE-RT_START_DATE),PERIOD_LENGTH,15)*PERIOD_LENGTH + PERIOD_LENGTH - 1;
+         end;
+      else
+         do;
+         declare (DAY,MONTH,YEAR) fixed binary;
+         call DAY_TO_DMY(RT_END_DATE,DAY,MONTH,YEAR);
+         if DAY >= RT_DAY then
+            MONTH = MONTH + 1;
+         DAY = RT_DAY;
+         MONTH = RT_MONTH + divide((((MONTH+YEAR*12)-(RT_MONTH+RT_YEAR*12))+TR_PERIOD_LENGTH-1),TR_PERIOD_LENGTH,15) *
+            TR_PERIOD_LENGTH;
+         YEAR = RT_YEAR;
+         do while (MONTH > 12);
+            MONTH = MONTH - 12;
+            YEAR = YEAR + 1;
+         end;
+         call DMY_TO_DAY(RT_END_DATE,DAY,MONTH,YEAR);
+         RT_END_DATE = RT_END_DATE - 1;
+         end;
+
+      call OUTPUT_FIELD (LOOP_INDEX);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  6,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  6 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (112);
+   if LOOP_INDEX =   3 then
+      call DISPLAY_MSG_NO (110);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* CALC_RT_MONTH - Set the start day month year for later */
+
+      call DAY_TO_DMY (RT_START_DATE,RT_DAY,RT_MONTH,RT_YEAR);
+
+      end;
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* CALC_RT_END - Round up the month to vaild end month */
+
+      declare PERIOD_LENGTH fixed binary;
+      if RT_PERIOD_TYPE ^= "M" then
+         do;
+         PERIOD_LENGTH = TR_PERIOD_LENGTH;
+         if RT_PERIOD_TYPE = "W" then
+            PERIOD_LENGTH = TR_PERIOD_LENGTH * 7;
+         RT_END_DATE = RT_START_DATE+divide((RT_END_DATE-RT_START_DATE),PERIOD_LENGTH,15)*PERIOD_LENGTH + PERIOD_LENGTH - 1;
+         end;
+      else
+         do;
+         declare (DAY,MONTH,YEAR) fixed binary;
+         call DAY_TO_DMY(RT_END_DATE,DAY,MONTH,YEAR);
+         if DAY >= RT_DAY then
+            MONTH = MONTH + 1;
+         DAY = RT_DAY;
+         MONTH = RT_MONTH + divide((((MONTH+YEAR*12)-(RT_MONTH+RT_YEAR*12))+TR_PERIOD_LENGTH-1),TR_PERIOD_LENGTH,15) *
+            TR_PERIOD_LENGTH;
+         YEAR = RT_YEAR;
+         do while (MONTH > 12);
+            MONTH = MONTH - 12;
+            YEAR = YEAR + 1;
+         end;
+         call DMY_TO_DAY(RT_END_DATE,DAY,MONTH,YEAR);
+         RT_END_DATE = RT_END_DATE - 1;
+         end;
+
+      call OUTPUT_FIELD (LOOP_INDEX);
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   4;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	ANAL_THRU_SUMM
+	Analyze data and add to summary slot
+****************************************************************/
+
+ANAL_THRU_SUMM:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_TOUR_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TOUR_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TOUR_DEP_DATE > RT_END_DATE) then
+      do;
+      END_ANAL_THRU_SUMM = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* BK_RT_SELECT - Check the tour selection criteria */
+
+   if TOUR_STATUS = "XL" then
+      return;
+
+   if TOUR_STATUS = "NS" then
+      return;
+
+   RT_DATE = TOUR_DEP_DATE;
+
+   declare PERIOD_LENGTH fixed binary;
+   if RT_PERIOD_TYPE ^= "M" then
+      do;
+      PERIOD_LENGTH = TR_PERIOD_LENGTH;
+      if RT_PERIOD_TYPE = "W" then
+         PERIOD_LENGTH = TR_PERIOD_LENGTH * 7;
+      RT_DATE = RT_START_DATE+divide((RT_DATE-RT_START_DATE),PERIOD_LENGTH,15)*PERIOD_LENGTH;
+      end;
+   else
+      do;
+      declare (DAY,MONTH,YEAR) fixed binary;
+      call DAY_TO_DMY(RT_DATE,DAY,MONTH,YEAR);
+      if DAY >= RT_DAY then
+         MONTH = MONTH + 1;
+      DAY = RT_DAY;
+      MONTH = RT_MONTH + divide((((MONTH+YEAR*12)-(RT_MONTH+RT_YEAR*12))+TR_PERIOD_LENGTH-1),TR_PERIOD_LENGTH,15) *
+         TR_PERIOD_LENGTH - TR_PERIOD_LENGTH;
+      YEAR = RT_YEAR;
+      do while (MONTH > 12);
+         MONTH = MONTH - 12;
+         YEAR = YEAR + 1;
+      end;
+      call DMY_TO_DAY(RT_DATE,DAY,MONTH,YEAR);
+      end;
+
+   if (RT_DATE < RT_START_DATE) ! (RT_DATE > RT_END_DATE) then
+      return;
+
+
+   /* FAKE_TOUR_INFO - Fake the booking tour info to get hdr */
+
+   BK_TOUR_CODE = TOUR_CODE;
+   BK_DEPARTURE = TOUR_DEP_DATE;
+
+
+   /* GET_TOUR_HDR - Get the tour header */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   HDR_TOUR_CODE = BK_TOUR_CODE;
+   HDR_END_ON = BK_DEPARTURE;
+   if HDR_END_ON = 0 then
+      HDR_END_ON = TODAYS_DATE();
+   call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= END_OF_FILE then
+      call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+   if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+      ERROR_CODE = END_OF_FILE;
+   if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+      ERROR_CODE = END_OF_FILE;
+
+
+   RT_CODE = "";
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      if RT_ANALYZE_BY = "T" then
+         RT_CODE = HDR_TOUR_TYPE;
+      if RT_ANALYZE_BY = "B" then
+         RT_CODE = HDR_BROCHURE;
+      if RT_ANALYZE_BY = "C" then
+         RT_CODE = HDR_CARRIER;
+      if RT_ANALYZE_BY = "P" then
+         RT_CODE = HDR_PROD_CODE;
+      end;
+   if RT_ANALYZE_BY = "X" then
+      RT_CODE = TOUR_CODE;
+
+   RT_CODE_2 = "";
+   if TR_TOUR_ORDER = "Y" then
+      RT_CODE_2 = TOUR_CODE;
+
+   RT_BK_COUNT = 0;
+   TOUR_PAX = 0;
+   RT_TR_GROSS = 0;
+   RT_TR_NET = 0;
+   RT_TR_COST = 0;
+   RT_AIR = 0;
+
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_RT_SCAN_BK = NO;
+   do while (END_RT_SCAN_BK ^= YES);
+      call RT_SCAN_BK;
+   end;
+
+   /* SET_FIRST_AP - Set to the first tour A/P detail */
+
+   AP_OPEN_TOUR = TOUR_NO;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+   END_RT_SCAN_AP = NO;
+   do while (END_RT_SCAN_AP ^= YES);
+      call RT_SCAN_AP;
+   end;
+
+   call SET_TEMP_KEY;
+
+   /* READ_TEMP_RECORD - Read the temp record */
+
+   call READ_KEYED(TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+   /* TEMP_RECORD_FOUND - Was the record found? */
+
+   if ERROR_CODE = NORMAL_RETURN then
+      begin;
+
+      /* GET_TEMP_FILE - Set up all the fields for the temp rec. */
+
+      declare MOVE_FIELD character (100) based;
+      declare FIELDPTR pointer;
+      declare FIELDBIN fixed binary(31) defined(FIELDPTR);
+      FIELDPTR = byteaddr(TEMP_RECORD);
+      substr(byteaddr(RT_CODE)->MOVE_FIELD,1,bytesize(RT_CODE)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_CODE));
+      FIELDBIN = FIELDBIN + bytesize(RT_CODE);
+      substr(byteaddr(RT_CODE_2)->MOVE_FIELD,1,bytesize(RT_CODE_2)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_CODE_2));
+      FIELDBIN = FIELDBIN + bytesize(RT_CODE_2);
+      substr(byteaddr(RT_DATE)->MOVE_FIELD,1,bytesize(RT_DATE)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_DATE));
+      FIELDBIN = FIELDBIN + bytesize(RT_DATE);
+      substr(byteaddr(RT_TOURS)->MOVE_FIELD,1,bytesize(RT_TOURS)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_TOURS));
+      FIELDBIN = FIELDBIN + bytesize(RT_TOURS);
+      substr(byteaddr(RT_BOOKINGS)->MOVE_FIELD,1,bytesize(RT_BOOKINGS)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_BOOKINGS));
+      FIELDBIN = FIELDBIN + bytesize(RT_BOOKINGS);
+      substr(byteaddr(RT_PAX)->MOVE_FIELD,1,bytesize(RT_PAX)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_PAX));
+      FIELDBIN = FIELDBIN + bytesize(RT_PAX);
+      substr(byteaddr(RT_GROSS)->MOVE_FIELD,1,bytesize(RT_GROSS)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_GROSS));
+      FIELDBIN = FIELDBIN + bytesize(RT_GROSS);
+      substr(byteaddr(RT_NET)->MOVE_FIELD,1,bytesize(RT_NET)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_NET));
+      FIELDBIN = FIELDBIN + bytesize(RT_NET);
+      substr(byteaddr(RT_TOUR_COST)->MOVE_FIELD,1,bytesize(RT_TOUR_COST)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_TOUR_COST));
+      FIELDBIN = FIELDBIN + bytesize(RT_TOUR_COST);
+      substr(byteaddr(RT_AIR_COST)->MOVE_FIELD,1,bytesize(RT_AIR_COST)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_AIR_COST));
+      FIELDBIN = FIELDBIN + bytesize(RT_AIR_COST);
+      end;
+   else
+      do;
+
+      /* SET_FIELDS - Set the values for these fields */
+
+      RT_CODE = "";
+      RT_CODE_2 = "";
+      RT_DATE = 0;
+      RT_TOURS = 0;
+      RT_BOOKINGS = 0;
+      RT_PAX = 0;
+      RT_GROSS = 0;
+      RT_NET = 0;
+      RT_TOUR_COST = 0;
+      RT_AIR_COST = 0;
+      call RESTORE_KEY;
+      end;
+
+
+   /* ADD_TOTALS - Add to the total fields */
+
+   RT_TOURS = RT_TOURS + 1;
+   RT_BOOKINGS = RT_BOOKINGS + RT_BK_COUNT;
+   RT_PAX = RT_PAX + TOUR_PAX;
+   RT_GROSS = floor((RT_GROSS + RT_TR_GROSS) * 100 + 0.5) / 100;
+   RT_NET = floor((RT_NET + RT_TR_NET) * 100 + 0.5) / 100;
+   RT_TOUR_COST = floor((RT_TOUR_COST + RT_TR_COST) * 100 + 0.5) / 100;
+   RT_AIR_COST = floor((RT_AIR_COST + RT_AIR) * 100 + 0.5) / 100;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* ADD_TEMP_RECORD - Add this information to the temp file */
+
+   declare FAKE_FIELD character(100) based;
+   TEMP_RECORD =
+      substr(byteaddr(RT_CODE)->FAKE_FIELD,1,bytesize(RT_CODE)) !!
+      substr(byteaddr(RT_CODE_2)->FAKE_FIELD,1,bytesize(RT_CODE_2)) !!
+      substr(byteaddr(RT_DATE)->FAKE_FIELD,1,bytesize(RT_DATE)) !!
+      substr(byteaddr(RT_TOURS)->FAKE_FIELD,1,bytesize(RT_TOURS)) !!
+      substr(byteaddr(RT_BOOKINGS)->FAKE_FIELD,1,bytesize(RT_BOOKINGS)) !!
+      substr(byteaddr(RT_PAX)->FAKE_FIELD,1,bytesize(RT_PAX)) !!
+      substr(byteaddr(RT_GROSS)->FAKE_FIELD,1,bytesize(RT_GROSS)) !!
+      substr(byteaddr(RT_NET)->FAKE_FIELD,1,bytesize(RT_NET)) !!
+      substr(byteaddr(RT_TOUR_COST)->FAKE_FIELD,1,bytesize(RT_TOUR_COST)) !!
+      substr(byteaddr(RT_AIR_COST)->FAKE_FIELD,1,bytesize(RT_AIR_COST));
+
+   /* UPDATE_WRITE_TEMP - Update or write the temporary record */
+
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+
+      /* UPDATE_TEMP_RECORD - Update the temp record */
+
+      call UPDATE_RECORD (TEMP_DB,ERROR_CODE);
+
+      end;
+   else
+      do;
+
+      /* WRITE_TEMP_RECORD - Write the temporary record */
+
+      call WRITE_RECORD (TEMP_DB,ERROR_CODE);
+
+      end;
+
+return;
+end;	/* ANAL_THRU_SUMM       */
+
+/****************************************************************
+	RT_SCAN_BK
+	Scan all the bookings and air for tour
+****************************************************************/
+
+RT_SCAN_BK:
+	procedure;
+
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_RT_SCAN_BK = YES;
+      return;
+      end;
+
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+
+   /* SKIP_NS_BK - Skip bookings with no status */
+
+   if BK_STATUS = "NS" then
+      return;
+
+
+   /* ADD_RT_BK - Add the booking totals */
+
+   RT_BK_COUNT = RT_BK_COUNT + 1;
+   TOUR_PAX = TOUR_PAX + BK_PAX;
+   RT_TR_GROSS = floor((RT_TR_GROSS + BK_TOUR_PRICE) * 100 + 0.5) / 100;
+   RT_TR_NET = floor((RT_TR_NET + BK_NET_PRICE) * 100 + 0.5) / 100;
+
+
+   /* SET_FIRST_TKHDR - Set to the first header record */
+
+   TK_MODIFICATION = 0;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   END_RT_SCAN_AIR = NO;
+   do while (END_RT_SCAN_AIR ^= YES);
+      call RT_SCAN_AIR;
+   end;
+return;
+end;	/* RT_SCAN_BK           */
+
+/****************************************************************
+	RT_SCAN_AIR
+	Add up the air costs
+****************************************************************/
+
+RT_SCAN_AIR:
+	procedure;
+
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_TKHDR - Last TK header? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > 0) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_RT_SCAN_AIR = YES;
+      return;
+      end;
+
+   /* ADD_RT_AIR - Add the cost of this ticket */
+
+   if (TOUR_DEPARTED = "Y") ! (TOUR_STATUS = "XL") then
+      if TK_ALT_SEQ = 0 then
+         return;
+
+   if (TK_ALT_SEQ = 0) & (TK_ANSW_SEQ = 0) then
+      do;
+      ERROR_CODE = NORMAL_RETURN;
+      do while (ERROR_CODE = NORMAL_RETURN);
+         call READ_NEXT(TK_HEADER_NO+?KEY_ONLY,KEY_AREA_1,ERROR_CODE);
+         if (TK_MODIFICATION > BK_MODIFICATION) !
+         (TK_BK_TK_NO > BOOKING_NO) then
+            ERROR_CODE = END_OF_FILE;
+         if ERROR_CODE = NORMAL_RETURN then
+            if TK_ANSW_SEQ = 0 then
+               BK_PAX = BK_PAX - 1;
+      end;
+
+      /* SET_FIRST_TKHDR - Set to the first header record */
+
+      TK_MODIFICATION = 0;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = 0;
+      TK_ANSW_SEQ = 0;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+
+      /* READ_NEXT_AIRH - Read the next air header */
+
+      call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+      if BK_PAX <= 0 then
+         return;
+      end;
+
+   if TK_VOID = "Y" then
+      TK_NET = 0;
+
+   if (TK_ALT_SEQ = 0) & (TK_ANSW_SEQ = 0) then
+      do;
+      if (TK_UD_STATUS = XL_TK) ! (TK_UD_STATUS = XLD_TK) then
+         TK_NET = 0;
+      RT_AIR =floor((RT_AIR + TK_NET * BK_PAX) * 100 + 0.5) / 100;
+      end;
+   else
+      do;
+      RT_AIR = floor((RT_AIR + TK_NET) * 100 + 0.5) / 100;
+      end;
+
+return;
+end;	/* RT_SCAN_AIR          */
+
+/****************************************************************
+	RT_SCAN_AP
+	Scan the tour costs
+****************************************************************/
+
+RT_SCAN_AP:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AD_CURR        fixed binary (15);
+
+   /* READ_NEXT_APT - Read the next A/P tour detail */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_APT - Last A/P detail for this tour? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_TOUR > TOUR_NO) then
+      do;
+      END_RT_SCAN_AP = YES;
+      return;
+      end;
+
+   /* SET_TOUR_BAL - Fake tour balances for estimates */
+
+   if AP_ENTRY_TYPE = DEP_EST then
+      do;
+      AP_VEN_INV_AMT = AP_DEP_EST;
+      AP_VEN_INV_USD = AP_DEP_EST_USD;
+      AP_INV_BAL = AP_DEP_EST;
+      AP_INV_BAL_USD = AP_DEP_EST_USD;
+      end;
+   if AP_ENTRY_TYPE = FIN_EST then
+      do;
+      AP_VEN_INV_AMT = AP_FINL_EST;
+      AP_VEN_INV_USD = 0;
+      AP_INV_BAL = AP_FINL_EST;
+      if (AP_GL_STATUS ^= NO_VCHR) &
+         (AP_GL_STATUS ^= REC_ACK) &
+         (AP_GL_STATUS ^= VCHR_PRTD) &
+         (AP_GL_STATUS ^= MAN_FINL) then
+            AP_INV_BAL = 0;
+      AP_INV_BAL_USD = 0;
+      end;
+
+
+   /* ADD_RT_AP - Add the tour cost for this voucher */
+
+   if AP_ENTRY_TYPE = FIN_EST then
+      do;
+      CURR_CODE = AP_OPEN_CURR;
+
+      /* READ_CURR - Read in the currency */
+
+      call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_AD_CURR);
+      if ERROR_AD_CURR > 3 then
+         call PRINT_ERROR (AD_CURR_NO,ERROR_AD_CURR);
+      if ERROR_AD_CURR ^= NORMAL_RETURN then
+         LAST_EXCHANGE = 0;
+      AP_PAID_USD = AP_VEN_INV_AMT * LAST_EXCHANGE;
+      end;
+
+   if (AP_ENTRY_TYPE = PRPYMT) !
+      (AP_ENTRY_TYPE = DR_MEMO) !
+      (AP_ENTRY_TYPE = DIST_PP) !
+      (AP_ENTRY_TYPE = DIST_DR) then
+         do;
+         AP_INV_BAL = 0;
+         AP_PAID_USD = 0;
+         end;
+
+   if AP_INV_BAL ^= 0 then
+      AP_PAID_USD = AP_PAID_USD + AP_INV_BAL_USD;
+
+   RT_TR_COST = floor((RT_TR_COST + AP_PAID_USD) * 100 + 0.5) / 100;
+
+return;
+end;	/* RT_SCAN_AP           */
+
+/****************************************************************
+	SET_TEMP_KEY
+	Set up the temporary key
+****************************************************************/
+
+SET_TEMP_KEY:
+	procedure;
+
+declare FAKE_FIELD character(100) based;
+TEMP_RECORD =
+   substr(byteaddr(RT_CODE)->FAKE_FIELD,1,bytesize(RT_CODE)) !!
+   substr(byteaddr(RT_CODE_2)->FAKE_FIELD,1,bytesize(RT_CODE_2)) !!
+   substr(byteaddr(RT_DATE)->FAKE_FIELD,1,bytesize(RT_DATE));
+return;
+end;	/* SET_TEMP_KEY         */
+
+/****************************************************************
+	RESTORE_KEY
+	Key the key back, now that it was erased
+****************************************************************/
+
+RESTORE_KEY:
+	procedure;
+
+declare MOVE_FIELD character (100) based;
+declare FIELDPTR pointer;
+declare FIELDBIN fixed binary(31) defined(FIELDPTR);
+FIELDPTR = byteaddr(TEMP_RECORD);
+substr(byteaddr(RT_CODE)->MOVE_FIELD,1,bytesize(RT_CODE)) =
+   substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_CODE));
+FIELDBIN = FIELDBIN + bytesize(RT_CODE);
+substr(byteaddr(RT_CODE_2)->MOVE_FIELD,1,bytesize(RT_CODE_2)) =
+   substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_CODE_2));
+FIELDBIN = FIELDBIN + bytesize(RT_CODE_2);
+substr(byteaddr(RT_DATE)->MOVE_FIELD,1,bytesize(RT_DATE)) =
+   substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_DATE));
+FIELDBIN = FIELDBIN + bytesize(RT_DATE);
+return;
+end;	/* RESTORE_KEY          */
+
+/****************************************************************
+	PRINT_THRU_SUMM
+	Print out the summary data
+****************************************************************/
+
+PRINT_THRU_SUMM:
+	procedure;
+
+
+   /* FIRST_LOGIC - Write this logic */
+
+
+   /* CHECK_RT_BREAK - Tour break? */
+
+   declare PERIOD_LENGTH fixed binary;
+   if RT_PERIOD_TYPE ^= "M" then
+      do;
+      PERIOD_LENGTH = TR_PERIOD_LENGTH;
+      if RT_PERIOD_TYPE = "W" then
+         PERIOD_LENGTH = TR_PERIOD_LENGTH * 7;
+      RT_DATE = RT_DATE + PERIOD_LENGTH;
+      end;
+   else
+      do;
+      declare (DAY,MONTH,YEAR) fixed binary;
+      call DAY_TO_DMY(RT_DATE,DAY,MONTH,YEAR);
+      DAY = 1;
+      MONTH = MONTH + TR_PERIOD_LENGTH;
+      if MONTH > 12 then
+         do;
+         MONTH = MONTH - 12;
+         YEAR = YEAR + 1;
+         end;
+      call DMY_TO_DAY(RT_DATE,DAY,MONTH,YEAR);
+      end;
+
+
+   if RT_DATE > RT_END_DATE then
+      ERROR_CODE = 1;
+
+   if ERROR_CODE = 1 then
+      RT_DATE = LARGE_DATE;
+
+
+   /* SET_NEW_TEMP - Next detail group? */
+
+   if ERROR_CODE = 1 then
+      do;
+      call SET_TEMP_KEY;
+
+      /* SET_TEMP_POS - Set to the current key */
+
+      call SET_POSITION (TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+      /* READ_NEXT_TEMP - Read the next temp record */
+
+      call READ_NEXT (TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+      /* RETURN_IF_EOF - Return if end-of-file error */
+
+      if ERROR_CODE = END_OF_FILE then
+         do;
+         END_PRINT_THRU_SUMM = YES;
+         return;
+         end;
+
+      call RESTORE_KEY;
+
+      /* SET_INIT_DATE - Code to set the first date up */
+
+
+      /* SET_RT_DATE - Set the first date up */
+
+      RT_DATE = RT_START_DATE;
+
+      end;
+
+   call SET_TEMP_KEY;
+
+   /* READ_TEMP_RECORD - Read the temp record */
+
+   call READ_KEYED(TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+   /* DATE_FOUND - Was this date's data found? */
+
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+
+      /* GET_TEMP_FILE - Set up all the fields for the temp rec. */
+
+      declare MOVE_FIELD character (100) based;
+      declare FIELDPTR pointer;
+      declare FIELDBIN fixed binary(31) defined(FIELDPTR);
+      FIELDPTR = byteaddr(TEMP_RECORD);
+      substr(byteaddr(RT_CODE)->MOVE_FIELD,1,bytesize(RT_CODE)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_CODE));
+      FIELDBIN = FIELDBIN + bytesize(RT_CODE);
+      substr(byteaddr(RT_CODE_2)->MOVE_FIELD,1,bytesize(RT_CODE_2)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_CODE_2));
+      FIELDBIN = FIELDBIN + bytesize(RT_CODE_2);
+      substr(byteaddr(RT_DATE)->MOVE_FIELD,1,bytesize(RT_DATE)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_DATE));
+      FIELDBIN = FIELDBIN + bytesize(RT_DATE);
+      substr(byteaddr(RT_TOURS)->MOVE_FIELD,1,bytesize(RT_TOURS)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_TOURS));
+      FIELDBIN = FIELDBIN + bytesize(RT_TOURS);
+      substr(byteaddr(RT_BOOKINGS)->MOVE_FIELD,1,bytesize(RT_BOOKINGS)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_BOOKINGS));
+      FIELDBIN = FIELDBIN + bytesize(RT_BOOKINGS);
+      substr(byteaddr(RT_PAX)->MOVE_FIELD,1,bytesize(RT_PAX)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_PAX));
+      FIELDBIN = FIELDBIN + bytesize(RT_PAX);
+      substr(byteaddr(RT_GROSS)->MOVE_FIELD,1,bytesize(RT_GROSS)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_GROSS));
+      FIELDBIN = FIELDBIN + bytesize(RT_GROSS);
+      substr(byteaddr(RT_NET)->MOVE_FIELD,1,bytesize(RT_NET)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_NET));
+      FIELDBIN = FIELDBIN + bytesize(RT_NET);
+      substr(byteaddr(RT_TOUR_COST)->MOVE_FIELD,1,bytesize(RT_TOUR_COST)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_TOUR_COST));
+      FIELDBIN = FIELDBIN + bytesize(RT_TOUR_COST);
+      substr(byteaddr(RT_AIR_COST)->MOVE_FIELD,1,bytesize(RT_AIR_COST)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RT_AIR_COST));
+      FIELDBIN = FIELDBIN + bytesize(RT_AIR_COST);
+      end;
+   else
+      do;
+
+      /* SET_FIELDS - Set the values for these fields */
+
+      RT_CODE = "";
+      RT_CODE_2 = "";
+      RT_DATE = 0;
+      RT_TOURS = 0;
+      RT_BOOKINGS = 0;
+      RT_PAX = 0;
+      RT_GROSS = 0;
+      RT_NET = 0;
+      RT_TOUR_COST = 0;
+      RT_AIR_COST = 0;
+      call RESTORE_KEY;
+      end;
+
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =   5 to   5;
+      call SPREAD_SHEET_OUT(LOOP_INDEX);
+   end;
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+return;
+end;	/* PRINT_THRU_SUMM      */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

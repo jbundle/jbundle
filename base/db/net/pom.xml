@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.base.db</groupId>
+    <artifactId>jbundle-base-db-reactor</artifactId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>org.jbundle.base.db.net</artifactId>
+  <packaging>bundle</packaging>
+  <name>jbundle-base-db-net</name>
+
+  <dependencies>
+  
+    <dependency>
+      <groupId>org.jbundle.base.db</groupId>
+      <artifactId>org.jbundle.base.db</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.base</groupId>
+      <artifactId>org.jbundle.base.other</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.base.db</groupId>
+      <artifactId>org.jbundle.base.db.memory</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+
+  </dependencies>
+
+</project>

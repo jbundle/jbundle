@@ -1,0 +1,51 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program allows you to distribute a prepayment to specific invoices. The prepayment balance can
+be distributed until it reaches zero.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>To start, enter the entry number of the prepayment to distribute.
+
+<br wp="br1"><br wp="br2">
+<p>Once the prepayment is selected, the current selection for this vendor will display. The selection must
+be equal to or less than the prepayment amount. You don't have to distribute the whole amount. The
+prepayment may be reduced in more than one distribution.
+
+<br wp="br1"><br wp="br2">
+<p>Notes:	This program is also used to distribute debit memos. Program operation is exactly the same.
+
+<br wp="br1"><br wp="br2">
+<p>A G/L entry is generated for the items distributed to, for example:
+
+<br wp="br1"><br wp="br2">
+<p>10/3/86  Cost of Tours - FIT   500.00
+
+<p>         Gain/Loss on curr exch 10.00  (Loss)
+
+<p>             Prepayments to Vendors     510.00
+
+<br wp="br1"><br wp="br2">
+<p>Note: Usually, a zero prepayment or debit memo amount cannot be distributed to invoices, because
+after distribution the internal status is changed to "fully distributed." There is an exception which is
+allowed to distribute to invoices which are for a zero amount. In this case, a debit memo can be
+created for a zero amount, and then distribtued to selected invoices with zero amounts. This provides
+a way of clearing departure estimates for which an amount is never invioced.
+
+</body>
+</html>

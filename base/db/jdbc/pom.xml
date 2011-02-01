@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.base.db</groupId>
+    <artifactId>jbundle-base-db-reactor</artifactId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>org.jbundle.base.db.jdbc</artifactId>
+  <packaging>bundle</packaging>
+  <name>jbundle-base-db-jdbc - Jdbc database</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>${maven-bundle-pluginVersion}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+            <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+            <!-- Even though I shouldn't expose jdbc, I need to see it for my package lookup -->
+            <Export-Package>
+            	org.jbundle.base.db.jdbc;version=${project.version},
+            	org.jbundle.base.db.jdbc.service.*;version=${project.version}
+            </Export-Package>
+            <Import-Package>
+                *;resolution:=optional,
+                com.mysql.jdbc;resolution:=optional, <!-- Why doesn't this happen automatically? -->
+                com.mysql.jdbc.jdbc2.optional;resolution:=optional,
+            </Import-Package>
+            <Bundle-Version>${project.version}</Bundle-Version>
+            <Bundle-Activator>org.jbundle.base.db.Jdbc.service.Activator</Bundle-Activator>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.jbundle.config.dep</groupId>
+      <artifactId>jbundle-config-dep-main</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+	  <type>pom</type>
+    </dependency>
+    
+	<dependency>
+	  <groupId>c3p0</groupId>
+	  <artifactId>c3p0</artifactId>
+	  <version>0.9.1.2</version>
+	</dependency>
+
+    <dependency>     <!-- **** NOTE: This should be a 'runtime' dependency! Fix your code ***** -->
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>${mysql-connector-javaVersion}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>${org.osgi.coreVersion}</version>
+      <scope>provided</scope> <!-- This better be provided -->
+    </dependency>
+
+  </dependencies>
+
+</project>

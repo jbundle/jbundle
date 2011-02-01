@@ -1,0 +1,88 @@
+<html>
+<head>
+<title>Creating a Java Description of COM Components</title>
+</head>
+
+<body>
+
+<a name="top">
+<h2>Creating a Java<sup>&trade;</sup> Description of COM Components</h2>
+
+This article has three sections:
+
+<ul>
+	<li><a href="#what">What is the Java Type Library Wizard?</a></li>
+	<li><a href="#use">Using the Java Type Library Wizard</a></li>
+	<li><a href="#output">Output from the Java Type Library Wizard</a>
+	</li>
+</ul>
+
+See the <a href="simpledao.html">sample</a> or the <a href="readme.html">
+readme</a>.
+
+<hr>
+
+<a name="what">
+<h3>What is the Java Type Library Wizard?</h3>
+<p>The Java Type Library Wizard is a tool that reads type libraries
+from .TLB, .OLB, .OCX, .DLL, and .EXE files and creates Java class files
+with information about the COM interfaces and methods. These class files
+are needed for both compiling and running a Java project using COM
+components.</p>
+<p><font size="-1"> Return to the <a href="#top">top</a> of
+this article. </font></p>
+<hr>
+
+<a name="use">
+<h3>Using the Java Type Library Wizard</h3>
+<p>To create a Java description of COM components:</p>
+<ol>
+	<li>From the Tools menu in Microsoft<sup>&reg;</sup> Developer
+	Studio, choose Java Type Library Wizard.<br>
+	The Java Type Library Wizard dialog box appears.</li>
+	<li>From the list, select the COM component(s) you want, check the
+	box to the left of the name.<br>
+	For this sample, select <b>Microsoft DAO 3.0 Object Library</b>.</li>
+	<li>Click OK.<br>
+	The Java Type Library Wizard processes the selected type libraries and
+	creates Java descriptions of the selected COM components.</li>
+</ol>
+
+<font size="-1"> Return to the <a href="#top">top</a> of this
+article. </font>
+
+<hr>
+
+<a name="output">
+<h3>Output from the Java Type Library Wizard</h3>
+
+After you have created Java descriptions of COM components, the output
+window shows two useful types of information, the <b>import</b>
+statement adn the SUMMARY.TXT file notice.
+
+<h4>The <b>import</b> statement</h4>
+<p>After the Java Type Library Wizard is finished, the output window
+displays a Java <b>import</b> statement. In this sample:</p>
+<pre>   import dao3032.*;</pre>
+<p>Typically, you copy this line of text and insert it into the
+beginning of any Java source file that uses the COM component. This has
+been done for you in this sample; see line 11 in <b>simpledao.java</b>.
+</p>
+<p></p>
+<h4>The <b>SUMMARY.TXT</b> line</h4>
+<p>Following the <b>import</b> statement, the output window has
+lines saying that the file SUMMARY.TXT has been created. This file lists
+the interfaces and classes in the Java description of the type library.
+Use this file to check the types for the parameters and return values in
+the methods.</p>
+<p>You will note that there are no methods listed for any of the
+classes. Recall when calling COM from Java, you will use the <b>class</b>
+file to create the COM component, but you must use the <b>interface</b>
+file to access the COM component.</p>
+<p>Double-click the SUMMARY.TXT line to view that file in Developer
+Studio.</p>
+<p><font size="-1"> Return to the <a href="#top">top</a> of
+this article. </font></p>
+</a></a></a></a>
+</body>
+</html>

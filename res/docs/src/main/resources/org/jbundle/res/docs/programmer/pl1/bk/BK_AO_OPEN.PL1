@@ -1,0 +1,59 @@
+/****************************************************************
+	Module: BK_AO_OPEN
+	Top Level Logic: AO_OPEN_LOGIC
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_AO_OPEN
+	Main logic to call A/O open
+****************************************************************/
+
+BK_AO_OPEN:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD);
+%replace BK_OPT_ALT_NO by  62;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%include "BK_OPT_ALT.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   ALT_SELECT_BY = "N";
+   ALT_ANSWER = " ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_OPT_ALT_NO,"BK_OPT_ALT",byteaddr(BK_OPT_ALT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+
+   /* BK_AO_SELECT - Call the program to select the OPT/ALTs */
+
+   %include "BK_AO_SELECT.DCL";
+   call BK_AO_SELECT(
+      BK_BOOKING_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_OPT_ALT_RECORD);
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_OPT_ALT_NO);
+return;
+end;	/* AO_OPEN_LOGIC        */
+/*********************************End of Program*********************/

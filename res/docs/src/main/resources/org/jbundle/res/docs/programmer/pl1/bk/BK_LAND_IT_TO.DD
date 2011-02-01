@@ -1,0 +1,17 @@
+/*********************************************************************
+	BK_LAND_IT_TO File
+********************************************************************/
+
+declare	1 BK_LAND_IT_TO_RECORD,
+		3 LAND_MOD_VERSION     character (        1),
+		3 LAND_CUR_VERSIONS    character (       10),
+		3 TEMP_CODE            character (       10),
+		3 TEMP_DESC            character (       30),
+		3 CODE_ARRAY(99) character (       10),
+		3 CODE_DESC(99) character (       30),
+		3 ARRAY_INDEX          fixed binary (15),
+		3 CODE_CHECK           character (       10),
+		3 DESC_CHECK           character (       30),
+		3 XYZ                  character (        1),
+		3 DDD                  character (        1);
+

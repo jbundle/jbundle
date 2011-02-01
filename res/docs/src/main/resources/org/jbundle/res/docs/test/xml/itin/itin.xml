@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<itinerary>
+ <title>Don and Ann Corley's Orient Tour</title>
+ <content>
+  <product id="123">
+   <type>Land</type>
+   <day>1</day>
+   <date>September 18, 2002 (Thursday)</date>
+   <desc>Bangkok sightseeing</desc>
+   <para>Today you will explore the city of Bangkok. Blah blah blah blah blah blah blah blah blah blah blah
+    Blah blah blah blah blah.  Blah blah blah blah blah blah blah blah blah blah. Blah blah blah blah
+	blah blah blah blah blah blah blah blah blah blah blah. Blah blah blah blah blah blah blah
+    blah blah blah blah. Blah blah blah blah. Blah blah blah blah blah blah blah blah blah blah
+    blah blah blah.</para>
+  </product>
+  <air>
+  <depart>
+   <city>Los Angeles</city>
+   <date>September 17, 2002</date>
+   <time>4:25 P.M.</time>
+   <airline>Thai Airways</airline>
+   <flight>117</flight>
+  </depart>
+  <arrive>
+   <city>Bangkok</city>
+   <date>September 18, 2002</date>
+   <time>2:15 A.M.</time>
+  </arrive>
+  </air>
+ </content>
+</itinerary>

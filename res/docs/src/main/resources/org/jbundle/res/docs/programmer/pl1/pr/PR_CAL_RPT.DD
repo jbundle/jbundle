@@ -1,0 +1,14 @@
+/*********************************************************************
+	PR_CAL_RPT File
+********************************************************************/
+
+declare	1 PR_CAL_RPT_RECORD,
+		3 PR_QUARTER_END       fixed binary (15),
+		3 PR_QUARTER_PAGES     fixed binary (31),
+		3 PR_QUARTER_TOTAL     float binary (53),
+		3 PR_QUARTER_PTOTAL    float binary (53),
+		3 PR_QUARTER_PAGE      fixed binary (31),
+		3 PR_QUARTER_COUNT     fixed binary (15),
+		3 START_ID_PR          character (       11),
+		3 PR_WEEKS             fixed binary (15);
+

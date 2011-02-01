@@ -1,0 +1,22 @@
+/*********************************************************************
+	TK_FLIGHTS File
+********************************************************************/
+
+declare	1 TK_FLIGHTS_RECORD,
+		3 FLIGHT_AIRLINE       character (        2),
+		3 FLIGHT_NO            character (        4),
+		3 FLIGHT_FROM          character (        3),
+		3 FLIGHT_TO            character (        3),
+		3 FLIGHT_DEPART        fixed binary (15),
+		3 FLIGHT_ARRIVE        fixed binary (15),
+		3 FLIGHT_ADD           fixed binary (15),
+		3 FLIGHT_EQUIP         character (        3),
+		3 FLIGHT_MEALS         character (        3),
+		3 FLIGHT_START         fixed binary (15),
+		3 FLIGHT_END           fixed binary (15),
+		3 FLIGHT_DAYS          character (        4),
+		3 FLIGHT_CLASSES       character (        6),
+		3 FLIGHT_STOPS         fixed binary (15),
+		3 FLIGHT_COMMENTS      character (       20),
+		3 FLIGHT_SEGMENT       fixed binary (15);
+

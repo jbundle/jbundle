@@ -1,0 +1,57 @@
+/****************************************************************
+	Module: BK_DIS_LANDTT
+	Top Level Logic: DIS_LANDTT_LOGIC
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_LANDTT
+	Display land by city
+****************************************************************/
+
+BK_DIS_LANDTT:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD);
+%replace BK_LAND_NO by  54;
+%replace BK_LAND_DET_NO by  91;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%include "BK_LAND.DD";
+%include "BK_LAND_DET.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_DET_NO,"BK_LAND_DET",byteaddr(BK_LAND_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_DET_NO,ERROR_CODE);
+
+   /* BK_DIS_LANDT - Call */
+
+   %include "BK_DIS_LANDT.DCL";
+   call BK_DIS_LANDT(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_LAND_RECORD,
+      BK_LAND_DET_RECORD);
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_LAND_NO);
+   call CLOSE_FILE (BK_LAND_DET_NO);
+return;
+end;	/* DIS_LANDTT_LOGIC     */
+/*********************************End of Program*********************/

@@ -1,0 +1,1596 @@
+/****************************************************************
+	Module: AP_CHECK_PRT
+	Top Level Logic: AP_CHECK_LOGIC
+	Date: 18-Feb-92
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_CHECK_PRT
+	Top-Level for A/P Check printing
+****************************************************************/
+
+%replace AP_CHECK_PRT_1 by 103;
+%replace AP_CHECK_PRT_2 by 104;
+%replace AP_CHECK_PRT_3 by 139;
+%replace AP_CHECK_PRT_4 by 120;
+%replace AP_CHECK_PRT_5 by 140;
+%replace AP_CHECK_PRT_6 by 141;
+%replace AP_CHECK_PRT_7 by 142;
+%replace AP_CHECK_PRT_8 by 579;
+AP_CHECK_PRT:
+   procedure;
+%replace AD_ACCT_NO by  24;
+%replace AD_CURR_NO by  25;
+%replace AP_PAYMENT_NO by  38;
+%replace AP_VENDOR_NO by  30;
+%replace AP_OPEN_NO by  32;
+%replace BK_TOUR_NO by  34;
+%replace AP_CONTROL_NO by  29;
+%replace AD_CHECKING_NO by  26;
+%replace BK_TOUR_HDR_NO by  58;
+%replace AP_PYMT_HIST_NO by  33;
+%include "AD_ACCT.DD";
+%include "AD_CURR.DD";
+%include "AP_CHECK_PRT.DD";
+%include "AP_PAYMENT.DD";
+%include "AP_VENDOR.DD";
+%include "AP_OPEN.DD";
+%include "BK_TOUR.DD";
+%include "AP_CONTROL.DD";
+%include "AD_CHECKING.DD";
+%include "BK_TOUR_HDR.DD";
+%include "AP_PYMT_HIST.DD";
+
+declare		END_AP_CHECK_MAIN    bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		END_PRT_AP_CHECKS    bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_COUNT_THRU       bit (1);
+declare		END_PRT_AP_DET       bit (1);
+declare		LOOP                 fixed binary (15);
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+declare		LINE2                fixed binary (15);
+declare		END_READ_THROUGH     bit (1);
+declare		END_UPDATE_ALL_INV   bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_AP_CHECK_MAIN = NO;
+   do while (END_AP_CHECK_MAIN ^= YES);
+      call AP_CHECK_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AD_BALANCE = 0;
+   AD_LAST_CHECK = 0;
+   AD_LAST_SEQ = 0;
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   AP_CHECK_TYPES = " ";
+   PYMT_TYPE_SAVE = "A";
+   CR_DATE = TODAYS_DATE();
+   CR_TIME = CURRENT_TIME();
+   CR_USER = USER_NAME();
+   CR_PAGE = 1;
+   CR_USER_NAME = USER_NAME();
+   CR_TOTAL = 0;
+   CRR_DATE = TODAYS_DATE();
+   CRR_TIME = CURRENT_TIME();
+   AP_EXCH_SAVE = 0;
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   TOUR_QUADS = 0;
+   AP_REC_NO = 9999;
+   AP_DEF_AC = 1;
+   AD_TRX_SEQ = 0;
+   AD_CHECK_TYPE = "M";
+   AD_SYS_NUMBER = "";
+   AD_TRX_AMT_USD = 0;
+   AD_DATE_RECONCILED = 0;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE2 = 0;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_CHECK_PRT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AD_ACCT_NO,"AD_ACCT",byteaddr(AD_ACCT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_ACCT_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (AP_CHECK_PRT_RECORD) );
+   call OPEN_FILE (AP_PAYMENT_NO,"AP_PAYMENT",byteaddr(AP_PAYMENT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_PAYMENT_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_CONTROL_NO,"AP_CONTROL",byteaddr(AP_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CHECKING_NO,"AD_CHECKING",byteaddr(AD_CHECKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CHECKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_PYMT_HIST_NO,"AP_PYMT_HIST",byteaddr(AP_PYMT_HIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_PYMT_HIST_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	AP_CHECK_MAIN
+	Mainline logic
+****************************************************************/
+
+AP_CHECK_MAIN:
+	procedure;
+
+declare		ERROR_AP_CONTROL     fixed binary (15);
+declare		ANSWER               character (1);
+   call REPORT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_AP_CHECK_MAIN = YES;
+      return;
+      end;
+
+
+   /* GET_AP_CONTROL - Read the A/P control file */
+
+
+      /* SET_AP_CONTROL - Set the key to read A/P control file */
+
+      AP_REC_NO = 0;
+      KEY_NO = 1;
+
+      /* READ_AP_CONTROL - Read the A/P control file */
+
+      call READ_KEYED (AP_CONTROL_NO,KEY_NO,ERROR_AP_CONTROL);
+      if ERROR_AP_CONTROL > 3 then
+         call PRINT_ERROR (AP_CONTROL_NO,ERROR_AP_CONTROL);
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_PYMT_BANK = AD_ACCOUNT_NO;
+   AP_PYMT_VENDOR = "";
+   AP_PYMT_SEQ = 0;
+   call SET_POSITION (AP_PAYMENT_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* AP_SET_FIRST_CK - Save the check number */
+
+   AP_CHECK_NO_SAVE = AP_START_CHECK;
+
+   END_PRT_AP_CHECKS = NO;
+   do while (END_PRT_AP_CHECKS ^= YES);
+      call PRT_AP_CHECKS;
+   end;
+
+   /* CLOSE_LPT2 - Close the second printer */
+
+   call CLOSE_PRINTER_2;
+
+
+   /* CHECK_AP_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are the checks okay?");
+   call INPUT_DATA(23,31,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      do;
+      END_AP_CHECK_MAIN = YES;
+      return;
+      end;
+
+
+   /* AP_SET_FIRST_CK - Save the check number */
+
+   AP_CHECK_NO_SAVE = AP_START_CHECK;
+
+
+   /* INIT_PYMT_TYPE - Initialize the payment type to "A"-check */
+
+   PYMT_TYPE_SAVE = "A";
+
+   call PRT_REPORT;
+
+   /* SET_HIGH_NEW - Set the highest new entry */
+
+   AP_ENTRY_NO = AP_NEXT_ENTRY;
+
+
+   /* BACK_OUT_AP - Set the AP entry number back */
+
+   AP_REC_NO = 0;
+
+   call READ_KEYED (AP_CONTROL_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      if AP_ENTRY_NO >= AP_NEXT_ENTRY then
+         AP_NEXT_ENTRY = AP_ENTRY_NO;
+      call UPDATE_RECORD (AP_CONTROL_NO,ERROR_CODE);
+      end;
+
+
+   /* UPDATE_RECORD_6 - Update record */
+
+   call UPDATE_RECORD (AD_ACCT_NO,ERROR_CODE);
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_AP_CHECK_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* AP_CHECK_MAIN        */
+
+/****************************************************************
+	REPORT_SCREEN
+	Get the report data from the screen
+****************************************************************/
+
+REPORT_SCREEN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (AP_CHECK_PRT_2);
+   call OPEN_PRINTER_2("CHECK");
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+return;
+end;	/* REPORT_SCREEN        */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+AP_CHECK_DATE = TODAYS_DATE();
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      call READ_KEYED (AD_ACCT_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   4;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =   3 then
+               do;
+
+               /* READ_SECOND_DIS - Read Second - Display line version */
+
+               CURR_CODE = AD_AC_CURR;
+               call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  CURR_DESC = "** RECORD NOT FOUND **";
+                  end;
+               else
+                  do;
+                  end;
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   5 to   7;
+   if LOOP_INDEX =   5 then
+      call DISPLAY_MSG_NO ( 19);
+   if LOOP_INDEX =   6 then
+      AP_CHECK_DATE = TODAYS_DATE();
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  4,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  4 then
+   do;
+   if SELECT =  1 then
+      LOOP_INDEX =  1;
+   if SELECT >=  2 then
+      LOOP_INDEX = SELECT +   3;
+   if LOOP_INDEX =   5 then
+      call DISPLAY_MSG_NO ( 19);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      call READ_KEYED (AD_ACCT_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   4;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =   3 then
+               do;
+
+               /* READ_SECOND_DIS - Read Second - Display line version */
+
+               CURR_CODE = AD_AC_CURR;
+               call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  CURR_DESC = "** RECORD NOT FOUND **";
+                  end;
+               else
+                  do;
+                  end;
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_AP_CHECKS
+	Print the checks
+****************************************************************/
+
+PRT_AP_CHECKS:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_PAYMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_PAYMENT_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_PYMT_BANK > AD_ACCOUNT_NO) then
+      do;
+      END_PRT_AP_CHECKS = YES;
+      return;
+      end;
+
+   /* SKIP_MANUAL_CHECKS - Skip the manual checks */
+
+   if AP_SEL_TYPE ^= "A" then
+      return;
+
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_AP_CHECK - Select the proper checks */
+
+   if AP_CHECK_TYPES = "A" then if AP_SEL_TYPE ^= "A" then
+      return;
+
+   if AP_CHECK_TYPES = "M" then if AP_SEL_TYPE ^= "M" then
+      return;
+
+
+   /* PRINT_LINE_B - PRINT */
+
+
+   /* SET_AP_TEXT_DESC - Set up the check amount desc */
+
+   declare		STRING		character(60)varying;
+   declare		CENTS		character(9);
+   declare		NUMBERS		character (45);
+   declare		TEENS		character (90);
+   declare		TEN		character (56);
+   declare		THOUSANDS	fixed binary;
+   declare		SETUP		fixed binary;
+   declare		(ONES,TENS,HUNDREDS)	fixed binary;
+   declare		AMOUNT		fixed binary;
+   declare		REST		fixed binary;
+
+   NUMBERS = "One  Two  ThreeFour Five Six  SevenEightNine ";
+   TEENS = "Ten      Eleven   Twelve   Thirteen Fourteen Fifteen  Sixteen  SeventeenEighteen Nineteen ";
+   TEN = "Twenty Thirty Forty  Fifty  Sixty  SeventyEighty Ninety ";
+   THOUSANDS = (AP_PYMT_AMT + 0.005) / 1000;
+   REST = AP_PYMT_AMT - THOUSANDS * 1000 + 0.005;
+
+   STRING = "";
+   if trunc(AP_PYMT_AMT) = 0 then
+      STRING = "Zero ";
+   else
+      do SETUP = 1 to 2;
+         IF SETUP = 1 then
+            AMOUNT = THOUSANDS;
+         else
+            AMOUNT = REST;
+
+         HUNDREDS = divide(AMOUNT,100,15);
+         TENS = divide((AMOUNT - HUNDREDS * 100),10,15);
+         ONES = AMOUNT - HUNDREDS * 100 - TENS * 10;
+         if HUNDREDS ^= 0 then
+         	STRING= STRING !! CUT_SPACES(substr(NUMBERS,HUNDREDS * 5 - 4,5))
+         			!! " Hundred ";
+         if TENS * 10 + ONES > 19 then
+         	STRING = STRING !! CUT_SPACES(substr(TEN,TENS*7-13,7)) !! " ";
+         else
+         	do;
+         	if TENS = 1 then
+         		do;
+         		STRING = STRING !! CUT_SPACES(substr(TEENS,ONES*9+1,9)) !! " ";
+         		ONES = 0;
+         		end;
+         	end;
+         if ONES ^= 0 then
+            STRING =STRING !! CUT_SPACES(substr(NUMBERS,ONES*5-4,5)) !! " ";
+         if SETUP = 1 then if AMOUNT ^= 0 then
+            STRING = STRING !! "Thousand ";
+
+      end; /* do loop */
+
+   declare STR_FP float binary(53);
+   declare STR_NUM character(20);
+   if (length(STRING) > 54) ! (AP_PYMT_AMT > 1000000) then
+      do;
+      STR_FP = floor(AP_PYMT_AMT + 0.5);
+      call CONV_FP(STR_FP,STR_NUM);
+      do SETUP = 1 to 20;
+         if substr(STR_NUM,1,1) = " " then
+            STR_NUM = substr(STR_NUM,2,19);
+      end;
+      STRING = CUT_SPACES(STR_NUM);
+      STRING = substr(STRING,1,length(STRING)-3) !! " ";
+      end;
+
+   CENTS = fixed((AP_PYMT_AMT - trunc(AP_PYMT_AMT + 0.001) + 0.005) * 100,15);
+   if substr(CENTS,8,1) = " " then
+      substr(CENTS,8,1) = "0";
+
+   AMOUNT = divide(55-length(STRING),2,15); /*Starting byte to center*/
+   if (AD_AC_CURR = "") ! (AD_AC_CURR = "USD") then
+      do;
+      AP_TEXT_AMT = "";
+      substr(AP_TEXT_AMT,AMOUNT,86-AMOUNT) =
+      "*****" !! STRING !! "Dollars and" !! substr(CENTS,7,3) !! " Cents*****";
+      end;
+   else
+      do;
+      AP_TEXT_AMT = "";
+      if CURR_ROUND_AT = 0 then
+         substr(AP_TEXT_AMT,AMOUNT,86-AMOUNT) =
+         "*****" !! STRING !! CUT_SPACES(CURR_INT_DESC) !! "*****";
+      else
+         substr(AP_TEXT_AMT,AMOUNT,86-AMOUNT) =
+         "*****" !! STRING !! CUT_SPACES(CURR_INT_DESC) !! " and" !!
+         substr(CENTS,7,3) !! " " !! CUT_SPACES(CURR_FRA_DESC) !! "*****";
+      end;
+
+
+   /* AP_SET_CK_NO - Set the check number */
+
+   if AP_PYMT_TYPE = "A" then
+      do;
+      AP_PYMT_CK_NO = AP_CHECK_NO_SAVE;
+      AP_CHECK_NO_SAVE = AP_CHECK_NO_SAVE + 1;
+      end;
+
+
+   /* READ_SECOND_2 - Read secondary info */
+
+   AP_VEN_NO = AP_PYMT_VENDOR;
+   call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      AP_VEN_NAME = "** RECORD NOT FOUND **";
+      end;
+   else
+      do;
+      end;
+
+   /* READ_SECOND_2 - Read secondary info */
+
+   AP_VEN_NO = AP_PYMT_VENDOR;
+   call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      AP_VEN_NAME = "** RECORD NOT FOUND **";
+      end;
+   else
+      do;
+      end;
+
+   /* READ_SECOND_2 - Read secondary info */
+
+   AP_VEN_NO = AP_PYMT_VENDOR;
+   call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      AP_VEN_NAME = "** RECORD NOT FOUND **";
+      end;
+   else
+      do;
+      end;
+   do LOOP_INDEX =   1 to  13;
+      call PRINT_REPORT_LINE_2;
+   end;
+
+   /* ZERO_CK_AMT - Zero the check amount counter */
+
+   AP_HIST_CK_AMT = 0;
+
+
+   /* ZERO_VOUCHER_COUNT - Zero the counter */
+
+   AP_VOUCHER_COUNT = 0;
+
+
+   /* COUNT_SELECTION - Count up the currently selected invoices */
+
+
+      /* SET_FIRST_2 - Set the file pointer to the first key */
+
+      AP_OPEN_SELECT = "Y";
+      AP_OPEN_VENDOR = AP_PYMT_VENDOR;
+      AP_START_SVC = 0;
+      AP_ENTRY_NO = 0;
+      call SET_POSITION (AP_OPEN_NO,KEY_AREA_5,ERROR_CODE);
+      END_COUNT_THRU = NO;
+      do while (END_COUNT_THRU ^= YES);
+         call COUNT_THRU;
+      end;
+
+   /* PRT_AP_CHECK_DET - Print the A/P check detail */
+
+   if (AP_VOUCHER_COUNT > 12) !
+   (floor(AP_HIST_CK_AMT * 100 + .5) ^= floor(AP_PYMT_AMT * 100 + .5)) then
+      do;
+      if floor(AP_HIST_CK_AMT * 100 + .5) ^=floor(AP_PYMT_AMT * 100 + .5) then
+         do;
+         AP_VOUCHER_COUNT = 0;
+
+         /* PRINT_LINE_I -  */
+
+         do LOOP_INDEX =  16 to  16;
+            call PRINT_REPORT_LINE_2;
+         end;
+         end;
+      else
+         do;
+
+         /* PRINT_LINE_F -  */
+
+         do LOOP_INDEX =  15 to  15;
+            call PRINT_REPORT_LINE_2;
+         end;
+         end;
+      do LOOP = 1 to 11;
+
+         /* PRINT_LINE_I -  */
+
+         do LOOP_INDEX =  16 to  16;
+            call PRINT_REPORT_LINE_2;
+         end;
+      end;
+      end;
+   else
+      do;
+      LOOP = 1;
+
+      /* SET_FIRST_2 - Set the file pointer to the first key */
+
+      AP_OPEN_SELECT = "Y";
+      AP_OPEN_VENDOR = AP_PYMT_VENDOR;
+      AP_START_SVC = 0;
+      AP_ENTRY_NO = 0;
+      call SET_POSITION (AP_OPEN_NO,KEY_AREA_5,ERROR_CODE);
+      END_PRT_AP_DET = NO;
+      do while (END_PRT_AP_DET ^= YES);
+         call PRT_AP_DET;
+      end;
+      do while (LOOP < 13);
+
+         /* PRINT_LINE_I -  */
+
+         do LOOP_INDEX =  16 to  16;
+            call PRINT_REPORT_LINE_2;
+         end;
+
+         /* BUMP_LOOP - Bump the loop counter */
+
+         LOOP = LOOP + 1;
+
+      end;
+      end;
+
+
+   /* PRINT_LINE_H -  */
+
+   do LOOP_INDEX =  17 to  18;
+      call PRINT_REPORT_LINE_2;
+   end;
+
+   /* SET_LINE2_HIGH - Force a page feed on next line */
+
+   LINE2 = 100;
+
+return;
+end;	/* PRT_AP_CHECKS        */
+
+/****************************************************************
+	PRINT_REPORT_LINE_2
+	Print the detail report line
+****************************************************************/
+
+PRINT_REPORT_LINE_2:
+	procedure;
+
+LINE2 = LINE2 + 1;
+if LINE2 > 60 then
+   do;
+   call PRINT_LINE_2 ("<FF>"c);
+   LINE2 = 0;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING_2;
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT_2 (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE_2  */
+
+/****************************************************************
+	PRT_PAGE_HEADING_2
+	Print the heading on printer 2
+****************************************************************/
+
+PRT_PAGE_HEADING_2:
+	procedure;
+
+do LOOP_INDEX =  24 to   1;
+   call PRINT_REPORT_LINE_2;
+end;
+return;
+end;	/* PRT_PAGE_HEADING_2   */
+
+/****************************************************************
+	COUNT_THRU
+	Count up the selection
+****************************************************************/
+
+COUNT_THRU:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_SELECT > "Y") !
+   (AP_OPEN_VENDOR > AP_PYMT_VENDOR) then
+      do;
+      END_COUNT_THRU = YES;
+      return;
+      end;
+
+   /* ADD_PYMT_COUNT - Add this invoice to the total */
+
+   AP_HIST_CK_AMT=floor((AP_HIST_CK_AMT + AP_AMT_SELECTED) * 100 +0.5)/100;
+
+
+   /* OTHER_LOGIC_2 - Other logic */
+
+
+   /* NO_COUNT_IF_LOCKED - Don't count if locked */
+
+   AP_VOUCHER_COUNT = AP_VOUCHER_COUNT + 1;
+
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      AP_HIST_CK_AMT = 0;
+      AP_VOUCHER_COUNT = 1;
+      do;
+      END_COUNT_THRU = YES;
+      return;
+      end;
+      end;
+
+return;
+end;	/* COUNT_THRU           */
+
+/****************************************************************
+	PRT_AP_DET
+	Print the A/P selection detail on the ck
+****************************************************************/
+
+PRT_AP_DET:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_SELECT > "Y") !
+   (AP_OPEN_VENDOR > AP_PYMT_VENDOR) then
+      do;
+      END_PRT_AP_DET = YES;
+      return;
+      end;
+
+   /* PRINT_LINE_E - Print lines */
+
+   do LOOP_INDEX =  14 to  14;
+      call PRINT_REPORT_LINE_2;
+   end;
+
+   /* BUMP_LOOP - Bump the loop counter */
+
+   LOOP = LOOP + 1;
+
+return;
+end;	/* PRT_AP_DET           */
+
+/****************************************************************
+	PRT_REPORT
+	Print the report
+****************************************************************/
+
+PRT_REPORT:
+	procedure;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_PYMT_BANK = AD_ACCOUNT_NO;
+   AP_PYMT_VENDOR = "";
+   AP_PYMT_SEQ = 0;
+   call SET_POSITION (AP_PAYMENT_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THROUGH = NO;
+   do while (END_READ_THROUGH ^= YES);
+      call READ_THROUGH;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   call SETUP_PRINT_FORMAT (AP_CHECK_PRT_3);
+   do LOOP_INDEX =  13 to  13;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_REPORT           */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+call SETUP_PRINT_FORMAT (AP_CHECK_PRT_3);
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+CR_PAGE = CR_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THROUGH
+	Read through the file
+****************************************************************/
+
+READ_THROUGH:
+	procedure;
+
+declare		ERROR_AP_PAYMENT     fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_PAYMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_PAYMENT_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_PYMT_BANK > AD_ACCOUNT_NO) then
+      do;
+      END_READ_THROUGH = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_AP_CHECK - Select the proper checks */
+
+   if AP_CHECK_TYPES = "A" then if AP_SEL_TYPE ^= "A" then
+      return;
+
+   if AP_CHECK_TYPES = "M" then if AP_SEL_TYPE ^= "M" then
+      return;
+
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   call SETUP_PRINT_FORMAT (AP_CHECK_PRT_3);
+
+   /* READ_SECOND_2 - Read secondary info */
+
+   AP_VEN_NO = AP_PYMT_VENDOR;
+   call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      AP_VEN_NAME = "** RECORD NOT FOUND **";
+      end;
+   else
+      do;
+      end;
+   do LOOP_INDEX =   6 to   7;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_PYMT_TOTAL - Add to the grand total */
+
+   CR_TOTAL = floor((CR_TOTAL + AP_PYMT_AMT) * 100 + 0.5) / 100;
+
+
+   /* ADD_TO_TOTALS - Add to the totals */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* PAYMENT_DETAIL - Process this payment */
+
+
+      /* AP_SET_CK_NO - Set the check number */
+
+      if AP_PYMT_TYPE = "A" then
+         do;
+         AP_PYMT_CK_NO = AP_CHECK_NO_SAVE;
+         AP_CHECK_NO_SAVE = AP_CHECK_NO_SAVE + 1;
+         end;
+
+      call UPDATE_OPEN;
+
+      /* PRINT_LINE_D3 - Print lines */
+
+      call SETUP_PRINT_FORMAT (AP_CHECK_PRT_3);
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      AP_VEN_NO = AP_PYMT_VENDOR;
+      call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         AP_VEN_NAME = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         end;
+      do LOOP_INDEX =   9 to   9;
+         call PRINT_REPORT_LINE;
+      end;
+
+      /* ADD_TOTALS_2 - Add to the totals */
+
+
+      /* UPDATE_PAYMENT - Update all the payment information */
+
+
+         /* MOVE_CHECK_INFO - Set up the check info record */
+
+         AD_BANK_NO = AD_ACCOUNT_NO;
+         AD_TRX_TYPE = "C";
+         AD_TRX_NUMBER = AP_PYMT_CK_NO;
+         AD_TRX_SEQ = 1;
+         AD_TRX_DATE = AP_CHECK_DATE;
+         AD_CHECK_TYPE = "A";
+         AD_SYS_NUMBER = AP_VEN_NO;
+         AD_PAYEE = AP_VEN_NAME;
+         AD_TRX_AMOUNT = -AP_PYMT_AMT;
+         AD_TRX_AMT_USD = floor(AD_TRX_AMOUNT * LAST_EXCHANGE * 100 + 0.5) / 100;
+         AD_TRX_COMMENT = AP_PYMT_COMMENT;
+         AD_DATE_RECONCILED = 0;
+         if AP_PYMT_TYPE = "A" then
+            AD_MANUAL = "N";
+         else
+            AD_MANUAL = "Y";
+
+
+         /* WRITE_RECORD_4 - Write the record */
+
+         ERROR_CODE = KEY_ALREADY_EXISTS;
+         do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+            call WRITE_RECORD (AD_CHECKING_NO,ERROR_CODE);
+            if ERROR_CODE = KEY_ALREADY_EXISTS then
+               AD_TRX_SEQ = AD_TRX_SEQ + 1;
+         end;
+
+         /* UPDATE_AD_BAL - Update the account balance */
+
+         AD_BALANCE = floor((AD_BALANCE - AP_PYMT_AMT) * 100 + 0.5) / 100;
+
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (AP_PAYMENT_NO,ERROR_CODE);
+
+         /* READ_RECORD - Read the record */
+
+         call READ_KEYED (AP_PAYMENT_NO,KEY_AREA_1,ERROR_AP_PAYMENT);
+         if ERROR_AP_PAYMENT > 3 then
+            call PRINT_ERROR (AP_PAYMENT_NO,ERROR_AP_PAYMENT);
+return;
+end;	/* READ_THROUGH         */
+
+/****************************************************************
+	UPDATE_OPEN
+	Update the open item detail
+****************************************************************/
+
+UPDATE_OPEN:
+	procedure;
+
+
+   /* ZERO_CK_AMT - Zero the check amount counter */
+
+   AP_HIST_CK_AMT = 0;
+
+
+   /* COUNT_SELECTION - Count up the currently selected invoices */
+
+
+      /* SET_FIRST_2 - Set the file pointer to the first key */
+
+      AP_OPEN_SELECT = "Y";
+      AP_OPEN_VENDOR = AP_PYMT_VENDOR;
+      AP_START_SVC = 0;
+      AP_ENTRY_NO = 0;
+      call SET_POSITION (AP_OPEN_NO,KEY_AREA_5,ERROR_CODE);
+      END_COUNT_THRU = NO;
+      do while (END_COUNT_THRU ^= YES);
+         call COUNT_THRU;
+      end;
+
+   /* UD_OPEN - Update the open item detail */
+
+   if floor(AP_HIST_CK_AMT * 100 + .5) = floor(AP_PYMT_AMT * 100 + .5) then
+      do;
+      END_UPDATE_ALL_INV = NO;
+      do while (END_UPDATE_ALL_INV ^= YES);
+         call UPDATE_ALL_INV;
+      end;
+      end;
+   else
+      do;
+      call ADD_PREPAYMENT;
+      end;
+
+return;
+end;	/* UPDATE_OPEN          */
+
+/****************************************************************
+	UPDATE_ALL_INV
+	Read thru and update the invoices
+****************************************************************/
+
+UPDATE_ALL_INV:
+	procedure;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   AP_OPEN_SELECT = "Y";
+   AP_OPEN_VENDOR = AP_PYMT_VENDOR;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_5,ERROR_CODE);
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_SELECT > "Y") !
+   (AP_OPEN_VENDOR > AP_PYMT_VENDOR) then
+      do;
+      END_UPDATE_ALL_INV = YES;
+      return;
+      end;
+
+   /* PRINT_LINE_D2 - Print lines */
+
+   call SETUP_PRINT_FORMAT (AP_CHECK_PRT_3);
+
+   /* SET_AP_TYPE - Set up the type description */
+
+   do case (AP_ENTRY_TYPE);
+      AP_ENTRY_TYPE_DESC = "Brk Pmt";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Brk Dft";
+      AP_ENTRY_TYPE_DESC = "PP Req ";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dep Est";
+      AP_ENTRY_TYPE_DESC = "Fin Est";
+   end;
+   otherwise
+      AP_ENTRY_TYPE_DESC = "";
+
+
+   /* READ_SECOND_3 - Read second */
+
+   TOUR_NO = AP_OPEN_TOUR;
+   call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      TOUR_DESC = "** RECORD NOT FOUND **";
+      end;
+   do LOOP_INDEX =   8 to   8;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* READ_TR_TOUR_HDR - Read the tour header - Given tour rec. */
+
+
+      /* SET_FIRST_THDR - Set first tour hdr using tour record */
+
+      HDR_TOUR_CODE = TOUR_CODE;
+      HDR_END_ON = TOUR_DEP_DATE;
+      call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+      /* READNEXT_THDR - Read the next one */
+
+      call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+
+      /* CHECK_THDR_OK - Is the header ok? */
+
+      if (TOUR_CODE ^= HDR_TOUR_CODE) !
+         (TOUR_DEP_DATE < HDR_START_ON) !
+         (TOUR_DEP_DATE > HDR_END_ON) then
+            ERROR_CODE = END_OF_FILE;
+
+
+   /* CHECK_NO_HDR - Was there a tour header? */
+
+   if ERROR_CODE = END_OF_FILE then
+      do;
+      HDR_LAND_GL = 0;
+      HDR_UNINV_GL = 0;
+      HDR_COST_OU_GL = 0;
+      HDR_AP_GL = 0;
+      HDR_CURR_OU_GL = 0;
+      end;
+
+
+   /* MOVE_PYMT_INFO - Set up the payment history file */
+
+   AP_HIST_BANK = AD_ACCOUNT_NO;
+   AP_HIST_ENTRY = AP_ENTRY_NO;
+   AP_HIST_CHECK = AP_PYMT_CK_NO;
+   AP_HIST_SEQ = 1;
+   AP_HIST_TYPE = PYMT_TYPE_SAVE;
+   AP_HIST_CHECK_DATE = AP_CHECK_DATE;
+   AP_HIST_CK_AMT = AP_PYMT_AMT;
+   AP_HIST_AMT_APPL = AP_AMT_SELECTED;
+   if PYMT_TYPE_SAVE = "A" then
+      AP_HIST_APPL_USD = floor(AP_HIST_AMT_APPL * LAST_EXCHANGE * 100 + 0.5) / 100;
+   if PYMT_TYPE_SAVE = "B" then
+      AP_HIST_APPL_USD = floor(AP_HIST_AMT_APPL * AP_EXCH_SAVE * 100 + 0.5) / 100;
+   AP_HIST_APPL_GL = 0;
+   AP_HIST_GL = AD_GL_ACCT_NO;
+
+
+   /* WRITE_RECORD_3 - Write the record */
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (AP_PYMT_HIST_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         AP_HIST_SEQ = AP_HIST_SEQ + 1;
+   end;
+
+   /* UPDATE_PD_DATA - Update the invoice Selection to zero */
+
+   AP_INV_BAL = floor((AP_INV_BAL - AP_AMT_SELECTED) * 100 + 0.5) / 100;
+   AP_INV_BAL_USD = floor(AP_INV_BAL * AP_DEP_EXCH * 100 + 0.5) / 100;
+   if AP_GAIN_LOSS_GL = 0 then
+      AP_GAIN_LOSS_GL = HDR_CURR_OU_GL;
+   if AP_GAIN_LOSS_GL = 0 then
+      AP_GAIN_LOSS_GL = AP_DEF_GL;
+   AP_PAID_USD = floor((AP_PAID_USD + AP_HIST_APPL_USD) * 100 + 0.5) / 100;
+   if AP_PYMT_DATE = 0 then
+      AP_PYMT_DATE = TODAYS_DATE();
+
+   if AP_INV_BAL = 0 then
+      do;
+      if AP_ENTRY_TYPE = INVOICE then
+         AP_ENTRY_TYPE = PD_INV;
+      if AP_ENTRY_TYPE = CR_INV then
+         AP_ENTRY_TYPE = PD_CINV;
+      if AP_ENTRY_TYPE = CR_MEMO then
+         AP_ENTRY_TYPE = PD_CRMM;
+      end;
+   if AP_ENTRY_TYPE = PP_REQ then
+      do;
+      AP_ENTRY_TYPE = PRPYMT;
+      if PYMT_TYPE_SAVE = "A" then
+         AP_DEP_EXCH = LAST_EXCHANGE;
+      if PYMT_TYPE_SAVE = "B" then
+         AP_DEP_EXCH = AP_EXCH_SAVE;
+      AP_VEN_INV_USD= floor(AP_VEN_INV_AMT * AP_DEP_EXCH * 100 + 0.5) / 100;
+      AP_INV_BAL_USD = floor(AP_INV_BAL * AP_DEP_EXCH * 100 + 0.5) / 100;
+      AP_GL_ACTION_DATE = AP_PYMT_DATE;
+      end;
+   if AP_ENTRY_TYPE = BROKER then
+      do;
+      AP_ENTRY_TYPE = PD_BROK;
+      AP_INV_BAL = 0;
+      AP_INV_BAL_USD = 0;
+      end;
+
+   AP_OPEN_SELECT = "N";
+   AP_AMT_SELECTED = 0;
+
+   if AP_GL_STATUS = PA_TYPE then
+      AP_GL_ACTION_DATE = AP_PYMT_DATE;
+
+
+   /* UPDATE_RECORD_2 - Update the record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+
+   /* CK_BROKER_PYMTS - If this is a broker payment then process */
+
+   if AP_ENTRY_TYPE = PD_BROK then
+      do;
+
+      /* DO_BROKER_PYMT - Process this broker payment */
+
+
+         /* SAVE_BROKER - Save the broker until the update is done */
+
+         declare AP_PYMT_SAVE float binary(53);
+         declare AP_VENDOR_SAVE character(6);
+         declare AP_ACCT_SAVE fixed binary(31);
+         declare AP_CK_NO_SAVE fixed binary(31);
+         AP_VENDOR_SAVE = AP_PYMT_VENDOR;
+         AP_PYMT_VENDOR = AP_OPEN_BROKER;
+         AP_PYMT_SAVE = AP_PYMT_AMT;
+         AP_PYMT_AMT = AP_VEN_INV_AMT;
+         AP_ACCT_SAVE = AD_ACCOUNT_NO;
+         AD_ACCOUNT_NO = 0;
+         AP_CK_NO_SAVE = AP_PYMT_CK_NO;
+         AP_PYMT_CK_NO = AP_ENTRY_NO;
+         PYMT_TYPE_SAVE = "B";
+         AP_EXCH_SAVE = AP_DEP_EXCH;
+
+
+         /* PRINT_LINE_D5 - Print lines */
+
+         call SETUP_PRINT_FORMAT (AP_CHECK_PRT_3);
+
+         /* READ_SECOND_2 - Read secondary info */
+
+         AP_VEN_NO = AP_PYMT_VENDOR;
+         call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            AP_VEN_NAME = "** RECORD NOT FOUND **";
+            end;
+         else
+            do;
+            end;
+         do LOOP_INDEX =  11 to  11;
+            call PRINT_REPORT_LINE;
+         end;
+         call UPDATE_OPEN;
+
+         /* PRINT_LINE_D6 - Print lines */
+
+         call SETUP_PRINT_FORMAT (AP_CHECK_PRT_3);
+         do LOOP_INDEX =  12 to  12;
+            call PRINT_REPORT_LINE;
+         end;
+
+         /* RESTORE_BROKER - Restore the broker info */
+
+         AP_PYMT_VENDOR = AP_VENDOR_SAVE;
+         AP_PYMT_AMT = AP_PYMT_SAVE;
+         END_UPDATE_ALL_INV = NO;
+         PYMT_TYPE_SAVE = "A";
+         AD_ACCOUNT_NO = AP_ACCT_SAVE;
+         AP_PYMT_CK_NO = AP_CK_NO_SAVE;
+
+
+         /* READ_SECOND_2 - Read secondary info */
+
+         AP_VEN_NO = AP_PYMT_VENDOR;
+         call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            AP_VEN_NAME = "** RECORD NOT FOUND **";
+            end;
+         else
+            do;
+            end;
+      end;
+
+return;
+end;	/* UPDATE_ALL_INV       */
+
+/****************************************************************
+	ADD_PREPAYMENT
+	Add the prepayment to the open item file
+****************************************************************/
+
+ADD_PREPAYMENT:
+	procedure;
+
+
+   /* SET_FIELDS - Set the values for these fields */
+
+   AP_ENTRY_TYPE = 0;
+   AP_OPEN_VENDOR = "";
+   AP_OPEN_CURR = "";
+   AP_OPEN_TOUR = 0;
+   AP_OPEN_TOUR_CODE = "";
+   AP_OPEN_TOUR_GL = 0;
+   AP_OPEN_DEP = 0;
+   AP_FINL_EST = 0;
+   AP_FINL_DATE = 0;
+   AP_DEP_EST = 0;
+   AP_DEP_EXCH = 0;
+   AP_DEP_EST_USD = 0;
+   AP_DEP_EST_GL = 0;
+   AP_EST_GL = 0;
+   AP_VEN_INV_NO = "";
+   AP_INV_ENTERED = 0;
+   AP_VEN_INV_DATE = 0;
+   AP_VEN_INV_GL = 0;
+   AP_VEN_INV_AMT = 0;
+   AP_VEN_INV_USD = 0;
+   AP_INV_BAL = 0;
+   AP_INV_BAL_USD = 0;
+   AP_OPEN_AP_ACCT = 0;
+   AP_OVER_UNDER_GL = 0;
+   AP_OPEN_SELECT = "N";
+   AP_AMT_SELECTED = 0;
+   AP_GAIN_LOSS_GL = 0;
+   AP_PAID_USD = 0;
+   AP_PYMT_DATE = 0;
+   AP_V_BASED_BK = 0;
+   AP_V_BASED_MOD = 0;
+   AP_V_BASED_PAX = 0;
+   AP_V_BASED_SEQ = 0;
+   BK_V_DATE = 0;
+   AP_ACK_DATE = 0;
+   AP_ACKED_ON = 0;
+   AP_ACK_BY = "";
+   AP_GL_STATUS = 0;
+   AP_GL_ACTION_DATE = 0;
+   AP_ENTRY_TYPE_DESC = "";
+   AP_V_DESC = "";
+   AP_OPEN_TYPE = "";
+   AP_OPEN_CURRENT = "N";
+
+   /* INIT_PP_FIELDS - Init the fields for a prepayment */
+
+   AP_ENTRY_NO = AP_NEXT_ENTRY;
+   AP_ENTRY_TYPE = PRPYMT;
+   AP_OPEN_VENDOR = AP_PYMT_VENDOR;
+   AP_OPEN_CURR = AD_AC_CURR;
+   AP_START_SVC = TODAYS_DATE();
+   AP_SERVICES = "Prepayment";
+   AP_OPEN_AP_ACCT = AP_DEF_PP;
+   AP_INV_ENTERED = AP_CHECK_DATE;
+   AP_VEN_INV_AMT = AP_PYMT_AMT;
+   AP_INV_BAL = -AP_PYMT_AMT;
+   if PYMT_TYPE_SAVE = "A" then
+      AP_DEP_EXCH = LAST_EXCHANGE;
+   if PYMT_TYPE_SAVE = "B" then
+      AP_DEP_EXCH = AP_EXCH_SAVE;
+   AP_VEN_INV_USD= floor(AP_VEN_INV_AMT * AP_DEP_EXCH  * 100 + 0.5) / 100;
+   AP_INV_BAL_USD = floor(AP_INV_BAL * AP_DEP_EXCH * 100 + 0.5) / 100;
+
+   AP_PAID_USD = floor((AP_PAID_USD + AP_VEN_INV_USD) * 100 + 0.5) / 100;
+   AP_PYMT_DATE = TODAYS_DATE();
+
+   AP_OPEN_SELECT = "N";
+   AP_AMT_SELECTED = 0;
+
+   AP_GL_STATUS = PU_TYPE;
+   AP_GL_ACTION_DATE = TODAYS_DATE();
+
+
+   /* GET_AP_ENTRY - Get the next A/P number and assign */
+
+
+      /* WRITE_AP - Write the A/P entry number */
+
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+         call WRITE_RECORD (AP_OPEN_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            AP_ENTRY_NO = AP_ENTRY_NO + 1;
+      end;
+
+      /* SET_NEXT_ENTRY - Set up for exit */
+
+      AP_NEXT_ENTRY = AP_ENTRY_NO + 1;
+
+
+   /* INIT_PP_HIST - Set up the history entry */
+
+   AP_HIST_BANK = AD_ACCOUNT_NO;
+   AP_HIST_ENTRY = AP_ENTRY_NO;
+   AP_HIST_CHECK = AP_PYMT_CK_NO;
+   AP_HIST_SEQ = 1;
+   AP_HIST_TYPE = PYMT_TYPE_SAVE;
+   AP_HIST_CHECK_DATE = AP_CHECK_DATE;
+   AP_HIST_CK_AMT = AP_PYMT_AMT;
+   AP_HIST_AMT_APPL = AP_PYMT_AMT;
+   if PYMT_TYPE_SAVE = "A" then
+      AP_HIST_APPL_USD = floor(AP_HIST_AMT_APPL * LAST_EXCHANGE * 100 + 0.5) / 100;
+   if PYMT_TYPE_SAVE = "B" then
+      AP_HIST_APPL_USD = floor(AP_HIST_AMT_APPL * AP_EXCH_SAVE * 100 + 0.5) / 100;
+   AP_HIST_APPL_GL = 0;
+   AP_HIST_GL = AD_GL_ACCT_NO;
+
+
+   /* WRITE_RECORD_3 - Write the record */
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (AP_PYMT_HIST_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         AP_HIST_SEQ = AP_HIST_SEQ + 1;
+   end;
+
+   /* PRINT_LINE_D4 - PRINT */
+
+   call SETUP_PRINT_FORMAT (AP_CHECK_PRT_3);
+   do LOOP_INDEX =  10 to  10;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* ADD_PREPAYMENT       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (AD_ACCT_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (AP_PAYMENT_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (AP_CONTROL_NO);
+   call CLOSE_FILE (AD_CHECKING_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+   call CLOSE_FILE (AP_PYMT_HIST_NO);
+   call CLOSE_PRINTER;
+   call CLOSE_PRINTER_2;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

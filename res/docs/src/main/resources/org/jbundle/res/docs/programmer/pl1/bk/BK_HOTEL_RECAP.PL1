@@ -1,0 +1,419 @@
+/****************************************************************
+	Module: BK_HOTEL_RECAP
+	Top Level Logic: RECAP_LOGIC
+	Date: 20-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_HOTEL_RECAP
+	Top-level Logic
+****************************************************************/
+
+%replace BK_HOTEL_RECAP_1 by 389;
+%replace BK_HOTEL_RECAP_2 by 388;
+BK_HOTEL_RECAP:
+   procedure;
+%replace BK_HOTEL_NO by   8;
+%replace TK_DETAIL_NO by  57;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace TK_HEADER_NO by  56;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_DET_HOTEL_NO by  67;
+%include "BK_HOTEL_RECAP.DD";
+%include "BK_HOTEL.DD";
+%include "TK_DETAIL.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "TK_HEADER.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_DET_HOTEL.DD";
+
+declare		END_RECAP_MAIN       bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_XDET   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   END_RECAP_MAIN = NO;
+   do while (END_RECAP_MAIN ^= YES);
+      call RECAP_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   RECAP_ROOM_DESC = "";
+   RECAP_PAX_NAMES = "";
+   RECAP_HOTEL = "";
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   TOUR_QUADS = 0;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_HOTEL_RECAP_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_HOTEL_RECAP_RECORD) );
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (BK_PASSENGERS_NO,"BK_PASSENGERS",byteaddr(BK_PASSENGERS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	RECAP_MAIN
+	Mainline logic
+****************************************************************/
+
+RECAP_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_RECAP_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_RECAP_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (BK_HOTEL_RECAP_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   HDET_MOD = 0;
+   HDET_HOTEL = RECAP_START_HTL;
+   HDET_DAY = RECAP_START_DATE;
+   HDET_BK_TR_NO = 0;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_2,ERROR_CODE);
+   END_READ_THRU_XDET = NO;
+   do while (END_READ_THRU_XDET ^= YES);
+      call READ_THRU_XDET;
+   end;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_RECAP_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* RECAP_MAIN           */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+RECAP_END_HTL = RECAP_START_HTL;
+RECAP_START_DATE = TODAYS_DATE();
+RECAP_END_DATE = RECAP_START_DATE+365;
+do LOOP_INDEX =   1 to   7;
+   if LOOP_INDEX =   2 then
+      RECAP_END_HTL = RECAP_START_HTL;
+   if LOOP_INDEX =   3 then
+      RECAP_START_DATE = TODAYS_DATE();
+   if LOOP_INDEX =   4 then
+      RECAP_END_DATE = RECAP_START_DATE+365;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         RECAP_START_HTL = "";
+         RECAP_END_HTL = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  7,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  7 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         RECAP_START_HTL = "";
+         RECAP_END_HTL = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	READ_THRU_XDET
+	Read thru the recap info
+****************************************************************/
+
+READ_THRU_XDET:
+	procedure;
+
+
+   /* READ_NEXT - Read the next record */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > 0) !
+   (HDET_HOTEL > RECAP_END_HTL) then
+      do;
+      END_READ_THRU_XDET = YES;
+      return;
+      end;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* CHECK_HRECAP_BREAK - Check for a break */
+
+   if HDET_DATE < RECAP_START_DATE then
+      do;
+      HDET_DATE = RECAP_START_DATE;
+      call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_2,ERROR_CODE);
+      return;
+      end;
+
+   if HDET_DATE > RECAP_END_DATE then
+      do;
+      HDET_DATE = 32766;
+      call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_2,ERROR_CODE);
+      return;
+      end;
+
+   HRECAP_HOTEL = HDET_HOTEL;
+
+
+   /* SET_HRECAP - Set the hotel recap info */
+
+   %include "BK_H_RECAP.DD";
+
+   HRECAP_INV_ONLY = RECAP_INV;
+   HRECAP_PAX = RECAP_PAX;
+   HRECAP_FLTS = RECAP_AIR;
+   HRECAP_START_DATE = RECAP_START_DATE;
+   HRECAP_END_DATE = RECAP_END_DATE;
+
+
+
+   /* CALL_PROG - Call another program */
+
+   %include "BK_H_RECAP.DCL";
+   call BK_H_RECAP(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_HOTEL_RECORD,
+      TK_DETAIL_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_H_RECAP_RECORD);
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   HDET_MOD = 0;
+   HDET_HOTEL = HRECAP_HOTEL;
+   HDET_DAY = 32766;
+   HDET_BK_TR_NO = 0;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_2,ERROR_CODE);
+return;
+end;	/* READ_THRU_XDET       */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (BK_PASSENGERS_NO);
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

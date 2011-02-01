@@ -1,0 +1,158 @@
+/****************************************************************
+	Module: HOTEL_UPDATE
+	Top Level Logic: HOTEL_UPDATE_TOP
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	HOTEL_UPDATE
+	Top level
+****************************************************************/
+
+%replace HOTEL_UPDATE_1 by 350;
+HOTEL_UPDATE:
+   procedure(
+      BK_BOOKING_RECORD);
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_BOOKING_NO by   9;
+%include "BK_DET_HOTEL.DD";
+%include "BK_BOOKING.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_DELETE_HOTEL     bit (1);
+declare		END_UPDATE_HOTEL     bit (1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   END_DELETE_HOTEL = NO;
+   do while (END_DELETE_HOTEL ^= YES);
+      call DELETE_HOTEL;
+   end;
+
+   /* SET_PREV_MOD - Set to previous mod number */
+
+   BK_MODIFICATION = BK_NEXT_MOD;
+   BK_NEXT_MOD = 0;
+
+   END_UPDATE_HOTEL = NO;
+   do while (END_UPDATE_HOTEL ^= YES);
+      call UPDATE_HOTEL;
+   end;
+
+   /* SET_ZERO_MOD - Set to the current mod */
+
+   BK_NEXT_MOD = BK_MODIFICATION;
+   BK_MODIFICATION = 0;
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	DELETE_HOTEL
+	Delete the hotel detail
+****************************************************************/
+
+DELETE_HOTEL:
+	procedure;
+
+
+   /* SET_FIRST_HOTELD - Set first hotel detail */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) then
+      do;
+      END_DELETE_HOTEL = YES;
+      return;
+      end;
+
+   /* DELETE_HOTELD - Delete */
+
+   call DELETE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+return;
+end;	/* DELETE_HOTEL         */
+
+/****************************************************************
+	UPDATE_HOTEL
+	Restore the previous hotel detail
+****************************************************************/
+
+UPDATE_HOTEL:
+	procedure;
+
+
+   /* SET_FIRST_HOTELD - Set first hotel detail */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) then
+      do;
+      END_UPDATE_HOTEL = YES;
+      return;
+      end;
+
+   /* CHANGE_HOTELD - Set mod to 0 */
+
+   HDET_MOD = BK_NEXT_MOD;
+
+
+   /* UPDATE_HOTELD - Update */
+
+   call UPDATE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+return;
+end;	/* UPDATE_HOTEL         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

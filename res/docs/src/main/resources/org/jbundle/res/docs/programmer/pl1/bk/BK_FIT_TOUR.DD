@@ -1,0 +1,14 @@
+/*********************************************************************
+	BK_FIT_TOUR File
+********************************************************************/
+
+declare	1 BK_FIT_TOUR_RECORD,
+		3 TOUR_MARKUP          float binary (21),
+		3 LAND_SIC             float binary (53),
+		3 LAND_PMC             float binary (53),
+		3 SIC_USD              float binary (53),
+		3 PMC_USD              float binary (53),
+		3 LAND_INFO_FLAG       character (1),
+		3 VARY_QTY             fixed binary (15),
+		3 LAND_CUTOFF          float binary (53);
+

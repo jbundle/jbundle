@@ -1,0 +1,16 @@
+/*********************************************************************
+	TK_OVER_REV File
+********************************************************************/
+
+declare	1 TK_OVER_REV_RECORD,
+		3 TK_OVER_AIR          character (        2),
+		3 TK_OV_START          fixed binary (15),
+		3 TK_OV_END            fixed binary (15),
+		3 TK_OV_DATE           fixed binary (15),
+		3 TK_OV_TIME           fixed binary (15),
+		3 TK_OV_USER           character (       16),
+		3 TK_OV_PAGE           fixed binary (31),
+		3 TK_OV_COUNT          fixed binary (31),
+		3 TK_OV_TOTAL          float binary (53),
+		3 TK_OV_REC            fixed binary (15);
+

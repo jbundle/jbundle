@@ -1,0 +1,295 @@
+/****************************************************************
+	Module: BK_DIS_FLIGHTC
+	Top Level Logic: ENTER_AND_DIS
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_FLIGHTC
+	Enter Header and Display Table
+****************************************************************/
+
+%replace BK_DIS_FLIGHTC_1 by 493;
+BK_DIS_FLIGHTC:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      TK_FLIGHTS_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace TK_FLIGHTS_NO by  73;
+%include "BK_DIS_FLIGHTC.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "TK_FLIGHTS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   call ENT_DIS_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   DIS_FLIGHT_FROM = "";
+   DIS_CITY_TO = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_DIS_FLIGHTC_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_DIS_FLIGHTC_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	ENT_DIS_MAIN
+	Enter and Display - Main Logic
+****************************************************************/
+
+ENT_DIS_MAIN:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - set input erro to no */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_DIS_FLIGHTC_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+return;
+end;	/* ENT_DIS_MAIN         */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =  11 to  12;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* SET_FLT_RANGE - Set the range of from cities */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         START_FLT = "";
+         END_FLT = "~";
+         end;
+      else
+         do;
+         START_FLT = DIS_FLIGHT_FROM;
+         END_FLT = DIS_FLIGHT_FROM;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		FLIGHT_FROM_ARRAY(15) character (        3);
+declare		FLIGHT_TO_ARRAY(15) character (        3);
+declare		FLIGHT_AIRLINE_ARRAY(15) character (        2);
+declare		FLIGHT_NO_ARRAY(15) character (        4);
+declare		FLIGHT_END_ARRAY(15) fixed binary (15);
+declare		FLIGHT_DAYS_ARRAY(15) character (        4);
+declare		FLIGHT_SEGMENT_ARRAY(15) fixed binary (15);
+declare		TK_FLIGHTS_ERROR     fixed binary (15);
+declare		FLIGHT_FROM_SAVE     character (        3);
+declare		FLIGHT_TO_SAVE       character (        3);
+declare		FLIGHT_AIRLINE_SAVE  character (        2);
+declare		FLIGHT_NO_SAVE       character (        4);
+declare		FLIGHT_END_SAVE      fixed binary (15);
+declare		FLIGHT_DAYS_SAVE     character (        4);
+declare		FLIGHT_SEGMENT_SAVE  fixed binary (15);
+declare		ANSWER               character (1);
+FLIGHT_FROM = START_FLT;
+FLIGHT_TO = "";
+FLIGHT_AIRLINE = "";
+FLIGHT_NO = "";
+FLIGHT_END = 0;
+FLIGHT_DAYS = "";
+FLIGHT_SEGMENT = 0;
+call SET_POSITION (TK_FLIGHTS_NO,KEY_AREA_2,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+ERROR_CODE = 1;
+do while (ERROR_CODE = 1);
+   call READ_NEXT (TK_FLIGHTS_NO,KEY_AREA_2,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+      (FLIGHT_FROM > END_FLT) then
+         DISPLAY_RECORDS = NO;
+   ERROR_CODE = 0;
+   if DISPLAY_RECORDS = YES then
+      do;
+
+      /* CHECK_FLT_CITY - Is this the TO city? */
+
+      if DIS_CITY_TO ^= "" then if DIS_CITY_TO ^= FLIGHT_TO then
+         ERROR_CODE = 1;
+
+      end;
+end;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 15;
+      FLIGHT_FROM_ARRAY(RECORD_NUMBER) = "";
+      FLIGHT_TO_ARRAY(RECORD_NUMBER) = "";
+      FLIGHT_AIRLINE_ARRAY(RECORD_NUMBER) = "";
+      FLIGHT_NO_ARRAY(RECORD_NUMBER) = "";
+      FLIGHT_END_ARRAY(RECORD_NUMBER) = 0;
+      FLIGHT_DAYS_ARRAY(RECORD_NUMBER) = "";
+      FLIGHT_SEGMENT_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      TK_FLIGHTS_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (TK_FLIGHTS_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 15) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  13 to  26;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         FLIGHT_FROM_ARRAY(RECORD_NUMBER) = FLIGHT_FROM;
+         FLIGHT_TO_ARRAY(RECORD_NUMBER) = FLIGHT_TO;
+         FLIGHT_AIRLINE_ARRAY(RECORD_NUMBER) = FLIGHT_AIRLINE;
+         FLIGHT_NO_ARRAY(RECORD_NUMBER) = FLIGHT_NO;
+         FLIGHT_END_ARRAY(RECORD_NUMBER) = FLIGHT_END;
+         FLIGHT_DAYS_ARRAY(RECORD_NUMBER) = FLIGHT_DAYS;
+         FLIGHT_SEGMENT_ARRAY(RECORD_NUMBER) = FLIGHT_SEGMENT;
+         ERROR_CODE = 1;
+         do while (ERROR_CODE = 1);
+            call READ_NEXT (TK_FLIGHTS_NO,KEY_AREA_2,TK_FLIGHTS_ERROR);
+            if (FLIGHT_FROM > END_FLT) then
+               TK_FLIGHTS_ERROR = END_OF_FILE;
+            ERROR_CODE = 0;
+            if TK_FLIGHTS_ERROR ^= END_OF_FILE then
+               do;
+
+               /* CHECK_FLT_CITY - Is this the TO city? */
+
+               if DIS_CITY_TO ^= "" then if DIS_CITY_TO ^= FLIGHT_TO then
+                  ERROR_CODE = 1;
+
+               end;
+         end;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      FLIGHT_FROM_SAVE = FLIGHT_FROM_ARRAY(15);
+      FLIGHT_TO_SAVE = FLIGHT_TO_ARRAY(15);
+      FLIGHT_AIRLINE_SAVE = FLIGHT_AIRLINE_ARRAY(15);
+      FLIGHT_NO_SAVE = FLIGHT_NO_ARRAY(15);
+      FLIGHT_END_SAVE = FLIGHT_END_ARRAY(15);
+      FLIGHT_DAYS_SAVE = FLIGHT_DAYS_ARRAY(15);
+      FLIGHT_SEGMENT_SAVE = FLIGHT_SEGMENT_ARRAY(15);
+      if TK_FLIGHTS_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 15;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if FLIGHT_FROM_ARRAY(RECORD_NUMBER) ^= "" then
+         do LOOP_INDEX =13 to  26;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,13 @@
+/*********************************************************************
+	AP_TENNN File
+********************************************************************/
+
+declare	1 AP_TENNN_RECORD,
+		3 AP_TEN_START         character (        6),
+		3 AP_TEN_END           character (        6),
+		3 AP_TEN_START_DATE    fixed binary (15),
+		3 AP_TEN_END_DATE      fixed binary (15),
+		3 AP_TEN_DETAIL        character (1),
+		3 AP_TEN_TOTAL         float binary (53),
+		3 AP_TEN_PRINT         character (1);
+

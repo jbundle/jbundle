@@ -1,0 +1,90 @@
+/*********************************************************************
+	TK_HEADER File
+********************************************************************/
+
+declare	1 TK_HEADER_RECORD,
+		3 TK_MODIFICATION      fixed binary (15),
+		3 TK_BK_TK_NO          fixed binary (31),
+		3 TK_ALT_SEQ           fixed binary (15),
+		3 TK_ANSW_SEQ          fixed binary (15),
+		3 TK_MOD_CODE          character (        1),
+		3 TK_NUMBER            character (       28),
+		3 TK_AIRL_CODE         character (        2),
+		3 TK_AIRLINE_IATA      fixed binary (15),
+		3 TK_AIRLINE_DESC      character (       16),
+		3 TK_CONJ              fixed binary (15),
+		3 TK_ENDORSEMENTS      character (       29),
+		3 TK_ORIGIN            character (       13),
+		3 TK_DESTINATION       character (       13),
+		3 TK_ISSUE_DATE        fixed binary (15),
+		3 TK_PAX_NAME          character (       29),
+		3 TK_FORM_OF_PYMT      character (       41),
+		3 TK_TOUR_CODE         character (       14),
+		3 TK_FARE              float binary (53),
+		3 TK_EQUIVALENT        float binary (21),
+		3 TK_CURR              character (        3),
+		3 TK_TAX_P             float binary (21),
+		3 TK_TAX_1             float binary (53),
+		3 TK_TAX_1_DESC        character (        2),
+		3 TK_TAX_2             float binary (53),
+		3 TK_TAX_2_DESC        character (        2),
+		3 TK_TOTAL             float binary (53),
+		3 TK_COMM              character (       10),
+		3 TK_TAX               character (       10),
+		3 TK_COMM_RATE         character (        5),
+		3 TK_AGENT             character (       10),
+		3 TK_INTERNATIONAL     character (        3),
+		3 TK_COMM_P            float binary (21),
+		3 TK_COMM_AMT          float binary (53),
+		3 TK_TICKET_BY         character (        1),
+		3 TK_NET_FARE          float binary (53),
+		3 TK_OVERRIDE_P        float binary (21),
+		3 TK_OVERRIDE          float binary (53),
+		3 TK_NET               float binary (53),
+		3 TK_NET_POSTED        float binary (53),
+		3 TK_OR_COLL           float binary (53),
+		3 TK_OR_COLL_DATE      fixed binary (15),
+		3 TK_ARC_COST          float binary (53),
+		3 TK_COST_POSTED       float binary (53),
+		3 TK_OR_POSTED         float binary (53),
+		3 TK_COST_POSTED_ON    fixed binary (15),
+		3 TK_PNR               character (       15),
+		3 TK_VOID              character (1),
+		3 TK_VOID_DATE         fixed binary (15),
+		3 TK_EXCH_TICKET       character (       20),
+		3 TK_DEP_DATE          fixed binary (15),
+		3 TK_COAS_GL           fixed binary (31),
+		3 TK_OVER_REC          fixed binary (31),
+		3 TK_PP_TICKETS        fixed binary (31),
+		3 TK_AP_ACCT           fixed binary (31),
+		3 TK_OVER_VAR          fixed binary (31),
+		3 TK_CASH_AC           fixed binary (31),
+		3 TK_OVER_CASH         fixed binary (31),
+		3 TK_ISSUE_UD_DATE     fixed binary (15),
+		3 TK_ARC_UD_DATE       fixed binary (15),
+		3 TK_DEP_UD_DATE       fixed binary (15),
+		3 TK_OR_UD_DATE        fixed binary (15),
+		3 TK_BK_DEP_DATE       fixed binary (15),
+		3 TK_UD_STATUS         fixed binary (15),
+		3 TK_CREDIT            character (1),
+		3 TK_COMMENT1          character (       20),
+		3 TK_COMMENT2          character (       20),
+		3 TK_COMMENT3          character (       20),
+		3 TK_CRS_STATUS        character (        2),
+		3 TK_FARE_1            character (       60),
+		3 TK_FARE_2            character (       60),
+		3 TK_FARE_3            character (       60);
+
+declare	1 TK_HEADER_01_RECORD defined (TK_MODIFICATION),
+		3 TK_MODIFICATION01    fixed binary (15),
+		3 TK_TOUR_HDR          character (        4);
+
+%replace NO_TK_STAT           by 0;
+%replace REQ_TK               by 1;
+%replace AUTO_TK              by 2;
+%replace WAIT_TK              by 3;
+%replace TICK_TK              by 4;
+%replace ALL_TK               by 5;
+%replace OVER_TK              by 6;
+%replace XL_TK                by 7;
+%replace XLD_TK               by 8;

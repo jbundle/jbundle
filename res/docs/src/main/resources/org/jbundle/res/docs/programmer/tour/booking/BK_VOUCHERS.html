@@ -1,0 +1,76 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to process tour vouchers
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>Usually tour vouchers are processed automatically by the finalization system. This program is used to
+manually process tour vouchers.
+
+<br wp="br1"><br wp="br2">
+<p>First, the system will ask you for a tour number to process (defaults to the tour for the current
+booking).
+
+<br wp="br1"><br wp="br2">
+<p>If the tour hasn't been finalized yet (or it needs re-finalization) you will be asked if you want to update
+the voucher status. If you answer A, Y, or All, the hotel and land detail will be scanned to see if it is
+current (Answering H or L will only update the land or hotel detail, respectively). If any vouchers need
+updating, their status will be updated to request (or cancel) a voucher. The new voucher status' will
+automatically display. After updating, you will be given a change to change the voucher status at the
+"CHANGE ITEM" prompt. You can Reprint, Hold, or mark a voucher as printed at this point.
+
+<br wp="br1"><br wp="br2">
+<p>	Note: If you are operating the tour for the current booking and you have changed any of the detail, you will
+be asked to finish the booking (Answer Yes to Changes OK?) before processing the tour.
+
+<br wp="br1"><br wp="br2">
+<p>Next, you will be asked if you want to process any tour documents. Hit return to finish, or enter a
+valid document type to continue. Valid types are:
+
+<p>	H - Hotel Tour Orders
+
+<p>	V - Hotel Vouchers
+
+<p>	L - Land Tour Orders
+
+<p>	W - Land Vouchers
+
+<p>	P - Alpha Tour Passenger List
+
+<p>	O - Tour rooming list
+
+<br wp="br1"><br wp="br2">
+<p>The document type determines what vouchers will print, their format, and whether or not the print
+status is to be updated. If you select H for hotels or L for land, only the vouchers with a "print" status
+will be printed. If you select any other format, ALL the hotel or land vouchers will print and the status
+codes will no update.
+
+<br wp="br1"><br wp="br2">
+<p>Next, enter the document format file and the form to print the document on. Type "T" to send the
+document to the Telex "Form."
+
+<br wp="br1"><br wp="br2">
+<p>Remember, if you don't update the voucher's status, the vouchers will be printed for the CURRENT
+voucher detail, rather than the actual tour detail.
+
+<br wp="br1"><br wp="br2">
+<p>/USE: BK_L_VOUCHER/
+
+<p>/USE: BK_H_VOUCHER/
+</body>
+</html>

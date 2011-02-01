@@ -1,0 +1,10 @@
+/*********************************************************************
+	TAX_RATES File
+********************************************************************/
+
+declare	1 TAX_RATES_RECORD,
+		3 TAX_CODE             character (        2),
+		3 MARITAL_STATUS       character (        1),
+		3 CUT_OFF_AMOUNT       float binary (21),
+		3 TAX_RATE             float binary (21);
+

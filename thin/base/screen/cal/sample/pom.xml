@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.thin.base.screen</groupId>
+    <artifactId>jbundle-thin-base-screen-cal-reactor</artifactId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>jbundle-thin-base-screen-cal-sample-reactor</artifactId>
+  <packaging>pom</packaging>
+  <name>jbundle-thin-base-screen-cal-sample - Thin cal sample</name>
+
+  <modules>
+    <module>basic</module>
+    <module>remote</module>
+  </modules>
+</project>

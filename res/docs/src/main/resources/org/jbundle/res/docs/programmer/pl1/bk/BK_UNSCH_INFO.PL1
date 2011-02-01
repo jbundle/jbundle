@@ -1,0 +1,1349 @@
+/****************************************************************
+	Module: BK_UNSCH_INFO
+	Top Level Logic: TOUR_HDR_MAINT
+	Date: 14-Aug-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_UNSCH_INFO
+	Tour header file maintenance
+****************************************************************/
+
+%replace BK_UNSCH_INFO_1 by 293;
+%replace BK_UNSCH_INFO_9 by 719;
+BK_UNSCH_INFO:
+   procedure(
+      BK_TOUR_HDR_RECORD);
+%replace GL_CHART_NO by  16;
+%replace BK_TOUR_HDR_NO by  58;
+%include "GL_CHART.DD";
+%include "BK_TOUR_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   call TOUR_HDR_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_UNSCH_INFO_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	TOUR_HDR_MAIN
+	Mainline logic
+****************************************************************/
+
+TOUR_HDR_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_TOUR_HDR    fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_UNSCH_INFO_1);
+   NOT_FIRST_TIME = YES;
+   call DISPLAY_DATA_A;
+   call HDR_ACCESS;
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (BK_TOUR_HDR_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TOUR_HDR);
+   if ERROR_BK_TOUR_HDR = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_BK_TOUR_HDR > 3 then
+      call PRINT_ERROR (BK_TOUR_HDR_NO,ERROR_BK_TOUR_HDR);
+
+   /* RECORD_FOUND - Was the record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_TOUR_HDR = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* ENTER_SCREEN - Enter screen for the first time */
+
+
+         /* CLEAR_FIELDS - Clear non-screen file fields */
+
+         HDR_INV_CTL = "";
+         call INPUT_SCREEN;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_BK_TOUR_HDR = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (BK_TOUR_HDR_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (BK_TOUR_HDR_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (BK_TOUR_HDR_NO,ERROR_CODE);
+         end;
+      end;
+return;
+end;	/* TOUR_HDR_MAIN        */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =   1 to   2;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	HDR_ACCESS
+	Access to header file
+****************************************************************/
+
+HDR_ACCESS:
+	procedure;
+
+declare		HDR_INPUT            fixed binary (15);
+declare		TOUR_INPUT           character (        4);
+TOUR_INPUT = HDR_TOUR_CODE;
+HDR_INPUT = HDR_START_ON;
+HDR_END_ON = HDR_INPUT;
+
+call SET_POSITION (BK_TOUR_HDR_NO,1,ERROR_CODE);
+if ERROR_CODE ^= END_OF_FILE then
+   call READ_NEXT (BK_TOUR_HDR_NO,1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) ! (TOUR_INPUT ^= HDR_TOUR_CODE) then
+   do;	/* No larger HDR found, enter any valid HDR-to */
+   HDR_TOUR_CODE = TOUR_INPUT;
+   HDR_START_ON = HDR_INPUT;
+   declare (DAY,MONTH,YEAR) fixed binary;
+   call DAY_TO_DMY (HDR_START_ON,DAY,MONTH,YEAR);
+   call DMY_TO_DAY (HDR_END_ON,DAY,MONTH,YEAR+1);
+   HDR_END_ON = HDR_END_ON - 1;
+   ERROR_CODE = RECORD_NOT_FOUND;
+   return;
+   end;
+
+if HDR_START_ON <= HDR_INPUT then
+   do;		/* Falls within parameters, read/lock and display */
+   if HDR_START_ON ^= HDR_INPUT then
+      FIRST_ITEM = 2;
+   ERROR_CODE = NORMAL_RETURN;
+   return;
+   end;
+
+HDR_TOUR_CODE = TOUR_INPUT;
+HDR_START_ON = HDR_INPUT;
+HDR_END_ON = HDR_INPUT;	/* Make sure read will get error */
+ERROR_CODE = RECORD_NOT_FOUND;
+
+return;
+end;	/* HDR_ACCESS           */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX =   1 to  32;
+   if LOOP_INDEX =  20 then
+      do;
+
+      /* SKIP_NON_HDR - G/L Fields not needed if module */
+
+      if (HDR_TOUR_TYPE = "C") ! (HDR_TOUR_TYPE = "H") then
+         do;
+         LOOP_INDEX = 99;
+         return;
+         end;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  32 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = HDR_INCOME_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  33 to  33;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  34 to  34;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  34 then
+      do;
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      GL_ACCOUNT_NO = HDR_AR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  35 to  35;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  36 to  36;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  36 then
+      do;
+
+      /* READ_SECOND_3 - Read second */
+
+      GL_ACCOUNT_NO = HDR_PP_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  37 to  37;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  38 to  38;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  38 then
+      do;
+
+      /* READ_SECOND_4 - read secondary file */
+
+      GL_ACCOUNT_NO = HDR_LAND_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  39 to  39;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  40 to  40;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  40 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = HDR_UNINV_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  41 to  41;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  42 to  42;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  42 then
+      do;
+
+      /* READ_SECOND_6 - Read secondary file */
+
+      GL_ACCOUNT_NO = HDR_COST_OU_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  43 to  43;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  44 to  44;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  44 then
+      do;
+
+      /* READ_SECOND_7 - Read secondary file */
+
+      GL_ACCOUNT_NO = HDR_AP_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  45 to  45;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  46 to  46;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  46 then
+      do;
+
+      /* READ_SECOND_8 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_CURR_OU_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  47 to  47;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  48 to  48;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  48 then
+      do;
+
+      /* READ_SECOND_9 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_AIR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  49 to  49;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  50 to  50;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  50 then
+      do;
+
+      /* READ_SECOND_10 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_PP_TIC_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  51 to  51;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  52 to  52;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  52 then
+      do;
+
+      /* READ_SECOND_11 - Read second */
+
+      GL_ACCOUNT_NO = HDR_OVERRIDE_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  53 to  53;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  54 to  54;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  54 then
+      do;
+
+      /* READ_SECOND_12 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_OVER_VAR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  55 to  55;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+HDR_TOUR_DESC = "";
+HDR_TOUR_TYPE = "";
+HDR_ITIN = "";
+HDR_CONF = "";
+HDR_DEPOSIT_AMT = 0;
+HDR_DEPOSIT_DUE = 0;
+HDR_FINAL_PAY = 0;
+HDR_FINALIZE = 0;
+HDR_FINAL_DOCS = 0;
+HDR_TICKET = 0;
+HDR_SP1_DAYS = 0;
+HDR_SP2_DAYS = 0;
+HDR_DAYS = 0;
+HDR_NIGHTS = 0;
+HDR_BROCHURE = "";
+HDR_CARRIER = "";
+HDR_PROD_CODE = "";
+HDR_TICKETS_BY = "U";
+HDR_WAIT = "Y";
+HDR_CANCEL_CHG = 0;
+HDR_MOD_BEFORE = 0;
+HDR_MOD_AFTER = 0;
+HDR_INCOME_GL = 0;
+HDR_AR_GL = 0;
+HDR_PP_GL = 0;
+HDR_LAND_GL = 0;
+HDR_UNINV_GL = 0;
+HDR_COST_OU_GL = 0;
+HDR_AP_GL = 0;
+HDR_CURR_OU_GL = 0;
+HDR_AIR_GL = 0;
+HDR_PP_TIC_GL = 0;
+HDR_OVERRIDE_GL = 0;
+HDR_OVER_VAR_GL = 0;
+do LOOP_INDEX =   3 to  32;
+   if LOOP_INDEX =   6 then
+      call DISPLAY_MSG_NO ( 27);
+   if LOOP_INDEX =  20 then
+      do;
+
+      /* SKIP_NON_HDR - G/L Fields not needed if module */
+
+      if (HDR_TOUR_TYPE = "C") ! (HDR_TOUR_TYPE = "H") then
+         do;
+         LOOP_INDEX = 99;
+         return;
+         end;
+
+      end;
+   if LOOP_INDEX =  24 then
+      call DISPLAY_MSG_NO ( 28);
+   if LOOP_INDEX =  25 then
+      call DISPLAY_MSG_NO ( 25);
+   if LOOP_INDEX =  26 then
+      call DISPLAY_MSG_NO ( 42);
+   if LOOP_INDEX =  28 then
+      call DISPLAY_MSG_NO ( 44);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  32 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = HDR_INCOME_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  33 to  33;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  34 to  34;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  34 then
+      do;
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      GL_ACCOUNT_NO = HDR_AR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  35 to  35;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  36 to  36;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  36 then
+      do;
+
+      /* READ_SECOND_3 - Read second */
+
+      GL_ACCOUNT_NO = HDR_PP_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  37 to  37;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  38 to  38;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  38 then
+      do;
+
+      /* READ_SECOND_4 - read secondary file */
+
+      GL_ACCOUNT_NO = HDR_LAND_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  39 to  39;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  40 to  40;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  40 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = HDR_UNINV_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  41 to  41;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  42 to  42;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  42 then
+      do;
+
+      /* READ_SECOND_6 - Read secondary file */
+
+      GL_ACCOUNT_NO = HDR_COST_OU_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  43 to  43;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  44 to  44;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  44 then
+      do;
+
+      /* READ_SECOND_7 - Read secondary file */
+
+      GL_ACCOUNT_NO = HDR_AP_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  45 to  45;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  46 to  46;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  46 then
+      do;
+
+      /* READ_SECOND_8 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_CURR_OU_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  47 to  47;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  48 to  48;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  48 then
+      do;
+
+      /* READ_SECOND_9 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_AIR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  49 to  49;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  50 to  50;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  50 then
+      do;
+
+      /* READ_SECOND_10 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_PP_TIC_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  51 to  51;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  52 to  52;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  52 then
+      do;
+
+      /* READ_SECOND_11 - Read second */
+
+      GL_ACCOUNT_NO = HDR_OVERRIDE_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  53 to  53;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  54 to  54;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  54 then
+      do;
+
+      /* READ_SECOND_12 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_OVER_VAR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  55 to  55;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 42,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 42 then
+   do;
+   if SELECT <= 31 then
+      LOOP_INDEX = SELECT +   1;
+   if SELECT = 32 then
+      LOOP_INDEX = 34;
+   if SELECT = 33 then
+      LOOP_INDEX = 36;
+   if SELECT = 34 then
+      LOOP_INDEX = 38;
+   if SELECT = 35 then
+      LOOP_INDEX = 40;
+   if SELECT = 36 then
+      LOOP_INDEX = 42;
+   if SELECT = 37 then
+      LOOP_INDEX = 44;
+   if SELECT = 38 then
+      LOOP_INDEX = 46;
+   if SELECT = 39 then
+      LOOP_INDEX = 48;
+   if SELECT = 40 then
+      LOOP_INDEX = 50;
+   if SELECT = 41 then
+      LOOP_INDEX = 52;
+   if SELECT = 42 then
+      LOOP_INDEX = 54;
+   if LOOP_INDEX =   6 then
+      call DISPLAY_MSG_NO ( 27);
+   if LOOP_INDEX =  20 then
+      do;
+
+      /* SKIP_NON_HDR - G/L Fields not needed if module */
+
+      if (HDR_TOUR_TYPE = "C") ! (HDR_TOUR_TYPE = "H") then
+         do;
+         LOOP_INDEX = 99;
+         return;
+         end;
+
+      end;
+   if LOOP_INDEX =  24 then
+      call DISPLAY_MSG_NO ( 28);
+   if LOOP_INDEX =  25 then
+      call DISPLAY_MSG_NO ( 25);
+   if LOOP_INDEX =  26 then
+      call DISPLAY_MSG_NO ( 42);
+   if LOOP_INDEX =  28 then
+      call DISPLAY_MSG_NO ( 44);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  32 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = HDR_INCOME_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  33 to  33;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  34 then
+      do;
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      GL_ACCOUNT_NO = HDR_AR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  35 to  35;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  36 then
+      do;
+
+      /* READ_SECOND_3 - Read second */
+
+      GL_ACCOUNT_NO = HDR_PP_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  37 to  37;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  38 then
+      do;
+
+      /* READ_SECOND_4 - read secondary file */
+
+      GL_ACCOUNT_NO = HDR_LAND_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  39 to  39;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  40 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = HDR_UNINV_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  41 to  41;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  42 then
+      do;
+
+      /* READ_SECOND_6 - Read secondary file */
+
+      GL_ACCOUNT_NO = HDR_COST_OU_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  43 to  43;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  44 then
+      do;
+
+      /* READ_SECOND_7 - Read secondary file */
+
+      GL_ACCOUNT_NO = HDR_AP_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  45 to  45;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  46 then
+      do;
+
+      /* READ_SECOND_8 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_CURR_OU_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  47 to  47;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  48 then
+      do;
+
+      /* READ_SECOND_9 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_AIR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  49 to  49;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  50 then
+      do;
+
+      /* READ_SECOND_10 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_PP_TIC_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  51 to  51;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  52 then
+      do;
+
+      /* READ_SECOND_11 - Read second */
+
+      GL_ACCOUNT_NO = HDR_OVERRIDE_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  53 to  53;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  54 then
+      do;
+
+      /* READ_SECOND_12 - Read secondary */
+
+      GL_ACCOUNT_NO = HDR_OVER_VAR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  55 to  55;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (GL_CHART_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

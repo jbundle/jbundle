@@ -1,0 +1,648 @@
+/****************************************************************
+	Module: BK_HOTEL_MAINT
+	Top Level Logic: STANDARD_FILE_MAINT
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_HOTEL_MAINT
+	Screen file maintenance (standard)
+****************************************************************/
+
+%replace BK_HOTEL_MAINT_1 by 173;
+%replace BK_HOTEL_MAINT_2 by 291;
+%replace BK_HOTEL_MAINT_3 by 292;
+BK_HOTEL_MAINT:
+   procedure;
+%replace BK_HOTEL_NO by   8;
+%replace AP_VENDOR_NO by  30;
+%replace AD_CURR_NO by  25;
+%include "BK_HOTEL.DD";
+%include "AP_VENDOR.DD";
+%include "AD_CURR.DD";
+
+declare		END_SCREEN_IO        bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_BK_HOTEL       fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_SCREEN_IO = NO;
+   do while (END_SCREEN_IO ^= YES);
+      call SCREEN_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_HOTEL_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SCREEN_IO
+	Screen I/O (Input display write)
+****************************************************************/
+
+SCREEN_IO:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_HOTEL_MAINT_1);
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_SCREEN_IO = YES;
+      return;
+      end;
+   FIRST_ITEM = 2;
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (BK_HOTEL_NO+?LOCK_RECORD,KEY_NO,ERROR_BK_HOTEL);
+   if ERROR_BK_HOTEL = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_BK_HOTEL > 3 then
+      call PRINT_ERROR (BK_HOTEL_NO,ERROR_BK_HOTEL);
+
+   /* RECORD_FOUND - Was the record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_HOTEL = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* ENTER_SCREEN - Enter screen for the first time */
+
+
+         /* CLEAR_FIELDS - Clear non-screen file fields */
+
+         HOTEL_SHORT_NAME = "";
+         call INPUT_SCREEN;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_BK_HOTEL = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (BK_HOTEL_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (BK_HOTEL_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (BK_HOTEL_NO,ERROR_CODE);
+         end;
+      end;
+return;
+end;	/* SCREEN_IO            */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX = FIRST_ITEM to  38;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* SET_HOTEL_CURR - Set the hotel currency to the vendors' */
+
+      HOTEL_CURR = AP_VEN_CURR;
+
+      if ERROR_BK_HOTEL = RECORD_NOT_FOUND then
+         do;
+         HOTEL_CNTRY = AP_VEN_CNTRY;
+         HOTEL_ADDR_1 = AP_ADDR_1;
+         HOTEL_ADDR_2 = AP_ADDR_2;
+         HOTEL_ADDR_3 = AP_ADDR_3;
+         HOTEL_ADDR_4 = AP_ADDR_4;
+         HOTEL_PHONE = AP_VEN_PHONE;
+         HOTEL_TELEX = AP_VEN_TELEX;
+         HOTEL_ANSWERBK = AP_VEN_ANSWERBK;
+         HOTEL_FAX = AP_VEN_FAX;
+         end;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND_DIS - Read Second - Display line version */
+
+      AP_VEN_NO = HOTEL_VENDOR_NO;
+      call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         AP_VEN_NAME = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =   3 to   4;
+            if LOOP_INDEX =   3 then
+               do;
+
+               /* SET_HOTEL_CURR - Set the hotel currency to the vendors' */
+
+               HOTEL_CURR = AP_VEN_CURR;
+
+               if ERROR_BK_HOTEL = RECORD_NOT_FOUND then
+                  do;
+                  HOTEL_CNTRY = AP_VEN_CNTRY;
+                  HOTEL_ADDR_1 = AP_ADDR_1;
+                  HOTEL_ADDR_2 = AP_ADDR_2;
+                  HOTEL_ADDR_3 = AP_ADDR_3;
+                  HOTEL_ADDR_4 = AP_ADDR_4;
+                  HOTEL_PHONE = AP_VEN_PHONE;
+                  HOTEL_TELEX = AP_VEN_TELEX;
+                  HOTEL_ANSWERBK = AP_VEN_ANSWERBK;
+                  HOTEL_FAX = AP_VEN_FAX;
+                  end;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =   4 then
+               do;
+
+               /* READ_SECOND_DIS_2 - Read second - display mode */
+
+               CURR_CODE = HOTEL_CURR;
+               call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  CURR_DESC = "** RECORD NOT FOUND **";
+                  end;
+               else
+                  do;
+                  do LOOP_INDEX =   5 to   5;
+                     call OUTPUT_FIELD (LOOP_INDEX);
+                  end;
+                  LOOP_INDEX = LOOP_INDEX - 1;
+                  end;
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* READ_SECOND_DIS_2 - Read second - display mode */
+
+      CURR_CODE = HOTEL_CURR;
+      call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         CURR_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =   5 to   5;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+HOTEL_VENDOR_NO = "";
+HOTEL_CNTRY = AP_VEN_CNTRY;
+HOTEL_NAME = "";
+HOTEL_NAME_2 = "";
+HOTEL_ADDR_1 = AP_ADDR_1;
+HOTEL_ADDR_2 = AP_ADDR_2;
+HOTEL_ADDR_3 = AP_ADDR_3;
+HOTEL_ADDR_4 = AP_ADDR_4;
+HOTEL_PHONE = AP_VEN_PHONE;
+HOTEL_TELEX = AP_VEN_TELEX;
+HOTEL_ANSWERBK = AP_VEN_ANSWERBK;
+HOTEL_CABLE = "";
+HOTEL_FAX = AP_VEN_FAX;
+HOTEL_CITY = "";
+HOTEL_NO_ROOMS = 0;
+HOTEL_GEN_MGR = "";
+HOTEL_SALES_MGR = "";
+HOTEL_LOCAL = "";
+HOTEL_LOCAL_PHONE = "";
+HOTEL_800_PHONE = "";
+HOTEL_ALT_PHONE = "";
+HOTEL_COMMENT_1 = "";
+HOTEL_COMMENT_2 = "";
+HOTEL_TAX( 1) = 0;
+HOTEL_SVC_CHG( 1) = 0;
+HOTEL_COMM( 1) = 0;
+HOTEL_TAX( 2) = 0;
+HOTEL_SVC_CHG( 2) = 0;
+HOTEL_COMM( 2) = 0;
+HOTEL_TAX( 3) = 0;
+HOTEL_SVC_CHG( 3) = 0;
+HOTEL_COMM( 3) = 0;
+HOTEL_FREE_TYPE = "S";
+do LOOP_INDEX =   2 to   2;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND_DIS - Read Second - Display line version */
+
+      if RETURN_CODE ^= END_TYPED then
+         do;
+         AP_VEN_NO = HOTEL_VENDOR_NO;
+         call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+            call PRESS_RETURN;
+            call CLEAR_MESSAGE;
+            RETURN_CODE = DO_AGAIN;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         else
+            do;
+            do LOOP_INDEX =   3 to   4;
+               if LOOP_INDEX =   3 then
+                  do;
+
+                  /* SET_HOTEL_CURR - Set the hotel currency to the vendors' */
+
+                  HOTEL_CURR = AP_VEN_CURR;
+
+                  if ERROR_BK_HOTEL = RECORD_NOT_FOUND then
+                     do;
+                     HOTEL_CNTRY = AP_VEN_CNTRY;
+                     HOTEL_ADDR_1 = AP_ADDR_1;
+                     HOTEL_ADDR_2 = AP_ADDR_2;
+                     HOTEL_ADDR_3 = AP_ADDR_3;
+                     HOTEL_ADDR_4 = AP_ADDR_4;
+                     HOTEL_PHONE = AP_VEN_PHONE;
+                     HOTEL_TELEX = AP_VEN_TELEX;
+                     HOTEL_ANSWERBK = AP_VEN_ANSWERBK;
+                     HOTEL_FAX = AP_VEN_FAX;
+                     end;
+
+                  end;
+               call OUTPUT_FIELD (LOOP_INDEX);
+               if LOOP_INDEX =   4 then
+                  do;
+
+                  /* READ_SECOND_DIS_2 - Read second - display mode */
+
+                  CURR_CODE = HOTEL_CURR;
+                  call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+                  if ERROR_CODE = RECORD_NOT_FOUND then
+                     do;
+                     CURR_DESC = "** RECORD NOT FOUND **";
+                     end;
+                  else
+                     do;
+                     do LOOP_INDEX =   5 to   5;
+                        call OUTPUT_FIELD (LOOP_INDEX);
+                     end;
+                     LOOP_INDEX = LOOP_INDEX - 1;
+                     end;
+                  end;
+            end;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   6 to  38;
+   if LOOP_INDEX =   6 then
+      HOTEL_CNTRY = AP_VEN_CNTRY;
+   if LOOP_INDEX =   9 then
+      HOTEL_ADDR_1 = AP_ADDR_1;
+   if LOOP_INDEX =  10 then
+      HOTEL_ADDR_2 = AP_ADDR_2;
+   if LOOP_INDEX =  11 then
+      HOTEL_ADDR_3 = AP_ADDR_3;
+   if LOOP_INDEX =  12 then
+      HOTEL_ADDR_4 = AP_ADDR_4;
+   if LOOP_INDEX =  13 then
+      HOTEL_PHONE = AP_VEN_PHONE;
+   if LOOP_INDEX =  14 then
+      HOTEL_TELEX = AP_VEN_TELEX;
+   if LOOP_INDEX =  15 then
+      HOTEL_ANSWERBK = AP_VEN_ANSWERBK;
+   if LOOP_INDEX =  17 then
+      HOTEL_FAX = AP_VEN_FAX;
+   if LOOP_INDEX =  38 then
+      call DISPLAY_MSG_NO ( 24);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   7 then
+      do;
+
+      /* SET_SHORT_HOTEL - Set up the short hotel name */
+
+      HOTEL_SHORT_NAME = HOTEL_NAME;
+      call CONVERT_TO_UPPER(HOTEL_SHORT_NAME);
+      if substr(HOTEL_SHORT_NAME,1,4) = "THE " then
+         do;
+         HOTEL_SHORT_NAME = substr(HOTEL_NAME,5,10);
+         call CONVERT_TO_UPPER(HOTEL_SHORT_NAME);
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 29,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 24 then
+   do;
+   if SELECT <=  2 then
+      LOOP_INDEX = SELECT;
+   if SELECT >=  3 then
+      LOOP_INDEX = SELECT +   3;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND_DIS - Read Second - Display line version */
+
+      AP_VEN_NO = HOTEL_VENDOR_NO;
+      call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   3 to   4;
+            if LOOP_INDEX =   3 then
+               do;
+
+               /* SET_HOTEL_CURR - Set the hotel currency to the vendors' */
+
+               HOTEL_CURR = AP_VEN_CURR;
+
+               if ERROR_BK_HOTEL = RECORD_NOT_FOUND then
+                  do;
+                  HOTEL_CNTRY = AP_VEN_CNTRY;
+                  HOTEL_ADDR_1 = AP_ADDR_1;
+                  HOTEL_ADDR_2 = AP_ADDR_2;
+                  HOTEL_ADDR_3 = AP_ADDR_3;
+                  HOTEL_ADDR_4 = AP_ADDR_4;
+                  HOTEL_PHONE = AP_VEN_PHONE;
+                  HOTEL_TELEX = AP_VEN_TELEX;
+                  HOTEL_ANSWERBK = AP_VEN_ANSWERBK;
+                  HOTEL_FAX = AP_VEN_FAX;
+                  end;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =   4 then
+               do;
+
+               /* READ_SECOND_DIS_2 - Read second - display mode */
+
+               CURR_CODE = HOTEL_CURR;
+               call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  CURR_DESC = "** RECORD NOT FOUND **";
+                  end;
+               else
+                  do;
+                  do LOOP_INDEX =   5 to   5;
+                     call OUTPUT_FIELD (LOOP_INDEX);
+                  end;
+                  LOOP_INDEX = LOOP_INDEX - 1;
+                  end;
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =   7 then
+      do;
+
+      /* SET_SHORT_HOTEL - Set up the short hotel name */
+
+      HOTEL_SHORT_NAME = HOTEL_NAME;
+      call CONVERT_TO_UPPER(HOTEL_SHORT_NAME);
+      if substr(HOTEL_SHORT_NAME,1,4) = "THE " then
+         do;
+         HOTEL_SHORT_NAME = substr(HOTEL_NAME,5,10);
+         call CONVERT_TO_UPPER(HOTEL_SHORT_NAME);
+         end;
+
+      end;
+   end;
+if SELECT = 25 then
+   do;
+   do LOOP_INDEX =  28 to  30;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 26 then
+   do;
+   do LOOP_INDEX =  31 to  33;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 27 then
+   do;
+   do LOOP_INDEX =  34 to  36;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT >= 28 then if SELECT <= 29 then
+   do;
+
+      LOOP_INDEX = SELECT +   9;
+   if LOOP_INDEX =  38 then
+      call DISPLAY_MSG_NO ( 24);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

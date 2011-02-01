@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!-- NOTE: This is a phantom project. DO NOT include it as a dependency in your POMs
+             or expect dependencies entered here to be included in your distribution. 
+             It is waiting to be split into independent projects - use these projects:
+             jbundle-this-base-db-core [which is a packaging only project (mixed is provided)]
+             I do this because Maven does not allow circular dependencies... but OSGi does! -->
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jbundle-thin-base-reactor</artifactId>
+    <groupId>org.jbundle.thin.base</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+  <groupId>org.jbundle.thin.base</groupId>
+
+  <artifactId>jbundle-thin-base-mixed</artifactId>
+  <packaging>jar</packaging>	<!-- This is NOT an OSGi bundle -->
+  <name>jbundle-thin-base-mixed - Thin framework base code</name>
+
+  <dependencies>
+    
+    <dependency>
+      <groupId>org.jbundle</groupId>
+      <artifactId>org.jbundle.model</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jbundle.util.jcalendarbutton</groupId>
+      <artifactId>org.jbundle.util.jcalendarbutton</artifactId>
+      <version>${jbundle-jcalendarbuttonVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util</groupId>
+      <artifactId>org.jbundle.util.muffinmanager</artifactId>
+      <version>${jbundle-util-muffinmanagerVersion}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jbundle.thin.base.db</groupId>
+      <artifactId>org.jbundle.thin.base.db</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.thin.base</groupId>
+      <artifactId>org.jbundle.thin.base.util.base64</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+
+	<!-- This is safe because the webstart plugin is always here in the sdk - The runtime code always checks  -->
+    <dependency>
+      <groupId>com.sun</groupId>
+      <artifactId>plugin</artifactId>
+      <version>${pluginVersion}</version>
+      <scope>system</scope>
+      <systemPath>${java.home}/lib/plugin.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>javax.jnlp</groupId>
+      <artifactId>javaws</artifactId>
+      <version>${javawsVersion}</version>
+      <scope>system</scope>
+      <systemPath>${java.home}/lib/javaws.jar</systemPath>
+    </dependency>
+
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>${org.osgi.coreVersion}</version>
+      <scope>provided</scope> <!-- This better be provided -->
+    </dependency>
+	<dependency>
+   		<groupId>org.apache.felix</groupId>
+   		<artifactId>org.apache.felix.bundlerepository</artifactId>
+   		<version>1.6.4</version>
+        <scope>provided</scope> <!-- This better be provided -->
+	</dependency>
+
+  </dependencies>
+
+</project>

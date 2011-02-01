@@ -1,0 +1,10 @@
+/*********************************************************************
+	AR_CASH_DEPOSIT File
+********************************************************************/
+
+declare	1 AR_CASH_DEPOSIT_RECORD,
+		3 AR_DEP_DATE          fixed binary (15),
+		3 AR_DEP_PAGE          fixed binary (15),
+		3 AR_LAST_BOOKING      fixed binary (31),
+		3 AR_LAST_CHECK        character (        8);
+

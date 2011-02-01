@@ -1,0 +1,17 @@
+/*********************************************************************
+	GL_JOURNAL File
+********************************************************************/
+
+declare	1 GL_JOURNAL_RECORD,
+		3 GL_JOUR_START        fixed binary (15),
+		3 GL_JOUR_END          fixed binary (15),
+		3 GL_JNL_DATE          fixed binary (15),
+		3 GL_JNL_TIME          fixed binary (15),
+		3 GL_JNL_PAGE          fixed binary (31),
+		3 GL_JNL_DEBIT         float binary (53),
+		3 GL_JNL_CREDIT        float binary (53),
+		3 GL_JNL_COUNT         fixed binary (31),
+		3 GL_JNL_TOTAL_DEBIT   float binary (53),
+		3 GL_JNL_TOTAL_CREDIT  float binary (53),
+		3 GL_JOUR_USER         character (       16);
+

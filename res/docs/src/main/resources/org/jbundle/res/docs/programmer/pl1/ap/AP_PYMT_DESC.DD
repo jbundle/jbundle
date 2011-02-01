@@ -1,0 +1,16 @@
+/*********************************************************************
+	AP_PYMT_DESC File
+********************************************************************/
+
+declare	1 AP_PYMT_DESC_RECORD,
+		3 DET_CHECKS           character (        1),
+		3 RECAP_DATE           fixed binary (15),
+		3 RECAP_ASTERIK        character (        1),
+		3 DESC_ACCOUNT         fixed binary (15),
+		3 AP_PYMT_PAX          character (1),
+		3 PRE_DATE             fixed binary (15),
+		3 AP_PRE_TIME          fixed binary (15),
+		3 AP_PRE_USER          character (       16),
+		3 AP_PRE_PAGE          fixed binary (31),
+		3 AP_BROKER_PYMTS      character (1);
+

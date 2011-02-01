@@ -1,0 +1,1792 @@
+/****************************************************************
+	Module: BK_INVOICE
+	Top Level Logic: INVOICE_LOGIC
+	Date: 27-Oct-94
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_INVOICE
+	Top Level to Print Invoices
+****************************************************************/
+
+%replace BK_INVOICE_1 by 760;
+%replace BK_INVOICE_2 by 761;
+%replace BK_INVOICE_3 by 762;
+%replace BK_INVOICE_4 by 763;
+%replace BK_INVOICE_5 by 764;
+%replace BK_INVOICE_6 by 765;
+%replace BK_INVOICE_7 by 766;
+%replace BK_INVOICE_8 by 834;
+BK_INVOICE:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_LINE_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_COMMENT_RECORD,
+      TK_HEADER_RECORD,
+      TK_DETAIL_RECORD,
+      BK_HOTEL_RECORD,
+      BK_DET_LAND_RECORD,
+      BK_LAND_RECORD,
+      BK_TRANS_RECORD);
+%replace BK_TEXT_NO by  83;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_LINE_NO by  51;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_COMMENT_NO by  48;
+%replace TK_HEADER_NO by  56;
+%replace TK_DETAIL_NO by  57;
+%replace BK_HOTEL_NO by   8;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_LAND_NO by  54;
+%replace BK_TRANS_NO by  64;
+%include "BK_INVOICE.DD";
+%include "BK_TEXT.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_LINE.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_COMMENT.DD";
+%include "TK_HEADER.DD";
+%include "TK_DETAIL.DD";
+%include "BK_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_LAND.DD";
+%include "BK_TRANS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		LINE                 fixed binary (15);
+declare		END_READ_THRU_PAX    bit (1);
+declare		PAX_COUNT            fixed binary (15);
+declare		ROOM_TYPE_DESC       character (        6);
+declare		END_READ_THRU_LINES  bit (1);
+declare		END_READ_THRU_AIR    bit (1);
+declare		END_READ_THRU_REM    bit (1);
+declare		END_PRT_THRU_HOTELS  bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_PRT_THRU_LANDS   bit (1);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   INVOICE_PAGE = 1;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   LINE = 0;
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (BK_INVOICE_RECORD) );
+   call INVOICE_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INVOICE_MAIN
+	Print the invoice for this booking
+****************************************************************/
+
+INVOICE_MAIN:
+	procedure;
+
+
+   /* INVOICE_PRT - Print this invoice */
+
+   if (TOUR_CONF_NAME = "") !
+      (TOUR_TYPE = "G") !
+      (TOUR_TYPE = "U") then
+      TOUR_CONF_NAME = HDR_CONF;
+
+if TOUR_CONF_NAME = "" then
+   TOUR_CONF_NAME = "[1]";
+
+if substr(TOUR_CONF_NAME,1,1) = "[" then
+   do case (index("1234",substr(TOUR_CONF_NAME,2,1)));
+      call PRT_DEF_1;
+      call PRT_DEF_2;
+   end;
+else
+   do;
+   call CLOSE_SFILE (BK_TEXT_NO);
+   call OPEN_SFILE (BK_TEXT_NO,"FORM:" !! CUT_SPACES(TOUR_CONF_NAME),
+   byteaddr(BK_TEXT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then
+      do;
+      call PRT_DEF_1;
+      LINE = 100;
+      return;
+      end;
+   do while (YES);		/* Until EOF */
+   call READ_SEQN(BK_TEXT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = END_OF_FILE then
+         do;
+         LINE = 100;
+         return;
+         end;
+      if substr(BK_STRING,1,1) ^= "[" then
+         do;
+         call SETUP_PRINT_FORMAT (BK_INVOICE_7);
+         LOOP_INDEX = 1;
+         if BK_STRING = "<FF>"c then
+            LINE = 0;
+         call PRINT_REPORT_LINE;
+         end;
+      else
+         do;
+         BK_CODE = substr(BK_STRING,2,5);
+         do case (divide(index("HDR PAX LIN FLT REM MSC HTL LND ",substr(BK_CODE,1,3))+3,4,15));
+
+            /* INVOICE_TABLE - Dispatch table for invoice format */
+
+               call PRINT_HDR;
+
+               /* PRT_PAX - Print the invoice pax information */
+
+                  call PRT_DATA_C;
+
+               /* PRINT_LIN - Print invoice line items */
+
+                  call PRT_DATA_D;
+
+               /* PRINT_FLT - Print invoice flight information */
+
+                  call PRT_DATA_K;
+
+               /* PRINT_REM - Print the invoice remarks */
+
+                  call PRT_DATA_E;
+               call PRINT_MSC;
+
+               /* PRINT_HTL - Print invoice hotel information */
+
+                  call PRT_DATA_3;
+               call PRINT_LND;
+         end;
+         otherwise
+            do;
+            call SETUP_PRINT_FORMAT (BK_INVOICE_7);
+            LOOP_INDEX = 1;
+            if BK_STRING = "<FF>"c then
+               LINE = 0;
+            call PRINT_REPORT_LINE;
+            end;
+      end;
+   end;
+   end;
+LINE = 100;
+
+return;
+end;	/* INVOICE_MAIN         */
+
+/****************************************************************
+	PRT_DEF_1
+	Print default 1
+****************************************************************/
+
+PRT_DEF_1:
+	procedure;
+
+   call PRINT_HDR;
+
+   /* PRT_PAX - Print the invoice pax information */
+
+      call PRT_DATA_C;
+
+   /* PRINT_LIN - Print invoice line items */
+
+      call PRT_DATA_D;
+
+   /* PRINT_HTL - Print invoice hotel information */
+
+      call PRT_DATA_3;
+
+   /* PRINT_FLT - Print invoice flight information */
+
+      call PRT_DATA_K;
+
+   /* PRINT_REM - Print the invoice remarks */
+
+      call PRT_DATA_E;
+return;
+end;	/* PRT_DEF_1            */
+
+/****************************************************************
+	PRT_DEF_2
+	Print the 2nd default format
+****************************************************************/
+
+PRT_DEF_2:
+	procedure;
+
+   call PRT_DEF_1;
+return;
+end;	/* PRT_DEF_2            */
+
+/****************************************************************
+	PRINT_HDR
+	Print the invoice header info
+****************************************************************/
+
+PRINT_HDR:
+	procedure;
+
+do case (index("012345",substr(BK_CODE,4,1)));
+   do;
+   call PRT_DATA_4;
+   end;
+   do;
+
+   /* PRINT_LINE_Z4 - Print Lines */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_1);
+   do LOOP_INDEX =   1 to   2;
+      call PRINT_REPORT_LINE;
+   end;
+   end;
+   do;
+
+   /* PRINT_LINE_Z5 - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_1);
+   do LOOP_INDEX =   3 to   4;
+      call PRINT_REPORT_LINE;
+   end;
+   end;
+   do;
+
+   /* PRINT_Z6_Z7 - Print mod stuff if mod */
+
+   If (BK_NEXT_MOD = 0) ! (BK_DATE = BK_MOD_DATE) then
+      do;
+
+      /* PRINT_LINE_Z6 - PRINT */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_1);
+      do LOOP_INDEX =   5 to   6;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   else
+      do;
+
+      /* PRINT_LINE_Z7 - PRNT */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_1);
+      do LOOP_INDEX =   7 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+   end;
+   do;
+
+   /* PRINT_LINE_Z8 - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_1);
+
+   /* MOVE_SPACES_UP - If not Suite in agency info, move up */
+
+   if BK_AGENCY_ADD_1 = "" then if BK_AGENCY_NAME ^= "" then
+      do;
+      BK_AGENCY_ADD_1 = BK_AGENCY_NAME;
+      BK_AGENCY_NAME = "";
+      end;
+
+   do LOOP_INDEX =   9 to  16;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* MOVE_NAME_BACK - Move Agency name back (in case of U/D) */
+
+   if BK_AGENCY_NAME = "" then
+      do;
+      BK_AGENCY_NAME = BK_AGENCY_ADD_1;
+      BK_AGENCY_ADD_1 = "";
+      end;
+
+   end;
+end;
+otherwise
+do;
+call PRT_DATA_4;
+end;
+
+return;
+end;	/* PRINT_HDR            */
+
+/****************************************************************
+	PRT_DATA_4
+	Print new Header format
+****************************************************************/
+
+PRT_DATA_4:
+	procedure;
+
+
+   /* PRINT_LINE_Z4 - Print Lines */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_1);
+   do LOOP_INDEX =   1 to   2;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* PRINT_LINE_Z5 - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_1);
+   do LOOP_INDEX =   3 to   4;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* PRINT_Z6_Z7 - Print mod stuff if mod */
+
+   If (BK_NEXT_MOD = 0) ! (BK_DATE = BK_MOD_DATE) then
+      do;
+
+      /* PRINT_LINE_Z6 - PRINT */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_1);
+      do LOOP_INDEX =   5 to   6;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   else
+      do;
+
+      /* PRINT_LINE_Z7 - PRNT */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_1);
+      do LOOP_INDEX =   7 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+
+   /* PRINT_LINE_Z8 - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_1);
+
+   /* MOVE_SPACES_UP - If not Suite in agency info, move up */
+
+   if BK_AGENCY_ADD_1 = "" then if BK_AGENCY_NAME ^= "" then
+      do;
+      BK_AGENCY_ADD_1 = BK_AGENCY_NAME;
+      BK_AGENCY_NAME = "";
+      end;
+
+   do LOOP_INDEX =   9 to  16;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* MOVE_NAME_BACK - Move Agency name back (in case of U/D) */
+
+   if BK_AGENCY_NAME = "" then
+      do;
+      BK_AGENCY_NAME = BK_AGENCY_ADD_1;
+      BK_AGENCY_ADD_1 = "";
+      end;
+
+return;
+end;	/* PRT_DATA_4           */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 50 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_INVOICE_6);
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+INVOICE_PAGE = INVOICE_PAGE + 1;
+do LOOP_INDEX =   9 to  11;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	PRT_DATA_C
+	Print the Passenger information
+****************************************************************/
+
+PRT_DATA_C:
+	procedure;
+
+
+   /* PRINT_LINE_C1 -  */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+   do LOOP_INDEX =   1 to   2;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* SET_FIRST_PAXD - Set first */
+
+   BK_PAX_MOD = BK_MODIFICATION;
+   BK_PAX_BK_NO = BOOKING_NO;
+   BK_PAX_SEQ = 0;
+   call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* INIT_PAX - Init the pax count */
+
+   PAX_COUNT = 1;
+
+   END_READ_THRU_PAX = NO;
+   do while (END_READ_THRU_PAX ^= YES);
+      call READ_THRU_PAX;
+   end;
+
+   /* FINISH_PAX - Finish printing the lines if not done */
+
+   BK_PAX_ROOM_CODE = 0;
+   BK_PAX_NAME = "";
+
+   do while (PAX_COUNT < 7);
+      if (PAX_COUNT = 2) & (BK_SINGLE = 0) then
+         PAX_COUNT = 3;
+
+      if (PAX_COUNT = 3) & (BK_DOUBLE = 0) then
+         PAX_COUNT = 4;
+
+      if (PAX_COUNT = 4) & (BK_TRIPLE = 0) then
+         PAX_COUNT = 5;
+
+      if (PAX_COUNT = 5) & (BK_QUAD = 0) then
+         PAX_COUNT = 6;
+
+      do case (PAX_COUNT);
+         do;
+
+         /* PRINT_LINE_C2 -  */
+
+         call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   3 to   3;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C3 -  */
+
+         call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   4 to   4;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C4 -  */
+
+         call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   5 to   5;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C5 -  */
+
+         call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   6 to   6;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C6 -  */
+
+         call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   7 to   7;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C7 - Print lines */
+
+         call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   8 to   8;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      end;
+      PAX_COUNT = PAX_COUNT + 1;
+   end;
+
+return;
+end;	/* PRT_DATA_C           */
+
+/****************************************************************
+	READ_THRU_PAX
+	Print out each pax
+****************************************************************/
+
+READ_THRU_PAX:
+	procedure;
+
+
+   /* READ_NEXT_PAXD - Read next */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_END_PAXD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_READ_THRU_PAX = YES;
+      return;
+      end;
+
+   /* PRINT_PAX - Print out the pax information */
+
+   if (PAX_COUNT = 2) & (BK_SINGLE = 0) then
+      PAX_COUNT = 3;
+
+   if (PAX_COUNT = 3) & (BK_DOUBLE = 0) then
+      PAX_COUNT = 4;
+
+   if (PAX_COUNT = 4) & (BK_TRIPLE = 0) then
+      PAX_COUNT = 5;
+
+   if (PAX_COUNT = 5) & (BK_QUAD = 0) then
+      PAX_COUNT = 6;
+
+   do case (PAX_COUNT);
+      do;
+
+      /* PRINT_LINE_C2 -  */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   3 to   3;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C3 -  */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   4 to   4;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C4 -  */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   5 to   5;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C5 -  */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   6 to   6;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C6 -  */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   7 to   7;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C7 - Print lines */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   end;
+   PAX_COUNT = PAX_COUNT + 1;
+   if PAX_COUNT > 6 then
+      PAX_COUNT = 6;
+
+return;
+end;	/* READ_THRU_PAX        */
+
+/****************************************************************
+	PRT_DATA_D
+	Print the line-items
+****************************************************************/
+
+PRT_DATA_D:
+	procedure;
+
+
+   /* PRINT_LINE_D1 -  */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+   do LOOP_INDEX =  10 to  11;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* SET_FIRST_LINE - Set for first read */
+
+   BK_LINE_MOD = BK_MODIFICATION;
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 0;
+   call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_LINES = NO;
+   do while (END_READ_THRU_LINES ^= YES);
+      call READ_THRU_LINES;
+   end;
+
+   /* PRINT_LINE_TOTALS - Print the line item totals */
+
+
+   /* CALC_AMT_PAID - Calculate the amount paid */
+
+   BK_AMT_PAID = BK_NET_PRICE - BK_BALANCE;
+
+   if (substr(BK_CODE,4,1)^="2") then
+      do;
+
+      /* PRINT_LINE_D3 - Print lines */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+      do LOOP_INDEX =  13 to  14;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   else
+      do;
+
+      /* PRINT_LINE_Q3 - Print Q3 */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_5);
+      do LOOP_INDEX =  18 to  20;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+   if (BK_DEPOSIT = 0) !
+      (BK_AMT_PAID >= BK_DEPOSIT) ! (substr(BK_CODE,4,1)="1") then
+         do;
+
+         /* PRINT_LINE_D7 - Print lines */
+
+         do LOOP_INDEX =  18 to  18;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      else
+         do;
+
+         /* PRINT_LINE_D4 - PRINT */
+
+         do LOOP_INDEX =  15 to  15;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+   if BK_AMT_PAID >= BK_DEPOSIT then
+      do;
+
+      /* PRINT_LINE_D8 - Print lines */
+
+
+      /* CALC_AMT_PAID - Calculate the amount paid */
+
+      BK_AMT_PAID = BK_NET_PRICE - BK_BALANCE;
+
+      do LOOP_INDEX =  19 to  19;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   else
+      do;
+
+      /* PRINT_LINE_D5 - Print lines */
+
+
+      /* CALC_AMT_PAID - Calculate the amount paid */
+
+      BK_AMT_PAID = BK_NET_PRICE - BK_BALANCE;
+
+      do LOOP_INDEX =  16 to  16;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   if (BK_BALANCE = 0) ! (substr(BK_CODE,4,1) = "2") then
+      do;
+
+      /* PRINT_LINE_D9 - Print lines */
+
+      do LOOP_INDEX =  20 to  20;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   else
+      do;
+
+      /* PRINT_LINE_D6 - Print lines */
+
+      do LOOP_INDEX =  17 to  17;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+
+   /* PRINT_LINE_C8 - Print lines */
+
+   do LOOP_INDEX =   9 to   9;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_DATA_D           */
+
+/****************************************************************
+	READ_THRU_LINES
+	Read thru the line items and print
+****************************************************************/
+
+READ_THRU_LINES:
+	procedure;
+
+
+   /* READ_NEXT_LINE - Read the next line record */
+
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LINE_NO,ERROR_CODE);
+
+   /* CHECK_END_LINE - Last record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_LINE_MOD > BK_MODIFICATION) !
+   (BK_LINE_BK_NO > BOOKING_NO) then
+      do;
+      END_READ_THRU_LINES = YES;
+      return;
+      end;
+
+   /* PRINT_LINE_DET - Print the detail line */
+
+   if (substr(BK_CODE,4,1)^="2") then
+      do;
+
+      /* PRINT_LINE_D2 - Print lines */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_2);
+      do LOOP_INDEX =  12 to  12;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   else
+      do;
+
+      /* PRINT_LINE_Q2 - Print lines */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_5);
+      do LOOP_INDEX =  17 to  17;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+return;
+end;	/* READ_THRU_LINES      */
+
+/****************************************************************
+	PRT_DATA_K
+	Print the flight information
+****************************************************************/
+
+PRT_DATA_K:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_TK_HEADER      fixed binary (15);
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      return;
+
+   /* PRINT_LINE_K1 -  */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_3);
+   do LOOP_INDEX =   1 to   2;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* SET_FIRST_AIRP - Set first air detail for this pax */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_AIR = NO;
+   do while (END_READ_THRU_AIR ^= YES);
+      call READ_THRU_AIR;
+   end;
+
+   /* SETUP_AIRH - Set up the air header fields */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   KEY_NO = 1;
+
+   /* READ_AIRH - Read the Air header record */
+
+   call READ_KEYED (TK_HEADER_NO,KEY_AREA_1,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+   /* PRINT_K3_K4 - Print the Fare if non zero */
+
+   if (TK_TOTAL ^= 0) & (ERROR_TK_HEADER = NORMAL_RETURN) then
+      do;
+
+      /* PRINT_LINE_K3 -  */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_3);
+      do LOOP_INDEX =   4 to   9;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   else
+      do;
+
+      /* PRINT_LINE_K4 - PRINT */
+
+      call SETUP_PRINT_FORMAT (BK_INVOICE_3);
+      do LOOP_INDEX =  11 to  11;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+return;
+end;	/* PRT_DATA_K           */
+
+/****************************************************************
+	READ_THRU_AIR
+	Read through the air
+****************************************************************/
+
+READ_THRU_AIR:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRP - End of this pax air detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_DET_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      do;
+      END_READ_THRU_AIR = YES;
+      return;
+      end;
+
+   /* PRINT_LINE_K2 -  */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_3);
+   do LOOP_INDEX =   3 to   3;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* READ_THRU_AIR        */
+
+/****************************************************************
+	PRT_DATA_E
+	Print the comments
+****************************************************************/
+
+PRT_DATA_E:
+	procedure;
+
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+
+   /* SET_FIRST_REMARKP - Set first pax remark */
+
+   BK_TOUR_MOD_NO = BK_MODIFICATION;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_COMM_ALT_SEQ = BK_PAX_SEQ;
+   BK_COMM_ANSW_SEQ = 0;
+   BK_TOUR_C_R = "R";
+   BK_TOUR_SEQ = 0;
+   call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_REMARKD - Read next */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END_REMARKP - Check end remark */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > BK_MODIFICATION) !
+   (BK_OR_TOUR_NO > BOOKING_NO) !
+   (BK_COMM_ALT_SEQ > BK_PAX_SEQ) !
+   (BK_COMM_ANSW_SEQ > 0) !
+   (BK_TOUR_C_R > "R") then
+      return;
+
+   /* PRINT_LINE_E1 - Print line E1 */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_4);
+   do LOOP_INDEX =   1 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+   END_READ_THRU_REM = NO;
+   do while (END_READ_THRU_REM ^= YES);
+      call READ_THRU_REM;
+   end;
+
+   /* PRINT_LINE_E3 - Print line E3 */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_4);
+   do LOOP_INDEX =   3 to   3;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_DATA_E           */
+
+/****************************************************************
+	READ_THRU_REM
+	Read through the remarks
+****************************************************************/
+
+READ_THRU_REM:
+	procedure;
+
+
+   /* READ_NEXT_REMARKD - Read next */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END_REMARKP - Check end remark */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > BK_MODIFICATION) !
+   (BK_OR_TOUR_NO > BOOKING_NO) !
+   (BK_COMM_ALT_SEQ > BK_PAX_SEQ) !
+   (BK_COMM_ANSW_SEQ > 0) !
+   (BK_TOUR_C_R > "R") then
+      do;
+      END_READ_THRU_REM = YES;
+      return;
+      end;
+
+   /* PRINT_LINE_E2 - Print line E2 */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_4);
+   do LOOP_INDEX =   2 to   2;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* READ_THRU_REM        */
+
+/****************************************************************
+	PRINT_MSC
+	Print miscellaneous invoice information
+****************************************************************/
+
+PRINT_MSC:
+	procedure;
+
+do case (index("123456",substr(BK_CODE,4,1)));
+   do;
+   call PRT_DATA_Z;
+   end;
+   do;
+   call PRT_DATA_F;
+   end;
+   do;
+   call PRT_DATA_G;
+   end;
+   do;
+   call PRT_DATA_H;
+   end;
+   do;
+   call PRT_DATA_I;
+   end;
+   do;
+   call PRT_DATA_J;
+   end;
+end;
+otherwise
+   do;
+   call PRT_DATA_J;
+   end;
+
+return;
+end;	/* PRINT_MSC            */
+
+/****************************************************************
+	PRT_DATA_Z
+	Print the MCO info
+****************************************************************/
+
+PRT_DATA_Z:
+	procedure;
+
+
+   /* PRINT_LINE_Z - Print MCO line */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_3);
+
+   /* CALC_MCO_AMT - Calculate the MCO amount */
+
+   BK_MCO_AMOUNT = floor(BK_TOUR_PRICE * 2 + 0.5) / 100;
+
+   do LOOP_INDEX =  18 to  22;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_DATA_Z           */
+
+/****************************************************************
+	PRT_DATA_F
+	Print the min warning
+****************************************************************/
+
+PRT_DATA_F:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_INVOICE_4);
+do LOOP_INDEX =   4 to   7;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_DATA_F           */
+
+/****************************************************************
+	PRT_DATA_G
+	Print refer to broc.
+****************************************************************/
+
+PRT_DATA_G:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_INVOICE_4);
+do LOOP_INDEX =   8 to   9;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_DATA_G           */
+
+/****************************************************************
+	PRT_DATA_H
+	Print respons.
+****************************************************************/
+
+PRT_DATA_H:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_INVOICE_4);
+do LOOP_INDEX =  10 to  12;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_DATA_H           */
+
+/****************************************************************
+	PRT_DATA_I
+	Print flt bags...
+****************************************************************/
+
+PRT_DATA_I:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_INVOICE_4);
+do LOOP_INDEX =  13 to  16;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_DATA_I           */
+
+/****************************************************************
+	PRT_DATA_J
+	Print Thanks
+****************************************************************/
+
+PRT_DATA_J:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_INVOICE_4);
+do LOOP_INDEX =  17 to  18;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_DATA_J           */
+
+/****************************************************************
+	PRT_DATA_3
+	Print hotel status
+****************************************************************/
+
+PRT_DATA_3:
+	procedure;
+
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+
+   /* SET_FIRST_HOTELP - Set to the first hotel detail */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = BK_PAX_SEQ;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELP - Last hotel detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) !
+   (HDET_ALT_SEQ > BK_PAX_SEQ) !
+   (HDET_ANSW_SEQ > 0) then
+      return;
+
+   /* PRINT_LINE_Y1 - Print line Y1 */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_6);
+   do LOOP_INDEX =   2 to   3;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* SET_FIRST_HOTELP - Set to the first hotel detail */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = BK_PAX_SEQ;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   END_PRT_THRU_HOTELS = NO;
+   do while (END_PRT_THRU_HOTELS ^= YES);
+      call PRT_THRU_HOTELS;
+   end;
+
+   /* PRINT_LINE_Y4 - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_6);
+   do LOOP_INDEX =   6 to   6;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_DATA_3           */
+
+/****************************************************************
+	PRT_THRU_HOTELS
+	Read thru the hotel detail and print
+****************************************************************/
+
+PRT_THRU_HOTELS:
+	procedure;
+
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELP - Last hotel detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) !
+   (HDET_ALT_SEQ > BK_PAX_SEQ) !
+   (HDET_ANSW_SEQ > 0) then
+      do;
+      END_PRT_THRU_HOTELS = YES;
+      return;
+      end;
+
+   /* PRINT_LINE_Y2 - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_6);
+
+   /* SET_RETURN_CODE - Set return code to 1 */
+
+   RETURN_CODE = 1;
+
+
+   /* READ_HOTEL_DESC - Get the hotel description */
+
+   HOTEL_CODE = HDET_HOTEL;
+   if HDET_MANUAL = "" then
+      call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   else
+      do;
+      HOTEL_NAME = HDET_MANUAL;
+      HOTEL_NAME_2 = "";
+      HOTEL_CURR = "";
+      ERROR_CODE = NORMAL_RETURN;
+      end;
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      if RETURN_CODE = 0 then	/*INPUT*/
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         HOTEL_NAME = "** Record not found **";
+         HOTEL_NAME_2 = "";
+         end;
+      end;
+
+   do LOOP_INDEX =   4 to   4;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* NEXT_IF_ONE_LINE - Next hotel if one on line */
+
+   if HOTEL_NAME_2 = "" then
+      return;
+
+
+   /* PRINT_LINE_Y3 - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_6);
+   do LOOP_INDEX =   5 to   5;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_THRU_HOTELS      */
+
+/****************************************************************
+	PRINT_LND
+	Print the Land Information
+****************************************************************/
+
+PRINT_LND:
+	procedure;
+
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+
+   /* SET_FIRST_LANDP - Set first land in this pax mod */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = BK_PAX_SEQ;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDD - Last land detail record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) then
+      return;
+
+   /* PRINT_LINE_X1 - print */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_6);
+   do LOOP_INDEX =  14 to  15;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* SET_FIRST_LANDP - Set first land in this pax mod */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = BK_PAX_SEQ;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_PRT_THRU_LANDS = NO;
+   do while (END_PRT_THRU_LANDS ^= YES);
+      call PRT_THRU_LANDS;
+   end;
+
+   /* PRINT_LINE_X4 - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_6);
+   do LOOP_INDEX =  18 to  18;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRINT_LND            */
+
+/****************************************************************
+	PRT_THRU_LANDS
+	Print the land detail
+****************************************************************/
+
+PRT_THRU_LANDS:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDP - Last land in this pax mod? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > BK_PAX_SEQ) !
+   (LDET_ANSW_SEQ > 0) then
+      do;
+      END_PRT_THRU_LANDS = YES;
+      return;
+      end;
+
+   /* SKIP_LAND_ITIN - Skip itinerary paragraphs */
+
+   if LAND_TYPE = "I" then
+      return;
+
+
+   /* PRINT_LINE_X2 - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_6);
+
+   /* SET_RETURN_CODE - Set return code to 1 */
+
+   RETURN_CODE = 1;
+
+
+   /* READ_LAND_TRANS - Read land or transportation record */
+
+   LAND_CODE = LDET_TOUR_NO;
+   if LDET_MANUAL = "" then
+      call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   else
+      do;
+      LAND_DESC_1 = LDET_MANUAL;
+      LAND_DESC_2 = "";
+      LAND_CURR = "";
+      ERROR_CODE = NORMAL_RETURN;
+      end;
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      TRANS_NO = LDET_TOUR_NO;
+      call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         if RETURN_CODE = 0 then	/*INPUT*/
+            do;
+            call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+            call PRESS_RETURN;
+            call CLEAR_MESSAGE;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         else
+            do;
+            LAND_DESC_1 = "** Record not found **";
+            LAND_DESC_2 = "";
+            LAND_TYPE = "";
+            end;
+         end;
+      else
+         do;
+         LAND_DESC_1 = TRANS_FROM !! " to " !! TRANS_TO;
+         LAND_DESC_2 = "";
+         LAND_TYPE = "~";
+         LAND_VENDOR_NO = TRANS_VEN_NO;
+         end;
+      end;
+
+   do LOOP_INDEX =  16 to  16;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* NEXT_IF_ONE_LANDL - Second line of land desc? */
+
+   if LAND_DESC_2 = "" then
+      return;
+
+
+   /* PRINT_LINE_X3 - PRINT */
+
+   call SETUP_PRINT_FORMAT (BK_INVOICE_6);
+   do LOOP_INDEX =  17 to  17;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_THRU_LANDS       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_SFILE (BK_TEXT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

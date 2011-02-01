@@ -1,0 +1,501 @@
+/****************************************************************
+	Module: BK_DIS_PAX
+	Top Level Logic: DIS_PAX_LOGIC
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_PAX
+	Top-Level logic to display passengers
+****************************************************************/
+
+%replace BK_DIS_PAX_1 by 385;
+BK_DIS_PAX:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_ENT_HDR_RECORD);
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_DIS_PAX.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_ENT_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ANSWER               character (1);
+declare		END_READ_THRU_TOURS  bit (1);
+declare		LINE                 fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_BOOKING     fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+   call INITIALIZE;
+
+   /* SAVE_BK_INFO - Save the current booking for a sec */
+
+   declare BOOKING_NO_SAVE fixed binary(31);
+   BOOKING_NO_SAVE = BOOKING_NO;
+
+   if BOOKING_NO ^= 0 then
+      do;
+
+      /* UPDATE_BOOK_NUL - Update the booking record - Don't unlock */
+
+      call UPDATE_RECORD (BK_BOOKING_NO+?LOCK_RECORD,ERROR_CODE);
+      end;
+
+   call DIS_PAX_MAIN;
+
+   /* RESTORE_BK_INFO - Restore the original booking information */
+
+   if BOOKING_NO_SAVE = 0 then
+      do;
+
+      /* INIT_HDR_DATA - Zero everything before starting */
+
+      BOOKING_NO = 0;
+      BK_MODIFICATION = 0;
+      BK_NEXT_MOD = 0;
+      BK_AGENCY = -1;
+      BK_PAX = 0;
+      BK_TOUR_NUM = 0;
+      BK_TOUR_CODE = "";
+      BK_DEPARTURE = 0;
+
+      TOUR_NO = 0;
+      TOUR_DEP_DATE = 0;
+      TOUR_TYPE = " ";
+      TOUR_RATE_DEF = "";
+      TOUR_RATE_CLASS = "";
+      TOUR_DEF_CUTOFF = 0;
+
+      HDR_TOUR_CODE = "";
+      HDR_END_ON = 0;
+
+      end;
+   else
+      do;
+      if (BK_MODIFICATION ^= 0) ! (BOOKING_NO ^= BOOKING_NO_SAVE) then
+         do;
+         BK_MODIFICATION = 0;
+         BOOKING_NO = BOOKING_NO_SAVE;
+
+         /* READ_BOOK_LOCK - Read the booking record and lock it */
+
+         call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_BOOKING);
+         if ERROR_BK_BOOKING = RECORD_LOCKED then
+            do;
+            call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+            call PRESS_RETURN;
+            end;
+         if ERROR_BK_BOOKING > 3 then
+            call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+         end;
+      end;
+
+   /* RESTORE_BK_TOUR - Restore the tour and tour header info */
+
+   if BOOKING_NO ^= 0 then
+      do;
+      if BK_TOUR_CODE ^= "" then if BK_DEPARTURE ^= 0 then
+         if (BK_TOUR_CODE ^= HDR_TOUR_CODE) !
+            (BK_DEPARTURE < HDR_START_ON) ! (BK_DEPARTURE > HDR_END_ON) then
+               do;
+
+               /* GET_TOUR_HDR - Get the tour header */
+
+               ERROR_CODE = NORMAL_RETURN;
+
+               HDR_TOUR_CODE = BK_TOUR_CODE;
+               HDR_END_ON = BK_DEPARTURE;
+               if HDR_END_ON = 0 then
+                  HDR_END_ON = TODAYS_DATE();
+               call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE ^= END_OF_FILE then
+                  call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+               if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+                  ERROR_CODE = END_OF_FILE;
+               if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+                  ERROR_CODE = END_OF_FILE;
+
+               end;
+      if BK_TOUR_NUM ^= 0 then
+         if BK_TOUR_NUM ^= TOUR_NO then
+            do;
+            TOUR_NO = BK_TOUR_NUM;
+
+            /* READ_TOUR_REC - Read the tour file record */
+
+            call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+            if ERROR_BK_TOUR > 3 then
+               call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+            end;
+      end;
+
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+   NOT_FIRST_TIME = "0"b;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_DIS_PAX_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_DIS_PAX_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_PAX_MAIN
+	Mainline logic to dis pax
+****************************************************************/
+
+DIS_PAX_MAIN:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - set input erro to no */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   call DISPLAY_DATA_C;
+
+   /* SET_FIRST_TOURF - Set for the first tour file read */
+
+   TOUR_CODE = PAX_TOUR_CODE;
+   TOUR_DEP_DATE = PAX_DEPARTURE;
+   TOUR_NO = 0;
+   call SET_POSITION (BK_TOUR_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* READ_NEXT_TOUR - Read the next tour header */
+
+   call READ_NEXT (BK_TOUR_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TOUR_NO,ERROR_CODE);
+
+   /* CHECK_END_TOURS - Last tour? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TOUR_CODE > PAX_TOUR_CODE) !
+   (TOUR_DEP_DATE > PAX_DEPARTURE) then
+      return;
+   call DISPLAY_TOURS;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+return;
+end;	/* DIS_PAX_MAIN         */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  12;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  11 then
+      do;
+      call READ_TOUR_HDR;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	READ_TOUR_HDR
+	Read the tour header
+****************************************************************/
+
+READ_TOUR_HDR:
+	procedure;
+
+
+   /* SET_POSITION - Set the file position */
+
+   HDR_TOUR_CODE = PAX_TOUR_CODE;
+   HDR_END_ON = TODAYS_DATE();
+   call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* CHECK_PAX_HDR - Is this the header? */
+
+   if (ERROR_CODE ^= NORMAL_RETURN) !
+      (HDR_TOUR_CODE ^= PAX_TOUR_CODE) !
+      (HDR_START_ON > TODAYS_DATE()) then
+         ERROR_INPUT_SCREEN = YES;
+
+return;
+end;	/* READ_TOUR_HDR        */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  13 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	DISPLAY_TOURS
+	Display the tours
+****************************************************************/
+
+DISPLAY_TOURS:
+	procedure;
+
+
+   /* INIT_ANSWER - Initialize the ANSWER text */
+
+   ANSWER = "N";
+
+
+   /* SET_FIRST_TOURS - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_READ_THRU_TOURS = NO;
+   do while (END_READ_THRU_TOURS ^= YES);
+      call READ_THRU_TOURS;
+   end;
+return;
+end;	/* DISPLAY_TOURS        */
+
+/****************************************************************
+	READ_THRU_TOURS
+	Read thru all the tours
+****************************************************************/
+
+READ_THRU_TOURS:
+	procedure;
+
+
+   /* READ_NEXT_TOURS - Read the next tour */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_READ_THRU_TOURS = YES;
+      return;
+      end;
+
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+
+   /* SET_LINE_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET(LINE);
+
+   call DISPLAY_DATA_B;
+   call DIS_PAX;
+
+   /* RETURN_IF_STOP - Return if the user says Stop Displaying */
+
+   if ANSWER = "Y" then
+      do;
+      END_READ_THRU_TOURS = YES;
+      return;
+      end;
+
+return;
+end;	/* READ_THRU_TOURS      */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  16 to  21;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	DIS_PAX
+	Display the passenger info
+****************************************************************/
+
+DIS_PAX:
+	procedure;
+
+BK_PAX_MOD = BK_MODIFICATION;
+BK_PAX_BK_NO = BOOKING_NO;
+BK_PAX_SEQ = 0;
+call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      return;
+   call SET_ROW_OFFSET(LINE);
+   LINE = LINE + 1;
+   do LOOP_INDEX =  14 to  15;
+      if LOOP_INDEX =  14 then
+         do;
+
+         /* CHECK_LINE - Check to see if past Bottom of Pge */
+
+         if LINE = 1 then
+            do;
+
+            /* REDISPLAY_SCREEN - Re-display the screen */
+
+            if NOT_FIRST_TIME then
+               call DISPLAY_SCREEN (BK_DIS_PAX_1);
+            NOT_FIRST_TIME = YES;
+            if BK_PAX_ROOM_CODE ^= 0 then
+               do;
+               declare		LOOP_SAVE	fixed binary;
+               LOOP_SAVE = LOOP_INDEX;
+               call DISPLAY_DATA_A;
+               call DISPLAY_DATA_B;
+               LOOP_INDEX = LOOP_SAVE;
+               end;
+            end;
+
+         end;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   if LINE > 14 then
+      do;
+      call OUTPUT_LINE (24,10,"Stop Displaying?");
+      call INPUT_DATA(24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_TO_BOS(24);
+      if ANSWER = "Y" then
+         return;
+      do LINE = 0 to 14;
+         call SET_ROW_OFFSET(LINE);
+         do LOOP_INDEX = 14 to 15;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+         end;
+      LINE = 0;
+      end;
+end;
+return;
+end;	/* DIS_PAX              */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  12;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  11 then
+      do;
+      call READ_TOUR_HDR;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

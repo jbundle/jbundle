@@ -1,0 +1,10 @@
+/*********************************************************************
+	TK_GL_DIST File
+********************************************************************/
+
+declare	1 TK_GL_DIST_RECORD,
+		3 TK_GL_NUMBER         fixed binary (31),
+		3 TK_GL_DATE           fixed binary (15),
+		3 TK_GL_TYPE           fixed binary (15),
+		3 TK_GL_AMOUNT         float binary (53);
+

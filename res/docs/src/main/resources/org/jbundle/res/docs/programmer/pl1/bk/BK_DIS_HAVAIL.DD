@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_DIS_HAVAIL File
+********************************************************************/
+
+declare	1 BK_DIS_HAVAIL_RECORD,
+		3 TOUR_HOTEL_CODE      character (       10),
+		3 HOTEL_START_DATE     fixed binary (15);
+

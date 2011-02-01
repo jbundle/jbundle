@@ -1,0 +1,985 @@
+/****************************************************************
+	Module: AM_BROC_REQ
+	Top Level Logic: BROC_REQ_LOGIC
+	Date: 14-Feb-97
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AM_BROC_REQ
+	Logic for brochure requests
+****************************************************************/
+
+%replace AM_BROC_REQ_1 by   5;
+%replace AM_BROC_REQ_2 by 869;
+%replace AM_BROC_REQ_3 by 870;
+AM_BROC_REQ:
+   procedure;
+%replace AM_AGCY_NO by  10;
+%replace AM_REQUESTS_NO by  12;
+%include "AM_AGCY.DD";
+%include "AM_REQUESTS.DD";
+
+declare		END_BROC_REQ_IO      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_SEQ_ACCESS_2     bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_BROC_REQ_IO = NO;
+   do while (END_BROC_REQ_IO ^= YES);
+      call BROC_REQ_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AM_BROC_REQ_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AM_AGCY_NO,"AM_AGCY",byteaddr(AM_AGCY_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_AGCY_NO,ERROR_CODE);
+   call OPEN_FILE (AM_REQUESTS_NO,"AM_REQUESTS",byteaddr(AM_REQUESTS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_REQUESTS_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	BROC_REQ_IO
+	I/O for the brochure request program
+****************************************************************/
+
+BROC_REQ_IO:
+	procedure;
+
+declare		ERROR_AM_REQUESTS    fixed binary (15);
+declare		ERROR_AM_AGCY        fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AM_BROC_REQ_1);
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_BROC_REQ_IO = YES;
+      return;
+      end;
+   FIRST_ITEM = 2;
+   if INPUT_LENGTH = 0 then
+      do;
+      KEY_NO = 3;
+      INPUT_LENGTH = 1;
+      AGENCY_NAME = "";
+      call INPUT_FIELD (  2,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         END_BROC_REQ_IO = YES;
+         return;
+         end;
+      AGENCY_ZIP_CODE = "";
+      call INPUT_FIELD (  6,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         END_BROC_REQ_IO = YES;
+         return;
+         end;
+      FIRST_ITEM = 1;
+      if INPUT_LENGTH = 0 then
+         do;
+         END_BROC_REQ_IO = YES;
+         return;
+         end;
+      END_SEQ_ACCESS_2 = NO;
+      call SEQ_ACCESS_2;
+      if END_SEQ_ACCESS_2 then
+         return;
+      end;
+
+   /* SETUP_REQUEST_KEY - Setup the key for the request file */
+
+   BROC_AGENCY_NUMBER = AGENCY_NUMBER;
+   KEY_NO = 1;
+
+
+   /* READ_OLD_REQ - Try to read an old broc Req */
+
+   if AGENCY_NUMBER = 0 then
+      do;
+      call INPUT_SCREEN;
+      ERROR_AM_REQUESTS = RECORD_NOT_FOUND;
+      end;
+   else
+      do;
+
+      /* READ_AND_LOCK_2 - Read the record and lock */
+
+      call READ_KEYED (AM_REQUESTS_NO+?LOCK_RECORD,KEY_NO,ERROR_AM_REQUESTS);
+      if ERROR_AM_REQUESTS = RECORD_LOCKED then
+         do;
+         call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+         call PRESS_RETURN;
+         end;
+      if ERROR_AM_REQUESTS > 3 then
+         call PRINT_ERROR (AM_REQUESTS_NO,ERROR_AM_REQUESTS);
+
+      /* READ_AND_LOCK - Read the record and lock it */
+
+      call READ_KEYED (AM_AGCY_NO+?LOCK_RECORD,KEY_NO,ERROR_AM_AGCY);
+      if ERROR_AM_AGCY = RECORD_LOCKED then
+         do;
+         call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+         call PRESS_RETURN;
+         end;
+      if ERROR_AM_AGCY > 3 then
+         call PRINT_ERROR (AM_AGCY_NO,ERROR_AM_AGCY);
+
+      /* MUST_FIND_RECORD - Did I find the record? */
+
+      ERROR_INPUT_SCREEN = NO;
+      if ERROR_AM_AGCY = NORMAL_RETURN then
+         do;
+         call DISPLAY_DATA;
+         end;
+      else
+         do;
+
+         /* REC_NOT_FOUND - Display rec not found and do again */
+
+
+            /* RECORD_NOT_FOUND - Record not found */
+
+            call DISPLAY_MESSAGE("Record not found!!!<BEL>"c);
+            call PRESS_RETURN;
+            ERROR_INPUT_SCREEN = YES;
+
+
+            /* DO_AGAIN - Return to do it again */
+
+            return;
+
+         if ERROR_INPUT_SCREEN then return;
+         end;
+      end;
+
+
+   /* RECORD_FOUND_2 - Was the record found in this file? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_AM_REQUESTS = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA_2;
+      end;
+   else
+      do;
+      call INPUT_SCREEN_2;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* MOVE_AGENCY_FIELDS - Move the agnecy fields to request file */
+
+   BROC_AGENCY_NAME = AGENCY_NAME;
+   BROC_ADDRESS_1 = AGENCY_ADDRESS_1;
+   BROC_ADDRESS_2 = AGENCY_ADDRESS_2;
+   BROC_ADDRESS_3 = AGENCY_ADDRESS_3;
+   BROC_ZIP_CODE = AGENCY_ZIP_CODE;
+
+
+   /* UPDATE_IF_CHGD - Update agency if not 0 */
+
+   if AGENCY_NUMBER ^= 0 then
+      do;
+
+      /* UPDATE_RECORD - Update the record */
+
+      call UPDATE_RECORD (AM_AGCY_NO,ERROR_CODE);
+      end;
+
+
+   /* WRITE_BROC_REQ - Write the brochure request */
+
+   if AGENCY_NUMBER = 0 then
+      do;
+      BROC_AGENCY_NUMBER = 0;
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      if RETURN_CODE ^= DELETE_TYPED then
+         do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+            BROC_AGENCY_NUMBER = BROC_AGENCY_NUMBER + 1;
+            call WRITE_RECORD(AM_REQUESTS_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* DISPLAY_OR_INPUTED_2 - Was the record displayed or inputed? */
+
+      if ERROR_AM_REQUESTS = NORMAL_RETURN then
+         do;
+
+         /* DIS_DELETED_OR_OK_2 - Display mode, delete record */
+
+         if RETURN_CODE = DELETE_TYPED then
+            do;
+
+            /* DELETE_RECORD_2 - Delete the record */
+
+            call DELETE_RECORD (AM_REQUESTS_NO,ERROR_CODE);
+            end;
+         else
+            do;
+
+            /* UPDATE_RECORD_2 - Update the record */
+
+            call UPDATE_RECORD (AM_REQUESTS_NO,ERROR_CODE);
+            end;
+         end;
+      else
+         do;
+
+         /* INP_DELETED_OR_OK_2 - Input, delete or update */
+
+         if RETURN_CODE = DELETE_TYPED then
+            do;
+
+            /* NO_CODE - This section has no code */
+
+            /* No code in this section */
+            end;
+         else
+            do;
+
+            /* WRITE_RECORD_2 - Write the record */
+
+            call WRITE_RECORD (AM_REQUESTS_NO,ERROR_CODE);
+            end;
+         end;
+      end;
+
+return;
+end;	/* BROC_REQ_IO          */
+
+/****************************************************************
+	SEQ_ACCESS_2
+	Sequential access for secondary key
+****************************************************************/
+
+SEQ_ACCESS_2:
+	procedure;
+
+declare		ANSWER               character (1);
+declare		RECORD_MATCH         bit (1);
+declare	TEMP_AGENCY_NAME	character ( 30) varying;
+declare	TEMP_AGENCY_ZIP_CODE	character ( 10) varying;
+AGENCY_SHORT_NAME = AGENCY_NAME;
+TEMP_AGENCY_NAME = CUT_SPACES(AGENCY_NAME);
+TEMP_AGENCY_ZIP_CODE = CUT_SPACES(AGENCY_ZIP_CODE);
+call SET_POSITION (AM_AGCY_NO,KEY_NO,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (AM_AGCY_NO+?KEY_ONLY,KEY_NO,ERROR_CODE);
+   if substr(AGENCY_ZIP_CODE,1,length(TEMP_AGENCY_ZIP_CODE)) >
+      TEMP_AGENCY_ZIP_CODE then
+         ERROR_CODE = END_OF_FILE;
+   if ERROR_CODE = END_OF_FILE then
+      do;
+      call DISPLAY_MESSAGE ("<BEL>End of records!"c);
+      call PRESS_RETURN;
+      END_SEQ_ACCESS_2 = YES;
+      return;
+      end;
+      RECORD_MATCH = NO;
+   if substr(AGENCY_SHORT_NAME,1,min( 6,length(TEMP_AGENCY_NAME))) =
+      substr(TEMP_AGENCY_NAME,1,min( 6,length(TEMP_AGENCY_NAME))) then
+   if substr(AGENCY_ZIP_CODE,1,length(TEMP_AGENCY_ZIP_CODE)) =
+      TEMP_AGENCY_ZIP_CODE then
+         RECORD_MATCH = YES;
+   if RECORD_MATCH then
+      do;
+      call READ_KEYED (AM_AGCY_NO,KEY_NO,ERROR_CODE);
+      if length (TEMP_AGENCY_NAME) >  6 then
+         if substr (AGENCY_NAME,1,length(TEMP_AGENCY_NAME)) ^= TEMP_AGENCY_NAME then
+            RECORD_MATCH = NO;
+      end;
+   if RECORD_MATCH then
+      do;
+      call READ_KEYED (AM_AGCY_NO,KEY_NO,ERROR_CODE);
+      end;
+   if RECORD_MATCH then
+      do;
+      FIRST_ITEM = 1;
+      call DISPLAY_DATA;
+      call OUTPUT_LINE (23,20,"Correct record?");
+      call INPUT_DATA (23,36,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_MESSAGE;
+      call DUMP_BUFFER;
+      if ANSWER = "Y" then
+         do;
+         FIRST_ITEM = LAST_ITEM_NUMBER() + 1;
+         return;
+         end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         END_SEQ_ACCESS_2 = YES;
+         return;
+         end;
+      end;
+end; /* do loop */
+return;
+end;	/* SEQ_ACCESS_2         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+AGENCY_NAME = "";
+AGENCY_ADDRESS_1 = "";
+AGENCY_ADDRESS_2 = "";
+AGENCY_ADDRESS_3 = "";
+AGENCY_ZIP_CODE = "";
+AGENCY_TYPE = "N";
+AGENCY_COMMENT_1 = "";
+AGENCY_COMMENT_2 = "";
+AGENCY_COMMENT_3 = "";
+BROC_ATTENTION = "";
+BROC_TYPE = "U";
+BROC_DESC( 1) = "";
+BROC_QTY( 1) = 0;
+BROC_DESC( 2) = "";
+BROC_QTY( 2) = 0;
+BROC_DESC( 3) = "";
+BROC_QTY( 3) = 0;
+BROC_DESC( 4) = "";
+BROC_QTY( 4) = 0;
+BROC_DESC( 5) = "";
+BROC_QTY( 5) = 0;
+BROC_DESC( 6) = "";
+BROC_QTY( 6) = 0;
+do LOOP_INDEX = FIRST_ITEM to  24;
+   if LOOP_INDEX =   7 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =  12 then
+      call DISPLAY_MSG_NO (  4);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* UPDATE_SHORT_NAME - Update the short name field for AGY file */
+
+      AGENCY_SHORT_NAME = AGENCY_NAME;
+      call CONVERT_TO_UPPER (AGENCY_SHORT_NAME);
+
+      end;
+   if LOOP_INDEX =   8 then
+      do;
+
+      /* SKIP_OTHER_2 - If you hit return, skip next two fields */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = LOOP_INDEX + 2;
+
+      end;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* SKIP_OTHER_1 - Skip the next line if you hit return */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = LOOP_INDEX + 1;
+
+      end;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  17 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  19 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  23 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX = FIRST_ITEM to  10;
+   call KEEP_TRAILING_SPACES;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	DISPLAY_DATA_2
+	Display the data
+****************************************************************/
+
+DISPLAY_DATA_2:
+	procedure;
+
+do LOOP_INDEX =  13 to  24;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_2       */
+
+/****************************************************************
+	INPUT_SCREEN_2
+	Input the screen items
+****************************************************************/
+
+INPUT_SCREEN_2:
+	procedure;
+
+BROC_ATTENTION = "";
+BROC_TYPE = "U";
+BROC_DESC( 1) = "";
+BROC_QTY( 1) = 0;
+BROC_DESC( 2) = "";
+BROC_QTY( 2) = 0;
+BROC_DESC( 3) = "";
+BROC_QTY( 3) = 0;
+BROC_DESC( 4) = "";
+BROC_QTY( 4) = 0;
+BROC_DESC( 5) = "";
+BROC_QTY( 5) = 0;
+BROC_DESC( 6) = "";
+BROC_QTY( 6) = 0;
+do LOOP_INDEX =  11 to  24;
+   if LOOP_INDEX =  12 then
+      call DISPLAY_MSG_NO (  4);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  17 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  19 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  23 then
+      do;
+
+      /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         if BROC_DESC(1)="" then
+            do;
+            BROC_DESC(1) = "A";
+            BROC_QTY(1) = "5";
+            end;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         call OUTPUT_FIELD(LOOP_INDEX+1);
+         LOOP_INDEX = 100;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN_2       */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 18,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 12 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =  12 then
+      call DISPLAY_MSG_NO (  4);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* UPDATE_SHORT_NAME - Update the short name field for AGY file */
+
+      AGENCY_SHORT_NAME = AGENCY_NAME;
+      call CONVERT_TO_UPPER (AGENCY_SHORT_NAME);
+
+      end;
+   if LOOP_INDEX =   8 then
+      do;
+
+      /* SKIP_OTHER_2 - If you hit return, skip next two fields */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = LOOP_INDEX + 2;
+
+      end;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* SKIP_OTHER_1 - Skip the next line if you hit return */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = LOOP_INDEX + 1;
+
+      end;
+   end;
+if SELECT = 13 then
+   do;
+   do LOOP_INDEX =  13 to  14;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  13 then
+         do;
+
+         /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+         if INPUT_LENGTH = 0 then
+            do;
+            if BROC_DESC(1)="" then
+               do;
+               BROC_DESC(1) = "A";
+               BROC_QTY(1) = "5";
+               end;
+            call OUTPUT_FIELD(LOOP_INDEX);
+            call OUTPUT_FIELD(LOOP_INDEX+1);
+            LOOP_INDEX = 100;
+            end;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 14 then
+   do;
+   do LOOP_INDEX =  15 to  16;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  15 then
+         do;
+
+         /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+         if INPUT_LENGTH = 0 then
+            do;
+            if BROC_DESC(1)="" then
+               do;
+               BROC_DESC(1) = "A";
+               BROC_QTY(1) = "5";
+               end;
+            call OUTPUT_FIELD(LOOP_INDEX);
+            call OUTPUT_FIELD(LOOP_INDEX+1);
+            LOOP_INDEX = 100;
+            end;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 15 then
+   do;
+   do LOOP_INDEX =  17 to  18;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  17 then
+         do;
+
+         /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+         if INPUT_LENGTH = 0 then
+            do;
+            if BROC_DESC(1)="" then
+               do;
+               BROC_DESC(1) = "A";
+               BROC_QTY(1) = "5";
+               end;
+            call OUTPUT_FIELD(LOOP_INDEX);
+            call OUTPUT_FIELD(LOOP_INDEX+1);
+            LOOP_INDEX = 100;
+            end;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 16 then
+   do;
+   do LOOP_INDEX =  19 to  20;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  19 then
+         do;
+
+         /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+         if INPUT_LENGTH = 0 then
+            do;
+            if BROC_DESC(1)="" then
+               do;
+               BROC_DESC(1) = "A";
+               BROC_QTY(1) = "5";
+               end;
+            call OUTPUT_FIELD(LOOP_INDEX);
+            call OUTPUT_FIELD(LOOP_INDEX+1);
+            LOOP_INDEX = 100;
+            end;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 17 then
+   do;
+   do LOOP_INDEX =  21 to  22;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  21 then
+         do;
+
+         /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+         if INPUT_LENGTH = 0 then
+            do;
+            if BROC_DESC(1)="" then
+               do;
+               BROC_DESC(1) = "A";
+               BROC_QTY(1) = "5";
+               end;
+            call OUTPUT_FIELD(LOOP_INDEX);
+            call OUTPUT_FIELD(LOOP_INDEX+1);
+            LOOP_INDEX = 100;
+            end;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 18 then
+   do;
+   do LOOP_INDEX =  23 to  24;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  23 then
+         do;
+
+         /* CHECK_BROC_DEF - Check to see if they defaulted the broc */
+
+         if INPUT_LENGTH = 0 then
+            do;
+            if BROC_DESC(1)="" then
+               do;
+               BROC_DESC(1) = "A";
+               BROC_QTY(1) = "5";
+               end;
+            call OUTPUT_FIELD(LOOP_INDEX);
+            call OUTPUT_FIELD(LOOP_INDEX+1);
+            LOOP_INDEX = 100;
+            end;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AM_AGCY_NO);
+   call CLOSE_FILE (AM_REQUESTS_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

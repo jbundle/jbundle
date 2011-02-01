@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Class-Path: thickscreen.jar acctpay.jar picturethick.jar thickdb.jar
+  thindbmsg.jar acctrec.jar picturethin.jar thickdbmain.jar
+  thindbpayroll.jar assetdr.jar product.jar thickmain.jar
+  thindbproduct.jar booking.jar profile.jar thickmainmsg.jar
+  thindbprofile.jar calendarthick.jar request.jar thickother.jar
+  thindbrequest.jar calendarthin.jar resacctpay.jar thindbtest.jar
+  contactthick.jar resacctrec.jar thicktest.jar thindbvet.jar
+  contactthin.jar resassetdr.jar thinbase.jar thingrid.jar
+  dancethick.jar resbooking.jar thinbooking.jar thinmemory.jar
+  dancethin.jar resgenled.jar thincalbutton.jar thinmessage.jar
+  development.jar resmain.jar thincalendar.jar thinproxy.jar
+  genled.jar respayroll.jar thindbacctpay.jar thinrequest.jar
+  images.jar resproduct.jar thindbacctrec.jar thinstrbuff.jar
+  resprofile.jar thindbassetdr.jar thintest.jar resrequest.jar
+  thindbbooking.jar thinutil.jar restest.jar thindbgenled.jar
+  payroll.jar resvet.jar thindbmain.jar
+Main-Class: com.tourapp.Main
+Created-By: 1.6.0 (Sun Microsystems Inc.)
+

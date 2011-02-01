@@ -1,0 +1,13 @@
+/*********************************************************************
+	PR_TAX_RPT File
+********************************************************************/
+
+declare	1 PR_TAX_RPT_RECORD,
+		3 MATCH_TAX_CODE       character (        2),
+		3 MATCH_MARITAL        character (        1),
+		3 PR_PRINT_CTL         character (1),
+		3 TAX_DATE             fixed binary (15),
+		3 TAX_TIME             fixed binary (15),
+		3 TAX_USER             character (       16),
+		3 TAX_PAGE             fixed binary (15);
+

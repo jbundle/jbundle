@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Don Corley">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (WinNT; U) [Netscape]">
+   <TITLE>User Preferences</TITLE>
+</HEAD>
+<BODY>
+<form action="/servlet/tour.screen.DBServlet" method="get">
+&nbsp;
+<TABLE BORDER COLS=2 WIDTH="100%" >
+<TR>
+<TD>
+<DIV ALIGN=right>Name:</DIV>
+</TD>
+<td><input type=text name=name size=20 maxlength=20 value=""></td>
+</TR>
+
+<TR>
+<TD>
+<DIV ALIGN=right>Password:</DIV>
+</TD>
+
+<td><input type=text name=password size=20 maxlength=20 value=""></td>
+</TR>
+
+<TR>
+<TD ALIGN=right>Frames?</TD>
+
+<td><input type=checkbox name=frames value="true" unchecked></td>
+</TR>
+
+<TR>
+<TD ALIGN=right>Header menu?</TD>
+
+<td><input type=checkbox name=headers value="true" unchecked></td>
+</TR>
+
+<TR>
+<TD ALIGN=right>Navigation menu?</TD>
+
+<td><select name=menus value="Yes">
+<option>Yes
+<option>Icons only
+<option>No
+</select></td>
+</TR>
+
+<TR>
+<TD ALIGN=right>Use java?</TD>
+
+<td><input type=checkbox name=java value="true" checked></td>
+</TR>
+</TABLE>
+&nbsp;
+<input type=submit NAME="preferences" VALUE="Submit">
+</form>
+</BODY>
+</HTML>

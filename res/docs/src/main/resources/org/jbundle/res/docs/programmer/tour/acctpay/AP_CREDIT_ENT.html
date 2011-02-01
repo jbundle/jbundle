@@ -1,0 +1,75 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to enter A/P credit memos.
+
+<br wp="br1"><br wp="br2">
+<p>Program Explanation:
+
+<br wp="br1"><br wp="br2">
+<p>A credit memo is a credit towards a vendor's account (Credit A/P). It the system it is treated pretty
+much like an invoice. The major difference is that the cost doesn't have to be assigned to a tour.
+
+<br wp="br1"><br wp="br2">
+<p>Credit memos are used to increase the amount owed to a vendor. For example, a check is destroyed
+in transit. Enter a credit memo and re-enter the payment.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>To change an existing credit memo, just type in the number, otherwise enter zero, and a new number
+will be assigned.
+
+<br wp="br1"><br wp="br2">
+<p>First, enter the vendor number that the credit will be applied toward. Then enter the tour number if
+this cost can be assigned to a tour.
+
+<br wp="br1"><br wp="br2">
+<p>Next, enter a short description of the credit, and the credit amount. The credit amount immediatedly
+is added to the vendor's open balance. It is also selected for full payment.
+
+<br wp="br1"><br wp="br2">
+<p>Next, enter the G/L account that this cost will be charged to (debited). This defaults to the G/L
+account in the vendor record. Then enter the A/P account the credit will be applied to. This default
+to the non-tour G/L acct.
+
+<br wp="br1"><br wp="br2">
+<p>This program can also be used to adjust or delete a credit memo. The memo can't be adjusted or
+deleted after the G/L update has been done.
+
+<br wp="br1"><br wp="br2">
+<p>The credit memo is posted to the G/L on the entry date. If an accrual has to be done, it must be done
+in the G/L system. The amount is converted to US Dollars at the current rate and is treated the same
+as an invoice when payment is made.
+
+<br wp="br1"><br wp="br2">
+<p>	Note: Internally, a credit memo is treated as an invoice. To clear the credit memo from the vendor's account,
+just include it in a check request or distribute a prepayment to it.
+
+<br wp="br1"><br wp="br2">
+<p>A G/L transaction is created for credit memos. For example:
+
+<p>1/1/86 Printing Expense    1200.00
+
+<p>          Accounts Payable - Non - Tour    1200.00
+
+<p>             (Printed 1500 brochures)
+
+<br wp="br1"><br wp="br2">
+<p>	Remember: A Credit memo is usually in the form of a DEBIT memo from a vendor. Just remember, for a
+credit memo, the vendor is owed the amount of the credit.
+</body>
+</html>

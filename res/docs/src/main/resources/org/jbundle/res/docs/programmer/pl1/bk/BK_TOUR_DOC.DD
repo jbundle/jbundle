@@ -1,0 +1,13 @@
+/*********************************************************************
+	BK_TOUR_DOC File
+********************************************************************/
+
+declare	1 BK_TOUR_DOC_RECORD,
+		3 DOC_TOUR_HDR_NO      character (        4),
+		3 DOC_SEQ              fixed binary (15),
+		3 DOC_DOC_TYPE         character (        1),
+		3 DOC_NAME             character (       20),
+		3 DOC_DESC             character (       20),
+		3 DOC_PRINT_ON         fixed binary (15),
+		3 ACTION_DESC          character (       20);
+

@@ -1,0 +1,34 @@
+/*********************************************************************
+	PR_PAYROLL File
+********************************************************************/
+
+declare	1 PR_PAYROLL_RECORD,
+		3 PR_END_DATE          fixed binary (15),
+		3 DED_TO_TAKE          character (        6),
+		3 PR_CHECK_NO          fixed binary (31),
+		3 EMP_TOTAL            fixed binary (31),
+		3 TOTAL_NET            float binary (53),
+		3 TOTAL_DED            float binary (53),
+		3 TOTAL_GROSS          float binary (53),
+		3 TOTAL_NON_TAX        float binary (53),
+		3 TOTAL_FED            float binary (53),
+		3 TOTAL_STATE          float binary (53),
+		3 TOTAL_LOCAL          float binary (53),
+		3 TOTAL_FICA           float binary (53),
+		3 TOTAL_SDI            float binary (53),
+		3 SALARIED_TOTAL       fixed binary (31),
+		3 TOTAL_REG_HRS        fixed binary (31),
+		3 TOTAL_OT_HRS         fixed binary (31),
+		3 TOTAL_SP1_HRS        fixed binary (31),
+		3 TOTAL_SP2_HRS        fixed binary (31),
+		3 TOTAL_REGULAR        float binary (53),
+		3 TOTAL_OVERTIME       float binary (53),
+		3 TOTAL_SP1            float binary (53),
+		3 TOTAL_SP2            float binary (53),
+		3 PR_CHECK_DATE        fixed binary (15),
+		3 PAYROLL_DATE         fixed binary (15),
+		3 PAYROLL_TIME         fixed binary (15),
+		3 PAYROLL_USER         character (       16),
+		3 PAYROLL_PAGE         fixed binary (31),
+		3 TOTAL_FED_GROSS      float binary (53);
+

@@ -1,0 +1,10 @@
+/*********************************************************************
+	GL_BUDGET_C File
+********************************************************************/
+
+declare	1 GL_BUDGET_C_RECORD,
+		3 GL_BUD_ACCT          fixed binary (31),
+		3 GL_BUD_CODE          character (        1),
+		3 GL_BUD_DATE          fixed binary (15),
+		3 GL_BUD_AMOUNT        float binary (53);
+

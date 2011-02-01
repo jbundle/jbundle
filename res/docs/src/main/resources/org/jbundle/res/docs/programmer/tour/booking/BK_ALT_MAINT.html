@@ -1,0 +1,87 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>PROGRAM DESCRIPTION:
+
+<br wp="br1"><br wp="br2">
+<p>An alternate record is a modification in the tour dependent on a criteria. Alternates are different from
+options in that they MUST be resolved before the booking is made.
+
+<br wp="br1"><br wp="br2">
+<p>This program lets the user enter the options that have to be resolved before a booking can be
+completed.
+
+<br wp="br1"><br wp="br2">
+<p>For example, if you want to use hotel A for Jan-Jul and hotel B for Aug-Sep, all you have to do is:
+Enter the alt. #1, question: Which hotel Selection: Date, date ranges and each answer. (When the
+booking is made, the system won't ask any questions, depending on departure will pick hotel) Then
+go to the hotel screen and select alt 1, answer 1 and enter hotel A. Under alt 1 answer 2 enter Hotel
+B.
+
+<br wp="br1"><br wp="br2">
+<p>For another example, if you had an air-surcharge for December, you would Enter alt #2, question:
+December Air surcharge, Selection: Date. Answer 1 would be Air Surcharge, Dec 01-Dec 31. This
+would be the only answer for this alternate. If the booking date were Dec 01-31, then the surcharge
+(entered in pricing) and modified ticket (entered in ticket entry) would automatically be selected.
+
+<br wp="br1"><br wp="br2">
+<p>Or maybe you want to give the client the chance to upgrade the hotel in Tokyo. Enter alt #1, question:
+Upgrade to Palace hotel?, Selection: Answer. Now you can enter each answer (Yes and No). (You
+could also enter date ranges if it was only available for a certain amount of time) Then you would go
+to hotel display for Alt 1, option 1(Yes) and delete the normal hotel (soft delete) and re-enter the
+upgraded hotel. Then you would go to tour pricing and add an item, "Hotel upgrade surcharge" with
+the surcharge amount. You don't have to make any changes to Alt 1, option 2, because it is already
+correct.
+
+<br wp="br1"><br wp="br2">
+<p>If you wanted to implement this same feature as an option, then you would do everything exactly the
+same. The difference is that the person doing the booking wouldn't have to answer the question. To
+select the upgrade they would have to select the option, then answer the question! This might be a
+good way to ask: Hotel upgrade options with a list of possible answers.
+
+<br wp="br1"><br wp="br2">
+<p>PROGRAM DESCRIPTION:
+
+<br wp="br1"><br wp="br2">
+<p>First, enter the tour code under number 1 on the screen. The tour file header with the current ending
+date will display. Then all of the alternate questions with an ending date which is greater than the
+system date will display in sequence number order. (sequence numbers are unique throughout the
+tour--after a few years they will get high)
+
+<br wp="br1"><br wp="br2">
+<p>Now, the system will ask you if you want to see the answers for any of these questions.
+
+<br wp="br1"><br wp="br2">
+<p>If you select a question, the sytem will display the sequence number, the select by code, and the
+question text. Then all of the answers grouped by ending dates will display.
+
+<br wp="br1"><br wp="br2">
+<p>The system will ask if you want to change any of the answers now. You can enter an answer just by
+entering it in an empty slot. The date range defaults to the header starting and ending dates.
+
+<br wp="br1"><br wp="br2">
+<p>If you don't select a question when they display, the system will prompt for a question sequence
+number. If the sequence number doesn't already exist, then a new question is created. You can then
+enter the select-by code, the question text, and the answers on the screen.
+
+<br wp="br1"><br wp="br2">
+<p>NOTE:
+
+<br wp="br1"><br wp="br2">
+<p>Internally, the ALT_OR_OPT code is "A", and the other fields are entered.
+
+<br wp="br1"><br wp="br2">
+<p>If an answer is entered with a sequence number of 0, the system uses the main tour information (ie.,
+no modifications may be made to a alternate with a zero sequence question) This is useful in entering
+the default question to many answers. For example, if you were to ask: "Hotel upgrade?"; answer 0
+would be "No."
+
+<br wp="br1"><br wp="br2">
+<p>When the a tour code and date are entered in the booking system, this file is accessed first. When the
+time comes to display or calculate the pricing or tour stuff, every "A"lt record in the date range is read
+and resolved. At each point the current files can be modified to the correct data.
+</body>
+</html>

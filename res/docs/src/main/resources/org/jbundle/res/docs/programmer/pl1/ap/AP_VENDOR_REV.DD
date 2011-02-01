@@ -1,0 +1,18 @@
+/*********************************************************************
+	AP_VENDOR_REV File
+********************************************************************/
+
+declare	1 AP_VENDOR_REV_RECORD,
+		3 REV_START_VEN        character (        6),
+		3 REV_END_VEN          character (        6),
+		3 REV_END_VENDOR       character (        6),
+		3 AP_SELECT_DATE       fixed binary (15),
+		3 AP_SELECT_TIME       fixed binary (15),
+		3 AP_SELECT_USER       character (       16),
+		3 AP_SELECT_PAGE       fixed binary (15),
+		3 AP_SELECT_TOTAL      float binary (53),
+		3 RPT_CURR             character (        3),
+		3 RPT_CURR_START       character (        3),
+		3 RPT_CURR_END         character (        3),
+		3 AP_CURR_TOTAL        float binary (53);
+

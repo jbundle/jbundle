@@ -1,0 +1,208 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Mozilla/4.51 [en] (WinNT; I) [Netscape]">
+<title>specifications</title>
+</head>
+<body>
+JOE - Java Object Engine
+<p><a href="#db">Database Access Specifications</a></p>
+<p>System Specifications:</p>
+<p>The JAVA Object Engine is a specification for Object-oriented
+access to JAVA database objects.</p>
+<p>The objectives of this specification are:</p>
+<ul>
+	<li>Simplicity - Bare minimum number of public methods.</li>
+
+	<li>Flexibility - Ability to access: static (HTML), JOE, and SQL
+	data</li>
+
+	<li>Compatibility - Identical to JDBC/SQL with minimal extensions</li>
+</ul>
+Object Types:
+<ul>
+	<li>Environment - Contains all Databases</li>
+
+	<li>Database - Contains all tables</li>
+
+	<li>Table - Contains all/current record - For navigation</li>
+
+	<li>Record - For field access - Add/Update/Delete</li>
+
+	<li>Field - Individual Field - Overridden for each data type</li>
+</ul>
+Hierarchy:
+<dl>
+	<dd>Environment</dd>
+
+	<dd>Database(s)</dd>
+
+	<dd>RecordTable(s) [Table]</dd>
+
+	<dd>Record(s)</dd>
+
+	<dd>Field(s)</dd>
+
+	<dd>Index(s)</dd>
+
+	<dd>KeyField(s)</dd>
+
+	<dd>QueryRecord(s) [Table]</dd>
+
+	<dd>RecordTable(s)</dd>
+
+	<dd>Record(s)</dd>
+
+	<dd>Field(s)</dd>
+</dl>
+Utilities:
+<br>
+BaseBuff -Used to serialize/de-serialize a stream of bytes into
+individual strings and/or fields
+<br>
+RecBuff - Serializes/de-serializes a stream of bytes into JOE record
+format.
+<br>
+JDBCBuff - Serializes/de-serializes a stream of bytes for the JDBC
+back-end remote server.
+<p><a name="db"></a></p>
+<h3>Record Manipulation</h3>
+
+<h4>Record manipulation is designed to closely mirror collection
+processing:</h4>
+
+<ul>
+	<li><a href="#add">add, delete, update</a></li>
+
+	<li><a href="#seq">simple sequential processing</a></li>
+
+	<li><a href="#key">simple keyed retrieval</a></li>
+
+	<li><a href="#abstract">abstract sequential processing</a></li>
+
+	<li><a href="#retrieve">keyed retrieval using a field</a></li>
+
+	<li><a href="#multiple">multiple collection processing (joins)</a></li>
+
+	<li><a href="#sub">sub-file sequential processing</a></li>
+</ul>
+
+<dl>
+	Here is some sample code that illustrates record object manipulation:
+	<pre>Cat cat = new Cat();</pre>
+	<a name="add"></a>
+	<b>Adding records:</b>
+	<pre>cat.addNew();
+cat.name.setText("Siamese");
+cat.color.setText("Beige");
+cat.weight.setWeightRange(AnimalWeight.kLight);
+cat.add();
+System.out.println("Added Siamese");</pre>
+
+	<pre>cat.addNew();
+cat.name.setText("Tabby");
+cat.color.setText("Black and White");
+cat.weight.setWeightRange(AnimalWeight.kLight);
+cat.add();
+System.out.println("Added Tabby");</pre>
+
+	<pre>Dog dog = new Dog();
+dog.addNew();
+dog.name.setText("German Saint Bernard");
+dog.color.setText("Gray");
+dog.weight.setWeightRange(AnimalWeight.kHeavy);
+dog.bark.setText("Loud");
+dog.add();
+System.out.println("Added Saint Bernard");</pre>
+
+	<pre>dog.addNew();
+dog.name.setText("Poodle");
+dog.color.setText("White");
+dog.weight.setWeightRange(AnimalWeight.kLight);
+dog.bark.setText("Sharp");
+dog.add();
+System.out.println("Added Poodle");</pre>
+	<a name="seq"></a>
+	<b>Simple sequential processing:</b>
+	<pre>while (cat.hasNext())
+{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cat.next();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(cat.toString());
+}</pre>
+	<a name="key"></a>
+	<b>simple keyed retrieval</b>
+	<pre>cat.name.setText("Tabby");
+cat = cat.get();
+if (cat != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(cat.toString());</pre>
+	<a name="abstract"></a>
+	<b>abstract sequential class:</b>
+	<pre>class Animal
+{
+&nbsp;public int getDatabaseType()
+&nbsp;{&nbsp;&nbsp;&nbsp; // This tells the table that this is a merge query
+&nbsp; return DBConstants.kVector | DBConstants.kBaseTableClass;
+&nbsp;}
+&nbsp;public void addTables()
+&nbsp;{
+&nbsp; this.addTable(new Cat(null));
+&nbsp; this.addTable(new Dog(null));
+&nbsp;}
+}</pre>
+	<a name="abstract"></a>
+	<b>abstract sequential processing:</b>
+	<pre>Animal animal = new Animal();
+Table animalTable = animal.getTable();
+animalTable.setKeyArea(animal.name);
+int i = 0;
+while (animalTable.hasNext())
+{
+&nbsp;&nbsp;&nbsp; animal = (Animal)animalTable.move(+1);
+&nbsp;&nbsp;&nbsp; System.out.println(animal);
+&nbsp;&nbsp;&nbsp; iCount++;
+}</pre>
+	<a name="retrieve"></a>
+	<b>keyed retrieval using a field</b>
+	<pre>cat = catIDField.getReference();</pre>
+	<a name="multiple"></a>
+	<b>multiple collection processing (joins):</b>
+	<p><b>Using a query:</b></p>
+	<pre>class AnimalVets extends QueryRecord
+{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public AnimalVets() {}</pre>
+
+	<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public String getTableNames(boolean bAddQuotes)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return "AnimalVets";&nbsp;&nbsp;&nbsp; // Only supply this if your SQL versions have an embedded query!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public addTables()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.addTable(new Animal());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.addTable(new Vets());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public setupRelationships()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.addRelationship(DBConstants.kLeftInner, animals.getField(vetID), vets.getField(vetID));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public selectFields()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.selectField(animals.name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.selectField(animals.vetID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.selectField(vets.vetID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.selectField(vets.name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+}</pre>
+	<b>Using a behavior:</b>
+	<pre>cat.addBehavior(new ReadSecondaryBehavior(vet));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Anytime a cat is read, the vet is read</pre>
+	<b>For abstract files:</b>
+	<pre>animal.addBehavior(new ReadSecondaryBehavior(vet));&nbsp;&nbsp;&nbsp;&nbsp; // Anytime a cat is read, the vet is read</pre>
+	<a name="sub"></a>
+	<b>sub-file sequential processing</b>
+	<pre>cat.addBehavior(new SubFileBehavior(vet));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Sequential processing of cats only for the current vet</pre>
+	<b>For abstract files:</b>
+	<pre>animal.addBehavior(new SubFileBehavior(vet));&nbsp;&nbsp; // Sequential processing of cats only for the current vet</pre>
+</dl>
+
+</body>
+</html>

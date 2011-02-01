@@ -1,0 +1,507 @@
+/****************************************************************
+	Module: AR_REFUND_REV
+	Top Level Logic: DIS_FILE_MAINT
+	Date: 26-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_REFUND_REV
+	Display/Change the table
+****************************************************************/
+
+%replace AR_REFUND_REV_1 by 837;
+AR_REFUND_REV:
+   procedure;
+%replace AR_OPEN_NO by  43;
+%replace BK_BOOKING_NO by   9;
+%include "AR_OPEN.DD";
+%include "BK_BOOKING.DD";
+%include "AR_REFUND_REV.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		AR_ACTION_ARRAY( 9) fixed binary (15);
+declare		AR_BOOKING_NO_ARRAY( 9) fixed binary (31);
+declare		AR_SEQ_NO_ARRAY( 9) fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		ANSWER               character (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+   call INITIALIZE;
+   call DIS_TABLE_IO;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AR_ACCT_DR = 0;
+   AR_ACCT_DEP = 0;
+   AR_POSTED = 0;
+   AR_ACTION = 0;
+   AR_DEPARTURE = 0;
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_REFUND_REV_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AR_OPEN_NO,"AR_OPEN",byteaddr(AR_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (AR_REFUND_REV_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_TABLE_IO
+	Display the table
+****************************************************************/
+
+DIS_TABLE_IO:
+	procedure;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_MAINT;
+
+   /* AFTER_LOGIC - Other Logic */
+
+return;
+end;	/* DIS_TABLE_IO         */
+
+/****************************************************************
+	TABLE_MAINT
+	Table display/maintenance
+****************************************************************/
+
+TABLE_MAINT:
+	procedure;
+
+declare		AR_POSTED_SAVE       fixed binary (15);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		AR_OPEN_ERROR        fixed binary (15);
+declare		AR_ACTION_SAVE       fixed binary (15);
+declare		AR_BOOKING_NO_SAVE   fixed binary (31);
+declare		AR_SEQ_NO_SAVE       fixed binary (15);
+AR_POSTED = 1;
+AR_POSTED_SAVE = AR_POSTED;
+AR_ACTION = 0;
+AR_BOOKING_NO = 0;
+AR_SEQ_NO = 0;
+call SET_POSITION (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (AR_POSTED > AR_POSTED_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to  9;
+      AR_ACTION_ARRAY(RECORD_NUMBER) = 0;
+      AR_BOOKING_NO_ARRAY(RECORD_NUMBER) = 0;
+      AR_SEQ_NO_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      AR_OPEN_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (AR_OPEN_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <=  9) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+         do LOOP_INDEX =   1 to   7;
+            if LOOP_INDEX =   2 then
+               do;
+
+               /* READ_SECOND_DIS - Read Second - Display line version */
+
+               BK_MODIFICATION = 0;
+               BOOKING_NO = AR_BOOKING_NO;
+               call READ_KEYED (BK_BOOKING_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  end;
+               end;
+            if LOOP_INDEX =   5 then
+               do;
+
+               /* SKIP_HOLD_GL - Only if manually paid refund */
+
+               if AR_POSTED ^= 0 then
+                  LOOP_INDEX = LOOP_INDEX + 1;
+
+               end;
+            if LOOP_INDEX =   7 then
+               do;
+
+               /* SET_HOLD_FLAG - Set the Refund hold flag */
+
+               if (AR_POSTED = 1) & (AR_DEPARTURE = -1) then
+                  REFUND_HELD = "Y";
+               else
+                  REFUND_HELD = "N";
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =   7 then
+               do;
+
+               /* FAKE_INPUT_LENGTH - Set the input length to a non-zero no. */
+
+               INPUT_LENGTH = 1;
+
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         AR_ACTION_ARRAY(RECORD_NUMBER) = AR_ACTION;
+         AR_BOOKING_NO_ARRAY(RECORD_NUMBER) = AR_BOOKING_NO;
+         AR_SEQ_NO_ARRAY(RECORD_NUMBER) = AR_SEQ_NO;
+         call READ_NEXT (AR_OPEN_NO,KEY_AREA_2,AR_OPEN_ERROR);
+         if (AR_POSTED > AR_POSTED_SAVE) then
+            AR_OPEN_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      AR_ACTION_SAVE = AR_ACTION_ARRAY( 9);
+      AR_BOOKING_NO_SAVE = AR_BOOKING_NO_ARRAY( 9);
+      AR_SEQ_NO_SAVE = AR_SEQ_NO_ARRAY( 9);
+      AR_POSTED = AR_POSTED_SAVE;
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = DELETE_TYPED) then
+         GET_OUT = YES;
+      else
+         if AR_OPEN_ERROR ^= END_OF_FILE then
+            do;
+            AR_ACTION = AR_ACTION_SAVE;
+            AR_BOOKING_NO = AR_BOOKING_NO_SAVE;
+            AR_SEQ_NO = AR_SEQ_NO_SAVE;
+            call SET_POSITION (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+            call READ_NEXT (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+            call READ_NEXT (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+            end;
+         else
+            if AR_ACTION_ARRAY( 9) = 0 then
+               GET_OUT = YES;
+            else
+               do;
+               ANSWER = "N";
+               if ANSWER = "N" then
+                  GET_OUT = YES;
+               else
+                  DISPLAY_RECORDS = NO;
+               end;
+      end;
+   else	/*DISPLAY_RECORDS = NO*/
+      do;
+      call DISPLAY_MESSAGE("There are no records to display");
+      call PRESS_RETURN;
+      GET_OUT = YES;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to  9;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+      if AR_ACTION_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX = 1 to   7;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_MAINT          */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 10,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  9 then
+   do;
+   RECORD_NUMBER = SELECT;
+   call AR_OPEN_LINE;
+   call SET_ROW_OFFSET (0);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	AR_OPEN_LINE
+	Change one line in the secondary file
+****************************************************************/
+
+AR_OPEN_LINE:
+	procedure;
+
+declare		REWRITE              bit (1);
+declare		DEL_RECORD           bit (1);
+call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+REWRITE = NO;
+if AR_ACTION_ARRAY(RECORD_NUMBER) ^= 0 then
+   do;
+   REWRITE = YES;
+   AR_ACTION = AR_ACTION_ARRAY(RECORD_NUMBER);
+   AR_BOOKING_NO = AR_BOOKING_NO_ARRAY(RECORD_NUMBER);
+   AR_SEQ_NO = AR_SEQ_NO_ARRAY(RECORD_NUMBER);
+   call READ_KEYED (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+   do LOOP_INDEX =  1 to   7;
+      call CLEAR_FIELD (LOOP_INDEX);
+   end;
+   end;
+else
+   do;
+   call DISPLAY_MESSAGE ("Records may not be added!!!<BEL>"c);
+   call PRESS_RETURN;
+   return;
+   end;
+ERROR_CODE = 1;
+do while (ERROR_CODE ^= 0);
+   ERROR_CODE = 0;
+   do LOOP_INDEX =   1 to   1;
+      if LOOP_INDEX =   1 then
+         do;
+         call OUTPUT_FIELD (LOOP_INDEX);
+         LOOP_INDEX = 99;
+         end;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   if AR_BOOKING_NO = 0 then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   DEL_RECORD = YES;
+   if (INPUT_LENGTH ^= 0) & (RETURN_CODE ^= END_TYPED) then
+      do;
+      DEL_RECORD = NO;
+      do LOOP_INDEX =   2 to   7;
+         if LOOP_INDEX =   2 then
+            do;
+
+            /* READ_SECOND_DIS - Read Second - Display line version */
+
+            if RETURN_CODE ^= END_TYPED then
+               do;
+               BK_MODIFICATION = 0;
+               BOOKING_NO = AR_BOOKING_NO;
+               call READ_KEYED (BK_BOOKING_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+                  call PRESS_RETURN;
+                  call CLEAR_MESSAGE;
+                  RETURN_CODE = DO_AGAIN;
+                  LOOP_INDEX = LOOP_INDEX - 1;
+                  end;
+               end;
+            end;
+         if LOOP_INDEX =   2 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =   3 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =   4 then
+            do;
+
+            /* CHECK_REFUND - Make sure this should be changed */
+
+            call OUTPUT_LINE(23,10,"Mark as manually paid?");
+            call INPUT_DATA(23,34,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+            call CLEAR_TO_BOS(23);
+            call DUMP_BUFFER;
+            if ANSWER ^= "Y" then
+               do;
+               if AR_DEPARTURE ^= -1 then
+                  do;
+                  call OUTPUT_LINE(23,10,"Hold refund?");
+                  call INPUT_DATA(23,23,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+                  call CLEAR_TO_BOS(23);
+                  call DUMP_BUFFER;
+                  if ANSWER ^= "Y" then
+                     LOOP_INDEX = 99;
+                  else
+                     do;
+                     AR_POSTED = 1;
+                     AR_REF = "Refund held";
+                     AR_DEPARTURE = -1;
+                     end;
+                  end;
+               else
+                  do;
+                  call OUTPUT_LINE(23,10,"Unhold refund?");
+                  call INPUT_DATA(23,25,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+                  call CLEAR_TO_BOS(23);
+                  call DUMP_BUFFER;
+                  if ANSWER ^= "Y" then
+                     LOOP_INDEX = 99;
+                  else
+                     do;
+                     AR_POSTED = 1;
+                     AR_REF = "Refund Pending";
+                     AR_DEPARTURE = 0;
+                     end;
+                  end;
+               end;
+            else
+               do;
+               AR_POSTED = 0;
+               AR_REF = "Refund paid ck no";
+               AR_DEPARTURE = 0;
+               end;
+
+            end;
+         if LOOP_INDEX =   5 then
+            do;
+
+            /* SKIP_HOLD_GL - Only if manually paid refund */
+
+            if AR_POSTED ^= 0 then
+               LOOP_INDEX = LOOP_INDEX + 1;
+
+            end;
+         if LOOP_INDEX =   6 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =   7 then
+            do;
+
+            /* SET_HOLD_FLAG - Set the Refund hold flag */
+
+            if (AR_POSTED = 1) & (AR_DEPARTURE = -1) then
+               REFUND_HELD = "Y";
+            else
+               REFUND_HELD = "N";
+
+            end;
+         if LOOP_INDEX =   7 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = 99;
+            end;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+         if LOOP_INDEX =   7 then
+            do;
+
+            /* FAKE_INPUT_LENGTH - Set the input length to a non-zero no. */
+
+            INPUT_LENGTH = 1;
+
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      INPUT_LENGTH = 1;
+      end;
+   ERROR_CODE = 0;
+   if DEL_RECORD = YES then
+      do;
+      AR_ACTION = AR_ACTION_ARRAY(RECORD_NUMBER);
+      if REWRITE = YES then
+         call DELETE_RECORD (AR_OPEN_NO,ERROR_CODE);
+      call CLEAR_FIELD(LOOP_INDEX);
+      AR_ACTION = 0;
+      end;
+   else
+      do;
+      if REWRITE = NO then
+         call WRITE_RECORD (AR_OPEN_NO,ERROR_CODE);
+      else
+         call UPDATE_RECORD (AR_OPEN_NO,ERROR_CODE);
+      end;
+   if ERROR_CODE ^= KEY_ALREADY_EXISTS then
+      do;
+      AR_ACTION_ARRAY(RECORD_NUMBER) = AR_ACTION;
+      AR_BOOKING_NO_ARRAY(RECORD_NUMBER) = AR_BOOKING_NO;
+      AR_SEQ_NO_ARRAY(RECORD_NUMBER) = AR_SEQ_NO;
+      end;
+end;
+return;
+end;	/* AR_OPEN_LINE         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AR_OPEN_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

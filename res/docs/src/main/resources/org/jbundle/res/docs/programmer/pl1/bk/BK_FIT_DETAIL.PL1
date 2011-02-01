@@ -1,0 +1,4476 @@
+/****************************************************************
+	Module: BK_FIT_DETAIL
+	Top Level Logic: FIT_DETAIL_LOGIC
+	Date: 10-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_FIT_DETAIL
+	Top-Level Logic for Fit Building
+****************************************************************/
+
+%replace BK_FIT_DETAIL_1 by 254;
+%replace BK_FIT_DETAIL_2 by 460;
+%replace BK_FIT_DETAIL_3 by 461;
+BK_FIT_DETAIL:
+   procedure(
+      BK_ENT_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_INV_DET_RECORD,
+      BK_LINE_RECORD,
+      BK_PASSENGERS_RECORD);
+%replace BK_HOTEL_NO by   8;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_LAND_NO by  54;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_TRANS_NO by  64;
+%replace AD_CURR_NO by  25;
+%replace BK_LAND_ITIN_NO by  80;
+%replace BK_LAND_DET_NO by  91;
+%replace TK_DETAIL_NO by  57;
+%replace BK_TRANS_PRICE_NO by  69;
+%replace TK_FLIGHTS_NO by  73;
+%replace BK_ITIN_DET_NO by  79;
+%replace TK_AIRPORT_NO by  72;
+%replace BK_HOTEL_DET_NO by  52;
+%replace TK_HEADER_NO by  56;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_INV_DET_NO by  61;
+%replace BK_LINE_NO by  51;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_FIT_DETAIL.DD";
+%include "BK_HOTEL.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_LAND.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_TRANS.DD";
+%include "AD_CURR.DD";
+%include "BK_LAND_ITIN.DD";
+%include "BK_LAND_DET.DD";
+%include "TK_DETAIL.DD";
+%include "BK_TRANS_PRICE.DD";
+%include "TK_FLIGHTS.DD";
+%include "BK_ITIN_DET.DD";
+%include "TK_AIRPORT.DD";
+%include "BK_HOTEL_DET.DD";
+%include "TK_HEADER.DD";
+%include "BK_ENT_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_INV_DET.DD";
+%include "BK_LINE.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_COPY_HOTEL       bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		END_COPY_TOUR        bit (1);
+declare		END_COPY_AIRH        bit (1);
+declare		END_COPY_AIR         bit (1);
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+   call INITIALIZE;
+   call FIT_DETAIL_MAIN;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   FIT_DAY = 0;
+   FIT_CODE = "";
+   FIT_TYPE = "";
+   FIT_LINE = 0;
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_RATE_TYPE = "";
+   HDET_CLASS = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   HDET_DATE = BK_DEPARTURE;
+   LAND_TAX = 0;
+   LAND_SVC_CHG = 0;
+   LAND_COMM = 0;
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   LAND_MARKUP_LINE = 0;
+   LAND_VARIES_ON = 0;
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   TRANS_CLASS = "";
+   FLIGHT_ADD = 0;
+   FLIGHT_DAYS = "";
+   FLIGHT_SEGMENT = 1;
+   HOTEL_USE_RATE_TYPE = "";
+   HOTEL_USE_CLASS = "";
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_FIT_DETAIL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_FIT_DETAIL_RECORD) );
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_NO,"BK_TRANS",byteaddr(BK_TRANS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_ITIN_NO,"BK_LAND_ITIN",byteaddr(BK_LAND_ITIN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_ITIN_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_DET_NO,"BK_LAND_DET",byteaddr(BK_LAND_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_DET_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_PRICE_NO,"BK_TRANS_PRICE",byteaddr(BK_TRANS_PRICE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_PRICE_NO,ERROR_CODE);
+   call OPEN_FILE (TK_FLIGHTS_NO,"TK_FLIGHTS",byteaddr(TK_FLIGHTS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_FLIGHTS_NO,ERROR_CODE);
+   call OPEN_FILE (BK_ITIN_DET_NO,"BK_ITIN_DET",byteaddr(BK_ITIN_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_ITIN_DET_NO,ERROR_CODE);
+   call OPEN_FILE (TK_AIRPORT_NO,"TK_AIRPORT",byteaddr(TK_AIRPORT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_AIRPORT_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_DET_NO,"BK_HOTEL_DET",byteaddr(BK_HOTEL_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_DET_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	FIT_DETAIL_MAIN
+	Main Logic for FIT detail entry
+****************************************************************/
+
+FIT_DETAIL_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+
+   /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+   if BOOKING_NO = 0 then
+      return;
+
+
+   /* CHECK_ALL_INFO - Are all Agency, Pax, and Tour in? */
+
+   if BK_AGENCY = -1 then
+      do;
+      call DISPLAY_MESSAGE ("Agency not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   if BK_PAX = 0 then
+      do;
+      call DISPLAY_MESSAGE ("Passengers not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   if BK_TOUR_NUM = 0 then
+      do;
+      call DISPLAY_MESSAGE ("Tour not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   call DISPLAY_DATA_A;
+
+   /* SETUP_HOTEL_IF_NEW - If new, setup the hotel detail */
+
+   if BK_HOTEL_MOD = -1 then
+      do;
+
+      /* BK_SET_HOTEL_DET - Setup hotel detail */
+
+      %include "BK_SET_HOTEL_DET.DCL";
+      call BK_SET_HOTEL_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_HOTEL_RECORD);
+      end;
+
+
+   /* SETUP_LAND_IF_NEW - Set up the land detail if new */
+
+   if BK_TOUR_MOD = -1 then
+      do;
+
+      /* BK_SET_LAND_DET - Set up the land detail */
+
+      %include "BK_SET_LAND_DET.DCL";
+      call BK_SET_LAND_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_LAND_RECORD);
+      end;
+
+
+   /* SETUP_AIR_IF_NEW - Has the air detail been changed before? */
+
+   if BK_AIR_MOD = -1 then
+      do;
+
+      /* BK_SET_AIR_DET - Call the program to set up air */
+
+      %include "BK_SET_AIR_DET.DCL";
+      call BK_SET_AIR_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         TK_DETAIL_RECORD,
+         TK_HEADER_RECORD);
+      end;
+
+   call FIT_ENT_MAIN;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* CHECK_OTHER - Add/Change other costs? */
+
+   call DISPLAY_MESSAGE ("Add fixed and other costs?");
+   call INPUT_DATA(23,28,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   if ANSWER = "Y" then
+      do;
+
+      /* BK_FIT_OTHER - Call program */
+
+      %include "BK_FIT_OTHER.DCL";
+      call BK_FIT_OTHER(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_DET_LAND_RECORD,
+         BK_PASSENGERS_RECORD);
+      end;
+
+
+   /* CHECK_RECOST - Recost tour? */
+
+   call DISPLAY_MESSAGE ("Re-cost booking?");
+   call INPUT_DATA(23,18,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   if ANSWER = "Y" then
+      do;
+
+      /* BK_FIT_LAST - Call tour costing program */
+
+      %include "BK_FIT_LAST.DCL";
+      call BK_FIT_LAST(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_LINE_RECORD,
+         AD_CURR_RECORD,
+         BK_HOTEL_RECORD,
+         BK_DET_HOTEL_RECORD,
+         BK_LAND_RECORD,
+         BK_DET_LAND_RECORD,
+         BK_HOTEL_DET_RECORD,
+         BK_LAND_DET_RECORD,
+         BK_TRANS_RECORD,
+         BK_PASSENGERS_RECORD,
+         TK_DETAIL_RECORD,
+         TK_HEADER_RECORD,
+         BK_TRANS_PRICE_RECORD,
+         BK_ENT_HDR_RECORD,
+         BK_ITIN_DET_RECORD);
+      end;
+
+return;
+end;	/* FIT_DETAIL_MAIN      */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	FIT_ENT_MAIN
+	Main-line code for fit entry
+****************************************************************/
+
+FIT_ENT_MAIN:
+	procedure;
+
+
+   /* SET_FIRST_HOTELP - Set to the first hotel detail */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = BK_PAX_SEQ;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* SET_FIRST_LANDP - Set first land in this pax mod */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = BK_PAX_SEQ;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* SET_FIRST_AIRP - Set first air detail for this pax */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_HOTEL_END;
+
+   /* SET_END_HOTEL - If eof, set end hotel flag */
+
+   if DISPLAY_FIT ^= "E" then
+      HDET_DATE = 32767;
+
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_LAND_END;
+
+   /* SET_END_LAND - Check for end of land */
+
+   if DISPLAY_FIT ^= "E" then
+      LDET_DATE = 32767;
+
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_AIR_END;
+
+   /* SET_END_AIR - Check for end of air detail */
+
+   if DISPLAY_FIT ^= "E" then
+      TK_DATE = 32767;
+
+
+   /* FIT_TABLE_MAINT - Fit screen file maintenance */
+
+   if (HDET_DATE = 32767) & (LDET_DATE = 32767) & (TK_DATE = 32767) then
+      FIT_DISPLAY = "N";
+   else
+      FIT_DISPLAY = "Y";
+
+   FIT_END = "N";
+   do while (FIT_END = "N");
+      do RECORD_NUMBER = 1 to 15;
+         FIT_TYPE_ARRAY(RECORD_NUMBER) = "";
+         FIT_DATE_ARRAY(RECORD_NUMBER) = 0;
+         FIT_SEQ_ARRAY(RECORD_NUMBER) = 0;
+         FIT_CODE_ARRAY(RECORD_NUMBER) = "";
+         FIT_DESC_ARRAY(RECORD_NUMBER) = "";
+         FIT_EXT1_ARRAY(RECORD_NUMBER) = "";
+         FIT_EXT2_ARRAY(RECORD_NUMBER) = 0;
+      end;
+
+      if FIT_DISPLAY = "Y" then
+         do;
+         ERROR_CODE = NORMAL_RETURN;
+         RECORD_NUMBER = 1;
+         do while ( (ERROR_CODE ^= END_OF_FILE) & (RECORD_NUMBER <= 14) );
+            FIT_LINE = RECORD_NUMBER;
+            call DIS_FIT;
+            RECORD_NUMBER = FIT_LINE;
+         end;
+         if ERROR_CODE = END_OF_FILE then
+            FIT_END = "Y";
+         call SET_ROW_OFFSET(0);
+         END_CHANGE_ITEM = NO;
+         do while (END_CHANGE_ITEM ^= YES);
+            call CHANGE_ITEM;
+         end;
+         if (RETURN_CODE = END_TYPED) !
+            ( (FIT_DATE_ARRAY(15) = 0) & (FIT_DATE_ARRAY(14) = 0) & (FIT_DATE_ARRAY(13) = 0) ) then
+               FIT_END = "Y";
+         if FIT_END = "N" then
+            call SET_NEXT_FIT;
+         end;
+      else
+         do;
+         RECORD_NUMBER = 1;
+         RETURN_CODE = NORMAL_RETURN;
+         do while ( (RETURN_CODE = NORMAL_RETURN) & (RECORD_NUMBER <= 14) );
+            FIT_LINE = RECORD_NUMBER;
+            call BK_FIT_DETAIL_LINE;
+            RECORD_NUMBER = FIT_LINE;
+         end;
+         call SET_ROW_OFFSET(0);
+         END_CHANGE_ITEM = NO;
+         do while (END_CHANGE_ITEM ^= YES);
+            call CHANGE_ITEM;
+         end;
+         if (RETURN_CODE = END_TYPED) !
+            ( (FIT_DATE_ARRAY(15) = 0) & (FIT_DATE_ARRAY(14) = 0) & (FIT_DATE_ARRAY(13) = 0) ) then
+               FIT_END = "Y";
+         end;
+
+      if FIT_END = "N" then
+         call DISPLAY_SCREEN(BK_FIT_DETAIL_1);
+   end;
+
+   call SET_ROW_OFFSET(0);
+
+return;
+end;	/* FIT_ENT_MAIN         */
+
+/****************************************************************
+	CHECK_HOTEL_END
+	Any hotels?
+****************************************************************/
+
+CHECK_HOTEL_END:
+	procedure;
+
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELP - Last hotel detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) !
+   (HDET_ALT_SEQ > BK_PAX_SEQ) !
+   (HDET_ANSW_SEQ > 0) then
+      return;
+
+   /* SET_FLAG - Set the flag */
+
+   DISPLAY_FIT = "E";
+
+return;
+end;	/* CHECK_HOTEL_END      */
+
+/****************************************************************
+	CHECK_LAND_END
+	Any Land?
+****************************************************************/
+
+CHECK_LAND_END:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDP - Last land in this pax mod? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > BK_PAX_SEQ) !
+   (LDET_ANSW_SEQ > 0) then
+      return;
+
+   /* SET_FLAG - Set the flag */
+
+   DISPLAY_FIT = "E";
+
+return;
+end;	/* CHECK_LAND_END       */
+
+/****************************************************************
+	CHECK_AIR_END
+	Any air?
+****************************************************************/
+
+CHECK_AIR_END:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRP - End of this pax air detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_DET_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      return;
+
+   /* SET_FLAG - Set the flag */
+
+   DISPLAY_FIT = "E";
+
+return;
+end;	/* CHECK_AIR_END        */
+
+/****************************************************************
+	DIS_FIT
+	Display FIT detail
+****************************************************************/
+
+DIS_FIT:
+	procedure;
+
+
+   /* DIS_NEXT_SVC - Display the next service */
+
+   if (HDET_DATE = 32767) & (LDET_DATE = 32767) & (TK_DATE = 32767) then
+      do;
+      ERROR_CODE = END_OF_FILE;
+      return;
+      end;
+
+   FIT_TYPE = "H";
+   FIT_DATE = HDET_DATE;
+   FIT_CODE = HDET_HOTEL;
+
+   if FIT_DATE > LDET_DATE then
+      do;
+      FIT_TYPE = LDET_TORT;
+      if index("LTI",FIT_TYPE) = 0 then
+         FIT_TYPE = "L";
+      FIT_DATE = LDET_DATE;
+      FIT_CODE = LDET_TOUR_NO;
+      end;
+
+   if FIT_DATE > TK_DATE then
+      do;
+      FIT_TYPE = "A";
+      FIT_DATE = TK_DATE;
+      FIT_CODE = TK_CARRIER !! TK_FLIGHT;
+      end;
+
+   FIT_DAY = FIT_DATE - BK_DEPARTURE + 1;
+
+   call DIS_FIT_LINE;
+
+   do case (index("HLTIA",FIT_TYPE));
+         do;
+         call DIS_HOTEL_DET;
+         end;
+         do;
+         call DIS_LAND_DET;
+         end;
+         do;
+         call DIS_TRANS_DET;
+         end;
+         do;
+         call DIS_ITIN_DET;
+         end;
+         do;
+         call DIS_AIR_DET;
+         end;
+   end;
+
+   ERROR_CODE = NORMAL_RETURN;
+
+return;
+end;	/* DIS_FIT              */
+
+/****************************************************************
+	DIS_FIT_LINE
+	Display the header line
+****************************************************************/
+
+DIS_FIT_LINE:
+	procedure;
+
+
+   /* SET_FIT_OFFSET - Set the offset for display */
+
+   call SET_ROW_OFFSET (FIT_LINE - 1);
+
+   call DISPLAY_DATA_D;
+   call DISPLAY_DATA_E;
+   call DISPLAY_DATA_C;
+return;
+end;	/* DIS_FIT_LINE         */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  14 to  14;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	DISPLAY_DATA_E
+	Display the data in screen group E
+****************************************************************/
+
+DISPLAY_DATA_E:
+	procedure;
+
+do LOOP_INDEX =  15 to  17;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* GET_FIT_WEEK_DAY - Get the day of the week */
+
+      declare DAYS character(21);
+      DAYS ="SunMonTueWedThuFriSat";
+      FIT_WEEK_DAY = substr(DAYS,
+         fixed((float(FIT_DATE,21)/7-trunc(float(FIT_DATE,21)/7))*7+0.5,15)*3+1,3);
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_E       */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  18 to  18;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	DIS_HOTEL_DET
+	Display the hotel detail
+****************************************************************/
+
+DIS_HOTEL_DET:
+	procedure;
+
+
+   /* SET_HOTEL_OFFSET - Set the offset to the hotel fields */
+
+   call SET_ROW_OFFSET (FIT_LINE - 2);
+
+
+   /* SET_HOTEL_DESC - Read/Set the hotel description */
+
+   HOTEL_NAME_2 = "";
+   if HDET_MANUAL ^= "" then
+      HOTEL_NAME = HDET_MANUAL;
+   else
+      do;
+
+      /* READ_2_HOTEL - Read the hotel file (Secondary) */
+
+      HOTEL_CODE = HDET_HOTEL;
+      call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         HOTEL_NAME = "** RECORD NOT FOUND **";
+         end;
+      end;
+
+   call DISPLAY_DATA_F;
+   call DISPLAY_DATA_J;
+
+   /* BUMP_HOTEL_LINE - Bump the line count */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = FIT_TYPE;
+   FIT_DATE_ARRAY(FIT_LINE) = HDET_DATE;
+   FIT_CODE_ARRAY(FIT_LINE) = HDET_HOTEL;
+   FIT_SEQ_ARRAY(FIT_LINE) = HDET_SEQ;
+   FIT_DESC_ARRAY(FIT_LINE) = HOTEL_NAME;
+   FIT_EXT2_ARRAY(FIT_LINE) = HDET_NIGHTS;
+   FIT_LINE = FIT_LINE + 1;
+   if FIT_DESC_ARRAY(FIT_LINE) = "" then
+      do;
+      FIT_DESC_ARRAY(FIT_LINE) = HOTEL_NAME_2;
+      if HOTEL_NAME_2 ^= "" then
+         FIT_LINE = FIT_LINE + 1;
+      end;
+
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_HOTEL_END;
+
+   /* SET_END_HOTEL - If eof, set end hotel flag */
+
+   if DISPLAY_FIT ^= "E" then
+      HDET_DATE = 32767;
+
+return;
+end;	/* DIS_HOTEL_DET        */
+
+/****************************************************************
+	DISPLAY_DATA_F
+	Display the data in group F
+****************************************************************/
+
+DISPLAY_DATA_F:
+	procedure;
+
+do LOOP_INDEX =  19 to  20;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_F       */
+
+/****************************************************************
+	DISPLAY_DATA_J
+	Display screen group J
+****************************************************************/
+
+DISPLAY_DATA_J:
+	procedure;
+
+do LOOP_INDEX =  21 to  21;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_J       */
+
+/****************************************************************
+	DIS_LAND_DET
+	Display the land or transportation det'l
+****************************************************************/
+
+DIS_LAND_DET:
+	procedure;
+
+
+   /* SET_LAND_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET (FIT_LINE - 4);
+
+
+   /* SET_LAND_DESC - Read/Set the land desc */
+
+   LAND_DESC_2 = "";
+   if LDET_MANUAL ^= "" then
+      LAND_DESC_1 = LDET_MANUAL;
+   else
+      do;
+
+      /* READ_2_LAND - Read the land detail */
+
+      LAND_CODE = LDET_TOUR_NO;
+      call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         LAND_DESC_1 = "** RECORD NOT FOUND **";
+         end;
+      end;
+
+   call DISPLAY_DATA_G;
+   call DISPLAY_DATA_K;
+
+   /* BUMP_LAND_LINE - Bump the line counter */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = FIT_TYPE;
+   FIT_DATE_ARRAY(FIT_LINE) = LDET_DATE;
+   FIT_CODE_ARRAY(FIT_LINE) = LDET_TOUR_NO;
+   FIT_SEQ_ARRAY(FIT_LINE) = LDET_SEQ;
+   FIT_DESC_ARRAY(FIT_LINE) = LAND_DESC_1;
+   FIT_EXT1_ARRAY(FIT_LINE) = LDET_SIC_PMC;
+   FIT_LINE = FIT_LINE + 1;
+   if FIT_DESC_ARRAY(FIT_LINE) = "" then
+      do;
+      FIT_DESC_ARRAY(FIT_LINE) = LAND_DESC_2;
+      if LAND_DESC_2 ^= "" then
+         FIT_LINE = FIT_LINE + 1;
+      end;
+
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_LAND_END;
+
+   /* SET_END_LAND - Check for end of land */
+
+   if DISPLAY_FIT ^= "E" then
+      LDET_DATE = 32767;
+
+return;
+end;	/* DIS_LAND_DET         */
+
+/****************************************************************
+	DISPLAY_DATA_G
+	Display the data in group G
+****************************************************************/
+
+DISPLAY_DATA_G:
+	procedure;
+
+do LOOP_INDEX =  22 to  23;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_G       */
+
+/****************************************************************
+	DISPLAY_DATA_K
+	Display screen group K
+****************************************************************/
+
+DISPLAY_DATA_K:
+	procedure;
+
+do LOOP_INDEX =  24 to  24;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_K       */
+
+/****************************************************************
+	DIS_TRANS_DET
+	Display the transportation detail
+****************************************************************/
+
+DIS_TRANS_DET:
+	procedure;
+
+
+   /* SET_TRANS_OFFSET - Set offset */
+
+   call SET_ROW_OFFSET (FIT_LINE - 7);
+
+
+   /* SET_TRANS_DESC - Set up the trans desc */
+
+   if LDET_MANUAL ^= "" then
+      do;
+      TRANS_FROM = LDET_MANUAL;
+      TRANS_TO = substr(LDET_MANUAL,4,3);
+      end;
+   else
+      do;
+
+      /* READ_2_TRANS - Read the transportation record */
+
+      TRANS_NO = TDTT_TRANS_NO;
+      call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         TRANS_FROM = "** RECORD NOT FOUND **";
+         end;
+      end;
+
+   call DISPLAY_DATA_I;
+
+   /* BUMP_TRANS_LINE - Bump the pointer */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = FIT_TYPE;
+   FIT_DATE_ARRAY(FIT_LINE) = LDET_DATE;
+   FIT_CODE_ARRAY(FIT_LINE) = TDTT_TRANS_NO;
+   FIT_SEQ_ARRAY(FIT_LINE) = LDET_SEQ;
+   FIT_DESC_ARRAY(FIT_LINE) = TRANS_FROM !! " " !! TRANS_TO !! " " !! LDTT_CLASS;
+   FIT_LINE = FIT_LINE + 1;
+
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_LAND_END;
+
+   /* SET_END_LAND - Check for end of land */
+
+   if DISPLAY_FIT ^= "E" then
+      LDET_DATE = 32767;
+
+return;
+end;	/* DIS_TRANS_DET        */
+
+/****************************************************************
+	DISPLAY_DATA_I
+	Display screen group I
+****************************************************************/
+
+DISPLAY_DATA_I:
+	procedure;
+
+do LOOP_INDEX =  32 to  33;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_I       */
+
+/****************************************************************
+	DIS_ITIN_DET
+	Display the Itin detail
+****************************************************************/
+
+DIS_ITIN_DET:
+	procedure;
+
+
+   /* SET_LAND_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET (FIT_LINE - 4);
+
+
+   /* SET_LAND_DESC - Read/Set the land desc */
+
+   LAND_DESC_2 = "";
+   if LDET_MANUAL ^= "" then
+      LAND_DESC_1 = LDET_MANUAL;
+   else
+      do;
+
+      /* READ_2_LAND - Read the land detail */
+
+      LAND_CODE = LDET_TOUR_NO;
+      call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         LAND_DESC_1 = "** RECORD NOT FOUND **";
+         end;
+      end;
+
+   call DISPLAY_DATA_G;
+
+   /* BUMP_LAND_LINE - Bump the line counter */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = FIT_TYPE;
+   FIT_DATE_ARRAY(FIT_LINE) = LDET_DATE;
+   FIT_CODE_ARRAY(FIT_LINE) = LDET_TOUR_NO;
+   FIT_SEQ_ARRAY(FIT_LINE) = LDET_SEQ;
+   FIT_DESC_ARRAY(FIT_LINE) = LAND_DESC_1;
+   FIT_EXT1_ARRAY(FIT_LINE) = LDET_SIC_PMC;
+   FIT_LINE = FIT_LINE + 1;
+   if FIT_DESC_ARRAY(FIT_LINE) = "" then
+      do;
+      FIT_DESC_ARRAY(FIT_LINE) = LAND_DESC_2;
+      if LAND_DESC_2 ^= "" then
+         FIT_LINE = FIT_LINE + 1;
+      end;
+
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_LAND_END;
+
+   /* SET_END_LAND - Check for end of land */
+
+   if DISPLAY_FIT ^= "E" then
+      LDET_DATE = 32767;
+
+return;
+end;	/* DIS_ITIN_DET         */
+
+/****************************************************************
+	DIS_AIR_DET
+	Display the air detail
+****************************************************************/
+
+DIS_AIR_DET:
+	procedure;
+
+
+   /* SET_AIR_OFFSET - Set the display offset */
+
+   call SET_ROW_OFFSET (FIT_LINE - 6);
+
+   call DISPLAY_DATA_H;
+
+   /* BUMP_AIR_LINE - Bump the pointer */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = FIT_TYPE;
+   FIT_DATE_ARRAY(FIT_LINE) = TK_DATE;
+   FIT_SEQ_ARRAY(FIT_LINE) = TK_SEQ;
+   FIT_CODE_ARRAY(FIT_LINE) = TK_ARR_DAY;
+   FIT_DESC_ARRAY(FIT_LINE)=TK_CLASS !! " " !! TK_XO !! " " !! TK_CITY !!
+      " " !! TK_ARR_CITY !! " " !!
+      substr(SET_TIME(TK_TIME),1,6) !!
+      substr(SET_TIME(TK_ARR_TIME),1,6) !! " " !!
+      substr(FIT_CODE_ARRAY(FIT_LINE),8,2) !! " " !! TK_STATUS;
+      FIT_CODE_ARRAY(FIT_LINE) = TK_CARRIER !! TK_FLIGHT;
+   FIT_LINE = FIT_LINE + 1;
+
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_AIR_END;
+
+   /* SET_END_AIR - Check for end of air detail */
+
+   if DISPLAY_FIT ^= "E" then
+      TK_DATE = 32767;
+
+return;
+end;	/* DIS_AIR_DET          */
+
+/****************************************************************
+	DISPLAY_DATA_H
+	Display screen group H
+****************************************************************/
+
+DISPLAY_DATA_H:
+	procedure;
+
+do LOOP_INDEX =  40 to  47;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  42 then
+      do;
+
+      /* GET_CITY_DESC - Read the City file */
+
+      if RETURN_CODE = DELETE_TYPED then
+         TK_CITY = "DEL";
+      AIRPORT_CODE = TK_CITY;
+      call READ_KEYED(TK_AIRPORT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = NORMAL_RETURN then
+         TK_CITY_DESC = AIRPORT_DESC;
+
+      end;
+   if LOOP_INDEX =  43 then
+      do;
+
+      /* GET_CITY2_DESC - Get the City Description */
+
+      if RETURN_CODE = DELETE_TYPED then
+         TK_ARR_CITY = "DEL";
+      AIRPORT_CODE = TK_ARR_CITY;
+      call READ_KEYED(TK_AIRPORT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = NORMAL_RETURN then
+         TK_ARR_DESC = AIRPORT_DESC;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_H       */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 99,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 15 then
+   do;
+   RECORD_NUMBER = SELECT;
+   call BK_FIT_DETAIL_LINE;
+   call SET_ROW_OFFSET (0);
+   end;
+if SELECT >= 90 then if SELECT <= 91 then
+   do;
+   if SELECT = 90 then
+      LOOP_INDEX = 21;
+   if SELECT = 91 then
+      LOOP_INDEX = 24;
+   if LOOP_INDEX =  24 then
+      call DISPLAY_MSG_NO ( 47);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+if SELECT = 93 then
+   do;
+   call INPUT_FIELD( 40,INPUT_LENGTH,RETURN_CODE);
+   call INPUT_FIELD( 47,INPUT_LENGTH,RETURN_CODE);
+   end;
+if SELECT >= 94 then if SELECT <= 99 then
+   do;
+
+      LOOP_INDEX = SELECT + -53;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  42 then
+      do;
+
+      /* GET_CITY_DESC - Read the City file */
+
+      if RETURN_CODE = DELETE_TYPED then
+         TK_CITY = "DEL";
+      AIRPORT_CODE = TK_CITY;
+      call READ_KEYED(TK_AIRPORT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = NORMAL_RETURN then
+         TK_CITY_DESC = AIRPORT_DESC;
+
+      end;
+   if LOOP_INDEX =  43 then
+      do;
+
+      /* GET_CITY2_DESC - Get the City Description */
+
+      if RETURN_CODE = DELETE_TYPED then
+         TK_ARR_CITY = "DEL";
+      AIRPORT_CODE = TK_ARR_CITY;
+      call READ_KEYED(TK_AIRPORT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = NORMAL_RETURN then
+         TK_ARR_DESC = AIRPORT_DESC;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	SET_NEXT_FIT
+	Set the detail file pointers for read nx
+****************************************************************/
+
+SET_NEXT_FIT:
+	procedure;
+
+
+   /* SET_NX_HOTEL - Do I need to set the hotel pointer? */
+
+   do FIT_LINE = 15 to 1 by -1;
+      FIT_TYPE = FIT_TYPE_ARRAY(FIT_LINE);
+      if FIT_TYPE = "H" then
+         do;
+         FIT_DATE = FIT_DATE_ARRAY(FIT_LINE);
+         FIT_SEQ = FIT_SEQ_ARRAY(FIT_LINE);
+
+         /* SET_NEXT_HOTELD - Set the next hotel detail */
+
+         HDET_MOD = BK_MODIFICATION;
+         HDET_BK_TR_NO = BOOKING_NO;
+         HDET_ALT_SEQ = 0;
+         HDET_ANSW_SEQ = 0;
+         HDET_DAY = FIT_DATE;
+         HDET_SEQ = FIT_SEQ;
+         call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+         call CHECK_HOTEL_END;
+
+         /* RESET_FLAG - Init Flag */
+
+         DISPLAY_FIT = "D";
+
+         call CHECK_HOTEL_END;
+
+         /* SET_END_HOTEL - If eof, set end hotel flag */
+
+         if DISPLAY_FIT ^= "E" then
+            HDET_DATE = 32767;
+
+
+         FIT_LINE = 1;
+         end;
+   end;
+
+
+   /* SET_NX_LAND - Set up for read next */
+
+   do FIT_LINE = 15 to 1 by -1;
+      FIT_TYPE = FIT_TYPE_ARRAY(FIT_LINE);
+      if index("LIT",FIT_TYPE)  ^= 0 then
+         do;
+         FIT_DATE = FIT_DATE_ARRAY(FIT_LINE);
+         FIT_SEQ = FIT_SEQ_ARRAY(FIT_LINE);
+
+         /* SET_NEXT_LANDD - Set next */
+
+         LDET_MOD = BK_MODIFICATION;
+         LDET_BK_TK_NO = BOOKING_NO;
+         LDET_ALT_SEQ = 0;
+         LDET_ANSW_SEQ = 0;
+         LDET_DAY = FIT_DATE;
+         LDET_SEQ = FIT_SEQ;
+         call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+         call CHECK_LAND_END;
+
+         /* RESET_FLAG - Init Flag */
+
+         DISPLAY_FIT = "D";
+
+         call CHECK_LAND_END;
+
+         /* SET_END_LAND - Check for end of land */
+
+         if DISPLAY_FIT ^= "E" then
+            LDET_DATE = 32767;
+
+
+         FIT_LINE = 1;
+         end;
+   end;
+
+
+   /* SET_NX_AIR - Set up to read the next air */
+
+   do FIT_LINE = 15 to 1 by -1;
+      FIT_TYPE = FIT_TYPE_ARRAY(FIT_LINE);
+      if FIT_TYPE = "A" then
+         do;
+         FIT_DATE = FIT_DATE_ARRAY(FIT_LINE);
+         FIT_SEQ = FIT_SEQ_ARRAY(FIT_LINE);
+
+         /* SET_NEXT_AIRDD - Set next */
+
+         TK_DET_MOD = BK_MODIFICATION;
+         TK_DET_BK_TK = BOOKING_NO;
+         TK_DET_ALT_SEQ = 0;
+         TK_DET_ANSW_SEQ = 0;
+         TK_DATE = FIT_DATE;
+         TK_SEQ = FIT_SEQ;
+         call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+         call CHECK_AIR_END;
+
+         /* RESET_FLAG - Init Flag */
+
+         DISPLAY_FIT = "D";
+
+         call CHECK_AIR_END;
+
+         /* SET_END_AIR - Check for end of air detail */
+
+         if DISPLAY_FIT ^= "E" then
+            TK_DATE = 32767;
+
+
+         FIT_LINE = 1;
+         end;
+   end;
+
+return;
+end;	/* SET_NEXT_FIT         */
+
+/****************************************************************
+	BK_FIT_DETAIL_LINE
+	Change a detail line
+****************************************************************/
+
+BK_FIT_DETAIL_LINE:
+	procedure;
+
+
+   /* CHANGE_FIT - Change/Enter an FIT line */
+
+   FIT_LINE = RECORD_NUMBER;
+
+   /* SET_FIT_OFFSET - Set the offset for display */
+
+   call SET_ROW_OFFSET (FIT_LINE - 1);
+
+
+   FIT_TYPE = FIT_TYPE_ARRAY(RECORD_NUMBER);
+   FIT_DATE = FIT_DATE_ARRAY(RECORD_NUMBER);
+   FIT_CODE = FIT_CODE_ARRAY(RECORD_NUMBER);
+   FIT_SEQ = FIT_SEQ_ARRAY(RECORD_NUMBER);
+
+   if FIT_DATE ^= 0 then
+      do;
+      FIT_DAY = FIT_DATE - BK_DEPARTURE + 1;
+      call CLEAR_FIT_LINE;
+      if FIT_TYPE = "H" then
+         do;
+         call GET_HOTEL_DET;
+         end;
+      else
+         do;
+         if FIT_TYPE ^= "A" then
+            do;
+            call GET_LAND_DET;
+            end;
+         else
+            do;
+            call GET_AIR_DET;
+            end;
+         end;
+      end;
+   else
+      do;
+      FIT_DAY = FIT_DAY + 1;
+      FIT_CODE = substr(FIT_CODE,1,3);
+      end;
+
+   call ENTER_FIT;
+
+return;
+end;	/* BK_FIT_DETAIL_LINE   */
+
+/****************************************************************
+	CLEAR_FIT_LINE
+	Clear the info from this line
+****************************************************************/
+
+CLEAR_FIT_LINE:
+	procedure;
+
+
+   /* CLEAR_DATA_D - Clear fields */
+
+   do LOOP_INDEX =  14 to  14;
+      call CLEAR_FIELD(LOOP_INDEX);
+   end;
+
+   /* CLEAR_DATA_E - Clear fields */
+
+   do LOOP_INDEX =  15 to  17;
+      call CLEAR_FIELD(LOOP_INDEX);
+   end;
+   call CLEAR_DATA_C;
+
+   /* CLEAR_DATA_Z - Clear fiels */
+
+   do LOOP_INDEX =  52 to  53;
+      call CLEAR_FIELD(LOOP_INDEX);
+   end;
+
+   /* CLEAR_ARRAY_LINE - Clear the corresponding array line */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = "";
+   FIT_DATE_ARRAY(FIT_LINE) = 0;
+   FIT_SEQ_ARRAY(FIT_LINE) = 0;
+   FIT_CODE_ARRAY(FIT_LINE) = "";
+   FIT_DESC_ARRAY(FIT_LINE) = "";
+   FIT_EXT1_ARRAY(FIT_LINE) = "";
+   FIT_EXT2_ARRAY(FIT_LINE) = 0;
+   if FIT_LINE ^= 15 then if FIT_DATE_ARRAY(FIT_LINE + 1) = 0 then
+      if FIT_DESC_ARRAY(FIT_LINE + 1) ^= "" then
+         do;
+         call SET_ROW_OFFSET(FIT_LINE);
+
+         /* CLEAR_DATA_Z - Clear fiels */
+
+         do LOOP_INDEX =  52 to  53;
+            call CLEAR_FIELD(LOOP_INDEX);
+         end;
+         FIT_DESC_ARRAY(FIT_LINE + 1) = "";
+         call SET_ROW_OFFSET(FIT_LINE - 1);
+         end;
+
+return;
+end;	/* CLEAR_FIT_LINE       */
+
+/****************************************************************
+	CLEAR_DATA_C
+	Clear the data in group C
+****************************************************************/
+
+CLEAR_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  18 to  18;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+return;
+end;	/* CLEAR_DATA_C         */
+
+/****************************************************************
+	GET_HOTEL_DET
+	Delete the hotel detail
+****************************************************************/
+
+GET_HOTEL_DET:
+	procedure;
+
+declare		ERROR_BK_DET_HOTEL   fixed binary (15);
+
+   /* COPY_HOTEL_DETL - Copy the hotel detail if change */
+
+   if BK_NEXT_MOD ^= BK_HOTEL_MOD then
+      do;
+
+      /* SET_FIRST_HOTELD - Set first hotel detail */
+
+      HDET_MOD = 0;
+      HDET_BK_TR_NO = BOOKING_NO;
+      HDET_ALT_SEQ = 0;
+      HDET_ANSW_SEQ = 0;
+      HDET_DAY = 0;
+      HDET_SEQ = 0;
+      call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_HOTEL = NO;
+      do while (END_COPY_HOTEL ^= YES);
+         call COPY_HOTEL;
+      end;
+      BK_HOTEL_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* SETUP_HOTEL_DETL - Setup the hotel detail key */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = FIT_DATE;
+   HDET_SEQ = FIT_SEQ;
+   KEY_NO = 1;
+
+   /* READ_HOTEL_DET - Read the detail record */
+
+   call READ_KEYED (BK_DET_HOTEL_NO,KEY_NO,ERROR_BK_DET_HOTEL);
+   if ERROR_BK_DET_HOTEL > 3 then
+      call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_BK_DET_HOTEL);
+
+   /* DELETE_HOTELD - Delete */
+
+   call DELETE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+return;
+end;	/* GET_HOTEL_DET        */
+
+/****************************************************************
+	COPY_HOTEL
+	Make a copy of the current hotel detail
+****************************************************************/
+
+COPY_HOTEL:
+	procedure;
+
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > 0) !
+   (HDET_BK_TR_NO > BOOKING_NO) then
+      do;
+      END_COPY_HOTEL = YES;
+      return;
+      end;
+
+   /* CHANGE_HOTELD - Set mod to 0 */
+
+   HDET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_HOTELD - Write the hotel detail */
+
+   call WRITE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* SET_FIRST_HOTELC - Set for first read */
+
+   HDET_MOD = 0;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_SEQ = HDET_SEQ+1;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_HOTEL           */
+
+/****************************************************************
+	GET_LAND_DET
+	Delete the land detail record
+****************************************************************/
+
+GET_LAND_DET:
+	procedure;
+
+declare		ERROR_BK_DET_LAND    fixed binary (15);
+
+   /* COPY_TOUR_DETL - Copy land detail if any changes */
+
+   if BK_NEXT_MOD ^= BK_TOUR_MOD then
+      do;
+
+      /* SET_FIRST_LANDD - Set to the first land detail record */
+
+      LDET_MOD = BK_MODIFICATION;
+      LDET_BK_TK_NO = BOOKING_NO;
+      LDET_ALT_SEQ = 0;
+      LDET_ANSW_SEQ = 0;
+      LDET_DAY = 0;
+      LDET_SEQ = 0;
+      call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_TOUR = NO;
+      do while (END_COPY_TOUR ^= YES);
+         call COPY_TOUR;
+      end;
+      BK_TOUR_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* SETUP_LAND_DETL - Setup the land detail key */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = FIT_DATE;
+   LDET_SEQ = FIT_SEQ;
+   KEY_NO = 1;
+
+   /* READ_LAND_DET - Read the record */
+
+   call READ_KEYED (BK_DET_LAND_NO,KEY_NO,ERROR_BK_DET_LAND);
+   if ERROR_BK_DET_LAND > 3 then
+      call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+
+   /* DELETE_LANDD - Delete land detail */
+
+   call DELETE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+return;
+end;	/* GET_LAND_DET         */
+
+/****************************************************************
+	COPY_TOUR
+	Copy the tour detail
+****************************************************************/
+
+COPY_TOUR:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDD - Last land detail record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_COPY_TOUR = YES;
+      return;
+      end;
+
+   /* CHANGE_TOURD - Change mod code to 0 */
+
+   LDET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_LANDD - Write the land detail record */
+
+   call WRITE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* SET_FIRST_TOURC - Set next record */
+
+   LDET_MOD = 0;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_SEQ = LDET_SEQ+1;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_TOUR            */
+
+/****************************************************************
+	GET_AIR_DET
+	Delete the air detail
+****************************************************************/
+
+GET_AIR_DET:
+	procedure;
+
+declare		ERROR_TK_DETAIL      fixed binary (15);
+
+   /* COPY_AIR_DETL - Copy the air detail if changed */
+
+   if BK_NEXT_MOD ^= BK_AIR_MOD then
+      do;
+
+      /* SET_FIRST_AIRH - Set to read the first Air header */
+
+      TK_MODIFICATION = 0;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = BK_PAX_SEQ;
+      TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIRH = NO;
+      do while (END_COPY_AIRH ^= YES);
+         call COPY_AIRH;
+      end;
+
+      /* SET_FIRST_AIRD - Set first air */
+
+      TK_DET_MOD = BK_MODIFICATION;
+      TK_DET_BK_TK = BOOKING_NO;
+      TK_DET_ALT_SEQ = 0;
+      TK_DET_ANSW_SEQ = 0;
+      TK_DATE = 0;
+      TK_SEQ = 0;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIR = NO;
+      do while (END_COPY_AIR ^= YES);
+         call COPY_AIR;
+      end;
+      BK_AIR_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* SETUP_AIR_DET - Set up the air key */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = FIT_DATE;
+   TK_SEQ = FIT_SEQ;
+   KEY_NO = 1;
+
+   /* READ_AIR_DET - Read the air detail record */
+
+   call READ_KEYED (TK_DETAIL_NO,KEY_NO,ERROR_TK_DETAIL);
+   if ERROR_TK_DETAIL > 3 then
+      call PRINT_ERROR (TK_DETAIL_NO,ERROR_TK_DETAIL);
+
+   /* DELETE_AIRD - Delete */
+
+   call DELETE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* GET_AIR_DET          */
+
+/****************************************************************
+	COPY_AIRH
+	Copy all the headers to the last md
+****************************************************************/
+
+COPY_AIRH:
+	procedure;
+
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH_COPY - Last air header in booking? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_COPY_AIRH = YES;
+      return;
+      end;
+
+   /* SET_TKHDR - Set to next mod */
+
+   TK_MODIFICATION = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRH - Write the air header record */
+
+   call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRHC - Set to the next air Header */
+
+   TK_MODIFICATION = 0;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = TK_ANSW_SEQ+1;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIRH            */
+
+/****************************************************************
+	COPY_AIR
+	Copy the air detail
+****************************************************************/
+
+COPY_AIR:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_COPY_AIR = YES;
+      return;
+      end;
+
+   /* CHANGE_AIRD - Change mod code to 0 */
+
+   TK_DET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRD - Write the air detail record */
+
+   call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRC - Set to the next record */
+
+   TK_DET_MOD = 0;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_SEQ = TK_SEQ+1;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIR             */
+
+/****************************************************************
+	ENTER_FIT
+	ENter the FIT detail
+****************************************************************/
+
+ENTER_FIT:
+	procedure;
+
+
+   /* SET_FIT_OFFSET - Set the offset for display */
+
+   call SET_ROW_OFFSET (FIT_LINE - 1);
+
+   call ENTER_DATA_D;
+
+   /* CHECK_DAY_ZERO - Check if day zero entered */
+
+   if FIT_DAY = 0 then
+      RETURN_CODE = END_TYPED;
+
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+   call ENTER_DATA_E;
+
+   /* CHECK_BLANK_CODE - Check for a blank FIT code */
+
+   if FIT_CODE = "" then
+      RETURN_CODE = END_TYPED;
+
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+   call GET_CODE_MATCH;
+
+   /* SET_NORMAL_RETURN - Set RETURN_CODE to zero */
+
+   RETURN_CODE = NORMAL_RETURN;
+
+return;
+end;	/* ENTER_FIT            */
+
+/****************************************************************
+	ENTER_DATA_D
+	Enter screen group D
+****************************************************************/
+
+ENTER_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  14 to  14;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* CALC_FIT_DATE - Calculate the date */
+
+      FIT_DATE = BK_DEPARTURE + FIT_DAY - 1;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_D         */
+
+/****************************************************************
+	ENTER_DATA_E
+	Enter the data in screen group E
+****************************************************************/
+
+ENTER_DATA_E:
+	procedure;
+
+do LOOP_INDEX =  15 to  16;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* GET_FIT_WEEK_DAY - Get the day of the week */
+
+      declare DAYS character(21);
+      DAYS ="SunMonTueWedThuFriSat";
+      FIT_WEEK_DAY = substr(DAYS,
+         fixed((float(FIT_DATE,21)/7-trunc(float(FIT_DATE,21)/7))*7+0.5,15)*3+1,3);
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  17 to  17;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_E         */
+
+/****************************************************************
+	GET_CODE_MATCH
+	Figure out what the code is
+****************************************************************/
+
+GET_CODE_MATCH:
+	procedure;
+
+call CONVERT_TO_UPPER(FIT_CODE);
+
+if length(CUT_SPACES(FIT_CODE)) = 1 then
+   do;
+   ERROR_CODE = index("HLTIAM",substr(FIT_CODE,1,1));
+   FIT_CODE = "";
+      do case (ERROR_CODE);
+         do;
+         call FIT_HOTEL_MATCH;
+         end;
+         do;
+         call FIT_LAND_MATCH;
+         end;
+         do;
+         call FIT_TRANS_MATCH;
+         end;
+         do;
+         call FIT_ITIN_MATCH;
+         end;
+         do;
+         call FIT_AIR_MATCH;
+         end;
+         do;
+         call FIT_BACK_MENU;
+         end;
+      end;
+   otherwise
+      do;
+      end;
+   return;
+   end;
+
+/* First see if this is an FIT package */
+if length(CUT_SPACES(FIT_CODE)) <= 4 then
+   do;
+   HDR_TOUR_CODE = FIT_CODE;
+   HDR_END_ON = TOUR_DEP_DATE;
+   call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = NORMAL_RETURN then
+      if HDR_TOUR_CODE = FIT_CODE then
+      if HDR_START_ON <= TOUR_DEP_DATE then
+      if HDR_END_ON >= TOUR_DEP_DATE then
+      if HDR_TOUR_TYPE = "C" then
+         do;
+         SAVE_DAY = FIT_DAY;
+         call FIT_PACK_MATCH;
+
+         /* GET_TOUR_HDR - Get the tour header */
+
+         ERROR_CODE = NORMAL_RETURN;
+
+         HDR_TOUR_CODE = BK_TOUR_CODE;
+         HDR_END_ON = BK_DEPARTURE;
+         if HDR_END_ON = 0 then
+            HDR_END_ON = TODAYS_DATE();
+         call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE ^= END_OF_FILE then
+            call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+         if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+            ERROR_CODE = END_OF_FILE;
+         if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+            ERROR_CODE = END_OF_FILE;
+
+         return;
+         end;
+
+   /* GET_TOUR_HDR - Get the tour header */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   HDR_TOUR_CODE = BK_TOUR_CODE;
+   HDR_END_ON = BK_DEPARTURE;
+   if HDR_END_ON = 0 then
+      HDR_END_ON = TODAYS_DATE();
+   call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= END_OF_FILE then
+      call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+   if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+      ERROR_CODE = END_OF_FILE;
+   if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+      ERROR_CODE = END_OF_FILE;
+
+   end;
+
+/* Now check to see if this is a hotel */
+HOTEL_CODE = FIT_CODE;
+call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+if ERROR_CODE = NORMAL_RETURN then
+   do;
+   call FIT_HOTEL_MATCH;
+   return;
+   end;
+
+/* Now check to see if this is a land record */
+LAND_CODE = FIT_CODE;
+call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_CODE);
+if ERROR_CODE = NORMAL_RETURN then
+   do;
+   if LAND_TYPE ^= "I" then
+      do;
+      call FIT_LAND_MATCH;
+      return;
+      end;
+   else
+      do;
+      call FIT_ITIN_MATCH;
+      return;
+      end;
+   end;
+
+/* Now check to see if this is a transportation record */
+TRANS_NO = FIT_CODE;
+call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_CODE);
+if ERROR_CODE = NORMAL_RETURN then
+   do;
+   call FIT_TRANS_MATCH;
+   return;
+   end;
+
+/* This must be an air match--Add AIR lookup later */
+if (length(CUT_SPACES(FIT_CODE)) <= 6) &
+   (substr(FIT_CODE,1,1) >= "A") & (substr(FIT_CODE,1,1) <= "Z") &
+   (substr(FIT_CODE,2,1) >= "A") & (substr(FIT_CODE,2,1) <= "Z") &
+   (substr(FIT_CODE,3,1) >= "0") & (substr(FIT_CODE,3,1) <= "9") &
+   ((substr(FIT_CODE,4,1) = " ") !
+   (substr(FIT_CODE,4,1) >= "0") & (substr(FIT_CODE,4,1) <= "9")) &
+   ((substr(FIT_CODE,5,1) = " ") !
+   (substr(FIT_CODE,5,1) >= "0") & (substr(FIT_CODE,5,1) <= "9")) &
+   ((substr(FIT_CODE,6,1) = " ") !
+   (substr(FIT_CODE,6,1) >= "0") & (substr(FIT_CODE,6,1) <= "9")) then
+      do;
+      call FIT_AIR_MATCH;
+      end;
+
+return;
+end;	/* GET_CODE_MATCH       */
+
+/****************************************************************
+	FIT_HOTEL_MATCH
+	Read in hotel info
+****************************************************************/
+
+FIT_HOTEL_MATCH:
+	procedure;
+
+
+   /* COPY_HOTEL_DETL - Copy the hotel detail if change */
+
+   if BK_NEXT_MOD ^= BK_HOTEL_MOD then
+      do;
+
+      /* SET_FIRST_HOTELD - Set first hotel detail */
+
+      HDET_MOD = 0;
+      HDET_BK_TR_NO = BOOKING_NO;
+      HDET_ALT_SEQ = 0;
+      HDET_ANSW_SEQ = 0;
+      HDET_DAY = 0;
+      HDET_SEQ = 0;
+      call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_HOTEL = NO;
+      do while (END_COPY_HOTEL ^= YES);
+         call COPY_HOTEL;
+      end;
+      BK_HOTEL_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* SET_H_DETAIL - Set up the hotel detail record for read */
+
+   if (FIT_TYPE ^= "H") !
+      (FIT_DATE ^= HDET_DATE) !
+      (FIT_CODE ^= HDET_HOTEL) then
+         do;
+
+         /* SET_H_INIT - Initialize the hotel detail record */
+
+         HDET_MOD = 0;
+         HDET_BK_TR_NO = 0;
+         HDET_DAY = 0;
+         HDET_SEQ = 0;
+         HDET_ALT_SEQ = 0;
+         HDET_ANSW_SEQ = 0;
+         HDET_MOD_CODE = "A";
+         HDET_INV = "N";
+         HDET_INV_MOD = -1;
+         HDET_INV_RATE = "";
+         HDET_HOTEL = "";
+         HDET_NIGHTS = 0;
+         HDET_RATE_TYPE = "";
+         HDET_CLASS = "";
+         HDET_MANUAL = "";
+         HDET_SEND_TO = "Y";
+         HDET_ACK_DAYS = 0;
+         HDET_VOUCHER = 0;
+         HDET_MEAL = "";
+         HDET_MEAL_QTY = 0;
+         HDET_MEAL_DAYS = 0;
+         HDET_MEAL_PRICE = 0;
+         HDET_MEAL_PLAN = "";
+         HDET_SINGLE = 0;
+         HDET_DOUBLE = 0;
+         HDET_TRIPLE = 0;
+         HDET_QUAD = 0;
+         HDET_EXCHANGE = 0;
+         HDET_ROOM_COST = 0;
+         HDET_MEAL_COST = 0;
+         HDET_MODULE = "";
+         HDET_LINKED_TOUR = 0;
+         HDET_STATUS = "RQ";
+         if HDR_WAIT = "Y" then
+            HDET_ACK_DAYS = 10;
+         end;
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_DATE = FIT_DATE;
+   HDET_HOTEL = FIT_CODE;
+   HDET_RATE_TYPE = TOUR_RATE_DEF;
+   HDET_CLASS = TOUR_RATE_CLASS;
+   call BK_COST_HOTEL;
+   FIT_TYPE = "H";
+
+
+   /* CHECK_H_FOUND - Was the current price found? */
+
+   if HDET_DOUBLE = 0 then
+      do;
+      call ENTER_HOTEL;
+      end;
+   else
+      do;
+      HSAVE_NIGHTS = HDET_NIGHTS;
+
+      /* GET_HOTEL_NTS - Get the hotel nights */
+
+         call DISPLAY_DATA_C;
+
+         /* RESET_OFFSET - Set row offset to 0 */
+
+         call SET_ROW_OFFSET(0);
+
+
+         /* DISPLAY_DATA_N - Display data N */
+
+         do LOOP_INDEX =  25 to  27;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+
+         /* SET_HOTEL_OFFSET - Set the offset to the hotel fields */
+
+         call SET_ROW_OFFSET (FIT_LINE - 2);
+
+         call DISPLAY_DATA_F;
+         call ENTER_DATA_J;
+
+         /* CHECK_NEW_NTS - Recost from scratch if # nights change */
+
+         if HDET_NIGHTS ^= HSAVE_NIGHTS then
+            HDET_DOUBLE = 0;
+
+         call BK_COST_HOTEL;
+
+         /* RESET_OFFSET - Set row offset to 0 */
+
+         call SET_ROW_OFFSET(0);
+
+         call CLEAR_DATA_N;
+      if HDET_ROOM_COST = 0 then
+         do;
+         if HDET_NIGHTS = 0 then
+            if FIT_DATE = HDET_DATE then
+            if FIT_CODE = HDET_HOTEL then
+               HDET_NIGHTS = HSAVE_NIGHTS;
+         call ENTER_HOTEL;
+         end;
+      end;
+
+
+   /* RETURN_IF_NO_HOTEL - Return if the hotel wasn't entered */
+
+   if HDET_NIGHTS = 0 then
+      return;
+
+
+   /* WRITE_H_DET - Write the hotel detail record */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DATE = FIT_DATE;
+   HDET_SEQ = 1;
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         HDET_SEQ = HDET_SEQ + 1;
+   end;
+
+
+   /* BUMP_HOTEL_LINE - Bump the line count */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = FIT_TYPE;
+   FIT_DATE_ARRAY(FIT_LINE) = HDET_DATE;
+   FIT_CODE_ARRAY(FIT_LINE) = HDET_HOTEL;
+   FIT_SEQ_ARRAY(FIT_LINE) = HDET_SEQ;
+   FIT_DESC_ARRAY(FIT_LINE) = HOTEL_NAME;
+   FIT_EXT2_ARRAY(FIT_LINE) = HDET_NIGHTS;
+   FIT_LINE = FIT_LINE + 1;
+   if FIT_DESC_ARRAY(FIT_LINE) = "" then
+      do;
+      FIT_DESC_ARRAY(FIT_LINE) = HOTEL_NAME_2;
+      if HOTEL_NAME_2 ^= "" then
+         FIT_LINE = FIT_LINE + 1;
+      end;
+
+return;
+end;	/* FIT_HOTEL_MATCH      */
+
+/****************************************************************
+	BK_COST_HOTEL
+	Do a hotel costing
+****************************************************************/
+
+BK_COST_HOTEL:
+	procedure;
+
+%include "BK_COST_HOTEL.DCL";
+call BK_COST_HOTEL(
+   BK_BOOKING_RECORD,
+   BK_TOUR_RECORD,
+   BK_TOUR_HDR_RECORD,
+   BK_DET_HOTEL_RECORD,
+   BK_HOTEL_RECORD,
+   BK_HOTEL_DET_RECORD,
+   AD_CURR_RECORD);
+return;
+end;	/* BK_COST_HOTEL        */
+
+/****************************************************************
+	ENTER_HOTEL
+	Enter the hotel info in the hotel prog.
+****************************************************************/
+
+ENTER_HOTEL:
+	procedure;
+
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* RESET_RATE_TYPE - Tell BK_FIT_HOTEL to look up rate */
+
+   HDET_RATE_TYPE = " ";
+   HDET_CLASS = "";
+
+
+   /* BK_FIT_HOTEL - Call the hotel pricing program */
+
+   %include "BK_FIT_HOTEL.DCL";
+   call BK_FIT_HOTEL(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_HOTEL_RECORD,
+      BK_HOTEL_DET_RECORD,
+      AD_CURR_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_LAND_RECORD);
+   call REDIS_FIT_SCREEN;
+
+   /* RETURN_IF_NO_HOTEL - Return if the hotel wasn't entered */
+
+   if HDET_NIGHTS = 0 then
+      return;
+
+
+   /* SET_HOTEL_INFO - Set the FIT info up */
+
+   FIT_DATE = HDET_DATE;
+   FIT_DAY = FIT_DATE - BK_DEPARTURE + 1;
+   FIT_CODE = HDET_HOTEL;
+
+   call DIS_FIT_LINE;
+
+   /* SET_HOTEL_OFFSET - Set the offset to the hotel fields */
+
+   call SET_ROW_OFFSET (FIT_LINE - 2);
+
+   call DISPLAY_DATA_F;
+   call DISPLAY_DATA_J;
+return;
+end;	/* ENTER_HOTEL          */
+
+/****************************************************************
+	REDIS_FIT_SCREEN
+	Redisplay the fit detail screen
+****************************************************************/
+
+REDIS_FIT_SCREEN:
+	procedure;
+
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_FIT_DETAIL_1);
+
+   /* SET_FIT_VARS - Set the screen vars back */
+
+   call SET_SCREEN_VARS (byteaddr(BK_FIT_DETAIL_RECORD));
+
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+   call DISPLAY_DATA_A;
+
+   /* SAVE_LINE - Save the current date, etc... */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = FIT_TYPE;
+   FIT_DATE_ARRAY(FIT_LINE) = FIT_DATE;
+   FIT_CODE_ARRAY(FIT_LINE) = FIT_CODE;
+
+
+   /* REDIS_OLD_DATA - Redisplay the screen using the arraydata */
+
+   FIT_TEMP = FIT_LINE;
+
+   do FIT_LINE = 1 to 15;
+      FIT_TYPE = FIT_TYPE_ARRAY(FIT_LINE);
+      FIT_DATE = FIT_DATE_ARRAY(FIT_LINE);
+      FIT_CODE = FIT_CODE_ARRAY(FIT_LINE);
+      FIT_EXT = FIT_EXT1_ARRAY(FIT_LINE);
+      if FIT_EXT2_ARRAY(FIT_LINE) ^= 0 then
+         do;
+         FIT_DESC = FIT_EXT2_ARRAY(FIT_LINE);
+         FIT_EXT = substr(FIT_DESC,8,2);
+         end;
+      FIT_DESC = FIT_DESC_ARRAY(FIT_LINE);
+
+      call SET_ROW_OFFSET(FIT_LINE - 1);
+      if FIT_DATE ^= 0 then
+         do;
+         FIT_DAY = FIT_DATE - BK_DEPARTURE + 1;
+         call DIS_FIT_LINE;
+         end;
+
+
+      /* DISPLAY_DATA_Z - Display data */
+
+      do LOOP_INDEX =  52 to  53;
+         call OUTPUT_FIELD (LOOP_INDEX);
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+
+   end;
+
+   FIT_LINE = FIT_TEMP;
+
+
+   /* RESTORE_LINE - Get the line info back */
+
+   FIT_TYPE = FIT_TYPE_ARRAY(FIT_LINE);
+   FIT_DATE = FIT_DATE_ARRAY(FIT_LINE);
+   FIT_CODE = FIT_CODE_ARRAY(FIT_LINE);
+
+   FIT_TYPE_ARRAY(FIT_LINE) = "";
+   FIT_DATE_ARRAY(FIT_LINE) = 0;
+   FIT_CODE_ARRAY(FIT_LINE) = "";
+
+return;
+end;	/* REDIS_FIT_SCREEN     */
+
+/****************************************************************
+	ENTER_DATA_J
+	Enter screen group J
+****************************************************************/
+
+ENTER_DATA_J:
+	procedure;
+
+do LOOP_INDEX =  21 to  21;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_J         */
+
+/****************************************************************
+	CLEAR_DATA_N
+	Clear
+****************************************************************/
+
+CLEAR_DATA_N:
+	procedure;
+
+do LOOP_INDEX =  25 to  27;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+return;
+end;	/* CLEAR_DATA_N         */
+
+/****************************************************************
+	FIT_LAND_MATCH
+	Read in land info
+****************************************************************/
+
+FIT_LAND_MATCH:
+	procedure;
+
+
+   /* COPY_TOUR_DETL - Copy land detail if any changes */
+
+   if BK_NEXT_MOD ^= BK_TOUR_MOD then
+      do;
+
+      /* SET_FIRST_LANDD - Set to the first land detail record */
+
+      LDET_MOD = BK_MODIFICATION;
+      LDET_BK_TK_NO = BOOKING_NO;
+      LDET_ALT_SEQ = 0;
+      LDET_ANSW_SEQ = 0;
+      LDET_DAY = 0;
+      LDET_SEQ = 0;
+      call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_TOUR = NO;
+      do while (END_COPY_TOUR ^= YES);
+         call COPY_TOUR;
+      end;
+      BK_TOUR_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* SET_L_DETAIL - Seup up the land detail record */
+
+   if (FIT_TYPE ^= "L") !
+      (FIT_DATE ^= LDET_DATE) !
+      (FIT_CODE ^= LDET_TOUR_NO) then
+         do;
+
+         /* INIT_LANDD - Initialize the Land detail record */
+
+         LDET_MOD = 0;
+         LDET_BK_TK_NO = 0;
+         LDET_DAY = 0;
+         LDET_SEQ = 0;
+         LDET_ALT_SEQ = 0;
+         LDET_ANSW_SEQ = 0;
+         LDET_MOD_CODE = "A";
+         LDET_INV = "N";
+         BK_INV_MOD = -1;
+         LDET_EXCHANGE = 0;
+         LDET_TOUR_PP_COST = 0;
+         LDET_VARIES_CODE = "";
+         LDET_VARIES_QTY = 0;
+         LDET_VARIES_COST = 0;
+         LDET_MANUAL = "";
+         LDET_TOUR_COST = 0;
+         LDET_MODULE = "";
+         LDET_LINKED_TO = 0;
+         LDET_ACK_DAYS = 0;
+         LDET_SEND_TO = "Y";
+         LDET_STATUS = "OK";
+         LDET_VENDOR = "";
+         LDET_TORT = "";
+         LDET_VOUCHER = 0;
+         LDET_TOUR_NO = "";
+         LDET_SIC_PMC = "";
+         LDET_CUTOFF = 0;
+         LDET_PMC = 0;
+         LDET_SIC = 0;
+         if HDR_WAIT = "Y" then
+            LDET_ACK_DAYS = 10;
+         end;
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_DAY = FIT_DATE;
+   LDET_TOUR_NO = FIT_CODE;
+   LDET_TORT = "L";
+   call BK_COST_LAND;
+   FIT_TYPE = "L";
+
+
+   /* SET_Q_NOT_FOUND - Initialize flag */
+
+   QUES_FOUND = "N";
+
+   call CHECK_QUES_ITIN;
+
+   /* CHECK_L_FOUND - Was the land price found? */
+
+   if ((LDET_SIC ^= 0) ! (LDET_PMC ^= 0)) &
+      (QUES_FOUND = "N") & (LDET_SIC_PMC ^= "") then
+         do;
+
+         /* ENTER_LAND_HERE - Enter land in this screen */
+
+            call DISPLAY_DATA_C;
+
+            /* SET_LAND_OFFSET - Set the row offset */
+
+            call SET_ROW_OFFSET (FIT_LINE - 4);
+
+            call DISPLAY_DATA_G;
+
+            /* RESET_OFFSET - Set row offset to 0 */
+
+            call SET_ROW_OFFSET(0);
+
+
+            /* DISPLAY_DATA_M - Display group M */
+
+            do LOOP_INDEX =  28 to  31;
+               call OUTPUT_FIELD (LOOP_INDEX);
+            end;
+            LOOP_INDEX = LOOP_INDEX - 1;
+
+            /* SET_LAND_OFFSET - Set the row offset */
+
+            call SET_ROW_OFFSET (FIT_LINE - 4);
+
+
+            /* ENTER_DATA_K - Enter data K */
+
+            do LOOP_INDEX =  24 to  24;
+               if LOOP_INDEX =  24 then
+                  call DISPLAY_MSG_NO ( 47);
+               call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+               if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+                  do;
+                  ERROR_INPUT_SCREEN = YES;
+                  return;
+                  end;
+            end;
+            LOOP_INDEX = LOOP_INDEX - 1;
+
+            /* RESET_OFFSET - Set row offset to 0 */
+
+            call SET_ROW_OFFSET(0);
+
+
+            /* CLEAR_DATA_M - Clear fields */
+
+            do LOOP_INDEX =  28 to  31;
+               call CLEAR_FIELD(LOOP_INDEX);
+            end;
+
+            /* CHECK_DETAIL_L - Detail land entry? */
+
+            if (LDET_SIC_PMC ^= "P") & (LDET_SIC_PMC ^= "S") then
+               do;
+               call ENTER_LAND;
+               end;
+            else
+               do;
+               if LDET_CUTOFF = 0 then
+                  do;
+                  if LDET_SIC_PMC = "P" then
+                     LDET_CUTOFF = 1;
+                  if LDET_SIC_PMC = "S" then
+                     LDET_CUTOFF = 999;
+                  end;
+               else
+                  do;
+                  if LDET_SIC_PMC = "S" then if TOUR_PAX >= LDET_CUTOFF then
+                     LDET_CUTOFF = 999;
+                  if LDET_SIC_PMC = "P" then if TOUR_PAX < LDET_CUTOFF then
+                     LDET_CUTOFF = 1;
+                     end;
+               call BK_COST_LAND;
+               if LDET_TOUR_COST = 0 then
+                  return;
+               end;
+
+         end;
+      else
+         do;
+         call ENTER_LAND;
+         end;
+
+
+   /* RETURN_IF_NO_LAND - Return if end of use */
+
+   if LDET_SIC_PMC = " " then
+      return;
+
+
+   /* SET_L_TYPE - Set the land record type before write */
+
+   LDET_TORT = FIT_TYPE;
+
+
+   /* SET_L_VENDOR - Set the land vendor code */
+
+   if LDET_MANUAL = "" then
+      LDET_VENDOR = LAND_VENDOR_NO;
+
+
+   /* WRITE_L_DET - Write the land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DATE = FIT_DATE;
+   LDET_SEQ = 1;
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         LDET_SEQ = LDET_SEQ + 1;
+   end;
+
+
+   /* BUMP_LAND_LINE - Bump the line counter */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = FIT_TYPE;
+   FIT_DATE_ARRAY(FIT_LINE) = LDET_DATE;
+   FIT_CODE_ARRAY(FIT_LINE) = LDET_TOUR_NO;
+   FIT_SEQ_ARRAY(FIT_LINE) = LDET_SEQ;
+   FIT_DESC_ARRAY(FIT_LINE) = LAND_DESC_1;
+   FIT_EXT1_ARRAY(FIT_LINE) = LDET_SIC_PMC;
+   FIT_LINE = FIT_LINE + 1;
+   if FIT_DESC_ARRAY(FIT_LINE) = "" then
+      do;
+      FIT_DESC_ARRAY(FIT_LINE) = LAND_DESC_2;
+      if LAND_DESC_2 ^= "" then
+         FIT_LINE = FIT_LINE + 1;
+      end;
+
+return;
+end;	/* FIT_LAND_MATCH       */
+
+/****************************************************************
+	BK_COST_LAND
+	Call the module to cost this land mod
+****************************************************************/
+
+BK_COST_LAND:
+	procedure;
+
+%include "BK_COST_LAND.DCL";
+call BK_COST_LAND(
+   BK_BOOKING_RECORD,
+   BK_TOUR_RECORD,
+   BK_TOUR_HDR_RECORD,
+   BK_DET_LAND_RECORD,
+   BK_LAND_RECORD,
+   AD_CURR_RECORD,
+   BK_LAND_DET_RECORD,
+   BK_TRANS_RECORD,
+   BK_TRANS_PRICE_RECORD);
+return;
+end;	/* BK_COST_LAND         */
+
+/****************************************************************
+	CHECK_QUES_ITIN
+	Check to see if any itin questions exist
+****************************************************************/
+
+CHECK_QUES_ITIN:
+	procedure;
+
+
+   /* SET_FIRST_ITIN - Set first */
+
+   QA_LAND_NO = LAND_CODE;
+   QA_QUES_CODE = "";
+   QA_ANSWER_SEQ = 0;
+   call SET_POSITION (BK_LAND_ITIN_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_ITIN - Read next record */
+
+   call READ_NEXT (BK_LAND_ITIN_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LAND_ITIN_NO,ERROR_CODE);
+
+   /* CHECK_END_ITIN - Check past */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (QA_LAND_NO > LAND_CODE) then
+      return;
+
+   /* SET_Q_FOUND - Question found */
+
+   QUES_FOUND = "Y";
+
+return;
+end;	/* CHECK_QUES_ITIN      */
+
+/****************************************************************
+	ENTER_LAND
+	Enter land using the land entry screen
+****************************************************************/
+
+ENTER_LAND:
+	procedure;
+
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* RESET_LAND_RATE - Reset the land rate */
+
+   LDET_SIC_PMC = " ";
+
+
+   /* BK_FIT_TOUR - Call the Tour program */
+
+   %include "BK_FIT_TOUR.DCL";
+   call BK_FIT_TOUR(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_DET_LAND_RECORD,
+      BK_LAND_RECORD,
+      BK_LAND_DET_RECORD,
+      BK_LAND_ITIN_RECORD,
+      AD_CURR_RECORD,
+      BK_ITIN_DET_RECORD,
+      BK_TRANS_RECORD,
+      BK_TRANS_PRICE_RECORD);
+   call REDIS_FIT_SCREEN;
+
+   /* RETURN_IF_NO_LAND - Return if end of use */
+
+   if LDET_SIC_PMC = " " then
+      return;
+
+
+   /* SET_LAND_INFO - Set FIT codes up */
+
+   FIT_DATE = LDET_DATE;
+   FIT_DAY = FIT_DATE - BK_DEPARTURE + 1;
+   FIT_CODE = LDET_TOUR_NO;
+
+   call DIS_FIT_LINE;
+
+   /* SET_LAND_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET (FIT_LINE - 4);
+
+   call DISPLAY_DATA_G;
+   call DISPLAY_DATA_K;
+return;
+end;	/* ENTER_LAND           */
+
+/****************************************************************
+	FIT_TRANS_MATCH
+	Read in transportation info
+****************************************************************/
+
+FIT_TRANS_MATCH:
+	procedure;
+
+
+   /* COPY_TOUR_DETL - Copy land detail if any changes */
+
+   if BK_NEXT_MOD ^= BK_TOUR_MOD then
+      do;
+
+      /* SET_FIRST_LANDD - Set to the first land detail record */
+
+      LDET_MOD = BK_MODIFICATION;
+      LDET_BK_TK_NO = BOOKING_NO;
+      LDET_ALT_SEQ = 0;
+      LDET_ANSW_SEQ = 0;
+      LDET_DAY = 0;
+      LDET_SEQ = 0;
+      call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_TOUR = NO;
+      do while (END_COPY_TOUR ^= YES);
+         call COPY_TOUR;
+      end;
+      BK_TOUR_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* SET_T_DETAIL - Set up transportation record */
+
+   if (FIT_TYPE ^= "T") !
+      (FIT_DATE ^= LDET_DATE) !
+      (FIT_CODE ^= LDET_TOUR_NO) then
+         do;
+
+         /* INIT_LANDD - Initialize the Land detail record */
+
+         LDET_MOD = 0;
+         LDET_BK_TK_NO = 0;
+         LDET_DAY = 0;
+         LDET_SEQ = 0;
+         LDET_ALT_SEQ = 0;
+         LDET_ANSW_SEQ = 0;
+         LDET_MOD_CODE = "A";
+         LDET_INV = "N";
+         BK_INV_MOD = -1;
+         LDET_EXCHANGE = 0;
+         LDET_TOUR_PP_COST = 0;
+         LDET_VARIES_CODE = "";
+         LDET_VARIES_QTY = 0;
+         LDET_VARIES_COST = 0;
+         LDET_MANUAL = "";
+         LDET_TOUR_COST = 0;
+         LDET_MODULE = "";
+         LDET_LINKED_TO = 0;
+         LDET_ACK_DAYS = 0;
+         LDET_SEND_TO = "Y";
+         LDET_STATUS = "OK";
+         LDET_VENDOR = "";
+         LDET_TORT = "";
+         LDET_VOUCHER = 0;
+         LDET_TOUR_NO = "";
+         LDET_SIC_PMC = "";
+         LDET_CUTOFF = 0;
+         LDET_PMC = 0;
+         LDET_SIC = 0;
+         if HDR_WAIT = "Y" then
+            LDET_ACK_DAYS = 10;
+
+         LDET_MOD = BK_MODIFICATION;
+         LDET_BK_TK_NO = BOOKING_NO;
+         LDET_DAY = FIT_DATE;
+         LDET_TORT = "T";
+         TDTT_TRANS_NO = FIT_CODE;
+         call BK_COST_LAND;
+         end;
+
+   FIT_TYPE = "T";
+
+
+   /* CHECK_T_FOUND - Was the transportation found? */
+
+   if LDET_TOUR_COST ^= 0 then
+      do;
+
+      /* ENTER_TRANS_HERE - Enter the rest of the trans. */
+
+         call DISPLAY_DATA_C;
+
+         /* SET_TRANS_OFFSET - Set offset */
+
+         call SET_ROW_OFFSET (FIT_LINE - 7);
+
+         call DISPLAY_DATA_I;
+         call ENTER_DATA_L;
+
+         /* CHECK_DETAIL_T - Detail transportation entry */
+
+         do LOOP_INDEX = 1 to 4;
+            if LOOP_INDEX ^= LDTT_CLASS then if LDET_VARIES_COST(LOOP_INDEX)^=0 then
+               LDTT_CLASS = 0;
+            end;
+
+         if LDTT_CLASS = 0 then
+            do;
+            call ENTER_TRANS;
+            end;
+         else
+            do;
+            call BK_COST_LAND;
+            end;
+
+
+         /* RETURN_IF_NO_TRANS - Return if end */
+
+         if TRANS_NO = "" then
+            return;
+
+      end;
+   else
+      do;
+      call ENTER_TRANS;
+      end;
+
+
+   /* RETURN_IF_NO_TRAN - Return if no transportation */
+
+   if LDET_TOUR_COST = 0 then
+      return;
+
+
+   /* SET_L_TYPE - Set the land record type before write */
+
+   LDET_TORT = FIT_TYPE;
+
+
+   /* SET_T_VENDOR - Set the transportation vendor cod3e */
+
+   if LDET_MANUAL = "" then
+      LDET_VENDOR = TRANS_VEN_NO;
+
+
+   /* WRITE_L_DET - Write the land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DATE = FIT_DATE;
+   LDET_SEQ = 1;
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         LDET_SEQ = LDET_SEQ + 1;
+   end;
+
+
+   /* BUMP_TRANS_LINE - Bump the pointer */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = FIT_TYPE;
+   FIT_DATE_ARRAY(FIT_LINE) = LDET_DATE;
+   FIT_CODE_ARRAY(FIT_LINE) = TDTT_TRANS_NO;
+   FIT_SEQ_ARRAY(FIT_LINE) = LDET_SEQ;
+   FIT_DESC_ARRAY(FIT_LINE) = TRANS_FROM !! " " !! TRANS_TO !! " " !! LDTT_CLASS;
+   FIT_LINE = FIT_LINE + 1;
+
+return;
+end;	/* FIT_TRANS_MATCH      */
+
+/****************************************************************
+	ENTER_DATA_L
+	Enter screen group L
+****************************************************************/
+
+ENTER_DATA_L:
+	procedure;
+
+do LOOP_INDEX =  34 to  34;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_L         */
+
+/****************************************************************
+	ENTER_TRANS
+	Enter transportation
+****************************************************************/
+
+ENTER_TRANS:
+	procedure;
+
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* RESET_CLASS - Reset the transportation class */
+
+   LDTT_CLASS = 0;
+
+
+   /* BK_FIT_TRANS - Call the transportation info screen */
+
+   %include "BK_FIT_TRANS.DCL";
+   call BK_FIT_TRANS(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      AD_CURR_RECORD,
+      BK_TRANS_RECORD,
+      BK_TRANS_PRICE_RECORD,
+      BK_DET_LAND_RECORD,
+      BK_LAND_RECORD,
+      BK_LAND_DET_RECORD);
+   call REDIS_FIT_SCREEN;
+
+   /* RETURN_IF_NO_TRANS - Return if end */
+
+   if TRANS_NO = "" then
+      return;
+
+
+   /* SET_LAND_INFO - Set FIT codes up */
+
+   FIT_DATE = LDET_DATE;
+   FIT_DAY = FIT_DATE - BK_DEPARTURE + 1;
+   FIT_CODE = LDET_TOUR_NO;
+
+   call DIS_FIT_LINE;
+
+   /* SET_TRANS_OFFSET - Set offset */
+
+   call SET_ROW_OFFSET (FIT_LINE - 7);
+
+   call DISPLAY_DATA_I;
+   call DISPLAY_DATA_L;
+return;
+end;	/* ENTER_TRANS          */
+
+/****************************************************************
+	DISPLAY_DATA_L
+	Display the data in group L
+****************************************************************/
+
+DISPLAY_DATA_L:
+	procedure;
+
+do LOOP_INDEX =  34 to  34;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_L       */
+
+/****************************************************************
+	FIT_ITIN_MATCH
+	Read in the itin information
+****************************************************************/
+
+FIT_ITIN_MATCH:
+	procedure;
+
+
+   /* COPY_TOUR_DETL - Copy land detail if any changes */
+
+   if BK_NEXT_MOD ^= BK_TOUR_MOD then
+      do;
+
+      /* SET_FIRST_LANDD - Set to the first land detail record */
+
+      LDET_MOD = BK_MODIFICATION;
+      LDET_BK_TK_NO = BOOKING_NO;
+      LDET_ALT_SEQ = 0;
+      LDET_ANSW_SEQ = 0;
+      LDET_DAY = 0;
+      LDET_SEQ = 0;
+      call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_TOUR = NO;
+      do while (END_COPY_TOUR ^= YES);
+         call COPY_TOUR;
+      end;
+      BK_TOUR_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* SET_L_DETAIL - Seup up the land detail record */
+
+   if (FIT_TYPE ^= "L") !
+      (FIT_DATE ^= LDET_DATE) !
+      (FIT_CODE ^= LDET_TOUR_NO) then
+         do;
+
+         /* INIT_LANDD - Initialize the Land detail record */
+
+         LDET_MOD = 0;
+         LDET_BK_TK_NO = 0;
+         LDET_DAY = 0;
+         LDET_SEQ = 0;
+         LDET_ALT_SEQ = 0;
+         LDET_ANSW_SEQ = 0;
+         LDET_MOD_CODE = "A";
+         LDET_INV = "N";
+         BK_INV_MOD = -1;
+         LDET_EXCHANGE = 0;
+         LDET_TOUR_PP_COST = 0;
+         LDET_VARIES_CODE = "";
+         LDET_VARIES_QTY = 0;
+         LDET_VARIES_COST = 0;
+         LDET_MANUAL = "";
+         LDET_TOUR_COST = 0;
+         LDET_MODULE = "";
+         LDET_LINKED_TO = 0;
+         LDET_ACK_DAYS = 0;
+         LDET_SEND_TO = "Y";
+         LDET_STATUS = "OK";
+         LDET_VENDOR = "";
+         LDET_TORT = "";
+         LDET_VOUCHER = 0;
+         LDET_TOUR_NO = "";
+         LDET_SIC_PMC = "";
+         LDET_CUTOFF = 0;
+         LDET_PMC = 0;
+         LDET_SIC = 0;
+         if HDR_WAIT = "Y" then
+            LDET_ACK_DAYS = 10;
+         end;
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_DAY = FIT_DATE;
+   LDET_TOUR_NO = FIT_CODE;
+   LDET_TORT = "L";
+   call BK_COST_LAND;
+   FIT_TYPE = "L";
+
+
+   /* SET_I_DETAIL - Set up the itin record for an itinerary */
+
+   LDET_SIC_PMC = "I";
+   FIT_TYPE = "I";
+
+   call DISPLAY_DATA_C;
+
+   /* SET_Q_NOT_FOUND - Initialize flag */
+
+   QUES_FOUND = "N";
+
+   call CHECK_QUES_ITIN;
+
+   /* CHECK_I_FOUND - Any questions with this itin detail? */
+
+   if (LDET_TOUR_NO ^= "") & (QUES_FOUND = "N") then
+      do;
+
+      /* ENTER_ITIN_HERE - Enter itin here (no action required) */
+
+         call DISPLAY_DATA_C;
+
+         /* SET_LAND_OFFSET - Set the row offset */
+
+         call SET_ROW_OFFSET (FIT_LINE - 4);
+
+         call DISPLAY_DATA_G;
+      end;
+   else
+      do;
+      call ENTER_ITIN;
+      end;
+
+
+   /* RETURN_IF_NO_LAND - Return if end of use */
+
+   if LDET_SIC_PMC = " " then
+      return;
+
+
+   /* SET_L_TYPE - Set the land record type before write */
+
+   LDET_TORT = FIT_TYPE;
+
+
+   /* WRITE_L_DET - Write the land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DATE = FIT_DATE;
+   LDET_SEQ = 1;
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         LDET_SEQ = LDET_SEQ + 1;
+   end;
+
+
+   /* BUMP_LAND_LINE - Bump the line counter */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = FIT_TYPE;
+   FIT_DATE_ARRAY(FIT_LINE) = LDET_DATE;
+   FIT_CODE_ARRAY(FIT_LINE) = LDET_TOUR_NO;
+   FIT_SEQ_ARRAY(FIT_LINE) = LDET_SEQ;
+   FIT_DESC_ARRAY(FIT_LINE) = LAND_DESC_1;
+   FIT_EXT1_ARRAY(FIT_LINE) = LDET_SIC_PMC;
+   FIT_LINE = FIT_LINE + 1;
+   if FIT_DESC_ARRAY(FIT_LINE) = "" then
+      do;
+      FIT_DESC_ARRAY(FIT_LINE) = LAND_DESC_2;
+      if LAND_DESC_2 ^= "" then
+         FIT_LINE = FIT_LINE + 1;
+      end;
+
+return;
+end;	/* FIT_ITIN_MATCH       */
+
+/****************************************************************
+	ENTER_ITIN
+	Enter the itinerary from the itin screen
+****************************************************************/
+
+ENTER_ITIN:
+	procedure;
+
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* RESET_LAND_RATE - Reset the land rate */
+
+   LDET_SIC_PMC = " ";
+
+
+   /* BK_FIT_IT - Call the itinerary program */
+
+   %include "BK_FIT_IT.DCL";
+   call BK_FIT_IT(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_DET_LAND_RECORD,
+      BK_LAND_RECORD,
+      BK_LAND_ITIN_RECORD,
+      BK_ITIN_DET_RECORD);
+   call REDIS_FIT_SCREEN;
+
+   /* RETURN_IF_NO_LAND - Return if end of use */
+
+   if LDET_SIC_PMC = " " then
+      return;
+
+
+   /* SET_LAND_INFO - Set FIT codes up */
+
+   FIT_DATE = LDET_DATE;
+   FIT_DAY = FIT_DATE - BK_DEPARTURE + 1;
+   FIT_CODE = LDET_TOUR_NO;
+
+   call DIS_FIT_LINE;
+
+   /* SET_LAND_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET (FIT_LINE - 4);
+
+   call DISPLAY_DATA_G;
+   call DISPLAY_DATA_K;
+return;
+end;	/* ENTER_ITIN           */
+
+/****************************************************************
+	FIT_AIR_MATCH
+	Get air info
+****************************************************************/
+
+FIT_AIR_MATCH:
+	procedure;
+
+
+   /* COPY_AIR_DETL - Copy the air detail if changed */
+
+   if BK_NEXT_MOD ^= BK_AIR_MOD then
+      do;
+
+      /* SET_FIRST_AIRH - Set to read the first Air header */
+
+      TK_MODIFICATION = 0;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = BK_PAX_SEQ;
+      TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIRH = NO;
+      do while (END_COPY_AIRH ^= YES);
+         call COPY_AIRH;
+      end;
+
+      /* SET_FIRST_AIRD - Set first air */
+
+      TK_DET_MOD = BK_MODIFICATION;
+      TK_DET_BK_TK = BOOKING_NO;
+      TK_DET_ALT_SEQ = 0;
+      TK_DET_ANSW_SEQ = 0;
+      TK_DATE = 0;
+      TK_SEQ = 0;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIR = NO;
+      do while (END_COPY_AIR ^= YES);
+         call COPY_AIR;
+      end;
+      BK_AIR_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* SET_A_DETAIL - Set up air detail for input */
+
+   if (FIT_TYPE ^= "A") !
+      (FIT_DATE ^= TK_DATE) !
+      (FIT_CODE ^= TK_CARRIER !! TK_FLIGHT) then
+         do;
+
+         /* SET_A_INIT - Set the initial air detail record */
+
+         TK_DET_MOD = 0;
+         TK_DET_BK_TK = 0;
+         TK_DATE = 0;
+         TK_SEQ = 1;
+         TK_DET_ALT_SEQ = 0;
+         TK_DET_ANSW_SEQ = 0;
+         TK_TIME = 0;
+         TK_DET_MOD_CODE = "A";
+         TK_INV = "N";
+         TK_INV_MOD = -1;
+         TK_XO = "";
+         TK_CITY = "";
+         TK_CITY_DESC = "";
+         TK_CARRIER = "";
+         TK_FLIGHT = "";
+         TK_CLASS = "";
+         TK_ARR_CITY = "";
+         TK_ARR_DESC = "";
+         TK_ARR_TIME = 0;
+         TK_ARR_DAY = 0;
+         TK_STATUS = "OK";
+         TK_FARE_BASIS = "";
+         TK_START = "";
+         TK_END = "";
+         TK_ALLOW = "";
+         TK_DET_FARE = 0;
+         TK_DETAIL_MODULE = "";
+
+         if HDET_HOTEL ^= "" then
+            TK_CITY = HDET_HOTEL;
+         if LDET_TOUR_NO ^= "" then
+            do;
+            if LDET_DATE > HDET_DATE then
+               TK_CITY = LDET_TOUR_NO;
+            end;
+         TK_CITY_DESC = "";
+         TK_CARRIER = substr(FIT_CODE,1,2);
+         TK_FLIGHT = substr(FIT_CODE,3,4);
+         TK_CLASS = "Y";
+         end;
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DATE = FIT_DATE;
+   FIT_TYPE = "A";
+
+   call DISPLAY_DATA_C;
+
+   /* SET_AIR_OFFSET - Set the display offset */
+
+   call SET_ROW_OFFSET (FIT_LINE - 6);
+
+
+   /* CHECK_A_FOUND - Is this air detail in air file? */
+
+
+   /* GET_FLIGHT - Read the flight info */
+
+
+   /* FIX_FLIGHT - Standardize th airline flight no */
+
+   declare LOOP fixed binary;
+   do LOOP = 1 to length(TK_FLIGHT);
+      if substr(TK_FLIGHT,LOOP,1) = "0" then
+         substr(TK_FLIGHT,LOOP,1) = " ";
+      if substr(TK_FLIGHT,LOOP,1) ^= " " then
+         goto LOOP_DONE;
+   end;
+   LOOP = 4;
+   LOOP_DONE:
+   TK_FLIGHT = substr(TK_FLIGHT,LOOP,5-LOOP);
+
+
+   declare FLIGHT_FOUND bit(1);
+   declare TEMP fixed binary;
+
+   FLIGHT_AIRLINE = TK_CARRIER;
+   FLIGHT_NO = TK_FLIGHT;
+   FLIGHT_START = 0;
+   FLIGHT_END = TK_DATE;
+   FLIGHT_DAYS = "";
+   FLIGHT_FOUND = NO;
+   call SET_POSITION(TK_FLIGHTS_NO,KEY_AREA_1,ERROR_CODE);
+   do while ((FLIGHT_AIRLINE = TK_CARRIER) &
+      (FLIGHT_NO = TK_FLIGHT) &
+      (FLIGHT_START <= TK_DATE) &
+      (FLIGHT_FOUND = NO) );
+         call READ_NEXT(TK_FLIGHTS_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE ^= NORMAL_RETURN then
+            FLIGHT_AIRLINE = "~~";
+         if ((FLIGHT_AIRLINE = TK_CARRIER) &
+         (FLIGHT_NO = TK_FLIGHT) &
+         (FLIGHT_START <= TK_DATE) ) then
+            do;
+            if FLIGHT_DAYS ^= "" then
+               do;
+               declare DAY character(21);
+               DAY ="7123456";
+               DAY = substr(DAY,
+                  fixed((float(TK_DATE,21)/7-trunc(float(TK_DATE,21)/7))*7+0.5,15)+1,1);
+               TEMP = index(FLIGHT_DAYS,substr(DAY,1,1));
+               if ((TEMP ^= 0) & (substr(FLIGHT_DAYS,1,1) ^= "X")) !
+                  ((TEMP = 0) & (substr(FLIGHT_DAYS,1,1) = "X")) then
+                     FLIGHT_FOUND = YES;
+               end;
+            else
+               FLIGHT_FOUND = YES;
+            end;
+   end;
+
+   if FLIGHT_FOUND = YES then
+      do;
+      TK_TIME = FLIGHT_DEPART;
+      TK_CITY = FLIGHT_FROM;
+      TK_CLASS = FLIGHT_CLASSES;
+      TK_ARR_CITY = FLIGHT_TO;
+      TK_ARR_TIME = FLIGHT_ARRIVE;
+      TK_ARR_DAY = FLIGHT_ADD;
+      end;
+
+   if FLIGHT_FOUND then
+      do;
+      call DISPLAY_AIR_INFO;
+      end;
+   else
+      do;
+      call ENTER_DATA_H;
+      end;
+
+
+   /* WRITE_A_DET - Write the Air detail record */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = FIT_DATE;
+   TK_SEQ = 1;
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         TK_SEQ = TK_SEQ + 1;
+   end;
+
+
+   /* BUMP_AIR_LINE - Bump the pointer */
+
+   FIT_TYPE_ARRAY(FIT_LINE) = FIT_TYPE;
+   FIT_DATE_ARRAY(FIT_LINE) = TK_DATE;
+   FIT_SEQ_ARRAY(FIT_LINE) = TK_SEQ;
+   FIT_CODE_ARRAY(FIT_LINE) = TK_ARR_DAY;
+   FIT_DESC_ARRAY(FIT_LINE)=TK_CLASS !! " " !! TK_XO !! " " !! TK_CITY !!
+      " " !! TK_ARR_CITY !! " " !!
+      substr(SET_TIME(TK_TIME),1,6) !!
+      substr(SET_TIME(TK_ARR_TIME),1,6) !! " " !!
+      substr(FIT_CODE_ARRAY(FIT_LINE),8,2) !! " " !! TK_STATUS;
+      FIT_CODE_ARRAY(FIT_LINE) = TK_CARRIER !! TK_FLIGHT;
+   FIT_LINE = FIT_LINE + 1;
+
+return;
+end;	/* FIT_AIR_MATCH        */
+
+/****************************************************************
+	DISPLAY_AIR_INFO
+	Set up and display the air info
+****************************************************************/
+
+DISPLAY_AIR_INFO:
+	procedure;
+
+   call DISPLAY_DATA_H;
+
+   /* ENTER_DATA_HA - enter */
+
+   do LOOP_INDEX =  40 to  40;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* ENTER_DATA_HC - Enter */
+
+   do LOOP_INDEX =  47 to  47;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_AIR_INFO     */
+
+/****************************************************************
+	ENTER_DATA_H
+	Enter group H
+****************************************************************/
+
+ENTER_DATA_H:
+	procedure;
+
+do LOOP_INDEX =  40 to  47;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  42 then
+      do;
+
+      /* GET_CITY_DESC - Read the City file */
+
+      if RETURN_CODE = DELETE_TYPED then
+         TK_CITY = "DEL";
+      AIRPORT_CODE = TK_CITY;
+      call READ_KEYED(TK_AIRPORT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = NORMAL_RETURN then
+         TK_CITY_DESC = AIRPORT_DESC;
+
+      end;
+   if LOOP_INDEX =  43 then
+      do;
+
+      /* GET_CITY2_DESC - Get the City Description */
+
+      if RETURN_CODE = DELETE_TYPED then
+         TK_ARR_CITY = "DEL";
+      AIRPORT_CODE = TK_ARR_CITY;
+      call READ_KEYED(TK_AIRPORT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = NORMAL_RETURN then
+         TK_ARR_DESC = AIRPORT_DESC;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_H         */
+
+/****************************************************************
+	FIT_BACK_MENU
+	Logic for the FIT Back-menu
+****************************************************************/
+
+FIT_BACK_MENU:
+	procedure;
+
+
+   /* DISPLAY_SCREEN_3 - Display Screen 3 */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_FIT_DETAIL_3);
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* ENTER_DATA_Y - Enter data */
+
+   do LOOP_INDEX =  11 to  11;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  11 then
+         do;
+
+         /* ADJUST_FIT_SELECT - Fix the selection on the back menu */
+
+         FIT_SELECT = FIT_SELECT - 62;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   %include "BK_DIS_CURR.DCL";
+   %include "BK_DIS_AIRC.DCL";
+   %include "BK_DIS_AIRN.DCL";
+   %include "BK_DIS_CITYC.DCL";
+   %include "BK_DIS_CITYD.DCL";
+   %include "BK_DIS_COUNTRY.DCL";
+   %include "BK_DIS_COUNTRYN.DCL";
+   %include "BK_DIS_TOUR.DCL";
+   %include "BK_DIS_TOURB.DCL";
+   %include "BK_DIS_TOURC.DCL";
+   %include "BK_AO_DISPLAY.DCL";
+   %include "BK_DIS_MENU.DCL";
+   declare BK_INFO_AGENCY entry;
+   declare BK_BACK_MENU entry;
+   %include "BK_DIS_VENDOR.DCL";
+   %include "BK_DIS_VENDORN.DCL";
+   %include "BK_DIS_VENDORC.DCL";
+   %include "BK_DIS_HOTELD.DCL";
+   %include "BK_DIS_HOTELN.DCL";
+   %include "BK_DIS_HOTELU.DCL";
+   %include "BK_DIS_HOTELT.DCL";
+   %include "BK_DIS_HOTELS.DCL";
+   %include "BK_DIS_LANDD.DCL";
+   %include "BK_DIS_LANDT.DCL";
+   %include "BK_DIS_LANDV.DCL";
+   %include "BK_DIS_TRAND.DCL";
+   %include "BK_DIS_TRANT.DCL";
+   %include "BK_DIS_TRANV.DCL";
+   %include "BK_DIS_FLIGHT.DCL";
+   %include "BK_DIS_FLIGHTC.DCL";
+   %include "BK_FIT_ITIN.DCL";
+   %include "BK_FIT_IT.DCL";
+   do case (FIT_SELECT);
+         /* Option   1 */
+      call BK_DIS_CURR(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         AD_CURR_RECORD);
+         /* Option   2 */
+      call BK_DIS_AIRC(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option   3 */
+      call BK_DIS_AIRN(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option   4 */
+      call BK_DIS_CITYC(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         TK_AIRPORT_RECORD);
+         /* Option   5 */
+      call BK_DIS_CITYD(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         TK_AIRPORT_RECORD);
+         /* Option   6 */
+      call BK_DIS_COUNTRY(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option   7 */
+      call BK_DIS_COUNTRYN(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option   8 */
+      call BK_DIS_TOUR(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option   9 */
+      call BK_DIS_TOURB(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  10 */
+      call BK_DIS_TOURC(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  11 */
+      call BK_AO_DISPLAY(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  12 */
+      call BK_DIS_MENU(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  13 */
+      call BK_INFO_AGENCY(
+);
+         /* Option  14 */
+      call BK_BACK_MENU(
+);
+         /* Option  15 */
+      call BK_DIS_VENDOR(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  16 */
+      call BK_DIS_VENDORN(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  17 */
+      call BK_DIS_VENDORC(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  18 */
+      call BK_BACK_MENU(
+);
+         /* Option  19 */
+      call BK_DIS_HOTELD(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_HOTEL_RECORD,
+         BK_HOTEL_DET_RECORD);
+         /* Option  20 */
+      call BK_DIS_HOTELN(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_HOTEL_RECORD,
+         BK_HOTEL_DET_RECORD);
+         /* Option  21 */
+      call BK_DIS_HOTELU(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_HOTEL_RECORD,
+         BK_HOTEL_DET_RECORD);
+         /* Option  22 */
+      call BK_DIS_HOTELT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_HOTEL_RECORD,
+         BK_HOTEL_DET_RECORD);
+         /* Option  23 */
+      call BK_BACK_MENU(
+);
+         /* Option  24 */
+      call BK_DIS_HOTELS(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_HOTEL_RECORD,
+         BK_HOTEL_DET_RECORD);
+         /* Option  25 */
+      call BK_DIS_LANDD(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_LAND_RECORD,
+         BK_LAND_DET_RECORD);
+         /* Option  26 */
+      call BK_DIS_LANDT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_LAND_RECORD,
+         BK_LAND_DET_RECORD);
+         /* Option  27 */
+      call BK_DIS_LANDV(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_LAND_RECORD,
+         BK_LAND_DET_RECORD);
+         /* Option  28 */
+      call BK_BACK_MENU(
+);
+         /* Option  29 */
+      call BK_DIS_TRAND(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_TRANS_RECORD,
+         BK_TRANS_PRICE_RECORD);
+         /* Option  30 */
+      call BK_DIS_TRANT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_TRANS_RECORD,
+         BK_TRANS_PRICE_RECORD);
+         /* Option  31 */
+      call BK_DIS_TRANV(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_TRANS_RECORD,
+         BK_TRANS_PRICE_RECORD);
+         /* Option  32 */
+      call BK_BACK_MENU(
+);
+         /* Option  33 */
+      call BK_DIS_FLIGHT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         TK_FLIGHTS_RECORD);
+         /* Option  34 */
+      call BK_DIS_FLIGHTC(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         TK_FLIGHTS_RECORD);
+         /* Option  35 */
+      call BK_FIT_ITIN(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  36 */
+      call BK_FIT_IT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_LAND_RECORD,
+         BK_LAND_RECORD,
+         BK_LAND_ITIN_RECORD,
+         BK_ITIN_DET_RECORD);
+   end;
+   otherwise
+      do;
+      end;
+
+   /* HIT_RETURN - Tell the user to Hit Return */
+
+   call PRESS_RETURN;
+
+   call REDIS_FIT_SCREEN;
+return;
+end;	/* FIT_BACK_MENU        */
+
+/****************************************************************
+	FIT_PACK_MATCH
+	FIT Package match
+****************************************************************/
+
+FIT_PACK_MATCH:
+	procedure;
+
+
+   /* COPY_HOTEL_DETL - Copy the hotel detail if change */
+
+   if BK_NEXT_MOD ^= BK_HOTEL_MOD then
+      do;
+
+      /* SET_FIRST_HOTELD - Set first hotel detail */
+
+      HDET_MOD = 0;
+      HDET_BK_TR_NO = BOOKING_NO;
+      HDET_ALT_SEQ = 0;
+      HDET_ANSW_SEQ = 0;
+      HDET_DAY = 0;
+      HDET_SEQ = 0;
+      call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_HOTEL = NO;
+      do while (END_COPY_HOTEL ^= YES);
+         call COPY_HOTEL;
+      end;
+      BK_HOTEL_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* COPY_TOUR_DETL - Copy land detail if any changes */
+
+   if BK_NEXT_MOD ^= BK_TOUR_MOD then
+      do;
+
+      /* SET_FIRST_LANDD - Set to the first land detail record */
+
+      LDET_MOD = BK_MODIFICATION;
+      LDET_BK_TK_NO = BOOKING_NO;
+      LDET_ALT_SEQ = 0;
+      LDET_ANSW_SEQ = 0;
+      LDET_DAY = 0;
+      LDET_SEQ = 0;
+      call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_TOUR = NO;
+      do while (END_COPY_TOUR ^= YES);
+         call COPY_TOUR;
+      end;
+      BK_TOUR_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* COPY_AIR_DETL - Copy the air detail if changed */
+
+   if BK_NEXT_MOD ^= BK_AIR_MOD then
+      do;
+
+      /* SET_FIRST_AIRH - Set to read the first Air header */
+
+      TK_MODIFICATION = 0;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = BK_PAX_SEQ;
+      TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIRH = NO;
+      do while (END_COPY_AIRH ^= YES);
+         call COPY_AIRH;
+      end;
+
+      /* SET_FIRST_AIRD - Set first air */
+
+      TK_DET_MOD = BK_MODIFICATION;
+      TK_DET_BK_TK = BOOKING_NO;
+      TK_DET_ALT_SEQ = 0;
+      TK_DET_ANSW_SEQ = 0;
+      TK_DATE = 0;
+      TK_SEQ = 0;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIR = NO;
+      do while (END_COPY_AIR ^= YES);
+         call COPY_AIR;
+      end;
+      BK_AIR_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* INIT_PACK - Initialize before reading detail */
+
+   PACK_ALT_SEQ = 0;
+   PACK_ANSW_SEQ = 0;
+   PACK_DAY = 0;
+   PACK_SEQ = 0;
+
+
+   /* SET_FIRST_PHOTEL - Set first */
+
+   HDET_MOD = -1;
+   HDET_TOUR_HDR = HDR_TOUR_CODE;
+   HDET_ALT_SEQ = PACK_ALT_SEQ;
+   HDET_ANSW_SEQ = PACK_ANSW_SEQ;
+   HDET_DAY = PACK_DAY;
+   HDET_SEQ = PACK_SEQ;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* SET_FIRST_PLAND - Set first */
+
+   LDET_MOD = -1;
+   LDET_TOUR_CODE = HDR_TOUR_CODE;
+   LDET_ALT_SEQ = PACK_ALT_SEQ;
+   LDET_ANSW_SEQ = PACK_ANSW_SEQ;
+   LDET_DAY = PACK_DAY;
+   LDET_SEQ = PACK_SEQ;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* SET_FIRST_PAIR - Set first */
+
+   TK_DET_MOD = -1;
+   TK_DET_TR_CODE = HDR_TOUR_CODE;
+   TK_DET_ALT_SEQ = PACK_ALT_SEQ;
+   TK_DET_ANSW_SEQ = PACK_ANSW_SEQ;
+   TK_DATE = PACK_DAY;
+   TK_SEQ = PACK_SEQ;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_PHOTEL_END;
+
+   /* SET_END_HOTEL - If eof, set end hotel flag */
+
+   if DISPLAY_FIT ^= "E" then
+      HDET_DATE = 32767;
+
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_PLAND_END;
+
+   /* SET_END_LAND - Check for end of land */
+
+   if DISPLAY_FIT ^= "E" then
+      LDET_DATE = 32767;
+
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_PAIR_END;
+
+   /* SET_END_AIR - Check for end of air detail */
+
+   if DISPLAY_FIT ^= "E" then
+      TK_DATE = 32767;
+
+
+   /* PROCESS_PACK - Process the next component in the pkg. */
+
+   do while ((HDET_DATE ^= 32767) ! (LDET_DATE ^= 32767) ! (TK_DATE ^= 32767));
+      if (HDET_DATE ^= 32767) & (HDET_DATE <= LDET_DATE) & (HDET_DATE <= TK_DATE) then
+         do;
+         call PACK_HOTEL;
+         end;
+      if (LDET_DATE ^= 32767) & (LDET_DATE <= HDET_DATE) & (LDET_DATE <= TK_DATE) then
+         do;
+         call PACK_LAND;
+         end;
+      if (TK_DATE ^= 32767) & (TK_DATE <= LDET_DATE) & (TK_DATE <= HDET_DATE) then
+         do;
+         call PACK_AIR;
+         end;
+   end;
+
+return;
+end;	/* FIT_PACK_MATCH       */
+
+/****************************************************************
+	CHECK_PHOTEL_END
+	End of hotels in package?
+****************************************************************/
+
+CHECK_PHOTEL_END:
+	procedure;
+
+
+   /* READ_NEXT_PHOTEL - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_PHOTEL - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > -1) !
+   (HDET_TOUR_HDR > HDR_TOUR_CODE) then
+      return;
+
+   /* SET_FLAG - Set the flag */
+
+   DISPLAY_FIT = "E";
+
+return;
+end;	/* CHECK_PHOTEL_END     */
+
+/****************************************************************
+	CHECK_PLAND_END
+	End of land?
+****************************************************************/
+
+CHECK_PLAND_END:
+	procedure;
+
+
+   /* READ_NEXT_PLAND - Read next */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_PLAND - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > -1) !
+   (LDET_TOUR_CODE > HDR_TOUR_CODE) then
+      return;
+
+   /* SET_FLAG - Set the flag */
+
+   DISPLAY_FIT = "E";
+
+return;
+end;	/* CHECK_PLAND_END      */
+
+/****************************************************************
+	CHECK_PAIR_END
+	End of air in package?
+****************************************************************/
+
+CHECK_PAIR_END:
+	procedure;
+
+
+   /* READ_NEXT_PAIR - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_PAIR - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > -1) !
+   (TK_DET_TR_CODE > HDR_TOUR_CODE) then
+      return;
+
+   /* SET_FLAG - Set the flag */
+
+   DISPLAY_FIT = "E";
+
+return;
+end;	/* CHECK_PAIR_END       */
+
+/****************************************************************
+	PACK_HOTEL
+	Add all the hotels for this package
+****************************************************************/
+
+PACK_HOTEL:
+	procedure;
+
+
+   /* CHECK_PHOTEL - Read in the hotel info and process */
+
+   PACK_ALT_SEQ = HDET_ALT_SEQ;
+   PACK_ANSW_SEQ = HDET_ANSW_SEQ;
+   PACK_DAY = HDET_DAY;
+   PACK_SEQ = HDET_SEQ;
+
+   FIT_DAY = SAVE_DAY + HDET_DAY - 1;
+   FIT_DATE = BK_DEPARTURE + FIT_DAY - 1;
+   FIT_CODE = HDET_HOTEL;
+
+   /* DIS_PACK_DAY - Display this day */
+
+
+   /* SET_FIT_OFFSET - Set the offset for display */
+
+   call SET_ROW_OFFSET (FIT_LINE - 1);
+
+   call DISPLAY_DATA_D;
+   call DISPLAY_DATA_E;
+
+   HOTEL_CODE = FIT_CODE;
+   call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      FIT_TYPE = "H";
+      HDET_DATE = FIT_DATE;
+      call DISPLAY_DATA_C;
+      call FIT_HOTEL_MATCH;
+      end;
+
+   PACK_SEQ = PACK_SEQ + 1;
+
+
+   /* CHECK_LAST_LINE - Last line of fit display? */
+
+   if FIT_LINE >= 14 then
+      do;
+      do RECORD_NUMBER = 1 to 15;
+         FIT_TYPE_ARRAY(RECORD_NUMBER) = "";
+         FIT_DATE_ARRAY(RECORD_NUMBER) = 0;
+         FIT_SEQ_ARRAY(RECORD_NUMBER) = 0;
+         FIT_CODE_ARRAY(RECORD_NUMBER) = "";
+         FIT_DESC_ARRAY(RECORD_NUMBER) = "";
+         FIT_EXT1_ARRAY(RECORD_NUMBER) = "";
+         FIT_EXT2_ARRAY(RECORD_NUMBER) = 0;
+      end;
+
+      call DISPLAY_SCREEN(BK_FIT_DETAIL_1);
+
+      call SET_ROW_OFFSET(0);
+      FIT_LINE = 1;
+      end;
+
+
+   /* SET_FIRST_PHOTEL - Set first */
+
+   HDET_MOD = -1;
+   HDET_TOUR_HDR = HDR_TOUR_CODE;
+   HDET_ALT_SEQ = PACK_ALT_SEQ;
+   HDET_ANSW_SEQ = PACK_ANSW_SEQ;
+   HDET_DAY = PACK_DAY;
+   HDET_SEQ = PACK_SEQ;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_PHOTEL_END;
+
+   /* SET_END_HOTEL - If eof, set end hotel flag */
+
+   if DISPLAY_FIT ^= "E" then
+      HDET_DATE = 32767;
+
+return;
+end;	/* PACK_HOTEL           */
+
+/****************************************************************
+	PACK_LAND
+	Process the packaged land components
+****************************************************************/
+
+PACK_LAND:
+	procedure;
+
+
+   /* CHECK_PLAND - Check to see if this is land */
+
+   PACK_ALT_SEQ = LDET_ALT_SEQ;
+   PACK_ANSW_SEQ = LDET_ANSW_SEQ;
+   PACK_DAY = LDET_DAY;
+   PACK_SEQ = LDET_SEQ;
+
+   FIT_DAY = SAVE_DAY + LDET_DAY - 1;
+   FIT_DATE = BK_DEPARTURE + FIT_DAY - 1;
+   FIT_CODE = LDET_TOUR_NO;
+
+   /* DIS_PACK_DAY - Display this day */
+
+
+   /* SET_FIT_OFFSET - Set the offset for display */
+
+   call SET_ROW_OFFSET (FIT_LINE - 1);
+
+   call DISPLAY_DATA_D;
+   call DISPLAY_DATA_E;
+
+   LAND_CODE = FIT_CODE;
+   LDET_VARIES_CODE = "";
+   LDET_SIC_PMC = "";
+   LDET_MANUAL = "";
+   call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      if LAND_TYPE ^= "I" then
+         do;
+         FIT_TYPE = "L";
+         LDET_DATE = FIT_DATE;
+         call DISPLAY_DATA_C;
+         call FIT_LAND_MATCH;
+         end;
+      else
+         do;
+         FIT_TYPE = "I";
+         LDET_DATE = FIT_DATE;
+         call DISPLAY_DATA_C;
+         call FIT_ITIN_MATCH;
+         end;
+      end;
+
+   PACK_SEQ = PACK_SEQ + 1;
+
+
+   /* CHECK_LAST_LINE - Last line of fit display? */
+
+   if FIT_LINE >= 14 then
+      do;
+      do RECORD_NUMBER = 1 to 15;
+         FIT_TYPE_ARRAY(RECORD_NUMBER) = "";
+         FIT_DATE_ARRAY(RECORD_NUMBER) = 0;
+         FIT_SEQ_ARRAY(RECORD_NUMBER) = 0;
+         FIT_CODE_ARRAY(RECORD_NUMBER) = "";
+         FIT_DESC_ARRAY(RECORD_NUMBER) = "";
+         FIT_EXT1_ARRAY(RECORD_NUMBER) = "";
+         FIT_EXT2_ARRAY(RECORD_NUMBER) = 0;
+      end;
+
+      call DISPLAY_SCREEN(BK_FIT_DETAIL_1);
+
+      call SET_ROW_OFFSET(0);
+      FIT_LINE = 1;
+      end;
+
+
+   /* SET_FIRST_PLAND - Set first */
+
+   LDET_MOD = -1;
+   LDET_TOUR_CODE = HDR_TOUR_CODE;
+   LDET_ALT_SEQ = PACK_ALT_SEQ;
+   LDET_ANSW_SEQ = PACK_ANSW_SEQ;
+   LDET_DAY = PACK_DAY;
+   LDET_SEQ = PACK_SEQ;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_PLAND_END;
+
+   /* SET_END_LAND - Check for end of land */
+
+   if DISPLAY_FIT ^= "E" then
+      LDET_DATE = 32767;
+
+return;
+end;	/* PACK_LAND            */
+
+/****************************************************************
+	PACK_AIR
+	Process the packaged air components
+****************************************************************/
+
+PACK_AIR:
+	procedure;
+
+
+   /* CHECK_PAIR - Set up air detail */
+
+   PACK_ALT_SEQ = TK_DET_ALT_SEQ;
+   PACK_ANSW_SEQ = TK_DET_ANSW_SEQ;
+   PACK_DAY = TK_DAY;
+   PACK_SEQ = TK_SEQ;
+
+   FIT_DAY = SAVE_DAY + TK_DAY - 1;
+   FIT_DATE = BK_DEPARTURE + FIT_DAY - 1;
+   FIT_CODE = TK_CARRIER !! TK_FLIGHT;
+
+   /* DIS_PACK_DAY - Display this day */
+
+
+   /* SET_FIT_OFFSET - Set the offset for display */
+
+   call SET_ROW_OFFSET (FIT_LINE - 1);
+
+   call DISPLAY_DATA_D;
+   call DISPLAY_DATA_E;
+
+   FIT_TYPE = "A";
+   TK_DATE = FIT_DATE;
+   call DISPLAY_DATA_C;
+   call FIT_AIR_MATCH;
+
+   PACK_SEQ = PACK_SEQ + 1;
+
+
+   /* CHECK_LAST_LINE - Last line of fit display? */
+
+   if FIT_LINE >= 14 then
+      do;
+      do RECORD_NUMBER = 1 to 15;
+         FIT_TYPE_ARRAY(RECORD_NUMBER) = "";
+         FIT_DATE_ARRAY(RECORD_NUMBER) = 0;
+         FIT_SEQ_ARRAY(RECORD_NUMBER) = 0;
+         FIT_CODE_ARRAY(RECORD_NUMBER) = "";
+         FIT_DESC_ARRAY(RECORD_NUMBER) = "";
+         FIT_EXT1_ARRAY(RECORD_NUMBER) = "";
+         FIT_EXT2_ARRAY(RECORD_NUMBER) = 0;
+      end;
+
+      call DISPLAY_SCREEN(BK_FIT_DETAIL_1);
+
+      call SET_ROW_OFFSET(0);
+      FIT_LINE = 1;
+      end;
+
+
+   /* SET_FIRST_PAIR - Set first */
+
+   TK_DET_MOD = -1;
+   TK_DET_TR_CODE = HDR_TOUR_CODE;
+   TK_DET_ALT_SEQ = PACK_ALT_SEQ;
+   TK_DET_ANSW_SEQ = PACK_ANSW_SEQ;
+   TK_DATE = PACK_DAY;
+   TK_SEQ = PACK_SEQ;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_PAIR_END;
+
+   /* SET_END_AIR - Check for end of air detail */
+
+   if DISPLAY_FIT ^= "E" then
+      TK_DATE = 32767;
+
+return;
+end;	/* PACK_AIR             */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_LAND_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (BK_TRANS_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (BK_LAND_ITIN_NO);
+   call CLOSE_FILE (BK_LAND_DET_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (BK_TRANS_PRICE_NO);
+   call CLOSE_FILE (TK_FLIGHTS_NO);
+   call CLOSE_FILE (BK_ITIN_DET_NO);
+   call CLOSE_FILE (TK_AIRPORT_NO);
+   call CLOSE_FILE (BK_HOTEL_DET_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

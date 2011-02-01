@@ -1,0 +1,11 @@
+/*********************************************************************
+	BK_HISTORY File
+********************************************************************/
+
+declare	1 BK_HISTORY_RECORD,
+		3 HIST_BK_NO           fixed binary (31),
+		3 HIST_TYPE            character (        1),
+		3 HIST_DATE            fixed binary (15),
+		3 HIST_SEQ             fixed binary (15),
+		3 HIST_DESC            character (       30);
+

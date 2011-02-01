@@ -1,0 +1,37 @@
+/*********************************************************************
+	BK_FINALIZE File
+********************************************************************/
+
+declare	1 BK_FINALIZE_RECORD,
+		3 DATE_CUT_OFF         fixed binary (15),
+		3 PRT_TOUR_TYPE        character (        1),
+		3 PRT_TOUR_CODE        character (        4),
+		3 PRT_DOC_TYPE         fixed binary (15),
+		3 ARRIVE_CARRIER       character (        2),
+		3 ARRIVE_FLT_NO        character (        4),
+		3 ARRIVE_DATE          fixed binary (15),
+		3 ARRIVE_TIME          fixed binary (15),
+		3 DEPART_CARRIER       character (        2),
+		3 DEPART_FLT_NO        character (        4),
+		3 DEPART_DATE          fixed binary (15),
+		3 DEPART_TIME          fixed binary (15),
+		3 START_DATE           fixed binary (15),
+		3 LAST_DATE            fixed binary (15),
+		3 ARRIVAL_CITY         character (        3),
+		3 DEPART_CITY          character (        3),
+		3 FIN_ROOM_DESC        character (        6),
+		3 FIN_PRINT_FORMATS(15) character (1),
+		3 MCO_CHG_AMT          float binary (21),
+		3 PAX_SEQ              fixed binary (15),
+		3 FIN_PYMT_REC         float binary (53),
+		3 FIN_ACTION_DATE      fixed binary (15),
+		3 FIN_ACTION_TYPE      fixed binary (15),
+		3 FIN_TOUR_NO          fixed binary (31),
+		3 FINL_PYMT_REC        character (1),
+		3 FIN_DATE             fixed binary (15),
+		3 FIN_TIME             fixed binary (15),
+		3 FIN_USER             character (       16),
+		3 FIN_PAGE             fixed binary (15),
+		3 ALL_FULLY_PAID       character (1),
+		3 TOUR_BK_COUNT        fixed binary (15);
+

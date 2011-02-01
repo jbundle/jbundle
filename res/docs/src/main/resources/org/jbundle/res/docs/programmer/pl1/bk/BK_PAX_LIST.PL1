@@ -1,0 +1,241 @@
+/****************************************************************
+	Module: BK_PAX_LIST
+	Top Level Logic: PAX_LIST_LOGIC
+	Date: 22-Feb-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_PAX_LIST
+	Mainline logic to print pax list
+****************************************************************/
+
+%replace BK_PAX_LIST_1 by 843;
+BK_PAX_LIST:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD);
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_TOUR_DOC_NO by  76;
+%replace BK_CONTROL_NO by  47;
+%include "BK_PAX_LIST.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_TOUR_DOC.DD";
+%include "BK_CONTROL.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_SET_PAX_LIST     bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_ADD_PAX_LIST     bit (1);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   PAX_NUMBER = 0;
+   PAX_COUNTL = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (BK_PAX_LIST_RECORD) );
+   call PAX_LIST_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	PAX_LIST_MAIN
+	Mainline logic to print pax list
+****************************************************************/
+
+PAX_LIST_MAIN:
+	procedure;
+
+
+   /* SET_THIS_FMT - Set up the document's format */
+
+   if BK_H_FORM ^= "" then
+      call PRINT_LINE ("[FORM: " !! CUT_SPACES(BK_H_FORM) !! "]");
+
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_SET_PAX_LIST = NO;
+   do while (END_SET_PAX_LIST ^= YES);
+      call SET_PAX_LIST;
+   end;
+
+   /* SORT_PAX_LIST - Bubble sort the pax list by last name */
+
+   do PAX_LOOP_1 = 1 to PAX_COUNTL;
+      do PAX_LOOP_2 = PAX_LOOP_1 + 1 to PAX_COUNTL;
+         if SORT_PAX_LAST_NAME(PAX_LOOP_2) < SORT_PAX_LAST_NAME(PAX_LOOP_1) then
+            do;
+            BK_PAX_LAST_NAME = SORT_PAX_LAST_NAME(PAX_LOOP_2);
+            SORT_PAX_LAST_NAME(PAX_LOOP_2) = SORT_PAX_LAST_NAME(PAX_LOOP_1);
+            SORT_PAX_LAST_NAME(PAX_LOOP_1) = BK_PAX_LAST_NAME;
+            BK_PAX_NAME = SORT_PAX_NAME(PAX_LOOP_2);
+            SORT_PAX_NAME(PAX_LOOP_2) = SORT_PAX_NAME(PAX_LOOP_1);
+            SORT_PAX_NAME(PAX_LOOP_1) = BK_PAX_NAME;
+            end;
+      end;
+   end;
+
+
+   /* PRINT_LINE_A -  */
+
+   call SETUP_PRINT_FORMAT (BK_PAX_LIST_1);
+   do LOOP_INDEX =   1 to   7;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* PRINT_PAX_LIST - Print out the pax list */
+
+   do PAX_NUMBER = 1 to PAX_COUNTL;
+      BK_PAX_NAME = SORT_PAX_NAME(PAX_NUMBER);
+
+      /* PRINT_LINE_B - PRINT */
+
+      call SETUP_PRINT_FORMAT (BK_PAX_LIST_1);
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+   end;
+
+return;
+end;	/* PAX_LIST_MAIN        */
+
+/****************************************************************
+	SET_PAX_LIST
+	Set up the pax for each booking
+****************************************************************/
+
+SET_PAX_LIST:
+	procedure;
+
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_SET_PAX_LIST = YES;
+      return;
+      end;
+
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+
+   /* SET_FIRST_PAX - Set up for seq read */
+
+   BK_PAX_MOD = BK_MODIFICATION;
+   BK_PAX_BK_NO = BOOKING_NO;
+   BK_PAX_SEQ = 0;
+   call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   END_ADD_PAX_LIST = NO;
+   do while (END_ADD_PAX_LIST ^= YES);
+      call ADD_PAX_LIST;
+   end;
+return;
+end;	/* SET_PAX_LIST         */
+
+/****************************************************************
+	ADD_PAX_LIST
+	Add pax to the pax list
+****************************************************************/
+
+ADD_PAX_LIST:
+	procedure;
+
+
+   /* READ_NEXT_PAX - Read the next passenger */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_END_PAX - Check for the end of the passengers */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_ADD_PAX_LIST = YES;
+      return;
+      end;
+
+   /* ADD_THIS_PAX - Add this pax to the list */
+
+   PAX_COUNTL = PAX_COUNTL + 1;
+
+   if PAX_COUNTL > 99 then
+      do;
+
+      /* PRINT_LINE_B - PRINT */
+
+      call SETUP_PRINT_FORMAT (BK_PAX_LIST_1);
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+      return;
+      end;
+
+   SORT_PAX_NAME(PAX_COUNTL) = BK_PAX_NAME;
+   SORT_PAX_LAST_NAME(PAX_COUNTL) = BK_PAX_LAST_NAME;
+
+return;
+end;	/* ADD_PAX_LIST         */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

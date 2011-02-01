@@ -1,0 +1,30 @@
+/*********************************************************************
+	PR_YEAR_RPT File
+********************************************************************/
+
+declare	1 PR_YEAR_RPT_RECORD,
+		3 PR_YEAR_DATE         fixed binary (15),
+		3 PR_YEAR_TIME         fixed binary (15),
+		3 PR_YEAR_USER         character (       16),
+		3 PR_YEAR_END          fixed binary (15),
+		3 PR_YEAR_PAGE         fixed binary (31),
+		3 YTD_COUNT            fixed binary (31),
+		3 YTD_TXBL_GROSS_TOTAL float binary (53),
+		3 YTD_NON_TAX_TOTAL    float binary (53),
+		3 YTD_FED_WH_TOTAL     float binary (53),
+		3 YTD_STATE_WH_TOTAL   float binary (53),
+		3 YTD_LOCAL_WH_TOTAL   float binary (53),
+		3 YTD_EMP_FICA_TOTAL   float binary (53),
+		3 YTD_SDI_WH_TOTAL     float binary (53),
+		3 YTD_DEDUCT_TOTAL     float binary (53),
+		3 YTD_NET_TOTAL        float binary (53),
+		3 YTD_FICA_WAGES       float binary (53),
+		3 YTD_FICA_TAXES       float binary (53),
+		3 YTD_SUI_WAGES        float binary (53),
+		3 YTD_SUI_TAXES        float binary (53),
+		3 YTD_FUTA_WAGES       float binary (53),
+		3 YTD_FUTA_TAXES       float binary (53),
+		3 YTD_SDI_WAGES        float binary (53),
+		3 YTD_SDI_TAXES        float binary (53),
+		3 YTD_TEMP_TAX         float binary (53);
+

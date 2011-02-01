@@ -1,0 +1,23 @@
+/****************************************************************
+	Module: TOUR_SYS
+	Top Level Logic: T_SYS_CODE
+	Date: 21-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/* T_SYS_CODE - Main code for the tour system */
+
+TOUR_SYS:
+	procedure;
+
+declare BK_MAIN_MENU entry;
+
+call BK_MAIN_MENU;
+
+stop;
+
+end;	/* T_SYS_CODE           */
+/*********************************End of Program*********************/

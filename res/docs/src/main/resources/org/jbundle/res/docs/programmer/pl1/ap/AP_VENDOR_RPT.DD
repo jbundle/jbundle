@@ -1,0 +1,14 @@
+/*********************************************************************
+	AP_VENDOR_RPT File
+********************************************************************/
+
+declare	1 AP_VENDOR_RPT_RECORD,
+		3 START_VENDOR         character (        6),
+		3 END_VENDOR           character (        6),
+		3 VENDOR_DETAIL        character (1),
+		3 VENDOR_DATE          fixed binary (15),
+		3 VEN_TIME             fixed binary (15),
+		3 VEN_USER             character (       16),
+		3 VEN_PAGE             fixed binary (31),
+		3 VEN_COUNT            fixed binary (31);
+

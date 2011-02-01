@@ -1,0 +1,14 @@
+/*********************************************************************
+	AP_VENDOR_ANL File
+********************************************************************/
+
+declare	1 AP_VENDOR_ANL_RECORD,
+		3 AP_VENDOR_START      character (        6),
+		3 AP_VENDOR_END        character (        6),
+		3 VANL_DATE            fixed binary (15),
+		3 VANL_TIME            fixed binary (15),
+		3 VANL_USER            character (       16),
+		3 VANL_PAGE            fixed binary (31),
+		3 AP_START_DEPART      fixed binary (15),
+		3 AP_END_DEPART        fixed binary (15);
+

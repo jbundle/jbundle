@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<?cocoon-process type="xslt"?>
+<?xml-stylesheet href="junktest.xsl" type="text/xsl"?>
+
+<html>
+	<head>
+	<title>Title</title>
+	</head>
+	<body>
+	This is the <b>test</b>.
+	<a href="abc">This is a link</a>
+	</body>
+</html>

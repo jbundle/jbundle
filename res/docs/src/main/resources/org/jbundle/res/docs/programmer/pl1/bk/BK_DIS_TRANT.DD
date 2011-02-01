@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_DIS_TRANT File
+********************************************************************/
+
+declare	1 BK_DIS_TRANT_RECORD,
+		3 DIS_FROM_CITY        character (        3),
+		3 DIS_TO_CITY          character (        3),
+		3 START_TRAN           character (        3),
+		3 END_TRAN             character (        3);
+

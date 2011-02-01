@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jbundle-thin-reactor</artifactId>
+    <groupId>org.jbundle.thin</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>org.jbundle.config.dep</groupId>
+  <artifactId>jbundle-thin-config-reactor</artifactId>
+  <packaging>pom</packaging>
+  <name>jbundle-thin-config-reactor - Thin config parent</name>
+
+  <modules>
+    <module>thin</module>
+    <module>thin-base</module>
+  </modules>
+  
+</project>

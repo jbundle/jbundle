@@ -1,0 +1,13 @@
+/*********************************************************************
+	BK_ENT_AIR_HDR File
+********************************************************************/
+
+declare	1 BK_ENT_AIR_HDR_RECORD,
+		3 TEMP_FARE_1          character (       60),
+		3 TEMP_FARE_2          character (       60),
+		3 TEMP_FARE_3          character (       60),
+		3 TK_PRINT_TK          character (1),
+		3 TK_STATUS_TK         character (       10),
+		3 AIR_TOTAL_FARE       character (1),
+		3 TK_OLD_STATUS        fixed binary (15);
+

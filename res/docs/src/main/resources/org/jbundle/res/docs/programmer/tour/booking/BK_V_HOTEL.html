@@ -1,0 +1,44 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program sets up the A/P departure or finalization estimates for a tour.
+
+<br wp="br1"><br wp="br2">
+<p>Basically, this program scans the current hotel detail and creates a voucher for each hotel. If vouchers
+have already been sent, this program scans the current detail, compares it to the old detail and adjusts
+vouchers to be re-sent or cancelled.
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>This program is run when the A/P detail has to be set up. Either automatically in finalization
+processing, or manually in voucher set-up.
+
+<br wp="br1"><br wp="br2">
+<p>First, this program reads through the current hotel detail for ALL the bookings for this tour. Passenger
+hotel modifications are also scanned.
+
+<br wp="br1"><br wp="br2">
+<p>For each hotel voucher, a finalization or departure estimate is set up. The USD equivalent amount for
+departure estimates is calculated using the last exchange rate, rather then the costing exchange rate,
+sometimes creating a difference between the costing and the voucher totals.
+
+<br wp="br1"><br wp="br2">
+<p>Note:	Remember, vouchers are NOT built for maual hotels, or hotels which already have manual
+estimates entered for them.
+
+<br wp="br1"><br wp="br2">
+<p>NOTE:	Currently, passenger modifications are not processed because the costing program will
+not process them.
+</body>
+</html>

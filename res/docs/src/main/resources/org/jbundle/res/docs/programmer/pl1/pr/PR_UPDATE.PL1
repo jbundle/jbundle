@@ -1,0 +1,547 @@
+/****************************************************************
+	Module: PR_UPDATE
+	Top Level Logic: PR_UPDATE_LOGIC
+	Date: 14-Nov-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	PR_UPDATE
+	Top Level logic - Update P/R files
+****************************************************************/
+
+%replace PR_UPDATE_1 by  82;
+%replace PR_UPDATE_2 by 904;
+PR_UPDATE:
+   procedure(
+      PR_PAYROLL_RECORD,
+      PR_TIME_TRX_RECORD,
+      DED_EARN_RECORD,
+      EMP_CONTROL_RECORD,
+      TAX_RATES_RECORD,
+      EMPLOYEE_RECORD);
+%replace PR_HIST_NO by  27;
+%replace AD_ACCT_NO by  24;
+%replace AD_CHECKING_NO by  26;
+%replace PR_GL_DIST_NO by  28;
+%replace PR_TIME_TRX_NO by   7;
+%replace DED_EARN_NO by   5;
+%replace EMP_CONTROL_NO by   1;
+%replace TAX_RATES_NO by   2;
+%replace EMPLOYEE_NO by   6;
+%include "PR_HIST.DD";
+%include "AD_ACCT.DD";
+%include "AD_CHECKING.DD";
+%include "PR_GL_DIST.DD";
+%include "PR_UPDATE.DD";
+%include "PR_PAYROLL.DD";
+%include "PR_TIME_TRX.DD";
+%include "DED_EARN.DD";
+%include "EMP_CONTROL.DD";
+%include "TAX_RATES.DD";
+%include "EMPLOYEE.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_PR_READ_ALL      bit (1);
+declare		DED_EARN_AMT         float binary (53);
+declare		DED_NO               fixed binary (15);
+declare		DE_FREQ_CODES        character (        7);
+declare		END_SETUP_DE         bit (1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (PR_HIST_NO,"PR_HIST",byteaddr(PR_HIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (PR_HIST_NO,ERROR_CODE);
+   call OPEN_FILE (AD_ACCT_NO,"AD_ACCT",byteaddr(AD_ACCT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_ACCT_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CHECKING_NO,"AD_CHECKING",byteaddr(AD_CHECKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CHECKING_NO,ERROR_CODE);
+   call OPEN_FILE (PR_GL_DIST_NO,"PR_GL_DIST",byteaddr(PR_GL_DIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (PR_GL_DIST_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (PR_UPDATE_RECORD) );
+
+   /* GET_CTL_INFO - Get the info (tax info) from the ct file */
+
+   CTRL_REC_NO = 2;
+   call READ_KEYED (EMP_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      stop;
+
+
+   /* CLEAR_SCRN_FLDS - Zero out the screen fields */
+
+   UP_CASH = 0;
+   UP_FED = 0;
+   UP_STATE = 0;
+   UP_LOCAL = 0;
+   UP_FICA = 0;
+   UP_FUI = 0;
+   UP_SDI = 0;
+   GL_SAVE = 0;
+   GL_AMT_SAVE = 0;
+
+   /* PR_GET_ACCT - Get the Bank account for the Payroll a/c */
+
+   GL_SAVE = -1;
+   GL_AMT_SAVE = 0;
+
+   AD_ACCOUNT_NO = CASH_AP_AC_NO;
+
+   ERROR_CODE = RECORD_LOCKED;
+   do while (ERROR_CODE = RECORD_LOCKED);
+      call READ_KEYED(AD_ACCT_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_LOCKED then
+         call PLEASE_WAIT ("Checking account is being used!!");
+         /* Also pause for a few secs */
+   end;
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      call END_PROGRAM;
+      return;
+      end;
+
+   END_PR_READ_ALL = NO;
+   do while (END_PR_READ_ALL ^= YES);
+      call PR_READ_ALL;
+   end;
+
+   /* PR_FINISH_GL - Finish Updating the G/L data */
+
+   PR_GL_NUMBER = AD_GL_ACCT_NO;
+   PR_GL_AMOUNT = -UP_CASH;
+   call WRITE_GL;
+
+   PR_GL_NUMBER = FED_TAX_GL;
+   PR_GL_AMOUNT = -UP_FED;
+   call WRITE_GL;
+
+   PR_GL_NUMBER = STATE_TAX_GL;
+   PR_GL_AMOUNT = -UP_STATE;
+   call WRITE_GL;
+
+   PR_GL_NUMBER = LOCAL_TAX_GL;
+   PR_GL_AMOUNT = -UP_LOCAL;
+   call WRITE_GL;
+
+   PR_GL_NUMBER = FICA_TAX_GL;
+   PR_GL_AMOUNT = -UP_FICA;
+   call WRITE_GL;
+
+   PR_GL_NUMBER = SDI_TAX_GL;
+   PR_GL_AMOUNT = -UP_SDI;
+   call WRITE_GL;
+
+   PR_GL_NUMBER = -1;
+   call WRITE_GL;	/* Write out the last one */
+
+
+   /* UPDATE_RECORD_4 - Update the record */
+
+   call UPDATE_RECORD (AD_ACCT_NO,ERROR_CODE);
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	PR_READ_ALL
+	Read thru all the detail and update
+****************************************************************/
+
+PR_READ_ALL:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   PAY_ENDING = PR_END_DATE;
+   TIME_EMP_NO = 0;
+   PAY_SEQ = 0;
+   call SET_POSITION (PR_TIME_TRX_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (PR_TIME_TRX_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (PR_TIME_TRX_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (PAY_ENDING > PR_END_DATE) then
+      do;
+      END_PR_READ_ALL = YES;
+      return;
+      end;
+   call UPDATE_EMPLOYEE;
+   call UPDATE_HIST;
+   call UPDATE_GL;
+
+   /* SET_SCREEN_FLDS - Set up the screen fields */
+
+   UP_CASH = floor((UP_CASH + NET_PAY) * 100 + 0.5) / 100;
+   UP_FED = floor((UP_FED + FED_TAXES) * 100 + 0.5) / 100;
+   UP_STATE = floor((UP_STATE + STATE_TAXES) * 100 + 0.5) / 100;
+   UP_LOCAL = floor((UP_LOCAL + LOCAL_TAXES) * 100 + 0.5) / 100;
+   UP_FICA = floor((UP_FICA + FICA_TAXES) * 100 + 0.5) / 100;
+   UP_SDI = floor((UP_SDI + SDI_TAXES) * 100 + 0.5) / 100;
+
+   /* DELETE_RECORD - Delete the record */
+
+   call DELETE_RECORD (PR_TIME_TRX_NO,ERROR_CODE);
+return;
+end;	/* PR_READ_ALL          */
+
+/****************************************************************
+	UPDATE_EMPLOYEE
+	Update all this employee's info
+****************************************************************/
+
+UPDATE_EMPLOYEE:
+	procedure;
+
+
+   /* READ_EMP_INFO - Read the employee information */
+
+   EMP_NO = TIME_EMP_NO;
+   call READ_KEYED (EMPLOYEE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+
+   /* UPDATE_EMP_INFO - Update the employee tax info */
+
+   MTD_GROSS = floor((MTD_GROSS + GROSS_PAY) * 100 + 0.5) / 100;
+   MTD_OT_HOURS = floor((MTD_OT_HOURS + OVERTIME_HRS) * 100 + 0.5) / 100;
+   QTD_TXBL_GROSS = floor((QTD_TXBL_GROSS + GROSS_PAY) * 100 + 0.5) / 100;
+   QTD_SS_GROSS = floor((QTD_SS_GROSS + SS_GROSS_PAY) * 100 + 0.5) / 100;
+   QTD_STATE_GROSS = floor((QTD_STATE_GROSS + STATE_GROSS_PAY) * 100 + 0.5) / 100;
+   QTD_NON_TAX = floor((QTD_NON_TAX + NON_TAX_PAY) * 100 + 0.5) / 100;
+   QTD_FED_WH = floor((QTD_FED_WH + FED_TAXES) * 100 + 0.5) / 100;
+   QTD_STATE_WH = floor((QTD_STATE_WH + STATE_TAXES) * 100 + 0.5) / 100;
+   QTD_LOCAL_WH = floor((QTD_LOCAL_WH + LOCAL_TAXES) * 100 + 0.5) / 100;
+   QTD_EMP_FICA = floor((QTD_EMP_FICA + FICA_TAXES) * 100 + 0.5) / 100;
+   QTD_SDI_WH = floor((QTD_SDI_WH + SDI_TAXES) * 100 + 0.5) / 100;
+   QTD_DEDUCT = floor((QTD_DEDUCT + OTHER_DED) * 100 + 0.5) / 100;
+   QTD_NET = floor((QTD_NET + NET_PAY) * 100 + 0.5) / 100;
+   QTD_OT_HRS = floor((QTD_OT_HRS + OVERTIME_HRS) * 100 + 0.5) / 100;
+   YTD_REGULAR = floor((YTD_REGULAR + REGULAR_PAY) * 100 + 0.5) / 100;
+   YTD_OT = floor((YTD_OT + OVERTIME_PAY) * 100 + 0.5) / 100;
+   YTD_SP_1 = floor((YTD_SP_1 + SPECIAL_1_PAY) * 100 + 0.5) / 100;
+   YTD_SP_2 = floor((YTD_SP_2 + SPECIAL_2_PAY) * 100 + 0.5) / 100;
+   YTD_TAX_GROSS = floor((YTD_TAX_GROSS + GROSS_PAY) * 100 + 0.5) / 100;
+   YTD_SS_GROSS = floor((YTD_SS_GROSS + SS_GROSS_PAY) * 100 + 0.5) / 100;
+   YTD_STATE_GROSS = floor((YTD_STATE_GROSS + STATE_GROSS_PAY) * 100 + 0.5) / 100;
+   YTD_NON_TAX = floor((YTD_NON_TAX + NON_TAX_PAY) * 100 + 0.5) / 100;
+   YTD_FED_WH = floor((YTD_FED_WH + FED_TAXES) * 100 + 0.5) / 100;
+   YTD_STATE_WH = floor((YTD_STATE_WH + STATE_TAXES) * 100 + 0.5) / 100;
+   YTD_LOCAL_WH = floor((YTD_LOCAL_WH + LOCAL_TAXES) * 100 + 0.5) / 100;
+   YTD_EMP_FICA = floor((YTD_EMP_FICA + FICA_TAXES) * 100 + 0.5) / 100;
+   YTD_SDI_WH = floor((YTD_SDI_WH + SDI_TAXES) * 100 + 0.5) / 100;
+   YTD_DEDUCT = floor((YTD_DEDUCT + OTHER_DED) * 100 + 0.5) / 100;
+   YTD_NET_PAID = floor((YTD_NET_PAID + NET_PAY) * 100 + 0.5) / 100;
+   YTD_OVERTIME = floor((YTD_OVERTIME + OVERTIME_HRS) * 100 + 0.5) / 100;
+
+   /* CALC_WEEKS - Calculate the number of week worked */
+
+   do case (index("WBSMQA",PAY_FREQ));
+      PR_HIST_WEEKS = 1;
+      PR_HIST_WEEKS = 2;
+      PR_HIST_WEEKS = 2.18;
+      PR_HIST_WEEKS = 4.35;
+      PR_HIST_WEEKS = 13.06;
+      PR_HIST_WEEKS = 52.25;
+   end;
+
+   QTD_WEEKS = QTD_WEEKS + PR_HIST_WEEKS;
+
+
+   /* UPDATE_RECORD_2 - Update the record */
+
+   call UPDATE_RECORD (EMPLOYEE_NO,ERROR_CODE);
+return;
+end;	/* UPDATE_EMPLOYEE      */
+
+/****************************************************************
+	UPDATE_HIST
+	Update the history and Check file
+****************************************************************/
+
+UPDATE_HIST:
+	procedure;
+
+
+   /* SET_FIELDS - Set the values for these fields */
+
+   EMP_NO_HIST = EMP_NO;
+   PR_HIST_CK_NO = PR_CHECK_NUM;
+   PR_HIST_CK_DATE = PR_CHECK_DATE;
+   PR_HIST_PD_DATE = PAY_ENDING;
+   PR_HIST_GROSS = GROSS_PAY;
+   PR_HIST_SS_GROSS = SS_GROSS_PAY;
+   PR_HIST_STATE_GROSS = STATE_GROSS_PAY;
+   PR_HIST_NON_TAX = NON_TAX_PAY;
+   PR_HIST_FED = FED_TAXES;
+   PR_HIST_STATE = STATE_TAXES;
+   PR_HIST_LOCAL = LOCAL_TAXES;
+   PR_HIST_FICA = FICA_TAXES;
+   PR_HIST_SDI = SDI_TAXES;
+   PR_HIST_ALL_DED = OTHER_DED;
+   PR_HIST_NET = NET_PAY;
+
+   /* WRITE_HIST - Write the history record */
+
+   PR_HIST_SEQ = 0;
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+
+      /* WRITE_RECORD_2 - Write the record */
+
+      call WRITE_RECORD (PR_HIST_NO,ERROR_CODE);
+      PR_HIST_SEQ = PR_HIST_SEQ + 1;
+   end;
+
+
+   /* SET_CHECK_FLDS - Set up the fields for the check file */
+
+   AD_BANK_NO = AD_ACCOUNT_NO;
+   AD_TRX_TYPE = "C";
+   AD_TRX_NUMBER = PR_CHECK_NUM;
+   AD_TRX_SEQ = 0;
+   AD_TRX_DATE = PR_CHECK_DATE;
+   AD_CHECK_TYPE = "P";
+   AD_ARC_EMP = EMP_NO;
+   AD_PAYEE = EMP_NAME;
+   AD_TRX_AMOUNT = -NET_PAY;
+   AD_TRX_COMMENT = "Payroll Check";
+   AD_DATE_RECONCILED = 0;
+
+
+   /* WRITE_CHECK - Write the entry in the check file */
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+
+      /* WRITE_RECORD_3 - Write the record */
+
+      call WRITE_RECORD (AD_CHECKING_NO,ERROR_CODE);
+      AD_TRX_SEQ = AD_TRX_SEQ + 1;
+   end;
+
+
+   /* UPDATE_ACCT_BAL - Update the checking account balance */
+
+   AD_BALANCE = AD_BALANCE - NET_PAY;
+
+return;
+end;	/* UPDATE_HIST          */
+
+/****************************************************************
+	UPDATE_GL
+	Update the P/R G/L distribution file
+****************************************************************/
+
+UPDATE_GL:
+	procedure;
+
+/* This code will be modified when the PR_DPT_DIST is working */
+
+PR_GL_NUMBER = HOME_GL;
+PR_GL_AMOUNT = SS_GROSS_PAY;
+call WRITE_GL;
+
+OTHER_DED = 0;
+DED_NO = 1;
+DE_FREQ_CODES = "ENISVzz";
+do while (DED_NO < 9);
+   END_SETUP_DE = NO;
+   do while (END_SETUP_DE ^= YES);
+      call SETUP_DE;
+   end;
+   if DE_TYPE = "N" then
+      do;
+      PR_GL_NUMBER = DE_GL_NO;
+      PR_GL_AMOUNT = DED_EARN_AMT;
+      call WRITE_GL;
+      end;
+end;
+
+OTHER_DED = 0;
+DED_NO = 1;
+DE_FREQ_CODES = "DTRzzzz";
+do while (DED_NO < 9);
+   END_SETUP_DE = NO;
+   do while (END_SETUP_DE ^= YES);
+      call SETUP_DE;
+   end;
+   PR_GL_NUMBER = DE_GL_NO;
+   PR_GL_AMOUNT = -DED_EARN_AMT;
+   call WRITE_GL;
+   if DE_TYPE = "T" then
+      do;
+      PR_GL_NUMBER = HOME_GL;
+      PR_GL_AMOUNT = DED_EARN_AMT;
+      call WRITE_GL;
+      end;
+end;
+
+return;
+end;	/* UPDATE_GL            */
+
+/****************************************************************
+	WRITE_GL
+	Write an entry in the P/R G/L dist file
+****************************************************************/
+
+WRITE_GL:
+	procedure;
+
+declare		SAVE_GL		fixed binary(31);
+declare		SAVE_AMT	float binary (53);
+
+if PR_GL_AMOUNT = 0 then
+   return;
+
+if PR_GL_NUMBER ^= GL_SAVE then
+   do;
+   SAVE_GL = PR_GL_NUMBER;
+   SAVE_AMT = PR_GL_AMOUNT;
+
+   PR_GL_NUMBER = GL_SAVE;
+   PR_GL_DATE = PAY_ENDING;
+   PR_GL_AMOUNT = GL_AMT_SAVE;
+   if GL_SAVE ^= -1 then
+      call UPDATE_RECORD (PR_GL_DIST_NO,ERROR_CODE);
+   PR_GL_NUMBER = SAVE_GL;
+   PR_GL_DATE = PAY_ENDING;
+   if PR_GL_NUMBER ^= -1 then
+      do;
+      call READ_KEYED (PR_GL_DIST_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         PR_GL_AMOUNT = 0;
+         call WRITE_RECORD (PR_GL_DIST_NO,ERROR_CODE);
+         end;
+      end;
+   GL_AMT_SAVE = PR_GL_AMOUNT;
+   GL_SAVE = PR_GL_NUMBER;
+   PR_GL_AMOUNT = SAVE_AMT;
+   end;
+GL_AMT_SAVE = floor((GL_AMT_SAVE + PR_GL_AMOUNT) * 100 + 0.5) / 100;
+
+return;
+end;	/* WRITE_GL             */
+
+/****************************************************************
+	SETUP_DE
+	Setup the Deduction or Earnings
+****************************************************************/
+
+SETUP_DE:
+	procedure;
+
+DED_EARN_AMT = 0;
+ERROR_CODE = 0;
+
+do case (DED_NO);
+   do;	/* Ded/Earnings */
+   DED_EARN_AMT = TIME_AMT_1;
+   DE_CODE = TIME_DE_1;
+   call GET_DE_CODE;
+   end;
+   do;	/* Ded/Earnings */
+   DED_EARN_AMT = TIME_AMT_2;
+   DE_CODE = TIME_DE_2;
+   call GET_DE_CODE;
+   end;
+   do;	/* Ded/Earnings */
+   DED_EARN_AMT = TIME_AMT_3;
+   DE_CODE = TIME_DE_3;
+   call GET_DE_CODE;
+   end;
+   do;	/* Ded/Earnings */
+   DED_EARN_AMT = TIME_AMT_4;
+   DE_CODE = TIME_DE_4;
+   call GET_DE_CODE;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_1;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_1) ^= 0 then
+      DED_EARN_AMT = AMT_1;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_2;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_2) ^= 0 then
+      DED_EARN_AMT = AMT_2;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_3;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_3) ^= 0 then
+      DED_EARN_AMT = AMT_3;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_4;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_4) ^= 0 then
+      DED_EARN_AMT = AMT_4;
+   end;
+end;
+otherwise
+   do;	/* Ded/Earnings */
+   DE_GL_NO = 0;
+   DED_EARN_AMT = 0;
+   END_SETUP_DE = YES;
+   end;
+
+if ERROR_CODE = 1 then
+   DED_EARN_AMT = 0;
+
+if DED_EARN_AMT > 0.00 then if DED_EARN_AMT < 1.00 then
+if DE_FREQ_CODES = "DTRzzzz" then
+   DED_EARN_AMT = floor(GROSS_PAY * DED_EARN_AMT * 100 + 0.5) / 100;
+
+DED_NO = DED_NO + 1;
+if DED_EARN_AMT ^= 0 then
+   END_SETUP_DE = YES;
+
+return;
+end;	/* SETUP_DE             */
+
+/****************************************************************
+	GET_DE_CODE
+	Get the Deduction/Earnings code
+****************************************************************/
+
+GET_DE_CODE:
+	procedure;
+
+call READ_KEYED (DED_EARN_NO,KEY_AREA_1,ERROR_CODE);
+if index(DE_FREQ_CODES,DE_TYPE) = 0 then
+   ERROR_CODE = 1;
+
+return;
+end;	/* GET_DE_CODE          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (PR_HIST_NO);
+   call CLOSE_FILE (AD_ACCT_NO);
+   call CLOSE_FILE (AD_CHECKING_NO);
+   call CLOSE_FILE (PR_GL_DIST_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

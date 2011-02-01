@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<DanceAlignment ID="1">
+		<LastChanged>2007-03-05T11:13:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Line of dance</Description>
+	</DanceAlignment>
+	<DanceAlignment ID="2">
+		<LastChanged>2007-03-05T11:12:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Backing line of dance</Description>
+	</DanceAlignment>
+	<DanceAlignment ID="3">
+		<LastChanged>2007-03-05T11:12:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Diagional wall</Description>
+	</DanceAlignment>
+	<DanceAlignment ID="4">
+		<LastChanged>2007-03-05T11:12:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Diagonal center</Description>
+	</DanceAlignment>
+	<DanceAlignment ID="5">
+		<LastChanged>2007-03-05T11:12:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Wall</Description>
+	</DanceAlignment>
+	<DanceAlignment ID="6">
+		<LastChanged>2007-03-05T11:12:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Center</Description>
+	</DanceAlignment>
+	<DanceAlignment ID="7">
+		<LastChanged>2007-03-05T11:13:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Backing Diagional wall</Description>
+	</DanceAlignment>
+	<DanceAlignment ID="8">
+		<LastChanged>2007-03-05T11:13:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Backing Diagonal center</Description>
+	</DanceAlignment>
+	<DanceAlignment ID="9">
+		<LastChanged>2007-03-05T11:13:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Backing Wall</Description>
+	</DanceAlignment>
+	<DanceAlignment ID="10">
+		<LastChanged>2007-03-05T11:13:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Backing Center</Description>
+	</DanceAlignment>
+</file>

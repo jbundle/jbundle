@@ -1,0 +1,941 @@
+/****************************************************************
+	Module: BK_ADJUST_FIT
+	Top Level Logic: FIT_ADJUST_LOGIC
+	Date: 22-Feb-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ADJUST_FIT
+	Top-Level Adjust all FIT dates
+****************************************************************/
+
+%replace BK_ADJUST_FIT_1 by 741;
+BK_ADJUST_FIT:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_DET_LAND_RECORD,
+      TK_HEADER_RECORD,
+      TK_DETAIL_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_ITIN_DET_RECORD);
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_DET_LAND_NO by  68;
+%replace TK_HEADER_NO by  56;
+%replace TK_DETAIL_NO by  57;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_ITIN_DET_NO by  79;
+%include "BK_ADJUST_FIT.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "TK_HEADER.DD";
+%include "TK_DETAIL.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_ITIN_DET.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_COPY_HOTEL       bit (1);
+declare		END_SCAN_HOTELD      bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		END_COPY_TOUR        bit (1);
+declare		END_SCAN_LANDD       bit (1);
+declare		END_COPY_AIRH        bit (1);
+declare		END_COPY_AIR         bit (1);
+declare		END_SCAN_AIRD        bit (1);
+declare		END_FIX_THRU_AIRH    bit (1);
+declare		END_SCAN_ITIND       bit (1);
+
+   /* SET_OLD_DEPARTURE - Set up the old departure date */
+
+   OLD_DEPARTURE = BK_MOD_DATE;
+
+   call FIX_HOTEL_DATES;
+   call FIX_LAND_DATES;
+   call FIX_AIR_DATES;
+   call FIX_AIRH_DATES;
+   call FIX_ITIN_DATES;
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+
+/****************************************************************
+	FIX_HOTEL_DATES
+	Adjust all the hotel dates
+****************************************************************/
+
+FIX_HOTEL_DATES:
+	procedure;
+
+declare		ERROR_BK_DET_HOTEL   fixed binary (15);
+
+   /* COPY_HOTEL_DETL - Copy the hotel detail if change */
+
+   if BK_NEXT_MOD ^= BK_HOTEL_MOD then
+      do;
+
+      /* SET_FIRST_HOTELD - Set first hotel detail */
+
+      HDET_MOD = BK_MODIFICATION;
+      HDET_BK_TR_NO = BOOKING_NO;
+      HDET_ALT_SEQ = 0;
+      HDET_ANSW_SEQ = 0;
+      HDET_DAY = 0;
+      HDET_SEQ = 0;
+      call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_HOTEL = NO;
+      do while (END_COPY_HOTEL ^= YES);
+         call COPY_HOTEL;
+      end;
+      BK_HOTEL_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* INIT_XINDEX - Initialize the index */
+
+   XINDEX = 1;
+
+
+   /* SET_FIRST_HOTELD - Set first hotel detail */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_HOTELD = NO;
+   do while (END_SCAN_HOTELD ^= YES);
+      call SCAN_HOTELD;
+   end;
+
+   /* RETURN_IF_NO_XINDEX - Return if no detail */
+
+   XINDEX = XINDEX - 1;
+   if XINDEX = 0 then
+      return;
+
+
+   /* FIX_HOTEL_DATE - Fix the hotel dates */
+
+   if BK_DEPARTURE < OLD_DEPARTURE then
+      do CINDEX = 1 to XINDEX;
+
+         HDET_MOD = BK_MODIFICATION;
+         HDET_BK_TR_NO = BOOKING_NO;
+         HDET_ALT_SEQ = ALT_SEQ_ARRAY(CINDEX);
+         HDET_ANSW_SEQ = ANSW_SEQ_ARRAY(CINDEX);
+         HDET_DATE = DATE_SEQ_ARRAY(CINDEX);
+         HDET_SEQ = SEQ_SEQ_ARRAY(CINDEX);
+
+
+         /* READ_HOTELD - Read the hotel detail record */
+
+         call READ_KEYED (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_BK_DET_HOTEL);
+         if ERROR_BK_DET_HOTEL > 3 then
+            call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_BK_DET_HOTEL);
+
+         HDET_DATE = HDET_DATE - OLD_DEPARTURE + BK_DEPARTURE;
+         if HDET_MANUAL = "" then
+            do;
+            HDET_SINGLE = 0;
+            HDET_DOUBLE = 0;
+            HDET_TRIPLE = 0;
+            HDET_QUAD = 0;
+            HDET_ROOM_COST = 0;
+            HDET_MEAL_PRICE = 0;
+            HDET_MEAL_COST = 0;
+            end;
+
+
+         /* UPDATE_HOTELD - Update */
+
+         call UPDATE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+      end;
+   else
+      do CINDEX = XINDEX to 1 by -1;
+
+         HDET_MOD = BK_MODIFICATION;
+         HDET_BK_TR_NO = BOOKING_NO;
+         HDET_ALT_SEQ = ALT_SEQ_ARRAY(CINDEX);
+         HDET_ANSW_SEQ = ANSW_SEQ_ARRAY(CINDEX);
+         HDET_DATE = DATE_SEQ_ARRAY(CINDEX);
+         HDET_SEQ = SEQ_SEQ_ARRAY(CINDEX);
+
+
+         /* READ_HOTELD - Read the hotel detail record */
+
+         call READ_KEYED (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_BK_DET_HOTEL);
+         if ERROR_BK_DET_HOTEL > 3 then
+            call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_BK_DET_HOTEL);
+
+         HDET_DATE = HDET_DATE - OLD_DEPARTURE + BK_DEPARTURE;
+         if HDET_MANUAL = "" then
+            do;
+            HDET_SINGLE = 0;
+            HDET_DOUBLE = 0;
+            HDET_TRIPLE = 0;
+            HDET_QUAD = 0;
+            HDET_ROOM_COST = 0;
+            HDET_MEAL_PRICE = 0;
+            HDET_MEAL_COST = 0;
+            end;
+
+
+         /* UPDATE_HOTELD - Update */
+
+         call UPDATE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+      end;
+
+return;
+end;	/* FIX_HOTEL_DATES      */
+
+/****************************************************************
+	COPY_HOTEL
+	Make a copy of the current hotel detail
+****************************************************************/
+
+COPY_HOTEL:
+	procedure;
+
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) then
+      do;
+      END_COPY_HOTEL = YES;
+      return;
+      end;
+
+   /* CHANGE_HOTELD - Set mod to 0 */
+
+   HDET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_HOTELD - Write the hotel detail */
+
+   call WRITE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* SET_FIRST_HOTELC - Set for first read */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_SEQ = HDET_SEQ+1;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_HOTEL           */
+
+/****************************************************************
+	SCAN_HOTELD
+	Scan the hotel detail to get dates
+****************************************************************/
+
+SCAN_HOTELD:
+	procedure;
+
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) then
+      do;
+      END_SCAN_HOTELD = YES;
+      return;
+      end;
+
+   /* SAVE_HOTELD - Save the hotel detail values */
+
+   ALT_SEQ_ARRAY(XINDEX) = HDET_ALT_SEQ;
+   ANSW_SEQ_ARRAY(XINDEX) = HDET_ANSW_SEQ;
+   DATE_SEQ_ARRAY(XINDEX) = HDET_DATE;
+   SEQ_SEQ_ARRAY(XINDEX) = HDET_SEQ;
+
+   XINDEX = XINDEX + 1;
+
+return;
+end;	/* SCAN_HOTELD          */
+
+/****************************************************************
+	FIX_LAND_DATES
+	Adjust the new land dates
+****************************************************************/
+
+FIX_LAND_DATES:
+	procedure;
+
+declare		ERROR_BK_DET_LAND    fixed binary (15);
+
+   /* COPY_TOUR_DETL - Copy land detail if any changes */
+
+   if BK_NEXT_MOD ^= BK_TOUR_MOD then
+      do;
+
+      /* SET_FIRST_LANDD - Set to the first land detail record */
+
+      LDET_MOD = BK_MODIFICATION;
+      LDET_BK_TK_NO = BOOKING_NO;
+      LDET_ALT_SEQ = 0;
+      LDET_ANSW_SEQ = 0;
+      LDET_DAY = 0;
+      LDET_SEQ = 0;
+      call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_TOUR = NO;
+      do while (END_COPY_TOUR ^= YES);
+         call COPY_TOUR;
+      end;
+      BK_TOUR_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* INIT_XINDEX - Initialize the index */
+
+   XINDEX = 1;
+
+
+   /* SET_FIRST_TOURD - Set first rec */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_LANDD = NO;
+   do while (END_SCAN_LANDD ^= YES);
+      call SCAN_LANDD;
+   end;
+
+   /* RETURN_IF_NO_XINDEX - Return if no detail */
+
+   XINDEX = XINDEX - 1;
+   if XINDEX = 0 then
+      return;
+
+
+   /* FIX_LAND_DATE - Fix the land detail dates */
+
+   if BK_DEPARTURE < OLD_DEPARTURE then
+      do CINDEX = 1 to XINDEX;
+
+         LDET_MOD = BK_MODIFICATION;
+         LDET_BK_TK_NO = BOOKING_NO;
+         LDET_ALT_SEQ = ALT_SEQ_ARRAY(CINDEX);
+         LDET_ANSW_SEQ = ANSW_SEQ_ARRAY(CINDEX);
+         LDET_DATE = DATE_SEQ_ARRAY(CINDEX);
+         LDET_SEQ = SEQ_SEQ_ARRAY(CINDEX);
+
+
+         /* READ_LANDD - Read the land detail record */
+
+         call READ_KEYED (BK_DET_LAND_NO,KEY_AREA_1,ERROR_BK_DET_LAND);
+         if ERROR_BK_DET_LAND > 3 then
+            call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+
+         LDET_DATE = LDET_DATE - OLD_DEPARTURE + BK_DEPARTURE;
+         if LDET_MANUAL = "" then
+            do;
+            LDET_VARIES_CODE(1) = "";
+            LDET_TOUR_PP_COST = 0;
+            LDET_TOUR_COST = 0;
+            end;
+
+
+         /* UPDATE_TOURD - Update */
+
+         call UPDATE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+      end;
+   else
+      do CINDEX = XINDEX to 1 by -1;
+
+         LDET_MOD = BK_MODIFICATION;
+         LDET_BK_TK_NO = BOOKING_NO;
+         LDET_ALT_SEQ = ALT_SEQ_ARRAY(CINDEX);
+         LDET_ANSW_SEQ = ANSW_SEQ_ARRAY(CINDEX);
+         LDET_DATE = DATE_SEQ_ARRAY(CINDEX);
+         LDET_SEQ = SEQ_SEQ_ARRAY(CINDEX);
+
+
+         /* READ_LANDD - Read the land detail record */
+
+         call READ_KEYED (BK_DET_LAND_NO,KEY_AREA_1,ERROR_BK_DET_LAND);
+         if ERROR_BK_DET_LAND > 3 then
+            call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+
+         LDET_DATE = LDET_DATE - OLD_DEPARTURE + BK_DEPARTURE;
+         if LDET_MANUAL = "" then
+            do;
+            LDET_VARIES_CODE(1) = "";
+            LDET_TOUR_PP_COST = 0;
+            LDET_TOUR_COST = 0;
+            end;
+
+
+         /* UPDATE_TOURD - Update */
+
+         call UPDATE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+      end;
+
+return;
+end;	/* FIX_LAND_DATES       */
+
+/****************************************************************
+	COPY_TOUR
+	Copy the tour detail
+****************************************************************/
+
+COPY_TOUR:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDD - Last land detail record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_COPY_TOUR = YES;
+      return;
+      end;
+
+   /* CHANGE_TOURD - Change mod code to 0 */
+
+   LDET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_LANDD - Write the land detail record */
+
+   call WRITE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* SET_FIRST_TOURC - Set next record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_SEQ = LDET_SEQ+1;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_TOUR            */
+
+/****************************************************************
+	SCAN_LANDD
+	Scan the land detail file
+****************************************************************/
+
+SCAN_LANDD:
+	procedure;
+
+
+   /* READ_NEXT_TOURD - Read next */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_TOURD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_SCAN_LANDD = YES;
+      return;
+      end;
+
+   /* SAVE_LANDD - Save the land detail values */
+
+   if LDET_ALT_SEQ = 0 then if LDET_ANSW_SEQ = 1 then if LDET_DATE = 0 then
+      return;
+
+   ALT_SEQ_ARRAY(XINDEX) = LDET_ALT_SEQ;
+   ANSW_SEQ_ARRAY(XINDEX) = LDET_ANSW_SEQ;
+   DATE_SEQ_ARRAY(XINDEX) = LDET_DATE;
+   SEQ_SEQ_ARRAY(XINDEX) = LDET_SEQ;
+
+   XINDEX = XINDEX + 1;
+
+return;
+end;	/* SCAN_LANDD           */
+
+/****************************************************************
+	FIX_AIR_DATES
+	Fix the air dates
+****************************************************************/
+
+FIX_AIR_DATES:
+	procedure;
+
+declare		ERROR_TK_DETAIL      fixed binary (15);
+
+   /* COPY_AIR_DETL - Copy the air detail if changed */
+
+   if BK_NEXT_MOD ^= BK_AIR_MOD then
+      do;
+
+      /* SET_FIRST_AIRH - Set to read the first Air header */
+
+      TK_MODIFICATION = BK_MODIFICATION;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = BK_PAX_SEQ;
+      TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIRH = NO;
+      do while (END_COPY_AIRH ^= YES);
+         call COPY_AIRH;
+      end;
+
+      /* SET_FIRST_AIRD - Set first air */
+
+      TK_DET_MOD = BK_MODIFICATION;
+      TK_DET_BK_TK = BOOKING_NO;
+      TK_DET_ALT_SEQ = 0;
+      TK_DET_ANSW_SEQ = 0;
+      TK_DATE = 0;
+      TK_SEQ = 0;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIR = NO;
+      do while (END_COPY_AIR ^= YES);
+         call COPY_AIR;
+      end;
+      BK_AIR_MOD = BK_NEXT_MOD;
+      end;
+
+
+   /* INIT_XINDEX - Initialize the index */
+
+   XINDEX = 1;
+
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_AIRD = NO;
+   do while (END_SCAN_AIRD ^= YES);
+      call SCAN_AIRD;
+   end;
+
+   /* RETURN_IF_NO_XINDEX - Return if no detail */
+
+   XINDEX = XINDEX - 1;
+   if XINDEX = 0 then
+      return;
+
+
+   /* FIX_AIRD_DATE - Fix the air detail dates */
+
+   if BK_DEPARTURE < OLD_DEPARTURE then
+      do CINDEX = 1 to XINDEX;
+
+         TK_DET_MOD = BK_MODIFICATION;
+         TK_DET_BK_TK = BOOKING_NO;
+         TK_DET_ALT_SEQ = ALT_SEQ_ARRAY(CINDEX);
+         TK_DET_ANSW_SEQ = ANSW_SEQ_ARRAY(CINDEX);
+         TK_DATE = DATE_SEQ_ARRAY(CINDEX);
+         TK_SEQ = SEQ_SEQ_ARRAY(CINDEX);
+
+
+         /* READ_AIRD - Read the air detail record */
+
+         call READ_KEYED (TK_DETAIL_NO,KEY_AREA_1,ERROR_TK_DETAIL);
+         if ERROR_TK_DETAIL > 3 then
+            call PRINT_ERROR (TK_DETAIL_NO,ERROR_TK_DETAIL);
+
+         TK_DATE = TK_DATE - OLD_DEPARTURE + BK_DEPARTURE;
+
+
+         /* UPDATE_AIRD - Update */
+
+         call UPDATE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+      end;
+   else
+      do CINDEX = XINDEX to 1 by -1;
+
+         TK_DET_MOD = BK_MODIFICATION;
+         TK_DET_BK_TK = BOOKING_NO;
+         TK_DET_ALT_SEQ = ALT_SEQ_ARRAY(CINDEX);
+         TK_DET_ANSW_SEQ = ANSW_SEQ_ARRAY(CINDEX);
+         TK_DATE = DATE_SEQ_ARRAY(CINDEX);
+         TK_SEQ = SEQ_SEQ_ARRAY(CINDEX);
+
+
+         /* READ_AIRD - Read the air detail record */
+
+         call READ_KEYED (TK_DETAIL_NO,KEY_AREA_1,ERROR_TK_DETAIL);
+         if ERROR_TK_DETAIL > 3 then
+            call PRINT_ERROR (TK_DETAIL_NO,ERROR_TK_DETAIL);
+
+         TK_DATE = TK_DATE - OLD_DEPARTURE + BK_DEPARTURE;
+
+
+         /* UPDATE_AIRD - Update */
+
+         call UPDATE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+      end;
+
+return;
+end;	/* FIX_AIR_DATES        */
+
+/****************************************************************
+	COPY_AIRH
+	Copy all the headers to the last md
+****************************************************************/
+
+COPY_AIRH:
+	procedure;
+
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH_COPY - Last air header in booking? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_COPY_AIRH = YES;
+      return;
+      end;
+
+   /* SET_TKHDR - Set to next mod */
+
+   TK_MODIFICATION = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRH - Write the air header record */
+
+   call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRHC - Set to the next air Header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ANSW_SEQ = TK_ANSW_SEQ+1;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIRH            */
+
+/****************************************************************
+	COPY_AIR
+	Copy the air detail
+****************************************************************/
+
+COPY_AIR:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_COPY_AIR = YES;
+      return;
+      end;
+
+   /* CHANGE_AIRD - Change mod code to 0 */
+
+   TK_DET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRD - Write the air detail record */
+
+   call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRC - Set to the next record */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_SEQ = TK_SEQ+1;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIR             */
+
+/****************************************************************
+	SCAN_AIRD
+	Scan the air detail file
+****************************************************************/
+
+SCAN_AIRD:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_SCAN_AIRD = YES;
+      return;
+      end;
+
+   /* SAVE_AIRD - Save the air detail info */
+
+   ALT_SEQ_ARRAY(XINDEX) = TK_DET_ALT_SEQ;
+   ANSW_SEQ_ARRAY(XINDEX) = TK_DET_ANSW_SEQ;
+   DATE_SEQ_ARRAY(XINDEX) = TK_DATE;
+   SEQ_SEQ_ARRAY(XINDEX) = TK_SEQ;
+
+   XINDEX = XINDEX + 1;
+
+return;
+end;	/* SCAN_AIRD            */
+
+/****************************************************************
+	FIX_AIRH_DATES
+	Fix the air ticket departure date
+****************************************************************/
+
+FIX_AIRH_DATES:
+	procedure;
+
+
+   /* SET_FIRST_AIRH - Set to read the first Air header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   END_FIX_THRU_AIRH = NO;
+   do while (END_FIX_THRU_AIRH ^= YES);
+      call FIX_THRU_AIRH;
+   end;
+return;
+end;	/* FIX_AIRH_DATES       */
+
+/****************************************************************
+	FIX_THRU_AIRH
+	Fix the ticket departure dates
+****************************************************************/
+
+FIX_THRU_AIRH:
+	procedure;
+
+declare		ERROR_TK_HEADER      fixed binary (15);
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH - Last header? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) !
+   (TK_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      do;
+      END_FIX_THRU_AIRH = YES;
+      return;
+      end;
+
+   /* FIX_AIRH_DATE - Fix the ticket departure date */
+
+   TK_DEP_DATE = TK_DEP_DATE - OLD_DEPARTURE + BK_DEPARTURE;
+
+
+   /* UPDATE_AIRH - Update the record */
+
+   call UPDATE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* READ_AIRH - Read the Air header record */
+
+   call READ_KEYED (TK_HEADER_NO,KEY_AREA_1,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+return;
+end;	/* FIX_THRU_AIRH        */
+
+/****************************************************************
+	FIX_ITIN_DATES
+	Fix the itinerary dates
+****************************************************************/
+
+FIX_ITIN_DATES:
+	procedure;
+
+
+   /* INIT_XINDEX - Initialize the index */
+
+   XINDEX = 1;
+
+
+   /* SET_FIRST_ITIND - Set to the first itinerary detail record */
+
+   ITIN_BK_NO = BOOKING_NO;
+   ITIN_DATE = 0;
+   ITIN_CODE = "";
+   call SET_POSITION (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_ITIND = NO;
+   do while (END_SCAN_ITIND ^= YES);
+      call SCAN_ITIND;
+   end;
+
+   /* RETURN_IF_NO_XINDEX - Return if no detail */
+
+   XINDEX = XINDEX - 1;
+   if XINDEX = 0 then
+      return;
+
+
+   /* FIX_ITIN_DATE - Fix the itin dates */
+
+   if BK_DEPARTURE < OLD_DEPARTURE then
+      do CINDEX = 1 to XINDEX;
+
+         ITIN_BK_NO = BOOKING_NO;
+         ITIN_DATE = DATE_SEQ_ARRAY(CINDEX);
+
+
+         /* SET_FIRST_ITINX - Set the first itin index record */
+
+         ITIN_BK_NO = BOOKING_NO;
+         ITIN_DATE = DATE_SEQ_ARRAY(CINDEX);
+         ITIN_CODE = "";
+         call SET_POSITION (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+         /* READ_NEXT_ITIND - Read the next itin detail record */
+
+         call READ_NEXT (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE > 3 then
+         	call PRINT_ERROR (BK_ITIN_DET_NO,ERROR_CODE);
+
+         ITIN_DATE = ITIN_DATE - OLD_DEPARTURE + BK_DEPARTURE;
+
+
+         /* UPDATE_ITIND - Update the itinerary detail record */
+
+         call UPDATE_RECORD (BK_ITIN_DET_NO,ERROR_CODE);
+
+      end;
+   else
+      do CINDEX = XINDEX to 1 by -1;
+
+         ITIN_BK_NO = BOOKING_NO;
+         ITIN_DATE = DATE_SEQ_ARRAY(CINDEX);
+
+
+         /* SET_FIRST_ITINX - Set the first itin index record */
+
+         ITIN_BK_NO = BOOKING_NO;
+         ITIN_DATE = DATE_SEQ_ARRAY(CINDEX);
+         ITIN_CODE = "";
+         call SET_POSITION (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+         /* READ_NEXT_ITIND - Read the next itin detail record */
+
+         call READ_NEXT (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE > 3 then
+         	call PRINT_ERROR (BK_ITIN_DET_NO,ERROR_CODE);
+
+         ITIN_DATE = ITIN_DATE - OLD_DEPARTURE + BK_DEPARTURE;
+
+
+         /* UPDATE_ITIND - Update the itinerary detail record */
+
+         call UPDATE_RECORD (BK_ITIN_DET_NO,ERROR_CODE);
+
+      end;
+
+return;
+end;	/* FIX_ITIN_DATES       */
+
+/****************************************************************
+	SCAN_ITIND
+	Scan the itinerary detail file
+****************************************************************/
+
+SCAN_ITIND:
+	procedure;
+
+
+   /* READ_NEXT_ITIND - Read the next itin detail record */
+
+   call READ_NEXT (BK_ITIN_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_ITIN_DET_NO,ERROR_CODE);
+
+   /* CHECK_END_ITIND - End of itinerary detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (ITIN_BK_NO > BOOKING_NO) then
+      do;
+      END_SCAN_ITIND = YES;
+      return;
+      end;
+
+   /* SAVE_ITIND - Save the itin detail values */
+
+   DATE_SEQ_ARRAY(XINDEX) = ITIN_DATE;
+
+   XINDEX = XINDEX + 1;
+
+return;
+end;	/* SCAN_ITIND           */
+end;	/* SCAN_ITIND           */
+/*********************************End of Program*********************/

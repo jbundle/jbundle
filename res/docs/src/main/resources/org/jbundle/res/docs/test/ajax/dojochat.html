@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Example 15</title>
+
+<script type="text/javascript" src="../../styles/js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+<style type="text/css">
+        @import "../../styles/js/dijit/themes/tundra/tundra.css";
+</style>
+
+<script type="text/javascript">
+
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.Dialog");
+dojo.require("dojo.parser");
+
+function go()
+{
+	var domToAppendTo = document.getElementById("menuarea");
+	var button = domToAppendTo.appendChild(document.createElement("button"));
+	button.appendChild(document.createTextNode("New"));
+	button.setAttribute("dojoType","dijit.form.Button");
+	button.setAttribute("id","newbutton");
+	
+	dojo.parser.parse(domToAppendTo);
+}
+function getButton()
+{
+	var domToAppendTo = dojo.byId("newbutton");
+	if (domToAppendTo)
+		go();
+}
+function doDialog()
+{
+	var domToAppendTo = dijit.byId("logonDialog");
+	if (domToAppendTo)
+		domToAppendTo.show();
+}
+function change()
+{
+	var domToAppendTo = dijit.byId("changeButton");
+	if (domToAppendTo)
+		domToAppendTo.setLabel("new label");
+}
+
+</script>
+
+</head>
+
+<body class="tundra">
+	<form id="myForm" action="">
+		<p>Dialog:</p>
+		<textarea rows="5" cols="100" name="author"></textarea>
+		<p>Please enter text:</p>
+
+		<input dojoType="dijit.form.Button" id="myButton" name="Go" >Test
+		<p/>
+		<button dojoType="dijit.form.Button" id="changeButton" onClick="change();">Change button</button>
+		<p/>
+		<button dojoType="dijit.form.Button" onClick="go();">Add button</button>
+		<p/>
+		<button dojoType="dijit.form.Button" onClick="getButton();" name="Go">Get Button</button>
+		<p/>
+		<button dojoType="dijit.form.Button" onClick="doDialog();">Dialog</button>
+		<p/>
+		<button>New3</button>
+
+	</form>
+<button dojoType="dijit.form.Button" onclick="dijit.byId('dialog1').show()">Show First Dialog</button> |
+
+<div dojoType="dijit.Dialog" id="dialog1" closeNode="hider" title="First Dialog">
+	<form onsubmit="return false;">
+		<table>
+			<tr>
+				<td><label for="name">Name: </label></td>
+				<td><input type="text" id="name"></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="button" id="hider" value="OK"></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+
+	<div id="menuarea">
+	zz
+	</div>
+
+	<div id="scratch">
+<div dojoType="dijit.Dialog" id="logonDialog" bgColor="white" bgOpacity="0.5" toggle="fade" toggleDuration="250" title="window #1" iconSrc="images/buttons/Login.gif" displayCloseAction="true">
+	<form id="logonForm" onsubmit="return false;">
+		<table>
+			<tr>
+				<td colspan="2" align="center"><b>Sign on</b></td>
+			</tr>
+			<tr>
+				<td>E-mail:</td>
+				<td>
+					<input id="loginUser" type="text" name="user" dojoType="dijit.form.TextBox" value="don" />
+				</td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td>
+					<input id="loginPassword" type="password" name="password" dojoType="dijit.form.TextBox" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input id="loginSaveUser" type="checkbox" name="saveUser" dojoType="dijit.form.CheckBox" checked="true"/> <label for="loginSaveUser">Save e-mail address?</label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+				<table>
+				<tr>
+					<td><input type="Submit" id="logonSubmitButton" dojoType="dijit.form.Button" onclick="tourapp.gui.submitLogonDialog(true);"><img src="images/buttons/Submit.gif" width="16" height="16" >&#160;Submit</input></td>
+					<td></td>
+					<td><input type="Button" id="logonCancelButton" dojoType="dijit.form.Button" onclick="tourapp.gui.submitLogonDialog(false);"><img src="images/buttons/Cancel.gif" width="16" height="16" >&#160;Cancel</input></td>
+				</tr>
+				</table>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+	</div>
+
+</body>
+</html>

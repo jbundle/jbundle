@@ -1,0 +1,110 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This file is used by the booking system to select the proper pricing, and products.
+
+<br wp="br1"><br wp="br2">
+<p>When the a tour code and date are entered in the booking system, this file is accessed first. Depending
+on what this file has in it, the correct pricing, hotels, land, air, and remarks are set for the booking.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<p>/SDESC1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>When designing a the optional information,always remember the following: the questions are evaluated
+in order by seq. no.
+
+<br wp="br1"><br wp="br2">
+<p>The question sequence is the order the questions are evaluated, so if a question modifies another
+question, make sure the order is correct. (ie., For a hotel upgrade, the upgrade question should be
+sequenced after the question that set the original hotel)
+
+<br wp="br1"><br wp="br2">
+<p>First the Tour code and current question sequence along with all of the answers will display.
+
+<br wp="br1"><br wp="br2">
+<p>The system will ask if you want to change any of the answers. Your answer sequences should start
+with 1.  You can enter an answer by entering it in an empty slot. The date range defaults to the header
+starting and ending dates.
+
+<br wp="br1"><br wp="br2">
+<p>The first variable, "Ask Answer?" sets this question for auto or manual evaluation. (ie., For seasonal
+Rates, you would have answers of "High," "Low," and "Shoulder." You wouldn't want the system to
+ask the user for the season, as it can be evaluated from the departure date. You would answer "No"
+to "Ask Answer?"
+
+<br wp="br1"><br wp="br2">
+<p>The next variable, "Always Resolve?" pertains only to "Question/Answer" formats. (If the previous
+variable was "N" this is always "Y."; Using the previous example, the system ALWAYS has to
+evaluate the season) If you have an Answer that HAS to be answered, Answer "Yes." The system will
+individually display the question and the user is forced to give an answer (none of the above is a valid
+answer.) (For example, if the reservation agent should always ask if Tour Insurance is required,
+answer "Yes.") All the questions with a "No" will be displayed in a galley for the res agent to review.
+The user can select a particular question which will display withall the answers, or the user can skip
+all the questions.
+
+<br wp="br1"><br wp="br2">
+<p>The record can be further modified by the following answer parameters:	Select by date (Always
+select if in date range)
+
+<p>			Use another Answers detail (If an Answers sequence number is entered here,
+ALL of the Answer's information will be added to the booking (this is useful
+for non-contiguous date ranges)
+
+<p>			Select by day-of-week (Select if departure is Mon(1)-Sun(7) (NOTE: "123"
+Means for Mon,Tue,Wed departures)
+
+<p>			Select by gateway (If answer matches the air gateway, then the information
+will be included)
+
+<br wp="br1"><br wp="br2">
+<p>For example, if you want to use hotel A for Jan-Jul and hotel B for Aug-Sep, all you have to do is:
+Enter the seq. #1, question: Which hotel; Answer 1: Hotel A with the date range Jan-Jul; Answer 2:
+Hotel B with this hotel's date range. Then go to the hotel screen and select Ques 1, answer 1 and enter
+hotel A. Under ques 1 answer 2 enter Hotel B. (When the booking is made, the system won't ask any
+questions, the hotel will automatically be selected depending on the tour departure date)
+
+<br wp="br1"><br wp="br2">
+<p>For another example, if you had an air-surcharge for December, you would Enter Question #2:
+December Air surcharge, Answer 1 would be Air Surcharge, Dec 01-Dec 31. This would be the only
+answer for this question. If the booking date were Dec 01-31, then the surcharge (entered in pricing)
+and modified ticket (entered in ticket entry) would automatically be added to the booking.
+
+<br wp="br1"><br wp="br2">
+<p>Or maybe you want to give the client the chance to upgrade the hotel in Tokyo. Enter ques #1:
+Upgrade to Palace hotel?, Answer #1: Yes.  (Answer #0 would be No). (You could also enter date
+ranges if it was only available for a certain amount of time) Then you would go to hotel display for
+Ques 1, answer 1(Yes) and delete the normal hotel (soft delete) and re-enter the upgraded hotel. Then
+you would go to tour pricing and add an item, "Hotel upgrade surcharge" with the surcharge amount.
+You don't have to make any changes to Alt 1, answer 0, because it is already correct.
+
+<br wp="br1"><br wp="br2">
+<p>The header field: Ask Answer and Always Resolve have to do with the way the question is processed.
+If Ask Answer is No, then the question is resolved automatically (ie., Sunday surcharge). If it is Yes,
+then the user must select the answer for the information to be added to the booking.
+
+<br wp="br1"><br wp="br2">
+<p>	NOTE: If an answer is entered with a sequence number of 0, the system does not process the detail
+information (ie., no modifications may be made to a question with a zero sequence question) This is
+useful in entering the default question to many answers. For example, if you were to ask: "Hotel
+upgrade?"; answer 0 would be "No."
+
+<br wp="br1"><br wp="br2">
+<p>	NOTE: The guideline to use when deciding which items fall under one question is simple: A question can
+resolve to only ONE answer (Remember: None of the above is a valid answer). Therefor if there is
+a possibility of more than one answer, use another question.
+</body>
+</html>

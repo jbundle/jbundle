@@ -1,0 +1,84 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>A finalization estimate is the estimate of the tour cost, based on the number of passengers and services
+at the tour finalization date. Tour orders are usually sent to the vendors on this same day.
+
+<br wp="br1"><br wp="br2">
+<p>The amounts entered here have NO effect on the accounting system. They are entered only to help
+estimate the amount of currency which will be required for payment in the future.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>First, type in the tour number. The tour description will display automatically.
+
+<br wp="br1"><br wp="br2">
+<p>Now you can enter all of the services and estimated costs for this tour.
+
+<br wp="br1"><br wp="br2">
+<p>For each vendor providing services on this tour, enter the description of the services (ie., 2 Transfers,
+SS), the beginning and ending dates, the tour finalization date (defaults to today's date), and the
+estimate amount (in the vendor's local currency).
+
+<br wp="br1"><br wp="br2">
+<p>After entering each estimate, the cursor will return to item #2 on the screen. This lets you enter all of
+the finalization estimates for each tour.
+
+<br wp="br1"><br wp="br2">
+<p>To clear the information just entered, type DEL at the CHANGE ITEM prompt.
+
+<br wp="br1"><br wp="br2">
+<p>To enter estimates for the next tour, just press return at the vendor position (#2) and you will be able
+to enter more estimates, or end the program by hitting return again.
+
+<br wp="br1"><br wp="br2">
+<p>If you want to change a current finalization estimate, use the A/P adjustments screen. Since
+finalizations estimates are not posted, they may be freely changed.
+
+<br wp="br1"><br wp="br2">
+<p>Take a look at the currency requirements report. This will give you a good idea of what this data is
+used for.
+
+<br wp="br1"><br wp="br2">
+<p>	Note: This program will rarely be used, becase the data supplied wouldn't justify the time that the user would
+have to spend putting the data into the system.
+
+<br wp="br1"><br wp="br2">
+<p>The data for finalization estimates will almost always be supplied by the booking sub-system.
+
+<br wp="br1"><br wp="br2">
+<p>This program would be used to enter a rare manual booking that might have a significant future impact
+on the cash flow.
+
+<br wp="br1"><br wp="br2">
+<p>For Finalization estimates transferred from the booking system, the entry number is the voucher
+number! When the booking system prints a voucher/tour order this number is printed on the
+voucher/tour order.
+
+<br wp="br1"><br wp="br2">
+<p>	Warning: Remember that the tour finalization program automatically creates finalization estimates. If you
+enter a finalization estimate before the finalization date, the tour finalization program will NOT create
+or update the estimate for the services that you have entered. (This means that tour orders and other
+documents will not be created, because the system can't be sure which booking in a tour contains the
+correct land or hotel detail)
+
+<br wp="br1"><br wp="br2">
+<p>Note: After a finalization estimate has been entered, it cannot be deleted. Since a finalization estimate
+is non-accountable, this should not pose a problem. However, if you do want to delete a finalization
+estimate, go to departure estimate entry, enter a departure estimate amount. Then, immediately re-enter the estimate number and type DEL at the CHANGE ITEM prompt.
+</body>
+</html>

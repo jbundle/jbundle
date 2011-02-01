@@ -1,0 +1,393 @@
+/****************************************************************
+	Module: BK_AIR_CHECK
+	Top Level Logic: REPORT_LOGIC
+	Date:  4-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_AIR_CHECK
+	Standard report logic
+****************************************************************/
+
+%replace BK_AIR_CHECK_1 by 827;
+%replace BK_AIR_CHECK_2 by 828;
+BK_AIR_CHECK:
+   procedure;
+%replace TK_HEADER_NO by  56;
+%replace TK_DETAIL_NO by  57;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_INV_DET_NO by  61;
+%replace BK_HOTEL_NO by   8;
+%replace BK_BOOKING_NO by   9;
+%include "BK_AIR_CHECK.DD";
+%include "TK_HEADER.DD";
+%include "TK_DETAIL.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_INV_DET.DD";
+%include "BK_HOTEL.DD";
+%include "BK_BOOKING.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+declare		BK_KEY			character(10);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   INV_H_START = "";
+   INV_H_SDATE = TODAYS_DATE();
+   INV_H_EDATE = TODAYS_DATE() + 1000;
+   INV_H_DATE = TODAYS_DATE();
+   INV_H_TIME = CURRENT_TIME();
+   INV_USER = USER_NAME();
+   INV_PAGE = 1;
+   INV_ARRAY = 0;
+   OVER_BOOKED = "";
+   TK_DET_MOD_CODE = "A";
+   INV_DET_TYPE = "H";
+   INV_CODE_TYPE = "B";
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_AIR_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+
+INV_H_START = "";
+INV_H_END = "~";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_AIR_CHECK_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_AIR_CHECK_RECORD) );
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (BK_INV_DET_NO,"BK_INV_DET",byteaddr(BK_INV_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_INV_DET_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+declare ERROR_BK_INV_DET fixed binary(15);
+
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (BK_AIR_CHECK_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* INIT_H_INV - Initialize the values */
+
+   INV_ARRAY = 0;
+   INV_DET_DATE = INV_H_SDATE-99;
+   TK_CARRIER= "";
+
+   call PRT_PAGE_HEADING;
+
+INV_DET_DATE = TODAYS_DATE();
+INV_BLOCKED = 0;
+INV_USED = 0;
+INV_AVAIL = 0;
+INV_OVERSELL = 0;
+INV_ACTUAL = 0;
+INV_DIF = 0;
+OVER_BOOKED = 0;
+
+
+INV_DET_ENTRY = "";
+INV_DET_TYPE = "A";
+INV_CODE_TYPE = " ";
+INV_ROOM_TYPE = 0;
+INV_DET_DATE = TODAYS_DATE();
+HOTEL_NAME = "";
+
+call SET_POSITION(BK_INV_DET_NO, KEY_AREA_1, ERROR_BK_INV_DET);
+do while (YES);
+call READ_NEXT(BK_INV_DET_NO, KEY_AREA_1, ERROR_BK_INV_DET);
+	if (ERROR_BK_INV_DET ^= NORMAL_RETURN) then
+		do;
+   		END_REPORT_MAIN = YES;
+   		return;
+		end;
+INV_ACTUAL = 0;
+OVER_BOOKED = 0;
+
+if (INV_DET_TYPE = "A")            then
+if (INV_DET_DATE > INV_H_DATE) then
+do;
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TK_DET_MOD = 0;
+TK_CARRIER = substr(INV_DET_ENTRY, 1, 2);
+TK_FLIGHT = substr(INV_DET_ENTRY, 3, 4);
+   TK_DATE = INV_DET_DATE;
+   TK_DET_BK_TK = 0;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_SEQ = 0;
+
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+if (INV_USED ^= INV_ACTUAL) then
+do;
+if (INV_DET_ENTRY ^= HOTEL_NAME) then
+	do;
+	HOTEL_NAME = INV_DET_ENTRY;
+   	do LOOP_INDEX =  3  to   3;
+      		call PRINT_REPORT_LINE;
+   	end;
+	end;
+
+INV_DIF = INV_USED - INV_ACTUAL;
+   do LOOP_INDEX =  6  to   6;
+      call PRINT_REPORT_LINE;
+   end;
+end;
+
+INV_USED = INV_ACTUAL;
+INV_AVAIL = INV_BLOCKED - INV_USED;
+call UPDATE_RECORD(BK_INV_DET_NO, ERROR_BK_INV_DET);
+if (ERROR_BK_INV_DET ^= 0) then
+	stop;
+end;
+
+end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   2;
+   call PRINT_REPORT_LINE;
+end;
+do LOOP_INDEX =   4 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+INV_PAGE = INV_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+declare		ERROR_BK_BOOKING     fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > 0) !
+   (TK_CARRIER > substr(INV_DET_ENTRY,1 ,2) ) !
+   (TK_FLIGHT  > substr(INV_DET_ENTRY,3 ,4) ) !
+   (TK_DATE   > INV_DET_DATE ) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+
+   if (TK_INV ^= "Y") ! (TK_CARRIER = "") then
+	return;
+
+BK_MODIFICATION = 0;
+BOOKING_NO = TK_DET_BK_TK;
+call READ_KEYED(BK_BOOKING_NO, KEY_AREA_1, ERROR_BK_BOOKING);
+if (ERROR_BK_BOOKING ^= 0) ! (BK_STATUS = "XL") ! (BK_STATUS = "XX") then
+	return;
+
+   if TK_DET_ALT_SEQ = 0 then
+      do;
+      TK_MODIFICATION = 0;
+      TK_BK_TK_NO = TK_DET_BK_TK;
+      TK_ALT_SEQ = 0;
+      TK_ANSW_SEQ = 0;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      ERROR_CODE = NORMAL_RETURN;
+      AIR_COMP_SEQ = 0;
+      do while (ERROR_CODE = NORMAL_RETURN);
+         call READ_NEXT (TK_HEADER_NO+?KEY_ONLY,KEY_AREA_1,ERROR_CODE);
+         if (TK_MODIFICATION ^= 0) !
+            (TK_BK_TK_NO ^= TK_DET_BK_TK) then
+               ERROR_CODE = END_OF_FILE;
+         if ERROR_CODE = NORMAL_RETURN then
+            do;
+            if TK_ALT_SEQ ^= AIR_COMP_SEQ then
+               do;
+               BK_PAX = BK_PAX - 1;
+               AIR_COMP_SEQ = TK_ALT_SEQ;
+               end;
+            end;
+      end;
+      if BK_PAX = 0 then
+         return;
+      end;
+   else
+      do;
+      BK_PAX = 1;
+      end;
+
+INV_ACTUAL = INV_ACTUAL + BK_PAX;
+
+return;
+end;	/* READ_THRU_FILE       */
+
+   /****************************************************************
+   	PRINT_REPORT_LINE
+   	Print out this report line
+   ****************************************************************/
+
+   PRINT_REPORT_LINE:
+   	procedure;
+
+   declare		SAVE_FORMAT          fixed binary (15);
+   declare		SAVE_INDEX           fixed binary (15);
+   LINE = LINE + 1;
+   if LINE > 60 then
+      do;
+      call PRINT_LINE ("<FF>"c);
+      LINE = 1;
+      SAVE_INDEX = LOOP_INDEX;
+      call GET_PRINT_FORMAT(SAVE_FORMAT);
+      call PRT_PAGE_HEADING;
+      call GET_PRINT_FORMAT(LOOP_INDEX);
+      if LOOP_INDEX ^= SAVE_FORMAT then
+         call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+      LOOP_INDEX = SAVE_INDEX;
+      end;
+   call PRINT_LINE_OUT (LOOP_INDEX);
+   return;
+   end;	/* PRINT_REPORT_LINE    */
+
+   /****************************************************************
+   	END_RPT_PROGRAM
+   	End of the program
+   ****************************************************************/
+
+   END_RPT_PROGRAM:
+   	procedure;
+
+
+      /* CLOSE_RPT_FILES - Close the files for this report program */
+
+      call CLOSE_FILE (TK_HEADER_NO);
+      call CLOSE_FILE (TK_DETAIL_NO);
+      call CLOSE_FILE (BK_INV_DET_NO);
+      call CLOSE_FILE (BK_BOOKING_NO);
+      call CLOSE_PRINTER;
+   return;
+   end;	/* END_RPT_PROGRAM      */
+   end;	/* END_RPT_PROGRAM      */
+   /*********************************End of Program*********************/

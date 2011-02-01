@@ -1,0 +1,144 @@
+/****************************************************************
+	Module: AR_RPT_MENU
+	Top Level Logic: MENU_LOGIC
+	Date: 20-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_RPT_MENU
+	Logic for menu programs
+****************************************************************/
+
+%replace AR_RPT_MENU_1 by 859;
+AR_RPT_MENU:
+   procedure;
+%include "AR_RPT_MENU.DD";
+
+declare		END_SELECT_AND_RUN   bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+   call INITIALIZE;
+   END_SELECT_AND_RUN = NO;
+   do while (END_SELECT_AND_RUN ^= YES);
+      call SELECT_AND_RUN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_RPT_MENU_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AR_RPT_MENU_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SELECT_AND_RUN
+	Select option and run
+****************************************************************/
+
+SELECT_AND_RUN:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+
+   /* REDIS_AND_SET - Redisplay the screen and set the var ptr */
+
+   if NOT_FIRST_TIME then
+      do;
+      call DISPLAY_SCREEN (AR_RPT_MENU_1);
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (AR_RPT_MENU_RECORD) );
+      end;
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_OPTION - Input the option on the screen */
+
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (AR_RPT_SELECT = 0) !
+        (RETURN_CODE ^= NORMAL_RETURN) then
+      do;
+      END_SELECT_AND_RUN = YES;
+      return;
+      end;
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   declare AR_BOOK_DIST entry;
+   declare AR_CHECK_DIST entry;
+   declare AR_DEPOSIT_DIST entry;
+   declare AR_CUTOFF entry;
+   declare AR_PAST_DUE entry;
+   declare AR_CASH_REVIEW entry;
+   declare AR_CASH_PLAN entry;
+   do case (AR_RPT_SELECT);
+         /* Option   1 */
+      call AR_BOOK_DIST(
+);
+         /* Option   2 */
+      call AR_CHECK_DIST(
+);
+         /* Option   3 */
+      call AR_DEPOSIT_DIST(
+);
+         /* Option   4 */
+      call AR_CUTOFF(
+);
+         /* Option   5 */
+      call AR_PAST_DUE(
+);
+         /* Option   6 */
+      call AR_CASH_REVIEW(
+);
+         /* Option   7 */
+      call AR_CASH_PLAN(
+);
+   end;
+   otherwise
+      do;
+      end;
+return;
+end;	/* SELECT_AND_RUN       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

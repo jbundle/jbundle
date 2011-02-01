@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <title>Install Notes</title>
+</head>
+<body>
+<h1> Setting up a Linux System from Scratch</h1>
+     1. Install the O/S from CDs     
+<p>- DHCP = NO </p>
+<p>IP <br>
+    Mask <br>
+    Gateway <br>
+    Hostname: tourbean.com <br>
+    DNS </p>
+<p>Firewall: None </p>
+<p>Users: <br>
+    don <br>
+    ann <br>
+    other </p>
+<p>Monitor: True color 1024 x 768 </p>
+<p>Create and save boot disk. </p>
+<p>/tmp/install.log Shows what was installed. </p>
+<p><b>Install Done</b></p>
+<p><b>If you have two drives Fix the partitioning.</b><br>
+    Do not boot the new system, fix the wierd partitioning first: <br>
+    1. Reboot RH Install 1 <br>
+    2. ...-&gt;Install <br>
+    3. Manually partition empty disk space w/fdisk <br>
+    hda: new/extended/first/max/write <br>
+<b>Set up the System:</b><br>
+    Sign on as root </p>
+<p>If you have two drives Format the new partitions:  <br>
+    mke2fs /dev/hda7 </p>
+<p>Panel size -&gt; 24 <br>
+    Gnome Configuration (toolbox icon) -&gt; Mouse -&gt; Left </p>
+<p>Create directory /mnt/hda <br>
+    mount /dev/hda6 /mnt/hda </p>
+<p>use df to see the disk space, mount to see the mounts </p>
+<p>Set up for downloads by creating /root/download/ linux and java </p>
+<h3> Install and test the printer:</h3>
+     Program -&gt; System -&gt; Printer Configuration <br>
+    Queue Name: HP5 <br>
+    Queue Type: Local <br>
+    Printer Driver: HP5L (lj5gray) <br>
+    Save, Restart, Print Test Page     
+<h3> Install and test:</h3>
+    Mozilla (www.mozilla.org):<br>
+<h3> Install and test Samba:</h3>
+     Download Samba. <br>
+    tar -zxvf Sambaxxx.tar.gz <br>
+    cd samba2.xx.xx/source <br>
+    ./configure --with-smbmount <br>
+    make <br>
+    make install     
+<p>cd /usr/local/samba <br>
+    edit (/etc/samba/smb.conf is the config file) <br>
+    workgroup=DBSERVER<br>
+   passwords=yes<br>
+   passwordfile=xxxx  (uncomment this line)</p>
+<p>Add your users to the password file.<br>
+</p>
+<p>Create link from /etc/samba/pass?wd to the new password file<br>
+   Create the /var/spool/samba directory and give everyone write permission<br>
+   Create /var/log/samba dir (If you have problems, check out the log files) 
+ </p>
+<p>run testparm <br>
+    (create directory /var/lock/samba) <br>
+    link /usr/local/samba/lib/smb.conf to conf file </p>
+<p>(in bin dir, test samba:) <br>
+    ./smbd -D <br>
+    ./nmbd -D </p>
+<p>Add the Samba startup script to init.d </p>
+<p><b>MySQL setup:</b></p>
+<p>The setup is fairly easy. Make sure you get the grants correct and create 
+  the databases.<br>
+  somthing like grant all to *.* for root.'%' security='password'; </p>
+<p><b>Java setup:</b><br>
+    Install in: /usr/local/java/jdk <br>
+    Java (www.javasoft.com)<br>
+     and link the java plugin, so it will work.<br>
+  (From mozilla/plugins/xxx.so to java/jdk/jre/plugin/ns600/xxx.so)<br>
+    (must be 1.3.1 or later) <br>
+   Link /usr/local/bin/java, javac, jar<br>
+  Install Web Start<br>
+   Install docs <br>
+  Unzip java source<br>
+   Install J2SDKEE <br>
+    Install J2DSKEE Docs </p>
+<p><b>Tomcat setup:</b><br>
+    Unzip <br>
+    Create script to execute tomcat w/TOMCAT_HOME <br>
+    and in the tomcat script include my classpaths first (not last as it
+is  now).  </p>
+<p><b>Cocoon setup:</b><br>
+    Move cocoon/lib to tomcat/lib <br>
+    Follow the rest of the directions </p>
+<p><b>Download:</b><br>
+    StarOffice 5.2 www.sun.com <br>
+    Java2 SDK 1.3 www.javasoft.com <br>
+    Java2 SDK 1.3 Documentation <br>
+    Java2 SKDEE 1.3 Beta <br>
+    J2EE Documentation <br>
+    Samba www.samba.org <br>
+    MySQL www.mysql.com <br>
+    mm.msql.jdbc 2.0 (java driver for mysql) </p>
+<p><b>Install the following:</b><br>
+    - Mozilla <br>
+    - Java + Docs (link plug to mozilla plug-in directory) <br>
+    - Java Web Start <br>
+    - StarOffice + Adabas <br>
+    - Netbeans <br>
+    - MySQL jar (mm.mysql) <br>
+    - Tomcat <br>
+    - Cocoon <br>
+    - Oreilly <br>
+    - J2SDKEE + Docs <br>
+    - ant <br>
+    - log4j <br>
+    - junit <br>
+    - Jedit <br>
+    - JExplorer <br>
+    - javacomm <br>
+    - winnie <br>
+    - bbtools <br>
+    - xalan, xerces (apache), jaxp (javasoft) </p>
+<p><b>Create links (scripts in /usr/local/bin)</b><br>
+    jar <br>
+    java <br>
+    javac <br>
+    javaws * <br>
+    web -&gt; mozilla * <br>
+    soffice * <br>
+    runide * <br>
+    tomcat <br>
+    jedit (auto on install) * <br>
+    jexplorer * <br>
+    ant </p>
+<p>* Add these to the desktop. </p>
+<p><b>Add the plug-ins to netscape:</b><br>
+    Shockwave (application/x-shockwave-flash) <br>
+    realplayer (audio/x-pn-realaudio) <br>
+    adobe acrobat (application/pdf) <br>
+    java web start (application/x-java-jnlp-file) </p>
+<p><b>Install my software<br>
+</b> tour (remember to fix the paths in server.sh)<br>
+bio<br>
+terminal<br>
+cgi-bin<br>
+</p>
+</body>
+</html>

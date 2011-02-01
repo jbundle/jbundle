@@ -1,0 +1,8 @@
+/*********************************************************************
+	GL_PERIOD File
+********************************************************************/
+
+declare	1 GL_PERIOD_RECORD,
+		3 GL_START_PERIOD      fixed binary (15),
+		3 GL_END_PERIOD        fixed binary (15);
+

@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_USERS File
+********************************************************************/
+
+declare	1 BK_USERS_RECORD,
+		3 BK_USER              character (       16),
+		3 BK_USER_NAME         character (       30),
+		3 BK_DEPARTMENT        character (       16);
+

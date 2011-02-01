@@ -1,0 +1,3404 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<Registration ID="28">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Print</KeyValue>
+		<ObjectValue>Print</ObjectValue>
+	</Registration>
+	<Registration ID="29">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Edit</KeyValue>
+		<ObjectValue>Edit</ObjectValue>
+	</Registration>
+	<Registration ID="30">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Undo</KeyValue>
+		<ObjectValue>Undo</ObjectValue>
+	</Registration>
+	<Registration ID="31">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Close</KeyValue>
+		<ObjectValue>Close</ObjectValue>
+	</Registration>
+	<Registration ID="32">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Cut</KeyValue>
+		<ObjectValue>Cut</ObjectValue>
+	</Registration>
+	<Registration ID="33">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Copy</KeyValue>
+		<ObjectValue>Copy</ObjectValue>
+	</Registration>
+	<Registration ID="34">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Paste</KeyValue>
+		<ObjectValue>Paste</ObjectValue>
+	</Registration>
+	<Registration ID="35">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Preferences</KeyValue>
+		<ObjectValue>Screen preferences</ObjectValue>
+	</Registration>
+	<Registration ID="36">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Record</KeyValue>
+		<ObjectValue>Record</ObjectValue>
+	</Registration>
+	<Registration ID="37">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>First</KeyValue>
+		<ObjectValue>First</ObjectValue>
+	</Registration>
+	<Registration ID="38">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Prev</KeyValue>
+		<ObjectValue>Prev</ObjectValue>
+	</Registration>
+	<Registration ID="39">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Next</KeyValue>
+		<ObjectValue>Next</ObjectValue>
+	</Registration>
+	<Registration ID="40">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Last</KeyValue>
+		<ObjectValue>Last</ObjectValue>
+	</Registration>
+	<Registration ID="41">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Submit</KeyValue>
+		<ObjectValue>Submit</ObjectValue>
+	</Registration>
+	<Registration ID="42">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>SubmitTip</KeyValue>
+		<ObjectValue>Write this record and display a new blank record</ObjectValue>
+	</Registration>
+	<Registration ID="43">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Reset</KeyValue>
+		<ObjectValue>Reset</ObjectValue>
+	</Registration>
+	<Registration ID="44">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>ResetTip</KeyValue>
+		<ObjectValue>Restore this record to its initial state</ObjectValue>
+	</Registration>
+	<Registration ID="45">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Delete</KeyValue>
+		<ObjectValue>Delete</ObjectValue>
+	</Registration>
+	<Registration ID="46">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>DeleteTip</KeyValue>
+		<ObjectValue>Delete this record and display a new blank record</ObjectValue>
+	</Registration>
+	<Registration ID="47">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>HelpMenu</KeyValue>
+		<ObjectValue>Help </ObjectValue>
+	</Registration>
+	<Registration ID="48">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>About</KeyValue>
+		<ObjectValue>About this program</ObjectValue>
+	</Registration>
+	<Registration ID="49">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Help</KeyValue>
+		<ObjectValue>Help</ObjectValue>
+	</Registration>
+	<Registration ID="50">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>HelpTip</KeyValue>
+		<ObjectValue>Open the Help screen in a new window</ObjectValue>
+	</Registration>
+	<Registration ID="51">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Lookup</KeyValue>
+		<ObjectValue>Lookup</ObjectValue>
+	</Registration>
+	<Registration ID="52">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>LookupTip</KeyValue>
+		<ObjectValue>Change to the record lookup screen</ObjectValue>
+	</Registration>
+	<Registration ID="53">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Back</KeyValue>
+		<ObjectValue>Back</ObjectValue>
+	</Registration>
+	<Registration ID="54">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>BackTip</KeyValue>
+		<ObjectValue>Go to the previous screen</ObjectValue>
+	</Registration>
+	<Registration ID="55">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Form</KeyValue>
+		<ObjectValue>Form</ObjectValue>
+	</Registration>
+	<Registration ID="56">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>FormTip</KeyValue>
+		<ObjectValue>Change to the record input form</ObjectValue>
+	</Registration>
+	<Registration ID="57">
+		<LastChanged>2007-04-24T04:50:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Too Small</KeyValue>
+		<ObjectValue>This value is too small, it must be greater than or equal to {0}</ObjectValue>
+	</Registration>
+	<Registration ID="58">
+		<LastChanged>2007-04-24T04:50:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Too Large</KeyValue>
+		<ObjectValue>This value is too large, it must be less than or equal to {0}</ObjectValue>
+	</Registration>
+	<Registration ID="59">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Home</KeyValue>
+		<ObjectValue>Home</ObjectValue>
+	</Registration>
+	<Registration ID="60">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Clone</KeyValue>
+		<ObjectValue>Clone screen</ObjectValue>
+	</Registration>
+	<Registration ID="61">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>LookupClone</KeyValue>
+		<ObjectValue>Lookup link screen</ObjectValue>
+	</Registration>
+	<Registration ID="62">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>FormClone</KeyValue>
+		<ObjectValue>Form link screen</ObjectValue>
+	</Registration>
+	<Registration ID="63">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Font</KeyValue>
+		<ObjectValue>Font</ObjectValue>
+	</Registration>
+	<Registration ID="64">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Background</KeyValue>
+		<ObjectValue>Background color</ObjectValue>
+	</Registration>
+	<Registration ID="65">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Text</KeyValue>
+		<ObjectValue>Text color</ObjectValue>
+	</Registration>
+	<Registration ID="66">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Control</KeyValue>
+		<ObjectValue>Control color</ObjectValue>
+	</Registration>
+	<Registration ID="67">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Reset all</KeyValue>
+		<ObjectValue>Reset all</ObjectValue>
+	</Registration>
+	<Registration ID="68">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Look</KeyValue>
+		<ObjectValue>Look and Feel</ObjectValue>
+	</Registration>
+	<Registration ID="69">
+		<LastChanged>2010-05-07T04:58:36</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Copyright</KeyValue>
+		<ObjectValue>© Copyright 2010 tourgeek.com. All rights reserved. www.tourgeek.com</ObjectValue>
+	</Registration>
+	<Registration ID="71">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>6</ResourceID>
+		<Code>Default</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>***Record not found***</KeyValue>
+		<ObjectValue>***Record not found***</ObjectValue>
+	</Registration>
+	<Registration ID="72">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>FormLink</KeyValue>
+		<ObjectValue>Form</ObjectValue>
+	</Registration>
+	<Registration ID="73">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>FormLinkTip</KeyValue>
+		<ObjectValue>Change to the record input form and edit this record</ObjectValue>
+	</Registration>
+	<Registration ID="74">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Can't Delete from disabled grid</KeyValue>
+		<ObjectValue>Can't Delete from disabled grid</ObjectValue>
+	</Registration>
+	<Registration ID="75">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Can't delete records</KeyValue>
+		<ObjectValue>Can't delete records from this file</ObjectValue>
+	</Registration>
+	<Registration ID="81">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Must be non-numeric</KeyValue>
+		<ObjectValue>Must be non-numeric</ObjectValue>
+	</Registration>
+	<Registration ID="82">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Record locked</KeyValue>
+		<ObjectValue>Record in use</ObjectValue>
+	</Registration>
+	<Registration ID="84">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Sub-File Not Empty</KeyValue>
+		<ObjectValue>Sub-File Not Empty</ObjectValue>
+	</Registration>
+	<Registration ID="85">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Incorrect Magic number</KeyValue>
+		<ObjectValue>Incorrect Magic number</ObjectValue>
+	</Registration>
+	<Registration ID="96">
+		<LastChanged>2008-03-06T16:33:10</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Record locked by</KeyValue>
+		<ObjectValue>Record in use by</ObjectValue>
+	</Registration>
+	<Registration ID="97">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>End of file</KeyValue>
+		<ObjectValue>End of file</ObjectValue>
+	</Registration>
+	<Registration ID="98">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Key not found</KeyValue>
+		<ObjectValue>Record not found</ObjectValue>
+	</Registration>
+	<Registration ID="99">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Duplicate key</KeyValue>
+		<ObjectValue>A record with this key already exists</ObjectValue>
+	</Registration>
+	<Registration ID="100">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>File not open</KeyValue>
+		<ObjectValue>File not open</ObjectValue>
+	</Registration>
+	<Registration ID="101">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>File already open</KeyValue>
+		<ObjectValue>File already open</ObjectValue>
+	</Registration>
+	<Registration ID="102">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>File table full</KeyValue>
+		<ObjectValue>File full</ObjectValue>
+	</Registration>
+	<Registration ID="103">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>File inconsistency</KeyValue>
+		<ObjectValue>File inconsistency</ObjectValue>
+	</Registration>
+	<Registration ID="104">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Invalid record</KeyValue>
+		<ObjectValue>Invalid record</ObjectValue>
+	</Registration>
+	<Registration ID="105">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>File not found</KeyValue>
+		<ObjectValue>File not found</ObjectValue>
+	</Registration>
+	<Registration ID="106">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Null field</KeyValue>
+		<ObjectValue>Null field</ObjectValue>
+	</Registration>
+	<Registration ID="107">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Read not new</KeyValue>
+		<ObjectValue>Read not new</ObjectValue>
+	</Registration>
+	<Registration ID="108">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>No active query</KeyValue>
+		<ObjectValue>No active query</ObjectValue>
+	</Registration>
+	<Registration ID="109">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Record not locked</KeyValue>
+		<ObjectValue>Record not locked</ObjectValue>
+	</Registration>
+	<Registration ID="110">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Retry error</KeyValue>
+		<ObjectValue>Retry error</ObjectValue>
+	</Registration>
+	<Registration ID="111">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Can't update read only file</KeyValue>
+		<ObjectValue>Can't update a read-only file</ObjectValue>
+	</Registration>
+	<Registration ID="112">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Can't update append only file</KeyValue>
+		<ObjectValue>Can't update an append-only file</ObjectValue>
+	</Registration>
+	<Registration ID="132">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>1</KeyValue>
+		<ObjectValue>One</ObjectValue>
+	</Registration>
+	<Registration ID="133">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>2</KeyValue>
+		<ObjectValue>Two</ObjectValue>
+	</Registration>
+	<Registration ID="134">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>3</KeyValue>
+		<ObjectValue>Three</ObjectValue>
+	</Registration>
+	<Registration ID="135">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>4</KeyValue>
+		<ObjectValue>Four</ObjectValue>
+	</Registration>
+	<Registration ID="136">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>5</KeyValue>
+		<ObjectValue>Five</ObjectValue>
+	</Registration>
+	<Registration ID="137">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>6</KeyValue>
+		<ObjectValue>Six</ObjectValue>
+	</Registration>
+	<Registration ID="138">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>7</KeyValue>
+		<ObjectValue>Seven</ObjectValue>
+	</Registration>
+	<Registration ID="139">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>8</KeyValue>
+		<ObjectValue>Eight</ObjectValue>
+	</Registration>
+	<Registration ID="140">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>9</KeyValue>
+		<ObjectValue>Nine</ObjectValue>
+	</Registration>
+	<Registration ID="141">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>10</KeyValue>
+		<ObjectValue>Ten</ObjectValue>
+	</Registration>
+	<Registration ID="142">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>11</KeyValue>
+		<ObjectValue>Eleven</ObjectValue>
+	</Registration>
+	<Registration ID="143">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>12</KeyValue>
+		<ObjectValue>Twelve</ObjectValue>
+	</Registration>
+	<Registration ID="144">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>13</KeyValue>
+		<ObjectValue>Thirteen</ObjectValue>
+	</Registration>
+	<Registration ID="145">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>14</KeyValue>
+		<ObjectValue>Fourteen</ObjectValue>
+	</Registration>
+	<Registration ID="146">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>15</KeyValue>
+		<ObjectValue>Fifteen</ObjectValue>
+	</Registration>
+	<Registration ID="147">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>16</KeyValue>
+		<ObjectValue>Sixteen</ObjectValue>
+	</Registration>
+	<Registration ID="148">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>17</KeyValue>
+		<ObjectValue>Seventeen</ObjectValue>
+	</Registration>
+	<Registration ID="149">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>18</KeyValue>
+		<ObjectValue>Eighteen</ObjectValue>
+	</Registration>
+	<Registration ID="150">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>19</KeyValue>
+		<ObjectValue>Nineteen</ObjectValue>
+	</Registration>
+	<Registration ID="151">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>20</KeyValue>
+		<ObjectValue>Twenty</ObjectValue>
+	</Registration>
+	<Registration ID="152">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>30</KeyValue>
+		<ObjectValue>Thirty</ObjectValue>
+	</Registration>
+	<Registration ID="153">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>40</KeyValue>
+		<ObjectValue>Forty</ObjectValue>
+	</Registration>
+	<Registration ID="154">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>50</KeyValue>
+		<ObjectValue>Fifty</ObjectValue>
+	</Registration>
+	<Registration ID="155">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>60</KeyValue>
+		<ObjectValue>Sixty</ObjectValue>
+	</Registration>
+	<Registration ID="156">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>70</KeyValue>
+		<ObjectValue>Seventy</ObjectValue>
+	</Registration>
+	<Registration ID="157">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>80</KeyValue>
+		<ObjectValue>Eighty</ObjectValue>
+	</Registration>
+	<Registration ID="158">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>90</KeyValue>
+		<ObjectValue>Ninety</ObjectValue>
+	</Registration>
+	<Registration ID="159">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>0</KeyValue>
+		<ObjectValue>Zero</ObjectValue>
+	</Registration>
+	<Registration ID="160">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>100</KeyValue>
+		<ObjectValue>Hundred</ObjectValue>
+	</Registration>
+	<Registration ID="161">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>1000</KeyValue>
+		<ObjectValue>Thousand</ObjectValue>
+	</Registration>
+	<Registration ID="162">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>1000000</KeyValue>
+		<ObjectValue>Million</ObjectValue>
+	</Registration>
+	<Registration ID="163">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>1000000000</KeyValue>
+		<ObjectValue>Billion</ObjectValue>
+	</Registration>
+	<Registration ID="164">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>3</ResourceID>
+		<Code>Amount</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>&amp;</KeyValue>
+		<ObjectValue>and</ObjectValue>
+	</Registration>
+	<Registration ID="217">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>10</ResourceID>
+		<Code>Main</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Message screen</KeyValue>
+		<ObjectValue>Message screen</ObjectValue>
+	</Registration>
+	<Registration ID="274">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Close</KeyValue>
+		<ObjectValue>Cerrar</ObjectValue>
+	</Registration>
+	<Registration ID="275">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Edit</KeyValue>
+		<ObjectValue>Editar</ObjectValue>
+	</Registration>
+	<Registration ID="276">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Undo</KeyValue>
+		<ObjectValue>Deshaser</ObjectValue>
+	</Registration>
+	<Registration ID="277">
+		<LastChanged>2009-01-24T12:35:12</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Print</KeyValue>
+		<ObjectValue>Imprimir</ObjectValue>
+	</Registration>
+	<Registration ID="278">
+		<LastChanged>2009-01-24T12:34:36</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>File</KeyValue>
+		<ObjectValue>Archivo</ObjectValue>
+	</Registration>
+	<Registration ID="279">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Cut</KeyValue>
+		<ObjectValue>Cortar</ObjectValue>
+	</Registration>
+	<Registration ID="280">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Copy</KeyValue>
+		<ObjectValue>Copiar</ObjectValue>
+	</Registration>
+	<Registration ID="281">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Paste</KeyValue>
+		<ObjectValue>Pegar</ObjectValue>
+	</Registration>
+	<Registration ID="282">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Global</KeyValue>
+		<ObjectValue>esGlobal Font</ObjectValue>
+	</Registration>
+	<Registration ID="283">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Screen</KeyValue>
+		<ObjectValue>esScreen Font</ObjectValue>
+	</Registration>
+	<Registration ID="284">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Record</KeyValue>
+		<ObjectValue>esRecord</ObjectValue>
+	</Registration>
+	<Registration ID="285">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>First</KeyValue>
+		<ObjectValue>Primer</ObjectValue>
+	</Registration>
+	<Registration ID="286">
+		<LastChanged>2009-01-24T12:52:06</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Prev</KeyValue>
+		<ObjectValue>Anterior</ObjectValue>
+	</Registration>
+	<Registration ID="287">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Next</KeyValue>
+		<ObjectValue>Siguiente</ObjectValue>
+	</Registration>
+	<Registration ID="288">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Last</KeyValue>
+		<ObjectValue>Ultimo</ObjectValue>
+	</Registration>
+	<Registration ID="289">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Submit</KeyValue>
+		<ObjectValue>esSubmit</ObjectValue>
+	</Registration>
+	<Registration ID="290">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Reset</KeyValue>
+		<ObjectValue>esReset</ObjectValue>
+	</Registration>
+	<Registration ID="291">
+		<LastChanged>2009-01-24T13:05:06</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Delete</KeyValue>
+		<ObjectValue>Delete</ObjectValue>
+	</Registration>
+	<Registration ID="292">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>HelpMenu</KeyValue>
+		<ObjectValue>Ayuda</ObjectValue>
+	</Registration>
+	<Registration ID="293">
+		<LastChanged>2009-01-24T12:48:06</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>About</KeyValue>
+		<ObjectValue>Acerca de</ObjectValue>
+	</Registration>
+	<Registration ID="294">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Help</KeyValue>
+		<ObjectValue>Ayuda</ObjectValue>
+	</Registration>
+	<Registration ID="295">
+		<LastChanged>2009-01-24T13:07:30</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>HelpTip</KeyValue>
+		<ObjectValue>Abra la pantalla de ayuda en una nueva ventana</ObjectValue>
+	</Registration>
+	<Registration ID="296">
+		<LastChanged>2009-01-24T12:51:28</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Lookup</KeyValue>
+		<ObjectValue>Búsqueda</ObjectValue>
+	</Registration>
+	<Registration ID="297">
+		<LastChanged>2009-01-24T13:08:43</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>LookupTip</KeyValue>
+		<ObjectValue>Cambie a la pantalla de registro de las operaciones de búsqueda</ObjectValue>
+	</Registration>
+	<Registration ID="298">
+		<LastChanged>2009-01-24T12:53:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Back</KeyValue>
+		<ObjectValue>Paginá anterior</ObjectValue>
+	</Registration>
+	<Registration ID="299">
+		<LastChanged>2009-01-24T13:09:10</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>BackTip</KeyValue>
+		<ObjectValue>Ir a la paginá anterior</ObjectValue>
+	</Registration>
+	<Registration ID="300">
+		<LastChanged>2009-01-24T12:50:44</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Form</KeyValue>
+		<ObjectValue>Forma</ObjectValue>
+	</Registration>
+	<Registration ID="301">
+		<LastChanged>2009-01-24T13:07:54</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>FormTip</KeyValue>
+		<ObjectValue>Cambie a la forma de registro de la entrada</ObjectValue>
+	</Registration>
+	<Registration ID="302">
+		<LastChanged>2009-01-24T12:50:56</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Home</KeyValue>
+		<ObjectValue>Casa</ObjectValue>
+	</Registration>
+	<Registration ID="303">
+		<LastChanged>2009-01-24T12:49:44</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Clone</KeyValue>
+		<ObjectValue>Copia pantalla</ObjectValue>
+	</Registration>
+	<Registration ID="304">
+		<LastChanged>2009-01-24T13:06:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Font</KeyValue>
+		<ObjectValue>Fuente</ObjectValue>
+	</Registration>
+	<Registration ID="305">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Text</KeyValue>
+		<ObjectValue>esText color</ObjectValue>
+	</Registration>
+	<Registration ID="306">
+		<LastChanged>2009-01-24T13:09:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Control</KeyValue>
+		<ObjectValue>Color de controle</ObjectValue>
+	</Registration>
+	<Registration ID="307">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Reset all</KeyValue>
+		<ObjectValue>esReset all</ObjectValue>
+	</Registration>
+	<Registration ID="308">
+		<LastChanged>2009-01-24T13:06:55</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language>es</Language>
+		<Locale/>
+		<KeyValue>Look</KeyValue>
+		<ObjectValue>Mire y sienta</ObjectValue>
+	</Registration>
+	<Registration ID="309">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>title</KeyValue>
+		<ObjectValue>Screen preferences</ObjectValue>
+	</Registration>
+	<Registration ID="310">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>landf</KeyValue>
+		<ObjectValue>Look and Feel:</ObjectValue>
+	</Registration>
+	<Registration ID="311">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>theme</KeyValue>
+		<ObjectValue>Theme:</ObjectValue>
+	</Registration>
+	<Registration ID="312">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>font</KeyValue>
+		<ObjectValue>Font:</ObjectValue>
+	</Registration>
+	<Registration ID="313">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>size</KeyValue>
+		<ObjectValue>Size:</ObjectValue>
+	</Registration>
+	<Registration ID="314">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>textcolor</KeyValue>
+		<ObjectValue>Text color ... </ObjectValue>
+	</Registration>
+	<Registration ID="315">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>controlcolor</KeyValue>
+		<ObjectValue>Control color ...</ObjectValue>
+	</Registration>
+	<Registration ID="316">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>backgroundcolor</KeyValue>
+		<ObjectValue>Background color ...</ObjectValue>
+	</Registration>
+	<Registration ID="317">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>sample</KeyValue>
+		<ObjectValue>Sample</ObjectValue>
+	</Registration>
+	<Registration ID="318">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>label</KeyValue>
+		<ObjectValue>Label:</ObjectValue>
+	</Registration>
+	<Registration ID="319">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>control</KeyValue>
+		<ObjectValue>Control</ObjectValue>
+	</Registration>
+	<Registration ID="320">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>ok</KeyValue>
+		<ObjectValue>OK</ObjectValue>
+	</Registration>
+	<Registration ID="321">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>cancel</KeyValue>
+		<ObjectValue>Cancel</ObjectValue>
+	</Registration>
+	<Registration ID="322">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>reset</KeyValue>
+		<ObjectValue>Reset all</ObjectValue>
+	</Registration>
+	<Registration ID="323">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>backgroundimage</KeyValue>
+		<ObjectValue>Background image ...</ObjectValue>
+	</Registration>
+	<Registration ID="324">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>default</KeyValue>
+		<ObjectValue>&lt;default&gt;</ObjectValue>
+	</Registration>
+	<Registration ID="325">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>system</KeyValue>
+		<ObjectValue>&lt;system&gt;</ObjectValue>
+	</Registration>
+	<Registration ID="326">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>choosebackgroundcolor</KeyValue>
+		<ObjectValue>Choose Background Color</ObjectValue>
+	</Registration>
+	<Registration ID="327">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>choosetextcolor</KeyValue>
+		<ObjectValue>Choose Text Color</ObjectValue>
+	</Registration>
+	<Registration ID="328">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ResourceID>15</ResourceID>
+		<Code>DialogBundle</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>choosecontrolcolor</KeyValue>
+		<ObjectValue>Choose Control Color</ObjectValue>
+	</Registration>
+	<Registration ID="341">
+		<LastChanged>2006-08-05T04:10:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>No current record</KeyValue>
+		<ObjectValue>No current record</ObjectValue>
+	</Registration>
+	<Registration ID="347">
+		<LastChanged>2007-04-09T03:45:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Access Denied</KeyValue>
+		<ObjectValue>Access denied, contact your administrator.</ObjectValue>
+	</Registration>
+	<Registration ID="348">
+		<LastChanged>2009-03-15T09:28:27</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Login required</KeyValue>
+		<ObjectValue>Sign in required</ObjectValue>
+	</Registration>
+	<Registration ID="349">
+		<LastChanged>2007-04-10T01:32:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>10</ResourceID>
+		<Code>Main</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>user</KeyValue>
+		<ObjectValue>Email address</ObjectValue>
+	</Registration>
+	<Registration ID="350">
+		<LastChanged>2007-04-10T01:32:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>10</ResourceID>
+		<Code>Main</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>password</KeyValue>
+		<ObjectValue>Password</ObjectValue>
+	</Registration>
+	<Registration ID="351">
+		<LastChanged>2007-04-10T02:34:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>User password mismatch</KeyValue>
+		<ObjectValue>User name and password do not match</ObjectValue>
+	</Registration>
+	<Registration ID="352">
+		<LastChanged>2007-04-21T01:08:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Change</KeyValue>
+		<ObjectValue>Change password</ObjectValue>
+	</Registration>
+	<Registration ID="353">
+		<LastChanged>2007-04-24T04:51:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Too Short</KeyValue>
+		<ObjectValue>This value is too short, it must be greater than or equal to {0} characters</ObjectValue>
+	</Registration>
+	<Registration ID="396">
+		<LastChanged>2009-10-23T15:25:58</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>6</ResourceID>
+		<Code>Default</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>termsz</KeyValue>
+		<ObjectValue><![CDATA[Terms of Service  Welcome to the Tourgeek.com (the "Service"),
+the web application of Don Corley (the "Proprietor"). Your use of
+the Service is subject to these Terms of Service ("TOS"). The
+Proprietor reserves the right to update and change the TOS from
+time to time without notice or acceptance by you. You can review
+the most current version of the TOS at any time at
+http://www.tourgeek.com/tos.html.
+
+1. Introduction.
+This agreement ("Agreement") between You and the Proprietor consists
+of these Terms of Service. "You" means any person or entity who uses the
+Service and/or posts Content to the Service. By using the Service
+and/or posting Content you agree to be bound by the terms and
+condition of this Terms of Service.
+
+2. Privacy Policy.
+Certain other information about you is subject to the TourGeek.com
+Privacy Policy. For more information, see our full privacy policy at
+http://www.tourgeek.com/privacy.html.
+
+3. User Conduct and Content.
+You understand that all information, data, text, comments, graphics,
+messages or other materials ("Content"), whether publicly posted or
+privately transmitted, are the sole responsibility of the person from
+which such Content originated. This means that you, and not the
+Proprietor are entirely responsible for all Content that you upload,
+post, email, transmit or otherwise make available via the Service.
+You agree to not use the Service to:  a. upload, post, email, transmit
+or otherwise make available any Content that is unlawful, harmful,
+threatening, abusive, harassing, tortious, defamatory, vulgar, obscene,
+libelous, invasive of another's privacy, hateful, or racially, ethnically or
+otherwise objectionable;  b. upload, post, email, transmit or otherwise
+make available any Content that you do not have a right to make
+available under any law or under contractual or fiduciary relationships
+(such as inside information, proprietary and confidential information
+learned or disclosed as part of employment relationships or under
+nondisclosure agreements);  c. upload, post, email, transmit or
+otherwise make available any Content that infringes any patent,
+trademark, trade secret, copyright or other proprietary rights ("Rights")
+of any party;  d. upload, post, email, transmit or otherwise make
+available any unsolicited or unauthorized advertising, promotional
+materials, "junk mail," "spam," "chain letters," "pyramid schemes,"
+or any other form of solicitation; harm minors in any way;  e. upload,
+post, email, transmit or otherwise make available any material that
+contains software viruses or any other computer code, files or programs
+designed to interrupt, destroy or limit the functionality of any computer
+software or hardware or telecommunications equipment;  f. interfere
+with or disrupt the Service or servers or networks connected to the Service,
+or disobey any requirements, procedures, policies or regulations of
+networks connected to the Service;  g. intentionally or unintentionally
+violate any applicable local, state, national or international law, including,
+but not limited to, regulations promulgated by the U.S. Securities and
+Exchange Commission, any rules of any national or other securities
+exchange, including, without limitation, the New York Stock Exchange,
+the American Stock Exchange or the NASDAQ, and any regulations having
+the force of law;  h. provide material support or resources (or to conceal
+or disguise the nature, location, source, or ownership of material support
+or resources) to any organization(s) designated by the United States
+government as a foreign terrorist organization pursuant to section 219
+of the Immigration and Nationality Act;  i. collect or store personal data
+about other users.  You acknowledge that the Proprietor may or may not
+pre-screen Content, but that the Proprietor and its designees shall have
+the right (but not the obligation) in their sole discretion to pre-screen,
+refuse, or move any Content that is available via the Service. Without
+limiting the foregoing, the Proprietor and its designees shall have the
+right to remove any Content that violates the TOS or is otherwise
+objectionable. You agree that you must evaluate, and bear all risks
+associated with, the use of any Content, including any reliance on the
+accuracy, completeness, or usefulness of such Content. In this regard,
+you acknowledge that you may not rely on any Content created by the
+Proprietor or submitted to the Service, including without limitation
+information in comments, and in all other parts of the Service.
+
+4. Disclosure of Content and Personal Information.
+You acknowledge, consent and agree that the Proprietor may access,
+ preserve, and disclose your Content and any personal information if
+ required to do so by law or in a good faith belief that such access
+ preservation or disclosure is reasonably necessary to: (a) comply with
+ legal process; (b) enforce the TOS; (c) respond to claims that any Content
+ violates the rights of third-parties; (d) respond to your requests for
+ customer service; or (e) protect the rights, property, or personal safety
+ of the Proprietor, the users of the Service and the public.  5. No Control
+ over Content. The Proprietor does not control the Content posted via the
+ Service and, as such, does not guarantee the accuracy, integrity or quality
+ of such Content. You understand that by using the Service, you may be
+ exposed to Content that is offensive, indecent or objectionable. Under
+ no circumstances will the Proprietor be liable in any way for any Content,
+ including, but not limited to, for any errors or omissions in any Content,
+ or for any loss or damage of any kind incurred as a result of the use of any
+ Content posted, emailed, transmitted or otherwise made available via the
+ Service.
+
+6. Information Rights.
+The Proprietor does not claim ownership of Content you submit or make
+ available for inclusion on the Service. However, with respect to Content you
+ submit or make available for inclusion on the Service, including without
+ limitation comments you post to the Service, you grant the Proprietor world-wide,
+ perpetual, irrevocable, royalty free, non-exclusive, fully sub-licensable license(s)
+ to use, distribute, reproduce, modify, adapt, publish, translate, publicly perform
+ and publicly display such Content (in whole or in part) and to incorporate such
+ Content into other works in any format or medium now known or later developed.
+
+7. Indemnity.
+You agree to indemnify and hold the Proprietor, and its subsidiaries, affiliates,
+ officers, agents, co-branders or other partners, and employees, harmless from
+ any claim or demand, including reasonable attorneys' fees, made by any third
+ party due to or arising out of Content you submit, post, transmit or make available
+ through the Service, your use of the Service, your connection to the Service, your
+ violation of the TOS, or your violation of any rights of another.
+
+8. DISCLAIMER OF WARRANTIES.
+YOU EXPRESSLY UNDERSTAND AND AGREE THAT:
+A. YOUR USE OF THE SERVICE IS AT YOUR SOLE RISK. THE SERVICE IS PROVIDED ON AN
+"AS IS" AND "AS AVAILABLE" BASIS. THE PROPRIETOR EXPRESSLY DISCLAIMS ALL WARRANTIES
+OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO THE
+IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NON-INFRINGEMENT.
+B. THE PROPRIETOR MAKES NO WARRANTY THAT (i) THE SERVICE WILL MEET YOUR
+REQUIREMENTS, (ii) THE SERVICE WILL BE UNINTERRUPTED, TIMELY, SECURE, OR
+ERROR-FREE, (iii) THE RESULTS THAT MAY BE OBTAINED FROM THE USE OF THE
+SERVICE WILL BE ACCURATE OR RELIABLE, (iv) THE QUALITY OF ANY PRODUCTS, SERVICES,
+INFORMATION, OR OTHER MATERIAL PURCHASED OR OBTAINED BY YOU THROUGH THE
+SERVICE WILL MEET YOUR EXPECTATIONS, AND (V) ANY ERRORS IN THE SOFTWARE WILL
+BE CORRECTED.
+C. NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED BY YOU FROM
+ THE PROPRIETOR OR THROUGH OR FROM THE SERVICE SHALL CREATE ANY WARRANTY
+ NOT EXPRESSLY STATED IN THE TOS.
+
+9. LIMITATION OF LIABILITY. 
+YOU EXPRESSLY UNDERSTAND AND AGREE THAT THE PROPRIETOR SHALL NOT BE LIABLE TO
+YOU FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR EXEMPLARY
+DAMAGES, INCLUDING BUT NOT LIMITED TO, DAMAGES FOR LOSS OF PROFITS, GOODWILL,
+USE, DATA OR OTHER INTANGIBLE LOSSES (EVEN IF THE PROPRIETOR HAS BEEN ADVISED
+OF THE POSSIBILITY OF SUCH DAMAGES), RESULTING FROM: (i) THE USE OR THE INABILITY
+TO USE THE SERVICE; (ii) THE COST OF PROCUREMENT OF SUBSTITUTE GOODS AND
+SERVICES RESULTING FROM ANY GOODS, DATA, INFORMATION OR SERVICES PURCHASED
+OR OBTAINED OR MESSAGES RECEIVED OR TRANSACTIONS ENTERED INTO THROUGH OR
+FROM THE SERVICE; (iii) UNAUTHORIZED ACCESS TO OR ALTERATION OF YOUR TRANSMISSIONS
+OR DATA; (iv) STATEMENTS OR CONDUCT OF ANY THIRD PARTY ON THE SERVICE;
+OR (v) ANY OTHER MATTER RELATING TO THE SERVICE.
+
+10. EXCLUSIONS AND LIMITATIONS.
+SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF CERTAIN WARRANTIES OR THE
+LIMITATION OR EXCLUSION OF LIABILITY FOR INCIDENTAL OR CONSEQUENTIAL DAMAGES.
+ACCORDINGLY, SOME OF THE ABOVE LIMITATIONS OF SECTION 9 MAY NOT APPLY TO YOU.
+
+11. Modifications to Service.
+The Proprietor reserves the right at any time and from time to time to modify or discontinue,
+temporarily or permanently, the Service (or any part thereof) with or without notice. You
+agree that the Proprietor shall not be liable to you or to any third party for any modification,
+suspension or discontinuance of the Service.
+
+12. Miscellaneous.
+This Agreement shall be governed by the laws of California except for its conflicts of laws
+principles. Any dispute or claim arising out of or in connection with this Agreement shall be
+adjudicated in Los Angleles County, California. This Agreement constitutes the entire
+agreement between the parties with respect to the subject matter hereof. Any modifications
+to this Agreement must be made in a writing executed by both parties. The failure to require
+performance of any provision shall not affect a party's right to require performance at any
+time thereafter, nor shall a waiver of any breach or default of this Agreement constitute a
+waiver of any subsequent breach or default or a waiver of the provision itself. If any provision
+herein is held unenforceable, then such provision will be modified to reflect the parties'
+intention, and the remaining provisions of this Agreement will remain in full force and effect.
+You may not resell, assign, or transfer any of Your rights hereunder. Any such attempt may
+result in termination of this Agreement, without liability to the Proprietor Notwithstanding the
+foregoing, the Proprietor may assign this Agreement at any time without notice. The section
+titles in the TOS are for convenience only and have no legal or contractual effect.]]></ObjectValue>
+	</Registration>
+	<Registration ID="397">
+		<LastChanged>2007-05-25T22:05:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>10</ResourceID>
+		<Code>Main</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Submit</KeyValue>
+		<ObjectValue>I agree, Create account</ObjectValue>
+	</Registration>
+	<Registration ID="457">
+		<LastChanged>2007-05-22T05:34:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlTableEndDefault</KeyValue>
+		<ObjectValue><![CDATA[</tr>
+</table>]]></ObjectValue>
+	</Registration>
+	<Registration ID="458">
+		<LastChanged>2007-05-22T05:36:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlTableStartDefault</KeyValue>
+		<ObjectValue><![CDATA[<table border="0" width="100%" cellspacing="10">
+<tr>]]></ObjectValue>
+	</Registration>
+	<Registration ID="459">
+		<LastChanged>2007-06-01T04:36:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlCellDefault</KeyValue>
+		<ObjectValue><![CDATA[<td align="center" valign="top">
+    <a href="<link/>">
+        <img src="<icon/>" alt="<menutitle/>" width="24" height="24" />
+        <br/>
+        <menutitle/>
+    </a>
+</td>]]></ObjectValue>
+	</Registration>
+	<Registration ID="460">
+		<LastChanged>2008-10-29T08:44:08</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlAppMenu</KeyValue>
+		<ObjectValue><![CDATA[<items columns="3">
+ <td align="left" valign="top">
+     <hr/>
+     <a href="<link/>"><img src="<icon/>" alt="<menutitle/>" width="24" height="24" border="0"  align="center" /></a>
+     <a href="<link/>"><menutitle/></a>
+ <br/>
+<javalogo><img src="images/buttons/Java.gif" width="16" height="16" border="0" />&#160;</javalogo>
+<span style="font-size: 10pt"><menudesc/></span>
+ </td>
+</items>]]></ObjectValue>
+	</Registration>
+	<Registration ID="461">
+		<LastChanged>2007-05-22T05:32:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlHeaderEndDefault</KeyValue>
+		<ObjectValue><![CDATA[<title><menutitle/></title>
+</head>
+<body>
+<h1><menutitle/></h1>]]></ObjectValue>
+	</Registration>
+	<Registration ID="462">
+		<LastChanged>2009-09-30T03:41:15</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlMenubar</KeyValue>
+		<ObjectValue><![CDATA[<table class="top-menu" cellpadding="0" cellspacing="0">
+<tr>
+<td><span class="link"><a href="?menu=Main"><img class="button" src="images/buttons/Home.gif" width="16" height="16" alt="Site home page" /></a><span><a class="button" href="?menu=Main">{Home}</a></span></span>
+<span class="link"><a href="?menu="><img class="button" src="images/buttons/MyHome.gif" width="16" height="16" alt="Your home page" /></a><span><a class="button" href="?menu=">{My Home}</a></span></span></td>
+<td class="menu-title"><span class="spantitle"><menutitle/></span></td>
+<td class="help-button">
+<span class="spantitle"><user/></span>
+<span class="link"><a href="?user=&amp;menu="><img class="button" src="images/buttons/Logout.gif" width="16" height="16" alt="Sign out this user" /></a><a class="button" href="?user=&amp;menu=">{Logout}</a></span>
+<span class="link"><a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"><img class="button" src="images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /></a><a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no">{Settings}</a></span>
+<span class="link"><a href="tourappxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen"><img class="button" src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /></a><a class="button" href="tourappxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen">{Help}</a></span>
+</td>
+</tr><tr style="background-color: black"><td colspan="6" height="1" style="width: 100%;"></td></tr>
+</table>]]></ObjectValue>
+	</Registration>
+	<Registration ID="463">
+		<LastChanged>2009-03-15T08:27:24</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlNavMenuIconsOnly</KeyValue>
+		<ObjectValue><![CDATA[<a href="?menu=Home"><img src="images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/></a><br/>
+<a href="?menu="><img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/></a><br/>
+<a href="?screen=.main.user.screen.UserPreferenceScreen&java=no"><img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/></a><br/>
+<a href="?screen=.main.user.screen.UserLoginScreen&java=no"><img src="images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/></a><br/>
+<a href="?user=&amp;menu="><img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/></a><br/>
+<a href="?help=&class=.base.screen.model.report.HelpScreen"><img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/></a><br/>]]></ObjectValue>
+	</Registration>
+	<Registration ID="464">
+		<LastChanged>2009-02-15T01:37:27</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlHelp</KeyValue>
+		<ObjectValue><![CDATA[<table border="0" cellpadding="5" width="100%">
+<tr>
+<td align="center" colspan="2"><font size="+2" style="bold"><menutitle/></font></td>
+</tr>
+<tr>
+<td valign="top" align="right"><font style="bold" size="+1">Description:</font></td>
+<td valign="top" align="left" width="100%"><i><menudesc/></i></td>
+</tr>
+<tr>
+<td valign="top" align="right"><font style="bold" size="+1">Operation:</font></td>
+<td valign="top" align="left" width="100%"><help/></td>
+</tr>
+<optional field="SeeAlso">
+<tr>
+<td valign="top" align="right"><font style="bold" size="+1">See Also:</font></td>
+<td valign="top" align="left" width="100%">
+<seealso>
+<a href="<link/>&help="><menutitle/></a><br/>
+</seealso></td>
+</tr>
+</optional>
+<optional field="TechnicalInfo">
+<tr>
+<td valign="top" align="right"><font style="bold" size="+1">Technical:</font></td>
+<td valign="top" align="left" width="100%"><technical/><br>
+<a href="/html/help/programmer/app/com/tourapp/<PackageDir/>/<field name=ClassName/>.html">JavaDoc</a><br>
+<a href="/source/com/tourapp/<PackageDir/>/<field name=ClassName/>.java">Java Code</a><br>
+<techinfo/></td>
+</tr>
+</optional>
+</table>]]></ObjectValue>
+	</Registration>
+	<Registration ID="465">
+		<LastChanged>2009-02-15T02:52:55</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlHelpMenubar</KeyValue>
+		<ObjectValue><![CDATA[<table bgcolor="#b0b0e0" width="100%" border="0" cellspacing="0" cellpadding="0">
+ <tr>
+ <td> <a href="?menu="><img src="images/nav/Home.gif" alt="Home" border="0" width="75" height="21" /></a></td>
+ <td> <a href="?screen=<screen/>&record=<record/>&tech=&help="><img src="images/nav/Tech.gif" alt="Programmer's technical Information" border="0" width="75" height="21" /></a></td>
+ <td> <a href="?screen=<screen/>&record=<record/>"><img src="images/nav/Run.gif" alt="Run this program" border="0" width="75" height="21" /></a></td>
+ <td> <a href="?record=.main.Message&command=New&screenname=<screen/>&recordname=<record/>"><img src="images/nav/Bugs.gif" alt="Report a bug in this program" border="0" width="75" height="21" /></a></td>
+ <td width="100%" align="center">     <font face="Arial, Helvetica, SanSerif" color="white"><strong>Help System</strong></font></td>
+ <td align="right"> <a href="?help="><img src="images/nav/Help.gif" alt="Main Help Menu" border="0" width="75" height="21" /></a></td>
+ </tr>
+ <tr>
+ <td bgcolor="black" background="" width="100%" height="1" colspan="5"><img src="images/graphics/1ptrans.gif" width="1" height="1" alt="" border="0" /></td>
+ </tr>
+</table>]]></ObjectValue>
+	</Registration>
+	<Registration ID="466">
+		<LastChanged>2007-06-01T04:41:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlHelpDefault</KeyValue>
+		<ObjectValue><![CDATA[<table width="100%" border="0" cellpadding="5">
+<tr>
+<td colspan="2"><font size="+2" style="bold"><center>Basic Help Index</center></font></td>
+</tr><tr>
+<td align=center><a href="?help=Screen">Data Entry Forms</A></TD>
+<td align=center><a href="?help=GridScreen">Data Display Tables</A></TD>
+</tr><tr>
+<td align=center><a href="?help=ToolScreen">Toolbar Button Functions</A></TD>
+<td align=center><a href="?help=MenuScreen">Using Menus</A></P>
+</tr>
+</table>
+
+<hr/>
+
+<table width="100%" border="0" cellpadding="5">
+<tr>
+<td colspan="3"><font size="+2" style="bold"><center>Application Systems</center></font></td>
+</tr><tr>
+<td><a href="?menu=assetdr&help=">Asset Debt System</a></td>
+<td><a href="?menu=agency&help=">Agency Maintenance System</a></td>
+<td><a href="?menu=acctpay&help=">Accounts Payable System</a></td>
+</tr><tr>
+<td><a href="?menu=acctrec&help=">Accounts Receivable System</a></td>
+<td><a href="?menu=booking&help=">Booking System</a></td>
+<td><a href="?menu=payroll&help=">Payroll System</a></td>
+</tr><tr>
+<td><a href="?menu=genled&help=">General Ledger System</a></td>
+<td><a href="?menu=ticket&help=">Ticketing System</a></td>
+<td><a href="?menu=market&help=">Marketing System</a></td>
+</tr>
+</table>]]></ObjectValue>
+	</Registration>
+	<Registration ID="467">
+		<LastChanged>2010-01-29T02:57:14</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlHelpMenu</KeyValue>
+		<ObjectValue><![CDATA[<center><h2><menutitle/></h2></center>
+<h3>Description:</h3>
+<p><menudesc/></p>
+<h3>Menu items:</h3>
+<items columns="1">
+<td><a href=<link/>><img src="<icon/>" width="24" height="24" alt="Run <menutitle/>" /></a></td>
+<td><a href="<link/>&help="><img src="images/icons/Help.gif" width="24" height="24" alt="Help for <menutitle/>" /></a></td>
+<td><a href="<link/>&help=">
+<menutitle/></a></td><td><menudesc/></td>
+</items>]]></ObjectValue>
+	</Registration>
+	<Registration ID="468">
+		<LastChanged>2007-06-01T04:36:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlBanner</KeyValue>
+		<ObjectValue><![CDATA[<table bgcolor="#B0B0E0" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td><a href="/"><img src="images/banners/468x60.jpg" width="468" height="60" border="0" /></a></td>
+</tr>
+</table>]]></ObjectValue>
+	</Registration>
+	<Registration ID="469">
+		<LastChanged>2007-07-15T02:17:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlNavStart</KeyValue>
+		<ObjectValue><![CDATA[<th id="navStart" class="navStart" style="background-image: url(images/graphics/NavBack.gif);">
+<!-- Start Nav Menu -->
+<div align="right">
+<a href="?menu=&amp;navmenus=IconsOnly&amp;preferences="><img src="images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /></a><a href="?menu=&amp;navmenus=No&amp;preferences="><img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" /></a>
+</div>
+<strong>Navigation menu</strong>
+<br/>
+<hr/>]]></ObjectValue>
+	</Registration>
+	<Registration ID="470">
+		<LastChanged>2007-07-14T14:20:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlNavEnd</KeyValue>
+		<ObjectValue><![CDATA[<!-- End Nav menu -->
+</th>
+<th id="navStartShadow" class="navStartShadow" style="background-image: url(images/graphics/NavHShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
+	</Registration>
+	<Registration ID="471">
+		<LastChanged>2009-03-15T08:26:47</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlNavMenu</KeyValue>
+		<ObjectValue><![CDATA[<a href="?menu=Home"><img src="images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/>&nbsp;Home</a><br/>
+<a href="?menu="><img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/>&nbsp;My home</a><br/>
+<a href="?screen=.main.user.screen.UserPreferenceScreen&java=no"><img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/>&nbsp;Settings</a><br/>
+<a href="?screen=.main.user.screen.UserLoginScreen&java=no"><img src="images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/>&nbsp;Sign in</a><br/>
+<a href="?user=&amp;menu="><img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/>&nbsp;Sign out</a><br/>
+<a href="?help=&class=.base.screen.model.report.HelpScreen"><img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/>&nbsp;Help</a><br/>]]></ObjectValue>
+	</Registration>
+	<Registration ID="472">
+		<LastChanged>2007-07-15T03:42:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlNavIconsOnlyStart</KeyValue>
+		<ObjectValue><![CDATA[<th id="navStart" class="navIconsOnlyStart" style="background-image: url(images/graphics/NavBack.gif);">
+ <!-- Start Nav Menu -->
+ <div align="right">
+<a href="?menu=&amp;navmenus=&amp;preferences="><img src="images/buttons/Expand.gif" alt="Change the menu pane to full descriptions" border="0" width="16" height="16" /></a><a href="?menu=&amp;navmenus=No&amp;preferences="><img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" /></a></div>
+ <hr/>]]></ObjectValue>
+	</Registration>
+	<Registration ID="473">
+		<LastChanged>2007-07-14T14:50:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlNavAfterContent</KeyValue>
+		<ObjectValue><![CDATA[</tr>
+<tr id="navAfterContent" class="navAfterContent">
+<th id="navStartVShadow" class="navStart" style="background-image: url(images/graphics/NavVShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>
+<th id="navStartSECorner" class="navStartShadow" style="background-image: url(images/graphics/NavSECorner.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
+	</Registration>
+	<Registration ID="474">
+		<LastChanged>2008-10-29T08:38:26</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlLogo</KeyValue>
+		<ObjectValue><![CDATA[<table cellpadding="0" cellspacing="0" class="top-menu">
+<tr>
+<td>
+<a href="?menu=Main">
+<img src="{logopath}" width="70" height="60" border="0" />
+</a>
+</td>
+<td align="center" valign="bottom">
+<a href="?menu=Main">
+<img src="images/com/name.gif" border="0" /><br/>
+<span style="color: white; font-family: helvetica, arial, san-serif; font-weight: normal">&#160;&#160;{mission}</span></a></td>
+<td width="100%">&#160;</td>
+<td valign="top">
+<form action="?menu=&amp;preferences=" method="post">
+<table border="0" cellspacing="0" cellpadding="1">
+ <tr>
+  <td align="right" valign="baseline">
+   <input type="hidden" name="menu" value="" /><span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif">&#160;{Email}:&#160;</span>
+  </td>
+  <td align="left" valign="baseline" colspan="3"><input type="text" size="20" name="user" value="<user/>" /></td>
+  <td align="right" valign="baseline">
+   <input type="hidden" name="menu" value="" /><span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif">&#160;{Password}:&#160;</span>
+  </td>
+  <td align="left" valign="baseline" colspan="2"><input type="password" size="20" name="password" value="" /></td>
+ </tr>
+ <tr>
+ <td align="right" valign="baseline">
+   <span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif">&#160;Language:&#160;</span>
+  </td>
+  <td align="left" valign="baseline"><select
+   name="language" onChange="submit();">
+         <option selected="true" value="<language/>">(default)</option>
+         <option value="en">English</option>
+         <option value="es">Español</option>
+      </select>
+   </td>
+   <td align="left" valign="baseline">
+   <a href="?menu=&amp;language=en&amp;preferences="><img src="images/flags/english.gif" width="16" height="16" alt="{English}" border="0" /></a>
+   </td>
+   <td align="left" width="50%" valign="baseline">
+   <a href="?menu=&amp;language=es&amp;preferences="><img src="images/flags/espanol.gif" width="16" height="16" alt="{Espanol}" border="0" /></a>
+   <input type="hidden" name="preferences" value="" />
+  </td>
+  <td align="right" valign="baseline">
+   <span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif">&#160;{Save}:&#160;</span>
+  </td>
+  <td align="left" valign="baseline"><input type="checkbox" name="saveuser" value="Yes" checked="true" /></td>
+  <td align="right"><input type="submit" value="{Login}" /></td>
+ </tr>
+ </table>
+</form>
+</td>
+  <td valign="top">
+   <a href="?menu=&amp;logos=No&amp;preferences="><img src="images/buttons/Close.gif" alt="Close the header pane" border="0" width="16" height="16" /></a>
+  </td>
+</tr>
+</table>]]></ObjectValue>
+	</Registration>
+	<Registration ID="475">
+		<LastChanged>2010-05-07T04:57:22</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlTrailer</KeyValue>
+		<ObjectValue><![CDATA[<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr valign="center">
+<td align="left" valign="center">
+<a href="http://www.tourgeek.com"><img src="images/com/tourgeek/nameblack.gif" border="0" /></a><br />
+<span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif">© Copyright 2010 <a href="http://www.tourgeek.com">tourgeek<span style="color: red; font-weight: bold">.</span>com</a>. All rights reserved.&#160;&#160;&#160;&#160;</span><br />
+<span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif"><a href="mailto:webmaster@tourgeek.com"><img src="images/buttons/Mail.gif" width="16" height="16" border="0" />&#160;e-mail the webmaster.</a></span>
+<br /><span style="color: red; font-size: 8pt"><b>Note:</b> This a demo site. You can't really book tours here.<br /></span>
+</td>
+<td align="right"></td>
+<td align="right" valign="top"><a href="./?menu=&trailers=No&preferences="><img src="images/buttons/Close.gif" alt="Close the footer pane" border="0" width="16" height="16" /></a></td>
+</tr>
+</table>]]></ObjectValue>
+	</Registration>
+	<Registration ID="476">
+		<LastChanged>2009-03-15T10:10:35</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlNavMenuDon</KeyValue>
+		<ObjectValue><![CDATA[      <tr valign="top">
+        <td width="15%"  bgcolor="#b0b0e0">
+<div align=right><a href="?menu=&navmenus=Icons+Only&preferences="><img src="images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /></a><a href="?menu=&navmenus=No&preferences="><img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16"></a></div>
+        <strong>Don's personal menu</strong><br><hr>
+        <a href="tourapp?menu="><img src="images/buttons/Home.gif" align="center" alt="Home" border="0" width="16" height="16" />
+                Home</a><br/>
+        <a href="booking/entry"><img src="images/buttons/Mail.gif" align="center" alt="E-Mail" border="0" width="16" height="16" />
+                E-Mail Center</a><br/>
+         </td>
+<td>]]></ObjectValue>
+	</Registration>
+	<Registration ID="477">
+		<LastChanged>2007-05-22T05:30:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlContentEnd</KeyValue>
+		<ObjectValue><![CDATA[<!-- End Content Area -->
+</td>]]></ObjectValue>
+	</Registration>
+	<Registration ID="478">
+		<LastChanged>2007-05-22T05:33:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlContentStart</KeyValue>
+		<ObjectValue><![CDATA[<td valign="top">
+<!-- Start Content Area -->]]></ObjectValue>
+	</Registration>
+	<Registration ID="479">
+		<LastChanged>2007-09-23T02:10:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlHeaderEnd</KeyValue>
+		<ObjectValue><![CDATA[<title><menutitle/></title>
+<meta name="Keywords" content="<keywords/>travel, tours, custom tours, air, hotel, sightseeing, transfer, cruise, car rental, airport transfer, flight, travel agent">
+<meta name="description" content="<menudesc/>">
+</head>
+<body marginwidth="0" marginheight="0">
+]]></ObjectValue>
+	</Registration>
+	<Registration ID="480">
+		<LastChanged>2009-02-15T01:36:59</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlDefault</KeyValue>
+		<ObjectValue><![CDATA[<hr>
+<form action="tourapp" method="get">
+<pre>
+Record : <input type="text" length="50" name=record value="<record/>" />
+Screen : <input type="text" length="50" name=screen value="<screen/>" />
+ Limit : <input type="text" maxlength="7" name=limit value="100" />
+</pre>
+<input type="submit" name="move" value="Submit" />
+</form>
+<hr/>
+<form action="tourapp" method="get">
+<pre>
+Menu : <input type="text" length="50" name="menu" />
+</pre>
+<input type="submit" name="move" value="Submit" />
+</form>
+<hr>
+<form action="tourapp" method="get">
+<input type="hidden" name="applet" value="" />
+<pre>
+Record : <input type="text" length="50" name=record value="<record/>" />
+Screen : <input type="text" length="50" name=screen value="<screen/>" />
+</pre>
+<input type="submit" name="move" value="Submit" />
+</form>
+<hr/>]]></ObjectValue>
+	</Registration>
+	<Registration ID="481">
+		<LastChanged>2007-06-01T06:23:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlTableStart</KeyValue>
+		<ObjectValue><![CDATA[<table border="0" width="100%" height="50%" cellspacing="0" cellpadding="5">
+<tr valign="top">]]></ObjectValue>
+	</Registration>
+	<Registration ID="482">
+		<LastChanged>2007-05-22T04:24:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Email</KeyValue>
+		<ObjectValue>Email</ObjectValue>
+	</Registration>
+	<Registration ID="483">
+		<LastChanged>2007-05-22T04:44:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Password</KeyValue>
+		<ObjectValue>Password</ObjectValue>
+	</Registration>
+	<Registration ID="484">
+		<LastChanged>2007-06-01T05:33:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>mission</KeyValue>
+		<ObjectValue>Build&amp;#160;it&amp;#160;yourself&amp;#160;tours</ObjectValue>
+	</Registration>
+	<Registration ID="485">
+		<LastChanged>2007-06-01T05:55:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Save</KeyValue>
+		<ObjectValue>Save</ObjectValue>
+	</Registration>
+	<Registration ID="486">
+		<LastChanged>2009-03-15T09:05:21</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Login</KeyValue>
+		<ObjectValue>Sign in</ObjectValue>
+	</Registration>
+	<Registration ID="487">
+		<LastChanged>2007-05-22T04:36:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Espanol</KeyValue>
+		<ObjectValue>Español</ObjectValue>
+	</Registration>
+	<Registration ID="488">
+		<LastChanged>2007-05-22T04:37:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>English</KeyValue>
+		<ObjectValue>English</ObjectValue>
+	</Registration>
+	<Registration ID="489">
+		<LastChanged>2007-05-22T04:52:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>logopath</KeyValue>
+		<ObjectValue>images/com/logo.gif</ObjectValue>
+	</Registration>
+	<Registration ID="490">
+		<LastChanged>2007-05-22T06:07:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Help</KeyValue>
+		<ObjectValue>Help</ObjectValue>
+	</Registration>
+	<Registration ID="491">
+		<LastChanged>2007-05-22T06:07:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Settings</KeyValue>
+		<ObjectValue>Settings</ObjectValue>
+	</Registration>
+	<Registration ID="492">
+		<LastChanged>2007-05-22T06:07:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Home</KeyValue>
+		<ObjectValue>Home</ObjectValue>
+	</Registration>
+	<Registration ID="493">
+		<LastChanged>2007-05-22T06:18:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>My Home</KeyValue>
+		<ObjectValue>My Home</ObjectValue>
+	</Registration>
+	<Registration ID="494">
+		<LastChanged>2009-09-30T03:41:49</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlMenubarAnon</KeyValue>
+		<ObjectValue><![CDATA[<table class="top-menu" cellpadding="0" cellspacing="0">
+<tr>
+<td><span class="link"><a href="?menu=Main"><img class="button" src="images/buttons/Home.gif" width="16" height="16" alt="Site home page" /></a><span><a class="button" href="?menu=Main">{Home}</a></span></span>
+<span class="link"><a href="?menu="><img class="button" src="images/buttons/MyHome.gif" width="16" height="16" alt="Your home page" /></a><span><a class="button" href="?menu=">{My Home}</a></span></span></td>
+<td class="menu-title"><span class="spantitle"><menutitle/></span></td>
+<td class="help-button">
+<span class="spantitle"><user/></span>
+<span class="link"><a href="?screen=.main.user.screen.UserLoginScreen&amp;java=no"><img class="button" src="images/buttons/Login.gif" width="16" height="16" alt="Sign in this user" /></a><a class="button" href="?screen=.main.user.screen.UserLoginScreen&amp;java=no">{Login}</a></span>
+<span class="link"><a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"><img class="button" src="images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /></a><a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no">{Settings}</a></span>
+<span class="link"><a href="tourappxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&class=.base.screen.model.report.HelpScreen"><img class="button" src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /></a><a class="button" href="tourappxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen">{Help}</a></span>
+</td>
+</tr><tr style="background-color: black"><td colspan="6" height="1" style="width: 100%;"></td></tr>
+</table>]]></ObjectValue>
+	</Registration>
+	<Registration ID="495">
+		<LastChanged>2009-03-15T09:05:24</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Logout</KeyValue>
+		<ObjectValue>Sign out</ObjectValue>
+	</Registration>
+	<Registration ID="498">
+		<LastChanged>2007-09-23T02:08:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlHeaderStart</KeyValue>
+		<ObjectValue><![CDATA[<html>
+<head>
+<link rel="stylesheet" type="text/css" href="docs/styles/css/style.css" title="basicstyle">
+<link rel="shortcut icon" href="images/com/favicon.ico" type="image/x-icon">]]></ObjectValue>
+	</Registration>
+	<Registration ID="499">
+		<LastChanged>2007-08-22T12:03:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>17</ResourceID>
+		<Code>Xml</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>xmlHeader</KeyValue>
+		<ObjectValue><![CDATA[<top-menu>
+   <title>{title}</title>
+   <menu-item>
+       <name>{Home}</name>
+       <description>Home page</description>
+       <link>?menu=Main</link>
+       <image>Home</image>
+   </menu-item>
+   <menu-item>
+       <name>{My home}</name>
+       <description>My home</description>
+       <link>?menu=</link>
+       <image>MyHome</image>
+   </menu-item>
+   <help-item>
+       <menu-item>
+           <name>{loginDesc}</name>
+           <description>{loginDesc}</description>
+           <link>{loginLink}</link>
+           <image>{loginIcon}</image>
+       </menu-item>
+       <menu-item>
+           <name>{Settings}</name>
+           <description>View or change settings</description>
+           <link>?screen=.main.user.screen.UserPreferenceScreen&amp;java=no</link>
+           <image>Settings</image>
+       </menu-item>
+       <menu-item>
+           <name>{Help}</name>
+           <description>Help for the current screen</description>
+           <link>?help=&amp;{url}&amp;class={helpclass}</link>
+           <image>Help</image>
+       </menu-item>
+   </help-item>
+</top-menu>]]></ObjectValue>
+	</Registration>
+	<Registration ID="500">
+		<LastChanged>2009-03-15T08:29:15</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>17</ResourceID>
+		<Code>Xml</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Login</KeyValue>
+		<ObjectValue>Sign in</ObjectValue>
+	</Registration>
+	<Registration ID="501">
+		<LastChanged>2009-03-15T08:29:24</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>17</ResourceID>
+		<Code>Xml</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Logout</KeyValue>
+		<ObjectValue>Sign out</ObjectValue>
+	</Registration>
+	<Registration ID="502">
+		<LastChanged>2007-06-25T01:26:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>17</ResourceID>
+		<Code>Xml</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Home</KeyValue>
+		<ObjectValue>Home</ObjectValue>
+	</Registration>
+	<Registration ID="503">
+		<LastChanged>2007-06-25T01:26:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>17</ResourceID>
+		<Code>Xml</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Help</KeyValue>
+		<ObjectValue>Help</ObjectValue>
+	</Registration>
+	<Registration ID="505">
+		<LastChanged>2007-06-25T01:42:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>17</ResourceID>
+		<Code>Xml</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>My home</KeyValue>
+		<ObjectValue>My home</ObjectValue>
+	</Registration>
+	<Registration ID="506">
+		<LastChanged>2007-06-25T01:42:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>17</ResourceID>
+		<Code>Xml</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Settings</KeyValue>
+		<ObjectValue>Settings</ObjectValue>
+	</Registration>
+	<Registration ID="507">
+		<LastChanged>2007-07-15T03:33:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>9</ResourceID>
+		<Code>Html</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlNavIconsOnlyAfterContent</KeyValue>
+		<ObjectValue><![CDATA[</tr>
+<tr id="navAfterContent" class="navAfterContent">
+<th id="navStartVShadow" class="navIconsOnlyStart" style="background-image: url(images/graphics/NavVShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>
+<th id="navStartSECorner" class="navStartShadow" style="background-image: url(images/graphics/NavSECorner.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
+	</Registration>
+	<Registration ID="508">
+		<LastChanged>2007-07-16T06:13:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Authentication required</KeyValue>
+		<ObjectValue>Authentication required</ObjectValue>
+	</Registration>
+	<Registration ID="509">
+		<LastChanged>2007-07-16T06:14:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Create user required</KeyValue>
+		<ObjectValue>Create user required</ObjectValue>
+	</Registration>
+	<Registration ID="510">
+		<LastChanged>2009-03-16T10:16:47</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>17</ResourceID>
+		<Code>Xml</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>xmlNavMenu</KeyValue>
+		<ObjectValue><![CDATA[ <navigation-menu>
+   <navigation-item>
+       <name>Home</name>
+       <description>Home</description>
+       <link>?menu=Main</link>
+       <image>Home</image>
+   </navigation-item>
+   <navigation-item>
+       <name>My home</name>
+       <description>My home</description>
+       <link>?menu=</link>
+       <image>MyHome</image>
+   </navigation-item>
+   <navigation-item>
+       <name>Settings</name>
+       <description>View or change settings</description>
+       <link>?screen=.main.user.screen.UserPreferenceScreen&amp;java=no</link>
+     <image>Settings</image>
+   </navigation-item>
+   <navigation-item>
+       <name>Sign in</name>
+       <id>Login</id>
+       <description>Display sign in screen</description>
+       <link>?screen=.main.user.screen.UserLoginScreen&amp;java=no</link>
+       <image>Login</image>
+   </navigation-item>
+   <navigation-item>
+       <name>Sign out</name>
+       <id>Logout</id>
+       <description>Sign out</description>
+       <link>?user=</link>
+       <image>Logoff</image>
+   </navigation-item>
+   <navigation-item>
+       <name>Help</name>
+       <description>Help for the current screen</description>
+       <link>?help=&amp;class=.base.screen.model.report.HelpScreen</link>
+       <image>Help</image>
+   </navigation-item>
+</navigation-menu>]]></ObjectValue>
+	</Registration>
+	<Registration ID="512">
+		<LastChanged>2007-11-09T01:01:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>NewWindow</KeyValue>
+		<ObjectValue>New window</ObjectValue>
+	</Registration>
+	<Registration ID="514">
+		<LastChanged>2009-03-14T22:35:21</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Logon</KeyValue>
+		<ObjectValue>Sign in</ObjectValue>
+	</Registration>
+	<Registration ID="515">
+		<LastChanged>2008-04-15T15:28:11</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>7</ResourceID>
+		<Code>Error</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Data required in the {0} field</KeyValue>
+		<ObjectValue>Data required in the {0} field</ObjectValue>
+	</Registration>
+	<Registration ID="521">
+		<LastChanged>2008-12-19T00:54:21</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>6</ResourceID>
+		<Code>Default</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>newterms</KeyValue>
+		<ObjectValue><![CDATA[Google Apps Standard Edition Agreement
+
+This Google Apps Standard Edition Agreement (the "Agreement") is entered into by and between Google Inc., a Delaware corporation, with offices at 1600 Amphitheatre Parkway, Mountain View, California 94043 ("Google") and the entity agreeing to the terms herein ("Customer"). This Agreement will be effective as of the date you click the "I Accept" button below (the "Effective Date"). If you are accepting on behalf of your employer or another entity, you represent and warrant that: (i) you have full legal authority to bind your employer or such entity to these terms and conditions; (ii) that you have read and understand this Agreement; and (iii) that you agree, on behalf of the party that you represent, to this Agreement. If you don't have the legal authority to bind, please do not click the "I Accept" button below. This Agreement governs Customer's access to and use of the Service (as defined below).
+
+1. Definitions.
+
+    * 1.1 "Customer Domain Name(s)" means the domain name(s) owned by Customer and approved by Google for use with the Service (as defined below).
+    * 1.2 "End Users" mean Customer's end users who utilize any of the Google Apps.
+    * 1.3 "End User Account" means Google-hosted accounts provided to Customer's End Users through the Service for the purpose of enabling such End Users to use the Service. Google may limit the number of available End User Accounts it provides to End Users of Customer at its sole discretion.
+    * 1.4 "Service" means the services referred to by Google as "Google Apps for Your Domain" or "Google Apps" that are hosted by Google and described in this Agreement, which may include without limitation, the Hosted Communication Services and the Start Page Service.
+    * 1.5 "Hosted Communication Services" means the hosted services provided by Google hereunder that provide Customer with Google-hosted End User Accounts for its End Users for the purpose of (i) enabling End Users to send and receive email and/or instant messages at one or more Customer Domain Names and (ii) any other functionality, products and/or services that Google may provide from time to time as part of the Hosted Communication Services, as applicable.
+    * 1.6 "Start Page" means a Google-hosted web page provided through the Start Page Service.
+    * 1.7 "Start Page Service" means the service that provides Customer with a Google-hosted web page for its End Users that enables certain customization by the Customer through the administrative console and enables further customization by each End User with an End User Account.
+    * 1.8 "Domain Service" means the service provided by Google to help Customer register Customer Domain Names through third party registrars.
+
+2. Hosted Communication Services. Google will use commercially reasonable efforts to provide the Hosted Communication Services to Customer during the term of this Agreement. Customer agrees that Google may serve advertisements ("Ads") in connection with the Hosted Communication Services. Subject to the terms and conditions of this Agreement, Customer may use the Service to (a) provide End User Accounts to its End Users, and (b) administer such End User Accounts through the provided administrative console. Both parties acknowledge that an End User is a customer of both Customer and Google. Information collected by Google may be stored and processed in the United States or any other country in which Google or its agents maintain facilities. By using the Hosted Communication Services, Customer consents to any such transfer, processing and storage of information. Customer is solely responsible for monitoring, responding to, and otherwise processing emails sent to the "abuse" and "postmaster" aliases for Customer Domain Name(s); however, Customer acknowledges and agrees that Google may also monitor, respond to or otherwise process emails sent to such aliases for Customer Domain Name(s). Customer acknowledges that the Hosted Communication Services are not a telephony service and that the Hosted Communication Services are not capable of placing or receiving any calls, including emergency services calls, over publicly switched telephone networks. Customer agrees that any revenue generated by Google from the Ads or otherwise derived by Google from the Hosted Communication Services will be retained by Google and not be subject to any revenue sharing.
+
+3. Start Page Service. Google will use commercially reasonable efforts to provide the Start Page Service to Customer during the term of this Agreement. Subject to the terms and conditions of this Agreement, Customer may use the Start Page Service to (a) provide a Start Page to its End Users, and (b) administer such Start Page through the provided administrative console. Both parties acknowledge that an End User is a customer of both Customer and Google.
+
+3.1 Search Box and Search Results. Customer agrees that Google will display a Google search box ("Search Box") in the position specified by Google on the Start Page. All search queries must originate from individual human end users inputting data directly into the Search Box. Google will use commercially reasonable efforts to provide search results ("Search Results") in response to queries processed through the Search Box. Customer agrees that Google may serve advertisements ("Ads") in connection with the Search Results. Search Results and any accompanying Ads will be displayed on Web pages hosted by Google (each, a "Search Results Page"), the format, look and feel of which may be modified by Google from time to time. Customer agrees that any revenue generated by Google from the Ads or otherwise derived by Google from the Start Page Service will be retained by Google and not be subject to any revenue sharing.
+
+3.2 Start Page Content. Customer may use the administrative console of the Start Page Service to add modules of Customer provided content to the Start Page ("Customer Content"). Customer may develop "gadgets" for inclusion in the Start Page Service using the API and development information available at http://www.google.com/apis/homepage/ or such future URL as Google may designate, and by executing the Google Gadgets API Terms of service, located at http://www.google.com/apis/homepage/terms.html or such future URL as Google may designate. Furthermore, Google may provide access to other content for Customer or End Users to enhance the Start Page (such as current news and weather information) from publicly available sources or which Google licenses from third parties ("Additional Content"). Customer Content shall be hosted by Customer and contained in the modules identified as Customer's content on the Start Page. Customer Content shall conform to Google's reasonable technical requirements, including but not limited to size, dimensions and language, and Google's content policies. Areas on the Start Page not reserved for Customer Content may be modified by Google from time to time at its sole discretion. Notwithstanding the foregoing, the parties further acknowledge that End Users will have the ability to make personal customizations to certain aspects Start Page through an End User Account, and such customization may include moving or removing modules, whether containing Customer Content or Additional Content, and/or including new content from third party content providers (e.g., via RSS feeds or similar). The parties further agree that revenue generated, if any, from each party's content on the Start Page shall be retained by such party and shall not be subject to any revenue sharing or payment commitments hereunder.
+
+3.2.1 Appropriate Customer Content. Customer agrees that all Customer Content is the sole responsibility of Customer. Google reserves the right, but shall have no obligation, to pre-screen, refuse or move any Customer Content available via the Start Page Service. Without limiting the foregoing, Google and its designees shall have the right to remove any Customer Content or other content that violates this Agreement or is otherwise objectionable. Customer understands that by using the Start Page Service, that Customer and End Users may be exposed to content that is offensive, indecent or objectionable, and that Customer and its End Users use the Start Page Service at their own risk.
+
+3.2.2 Disclaimer Regarding Additional Content. Additional Content may be provided by third parties and may be modified or removed by Google at any time, including at the request of those third parties. Third party providers of Additional Content may include financial exchanges and may be delayed as specified by such financial exchanges or Google's data providers. Google does not verify any data and disclaims any obligation to do so. Google, its data or content providers, the financial exchanges and each of their affiliates and business partners (a) expressly disclaim the accuracy, adequacy, or completeness of any data, and (b) shall not be liable for any errors, omissions or other defects in, delays or interruptions in such data, or for any actions taken in reliance thereon. Neither Google nor any of its information providers will be liable for any damages relating to Customer's or End User's use of the information provided herein. As used here, "business partners" does not refer to an agency, partnership, or joint venture relationship between Google and any such parties. Customer agrees not to copy, modify, reformat, download, store, reproduce, reprocess or redistribute any data or information from the Additional Content or use any such data or information in a commercial enterprise without obtaining prior written consent. All data and information is provided "as is" for personal informational purposes only, and is not intended for trading purposes or advice. A broker or financial representative should be consulted to verify pricing before executing any trade. Either Google or its third party data or content providers have exclusive proprietary rights in the data and information provided.
+
+3.3 Fixed Footer Information. Customer acknowledges that the Start Page will contain a fixed footer set by Google that may contain, among other things, a link to a Google end user privacy policy and end user terms of service, as each may be updated by Google from time to time. Customer agrees not to interfere with the display of or links contained in such fixed footer.
+
+3.4 Setting of the Browser Default Page. If a Customer chooses to change an End User's browser default home page to point to the Start Page, Customer shall (i) fully, accurately, clearly and conspicuously disclose the change in a manner that will explain the practical effect of such change and (ii) obtain the End User's affirmative consent to make such change. Customer agrees not to repeatedly ask an End User to set, or try to deceive an End User into setting, such End User's browser default home page to the Start Page.
+
+3.5 Access to the Start Page. Customer understands that the Start Page is hosted on a publicly accessible web server by Google, and third parties other than Customer's End Users may be able to view and access the Start Page and any Customer Content and Additional Content on the Start Page.
+
+4. Domain Service. Customer may, through Google's interface, register domain name(s) through or transfer domain name(s) to third party domain name registrars who have a contractual relationship with Google ("Registrar Partners"). Google's role in such registration is principally in suggesting a Registrar Partner to Customer, helping Customer to register Customer Domain Name(s) with such Registrar Partner and aiding in the setup of Google Service(s) through such Registrar Partner. Google's Registrar Partners currently include eNom, Inc. and GoDaddy.com, Inc. but these Registrar Partners may change from time to time at Google's sole discretion. Customer must agree to the Registrar Partner's Terms and Conditions in order to register a domain name with that Registrar Partner. Customer understands that Customer has a separate contractual agreement with the Registrar Partner and that Customer is responsible for all liability, obligations, and fees as specified in that agreement. Any issues regarding availability, purchase, renewal, maintenance or other support relating to Customer's domain name registration should be addressed to such Registrar Partner and not Google. Google bears no responsibility for such issues. Customer also understands that Google is not responsible for forwarding any correspondence directed to Google on Customer's behalf.
+
+4.1 Registration. Customer understands that Customer is the Registrant for Customer's domain name(s) as defined by the Internet Corporation for Assigned Names ("ICANN"). Customer agrees to comply with the relevant ICANN regulations and policies concerning Customer's Domain Name(s), including ICANN's Uniform Dispute Resolution Process. Customer agrees to submit and maintain Customer's registration information, including contact information for the registration and other contacts, as complete and accurate at all times. Customer also agrees and understands that though Customer may elect to keep Customer information out of the WHOIS database, if regulations regarding such election change, Customer's Registrar Partner or Google may disclose Customer's information as it reasonably believes necessary. To the extent that Customer names others to act on Customer's behalf as Registrant, Administrator or in any other capacity, Customer agrees that Customer is liable for any obligations or liability that its agents incur relating to Customer's domain(s) and Customer must have its agents accept these Terms and the Registrar Partner's Terms and Conditions.
+
+4.2 Fees. Customer agrees that Customer shall be responsible for all fees concerning the Domain Service payable to Customer's Registrar Partner(s) and that Google may bill Customer for such fees. Google may collect such fees from Customer for payment to Customer's Registrar Partner(s), but is under no obligation to do so. During signup or through the Domain Service, Customer may choose to automatically renew Customer's Domain Name(s). If Customer so chooses, Google will convey Customer's request to Customer's Registrar Partner(s) and bill Customer for the then current fee for renewal when such payment is due. The current yearly fee for renewal is ten (10) U.S. dollars, but such fee may change at any time (and will be listed with Customer's current renewal option as part of the Service).
+
+4.3 Domain Records. Customer authorizes Google to correspond with Customer's Registrar Partner(s) on Customer's behalf and to make changes to Customer's records with such Registrar Partner(s) in order to facilitate the functioning of the Services offered under this Agreement. Customer authorizes Google to, at its option, become the Technical, Billing or other contact for domains registered through the Domain Service.
+
+4.4 Transfer. Customer understands that Google may change its Registrar Partners or begin providing such domain name registration services itself at any time and at its sole discretion. In connection with such a change, Google may change Customer's Registrar. Customer authorizes Google to act as the agent of the Registrant for the limited purpose of requesting such a change and completing any necessary forms or agreements. Customer also authorizes Google to become and reset the Administrative Contact for the limited purpose of transferring Customer Domain Name(s) and completing any necessary forms or agreements.
+
+5. Customer Obligations.
+
+5.1 End User Terms. Customer acknowledges that its End Users will be bound by terms relating to the each component of the Service which may include but are not limited to (i) the Gmail Terms of Use (which may be modified from time to time) available at http://www.google.com/mail/help/terms_of_use.html or such URL as Google may provide and (ii) the Google Terms of Service (which may be modified from time to time) available at http://www.google.com/terms_of_service.html or such URL as Google may provide; and (iii) additional Program Policies or Guidelines for acceptable usage (which may be modified from time to time) available at http://www.google.com/a/help/intl/en/users/terms.html or such URL as Google may provide. Customer acknowledges that each End User of the Service consents to privacy policies relating to the Service which may include but are not limited to the Google Apps Privacy Policy (which may be modified from time to time) available at http://www.google.com/a/help/intl/en/users/privacy_notice.html or such URL as Google may provide and the Google Privacy Policy (which may be modified from time to time) available at http://www.google.com/privacy.html or such URL as Google may provide. In the event that Customer becomes aware of any End User's violation of any applicable terms of use or policy, Customer agrees to (i) promptly notify Google and (ii) immediately suspend or terminate such End User Account unless Google agrees otherwise in writing (including by email). At Google's request, Customer will promptly suspend or terminate any End User Account or administrator's access to the Service in response to a violation of any applicable terms of use or policy by an End User or administrator. Google reserves the right at its discretion to suspend or terminate the End User Account of any End User.
+
+5.2 Privacy and Program Policies. For information about Google's data protection practices relating to Google Apps for your Domain, please read Google's Google Apps for your Domain Privacy Notice at: http://www.google.com/a/help/intl/en/admins/privacy.html and Google's main privacy policy at http://www.google.com/privacy.html. This policy explains how Google treats your personal information, and protects your privacy, when you use the Google Apps for your Domain. You agree to the use of your data in accordance with Google's privacy policies. Customer agrees to comply with the policy for the Service available at http://www.google.com/a/help/intl/en/admins/standard_program_policies.html which may be updated from time to time.
+
+5.2.1 Start Page. Google may provide Customer with certain aggregate data ("Analytics Data") concerning the characteristics and activities of End User usage of the Start Page Service. Customer will not (and will not allow any third party to) use the Start Page Service to track or collect personally identifiable information of End Users or other Internet users, nor will Customer (or will Customer allow any third party to) associate any Analytics Data or other data gathered from the Start Page Service with any personally identifying information from any source.
+
+5.2.2 End User Privacy Policies. Customer agrees to protect the privacy of its End Users of the Service through a policy communicated to its End Users and no less protective of its End Users than the Google Apps Privacy Policy and the Google Privacy Policy referenced above.
+
+5.3 Customer Administration of the Services. Customer will receive a password and account to use in connection with administering the End User Accounts of its End Users and the Start Page. Customer is responsible for maintaining the confidentiality of the password and account, designating those employees who are authorized to access the account, limiting the scope of such authorization to performance of duties under this Agreement, and for all activities that occur under Customer's account. Customer agrees to immediately notify Google of any unauthorized use of, or access to, the Service, Customer's password or account, or of any other breach of security. Google cannot and will not be liable for any loss or damage from Customer's failure to comply with these security obligations. Customer acknowledges and agrees that under no circumstances will Google be liable in any way for any acts or omissions of Customer or any End User including any damages of any kind incurred as a result of such acts or omissions.
+
+5.4 Deployment of Services. Furthermore, Google reserves final approval authority with respect to the means used by Customer to deploy each component of the Service, and in the event Google disapproves of such deployment, Google shall have the right, upon notice to Customer, to suspend any continued use of the Service until such time Customer implements adequate corrective modifications as reasonably required and determined by Google.
+
+5.5 Usage Policies and Limits. Customer shall comply with any usage policies and limits concerning use of the Service as requested by Google from time to time, including without limitation: (i) Google's technical and implementation requirements; (ii) Google's brand treatment guidelines for the Service; (iii) Google website terms of use and privacy policies; and (iv) Google requirements for data security. Google shall have the right to change, suspend or discontinue any aspect of the Service at any time, including hours of operation and availability of any Service feature, without notice and without liability. Google shall have the right to impose limits on certain features or restrict access to parts or all of the Service without notice and without liability.
+
+5.6 Permissible Use. Customer agrees to use the Service only for purposes that are legal, proper and in accordance with this Agreement and any applicable policies or guidelines. Customer agrees that it will not engage in any activity that interferes with or disrupts the Service or servers or networks connected to the Service. In addition to this agreement, Customer's use of some specific Google services is governed by the policies or guidelines that are presented to Customer when Customer signs up for or accesses those services and which are specifically incorporated into this Agreement. Customer agrees to comply with all applicable export and reexport control laws and regulations, including the Export Administration Regulations ("EAR") maintained by the U.S. Department of Commerce, trade and economic sanctions maintained by the Treasury Department's Office of Foreign Assets Control. A Customer in a country outside of the United States agrees to additionally comply with any local rules regarding online conduct and acceptable content, including laws regulating the export and reexport of data to and from the United States or such other country.
+
+6. Restrictions. Except as expressly permitted by Google, Customer shall not alter, delete or modify any attributions included within the Service. Customer shall fully comply with the restrictions set forth in the policies for the Service available at http://www.google.com/a/help/intl/en/admins/standard_program_policies.html. Except for modifications made to the Start Page Service permitted through use of the Start Page Service administrative console, Customer agrees not to alter the Service or any information transmitted through the Service to End Users. Except as expressly set forth in this Agreement, Customer shall not transmit, display or otherwise make available (or allow End Users or any other third party to transmit or make available) the Service or the content thereof to any third party.
+
+7. Technical Support Services. Customer is responsible for responding to any questions and complaints by End Users or other third parties relating to Customer or its End Users' use of the Service, with such support services to be provided at Customer's own expense. Subject to the terms and conditions of this Agreement, Google shall provide technical support services to Customer's designated administrator in accordance with Google's support guidelines then in effect for the Service. Prior to making any support request to Google, Customer shall first use reasonable efforts to fix any error, bug, malfunction, or network connectivity defect on its own without any escalation to Google. Thereafter, Customer's designated administrator may submit a written request for technical support through the online help center which is accessible at http://www.google.com/support/a, or such URL as Google may provide. Technical support services for End Users of the Service are provided by Google solely through the Google.com Help Center, which is accessible at http://www.google.com/support/ or such URL as Google may provide.
+
+8. Confidential Information. In connection with performance of its obligations hereunder, a party (the "Discloser") may disclose to the other party (the "Recipient") certain information that the Discloser considers confidential and/or proprietary ("Confidential Information") including, but not limited to, tangible, intangible, visual, electronic, present, or future information such as: (a) trade secrets; (b) financial information, including pricing; (c) technical information, including research, development, procedures, algorithms, data, designs, and know-how; (d) business information, including operations, planning, marketing interests, and products; (e) any bugs, defects, security problems, and other issues relating to the Service; and (f) the terms of this Agreement and the discussions, negotiations and proposals related thereto. The Recipient will only have a duty to protect Confidential Information disclosed to it by the Discloser: (1) if it is clearly and conspicuously marked as "confidential" or with a similar designation; (2) if it is identified by the Discloser as confidential and/or proprietary before, during, or promptly after presentation or communication; or (3) if it is disclosed in a manner in which the Discloser reasonably communicated, or the Recipient should reasonably have understood under the circumstances that the disclosure should be treated as confidential, whether or not the specific designation "confidential" or any similar designation is used. Customer acknowledges that the source and object code of the software underlying the Service (the "Software") remains a confidential trade secret of Google and/or its licensors and that Customer is not entitled to review either the object code or the source code of the Software for any reason at any time. Recipient shall not disclose or cause to be disclosed any Confidential Information of Discloser, except to those employees, agents, representatives, or contractors of the parties who require access to the Confidential Information to perform under this Agreement ("Authorized Personnel") and who are bound by written agreement not to disclose third-party confidential or proprietary information disclosed to Recipient, or as such disclosure may be required by law or governmental regulation. Furthermore, Recipient agrees to be responsible for any act and/or omission of any Authorized Personnel in breach of this Section. Recipient shall protect the Confidential Information of Discloser by using the same degree of care, but no less than a reasonable degree of care, that it uses to protect its own confidential information of a like nature to prevent its unauthorized use, dissemination or publication to any unauthorized third parties. A party's Confidential Information shall not include information that: (i) is or becomes publicly available through no act or omission of Recipient; (ii) was in the Recipient's lawful possession prior to the disclosure and was not obtained by Recipient either directly or indirectly from the Discloser; (iii) is lawfully disclosed to the Recipient by a third party without restriction on Recipient's disclosure, and where Recipient was not aware that the information was the confidential information of Discloser; or (iv) is independently developed by the Recipient without violation of this Agreement. Recipient may disclose Confidential Information solely as needed to comply with a court order, subpoena, or other government demand (provided that Recipient first used all commercially reasonable efforts to notify Discloser and to give Discloser the opportunity to challenge such court order, subpoena, or government demand except in situations where Recipient is prevented, per lawful government request, from disclosing the existence of the court order, subpoena, or other government demand). Results, analyses or other information generated in benchmarking and/or performance testing of the Service shall be Confidential Information of Google and shall, at the request of Google, be provided to Google. Each party acknowledges that damages for improper disclosure of Confidential Information may be irreparable; therefore, the injured party is entitled to seek equitable relief, including temporary restraining order(s) or preliminary or permanent injunction, in addition to all other remedies, for any violation or threatened violation of this Section 8. A Recipient shall have a duty to protect Confidential Information during the term of this Agreement and for a period of five (5) years thereafter.
+
+9. Ownership; Restricted Use. Google and its licensors shall own all right, title and interest, including without limitation all Intellectual Property Rights (as defined below) relating to the Service (and any derivative works or enhancements thereof), including but not limited to, all software, technology, information, content, materials, guidelines, and documentation. Customer shall not acquire any right, title, or interest therein, except for the limited use rights expressly set forth in the Agreement. Any rights not expressly granted herein are deemed withheld. "Intellectual Property Rights" means any and all rights existing from time to time under patent law, copyright law, semiconductor chip protection law, moral rights law, trade secret law, trademark law, unfair competition law, publicity rights law, privacy rights law, and any and all other proprietary rights, and any and all applications, renewals, extensions and restorations thereof, now or hereafter in force and effect worldwide. Google does not own third party content used as part of the Service, including the content of communications appearing on the Service. Title, ownership rights, and Intellectual Property Rights in and to the content accessed through the Service are the property of the applicable content owner and may be protected by applicable copyright or other law. Customer agrees not to, or to allow others to: (i) adapt, translate, or modify the Software; (ii) decipher, decompile, disassemble, reverse engineer, or otherwise attempt to discover the source or object code of the Software, except to the extent applicable laws specifically prohibit such restriction; (iii) copy the Software; (iv) use the Service for High Risk Activities as described in Section 13; or (v) sublicense, loan, sell, rent or lease the Service, or any component thereof. Any and all third party binary or source code included in each portion of the Service may be used only in conjunction with such portion of the Service, and such use shall be subject to all the terms and conditions of this Agreement. THE SERVICE OR ANY PORTION THEREOF MAY NOT BE USED, COPIED, TRANSFERRED, OR MODIFIED EXCEPT AS EXPRESSLY PERMITTED BY THIS AGREEMENT.
+
+10. Brand Features. As used in this Agreement, "Brand Features" shall mean the trade names, trademarks, service marks, logos, domain names, and other distinctive brand features of each party, respectively, as secured by such party from time to time. Except as expressly allowed by Google, any Brand Features, copyright, or other proprietary notices, legends, symbols, or labels appearing on or in the Service provided to Customer shall not be removed or altered. Subject to the terms and conditions of this Agreement, Customer grants to Google a limited, nonexclusive and nonsublicensable license during the term of this Agreement to display those Customer Brand Features expressly authorized for use in this Agreement, solely for the purposes expressly set forth herein. Notwithstanding anything to the contrary, Customer may revoke the license gran]]></ObjectValue>
+	</Registration>
+	<Registration ID="522">
+		<LastChanged>2009-09-25T14:06:48</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Login</KeyValue>
+		<ObjectValue>Sign In</ObjectValue>
+	</Registration>
+	<Registration ID="523">
+		<LastChanged>2009-03-15T08:28:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>Logout</KeyValue>
+		<ObjectValue>Sign out</ObjectValue>
+	</Registration>
+	<Registration ID="530">
+		<LastChanged>2009-10-11T11:51:45</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>18</ResourceID>
+		<Code>HtmlApplet</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlHeaderEnd</KeyValue>
+		<ObjectValue><![CDATA[<title><menutitle/></title>
+<meta name="Keywords" content="<keywords/>travel, tours, custom tours, air, hotel, sightseeing, transfer, cruise, car rental, airport transfer, flight, travel agent" />
+<meta name="description" content="<menudesc/>" />
+</head>
+<body marginwidth="0" marginheight="0" class="tundra">
+<script type="text/javascript">dojo.back.init();</script>
+]]></ObjectValue>
+	</Registration>
+	<Registration ID="531">
+		<LastChanged>2009-10-11T05:16:59</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>18</ResourceID>
+		<Code>HtmlApplet</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlHeaderStart</KeyValue>
+		<ObjectValue><![CDATA[<html>
+<head>
+<script type="text/javascript">
+djConfig = {
+	isDebug: false,
+	preventBackButtonFix: false
+};
+</script><script djConfig="parseOnLoad: true" src="docs/styles/js/dojo/dojo.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="docs/styles/js/tourapp/main.js"></script>
+<script type="text/javascript" src="docs/styles/js/tourapp/java.js"></script>
+<script type="text/javascript" src="docs/styles/js/tourapp/back.js"></script>
+
+<style type="text/css">
+        @import "docs/styles/js/dijit/themes/tundra/tundra.css";
+</style>
+<link title="basicstyle" href="docs/styles/css/style.css" type="text/css" rel="stylesheet">
+<link rel="shortcut icon" href="images/com/favicon.ico" type="image/x-icon">
+
+<script type="text/javascript">
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.Textarea");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.form.ComboBox");
+dojo.require("dojo.parser");
+dojo.require("dojo.back");
+</script>
+]]></ObjectValue>
+	</Registration>
+	<Registration ID="532">
+		<LastChanged>2009-09-22T15:28:30</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>18</ResourceID>
+		<Code>HtmlApplet</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlMenubar</KeyValue>
+		<ObjectValue>&lt;!-- No menu displayed --&gt;</ObjectValue>
+	</Registration>
+	<Registration ID="533">
+		<LastChanged>2009-09-22T15:28:50</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>18</ResourceID>
+		<Code>HtmlApplet</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>htmlMenubarAnon</KeyValue>
+		<ObjectValue>&lt;!-- No menu displayed --&gt;</ObjectValue>
+	</Registration>
+	<Registration ID="534">
+		<LastChanged>2009-10-11T11:20:07</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>18</ResourceID>
+		<Code>HtmlApplet</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>webStartOld</KeyValue>
+		<ObjectValue><![CDATA[<script src="http://java.com/js/deployJava.js" type="text/javascript"></script>
+<script type="text/javascript">
+deployJava.runApplet({{code:"{applet}", 
+codebase:"{codebase}", width:"{width}", height:"{height}", name:"{name}"}},{{
+{other}
+jnlp_href:"{jnlpURL}"}},
+"1.6");
+</script>]]></ObjectValue>
+	</Registration>
+	<Registration ID="535">
+		<LastChanged>2010-11-30T11:33:12</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>18</ResourceID>
+		<Code>HtmlApplet</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>thick</KeyValue>
+		<ObjectValue><![CDATA[<script src="http://java.com/js/deployJava.js" type="text/javascript"></script>
+<script type="text/javascript">
+var attributes={{code:'{applet}',codebase:'{codebase}',width:'{width}',height:'{height}',name:'{name}'}} ;
+var parameters = {{ {other}
+jnlpextensions:'docs/jnlp/thin,docs/jnlp/thintest,docs/jnlp/thick,docs/jnlp/resource,docs/jnlp/thintour,docs/jnlp/tour,docs/jnlp/thicktest',
+jnlpjars:'lib/jbundle-base-screen-view-swing-${jbundle-version}',
+background: 'backgrounds/worldmapalpha.gif',
+backgroundcolor: '#eeeeff',
+jnlp_href: '{jnlpURL}'}} ; 
+deployJava.runApplet(attributes, parameters, '1.6'); 
+</script>
+]]></ObjectValue>
+	</Registration>
+	<Registration ID="536">
+		<LastChanged>2010-11-30T10:15:30</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>18</ResourceID>
+		<Code>HtmlApplet</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>webStart</KeyValue>
+		<ObjectValue><![CDATA[<script src="http://java.com/js/deployJava.js" type="text/javascript"></script>
+<script type="text/javascript">
+var attributes={{code:'{applet}',codebase:'{codebase}',width:'{width}',height:'{height}',name:'{name}'}} ;
+var parameters = {{{other}jnlp_href: '{jnlpURL}'}} ; 
+deployJava.runApplet(attributes, parameters, '1.6'); 
+</script>]]></ObjectValue>
+	</Registration>
+	<Registration ID="537">
+		<LastChanged>2010-12-01T04:38:18</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>18</ResourceID>
+		<Code>HtmlApplet</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>thin</KeyValue>
+		<ObjectValue><![CDATA[<script src="http://java.com/js/deployJava.js" type="text/javascript"></script>
+<script type="text/javascript">
+var attributes={{code:'{applet}',codebase:'{codebase}',width:'{width}',height:'{height}',name:'{name}'}} ;
+var parameters = {{ {other}
+jnlpextensions:'docs/jnlp/thin,docs/jnlp/thintest,docs/jnlp/thintour',
+jnlpjars:'lib/jbundle-thin-base-screen-core-${jbundle-version}',
+background: 'backgrounds/worldmapalpha.gif',
+backgroundcolor: '#eeeeff',
+jnlp_href: '{jnlpURL}'}} ; 
+deployJava.runApplet(attributes, parameters, '1.6'); 
+</script>
+]]></ObjectValue>
+	</Registration>
+	<Registration ID="538">
+		<LastChanged>2009-09-26T18:19:02</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>19</ResourceID>
+		<Code>Jnlp</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>default</KeyValue>
+		<ObjectValue><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for Tour Application -->
+<jnlp spec="1.0+" codebase="{codebase}">
+ <information>
+    <title>{title}</title>
+    <vendor>tourgeek.com</vendor>
+    <homepage href="docs/index.html" />
+    <description kind="one-line">{desc}</description>
+    <description kind="short">
+      {desc}
+    </description>
+    <icon href="{icon}"/>
+    <shortcut online="true">
+      <desktop/>
+      <menu submenu="{desc}"/>
+    </shortcut>
+    <update check="timeout" />
+  </information>
+
+  <security>
+  </security>
+
+  <resources>
+    <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
+    <property name="jnlp.packEnabled" value="true"/>
+    {jnlpjars}
+    {jnlpextensions}
+  </resources>
+
+  {appStart}
+     main-class="{mainClass}">
+     {args}
+  {appEnd}
+</jnlp>]]></ObjectValue>
+	</Registration>
+	<Registration ID="539">
+		<LastChanged>2010-11-18T12:34:31</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>19</ResourceID>
+		<Code>Jnlp</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>thin</KeyValue>
+		<ObjectValue><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for Thin Application -->
+<jnlp spec="1.0+" codebase="{codebase}">
+ <information>
+    <title>{title}</title>
+    <vendor>tourgeek.com</vendor>
+    <homepage href="docs/index.html" />
+    <description kind="one-line">{desc}</description>
+    <description kind="short">
+      {desc}
+    </description>
+    <icon href="{icon}"/>
+    <shortcut online="true">
+      <desktop/>
+      <menu submenu="{desc}"/>
+    </shortcut>
+    <update check="timeout" />
+  </information>
+  <security>
+  </security>
+  <resources>
+    <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
+    <property name="jnlp.packEnabled" value="true"/>
+    <jar href="lib/jbundle-thin-base-screen-core-${jbundle-version}.jar" part="thinbase" />
+    <package name="org.jbundle.thin.base.screen.ThinApplet" part="thinbase" />
+    <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
+    <extension name="docs/jnlp/thintour" href="docs/jnlp/thintour.jnlp" />
+    <extension name="docs/jnlp/resource" href="docs/jnlp/resource.jnlp" />
+  </resources>
+  {appStart}
+     main-class="{mainClass}" name="{name}">
+     {args}
+<param name="backgroundcolor" value="#eeeeff" />
+<param name="background" value="backgrounds/worldmapalpha.gif" />
+  {appEnd}
+</jnlp>]]></ObjectValue>
+	</Registration>
+	<Registration ID="540">
+		<LastChanged>2010-06-10T01:28:37</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>19</ResourceID>
+		<Code>Jnlp</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>thick</KeyValue>
+		<ObjectValue><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for Thick Application -->
+<jnlp spec="1.0+" codebase="{codebase}">
+ <information>
+    <title>{title}</title>
+    <vendor>tourgeek.com</vendor>
+    <homepage href="docs/index.html" />
+    <description kind="one-line">{desc}</description>
+    <description kind="short">
+      {desc}
+    </description>
+    <icon href="{icon}"/>
+    <shortcut online="true">
+      <desktop/>
+      <menu submenu="{desc}"/>
+    </shortcut>
+    <update check="timeout" />
+  </information>
+  <security>
+  </security>
+  <resources>
+    <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
+    <property name="jnlp.packEnabled" value="true"/>
+    <jar href="lib/jbundle-base-screen-view-swing-${jbundle-version}.jar" part="thickscreen" />
+    <package name="org.jbundle.Main" part="thickscreen" />
+    <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
+    <extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" />
+    <extension name="docs/jnlp/resource" href="docs/jnlp/resource.jnlp" />
+    <extension name="docs/jnlp/thintour" href="docs/jnlp/thintour.jnlp" />
+    <extension name="docs/jnlp/tour" href="docs/jnlp/tour.jnlp" />
+  </resources>
+  {appStart}
+     main-class="{mainClass}" name="{name}">
+     {args}
+<param name="backgroundcolor" value="#eeeeff" />
+<param name="background" value="backgrounds/worldmapalpha.gif" />
+  {appEnd}
+</jnlp>]]></ObjectValue>
+	</Registration>
+	<Registration ID="541">
+		<LastChanged>2009-10-23T16:12:39</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>6</ResourceID>
+		<Code>Default</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>terms</KeyValue>
+		<ObjectValue><![CDATA[<b>Terms of Service</b><br/>
+Welcome to the Tourgeek.com (the "Service"),
+the web application of Don Corley (the "Proprietor"). Your use of
+the Service is subject to these Terms of Service ("TOS"). The
+Proprietor reserves the right to update and change the TOS from
+time to time without notice or acceptance by you. You can review
+the most current version of the TOS at any time at
+http://www.tourgeek.com/tos.html.
+<br/>
+<b>1. Introduction.</b><br/>
+This agreement ("Agreement") between You and the Proprietor consists
+of these Terms of Service. "You" means any person or entity who uses the
+Service and/or posts Content to the Service. By using the Service
+and/or posting Content you agree to be bound by the terms and
+condition of this Terms of Service.
+<br/>
+<b>2. Privacy Policy.</b><br/>
+Certain other information about you is subject to the TourGeek.com
+Privacy Policy. For more information, see our full privacy policy at
+http://www.tourgeek.com/privacy.html.
+<br/>
+<b>3. User Conduct and Content.</b><br/>
+You understand that all information, data, text, comments, graphics,
+messages or other materials ("Content"), whether publicly posted or
+privately transmitted, are the sole responsibility of the person from
+which such Content originated. This means that you, and not the
+Proprietor are entirely responsible for all Content that you upload,
+post, email, transmit or otherwise make available via the Service.
+You agree to not use the Service to:  a. upload, post, email, transmit
+or otherwise make available any Content that is unlawful, harmful,
+threatening, abusive, harassing, tortious, defamatory, vulgar, obscene,
+libelous, invasive of another's privacy, hateful, or racially, ethnically or
+otherwise objectionable;  b. upload, post, email, transmit or otherwise
+make available any Content that you do not have a right to make
+available under any law or under contractual or fiduciary relationships
+(such as inside information, proprietary and confidential information
+learned or disclosed as part of employment relationships or under
+nondisclosure agreements);  c. upload, post, email, transmit or
+otherwise make available any Content that infringes any patent,
+trademark, trade secret, copyright or other proprietary rights ("Rights")
+of any party;  d. upload, post, email, transmit or otherwise make
+available any unsolicited or unauthorized advertising, promotional
+materials, "junk mail," "spam," "chain letters," "pyramid schemes,"
+or any other form of solicitation; harm minors in any way;  e. upload,
+post, email, transmit or otherwise make available any material that
+contains software viruses or any other computer code, files or programs
+designed to interrupt, destroy or limit the functionality of any computer
+software or hardware or telecommunications equipment;  f. interfere
+with or disrupt the Service or servers or networks connected to the Service,
+or disobey any requirements, procedures, policies or regulations of
+networks connected to the Service;  g. intentionally or unintentionally
+violate any applicable local, state, national or international law, including,
+but not limited to, regulations promulgated by the U.S. Securities and
+Exchange Commission, any rules of any national or other securities
+exchange, including, without limitation, the New York Stock Exchange,
+the American Stock Exchange or the NASDAQ, and any regulations having
+the force of law;  h. provide material support or resources (or to conceal
+or disguise the nature, location, source, or ownership of material support
+or resources) to any organization(s) designated by the United States
+government as a foreign terrorist organization pursuant to section 219
+of the Immigration and Nationality Act;  i. collect or store personal data
+about other users.  You acknowledge that the Proprietor may or may not
+pre-screen Content, but that the Proprietor and its designees shall have
+the right (but not the obligation) in their sole discretion to pre-screen,
+refuse, or move any Content that is available via the Service. Without
+limiting the foregoing, the Proprietor and its designees shall have the
+right to remove any Content that violates the TOS or is otherwise
+objectionable. You agree that you must evaluate, and bear all risks
+associated with, the use of any Content, including any reliance on the
+accuracy, completeness, or usefulness of such Content. In this regard,
+you acknowledge that you may not rely on any Content created by the
+Proprietor or submitted to the Service, including without limitation
+information in comments, and in all other parts of the Service.
+<br/>
+<b>4. Disclosure of Content and Personal Information.</b><br/>
+You acknowledge, consent and agree that the Proprietor may access,
+preserve, and disclose your Content and any personal information if
+required to do so by law or in a good faith belief that such access
+preservation or disclosure is reasonably necessary to: (a) comply with
+legal process; (b) enforce the TOS; (c) respond to claims that any Content
+violates the rights of third-parties; (d) respond to your requests for
+customer service; or (e) protect the rights, property, or personal safety
+of the Proprietor, the users of the Service and the public.
+<br/>
+<b>5. No Control over Content.</b><br/>
+The Proprietor does not control the Content posted via the
+Service and, as such, does not guarantee the accuracy, integrity or quality
+of such Content. You understand that by using the Service, you may be
+exposed to Content that is offensive, indecent or objectionable. Under
+no circumstances will the Proprietor be liable in any way for any Content,
+including, but not limited to, for any errors or omissions in any Content,
+or for any loss or damage of any kind incurred as a result of the use of any
+Content posted, emailed, transmitted or otherwise made available via the
+Service.
+<br/>
+<b>6. Information Rights.</b><br/>
+The Proprietor does not claim ownership of Content you submit or make
+ available for inclusion on the Service. However, with respect to Content you
+ submit or make available for inclusion on the Service, including without
+ limitation comments you post to the Service, you grant the Proprietor world-wide,
+ perpetual, irrevocable, royalty free, non-exclusive, fully sub-licensable license(s)
+ to use, distribute, reproduce, modify, adapt, publish, translate, publicly perform
+ and publicly display such Content (in whole or in part) and to incorporate such
+ Content into other works in any format or medium now known or later developed.
+<br/>
+<b>7. Indemnity.</b><br/>
+You agree to indemnify and hold the Proprietor, and its subsidiaries, affiliates,
+ officers, agents, co-branders or other partners, and employees, harmless from
+ any claim or demand, including reasonable attorneys' fees, made by any third
+ party due to or arising out of Content you submit, post, transmit or make available
+ through the Service, your use of the Service, your connection to the Service, your
+ violation of the TOS, or your violation of any rights of another.
+<br/>
+<b>8. DISCLAIMER OF WARRANTIES.</b><br/>
+YOU EXPRESSLY UNDERSTAND AND AGREE THAT:
+A. YOUR USE OF THE SERVICE IS AT YOUR SOLE RISK. THE SERVICE IS PROVIDED ON AN
+"AS IS" AND "AS AVAILABLE" BASIS. THE PROPRIETOR EXPRESSLY DISCLAIMS ALL WARRANTIES
+OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO THE
+IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NON-INFRINGEMENT.
+B. THE PROPRIETOR MAKES NO WARRANTY THAT (i) THE SERVICE WILL MEET YOUR
+REQUIREMENTS, (ii) THE SERVICE WILL BE UNINTERRUPTED, TIMELY, SECURE, OR
+ERROR-FREE, (iii) THE RESULTS THAT MAY BE OBTAINED FROM THE USE OF THE
+SERVICE WILL BE ACCURATE OR RELIABLE, (iv) THE QUALITY OF ANY PRODUCTS, SERVICES,
+INFORMATION, OR OTHER MATERIAL PURCHASED OR OBTAINED BY YOU THROUGH THE
+SERVICE WILL MEET YOUR EXPECTATIONS, AND (V) ANY ERRORS IN THE SOFTWARE WILL
+BE CORRECTED.
+C. NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED BY YOU FROM
+ THE PROPRIETOR OR THROUGH OR FROM THE SERVICE SHALL CREATE ANY WARRANTY
+ NOT EXPRESSLY STATED IN THE TOS.
+<br/>
+<b>9. LIMITATION OF LIABILITY.</b><br/>
+YOU EXPRESSLY UNDERSTAND AND AGREE THAT THE PROPRIETOR SHALL NOT BE LIABLE TO
+YOU FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR EXEMPLARY
+DAMAGES, INCLUDING BUT NOT LIMITED TO, DAMAGES FOR LOSS OF PROFITS, GOODWILL,
+USE, DATA OR OTHER INTANGIBLE LOSSES (EVEN IF THE PROPRIETOR HAS BEEN ADVISED
+OF THE POSSIBILITY OF SUCH DAMAGES), RESULTING FROM: (i) THE USE OR THE INABILITY
+TO USE THE SERVICE; (ii) THE COST OF PROCUREMENT OF SUBSTITUTE GOODS AND
+SERVICES RESULTING FROM ANY GOODS, DATA, INFORMATION OR SERVICES PURCHASED
+OR OBTAINED OR MESSAGES RECEIVED OR TRANSACTIONS ENTERED INTO THROUGH OR
+FROM THE SERVICE; (iii) UNAUTHORIZED ACCESS TO OR ALTERATION OF YOUR TRANSMISSIONS
+OR DATA; (iv) STATEMENTS OR CONDUCT OF ANY THIRD PARTY ON THE SERVICE;
+OR (v) ANY OTHER MATTER RELATING TO THE SERVICE.
+<br/>
+<b>10. EXCLUSIONS AND LIMITATIONS.</b><br/>
+SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF CERTAIN WARRANTIES OR THE
+LIMITATION OR EXCLUSION OF LIABILITY FOR INCIDENTAL OR CONSEQUENTIAL DAMAGES.
+ACCORDINGLY, SOME OF THE ABOVE LIMITATIONS OF SECTION 9 MAY NOT APPLY TO YOU.
+<br/>
+<b>11. Modifications to Service.</b><br/>
+The Proprietor reserves the right at any time and from time to time to modify or discontinue,
+temporarily or permanently, the Service (or any part thereof) with or without notice. You
+agree that the Proprietor shall not be liable to you or to any third party for any modification,
+suspension or discontinuance of the Service.
+<br/>
+<b>12. Miscellaneous</b>.<br/>
+This Agreement shall be governed by the laws of California except for its conflicts of laws
+principles. Any dispute or claim arising out of or in connection with this Agreement shall be
+adjudicated in Los Angleles County, California. This Agreement constitutes the entire
+agreement between the parties with respect to the subject matter hereof. Any modifications
+to this Agreement must be made in a writing executed by both parties. The failure to require
+performance of any provision shall not affect a party's right to require performance at any
+time thereafter, nor shall a waiver of any breach or default of this Agreement constitute a
+waiver of any subsequent breach or default or a waiver of the provision itself. If any provision
+herein is held unenforceable, then such provision will be modified to reflect the parties'
+intention, and the remaining provisions of this Agreement will remain in full force and effect.
+You may not resell, assign, or transfer any of Your rights hereunder. Any such attempt may
+result in termination of this Agreement, without liability to the Proprietor Notwithstanding the
+foregoing, the Proprietor may assign this Agreement at any time without notice. The section
+titles in the TOS are for convenience only and have no legal or contractual effect.]]></ObjectValue>
+	</Registration>
+	<Registration ID="542">
+		<LastChanged>2009-11-24T13:45:47</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>11</ResourceID>
+		<Code>Menu</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>File</KeyValue>
+		<ObjectValue>File</ObjectValue>
+	</Registration>
+	<Registration ID="543">
+		<LastChanged>2010-06-10T01:33:37</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>19</ResourceID>
+		<Code>Jnlp</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>splash</KeyValue>
+		<ObjectValue><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for Thick Application -->
+<jnlp spec="1.0+" codebase="{codebase}">
+ <information>
+    <title>{title}</title>
+    <vendor>tourgeek.com</vendor>
+    <homepage href="docs/index.html" />
+    <description kind="one-line">{desc}</description>
+    <description kind="short">
+      {desc}
+    </description>
+    <icon href="{icon}"/>
+    <shortcut online="true">
+      <desktop/>
+      <menu submenu="{desc}"/>
+    </shortcut>
+    <update check="timeout" />
+  </information>
+  <security>
+  </security>
+  <resources>
+    <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
+    <property name="jnlp.packEnabled" value="true"/>
+    <jar href="lib/jbundle-thin-base-screen-splash-${jbundle-version}.jar" part="splash" />
+    <package name="org.jbundle.thin.base.screen.splash.Splash" part="splash" />
+    <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
+    <extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" />
+    <extension name="docs/jnlp/resource" href="docs/jnlp/resource.jnlp" />
+    <extension name="docs/jnlp/thintour" href="docs/jnlp/thintour.jnlp" />
+    <extension name="docs/jnlp/tour" href="docs/jnlp/tour.jnlp" />
+  </resources>
+  {appStart}
+     main-class="{mainClass}" name="{name}">
+     {args}
+<param name="backgroundcolor" value="#eeeeff" />
+<param name="background" value="backgrounds/worldmapalpha.gif" />
+  {appEnd}
+</jnlp>]]></ObjectValue>
+	</Registration>
+	<Registration ID="544">
+		<LastChanged>2010-07-07T02:43:44</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>19</ResourceID>
+		<Code>Jnlp</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>app</KeyValue>
+		<ObjectValue><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for Sample Application -->
+<jnlp spec="1.0+" codebase="{codebase}">
+ <information>
+    <title>{title}</title>
+    <vendor>tourgeek.com</vendor>
+    <homepage href="docs/index.html" />
+    <description kind="one-line">{desc}</description>
+    <description kind="short">
+      {desc}
+    </description>
+    <icon href="{icon}"/>
+    <shortcut online="true">
+      <desktop/>
+      <menu submenu="{desc}"/>
+    </shortcut>
+    <update check="timeout" />
+  </information>
+  <security>
+  </security>
+  <resources>
+    <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
+    <property name="jnlp.packEnabled" value="true"/>
+    <jar href="lib/jbundle-base-screen-view-swing-${jbundle-version}.jar" part="thickscreen" />
+    <package name="org.jbundle.Main" part="thickscreen" />
+    <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
+    <extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" />
+    <extension name="docs/jnlp/app" href="docs/jnlp/app.jnlp" />
+  </resources>
+  {appStart}
+     main-class="{mainClass}" name="{name}">
+     {args}
+<param name="backgroundcolor" value="#eeeeff" />
+<param name="background" value="backgrounds/worldmapalpha.gif" />
+  {appEnd}
+</jnlp>]]></ObjectValue>
+	</Registration>
+	<Registration ID="545">
+		<LastChanged>2010-11-30T14:10:45</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>18</ResourceID>
+		<Code>HtmlApplet</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>jbundleversion</KeyValue>
+		<ObjectValue>${jbundle-version}</ObjectValue>
+	</Registration>
+	<Registration ID="546">
+		<LastChanged>2010-11-30T14:11:04</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>19</ResourceID>
+		<Code>Jnlp</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>jbundleversion</KeyValue>
+		<ObjectValue>${jbundle-version}</ObjectValue>
+	</Registration>
+</file>

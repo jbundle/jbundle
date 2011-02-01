@@ -1,0 +1,21 @@
+/*********************************************************************
+	BK_MOD_MAINT File
+********************************************************************/
+
+declare	1 BK_MOD_MAINT_RECORD,
+		3 MODULE_DATE          fixed binary (15),
+		3 MODULE_CODE          character (        4),
+		3 MODULE_REMARKS       character (        1),
+		3 MODULE_LINE          character (        1),
+		3 MODULE_HOTEL         character (        1),
+		3 MODULE_LAND          character (        1),
+		3 MODULE_AIR           character (        1),
+		3 JUNK                 character (       10),
+		3 MOD_DATE(16) fixed binary (15),
+		3 MOD_CODE(16) character (        4),
+		3 MOD_BK_LINE(16) character (1),
+		3 MOD_BK_HOTEL(16) character (1),
+		3 MOD_BK_LAND(16) character (1),
+		3 MOD_BK_AIR(16) character (1),
+		3 MOD_BK_REMARK(16) character (1);
+

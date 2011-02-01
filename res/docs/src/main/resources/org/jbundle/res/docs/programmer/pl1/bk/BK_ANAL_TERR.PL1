@@ -1,0 +1,728 @@
+/****************************************************************
+	Module: BK_ANAL_TERR
+	Top Level Logic: ANALYZE_LOGIC
+	Date: 26-Sep-92
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ANAL_TERR
+	Top Level to analyze the file's info
+****************************************************************/
+
+%replace BK_ANAL_TERR_1 by 883;
+%replace BK_ANAL_TERR_2 by 884;
+BK_ANAL_TERR:
+   procedure;
+%replace BK_BOOKING_NO by   9;
+%replace AM_SCF_CONTROL_NO by  11;
+%replace AM_AGCY_NO by  10;
+%include "BK_ANAL_TERR.DD";
+%include "BK_BOOKING.DD";
+%include "AM_SCF_CONTROL.DD";
+%include "AM_AGCY.DD";
+
+declare		END_ANALYZE_MAIN     bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		KEY_LENGTH           fixed binary (15);
+declare		RECORD_LENGTH        fixed binary (15);
+declare		TEMP_RECORD          character (     1000);
+declare		END_ANAL_THRU_FILE   bit (1);
+declare		END_PRINT_THRU_TEMP  bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_ANALYZE_MAIN = NO;
+   do while (END_ANALYZE_MAIN ^= YES);
+      call ANALYZE_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   RD_ANALYZE_BY = "T";
+   RD_CUR_DATE = TODAYS_DATE();
+   RD_TIME = CURRENT_TIME();
+   RD_USER = USER_NAME();
+   RD_PAGE = 1;
+   RD_PAX_REG = 0;
+   RD_GROSS_REG = 0;
+   RD_NET_REG = 0;
+   RD_BAL_REG = 0;
+   RD_PAX_TOT = 0;
+   RD_GROSS_TOT = 0;
+   RD_NET_TOT = 0;
+   RD_BAL_TOT = 0;
+   RD_REPORT_TYPE = "S";
+   RD_LAST_TERR = "z";
+   RD_COUNT = 0;
+   RD_COUNT_TOTAL = 0;
+   RD_DATE_TYPE = "D";
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   SCF_TO = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ANAL_TERR_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_ANAL_TERR_RECORD) );
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (AM_SCF_CONTROL_NO,"AM_SCF_CONTROL",byteaddr(AM_SCF_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_SCF_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (AM_AGCY_NO,"AM_AGCY",byteaddr(AM_AGCY_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_AGCY_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	ANALYZE_MAIN
+	Mainline logic to analyze the files
+****************************************************************/
+
+ANALYZE_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ANALYZE_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ANALYZE_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("SSHEET");
+   call SETUP_PRINT_FORMAT (BK_ANAL_TERR_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* SET_TEMP_FILE - Set up the temporary file */
+
+   declare CREATE_TEMP entry(fixed binary,fixed binary);
+   KEY_LENGTH =
+      bytesize(RD_TERR) +
+      bytesize(RD_DATE) +
+      bytesize(BOOKING_NO);
+   RECORD_LENGTH = KEY_LENGTH  +
+      bytesize(BK_DATE) +
+      bytesize(BK_TOUR_CODE) +
+      bytesize(BK_DEPARTURE) +
+      bytesize(BK_PAX) +
+      bytesize(BK_TOUR_PRICE) +
+      bytesize(BK_NET_PRICE) +
+      bytesize(BK_BALANCE) +
+      bytesize(BK_STATUS) +
+      bytesize(BK_AGENCY) +
+      bytesize(BK_AGENCY_NAME) +
+      bytesize(BK_AGENCY_ADD_1) +
+      bytesize(BK_AGENCY_ADD_2) +
+      bytesize(BK_AGENCY_ADD_3) +
+      bytesize(BK_AGENCY_ZIP) +
+      bytesize(BK_AGENCY_PHONE) +
+      bytesize(BK_FAX) +
+      bytesize(BK_CONTACT);
+   call CREATE_TEMP(KEY_LENGTH,RECORD_LENGTH);
+   %replace TEMP_DB by 512;
+   call OPEN_FILE (TEMP_DB,"?TEMP_DB",byteaddr(TEMP_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      END_ANALYZE_MAIN = YES;
+      return;
+      end;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* CHECK_RD_REPORT - Report format? */
+
+   if RD_REPORT_TYPE = "R" then
+      do;
+
+      /* CLOSE_LPT - Close the printer */
+
+      call CLOSE_PRINTER;
+
+
+      /* OPEN_RPT - Open the "REPORT" print file */
+
+      call OPEN_PRINTER("REPORT");
+      call SETUP_PRINT_FORMAT (BK_ANAL_TERR_2);
+      call PRINTING_OCCURRING;
+      call DUMP_BUFFER;
+      end;
+   call PRT_PAGE_HEADING;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_1,ERROR_CODE);
+   END_ANAL_THRU_FILE = NO;
+   do while (END_ANAL_THRU_FILE ^= YES);
+      call ANAL_THRU_FILE;
+   end;
+
+   /* SET_FIRST_TEMP - Set to the first record in the temp db */
+
+   call SET_POSITION (TEMP_DB+?RESET,KEY_AREA_1,ERROR_CODE);
+
+   END_PRINT_THRU_TEMP = NO;
+   do while (END_PRINT_THRU_TEMP ^= YES);
+      call PRINT_THRU_TEMP;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* CHECK_RD_TOTAL - Print the total? */
+
+   if RD_REPORT_TYPE = "R" then
+      do;
+
+      /* PRT_GRAND_TOTAL - Print the grand total */
+
+      do LOOP_INDEX =   8 to  11;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+
+   /* CLOSE_TEMP_FILE - Close the temporary file */
+
+   call CLOSE_FILE (TEMP_DB);
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_ANALYZE_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* ANALYZE_MAIN         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+RD_END_CODE = RD_START_CODE;
+do LOOP_INDEX =   1 to   7;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (108);
+   if LOOP_INDEX =   2 then
+      call DISPLAY_MSG_NO (111);
+   if LOOP_INDEX =   4 then
+      RD_END_CODE = RD_START_CODE;
+   if LOOP_INDEX =   5 then
+      call DISPLAY_MSG_NO (113);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         RD_START_CODE = "";
+         RD_END_CODE = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  7,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  7 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (108);
+   if LOOP_INDEX =   2 then
+      call DISPLAY_MSG_NO (111);
+   if LOOP_INDEX =   5 then
+      call DISPLAY_MSG_NO (113);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         RD_START_CODE = "";
+         RD_END_CODE = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   6;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+RD_PAGE = RD_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	ANAL_THRU_FILE
+	Read sequentially thru file and analyze
+****************************************************************/
+
+ANAL_THRU_FILE:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AM_AGCY        fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) then
+      do;
+      END_ANAL_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_SELECT_RD - Get the correct record(s) */
+
+   if BK_STATUS = "XL" then
+      return;
+
+   if BK_STATUS = "NS" then
+      return;
+
+   RD_DATE = BK_DEPARTURE;
+   if RD_DATE_TYPE = "B" then
+      RD_DATE = BK_DATE;
+
+   if (RD_DATE < RD_START_DATE) ! (RD_DATE > RD_END_DATE) then
+      return;
+
+   RD_TERR = "";
+   if index("STRZ",RD_ANALYZE_BY) ^= 0 then
+      do;
+      SCF_TO = BK_AGENCY_ZIP;
+
+      call SET_POSITION (AM_SCF_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE ^= END_OF_FILE then
+         call READ_NEXT (AM_SCF_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = END_OF_FILE then
+         ERROR_CODE = 1;
+
+      if SCF_FROM > substr(BK_AGENCY_ZIP,1,3) then
+         ERROR_CODE = 1;
+
+      if ERROR_CODE = NORMAL_RETURN then
+         do;
+         if RD_ANALYZE_BY = "S" then
+            do;
+            declare LOOP fixed binary;
+            do LOOP = length(SCF_DESCRIPTION) to 2 by -1;
+               if substr(SCF_DESCRIPTION,LOOP,1) ^= " " then
+                  do;
+                  RD_TERR = substr(SCF_DESCRIPTION,LOOP-1,2);
+                  LOOP = 1;
+                  end;
+            end;
+            end;
+         if RD_ANALYZE_BY = "T" then
+            do;
+            BK_AGENCY_ZIP = SALESPERSON_TERR;
+            RD_TERR = substr(BK_AGENCY_ZIP,6,4);
+            end;
+         if RD_ANALYZE_BY = "R" then
+            do;
+            RD_TERR = SALES_REGION;
+            end;
+         if RD_ANALYZE_BY = "Z" then
+            do;
+            RD_TERR = SCF_FROM;
+            end;
+         end;
+      end;
+
+   if RD_ANALYZE_BY = "A" then
+      do;
+      if BK_AGENCY = 0 then
+         RD_TERR = "drct";
+      else
+         do;
+
+         /* SETUP_KEY - Set up this key for a read */
+
+         AGENCY_NUMBER = BK_AGENCY;
+         KEY_NO = 1;
+
+         /* READ_RECORD - Read the record */
+
+         call READ_KEYED (AM_AGCY_NO,KEY_NO,ERROR_AM_AGCY);
+         if ERROR_AM_AGCY > 3 then
+            call PRINT_ERROR (AM_AGCY_NO,ERROR_AM_AGCY);
+         if ERROR_AM_AGCY = NORMAL_RETURN then
+            RD_TERR = AGENCY_AFFILIATION;
+         end;
+      end;
+
+   if RD_ANALYZE_BY = "G" then
+      RD_TERR = BK_GATEWAY;
+
+   if RD_ANALYZE_BY = "U" then
+      RD_TERR = BK_TOUR_CODE;
+
+   if (RD_TERR < RD_START_CODE) ! (RD_TERR > RD_END_CODE) then
+      return;
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* ADD_TEMP_RECORD - Add this information to the temp file */
+
+   declare FAKE_FIELD character(100) based;
+   TEMP_RECORD =
+      substr(byteaddr(RD_TERR)->FAKE_FIELD,1,bytesize(RD_TERR)) !!
+      substr(byteaddr(RD_DATE)->FAKE_FIELD,1,bytesize(RD_DATE)) !!
+      substr(byteaddr(BOOKING_NO)->FAKE_FIELD,1,bytesize(BOOKING_NO)) !!
+      substr(byteaddr(BK_DATE)->FAKE_FIELD,1,bytesize(BK_DATE)) !!
+      substr(byteaddr(BK_TOUR_CODE)->FAKE_FIELD,1,bytesize(BK_TOUR_CODE)) !!
+      substr(byteaddr(BK_DEPARTURE)->FAKE_FIELD,1,bytesize(BK_DEPARTURE)) !!
+      substr(byteaddr(BK_PAX)->FAKE_FIELD,1,bytesize(BK_PAX)) !!
+      substr(byteaddr(BK_TOUR_PRICE)->FAKE_FIELD,1,bytesize(BK_TOUR_PRICE)) !!
+      substr(byteaddr(BK_NET_PRICE)->FAKE_FIELD,1,bytesize(BK_NET_PRICE)) !!
+      substr(byteaddr(BK_BALANCE)->FAKE_FIELD,1,bytesize(BK_BALANCE)) !!
+      substr(byteaddr(BK_STATUS)->FAKE_FIELD,1,bytesize(BK_STATUS)) !!
+      substr(byteaddr(BK_AGENCY)->FAKE_FIELD,1,bytesize(BK_AGENCY)) !!
+      substr(byteaddr(BK_AGENCY_NAME)->FAKE_FIELD,1,bytesize(BK_AGENCY_NAME)) !!
+      substr(byteaddr(BK_AGENCY_ADD_1)->FAKE_FIELD,1,bytesize(BK_AGENCY_ADD_1)) !!
+      substr(byteaddr(BK_AGENCY_ADD_2)->FAKE_FIELD,1,bytesize(BK_AGENCY_ADD_2)) !!
+      substr(byteaddr(BK_AGENCY_ADD_3)->FAKE_FIELD,1,bytesize(BK_AGENCY_ADD_3)) !!
+      substr(byteaddr(BK_AGENCY_ZIP)->FAKE_FIELD,1,bytesize(BK_AGENCY_ZIP)) !!
+      substr(byteaddr(BK_AGENCY_PHONE)->FAKE_FIELD,1,bytesize(BK_AGENCY_PHONE)) !!
+      substr(byteaddr(BK_FAX)->FAKE_FIELD,1,bytesize(BK_FAX)) !!
+      substr(byteaddr(BK_CONTACT)->FAKE_FIELD,1,bytesize(BK_CONTACT));
+
+   /* WRITE_TEMP_RECORD - Write the temporary record */
+
+   call WRITE_RECORD (TEMP_DB,ERROR_CODE);
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* ANAL_THRU_FILE       */
+
+/****************************************************************
+	PRINT_THRU_TEMP
+	Read thru the data file and print/write
+****************************************************************/
+
+PRINT_THRU_TEMP:
+	procedure;
+
+
+   /* READ_NEXT_TEMP - Read the next temp record */
+
+   call READ_NEXT (TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+   /* RETURN_IF_EOF - Return if end-of-file error */
+
+   if ERROR_CODE = END_OF_FILE then
+      do;
+      END_PRINT_THRU_TEMP = YES;
+      return;
+      end;
+
+
+   /* GET_TEMP_FILE - Set up all the fields for the temp rec. */
+
+   declare MOVE_FIELD character (100) based;
+   declare FIELDPTR pointer;
+   declare FIELDBIN fixed binary(31) defined(FIELDPTR);
+   FIELDPTR = byteaddr(TEMP_RECORD);
+   substr(byteaddr(RD_TERR)->MOVE_FIELD,1,bytesize(RD_TERR)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(RD_TERR));
+   FIELDBIN = FIELDBIN + bytesize(RD_TERR);
+   substr(byteaddr(RD_DATE)->MOVE_FIELD,1,bytesize(RD_DATE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(RD_DATE));
+   FIELDBIN = FIELDBIN + bytesize(RD_DATE);
+   substr(byteaddr(BOOKING_NO)->MOVE_FIELD,1,bytesize(BOOKING_NO)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BOOKING_NO));
+   FIELDBIN = FIELDBIN + bytesize(BOOKING_NO);
+   substr(byteaddr(BK_DATE)->MOVE_FIELD,1,bytesize(BK_DATE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_DATE));
+   FIELDBIN = FIELDBIN + bytesize(BK_DATE);
+   substr(byteaddr(BK_TOUR_CODE)->MOVE_FIELD,1,bytesize(BK_TOUR_CODE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_TOUR_CODE));
+   FIELDBIN = FIELDBIN + bytesize(BK_TOUR_CODE);
+   substr(byteaddr(BK_DEPARTURE)->MOVE_FIELD,1,bytesize(BK_DEPARTURE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_DEPARTURE));
+   FIELDBIN = FIELDBIN + bytesize(BK_DEPARTURE);
+   substr(byteaddr(BK_PAX)->MOVE_FIELD,1,bytesize(BK_PAX)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_PAX));
+   FIELDBIN = FIELDBIN + bytesize(BK_PAX);
+   substr(byteaddr(BK_TOUR_PRICE)->MOVE_FIELD,1,bytesize(BK_TOUR_PRICE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_TOUR_PRICE));
+   FIELDBIN = FIELDBIN + bytesize(BK_TOUR_PRICE);
+   substr(byteaddr(BK_NET_PRICE)->MOVE_FIELD,1,bytesize(BK_NET_PRICE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_NET_PRICE));
+   FIELDBIN = FIELDBIN + bytesize(BK_NET_PRICE);
+   substr(byteaddr(BK_BALANCE)->MOVE_FIELD,1,bytesize(BK_BALANCE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_BALANCE));
+   FIELDBIN = FIELDBIN + bytesize(BK_BALANCE);
+   substr(byteaddr(BK_STATUS)->MOVE_FIELD,1,bytesize(BK_STATUS)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_STATUS));
+   FIELDBIN = FIELDBIN + bytesize(BK_STATUS);
+   substr(byteaddr(BK_AGENCY)->MOVE_FIELD,1,bytesize(BK_AGENCY)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_AGENCY));
+   FIELDBIN = FIELDBIN + bytesize(BK_AGENCY);
+   substr(byteaddr(BK_AGENCY_NAME)->MOVE_FIELD,1,bytesize(BK_AGENCY_NAME)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_AGENCY_NAME));
+   FIELDBIN = FIELDBIN + bytesize(BK_AGENCY_NAME);
+   substr(byteaddr(BK_AGENCY_ADD_1)->MOVE_FIELD,1,bytesize(BK_AGENCY_ADD_1)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_AGENCY_ADD_1));
+   FIELDBIN = FIELDBIN + bytesize(BK_AGENCY_ADD_1);
+   substr(byteaddr(BK_AGENCY_ADD_2)->MOVE_FIELD,1,bytesize(BK_AGENCY_ADD_2)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_AGENCY_ADD_2));
+   FIELDBIN = FIELDBIN + bytesize(BK_AGENCY_ADD_2);
+   substr(byteaddr(BK_AGENCY_ADD_3)->MOVE_FIELD,1,bytesize(BK_AGENCY_ADD_3)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_AGENCY_ADD_3));
+   FIELDBIN = FIELDBIN + bytesize(BK_AGENCY_ADD_3);
+   substr(byteaddr(BK_AGENCY_ZIP)->MOVE_FIELD,1,bytesize(BK_AGENCY_ZIP)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_AGENCY_ZIP));
+   FIELDBIN = FIELDBIN + bytesize(BK_AGENCY_ZIP);
+   substr(byteaddr(BK_AGENCY_PHONE)->MOVE_FIELD,1,bytesize(BK_AGENCY_PHONE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_AGENCY_PHONE));
+   FIELDBIN = FIELDBIN + bytesize(BK_AGENCY_PHONE);
+   substr(byteaddr(BK_FAX)->MOVE_FIELD,1,bytesize(BK_FAX)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_FAX));
+   FIELDBIN = FIELDBIN + bytesize(BK_FAX);
+   substr(byteaddr(BK_CONTACT)->MOVE_FIELD,1,bytesize(BK_CONTACT)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_CONTACT));
+   FIELDBIN = FIELDBIN + bytesize(BK_CONTACT);
+
+   /* PRT_DETAIL - Print the detail lines */
+
+
+   /* CHECK_RD_FORMAT - Check the report format */
+
+   if RD_REPORT_TYPE = "R" then
+      do;
+      if RD_LAST_TERR ^= RD_TERR then
+         do;
+         if RD_LAST_TERR ^= "z" then
+            do;
+
+            /* PRINT_LINE_T1 - Print lines */
+
+            do LOOP_INDEX =   8 to   9;
+               call PRINT_REPORT_LINE;
+            end;
+
+            /* SET_FIELDS - Set the values for these fields */
+
+            RD_COUNT = 0;
+            RD_PAX_REG = 0;
+            RD_GROSS_REG = 0;
+            RD_NET_REG = 0;
+            RD_BAL_REG = 0;
+            end;
+         RD_LAST_TERR = RD_TERR;
+         end;
+
+      /* PRINT_LINE_D -  */
+
+      do LOOP_INDEX =  13 to  13;
+         call PRINT_REPORT_LINE;
+      end;
+
+      /* ADD_TOTALS - Add to the total fields */
+
+      RD_COUNT = RD_COUNT + 1;
+      RD_PAX_REG = RD_PAX_REG + BK_PAX;
+      RD_GROSS_REG = floor((RD_GROSS_REG + BK_TOUR_PRICE) * 100 + 0.5) / 100;
+      RD_NET_REG = floor((RD_NET_REG + BK_NET_PRICE) * 100 + 0.5) / 100;
+      RD_BAL_REG = floor((RD_BAL_REG + BK_BALANCE) * 100 + 0.5) / 100;
+      RD_COUNT_TOTAL = RD_COUNT_TOTAL + 1;
+      RD_PAX_TOT = RD_PAX_TOT + BK_PAX;
+      RD_GROSS_TOT = floor((RD_GROSS_TOT + BK_TOUR_PRICE) * 100 + 0.5) / 100;
+      RD_NET_TOT = floor((RD_NET_TOT + BK_NET_PRICE) * 100 + 0.5) / 100;
+      RD_BAL_TOT = floor((RD_BAL_TOT + BK_BALANCE) * 100 + 0.5) / 100;
+      return;
+      end;
+
+   do LOOP_INDEX =  13 to  13;
+      call SPREAD_SHEET_OUT(LOOP_INDEX);
+   end;
+return;
+end;	/* PRINT_THRU_TEMP      */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (AM_SCF_CONTROL_NO);
+   call CLOSE_FILE (AM_AGCY_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

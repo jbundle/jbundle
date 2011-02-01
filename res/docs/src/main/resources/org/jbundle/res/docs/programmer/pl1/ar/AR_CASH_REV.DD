@@ -1,0 +1,9 @@
+/*********************************************************************
+	AR_CASH_REV File
+********************************************************************/
+
+declare	1 AR_CASH_REV_RECORD,
+		3 AR_CASH_DATE         fixed binary (15),
+		3 AR_CASH_TIME         fixed binary (15),
+		3 AR_CASH_PAGE         fixed binary (15);
+

@@ -1,0 +1,12 @@
+/*********************************************************************
+	BK_SET_AIR_DET File
+********************************************************************/
+
+declare	1 BK_SET_AIR_DET_RECORD,
+		3 BK_TEMP_DAY          fixed binary (15),
+		3 BK_TEMP_ALT_SEQ      fixed binary (15),
+		3 BK_TEMP_ANSW_SEQ     fixed binary (15),
+		3 NEXT_TEMP_SEQ        fixed binary (15),
+		3 BK_TEMP_TIME         fixed binary (15),
+		3 TK_FIRST_DATE        fixed binary (15);
+

@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_TOUR_MENU File
+********************************************************************/
+
+declare	1 BK_TOUR_MENU_RECORD,
+		3 TOUR_MENU_SELECT     fixed binary (15),
+		3 HDR_DEFAULT          fixed binary (15);
+

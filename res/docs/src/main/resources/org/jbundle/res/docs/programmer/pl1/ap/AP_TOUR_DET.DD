@@ -1,0 +1,16 @@
+/*********************************************************************
+	AP_TOUR_DET File
+********************************************************************/
+
+declare	1 AP_TOUR_DET_RECORD,
+		3 AP_START_TOUR        fixed binary (31),
+		3 AP_END_TOUR          fixed binary (31),
+		3 TOUR_DATE            fixed binary (15),
+		3 TOUR_TIME            fixed binary (15),
+		3 TOUR_USER            character (       16),
+		3 TOUR_PAGE            fixed binary (31),
+		3 TOUR_DET_COUNT       fixed binary (15),
+		3 TOUR_TOT_COST        float binary (53),
+		3 TOTAL_TOUR           float binary (53),
+		3 AP_EST_INCL          character (1);
+

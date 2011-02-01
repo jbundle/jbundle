@@ -1,0 +1,1136 @@
+/****************************************************************
+	Module: BK_AIRH_MAINT
+	Top Level Logic: BK_AIRH_LOGIC
+	Date: 28-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_AIRH_MAINT
+	Air header maint. top level logic
+****************************************************************/
+
+%replace BK_AIRH_MAINT_1 by 556;
+BK_AIRH_MAINT:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_OPT_ALT_RECORD);
+%replace TK_HEADER_NO by  56;
+%replace TK_AIRLINE_NO by  71;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_OPT_ALT_NO by  62;
+%include "TK_HEADER.DD";
+%include "BK_AIRH_MAINT.DD";
+%include "TK_AIRLINE.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_OPT_ALT.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+   call INITIALIZE;
+   call AIRH_DETAIL_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   TEM_FARE_1 = "";
+   TEM_FARE_2 = "";
+   TEM_FARE_3 = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_AIRH_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (BK_AIRH_MAINT_RECORD) );
+   call OPEN_FILE (TK_AIRLINE_NO,"TK_AIRLINE",byteaddr(TK_AIRLINE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_AIRLINE_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	AIRH_DETAIL_MAIN
+	Air header mainline logic
+****************************************************************/
+
+AIRH_DETAIL_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_TK_HEADER      fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_AIRH_MAINT_1);
+   NOT_FIRST_TIME = YES;
+
+   /* RETURN_IF_ERR - Return if error/end typed */
+
+   if RETURN_CODE = END_TYPED then
+      return;
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   TK_MODIFICATION = -1;
+   TK_TOUR_HDR = HDR_TOUR_CODE;
+   TK_ALT_SEQ = ALT_SEQ;
+   TK_ANSW_SEQ = ALT_ANSW_SEQ;
+   KEY_NO = 1;
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (TK_HEADER_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+   /* TK_HDR_FOUND - Was the ticket header found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_TK_HEADER = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* TK_HDR_SETUP - Set up the TK header */
+
+
+         /* INIT_FIELDS - Init all the fields (except key fields) */
+
+         TK_NUMBER = "";
+         TK_AIRL_CODE = "";
+         TK_AIRLINE_IATA = 0;
+         TK_AIRLINE_DESC = "";
+         TK_CONJ = 0;
+         TK_ENDORSEMENTS = "";
+         TK_ORIGIN = "";
+         TK_DESTINATION = "";
+         TK_ISSUE_DATE = 0;
+         TK_PAX_NAME = "";
+         TK_FORM_OF_PYMT = "";
+         TK_TOUR_CODE = "";
+         TK_FARE = 0;
+         TK_EQUIVALENT = 0;
+         TK_CURR = "";
+         TK_TAX_1 = 0;
+         TK_TAX_1_DESC = "";
+         TK_TAX_2 = 0;
+         TK_TAX_2_DESC = "";
+         TK_TOTAL = 0;
+         TK_COMM = "";
+         TK_TAX = "";
+         TK_COMM_RATE = "";
+         TK_AGENT = "";
+         TK_INTERNATIONAL = "";
+         TK_COMM_P = 0;
+         TK_COMM_AMT = 0;
+         TK_TICKET_BY = "";
+         TK_NET_FARE = 0;
+         TK_OVERRIDE_P = 0;
+         TK_OVERRIDE = 0;
+         TK_NET = 0;
+         TK_NET_POSTED = 0;
+         TK_OR_COLL = 0;
+         TK_OR_COLL_DATE = 0;
+         TK_ACTUAL_COST = 0;
+         TK_COST_POSTED = 0;
+         TK_OR_POSTED = 0;
+         TK_COST_POSTED_ON = 0;
+         TK_PNR = "";
+         TK_VOID = "";
+         TK_VOID_DATE = 0;
+         TK_EXCH_TICKET = "";
+         TK_DEP_DATE = 0;
+         TK_COAS_GL = 0;
+         TK_OVER_REC = 0;
+         TK_PP_TICKETS = 0;
+         TK_AP_ACCT = 0;
+         TK_OVER_VAR = 0;
+         TK_CASH_AC = 0;
+         TK_OVER_CASH = 0;
+         TK_COMMENT1 = "";
+         TK_COMMENT2 = "";
+         TK_COMMENT3 = "";
+         TK_CRS_STATUS = "";
+         TK_FARE_1 = "";
+         TK_FARE_2 = "";
+         TK_FARE_3 = "";
+         call DISPLAY_DATA;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_TK_HEADER = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (TK_HEADER_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (TK_HEADER_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+         end;
+      end;
+return;
+end;	/* AIRH_DETAIL_MAIN     */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX =   1 to  22;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* SET_TEM_1 - Set temp fare field */
+
+      TEM_FARE_1 = TK_FARE_1;
+
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* SET_TEM_2 - Set up the fare field */
+
+      TEM_FARE_2 = TK_FARE_2;
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* SET_TEM_3 - Set the temp field */
+
+      TEM_FARE_3 = TK_FARE_3;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  24 to  24;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  26 to  26;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  28 to  31;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  35 to  37;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  23 to  23;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  25 to  25;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  27 to  27;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  38 to  40;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  32 to  34;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 97,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  8 then
+   do;
+
+      LOOP_INDEX = SELECT +   8;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* SET_TEM_1 - Set temp fare field */
+
+      TEM_FARE_1 = TK_FARE_1;
+
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* SET_TEM_2 - Set up the fare field */
+
+      TEM_FARE_2 = TK_FARE_2;
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* SET_TEM_3 - Set the temp field */
+
+      TEM_FARE_3 = TK_FARE_3;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* CHECK_AIRLINE - Read the airline, if not found, enter */
+
+      AIRLINE_CODE = TK_AIRL_CODE;
+      call READ_KEYED(TK_AIRLINE_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = NORMAL_RETURN then
+         do;
+         TK_AIRLINE_IATA = AIRLINE_NO;
+         TK_AIRLINE_DESC = AIRLINE_DESC;
+         call DISPLAY_DATA_B;
+         end;
+      else
+         do;
+         call ENTER_DATA_B;
+         end;
+
+      end;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* SET_FAR_1 - Set the fare field */
+
+      TK_FARE_1 = TEM_FARE_1;
+
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* SET_FAR_2 - Set the fare field */
+
+      TK_FARE_2 = TEM_FARE_2;
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* SET_FAR_3 - Set fare field */
+
+      TK_FARE_3 = TEM_FARE_3;
+
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+   end;
+if SELECT =  9 then
+   do;
+   do LOOP_INDEX =  17 to  18;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 10 then
+   do;
+   do LOOP_INDEX =  19 to  20;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  20 then
+         do;
+
+         /* CHECK_TAX_PER - Check/Set the tax percentage */
+
+         if TK_TAX_P = 0 then
+            do;
+            call ENTER_DATA_E;
+            end;
+         else
+            do;
+            dcl CHAR_FIELD character(20);
+            TK_TAX_1 = TK_TAX_P;
+            call CONV_FP(TK_TAX_1,CHAR_FIELD);
+            TK_TAX = substr(CHAR_FIELD,10,10);
+
+            /* DIS_TK_TOTALS - Display the new totals */
+
+            ERROR_CODE = LOOP_INDEX;
+            if TK_TAX_P ^= 0 then
+               do;
+               TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+               call DISPLAY_DATA_E;
+               end;
+            TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+            if TK_COMM_P ^= 0 then
+               do;
+               TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+               call DISPLAY_DATA_F;
+               end;
+            TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+            if TK_OVERRIDE_P ^= 0 then
+               TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+            call DISPLAY_DATA_G;
+            TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+            call DISPLAY_DATA_D;
+            LOOP_INDEX = ERROR_CODE;
+
+            call DISPLAY_DATA_E;
+            call DISPLAY_DATA_J;
+            end;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 11 then
+   do;
+   do LOOP_INDEX =  21 to  22;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  22 then
+         do;
+
+         /* DIS_TK_TOTALS - Display the new totals */
+
+         ERROR_CODE = LOOP_INDEX;
+         if TK_TAX_P ^= 0 then
+            do;
+            TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+            call DISPLAY_DATA_E;
+            end;
+         TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+         if TK_COMM_P ^= 0 then
+            do;
+            TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+            call DISPLAY_DATA_F;
+            end;
+         TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+         if TK_OVERRIDE_P ^= 0 then
+            TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+         call DISPLAY_DATA_G;
+         TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+         call DISPLAY_DATA_D;
+         LOOP_INDEX = ERROR_CODE;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT >= 12 then if SELECT <= 22 then
+   do;
+   if SELECT <= 13 then
+      LOOP_INDEX = SELECT +  11;
+   if SELECT = 14 then
+      LOOP_INDEX = 26;
+   if SELECT >= 15 then
+      LOOP_INDEX = SELECT +  13;
+   if LOOP_INDEX =  28 then
+      call DISPLAY_MSG_NO ( 77);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  23 then
+      do;
+
+      /* BACK_CALC_TK - Total entered, calc starting fare */
+
+      if TK_TAX_P = 0 then
+         do;
+         TK_FARE = floor((TK_TOTAL - TK_TAX_1 - TK_TAX_2) * 100 + 0.5) / 100;
+         end;
+      else
+         do;
+         TK_FARE = floor(((TK_TOTAL - TK_TAX_2) / (1 + TK_TAX_P / 100)) * 100 + 0.5) / 100;
+         TK_TAX_1 = floor((TK_TOTAL - TK_TAX_1 - TK_FARE) * 100 + 0.5) / 100;
+         end;
+      call DISPLAY_DATA_K;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+
+      end;
+   if LOOP_INDEX =  24 then
+      do;
+
+      /* CHECK_COMM_PER - Check commission percentage input */
+
+      if TK_COMM_P = 0 then
+         do;
+         call ENTER_DATA_F;
+         TK_COMM_RATE = "  0";
+         end;
+      else
+         do;
+         TK_COMM_AMT = TK_COMM_P;
+         dcl COM_FIELD character(20);
+         call CONV_FP(TK_COMM_AMT,COM_FIELD);
+         TK_COMM = substr(COM_FIELD,10,10);
+         TK_COMM_RATE = substr(COM_FIELD,15,5);
+
+         /* DIS_TK_TOTALS - Display the new totals */
+
+         ERROR_CODE = LOOP_INDEX;
+         if TK_TAX_P ^= 0 then
+            do;
+            TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+            call DISPLAY_DATA_E;
+            end;
+         TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+         if TK_COMM_P ^= 0 then
+            do;
+            TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+            call DISPLAY_DATA_F;
+            end;
+         TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+         if TK_OVERRIDE_P ^= 0 then
+            TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+         call DISPLAY_DATA_G;
+         TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+         call DISPLAY_DATA_D;
+         LOOP_INDEX = ERROR_CODE;
+
+         call DISPLAY_DATA_F;
+         call DISPLAY_DATA_I;
+         end;
+      call DISPLAY_DATA_H;
+
+      end;
+   if LOOP_INDEX =  26 then
+      do;
+
+      /* CHECK_OVER_PER - Percentage entered */
+
+      if TK_OVERRIDE_P = 0 then
+         do;
+         call ENTER_DATA_G;
+         end;
+      else
+         do;
+
+         /* DIS_TK_TOTALS - Display the new totals */
+
+         ERROR_CODE = LOOP_INDEX;
+         if TK_TAX_P ^= 0 then
+            do;
+            TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+            call DISPLAY_DATA_E;
+            end;
+         TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+         if TK_COMM_P ^= 0 then
+            do;
+            TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+            call DISPLAY_DATA_F;
+            end;
+         TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+         if TK_OVERRIDE_P ^= 0 then
+            TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+         call DISPLAY_DATA_G;
+         TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+         call DISPLAY_DATA_D;
+         LOOP_INDEX = ERROR_CODE;
+
+         call DISPLAY_DATA_G;
+         end;
+
+      end;
+   end;
+if SELECT >= 93 then if SELECT <= 94 then
+   do;
+
+      LOOP_INDEX = SELECT + -56;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  38 then
+      do;
+
+      /* DIS_FARE_PLUS_4 - Display the running fare total */
+
+      TK_TOTAL = TK_FARE + TK_TAX_1 + TK_TAX_2;
+      call OUTPUT_FIELD(LOOP_INDEX + 4);
+
+      end;
+   end;
+if SELECT >= 96 then if SELECT <= 97 then
+   do;
+
+      LOOP_INDEX = SELECT + -57;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  39 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+   if LOOP_INDEX =  40 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  36 to  37;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	ENTER_DATA_B
+	Enter the screen data for group B
+****************************************************************/
+
+ENTER_DATA_B:
+	procedure;
+
+TK_AIRLINE_IATA = 0;
+do LOOP_INDEX =  36 to  36;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  37 to  37;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_B         */
+
+/****************************************************************
+	DISPLAY_DATA_E
+	Display the data in screen group E
+****************************************************************/
+
+DISPLAY_DATA_E:
+	procedure;
+
+do LOOP_INDEX =  38 to  38;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_E       */
+
+/****************************************************************
+	DISPLAY_DATA_F
+	Display the data in group F
+****************************************************************/
+
+DISPLAY_DATA_F:
+	procedure;
+
+do LOOP_INDEX =  39 to  39;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_F       */
+
+/****************************************************************
+	DISPLAY_DATA_G
+	Display the data in group G
+****************************************************************/
+
+DISPLAY_DATA_G:
+	procedure;
+
+do LOOP_INDEX =  40 to  40;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_G       */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  23 to  23;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  25 to  25;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  27 to  27;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	ENTER_DATA_E
+	Enter the data in screen group E
+****************************************************************/
+
+ENTER_DATA_E:
+	procedure;
+
+TK_TAX_1 = 0;
+do LOOP_INDEX =  38 to  38;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  38 then
+      do;
+
+      /* DIS_FARE_PLUS_4 - Display the running fare total */
+
+      TK_TOTAL = TK_FARE + TK_TAX_1 + TK_TAX_2;
+      call OUTPUT_FIELD(LOOP_INDEX + 4);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_E         */
+
+/****************************************************************
+	DISPLAY_DATA_J
+	Display screen group J
+****************************************************************/
+
+DISPLAY_DATA_J:
+	procedure;
+
+do LOOP_INDEX =  34 to  34;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_J       */
+
+/****************************************************************
+	DISPLAY_DATA_K
+	Display screen group K
+****************************************************************/
+
+DISPLAY_DATA_K:
+	procedure;
+
+do LOOP_INDEX =   1 to  22;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* SET_TEM_1 - Set temp fare field */
+
+      TEM_FARE_1 = TK_FARE_1;
+
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* SET_TEM_2 - Set up the fare field */
+
+      TEM_FARE_2 = TK_FARE_2;
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* SET_TEM_3 - Set the temp field */
+
+      TEM_FARE_3 = TK_FARE_3;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  24 to  24;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  26 to  26;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  28 to  31;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  35 to  37;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  23 to  23;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  25 to  25;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  27 to  27;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  38 to  40;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  32 to  34;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_K       */
+
+/****************************************************************
+	ENTER_DATA_F
+	Enter the data in group F
+****************************************************************/
+
+ENTER_DATA_F:
+	procedure;
+
+do LOOP_INDEX =  39 to  39;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  39 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_F         */
+
+/****************************************************************
+	DISPLAY_DATA_I
+	Display screen group I
+****************************************************************/
+
+DISPLAY_DATA_I:
+	procedure;
+
+do LOOP_INDEX =  33 to  33;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_I       */
+
+/****************************************************************
+	DISPLAY_DATA_H
+	Display screen group H
+****************************************************************/
+
+DISPLAY_DATA_H:
+	procedure;
+
+do LOOP_INDEX =  32 to  32;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_H       */
+
+/****************************************************************
+	ENTER_DATA_G
+	Enter the data in group G
+****************************************************************/
+
+ENTER_DATA_G:
+	procedure;
+
+TK_OVERRIDE = 0;
+do LOOP_INDEX =  40 to  40;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  40 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_G         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_AIRLINE_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

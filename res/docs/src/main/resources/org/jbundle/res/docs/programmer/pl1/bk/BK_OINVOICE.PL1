@@ -1,0 +1,248 @@
+/****************************************************************
+	Module: BK_OINVOICE
+	Top Level Logic: OINVOICE_LOGIC
+	Date:  7-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_OINVOICE
+	Open files and call invoice program
+****************************************************************/
+
+%replace BK_OINVOICE_1 by 835;
+%replace BK_OINVOICE_2 by 767;
+BK_OINVOICE:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_LINE_RECORD);
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_COMMENT_NO by  48;
+%replace TK_HEADER_NO by  56;
+%replace TK_DETAIL_NO by  57;
+%replace BK_HOTEL_NO by   8;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_LAND_NO by  54;
+%replace BK_TRANS_NO by  64;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_LINE_NO by  51;
+%include "BK_DET_HOTEL.DD";
+%include "BK_COMMENT.DD";
+%include "TK_HEADER.DD";
+%include "TK_DETAIL.DD";
+%include "BK_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_LAND.DD";
+%include "BK_TRANS.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_LINE.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   BK_TOUR_MOD_CODE = "A";
+   BK_TOUR_SEQ = 0;
+   BK_COMM_MOD_CODE = "";
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   TK_SEQ = 1;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   LAND_TAX = 0;
+   LAND_SVC_CHG = 0;
+   LAND_COMM = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_COMMENT_NO,"BK_COMMENT",byteaddr(BK_COMMENT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_COMMENT_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_NO,"BK_TRANS",byteaddr(BK_TRANS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_NO,ERROR_CODE);
+
+   /* SETUP_LINE_IF_NEW - Set up the line items if not set up */
+
+   if BK_LINE_CHGD = -1 then
+      do;
+
+      /* BK_SET_LINE - Call the program to set the line items */
+
+      %include "BK_SET_LINE.DCL";
+      call BK_SET_LINE(
+         BK_LINE_RECORD,
+         BK_BOOKING_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD);
+      end;
+
+
+   /* SETUP_HOTEL_IF_NEW - If new, setup the hotel detail */
+
+   if BK_HOTEL_MOD = -1 then
+      do;
+
+      /* BK_SET_HOTEL_DET - Setup hotel detail */
+
+      %include "BK_SET_HOTEL_DET.DCL";
+      call BK_SET_HOTEL_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_HOTEL_RECORD);
+      end;
+
+
+   /* SETUP_AIR_IF_NEW - Has the air detail been changed before? */
+
+   if BK_AIR_MOD = -1 then
+      do;
+
+      /* BK_SET_AIR_DET - Call the program to set up air */
+
+      %include "BK_SET_AIR_DET.DCL";
+      call BK_SET_AIR_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         TK_DETAIL_RECORD,
+         TK_HEADER_RECORD);
+      end;
+
+
+   /* SETUP_REM_IF_NEW - If first time, set up the remarks */
+
+   if BK_REMARK_MOD = -1 then
+      do;
+
+      /* BK_SET_REMARK_DET - Call program to set up the detail */
+
+      %include "BK_SET_REMARK_DET.DCL";
+      call BK_SET_REMARK_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_COMMENT_RECORD);
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("MULTIFORM");
+   call PRINT_LINE("[FORM: INVOICE]");
+   call SETUP_PRINT_FORMAT (BK_OINVOICE_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BK_INVOICE - Print an invoice for this booking */
+
+   %include "BK_INVOICE.DCL";
+   call BK_INVOICE(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_LINE_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_COMMENT_RECORD,
+      TK_HEADER_RECORD,
+      TK_DETAIL_RECORD,
+      BK_HOTEL_RECORD,
+      BK_DET_LAND_RECORD,
+      BK_LAND_RECORD,
+      BK_TRANS_RECORD);
+   call END_RPT_PROGRAM;
+
+   /* RESET_PAX_SEQ - Reset the passenger sequence */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+return;
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_COMMENT_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (BK_LAND_NO);
+   call CLOSE_FILE (BK_TRANS_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

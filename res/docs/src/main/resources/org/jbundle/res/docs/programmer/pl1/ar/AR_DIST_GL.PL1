@@ -1,0 +1,1051 @@
+/****************************************************************
+	Module: AR_DIST_GL
+	Top Level Logic: AR_DIST_LOGIC
+	Date:  1-Jul-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_DIST_GL
+	Main logic for A/R G/L distribution
+****************************************************************/
+
+%replace AR_DIST_GL_1 by 650;
+AR_DIST_GL:
+   procedure;
+%replace AR_OPEN_NO by  43;
+%replace AR_CONTROL_NO by  41;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_HDR_NO by  58;
+%replace GL_PERIOD_NO by  98;
+%replace AR_GL_DIST_NO by  46;
+%replace GL_DETAIL_NO by  17;
+%replace AR_MCO_DET_NO by  50;
+%include "AR_DIST_GL.DD";
+%include "AR_OPEN.DD";
+%include "AR_CONTROL.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR_HDR.DD";
+%include "GL_PERIOD.DD";
+%include "AR_GL_DIST.DD";
+%include "GL_DETAIL.DD";
+%include "AR_MCO_DET.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		END_GET_LAST_PERIOD  bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		END_POST_AR_GL       bit (1);
+declare		END_POST_AR_DEP      bit (1);
+declare		END_POST_AR_MCO      bit (1);
+declare		END_POST_AR_DIST     bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		GL_DATE_CHECK        fixed binary (15);
+declare		ERROR_AR_GL_DIST     fixed binary (15);
+declare		END_READ_PER_THRU    bit (1);
+   call INITIALIZE;
+   call AR_DIST_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   GL_LAST_DATE = 0;
+   AR_POST_START = 0;
+   AR_POST_END = TODAYS_DATE();
+   AR_POST_TODAY = TODAYS_DATE();
+   AR_VAR_AMOUNT = 0;
+   AR_ACCT_DR = 0;
+   AR_ACCT_DEP = 0;
+   AR_POSTED = 0;
+   AR_ACTION = 0;
+   AR_DEPARTURE = 0;
+   AR_REC_NO = 9999;
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+   GL_TRX_DATE = TODAYS_DATE();
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_TRX_AMOUNT = 0;
+   AR_MCO_STATUS = 1;
+   AR_MCO_CARRIER = "";
+   AR_MCO_AMT_APLY = 0;
+   AR_MCO_DATE_SUBM = 0;
+   AR_MCO_DATE_PAID = 0;
+   AR_MCO_AMT_PAID = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_DIST_GL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AR_DIST_GL_RECORD) );
+   call OPEN_FILE (AR_OPEN_NO+?EXCLUSIVE_OPEN,"AR_OPEN",byteaddr(AR_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AR_CONTROL_NO+?EXCLUSIVE_OPEN,"AR_CONTROL",byteaddr(AR_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO+?EXCLUSIVE_OPEN,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO+?EXCLUSIVE_OPEN,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+   call OPEN_FILE (GL_PERIOD_NO+?EXCLUSIVE_OPEN,"GL_PERIOD",byteaddr(GL_PERIOD_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_PERIOD_NO,ERROR_CODE);
+   call OPEN_FILE (AR_GL_DIST_NO+?EXCLUSIVE_OPEN,"AR_GL_DIST",byteaddr(AR_GL_DIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_GL_DIST_NO,ERROR_CODE);
+   call OPEN_FILE (GL_DETAIL_NO+?EXCLUSIVE_OPEN,"GL_DETAIL",byteaddr(GL_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (AR_MCO_DET_NO+?EXCLUSIVE_OPEN,"AR_MCO_DET",byteaddr(AR_MCO_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	AR_DIST_MAIN
+	Mainline logic for A/R distribution
+****************************************************************/
+
+AR_DIST_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+declare		ERROR_AR_CONTROL     fixed binary (15);
+   call INPUT_SCREEN;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CHECK_AR_PERIOD - Are all the A/R entries within the perds */
+
+
+      /* SET_FIRST - Set the record pointer to the first rec */
+
+      AR_POSTED = 0;
+      AR_ACTION = AR_POST_START;
+      AR_BOOKING_NO = 0;
+      AR_SEQ_NO = 0;
+      call SET_POSITION (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+
+      /* READNEXT - Read the next record */
+
+      call READ_NEXT (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (AR_OPEN_NO,ERROR_CODE);
+
+      /* CHECK_END - Check to see if this is the last record */
+
+      if (ERROR_CODE = END_OF_FILE) !
+      (AR_POSTED > 0) !
+      (AR_ACTION > AR_POST_END) then
+         return;
+
+      /* SET_FIRST_2 - Set the file pointer to the first key */
+
+      GL_END_PERIOD = AR_ACTION;
+      call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+
+      /* READNEXT_2 - Read the next record */
+
+      call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+      /* CHECK_AR_BEFORE - Is the first A/R entry before the G/L pd */
+
+      if (ERROR_CODE ^= NORMAL_RETURN) ! (GL_START_PERIOD > AR_TRX_DATE) then
+         do;
+         call OUTPUT_LINE(22,10,"Warning -- An A/R transaction is not within the G/L periods<BEL>"c);
+         call OUTPUT_LINE(23,10,"Are you sure you want to continue?");
+         call INPUT_DATA(23,45,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS(22);
+         call DUMP_BUFFER;
+         if ANSWER ^= "Y" then
+            return;
+         end;
+
+
+      /* SET_PER_FIRST - Set first */
+
+      GL_END_PERIOD = 0;
+      call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+      END_GET_LAST_PERIOD = NO;
+      do while (END_GET_LAST_PERIOD ^= YES);
+         call GET_LAST_PERIOD;
+      end;
+
+      /* CHECK_AR_PAST - Is the last G/L period past this cutoff? */
+
+      if GL_END_PERIOD < AR_POST_END then
+         do;
+         call DISPLAY_MESSAGE("Warning -- The G/L periods do not cover this cutoff<BEL>"c);
+         call PRESS_RETURN;
+         return;
+         end;
+
+
+      /* SET_FIRST_3 - Set first */
+
+      AR_POSTED = 0;
+      AR_ACTION = GL_END_PERIOD;
+      AR_BOOKING_NO = 0;
+      AR_SEQ_NO = 0;
+      call SET_POSITION (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+
+      /* READNEXT - Read the next record */
+
+      call READ_NEXT (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (AR_OPEN_NO,ERROR_CODE);
+
+      /* PAST_PERIOD - Is the last A/R entry past the G/L pers */
+
+      GL_LAST_DATE = GL_END_PERIOD;
+
+      if (ERROR_CODE = NORMAL_RETURN) & (GL_END_PERIOD < AR_TRX_DATE) & (AR_POST_END > GL_END_PERIOD) then
+         do;
+         call OUTPUT_LINE(22,10,"Warning -- An A/R transaction is not within the G/L periods<BEL>"c);
+         call OUTPUT_LINE(23,10,"Are you sure you want to continue?");
+         call INPUT_DATA(23,45,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS(22);
+         call DUMP_BUFFER;
+         if ANSWER ^= "Y" then
+            return;
+         end;
+
+
+   /* AR_POST_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure you want to post to G/L?");
+   call INPUT_DATA(23,48,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* GET_AR_CONTROL - Get the A/R control record */
+
+
+      /* SET_AR_CONTROL - Set up the key */
+
+      AR_REC_NO = 0;
+      KEY_NO = 1;
+
+      /* READ_AR_CONTROL - Read the record */
+
+      call READ_KEYED (AR_CONTROL_NO,KEY_NO,ERROR_AR_CONTROL);
+      if ERROR_AR_CONTROL > 3 then
+         call PRINT_ERROR (AR_CONTROL_NO,ERROR_AR_CONTROL);
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+   END_POST_AR_GL = NO;
+   do while (END_POST_AR_GL ^= YES);
+      call POST_AR_GL;
+   end;
+   END_POST_AR_DEP = NO;
+   do while (END_POST_AR_DEP ^= YES);
+      call POST_AR_DEP;
+   end;
+
+   /* SET_FIRST_6 - Set first */
+
+   AR_MCO_STATUS = 4;
+   AR_MCO_CARRIER = "";
+   AR_MCO_DATE_REC = 0;
+   AR_MCO_SEQ = 0;
+   call SET_POSITION (AR_MCO_DET_NO,KEY_AREA_3,ERROR_CODE);
+   END_POST_AR_MCO = NO;
+   do while (END_POST_AR_MCO ^= YES);
+      call POST_AR_MCO;
+   end;
+   END_POST_AR_DIST = NO;
+   do while (END_POST_AR_DIST ^= YES);
+      call POST_AR_DIST;
+   end;
+return;
+end;	/* AR_DIST_MAIN         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   2;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_DIST_CUTOFF - Check the G/L distribution cutoff */
+
+      if AR_POST_END > TODAYS_DATE() then
+         do;
+         call DISPLAY_MESSAGE("<BEL>The cut-off date cannot be after the current date"c);
+         call PRESS_RETURN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  2,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  2 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_DIST_CUTOFF - Check the G/L distribution cutoff */
+
+      if AR_POST_END > TODAYS_DATE() then
+         do;
+         call DISPLAY_MESSAGE("<BEL>The cut-off date cannot be after the current date"c);
+         call PRESS_RETURN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	GET_LAST_PERIOD
+	Read thru the G/L Period file till EOF
+****************************************************************/
+
+GET_LAST_PERIOD:
+	procedure;
+
+
+   /* READNEXT_PER - Read the next period */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_END_PER - Last period? */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_GET_LAST_PERIOD = YES;
+      return;
+      end;
+return;
+end;	/* GET_LAST_PERIOD      */
+
+/****************************************************************
+	POST_AR_GL
+	Post the A/R detail to G/L
+****************************************************************/
+
+POST_AR_GL:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AR_POSTED = 0;
+   AR_ACTION = AR_POST_START;
+   AR_BOOKING_NO = 0;
+   AR_SEQ_NO = 0;
+   call SET_POSITION (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_POSTED > 0) !
+   (AR_ACTION > AR_POST_END) then
+      do;
+      END_POST_AR_GL = YES;
+      return;
+      end;
+
+   /* SET_TARGET_DATE - Set the period date */
+
+   GL_DATE_CHECK = AR_ACTION;
+
+   call GET_GL_PERIOD;
+   call GET_AR_ACCTS;
+
+   /* POST_AR_TRX - Post this transaction to the A/R G/L fil */
+
+   AR_GL_NUMBER = AR_ACCT;
+   AR_GL_DATE = GL_END_PERIOD;
+   AR_GL_TYPE = AR_DOC_TYPE;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AR_GL_DIST_NO,KEY_AREA_1,ERROR_AR_GL_DIST);
+   if ERROR_AR_GL_DIST > 3 then
+      call PRINT_ERROR (AR_GL_DIST_NO,ERROR_AR_GL_DIST);
+
+   if ERROR_AR_GL_DIST = NORMAL_RETURN then
+      do;
+      AR_GL_AMOUNT = floor((AR_GL_AMOUNT + AR_AMOUNT) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AR_GL_AMOUNT = AR_AMOUNT;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   AR_GL_NUMBER = AR_ACCT_DR;
+   AR_GL_TYPE = AR_DOC_TYPE;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AR_GL_DIST_NO,KEY_AREA_1,ERROR_AR_GL_DIST);
+   if ERROR_AR_GL_DIST > 3 then
+      call PRINT_ERROR (AR_GL_DIST_NO,ERROR_AR_GL_DIST);
+
+   if ERROR_AR_GL_DIST = NORMAL_RETURN then
+      do;
+      AR_GL_AMOUNT = floor((AR_GL_AMOUNT - AR_AMOUNT) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AR_GL_AMOUNT = -AR_AMOUNT;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+
+
+   /* UPDATE_AR_POSTED - Update the A/R status to "Posted" */
+
+   if (AR_DOC_TYPE = "I") ! (AR_DOC_TYPE = "A") then
+      do;
+      AR_POSTED = 2;
+      AR_ACTION = AR_DEPARTURE;
+      end;
+   else
+      do;
+      AR_POSTED = 3;
+      end;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AR_OPEN_NO,ERROR_CODE);
+return;
+end;	/* POST_AR_GL           */
+
+/****************************************************************
+	GET_GL_PERIOD
+	Get the correct G/L Period
+****************************************************************/
+
+GET_GL_PERIOD:
+	procedure;
+
+
+   /* CURRENT_GL_OK - Is the current G/L Period correct? */
+
+   if GL_DATE_CHECK >= GL_START_PERIOD then if GL_DATE_CHECK <= GL_END_PERIOD then
+      return;
+
+
+   /* SET_FIRST_PER - Set for the first period */
+
+   GL_END_PERIOD = GL_DATE_CHECK;
+   call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_PER - Read the next period */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_GL_AFTER - Is this range after the periods? */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+
+      /* SET_PER_FIRST - Set first */
+
+      GL_END_PERIOD = 0;
+      call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+      END_READ_PER_THRU = NO;
+      do while (END_READ_PER_THRU ^= YES);
+         call READ_PER_THRU;
+      end;
+      GL_END_PERIOD = GL_END_PERIOD + 1;
+      GL_START_PERIOD = GL_END_PERIOD + 1;
+      return;
+      end;
+
+
+   /* CHECK_GL_RANGE - Is this doc in range? */
+
+   if GL_DATE_CHECK >= GL_START_PERIOD then if GL_DATE_CHECK <= GL_END_PERIOD then
+      return;
+
+   if GL_DATE_CHECK < GL_START_PERIOD then
+      do;
+      GL_END_PERIOD = GL_START_PERIOD - 1;
+      return;
+      end;
+
+return;
+end;	/* GET_GL_PERIOD        */
+
+/****************************************************************
+	READ_PER_THRU
+	Get last period
+****************************************************************/
+
+READ_PER_THRU:
+	procedure;
+
+
+   /* READNEXT_PER - Read the next period */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_END_PER - Last period? */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_READ_PER_THRU = YES;
+      return;
+      end;
+return;
+end;	/* READ_PER_THRU        */
+
+/****************************************************************
+	GET_AR_ACCTS
+	Get the DR and CR accounts for this trx
+****************************************************************/
+
+GET_AR_ACCTS:
+	procedure;
+
+declare		ERROR_BK_BOOKING     fixed binary (15);
+
+   /* CHECK_AR_BK - Is this a tour A/R item */
+
+   if AR_READ_GL ^= "Y" then
+      do;
+      if (AR_ACCT ^= 0) & (AR_ACCT_DR ^= 0) then
+         do;
+         if (AR_DOC_TYPE ^= "I") & (AR_DOC_TYPE ^= "A") then
+            return;
+         if AR_ACCT_DEP ^= 0 then
+            return;
+         end;
+      end;
+   else
+      do;
+      if BOOKING_NO ^= 0 then
+         AR_ACCT = 0;
+      if (AR_DOC_TYPE = "I") ! (AR_DOC_TYPE = "A") then
+         do;
+         AR_ACCT_DR = 0;
+         AR_ACCT_DEP = 0;
+         end;
+      end;
+
+   if AR_BOOKING_NO ^= 0 then
+      do;
+
+      /* SETUP_KEY - Set up this key for a read */
+
+      BK_MODIFICATION = 0;
+      BOOKING_NO = AR_BOOKING_NO;
+      KEY_NO = 1;
+
+      /* READ_RECORD - Read the record */
+
+      call READ_KEYED (BK_BOOKING_NO,KEY_NO,ERROR_BK_BOOKING);
+      if ERROR_BK_BOOKING > 3 then
+         call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+      if ERROR_BK_BOOKING = NORMAL_RETURN then
+         do;
+
+         /* GET_TOUR_HDR - Get the tour header */
+
+         ERROR_CODE = NORMAL_RETURN;
+
+         HDR_TOUR_CODE = BK_TOUR_CODE;
+         HDR_END_ON = BK_DEPARTURE;
+         if HDR_END_ON = 0 then
+            HDR_END_ON = TODAYS_DATE();
+         call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE ^= END_OF_FILE then
+            call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+         if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+            ERROR_CODE = END_OF_FILE;
+         if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+            ERROR_CODE = END_OF_FILE;
+
+         end;
+      else
+         do;
+         ERROR_CODE = END_OF_FILE;
+         end;
+      if ERROR_CODE ^= NORMAL_RETURN then
+         do;
+         HDR_AR_GL = 0;
+         HDR_PP_GL = 0;
+         HDR_INCOME_GL = 0;
+         end;
+      end;
+   else
+      do;
+      HDR_AR_GL = AR_NON_TOUR;
+      HDR_PP_GL = 0;
+      HDR_INCOME_GL = 0;
+      end;
+
+   if HDR_AR_GL = 0 then
+      HDR_AR_GL = AR_DEF_AR;
+   if HDR_PP_GL = 0 then
+      HDR_PP_GL = AR_PRE_GL;
+   if HDR_INCOME_GL = 0 then
+      HDR_INCOME_GL = AR_INCOME_GL;
+
+   if AR_ACCT = 0 then
+      AR_ACCT = HDR_AR_GL;
+   if (AR_DOC_TYPE = "I") ! (AR_DOC_TYPE = "A") then
+      do;
+      if AR_ACCT_DR = 0 then
+         AR_ACCT_DR = HDR_PP_GL;
+      if AR_ACCT_DEP = 0 then
+         AR_ACCT_DEP = HDR_INCOME_GL;
+      end;
+
+return;
+end;	/* GET_AR_ACCTS         */
+
+/****************************************************************
+	POST_AR_DEP
+	Post the Departure entries to U/D
+****************************************************************/
+
+POST_AR_DEP:
+	procedure;
+
+
+   /* SET_FIRST_4 - Set first */
+
+   AR_POSTED = 2;
+   AR_ACTION = AR_POST_START;
+   AR_BOOKING_NO = 0;
+   AR_SEQ_NO = 0;
+   call SET_POSITION (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AR_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_4 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_POSTED > 2) !
+   (AR_ACTION > AR_POST_END) then
+      do;
+      END_POST_AR_DEP = YES;
+      return;
+      end;
+
+   /* SET_TARGET_DATE - Set the period date */
+
+   GL_DATE_CHECK = AR_ACTION;
+
+   call GET_GL_PERIOD;
+   call GET_AR_ACCTS;
+
+   /* POST_DEP_TRX - Post the departure date transaction */
+
+   AR_GL_NUMBER = AR_ACCT_DR;
+   AR_GL_DATE = GL_END_PERIOD;
+   AR_GL_TYPE = AR_DOC_TYPE;
+   if AR_GL_TYPE = "A" then
+      AR_GL_TYPE = "B";
+   if AR_GL_TYPE = "I" then
+      AR_GL_TYPE = "J";
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AR_GL_DIST_NO,KEY_AREA_1,ERROR_AR_GL_DIST);
+   if ERROR_AR_GL_DIST > 3 then
+      call PRINT_ERROR (AR_GL_DIST_NO,ERROR_AR_GL_DIST);
+
+   if ERROR_AR_GL_DIST = NORMAL_RETURN then
+      do;
+      AR_GL_AMOUNT = floor((AR_GL_AMOUNT + AR_AMOUNT) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AR_GL_AMOUNT = AR_AMOUNT;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   AR_GL_NUMBER = AR_ACCT_DEP;
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AR_GL_DIST_NO,KEY_AREA_1,ERROR_AR_GL_DIST);
+   if ERROR_AR_GL_DIST > 3 then
+      call PRINT_ERROR (AR_GL_DIST_NO,ERROR_AR_GL_DIST);
+
+   if ERROR_AR_GL_DIST = NORMAL_RETURN then
+      do;
+      AR_GL_AMOUNT = floor((AR_GL_AMOUNT - AR_AMOUNT) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AR_GL_AMOUNT = -AR_AMOUNT;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+
+
+   /* UPDATE_AR_DONE - Update to posted status */
+
+   AR_POSTED = 3;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AR_OPEN_NO,ERROR_CODE);
+return;
+end;	/* POST_AR_DEP          */
+
+/****************************************************************
+	POST_AR_MCO
+	Post the MCO variances
+****************************************************************/
+
+POST_AR_MCO:
+	procedure;
+
+
+   /* READ_NEXT_6 - Read the next record */
+
+   call READ_NEXT (AR_MCO_DET_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+
+   /* CHECK_END_6 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_MCO_STATUS > 4) then
+      do;
+      END_POST_AR_MCO = YES;
+      return;
+      end;
+
+   /* CHECK_MCO_DATE - Is this date in before the cut-off? */
+
+   if AR_MCO_DATE_PAID > AR_POST_END then
+      return;
+
+
+   /* SET_MCO_TARGET - Set the G/L target date */
+
+   GL_DATE_CHECK = AR_MCO_DATE_PAID;
+
+   call GET_GL_PERIOD;
+
+   /* ADD_MCO_VAR - Calculate the MCO variance */
+
+   AR_VAR_AMOUNT = floor((AR_MCO_AMT_PAID - AR_MCO_AMT_APPLIED) * 100 + 0.5) / 100;
+
+
+   /* POST_VAR_TRX - Post this variance */
+
+   AR_GL_NUMBER = AR_MCO_GL_ACCT;
+   AR_GL_DATE = GL_END_PERIOD;
+   AR_GL_TYPE = "V";
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AR_GL_DIST_NO,KEY_AREA_1,ERROR_AR_GL_DIST);
+   if ERROR_AR_GL_DIST > 3 then
+      call PRINT_ERROR (AR_GL_DIST_NO,ERROR_AR_GL_DIST);
+
+   if ERROR_AR_GL_DIST = NORMAL_RETURN then
+      do;
+      AR_GL_AMOUNT = floor((AR_GL_AMOUNT + AR_VAR_AMOUNT) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AR_GL_AMOUNT = AR_VAR_AMOUNT;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+
+   AR_GL_NUMBER = AR_DEF_MCO;
+   AR_GL_TYPE = "V";
+
+
+   /* READ_RECORD_4 - Read record */
+
+   call READ_KEYED (AR_GL_DIST_NO,KEY_AREA_1,ERROR_AR_GL_DIST);
+   if ERROR_AR_GL_DIST > 3 then
+      call PRINT_ERROR (AR_GL_DIST_NO,ERROR_AR_GL_DIST);
+
+   if ERROR_AR_GL_DIST = NORMAL_RETURN then
+      do;
+      AR_GL_AMOUNT = floor((AR_GL_AMOUNT - AR_VAR_AMOUNT) * 100 + 0.5) / 100;
+
+      /* UPDATE_RECORD_4 - Update the record */
+
+      call UPDATE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      AR_GL_AMOUNT = -AR_VAR_AMOUNT;
+
+      /* WRITE_RECORD_4 - Write the record */
+
+      call WRITE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+      end;
+
+
+   /* SET_MCO_POSTED - Set status: Posted to the General Ledger */
+
+   AR_MCO_STATUS = 5;
+
+
+   /* UPDATE_RECORD_6 - Update record */
+
+   call UPDATE_RECORD (AR_MCO_DET_NO,ERROR_CODE);
+
+   /* SET_FIRST_7 - Set first */
+
+   AR_MCO_STATUS = 4;
+   call SET_POSITION (AR_MCO_DET_NO,KEY_AREA_3,ERROR_CODE);
+return;
+end;	/* POST_AR_MCO          */
+
+/****************************************************************
+	POST_AR_DIST
+	Post the A/R dist file to G/L and report
+****************************************************************/
+
+POST_AR_DIST:
+	procedure;
+
+
+   /* SET_FIRST_5 - Set first */
+
+   AR_GL_DATE = 0;
+   AR_GL_TYPE = "";
+   AR_GL_NUMBER = 0;
+   call SET_POSITION (AR_GL_DIST_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_5 - Read next */
+
+   call READ_NEXT (AR_GL_DIST_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_GL_DIST_NO,ERROR_CODE);
+
+   /* CHECK_END_5 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_POST_AR_DIST = YES;
+      return;
+      end;
+
+   /* SETUP_GL_AR - Set up the G/L record */
+
+   GL_AC_NO = AR_GL_NUMBER;
+   GL_TRX_DATE = AR_GL_DATE;
+   GL_TRX_ENTRY = AR_POST_TODAY;
+   GL_SEQ_NO = 1;
+   GL_TRX_AMOUNT = AR_GL_AMOUNT;
+   GL_SOURCE = "Accts/Rec";
+   do case (index("IPCDRAMJBV",AR_GL_TYPE) + 1);
+      GL_REFERENCE = "Accounts Receivable auto-post";
+      GL_REFERENCE = "A/R auto post - Invoice amts";
+      GL_REFERENCE = "A/R auto post - Payments";
+      GL_REFERENCE = "A/R auto post - Credit memos";
+      GL_REFERENCE = "A/R auto post - Debit memos";
+      GL_REFERENCE = "A/R auto post - Refunds";
+      GL_REFERENCE = "A/R auto post - Adjustments";
+      GL_REFERENCE = "A/R auto post - MCO receipts";
+      GL_REFERENCE = "A/R auto post - Dep. Invoice";
+      GL_REFERENCE = "A/R auto post - Dep. Adjust.";
+      GL_REFERENCE = "A/R auto post - MCO variance";
+   end;
+   otherwise
+      GL_REFERENCE = "Accounts Receivable auto-post";
+
+
+   /* WRITE_RECORD_6 - Write record */
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (GL_DETAIL_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         GL_SEQ_NO = GL_SEQ_NO + 1;
+   end;
+
+   /* DELETE_RECORD_5 - Delete the record */
+
+   call DELETE_RECORD (AR_GL_DIST_NO,ERROR_CODE);
+return;
+end;	/* POST_AR_DIST         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AR_OPEN_NO);
+   call CLOSE_FILE (AR_CONTROL_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+   call CLOSE_FILE (GL_PERIOD_NO);
+   call CLOSE_FILE (AR_GL_DIST_NO);
+   call CLOSE_FILE (GL_DETAIL_NO);
+   call CLOSE_FILE (AR_MCO_DET_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

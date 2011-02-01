@@ -1,0 +1,441 @@
+/****************************************************************
+	Module: BK_AIR_RECAP
+	Top Level Logic: RECAP_LOGIC
+	Date: 27-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_AIR_RECAP
+	Top-level Logic
+****************************************************************/
+
+%replace BK_AIR_RECAP_1 by 815;
+%replace BK_AIR_RECAP_2 by 816;
+BK_AIR_RECAP:
+   procedure;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace TK_HEADER_NO by  56;
+%replace TK_DETAIL_NO by  57;
+%replace TK_AIRLINE_NO by  71;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_AIR_RECAP.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "TK_HEADER.DD";
+%include "TK_DETAIL.DD";
+%include "TK_AIRLINE.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		END_RECAP_MAIN       bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_XDET   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_RECAP_MAIN = NO;
+   do while (END_RECAP_MAIN ^= YES);
+      call RECAP_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TOUR_QUADS = 0;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_AIR_RECAP_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_AIR_RECAP_RECORD) );
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_AIRLINE_NO,"TK_AIRLINE",byteaddr(TK_AIRLINE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_AIRLINE_NO,ERROR_CODE);
+   call OPEN_FILE (BK_PASSENGERS_NO,"BK_PASSENGERS",byteaddr(BK_PASSENGERS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	RECAP_MAIN
+	Mainline logic
+****************************************************************/
+
+RECAP_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_RECAP_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_RECAP_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (BK_AIR_RECAP_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TK_DET_MOD = 0;
+   TK_CARRIER = ARECAP_START;
+   TK_FLIGHT = ARECAP_SFLT;
+   TK_DATE = ARECAP_SDATE;
+   TK_DET_BK_TK = 0;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   END_READ_THRU_XDET = NO;
+   do while (END_READ_THRU_XDET ^= YES);
+      call READ_THRU_XDET;
+   end;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_RECAP_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* RECAP_MAIN           */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+ARECAP_END = ARECAP_START;
+ARECAP_EFLT = ARECAP_SFLT;
+ARECAP_SDATE = TODAYS_DATE();
+ARECAP_EDATE = ARECAP_SDATE+365;
+do LOOP_INDEX =   1 to   7;
+   if LOOP_INDEX =   2 then
+      ARECAP_END = ARECAP_START;
+   if LOOP_INDEX =   4 then
+      ARECAP_EFLT = ARECAP_SFLT;
+   if LOOP_INDEX =   5 then
+      ARECAP_SDATE = TODAYS_DATE();
+   if LOOP_INDEX =   6 then
+      ARECAP_EDATE = ARECAP_SDATE+365;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         ARECAP_START = "";
+         ARECAP_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         ARECAP_SFLT = "";
+         ARECAP_EFLT = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  7,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  7 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         ARECAP_START = "";
+         ARECAP_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         ARECAP_SFLT = "";
+         ARECAP_EFLT = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	READ_THRU_XDET
+	Read thru the recap info
+****************************************************************/
+
+READ_THRU_XDET:
+	procedure;
+
+
+   /* READ_NEXT - Read the next record */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > 0) !
+   (TK_CARRIER > ARECAP_END) then
+      do;
+      END_READ_THRU_XDET = YES;
+      return;
+      end;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* CHECK_ARECAP_BREAK - Check for a break */
+
+   if TK_FLIGHT < ARECAP_SFLT then
+      do;
+      TK_FLIGHT = ARECAP_SFLT;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+      return;
+      end;
+
+   if TK_FLIGHT > ARECAP_EFLT then
+      do;
+      TK_FLIGHT = "~";
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+      return;
+      end;
+
+   if TK_DATE < ARECAP_SDATE then
+      do;
+      TK_DATE = ARECAP_SDATE;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+      return;
+      end;
+
+   if TK_DATE > ARECAP_EDATE then
+      do;
+      TK_DATE = 32766;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+      return;
+      end;
+
+   ARECAP_CARRIER = TK_CARRIER;
+   ARECAP_FLIGHT = TK_FLIGHT;
+
+
+   /* SET_ARECAP - Set the air recap info */
+
+   %include "BK_A_RECAP.DD";
+
+   ARECAP_INV_ONLY = ARECAP_AINV;
+   ARECAP_DATE_START = ARECAP_SDATE;
+   ARECAP_DATE_END = ARECAP_EDATE;
+
+
+
+   /* CALL_PROG - Call another program */
+
+   %include "BK_A_RECAP.DCL";
+   call BK_A_RECAP(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      TK_DETAIL_RECORD,
+      TK_AIRLINE_RECORD,
+      TK_HEADER_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_A_RECAP_RECORD);
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   TK_DET_MOD = 0;
+   TK_CARRIER = ARECAP_CARRIER;
+   TK_FLIGHT = ARECAP_FLIGHT;
+   TK_DATE = 32766;
+   TK_DET_BK_TK = 0;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+return;
+end;	/* READ_THRU_XDET       */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (TK_AIRLINE_NO);
+   call CLOSE_FILE (BK_PASSENGERS_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

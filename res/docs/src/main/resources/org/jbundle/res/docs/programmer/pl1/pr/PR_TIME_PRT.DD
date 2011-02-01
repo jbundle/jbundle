@@ -1,0 +1,12 @@
+/*********************************************************************
+	PR_TIME_PRT File
+********************************************************************/
+
+declare	1 PR_TIME_PRT_RECORD,
+		3 PAY_END              fixed binary (15),
+		3 PR_TIME_DATE         fixed binary (15),
+		3 PR_TIME_TIME         fixed binary (15),
+		3 PR_TIME_USER         character (       16),
+		3 PR_TIME_PAGE         fixed binary (15),
+		3 PR_TIME_COUNT        fixed binary (31);
+

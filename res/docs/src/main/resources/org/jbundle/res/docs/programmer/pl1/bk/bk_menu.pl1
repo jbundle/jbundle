@@ -1,0 +1,1072 @@
+/****************************************************************
+	Module: BK_MENU
+	Top Level Logic: BK_MENU_LOGIC
+	Date: 22-Jun-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_MENU
+	Logic for the booking entry menu
+****************************************************************/
+
+%replace BK_MENU_1 by 304;
+%replace BK_MENU_2 by 308;
+%replace BK_MENU_3 by 317;
+%replace BK_MENU_4 by 318;
+%replace BK_MENU_5 by 322;
+%replace BK_MENU_6 by 323;
+%replace BK_MENU_7 by 527;
+BK_MENU:
+   procedure(
+      BK_ENT_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_CONTROL_RECORD,
+      BK_LINE_RECORD,
+      BK_INV_DET_RECORD);
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_CONTROL_NO by  47;
+%replace BK_LINE_NO by  51;
+%replace BK_INV_DET_NO by  61;
+%include "BK_MENU.DD";
+%include "BK_ENT_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_CONTROL.DD";
+%include "BK_LINE.DD";
+%include "BK_INV_DET.DD";
+
+declare		END_BK_MENU_PROCESS  bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_CALL_BK_PROG     bit (1);
+declare		KEY_NO               fixed binary (15);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   BK_MENU_DISPLAYED = "N";
+   END_BK_MENU_PROCESS = NO;
+   do while (END_BK_MENU_PROCESS ^= YES);
+      call BK_MENU_PROCESS;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	BK_MENU_PROCESS
+	Select a menu item and dispatch
+****************************************************************/
+
+BK_MENU_PROCESS:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (BK_MENU_RECORD) );
+
+   /* DIS_CORRECT_MENU - Display the correct menu */
+
+   if BK_MENU_DISPLAYED = "Y" then
+      call DISPLAY_SCREEN(BK_MENU_2);
+   else
+      call DISPLAY_SCREEN(BK_MENU_1);
+
+
+   /* INPUT_DATA_A - Input the data in group A */
+
+   do LOOP_INDEX =  11 to  11;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* CHECK_REDISPLAY - Check to see if the menu should be redis */
+
+   if BOOKING_NO = 0 then
+      if BK_HDR_SELECT >= 1 then if BK_HDR_SELECT <= 3 then
+         do;
+         call GET_NEXT_BK;
+         call CREATE_NEW_BK;
+         call DISPLAY_DATA_B;
+         end;
+
+   if BK_HDR_SELECT = 4 then
+      do;
+      call DISPLAY_SCREEN(BK_MENU_5);
+      BK_MENU_DISPLAYED = "Y";
+      return;
+      end;
+   if BK_HDR_SELECT = 5 then
+      do;
+      call DISPLAY_SCREEN(BK_MENU_4);
+      BK_MENU_DISPLAYED = "Y";
+      return;
+      end;
+   if BK_HDR_SELECT = 6 then
+      do;
+      call DISPLAY_SCREEN(BK_MENU_3);
+      BK_MENU_DISPLAYED = "Y";
+      return;
+      end;
+
+   if BK_HDR_SELECT = 0 then
+      do;
+      if BK_MENU_DISPLAYED = "Y" then
+         do;
+         BK_MENU_DISPLAYED = "N";
+         return;
+         end;
+      else
+         do;
+         END_BK_MENU_PROCESS = YES;
+         return;
+         end;
+      end;
+
+   BK_MENU_DISPLAYED = "Y";
+
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+   END_CALL_BK_PROG = NO;
+   do while (END_CALL_BK_PROG ^= YES);
+      call CALL_BK_PROG;
+   end;
+return;
+end;	/* BK_MENU_PROCESS      */
+
+/****************************************************************
+	GET_NEXT_BK
+	Get the next booking number
+****************************************************************/
+
+GET_NEXT_BK:
+	procedure;
+
+declare		ERROR_BK_CONTROL     fixed binary (15);
+
+   /* SET_REC_NO - Set the booking record number */
+
+   BK_REC_NO = 0;
+
+   ERROR_BK_CONTROL = RECORD_LOCKED;
+   do while (ERROR_BK_CONTROL = RECORD_LOCKED);
+
+      /* READ_BK_CONTROL - Read and lock the control file */
+
+      call READ_KEYED (BK_CONTROL_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_CONTROL);
+      if ERROR_BK_CONTROL > 3 then
+         call PRINT_ERROR (BK_CONTROL_NO,ERROR_BK_CONTROL);
+   end;
+
+
+   /* SET_BK_NO - Set the booking number and update ctl. */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   BOOKING_NO = BK_NEXT_BK_NO;
+   do while (ERROR_CODE ^= RECORD_NOT_FOUND);
+      call READ_KEYED (BK_BOOKING_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE ^= RECORD_NOT_FOUND then
+         BOOKING_NO = BOOKING_NO + 1;
+   end;
+
+   BK_NEXT_BK_NO = BOOKING_NO + 1;
+   BK_HDR_CUR_BK = BOOKING_NO;
+
+
+   /* UPDATE_BK_CONTROL - Update the control file */
+
+   call UPDATE_RECORD (BK_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* GET_NEXT_BK          */
+
+/****************************************************************
+	CREATE_NEW_BK
+	Set up the record for a new booking
+****************************************************************/
+
+CREATE_NEW_BK:
+	procedure;
+
+declare		ERROR_BK_BOOKING     fixed binary (15);
+
+   /* SET_UP_BK_REC - Set up the initial booking stuff */
+
+
+   /* CLEAR_BK_FIELDS - Initialize booking fields */
+
+   BK_MODIFICATION = 0;
+   BK_DATE = 0;
+   BK_TIME = 0;
+   BK_TIME_ELAPSED = 0;
+   BK_RES_AGENT = "";
+   BK_NEXT_MOD = 0;
+   BK_MOD_BY = "";
+   BK_MOD_DATE = 0;
+   BK_STATUS = "";
+   BK_AGENCY = 0;
+   BK_AGENCY_NAME = "";
+   BK_AGENCY_ADD_1 = "";
+   BK_AGENCY_ADD_2 = "";
+   BK_AGENCY_ADD_3 = "";
+   BK_AGENCY_ZIP = "";
+   BK_AGENCY_PHONE = "";
+   BK_FAX = "";
+   BK_CONTACT = "";
+   BK_PAX = 0;
+   BK_FOC = 0;
+   BK_SINGLE = 0;
+   BK_DOUBLE = 0;
+   BK_TRIPLE = 0;
+   BK_QUAD = 0;
+   BK_GATEWAY = "";
+   BK_TOUR_NUM = 0;
+   BK_TOUR_CODE = "";
+   BK_DEPARTURE = 0;
+   BK_MARKUP = 0;
+   BK_TOUR_PRICE = 0;
+   BK_STD_COMM = 0;
+   BK_NET_PRICE = 0;
+   BK_DEPARTED = "N";
+   BK_DEPOSIT = 0;
+   BK_ORDER_CURR = "N";
+   BK_DEPOSIT_DUE = 0;
+   BK_INCOME_GL = 0;
+   BK_FINAL_DUE = 0;
+   BK_BALANCE = 0;
+   BK_PRINT_INV = "Y";
+   BK_HOTEL_MOD = 0;
+   BK_TOUR_MOD = 0;
+   BK_REMARK_MOD = 0;
+   BK_LINE_CHGD = 0;
+   BK_PAX_CHGD = 0;
+   BK_AIR_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_INV_PRINTING = "N";
+   BK_ALT_OPT_SQ = 0;
+   BK_AO_ANSW_SQ = 0;
+   BK_AMOUNT_PAID = 0;
+
+   BOOKING_NO = BK_HDR_CUR_BK;
+   BK_DATE = TODAYS_DATE();
+   BK_TIME = CURRENT_TIME();
+   BK_RES_AGENT = USER_NAME();
+   BK_MODIFICATION = 0;
+   BK_NEXT_MOD = 0;
+   BK_MOD_BY = BK_RES_AGENT;
+   BK_MOD_DATE = BK_DATE;
+   BK_STATUS = "XX";
+   BK_AGENCY = -1;
+   BK_PAX = 0;
+   BK_SINGLE = 0;
+   BK_DOUBLE = 0;
+   BK_TRIPLE = 0;
+   BK_TOUR_NUM = 0;
+   BK_TOUR_CODE = "";
+   BK_DEPARTURE = 0;
+   BK_STD_COMM = 10;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "N";
+   BK_HOTEL_MOD = -1;
+   BK_TOUR_MOD = -1;
+   BK_AIR_MOD = -1;
+   BK_REMARK_MOD = -1;
+   BK_LINE_CHGD = -1;
+   BK_PAX_CHGD = -1;
+   BK_INV_PRINTING = "N";
+   BK_ALT_OPT_SQ(1) = 0;
+
+   TOUR_NO = 0;
+   TOUR_DEP_DATE = 0;
+   TOUR_TYPE = " ";
+   TOUR_RATE_DEF = " ";
+   TOUR_RATE_CLASS = "";
+   TOUR_DEF_CUTOFF = 0;
+   TOUR_PAX = 0;
+   TOUR_FOCS = 0;
+   TOUR_SINGLES = 0;
+   TOUR_DOUBLES = 0;
+   TOUR_TRIPLES = 0;
+   TOUR_QUADS = 0;
+
+   HDR_TOUR_CODE = "";
+   HDR_END_ON = 0;
+
+   KEY_NO = 1;
+
+
+   /* CHECK_FOR_DUP_BK - Check for duplicate booking number */
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+
+      /* WRITE_RECORD - Write the record */
+
+      call WRITE_RECORD (BK_BOOKING_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         BOOKING_NO = BOOKING_NO + 1;
+   end;
+
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_NO,ERROR_BK_BOOKING);
+   if ERROR_BK_BOOKING = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_BK_BOOKING > 3 then
+      call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+
+return;
+end;	/* CREATE_NEW_BK        */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =   1 to   1;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	CALL_BK_PROG
+	Call the correct booking program
+****************************************************************/
+
+CALL_BK_PROG:
+	procedure;
+
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   %include "BK_ENT_AGENCY.DCL";
+   %include "BK_ENT_PAX.DCL";
+   %include "BK_ENT_TOUR.DCL";
+   declare BK_BACK_MENU entry;
+   %include "BK_FIT_DETAIL.DCL";
+   %include "BK_MOD_MAINT.DCL";
+   %include "BK_ENT_TELEX.DCL";
+   %include "BK_ENT_BROC_REQ.DCL";
+   %include "BK_CANCEL.DCL";
+   %include "BK_DIS_PYMT.DCL";
+   %include "BK_ENT_LINE.DCL";
+   %include "BK_ENT_HOTEL.DCL";
+   %include "BK_ENT_LAND.DCL";
+   %include "BK_ENT_AIR.DCL";
+   %include "BK_ENT_REMARK.DCL";
+   %include "BK_ENT_COMMENT.DCL";
+   %include "BK_DIS_COMMENTS.DCL";
+   %include "BK_ENT_PAX_MOD.DCL";
+   %include "BK_ENT_AIR_HDR.DCL";
+   %include "BK_ENT_AIR_DET.DCL";
+   %include "BK_ALT_OPT.DCL";
+   %include "BK_DIS_MOD_HIST.DCL";
+   %include "BK_DIS_V_VENDOR.DCL";
+   %include "BK_FIT_OTHERR.DCL";
+   %include "BK_FIT_LASTT.DCL";
+   %include "BK_FIT_RPT.DCL";
+   %include "BK_IT_BLD.DCL";
+   %include "BK_IT_WP.DCL";
+   %include "BK_PRT_ON_OFF.DCL";
+   %include "BK_DOC_CONTROL.DCL";
+   %include "BK_VOUCHERS.DCL";
+   %include "BK_PRT_VOUCHER.DCL";
+   %include "BK_ENT_ACK.DCL";
+   %include "BK_ENT_V_STATUS.DCL";
+   %include "BK_DIS_V_STAT.DCL";
+   %include "BK_DIS_TK_STAT.DCL";
+   %include "BK_DIS_V_STATUS.DCL";
+   %include "BK_DIS_V_DETAIL.DCL";
+   %include "BK_DIS_TOURT.DCL";
+   %include "BK_DIS_TOURD.DCL";
+   %include "BK_DIS_TOURA.DCL";
+   %include "BK_DIS_BOOKA.DCL";
+   %include "BK_DIS_BOOKP.DCL";
+   %include "BK_DIS_BOOKT.DCL";
+   %include "BK_DIS_BOOKB.DCL";
+   %include "BK_DIS_AVAIL.DCL";
+   %include "BK_DIS_PAX.DCL";
+   %include "BK_DIS_TAVAIL.DCL";
+   %include "BK_DIS_HAVAIL.DCL";
+   %include "BK_DIS_LAVAIL.DCL";
+   %include "BK_DIS_AAVAIL.DCL";
+   %include "BK_DIS_HRECAP.DCL";
+   %include "BK_DIS_LRECAP.DCL";
+   %include "BK_DIS_ARECAP.DCL";
+   %include "BK_DIS_TKNO.DCL";
+   %include "BK_DIS_TKDEP.DCL";
+   %include "BK_DIS_TK_ISS.DCL";
+   %include "BK_DIS_TELEX.DCL";
+   %include "BK_PAX_MAINT.DCL";
+   %include "BK_DIS_MCO_STAT.DCL";
+   %include "BK_DIS_CURRR.DCL";
+   %include "BK_DIS_AIRC.DCL";
+   %include "BK_DIS_AIRN.DCL";
+   %include "BK_DIS_CITYCC.DCL";
+   %include "BK_DIS_CITYDD.DCL";
+   %include "BK_DIS_COUNTRY.DCL";
+   %include "BK_DIS_COUNTRYN.DCL";
+   %include "BK_DIS_TOUR.DCL";
+   %include "BK_DIS_TOURB.DCL";
+   %include "BK_DIS_TOURC.DCL";
+   %include "BK_AO_DISPLAY.DCL";
+   %include "BK_DIS_MENU.DCL";
+   declare BK_INFO_AGENCY entry;
+   declare BK_INFO_VENDOR entry;
+   %include "BK_DIS_VENDOR.DCL";
+   %include "BK_DIS_VENDORN.DCL";
+   %include "BK_DIS_VENDORC.DCL";
+   declare BK_INFO_HOTEL entry;
+   %include "BK_DIS_HOTELDD.DCL";
+   %include "BK_DIS_HOTELNN.DCL";
+   %include "BK_DIS_HOTELUU.DCL";
+   %include "BK_DIS_HOTELTT.DCL";
+   %include "BK_DIS_HOTEL.DCL";
+   %include "BK_DIS_HOTELSS.DCL";
+   %include "BK_DIS_LANDDD.DCL";
+   %include "BK_DIS_LANDTT.DCL";
+   %include "BK_DIS_LANDVV.DCL";
+   %include "BK_DIS_LAND.DCL";
+   %include "BK_DIS_TRANDD.DCL";
+   %include "BK_DIS_TRANTT.DCL";
+   %include "BK_DIS_TRANVV.DCL";
+   %include "BK_DIS_TRANS.DCL";
+   %include "BK_DIS_FLIGHTT.DCL";
+   %include "BK_DIS_FLIGHTCC.DCL";
+   %include "BK_FIT_ITIN.DCL";
+   %include "BK_FIT_ITT.DCL";
+   do case (BK_HDR_SELECT);
+         /* Option   1 */
+      call BK_ENT_AGENCY(
+         BK_ENT_HDR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option   2 */
+      call BK_ENT_PAX(
+         BK_ENT_HDR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option   3 */
+      call BK_ENT_TOUR(
+         BK_ENT_HDR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_LINE_RECORD,
+         BK_INV_DET_RECORD,
+         BK_CONTROL_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option   4 */
+      call BK_BACK_MENU(
+);
+         /* Option   5 */
+      call BK_BACK_MENU(
+);
+         /* Option   6 */
+      call BK_BACK_MENU(
+);
+         /* Option   7 */
+      call BK_FIT_DETAIL(
+         BK_ENT_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_INV_DET_RECORD,
+         BK_LINE_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option   8 */
+      call BK_MOD_MAINT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_LINE_RECORD);
+         /* Option   9 */
+      call BK_ENT_TELEX(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  10 */
+      call BK_ENT_BROC_REQ(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  11 */
+      call BK_CANCEL(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_ENT_HDR_RECORD);
+         /* Option  12 */
+      call BK_DIS_PYMT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  13 */
+      call BK_ENT_LINE(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_LINE_RECORD);
+         /* Option  14 */
+      call BK_ENT_HOTEL(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_INV_DET_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  15 */
+      call BK_ENT_LAND(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  16 */
+      call BK_ENT_AIR(
+         BK_BOOKING_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  17 */
+      call BK_ENT_REMARK(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  18 */
+      call BK_ENT_COMMENT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  19 */
+      call BK_DIS_COMMENTS(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  20 */
+      call BK_ENT_PAX_MOD(
+         BK_ENT_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_INV_DET_RECORD);
+         /* Option  21 */
+      call BK_ENT_AIR_HDR(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  22 */
+      call BK_ENT_AIR_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_INV_DET_RECORD);
+         /* Option  23 */
+      call BK_ALT_OPT(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_LINE_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  24 */
+      call BK_DIS_MOD_HIST(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_LINE_RECORD);
+         /* Option  25 */
+      call BK_DIS_V_VENDOR(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  26 */
+      call BK_FIT_OTHERR(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  27 */
+      call BK_FIT_LASTT(
+         BK_ENT_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_LINE_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  28 */
+      call BK_FIT_RPT(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_LINE_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  29 */
+      call BK_IT_BLD(
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_LINE_RECORD);
+         /* Option  30 */
+      call BK_IT_WP(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  31 */
+      call BK_PRT_ON_OFF(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_LINE_RECORD);
+         /* Option  32 */
+      call BK_DOC_CONTROL(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  33 */
+      call BK_VOUCHERS(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_CONTROL_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  34 */
+      call BK_PRT_VOUCHER(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_CONTROL_RECORD);
+         /* Option  35 */
+      call BK_ENT_ACK(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  36 */
+      call BK_ENT_V_STATUS(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  37 */
+      call BK_DIS_V_STAT(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  38 */
+      call BK_DIS_TK_STAT(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  39 */
+      call BK_DIS_V_STATUS(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  40 */
+      call BK_DIS_V_DETAIL(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  41 */
+      call BK_DIS_TOURT(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  42 */
+      call BK_DIS_TOURD(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  43 */
+      call BK_DIS_TOURA(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  44 */
+      call BK_DIS_BOOKA(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  45 */
+      call BK_DIS_BOOKP(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  46 */
+      call BK_DIS_BOOKT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  47 */
+      call BK_DIS_BOOKB(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  48 */
+      call BK_DIS_AVAIL(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_INV_DET_RECORD);
+         /* Option  49 */
+      call BK_DIS_PAX(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_ENT_HDR_RECORD);
+         /* Option  50 */
+      call BK_DIS_TAVAIL(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_INV_DET_RECORD);
+         /* Option  51 */
+      call BK_DIS_HAVAIL(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_INV_DET_RECORD);
+         /* Option  52 */
+      call BK_DIS_LAVAIL(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_INV_DET_RECORD);
+         /* Option  53 */
+      call BK_DIS_AAVAIL(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_INV_DET_RECORD);
+         /* Option  54 */
+      call BK_DIS_HRECAP(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  55 */
+      call BK_DIS_LRECAP(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  56 */
+      call BK_DIS_ARECAP(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  57 */
+      call BK_DIS_TKNO(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  58 */
+      call BK_DIS_TKDEP(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  59 */
+      call BK_DIS_TK_ISS(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  60 */
+      call BK_DIS_TELEX(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  61 */
+      call BK_PAX_MAINT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option  62 */
+      call BK_DIS_MCO_STAT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  63 */
+      call BK_DIS_CURRR(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  64 */
+      call BK_DIS_AIRC(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  65 */
+      call BK_DIS_AIRN(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  66 */
+      call BK_DIS_CITYCC(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  67 */
+      call BK_DIS_CITYDD(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  68 */
+      call BK_DIS_COUNTRY(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  69 */
+      call BK_DIS_COUNTRYN(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  70 */
+      call BK_DIS_TOUR(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  71 */
+      call BK_DIS_TOURB(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  72 */
+      call BK_DIS_TOURC(
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  73 */
+      call BK_AO_DISPLAY(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD);
+         /* Option  74 */
+      call BK_DIS_MENU(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  75 */
+      call BK_INFO_AGENCY(
+);
+         /* Option  76 */
+      call BK_INFO_VENDOR(
+);
+         /* Option  77 */
+      call BK_DIS_VENDOR(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  78 */
+      call BK_DIS_VENDORN(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  79 */
+      call BK_DIS_VENDORC(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  80 */
+      call BK_INFO_HOTEL(
+);
+         /* Option  81 */
+      call BK_DIS_HOTELDD(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  82 */
+      call BK_DIS_HOTELNN(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  83 */
+      call BK_DIS_HOTELUU(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  84 */
+      call BK_DIS_HOTELTT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  85 */
+      call BK_DIS_HOTEL(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  86 */
+      call BK_DIS_HOTELSS(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  87 */
+      call BK_DIS_LANDDD(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  88 */
+      call BK_DIS_LANDTT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  89 */
+      call BK_DIS_LANDVV(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  90 */
+      call BK_DIS_LAND(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  91 */
+      call BK_DIS_TRANDD(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  92 */
+      call BK_DIS_TRANTT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  93 */
+      call BK_DIS_TRANVV(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  94 */
+      call BK_DIS_TRANS(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  95 */
+      call BK_DIS_FLIGHTT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  96 */
+      call BK_DIS_FLIGHTCC(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  97 */
+      call BK_FIT_ITIN(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  98 */
+      call BK_FIT_ITT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD);
+         /* Option  99 */
+      call BK_ENT_BROC_REQ(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD);
+   end;
+   otherwise
+      do;
+      end;
+
+   /* CHECK_AUTO_BRANCH - Check to see if program should auto-brch */
+
+   if BK_HDR_SELECT >= 1 then if BK_HDR_SELECT <= 3 then
+      do;
+      if BK_AGENCY ^= -1 then if BK_PAX ^= 0 then if BK_TOUR_NUM ^= 0 then
+         if BK_LINE_CHGD = -1 then
+            do;
+
+            /* BK_SET_LINE - Call the program to set the line items */
+
+            %include "BK_SET_LINE.DCL";
+            call BK_SET_LINE(
+               BK_LINE_RECORD,
+               BK_BOOKING_RECORD,
+               BK_TOUR_HDR_RECORD,
+               BK_TOUR_RECORD);
+            BK_HDR_SELECT = 13;
+            if (TOUR_TYPE = "G") ! (TOUR_TYPE = "U") then
+               return;
+            end;
+      end;
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_CALL_BK_PROG = YES;
+   return;
+   end;
+
+return;
+end;	/* CALL_BK_PROG         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

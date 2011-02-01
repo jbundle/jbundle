@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="help2.xsl"?>
+<?cocoon-process type="xslt"?>
+<full-screen>
+<title>Help Screen</title>
+<meta-keywords>travel, tours, custom tours, air, hotel, sightseeing, transfer, cruise, car rental, airport transfer, flight, travel agent</meta-keywords>
+<meta-description>Help screen</meta-description>
+	<top-menu>
+		<menu-item>
+			<description>Home</description>
+			<link>?menu=</link>
+			<image>Home</image>
+		</menu-item>
+		<menu-item>
+			<description>Programmer's technical Information</description>
+			<link>?screen=&amp;record=.tour.genled.db.Account&amp;tech=&amp;help=</link>
+			<image>Tech</image>
+		</menu-item>
+		<menu-item>
+			<description>Run this program</description>
+			<link>?screen=&amp;record=.tour.genled.db.Account</link>
+			<image>Run</image>
+		</menu-item>
+		<menu-item>
+			<description>Report a bug in this program</description>
+			<link>?record=.main.Message&amp;move=New&amp;screenname=&amp;recordname=.tour.genled.db.Account</link>
+			<image>Bugs</image>
+		</menu-item>
+	</top-menu>
+
+	<navigation-menu>
+		<navigation-item>
+			<description>Home</description>
+			<link>?menu=</link>
+			<image>Home</image>
+		</navigation-item>
+		<navigation-item>
+			<description>Email</description>
+			<link>/</link>
+			<image>Mail</image>
+		</navigation-item>
+	</navigation-menu>
+	
+	<content-area>
+		<description>The Chart of Accounts summarize values for financial reporting.</description>
+		<operation>
+			The only information that is required for an account is a description.
+		</operation>
+	</content-area>
+</full-screen>

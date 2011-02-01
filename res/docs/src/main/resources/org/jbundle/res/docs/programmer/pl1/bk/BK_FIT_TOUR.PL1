@@ -1,0 +1,1954 @@
+/****************************************************************
+	Module: BK_FIT_TOUR
+	Top Level Logic: FIT_LAND_LOGIC
+	Date: 22-Feb-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_FIT_TOUR
+	Top-Level code for land display/costing
+****************************************************************/
+
+%replace BK_FIT_TOUR_1 by 256;
+BK_FIT_TOUR:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_DET_LAND_RECORD,
+      BK_LAND_RECORD,
+      BK_LAND_DET_RECORD,
+      BK_LAND_ITIN_RECORD,
+      AD_CURR_RECORD,
+      BK_ITIN_DET_RECORD,
+      BK_TRANS_RECORD,
+      BK_TRANS_PRICE_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_LAND_NO by  54;
+%replace BK_LAND_DET_NO by  91;
+%replace BK_LAND_ITIN_NO by  80;
+%replace AD_CURR_NO by  25;
+%replace BK_ITIN_DET_NO by  79;
+%replace BK_TRANS_NO by  64;
+%replace BK_TRANS_PRICE_NO by  69;
+%include "BK_FIT_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_LAND.DD";
+%include "BK_LAND_DET.DD";
+%include "BK_LAND_ITIN.DD";
+%include "AD_CURR.DD";
+%include "BK_ITIN_DET.DD";
+%include "BK_TRANS.DD";
+%include "BK_TRANS_PRICE.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_ENT_LAND_PRICES  bit (1);
+declare		END_CHANGE_FIT_LAND  bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		ANSWER               character (1);
+declare		END_ENTER_LAND_CURR  bit (1);
+declare		END_DIS_ALL_QDET     bit (1);
+declare		END_DIS_ALL_ANSW     bit (1);
+declare		END_CHANGE_FIT_QUES  bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   call FIT_LAND_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TOUR_MARKUP = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_FIT_TOUR_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_FIT_TOUR_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	FIT_LAND_MAIN
+	Main logic for FIT land entry
+****************************************************************/
+
+FIT_LAND_MAIN:
+	procedure;
+
+declare		ERROR_BK_LAND        fixed binary (15);
+
+   /* SET_LAND_FLAG - Set flag if user just wants information */
+
+   if LDET_DATE = 0 then
+      LAND_INFO_FLAG = "Y";
+   else
+      LAND_INFO_FLAG = "N";
+
+
+   /* CHECK_LAND_CODE - Check the land code */
+
+   if LDET_TOUR_NO = "" then
+      do;
+      call ENTER_DATA_A;
+      end;
+   else
+      do;
+      call DISPLAY_DATA_A;
+      end;
+
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+
+   /* GET_LAND_REC - Read/enter the FIT land description */
+
+   if LAND_CODE ^= LDET_TOUR_NO then
+      do;
+      LAND_DESC_2 = "";
+      if LDET_MANUAL ^= "" then
+         LAND_DESC_1 = LDET_MANUAL;
+      else
+         do;
+
+         /* GET_LAND_RECD - Read in the land description */
+
+
+            /* RESET_ERROR - Reset the error code to zero */
+
+            ERROR_CODE = 0;
+
+
+            /* SETUP_LAND_CODE - Set up LAND_CODE */
+
+            LAND_CODE = LDET_TOUR_NO;
+
+
+            /* READ_LAND - Read the land file */
+
+            call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_BK_LAND);
+            if ERROR_BK_LAND > 3 then
+               call PRINT_ERROR (BK_LAND_NO,ERROR_BK_LAND);
+
+            /* FIT_LAND_FOUND - Was the land code found? */
+
+            ERROR_INPUT_SCREEN = NO;
+            if ERROR_BK_LAND = NORMAL_RETURN then
+               do;
+
+               /* NO_CODE - This section has no code */
+
+               /* No code in this section */
+               end;
+            else
+               do;
+               call LAND_NOT_FOUND;
+               if ERROR_INPUT_SCREEN then return;
+               end;
+
+            /* RETURN_IF_ERROR - Return if ERROR_CODE <> 0 */
+
+            if ERROR_CODE ^= NORMAL_RETURN then
+               return;
+
+         end;
+      end;
+
+   call DISPLAY_DATA_B;
+   call DISPLAY_DATA_I;
+   call DISPLAY_DATA_C;
+
+   /* CHECK_LAND_DATE - Check to see if land date is in */
+
+   if LDET_DATE = 0 then
+      do;
+      LDET_DATE = BK_DEPARTURE;
+      call ENTER_DATA_M;
+      end;
+   else
+      do;
+
+      /* DISPLAY_DATA_M - Display group M */
+
+      do LOOP_INDEX =  14 to  14;
+         call OUTPUT_FIELD (LOOP_INDEX);
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   call BK_COST_LAND;
+
+   /* CHECK_LAND_IN - Check to see if the land prices are in */
+
+   if LAND_TYPE ^= "I" then
+      do;
+      if (LDET_SIC_PMC = " ") !
+      (LDET_TOUR_COST = 0) !
+      ((LDET_PMC ^= 0) & (LDET_SIC ^= 0)) then
+         do;
+         END_ENT_LAND_PRICES = NO;
+         do while (END_ENT_LAND_PRICES ^= YES);
+            call ENT_LAND_PRICES;
+         end;
+         end;
+      else
+         do;
+         call DIS_LAND_PRICES;
+         end;
+      end;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* DISPLAY_DATA_U - Display */
+
+   do LOOP_INDEX =  54 to  54;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* DISPLAY_DATA_W - Display */
+
+   do LOOP_INDEX =  55 to  55;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* DISPLAY_DATA_S - Display */
+
+   do LOOP_INDEX =  56 to  56;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* DISPLAY_DATA_T - DISPLAY */
+
+   do LOOP_INDEX =  57 to  57;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* DISPLAY_L_QUES - Display question if not info */
+
+   if LAND_INFO_FLAG = "N" then
+      do;
+      call DIS_L_QUES;
+      end;
+
+   END_CHANGE_FIT_LAND = NO;
+   do while (END_CHANGE_FIT_LAND ^= YES);
+      call CHANGE_FIT_LAND;
+   end;
+return;
+end;	/* FIT_LAND_MAIN        */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	LAND_NOT_FOUND
+	Land code not found, enter it
+****************************************************************/
+
+LAND_NOT_FOUND:
+	procedure;
+
+
+   /* INIT_LAND_REC - Clear the land fields which display */
+
+   LAND_CODE = "";
+   LAND_DESC_1 = "";
+   LAND_DESC_2 = "";
+   LAND_TYPE = "L";
+   LAND_VENDOR_NO = "";
+   TOUR_ETD = "";
+   TOUR_HOURS = 0;
+   TOUR_DAYS = 0;
+   TOUR_NIGHTS = 0;
+   TOUR_BREAKFASTS = 0;
+   TOUR_LUNCHES = 0;
+   TOUR_DINNERS = 0;
+   TOUR_DAY_OF_WEEK = "";
+   TOUR_COMM_1 = "";
+   TOUR_COMM_2 = "";
+   TOUR_COMM_3 = "";
+
+
+   /* MANUAL_LAND - Manual entry? */
+
+   call OUTPUT_LINE(23,10,"Land not found, enter manual prices?");
+   call INPUT_DATA(23,47,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      do;
+      ERROR_CODE = 1;
+      return;
+      end;
+
+   call ENTER_DATA_B;
+   END_ENTER_LAND_CURR = NO;
+   do while (END_ENTER_LAND_CURR ^= YES);
+      call ENTER_LAND_CURR;
+   end;
+
+   /* MANUAL_SIC - Set manual entry */
+
+   LDET_MANUAL = LAND_DESC_1;
+   LDET_EXCHANGE = COSTING_EXCH;
+   LDET_CUTOFF = TOUR_DEF_CUTOFF;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+return;
+end;	/* LAND_NOT_FOUND       */
+
+/****************************************************************
+	ENTER_DATA_B
+	Enter the screen data for group B
+****************************************************************/
+
+ENTER_DATA_B:
+	procedure;
+
+LAND_DESC_1 = "";
+LAND_DESC_2 = "";
+do LOOP_INDEX =  12 to  12;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  13 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_B         */
+
+/****************************************************************
+	ENTER_LAND_CURR
+	Enter the land currency rates
+****************************************************************/
+
+ENTER_LAND_CURR:
+	procedure;
+
+   call ENTER_DATA_C;
+
+   /* RETURN_IF_NO_ERROR - Return if ERROR_CODE = 0 */
+
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      END_ENTER_LAND_CURR = YES;
+      return;
+      end;
+
+return;
+end;	/* ENTER_LAND_CURR      */
+
+/****************************************************************
+	ENTER_DATA_C
+	Enter the screen data in group C
+****************************************************************/
+
+ENTER_DATA_C:
+	procedure;
+
+LAND_VENDOR_NO = "";
+LAND_CURR = "";
+do LOOP_INDEX =  17 to  17;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  18 to  18;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  18 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      CURR_CODE = LAND_CURR;
+      call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         CURR_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  19 to  20;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_C         */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  12 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	DISPLAY_DATA_I
+	Display screen group I
+****************************************************************/
+
+DISPLAY_DATA_I:
+	procedure;
+
+do LOOP_INDEX =  31 to  41;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_I       */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  17 to  18;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  18 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      CURR_CODE = LAND_CURR;
+      call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         CURR_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  19 to  20;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	ENTER_DATA_M
+	Enter screen group M
+****************************************************************/
+
+ENTER_DATA_M:
+	procedure;
+
+do LOOP_INDEX =  14 to  14;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_M         */
+
+/****************************************************************
+	BK_COST_LAND
+	Call the module to cost this land mod
+****************************************************************/
+
+BK_COST_LAND:
+	procedure;
+
+%include "BK_COST_LAND.DCL";
+call BK_COST_LAND(
+   BK_BOOKING_RECORD,
+   BK_TOUR_RECORD,
+   BK_TOUR_HDR_RECORD,
+   BK_DET_LAND_RECORD,
+   BK_LAND_RECORD,
+   AD_CURR_RECORD,
+   BK_LAND_DET_RECORD,
+   BK_TRANS_RECORD,
+   BK_TRANS_PRICE_RECORD);
+return;
+end;	/* BK_COST_LAND         */
+
+/****************************************************************
+	ENT_LAND_PRICES
+	Find/Enter the correct land price
+****************************************************************/
+
+ENT_LAND_PRICES:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+   call READ_TOUR_PRICE;
+
+   /* SELECT_PS - Select PMC or SIC */
+
+   if LDET_MANUAL = "" then
+      do;
+      if (LDET_PMC ^= 0) & (LDET_SIC ^= 0) then
+         do;
+         call DISPLAY_DATA_D;
+         call ENTER_DATA_R;
+         if LDET_CUTOFF = 0 then
+            do;
+            call ENTER_DATA_D;
+            end;
+         else
+            do;
+            call DISPLAY_DATA_D;
+            end;
+         end;
+      else
+         do;
+         LDET_SIC_PMC = "S";
+         if LDET_PMC ^= 0 then
+            LDET_SIC_PMC = "P";
+         call DISPLAY_DATA_D;
+         if TOUR_DEF_CUTOFF ^= 0 then
+            do;
+            if LDET_SIC_PMC = "S" then if TOUR_PAX >= TOUR_DEF_CUTOFF then
+               LDET_CUTOFF = 999;
+            if LDET_SIC_PMC = "P" then if TOUR_PAX < TOUR_DEF_CUTOFF then
+               LDET_CUTOFF = 1;
+            if LDET_CUTOFF ^= 1 then if LDET_CUTOFF ^= 999 then
+               do;
+               call ENTER_DATA_R;
+               end;
+            end;
+         else
+            do;
+            call DISPLAY_DATA_R;
+            end;
+         end;
+      end;
+
+   call BK_COST_LAND;
+
+   /* RESET_NO_COST - Reset if no cost */
+
+   if LDET_TOUR_COST = 0 then
+      LDET_SIC_PMC = "";
+
+
+   /* DISPLAY_DATA_O - Display data O */
+
+   do LOOP_INDEX =  44 to  44;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_ENT_LAND_PRICES = YES;
+   return;
+   end;
+
+return;
+end;	/* ENT_LAND_PRICES      */
+
+/****************************************************************
+	READ_TOUR_PRICE
+	Read the tour price
+****************************************************************/
+
+READ_TOUR_PRICE:
+	procedure;
+
+declare		INDEX                fixed binary (15);
+declare		LAND_LAST            fixed binary (15);
+declare		LAST_PMC             float binary (53);
+declare		LAST_SIC             float binary (53);
+declare		THIS_PMC             float binary (53);
+declare		THIS_SIC             float binary (53);
+
+   /* CHECK_VARIES - Enter any unresolved varies qtys */
+
+   do INDEX = 1 to 4;
+      if index("S01234F ",LDET_VARIES_CODE(INDEX)) = 0 then
+         do;
+         LAND_PR_NO = LAND_CODE;
+         LAND_VARIES_ON = LDET_VARIES_CODE(INDEX);
+         LAND_TO = TOUR_PAX;
+         LAND_END = LDET_DATE;
+         call SET_POSITION(BK_LAND_DET_NO,KEY_AREA_2,ERROR_CODE);
+         call READ_NEXT(BK_LAND_DET_NO,KEY_AREA_2,ERROR_CODE);
+         if (ERROR_CODE = NORMAL_RETURN) &
+            (LAND_PR_NO = LAND_CODE ) &
+            (LAND_VARIES_ON = LDET_VARIES_CODE(INDEX)) then
+               do;
+               call ENTER_DATA_V;
+               LDET_VARIES_QTY(INDEX) = VARY_QTY;
+               call BK_COST_LAND;
+               end;
+         end;
+   end;
+
+
+   /* DIS_TOUR_PRICE - Get and Display the tour price */
+
+   LINE = 0;
+   LAND_CUTOFF = 0;
+
+   LAND_PR_NO = LAND_CODE;
+   LAND_VARIES_ON = "0";
+   LAND_TO = 1;
+   LAND_END = LDET_DATE;
+   call SET_POSITION (BK_LAND_DET_NO,KEY_AREA_2,ERROR_CODE);
+
+   ERROR_CODE = NORMAL_RETURN;
+   do while (ERROR_CODE = NORMAL_RETURN);
+      call READ_NEXT (BK_LAND_DET_NO,KEY_AREA_2,ERROR_CODE);
+      if LAND_PR_NO ^= LAND_CODE then
+         ERROR_CODE = END_OF_FILE;
+      if LAND_VARIES_ON ^= "0" then
+         ERROR_CODE = END_OF_FILE;
+      if (ERROR_CODE = 0) &
+         (LAND_START <= LDET_DATE) &
+         (LAND_END >= LDET_DATE) &
+         (LAND_TO ^= 0) then
+            do;
+            call SET_ROW_OFFSET(LINE);
+            LINE = LINE + 1;
+            call DISPLAY_DATA_Q;
+            if LAND_PRICE > LDET_SIC then
+               LAND_CUTOFF = LAND_TO + 1;
+            end;
+   end;
+   if LAND_CUTOFF = 1000 then
+      LAND_CUTOFF = 999;
+   if TOUR_DEF_CUTOFF = 0 then if LDET_CUTOFF = 0 then if LDET_SIC^=0 then
+      LDET_CUTOFF = LAND_CUTOFF;
+
+   call SET_ROW_OFFSET(0);
+
+   call DISPLAY_DATA_K;
+
+   /* SET_PMC_SIC - Set the PMC and/or SIC prices */
+
+   if (LDET_SIC ^= 0) ! (LDET_PMC ^= 0) then
+      return;
+
+
+   /* CLEAR_LAND_COST - Clear the land cost information */
+
+   LDET_VARIES_CODE = "";
+   LDET_TOUR_COST = 0;
+   LDET_TOUR_PP_COST = 0;
+
+   declare (DAY,MONTH,YEAR) fixed binary;
+   call DAY_TO_DMY(LDET_DATE,DAY,MONTH,YEAR);
+   YEAR = YEAR - 1;
+   call DMY_TO_DAY(LDET_DATE,DAY,MONTH,YEAR);
+   call BK_COST_LAND;
+   YEAR = YEAR + 1;
+   call DMY_TO_DAY(LDET_DATE,DAY,MONTH,YEAR);
+   if (LDET_SIC ^= 0) ! (LDET_PMC ^= 0) then
+      do;
+      call DISPLAY_DATA_K;
+      call DISPLAY_MESSAGE ("<BEL>Rate not found, Use last year's rate as basis?"c);
+      call INPUT_DATA (23,48,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      if ANSWER = "Y" then
+         do;
+         call ENTER_DATA_E;
+         call DISPLAY_DATA_K;
+         return;
+         end;
+      end;
+
+   call OUTPUT_LINE(24,1,"<BEL>Rate not found"c);
+
+   call ENTER_DATA_D;
+
+   /* ENTER_MANUAL_PRICE - Enter the manual price */
+
+   call CLEAR_TO_BOS(24);
+
+   if LDET_SIC_PMC = "S" then
+      do;
+      call ENTER_DATA_KA;
+      LDET_VARIES_CODE = "";
+      LDET_VARIES_QTY = 0;
+      LDET_VARIES_COST = 0;
+      LDET_VARIES_CODE(1) = "S";
+      LDET_VARIES_QTY(1) = 1;
+      LDET_VARIES_COST(1) = LDET_SIC;
+      LDET_PMC = 0;
+      LDET_CUTOFF = 999;
+      end;
+   if LDET_SIC_PMC = "P" then
+      do;
+      call ENTER_DATA_KB;
+      LDET_VARIES_CODE = "";
+      LDET_VARIES_QTY = 0;
+      LDET_VARIES_COST = 0;
+      LDET_VARIES_CODE(1) = "0";
+      LDET_VARIES_QTY(1) = 1;
+      LDET_VARIES_COST(1) = LDET_PMC;
+      LDET_SIC = 0;
+      LDET_CUTOFF = 1;
+      end;
+
+return;
+end;	/* READ_TOUR_PRICE      */
+
+/****************************************************************
+	ENTER_DATA_V
+	Enter
+****************************************************************/
+
+ENTER_DATA_V:
+	procedure;
+
+do LOOP_INDEX =  58 to  58;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  59 to  59;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_V         */
+
+/****************************************************************
+	DISPLAY_DATA_Q
+	Display data
+****************************************************************/
+
+DISPLAY_DATA_Q:
+	procedure;
+
+do LOOP_INDEX =  51 to  53;
+   if LOOP_INDEX =  53 then
+      do;
+
+      /* ADJUST_TOUR_SIC - Adjust SIC price for display */
+
+      if LAND_MARKUP_LINE >= 1 then if LAND_MARKUP_LINE <= 3 then
+         do;
+         LAND_PRICE = LAND_PRICE *
+            (1 + (LAND_TAX(LAND_MARKUP_LINE) + LAND_SVC_CHG(LAND_MARKUP_LINE) -
+            LAND_COMM(LAND_MARKUP_LINE))/100);
+         end;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_Q       */
+
+/****************************************************************
+	DISPLAY_DATA_K
+	Display screen group K
+****************************************************************/
+
+DISPLAY_DATA_K:
+	procedure;
+
+do LOOP_INDEX =  45 to  50;
+   if LOOP_INDEX =  47 then
+      do;
+
+      /* CALC_SIC_USD - Calc USD equiv. */
+
+      SIC_USD = LDET_SIC * COSTING_EXCH;
+
+      end;
+   if LOOP_INDEX =  50 then
+      do;
+
+      /* CALC_PMC_USD - Calculate the USD equiv. */
+
+      PMC_USD = LDET_PMC * COSTING_EXCH;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_K       */
+
+/****************************************************************
+	ENTER_DATA_E
+	Enter the data in screen group E
+****************************************************************/
+
+ENTER_DATA_E:
+	procedure;
+
+do LOOP_INDEX =  21 to  21;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* REVERSE_MARK - Reverse the markup */
+
+      LDET_VARIES_COST(1) = LDET_VARIES_COST(1) / (1 + TOUR_MARKUP/100);
+      LDET_VARIES_COST(2) = LDET_VARIES_COST(2) / (1 + TOUR_MARKUP/100);
+      LDET_VARIES_COST(3) = LDET_VARIES_COST(3) / (1 + TOUR_MARKUP/100);
+      LDET_VARIES_COST(4) = LDET_VARIES_COST(4) / (1 + TOUR_MARKUP/100);
+      LDET_SIC = LDET_SIC / (1 + TOUR_MARKUP/100);
+      LDET_PMC = LDET_PMC / (1 + TOUR_MARKUP/100);
+      LDET_TOUR_PP_COST = LDET_TOUR_PP_COST / (1+TOUR_MARKUP/100);
+      LDET_TOUR_COST = LDET_TOUR_COST / (1+TOUR_MARKUP/100);
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* CALC_MARK - Calculate markup */
+
+      LDET_VARIES_COST(1) = LDET_VARIES_COST(1) * (1 + TOUR_MARKUP/100);
+      LDET_VARIES_COST(2) = LDET_VARIES_COST(2) * (1 + TOUR_MARKUP/100);
+      LDET_VARIES_COST(3) = LDET_VARIES_COST(3) * (1 + TOUR_MARKUP/100);
+      LDET_VARIES_COST(4) = LDET_VARIES_COST(4) * (1 + TOUR_MARKUP/100);
+      LDET_SIC = LDET_SIC * (1 + TOUR_MARKUP/100);
+      LDET_PMC = LDET_PMC * (1 + TOUR_MARKUP/100);
+      LDET_TOUR_PP_COST = LDET_TOUR_PP_COST * (1+TOUR_MARKUP/100);
+      LDET_TOUR_COST = LDET_TOUR_COST * (1+TOUR_MARKUP/100);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_E         */
+
+/****************************************************************
+	ENTER_DATA_KA
+	Enter data
+****************************************************************/
+
+ENTER_DATA_KA:
+	procedure;
+
+do LOOP_INDEX =  45 to  45;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  46 to  46;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  47 to  47;
+   if LOOP_INDEX =  47 then
+      do;
+
+      /* CALC_SIC_USD - Calc USD equiv. */
+
+      SIC_USD = LDET_SIC * COSTING_EXCH;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_KA        */
+
+/****************************************************************
+	ENTER_DATA_KB
+	Enter data
+****************************************************************/
+
+ENTER_DATA_KB:
+	procedure;
+
+do LOOP_INDEX =  48 to  48;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  49 to  49;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  50 to  50;
+   if LOOP_INDEX =  50 then
+      do;
+
+      /* CALC_PMC_USD - Calculate the USD equiv. */
+
+      PMC_USD = LDET_PMC * COSTING_EXCH;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_KB        */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  16 to  16;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	ENTER_DATA_R
+	Enter data
+****************************************************************/
+
+ENTER_DATA_R:
+	procedure;
+
+do LOOP_INDEX =  15 to  15;
+   if LOOP_INDEX =  15 then
+      call DISPLAY_MSG_NO ( 44);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* CHECK_NEW_PS - Check to see if should be SIC or PMC */
+
+      if LDET_CUTOFF = 0 then
+         do;
+
+         /* SET_PS_DEF - Set default for SIC/PMC */
+
+         LDET_SIC_PMC = "P";
+         if LDET_SIC < LDET_PMC then if LDET_SIC ^= 0 then
+            LDET_SIC_PMC = "S";
+
+         end;
+      else
+         do;
+         if (LDET_PMC ^= 0) & (LDET_SIC ^= 0) then
+            do;
+            if LDET_CUTOFF > TOUR_PAX then
+               LDET_SIC_PMC = "S";
+            else
+               LDET_SIC_PMC = "P";
+            call DISPLAY_DATA_D;
+            end;
+      end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_R         */
+
+/****************************************************************
+	ENTER_DATA_D
+	Enter screen group D
+****************************************************************/
+
+ENTER_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  16 to  16;
+   if LOOP_INDEX =  16 then
+      call DISPLAY_MSG_NO ( 47);
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* CLEAR_CUTOFF - If PMC/SIC entered, clear the cutoff */
+
+      LDET_CUTOFF = 0;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* SET_FAKE_CUTOFF - Set up a fake PMC cutoff */
+
+      if LDET_CUTOFF = 0 then
+         do;
+         if LDET_SIC_PMC = "P" then
+            LDET_CUTOFF = 1;
+         if LDET_SIC_PMC = "S" then
+            LDET_CUTOFF = 999;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_D         */
+
+/****************************************************************
+	DISPLAY_DATA_R
+	Display data in group R
+****************************************************************/
+
+DISPLAY_DATA_R:
+	procedure;
+
+do LOOP_INDEX =  15 to  15;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_R       */
+
+/****************************************************************
+	DIS_LAND_PRICES
+	Display the land prices
+****************************************************************/
+
+DIS_LAND_PRICES:
+	procedure;
+
+   call READ_TOUR_PRICE;
+   call DISPLAY_DATA_D;
+   call BK_COST_LAND;
+
+   /* DISPLAY_DATA_O - Display data O */
+
+   do LOOP_INDEX =  44 to  44;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DIS_LAND_PRICES      */
+
+/****************************************************************
+	DIS_L_QUES
+	Display all itin questions and get answ.
+****************************************************************/
+
+DIS_L_QUES:
+	procedure;
+
+
+   /* CHECK_LAND_FLAG - Return if the user only wants info. */
+
+   if LDET_TORT = "Q" then
+      return;
+
+
+   /* SET_FIRST_ITIN - Set first */
+
+   QA_LAND_NO = LAND_CODE;
+   QA_QUES_CODE = "";
+   QA_ANSWER_SEQ = 0;
+   call SET_POSITION (BK_LAND_ITIN_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_ITIN - Read next record */
+
+   call READ_NEXT (BK_LAND_ITIN_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LAND_ITIN_NO,ERROR_CODE);
+
+   /* CHECK_END_ITIN - Check past */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (QA_LAND_NO > LAND_CODE) then
+      return;
+   END_DIS_ALL_QDET = NO;
+   do while (END_DIS_ALL_QDET ^= YES);
+      call DIS_ALL_QDET;
+   end;
+return;
+end;	/* DIS_L_QUES           */
+
+/****************************************************************
+	DIS_ALL_QDET
+	Display this question's detail
+****************************************************************/
+
+DIS_ALL_QDET:
+	procedure;
+
+declare		ERROR_BK_ITIN_DET    fixed binary (15);
+   call DISPLAY_DATA_F;
+   call DISPLAY_DATA_G;
+
+   /* RESET_LINE - Init the line offset to 0 */
+
+   LINE = 0;
+
+
+   /* SET_QUES_CODE - Set up the _DET key */
+
+   ITIN_BK_NO = BOOKING_NO;
+   ITIN_DATE = LDET_DATE;
+   ITIN_CODE = QA_QUES_CODE;
+   KEY_NO = 1;
+
+   END_DIS_ALL_ANSW = NO;
+   do while (END_DIS_ALL_ANSW ^= YES);
+      call DIS_ALL_ANSW;
+   end;
+
+   /* READ_DET_RECORD - Read the itin detail record */
+
+   call READ_KEYED (BK_ITIN_DET_NO,KEY_NO,ERROR_BK_ITIN_DET);
+   if ERROR_BK_ITIN_DET > 3 then
+      call PRINT_ERROR (BK_ITIN_DET_NO,ERROR_BK_ITIN_DET);
+
+   /* DET_REC_FOUND - Was the detail record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_ITIN_DET = NORMAL_RETURN then
+      do;
+      call FOUND_DET;
+      end;
+   else
+      do;
+
+      /* NOT_FND_DET - Not found, Enter and write itin det. */
+
+         call NOT_FOUND_DET;
+
+         /* WRITE_ITIN_DET - Write the detail file */
+
+         call WRITE_RECORD (BK_ITIN_DET_NO,ERROR_CODE);
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_FIT_QUES = NO;
+   do while (END_CHANGE_FIT_QUES ^= YES);
+      call CHANGE_FIT_QUES;
+   end;
+   call CLEAR_QA;
+
+   /* SET_NEXT_QUES - Set the next question */
+
+   QA_LAND_NO = LAND_CODE;
+   QA_QUES_CODE = ITIN_CODE;
+   QA_ANSWER_SEQ = -1;
+   call SET_POSITION (BK_LAND_ITIN_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_ITIN - Read next record */
+
+   call READ_NEXT (BK_LAND_ITIN_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LAND_ITIN_NO,ERROR_CODE);
+
+   /* CHECK_END_ITIN - Check past */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (QA_LAND_NO > LAND_CODE) then
+      do;
+      END_DIS_ALL_QDET = YES;
+      return;
+      end;
+return;
+end;	/* DIS_ALL_QDET         */
+
+/****************************************************************
+	DISPLAY_DATA_F
+	Display the data in group F
+****************************************************************/
+
+DISPLAY_DATA_F:
+	procedure;
+
+do LOOP_INDEX =  24 to  24;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_F       */
+
+/****************************************************************
+	DISPLAY_DATA_G
+	Display the data in group G
+****************************************************************/
+
+DISPLAY_DATA_G:
+	procedure;
+
+do LOOP_INDEX =  25 to  26;
+   if LOOP_INDEX =  25 then
+      do;
+
+      /* CHECK_NO_ANSWER - Don't display if no answer */
+
+      if QA_ANSWER_SEQ = 1 then if QA_ANSWER_TEXT = "" then
+         return;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_G       */
+
+/****************************************************************
+	DIS_ALL_ANSW
+	Display all the answers
+****************************************************************/
+
+DIS_ALL_ANSW:
+	procedure;
+
+
+   /* READNEXT_ITIN - Read next record */
+
+   call READ_NEXT (BK_LAND_ITIN_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LAND_ITIN_NO,ERROR_CODE);
+
+   /* INC_LINE - Increment the line */
+
+   LINE = LINE + 1;
+
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* CHECK_END_ANSW - Last answer for this question? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (QA_LAND_NO > LAND_CODE) !
+   (QA_QUES_CODE > ITIN_CODE) then
+      do;
+      END_DIS_ALL_ANSW = YES;
+      return;
+      end;
+
+   /* SET_LINE_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET(LINE);
+
+   call DISPLAY_DATA_G;
+return;
+end;	/* DIS_ALL_ANSW         */
+
+/****************************************************************
+	FOUND_DET
+	Found the detail record
+****************************************************************/
+
+FOUND_DET:
+	procedure;
+
+   call DISPLAY_DATA_H;
+
+   /* DISPLAY_DATA_N - Display data N */
+
+   do LOOP_INDEX =  28 to  30;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* FOUND_DET            */
+
+/****************************************************************
+	DISPLAY_DATA_H
+	Display screen group H
+****************************************************************/
+
+DISPLAY_DATA_H:
+	procedure;
+
+do LOOP_INDEX =  27 to  27;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_H       */
+
+/****************************************************************
+	NOT_FOUND_DET
+	Didn't find the itin detail
+****************************************************************/
+
+NOT_FOUND_DET:
+	procedure;
+
+declare		ERROR_BK_LAND_ITIN   fixed binary (15);
+   call ENTER_DATA_H;
+
+   /* SETUP_ITIN_KEY - Set up the key */
+
+   QA_LAND_NO = LAND_CODE;
+   QA_QUES_CODE = ITIN_CODE;
+   QA_ANSWER_SEQ = ITIN_ANSW_SEQ;
+   KEY_NO = 1;
+
+   /* READ_ITIN_RECORD - Read the record */
+
+   call READ_KEYED (BK_LAND_ITIN_NO,KEY_NO,ERROR_BK_LAND_ITIN);
+   if ERROR_BK_LAND_ITIN > 3 then
+      call PRINT_ERROR (BK_LAND_ITIN_NO,ERROR_BK_LAND_ITIN);
+
+   /* CHECK_ANSW_SELECT - Respond to the seq. no. entered */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_LAND_ITIN = NORMAL_RETURN then
+      do;
+      call DIS_ANSW;
+      end;
+   else
+      do;
+      call ENTER_ANSW;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+return;
+end;	/* NOT_FOUND_DET        */
+
+/****************************************************************
+	ENTER_DATA_H
+	Enter group H
+****************************************************************/
+
+ENTER_DATA_H:
+	procedure;
+
+ITIN_ANSW_SEQ = 1;
+do LOOP_INDEX =  27 to  27;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_H         */
+
+/****************************************************************
+	DIS_ANSW
+	Display and write the Itin answer
+****************************************************************/
+
+DIS_ANSW:
+	procedure;
+
+
+   /* SET_ANSW_DEF - Set the answer default */
+
+   ITIN_BK_NO = BOOKING_NO;
+   ITIN_DATE = LDET_DATE;
+   ITIN_CODE = QA_QUES_CODE;
+   ITIN_ANSW_SEQ = QA_ANSWER_SEQ;
+   ITIN_QUES_TEXT = QA_QUES_TEXT;
+   ITIN_ANSWER = QA_ITIN_ANSWER;
+   if QA_TO_DESC_TYPE ^= "A" then
+      do;
+      ITIN_DESC_1 = QA_TOUR_DESC_1;
+      ITIN_DESC_2 = QA_TOUR_DESC_2;
+      end;
+   else
+      do;
+      ITIN_DESC_1 = LAND_DESC_1;
+      ITIN_DESC_2 = CUT_SPACES(LAND_DESC_2) !! QA_TOUR_DESC_1;
+      end;
+   ITIN_LAND_CODE = LAND_CODE;
+
+
+   /* CHECK_BLANK_ANSW - Is there an answer to this question? */
+
+   if (ITIN_ANSWER = "") & (ITIN_DESC_1 = "") & (ITIN_DESC_2 = "") then
+      do;
+      call ENTER_DATA_N;
+      end;
+   else
+      do;
+
+      /* DISPLAY_DATA_N - Display data N */
+
+      do LOOP_INDEX =  28 to  30;
+         call OUTPUT_FIELD (LOOP_INDEX);
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+
+return;
+end;	/* DIS_ANSW             */
+
+/****************************************************************
+	ENTER_DATA_N
+	Enter data N
+****************************************************************/
+
+ENTER_DATA_N:
+	procedure;
+
+do LOOP_INDEX =  28 to  30;
+   if LOOP_INDEX =  29 then
+      do;
+
+      /* CHECK_NEW_DESC - Set up new tour desc? */
+
+      if ITIN_DESC_1 = "" then if ITIN_DESC_2 = "" then
+         do;
+         ITIN_DESC_1 = LAND_DESC_1;
+         ITIN_DESC_2 = LAND_DESC_2;
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_N         */
+
+/****************************************************************
+	ENTER_ANSW
+	Enter the question answer and write _DET
+****************************************************************/
+
+ENTER_ANSW:
+	procedure;
+
+
+   /* CLEAR_ANSW_TEXT - Clear the answer text for input */
+
+   QA_ITIN_ANSWER = "";
+   QA_TOUR_DESC_1 = "";
+   QA_TOUR_DESC_2 = "";
+
+
+   /* SET_ANSW_DEF - Set the answer default */
+
+   ITIN_BK_NO = BOOKING_NO;
+   ITIN_DATE = LDET_DATE;
+   ITIN_CODE = QA_QUES_CODE;
+   ITIN_ANSW_SEQ = QA_ANSWER_SEQ;
+   ITIN_QUES_TEXT = QA_QUES_TEXT;
+   ITIN_ANSWER = QA_ITIN_ANSWER;
+   if QA_TO_DESC_TYPE ^= "A" then
+      do;
+      ITIN_DESC_1 = QA_TOUR_DESC_1;
+      ITIN_DESC_2 = QA_TOUR_DESC_2;
+      end;
+   else
+      do;
+      ITIN_DESC_1 = LAND_DESC_1;
+      ITIN_DESC_2 = CUT_SPACES(LAND_DESC_2) !! QA_TOUR_DESC_1;
+      end;
+   ITIN_LAND_CODE = LAND_CODE;
+
+   call ENTER_DATA_N;
+return;
+end;	/* ENTER_ANSW           */
+
+/****************************************************************
+	CHANGE_FIT_QUES
+	Change the FIT Answers
+****************************************************************/
+
+CHANGE_FIT_QUES:
+	procedure;
+
+declare		SELECT		fixed binary;
+call DISPLAY_MESSAGE ("Change items 9-11");
+call ANY_CHANGE(9,11,SELECT,RETURN_CODE);
+if SELECT = 0 then
+   do;
+   END_CHANGE_FIT_QUES = YES;
+   return;
+   end;
+if (SELECT < 9) ! (SELECT > 11) then
+   return;
+
+do case (SELECT - 8);
+      do;
+      call NOT_FOUND_DET;
+      end;
+      do;
+
+      /* ENTER_DATA_NA - Enter data */
+
+      do LOOP_INDEX =  28 to  28;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+      do;
+
+      /* ENTER_DATA_NB - Enter data */
+
+      do LOOP_INDEX =  29 to  30;
+         if LOOP_INDEX =  29 then
+            do;
+
+            /* CHECK_NEW_DESC - Set up new tour desc? */
+
+            if ITIN_DESC_1 = "" then if ITIN_DESC_2 = "" then
+               do;
+               ITIN_DESC_1 = LAND_DESC_1;
+               ITIN_DESC_2 = LAND_DESC_2;
+               end;
+
+            end;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+end;
+otherwise
+   do;
+   end;
+
+
+/* UPDATE_ITIN_DET - Update the itin detail record */
+
+call UPDATE_RECORD (BK_ITIN_DET_NO,ERROR_CODE);
+
+return;
+end;	/* CHANGE_FIT_QUES      */
+
+/****************************************************************
+	CLEAR_QA
+	Clear the question & Answers from screen
+****************************************************************/
+
+CLEAR_QA:
+	procedure;
+
+
+   /* CLEAR_DATA_F - Clear the F data */
+
+   do LOOP_INDEX =  24 to  24;
+      call CLEAR_FIELD(LOOP_INDEX);
+   end;
+
+   /* CLEAR_ANSWERS - Clear all the answers */
+
+   do ERROR_CODE = 1 to LINE;
+      call SET_ROW_OFFSET(ERROR_CODE-1);
+
+      /* CLEAR_DATA_G - Clear data */
+
+      do LOOP_INDEX =  25 to  26;
+         call CLEAR_FIELD(LOOP_INDEX);
+      end;
+   end;
+
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* CLEAR_DATA_H - Clear */
+
+   do LOOP_INDEX =  27 to  27;
+      call CLEAR_FIELD(LOOP_INDEX);
+   end;
+   call CLEAR_DATA_N;
+return;
+end;	/* CLEAR_QA             */
+
+/****************************************************************
+	CLEAR_DATA_N
+	Clear
+****************************************************************/
+
+CLEAR_DATA_N:
+	procedure;
+
+do LOOP_INDEX =  28 to  30;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+return;
+end;	/* CLEAR_DATA_N         */
+
+/****************************************************************
+	CHANGE_FIT_LAND
+	Change items
+****************************************************************/
+
+CHANGE_FIT_LAND:
+	procedure;
+
+declare		SELECT		fixed binary;
+call ANY_CHANGE(1,8,SELECT,RETURN_CODE);
+if SELECT = 0 then
+   do;
+   END_CHANGE_FIT_LAND = YES;
+   return;
+   end;
+do case (SELECT);
+      do;
+      call CHANGE_L_DATE;
+      end;
+      do;
+      call CHANGE_L_CUTOFF;
+      end;
+      do;
+      call CHANGE_L_RATE;
+      end;
+      do;
+      call CHANGE_L_MARKUP;
+      end;
+      do;
+      call ENTER_DATA_U;
+      end;
+      do;
+      call ENTER_DATA_W;
+      end;
+      do;
+      call ENTER_DATA_S;
+      end;
+      do;
+
+      /* ENTER_DATA_T - Enter data */
+
+      do LOOP_INDEX =  57 to  57;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+end;
+otherwise
+   do;
+   end;
+
+return;
+end;	/* CHANGE_FIT_LAND      */
+
+/****************************************************************
+	CHANGE_L_DATE
+	Change the date
+****************************************************************/
+
+CHANGE_L_DATE:
+	procedure;
+
+   call ENTER_DATA_M;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CLEAR_LAND_COST - Clear the land cost information */
+
+   LDET_VARIES_CODE = "";
+   LDET_TOUR_COST = 0;
+   LDET_TOUR_PP_COST = 0;
+
+   call BK_COST_LAND;
+   END_ENT_LAND_PRICES = NO;
+   do while (END_ENT_LAND_PRICES ^= YES);
+      call ENT_LAND_PRICES;
+   end;
+return;
+end;	/* CHANGE_L_DATE        */
+
+/****************************************************************
+	CHANGE_L_CUTOFF
+	Change cutoff number
+****************************************************************/
+
+CHANGE_L_CUTOFF:
+	procedure;
+
+   call ENTER_DATA_R;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   call BK_COST_LAND;
+
+   /* DISPLAY_DATA_O - Display data O */
+
+   do LOOP_INDEX =  44 to  44;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* CHANGE_L_CUTOFF      */
+
+/****************************************************************
+	CHANGE_L_RATE
+	Change the SIC/PMC
+****************************************************************/
+
+CHANGE_L_RATE:
+	procedure;
+
+   call ENTER_DATA_D;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   call BK_COST_LAND;
+
+   /* DISPLAY_DATA_O - Display data O */
+
+   do LOOP_INDEX =  44 to  44;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* CHANGE_L_RATE        */
+
+/****************************************************************
+	CHANGE_L_MARKUP
+	Change the markup
+****************************************************************/
+
+CHANGE_L_MARKUP:
+	procedure;
+
+   call ENTER_DATA_E;
+   call DISPLAY_DATA_K;
+
+   /* DISPLAY_DATA_O - Display data O */
+
+   do LOOP_INDEX =  44 to  44;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* CHANGE_L_MARKUP      */
+
+/****************************************************************
+	ENTER_DATA_U
+	Input data
+****************************************************************/
+
+ENTER_DATA_U:
+	procedure;
+
+do LOOP_INDEX =  54 to  54;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_U         */
+
+/****************************************************************
+	ENTER_DATA_W
+	Input
+****************************************************************/
+
+ENTER_DATA_W:
+	procedure;
+
+do LOOP_INDEX =  55 to  55;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_W         */
+
+/****************************************************************
+	ENTER_DATA_S
+	Enter
+****************************************************************/
+
+ENTER_DATA_S:
+	procedure;
+
+do LOOP_INDEX =  56 to  56;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_S         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet href="hello-fo.xsl" type="text/xsl"?>
+<?cocoon-process type="xslt"?>
+
+<top>
+	<test>
+		This is the Hello
+	</test>
+	<test2>
+		This is the Hello2
+	</test2>
+</top>
+

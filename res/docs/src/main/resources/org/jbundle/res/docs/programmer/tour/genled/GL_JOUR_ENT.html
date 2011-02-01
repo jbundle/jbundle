@@ -1,0 +1,52 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to enter General Journal transactions, Recurring Fixed Journal Entries, and
+Recurring Variable Journal Entries.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>Upon entering this program, the batch code will display and you will be asked for a transaction
+number. Hit return to enter a new transaction, otherwise enter the transaction number to edit.
+
+<br wp="br1"><br wp="br2">
+<p>First, enter the date for the transactions to enter. Then enter the G/L account number for the
+transaction to enter. After the account description displays, enter the amount for the transaction. The
+amount entered will be a debit, unless you either hit return once and enter the amount in the credit
+column or enter a negative amount.
+
+<br wp="br1"><br wp="br2">
+<p>If the counter-balance field in the chart account entered is set to a valid account, then you are asked
+if you want to create the counter balancing entry. If the auto-distribution code is set, you will be asked
+if you want to create the auto-distribution entries.
+
+<br wp="br1"><br wp="br2">
+<p>After entering the last transaction, press return to enter the comment and the source code for the
+transactions entered.
+
+<br wp="br1"><br wp="br2">
+<p>You may make changes to any of the accounts at this point. When you press return, the transaction
+will be saved in the transaction file. If the debits and credits don't equal, then you can't exit until the
+tranasaction is deleted or balanced.
+
+<br wp="br1"><br wp="br2">
+<p>If the source code matches the auto-accrual reversal source code in the control file, you will be asked
+if you wan't to create a reversing entry. If you answer Yes, an entry will be created with the opposite
+amounts in the next transaction number.
+
+</body>
+</html>

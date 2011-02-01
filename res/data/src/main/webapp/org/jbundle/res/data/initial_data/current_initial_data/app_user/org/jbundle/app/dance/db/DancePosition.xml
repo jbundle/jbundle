@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<DancePosition ID="1">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Closed basic</Description>
+	</DancePosition>
+	<DancePosition ID="2">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Open basic</Description>
+	</DancePosition>
+	<DancePosition ID="3">
+		<LastChanged>2007-03-05T11:16:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Right outside</Description>
+	</DancePosition>
+	<DancePosition ID="4">
+		<LastChanged>2007-03-05T11:16:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>Left outside partner</Description>
+	</DancePosition>
+</file>

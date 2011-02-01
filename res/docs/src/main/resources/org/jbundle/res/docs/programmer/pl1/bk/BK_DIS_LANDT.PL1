@@ -1,0 +1,429 @@
+/****************************************************************
+	Module: BK_DIS_LANDT
+	Top Level Logic: ENTER_AND_DIS
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_LANDT
+	Enter Header and Display Table
+****************************************************************/
+
+%replace BK_DIS_LANDT_1 by 485;
+BK_DIS_LANDT:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_LAND_RECORD,
+      BK_LAND_DET_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_LAND_NO by  54;
+%replace BK_LAND_DET_NO by  91;
+%include "BK_DIS_LANDT.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_LAND.DD";
+%include "BK_LAND_DET.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_READ_SIC_LAND    bit (1);
+declare		END_READ_PMC_LAND    bit (1);
+   call INITIALIZE;
+   call ENT_DIS_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   DIS_LANDT = "";
+   DIS_PAXT = BK_PAX;
+   DIS_LDATET = BK_DEPARTURE;
+   DIS_LAND_TY = " ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_DIS_LANDT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_DIS_LANDT_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	ENT_DIS_MAIN
+	Enter and Display - Main Logic
+****************************************************************/
+
+ENT_DIS_MAIN:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - set input erro to no */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_DIS_LANDT_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+return;
+end;	/* ENT_DIS_MAIN         */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  14;
+   if LOOP_INDEX =  12 then
+      call DISPLAY_MSG_NO ( 26);
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* CHECK_LANDT_DEF - Land default? */
+
+      if DIS_LDATET = 0 then
+         DIS_LDATET = TODAYS_DATE() + 31;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* CHECK_NO_PAXT - Pax? */
+
+      if DIS_PAXT = 0 then
+         LOOP_INDEX = 100;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		TOUR_CITY_SAVE       character (        3);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		LAND_TYPE_ARRAY( 7) character (        1);
+declare		LAND_CODE_ARRAY( 7) character (       10);
+declare		BK_LAND_ERROR        fixed binary (15);
+declare		LAND_TYPE_SAVE       character (        1);
+declare		LAND_CODE_SAVE       character (       10);
+declare		ANSWER               character (1);
+TOUR_CITY = DIS_LANDT;
+TOUR_CITY_SAVE = TOUR_CITY;
+LAND_TYPE = DIS_LAND_TY;
+LAND_CODE = "";
+call SET_POSITION (BK_LAND_NO,KEY_AREA_2,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_LAND_NO,KEY_AREA_2,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (TOUR_CITY > TOUR_CITY_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to  7;
+      LAND_TYPE_ARRAY(RECORD_NUMBER) = "";
+      LAND_CODE_ARRAY(RECORD_NUMBER) = "";
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_LAND_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_LAND_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <=  7) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+         do LOOP_INDEX =  15 to  22;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  20 then
+               do;
+
+               /* CHECK_LAND_RATET - Check prices? */
+
+               if DIS_PAXT ^= 0 then
+                  do;
+                  call CHECK_LAND;
+                  end;
+
+               LOOP_INDEX = 100;
+
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         LAND_TYPE_ARRAY(RECORD_NUMBER) = LAND_TYPE;
+         LAND_CODE_ARRAY(RECORD_NUMBER) = LAND_CODE;
+         call READ_NEXT (BK_LAND_NO,KEY_AREA_2,BK_LAND_ERROR);
+         if (TOUR_CITY > TOUR_CITY_SAVE) then
+            BK_LAND_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      LAND_TYPE_SAVE = LAND_TYPE_ARRAY( 7);
+      LAND_CODE_SAVE = LAND_CODE_ARRAY( 7);
+      TOUR_CITY = TOUR_CITY_SAVE;
+      if BK_LAND_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to  7;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+      if LAND_TYPE_ARRAY(RECORD_NUMBER) ^= "" then
+         do LOOP_INDEX =15 to  22;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	CHECK_LAND
+	Read the land Prices
+****************************************************************/
+
+CHECK_LAND:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   LAND_PR_NO = LAND_CODE;
+   LAND_VARIES_ON = "S";
+   LAND_TO = 0;
+   LAND_END = DIS_LDATET;
+   LAND_SEQ = 0;
+   call SET_POSITION (BK_LAND_DET_NO,KEY_AREA_2,ERROR_CODE);
+   END_READ_SIC_LAND = NO;
+   do while (END_READ_SIC_LAND ^= YES);
+      call READ_SIC_LAND;
+   end;
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   LAND_PR_NO = LAND_CODE;
+   LAND_VARIES_ON = "0";
+   LAND_TO = DIS_PAXT;
+   LAND_END = DIS_LDATET;
+   LAND_SEQ = 0;
+   call SET_POSITION (BK_LAND_DET_NO,KEY_AREA_2,ERROR_CODE);
+   END_READ_PMC_LAND = NO;
+   do while (END_READ_PMC_LAND ^= YES);
+      call READ_PMC_LAND;
+   end;
+return;
+end;	/* CHECK_LAND           */
+
+/****************************************************************
+	READ_SIC_LAND
+	Read SIC land prices
+****************************************************************/
+
+READ_SIC_LAND:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_LAND_DET_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LAND_DET_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LAND_PR_NO > LAND_CODE) !
+   (LAND_VARIES_ON > "S") then
+      do;
+      END_READ_SIC_LAND = YES;
+      return;
+      end;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* CHECK_START_SICT - Check */
+
+   if DIS_LDATET < LAND_START then
+      return;
+   if DIS_LDATET > LAND_END then
+      return;
+
+   call DISPLAY_DATA_C;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_READ_SIC_LAND = YES;
+   return;
+   end;
+
+return;
+end;	/* READ_SIC_LAND        */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  21 to  21;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	READ_PMC_LAND
+	Get sic prices
+****************************************************************/
+
+READ_PMC_LAND:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_LAND_DET_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LAND_DET_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LAND_PR_NO > LAND_CODE) !
+   (LAND_VARIES_ON > "0") then
+      do;
+      END_READ_PMC_LAND = YES;
+      return;
+      end;
+
+   /* OTHER_LOGIC_2 - Other logic */
+
+
+   /* CHECK_START_LDATET - Start date ok? */
+
+   if DIS_PAXT < LAND_FROM then
+      return;
+   if DIS_LDATET < LAND_START then
+      return;
+   if DIS_LDATET > LAND_END then
+      return;
+
+   call DISPLAY_DATA_D;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_READ_PMC_LAND = YES;
+   return;
+   end;
+
+return;
+end;	/* READ_PMC_LAND        */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  22 to  22;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

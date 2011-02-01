@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+  	<artifactId>jbundle-base-reactor</artifactId>
+  	<groupId>org.jbundle.base</groupId>
+  	<version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.jbundle.base.db</groupId>
+  <artifactId>jbundle-base-db-reactor</artifactId>
+  
+  <packaging>pom</packaging>
+  <name>jbundle-base-db-reactor - database parent</name>
+  <description>Parent project for the jbundle db framework</description>
+
+  <modules>
+    <module>client</module>
+    <module>jdbc</module>
+    <module>mapped</module>
+    <module>memory</module>
+    <module>net</module>
+    <module>physical</module>
+    <module>proxy</module>
+    <module>serial</module>
+    <module>xml</module>
+    <module>core</module>
+  </modules>
+
+</project>

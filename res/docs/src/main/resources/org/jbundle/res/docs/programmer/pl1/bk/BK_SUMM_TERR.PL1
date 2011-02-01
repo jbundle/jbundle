@@ -1,0 +1,1377 @@
+/****************************************************************
+	Module: BK_SUMM_TERR
+	Top Level Logic: SUMMARY_LOGIC
+	Date: 30-Mar-92
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_SUMM_TERR
+	Top-level Analyze and Summarize data
+****************************************************************/
+
+%replace BK_SUMM_TERR_1 by 886;
+%replace BK_SUMM_TERR_2 by 885;
+BK_SUMM_TERR:
+   procedure;
+%replace AM_SCF_CONTROL_NO by  11;
+%replace BK_BOOKING_NO by   9;
+%replace AM_AGCY_NO by  10;
+%replace TK_HEADER_NO by  56;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_DET_LAND_NO by  68;
+%replace TK_DETAIL_NO by  57;
+%replace BK_LINE_NO by  51;
+%include "BK_SUMM_TERR.DD";
+%include "AM_SCF_CONTROL.DD";
+%include "BK_BOOKING.DD";
+%include "AM_AGCY.DD";
+%include "TK_HEADER.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "TK_DETAIL.DD";
+%include "BK_LINE.DD";
+
+declare		END_SUMMARY_MAIN     bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		KEY_LENGTH           fixed binary (15);
+declare		RECORD_LENGTH        fixed binary (15);
+declare		TEMP_RECORD          character (     1000);
+declare		END_ANAL_THRU_SUMM   bit (1);
+declare		END_PRINT_THRU_SUMM  bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		LINE                 fixed binary (15);
+declare		END_SCAN_AIR_MODULE  bit (1);
+declare		END_SCAN_HOTEL_MODUL bit (1);
+declare		END_SCAN_LINE_MOD    bit (1);
+declare		END_SCAN_HOTEL_MOD   bit (1);
+declare		END_SCAN_LAND_MOD    bit (1);
+declare		END_SCAN_AIRD_MOD    bit (1);
+   call INITIALIZE;
+   END_SUMMARY_MAIN = NO;
+   do while (END_SUMMARY_MAIN ^= YES);
+      call SUMMARY_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   RG_ANALYZE_BY = "T";
+   RG_PERIOD_TYPE = "D";
+   RG_PERIOD_LENGTH = 1;
+   RG_TIME = CURRENT_TIME();
+   RG_USER = USER_NAME();
+   RG_RPT_DATE = TODAYS_DATE();
+   RG_BOOKINGS = 0;
+   RG_PAX = 0;
+   RG_GROSS = 0;
+   RG_NET = 0;
+   RG_BALANCE = 0;
+   RG_DATE_TYPE = "D";
+   SCF_TO = "";
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_SUMM_TERR_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_SUMM_TERR_RECORD) );
+   call OPEN_FILE (AM_SCF_CONTROL_NO,"AM_SCF_CONTROL",byteaddr(AM_SCF_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_SCF_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (AM_AGCY_NO,"AM_AGCY",byteaddr(AM_AGCY_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_AGCY_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LINE_NO,"BK_LINE",byteaddr(BK_LINE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LINE_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SUMMARY_MAIN
+	Mainline logic
+****************************************************************/
+
+SUMMARY_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_SUMMARY_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_SUMMARY_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("SSHEET");
+   call SETUP_PRINT_FORMAT (BK_SUMM_TERR_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+   call PRT_PAGE_HEADING;
+
+   /* SET_TEMP_FILE - Set up the temporary file */
+
+   declare CREATE_TEMP entry(fixed binary,fixed binary);
+   KEY_LENGTH =
+      bytesize(RG_TERR) +
+      bytesize(RG_DATE);
+   RECORD_LENGTH = KEY_LENGTH  +
+      bytesize(RG_BOOKINGS) +
+      bytesize(RG_PAX) +
+      bytesize(RG_GROSS) +
+      bytesize(RG_NET) +
+      bytesize(RG_BALANCE);
+   call CREATE_TEMP(KEY_LENGTH,RECORD_LENGTH);
+   %replace TEMP_DB by 512;
+   call OPEN_FILE (TEMP_DB,"?TEMP_DB",byteaddr(TEMP_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      END_SUMMARY_MAIN = YES;
+      return;
+      end;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_1,ERROR_CODE);
+   END_ANAL_THRU_SUMM = NO;
+   do while (END_ANAL_THRU_SUMM ^= YES);
+      call ANAL_THRU_SUMM;
+   end;
+
+   /* SET_FIELDS - Set the values for these fields */
+
+   RG_TERR = "";
+   RG_DATE = 0;
+   RG_BOOKINGS = 0;
+   RG_PAX = 0;
+   RG_GROSS = 0;
+   RG_NET = 0;
+   RG_BALANCE = 0;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* SET_FIRST_TERR - Make sure the blank territory is include */
+
+   RG_TERR = "<0>"c;
+
+
+   /* SET_ERROR_CODE - Set the ERROR_CODE flag to a 1 */
+
+   ERROR_CODE = 1;
+
+   END_PRINT_THRU_SUMM = NO;
+   do while (END_PRINT_THRU_SUMM ^= YES);
+      call PRINT_THRU_SUMM;
+   end;
+
+   /* CLOSE_TEMP_FILE - Close the temporary file */
+
+   call CLOSE_FILE (TEMP_DB);
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_SUMMARY_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* SUMMARY_MAIN         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   6;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (111);
+   if LOOP_INDEX =   2 then
+      call DISPLAY_MSG_NO (110);
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO (113);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* CALC_RG_MONTH - Set up the day,year,month for later */
+
+      call DAY_TO_DMY(RG_START_DATE,RG_DAY,RG_MONTH,RG_YEAR);
+
+      end;
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* CALC_RG_END - Get the correct end date */
+
+      declare PERIOD_LENGTH fixed binary;
+      if RG_PERIOD_TYPE ^= "M" then
+         do;
+         PERIOD_LENGTH = RG_PERIOD_LENGTH;
+         if RG_PERIOD_TYPE = "W" then
+            PERIOD_LENGTH = RG_PERIOD_LENGTH * 7;
+         RG_ENDING_DATE = RG_START_DATE+divide((RG_ENDING_DATE-RG_START_DATE),PERIOD_LENGTH,15)*PERIOD_LENGTH + PERIOD_LENGTH - 1;
+         end;
+      else
+         do;
+         declare (DAY,MONTH,YEAR) fixed binary;
+         call DAY_TO_DMY(RG_ENDING_DATE,DAY,MONTH,YEAR);
+         if DAY >= RG_DAY then
+            MONTH = MONTH + 1;
+         DAY = RG_DAY;
+         MONTH = RG_MONTH + divide((((MONTH+YEAR*12)-(RG_MONTH+RG_YEAR*12))+RG_PERIOD_LENGTH-1),RG_PERIOD_LENGTH,15) *
+            RG_PERIOD_LENGTH;
+         YEAR = RG_YEAR;
+         do while (MONTH > 12);
+            MONTH = MONTH - 12;
+            YEAR = YEAR + 1;
+         end;
+         call DMY_TO_DAY(RG_ENDING_DATE,DAY,MONTH,YEAR);
+         RG_ENDING_DATE = RG_ENDING_DATE - 1;
+         end;
+
+      call OUTPUT_FIELD (LOOP_INDEX);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  6,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  6 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (111);
+   if LOOP_INDEX =   2 then
+      call DISPLAY_MSG_NO (110);
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO (113);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* CALC_RG_MONTH - Set up the day,year,month for later */
+
+      call DAY_TO_DMY(RG_START_DATE,RG_DAY,RG_MONTH,RG_YEAR);
+
+      end;
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* CALC_RG_END - Get the correct end date */
+
+      declare PERIOD_LENGTH fixed binary;
+      if RG_PERIOD_TYPE ^= "M" then
+         do;
+         PERIOD_LENGTH = RG_PERIOD_LENGTH;
+         if RG_PERIOD_TYPE = "W" then
+            PERIOD_LENGTH = RG_PERIOD_LENGTH * 7;
+         RG_ENDING_DATE = RG_START_DATE+divide((RG_ENDING_DATE-RG_START_DATE),PERIOD_LENGTH,15)*PERIOD_LENGTH + PERIOD_LENGTH - 1;
+         end;
+      else
+         do;
+         declare (DAY,MONTH,YEAR) fixed binary;
+         call DAY_TO_DMY(RG_ENDING_DATE,DAY,MONTH,YEAR);
+         if DAY >= RG_DAY then
+            MONTH = MONTH + 1;
+         DAY = RG_DAY;
+         MONTH = RG_MONTH + divide((((MONTH+YEAR*12)-(RG_MONTH+RG_YEAR*12))+RG_PERIOD_LENGTH-1),RG_PERIOD_LENGTH,15) *
+            RG_PERIOD_LENGTH;
+         YEAR = RG_YEAR;
+         do while (MONTH > 12);
+            MONTH = MONTH - 12;
+            YEAR = YEAR + 1;
+         end;
+         call DMY_TO_DAY(RG_ENDING_DATE,DAY,MONTH,YEAR);
+         RG_ENDING_DATE = RG_ENDING_DATE - 1;
+         end;
+
+      call OUTPUT_FIELD (LOOP_INDEX);
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   4;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	ANAL_THRU_SUMM
+	Analyze data and add to summary slot
+****************************************************************/
+
+ANAL_THRU_SUMM:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AM_AGCY        fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) then
+      do;
+      END_ANAL_THRU_SUMM = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* BK_RG_SELECT - Set up the key for this date */
+
+   if BK_STATUS = "XL" then
+      return;
+
+   if BK_STATUS = "NS" then
+      return;
+
+   RG_DATE = BK_DEPARTURE;
+   if RG_DATE_TYPE = "B" then
+      RG_DATE = BK_DATE;
+
+   declare PERIOD_LENGTH fixed binary;
+   if RG_PERIOD_TYPE ^= "M" then
+      do;
+      PERIOD_LENGTH = RG_PERIOD_LENGTH;
+      if RG_PERIOD_TYPE = "W" then
+         PERIOD_LENGTH = RG_PERIOD_LENGTH * 7;
+      RG_DATE = RG_START_DATE+divide((RG_DATE-RG_START_DATE),PERIOD_LENGTH,15)*PERIOD_LENGTH;
+      end;
+   else
+      do;
+      declare (DAY,MONTH,YEAR) fixed binary;
+      call DAY_TO_DMY(RG_DATE,DAY,MONTH,YEAR);
+      if DAY >= RG_DAY then
+         MONTH = MONTH + 1;
+      DAY = RG_DAY;
+      MONTH = RG_MONTH + divide((((MONTH+YEAR*12)-(RG_MONTH+RG_YEAR*12))+RG_PERIOD_LENGTH-1),RG_PERIOD_LENGTH,15) *
+         RG_PERIOD_LENGTH - RG_PERIOD_LENGTH;
+      YEAR = RG_YEAR;
+      do while (MONTH > 12);
+         MONTH = MONTH - 12;
+         YEAR = YEAR + 1;
+      end;
+      call DMY_TO_DAY(RG_DATE,DAY,MONTH,YEAR);
+      end;
+
+   if (RG_DATE < RG_START_DATE) ! (RG_DATE > RG_ENDING_DATE) then
+      return;
+
+   RG_TERR = "";
+   if index("STRZ",RG_ANALYZE_BY) ^= 0 then
+      do;
+      SCF_TO = BK_AGENCY_ZIP;
+
+      call SET_POSITION (AM_SCF_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE ^= END_OF_FILE then
+         call READ_NEXT (AM_SCF_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = END_OF_FILE then
+         ERROR_CODE = 1;
+
+      if SCF_FROM > substr(BK_AGENCY_ZIP,1,3) then
+         ERROR_CODE = 1;
+
+      if ERROR_CODE = NORMAL_RETURN then
+         do;
+         if RG_ANALYZE_BY = "S" then
+            do;
+            declare LOOP fixed binary;
+            do LOOP = length(SCF_DESCRIPTION) to 2 by -1;
+               if substr(SCF_DESCRIPTION,LOOP,1) ^= " " then
+                  do;
+                  RG_TERR = substr(SCF_DESCRIPTION,LOOP-1,2);
+                  LOOP = 1;
+                  end;
+            end;
+            end;
+         if RG_ANALYZE_BY = "T" then
+            do;
+            BK_AGENCY_ZIP = SALESPERSON_TERR;
+            RG_TERR = substr(BK_AGENCY_ZIP,6,4);
+            end;
+         if RG_ANALYZE_BY = "R" then
+            do;
+            RG_TERR = SALES_REGION;
+            end;
+         if RG_ANALYZE_BY = "Z" then
+            do;
+            RG_TERR = SCF_FROM;
+            end;
+         end;
+      end;
+
+   if RG_ANALYZE_BY = "A" then
+      do;
+      if BK_AGENCY = 0 then
+         RG_TERR = "drct";
+      else
+         do;
+
+         /* SETUP_KEY - Set up this key for a read */
+
+         AGENCY_NUMBER = BK_AGENCY;
+         KEY_NO = 1;
+
+         /* READ_RECORD - Read the record */
+
+         call READ_KEYED (AM_AGCY_NO,KEY_NO,ERROR_AM_AGCY);
+         if ERROR_AM_AGCY > 3 then
+            call PRINT_ERROR (AM_AGCY_NO,ERROR_AM_AGCY);
+         if ERROR_AM_AGCY = NORMAL_RETURN then
+            RG_TERR = AGENCY_AFFILIATION;
+         end;
+      end;
+
+   if RG_ANALYZE_BY = "G" then
+      RG_TERR = BK_GATEWAY;
+
+   if RG_ANALYZE_BY = "U" then
+      RG_TERR = BK_TOUR_CODE;
+
+
+   /* OTHER_LOGIC_2 - Other logic */
+
+
+   /* ADD_THIS_TERR - Add this data */
+
+   RG_TERR_ARRAY(1) = RG_TERR;
+   RG_TERR_COUNT = 1;
+   if (RG_ANALYZE_BY = "I") then
+      do;
+      RG_TERR_COUNT = 0;
+      call GET_AIR_TERR;
+      end;
+   if (RG_ANALYZE_BY = "H") then
+      do;
+      RG_TERR_COUNT = 0;
+      call GET_HOTEL_TERR;
+      end;
+   if (RG_ANALYZE_BY = "M") then
+      do;
+      RG_TERR_COUNT = 0;
+      call GET_MODULE_TERR;
+      end;
+   do RG_TERR_INDEX = 1 to RG_TERR_COUNT;
+      RG_TERR = RG_TERR_ARRAY(RG_TERR_INDEX);
+      call SET_TEMP_KEY;
+
+      /* READ_TEMP_RECORD - Read the temp record */
+
+      call READ_KEYED(TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+      /* TEMP_RECORD_FOUND - Was the record found? */
+
+      if ERROR_CODE = NORMAL_RETURN then
+         begin;
+
+         /* GET_TEMP_FILE - Set up all the fields for the temp rec. */
+
+         declare MOVE_FIELD character (100) based;
+         declare FIELDPTR pointer;
+         declare FIELDBIN fixed binary(31) defined(FIELDPTR);
+         FIELDPTR = byteaddr(TEMP_RECORD);
+         substr(byteaddr(RG_TERR)->MOVE_FIELD,1,bytesize(RG_TERR)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_TERR));
+         FIELDBIN = FIELDBIN + bytesize(RG_TERR);
+         substr(byteaddr(RG_DATE)->MOVE_FIELD,1,bytesize(RG_DATE)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_DATE));
+         FIELDBIN = FIELDBIN + bytesize(RG_DATE);
+         substr(byteaddr(RG_BOOKINGS)->MOVE_FIELD,1,bytesize(RG_BOOKINGS)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_BOOKINGS));
+         FIELDBIN = FIELDBIN + bytesize(RG_BOOKINGS);
+         substr(byteaddr(RG_PAX)->MOVE_FIELD,1,bytesize(RG_PAX)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_PAX));
+         FIELDBIN = FIELDBIN + bytesize(RG_PAX);
+         substr(byteaddr(RG_GROSS)->MOVE_FIELD,1,bytesize(RG_GROSS)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_GROSS));
+         FIELDBIN = FIELDBIN + bytesize(RG_GROSS);
+         substr(byteaddr(RG_NET)->MOVE_FIELD,1,bytesize(RG_NET)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_NET));
+         FIELDBIN = FIELDBIN + bytesize(RG_NET);
+         substr(byteaddr(RG_BALANCE)->MOVE_FIELD,1,bytesize(RG_BALANCE)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_BALANCE));
+         FIELDBIN = FIELDBIN + bytesize(RG_BALANCE);
+         end;
+      else
+         do;
+
+         /* SET_FIELDS - Set the values for these fields */
+
+         RG_TERR = "";
+         RG_DATE = 0;
+         RG_BOOKINGS = 0;
+         RG_PAX = 0;
+         RG_GROSS = 0;
+         RG_NET = 0;
+         RG_BALANCE = 0;
+         call RESTORE_KEY;
+         end;
+
+
+      /* ADD_TOTALS - Add to the total fields */
+
+      RG_BOOKINGS = RG_BOOKINGS + 1;
+      RG_PAX = RG_PAX + BK_PAX;
+      RG_GROSS = floor((RG_GROSS + BK_TOUR_PRICE) * 100 + 0.5) / 100;
+      RG_NET = floor((RG_NET + BK_NET_PRICE) * 100 + 0.5) / 100;
+      RG_BALANCE = floor((RG_BALANCE + BK_BALANCE) * 100 + 0.5) / 100;
+
+      /* OTHER_LOGIC - Any other logic */
+
+
+      /* ADD_TEMP_RECORD - Add this information to the temp file */
+
+      declare FAKE_FIELD character(100) based;
+      TEMP_RECORD =
+         substr(byteaddr(RG_TERR)->FAKE_FIELD,1,bytesize(RG_TERR)) !!
+         substr(byteaddr(RG_DATE)->FAKE_FIELD,1,bytesize(RG_DATE)) !!
+         substr(byteaddr(RG_BOOKINGS)->FAKE_FIELD,1,bytesize(RG_BOOKINGS)) !!
+         substr(byteaddr(RG_PAX)->FAKE_FIELD,1,bytesize(RG_PAX)) !!
+         substr(byteaddr(RG_GROSS)->FAKE_FIELD,1,bytesize(RG_GROSS)) !!
+         substr(byteaddr(RG_NET)->FAKE_FIELD,1,bytesize(RG_NET)) !!
+         substr(byteaddr(RG_BALANCE)->FAKE_FIELD,1,bytesize(RG_BALANCE));
+
+      /* UPDATE_WRITE_TEMP - Update or write the temporary record */
+
+      if ERROR_CODE = NORMAL_RETURN then
+         do;
+
+         /* UPDATE_TEMP_RECORD - Update the temp record */
+
+         call UPDATE_RECORD (TEMP_DB,ERROR_CODE);
+
+         end;
+      else
+         do;
+
+         /* WRITE_TEMP_RECORD - Write the temporary record */
+
+         call WRITE_RECORD (TEMP_DB,ERROR_CODE);
+
+         end;
+
+   end;
+
+return;
+end;	/* ANAL_THRU_SUMM       */
+
+/****************************************************************
+	GET_AIR_TERR
+	Get the air territories
+****************************************************************/
+
+GET_AIR_TERR:
+	procedure;
+
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_AIR_MODULE = NO;
+   do while (END_SCAN_AIR_MODULE ^= YES);
+      call SCAN_AIR_MODULE;
+   end;
+return;
+end;	/* GET_AIR_TERR         */
+
+/****************************************************************
+	SCAN_AIR_MODULE
+	Scan the air city codes
+****************************************************************/
+
+SCAN_AIR_MODULE:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_SCAN_AIR_MODULE = YES;
+      return;
+      end;
+
+   /* SKIP_NON_PAX_AIRD - Skip the non passenger air detail */
+
+   if TK_DET_ALT_SEQ = 0 then
+      return;
+
+
+   /* GET_AIR_MOD - Get the air arrival city */
+
+   CODE_MOD = TK_ARR_CITY;
+
+
+   /* ADD_MOD - Add this mod code (if it isn't here) */
+
+   if CODE_MOD = "" then
+      return;
+
+   if CODE_MOD = BK_TOUR_CODE then
+      return;
+
+   do RG_TERR_INDEX = 1 to RG_TERR_COUNT;
+      if CODE_MOD = RG_TERR_ARRAY(RG_TERR_INDEX) then
+         return;
+   end;
+
+   RG_TERR_COUNT = RG_TERR_COUNT + 1;
+   RG_TERR_ARRAY(RG_TERR_INDEX) = CODE_MOD;
+
+return;
+end;	/* SCAN_AIR_MODULE      */
+
+/****************************************************************
+	GET_HOTEL_TERR
+	Get the hotel territories
+****************************************************************/
+
+GET_HOTEL_TERR:
+	procedure;
+
+
+   /* SET_FIRST_HOTEL - First hotel */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_HOTEL_MODUL = NO;
+   do while (END_SCAN_HOTEL_MODUL ^= YES);
+      call SCAN_HOTEL_MODULE;
+   end;
+return;
+end;	/* GET_HOTEL_TERR       */
+
+/****************************************************************
+	SCAN_HOTEL_MODULE
+	Get the hotel city
+****************************************************************/
+
+SCAN_HOTEL_MODULE:
+	procedure;
+
+
+   /* READ_NEXT_HOTEL - Read the next hotel detail */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTEL - Check for the end of the hotel detail */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) then
+      do;
+      END_SCAN_HOTEL_MODUL = YES;
+      return;
+      end;
+
+   /* SET_HOTEL_CITY_MOD - Set code */
+
+   CODE_MOD = substr(HDET_HOTEL,1,3);
+
+
+   /* ADD_MOD - Add this mod code (if it isn't here) */
+
+   if CODE_MOD = "" then
+      return;
+
+   if CODE_MOD = BK_TOUR_CODE then
+      return;
+
+   do RG_TERR_INDEX = 1 to RG_TERR_COUNT;
+      if CODE_MOD = RG_TERR_ARRAY(RG_TERR_INDEX) then
+         return;
+   end;
+
+   RG_TERR_COUNT = RG_TERR_COUNT + 1;
+   RG_TERR_ARRAY(RG_TERR_INDEX) = CODE_MOD;
+
+return;
+end;	/* SCAN_HOTEL_MODULE    */
+
+/****************************************************************
+	GET_MODULE_TERR
+	Get the module territory
+****************************************************************/
+
+GET_MODULE_TERR:
+	procedure;
+
+
+   /* SET_FIRST_LINE - Set for first read */
+
+   BK_LINE_MOD = BK_MODIFICATION;
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 0;
+   call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_LINE_MOD = NO;
+   do while (END_SCAN_LINE_MOD ^= YES);
+      call SCAN_LINE_MOD;
+   end;
+
+   /* SET_FIRST_HOTEL - First hotel */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_HOTEL_MOD = NO;
+   do while (END_SCAN_HOTEL_MOD ^= YES);
+      call SCAN_HOTEL_MOD;
+   end;
+
+   /* SET_FIRST_LAND - Set to the first land record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_LAND_MOD = NO;
+   do while (END_SCAN_LAND_MOD ^= YES);
+      call SCAN_LAND_MOD;
+   end;
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_AIRD_MOD = NO;
+   do while (END_SCAN_AIRD_MOD ^= YES);
+      call SCAN_AIRD_MOD;
+   end;
+return;
+end;	/* GET_MODULE_TERR      */
+
+/****************************************************************
+	SCAN_LINE_MOD
+	Any mods?
+****************************************************************/
+
+SCAN_LINE_MOD:
+	procedure;
+
+
+   /* READ_NEXT_LINE - Read the next line record */
+
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LINE_NO,ERROR_CODE);
+
+   /* CHECK_END_LINE - Last record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_LINE_MOD > BK_MODIFICATION) !
+   (BK_LINE_BK_NO > BOOKING_NO) then
+      do;
+      END_SCAN_LINE_MOD = YES;
+      return;
+      end;
+
+   /* GET_LINE_MOD - Set the module code */
+
+   CODE_MOD = BK_LINE_TOUR_CODE;
+
+
+   /* ADD_MOD - Add this mod code (if it isn't here) */
+
+   if CODE_MOD = "" then
+      return;
+
+   if CODE_MOD = BK_TOUR_CODE then
+      return;
+
+   do RG_TERR_INDEX = 1 to RG_TERR_COUNT;
+      if CODE_MOD = RG_TERR_ARRAY(RG_TERR_INDEX) then
+         return;
+   end;
+
+   RG_TERR_COUNT = RG_TERR_COUNT + 1;
+   RG_TERR_ARRAY(RG_TERR_INDEX) = CODE_MOD;
+
+return;
+end;	/* SCAN_LINE_MOD        */
+
+/****************************************************************
+	SCAN_HOTEL_MOD
+	Get mod codes
+****************************************************************/
+
+SCAN_HOTEL_MOD:
+	procedure;
+
+
+   /* READ_NEXT_HOTEL - Read the next hotel detail */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTEL - Check for the end of the hotel detail */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) then
+      do;
+      END_SCAN_HOTEL_MOD = YES;
+      return;
+      end;
+
+   /* GET_HOTEL_MOD - Set the code */
+
+   CODE_MOD = HDET_MODULE;
+
+
+   /* ADD_MOD - Add this mod code (if it isn't here) */
+
+   if CODE_MOD = "" then
+      return;
+
+   if CODE_MOD = BK_TOUR_CODE then
+      return;
+
+   do RG_TERR_INDEX = 1 to RG_TERR_COUNT;
+      if CODE_MOD = RG_TERR_ARRAY(RG_TERR_INDEX) then
+         return;
+   end;
+
+   RG_TERR_COUNT = RG_TERR_COUNT + 1;
+   RG_TERR_ARRAY(RG_TERR_INDEX) = CODE_MOD;
+
+return;
+end;	/* SCAN_HOTEL_MOD       */
+
+/****************************************************************
+	SCAN_LAND_MOD
+	Scan the land codes
+****************************************************************/
+
+SCAN_LAND_MOD:
+	procedure;
+
+
+   /* READ_NEXT_LAND - Read next */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LAND - Last one? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_SCAN_LAND_MOD = YES;
+      return;
+      end;
+
+   /* GET_LAND_MOD - Set the code */
+
+   CODE_MOD = LDET_MODULE;
+
+
+   /* ADD_MOD - Add this mod code (if it isn't here) */
+
+   if CODE_MOD = "" then
+      return;
+
+   if CODE_MOD = BK_TOUR_CODE then
+      return;
+
+   do RG_TERR_INDEX = 1 to RG_TERR_COUNT;
+      if CODE_MOD = RG_TERR_ARRAY(RG_TERR_INDEX) then
+         return;
+   end;
+
+   RG_TERR_COUNT = RG_TERR_COUNT + 1;
+   RG_TERR_ARRAY(RG_TERR_INDEX) = CODE_MOD;
+
+return;
+end;	/* SCAN_LAND_MOD        */
+
+/****************************************************************
+	SCAN_AIRD_MOD
+	Scan for mod codes
+****************************************************************/
+
+SCAN_AIRD_MOD:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_SCAN_AIRD_MOD = YES;
+      return;
+      end;
+
+   /* GET_AIRD_MOD - Set mod code */
+
+   CODE_MOD = TK_DETAIL_MODULE;
+
+
+   /* ADD_MOD - Add this mod code (if it isn't here) */
+
+   if CODE_MOD = "" then
+      return;
+
+   if CODE_MOD = BK_TOUR_CODE then
+      return;
+
+   do RG_TERR_INDEX = 1 to RG_TERR_COUNT;
+      if CODE_MOD = RG_TERR_ARRAY(RG_TERR_INDEX) then
+         return;
+   end;
+
+   RG_TERR_COUNT = RG_TERR_COUNT + 1;
+   RG_TERR_ARRAY(RG_TERR_INDEX) = CODE_MOD;
+
+return;
+end;	/* SCAN_AIRD_MOD        */
+
+/****************************************************************
+	SET_TEMP_KEY
+	Set up the temporary key
+****************************************************************/
+
+SET_TEMP_KEY:
+	procedure;
+
+declare FAKE_FIELD character(100) based;
+TEMP_RECORD =
+   substr(byteaddr(RG_TERR)->FAKE_FIELD,1,bytesize(RG_TERR)) !!
+   substr(byteaddr(RG_DATE)->FAKE_FIELD,1,bytesize(RG_DATE));
+return;
+end;	/* SET_TEMP_KEY         */
+
+/****************************************************************
+	RESTORE_KEY
+	Key the key back, now that it was erased
+****************************************************************/
+
+RESTORE_KEY:
+	procedure;
+
+declare MOVE_FIELD character (100) based;
+declare FIELDPTR pointer;
+declare FIELDBIN fixed binary(31) defined(FIELDPTR);
+FIELDPTR = byteaddr(TEMP_RECORD);
+substr(byteaddr(RG_TERR)->MOVE_FIELD,1,bytesize(RG_TERR)) =
+   substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_TERR));
+FIELDBIN = FIELDBIN + bytesize(RG_TERR);
+substr(byteaddr(RG_DATE)->MOVE_FIELD,1,bytesize(RG_DATE)) =
+   substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_DATE));
+FIELDBIN = FIELDBIN + bytesize(RG_DATE);
+return;
+end;	/* RESTORE_KEY          */
+
+/****************************************************************
+	PRINT_THRU_SUMM
+	Print out the summary data
+****************************************************************/
+
+PRINT_THRU_SUMM:
+	procedure;
+
+
+   /* FIRST_LOGIC - Write this logic */
+
+
+   /* CHECK_RG_BREAK - Territory break? */
+
+   declare PERIOD_LENGTH fixed binary;
+   if RG_PERIOD_TYPE ^= "M" then
+      do;
+      PERIOD_LENGTH = RG_PERIOD_LENGTH;
+      if RG_PERIOD_TYPE = "W" then
+         PERIOD_LENGTH = RG_PERIOD_LENGTH * 7;
+      RG_DATE = RG_DATE + PERIOD_LENGTH;
+      end;
+   else
+      do;
+      declare (DAY,MONTH,YEAR) fixed binary;
+      call DAY_TO_DMY(RG_DATE,DAY,MONTH,YEAR);
+      DAY = 1;
+      MONTH = MONTH + RG_PERIOD_LENGTH;
+      if MONTH > 12 then
+         do;
+         MONTH = MONTH - 12;
+         YEAR = YEAR + 1;
+         end;
+      call DMY_TO_DAY(RG_DATE,DAY,MONTH,YEAR);
+      end;
+
+
+   if RG_DATE > RG_ENDING_DATE then
+      ERROR_CODE = 1;
+
+   if ERROR_CODE = 1 then
+      RG_DATE = LARGE_DATE;
+
+
+   /* SET_NEW_TEMP - Next detail group? */
+
+   if ERROR_CODE = 1 then
+      do;
+      call SET_TEMP_KEY;
+
+      /* SET_TEMP_POS - Set to the current key */
+
+      call SET_POSITION (TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+      /* READ_NEXT_TEMP - Read the next temp record */
+
+      call READ_NEXT (TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+      /* RETURN_IF_EOF - Return if end-of-file error */
+
+      if ERROR_CODE = END_OF_FILE then
+         do;
+         END_PRINT_THRU_SUMM = YES;
+         return;
+         end;
+
+      call RESTORE_KEY;
+
+      /* SET_INIT_DATE - Code to set the first date up */
+
+
+      /* SET_RG_DATE - Set the first date */
+
+      RG_DATE = RG_START_DATE;
+
+      end;
+
+   call SET_TEMP_KEY;
+
+   /* READ_TEMP_RECORD - Read the temp record */
+
+   call READ_KEYED(TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+   /* DATE_FOUND - Was this date's data found? */
+
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+
+      /* GET_TEMP_FILE - Set up all the fields for the temp rec. */
+
+      declare MOVE_FIELD character (100) based;
+      declare FIELDPTR pointer;
+      declare FIELDBIN fixed binary(31) defined(FIELDPTR);
+      FIELDPTR = byteaddr(TEMP_RECORD);
+      substr(byteaddr(RG_TERR)->MOVE_FIELD,1,bytesize(RG_TERR)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_TERR));
+      FIELDBIN = FIELDBIN + bytesize(RG_TERR);
+      substr(byteaddr(RG_DATE)->MOVE_FIELD,1,bytesize(RG_DATE)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_DATE));
+      FIELDBIN = FIELDBIN + bytesize(RG_DATE);
+      substr(byteaddr(RG_BOOKINGS)->MOVE_FIELD,1,bytesize(RG_BOOKINGS)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_BOOKINGS));
+      FIELDBIN = FIELDBIN + bytesize(RG_BOOKINGS);
+      substr(byteaddr(RG_PAX)->MOVE_FIELD,1,bytesize(RG_PAX)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_PAX));
+      FIELDBIN = FIELDBIN + bytesize(RG_PAX);
+      substr(byteaddr(RG_GROSS)->MOVE_FIELD,1,bytesize(RG_GROSS)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_GROSS));
+      FIELDBIN = FIELDBIN + bytesize(RG_GROSS);
+      substr(byteaddr(RG_NET)->MOVE_FIELD,1,bytesize(RG_NET)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_NET));
+      FIELDBIN = FIELDBIN + bytesize(RG_NET);
+      substr(byteaddr(RG_BALANCE)->MOVE_FIELD,1,bytesize(RG_BALANCE)) =
+         substr(FIELDPTR->MOVE_FIELD,1,bytesize(RG_BALANCE));
+      FIELDBIN = FIELDBIN + bytesize(RG_BALANCE);
+      end;
+   else
+      do;
+
+      /* SET_FIELDS - Set the values for these fields */
+
+      RG_TERR = "";
+      RG_DATE = 0;
+      RG_BOOKINGS = 0;
+      RG_PAX = 0;
+      RG_GROSS = 0;
+      RG_NET = 0;
+      RG_BALANCE = 0;
+      call RESTORE_KEY;
+      end;
+
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =   5 to   5;
+      call SPREAD_SHEET_OUT(LOOP_INDEX);
+   end;
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+return;
+end;	/* PRINT_THRU_SUMM      */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (AM_SCF_CONTROL_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (AM_AGCY_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (BK_LINE_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

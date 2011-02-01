@@ -1,0 +1,37 @@
+/*********************************************************************
+	BK_HOTEL File
+********************************************************************/
+
+declare	1 BK_HOTEL_RECORD,
+		3 HOTEL_CODE           character (       10),
+		3 HOTEL_NAME           character (       30),
+		3 HOTEL_NAME_2         character (       30),
+		3 HOTEL_ADDR_1         character (       30),
+		3 HOTEL_ADDR_2         character (       30),
+		3 HOTEL_ADDR_3         character (       30),
+		3 HOTEL_ADDR_4         character (       30),
+		3 HOTEL_VENDOR_NO      character (        6),
+		3 HOTEL_CURR           character (        3),
+		3 HOTEL_CNTRY          character (        2),
+		3 HOTEL_PHONE          character (       20),
+		3 HOTEL_TELEX          character (       20),
+		3 HOTEL_ANSWERBK       character (       20),
+		3 HOTEL_FAX            character (       20),
+		3 HOTEL_CABLE          character (       20),
+		3 HOTEL_CITY           character (        3),
+		3 HOTEL_NO_ROOMS       fixed binary (15),
+		3 HOTEL_GEN_MGR        character (       20),
+		3 HOTEL_SALES_MGR      character (       20),
+		3 HOTEL_LOCAL          character (       20),
+		3 HOTEL_LOCAL_PHONE    character (       20),
+		3 HOTEL_800_PHONE      character (       20),
+		3 HOTEL_ALT_PHONE      character (       20),
+		3 HOTEL_TAX( 3) float binary (21),
+		3 HOTEL_SVC_CHG( 3) float binary (21),
+		3 HOTEL_COMM( 3) float binary (21),
+		3 HOTEL_ONE_FREE       fixed binary (15),
+		3 HOTEL_FREE_TYPE      character (        1),
+		3 HOTEL_SHORT_NAME     character (       10),
+		3 HOTEL_COMMENT_1      character (       30),
+		3 HOTEL_COMMENT_2      character (       30);
+

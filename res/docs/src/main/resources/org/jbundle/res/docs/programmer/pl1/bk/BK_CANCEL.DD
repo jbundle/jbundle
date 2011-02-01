@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_CANCEL File
+********************************************************************/
+
+declare	1 BK_CANCEL_RECORD,
+		3 CAN_CANCEL_CHG       float binary (53),
+		3 CAN_CANCEL           character (1),
+		3 CAN_REFUND_AMT       float binary (53),
+		3 LAST_SEQ             fixed binary (15);
+

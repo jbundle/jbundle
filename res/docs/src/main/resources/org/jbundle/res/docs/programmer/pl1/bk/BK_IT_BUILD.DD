@@ -1,0 +1,29 @@
+/*********************************************************************
+	BK_IT_BUILD File
+********************************************************************/
+
+declare	1 BK_IT_BUILD_RECORD,
+		3 IT_FATME             fixed binary (15),
+		3 BK_IT_VERSION        character (        1),
+		3 BK_IT_OPTION         character (1),
+		3 IT_TOUR_NO           fixed binary (31),
+		3 IT_BOOKING_NO        fixed binary (31),
+		3 IT_DAY               fixed binary (15),
+		3 IT_FCITY             character (        3),
+		3 IT_FAIRL             character (        2),
+		3 IT_FFLNO             character (        4),
+		3 IT_FTIME             fixed binary (15),
+		3 IT_FACTY             character (        3),
+		3 IT_DATE              fixed binary (15),
+		3 IT_HOTEL_NAME        character (       30),
+		3 IT_HOTEL_NAME_2      character (       30),
+		3 BK_IT_DATE           fixed binary (15),
+		3 BK_IT_DAY            fixed binary (15),
+		3 BK_IT_DEP_ARV        fixed binary (15),
+		3 BK_IT_TEMPLATE       character (       20),
+		3 CODES_ARRAY(20) character (       10),
+		3 SKIP_IT_LINE         character (1),
+		3 IT_SAVE_DATE         fixed binary (15),
+		3 IT_SAVE_SEQ          fixed binary (15),
+		3 IT_FIRST_TIME        character (1);
+

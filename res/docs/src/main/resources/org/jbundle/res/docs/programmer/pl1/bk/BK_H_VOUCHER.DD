@@ -1,0 +1,17 @@
+/*********************************************************************
+	BK_H_VOUCHER File
+********************************************************************/
+
+declare	1 BK_H_VOUCHER_RECORD,
+		3 BK_PAX_NAMES         character (       70),
+		3 HV_CODE              character (        5),
+		3 MEAL_DATE            fixed binary (15),
+		3 MEAL_STRING          character (       30),
+		3 HTL_CLASS_DESC       character (        8),
+		3 HTL_RATE_DESC        character (       12),
+		3 PAX_SAVE_ROOM        fixed binary (15),
+		3 ROOM_CONFIG          character (       45),
+		3 HV_PAGE_NO           fixed binary (15),
+		3 HVOUCHER_DATE        fixed binary (15),
+		3 START_HV_CODE        fixed binary (15);
+

@@ -1,0 +1,10 @@
+/*********************************************************************
+	GL_STMT_CHECK File
+********************************************************************/
+
+declare	1 GL_STMT_CHECK_RECORD,
+		3 GL_BS_STMT           fixed binary (15),
+		3 GL_IS_STMT           fixed binary (15),
+		3 GL_NEXT_COUNT        fixed binary (15),
+		3 GL_STMT_SAVE         fixed binary (15);
+

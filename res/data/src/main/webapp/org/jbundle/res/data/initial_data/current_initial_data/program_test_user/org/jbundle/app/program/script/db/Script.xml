@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<Script ID="1">
+		<LastChanged>2009-11-22T12:25:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Export test</Name>
+		<ParentFolderID>0</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code/>
+		<Properties><![CDATA[#Field properties
+#Sun Nov 22 12:25:08 PST 2009
+programSharedDBName=program_test
+mainUserDBName=main
+dbSuffix=_test
+archiveFolder=/home/don/temp/archive/test
+process=.program.util.ExportRecordsToXmlProcess
+mode=export
+project=Test
+]]></Properties>
+		<Command>R</Command>
+		<Source/>
+		<Destination/>
+	</Script>
+	<Script ID="2">
+		<LastChanged>2009-11-22T12:30:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Export es test</Name>
+		<ParentFolderID>0</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code/>
+		<Properties><![CDATA[#Field properties
+#Sun Nov 22 12:30:23 PST 2009
+programSharedDBName=program_test
+locale=es
+mainUserDBName=main
+dbSuffix=_test
+archiveFolder=/home/don/temp/archive/test_es
+process=.program.util.ExportRecordsToXmlProcess
+mode=export
+project=Test
+]]></Properties>
+		<Command>R</Command>
+		<Source/>
+		<Destination/>
+	</Script>
+</file>

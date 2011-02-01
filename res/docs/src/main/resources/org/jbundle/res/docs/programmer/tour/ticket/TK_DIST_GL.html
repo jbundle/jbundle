@@ -1,0 +1,97 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to post ticketing information to the General Ledger.
+
+<br wp="br1"><br wp="br2">
+<p>WARNING: This program requires exclusive use of the Ticketing files. This means that no one can
+access the booking or ticketing systems while this program is running.
+
+<br wp="br1"><br wp="br2">
+<p>Program Explanation:
+
+<br wp="br1"><br wp="br2">
+<p>There are 3 classes of G/L postings:
+
+<br wp="br1"><br wp="br2">
+<p>1. Ticket Issued G/L posting
+
+<br wp="br1"><br wp="br2">
+<p>	On the date the ticket is issued, the prepaid ticket amount is set up to be expensed on the tour
+departure date. A Payable must also be set up to be reversed on the day the ARC payment is
+done.
+
+<br wp="br1"><br wp="br2">
+<p>	5-Jan-90	Prepaid Tickets			1000.00
+
+<p>				Accounts Payable - ARC		1000.00
+
+<br wp="br1"><br wp="br2">
+<p>Adjustments after posting:
+
+<p>	10-Jan-90	Accounts Payable - ARC		12.52
+
+<p>				Prepaid Tickets			12.52
+
+<p>Tickets Cancelled (no more updates required after ARC):
+
+<p>	14-Jan-90	Accounts Payable - ARC		900.00
+
+<p>				Prepaid Tickets			900.00
+
+<br wp="br1"><br wp="br2">
+<p>When the ARC authorization is entered into A/P, the distribution should go to the ARC Accounts
+Payable account:
+
+<p>	8-Jan-90	Accounts Payable - ARC		1000.00
+
+<p>				Cash						1000.00
+
+<br wp="br1"><br wp="br2">
+<p>2. Tour departure update
+
+<br wp="br1"><br wp="br2">
+<p>	On the date the tour departs, the income and expenses are recognized for a tour. The actual
+cost of the tickets issued are posted.
+
+<br wp="br1"><br wp="br2">
+<p>	12-Dec-89	Cost of Air - FITs			950.00
+
+<p>			Overrides Receivable		 50.00
+
+<p>				Prepaid Tickets			1000.00
+
+<br wp="br1"><br wp="br2">
+<p>3. Overrides received update
+
+<br wp="br1"><br wp="br2">
+<p>	On the date the override is received from the carrier, the difference between the override and
+the estimated receivable is recognized as a gain or a loss.
+
+<br wp="br1"><br wp="br2">
+<p>	12-Mar-90	Cash						47.00
+
+<p>			Gain/Loss on Override		 3.00
+
+<p>				Overrides Receivable		50.00
+
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>Enter the date of the last transaction to process. The posting process will run automatically. This date
+should be the last transaction date to post (which should be that last date of the financial statements
+to post).
+</body>
+</html>

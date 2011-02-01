@@ -1,0 +1,2649 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<LogicFile ID="189">
+		<LastChanged>2009-02-12T14:49:28</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>addTables</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>Animal</MethodClassName>
+		<LogicSource><![CDATA[this.addTable(new Cat(recordOwner));
+this.addTable(new Dog(recordOwner));
+]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="190">
+		<LastChanged>2009-02-12T14:49:28</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>addTables</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>AnimalVets</MethodClassName>
+		<LogicSource><![CDATA[//?	this.addTable(new Animal(recordOwner));
+this.addTable(new Dog(recordOwner));
+this.addTable(new Vet(recordOwner));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="191">
+		<LastChanged>2009-02-12T14:49:28</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>selectFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>AnimalVets</MethodClassName>
+		<LogicSource><![CDATA[this.setSelected(false);	// de-select all
+super;
+
+//?this.getField(Animal.kAnimalFile, Animal.kID).setSelected(true);
+//?this.getField(Animal.kAnimalFile, Animal.kName).setSelected(true);
+//?this.getField(Animal.kAnimalFile, Animal.kColor).setSelected(true);
+//?this.getField(Animal.kAnimalFile, Animal.kWeight).setSelected(true);
+
+this.getField(Dog.kDogFile, Animal.kID).setSelected(true);
+this.getField(Dog.kDogFile, Animal.kName).setSelected(true);
+this.getField(Dog.kDogFile, Animal.kColor).setSelected(true);
+this.getField(Dog.kDogFile, Animal.kWeight).setSelected(true);
+
+this.getField(Vet.kVetFile, Vet.kName).setSelected(true);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="192">
+		<LastChanged>2009-02-12T14:49:28</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>setupRelationships</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>AnimalVets</MethodClassName>
+		<LogicSource><![CDATA[//?this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Animal.kAnimalFile), this.getRecord(Vet.kVetFile), Animal.kVet, Vet.kID);
+this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Dog.kDogFile), this.getRecord(Vet.kVetFile), Animal.kVet, Vet.kID);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2225">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ScreenTest2</MethodClassName>
+		<LogicSource>return new Cat(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2226">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ScreenTest2</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2227">
+		<LastChanged>2009-10-13T13:28:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>80</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetField</MethodClassName>
+		<LogicSource>return new Vet(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2228">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetField</MethodClassName>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), Vet.kNameKey, Vet.kName, true, true);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2229">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReport</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().setKeyArea(Animal.kNameKey);
+this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Animal.kVet), this.getScreenRecord().getField(TestReportScreenRecord.kVetID), "="));
+		
+this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), false, true));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2230">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>70</Sequence>
+		<MethodName>addToolbars</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReport</MethodClassName>
+		<LogicSource>return new TestReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2231">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>25</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReport</MethodClassName>
+		<LogicSource>return new TestReportScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2232">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>220</Sequence>
+		<MethodName>addReportFooting</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReport</MethodClassName>
+		<LogicSource>return new TestReportFooting(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2233">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>210</Sequence>
+		<MethodName>addReportHeading</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReport</MethodClassName>
+		<LogicSource>return new TestReportHeading(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2234">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReport</MethodClassName>
+		<LogicSource>return new Cat(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2235">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openOtherRecords</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReport</MethodClassName>
+		<LogicSource>super;</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2236">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReport</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2237">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReportToolbar</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2238">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetPopupField</MethodClassName>
+		<LogicSource><![CDATA[		return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), Vet.kNameKey, Vet.kName, true, true);
+//		return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), -1, Vet.kName, true, true);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2239">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReportHeading</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2240">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReportFooting</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2241">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailReport</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2242">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailReport</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().setKeyArea(Vet.kNameKey);
+this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Vet.kID), this.getScreenRecord().getField(TestReportScreenRecord.kVetID), "="));
+		
+this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), false, true));
+
+Record recCat = this.getRecord(Cat.kCatFile);
+recCat.setKeyArea(Cat.kVetKey);
+recCat.addListener(new SubFileFilter(this.getMainRecord().getField(Vet.kID), Cat.kVet, null, -1, null, -1));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2243">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>70</Sequence>
+		<MethodName>addToolbars</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailReport</MethodClassName>
+		<LogicSource>return new TestReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2244">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>310</Sequence>
+		<MethodName>addReportFooting</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailReport</MethodClassName>
+		<LogicSource>return new TestReportFooting(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2245">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>320</Sequence>
+		<MethodName>addReportHeading</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailReport</MethodClassName>
+		<LogicSource>return new TestReportHeading(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2246">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailReport</MethodClassName>
+		<LogicSource>return new Vet(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2247">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openOtherRecords</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailReport</MethodClassName>
+		<LogicSource><![CDATA[super;
+new Cat(this);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2248">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>25</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailReport</MethodClassName>
+		<LogicSource>return new TestReportScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2249">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>300</Sequence>
+		<MethodName>addReportDetail</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailReport</MethodClassName>
+		<LogicSource>return new TestDetailDetail(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2250">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailDetail</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2251">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>getMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailDetail</MethodClassName>
+		<LogicSource>return this.getRecord(Cat.kCatFile);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2252">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetScreen</MethodClassName>
+		<LogicSource>return new Vet(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2253">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2254">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetGridScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2255">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetGridScreen</MethodClassName>
+		<LogicSource>return new Vet(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2256">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatVetGridScreen</MethodClassName>
+		<LogicSource>return new Cat(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2257">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatVetGridScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2258">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatVetGridScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+	// Link the screen field to the passed in record
+((ReferenceField)this.getScreenRecord().getField(TestReportScreenRecord.kVetID)).syncReference(this.getRecord(Vet.kVetFile));
+	// The detail file is the sub-file to to passed-in header record.
+this.getMainRecord().setKeyArea(Cat.kVetKey);
+this.getMainRecord().addListener(new SubFileFilter(this.getHeaderRecord()));
+	// Any change to the bundle file triggers a re-select (note: SPopup read-thru will not respond)
+this.getRecord(Vet.kVetFile).getField(Vet.kID).addListener(new FieldReSelectHandler(this));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2259">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatVetHeaderScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2260">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>300</Sequence>
+		<MethodName>addNavButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetGridScreen</MethodClassName>
+		<LogicSource><![CDATA[if ((m_iDisplayFieldDesc & ScreenConstants.SELECT_MODE) != ScreenConstants.SELECT_MODE)
+	new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
+super;	// Next buttons will be "First!"]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2261">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>300</Sequence>
+		<MethodName>addToolbarButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetGridScreen</MethodClassName>
+		<LogicSource>new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2262">
+		<LastChanged>2009-10-13T13:33:38</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>500</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetGridScreen</MethodClassName>
+		<LogicSource><![CDATA[if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
+	return (this.onForm(null, Vet.CAT_VET_GRID_SCREEN, true, iCommandOptions, null) != null);
+else
+	return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2263">
+		<LastChanged>2009-10-13T13:34:02</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>500</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetScreen</MethodClassName>
+		<LogicSource><![CDATA[if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
+	return (this.onForm(null, Vet.CAT_VET_GRID_SCREEN, true, iCommandOptions, null) != null);
+else
+	return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2264">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>80</Sequence>
+		<MethodName>addToolbarButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetScreen</MethodClassName>
+		<LogicSource>new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2265">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeScreen</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>Vet</MethodClassName>
+		<LogicSource><![CDATA[BaseScreen screen = null;
+if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == Vet.CAT_VET_GRID_SCREEN)
+	screen = new CatVetGridScreen(this, null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+	screen = new VetScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+else
+	screen = new VetGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+return screen;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2266">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>CatVetGridScreen*2</MethodName>
+		<LogicDescription>Constructor</LogicDescription>
+		<MethodReturns/>
+		<MethodInterface>Record recVet, Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map&lt;String,Object&gt; properties</MethodInterface>
+		<MethodClassName>CatVetGridScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2268">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>500</Sequence>
+		<MethodName>makeSubScreen</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatVetGridScreen</MethodClassName>
+		<LogicSource>return new CatVetHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2269">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openHeaderRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatVetGridScreen</MethodClassName>
+		<LogicSource>return new Vet(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2270">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatVetHeaderScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getScreenRecord().getField(TestReportScreenRecord.kVetID).setEnabled(true);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2271">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>25</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatVetGridScreen</MethodClassName>
+		<LogicSource>return new TestReportScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2319">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestGridScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getRecord(TestTable.kTestTableFile).addListener(new CompareFileFilter(TestTable.kTestKey, this.getScreenRecord().getField(TestScreenRecord.kNameSort), "=", null, true));
+this.getScreenRecord().getField(TestScreenRecord.kNameSort).addListener(new FieldReSelectHandler(this));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2320">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestGridScreen</MethodClassName>
+		<LogicSource>return new TestTable(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2321">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestGridScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2322">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestGridScreen</MethodClassName>
+		<LogicSource>return new TestScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2323">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>addToolbarButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestGridScreen</MethodClassName>
+		<LogicSource>toolScreen.getScreenRecord().getField(TestScreenRecord.kNameSort).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3072">
+		<LastChanged>2009-10-13T13:30:36</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestSecondField</MethodClassName>
+		<LogicSource>return new TestSecond(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3340">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>40</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.addMainKeyBehavior();
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDouble).addListener(new CheckRangeHandler(5, 10));
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName).addListener(new FieldToUpperHandler(null));
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey).addListener(new RegisterValueHandler(null));
+
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).addListener(new ChangeFocusOnChangeHandler(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong)));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3341">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestScreen</MethodClassName>
+		<LogicSource>return new TestTable(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3342">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3343">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestScreenLock</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() & ~DBConstants.LOCK_STRATEGY_MASK) | DBConstants.OPEN_LOCK_ON_EDIT_STRATEGY);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3344">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestScreenWaitLock</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() & ~(DBConstants.LOCK_TYPE_MASK | DBConstants.LOCK_STRATEGY_MASK)) | DBConstants.OPEN_WAIT_FOR_LOCK_STRATEGY | DBConstants.OPEN_EXCEPTION_ON_LOCK_TYPE);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3591">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,500</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestTableAnalysis</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3592">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestTableAnalysis</MethodClassName>
+		<LogicSource>return new TestTable(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3594">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>40</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestTableAnalysis</MethodClassName>
+		<LogicSource>super;</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3595">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>addToolbarButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestTableAnalysis</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3919">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBreakReport</MethodClassName>
+		<LogicSource>return new Cat(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3920">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openOtherRecords</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBreakReport</MethodClassName>
+		<LogicSource><![CDATA[super;
+new Vet(this);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3921">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBreakReport</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().setKeyArea(Cat.kVetKey);
+
+Record recVet = this.getRecord(Vet.kVetFile);
+this.getMainRecord().getField(Cat.kVet).addListener(new ReadSecondaryHandler(recVet));
+
+this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), -1, true, true, true));
+this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportTotal), Cat.kWeight, true, true, true));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3922">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBreakReport</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3923">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>60</Sequence>
+		<MethodName>addToolbars</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBreakReport</MethodClassName>
+		<LogicSource>return new TestReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3924">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>25</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBreakReport</MethodClassName>
+		<LogicSource>return new TestReportScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3925">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>400</Sequence>
+		<MethodName>addReportHeading</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBreakReport</MethodClassName>
+		<LogicSource>return new TestReportHeading(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3926">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>500</Sequence>
+		<MethodName>addReportFooting</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBreakReport</MethodClassName>
+		<LogicSource>return new TestReportFooting(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3927">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBreakBreak</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3928">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>600</Sequence>
+		<MethodName>getServletPath</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBreakReport</MethodClassName>
+		<LogicSource>return super.getServletPath(DBParams.XHTMLSERVLET); // Use cocoon</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3941">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>25</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestTableAnalysis</MethodClassName>
+		<LogicSource>return new TestTableSummary(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="3942">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>2,000</Sequence>
+		<MethodName>addSummary</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestTableAnalysis</MethodClassName>
+		<LogicSource><![CDATA[this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestCode).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode));
+this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestKey).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey));
+this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestCount).setValue(1);
+this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestShort).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort));
+this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestDouble).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDouble));
+
+super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4040">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatVetScreen</MethodClassName>
+		<LogicSource>return new Cat(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4041">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatVetScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().getField(Cat.kVet).addListener(new InitOnceFieldHandler(false));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4532">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SnakeGridScreen</MethodClassName>
+		<LogicSource>return new Snake(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4533">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SnakeScreen</MethodClassName>
+		<LogicSource>return new Snake(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4534">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>LizardScreen</MethodClassName>
+		<LogicSource>return new Lizard(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4535">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>LizardGridScreen</MethodClassName>
+		<LogicSource>return new Lizard(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4536">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>5</Sequence>
+		<MethodName>makeScreen</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>Reptile</MethodClassName>
+		<LogicSource><![CDATA[BaseScreen screen = null;
+if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+{
+    Object objObjectID = null;
+    try {
+        objObjectID = this.getHandle(DBConstants.OBJECT_ID_HANDLE);
+    } catch (DBException ex)    {
+        ex.printStackTrace();
+    }
+    String strObjectID = null;
+    if (objObjectID != null)
+        parentScreen.setProperty(DBConstants.STRING_OBJECT_ID_HANDLE, objObjectID.toString());
+    if (this.getField(Reptile.kReptileTypeID).getValue() == ReptileTypeField.SNAKE)
+        screen = new SnakeScreen(null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    else //if (this.getField(Reptile.kReptileTypeID).getValue() == ReptileTypeField.LIZARD)
+        screen = new LizardScreen(null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+}
+else //if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
+    screen = new ReptileGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+return screen;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4537">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ReptileGridScreen</MethodClassName>
+		<LogicSource>return new Reptile(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4538">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SnakeScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4561">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>addMasterListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>Reptile</MethodClassName>
+		<LogicSource>super;</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4562">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>520</Sequence>
+		<MethodName>getSharedRecordTypeKey</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>Reptile</MethodClassName>
+		<LogicSource>return this.getField(Reptile.kReptileTypeID);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4563">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>530</Sequence>
+		<MethodName>makeSharedRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns>Record</MethodReturns>
+		<MethodInterface>Object objKey, RecordOwner recordOwner</MethodInterface>
+		<MethodClassName>Reptile</MethodClassName>
+		<LogicSource><![CDATA[if (objKey instanceof Integer)
+{
+    int iReptileType = ((Integer)objKey).intValue();
+    if (iReptileType == ReptileTypeField.LIZARD)
+        return new Lizard(recordOwner);
+    if (iReptileType == ReptileTypeField.SNAKE)
+        return new Snake(recordOwner);
+}
+return null;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4564">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ReptileGridScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+
+this.getMainRecord().setKeyArea(Reptile.kNameKey);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4567">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ReptileScreen</MethodClassName>
+		<LogicSource>return new Reptile(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4568">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ReptileScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4569">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ReptileGridScreen</MethodClassName>
+		<LogicSource><![CDATA[Record record = this.getMainRecord();
+this.addColumn(new MultipleTableFieldConverter(record, Reptile.kName));
+this.addColumn(new MultipleTableFieldConverter(record, Reptile.kVetID));
+this.addColumn(new MultipleTableFieldConverter(record, Reptile.kWeight));
+
+this.addColumn(new MultipleTableFieldConverter(record, Reptile.kReptileTypeID));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5001">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailXMLReport</MethodClassName>
+		<LogicSource>return new Cat(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5002">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailXMLReport</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().setKeyArea(Animal.kNameKey);
+this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Animal.kVet), this.getScreenRecord().getField(TestReportScreenRecord.kVetID), "="));
+
+this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), false, true));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5003">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailXMLReport</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5004">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>120</Sequence>
+		<MethodName>addReportFooting</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailXMLReport</MethodClassName>
+		<LogicSource>return new TestReportFooting(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5005">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>130</Sequence>
+		<MethodName>addReportHeading</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailXMLReport</MethodClassName>
+		<LogicSource>return new TestReportHeading(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5006">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailXMLReport</MethodClassName>
+		<LogicSource>return new TestReportScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5007">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>80</Sequence>
+		<MethodName>addToolbars</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailXMLReport</MethodClassName>
+		<LogicSource>return new TestReportXMLToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5008">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReportXMLToolbar</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5009">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>getServletPath</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestDetailXMLReport</MethodClassName>
+		<LogicSource>return super.getServletPath(DBParams.XHTMLSERVLET); // Use cocoon</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5148">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileReport</MethodClassName>
+		<LogicSource>return new Reptile(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5149">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileReport</MethodClassName>
+		<LogicSource><![CDATA[this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kName));
+this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kWeight));
+this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kVetID));
+
+new TestReptileBreak(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC | HtmlConstants.FOOTING_SCREEN, null);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5150">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openOtherRecords</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileReport</MethodClassName>
+		<LogicSource><![CDATA[super;
+new Vet(this);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5151">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileReport</MethodClassName>
+		<LogicSource><![CDATA[super;
+
+this.getMainRecord().setKeyArea(Reptile.kVetIDKey);
+Record recVet = this.getRecord(Vet.kVetFile); //((ReferenceField)this.getMainRecord().getField(Reptile.kVetID)).getReferenceRecord();
+this.getMainRecord().getField(Reptile.kVetID).addListener(new ReadSecondaryHandler(recVet));
+//?this.getRecord(Cat.kCatFile).getField(Animal.kVet).addListener(new ReadSecondaryHandler(recVet));
+//?this.getRecord(Dog.kDogFile).getField(Animal.kVet).addListener(new ReadSecondaryHandler(recVet));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5152">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileBreak</MethodClassName>
+		<LogicSource>this.getRecord(Vet.kVetFile).getField(Vet.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5153">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileXmlReport</MethodClassName>
+		<LogicSource>return new Reptile(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5154">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openOtherRecords</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileXmlReport</MethodClassName>
+		<LogicSource>super;</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5155">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>40</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileXmlReport</MethodClassName>
+		<LogicSource><![CDATA[super;
+
+Record recVet = ((ReferenceField)this.getMainRecord().getField(Reptile.kVetID)).getReferenceRecord();
+this.getMainRecord().getField(Reptile.kVetID).addListener(new ReadSecondaryHandler(recVet));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5156">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileXmlReport</MethodClassName>
+		<LogicSource><![CDATA[this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kName));
+this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kWeight));
+this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kVetID, Vet.kName));
+//?new TestReptileXmlRecordDetail(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC | HtmlConstants.FOOTING_SCREEN);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5157">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileXmlRecordDetail</MethodClassName>
+		<LogicSource><![CDATA[this.getRecord(Reptile.kReptileFile).getField(Reptile.kVetID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(Vet.kVetFile).getField(Vet.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5158">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>900</Sequence>
+		<MethodName>getServletPath</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileXmlReport</MethodClassName>
+		<LogicSource>return super.getServletPath(DBParams.XHTMLSERVLET); // Use cocoon</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5159">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileXmlReport</MethodClassName>
+		<LogicSource>return new TestReportScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5160">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>80</Sequence>
+		<MethodName>addToolbars</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileXmlReport</MethodClassName>
+		<LogicSource>return new TestReptileXmlToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5161">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestReptileXmlToolbar</MethodClassName>
+		<LogicSource><![CDATA[super;
+//if (this.isPrintReport())
+//  return;   // Don't display params if entered
+this.getRecord(TestReportScreenRecord.kTestReportScreenRecordFile).getField(TestReportScreenRecord.ktemplate).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5920">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBasicScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.addMainKeyBehavior();
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDouble).addListener(new CheckRangeHandler(5, 10));
+this.getRecord(TestTable.kTestTableFile).addListener(new ValidateFieldHandler(TestTable.kTestFloat, "21.00", false));
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName).addListener(new FieldToUpperHandler(null));
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey).addListener(new RegisterValueHandler(null));
+
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).addListener(new ChangeFocusOnChangeHandler(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong)));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5921">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBasicScreen</MethodClassName>
+		<LogicSource>return new TestTable(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5922">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBasicScreen</MethodClassName>
+		<LogicSource><![CDATA[this.getRecord(TestTable.kTestTableFile).getField(TestTable.kID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDateTime).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDate).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestTime).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestFloat).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+
+new SPopupBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo), ScreenConstants.DEFAULT_DISPLAY);
+
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDouble).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestPercent).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestSecond).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Next");
+
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestReal).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCurrency).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDouble).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+
+new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo), ScreenConstants.DEFAULT_DISPLAY);
+new SButtonBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo), ScreenConstants.DEFAULT_DISPLAY);
+new SToggleButton(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo), ScreenConstants.DEFAULT_DISPLAY);
+new SCheckBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo), ScreenConstants.DEFAULT_DISPLAY);
+
+//      new SPopupBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey), ScreenConstants.DEFAULT_DISPLAY);
+
+new SRadioButton(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo), ScreenConstants.DEFAULT_DISPLAY);
+new SStaticString(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, "Static String");
+new SStaticText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo), ScreenConstants.DEFAULT_DISPLAY);
+
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestMemo).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestHtml).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestXml).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestImage).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5923">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBasicGridScreen</MethodClassName>
+		<LogicSource>return new TestTable(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5924">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBasicGridScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getScreenRecord().getField(TestScreenRecord.kSortKey).addListener(new SortOrderHandler(this));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5925">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>80</Sequence>
+		<MethodName>addNavButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBasicGridScreen</MethodClassName>
+		<LogicSource><![CDATA[new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.DELETE, MenuConstants.DELETE, null);
+super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5926">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBasicGridScreen</MethodClassName>
+		<LogicSource>return new TestScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5927">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestBasicGridScreen</MethodClassName>
+		<LogicSource><![CDATA[this.getRecord(TestTable.kTestTableFile).getField(TestTable.kID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDate).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+new SPopupBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo), ScreenConstants.DEFAULT_DISPLAY);
+new SStaticText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName), ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5928">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestInputGridScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.setEditing(true);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5929">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestInputGridScreen</MethodClassName>
+		<LogicSource><![CDATA[//      this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+//      new SPopupBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo), ScreenConstants.DEFAULT_DISPLAY);
+//      new SStaticText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName), ScreenConstants.DEFAULT_DISPLAY);
+//      this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5930">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestSoftScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().addListener(new SoftDeleteHandler(this.getMainRecord().getField(TestTable.kTestYesNo)));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5931">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestSoftGridScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().addListener(new SoftDeleteHandler(this.getMainRecord().getField(TestTable.kTestYesNo)));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5932">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatScreen</MethodClassName>
+		<LogicSource>return new Cat(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5933">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5934">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatSession</MethodClassName>
+		<LogicSource>return new Cat(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5935">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>CatSession</MethodClassName>
+		<LogicSource><![CDATA[super;
+Vet recVet = (Vet)this.getRecord(Vet.kVetFile);
+
+this.getMainRecord().setKeyArea(Cat.kVetKey);
+this.getMainRecord().addListener(new SubFileFilter(recVet));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5936">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetSession</MethodClassName>
+		<LogicSource>return new Vet(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5937">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>doRemoteCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>VetSession</MethodClassName>
+		<LogicSource><![CDATA[if (DBConstants.RESET.equalsIgnoreCase(strCommand))
+{
+    Vet recVet = (Vet)this.getMainRecord();
+    try {
+        recVet.addNew();
+    } catch (DBException ex)   {
+        ex.printStackTrace();
+    }
+}
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6440">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>Lizard</MethodClassName>
+		<LogicSource><![CDATA[super;
+
+this.addListener(new SharedFileHandler(Reptile.kReptileTypeID, ReptileTypeField.LIZARD));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6441">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>Snake</MethodClassName>
+		<LogicSource><![CDATA[super;
+
+this.addListener(new SharedFileHandler(Reptile.kReptileTypeID, ReptileTypeField.SNAKE));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6795">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestSecondGridScreen</MethodClassName>
+		<LogicSource>return new TestTable(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6796">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestSecondGridScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6797">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestSecondField</MethodClassName>
+		<LogicSource><![CDATA[Record record = this.makeReferenceRecord();
+int iQueryKeySeq = TestSecond.kCodeKey;
+Converter fldDisplayFieldDesc = record.getField(TestSecond.kDescription);
+boolean bIncludeBlankOption = true;
+boolean bIncludeFormButton = true;
+return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, iQueryKeySeq, fldDisplayFieldDesc, bIncludeBlankOption, bIncludeFormButton);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7011">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestControlGridScreen</MethodClassName>
+		<LogicSource>return new TestTable(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7012">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>80</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestControlGridScreen</MethodClassName>
+		<LogicSource>return new TestScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7013">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestControlGridScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getScreenRecord().getField(TestScreenRecord.kSortKey).addListener(new SortOrderHandler(this));        
+
+BaseField fldTargetValue = this.getMainRecord().getField(TestTable.kTestFloat);
+BaseField fldValue1 = this.getMainRecord().getField(TestTable.kTestLong);
+BaseField fldValue2 = this.getMainRecord().getField(TestTable.kTestShort);
+this.getMainRecord().getField(TestTable.kTestShort).addListener(new CalcBalanceHandler(fldTargetValue, fldValue1, fldValue2, CalcBalanceHandler.MULTIPLY, false));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7014">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>70</Sequence>
+		<MethodName>addNavButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestControlGridScreen</MethodClassName>
+		<LogicSource><![CDATA[new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.DELETE, MenuConstants.DELETE, null);
+super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7015">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestControlGridScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7122">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>run</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestScreenLockStorm</MethodClassName>
+		<LogicSource><![CDATA[super;
+//? this.getMainRecord().setOpenMode(this.getMainRecord().getOpenMode() | DBConstants.OPEN_LOCK_ON_EDIT);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7123">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestScreenLockStorm</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestProperties).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Start storm");
+new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Stop storm"); 
+new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Auto storm"); 
+this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7124">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestScreenLockStorm</MethodClassName>
+		<LogicSource><![CDATA[if ("Start storm".equalsIgnoreCase(strCommand))
+    return this.startStorm();
+if ("Stop storm".equalsIgnoreCase(strCommand))
+    return this.stopStorm();
+if ("Auto storm".equalsIgnoreCase(strCommand))
+    return this.autoStorm();
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7125">
+		<LastChanged>2010-03-02T05:33:41</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>300</Sequence>
+		<MethodName>startStorm</MethodName>
+		<LogicDescription/>
+		<MethodReturns>boolean</MethodReturns>
+		<MethodInterface/>
+		<MethodClassName>TestScreenLockStorm</MethodClassName>
+		<LogicSource><![CDATA[Map<String,Object> properties = new HashMap<String,Object>();
+properties.put(DBParams.PROCESS, MessageStormProcess.class.getName());
+Application app = (Application)this.getTask().getApplication();
+String strQueueName = MessageConstants.TRX_SEND_QUEUE;
+String strQueueType = MessageConstants.INTRANET_QUEUE;
+BaseMessage message = new MapMessage(new TrxMessageHeader(strQueueName, strQueueType, properties), properties);
+String strProcess = Utility.propertiesToURL(null, properties);
+
+if (RunProcessInField.REMOTE_PROCESS.equalsIgnoreCase(this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).toString()))
+{
+    app.getMessageManager().sendMessage(message);
+}
+else if (RunProcessInField.LOCAL_PROCESS.equalsIgnoreCase(this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).toString()))
+{
+    app.getTaskScheduler().addTask(new ProcessRunnerTask(app, strProcess, null));
+}
+else // LOCAL
+{
+    new ProcessRunnerTask(app, strProcess, null).run();
+}
+
+return true;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7126">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>400</Sequence>
+		<MethodName>stopStorm</MethodName>
+		<LogicDescription/>
+		<MethodReturns>boolean</MethodReturns>
+		<MethodInterface/>
+		<MethodClassName>TestScreenLockStorm</MethodClassName>
+		<LogicSource>return true;</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7127">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestScreenLockStorm</MethodClassName>
+		<LogicSource>return new TourEventScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7128">
+		<LastChanged>2009-04-25T07:14:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>run</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>MessageStormProcess</MethodClassName>
+		<LogicSource><![CDATA[int MULTIPLIER = (int)(0.250 * TestScreenLockStorm.WAIT_MULTIPLIER);
+for (int i = TestScreenLockStorm.COUNT; i > 0; i--)
+{
+    this.startProcess(TestUpdateProcess.class.getName(), RunProcessInField.LOCAL_PROCESS, Integer.toString(i));
+    synchronized(this)
+    {
+        try {
+            this.wait(i * MULTIPLIER); // Start with 2.5 seconds, and drop
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7129">
+		<LastChanged>2009-04-25T07:17:50</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>run</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestUpdateProcess</MethodClassName>
+		<LogicSource><![CDATA[int iWaitTime;
+
+Record recTestTable = this.getMainRecord();
+try {
+    recTestTable.addNew();
+    recTestTable.getCounterField().setString("1");
+    if (recTestTable.seek(null))
+    {
+        synchronized(this)
+        {
+            try {
+                iWaitTime = (int)(Math.random() * 2.5 * TestScreenLockStorm.WAIT_MULTIPLIER + 1);     // Between 0 and 5 seconds
+                this.wait(iWaitTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        recTestTable.edit();
+        ((PropertiesField)recTestTable.getField(TestTable.kTestProperties)).setProperty(this.getProperty("count"), new Date().toString());
+        synchronized(this)
+        {
+            try {
+                iWaitTime = (int)(Math.random() * 2.5 * TestScreenLockStorm.WAIT_MULTIPLIER + 1);     // Between 0 and 5 seconds
+                this.wait(iWaitTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        recTestTable.set();
+    }
+    else
+        System.out.println("---------------- Error: record not found"); //Never
+} catch (DBException ex) {
+    ex.printStackTrace();
+}]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7130">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestUpdateProcess</MethodClassName>
+		<LogicSource>return new TestTable(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7131">
+		<LastChanged>2010-03-02T05:33:02</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>startProcess</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface>String strProcessName, String strProcessType, String strProcessCount</MethodInterface>
+		<MethodClassName>MessageStormProcess</MethodClassName>
+		<LogicSource><![CDATA[Map<String,Object> properties = new HashMap<String,Object>();
+properties.put(DBParams.PROCESS, strProcessName);
+properties.put("count", strProcessCount);
+Application app = (Application)this.getTask().getApplication();
+String strQueueName = MessageConstants.TRX_SEND_QUEUE;
+String strQueueType = MessageConstants.INTRANET_QUEUE;
+BaseMessage message = new MapMessage(new TrxMessageHeader(strQueueName, strQueueType, properties), properties);
+String strProcess = Utility.propertiesToURL(null, properties);
+
+if (RunProcessInField.REMOTE_PROCESS.equalsIgnoreCase(strProcessType))
+{
+    app.getMessageManager().sendMessage(message);
+}
+else if (RunProcessInField.LOCAL_PROCESS.equalsIgnoreCase(strProcessType))
+{
+    app.getTaskScheduler().addTask(new ProcessRunnerTask(app, strProcess, null));
+}
+else // LOCAL
+{
+    new ProcessRunnerTask(app, strProcess, null).run();
+}]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7132">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>TestUpdateProcess</MethodClassName>
+		<LogicSource><![CDATA[super;
+// Use default lock strategy for now.
+//x this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() & ~DBConstants.LOCK_MASK) | DBConstants.OPEN_MERGE_ON_LOCK);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7133">
+		<LastChanged>2009-04-25T07:16:40</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>500</Sequence>
+		<MethodName>autoStorm</MethodName>
+		<LogicDescription/>
+		<MethodReturns>boolean</MethodReturns>
+		<MethodInterface/>
+		<MethodClassName>TestScreenLockStorm</MethodClassName>
+		<LogicSource><![CDATA[Record record = this.getMainRecord();
+try {
+    record.addNew();
+    record.getCounterField().setString("1");
+    record.setKeyArea(DBConstants.MAIN_KEY_AREA);
+    if (record.seek(null))
+    {
+        record.edit();
+        record.getField(TestTable.kTestProperties).setData(null);
+        record.set();
+        
+        record.seek(null);
+        
+        this.startStorm();
+
+        SwingWorker<String,Object> worker = new SwingWorker<String,Object>()
+        {
+            
+            protected String doInBackground() throws Exception
+            {
+                synchronized(Thread.currentThread())
+                {
+                    try {
+                        Thread.currentThread().wait(25 * WAIT_MULTIPLIER); // 25 Seconds should be plenty
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }
+            /**
+             * Called on the event dispatching thread (not on the worker thread)
+             * after the <code>construct</code> method has returned.
+             */
+            public void done()
+            {
+                Record record = getMainRecord();
+                for (int i = 1; i <=COUNT; i++)
+                {
+                    if (((PropertiesField)record.getField(TestTable.kTestProperties)).getProperty(Integer.toString(i)) == null)
+                        return;
+                }
+             
+                autoStorm();
+            }
+        };
+        worker.execute();
+    }
+} catch (DBException e) {
+    e.printStackTrace();
+}        
+
+return true;  ]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7650">
+		<LastChanged>2009-10-13T13:28:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>AnimalField</MethodClassName>
+		<LogicSource>return new Animal(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7651">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>AnimalGridScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().setKeyArea(Animal.kNameKey);
+this.setEditing(true);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7652">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>AnimalGridScreen</MethodClassName>
+		<LogicSource>return new Animal(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7653">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>AnimalGridScreen</MethodClassName>
+		<LogicSource><![CDATA[Record record = this.getMainRecord();
+this.addColumn(new MultipleTableFieldConverter(record, Animal.kName));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="7654">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>AnimalField</MethodClassName>
+		<LogicSource><![CDATA[// Add code here to setup the popup or lookup button
+Record record = this.getReferenceRecord();  // Get/make the record that describes the referenced class.
+ScreenField screenField = this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, record.getDefaultScreenKeyArea(), this.getDefaultDisplayFieldSeq(), true, false); 
+return screenField;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+</file>

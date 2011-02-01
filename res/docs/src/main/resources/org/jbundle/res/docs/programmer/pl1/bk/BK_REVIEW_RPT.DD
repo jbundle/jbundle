@@ -1,0 +1,36 @@
+/*********************************************************************
+	BK_REVIEW_RPT File
+********************************************************************/
+
+declare	1 BK_REVIEW_RPT_RECORD,
+		3 BK_REV_START         fixed binary (15),
+		3 BK_REV_END           fixed binary (15),
+		3 BK_REV_DATE          fixed binary (15),
+		3 BK_REV_TIME          fixed binary (15),
+		3 BK_REV_USER          character (       16),
+		3 BK_REV_PAGE          fixed binary (15),
+		3 BK_RES_HOTEL         character (        1),
+		3 BK_RES_LAND          character (        1),
+		3 BK_RES_REMARK        character (        1),
+		3 BK_RES_LINE          character (        1),
+		3 BK_RES_AIR           character (        1),
+		3 BK_RES_PAX           character (        1),
+		3 BK_REV_ELAP          float binary (21),
+		3 BK_REV_COUNT         fixed binary (15),
+		3 BK_REV_NEW           fixed binary (15),
+		3 BK_REV_XL            fixed binary (15),
+		3 BK_REV_CHANGES       fixed binary (15),
+		3 BK_REV_ELAP_TOT      float binary (53),
+		3 BK_REV_PAX_TOT       fixed binary (31),
+		3 BK_REV_GR_TOT        float binary (53),
+		3 BK_REV_NET_TOT       float binary (53),
+		3 BK_REV_ELAP_DAY      float binary (21),
+		3 BK_REV_DAY_COUNT     fixed binary (15),
+		3 BK_REV_NEW_DAY       fixed binary (15),
+		3 BK_REV_XL_DAY        fixed binary (15),
+		3 BK_REV_MOD_DAY       fixed binary (15),
+		3 BK_REV_PAX_DAY       fixed binary (31),
+		3 BK_REV_GROSS_DAY     float binary (53),
+		3 BK_REV_NET_DAY       float binary (53),
+		3 BK_REVIEW_NEW        character (        1);
+

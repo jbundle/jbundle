@@ -1,0 +1,20 @@
+/*********************************************************************
+	TK_TICKET_REV File
+********************************************************************/
+
+declare	1 TK_TICKET_REV_RECORD,
+		3 TK_TRX_TYPE          character (        1),
+		3 TK_START_DATE        fixed binary (15),
+		3 TK_END_DATE          fixed binary (15),
+		3 TK_PRT_TRX           character (        1),
+		3 TK_BK_DET            character (1),
+		3 TK_SUM_DATE          fixed binary (15),
+		3 TK_TRX_TIME          fixed binary (15),
+		3 TK_TRX_USER          character (       16),
+		3 TK_TRX_PAGE          fixed binary (31),
+		3 TK_DR_TOTAL          float binary (53),
+		3 TK_CR_TOTAL          float binary (53),
+		3 TK_VR_TOTAL          float binary (53),
+		3 TK_POSTED_OR         float binary (53),
+		3 TK_POSTED_VAR        float binary (53);
+

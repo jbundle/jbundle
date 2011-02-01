@@ -1,0 +1,622 @@
+/****************************************************************
+	Module: BK_IT_BLD
+	Top Level Logic: IT_BLD_MAIN
+	Date: 29-Nov-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_IT_BLD
+	Top-level call itin building
+****************************************************************/
+
+%replace BK_IT_BLD_1 by 548;
+%replace BK_IT_BLD_2 by 791;
+BK_IT_BLD:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_LINE_RECORD);
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_DET_LAND_NO by  68;
+%replace TK_DETAIL_NO by  57;
+%replace AP_VENDOR_NO by  30;
+%replace BK_HOTEL_NO by   8;
+%replace BK_ITIN_DET_NO by  79;
+%replace TK_HEADER_NO by  56;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_LINE_NO by  51;
+%include "BK_IT_BLD.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "TK_DETAIL.DD";
+%include "AP_VENDOR.DD";
+%include "BK_HOTEL.DD";
+%include "BK_ITIN_DET.DD";
+%include "TK_HEADER.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_LINE.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_CHECK_TOURD_ITIN bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_BOOKING     fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+
+   /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+   if BOOKING_NO = 0 then
+      return;
+
+
+   /* CHECK_ALL_INFO - Are all Agency, Pax, and Tour in? */
+
+   if BK_AGENCY = -1 then
+      do;
+      call DISPLAY_MESSAGE ("Agency not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   if BK_PAX = 0 then
+      do;
+      call DISPLAY_MESSAGE ("Passengers not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   if BK_TOUR_NUM = 0 then
+      do;
+      call DISPLAY_MESSAGE ("Tour not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   call INITIALIZE;
+
+   /* SAVE_BK_INFO - Save the current booking for a sec */
+
+   declare BOOKING_NO_SAVE fixed binary(31);
+   BOOKING_NO_SAVE = BOOKING_NO;
+
+   if BOOKING_NO ^= 0 then
+      do;
+
+      /* UPDATE_BOOK_NUL - Update the booking record - Don't unlock */
+
+      call UPDATE_RECORD (BK_BOOKING_NO+?LOCK_RECORD,ERROR_CODE);
+      end;
+
+   call IT_BLD_MAINL;
+
+   /* RESTORE_BK_INFO - Restore the original booking information */
+
+   if BOOKING_NO_SAVE = 0 then
+      do;
+
+      /* INIT_HDR_DATA - Zero everything before starting */
+
+      BOOKING_NO = 0;
+      BK_MODIFICATION = 0;
+      BK_NEXT_MOD = 0;
+      BK_AGENCY = -1;
+      BK_PAX = 0;
+      BK_TOUR_NUM = 0;
+      BK_TOUR_CODE = "";
+      BK_DEPARTURE = 0;
+
+      TOUR_NO = 0;
+      TOUR_DEP_DATE = 0;
+      TOUR_TYPE = " ";
+      TOUR_RATE_DEF = "";
+      TOUR_RATE_CLASS = "";
+      TOUR_DEF_CUTOFF = 0;
+
+      HDR_TOUR_CODE = "";
+      HDR_END_ON = 0;
+
+      end;
+   else
+      do;
+      if (BK_MODIFICATION ^= 0) ! (BOOKING_NO ^= BOOKING_NO_SAVE) then
+         do;
+         BK_MODIFICATION = 0;
+         BOOKING_NO = BOOKING_NO_SAVE;
+
+         /* READ_BOOK_LOCK - Read the booking record and lock it */
+
+         call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_BOOKING);
+         if ERROR_BK_BOOKING = RECORD_LOCKED then
+            do;
+            call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+            call PRESS_RETURN;
+            end;
+         if ERROR_BK_BOOKING > 3 then
+            call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+         end;
+      end;
+
+   /* RESTORE_BK_TOUR - Restore the tour and tour header info */
+
+   if BOOKING_NO ^= 0 then
+      do;
+      if BK_TOUR_CODE ^= "" then if BK_DEPARTURE ^= 0 then
+         if (BK_TOUR_CODE ^= HDR_TOUR_CODE) !
+            (BK_DEPARTURE < HDR_START_ON) ! (BK_DEPARTURE > HDR_END_ON) then
+               do;
+
+               /* GET_TOUR_HDR - Get the tour header */
+
+               ERROR_CODE = NORMAL_RETURN;
+
+               HDR_TOUR_CODE = BK_TOUR_CODE;
+               HDR_END_ON = BK_DEPARTURE;
+               if HDR_END_ON = 0 then
+                  HDR_END_ON = TODAYS_DATE();
+               call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE ^= END_OF_FILE then
+                  call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+               if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+                  ERROR_CODE = END_OF_FILE;
+               if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+                  ERROR_CODE = END_OF_FILE;
+
+               end;
+      if BK_TOUR_NUM ^= 0 then
+         if BK_TOUR_NUM ^= TOUR_NO then
+            do;
+            TOUR_NO = BK_TOUR_NUM;
+
+            /* READ_TOUR_REC - Read the tour file record */
+
+            call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+            if ERROR_BK_TOUR > 3 then
+               call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+            end;
+      end;
+
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   BK_ITIN_DATE = 9;
+   BK_ITIN_DAY = 2;
+   BK_ITIN_DEP_ARV = 1;
+   ITIN_TEMPLATE = "";
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_IT_BLD_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_IT_BLD_RECORD) );
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_ITIN_DET_NO,"BK_ITIN_DET",byteaddr(BK_ITIN_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_ITIN_DET_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	IT_BLD_MAINL
+	Main logic for itin build screen entry
+****************************************************************/
+
+IT_BLD_MAINL:
+	procedure;
+
+
+   /* INCLUDE_ITIN - Include the itin data */
+
+   %include "BK_IT_BUILD.DD";
+
+
+   /* INPUT_DATA_A - Input the data in group A */
+
+   BK_ITIN_VERSION = "";
+   BK_IT_EDIT = "Y";
+   do LOOP_INDEX =  11 to  16;
+      if LOOP_INDEX =  11 then
+         do;
+
+         /* SET_DEF_TEMPLATE - Set up the default template */
+
+         ITIN_TEMPLATE = TOUR_IT_NAME;
+         if ITIN_TEMPLATE = "" then
+            ITIN_TEMPLATE = HDR_ITIN;
+
+         end;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+
+   /* SETUP_HOTEL_IF_NEW - If new, setup the hotel detail */
+
+   if BK_HOTEL_MOD = -1 then
+      do;
+
+      /* BK_SET_HOTEL_DET - Setup hotel detail */
+
+      %include "BK_SET_HOTEL_DET.DCL";
+      call BK_SET_HOTEL_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_HOTEL_RECORD);
+      end;
+
+
+   /* SETUP_LAND_IF_NEW - Set up the land detail if new */
+
+   if BK_TOUR_MOD = -1 then
+      do;
+
+      /* BK_SET_LAND_DET - Set up the land detail */
+
+      %include "BK_SET_LAND_DET.DCL";
+      call BK_SET_LAND_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_LAND_RECORD);
+      end;
+
+
+   /* SETUP_AIR_IF_NEW - Has the air detail been changed before? */
+
+   if BK_AIR_MOD = -1 then
+      do;
+
+      /* BK_SET_AIR_DET - Call the program to set up air */
+
+      %include "BK_SET_AIR_DET.DCL";
+      call BK_SET_AIR_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         TK_DETAIL_RECORD,
+         TK_HEADER_RECORD);
+      end;
+
+
+   /* SET_IT_FLAGS - Set the itinerary build module flags */
+
+   BK_IT_VERSION = BK_ITIN_VERSION;
+   BK_IT_DATE = BK_ITIN_DATE;
+   BK_IT_DAY = BK_ITIN_DAY;
+   BK_IT_DEP_ARV = BK_ITIN_DEP_ARV;
+   BK_IT_TEMPLATE = ITIN_TEMPLATE;
+
+
+   /* CHECK_MANUAL_ITIN - Make sure manual itineraries have paras. */
+
+
+      /* SET_FIRST_LANDD - Set to the first land detail record */
+
+      LDET_MOD = BK_MODIFICATION;
+      LDET_BK_TK_NO = BOOKING_NO;
+      LDET_ALT_SEQ = 0;
+      LDET_ANSW_SEQ = 0;
+      LDET_DAY = 0;
+      LDET_SEQ = 0;
+      call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      END_CHECK_TOURD_ITIN = NO;
+      do while (END_CHECK_TOURD_ITIN ^= YES);
+         call CHECK_TOURD_ITIN;
+      end;
+
+   /* BK_IT_BUILD - Call the itinerary building program */
+
+   %include "BK_IT_BUILD.DCL";
+   call BK_IT_BUILD(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_DET_LAND_RECORD,
+      TK_DETAIL_RECORD,
+      BK_HOTEL_RECORD,
+      BK_ITIN_DET_RECORD,
+      AP_VENDOR_RECORD,
+      BK_LINE_RECORD,
+      BK_IT_BUILD_RECORD);
+
+   /* RETURN_IF_NO_EDIT - Return if the wordprocessor is not used */
+
+   if BK_IT_EDIT ^= "Y" then
+      return;
+
+
+   /* CALL_WP_IT - Word-process the tour itinerary */
+
+   if CRT_TYPE() = 7 then
+      return;
+
+   if BOOKING_NO = 0 then
+      return;
+   declare BK_TEMP character(20);
+   BK_TEMP = BOOKING_NO;
+   do while (substr(BK_TEMP,1,1) = " ");
+      BK_TEMP = substr(BK_TEMP,2,19);
+   end;
+   call XEQ(":WRDP:SSIWP.PR,1,WP:" !! CUT_SPACES(BK_TEMP) !! " ");
+
+
+   /* DISPLAY_SCREEN_2 - Display the second screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_IT_BLD_2);
+   call DISPLAY_DATA_C;
+return;
+end;	/* IT_BLD_MAINL         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  6,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  6 then
+   do;
+
+      LOOP_INDEX = SELECT +  10;
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* SET_DEF_TEMPLATE - Set up the default template */
+
+      ITIN_TEMPLATE = TOUR_IT_NAME;
+      if ITIN_TEMPLATE = "" then
+         ITIN_TEMPLATE = HDR_ITIN;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	CHECK_TOURD_ITIN
+	Any manual itineraries?
+****************************************************************/
+
+CHECK_TOURD_ITIN:
+	procedure;
+
+declare		ANSWER               character (1);
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDZ - Last land detail in general info? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > 0) !
+   (LDET_ANSW_SEQ > 0) then
+      do;
+      END_CHECK_TOURD_ITIN = YES;
+      return;
+      end;
+
+   /* CHECK_TOURD_MAN - Manual land entry? */
+
+   declare	BK_TEXT_4 file;
+   if LDET_MANUAL = "" then
+      return;
+
+   ERROR_CODE = NORMAL_RETURN;
+   on syserror(BK_TEXT_4);
+      begin;
+      ERROR_CODE = 1;
+      end;
+
+   open file (BK_TEXT_4) stream input title ("ITIN:" !!
+      CUT_SPACES(LDET_TOUR_NO) !! ".MAN") environment (lineend recsize(255));
+   close file (BK_TEXT_4);
+
+   if ERROR_CODE = NORMAL_RETURN then
+      return;
+
+   call OUTPUT_LINE(23,10,"Manual Land/Itin not found, enter paragraph?      " !! LDET_TOUR_NO);
+   call INPUT_DATA(23,55,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+   open file (BK_TEXT_4) stream output title ("ITIN:" !!
+CUT_SPACES(LDET_TOUR_NO) !! ".MAN" ) environment (filetype(150)lineend);
+close file (BK_TEXT_4);
+
+if CRT_TYPE() = 7 then
+   return;
+
+call XEQ(":WRDP:SSIWP.PR,1,ITIN:" !! CUT_SPACES(LDET_TOUR_NO) !! ".MAN ");
+
+return;
+end;	/* CHECK_TOURD_ITIN     */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =   1 to  10;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_FILE (BK_ITIN_DET_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

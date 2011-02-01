@@ -1,0 +1,942 @@
+/****************************************************************
+	Module: GL_FIN_STMTS
+	Top Level Logic: FIN_STMT_LOGIC
+	Date: 14-Mar-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_FIN_STMTS
+	Top - Level for F/S printing
+****************************************************************/
+
+%replace GL_FIN_STMTS_1 by 636;
+%replace GL_FIN_STMTS_2 by 637;
+GL_FIN_STMTS:
+   procedure;
+%replace GL_FS_HEADER_NO by 104;
+%replace GL_CHART_NO by  16;
+%replace GL_FS_DETAIL_NO by 106;
+%replace GL_FS_STMTS_NO by 105;
+%replace GL_DETAIL_NO by  17;
+%replace GL_BUDGET_C_NO by 103;
+%include "GL_FIN_STMTS.DD";
+%include "GL_FS_HEADER.DD";
+%include "GL_CHART.DD";
+%include "GL_FS_DETAIL.DD";
+%include "GL_FS_STMTS.DD";
+%include "GL_DETAIL.DD";
+%include "GL_BUDGET_C.DD";
+
+declare		END_STMT_MAIN        bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_STMT_READ_THRU   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+declare		END_ADD_IS_AMT       bit (1);
+declare		END_ADD_GL_2         bit (1);
+   call INITIALIZE;
+   END_STMT_MAIN = NO;
+   do while (END_STMT_MAIN ^= YES);
+      call STMT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   GL_TOTAL = 0;
+   GL_LINE = "";
+   GL_FIN_PC = 1000;
+   GL_AMT_START = 0;
+   GL_BUD_START = 0;
+   GL_INCOME_SUM = 0;
+   STMT_TOTAL = 0;
+   BC_TOTAL = 0;
+   GL_INC_SUM = 0;
+   GL_IS_AMT = 0;
+   GL_IS_MODE = "N";
+   GL_FS_NUMBER = "T";
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+   GL_DL_STMT = 1;
+   GL_DL_INDENT = 0;
+   GL_DL_INVIS = "N";
+   GL_DL_PAREN = "D";
+   GL_DL_SUBTOTAL = 0;
+   GL_DL_COLUMN = 1;
+   GL_DL_SPECIAL = "  ";
+   GL_SH_FORMAT = "C";
+   GL_TRX_DATE = TODAYS_DATE();
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_TRX_AMOUNT = 0;
+   GL_BUD_CODE = "B";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_FIN_STMTS_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (GL_FIN_STMTS_RECORD) );
+   call OPEN_FILE (GL_FS_HEADER_NO,"GL_FS_HEADER",byteaddr(GL_FS_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_FS_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call OPEN_FILE (GL_FS_DETAIL_NO,"GL_FS_DETAIL",byteaddr(GL_FS_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (GL_FS_STMTS_NO,"GL_FS_STMTS",byteaddr(GL_FS_STMTS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_FS_STMTS_NO,ERROR_CODE);
+   call OPEN_FILE (GL_DETAIL_NO,"GL_DETAIL",byteaddr(GL_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (GL_BUDGET_C_NO,"GL_BUDGET_C",byteaddr(GL_BUDGET_C_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_BUDGET_C_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	STMT_MAIN
+	Mainline logic
+****************************************************************/
+
+STMT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_STMT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_STMT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (GL_FIN_STMTS_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   GL_DL_CODE = GL_FIN_CODE;
+   GL_DL_STMT = 0;
+   GL_DL_SEQ = 0;
+   call SET_POSITION (GL_FS_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_STMT_READ_THRU = NO;
+   do while (END_STMT_READ_THRU ^= YES);
+      call STMT_READ_THRU;
+   end;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_STMT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* STMT_MAIN            */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+GL_END_STMT = GL_START_STMT;
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND_DIS - Read Second - Display line version */
+
+      if RETURN_CODE ^= END_TYPED then
+         do;
+         GL_FS_CODE = GL_FIN_CODE;
+         call READ_KEYED (GL_FS_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+            call PRESS_RETURN;
+            call CLEAR_MESSAGE;
+            RETURN_CODE = DO_AGAIN;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         else
+            do;
+            do LOOP_INDEX =   2 to   2;
+               call OUTPUT_FIELD (LOOP_INDEX);
+            end;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   3 to   9;
+   if LOOP_INDEX =   4 then
+      GL_END_STMT = GL_START_STMT;
+   if LOOP_INDEX =   5 then
+      call DISPLAY_MSG_NO ( 65);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GL_START_STMT = 0;
+         GL_END_STMT = 99;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = GL_INCOME_SUM;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  10 to  10;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  8,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  8 then
+   do;
+   if SELECT =  1 then
+      LOOP_INDEX =  1;
+   if SELECT >=  2 then
+      LOOP_INDEX = SELECT +   1;
+   if LOOP_INDEX =   5 then
+      call DISPLAY_MSG_NO ( 65);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND_DIS - Read Second - Display line version */
+
+      GL_FS_CODE = GL_FIN_CODE;
+      call READ_KEYED (GL_FS_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GL_START_STMT = 0;
+         GL_END_STMT = 99;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = GL_INCOME_SUM;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  10 to  10;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	STMT_READ_THRU
+	Read thru the detail for the statements
+****************************************************************/
+
+STMT_READ_THRU:
+	procedure;
+
+declare		OLD_GL_DL_STMT       fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_FS_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_DL_CODE > GL_FIN_CODE) !
+   (GL_DL_STMT > GL_END_STMT) then
+      do;
+      END_STMT_READ_THRU = YES;
+      return;
+      end;
+
+   /* CHECK_FIN_PC - Matching profit center? */
+
+   if GL_FIN_PC ^= 1000 then
+      if GL_DL_ACCT - (floor(divide(GL_DL_ACCT,1000,31)) * 1000) ^= GL_FIN_PC then
+         return;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      OLD_GL_DL_STMT = -1;
+      end;
+   if GL_DL_STMT ^= OLD_GL_DL_STMT then
+      do;
+      if ^FIRST_TIME then
+         do;
+         do LOOP_INDEX =  24 to   1;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      end;
+   if GL_DL_STMT ^= OLD_GL_DL_STMT then
+      do;
+      do LOOP_INDEX =  24 to   1;
+         call PRINT_REPORT_LINE;
+      end;
+
+      /* GL_NEW_STMT - New statement */
+
+      if OLD_GL_DL_STMT ^= -1 then
+         do;
+         STMT_TOTAL(OLD_GL_DL_STMT) = GL_TOTAL(9);
+         do LOOP_INDEX = 1 to 9;
+            GL_TOTAL(LOOP_INDEX) = 0;
+         end;
+         end;
+
+      /* READ_SECOND_DIS_2 - Read second - display mode */
+
+      GL_SH_CODE = GL_DL_CODE;
+      GL_SH_STMT = GL_DL_STMT;
+      call READ_KEYED (GL_FS_STMTS_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         end;
+      LINE = 70;
+
+      OLD_GL_DL_STMT = GL_DL_STMT;
+      end;
+   FIRST_TIME = NO;
+   call GET_GL_AMT;
+
+   /* CHECK_BC - Get budgets or comparatives? */
+
+   if GL_BUD_COMP ^= "" then
+      do;
+      call GET_BC_AMT;
+      end;
+
+
+   /* CHECK_PREV - Number from a previous statement? */
+
+   if GL_BALANCE = 0 then
+      if GL_DL_SPECIAL >= "01" then if GL_DL_SPECIAL <= "99" then
+         do;
+         GL_DL_ACCT = 1000;
+         LOOP_INDEX = GL_DL_SPECIAL;
+         GL_BALANCE = STMT_TOTAL(LOOP_INDEX);
+         end;
+
+
+   /* SKIP_INVISIBLE - Skip an invisible line */
+
+   if GL_DL_INVIS = "Y" then
+      do;
+      GL_AMT_START = GL_BALANCE;
+      GL_BUD_START = GL_BUD_COM;
+      return;
+      end;
+   else
+      do;
+      GL_AMT_START = 0;
+      GL_BUD_START = 0;
+      end;
+
+
+   /* ADD_GL_TOTALS - Add to the totals */
+
+   do LOOP_INDEX = 1 to 9;
+      GL_TOTAL(LOOP_INDEX) = floor((GL_TOTAL(LOOP_INDEX) + GL_BALANCE) * 100 + 0.5) / 100;
+   end;
+
+   if GL_DL_STMT < GL_START_STMT then
+      return;
+
+
+   /* SETUP_DETAIL_LINE - Setup and print the G/L detail line */
+
+   if (GL_DL_COLUMN ^= 2) & (GL_DL_COLUMN ^= 3) then
+      GL_DL_COLUMN = 1;
+   if GL_SH_FORMAT ^= "C" then
+      GL_DL_COLUMN = 1;
+
+   if GL_DL_SUBTOTAL = 0 then
+      do;
+      GL_LINE = "";
+      if GL_DL_ACCT > 999 then
+         do;
+         call CONV_FP (GL_BALANCE,GL_CONVERT);
+
+         /* SET_FS_LINE - Set up the Financial Statement line */
+
+         LOOP_INDEX = index(GL_CONVERT,"-");
+         if LOOP_INDEX = 0 then
+            do;
+            if GL_DL_PAREN = "C" then if GL_BALANCE ^= 0 then
+               do;
+               do LOOP_INDEX = 1 to 19;
+                  if substr(GL_CONVERT,LOOP_INDEX,1) ^= " " then
+                     do;
+                     substr(GL_CONVERT,LOOP_INDEX-1,1) = "(";
+                     substr(GL_CONVERT,20,1) = ")";
+                     LOOP_INDEX = 20;
+                     end;
+               end;
+               end;
+            end;
+         else
+            do;
+            if GL_DL_PAREN = "D" then
+               do;
+               substr(GL_CONVERT,LOOP_INDEX,1) = "(";
+               substr(GL_CONVERT,20,1) = ")";
+               end;
+            else
+               substr(GL_CONVERT,LOOP_INDEX,1) = " ";
+            end;
+
+         substr(GL_LINE,GL_DL_COLUMN*15+25,20) = GL_CONVERT;
+
+         end;
+
+      substr(GL_LINE,GL_DL_INDENT*2+1,30) = GL_DL_DESC;
+
+      if (GL_LINE ^= "") ! (GL_DL_SPECIAL = "") then
+         do;
+
+         /* PRINT_LINE_D2 - Print lines */
+
+         do LOOP_INDEX =   6 to   6;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+
+      end;
+
+
+   /* SETUP_TOTAL_LINE - Set up the G/L total line */
+
+   if GL_DL_SUBTOTAL ^= 0 then
+      do;
+      GL_LINE = "";
+      call CONV_FP(GL_TOTAL(GL_DL_SUBTOTAL),GL_CONVERT);
+
+
+      /* SET_FS_LINE - Set up the Financial Statement line */
+
+      LOOP_INDEX = index(GL_CONVERT,"-");
+      if LOOP_INDEX = 0 then
+         do;
+         if GL_DL_PAREN = "C" then if GL_BALANCE ^= 0 then
+            do;
+            do LOOP_INDEX = 1 to 19;
+               if substr(GL_CONVERT,LOOP_INDEX,1) ^= " " then
+                  do;
+                  substr(GL_CONVERT,LOOP_INDEX-1,1) = "(";
+                  substr(GL_CONVERT,20,1) = ")";
+                  LOOP_INDEX = 20;
+                  end;
+            end;
+            end;
+         end;
+      else
+         do;
+         if GL_DL_PAREN = "D" then
+            do;
+            substr(GL_CONVERT,LOOP_INDEX,1) = "(";
+            substr(GL_CONVERT,20,1) = ")";
+            end;
+         else
+            substr(GL_CONVERT,LOOP_INDEX,1) = " ";
+         end;
+
+      substr(GL_LINE,GL_DL_COLUMN*15+25,20) = GL_CONVERT;
+
+
+      if GL_DL_ACCT <= 999 then
+         substr(GL_LINE,GL_DL_INDENT*2+1,30) = GL_DL_DESC;
+
+
+      /* PRINT_LINE_D2 - Print lines */
+
+      do LOOP_INDEX =   6 to   6;
+         call PRINT_REPORT_LINE;
+      end;
+
+      do LOOP_INDEX = 1 to GL_DL_SUBTOTAL;
+         GL_TOTAL(LOOP_INDEX) = 0;
+      end;
+      end;
+
+
+   /* CHECK_SPECIAL - Any special G/L formatting codes? */
+
+   if GL_DL_SPECIAL ^= "" then
+      do;
+      GL_LINE = "";
+      if GL_DL_SPECIAL = "UL" then
+         do;
+         substr(GL_LINE,GL_DL_COLUMN*15+30,15) = "---------------";
+
+         /* PRINT_LINE_D2 - Print lines */
+
+         do LOOP_INDEX =   6 to   6;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      if GL_DL_SPECIAL = "DU" then
+         do;
+         substr(GL_LINE,GL_DL_COLUMN*15+30,15) = "===============";
+
+         /* PRINT_LINE_D2 - Print lines */
+
+         do LOOP_INDEX =   6 to   6;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      if GL_DL_SPECIAL = "LF" then
+         do;
+         GL_LINE = "";
+
+         /* PRINT_LINE_D2 - Print lines */
+
+         do LOOP_INDEX =   6 to   6;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      if GL_DL_SPECIAL = "PF" then
+         do;
+         GL_LINE = "<FF>"c;
+
+         /* PRINT_LINE_D2 - Print lines */
+
+         do LOOP_INDEX =   6 to   6;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      if GL_DL_SPECIAL = "DA" then
+         do;
+
+         /* PRINT_LINE_G1 - Print lines */
+
+         do LOOP_INDEX =  10 to  10;
+            call PRINT_REPORT_LINE;
+         end;
+         GL_IS_MODE = "Y";
+         end;
+      if GL_DL_SPECIAL = "DE" then
+         do;
+
+         /* PRINT_LINE_G2 - Print */
+
+         do LOOP_INDEX =  11 to  11;
+            call PRINT_REPORT_LINE;
+         end;
+         GL_IS_MODE = "N";
+         end;
+   end;
+
+return;
+end;	/* STMT_READ_THRU       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =  24 to   1;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	GET_GL_AMT
+	Calculate the amount to put on statement
+****************************************************************/
+
+GET_GL_AMT:
+	procedure;
+
+
+   /* ZERO_GL_AMT - Zero the balance */
+
+   GL_BALANCE = GL_AMT_START;
+
+
+   /* FIND_GL_FORMAT - Get the format */
+
+   if GL_DL_ACCT = GL_INCOME_SUM then
+      GL_BALANCE = floor((GL_BALANCE + GL_IS_AMT) * 100 + 0.5) / 100;
+
+   if GL_FS_NUMBER = "N" then
+      GL_TRX_DATE = GL_STMT_BEGIN;
+   else
+      do;
+      if GL_IS_MODE = "N" then
+         GL_TRX_DATE = 0;
+      else
+         do;
+         GL_TRX_DATE = 0;
+
+         /* SET_FIRST_2 - Set the file pointer to the first key */
+
+         GL_AC_NO = GL_DL_ACCT;
+         GL_SEQ_NO = 0;
+         call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+         END_ADD_IS_AMT = NO;
+         do while (END_ADD_IS_AMT ^= YES);
+            call ADD_IS_AMT;
+         end;
+         GL_TRX_DATE = GL_STMT_BEGIN;
+         end;
+      end;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   GL_AC_NO = GL_DL_ACCT;
+   GL_SEQ_NO = 0;
+   call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   END_ADD_GL_2 = NO;
+   do while (END_ADD_GL_2 ^= YES);
+      call ADD_GL_2;
+   end;
+return;
+end;	/* GET_GL_AMT           */
+
+/****************************************************************
+	ADD_IS_AMT
+	Add to the Income Statement Amount
+****************************************************************/
+
+ADD_IS_AMT:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_5 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_DL_ACCT) !
+   (GL_TRX_DATE > GL_STMT_BEGIN-1) !
+   (GL_SEQ_NO > GL_SEQ_NO) then
+      do;
+      END_ADD_IS_AMT = YES;
+      return;
+      end;
+
+   /* ADD_TO_IS_BAL - Add to the Income Summary Balance */
+
+   GL_IS_AMT = floor((GL_IS_AMT + GL_TRX_AMOUNT) * 100 + 0.5) / 100;
+
+return;
+end;	/* ADD_IS_AMT           */
+
+/****************************************************************
+	ADD_GL_2
+	Read thru all the detail and add
+****************************************************************/
+
+ADD_GL_2:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_DL_ACCT) !
+   (GL_TRX_DATE > GL_STMT_FINISH) then
+      do;
+      END_ADD_GL_2 = YES;
+      return;
+      end;
+
+   /* ADD_TO_GL_BAL - Add to the balance */
+
+   GL_BALANCE = floor((GL_BALANCE + GL_TRX_AMOUNT) * 100 + 0.5) / 100;
+
+return;
+end;	/* ADD_GL_2             */
+
+/****************************************************************
+	GET_BC_AMT
+	Get the budget or comparative amount
+****************************************************************/
+
+GET_BC_AMT:
+	procedure;
+
+
+   /* ZERO_BC_AMT - Init the amount */
+
+   GL_BUD_COM = GL_BUD_START;
+
+
+   /* SET_FIRST_3 - Set first */
+
+   GL_BUD_CODE = GL_BUD_COMP;
+   GL_BUD_ACCT = GL_DL_ACCT;
+   GL_BUD_DATE = GL_STMT_FINISH;
+   call SET_POSITION (GL_BUDGET_C_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_3 - Read next */
+
+   call READ_NEXT (GL_BUDGET_C_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_BUDGET_C_NO,ERROR_CODE);
+
+   /* CHECK_END_3 - Check for end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_BUD_CODE > GL_BUD_COMP) !
+   (GL_BUD_ACCT > GL_DL_ACCT) !
+   (GL_BUD_DATE > GL_STMT_FINISH) then
+      return;
+
+   /* SET_BC_AMT - Set the Budget or comparative amount */
+
+   GL_BUD_COM = GL_BUD_AMOUNT;
+
+   if GL_FS_NUMBER = "Y" then
+      return;
+
+
+   /* SET_FIRST_4 - Set first */
+
+   GL_BUD_CODE = GL_BUD_COMP;
+   GL_BUD_ACCT = GL_DL_ACCT;
+   GL_BUD_DATE = GL_STMT_BEGIN;
+   call SET_POSITION (GL_BUDGET_C_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_3 - Read next */
+
+   call READ_NEXT (GL_BUDGET_C_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_BUDGET_C_NO,ERROR_CODE);
+
+   /* CHECK_END_4 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_BUD_CODE > GL_BUD_COMP) !
+   (GL_BUD_ACCT > GL_DL_ACCT) !
+   (GL_BUD_DATE > GL_STMT_BEGIN) then
+      return;
+
+   /* SET_BC_CHG - Set if this document wants change */
+
+   GL_BUD_COM = GL_BUD_COM - GL_BUD_AMOUNT;
+
+return;
+end;	/* GET_BC_AMT           */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (GL_FS_HEADER_NO);
+   call CLOSE_FILE (GL_CHART_NO);
+   call CLOSE_FILE (GL_FS_DETAIL_NO);
+   call CLOSE_FILE (GL_FS_STMTS_NO);
+   call CLOSE_FILE (GL_DETAIL_NO);
+   call CLOSE_FILE (GL_BUDGET_C_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

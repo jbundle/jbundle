@@ -1,0 +1,31 @@
+/*********************************************************************
+	BK_LAND File
+********************************************************************/
+
+declare	1 BK_LAND_RECORD,
+		3 LAND_CODE            character (       10),
+		3 LAND_DESC_1          character (       30),
+		3 LAND_DESC_2          character (       30),
+		3 TOUR_CITY            character (        3),
+		3 LAND_TYPE            character (        1),
+		3 LAND_VENDOR_NO       character (        6),
+		3 LAND_CURR            character (        3),
+		3 LAND_OP_CODE         character (       20),
+		3 TOUR_MAN_FILE        character (       10),
+		3 TOUR_ETD             character (        5),
+		3 TOUR_HOURS           fixed binary (15),
+		3 TOUR_DAYS            fixed binary (15),
+		3 TOUR_NIGHTS          fixed binary (15),
+		3 TOUR_BREAKFASTS      fixed binary (15),
+		3 TOUR_LUNCHES         fixed binary (15),
+		3 TOUR_DINNERS         fixed binary (15),
+		3 TOUR_DAY_OF_WEEK     character (        4),
+		3 TOUR_VEHICLE         character (       15),
+		3 TOUR_COMM_1          character (       30),
+		3 TOUR_COMM_2          character (       30),
+		3 TOUR_COMM_3          character (       30),
+		3 TOUR_INV             character (1),
+		3 LAND_TAX( 3) float binary (21),
+		3 LAND_SVC_CHG( 3) float binary (21),
+		3 LAND_COMM( 3) float binary (21);
+

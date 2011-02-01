@@ -1,0 +1,16 @@
+/*********************************************************************
+	BK_L_RECAP File
+********************************************************************/
+
+declare	1 BK_L_RECAP_RECORD,
+		3 LRECAP_DATE          fixed binary (15),
+		3 LRECAP_TIME          fixed binary (15),
+		3 LRECAP_USER          character (       16),
+		3 LRECAP_PAGE          fixed binary (15),
+		3 LRECAP_LINV          character (1),
+		3 LRECAP_LPAX          character (1),
+		3 LRECAP_LAIR          character (1),
+		3 LRECAP_LVEN          character (        6),
+		3 LRECAP_LSTART        fixed binary (15),
+		3 LRECAP_LEND          fixed binary (15);
+

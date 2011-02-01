@@ -1,0 +1,917 @@
+/****************************************************************
+	Module: PR_PAYROLL
+	Top Level Logic: PAYROLL_LOGIC
+	Date: 30-Jul-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	PR_PAYROLL
+	Logic for the payroll calc & check prntg
+****************************************************************/
+
+%replace PR_PAYROLL_1 by  23;
+%replace PR_PAYROLL_2 by  24;
+%replace PR_PAYROLL_3 by  73;
+%replace PR_PAYROLL_9 by  25;
+PR_PAYROLL:
+   procedure;
+%replace PR_TIME_TRX_NO by   7;
+%replace EMPLOYEE_NO by   6;
+%replace EMP_CONTROL_NO by   1;
+%replace TAX_RATES_NO by   2;
+%replace DED_EARN_NO by   5;
+%include "PR_PAYROLL.DD";
+%include "PR_TIME_TRX.DD";
+%include "EMPLOYEE.DD";
+%include "EMP_CONTROL.DD";
+%include "TAX_RATES.DD";
+%include "DED_EARN.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_CALC_THRU_CKS    bit (1);
+declare		DED_EARN_AMT         float binary (53);
+declare		DE_FREQ_CODES        character (        7);
+declare		END_SETUP_DE         bit (1);
+declare		DED_NO               fixed binary (15);
+declare		ALLOWANCES           fixed binary (15);
+declare		ALLOW_AMT            float binary (21);
+declare		ANNUAL_TAX           float binary (21);
+declare		MULTIPLIER           float binary (21);
+declare		END_READ_THROUGH     bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   call PAYROLL_MAIN;
+   call END_RPT_PROGRAM;
+
+   /* CLOSE_LPT - Close the printer */
+
+   call CLOSE_PRINTER;
+
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   PR_END_DATE = TODAYS_DATE();
+   EMP_TOTAL = 0;
+   TOTAL_NET = 0;
+   TOTAL_DED = 0;
+   TOTAL_GROSS = 0;
+   TOTAL_NON_TAX = 0;
+   TOTAL_FED = 0;
+   TOTAL_STATE = 0;
+   TOTAL_LOCAL = 0;
+   TOTAL_FICA = 0;
+   TOTAL_SDI = 0;
+   SALARIED_TOTAL = 0;
+   TOTAL_REG_HRS = 0;
+   TOTAL_OT_HRS = 0;
+   TOTAL_SP1_HRS = 0;
+   TOTAL_SP2_HRS = 0;
+   TOTAL_REGULAR = 0;
+   TOTAL_OVERTIME = 0;
+   TOTAL_SP1 = 0;
+   TOTAL_SP2 = 0;
+   PAYROLL_DATE = TODAYS_DATE();
+   PAYROLL_TIME = CURRENT_TIME();
+   PAYROLL_USER = USER_NAME();
+   PAYROLL_PAGE = 1;
+   TOTAL_FED_GROSS = 0;
+   PAY_ENDING = TODAYS_DATE();
+   REGULAR_HRS = 40;
+   SS_GROSS_PAY = 0;
+   STATE_GROSS_PAY = 0;
+   EMP_STATE = "CA";
+   FED_ALLOW = 2;
+   PAY_FREQ = "W";
+   PAY_TYPE = "H";
+   IN_PENSION = "Y";
+   DE_1 = "";
+   DE_2 = "";
+   DE_3 = "";
+   DE_4 = "";
+   QTD_SS_GROSS = 0;
+   QTD_STATE_GROSS = 0;
+   YTD_SS_GROSS = 0;
+   YTD_STATE_GROSS = 0;
+   CTRL_REC_NO = 9999;
+   NEXT_PR_CK_NO = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (PR_PAYROLL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (PR_PAYROLL_RECORD) );
+   call OPEN_FILE (PR_TIME_TRX_NO,"PR_TIME_TRX",byteaddr(PR_TIME_TRX_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (PR_TIME_TRX_NO,ERROR_CODE);
+   call OPEN_FILE (EMPLOYEE_NO,"EMPLOYEE",byteaddr(EMPLOYEE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (EMPLOYEE_NO,ERROR_CODE);
+   call OPEN_FILE (EMP_CONTROL_NO,"EMP_CONTROL",byteaddr(EMP_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (EMP_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (TAX_RATES_NO,"TAX_RATES",byteaddr(TAX_RATES_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TAX_RATES_NO,ERROR_CODE);
+   call OPEN_FILE (DED_EARN_NO,"DED_EARN",byteaddr(DED_EARN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (DED_EARN_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	PAYROLL_MAIN
+	Mainline logic
+****************************************************************/
+
+PAYROLL_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+   call REPORT_SCREEN;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* ALIGN_RIGHT - Is the alignment right? */
+
+   call OUTPUT_LINE (23,20,"Are the paychecks aligned?");
+   call INPUT_DATA (23,47,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_MESSAGE;
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+   call PRINTING_OCCURRING;
+
+   call CALC_LOGIC;
+
+   /* RETURN_IF_PAY_NEG - Return if pay is negative */
+
+   if NET_PAY < 0 then
+      return;
+
+
+   /* PR_PRT_CHECKS - Print the checks */
+
+   %include "PR_PRT_CHECKS.DCL";
+   call PR_PRT_CHECKS(
+      PR_PAYROLL_RECORD,
+      PR_TIME_TRX_RECORD,
+      DED_EARN_RECORD,
+      EMP_CONTROL_RECORD,
+      TAX_RATES_RECORD,
+      EMPLOYEE_RECORD);
+
+   /* CLOSE_LPT - Close the printer */
+
+   call CLOSE_PRINTER;
+
+
+   /* CHECKS_OK - Are the checks okay? */
+
+   call OUTPUT_LINE (23,20,"Are the paychecks correct?");
+   call INPUT_DATA (23,47,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_MESSAGE;
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* OPEN_LPT_2 - Open the second printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (PR_PAYROLL_2);
+
+   /* SET_REPORT_SCRN - Setup the report format */
+
+   call SETUP_PRINT_FORMAT (PR_PAYROLL_9);
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (PR_PAYROLL_RECORD) );
+   call PRT_REPORT;
+
+   /* PR_UPDATE - Update all of the payroll files */
+
+   %include "PR_UPDATE.DCL";
+   call PR_UPDATE(
+      PR_PAYROLL_RECORD,
+      PR_TIME_TRX_RECORD,
+      DED_EARN_RECORD,
+      EMP_CONTROL_RECORD,
+      TAX_RATES_RECORD,
+      EMPLOYEE_RECORD);
+return;
+end;	/* PAYROLL_MAIN         */
+
+/****************************************************************
+	REPORT_SCREEN
+	Get the report data from the screen
+****************************************************************/
+
+REPORT_SCREEN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("CHECK");
+   call SETUP_PRINT_FORMAT (PR_PAYROLL_2);
+return;
+end;	/* REPORT_SCREEN        */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+PR_CHECK_DATE = PR_END_DATE;
+DED_TO_TAKE = "";
+do LOOP_INDEX =   1 to   4;
+   if LOOP_INDEX =   2 then
+      PR_CHECK_DATE = PR_END_DATE;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* PR_SET_DATE_DEF - Set the check date default */
+
+      PR_CHECK_DATE = PR_END_DATE;
+
+      end;
+   if LOOP_INDEX =   3 then
+      call DISPLAY_MSG_NO (  9);
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* SET_DED_DEF - Set default for Deduction code */
+
+      DED_TO_TAKE = "S";
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  4,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  4 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* PR_SET_DATE_DEF - Set the check date default */
+
+      PR_CHECK_DATE = PR_END_DATE;
+
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* SET_DED_DEF - Set default for Deduction code */
+
+      DED_TO_TAKE = "S";
+
+      end;
+   if LOOP_INDEX =   3 then
+      call DISPLAY_MSG_NO (  9);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	CALC_LOGIC
+	Calculate earnings and taxes for checks
+****************************************************************/
+
+CALC_LOGIC:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   PAY_ENDING = PR_END_DATE;
+   TIME_EMP_NO = 0;
+   PAY_SEQ = 0;
+   call SET_POSITION (PR_TIME_TRX_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* GET_CTL_INFO - Get the info (tax info) from the ct file */
+
+   CTRL_REC_NO = 2;
+   call READ_KEYED (EMP_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      stop;
+
+   END_CALC_THRU_CKS = NO;
+   do while (END_CALC_THRU_CKS ^= YES);
+      call CALC_THRU_CKS;
+   end;
+return;
+end;	/* CALC_LOGIC           */
+
+/****************************************************************
+	CALC_THRU_CKS
+	Read through timecards and calc pay
+****************************************************************/
+
+CALC_THRU_CKS:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_PR_TIME_TRX    fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (PR_TIME_TRX_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (PR_TIME_TRX_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (PAY_ENDING > PR_END_DATE) then
+      do;
+      END_CALC_THRU_CKS = YES;
+      return;
+      end;
+
+   /* GET_EMP_INFO - Get the employee info */
+
+   EMP_NO = TIME_EMP_NO;
+   call READ_KEYED (EMPLOYEE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+   	EMP_NAME = "** Employee not on file **";
+
+
+   /* SET_CHECK_NUM - Set this check number */
+
+   PR_CHECK_NUM = PR_CHECK_NO;
+   PR_CHECK_NO = PR_CHECK_NO + 1;
+
+   call CALC_PAY;
+
+   /* RETURN_IF_NEG_PAY - Return if negative paycheck */
+
+   if NET_PAY < 0 then
+      do;
+      call DISPLAY_MESSAGE(CUT_SPACES(EMP_NAME) !!" has a negative net pay!");
+      call PRESS_RETURN;
+      do;
+      END_CALC_THRU_CKS = YES;
+      return;
+      end;
+      end;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (PR_TIME_TRX_NO,ERROR_CODE);
+
+   /* READ_DATA - Read the record from the file */
+
+   call READ_KEYED (PR_TIME_TRX_NO,KEY_AREA_1,ERROR_PR_TIME_TRX);
+   if ERROR_PR_TIME_TRX > 3 then
+      call PRINT_ERROR (PR_TIME_TRX_NO,ERROR_PR_TIME_TRX);
+return;
+end;	/* CALC_THRU_CKS        */
+
+/****************************************************************
+	CALC_PAY
+	Calculate the pay for all the employees
+****************************************************************/
+
+CALC_PAY:
+	procedure;
+
+declare		EARN_NO              fixed binary (15);
+
+   /* CALC_GROSS - Calculate the gross pay */
+
+   if (PAY_SALARY = "Y") & (PAY_TYPE = "S") then
+      REGULAR_PAY = SALARY;
+   else
+      REGULAR_PAY = floor(HOURLY_RATE * REGULAR_HRS * 100 + 0.5) / 100;
+   OVERTIME_PAY = floor(OVERTIME * OVERTIME_HRS * 100 + 0.5) / 100;
+   SPECIAL_1_PAY = floor(SPECIAL_1 * SP1_HOURS * 100 + 0.5) / 100;
+   SPECIAL_2_PAY = floor(SPECIAL_2 * SP2_HOURS * 100 + 0.5) / 100;
+   GROSS_PAY = floor((REGULAR_PAY +  OVERTIME_PAY + SPECIAL_1_PAY + SPECIAL_2_PAY) * 100 + 0.5) / 100;
+
+
+   /* CALC_EARN - Calculate other earnings */
+
+   SS_GROSS_PAY = GROSS_PAY;
+   STATE_GROSS_PAY = GROSS_PAY;
+   NON_TAX_PAY = 0;
+   DED_NO = 1;
+   DE_FREQ_CODES = "ENISVzz";
+   do while (DED_NO < 9);
+      END_SETUP_DE = NO;
+      do while (END_SETUP_DE ^= YES);
+         call SETUP_DE;
+      end;
+      if (DE_TYPE = "N") ! (DE_TYPE = "I") ! (DE_TYPE = "T") then
+         NON_TAX_PAY = floor((NON_TAX_PAY + DED_EARN_AMT) * 100 + 0.5) / 100;
+      else
+         do;
+         GROSS_PAY = floor((GROSS_PAY + DED_EARN_AMT) * 100 + 0.5) / 100;
+         STATE_GROSS_PAY = floor((STATE_GROSS_PAY + DED_EARN_AMT) * 100 + 0.5) / 100;
+         SS_GROSS_PAY = floor((SS_GROSS_PAY + DED_EARN_AMT) * 100 + 0.5) / 100;
+         end;
+   end;
+
+
+   /* CALC_DED - Calculate deductions */
+
+   OTHER_DED = 0;
+   DED_NO = 1;
+   DE_FREQ_CODES = "DTRzzzz";
+   do while (DED_NO < 9);
+      END_SETUP_DE = NO;
+      do while (END_SETUP_DE ^= YES);
+         call SETUP_DE;
+      end;
+      if DE_TYPE = "D" then
+         OTHER_DED = floor((OTHER_DED + DED_EARN_AMT) * 100 + 0.5) / 100;
+      if DE_TYPE = "T" then
+         do;
+         GROSS_PAY = floor((GROSS_PAY - DED_EARN_AMT) * 100 + 0.5) / 100;
+         SS_GROSS_PAY = floor((SS_GROSS_PAY - DED_EARN_AMT) * 100 + 0.5) / 100;
+         STATE_GROSS_PAY = floor((STATE_GROSS_PAY - DED_EARN_AMT) * 100 + 0.5) / 100;
+         end;
+      if DE_TYPE = "R" then
+         do;
+         GROSS_PAY = floor((GROSS_PAY - DED_EARN_AMT) * 100 + 0.5) / 100;
+         STATE_GROSS_PAY = floor((STATE_GROSS_PAY - DED_EARN_AMT) * 100 + 0.5) / 100;
+         end;
+   end;
+
+
+   /* CALC_TAXES - Calculate the taxes for this employee */
+
+   do case (index("WBSMQA",PAY_FREQ));
+      MULTIPLIER = 52.14;
+      MULTIPLIER = 26.07;
+      MULTIPLIER = 24;
+      MULTIPLIER = 12;
+      MULTIPLIER = 4;
+      MULTIPLIER = 1;
+   end;
+   otherwise
+      MULTIPLIER = 52.14;
+   TAX_CODE = "FE";	/* Federal taxes */
+   ANNUAL_TAX = 0;
+   ALLOWANCES = FED_ALLOW;
+   ALLOW_AMT = FED_EXEMPTION;
+   if WH_EXEMPT ^= "Y" then
+      call GET_TAX;
+   FED_TAXES = floor(ANNUAL_TAX / MULTIPLIER * 100 + 0.5) / 100;
+   if ADD_DEDUCT ^= 0 then
+      do;
+      if ADD_DEDUCT < 1.00 then
+         FED_TAXES = floor((FED_TAXES + GROSS_PAY * ADD_DEDUCT) * 100 + 0.5)/100;
+      else
+         FED_TAXES = floor((FED_TAXES + ADD_DEDUCT) * 100 + 0.5) / 100;
+      end;
+
+   TAX_CODE = STATE;	/* State taxes */
+   ANNUAL_TAX = 0;
+   ALLOWANCES = STATE_ALLOW;
+   ALLOW_AMT = STATE_EXEMPTION;
+   if STATE_EXEMPT ^= "Y" then
+      call GET_TAX;
+   STATE_TAXES = floor(ANNUAL_TAX / MULTIPLIER * 100 + 0.5) / 100;
+   if ADD_STATE ^= 0 then
+      do;
+      if ADD_STATE < 1.00 then
+         STATE_TAXES=floor((STATE_TAXES + GROSS_PAY*ADD_STATE) * 100 + 0.5) /100;
+      else
+         STATE_TAXES = floor((STATE_TAXES + ADD_STATE) * 100 + 0.5) / 100;
+      end;
+
+   TAX_CODE = LOCAL_CODE;	/* Local taxes */
+   ANNUAL_TAX = 0;
+   ALLOWANCES = LOCAL_ALLOW;
+   ALLOW_AMT = LOCAL_EXEMPTION;
+   if LOCAL_EXEMPT ^= "Y" then
+      call GET_TAX;
+   LOCAL_TAXES = floor(ANNUAL_TAX / MULTIPLIER * 100 + 0.5) / 100;
+   if ADD_LOCAL ^= 0 then
+      do;
+      if ADD_LOCAL < 1.00 then
+         LOCAL_TAXES=floor((LOCAL_TAXES+ GROSS_PAY * ADD_LOCAL) * 100 + 0.5)/100;
+      else
+         LOCAL_TAXES = floor((LOCAL_TAXES + ADD_LOCAL) * 100 + 0.5) / 100;
+      end;
+
+   FICA_TAXES = floor(SS_GROSS_PAY * FICA_EMPE_PER + 0.5) / 100;
+   if FICA_EXEMPT = "Y" then
+      FICA_TAXES = 0;
+   if FICA_TAXES + YTD_EMP_FICA > MAX_FICA_WH then
+      FICA_TAXES = max(0,MAX_FICA_WH - YTD_EMP_FICA);
+
+   SDI_TAXES = floor(GROSS_PAY * SDI_PER + 0.5) / 100;
+   if SDI_EXEMPT = "Y" then
+      SDI_TAXES = 0;
+   if SDI_TAXES + YTD_SDI_WH > SDI_MAX then
+      SDI_TAXES = max(0,SDI_MAX - YTD_SDI_WH);
+
+
+   /* CALC_NET - Calculate the net pay */
+
+   CALC_AGAIN:
+   NET_PAY = floor((GROSS_PAY + NON_TAX_PAY - FED_TAXES - STATE_TAXES -
+      LOCAL_TAXES - FICA_TAXES - SDI_TAXES - OTHER_DED) * 100 + 0.5) /100;
+
+return;
+end;	/* CALC_PAY             */
+
+/****************************************************************
+	SETUP_DE
+	Setup the Deduction or Earnings
+****************************************************************/
+
+SETUP_DE:
+	procedure;
+
+DED_EARN_AMT = 0;
+ERROR_CODE = 0;
+
+do case (DED_NO);
+   do;	/* Ded/Earnings */
+   DED_EARN_AMT = TIME_AMT_1;
+   DE_CODE = TIME_DE_1;
+   call GET_DE_CODE;
+   end;
+   do;	/* Ded/Earnings */
+   DED_EARN_AMT = TIME_AMT_2;
+   DE_CODE = TIME_DE_2;
+   call GET_DE_CODE;
+   end;
+   do;	/* Ded/Earnings */
+   DED_EARN_AMT = TIME_AMT_3;
+   DE_CODE = TIME_DE_3;
+   call GET_DE_CODE;
+   end;
+   do;	/* Ded/Earnings */
+   DED_EARN_AMT = TIME_AMT_4;
+   DE_CODE = TIME_DE_4;
+   call GET_DE_CODE;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_1;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_1) ^= 0 then
+      DED_EARN_AMT = AMT_1;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_2;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_2) ^= 0 then
+      DED_EARN_AMT = AMT_2;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_3;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_3) ^= 0 then
+      DED_EARN_AMT = AMT_3;
+   end;
+   do;	/* Ded/Earnings */
+   DE_CODE = DE_4;
+   call GET_DE_CODE;
+   if index(DED_TO_TAKE,FREQ_4) ^= 0 then
+      DED_EARN_AMT = AMT_4;
+   end;
+end;
+otherwise
+   do;	/* Ded/Earnings */
+   DE_GL_NO = 0;
+   DED_EARN_AMT = 0;
+   END_SETUP_DE = YES;
+   end;
+
+if ERROR_CODE = 1 then
+   DED_EARN_AMT = 0;
+
+if DED_EARN_AMT > 0.00 then if DED_EARN_AMT < 1.00 then
+if DE_FREQ_CODES = "DTRzzzz" then
+   DED_EARN_AMT = floor(GROSS_PAY * DED_EARN_AMT * 100 + 0.5) / 100;
+
+DED_NO = DED_NO + 1;
+if DED_EARN_AMT ^= 0 then
+   END_SETUP_DE = YES;
+
+return;
+end;	/* SETUP_DE             */
+
+/****************************************************************
+	GET_DE_CODE
+	Get the Deduction/Earnings code
+****************************************************************/
+
+GET_DE_CODE:
+	procedure;
+
+call READ_KEYED (DED_EARN_NO,KEY_AREA_1,ERROR_CODE);
+if index(DE_FREQ_CODES,DE_TYPE) = 0 then
+   ERROR_CODE = 1;
+
+return;
+end;	/* GET_DE_CODE          */
+
+/****************************************************************
+	GET_TAX
+	Calculate the proper tax from the table
+****************************************************************/
+
+GET_TAX:
+	procedure;
+
+declare		START_TAX_CODE       character (        2);
+declare		ANNUAL_SAL           float binary (21);
+declare		LAST_CUT_OFF         float binary (21);
+declare		LAST_TAX_RATE        float binary (21);
+START_TAX_CODE = TAX_CODE;
+MARITAL_STATUS = EMP_MARITAL;
+ANNUAL_SAL = floor((GROSS_PAY * MULTIPLIER - ALLOWANCES * ALLOW_AMT) * 100 + 0.5) / 100;
+CUT_OFF_AMOUNT = 0;
+TAX_RATE = 0;
+call SET_POSITION (TAX_RATES_NO,KEY_AREA_1,ERROR_CODE);
+do while (ANNUAL_SAL > CUT_OFF_AMOUNT);
+   LAST_CUT_OFF = CUT_OFF_AMOUNT;
+   LAST_TAX_RATE = TAX_RATE;
+   call READ_NEXT(TAX_RATES_NO,KEY_AREA_1,ERROR_CODE);
+   if (TAX_CODE ^= START_TAX_CODE) ! (ERROR_CODE = END_OF_FILE) then
+      CUT_OFF_AMOUNT = ANNUAL_SAL;
+   ANNUAL_TAX = ANNUAL_TAX +
+      (min(ANNUAL_SAL,CUT_OFF_AMOUNT) - LAST_CUT_OFF) * LAST_TAX_RATE / 100;
+end;
+
+return;
+end;	/* GET_TAX              */
+
+/****************************************************************
+	PRT_REPORT
+	Print the report
+****************************************************************/
+
+PRT_REPORT:
+	procedure;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   PAY_ENDING = PR_END_DATE;
+   TIME_EMP_NO = 0;
+   PAY_SEQ = 0;
+   call SET_POSITION (PR_TIME_TRX_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THROUGH = NO;
+   do while (END_READ_THROUGH ^= YES);
+      call READ_THROUGH;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   call SETUP_PRINT_FORMAT (PR_PAYROLL_9);
+   do LOOP_INDEX =   8 to  14;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_REPORT           */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+call SETUP_PRINT_FORMAT (PR_PAYROLL_9);
+do LOOP_INDEX =   1 to   4;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+PAYROLL_PAGE = PAYROLL_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THROUGH
+	Read through the file
+****************************************************************/
+
+READ_THROUGH:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (PR_TIME_TRX_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (PR_TIME_TRX_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (PAY_ENDING > PR_END_DATE) then
+      do;
+      END_READ_THROUGH = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* GET_EMP_INFO - Get the employee info */
+
+   EMP_NO = TIME_EMP_NO;
+   call READ_KEYED (EMPLOYEE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+   	EMP_NAME = "** Employee not on file **";
+
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   call SETUP_PRINT_FORMAT (PR_PAYROLL_9);
+   do LOOP_INDEX =   5 to   7;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TO_TOTALS - Add to the totals */
+
+
+   /* PR_TOTALS - Add to the Payroll totals */
+
+   EMP_TOTAL = EMP_TOTAL + 1;
+   if PAY_SALARY = "Y" then
+      SALARIED_TOTAL = SALARIED_TOTAL + 1;
+   TOTAL_REG_HRS = floor((TOTAL_REG_HRS + REGULAR_HRS) * 100 + 0.5) / 100;
+   TOTAL_OT_HRS = floor((TOTAL_OT_HRS + OVERTIME_HRS) * 100 + 0.5) / 100;
+   TOTAL_SP1_HRS = floor((TOTAL_SP1_HRS + SP1_HOURS) * 100 + 0.5) / 100;
+   TOTAL_SP2_HRS = floor((TOTAL_SP2_HRS + SP2_HOURS) * 100 + 0.5) / 100;
+   TOTAL_REGULAR = floor((TOTAL_REGULAR + REGULAR_PAY) * 100 + 0.5) / 100;
+   TOTAL_OVERTIME = floor((TOTAL_OVERTIME + OVERTIME_PAY) * 100 + 0.5) / 100;
+   TOTAL_SP1 = floor((TOTAL_SP1 + SPECIAL_1_PAY) * 100 + 0.5) / 100;
+   TOTAL_SP2 = floor((TOTAL_SP2 + SPECIAL_2_PAY) * 100 + 0.5) / 100;
+
+   TOTAL_FED_GROSS = floor((TOTAL_FED_GROSS + SS_GROSS_PAY) * 100 + 0.5) / 100;
+   TOTAL_GROSS = floor((TOTAL_GROSS + SS_GROSS_PAY) * 100 + 0.5) / 100;
+   TOTAL_NON_TAX = floor((TOTAL_NON_TAX + NON_TAX_PAY) * 100 + 0.5) / 100;
+   TOTAL_FED = floor((TOTAL_FED + FED_TAXES) * 100 + 0.5) / 100;
+   TOTAL_STATE = floor((TOTAL_STATE + STATE_TAXES) * 100 + 0.5) / 100;
+   TOTAL_LOCAL = floor((TOTAL_LOCAL + LOCAL_TAXES) * 100 + 0.5) / 100;
+   TOTAL_FICA = floor((TOTAL_FICA + FICA_TAXES) * 100 + 0.5) / 100;
+   TOTAL_SDI = floor((TOTAL_SDI + SDI_TAXES) * 100 + 0.5) / 100;
+   TOTAL_DED = floor((TOTAL_DED + OTHER_DED) * 100 + 0.5) / 100;
+   TOTAL_NET = floor((TOTAL_NET + NET_PAY) * 100 + 0.5) / 100;
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* READ_THROUGH         */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (PR_TIME_TRX_NO);
+   call CLOSE_FILE (EMPLOYEE_NO);
+   call CLOSE_FILE (EMP_CONTROL_NO);
+   call CLOSE_FILE (TAX_RATES_NO);
+   call CLOSE_FILE (DED_EARN_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

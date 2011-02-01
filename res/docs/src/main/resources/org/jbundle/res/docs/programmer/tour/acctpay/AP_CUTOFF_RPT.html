@@ -1,0 +1,48 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program prints the A/P cutoff report. The cutoff report details the costs of tours which were
+owed but not yet paid at the cut-off date.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<p>/SCREEN2/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>Enter the currency range and the cut-off date. The report will include the cost for all tours which
+depart on this date or before, but were not paid (and may not yet be paid) until after the cutoff date.
+
+<br wp="br1"><br wp="br2">
+<p>The report will read the A/P detail for each vendor. If the departure date of the tour is on or before
+the cutoff date, then the item is analyzed.
+
+<br wp="br1"><br wp="br2">
+<p>-	If the item is a finalization estimate, it is skipped.
+
+<p>-	If the item is a Departure estimate, then the estimated cost is included on the report.
+
+<p>-	If the item is a Invoice, then the invoiced cost is included on the report. If any payments were
+made before the cut-off date, they are subtracted from the invoice amount.
+
+<p>-	If the item is a paid Invoice, then it is included only if payments were made AFTER the cut-off
+date. (If the invoice was paid before the cut-off date, the cost is included in the cash receipts
+journal) - Credit memo's are handled exactly as invoices (if associated with a tour)
+
+<br wp="br1"><br wp="br2">
+<p>Note:	This program is usually used when the G/L interface is not being used. The total on this report
+is estimated tour cost and will be included as a cost of tours if you are on an accrual basis.
+</body>
+</html>

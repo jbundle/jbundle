@@ -1,0 +1,11 @@
+/*********************************************************************
+	AP_BROKER_PYMT File
+********************************************************************/
+
+declare	1 AP_BROKER_PYMT_RECORD,
+		3 AP_BK_EXCH           float binary (53),
+		3 BROKER_DIST_VEN      character (        6),
+		3 BROKER_TOTAL         float binary (53),
+		3 DRAFT_AMT_SAVE       float binary (53),
+		3 DRAFT_USD_SAVE       float binary (53);
+

@@ -1,0 +1,362 @@
+/****************************************************************
+	Module: AP_CURR_REQ
+	Top Level Logic: TABLE_FILE_DIS
+	Date: 10-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_CURR_REQ
+	Display table logic
+****************************************************************/
+
+%replace AP_CURR_REQ_1 by 130;
+AP_CURR_REQ:
+   procedure;
+%replace AD_CURR_NO by  25;
+%replace AP_VENDOR_NO by  30;
+%replace AP_OPEN_NO by  32;
+%include "AD_CURR.DD";
+%include "AP_VENDOR.DD";
+%include "AP_CURR_REQ.DD";
+%include "AP_OPEN.DD";
+
+declare		END_DISPLAY_IO       bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_SCAN_VENDOR_DET  bit (1);
+   call INITIALIZE;
+   END_DISPLAY_IO = NO;
+   do while (END_DISPLAY_IO ^= YES);
+      call DISPLAY_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_CURR_REQ_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (AP_CURR_REQ_RECORD) );
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DISPLAY_IO
+	Main logic for table display
+****************************************************************/
+
+DISPLAY_IO:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AP_CURR_REQ_1);
+   NOT_FIRST_TIME = YES;
+   call INPUT_HDR_INFO;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_DISPLAY_IO = YES;
+      return;
+      end;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* DISPLAY_IO           */
+
+/****************************************************************
+	INPUT_HDR_INFO
+	Input the table header information
+****************************************************************/
+
+INPUT_HDR_INFO:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_HDR_INFO       */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		AP_VEN_CURR_SAVE     character (        3);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		AP_VEN_NO_ARRAY(17) character (        6);
+declare		AP_VENDOR_ERROR      fixed binary (15);
+declare		AP_VEN_NO_SAVE       character (        6);
+declare		ANSWER               character (1);
+CUR_CUR_TOTAL = 0;
+CUR_AP_TOTAL = 0;
+AP_VEN_CURR = CURR_CODE;
+AP_VEN_CURR_SAVE = AP_VEN_CURR;
+AP_VEN_NO = "";
+call SET_POSITION (AP_VENDOR_NO,KEY_AREA_2,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (AP_VENDOR_NO,KEY_AREA_2,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (AP_VEN_CURR > AP_VEN_CURR_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 17;
+      AP_VEN_NO_ARRAY(RECORD_NUMBER) = "";
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      AP_VENDOR_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (AP_VENDOR_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 17) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =   3 to   7;
+            if LOOP_INDEX =   6 then
+               do;
+               call SCAN_VENDOR;
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         CUR_CUR_TOTAL = floor((CUR_CUR_TOTAL + AP_SELECT_AMT) * 100 + 0.5) / 100;
+         CUR_AP_TOTAL = floor((CUR_AP_TOTAL + AP_CUR_BAL) * 100 + 0.5) / 100;
+         AP_VEN_NO_ARRAY(RECORD_NUMBER) = AP_VEN_NO;
+         call READ_NEXT (AP_VENDOR_NO,KEY_AREA_2,AP_VENDOR_ERROR);
+         if (AP_VEN_CURR > AP_VEN_CURR_SAVE) then
+            AP_VENDOR_ERROR = END_OF_FILE;
+         if AP_VENDOR_ERROR = END_OF_FILE then
+            do;
+            call SET_ROW_OFFSET (0);
+            do LOOP_INDEX =   8 to   9;
+               call OUTPUT_FIELD (LOOP_INDEX);
+            end;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      AP_VEN_NO_SAVE = AP_VEN_NO_ARRAY(17);
+      AP_VEN_CURR = AP_VEN_CURR_SAVE;
+      if AP_VENDOR_ERROR = END_OF_FILE then
+         do;
+         GET_OUT = YES;
+         call PRESS_RETURN;
+         end;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      do;
+      GET_OUT = YES;
+      call PRESS_RETURN;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 17;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if AP_VEN_NO_ARRAY(RECORD_NUMBER) ^= "" then
+         do LOOP_INDEX = 3 to   7;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	SCAN_VENDOR
+	Scan the current vendor detail
+****************************************************************/
+
+SCAN_VENDOR:
+	procedure;
+
+
+   /* ZERO_VENDOR - Initialize the values */
+
+   AP_SELECT_AMT = 0;
+   AP_CUR_BAL = 0;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_OPEN_VENDOR = AP_VEN_NO;
+   AP_ENTRY_TYPE = DR_MEMO;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+   END_SCAN_VENDOR_DET = NO;
+   do while (END_SCAN_VENDOR_DET ^= YES);
+      call SCAN_VENDOR_DET;
+   end;
+return;
+end;	/* SCAN_VENDOR          */
+
+/****************************************************************
+	SCAN_VENDOR_DET
+	Scan the detail
+****************************************************************/
+
+SCAN_VENDOR_DET:
+	procedure;
+
+
+   /* READ_NEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_VENDOR > AP_VEN_NO) !
+   (AP_ENTRY_TYPE > INVOICE) then
+      do;
+      END_SCAN_VENDOR_DET = YES;
+      return;
+      end;
+
+   /* ADD_VENDOR - Add this amount to the totals */
+
+   AP_SELECT_AMT=floor((AP_SELECT_AMT + AP_AMT_SELECTED) * 100 + 0.5) /100;
+   AP_CUR_BAL = floor((AP_CUR_BAL + AP_INV_BAL) * 100 + 0.5) / 100;
+
+return;
+end;	/* SCAN_VENDOR_DET      */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (AP_OPEN_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

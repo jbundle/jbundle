@@ -1,0 +1,674 @@
+/****************************************************************
+	Module: BK_DOC_CONTROL
+	Top Level Logic: DIS_FILE_DISPLAY
+	Date: 27-Dec-92
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DOC_CONTROL
+	Top - Level Display using info passed in
+****************************************************************/
+
+%replace BK_DOC_CONTROL_1 by 781;
+BK_DOC_CONTROL:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD);
+%replace BK_TOUR_DOC_NO by  76;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%include "BK_DOC_CONTROL.DD";
+%include "BK_TOUR_DOC.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   call DIS_TABLE_DIS;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   ACTION_DESC = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_DOC_CONTROL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_DOC_CONTROL_RECORD) );
+   call OPEN_FILE (BK_TOUR_DOC_NO,"BK_TOUR_DOC",byteaddr(BK_TOUR_DOC_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_DOC_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_TABLE_DIS
+	Mainline logic
+****************************************************************/
+
+DIS_TABLE_DIS:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* BEFORE_DOC_CONTROL - Before running */
+
+      call ENTER_DATA_C;
+
+      /* RETURN_IF_INP_ERR - Return if input error */
+
+      if ERROR_INPUT_SCREEN then
+         return;
+
+
+      /* SET_DOC_FLAGS - Set the print/not printed flags */
+
+      if TOUR_BOOKING = "N" then
+         DOC_BOOKING = "Y";
+      else
+         DOC_BOOKING = "N";
+
+      if TOUR_DEP_REC = "N" then
+         DOC_DEP_REC = "Y";
+      else
+         DOC_DEP_REC = "N";
+
+      if TOUR_SERV_CONF = "N" then
+         DOC_SVC_CONF = "Y";
+      else
+         DOC_SVC_CONF = "N";
+
+      if TOUR_FIN_PAY = "N" then
+         DOC_FIN_PYMT = "Y";
+      else
+         DOC_FIN_PYMT = "N";
+
+      if TOUR_FINALIZED = "N" then
+         DOC_FINALIZE = "Y";
+      else
+         DOC_FINALIZE = "N";
+
+      if TOUR_FINAL_DOCS = "N" then
+         DOC_FINAL_DOCS = "Y";
+      else
+         DOC_FINAL_DOCS = "N";
+
+      if TOUR_TICKETS = "N" then
+         DOC_TICKETING = "Y";
+      else
+         DOC_TICKETING = "N";
+
+      if (TOUR_SP1_DATE <= TODAYS_DATE()) & (TOUR_SP1 = "N") then
+         DOC_SP1 = "Y";
+      else
+         DOC_SP1 = "N";
+
+      if (TOUR_SP2_DATE <= TODAYS_DATE()) & (TOUR_SP2 = "N") then
+         DOC_SP2 = "Y";
+      else
+         DOC_SP2 = "N";
+
+      DOC_TOUR_STATUS = TOUR_STATUS;
+      DOC_FILE_NO = TOUR_FILE_NO;
+
+      call DISPLAY_DATA_A;
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* AFTER_DOC_CONTROL - Logic for after doc control changes */
+
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+
+      /* READ_TOUR_LOCK - Read the tour record and lock it */
+
+      ERROR_BK_TOUR = RECORD_LOCKED;
+      do while (ERROR_BK_TOUR = RECORD_LOCKED);
+
+         /* READ_TOUR_LK - Read and lock the tour */
+
+         call READ_KEYED (BK_TOUR_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TOUR);
+         if ERROR_BK_TOUR > 3 then
+            call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+      end;
+
+
+      /* SET_TOUR_DOCS - Set the new doc status for the tour */
+
+      if DOC_SP1 = "Y" then if TOUR_SP1 = "Y" then
+         do;
+         TOUR_SP1 = "N";
+         ACTION_TYPE = SP1_UD;
+         ACTION_DATE = TODAYS_DATE();
+         end;
+
+      if DOC_SP2 = "Y" then if TOUR_SP2 = "Y" then
+         do;
+         TOUR_SP2 = "N";
+         ACTION_TYPE = SP2_UD;
+         ACTION_DATE = TODAYS_DATE();
+         end;
+
+      if DOC_TICKETING = "Y" then if TOUR_TICKETS = "Y" then
+         do;
+         TOUR_TICKETS = "N";
+         ACTION_TYPE = TICKET_UD;
+         ACTION_DATE = TODAYS_DATE();
+         end;
+
+      if DOC_FINAL_DOCS = "Y" then if TOUR_FINAL_DOCS = "Y" then
+         do;
+         TOUR_FINAL_DOCS = "N";
+         ACTION_TYPE = FINAL_DOCS_UD;
+         ACTION_DATE = TODAYS_DATE();
+         end;
+
+      if DOC_FINALIZE = "Y" then if TOUR_FINALIZED = "Y" then
+         do;
+         TOUR_FINALIZED = "N";
+         ACTION_TYPE = FINALIZED_UD;
+         ACTION_DATE = TODAYS_DATE();
+         end;
+
+      if DOC_FIN_PYMT = "Y" then if TOUR_FIN_PAY = "Y" then
+         do;
+         TOUR_FIN_PAY = "N";
+         ACTION_TYPE = FIN_PAY_UD;
+         ACTION_DATE = TODAYS_DATE();
+         end;
+
+      if DOC_SVC_CONF = "Y" then if TOUR_SERV_CONF = "Y" then
+         do;
+         TOUR_SERV_CONF = "N";
+         ACTION_TYPE = SERV_CONF_UD;
+         ACTION_DATE = TODAYS_DATE();
+         end;
+
+      if DOC_DEP_REC = "Y" then if TOUR_DEP_REC = "Y" then
+         do;
+         TOUR_DEP_REC = "N";
+         ACTION_TYPE = DEP_REC_UD;
+         ACTION_DATE = TODAYS_DATE();
+         end;
+
+      if DOC_BOOKING = "Y" then if TOUR_BOOKING = "Y" then
+         do;
+         TOUR_BOOKING = "N";
+         ACTION_TYPE = BOOK_UD;
+         ACTION_DATE = TODAYS_DATE();
+         end;
+
+      if DOC_TOUR_STATUS = "XL" then
+         do;
+         if TOUR_TYPE = "G" then
+            do;
+            TOUR_STATUS = DOC_TOUR_STATUS;
+            if ACTION_TYPE ^= NO_STATUS_UD then
+               do;
+               ACTION_TYPE = XL_UD;
+               ACTION_DATE = TODAYS_DATE();
+               end;
+            end;
+         end;
+      else
+         do;
+         if TOUR_TYPE = "G" then
+            TOUR_STATUS = DOC_TOUR_STATUS;
+         else
+            do;
+            if TOUR_NO = BK_TOUR_NUM then
+               do;
+               if TOUR_STATUS = "XL" then
+                  do;
+                  ACTION_TYPE = BOOK_UD;
+                  ACTION_DATE = TODAYS_DATE();
+                  end;
+               TOUR_STATUS = DOC_TOUR_STATUS;
+               BK_STATUS = TOUR_STATUS;
+               call DISPLAY_DATA_F;
+               end;
+            end;
+         end;
+
+   TOUR_FILE_NO = DOC_FILE_NO;
+
+
+   /* UPDATE_BK_TOUR - Update the Tour record */
+
+   call UPDATE_RECORD (BK_TOUR_NO,ERROR_CODE);
+
+   /* RESTORE_BK_TOUR - Restore the tour and tour header info */
+
+   if BOOKING_NO ^= 0 then
+      do;
+      if BK_TOUR_CODE ^= "" then if BK_DEPARTURE ^= 0 then
+         if (BK_TOUR_CODE ^= HDR_TOUR_CODE) !
+            (BK_DEPARTURE < HDR_START_ON) ! (BK_DEPARTURE > HDR_END_ON) then
+               do;
+
+               /* GET_TOUR_HDR - Get the tour header */
+
+               ERROR_CODE = NORMAL_RETURN;
+
+               HDR_TOUR_CODE = BK_TOUR_CODE;
+               HDR_END_ON = BK_DEPARTURE;
+               if HDR_END_ON = 0 then
+                  HDR_END_ON = TODAYS_DATE();
+               call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE ^= END_OF_FILE then
+                  call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+               if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+                  ERROR_CODE = END_OF_FILE;
+               if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+                  ERROR_CODE = END_OF_FILE;
+
+               end;
+      if BK_TOUR_NUM ^= 0 then
+         if BK_TOUR_NUM ^= TOUR_NO then
+            do;
+            TOUR_NO = BK_TOUR_NUM;
+
+            /* READ_TOUR_REC - Read the tour file record */
+
+            call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+            if ERROR_BK_TOUR > 3 then
+               call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+            end;
+      end;
+
+return;
+end;	/* DIS_TABLE_DIS        */
+
+/****************************************************************
+	ENTER_DATA_C
+	Enter the screen data in group C
+****************************************************************/
+
+ENTER_DATA_C:
+	procedure;
+
+TOUR_NO = BK_TOUR_NUM;
+do LOOP_INDEX =  11 to  11;
+   if LOOP_INDEX =  11 then
+      TOUR_NO = BK_TOUR_NUM;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  12 to  18;
+            if LOOP_INDEX =  18 then
+               do;
+
+               /* SET_TYPE_DESC - Set the action type desc */
+
+               do case (ACTION_TYPE);
+                  ACTION_TYPE_DESC = "Booking";
+                  ACTION_TYPE_DESC = "Deposit rec";
+                  ACTION_TYPE_DESC = "Serv. conf";
+                  ACTION_TYPE_DESC = "Final pymt";
+                  ACTION_TYPE_DESC = "Finalize";
+                  ACTION_TYPE_DESC = "Final docs";
+                  ACTION_TYPE_DESC = "Ticketing";
+                  ACTION_TYPE_DESC = "Special 1";
+                  ACTION_TYPE_DESC = "Special 2";
+                  ACTION_TYPE_DESC = "Departure";
+                  ACTION_TYPE_DESC = "Cancel";
+               end;
+               otherwise
+                  do;
+                  ACTION_TYPE_DESC = "";
+                  end;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_C         */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  23 to  26;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  32 to  44;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		DOC_TOUR_HDR_NO_SAVE character (        4);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		DOC_PRINT_ON_ARRAY(10) fixed binary (15);
+declare		DOC_SEQ_ARRAY(10) fixed binary (15);
+declare		BK_TOUR_DOC_ERROR    fixed binary (15);
+declare		DOC_PRINT_ON_SAVE    fixed binary (15);
+declare		DOC_SEQ_SAVE         fixed binary (15);
+declare		ANSWER               character (1);
+DOC_TOUR_HDR_NO = TOUR_CODE;
+DOC_TOUR_HDR_NO_SAVE = DOC_TOUR_HDR_NO;
+DOC_PRINT_ON = 0;
+DOC_SEQ = 0;
+call SET_POSITION (BK_TOUR_DOC_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_TOUR_DOC_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (DOC_TOUR_HDR_NO > DOC_TOUR_HDR_NO_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 10;
+      DOC_PRINT_ON_ARRAY(RECORD_NUMBER) = 0;
+      DOC_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_TOUR_DOC_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_TOUR_DOC_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 10) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  45 to  49;
+            if LOOP_INDEX =  46 then
+               do;
+
+               /* SET_ACTION_DESC - Set the action description */
+
+               do case(DOC_PRINT_ON);
+                  ACTION_DESC = "Booking Date";
+                  ACTION_DESC = "Deposit Received";
+                  ACTION_DESC = "Services Confirmed";
+                  ACTION_DESC = "Final Pymt Received";
+                  ACTION_DESC = "Finalization Date";
+                  ACTION_DESC = "Final Documents Date";
+                  ACTION_DESC = "Ticketing Date";
+                  ACTION_DESC = "Special 1 Date";
+                  ACTION_DESC = "Special 2 Date";
+                  ACTION_DESC = "Departure Date";
+                  ACTION_DESC = "Cancellation Date";
+               end;
+               otherwise
+                  do;
+                  ACTION_DESC = "";
+                  end;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         DOC_PRINT_ON_ARRAY(RECORD_NUMBER) = DOC_PRINT_ON;
+         DOC_SEQ_ARRAY(RECORD_NUMBER) = DOC_SEQ;
+         call READ_NEXT (BK_TOUR_DOC_NO,KEY_AREA_1,BK_TOUR_DOC_ERROR);
+         if (DOC_TOUR_HDR_NO > DOC_TOUR_HDR_NO_SAVE) then
+            BK_TOUR_DOC_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      DOC_PRINT_ON_SAVE = DOC_PRINT_ON_ARRAY(10);
+      DOC_SEQ_SAVE = DOC_SEQ_ARRAY(10);
+      DOC_TOUR_HDR_NO = DOC_TOUR_HDR_NO_SAVE;
+      if BK_TOUR_DOC_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 10;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if DOC_PRINT_ON_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =45 to  49;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 95,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 11 then
+   do;
+   if SELECT <=  4 then
+      LOOP_INDEX = SELECT +  18;
+   if SELECT >=  5 then if SELECT <=  9 then
+      LOOP_INDEX = SELECT +  22;
+   if SELECT >= 10 then
+      LOOP_INDEX = SELECT +  33;
+   if LOOP_INDEX =  19 then
+      call DISPLAY_MSG_NO (105);
+   if LOOP_INDEX =  20 then
+      call DISPLAY_MSG_NO (105);
+   if LOOP_INDEX =  21 then
+      call DISPLAY_MSG_NO (105);
+   if LOOP_INDEX =  22 then
+      call DISPLAY_MSG_NO (105);
+   if LOOP_INDEX =  27 then
+      call DISPLAY_MSG_NO (105);
+   if LOOP_INDEX =  28 then
+      call DISPLAY_MSG_NO (105);
+   if LOOP_INDEX =  29 then
+      call DISPLAY_MSG_NO (105);
+   if LOOP_INDEX =  30 then
+      call DISPLAY_MSG_NO (105);
+   if LOOP_INDEX =  31 then
+      call DISPLAY_MSG_NO (105);
+   if LOOP_INDEX =  43 then
+      do;
+
+      /* CHECK_TOUR_BK - To change to status, the check bk currnt */
+
+      if TOUR_TYPE ^= "G" then
+         if TOUR_NO ^= BK_TOUR_NUM then
+            do;
+            call DISPLAY_MESSAGE ("Must retrieve booking before changing status");
+            call PRESS_RETURN;
+            return;
+            end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  43 then
+      do;
+
+      /* SET_TOUR_BK - If booking is current, set booking stats */
+
+      if TOUR_TYPE ^= "G" then
+         if DOC_TOUR_STATUS = "XL" then
+            do;
+            call DISPLAY_MESSAGE ("To cancel, you must cancel the booking");
+            call PRESS_RETURN;
+            end;
+
+      end;
+   end;
+if SELECT = 95 then
+   do;
+   call INPUT_FIELD ( 11,INPUT_LENGTH,RETURN_CODE);
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  12 to  18;
+            if LOOP_INDEX =  18 then
+               do;
+
+               /* SET_TYPE_DESC - Set the action type desc */
+
+               do case (ACTION_TYPE);
+                  ACTION_TYPE_DESC = "Booking";
+                  ACTION_TYPE_DESC = "Deposit rec";
+                  ACTION_TYPE_DESC = "Serv. conf";
+                  ACTION_TYPE_DESC = "Final pymt";
+                  ACTION_TYPE_DESC = "Finalize";
+                  ACTION_TYPE_DESC = "Final docs";
+                  ACTION_TYPE_DESC = "Ticketing";
+                  ACTION_TYPE_DESC = "Special 1";
+                  ACTION_TYPE_DESC = "Special 2";
+                  ACTION_TYPE_DESC = "Departure";
+                  ACTION_TYPE_DESC = "Cancel";
+               end;
+               otherwise
+                  do;
+                  ACTION_TYPE_DESC = "";
+                  end;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	DISPLAY_DATA_F
+	Display the data in group F
+****************************************************************/
+
+DISPLAY_DATA_F:
+	procedure;
+
+do LOOP_INDEX =   3 to   3;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_F       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_TOUR_DOC_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

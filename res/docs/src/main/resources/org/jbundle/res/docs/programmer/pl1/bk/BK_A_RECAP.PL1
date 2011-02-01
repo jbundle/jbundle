@@ -1,0 +1,358 @@
+/****************************************************************
+	Module: BK_A_RECAP
+	Top Level Logic: PRT_RECAP_LOGIC
+	Date: 20-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_A_RECAP
+	Print the recap information
+****************************************************************/
+
+%replace BK_A_RECAP_2 by 814;
+BK_A_RECAP:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      TK_DETAIL_RECORD,
+      TK_AIRLINE_RECORD,
+      TK_HEADER_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_A_RECAP_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace TK_DETAIL_NO by  57;
+%replace TK_AIRLINE_NO by  71;
+%replace TK_HEADER_NO by  56;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_A_RECAP.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "TK_DETAIL.DD";
+%include "TK_AIRLINE.DD";
+%include "TK_HEADER.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_PRT_RECAP_MAIN   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		LINE                 fixed binary (15);
+   call NO_DIS_INIT;
+
+   /* READ_SECOND - Read info and display secondary fileinfo */
+
+   AIRLINE_CODE = ARECAP_CARRIER;
+   call READ_KEYED (TK_AIRLINE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      AIRLINE_DESC = "** RECORD NOT FOUND **";
+      end;
+   else
+      do;
+      end;
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TK_DET_MOD = 0;
+   TK_CARRIER = ARECAP_CARRIER;
+   TK_FLIGHT = ARECAP_FLIGHT;
+   TK_DATE = ARECAP_DATE_START;
+   TK_DET_BK_TK = 0;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   END_PRT_RECAP_MAIN = NO;
+   do while (END_PRT_RECAP_MAIN ^= YES);
+      call PRT_RECAP_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	NO_DIS_INIT
+	Initialize (but don't dis screen)
+****************************************************************/
+
+NO_DIS_INIT:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   ARECAP_DATE = TODAYS_DATE();
+   ARECAP_TIME = CURRENT_TIME();
+   ARECAP_USER = USER_NAME();
+   ARECAP_PAGE = 1;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   LINE = 0;
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_A_RECAP_RECORD) );
+return;
+end;	/* NO_DIS_INIT          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_A_RECAP_2);
+do LOOP_INDEX =   1 to   4;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+ARECAP_PAGE = ARECAP_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	PRT_RECAP_MAIN
+	Mainline logic
+****************************************************************/
+
+PRT_RECAP_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_BOOKING     fixed binary (15);
+declare		ERROR_TK_HEADER      fixed binary (15);
+declare		ERROR_BK_PASSENGERS  fixed binary (15);
+
+   /* READ_NEXT - Read the next record */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > 0) !
+   (TK_CARRIER > ARECAP_CARRIER) !
+   (TK_FLIGHT > ARECAP_FLIGHT) !
+   (TK_DATE > ARECAP_DATE_END) then
+      do;
+      END_PRT_RECAP_MAIN = YES;
+      return;
+      end;
+
+   /* CHECK_LOGIC - Write this code */
+
+
+   /* CHECK_ARECAP_INV - If inv recap, check inv flag */
+
+   if ARECAP_INV_ONLY = "Y" then if TK_INV ^= "Y" then
+      return;
+
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   BK_MODIFICATION = 0;
+   BOOKING_NO = TK_DET_BK_TK;
+   KEY_NO = 1;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (BK_BOOKING_NO,KEY_NO,ERROR_BK_BOOKING);
+   if ERROR_BK_BOOKING > 3 then
+      call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* CHECK_ARECAP_COUNT - Set up booking pax and count */
+
+   if ERROR_BK_BOOKING ^= NORMAL_RETURN then
+      return;
+
+   if BK_STATUS = "XL" then
+      return;
+
+   if TK_DET_ALT_SEQ = 0 then
+      do;
+      TK_MODIFICATION = 0;
+      TK_BK_TK_NO = TK_DET_BK_TK;
+      TK_ALT_SEQ = 0;
+      TK_ANSW_SEQ = 0;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      ERROR_CODE = NORMAL_RETURN;
+      AIR_COMP_SEQ = 0;
+      do while (ERROR_CODE = NORMAL_RETURN);
+         call READ_NEXT (TK_HEADER_NO+?KEY_ONLY,KEY_AREA_1,ERROR_CODE);
+         if (TK_MODIFICATION ^= 0) !
+            (TK_BK_TK_NO ^= TK_DET_BK_TK) then
+               ERROR_CODE = END_OF_FILE;
+         if ERROR_CODE = NORMAL_RETURN then
+            do;
+            if TK_ALT_SEQ ^= AIR_COMP_SEQ then
+               do;
+               BK_PAX = BK_PAX - 1;
+               AIR_COMP_SEQ = TK_ALT_SEQ;
+               end;
+            end;
+      end;
+      if BK_PAX = 0 then
+         return;
+      end;
+   else
+      do;
+      BK_PAX = 1;
+      end;
+
+
+   /* PRT_DETAIL - Print the detail lines */
+
+
+   /* GET_TK_HDR - Get the tk header for this detail line */
+
+   TK_MODIFICATION = TK_DET_MOD;
+   TK_BK_TK_NO = TK_DET_BK_TK;
+   TK_ALT_SEQ = TK_DET_ALT_SEQ;
+   TK_ANSW_SEQ = TK_DET_ANSW_SEQ;
+
+   /* READ_TK_HDR - Read the header record */
+
+   call READ_KEYED (TK_HEADER_NO,KEY_AREA_1,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER ^= NORMAL_RETURN then
+      TK_NUMBER = "";
+
+   do LOOP_INDEX =   5 to   5;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* CHECK_ARECAP_DET - Print air detail? */
+
+   if TK_DET_ALT_SEQ = 0 then
+      do;
+
+      /* SET_FIRST_PAX - Set up for seq read */
+
+      BK_PAX_MOD = BK_MODIFICATION;
+      BK_PAX_BK_NO = BOOKING_NO;
+      BK_PAX_SEQ = 0;
+      call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+
+      ERROR_BK_PASSENGERS = NORMAL_RETURN;
+      do while (ERROR_BK_PASSENGERS = NORMAL_RETURN);
+
+         /* READ_NEXT_PAX - Read the next passenger */
+
+         call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE > 3 then
+         	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+         ERROR_BK_PASSENGERS = ERROR_CODE;
+         if (BK_PAX_MOD ^= 0) ! (BK_PAX_BK_NO ^= BOOKING_NO) then
+            ERROR_BK_PASSENGERS = END_OF_FILE;
+         if ERROR_BK_PASSENGERS = NORMAL_RETURN then
+            do;
+            TK_MODIFICATION = 0;
+            TK_BK_TK_NO = BOOKING_NO;
+            TK_ALT_SEQ = BK_PAX_SEQ;
+            TK_ANSW_SEQ = 0;
+            call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT(TK_HEADER_NO+?KEY_ONLY,KEY_AREA_1,ERROR_TK_HEADER);
+            if (ERROR_TK_HEADER ^= NORMAL_RETURN) !
+               (TK_MODIFICATION ^= 0) !
+               (TK_BK_TK_NO ^= BOOKING_NO) !
+               (TK_ALT_SEQ ^= BK_PAX_SEQ) then
+                  do;
+
+                  /* PRINT_LINE_D2 - Print lines */
+
+                  do LOOP_INDEX =   6 to   6;
+                     call PRINT_REPORT_LINE;
+                  end;
+                  end;
+            BK_PAX_SEQ = BK_PAX_SEQ + 1;
+            end;
+      end;
+      end;
+   else
+      do;
+      BK_PAX_MOD = 0;
+      BK_PAX_BK_NO = BOOKING_NO;
+      BK_PAX_SEQ = TK_DET_ALT_SEQ;
+
+      /* READ_BK_PAX - Read the passenger record */
+
+      call READ_KEYED (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_BK_PASSENGERS);
+      if ERROR_BK_PASSENGERS > 3 then
+         call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_BK_PASSENGERS);
+      if ERROR_BK_PASSENGERS = NORMAL_RETURN then
+         do;
+
+         /* PRINT_LINE_D2 - Print lines */
+
+         do LOOP_INDEX =   6 to   6;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      end;
+
+return;
+end;	/* PRT_RECAP_MAIN       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

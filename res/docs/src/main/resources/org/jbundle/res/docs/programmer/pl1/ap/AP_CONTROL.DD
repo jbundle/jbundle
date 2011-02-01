@@ -1,0 +1,29 @@
+/*********************************************************************
+	AP_CONTROL File
+********************************************************************/
+
+declare	1 AP_CONTROL_RECORD,
+		3 AP_REC_NO            fixed binary (15),
+		3 AP_DEF_AC            fixed binary (15),
+		3 AP_DEF_AP            fixed binary (31),
+		3 AP_ONE_AP            character (1),
+		3 AP_DEF_NT            fixed binary (31),
+		3 AP_ONE_NT            character (1),
+		3 AP_DEF_PP            fixed binary (31),
+		3 AP_ONE_PP            character (1),
+		3 AP_DEF_EST           fixed binary (31),
+		3 AP_ONE_EST           character (1),
+		3 AP_DEF_OU            fixed binary (31),
+		3 AP_ONE_OU            character (1),
+		3 AP_DEF_GL            fixed binary (31),
+		3 AP_ONE_GL            character (1),
+		3 AP_DEF_TOUR_GL       fixed binary (31),
+		3 AP_DEF_BROKER        character (        6),
+		3 AP_NEXT_ENTRY        fixed binary (31),
+		3 AP_OVER_UNDER        character (1),
+		3 AP_ACC_CASH          character (        1),
+		3 AP_SUMM_DETAIL       character (        1),
+		3 AP_WARNING_DAYS      fixed binary (15),
+		3 AP_CHECK_STUB        character (1),
+		3 AP_AUTO_UD           character (1);
+

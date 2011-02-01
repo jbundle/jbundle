@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><CONFIG_JAXE>
+<LANGAGE>
+<SCHEMA_SIMPLE>
+<ELEMENT nom="HELP">
+<SOUS-ELEMENT element="paragraph"/>
+<SOUS-ELEMENT element="item-list"/>
+<SOUS-ELEMENT element="info-table"/>
+<SOUS-ELEMENT element="button-link"/>
+<SOUS-ELEMENT element="help-button"/>
+<SOUS-ELEMENT element="help-link"/>
+<SOUS-ELEMENT element="acct-trx"/>
+</ELEMENT>
+
+<ELEMENT nom="paragraph" texte="autorise">
+<SOUS-ENSEMBLE ensemble="text"/>
+<SOUS-ELEMENT element="button-link"/>
+<SOUS-ELEMENT element="help-button"/>
+<SOUS-ELEMENT element="help-link"/>
+<SOUS-ELEMENT element="acct-trx"/>
+</ELEMENT>
+
+<ELEMENT nom="item-list" texte="interdit">
+<SOUS-ELEMENT element="item"/>
+</ELEMENT>
+<ELEMENT nom="item" texte="autorise">
+<SOUS-ENSEMBLE ensemble="text"/>
+<SOUS-ELEMENT element="paragraph"/>
+<SOUS-ELEMENT element="button-link"/>
+<SOUS-ELEMENT element="help-button"/>
+<SOUS-ELEMENT element="help-link"/>
+<SOUS-ELEMENT element="acct-trx"/>
+</ELEMENT>
+
+<ELEMENT nom="info-table" texte="interdit">
+<SOUS-ELEMENT element="name"/>
+<SOUS-ELEMENT element="description"/>
+</ELEMENT>
+
+<ELEMENT nom="button-link">
+<SOUS-ELEMENT element="name"/>
+<SOUS-ELEMENT element="description"/>
+<SOUS-ELEMENT element="link"/>
+<SOUS-ELEMENT element="image"/>
+<SOUS-ELEMENT element="color"/>
+<SOUS-ELEMENT element="background"/>
+<SOUS-ELEMENT element="height"/>
+<SOUS-ELEMENT element="width"/>
+</ELEMENT>
+
+<ELEMENT nom="help-button" texte="interdit">
+<SOUS-ELEMENT element="name"/>
+<SOUS-ELEMENT element="description"/>
+<SOUS-ELEMENT element="link"/>
+<SOUS-ELEMENT element="image"/>
+<SOUS-ELEMENT element="background"/>
+</ELEMENT>
+<ELEMENT nom="help-link" texte="interdit">
+<SOUS-ELEMENT element="name"/>
+<SOUS-ELEMENT element="description"/>
+<SOUS-ELEMENT element="link"/>
+<SOUS-ELEMENT element="image"/>
+</ELEMENT>
+
+<ELEMENT nom="acct-trx" texte="interdit">
+<SOUS-ELEMENT element="date"/>
+<SOUS-ELEMENT element="debit"/>
+<SOUS-ELEMENT element="credit"/>
+<SOUS-ELEMENT element="comment"/>
+</ELEMENT>
+<ELEMENT nom="date" texte="autorise"/>
+<ELEMENT nom="debit" texte="interdit">
+<SOUS-ELEMENT element="description"/>
+<SOUS-ELEMENT element="amount"/>
+</ELEMENT>
+<ELEMENT nom="credit" texte="interdit">
+<SOUS-ELEMENT element="description"/>
+<SOUS-ELEMENT element="amount"/>
+</ELEMENT>
+
+<ELEMENT nom="height" texte="autorise"/>
+<ELEMENT nom="width" texte="autorise"/>
+<ELEMENT nom="color" texte="autorise"/>
+
+<ELEMENT nom="comment" texte="autorise"/>
+<ELEMENT nom="amount" texte="autorise"/>
+<ELEMENT nom="name" texte="autorise"/>
+<ELEMENT nom="description" texte="autorise"/>
+
+<ELEMENT nom="link" texte="autorise"/>
+<ELEMENT nom="image" texte="autorise"/>
+<ELEMENT nom="background" texte="autorise"/>
+
+<ELEMENT nom="italic" texte="autorise"/>
+<ELEMENT nom="bold" texte="autorise"/>
+<ELEMENT nom="br" texte="interdit"/>
+<ELEMENT nom="img" texte="interdit">
+<ATTRIBUT nom="src" presence="obligatoire"/>
+</ELEMENT>
+<ELEMENT nom="html" texte="autorise"/>
+
+<ENSEMBLE nom="text">
+<SOUS-ELEMENT element="italic"/>
+<SOUS-ELEMENT element="bold"/>
+<SOUS-ELEMENT element="br"/>
+<SOUS-ELEMENT element="img"/>
+<SOUS-ELEMENT element="html"/>
+</ENSEMBLE>
+
+</SCHEMA_SIMPLE>
+<RACINE element="HELP"/>
+</LANGAGE>
+</CONFIG_JAXE>

@@ -1,0 +1,455 @@
+/****************************************************************
+	Module: AR_MCO_COLL
+	Top Level Logic: MCO_COLL_LOGIC
+	Date:  4-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_MCO_COLL
+	Top-Level for MCO collection
+****************************************************************/
+
+%replace AR_MCO_COLL_1 by 156;
+AR_MCO_COLL:
+   procedure;
+%replace AR_MCO_DET_NO by  50;
+%include "AR_MCO_COLL.DD";
+%include "AR_MCO_DET.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_MCO_COLL_PROC    bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		END_GET_DEF_MCO      bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+   call INITIALIZE;
+   call MCO_COLL_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AR_MCO_NUMBER = "";
+   AR_MCO_DATE = 0;
+   AR_MCO_LAST_SQ = 0;
+   AR_MCO_STATUS = 1;
+   AR_MCO_CARRIER = "";
+   AR_MCO_AMT_APLY = 0;
+   AR_MCO_DATE_SUBM = 0;
+   AR_MCO_DATE_PAID = 0;
+   AR_MCO_AMT_PAID = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   NOT_FIRST_TIME = "0"b;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_MCO_COLL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AR_MCO_COLL_RECORD) );
+   call OPEN_FILE (AR_MCO_DET_NO,"AR_MCO_DET",byteaddr(AR_MCO_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	MCO_COLL_MAIN
+	Mainline logic for MCO collection entry
+****************************************************************/
+
+MCO_COLL_MAIN:
+	procedure;
+
+   call ENTER_DATA_D;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_MCO_COLL_PROC = NO;
+   do while (END_MCO_COLL_PROC ^= YES);
+      call MCO_COLL_PROC;
+   end;
+return;
+end;	/* MCO_COLL_MAIN        */
+
+/****************************************************************
+	ENTER_DATA_D
+	Enter screen group D
+****************************************************************/
+
+ENTER_DATA_D:
+	procedure;
+
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_D         */
+
+/****************************************************************
+	MCO_COLL_PROC
+	Main MCO processing
+****************************************************************/
+
+MCO_COLL_PROC:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AR_MCO_DET     fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      do;
+      call DISPLAY_SCREEN (AR_MCO_COLL_1);
+      call DISPLAY_DATA_D;
+      end;
+   NOT_FIRST_TIME = YES;
+
+   /* SETUP_KEY_2 - Setup the key */
+
+   AR_MCO_STATUS = 3;
+   AR_MCO_CARRIER = AR_COLL_CARR;
+   AR_MCO_DATE_REC = AR_MCO_DATE;
+   AR_MCO_SEQ = AR_MCO_LAST_SQ;
+   KEY_NO = 3;
+
+   /* READ_RECORD_2 - Read from another file */
+
+   call READ_KEYED (AR_MCO_DET_NO,KEY_NO,ERROR_AR_MCO_DET);
+   if ERROR_AR_MCO_DET > 3 then
+      call PRINT_ERROR (AR_MCO_DET_NO,ERROR_AR_MCO_DET);
+   END_GET_DEF_MCO = NO;
+   do while (END_GET_DEF_MCO ^= YES);
+      call GET_DEF_MCO;
+   end;
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_MCO_COLL_PROC = YES;
+      return;
+      end;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   AR_MCO_NO = AR_MCO_NUMBER;
+   AR_MCO_DATE_REC = 0;
+   AR_MCO_SEQ = 0;
+   call SET_POSITION (AR_MCO_DET_NO,KEY_AREA_4,ERROR_CODE);
+
+   /* GET_NEXT_MCO - Get next MCO ready to submit with number */
+
+   ERROR_CODE = NORMAL_RETURN;
+   AR_MCO_STATUS = 0;
+   do while ((ERROR_CODE = NORMAL_RETURN) & (AR_MCO_STATUS ^= 3));
+
+      /* READNEXT - Read the next record */
+
+      call READ_NEXT (AR_MCO_DET_NO,KEY_AREA_4,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+      if AR_MCO_NO ^= AR_MCO_NUMBER then
+         ERROR_CODE = END_OF_FILE;
+   end;
+
+
+   /* CHECK_MCO_MATCH - Does this MCO match? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+      (AR_MCO_NO ^= AR_MCO_NUMBER) then
+         do;
+
+         /* REC_NOT_FOUND - Display rec not found and do again */
+
+
+            /* RECORD_NOT_FOUND - Record not found */
+
+            call DISPLAY_MESSAGE("Record not found!!!<BEL>"c);
+            call PRESS_RETURN;
+            ERROR_INPUT_SCREEN = YES;
+
+
+            /* DO_AGAIN - Return to do it again */
+
+            return;
+
+         end;
+      else
+         do;
+         call ENTER_MCO_PAID;
+         end;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AR_MCO_DET_NO,ERROR_CODE);
+return;
+end;	/* MCO_COLL_PROC        */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =   1 to   1;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	GET_DEF_MCO
+	Get the default MCO to enter
+****************************************************************/
+
+GET_DEF_MCO:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (AR_MCO_DET_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+
+   /* CHECK_LAST_MCO - Is this the last MCO to display? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+      (AR_MCO_STATUS > 3) !
+      (AR_MCO_CARRIER > AR_COLL_CARR) then
+         do;
+         AR_MCO_NUMBER = "0";
+         do;
+         END_GET_DEF_MCO = YES;
+         return;
+         end;
+         end;
+
+   AR_MCO_NUMBER = AR_MCO_NO;
+
+   call DISPLAY_DATA_B;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_GET_DEF_MCO = YES;
+   return;
+   end;
+
+return;
+end;	/* GET_DEF_MCO          */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =   3 to   6;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =   2 to   2;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	ENTER_MCO_PAID
+	MCO found, enter payment information
+****************************************************************/
+
+ENTER_MCO_PAID:
+	procedure;
+
+   call DISPLAY_DATA_B;
+   call ENTER_DATA_C;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* SET_NEXT_MCO - Set up variables for the next MCO */
+
+   AR_MCO_DATE = AR_MCO_DATE_REC;
+   AR_MCO_LAST_SQ = AR_MCO_SEQ;
+
+return;
+end;	/* ENTER_MCO_PAID       */
+
+/****************************************************************
+	ENTER_DATA_C
+	Enter the screen data in group C
+****************************************************************/
+
+ENTER_DATA_C:
+	procedure;
+
+do LOOP_INDEX =   7 to   7;
+   if LOOP_INDEX =   7 then
+      do;
+
+      /* SET_DEF_PAID - Set the default paid date */
+
+      AR_MCO_DATE_PAID = TODAYS_DATE();
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   8 to   8;
+   if LOOP_INDEX =   8 then
+      do;
+
+      /* SET_MCO_PAID - Set up the default for amt paid */
+
+      if AR_MCO_AMT_PAID = 0 then
+         AR_MCO_AMT_PAID = AR_MCO_NET;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_C         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 96,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  2 then
+   do;
+
+      LOOP_INDEX = SELECT +   6;
+   if LOOP_INDEX =   7 then
+      do;
+
+      /* SET_DEF_PAID - Set the default paid date */
+
+      AR_MCO_DATE_PAID = TODAYS_DATE();
+
+      end;
+   if LOOP_INDEX =   8 then
+      do;
+
+      /* SET_MCO_PAID - Set up the default for amt paid */
+
+      if AR_MCO_AMT_PAID = 0 then
+         AR_MCO_AMT_PAID = AR_MCO_NET;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+if SELECT = 96 then
+   do;
+   do LOOP_INDEX =   1 to   2;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AR_MCO_DET_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

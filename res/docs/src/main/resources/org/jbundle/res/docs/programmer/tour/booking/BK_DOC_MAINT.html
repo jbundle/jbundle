@@ -1,0 +1,85 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This file controls which documents go out for a tour, and when they go out.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<p>/SDESC1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>When a date in the tour is reached, the appropriate document is printed and any tour updates are done.
+
+<br wp="br1"><br wp="br2">
+<p>These are the possible dates to have documents created:
+
+<br wp="br1"><br wp="br2">
+<p>	1 - Booking Date
+
+<p>	2 - Deposit Received date
+
+<p>	3 - All Services confirmed date
+
+<p>	4 - Final Payment received date
+
+<p>	5 - Finalization date
+
+<p>	6 - Final Docs date
+
+<p>	7 - Ticketing date
+
+<p>	8 - Special 1 date
+
+<p>	9 - Special 2 date
+
+<p>	10 - Departure date
+
+<p>	11 - Cancellation date
+
+<br wp="br1"><br wp="br2">
+<p>Possible document types: (and order processed)
+
+<p>	R - Hotel Requests	TOUR,HOTEL
+
+<p>	S - Tour Requests	TOUR,LAND-VENDOR
+
+<p>	Q - Air Requests	TOUR,BOOKING,PAX,AIR
+
+<p>	B - Booking Conf.	TOUR,BOOKING
+
+<p>	H - Hotel Tour Order	TOUR,HOTEL
+
+<p>	L - Land Tour Order	TOUR,LAND-VENDOR
+
+<p>	T - Ticket Request	TOUR,BOOKING,PAX,AIR
+
+<p>	V - Hotel Voucher	TOUR,HOTEL
+
+<p>	W - Land Voucher	TOUR,LAND-VENDOR
+
+<p>	I - Itinerary		TOUR
+
+<p>	C - Tour Checklist	TOUR,BOOKING
+
+<p>	R - Rooming list	TOUR,PAX ROOM
+
+<p>	P - Passenger list	TOUR,PAX
+
+<br wp="br1"><br wp="br2">
+<p>	Note: Any other documents can be created by selecting a code which will read through the file correctly, and
+enter the document format under the field.
+</body>
+</html>

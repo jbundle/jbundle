@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jbundle-base-screen-view-reactor</artifactId>
+    <groupId>org.jbundle.base.screen</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>org.jbundle.base.screen.view.html</artifactId>
+  <packaging>bundle</packaging>
+  <name>jbundle-base-screen-view-html</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle.config.dep</groupId>
+      <artifactId>jbundle-config-dep-main</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+	  <type>pom</type>
+    </dependency>
+    
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-apiVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>

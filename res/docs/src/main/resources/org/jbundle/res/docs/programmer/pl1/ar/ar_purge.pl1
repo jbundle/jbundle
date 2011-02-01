@@ -1,0 +1,377 @@
+/****************************************************************
+	Module: AR_PURGE
+	Top Level Logic: AR_PURGE_LOGIC
+	Date: 26-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_PURGE
+	Top-Level Logic to Purge the A/R detail
+****************************************************************/
+
+%replace AR_PURGE_1 by 168;
+AR_PURGE:
+   procedure;
+%replace AR_OPEN_NO by  43;
+%replace BK_BOOKING_NO by   9;
+%include "AR_PURGE.DD";
+%include "AR_OPEN.DD";
+%include "BK_BOOKING.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_PURGE_THRU_AR    bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_DELETE_AR_DET    bit (1);
+declare		END_ADD_THRU_AR      bit (1);
+   call INITIALIZE;
+   call AR_PURGE_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AR_PURGE_DATE = TODAYS_DATE()-365;;
+   AR_ACCT_DR = 0;
+   AR_ACCT_DEP = 0;
+   AR_POSTED = 0;
+   AR_ACTION = 0;
+   AR_DEPARTURE = 0;
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_PURGE_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AR_PURGE_RECORD) );
+   call OPEN_FILE (AR_OPEN_NO,"AR_OPEN",byteaddr(AR_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	AR_PURGE_MAIN
+	Mainline logic for A/R purge
+****************************************************************/
+
+AR_PURGE_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* INIT_BK_NO - Init the booking number to 0 for seq */
+
+   BOOKING_NO = 0;
+
+
+   /* CHECK_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure?");
+   call INPUT_DATA(23,24,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+   END_PURGE_THRU_AR = NO;
+   do while (END_PURGE_THRU_AR ^= YES);
+      call PURGE_THRU_AR;
+   end;
+return;
+end;	/* AR_PURGE_MAIN        */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 95,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT = 95 then
+   do;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PURGE_THRU_AR
+	Go thru the A/R detail and purge
+****************************************************************/
+
+PURGE_THRU_AR:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_BOOKING     fixed binary (15);
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AR_BOOKING_NO = BOOKING_NO;
+   AR_SEQ_NO = 0;
+   call SET_POSITION (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_PURGE_THRU_AR = YES;
+      return;
+      end;
+
+   /* SETUP_KEY_2 - Setup the key */
+
+   BK_MODIFICATION = 0;
+   BOOKING_NO = AR_BOOKING_NO;
+   KEY_NO = 1;
+
+   /* READ_RECORD_2 - Read from another file */
+
+   call READ_KEYED (BK_BOOKING_NO,KEY_NO,ERROR_BK_BOOKING);
+   if ERROR_BK_BOOKING > 3 then
+      call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+
+   /* CHECK_BK_OK - Is the departure correct? */
+
+   if (BK_DEPARTURE > AR_PURGE_DATE) ! (ERROR_BK_BOOKING ^= 0) then
+      do;
+      BOOKING_NO = BOOKING_NO + 1;
+      return;
+      end;
+
+   call GET_BK_BALANCE;
+
+   /* CHECK_BK_ZERO - Is the balance zero? */
+
+   if BK_BALANCE ^= 0 then
+      do;
+      BOOKING_NO = BOOKING_NO + 1;
+      return;
+      end;
+
+   END_DELETE_AR_DET = NO;
+   do while (END_DELETE_AR_DET ^= YES);
+      call DELETE_AR_DET;
+   end;
+return;
+end;	/* PURGE_THRU_AR        */
+
+/****************************************************************
+	GET_BK_BALANCE
+	Get the booking balance
+****************************************************************/
+
+GET_BK_BALANCE:
+	procedure;
+
+
+   /* SET_BK_BALANCE - Set BK_BALANCE to BK_NET_PRICE */
+
+   BK_BALANCE = BK_NET_PRICE;
+
+
+   /* SET_FIRST_AR - Set on the first A/R open record */
+
+   AR_BOOKING_NO = BOOKING_NO;
+   AR_SEQ_NO = 0;
+   call SET_POSITION (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* ZERO_BK_BALANCE - Zero the field */
+
+   BK_BALANCE = 0;
+
+   END_ADD_THRU_AR = NO;
+   do while (END_ADD_THRU_AR ^= YES);
+      call ADD_THRU_AR;
+   end;
+return;
+end;	/* GET_BK_BALANCE       */
+
+/****************************************************************
+	ADD_THRU_AR
+	Add all the booking's A/R detail
+****************************************************************/
+
+ADD_THRU_AR:
+	procedure;
+
+
+   /* READ_NEXT_AR - Read the next A/R record */
+
+   call READ_NEXT (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_AR - Last A/R booking detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_BOOKING_NO > BOOKING_NO) then
+      do;
+      END_ADD_THRU_AR = YES;
+      return;
+      end;
+
+   /* ADD_BK_BALANCE - Add to the BK balance */
+
+   BK_BALANCE = floor((BK_BALANCE + AR_AMOUNT) * 100 + 0.5) / 100;
+
+
+   /* OTHER_LOGIC_2 - Other logic */
+
+return;
+end;	/* ADD_THRU_AR          */
+
+/****************************************************************
+	DELETE_AR_DET
+	Get rid of the A/R detail for this bookg
+****************************************************************/
+
+DELETE_AR_DET:
+	procedure;
+
+
+   /* SET_FIRST_3 - Set first */
+
+   AR_BOOKING_NO = BOOKING_NO;
+   AR_SEQ_NO = 0;
+   call SET_POSITION (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_3 - Check for end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_BOOKING_NO > BOOKING_NO) then
+      do;
+      END_DELETE_AR_DET = YES;
+      return;
+      end;
+
+   /* DELETE_RECORD - Delete the record */
+
+   call DELETE_RECORD (AR_OPEN_NO,ERROR_CODE);
+return;
+end;	/* DELETE_AR_DET        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AR_OPEN_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

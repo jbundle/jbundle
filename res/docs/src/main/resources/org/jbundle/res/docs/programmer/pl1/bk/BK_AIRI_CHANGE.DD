@@ -1,0 +1,14 @@
+/*********************************************************************
+	BK_AIRI_CHANGE File
+********************************************************************/
+
+declare	1 BK_AIRI_CHANGE_RECORD,
+		3 BK_AIR_CARRIER       character (        2),
+		3 BK_AIR_FLIGHT        character (        4),
+		3 BK_AIR_CLASS         character (        1),
+		3 BK_AIR_START         fixed binary (15),
+		3 BK_AIR_END           fixed binary (15),
+		3 BK_AIR_BLOCKED       fixed binary (15),
+		3 BK_AIR_OVERSELL      fixed binary (15),
+		3 BK_AIR_KEY           character (        6);
+

@@ -1,0 +1,13 @@
+/*********************************************************************
+	PR_RECOUNT File
+********************************************************************/
+
+declare	1 PR_RECOUNT_RECORD,
+		3 QUARTER_RECOUNT      character (1),
+		3 QUARTER_START        fixed binary (15),
+		3 QUARTER_END          fixed binary (15),
+		3 YEAR_RECOUNT         character (1),
+		3 YEAR_START           fixed binary (15),
+		3 YEAR_END             fixed binary (15),
+		3 PR_FIX               character (1);
+

@@ -1,0 +1,19 @@
+/*********************************************************************
+	BK_COMMENT File
+********************************************************************/
+
+declare	1 BK_COMMENT_RECORD,
+		3 BK_TOUR_MOD_NO       fixed binary (15),
+		3 BK_OR_TOUR_NO        fixed binary (31),
+		3 BK_TOUR_C_R          character (        1),
+		3 BK_TOUR_MOD_CODE     character (        1),
+		3 BK_COMM_ALT_SEQ      fixed binary (15),
+		3 BK_COMM_ANSW_SEQ     fixed binary (15),
+		3 BK_TOUR_SEQ          fixed binary (15),
+		3 BK_TOUR_TEXT         character (       50),
+		3 BK_COMM_MOD_CODE     character (        4);
+
+declare	1 BK_COMMENT_01_RECORD defined (BK_TOUR_MOD_NO),
+		3 BK_TOUR_MOD_NO01     fixed binary (15),
+		3 BK_COMM_TOUR_CODE    character (        4);
+

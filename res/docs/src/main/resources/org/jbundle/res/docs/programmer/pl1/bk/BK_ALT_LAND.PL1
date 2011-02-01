@@ -1,0 +1,303 @@
+/****************************************************************
+	Module: BK_ALT_LAND
+	Top Level Logic: DIS_FILE_DISPLAY
+	Date: 20-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ALT_LAND
+	Top - Level Display using info passed in
+****************************************************************/
+
+%replace BK_ALT_LAND_1 by 747;
+BK_ALT_LAND:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_OPT_ALT_RECORD);
+%replace BK_DET_LAND_NO by  68;
+%replace BK_LAND_NO by  54;
+%replace BK_TRANS_NO by  64;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_OPT_ALT_NO by  62;
+%include "BK_DET_LAND.DD";
+%include "BK_LAND.DD";
+%include "BK_TRANS.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_OPT_ALT.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+   call INITIALIZE;
+   call DIS_TABLE_DIS;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   LAND_TAX = 0;
+   LAND_SVC_CHG = 0;
+   LAND_COMM = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ALT_LAND_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_NO,"BK_TRANS",byteaddr(BK_TRANS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_TABLE_DIS
+	Mainline logic
+****************************************************************/
+
+DIS_TABLE_DIS:
+	procedure;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+return;
+end;	/* DIS_TABLE_DIS        */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		LDET_MOD_SAVE        fixed binary (15);
+declare		LDET_TOUR_CODE_SAVE  character (        4);
+declare		LDET_ALT_SEQ_SAVE    fixed binary (15);
+declare		LDET_ANSW_SEQ_SAVE   fixed binary (15);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		LDET_DAY_ARRAY( 7) fixed binary (15);
+declare		LDET_SEQ_ARRAY( 7) fixed binary (15);
+declare		BK_DET_LAND_ERROR    fixed binary (15);
+declare		LDET_DAY_SAVE        fixed binary (15);
+declare		LDET_SEQ_SAVE        fixed binary (15);
+declare		ANSWER               character (1);
+LDET_MOD = -1;
+LDET_MOD_SAVE = LDET_MOD;
+LDET_TOUR_CODE = BK_TOUR_CODE;
+LDET_TOUR_CODE_SAVE = LDET_TOUR_CODE;
+LDET_ALT_SEQ = ALT_SEQ;
+LDET_ALT_SEQ_SAVE = LDET_ALT_SEQ;
+LDET_ANSW_SEQ = ALT_ANSW_SEQ;
+LDET_ANSW_SEQ_SAVE = LDET_ANSW_SEQ;
+LDET_DAY = 0;
+LDET_SEQ = 0;
+call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > LDET_MOD_SAVE) !
+   (LDET_TOUR_CODE > LDET_TOUR_CODE_SAVE) !
+   (LDET_ALT_SEQ > LDET_ALT_SEQ_SAVE) !
+   (LDET_ANSW_SEQ > LDET_ANSW_SEQ_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to  7;
+      LDET_DAY_ARRAY(RECORD_NUMBER) = 0;
+      LDET_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_DET_LAND_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_DET_LAND_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <=  7) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+         do LOOP_INDEX =  11 to  21;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  13 then
+               do;
+
+               /* SET_LDET_FIELDS - Set up the LDET fields */
+
+
+                  /* READ_LAND_TRANS - Read land or transportation record */
+
+                  LAND_CODE = LDET_TOUR_NO;
+                  if LDET_MANUAL = "" then
+                     call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_CODE);
+                  else
+                     do;
+                     LAND_DESC_1 = LDET_MANUAL;
+                     LAND_DESC_2 = "";
+                     LAND_CURR = "";
+                     ERROR_CODE = NORMAL_RETURN;
+                     end;
+                  if ERROR_CODE = RECORD_NOT_FOUND then
+                     do;
+                     TRANS_NO = LDET_TOUR_NO;
+                     call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_CODE);
+                     if ERROR_CODE = RECORD_NOT_FOUND then
+                        do;
+                        if RETURN_CODE = 0 then	/*INPUT*/
+                           do;
+                           call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+                           call PRESS_RETURN;
+                           call CLEAR_MESSAGE;
+                           LOOP_INDEX = LOOP_INDEX - 1;
+                           end;
+                        else
+                           do;
+                           LAND_DESC_1 = "** Record not found **";
+                           LAND_DESC_2 = "";
+                           LAND_TYPE = "";
+                           end;
+                        end;
+                     else
+                        do;
+                        LAND_DESC_1 = TRANS_FROM !! " to " !! TRANS_TO;
+                        LAND_DESC_2 = "";
+                        LAND_TYPE = "~";
+                        LAND_VENDOR_NO = TRANS_VEN_NO;
+                        end;
+                     end;
+
+
+                  /* MOVE_LDET_FLDS - Move the appropriate LDET fields */
+
+                  LDET_EXCHANGE = 0;
+                  LDET_TOUR_PP_COST = 0;
+                  LDET_TOUR_COST = 0;
+                  LDET_MODULE = "";
+                  LDET_LINKED_TO = 0;
+                  LDET_VENDOR = LAND_VENDOR_NO;
+                  LDET_TORT = "L";
+                  if LAND_TYPE = "I" then
+                     LDET_TORT = "I";
+                  if LAND_TYPE = "~" then
+                     LDET_TORT = "T";
+                  LDET_SIC_PMC = "";
+
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         do LOOP_INDEX =  25 to  25;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         LDET_DAY_ARRAY(RECORD_NUMBER) = LDET_DAY;
+         LDET_SEQ_ARRAY(RECORD_NUMBER) = LDET_SEQ;
+         call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,BK_DET_LAND_ERROR);
+         if (LDET_MOD > LDET_MOD_SAVE) !
+         (LDET_TOUR_CODE > LDET_TOUR_CODE_SAVE) !
+         (LDET_ALT_SEQ > LDET_ALT_SEQ_SAVE) !
+         (LDET_ANSW_SEQ > LDET_ANSW_SEQ_SAVE) then
+            BK_DET_LAND_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      LDET_DAY_SAVE = LDET_DAY_ARRAY( 7);
+      LDET_SEQ_SAVE = LDET_SEQ_ARRAY( 7);
+      LDET_MOD = LDET_MOD_SAVE;
+      LDET_TOUR_CODE = LDET_TOUR_CODE_SAVE;
+      LDET_ALT_SEQ = LDET_ALT_SEQ_SAVE;
+      LDET_ANSW_SEQ = LDET_ANSW_SEQ_SAVE;
+      if BK_DET_LAND_ERROR = END_OF_FILE then
+         do;
+         GET_OUT = YES;
+         call PRESS_RETURN;
+         end;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      do;
+      GET_OUT = YES;
+      call PRESS_RETURN;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to  7;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+      if LDET_DAY_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =11 to  21;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (BK_LAND_NO);
+   call CLOSE_FILE (BK_TRANS_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

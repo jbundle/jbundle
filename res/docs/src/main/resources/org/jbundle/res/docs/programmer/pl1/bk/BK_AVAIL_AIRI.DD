@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_AVAIL_AIRI File
+********************************************************************/
+
+declare	1 BK_AVAIL_AIRI_RECORD,
+		3 SCREEN_CARRIER       character (        2),
+		3 SCREEN_FLIGHT        character (        4),
+		3 SCREEN_AIR_START     fixed binary (15);
+

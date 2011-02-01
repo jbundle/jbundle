@@ -1,0 +1,1470 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<LogicFile ID="2725">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureScreen</MethodClassName>
+		<LogicSource>return new Picture(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2726">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2727">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureGridScreen</MethodClassName>
+		<LogicSource>return new Picture(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2728">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>80</Sequence>
+		<MethodName>addNavButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureGridScreen</MethodClassName>
+		<LogicSource><![CDATA[String strJob = null;
+strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.ROOT_PACKAGE + "screen.thread.ProcessRunner");	// Screen class
+strJob = Utility.addURLParam(strJob, DBParams.PROCESS, DBConstants.ROOT_PACKAGE + "personal.manual.ScanImages");	// Screen class
+new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Scan");
+super;	// Next buttons will be "First!"]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2729">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>70</Sequence>
+		<MethodName>addToolbarButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureGridScreen</MethodClassName>
+		<LogicSource><![CDATA[new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
+String strJob = null;
+strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.ROOT_PACKAGE + "screen.thread.ProcessRunner");	// Screen class
+strJob = Utility.addURLParam(strJob, DBParams.PROCESS, DBConstants.ROOT_PACKAGE + "personal.manual.ScanImages");	// Screen class
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Scan");]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2730">
+		<LastChanged>2009-09-15T22:51:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>500</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureGridScreen</MethodClassName>
+		<LogicSource><![CDATA[if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
+	return (this.onForm(null, ScreenConstants.DETAIL_MODE, true, iCommandOptions, null) != null);
+else
+	return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2731">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureGridScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2732">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeScreen</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>Picture</MethodClassName>
+		<LogicSource><![CDATA[BaseScreen screen = null;
+if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
+	screen = new PictureGridScreen(this, null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+	screen = new PictureScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+else
+	screen = new PictureGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+return screen;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2733">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>PictureGridScreen*2</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface>Record recLayout, Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map&lt;String,Object&gt; properties</MethodInterface>
+		<MethodClassName>PictureGridScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2768">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ContactScreen</MethodClassName>
+		<LogicSource>return new Contact(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2769">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ContactGridScreen</MethodClassName>
+		<LogicSource>return new Contact(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2770">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ContactGridScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2771">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ContactGridScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+Record recContact = this.getMainRecord();
+recContact.setKeyArea(Contact.kNameSortKey);
+SortOrderHandler keyBehavior = new SortOrderHandler(this);
+keyBehavior.setGridTable(Contact.kNameSortKey, recContact, 0);
+keyBehavior.setGridTable(Contact.kContactKey, recContact, 1);
+keyBehavior.setGridTable(-1, recContact, 2);
+keyBehavior.setGridTable(Contact.kPostalCodeSortKey, recContact, 3);
+keyBehavior.setGridTable(-1, recContact, 4);
+keyBehavior.setGridTable(-1, recContact, 5);
+keyBehavior.setGridTable(-1, recContact, 6);
+this.getScreenRecord().getField(ContactScreenRecord.kProfileKey).addListener(keyBehavior);
+
+recContact.addListener(new ExtractRangeFilter(Contact.kPostalCodeSort, this.getScreenRecord().getField(ContactScreenRecord.kPostalCodeSort)));
+recContact.addListener(new ExtractRangeFilter(Contact.kNameSort, this.getScreenRecord().getField(ContactScreenRecord.kNameSort)));
+recContact.addListener(new CompareFileFilter(Contact.kContactCategoryID, this.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID), "=", null, true));
+
+this.getScreenRecord().getField(ContactScreenRecord.kNameSort).addListener(new FieldReSelectHandler(this));
+this.getScreenRecord().getField(ContactScreenRecord.kPostalCodeSort).addListener(new FieldReSelectHandler(this));
+this.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).addListener(new FieldReSelectHandler(this));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2772">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ContactGridScreen</MethodClassName>
+		<LogicSource>return new ContactScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2773">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ContactScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2775">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureControlScreen</MethodClassName>
+		<LogicSource>return new PictureControl(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2777">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SyncPictures</MethodClassName>
+		<LogicSource>return new Picture(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2778">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openOtherRecords</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SyncPictures</MethodClassName>
+		<LogicSource><![CDATA[super;
+new PictureControl(this);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2780">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SyncPictures</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2781">
+		<LastChanged>2010-02-18T07:36:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SyncPictures</MethodClassName>
+		<LogicSource><![CDATA[boolean bFlag = false;
+
+if (strCommand.indexOf("ScanImages") != -1)
+{	// Don't run in a new thread, run it here
+	org.jbundle.app.picture.manual.ScanImages convert = new org.jbundle.app.picture.manual.ScanImages(this.getTask(), null, null);
+	convert.run();
+	convert.free();
+	bFlag = true;
+}
+
+if (bFlag == false)
+	bFlag = super.doCommand(strCommand, sourceSField, iCommandOptions);	// This will send the command to my parent
+return bFlag;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2782">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ProcessPictures</MethodClassName>
+		<LogicSource>return new Picture(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2783">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openOtherRecords</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ProcessPictures</MethodClassName>
+		<LogicSource><![CDATA[super;
+new PictureControl(this);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2785">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ProcessPictures</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2786">
+		<LastChanged>2010-02-18T07:37:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ProcessPictures</MethodClassName>
+		<LogicSource><![CDATA[boolean bFlag = false;
+
+if (strCommand.indexOf("WritePicture") != -1)
+{	// Don't run this in a task
+	org.jbundle.app.picture.manual.WritePicture convert = new org.jbundle.app.picture.manual.WritePicture(this.getTask(), null, null);
+	convert.run();
+	convert.free();
+	bFlag = true;
+}
+
+if (bFlag == false)
+	bFlag = super;	// This will send the command to my parent
+return bFlag;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2787">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureTypeField</MethodClassName>
+		<LogicSource>return new PictureType(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2795">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ExportPictures</MethodClassName>
+		<LogicSource><![CDATA[super;
+try	{
+	this.getRecord(PictureControl.kPictureControlFile).open();	// Get the control record
+} catch (DBException ex)	{
+	ex.printStackTrace();
+}]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2797">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ExportPictures</MethodClassName>
+		<LogicSource>return new Picture(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2798">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openOtherRecords</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ExportPictures</MethodClassName>
+		<LogicSource><![CDATA[super;
+new PictureControl(this);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2799">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ExportPictures</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="2800">
+		<LastChanged>2010-02-18T07:38:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ExportPictures</MethodClassName>
+		<LogicSource><![CDATA[boolean bFlag = false;
+
+if (strCommand.indexOf("ExportPictures") != -1)
+{
+	Properties properties = new Properties();
+	Record recPictureControl = this.getRecord(PictureControl.kPictureControlFile);
+	String strDate = "";
+	if (!recPictureControl.getField(PictureControl.kLastExported).isNull())
+	{
+		Date date = ((DateTimeField)recPictureControl.getField(PictureControl.kLastExported)).getDateTime();
+		strDate = DateFormat.getInstance().format(date);
+	}
+	properties.setProperty("date", strDate);
+	String strRoot = recPictureControl.getField(PictureControl.kBaseDirectory).toString();
+	if (strRoot.length() > 0)
+		if ((strRoot.charAt(strRoot.length() - 1) != '/')
+			|| (strRoot.charAt(strRoot.length() - 1) != '\\'))
+				strRoot += '/';
+	String strRecord = "Picture";
+	String strPackage = "personal";
+	String strFilename = strRoot + strPackage.replace('.', '/') + '/' + strRecord + ".xml";
+	properties.setProperty("filename", strFilename);
+	org.jbundle.app.picture.manual.ExportPictureRecord convert = new org.jbundle.app.picture.manual.ExportPictureRecord(null, null, properties);
+	convert.run();
+	convert.free();
+	try	{
+		recPictureControl.edit();
+		((DateTimeField)recPictureControl.getField(PictureControl.kLastExported)).setDateTime(new Date(), true, DBConstants.SCREEN_MOVE);
+		recPictureControl.set();
+	} catch (DBException ex)	{
+		ex.printStackTrace();
+	}
+	bFlag = true;
+}
+
+if (bFlag == false)
+	bFlag = super;	// This will send the command to my parent
+return bFlag;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="4479">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>addMasterListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>Contact</MethodClassName>
+		<LogicSource><![CDATA[super;
+
+CopyFieldHandler copyName = (CopyFieldHandler)this.getField(Contact.kName).getListener(CopyFieldHandler.class.getName());
+this.getField(Contact.kName).removeListener(copyName, true);
+copyName = new CopyFieldHandler(Contact.kNameSort)
+{
+    public int moveIt(boolean bDisplayOption, int iMoveMode)
+    {
+        BaseField fldContact = getOwner().getRecord().getField(Contact.kContact);
+        BaseField fldName = getOwner();
+        if ((fldName.isNull()) && (!fldContact.isNull()))
+        {
+            return fldContact.handleFieldChanged(bDisplayOption, iMoveMode);
+        }
+        return super.moveIt(bDisplayOption, iMoveMode);
+    }
+};
+this.getField(Contact.kName).addListener(copyName);
+
+CopyFieldHandler copyLast = new CopyLastHandler(Contact.kNameSort)
+{
+    public int moveIt(boolean bDisplayOption, int iMoveMode)
+    {
+        BaseField fldName = getOwner().getRecord().getField(Contact.kName);
+        if (!fldName.isNull())
+            return DBConstants.NORMAL_RETURN;   // Don't wipe the name
+        return super.moveIt(bDisplayOption, iMoveMode);
+    }
+};
+this.getField(Contact.kContact).addListener(copyLast);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5190">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceField</MethodClassName>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), Dance.kNameKey, Dance.kName, true, true);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5191">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceField</MethodClassName>
+		<LogicSource>return new Dance(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5474">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceScreen</MethodClassName>
+		<LogicSource>return new Dance(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5475">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceGridScreen</MethodClassName>
+		<LogicSource>return new Dance(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5476">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeScreen</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>Dance</MethodClassName>
+		<LogicSource><![CDATA[BaseScreen screen = null;
+if ((iDocMode & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
+    screen = new DanceStepGridScreen(this, null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+    screen = new DanceScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
+    screen = new DanceGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+else
+    screen = super;
+return screen;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5477">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepScreen</MethodClassName>
+		<LogicSource>return new DanceStep(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5478">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepGridScreen</MethodClassName>
+		<LogicSource>return new DanceStep(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5479">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>5</Sequence>
+		<MethodName>DanceStepGridScreen*2</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface>Record recMain, Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map&lt;String,Object&gt; properties</MethodInterface>
+		<MethodClassName>DanceStepGridScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5480">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>addNavButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceGridScreen</MethodClassName>
+		<LogicSource><![CDATA[BaseApplication application = (BaseApplication)this.getTask().getApplication();
+new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, application.getResources(ResourceConstants.MENU_RESOURCE, true).getString(MenuConstants.FORMDETAIL));
+super;  // Next buttons will be "First!"]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5481">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>300</Sequence>
+		<MethodName>addToolbarButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceGridScreen</MethodClassName>
+		<LogicSource><![CDATA[BaseApplication application = (BaseApplication)this.getTask().getApplication();
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.MENU_RESOURCE, true).getString(MenuConstants.FORMDETAIL), MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
+super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5482">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>40</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceHeaderScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getScreenRecord().getField(DanceScreenRecord.kDanceID).setEnabled(true);
+this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn).setEnabled(true);
+this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID).setEnabled(true);
+this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).setEnabled(true);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5483">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceHeaderScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5484">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>makeSubScreen</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepGridScreen</MethodClassName>
+		<LogicSource>return new DanceHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5485">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openHeaderRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepGridScreen</MethodClassName>
+		<LogicSource>return new Dance(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5486">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepGridScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().setKeyArea(DanceStep.kDateKey);
+this.getMainRecord().getKeyArea().setKeyOrder(DBConstants.DESCENDING);
+    // Link the screen field to the passed in record
+((ReferenceField)this.getScreenRecord().getField(DanceScreenRecord.kDanceID)).syncReference(this.getHeaderRecord());
+this.getScreenRecord().getField(DanceScreenRecord.kDanceID).addListener(new FieldReSelectHandler(this));
+
+this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn).addListener(new FieldReSelectHandler(this));
+this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceFootIn, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn), DBConstants.EQUALS, null, true));
+
+this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID).addListener(new FieldReSelectHandler(this));
+this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceDirectionID, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID), DBConstants.EQUALS, null, true));
+
+this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).addListener(new FieldReSelectHandler(this));
+this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kMoveClassID, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID), DBConstants.EQUALS, null, true));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5487">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>40</Sequence>
+		<MethodName>addSubFileFilter</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepGridScreen</MethodClassName>
+		<LogicSource><![CDATA[this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
+this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5488">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>25</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepGridScreen</MethodClassName>
+		<LogicSource>return new DanceScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5489">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>commandToDocType</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>Dance</MethodClassName>
+		<LogicSource><![CDATA[if (MenuConstants.FORMDETAIL.equalsIgnoreCase(strCommand))
+    return ScreenConstants.DETAIL_MODE;
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5490">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openHeaderRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepScreen</MethodClassName>
+		<LogicSource>return new Dance(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5491">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepScreen</MethodClassName>
+		<LogicSource>return new DanceScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5492">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>40</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+    // Link the screen field to the passed in record
+((ReferenceField)this.getScreenRecord().getField(DanceScreenRecord.kDanceID)).syncReference(this.getHeaderRecord());]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5493">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>90</Sequence>
+		<MethodName>makeSubScreen</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepScreen</MethodClassName>
+		<LogicSource>return new DanceHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5494">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>300</Sequence>
+		<MethodName>addSubFileFilter</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepScreen</MethodClassName>
+		<LogicSource><![CDATA[this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
+this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5495">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepGridScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5498">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>50</Sequence>
+		<MethodName>getHeaderRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepGridScreen</MethodClassName>
+		<LogicSource>return this.getRecord(Dance.kDanceFile);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5499">
+		<LastChanged>2009-09-15T23:27:49</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>500</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepGridScreen</MethodClassName>
+		<LogicSource><![CDATA[if ((strCommand.equalsIgnoreCase(MenuConstants.FORM)) || (strCommand.equalsIgnoreCase(MenuConstants.FORMLINK)))
+{   // Add the header field to this screen, so on return the same sub records will display
+    BasePanel parentScreen = this.getParentScreen();
+    if (parentScreen != null)
+    {
+        parentScreen.popHistory(1, false);
+        parentScreen.pushHistory(this.getScreenURL(), false);  // Push this screen onto history stack
+    }
+}
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5503">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5638">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceTypeField</MethodClassName>
+		<LogicSource>return new DanceType(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5639">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceTypeField</MethodClassName>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), DanceType.kDescriptionKey, DanceType.kDescription, true, true);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5640">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DancePositionField</MethodClassName>
+		<LogicSource>return new DancePosition(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5641">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DancePositionField</MethodClassName>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), DancePosition.kDescriptionKey, DancePosition.kDescription, true, true);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5642">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepField</MethodClassName>
+		<LogicSource>return new DanceStep(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5643">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepField</MethodClassName>
+		<LogicSource>return this.setupTableLookup(itsLocation, targetScreen, iDisplayFieldDesc, this.makeReferenceRecord(), DanceStep.kDescriptionKey, DanceStep.kDescription, true);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5723">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>MoveClassField</MethodClassName>
+		<LogicSource>return new MoveClass(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5724">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>MoveClassField</MethodClassName>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), MoveClass.kDescriptionKey, MoveClass.kDescription, true, true);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5725">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>HandPositionField</MethodClassName>
+		<LogicSource>return new HandPosition(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5726">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>HandPositionField</MethodClassName>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), HandPosition.kDescriptionKey, HandPosition.kDescription, true, true);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5876">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ContactScreenRecord</MethodClassName>
+		<LogicSource><![CDATA[super;
+FieldToUpperHandler upper = new FieldToUpperHandler(null);
+this.getField(ContactScreenRecord.kNameSort).addListener(upper);
+CheckForTheHandler the = new CheckForTheHandler(null);
+this.getField(ContactScreenRecord.kNameSort).addListener(the);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5877">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ContactCategoryField</MethodClassName>
+		<LogicSource>return new ContactCategory(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5878">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ContactCategoryField</MethodClassName>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, iDisplayFieldDesc, this.makeReferenceRecord(), false);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5879">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ContactCategoryFilter</MethodClassName>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, iDisplayFieldDesc, this.makeReferenceRecord(), true);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5880">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>addToolbarButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ContactGridScreen</MethodClassName>
+		<LogicSource><![CDATA[new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
+toolScreen.getScreenRecord().getField(ContactScreenRecord.kNameSort).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+toolScreen.getScreenRecord().getField(ContactScreenRecord.kPostalCodeSort).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+toolScreen.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5976">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureSession</MethodClassName>
+		<LogicSource><![CDATA[super;
+this.setupSubMenus(HtmlConstants.MAIN_MENU_KEY);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5977">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>300</Sequence>
+		<MethodName>doRemoteCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureSession</MethodClassName>
+		<LogicSource><![CDATA[String strCommandNoCommas = Utility.replace(strCommand, ",", null);   // Get any commas out
+if (Utility.isNumeric(strCommandNoCommas))
+{
+    this.setupSubMenus(strCommandNoCommas);
+    return Boolean.TRUE;
+}
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5978">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PictureSession</MethodClassName>
+		<LogicSource>return new Picture(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5979">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>setupSubMenus</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface>String strMenu</MethodInterface>
+		<MethodClassName>PictureSession</MethodClassName>
+		<LogicSource><![CDATA[Record recMenu = this.getMainRecord();
+try   {
+    boolean bIsNumeric = Utility.isNumeric(strMenu);
+    if (bIsNumeric)
+    {
+        recMenu.setKeyArea(Picture.kIDKey);
+        recMenu.getField(Picture.kID).setString(strMenu);
+        bIsNumeric = recMenu.seek("=");
+    }
+    if (!bIsNumeric)
+    {
+        recMenu.setKeyArea(Picture.kCodeKey);
+        recMenu.getField(Picture.kCode).setString(strMenu);
+        if (recMenu.seek("="))
+        {
+        }
+    }
+} catch (DBException ex)    {
+    ex.printStackTrace(); // Never
+}
+String strParentID = recMenu.getField(Picture.kID).toString();
+BaseListener listener = recMenu.getListener(StringSubFileFilter.class.getName());
+if (listener != null)
+{ // Should just change the string
+    recMenu.removeListener(listener, true);
+}
+recMenu.setKeyArea(Picture.kParentFolderIDKey);
+recMenu.addListener(new StringSubFileFilter(strParentID, Picture.kParentFolderID, null, -1, null, -1));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="5980">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>PictureSession</MethodName>
+		<LogicDescription/>
+		<MethodReturns>parentSessionObject, null, null</MethodReturns>
+		<MethodInterface>TaskSession parentSessionObject</MethodInterface>
+		<MethodClassName>PictureSession</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6411">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>80</Sequence>
+		<MethodName>addToolbarButtons</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceScreen</MethodClassName>
+		<LogicSource><![CDATA[BaseApplication application = (BaseApplication)this.getTask().getApplication();
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.MENU_RESOURCE, true).getString(MenuConstants.FORMDETAIL), MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
+super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6813">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStudioField</MethodClassName>
+		<LogicSource>return new DanceStudio(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6814">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceTeacherField</MethodClassName>
+		<LogicSource>return new DanceTeacher(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6815">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceClassField</MethodClassName>
+		<LogicSource>return new DanceClass(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6816">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceAlignmentField</MethodClassName>
+		<LogicSource>return new DanceAlignment(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6817">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceDirectionField</MethodClassName>
+		<LogicSource>return new DanceDirection(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6818">
+		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>getPopupMap</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceFootField</MethodClassName>
+		<LogicSource><![CDATA[String string[][] = {
+        {"", ""}, 
+        {"L", "Left"},
+        {"R", "Right"}
+};
+return string;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6819">
+		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>makeReferenceRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceArtisticClassField</MethodClassName>
+		<LogicSource>return new DanceArtisticClass(recordOwner);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6937">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>70</Sequence>
+		<MethodName>getScreenURL</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepScreen</MethodClassName>
+		<LogicSource><![CDATA[String strURL = super;
+strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn));
+strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID));
+strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID));
+return strURL;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="6938">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>60</Sequence>
+		<MethodName>syncHeaderToMain</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>DanceStepScreen</MethodClassName>
+		<LogicSource><![CDATA[super;
+Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn));
+Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID));
+Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+</file>

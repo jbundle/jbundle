@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<HandPosition ID="1">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Right to Right</Description>
+	</HandPosition>
+	<HandPosition ID="2">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Left to Left</Description>
+	</HandPosition>
+	<HandPosition ID="3">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Right over Left</Description>
+	</HandPosition>
+	<HandPosition ID="4">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Left over Right</Description>
+	</HandPosition>
+	<HandPosition ID="5">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Hold Hands</Description>
+	</HandPosition>
+	<HandPosition ID="6">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Right to Left</Description>
+	</HandPosition>
+	<HandPosition ID="7">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Left to Right</Description>
+	</HandPosition>
+</file>

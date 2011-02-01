@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_SET_COMM_DET File
+********************************************************************/
+
+declare	1 BK_SET_COMM_DET_RECORD,
+		3 NEXT_B_SEQ           fixed binary (15),
+		3 BK_B_ALT_SEQ         fixed binary (15),
+		3 BK_B_ANSW_SEQ        fixed binary (15),
+		3 BK_B_SEQ             fixed binary (15);
+

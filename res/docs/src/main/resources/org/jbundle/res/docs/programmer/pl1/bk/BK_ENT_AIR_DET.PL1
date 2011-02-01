@@ -1,0 +1,1631 @@
+/****************************************************************
+	Module: BK_ENT_AIR_DET
+	Top Level Logic: DIS_TABLE_MAINT
+	Date: 20-Jun-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ENT_AIR_DET
+	Table maint - don't enter anything
+****************************************************************/
+
+%replace BK_ENT_AIR_DET_1 by 686;
+BK_ENT_AIR_DET:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_INV_DET_RECORD);
+%replace TK_DETAIL_NO by  57;
+%replace TK_HEADER_NO by  56;
+%replace TK_FLIGHTS_NO by  73;
+%replace TK_AIRPORT_NO by  72;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_INV_DET_NO by  61;
+%include "TK_DETAIL.DD";
+%include "BK_ENT_AIR_DET.DD";
+%include "TK_HEADER.DD";
+%include "TK_FLIGHTS.DD";
+%include "TK_AIRPORT.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_INV_DET.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_TK_HEADER      fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		SELECT               fixed binary (15);
+declare		END_COPY_AIRH        bit (1);
+declare		END_COPY_AIR         bit (1);
+declare		END_DEL_TKHDR        bit (1);
+declare		END_DELETE_TKDET     bit (1);
+declare		END_DEL_PAX_TKHDR    bit (1);
+declare		END_DEL_PAX_TKDET    bit (1);
+declare		END_COPY_PAX_AIRD    bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		TK_DATE_ARRAY( 7) fixed binary (15);
+declare		TK_SEQ_ARRAY( 7) fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+   call INITIALIZE;
+   call DIS_TABLE_IO;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_VOID_DATE = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   FLIGHT_ADD = 0;
+   FLIGHT_DAYS = "";
+   FLIGHT_SEGMENT = 1;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ENT_AIR_DET_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (BK_ENT_AIR_DET_RECORD) );
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (TK_FLIGHTS_NO,"TK_FLIGHTS",byteaddr(TK_FLIGHTS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_FLIGHTS_NO,ERROR_CODE);
+   call OPEN_FILE (TK_AIRPORT_NO,"TK_AIRPORT",byteaddr(TK_AIRPORT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_AIRPORT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_TABLE_IO
+	Display the table
+****************************************************************/
+
+DIS_TABLE_IO:
+	procedure;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* INIT_AIR_HDR - Init the air header info */
+
+
+      /* INIT_AIR_STUFF - Do stuff before accessing air detail */
+
+
+         /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+         if BOOKING_NO = 0 then
+            return;
+
+
+         /* CHECK_ALL_INFO - Are all Agency, Pax, and Tour in? */
+
+         if BK_AGENCY = -1 then
+            do;
+            call DISPLAY_MESSAGE ("Agency not entered!");
+            call PRESS_RETURN;
+            return;
+            end;
+
+         if BK_PAX = 0 then
+            do;
+            call DISPLAY_MESSAGE ("Passengers not entered!");
+            call PRESS_RETURN;
+            return;
+            end;
+
+         if BK_TOUR_NUM = 0 then
+            do;
+            call DISPLAY_MESSAGE ("Tour not entered!");
+            call PRESS_RETURN;
+            return;
+            end;
+
+
+         /* SETUP_AIR_IF_NEW - Has the air detail been changed before? */
+
+         if BK_AIR_MOD = -1 then
+            do;
+
+            /* BK_SET_AIR_DET - Call the program to set up air */
+
+            %include "BK_SET_AIR_DET.DCL";
+            call BK_SET_AIR_DET(
+               BK_BOOKING_RECORD,
+               BK_TOUR_RECORD,
+               BK_TOUR_HDR_RECORD,
+               TK_DETAIL_RECORD,
+               TK_HEADER_RECORD);
+            end;
+
+
+         /* CHECK_PAX_AIR - Is this a passenger air mod? */
+
+         if BK_PAX_SEQ ^= 0 then
+            do;
+            call SET_PAX_AIR;
+            end;
+         else
+            BK_PAX_SHARE_SEQ = 0;
+
+
+      /* SETUP_AIRH - Set up the air header fields */
+
+      TK_MODIFICATION = BK_MODIFICATION;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = BK_PAX_SEQ;
+      TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+      KEY_NO = 1;
+
+      /* READ_AIRH_LOCK - Read the Air record and lock */
+
+      call READ_KEYED (TK_HEADER_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_TK_HEADER);
+      if ERROR_TK_HEADER = RECORD_LOCKED then
+         do;
+         call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+         call PRESS_RETURN;
+         return;
+         end;
+      if ERROR_TK_HEADER > 3 then
+         call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+      /* FOUND_AIRH - Was the air header record found? */
+
+      ERROR_INPUT_SCREEN = NO;
+      if ERROR_TK_HEADER = NORMAL_RETURN then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* INIT_AIRH - Initialize the airh record */
+
+
+            /* CLEAR_AIRH - Clear the air header fields */
+
+            TK_MODIFICATION = 0;
+            TK_BK_TK_NO = 0;
+            TK_ALT_SEQ = 0;
+            TK_ANSW_SEQ = 0;
+            TK_MOD_CODE = "A";
+            TK_NUMBER = "";
+            TK_AIRL_CODE = "";
+            TK_AIRLINE_IATA = 0;
+            TK_AIRLINE_DESC = "";
+            TK_CONJ = 0;
+            TK_ENDORSEMENTS = "";
+            TK_ORIGIN = "";
+            TK_DESTINATION = "";
+            TK_ISSUE_DATE = 0;
+            TK_PAX_NAME = "";
+            TK_FORM_OF_PYMT = "";
+            TK_TOUR_CODE = "";
+            TK_FARE = 0;
+            TK_EQUIVALENT = 0;
+            TK_CURR = "";
+            TK_TAX_P = 0;
+            TK_TAX_1 = 0;
+            TK_TAX_1_DESC = "";
+            TK_TAX_2 = 0;
+            TK_TAX_2_DESC = "";
+            TK_TOTAL = 0;
+            TK_COMM = "";
+            TK_TAX = "";
+            TK_COMM_RATE = "";
+            TK_AGENT = "";
+            TK_INTERNATIONAL = "";
+            TK_COMM_P = 0;
+            TK_COMM_AMT = 0;
+            TK_TICKET_BY = "";
+            TK_NET_FARE = 0;
+            TK_OVERRIDE_P = 0;
+            TK_OVERRIDE = 0;
+            TK_NET = 0;
+            TK_NET_POSTED = 0;
+            TK_OR_COLL = 0;
+            TK_OR_COLL_DATE = 0;
+            TK_ARC_COST = 0;
+            TK_COST_POSTED = 0;
+            TK_OR_POSTED = 0;
+            TK_COST_POSTED_ON = 0;
+            TK_PNR = "";
+            TK_VOID = "N";
+            TK_VOID_DATE = 0;
+            TK_EXCH_TICKET = "";
+            TK_DEP_DATE = 0;
+            TK_COAS_GL = 0;
+            TK_OVER_REC = 0;
+            TK_PP_TICKETS = 0;
+            TK_AP_ACCT = 0;
+            TK_OVER_VAR = 0;
+            TK_CASH_AC = 0;
+            TK_OVER_CASH = 0;
+            TK_ISSUE_UD_DATE = 0;
+            TK_ARC_UD_DATE = 0;
+            TK_DEP_UD_DATE = 0;
+            TK_OR_UD_DATE = 0;
+            TK_BK_DEP_DATE = 0;
+            TK_UD_STATUS = 0;
+            TK_CREDIT = "N";
+            TK_COMMENT1 = "";
+            TK_COMMENT2 = "";
+            TK_COMMENT3 = "";
+            TK_CRS_STATUS = "";
+            TK_FARE_1 = "";
+            TK_FARE_2 = "";
+            TK_FARE_3 = "";
+
+            /* SETUP_AIRH - Set up the air header fields */
+
+            TK_MODIFICATION = BK_MODIFICATION;
+            TK_BK_TK_NO = BOOKING_NO;
+            TK_ALT_SEQ = BK_PAX_SEQ;
+            TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+            KEY_NO = 1;
+
+            /* CHECK_SET_PAX - Set up the default pax name? */
+
+            if ERROR_TK_HEADER ^= NORMAL_RETURN then
+               do;
+
+               /* SET_AIR_NAME - Set up the ticket name */
+
+               if BK_PAX_SEQ = 0 then
+                  do;
+                  LOOP_INDEX = 99;
+                  end;
+               else
+                  do;
+                  dcl (NAME_INDEX,CHAR_LAST) fixed binary;
+                  dcl LAST_FOUND bit(1);
+                  LAST_FOUND = NO;
+                  CHAR_LAST = 1;
+                  do NAME_INDEX = length(BK_PAX_NAME) to 1 by -1;
+                     if substr(BK_PAX_NAME,NAME_INDEX,1) ^= " " then
+                        do;
+                        if CHAR_LAST = 1 then
+                           CHAR_LAST = NAME_INDEX;
+                        LAST_FOUND = YES;
+                        end;
+                     else
+                        if LAST_FOUND = YES then
+                           goto LOOP_FOUND_OVER;
+                  end;
+                  LOOP_FOUND_OVER:
+                  TK_PAX_NAME = substr(BK_PAX_NAME,NAME_INDEX+1,CHAR_LAST-NAME_INDEX) !!
+                     "/" !! substr(BK_PAX_NAME,1,NAME_INDEX);
+                  call CONVERT_TO_UPPER(TK_PAX_NAME);
+                  end;
+
+               end;
+
+
+            /* SET_TK_GL - Set the G/L accounts for a ticket */
+
+            TK_COAS_GL = HDR_AIR_GL;
+            TK_OVER_REC = HDR_OVERRIDE_GL;
+            TK_PP_TICKETS = HDR_PP_TIC_GL;
+            TK_OVER_VAR = HDR_OVER_VAR_GL;
+
+         if ERROR_INPUT_SCREEN then return;
+         end;
+
+      /* SAVE_TK_ERROR - Save the error code for a sec */
+
+      DECLARE 	TEMP_ERROR	fixed binary;
+      TEMP_ERROR = ERROR_TK_HEADER;
+
+   call TABLE_MAINT;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* FINISH_AIR_HDR - Write/rewrite the header */
+
+
+      /* RESTORE_TK_ERROR - Restore the original error */
+
+      ERROR_TK_HEADER = TEMP_ERROR;
+
+      call GET_TK_DEP_DATE;
+
+      /* DIS_INP_AIRH - Was the air header read or created? */
+
+      ERROR_INPUT_SCREEN = NO;
+      if ERROR_TK_HEADER = NORMAL_RETURN then
+         do;
+
+         /* DIS_DEL_AIRH - Deleted or ok? */
+
+         if RETURN_CODE = DELETE_TYPED then
+            do;
+
+            /* NO_CODE - This section has no code */
+
+            /* No code in this section */
+            end;
+         else
+            do;
+
+            /* UPDATE_AIRH - Update the record */
+
+            call UPDATE_RECORD (TK_HEADER_NO,ERROR_CODE);
+            end;
+         end;
+      else
+         do;
+
+         /* INP_DEL_AIRH - Deleted? */
+
+         if RETURN_CODE = DELETE_TYPED then
+            do;
+
+            /* NO_CODE - This section has no code */
+
+            /* No code in this section */
+            end;
+         else
+            do;
+
+            /* WRITE_AIRH - Write the air header record */
+
+            call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+            end;
+         if ERROR_INPUT_SCREEN then return;
+         end;
+return;
+end;	/* DIS_TABLE_IO         */
+
+/****************************************************************
+	SET_PAX_AIR
+	Check and set up this passenger's air
+****************************************************************/
+
+SET_PAX_AIR:
+	procedure;
+
+   call DISPLAY_DATA_C;
+
+   /* SET_PAX_TK_HDR - Set up the tk header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   KEY_NO = 1;
+
+   /* READ_TK_HDR - Read the header record */
+
+   call READ_KEYED (TK_HEADER_NO,KEY_AREA_1,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+   /* COPY_IF_PAX_AIR - Copy if there isn't a pax air yet */
+
+   if ERROR_TK_HEADER ^= NORMAL_RETURN then
+      do;
+      call COPY_PAX_AIR;
+      end;
+
+return;
+end;	/* SET_PAX_AIR          */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  35 to  36;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	COPY_PAX_AIR
+	Copy the current passenger air
+****************************************************************/
+
+COPY_PAX_AIR:
+	procedure;
+
+
+   /* SET_CHG_PARAMS - Simulate an item change */
+
+   RETURN_CODE = 0;
+   SELECT = 10;
+
+
+   /* CHECK_AIR_CHG - Check of air mods */
+
+   if (SELECT ^= 0 ! RETURN_CODE = DELETE_TYPED) then
+   if BK_NEXT_MOD ^= BK_AIR_MOD then
+      do;
+
+      /* SET_FIRST_AIRH_COPY - Set to first header to copy */
+
+      TK_MODIFICATION = BK_MODIFICATION;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = 0;
+      TK_ANSW_SEQ = 0;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIRH = NO;
+      do while (END_COPY_AIRH ^= YES);
+         call COPY_AIRH;
+      end;
+
+      /* SETUP_KEY_AIRH - Set up the key for air header record */
+
+      TK_MODIFICATION = BK_MODIFICATION;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = BK_PAX_SEQ;
+      TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+      KEY_NO = 1;
+
+      /* READ_AND_LOCK_AIRH - Read the record and lock it */
+
+      call READ_KEYED (TK_HEADER_NO+?LOCK_RECORD,KEY_NO,ERROR_TK_HEADER);
+      if ERROR_TK_HEADER = RECORD_LOCKED then
+         do;
+         call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+         call PRESS_RETURN;
+         end;
+      if ERROR_TK_HEADER > 3 then
+         call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+      /* SET_FIRST_AIRD_COPY - First air detail of this record */
+
+      TK_DET_MOD = BK_MODIFICATION;
+      TK_DET_BK_TK = BOOKING_NO;
+      TK_DET_ALT_SEQ = 0;
+      TK_DET_ANSW_SEQ = 0;
+      TK_DATE = 0;
+      TK_SEQ = 0;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIR = NO;
+      do while (END_COPY_AIR ^= YES);
+         call COPY_AIR;
+      end;
+      BK_AIR_MOD = BK_NEXT_MOD;
+      end;
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+      if BK_PAX_SEQ = 0 then
+         do;
+         END_DEL_TKHDR = NO;
+         do while (END_DEL_TKHDR ^= YES);
+            call DEL_TKHDR;
+         end;
+         END_DELETE_TKDET = NO;
+         do while (END_DELETE_TKDET ^= YES);
+            call DELETE_TKDET;
+         end;
+         BK_AIR_MOD = -1;
+         end;
+      else
+         do;
+         END_DEL_PAX_TKHDR = NO;
+         do while (END_DEL_PAX_TKHDR ^= YES);
+            call DEL_PAX_TKHDR;
+         end;
+         END_DEL_PAX_TKDET = NO;
+         do while (END_DEL_PAX_TKDET ^= YES);
+            call DEL_PAX_TKDET;
+         end;
+         BK_AIR_MOD = BK_NEXT_MOD;
+         end;
+      end;
+
+
+   /* SETUP_KEY_AIRD - Set up the air detail key */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   KEY_NO = 1;
+
+
+   /* RESET_NEW_PARAMS - Reset these just in case... */
+
+   RETURN_CODE = 0;
+   SELECT = 0;
+
+
+   /* SET_TK_HDR - Set up the key */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   KEY_NO = 1;
+
+   /* READ_TK_HDR - Read the header record */
+
+   call READ_KEYED (TK_HEADER_NO,KEY_AREA_1,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+   /* RET_IF_AIR_FOUND - Return if air header not found */
+
+   if ERROR_TK_HEADER ^= NORMAL_RETURN then
+      return;
+
+
+   /* SET_PAX_AIRH - Set up the new header */
+
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+
+
+   /* SET_AIR_NAME - Set up the ticket name */
+
+   if BK_PAX_SEQ = 0 then
+      do;
+      LOOP_INDEX = 99;
+      end;
+   else
+      do;
+      dcl (NAME_INDEX,CHAR_LAST) fixed binary;
+      dcl LAST_FOUND bit(1);
+      LAST_FOUND = NO;
+      CHAR_LAST = 1;
+      do NAME_INDEX = length(BK_PAX_NAME) to 1 by -1;
+         if substr(BK_PAX_NAME,NAME_INDEX,1) ^= " " then
+            do;
+            if CHAR_LAST = 1 then
+               CHAR_LAST = NAME_INDEX;
+            LAST_FOUND = YES;
+            end;
+         else
+            if LAST_FOUND = YES then
+               goto LOOP_FOUND_OVER;
+      end;
+      LOOP_FOUND_OVER:
+      TK_PAX_NAME = substr(BK_PAX_NAME,NAME_INDEX+1,CHAR_LAST-NAME_INDEX) !!
+         "/" !! substr(BK_PAX_NAME,1,NAME_INDEX);
+      call CONVERT_TO_UPPER(TK_PAX_NAME);
+      end;
+
+
+   /* SET_TK_GL - Set the G/L accounts for a ticket */
+
+   TK_COAS_GL = HDR_AIR_GL;
+   TK_OVER_REC = HDR_OVERRIDE_GL;
+   TK_PP_TICKETS = HDR_PP_TIC_GL;
+   TK_OVER_VAR = HDR_OVER_VAR_GL;
+
+
+   /* WRITE_TK_HDR - Write the header record */
+
+   call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_COPY_PAX_AIRD = NO;
+   do while (END_COPY_PAX_AIRD ^= YES);
+      call COPY_PAX_AIRD;
+   end;
+
+   /* SET_AIR_MOD - Set the air mod code */
+
+   BK_AIR_MOD = BK_NEXT_MOD;
+
+return;
+end;	/* COPY_PAX_AIR         */
+
+/****************************************************************
+	COPY_AIRH
+	Copy all the headers to the last md
+****************************************************************/
+
+COPY_AIRH:
+	procedure;
+
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH_COPY - Last air header in booking? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_COPY_AIRH = YES;
+      return;
+      end;
+
+   /* SET_TKHDR - Set to next mod */
+
+   TK_MODIFICATION = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRH - Write the air header record */
+
+   call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRHC - Set to the next air Header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ANSW_SEQ = TK_ANSW_SEQ+1;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIRH            */
+
+/****************************************************************
+	COPY_AIR
+	Copy the air detail
+****************************************************************/
+
+COPY_AIR:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_COPY_AIR = YES;
+      return;
+      end;
+
+   /* CHANGE_AIRD - Change mod code to 0 */
+
+   TK_DET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRD - Write the air detail record */
+
+   call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRC - Set to the next record */
+
+   TK_DET_MOD = 0;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_SEQ = TK_SEQ+1;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIR             */
+
+/****************************************************************
+	DEL_TKHDR
+	Delete the ticket header records
+****************************************************************/
+
+DEL_TKHDR:
+	procedure;
+
+
+   /* SET_FIRST_AIRH_COPY - Set to first header to copy */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH_COPY - Last air header in booking? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_DEL_TKHDR = YES;
+      return;
+      end;
+
+   /* RETURN_IF_TICKET - Return if this is a valid ticket */
+
+   if TK_ALT_SEQ ^= 0 then if TK_UD_STATUS >= TICK_TK then
+      if ((TK_ISSUE_UD_DATE ^= 0) ! (TK_ARC_UD_DATE ^= 0) ! (TK_DEP_UD_DATE ^= 0)) then
+         do;
+         END_DEL_TKHDR = YES;
+         return;
+         end;
+
+
+   /* DELETE_AIRH - Delete the air header record */
+
+   call DELETE_RECORD (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* DEL_TKHDR            */
+
+/****************************************************************
+	DELETE_TKDET
+	Delete ticket detail
+****************************************************************/
+
+DELETE_TKDET:
+	procedure;
+
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_DELETE_TKDET = YES;
+      return;
+      end;
+
+   /* DELETE_AIRD - Delete */
+
+   call DELETE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* DELETE_TKDET         */
+
+/****************************************************************
+	DEL_PAX_TKHDR
+	Delete the pax ticket header
+****************************************************************/
+
+DEL_PAX_TKHDR:
+	procedure;
+
+
+   /* SET_FIRST_AIRH - Set to read the first Air header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH - Last header? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) !
+   (TK_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      do;
+      END_DEL_PAX_TKHDR = YES;
+      return;
+      end;
+
+   /* RETURN_IF_TICKET - Return if this is a valid ticket */
+
+   if TK_ALT_SEQ ^= 0 then if TK_UD_STATUS >= TICK_TK then
+      if ((TK_ISSUE_UD_DATE ^= 0) ! (TK_ARC_UD_DATE ^= 0) ! (TK_DEP_UD_DATE ^= 0)) then
+         do;
+         END_DEL_PAX_TKHDR = YES;
+         return;
+         end;
+
+
+   /* DELETE_AIRH - Delete the air header record */
+
+   call DELETE_RECORD (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* DEL_PAX_TKHDR        */
+
+/****************************************************************
+	DEL_PAX_TKDET
+	Delete the passenger tk detail
+****************************************************************/
+
+DEL_PAX_TKDET:
+	procedure;
+
+
+   /* SET_FIRST_AIRP - Set first air detail for this pax */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRP - End of this pax air detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_DET_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      do;
+      END_DEL_PAX_TKDET = YES;
+      return;
+      end;
+
+   /* DELETE_AIRD - Delete */
+
+   call DELETE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* DEL_PAX_TKDET        */
+
+/****************************************************************
+	COPY_PAX_AIRD
+	Copy the air detail
+****************************************************************/
+
+COPY_PAX_AIRD:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRZ - End of the header air detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > 0) !
+   (TK_DET_ANSW_SEQ > 0) then
+      do;
+      END_COPY_PAX_AIRD = YES;
+      return;
+      end;
+
+   /* CHANGE_PAX_AIRD - Change the detail for write */
+
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+
+
+   /* WRITE_AIRD - Write the air detail record */
+
+   call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+   /* SET_NEXT_AIRD - Set the next air detail up */
+
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_SEQ = TK_SEQ + 1;
+
+
+   /* SET_AIRD_POS - Set the air position */
+
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+return;
+end;	/* COPY_PAX_AIRD        */
+
+/****************************************************************
+	TABLE_MAINT
+	Table display/maintenance
+****************************************************************/
+
+TABLE_MAINT:
+	procedure;
+
+declare		TK_DET_MOD_SAVE      fixed binary (15);
+declare		TK_DET_BK_TK_SAVE    fixed binary (31);
+declare		TK_DET_ALT_SEQ_SAVE  fixed binary (15);
+declare		TK_DET_ANSW_SEQ_SAVE fixed binary (15);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		TK_DETAIL_ERROR      fixed binary (15);
+declare		TK_DATE_SAVE         fixed binary (15);
+declare		TK_SEQ_SAVE          fixed binary (15);
+declare		ANSWER               character (1);
+TK_DET_MOD = BK_MODIFICATION;
+TK_DET_MOD_SAVE = TK_DET_MOD;
+TK_DET_BK_TK = BOOKING_NO;
+TK_DET_BK_TK_SAVE = TK_DET_BK_TK;
+TK_DET_ALT_SEQ = BK_PAX_SEQ;
+TK_DET_ALT_SEQ_SAVE = TK_DET_ALT_SEQ;
+TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+TK_DET_ANSW_SEQ_SAVE = TK_DET_ANSW_SEQ;
+TK_DATE = 0;
+TK_SEQ = 0;
+call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > TK_DET_MOD_SAVE) !
+   (TK_DET_BK_TK > TK_DET_BK_TK_SAVE) !
+   (TK_DET_ALT_SEQ > TK_DET_ALT_SEQ_SAVE) !
+   (TK_DET_ANSW_SEQ > TK_DET_ANSW_SEQ_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to  7;
+      TK_DATE_ARRAY(RECORD_NUMBER) = 0;
+      TK_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      TK_DETAIL_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (TK_DETAIL_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <=  7) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+         do LOOP_INDEX =  11 to  31;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  11 then
+               do;
+
+               /* GET_TK_DAY_OF_WEEK - Get the day of week */
+
+               declare DAYS character(21);
+               DAYS ="SunMonTueWedThuFriSat";
+               TK_DAY_OF_WEEK = substr(DAYS,
+               fixed((float(TK_DATE,21)/7-trunc(float(TK_DATE,21)/7))*7+0.5,15)*3+1,3);
+
+               end;
+            if LOOP_INDEX =  31 then
+               do;
+               call DIS_AIR_INV;
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         TK_DATE_ARRAY(RECORD_NUMBER) = TK_DATE;
+         TK_SEQ_ARRAY(RECORD_NUMBER) = TK_SEQ;
+         call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,TK_DETAIL_ERROR);
+         if (TK_DET_MOD > TK_DET_MOD_SAVE) !
+         (TK_DET_BK_TK > TK_DET_BK_TK_SAVE) !
+         (TK_DET_ALT_SEQ > TK_DET_ALT_SEQ_SAVE) !
+         (TK_DET_ANSW_SEQ > TK_DET_ANSW_SEQ_SAVE) then
+            TK_DETAIL_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      TK_DATE_SAVE = TK_DATE_ARRAY( 7);
+      TK_SEQ_SAVE = TK_SEQ_ARRAY( 7);
+      TK_DET_MOD = TK_DET_MOD_SAVE;
+      TK_DET_BK_TK = TK_DET_BK_TK_SAVE;
+      TK_DET_ALT_SEQ = TK_DET_ALT_SEQ_SAVE;
+      TK_DET_ANSW_SEQ = TK_DET_ANSW_SEQ_SAVE;
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = DELETE_TYPED) then
+         GET_OUT = YES;
+      else
+         if TK_DETAIL_ERROR ^= END_OF_FILE then
+            do;
+            TK_DATE = TK_DATE_SAVE;
+            TK_SEQ = TK_SEQ_SAVE;
+            call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+            end;
+         else
+            if TK_DATE_ARRAY( 7) = 0 then
+               GET_OUT = YES;
+            else
+               do;
+               call OUTPUT_LINE (24,10,"Enter more data?");
+               call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+               if ANSWER = "N" then
+                  GET_OUT = YES;
+               else
+                  DISPLAY_RECORDS = NO;
+               end;
+      end;
+   else	/*DISPLAY_RECORDS = NO*/
+      do;
+      TK_DET_MOD = TK_DET_MOD_SAVE;
+      TK_DET_BK_TK = TK_DET_BK_TK_SAVE;
+      TK_DET_ALT_SEQ = TK_DET_ALT_SEQ_SAVE;
+      TK_DET_ANSW_SEQ = TK_DET_ANSW_SEQ_SAVE;
+      INPUT_LENGTH = 1;
+      RECORD_NUMBER = 1;
+      do while ( (INPUT_LENGTH ^= 0) & (RECORD_NUMBER <=  7) );
+         call TK_DETAIL_LINE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) !
+      (RETURN_CODE = DELETE_TYPED) ! (TK_DATE_ARRAY( 7) = 0) then
+         GET_OUT = YES;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to  7;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+      if TK_DATE_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =11 to  31;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_MAINT          */
+
+/****************************************************************
+	DIS_AIR_INV
+	Display the air inventory
+****************************************************************/
+
+DIS_AIR_INV:
+	procedure;
+
+
+/* SET_AIR_UINV - Set the air inventory if used */
+
+if TK_INV = "Y" then
+   BK_AIR_UINV = "Y";
+
+if TK_INV ^= "Y" then
+   return;
+
+
+/* SET_FIRST - Set the record pointer to the first rec */
+
+INV_DET_TYPE = "A";
+INV_DET_ENTRY = TK_CARRIER!!TK_FLIGHT;
+INV_DET_DATE = TK_DATE;
+INV_CODE_TYPE = " ";
+INV_ROOM_TYPE = 0;
+call SET_POSITION (BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+/* READ_NEXT - Read the next record */
+
+call READ_NEXT (BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+if ERROR_CODE > 3 then
+	call PRINT_ERROR (BK_INV_DET_NO,ERROR_CODE);
+
+/* CHECK_END - Check to see if this is the last record */
+
+if (ERROR_CODE = END_OF_FILE) !
+(INV_DET_TYPE > "A") !
+(INV_DET_ENTRY > TK_CARRIER!!TK_FLIGHT) !
+(INV_DET_DATE > TK_DATE) !
+(INV_CODE_TYPE > " ") !
+(INV_ROOM_TYPE > 0) then
+   return;
+call DISPLAY_DATA_E;
+
+return;
+end;	/* DIS_AIR_INV          */
+
+/****************************************************************
+	DISPLAY_DATA_E
+	Display the data in screen group E
+****************************************************************/
+
+DISPLAY_DATA_E:
+	procedure;
+
+do LOOP_INDEX =  32 to  34;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_E       */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+call ANY_CHANGE (1,  7,SELECT,RETURN_CODE);
+
+/* CHECK_AIR_CHG - Check of air mods */
+
+if (SELECT ^= 0 ! RETURN_CODE = DELETE_TYPED) then
+if BK_NEXT_MOD ^= BK_AIR_MOD then
+   do;
+
+   /* SET_FIRST_AIRH_COPY - Set to first header to copy */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   END_COPY_AIRH = NO;
+   do while (END_COPY_AIRH ^= YES);
+      call COPY_AIRH;
+   end;
+
+   /* SETUP_KEY_AIRH - Set up the key for air header record */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   KEY_NO = 1;
+
+   /* READ_AND_LOCK_AIRH - Read the record and lock it */
+
+   call READ_KEYED (TK_HEADER_NO+?LOCK_RECORD,KEY_NO,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+   /* SET_FIRST_AIRD_COPY - First air detail of this record */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_COPY_AIR = NO;
+   do while (END_COPY_AIR ^= YES);
+      call COPY_AIR;
+   end;
+   BK_AIR_MOD = BK_NEXT_MOD;
+   end;
+
+if RETURN_CODE = DELETE_TYPED then
+   do;
+   if BK_PAX_SEQ = 0 then
+      do;
+      END_DEL_TKHDR = NO;
+      do while (END_DEL_TKHDR ^= YES);
+         call DEL_TKHDR;
+      end;
+      END_DELETE_TKDET = NO;
+      do while (END_DELETE_TKDET ^= YES);
+         call DELETE_TKDET;
+      end;
+      BK_AIR_MOD = -1;
+      end;
+   else
+      do;
+      END_DEL_PAX_TKHDR = NO;
+      do while (END_DEL_PAX_TKHDR ^= YES);
+         call DEL_PAX_TKHDR;
+      end;
+      END_DEL_PAX_TKDET = NO;
+      do while (END_DEL_PAX_TKDET ^= YES);
+         call DEL_PAX_TKDET;
+      end;
+      BK_AIR_MOD = BK_NEXT_MOD;
+      end;
+   end;
+
+
+/* SETUP_KEY_AIRD - Set up the air detail key */
+
+TK_DET_MOD = BK_MODIFICATION;
+TK_DET_BK_TK = BOOKING_NO;
+TK_DET_ALT_SEQ = BK_PAX_SEQ;
+TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+KEY_NO = 1;
+
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  7 then
+   do;
+   RECORD_NUMBER = SELECT;
+   call TK_DETAIL_LINE;
+   call SET_ROW_OFFSET (0);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	TK_DETAIL_LINE
+	Change one line in the secondary file
+****************************************************************/
+
+TK_DETAIL_LINE:
+	procedure;
+
+declare		REWRITE              bit (1);
+declare		DEL_RECORD           bit (1);
+call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+REWRITE = NO;
+if TK_DATE_ARRAY(RECORD_NUMBER) ^= 0 then
+   do;
+   REWRITE = YES;
+   TK_DATE = TK_DATE_ARRAY(RECORD_NUMBER);
+   TK_SEQ = TK_SEQ_ARRAY(RECORD_NUMBER);
+   call READ_KEYED (TK_DETAIL_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      return;
+      end;
+   do LOOP_INDEX = 11 to  31;
+      call CLEAR_FIELD (LOOP_INDEX);
+   end;
+   end;
+else
+   do;
+   TK_DATE = 0;
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_XO = "";
+   TK_CITY = "";
+   TK_CITY_DESC = "";
+   TK_CARRIER = "";
+   TK_FLIGHT = "";
+   TK_CLASS = "";
+   TK_ARR_CITY = "";
+   TK_ARR_DESC = "";
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_STATUS = "OK";
+   TK_FARE_BASIS = "";
+   TK_START = "";
+   TK_END = "";
+   TK_ALLOW = "";
+   TK_DET_FARE = 0;
+   TK_DETAIL_MODULE = "";
+   end;
+ERROR_CODE = 1;
+do while (ERROR_CODE ^= 0);
+   ERROR_CODE = 0;
+   do LOOP_INDEX =  11 to  11;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  11 then
+         do;
+
+         /* GET_TK_DAY_OF_WEEK - Get the day of week */
+
+         declare DAYS character(21);
+         DAYS ="SunMonTueWedThuFriSat";
+         TK_DAY_OF_WEEK = substr(DAYS,
+         fixed((float(TK_DATE,21)/7-trunc(float(TK_DATE,21)/7))*7+0.5,15)*3+1,3);
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   if TK_DATE = 0 then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   DEL_RECORD = YES;
+   if (INPUT_LENGTH ^= 0) & (RETURN_CODE ^= END_TYPED) then
+      do;
+      DEL_RECORD = NO;
+      do LOOP_INDEX =  12 to  31;
+         if LOOP_INDEX =  12 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+         if LOOP_INDEX =  15 then
+            do;
+
+            /* GET_FLIGHT - Read the flight info */
+
+
+            /* FIX_FLIGHT - Standardize th airline flight no */
+
+            declare LOOP fixed binary;
+            do LOOP = 1 to length(TK_FLIGHT);
+               if substr(TK_FLIGHT,LOOP,1) = "0" then
+                  substr(TK_FLIGHT,LOOP,1) = " ";
+               if substr(TK_FLIGHT,LOOP,1) ^= " " then
+                  goto LOOP_DONE;
+            end;
+            LOOP = 4;
+            LOOP_DONE:
+            TK_FLIGHT = substr(TK_FLIGHT,LOOP,5-LOOP);
+
+
+            declare FLIGHT_FOUND bit(1);
+            declare TEMP fixed binary;
+
+            FLIGHT_AIRLINE = TK_CARRIER;
+            FLIGHT_NO = TK_FLIGHT;
+            FLIGHT_START = 0;
+            FLIGHT_END = TK_DATE;
+            FLIGHT_DAYS = "";
+            FLIGHT_FOUND = NO;
+            call SET_POSITION(TK_FLIGHTS_NO,KEY_AREA_1,ERROR_CODE);
+            do while ((FLIGHT_AIRLINE = TK_CARRIER) &
+               (FLIGHT_NO = TK_FLIGHT) &
+               (FLIGHT_START <= TK_DATE) &
+               (FLIGHT_FOUND = NO) );
+                  call READ_NEXT(TK_FLIGHTS_NO,KEY_AREA_1,ERROR_CODE);
+                  if ERROR_CODE ^= NORMAL_RETURN then
+                     FLIGHT_AIRLINE = "~~";
+                  if ((FLIGHT_AIRLINE = TK_CARRIER) &
+                  (FLIGHT_NO = TK_FLIGHT) &
+                  (FLIGHT_START <= TK_DATE) ) then
+                     do;
+                     if FLIGHT_DAYS ^= "" then
+                        do;
+                        declare DAY character(21);
+                        DAY ="7123456";
+                        DAY = substr(DAY,
+                           fixed((float(TK_DATE,21)/7-trunc(float(TK_DATE,21)/7))*7+0.5,15)+1,1);
+                        TEMP = index(FLIGHT_DAYS,substr(DAY,1,1));
+                        if ((TEMP ^= 0) & (substr(FLIGHT_DAYS,1,1) ^= "X")) !
+                           ((TEMP = 0) & (substr(FLIGHT_DAYS,1,1) = "X")) then
+                              FLIGHT_FOUND = YES;
+                        end;
+                     else
+                        FLIGHT_FOUND = YES;
+                     end;
+            end;
+
+            if FLIGHT_FOUND = YES then
+               do;
+               TK_TIME = FLIGHT_DEPART;
+               TK_CITY = FLIGHT_FROM;
+               TK_CLASS = FLIGHT_CLASSES;
+               TK_ARR_CITY = FLIGHT_TO;
+               TK_ARR_TIME = FLIGHT_ARRIVE;
+               TK_ARR_DAY = FLIGHT_ADD;
+               end;
+
+            end;
+         if LOOP_INDEX =  18 then
+            do;
+
+            /* GET_CITY_DESC - Read the City file */
+
+            if RETURN_CODE = DELETE_TYPED then
+               TK_CITY = "DEL";
+            AIRPORT_CODE = TK_CITY;
+            call READ_KEYED(TK_AIRPORT_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE = NORMAL_RETURN then
+               TK_CITY_DESC = AIRPORT_DESC;
+
+            end;
+         if LOOP_INDEX =  19 then
+            do;
+
+            /* GET_CITY2_DESC - Get the City Description */
+
+            if RETURN_CODE = DELETE_TYPED then
+               TK_ARR_CITY = "DEL";
+            AIRPORT_CODE = TK_ARR_CITY;
+            call READ_KEYED(TK_AIRPORT_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE = NORMAL_RETURN then
+               TK_ARR_DESC = AIRPORT_DESC;
+
+            end;
+         if LOOP_INDEX =  23 then
+            do;
+
+            /* SET_AIR_MOD - Set the air mod code */
+
+            BK_AIR_MOD = BK_NEXT_MOD;
+
+            end;
+         if LOOP_INDEX =  31 then
+            do;
+            call DIS_AIR_INV;
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      INPUT_LENGTH = 1;
+      end;
+   ERROR_CODE = 0;
+   if DEL_RECORD = YES then
+      do;
+      TK_DATE = TK_DATE_ARRAY(RECORD_NUMBER);
+      if REWRITE = YES then
+         call DELETE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+      call CLEAR_FIELD(LOOP_INDEX);
+      TK_DATE = 0;
+      end;
+   else
+      do;
+      if REWRITE = NO then
+         call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+      else
+         call UPDATE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+      end;
+   if ERROR_CODE ^= KEY_ALREADY_EXISTS then
+      do;
+      TK_DATE_ARRAY(RECORD_NUMBER) = TK_DATE;
+      TK_SEQ_ARRAY(RECORD_NUMBER) = TK_SEQ;
+      end;
+end;
+return;
+end;	/* TK_DETAIL_LINE       */
+
+/****************************************************************
+	GET_TK_DEP_DATE
+	Get the ticket departure date
+****************************************************************/
+
+GET_TK_DEP_DATE:
+	procedure;
+
+
+   /* INIT_TK_HDR - Set up the Header fields */
+
+   TK_BK_DEP_DATE = TOUR_DEP_DATE;
+   TK_DEP_DATE = TOUR_DEP_DATE;
+
+
+   /* SET_FIRST_AIRP - Set first air detail for this pax */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRP - End of this pax air detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_DET_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      return;
+
+   /* CHECK_TK_DEP_DATE - Is this the first date? */
+
+   TK_DEP_DATE = TK_DATE;
+
+return;
+end;	/* GET_TK_DEP_DATE      */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_FLIGHTS_NO);
+   call CLOSE_FILE (TK_AIRPORT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

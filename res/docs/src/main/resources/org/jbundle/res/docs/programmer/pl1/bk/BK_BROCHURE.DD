@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_BROCHURE File
+********************************************************************/
+
+declare	1 BK_BROCHURE_RECORD,
+		3 BROC_CODE            character (        4),
+		3 BROC_DESCRIPTION     character (       30),
+		3 BROC_CARRIER         character (        2);
+

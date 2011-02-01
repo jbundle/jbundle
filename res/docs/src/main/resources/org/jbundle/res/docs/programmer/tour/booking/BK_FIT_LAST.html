@@ -1,0 +1,68 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to cost the current booking components.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>When this program is first entered, the current hotel, land/transportation, air, and other costs are
+totaled. The costing process is done as follows:
+
+<br wp="br1"><br wp="br2">
+<p>For each line item: if the cost already exists, it is added to the total cost. If the cost doesn't exist, then
+new cost is looked up and added to the total cost. If the look-up doesn't produce a cost, a warning is
+displayed and this program will not produce a costing.
+
+<br wp="br1"><br wp="br2">
+<p>If a price, exchange rate, etc. changes after the original costing, the new cost will NOT be calculated
+automatically (The original cost will display). You will have to use the RE-COST function described
+below.
+
+<br wp="br1"><br wp="br2">
+<p>Once the costing is complete, you are prompted to enter a markup percentage and agency commission
+rate. The Rates will display based on these values.
+
+<br wp="br1"><br wp="br2">
+<p>After entering the markup and commission, you can change any of the other values to arrive at a
+selling price. Ground markup and commission and air markup and commission allow you to have
+different air and ground rates. The field "Air net ta m/u" allows you to markup the air based on the
+Net-to-Agent of the air ticket. The Net-to-Agent is the Air Fare minus the commission rate. (This
+markup doesn't take into account the air override)
+
+<br wp="br1"><br wp="br2">
+<p>The screen also allows you to change the departure date. All services will automatically be adjusted
+to the new departure date and the costing will automatically be re-costed.
+
+<br wp="br1"><br wp="br2">
+<p>Number 9 on the screen allows you to cost the same itinerary based on different passenger counts.
+Remember to enter accurate land SIC/PMC cutoff values for this to work properly.
+
+<br wp="br1"><br wp="br2">
+<p>Number 10 allows you to cost only the additional services added to a booking. To use this function,
+you must first see the word "BASIS" display next to the P/P DOUBLE price when the basis cost is
+displayed. (If basic isn't displayed, just re-cost to set the cost basis). Next, exit the costing module and
+change the detail to the new information. When you return to this screen, BASIS will not display, and
+the new cost will be calculated. Enter a markup percentage under number 10 and the system will
+markup only the additional cost to give you the "ADD-ON" price.
+
+<br wp="br1"><br wp="br2">
+<p>The RE-COST function is used to Re-cost a booking from scratch. The exchange rates and costs are
+re-read from the current files to come to the current cost. If a cost is not found, but was in the original
+costing, the costing continues with the original cost. A warning will display to alert you to a possible
+problem.
+</body>
+</html>

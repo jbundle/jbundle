@@ -1,0 +1,590 @@
+/****************************************************************
+	Module: GL_PRINT
+	Top Level Logic: GL_PRINT_LOGIC
+	Date: 25-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_PRINT
+	Print out the General Ledger
+****************************************************************/
+
+%replace GL_PRINT_1 by  65;
+%replace GL_PRINT_2 by  64;
+GL_PRINT:
+   procedure;
+%replace GL_CHART_NO by  16;
+%replace GL_DETAIL_NO by  17;
+%include "GL_PRINT.DD";
+%include "GL_CHART.DD";
+%include "GL_DETAIL.DD";
+
+declare		END_GL_REPORT_LOGIC  bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_GL_READ_THRU     bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		END_CHECK_VALID_TRX  bit (1);
+declare		SKIP_FIRST_TIME      bit (1);
+declare		END_GL_GET_START     bit (1);
+declare		END_GL_GET_DETAIL    bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_GL_REPORT_LOGIC = NO;
+   do while (END_GL_REPORT_LOGIC ^= YES);
+      call GL_REPORT_LOGIC;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   GL_ACCOUNTS = 0;
+   GL_DEBIT_TOTAL = 0;
+   GL_CREDIT_TOTAL = 0;
+   GL_PAGE_NUM = 1;
+   GL_LED_DATE = TODAYS_DATE();
+   GL_LED_TIME = CURRENT_TIME();
+   GL_LED_USER = USER_NAME();
+   GL_PROFIT_CENTER = 1000;
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+   GL_TRX_DATE = TODAYS_DATE();
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_TRX_AMOUNT = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   SKIP_FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_PRINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (GL_PRINT_RECORD) );
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call OPEN_FILE (GL_DETAIL_NO,"GL_DETAIL",byteaddr(GL_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	GL_REPORT_LOGIC
+	Main logic for printing the report
+****************************************************************/
+
+GL_REPORT_LOGIC:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_GL_REPORT_LOGIC = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (GL_PRINT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   GL_AC_NO = GL_START_AC_NO;
+   GL_TRX_DATE = 0;
+   GL_SEQ_NO = 0;
+   call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   END_GL_READ_THRU = NO;
+   do while (END_GL_READ_THRU ^= YES);
+      call GL_READ_THRU;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =   9 to  10;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_GL_REPORT_LOGIC = YES;
+   return;
+   end;
+
+return;
+end;	/* GL_REPORT_LOGIC      */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+GL_END_AC_NO = GL_START_AC_NO;
+GL_START_DATE = TODAYS_DATE();
+GL_END_DATE = TODAYS_DATE();
+GL_DETAIL = "Y";
+GL_SKIP_PAGE = "N";
+GL_END_ENTRY = GL_START_ENTRY;
+do LOOP_INDEX =   1 to   9;
+   if LOOP_INDEX =   2 then
+      GL_END_AC_NO = GL_START_AC_NO;
+   if LOOP_INDEX =   3 then
+      GL_START_DATE = TODAYS_DATE();
+   if LOOP_INDEX =   4 then
+      GL_END_DATE = TODAYS_DATE();
+   if LOOP_INDEX =   8 then
+      GL_END_ENTRY = GL_START_ENTRY;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GL_START_AC_NO = 0;
+         GL_END_AC_NO = 9999999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   7 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GL_START_ENTRY = 0;
+         GL_END_ENTRY = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  9,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  9 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GL_START_AC_NO = 0;
+         GL_END_AC_NO = 9999999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   7 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GL_START_ENTRY = 0;
+         GL_END_ENTRY = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   3;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+GL_PAGE_NUM = GL_PAGE_NUM + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	GL_READ_THRU
+	Read thru the detail and print the rpt
+****************************************************************/
+
+GL_READ_THRU:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+   END_CHECK_VALID_TRX = NO;
+   do while (END_CHECK_VALID_TRX ^= YES);
+      call CHECK_VALID_TRX;
+   end;
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_END_AC_NO) then
+      do;
+      END_GL_READ_THRU = YES;
+      return;
+      end;
+
+   /* READ_SECOND_DIS - Read Second - Display line version */
+
+   GL_ACCOUNT_NO = GL_AC_NO;
+   call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+      end;
+
+   /* GL_CHECK_PF - Check to see if a new page should start */
+
+   if GL_SKIP_PAGE = "Y" then if SKIP_FIRST_TIME = NO then
+      do;
+      LOOP_INDEX = 99;
+      LINE = 100;
+      call PRINT_REPORT_LINE;
+      end;
+   SKIP_FIRST_TIME = NO;
+
+
+   /* GL_RESET_BAL - Reset the chart of accounts balance */
+
+   ACCOUNT_BALANCE = 0;
+
+   END_GL_GET_START = NO;
+   do while (END_GL_GET_START ^= YES);
+      call GL_GET_START;
+   end;
+
+   /* GL_SET_END_BAL - Set the ending balance for display */
+
+   if ACCOUNT_BALANCE > 0 then
+      do;
+      GL_TRIAL_DEBIT = ACCOUNT_BALANCE;
+      GL_TRIAL_CREDIT = 0;
+      end;
+   else
+      do;
+      GL_TRIAL_DEBIT = 0;
+      GL_TRIAL_CREDIT = -ACCOUNT_BALANCE;
+      end;
+
+
+   /* GL_PRT_CHART_HDG - Print the chart-of-account heading */
+
+   do LOOP_INDEX =   4 to   6;
+      call PRINT_REPORT_LINE;
+   end;
+   END_GL_GET_DETAIL = NO;
+   do while (END_GL_GET_DETAIL ^= YES);
+      call GL_GET_DETAIL;
+   end;
+
+   /* GL_SET_END_BAL - Set the ending balance for display */
+
+   if ACCOUNT_BALANCE > 0 then
+      do;
+      GL_TRIAL_DEBIT = ACCOUNT_BALANCE;
+      GL_TRIAL_CREDIT = 0;
+      end;
+   else
+      do;
+      GL_TRIAL_DEBIT = 0;
+      GL_TRIAL_CREDIT = -ACCOUNT_BALANCE;
+      end;
+
+
+   /* GL_PRT_TOTALS - Print the G/L final balances */
+
+   do LOOP_INDEX =   8 to   8;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS_2 - Add to the totals */
+
+   GL_ACCOUNTS = GL_ACCOUNTS + 1;
+   GL_DEBIT_TOTAL = floor((GL_DEBIT_TOTAL + GL_TRIAL_DEBIT) * 100 + 0.5) / 100;
+   GL_CREDIT_TOTAL = floor((GL_CREDIT_TOTAL + GL_TRIAL_CREDIT) * 100 + 0.5) / 100;
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   GL_AC_NO = GL_ACCOUNT_NO;
+   GL_TRX_DATE = 32767;
+   GL_SEQ_NO = 0;
+   call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+return;
+end;	/* GL_READ_THRU         */
+
+/****************************************************************
+	CHECK_VALID_TRX
+	Is this isn't valid, return next record
+****************************************************************/
+
+CHECK_VALID_TRX:
+	procedure;
+
+
+   /* CHECK_TRX_VALID - Is this trx valid? */
+
+   if (GL_PROFIT_CENTER = 1000) !
+      (GL_PROFIT_CENTER =
+      GL_AC_NO - (floor(divide(GL_AC_NO,1000,31)) * 1000) ) then
+         do;
+         if (GL_TRX_ENTRY >= GL_START_ENTRY) &(GL_TRX_ENTRY <= GL_END_ENTRY) then
+            do;
+            END_CHECK_VALID_TRX = YES;
+            return;
+            end;
+         end;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_END_AC_NO) then
+      do;
+      END_CHECK_VALID_TRX = YES;
+      return;
+      end;
+return;
+end;	/* CHECK_VALID_TRX      */
+
+/****************************************************************
+	GL_GET_START
+	Read thru the beginning trxs to get bal
+****************************************************************/
+
+GL_GET_START:
+	procedure;
+
+
+   /* CHECK_END_3 - Check for end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_ACCOUNT_NO) !
+   (GL_TRX_DATE > GL_START_DATE - 1) then
+      do;
+      END_GL_GET_START = YES;
+      return;
+      end;
+
+   /* GL_ADD_BAL - Add the the running balance */
+
+   ACCOUNT_BALANCE = floor((ACCOUNT_BALANCE + GL_TRX_AMOUNT) * 100 + 0.5) / 100;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+   END_CHECK_VALID_TRX = NO;
+   do while (END_CHECK_VALID_TRX ^= YES);
+      call CHECK_VALID_TRX;
+   end;
+return;
+end;	/* GL_GET_START         */
+
+/****************************************************************
+	GL_GET_DETAIL
+	Read through the target detail
+****************************************************************/
+
+GL_GET_DETAIL:
+	procedure;
+
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_ACCOUNT_NO) !
+   (GL_TRX_DATE > GL_END_DATE) then
+      do;
+      END_GL_GET_DETAIL = YES;
+      return;
+      end;
+
+   /* GL_SET_AMOUNT - Set up the amount for display */
+
+   if GL_TRX_AMOUNT > 0 then
+      do;
+      GL_TRIAL_DEBIT = GL_TRX_AMOUNT;
+      GL_TRIAL_CREDIT = 0;
+      end;
+   else
+      do;
+      GL_TRIAL_DEBIT = 0;
+      GL_TRIAL_CREDIT = -GL_TRX_AMOUNT;
+      end;
+
+
+   /* GL_DET_QUES - Print the detail if the option is "Y" */
+
+   if GL_DETAIL = "Y" then
+
+      /* PRT_DETAIL - Print the detail lines */
+
+      do LOOP_INDEX =   7 to   7;
+         call PRINT_REPORT_LINE;
+      end;
+
+
+   /* GL_ADD_BAL - Add the the running balance */
+
+   ACCOUNT_BALANCE = floor((ACCOUNT_BALANCE + GL_TRX_AMOUNT) * 100 + 0.5) / 100;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+   END_CHECK_VALID_TRX = NO;
+   do while (END_CHECK_VALID_TRX ^= YES);
+      call CHECK_VALID_TRX;
+   end;
+return;
+end;	/* GL_GET_DETAIL        */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (GL_CHART_NO);
+   call CLOSE_FILE (GL_DETAIL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

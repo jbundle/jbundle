@@ -1,0 +1,82 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to display a hotel's prices and/or enter the hotel info needed for FIT building.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>The program operation depends on what information is passed in:
+
+<br wp="br1"><br wp="br2">
+<p>If the hotel is not passed in, then the hotel code is entered, the file is read, and the standard hotel
+information is displayed.
+
+<br wp="br1"><br wp="br2">
+<p>If the date has no been passed in, then it is entered. The date is used to look up the correct hotel rate.
+
+<br wp="br1"><br wp="br2">
+<p>Then, if a rate type is passed in (indicating the detail is costed), then the current costs and selections
+are displayed. After the display, you can change any fields at the "ANY CHANGE" prompt.
+
+<br wp="br1"><br wp="br2">
+<p>If the current rate type is blank (indicating that this has never been costed [ie., scheduled, unsch, or
+mod], or there is no rate), then the prices have to be checked.
+
+<br wp="br1"><br wp="br2">
+<p>-	If a default rate type doesn't exist, then the user is prompted for the rate type, otherwise the
+rate type is set to the current rate type and the rate type is displayed.
+
+<br wp="br1"><br wp="br2">
+<p>-	Next, the pricing file is checked for the existence of this rate.
+
+<br wp="br1"><br wp="br2">
+<p>-	If the pricing exists, then they are displayed and the "Any Change" prompt appears.
+
+<br wp="br1"><br wp="br2">
+<p>-	If the pricing doesn't exist, then the prior year's rates are checked.
+
+<br wp="br1"><br wp="br2">
+<p>-	If the prior year's rates exist, then the rates will be displayed and you will be asked, "Use prior
+year's rate as basis?"
+
+<br wp="br1"><br wp="br2">
+<p>-	If you answer "Y"es, then you will enter a markup % which will immediately mark up the
+rates.
+
+<br wp="br1"><br wp="br2">
+<p>-	If the prior year's rates don't exist, or you answer "N"o to the Markup question, then you will
+be asked if you want to enter a manual rate. If you enter manual rates, the system will prompt
+you for each of the hotel room rates.
+
+<br wp="br1"><br wp="br2">
+<p>Once the correct hotel price is displayed, all the available meals are displayed. You will be prompted
+to enter a meal code. (Up to four meal codes may be entered per hotel)
+
+<br wp="br1"><br wp="br2">
+<p>After the meal is entered, the number of meals are entered, which defaults to the number of days. 
+Then you must enter the days to supply the meals. (ie., D  - 4 - 1234 means that you want a dinner
+on the evening of check-in and for the next three nights [defaults to 2345])
+
+<br wp="br1"><br wp="br2">
+<p>If a meal doesn't exist, the system will ask if you want to enter a manual meal cost. Enter the cost in
+the local currency rounded to the nearest nteger.
+
+<br wp="br1"><br wp="br2">
+<p>After entering the meal, the first five services offered by this vendor are displayed. For a hotel, this
+may be transfers, open bar, etc. (ie., BKKPROPENB)
+</body>
+</html>

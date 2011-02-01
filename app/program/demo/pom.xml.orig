@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.jbundle.app</groupId>
+		<artifactId>jbundle-app-program</artifactId>
+		<version>0.7.3-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>jbundle-app-program-demo</artifactId>
+	<packaging>bundle</packaging>
+	<name>jbundle-app-program-demo (Demo code)</name>
+
+	<dependencies>	<!-- All modules need these -->
+		<dependency>
+	      <groupId>org.jbundle.app</groupId>
+	      <artifactId>jbundle-app-program-core</artifactId>
+	      <version>${jbundle-app-version}</version>
+		</dependency>
+
+    <dependency>
+      <groupId>org.jbundle.base.message</groupId>
+      <artifactId>jbundle-base-message-jibx</artifactId>
+      <version>${jbundle.base.message.version}</version>
+    </dependency>
+
+	</dependencies>
+
+  <build>
+    <plugins>
+    
+      <plugin>
+        <groupId>org.jibx</groupId>
+        <artifactId>maven-jibx-plugin</artifactId>
+        <version>${jibx-version}</version>
+
+        <executions>
+          <execution>
+            <id>generate-java-code-from-schema</id>
+              <phase>generate-test-sources</phase>
+            <goals>
+              <goal>test-schema-codegen</goal>
+            </goals>
+          </execution>
+          <execution>
+              <id>compile-binding</id>
+            <phase>process-test-classes</phase>
+              <goals>
+                  <goal>test-bind</goal>
+              </goals>
+              <configuration>
+                  <directory>target/generated-test-sources</directory>
+              </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+    </plugins>
+  </build>
+
+
+
+</project>

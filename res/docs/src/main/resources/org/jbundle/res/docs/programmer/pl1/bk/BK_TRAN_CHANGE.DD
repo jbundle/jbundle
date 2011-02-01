@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_TRAN_CHANGE File
+********************************************************************/
+
+declare	1 BK_TRAN_CHANGE_RECORD,
+		3 BK_TRANS_START       fixed binary (15),
+		3 BK_TRANS_END         fixed binary (15),
+		3 BK_TRANS_BLOCKED     fixed binary (15),
+		3 BK_TRANS_OVERSELL    fixed binary (15);
+

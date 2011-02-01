@@ -1,0 +1,9 @@
+/*********************************************************************
+	AP_SELECT_REV File
+********************************************************************/
+
+declare	1 AP_SELECT_REV_RECORD,
+		3 AP_SEL_PAX           character (1),
+		3 AP_SEL_DATE          fixed binary (15),
+		3 AP_SEL_PAGE          fixed binary (15);
+

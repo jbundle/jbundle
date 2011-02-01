@@ -1,0 +1,155 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to post the Accounts Receivable Transactions to the General Ledger.
+
+<br wp="br1"><br wp="br2">
+<p>WARNING: This program requires exclusive use of the A/R files. This means that while this program
+is running, no one can use the booking or A/R system.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>Enter the cut-off date of the A/R transactions to post. All transactions with a posting date before or
+on this date will be consolidated into one transaction and posted to the General Ledger.
+
+<br wp="br1"><br wp="br2">
+<p>If you answer yes to the second question, Re-read all G/L information, The G/L numbers will be re-read from the tour headers before posting. You wont have to do this, unless a tour header contained
+the wrong G/L information and was corrected after bookings were made. If you answer Yes to this
+question, you can be sure all the current tour G/L information will be used, but this program will run
+considerably slower because for each transaction, the booking, and then the tour header must be read.
+
+<br wp="br1"><br wp="br2">
+<p>Before you run this program, it is important that the range of dates to be posted all fall within the
+accounting periods specified in the G/L accounting period file.
+
+<br wp="br1"><br wp="br2">
+<p>---------------------
+
+<br wp="br1"><br wp="br2">
+<p>The following is a review of all the possible transactions to be posted from the A/R system, and where
+the A/R account number is read for each transaction.
+
+<br wp="br1"><br wp="br2">
+<p>A description of the accounts used for A/R follow:
+
+<p>	Accounts Receivable - Amount due from accepted tours
+
+<p>	Customer tour prepayments -	Sales made, to be recognized on departure date
+
+<p>	Income - Earned income (departed)
+
+<p>	Unearned Receipts - Take Customer prepayments - A/R
+
+<br wp="br1"><br wp="br2">
+<p>	Booking accepted by agent (status = "OK" or deposit received):
+
+<p>Trx date	A/r acct	Accounts receivable (from tr hdr)	amount
+
+<p>			G/l acct	Unearned Sales (Tour hdr)
+
+<br wp="br1"><br wp="br2">
+<p>	Booking amount adjusted (price change):
+
+<p>Trx date	A/r acct	Accounts receivable (from tr hdr)	+/-amt
+
+<p>			G/l acct	Unearned Sales (Tour hdr)
+
+<br wp="br1"><br wp="br2">
+<p>	Money received (Deposit and final payment):
+
+<p>Trx date	Cash a/c	Checking account	(from cash posting) amt
+
+<p>			A/r acct	Accounts receivable (from tr hdr)
+
+<br wp="br1"><br wp="br2">
+<p>	MCO received (Deposit and final payment):
+
+<p>Trx date	MCO a/c	MCOs Receivble	(From mco posting)	 amt
+
+<p>			A/r acct	Account receivable	(from tr hdr)
+
+<p>	MCO Payment received from carrier:
+
+<p>Trx date	Cash a/c	Cash (From cash receipts) amt
+
+<p>			MCO a/c	MCO Receivable	(From cash receipts)
+
+<p>Trx date	MCO a/c	MCOs Receivable (From mco posting) amt
+
+<p>			MCO Var.	Gain/Loss on MCO variance (a/r control)
+
+<br wp="br1"><br wp="br2">
+<p>	Tour departs:
+
+<p>Dpt date	P/p acct	Unearned Sales (Tour hdr) amount
+
+<p>			Inc a/c	Income from tours (from tr hdr)
+
+<br wp="br1"><br wp="br2">
+<p>	Cancel booking (with refund):
+
+<p>Trx date	a/r acct  accounts receivable (from tr hdr)	amount
+
+<p>			xl acct	Cancellation charge (from A/R control)
+
+<br wp="br1"><br wp="br2">
+<p>Trx date	p/p acct	Unearned Sales (tour hdr) amount
+
+<p>			a/r acct	accounts receivable (from tr hdr)
+
+<br wp="br1"><br wp="br2">
+<p>Pymt date	a/r acct	accounts receivable (from tr hdr) amount
+
+<p>			cash acct	Checking account (from refund proc.)
+
+<br wp="br1"><br wp="br2">
+<p>	Credit memo:
+
+<p>Trx date  Exp acct	Miscellaneous expense (cr ent)	amount
+
+<p>			a/r acct	Accounts Receivable - tours (tr hdr)
+
+<br wp="br1"><br wp="br2">
+<p>	Debit memo:
+
+<p>trx date	a/r acct	Accounts Receivable - tours (tr hdr)	 amt
+
+<p>			Inc acct	Income account (dr/cr entry)
+
+<br wp="br1"><br wp="br2">
+<p>	Note: Refunds are not posted until the checks are cut. This is done because the pending refunds are usually
+not material and the amount is accuratly reflected in a smaller A/R amount. If this adjustment is
+required, check the pending refunds in A/R refund review and enter a manual G/L entry (remember
+to reverse the transaction in the next period).
+
+<br wp="br1"><br wp="br2">
+<p>	Note: If any of the tour header accounts aren't entered in the tour's header, then the default account in the A/R
+control file will be used.
+
+<br wp="br1"><br wp="br2">
+<p>	Note: Any transactions entered after the departure date are handled exactly as in these examples, with the
+following exception:
+
+<p>Any adjustment to the tour price is balanced with a departure date adjustment. Since the departure
+date has already passed, the entry is done in the period of the departure date. This adjusts the prior
+period's amounts to the correct values.
+
+<br wp="br1"><br wp="br2">
+<p>	Note: All the account numbers are supplied at the point of entry, so it is important that the tour headers and
+the control file information are accurate.
+</body>
+</html>

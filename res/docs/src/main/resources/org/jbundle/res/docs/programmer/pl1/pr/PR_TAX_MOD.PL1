@@ -1,0 +1,231 @@
+/****************************************************************
+	Module: PR_TAX_MOD
+	Top Level Logic: MOD_FILE_LOGIC
+	Date: 14-May-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	PR_TAX_MOD
+	Logic to Modify a record
+****************************************************************/
+
+%replace PR_TAX_MOD_1 by  45;
+PR_TAX_MOD:
+   procedure;
+%replace EMPLOYEE_NO by   6;
+%include "EMPLOYEE.DD";
+
+declare		END_MOD_SCREEN_IO    bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_MOD_SCREEN_IO = NO;
+   do while (END_MOD_SCREEN_IO ^= YES);
+      call MOD_SCREEN_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   EMP_STATE = "CA";
+   FED_ALLOW = 2;
+   PAY_FREQ = "W";
+   PAY_TYPE = "H";
+   IN_PENSION = "Y";
+   DE_1 = "";
+   DE_2 = "";
+   DE_3 = "";
+   DE_4 = "";
+   QTD_SS_GROSS = 0;
+   QTD_STATE_GROSS = 0;
+   YTD_SS_GROSS = 0;
+   YTD_STATE_GROSS = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (PR_TAX_MOD_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (EMPLOYEE_NO,"EMPLOYEE",byteaddr(EMPLOYEE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (EMPLOYEE_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	MOD_SCREEN_IO
+	Screen I/O to modify file data
+****************************************************************/
+
+MOD_SCREEN_IO:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_EMPLOYEE       fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (PR_TAX_MOD_1);
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_MOD_SCREEN_IO = YES;
+      return;
+      end;
+   FIRST_ITEM = 2;
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (EMPLOYEE_NO+?LOCK_RECORD,KEY_NO,ERROR_EMPLOYEE);
+   if ERROR_EMPLOYEE = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_EMPLOYEE > 3 then
+      call PRINT_ERROR (EMPLOYEE_NO,ERROR_EMPLOYEE);
+
+   /* MOD_RECORD_FOUND - Record Found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_EMPLOYEE = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* TRY_AGAIN - Return from this routine and try again */
+
+      END_MOD_SCREEN_IO = YES;
+      return;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (EMPLOYEE_NO,ERROR_CODE);
+return;
+end;	/* MOD_SCREEN_IO        */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX = FIRST_ITEM to  42;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+declare		NAME_INDEX           fixed binary (15);
+declare		LAST_FOUND           bit (1);
+call ANY_CHANGE (1, 42,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 42 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* SET_LAST_NAME - Set up the employee last name for key */
+
+      LAST_FOUND = NO;
+      do NAME_INDEX = length(EMP_NAME) to 1 by -1;
+      	if substr(EMP_NAME,NAME_INDEX,1) ^= " " then
+      		LAST_FOUND = YES;
+      	else
+      		if LAST_FOUND = YES then
+      			goto LOOP_FOUND_OVER;
+      end;
+      LOOP_FOUND_OVER:
+      EMP_LAST = substr(EMP_NAME,NAME_INDEX+1,
+      	min(length(EMP_LAST),length(EMP_NAME) - NAME_INDEX) );
+      call CONVERT_TO_UPPER(EMP_LAST);
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (EMPLOYEE_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

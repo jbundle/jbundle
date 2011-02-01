@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>Data Access Objects (DAO) Sample</title>
+</head>
+
+<body>
+
+<a name="top">
+<h2>Data Access Objects (DAO) Sample</h2>
+
+This article has four sections:
+<ul>
+	<li><a href="#overview">Overview of the sample</a></li>
+	<li><a href="#setup">How to use this sample</a></li>
+	<li><a href="#errors">Troubleshooting this sample</a></li>
+	<li><a href="#files">Files in this sample</a></li>
+</ul>
+
+To see:
+<ul>
+	<li>the sample as an applet, see <a href="booking.html">booking.html</a>.
+	</li>
+	<li>the sample as a standalone application, follow the
+	instructions in <a href="simpledaoframe.html">simpledaoframe.html</a>.
+	</li>
+	<li>the source code, click <a href="simpledao.java">here</a>.</li>
+</ul>
+
+<hr>
+
+<a name="overview">
+<h3>Overview of the sample</h3>
+<p>The <b>DAOSample</b> sample creates a simple database browser
+using DAO.</p>
+<p></p>
+<h4>About the server</h4>
+Data Access Object (DAO) is the programming interface to the Jet
+database engine. The Jet engine is the basis of Microsoft<sup>&reg;</sup>
+Access. It also serves as the database driver for desktop ODBC data
+sources.
+<p></p>
+<h4>About the sample</h4>
+
+This sample is a simple DAO browser. It only uses a very small subset of
+the available interface. Specifically, the sample is a database browser
+that permits the user to see the records in a recordset. There are only
+four navigation options:
+
+<ul>
+	<li>First record</li>
+	<li>Previous record</li>
+	<li>Next record</li>
+	<li>Last record</li>
+</ul>
+
+The sample is purposefully simple so that the interaction of Java<sup>&trade;</sup>
+and DAO can be seen more clearly.
+<p>Of special note, DAO requires a run-time license. To create a COM
+component with a license, use <b>ILicenseMgr</b>. The <b>dao_dbengine</b>
+class in this sample uses <b>ILicenseMgr</b> to create the DAO database
+engine. This class is redistributable. It can be found in the REDIST
+subdirectory on the CD-ROM.</p>
+<p></p>
+<h4>About security</h4>
+COM components can access any system resources. As such, they are both
+very powerful and potentially very dangerous. In the Java virtual
+machine (VM) in Microsoft Internet Explorer 3.0 only trusted class files
+can use COM components. Class files from digitally signed CAB files are
+trusted.
+<p>If the HTML file is run from Microsoft Developer Studio, the
+class files are also trusted. This can be very helpful during applet
+development. <i>However, to deliver your applet to other users, you
+must put it in a signed CAB file.</i></p>
+<p>When run as an application, the class file must already be on
+your machine. When run as an applet, the class file may be downloaded to
+your machine. There is a potential security threat running downloaded
+software. To run a Java applet that uses COM components, the applet code
+must be trusted. For more information on trusted class files, see the <b>CabAndSign</b>
+sample.</p>
+<p><font size="-1"> Return to the <a href="#top">top</a> of
+this article. </font></p>
+<hr>
+
+<a name="setup">
+<h3>How to use this sample</h3>
+<p>To run the DAOSample sample:</p>
+<ol>
+	<li>Create a Java interface for the COM component.<br>
+	See <a href="javatlb.html">Creating a Java Interface for a COM
+	component</a>.</li>
+	<li>In Developer Studio, build the applet.</li>
+	<li>In Developer Studio, run the applet.<br>
+	If this is the first time you have run the applet, Developer Studio
+	will prompt you for the name of the class. Type <b>simpledao</b>.</li>
+</ol>
+
+<b>Note</b>: This sample requires database support. Database support is
+a custom installation option. If you did not select database support
+during installation, please install again, selecting the Custom
+installation option so you can choose database support.
+<p><font size="-1"> Return to the <a href="#top">top</a> of
+this article. </font></p>
+<hr>
+
+<a name="errors">
+<h3>Troubleshooting this sample</h3>
+<p>If you get the error message <b>java.lang.VerifyError</b>:</p>
+<ul>
+	<li>Run the sample applet from within Microsoft Developer Studio.
+	</li>
+</ul>
+<p>If you get the error message <b>ClassNotFoundException</b>:</p>
+<ul>
+	<li><a href="javatlb.html">Create a Java interface for the COM
+	server</a>.</li>
+</ul>
+<p>If you get the error message <b>UnsatisfiedLinkError</b>:</p>
+<ul>
+	<li>Make sure that DAO is registered.</li>
+</ul>
+
+<font size="-1"> Return to the <a href="#top">top</a> of this
+article. </font>
+
+<hr>
+
+<a name="files">
+<h3>Files in this sample</h3>
+<p>This sample includes the following files.</p>
+<p>Project files:</p>
+<ul>
+	<li>simpledao.java - the Java source code for the sample</li>
+	<li>simpledaoframe.java - the Java source code for the sample as a
+	standalone application</li>
+	<li>dao_dbengine.java - the Java source code for creating the DAO
+	database engine with a license key</li>
+	<li>daosample.mak - the project settings file</li>
+	<li>daosample.mdp - the project file</li>
+	<li>simpledao.html - the HTML for the sample applet</li>
+</ul>
+
+Support files:
+
+<ul>
+	<li>simpledaoframe.html - description of how to run the applet as
+	a standalone application</li>
+	<li>daosample.html - an alternate project HTML file</li>
+	<li>readme.html - this read me file</li>
+	<li>javatlb.html - instructions for creating a Java interface for
+	COM components</li>
+	<li>sample database.mdb - the database for this sample</li>
+</ul>
+
+<font size="-1"> Return to the <a href="#top">top</a> of this
+article. </font> </a></a></a></a></a>
+</body>
+</html>

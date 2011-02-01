@@ -1,0 +1,489 @@
+/****************************************************************
+	Module: BK_ENT_PAX_MOD
+	Top Level Logic: PAX_MOD_LOGIC
+	Date: 12-Dec-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ENT_PAX_MOD
+	Passenger mods -- Top Level
+****************************************************************/
+
+%replace BK_ENT_PAX_MOD_1 by 683;
+%replace BK_ENT_PAX_MOD_2 by 684;
+BK_ENT_PAX_MOD:
+   procedure(
+      BK_ENT_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_INV_DET_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_INV_DET_NO by  61;
+%include "BK_ENT_PAX_MOD.DD";
+%include "BK_ENT_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_INV_DET.DD";
+
+declare		END_PAX_MOD_MAIN     bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_MOD_PAX_FOUND    bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_ITEM           fixed binary (15);
+   call INITIALIZE;
+   END_PAX_MOD_MAIN = NO;
+   do while (END_PAX_MOD_MAIN ^= YES);
+      call PAX_MOD_MAIN;
+   end;
+
+   /* RESET_PAX_SEQ - Reset the passenger sequence */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ENT_PAX_MOD_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_ENT_PAX_MOD_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	PAX_MOD_MAIN
+	Mainline logic
+****************************************************************/
+
+PAX_MOD_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_PASSENGERS  fixed binary (15);
+
+   /* REDIS_AND_SET - Redisplay the screen and set the var ptr */
+
+   if NOT_FIRST_TIME then
+      do;
+      call DISPLAY_SCREEN (BK_ENT_PAX_MOD_1);
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (BK_ENT_PAX_MOD_RECORD) );
+      end;
+   NOT_FIRST_TIME = YES;
+   call DISPLAY_PAX;
+   call ENTER_DATA_C;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_PAX_MOD_MAIN = YES;
+      return;
+      end;
+
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* CHECK_NO_PAX - If return typed, end */
+
+   if PAX_MOD_SEQ = 0 then
+      do;
+      END_PAX_MOD_MAIN = YES;
+      return;
+      end;
+
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   BK_PAX_MOD = 0;
+   BK_PAX_BK_NO = BOOKING_NO;
+   BK_PAX_SEQ = PAX_MOD_SEQ;
+   KEY_NO = 1;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (BK_PASSENGERS_NO,KEY_NO,ERROR_BK_PASSENGERS);
+   if ERROR_BK_PASSENGERS > 3 then
+      call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_BK_PASSENGERS);
+
+   /* PAX_MOD_FOUND - Was the passenger found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_PASSENGERS = NORMAL_RETURN then
+      do;
+      END_MOD_PAX_FOUND = NO;
+      do while (END_MOD_PAX_FOUND ^= YES);
+         call MOD_PAX_FOUND;
+      end;
+      end;
+   else
+      do;
+
+      /* TRY_AGAIN - Return from this routine and try again */
+
+      END_PAX_MOD_MAIN = YES;
+      return;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+return;
+end;	/* PAX_MOD_MAIN         */
+
+/****************************************************************
+	DISPLAY_PAX
+	Display the current passengers
+****************************************************************/
+
+DISPLAY_PAX:
+	procedure;
+
+declare		BK_PAX_MOD_SAVE      fixed binary (15);
+declare		BK_PAX_BK_NO_SAVE    fixed binary (31);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		BK_PAX_SEQ_ARRAY(15) fixed binary (15);
+declare		BK_PASSENGERS_ERROR  fixed binary (15);
+declare		BK_PAX_SEQ_SAVE      fixed binary (15);
+declare		ANSWER               character (1);
+BK_PAX_MOD = 0;
+BK_PAX_MOD_SAVE = BK_PAX_MOD;
+BK_PAX_BK_NO = BOOKING_NO;
+BK_PAX_BK_NO_SAVE = BK_PAX_BK_NO;
+BK_PAX_SEQ = 0;
+call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_PAX_MOD_SAVE) !
+   (BK_PAX_BK_NO > BK_PAX_BK_NO_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 15;
+      BK_PAX_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_PASSENGERS_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_PASSENGERS_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 15) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  11 to  14;
+            if LOOP_INDEX =  12 then
+               do;
+
+               /* SETUP_ROOM_DESC - Set the room description */
+
+               do case (BK_PAX_ROOM_CODE + 1);
+                  BK_PAX_ROOM_DESC = "";
+                  BK_PAX_ROOM_DESC = "Single";
+                  BK_PAX_ROOM_DESC = "Twin";
+                  BK_PAX_ROOM_DESC = "Triple";
+                  BK_PAX_ROOM_DESC = "Quad";
+                  BK_PAX_ROOM_DESC = "Sgl FC";
+                  BK_PAX_ROOM_DESC = "Twn FC";
+                  BK_PAX_ROOM_DESC = "Tpl FC";
+                  BK_PAX_ROOM_DESC = "Qud FC";
+                  BK_PAX_ROOM_DESC = "Shr FC";
+               end;
+               otherwise
+                  do;
+                  BK_PAX_ROOM_DESC = "";
+                  end;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         BK_PAX_SEQ_ARRAY(RECORD_NUMBER) = BK_PAX_SEQ;
+         call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,BK_PASSENGERS_ERROR);
+         if (BK_PAX_MOD > BK_PAX_MOD_SAVE) !
+         (BK_PAX_BK_NO > BK_PAX_BK_NO_SAVE) then
+            BK_PASSENGERS_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      BK_PAX_SEQ_SAVE = BK_PAX_SEQ_ARRAY(15);
+      BK_PAX_MOD = BK_PAX_MOD_SAVE;
+      BK_PAX_BK_NO = BK_PAX_BK_NO_SAVE;
+      if BK_PASSENGERS_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 15;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if BK_PAX_SEQ_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =11 to  14;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* DISPLAY_PAX          */
+
+/****************************************************************
+	ENTER_DATA_C
+	Enter the screen data in group C
+****************************************************************/
+
+ENTER_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  15 to  15;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_C         */
+
+/****************************************************************
+	MOD_PAX_FOUND
+	Pax found, modify detail and return
+****************************************************************/
+
+MOD_PAX_FOUND:
+	procedure;
+
+
+   /* REDIS_AND_SET_2 - Redisplay the second screen */
+
+   if NOT_FIRST_TIME then
+      do;
+      call DISPLAY_SCREEN (BK_ENT_PAX_MOD_2);
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (BK_ENT_PAX_MOD_RECORD) );
+      end;
+   NOT_FIRST_TIME = YES;
+   call DISPLAY_DATA_A;
+
+   /* RESET_TICKET_SEQ - Reset the ticket sequence to 0 */
+
+   BK_PAX_SHARE_SEQ = 0;
+
+
+   /* INPUT_OPTION - Input the option on the screen */
+
+   call INPUT_FIELD ( 14,INPUT_LENGTH,RETURN_CODE);
+   if (PAX_MOD_SELECT = 0) !
+        (RETURN_CODE ^= NORMAL_RETURN) then
+      do;
+      END_MOD_PAX_FOUND = YES;
+      return;
+      end;
+
+   /* CHECK_HOTEL_ALT - Hotel mods can only be done on hdr pax */
+
+   if PAX_MOD_SELECT = 1 then
+      do;
+      if BK_PAX_ROOM_CODE = 0 then
+         do;
+         call DISPLAY_MESSAGE ("<BEL>No Room Code on this Passenger"c);
+         call PRESS_RETURN;
+         return;
+         end;
+      end;
+
+
+   /* CHECK_TICKET_ALT - Do they want to select an alternate tkt */
+
+   if (PAX_MOD_SELECT >= 8) & (PAX_MOD_SELECT <= 10) then
+      do;
+
+      /* BK_DIS_PAX_AIRH - Display the current air alternate tickts */
+
+      %include "BK_DIS_PAX_AIRH.DCL";
+      call BK_DIS_PAX_AIRH(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_PASSENGERS_RECORD);
+      call OUTPUT_LINE(23,20,"Select alternate ticket:");
+      call INPUT_DATA(23,45,2,"I",byteaddr(BK_PAX_SHARE_SEQ),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_TO_BOS(23);
+      call DUMP_BUFFER;
+      if (BK_PAX_SHARE_SEQ < 1) ! (BK_PAX_SHARE_SEQ > 99) then
+         return;
+      if PAX_MOD_SELECT = 8 then
+         PAX_MOD_SELECT = 3;
+      if PAX_MOD_SELECT = 9 then
+         PAX_MOD_SELECT = 6;
+      if PAX_MOD_SELECT = 10 then
+         PAX_MOD_SELECT = 7;
+      end;
+
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   %include "BK_ENT_HOTEL.DCL";
+   %include "BK_ENT_LAND.DCL";
+   %include "BK_ENT_AIR.DCL";
+   %include "BK_ENT_REMARK.DCL";
+   %include "BK_ENT_COMMENT.DCL";
+   %include "BK_ENT_AIR_HDR.DCL";
+   %include "BK_ENT_AIR_DET.DCL";
+   do case (PAX_MOD_SELECT);
+         /* Option   1 */
+      call BK_ENT_HOTEL(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_INV_DET_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option   2 */
+      call BK_ENT_LAND(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option   3 */
+      call BK_ENT_AIR(
+         BK_BOOKING_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option   4 */
+      call BK_ENT_REMARK(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option   5 */
+      call BK_ENT_COMMENT(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option   6 */
+      call BK_ENT_AIR_HDR(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD);
+         /* Option   7 */
+      call BK_ENT_AIR_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_PASSENGERS_RECORD,
+         BK_INV_DET_RECORD);
+   end;
+   otherwise
+      do;
+      end;
+return;
+end;	/* MOD_PAX_FOUND        */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  13;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

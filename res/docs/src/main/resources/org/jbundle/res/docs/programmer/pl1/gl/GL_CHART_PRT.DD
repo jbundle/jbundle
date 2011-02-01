@@ -1,0 +1,14 @@
+/*********************************************************************
+	GL_CHART_PRT File
+********************************************************************/
+
+declare	1 GL_CHART_PRT_RECORD,
+		3 GL_START_CHART       fixed binary (31),
+		3 GL_END_CHART         fixed binary (31),
+		3 GL_CHART_DATE        fixed binary (15),
+		3 GL_CHART_TIME        fixed binary (15),
+		3 GL_CHART_PAGE        fixed binary (15),
+		3 GL_CHART_TOTAL       fixed binary (31),
+		3 GL_CHART_USER        character (       16),
+		3 GL_CHART_PC          fixed binary (15);
+

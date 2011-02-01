@@ -1,0 +1,896 @@
+/****************************************************************
+	Module: AP_DEBIT_ENT
+	Top Level Logic: DEBIT_LOGIC
+	Date: 19-Jun-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_DEBIT_ENT
+	Top Level Logic for Debit entry
+****************************************************************/
+
+%replace AP_DEBIT_ENT_1 by 122;
+AP_DEBIT_ENT:
+   procedure;
+%replace AP_OPEN_NO by  32;
+%replace AP_VENDOR_NO by  30;
+%replace GL_CHART_NO by  16;
+%replace AD_CURR_NO by  25;
+%replace AP_CONTROL_NO by  29;
+%include "AP_OPEN.DD";
+%include "AP_VENDOR.DD";
+%include "GL_CHART.DD";
+%include "AD_CURR.DD";
+%include "AP_CONTROL.DD";
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_CODE           fixed binary (15);
+declare		END_DEBIT_MAIN       bit (1);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		ERROR_AP_CONTROL     fixed binary (15);
+   call INITIALIZE;
+
+   /* GET_AP_CONTROL - Read the A/P control file */
+
+
+      /* SET_AP_CONTROL - Set the key to read A/P control file */
+
+      AP_REC_NO = 0;
+      KEY_NO = 1;
+
+      /* READ_AP_CONTROL - Read the A/P control file */
+
+      call READ_KEYED (AP_CONTROL_NO,KEY_NO,ERROR_AP_CONTROL);
+      if ERROR_AP_CONTROL > 3 then
+         call PRINT_ERROR (AP_CONTROL_NO,ERROR_AP_CONTROL);
+   END_DEBIT_MAIN = NO;
+   do while (END_DEBIT_MAIN ^= YES);
+      call DEBIT_MAIN;
+   end;
+
+   /* SET_HIGH_NEW - Set the highest new entry */
+
+   AP_ENTRY_NO = AP_NEXT_ENTRY;
+
+
+   /* BACK_OUT_AP - Set the AP entry number back */
+
+   AP_REC_NO = 0;
+
+   call READ_KEYED (AP_CONTROL_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      if AP_ENTRY_NO >= AP_NEXT_ENTRY then
+         AP_NEXT_ENTRY = AP_ENTRY_NO;
+      call UPDATE_RECORD (AP_CONTROL_NO,ERROR_CODE);
+      end;
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AP_ENTRY_NO = 0;
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_DEP_EST = 0;
+   AP_V_BASED_SEQ = 0;
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   AP_REC_NO = 9999;
+   AP_DEF_AC = 1;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_DEBIT_ENT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_CONTROL_NO,"AP_CONTROL",byteaddr(AP_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DEBIT_MAIN
+	Main logic for debit memo entry
+****************************************************************/
+
+DEBIT_MAIN:
+	procedure;
+
+declare		ERROR_AP_OPEN        fixed binary (15);
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AP_DEBIT_ENT_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_DEBIT_MAIN = YES;
+      return;
+      end;
+
+
+   /* CHECK_DEBIT_ENT - Check if debit memo was entered */
+
+   if AP_ENTRY_NO = 0 then
+      do;
+
+      /* SET_FIELDS - Set the values for these fields */
+
+      AP_ENTRY_NO = 0;
+      AP_ENTRY_TYPE = 0;
+      AP_OPEN_VENDOR = "";
+      AP_OPEN_CURR = "";
+      AP_OPEN_TOUR_CODE = "";
+      AP_OPEN_TOUR_GL = 0;
+      AP_OPEN_DEP = 0;
+      AP_FINL_EST = 0;
+      AP_FINL_DATE = 0;
+      AP_DEP_EXCH = 0;
+      AP_DEP_EST_USD = 0;
+      AP_DEP_EST_GL = 0;
+      AP_EST_GL = 0;
+      AP_VEN_INV_NO = "";
+      AP_INV_ENTERED = 0;
+      AP_VEN_INV_DATE = 0;
+      AP_VEN_INV_GL = 0;
+      AP_VEN_INV_AMT = 0;
+      AP_VEN_INV_USD = 0;
+      AP_INV_BAL = 0;
+      AP_INV_BAL_USD = 0;
+      AP_OPEN_AP_ACCT = 0;
+      AP_OVER_UNDER_GL = 0;
+      AP_OPEN_SELECT = "N";
+      AP_AMT_SELECTED = 0;
+      AP_GAIN_LOSS_GL = 0;
+      AP_PAID_USD = 0;
+      AP_PYMT_DATE = 0;
+      AP_V_BASED_BK = 0;
+      AP_V_BASED_MOD = 0;
+      AP_V_BASED_PAX = 0;
+      AP_V_BASED_SEQ = 0;
+      BK_V_DATE = 0;
+      AP_ACK_DATE = 0;
+      AP_ACKED_ON = 0;
+      AP_ACK_BY = "";
+      AP_GL_STATUS = 0;
+      AP_GL_ACTION_DATE = 0;
+      AP_ENTRY_TYPE_DESC = "";
+      AP_V_DESC = "";
+      AP_OPEN_TYPE = "";
+      AP_OPEN_CURRENT = "N";
+
+      /* INIT_DR_FIELDS - Init the fields for debit memo */
+
+      AP_ENTRY_NO = AP_NEXT_ENTRY;
+      AP_ENTRY_TYPE = DR_MEMO;
+
+      AP_OPEN_TOUR = 0;
+      AP_OPEN_TOUR_CODE = "";
+      AP_OPEN_DEP = 0;
+      AP_INV_ENTERED = TODAYS_DATE();
+      AP_START_SVC = TODAYS_DATE();
+
+      AP_GL_STATUS = DM_TYPE;
+      AP_GL_ACTION_DATE = LARGE_DATE;
+
+
+      /* SET_DR_GL_PP - Set the prepayment amount */
+
+      AP_OPEN_AP_ACCT = AP_DEF_PP;
+      AP_OPEN_TOUR_GL = AP_DEF_TOUR_GL;
+
+
+      /* GET_AP_ENTRY - Get the next A/P number and assign */
+
+
+         /* WRITE_AP - Write the A/P entry number */
+
+         ERROR_CODE = KEY_ALREADY_EXISTS;
+         do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+            call WRITE_RECORD (AP_OPEN_NO+?LOCK_RECORD,ERROR_CODE);
+            if ERROR_CODE = KEY_ALREADY_EXISTS then
+               AP_ENTRY_NO = AP_ENTRY_NO + 1;
+         end;
+
+         /* SET_NEXT_ENTRY - Set up for exit */
+
+         AP_NEXT_ENTRY = AP_ENTRY_NO + 1;
+
+      call DISPLAY_DATA_A;
+      call ENTER_DATA_B;
+      end;
+   else
+      do;
+
+      /* READ_RECORD - Read the record */
+
+      call READ_KEYED (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_AP_OPEN);
+      if ERROR_AP_OPEN = RECORD_LOCKED then
+         do;
+         call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+         call PRESS_RETURN;
+         return;
+         end;
+      if ERROR_AP_OPEN > 3 then
+         call PRINT_ERROR (AP_OPEN_NO,ERROR_AP_OPEN);
+
+      /* CHECK_DEBIT - Is this debit memo found? */
+
+      ERROR_INPUT_SCREEN = NO;
+      if ERROR_AP_OPEN = NORMAL_RETURN then
+         do;
+
+         /* CHECK_DR_TYPE - Is this a debit memo? */
+
+         if AP_ENTRY_TYPE ^= DR_MEMO then
+            do;
+            call DISPLAY_MESSAGE ("This is not a debit memo!!!<BEL>"c);
+            call PRESS_RETURN;
+            return;
+            end;
+
+         if AP_INV_BAL ^= -AP_VEN_INV_AMT then
+            do;
+            call DISPLAY_MESSAGE ("This debit memo has already been distributed!!!<BEL>"c);
+            call PRESS_RETURN;
+            return;
+            end;
+
+         if AP_GL_STATUS ^= DM_TYPE then
+            do;
+            call DISPLAY_MESSAGE ("This debit memo has already been posted to G/L!!!<BEL>"c);
+            call PRESS_RETURN;
+            return;
+            end;
+
+         end;
+      else
+         do;
+
+         /* RECORD_NOT_FOUND - Record not found */
+
+         call DISPLAY_MESSAGE("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         ERROR_INPUT_SCREEN = YES;
+
+         if ERROR_INPUT_SCREEN then return;
+         end;
+      call DISPLAY_DATA_B;
+      end;
+   ERROR_AP_OPEN = NORMAL_RETURN;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* UPDATE_DR_DATA - Update the debit memo data */
+
+   AP_OPEN_CURR = AP_VEN_CURR;
+   AP_INV_ENTERED = TODAYS_DATE();
+   AP_INV_BAL = -AP_VEN_INV_AMT;
+   AP_INV_BAL_USD = -AP_VEN_INV_USD;
+
+   AP_GL_STATUS = DM_TYPE;
+   AP_GL_ACTION_DATE = AP_INV_ENTERED;
+
+
+   /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+
+      /* DELETE_RECORD - Delete the record */
+
+      call DELETE_RECORD (AP_OPEN_NO,ERROR_CODE);
+      end;
+   else
+      do;
+
+      /* UPDATE_RECORD - Update the record */
+
+      call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+      end;
+return;
+end;	/* DEBIT_MAIN           */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =   1 to   1;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO ( 58);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =   1 to   1;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	ENTER_DATA_B
+	Enter the screen data for group B
+****************************************************************/
+
+ENTER_DATA_B:
+	procedure;
+
+AP_OPEN_VENDOR = "";
+AP_VEN_CURR = "";
+AP_VEN_INV_AMT = 0;
+do LOOP_INDEX =   2 to   2;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND_DIS - Read Second - Display line version */
+
+      if RETURN_CODE ^= END_TYPED then
+         do;
+         AP_VEN_NO = AP_OPEN_VENDOR;
+         call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+            call PRESS_RETURN;
+            call CLEAR_MESSAGE;
+            RETURN_CODE = DO_AGAIN;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         else
+            do;
+            do LOOP_INDEX =   3 to   3;
+               call OUTPUT_FIELD (LOOP_INDEX);
+            end;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   4 to   6;
+   if LOOP_INDEX =   5 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* CLEAR_DR_EXCH - Clear exchange rate so user must input */
+
+      AP_DEP_EXCH = 0;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* GET_DR_USD_AMT - Get the Debit memo US Dollar amount */
+
+      if AP_DEP_EXCH = 0 then
+         do;
+
+         /* READ_SECOND_3 - Read second */
+
+         CURR_CODE = AP_VEN_CURR;
+         call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            CURR_DESC = "** RECORD NOT FOUND **";
+            end;
+         AP_DEP_EXCH = LAST_EXCHANGE;
+         AP_VEN_INV_USD = floor(AP_VEN_INV_AMT * AP_DEP_EXCH * 100 + 0.5) / 100;
+         if AP_DEP_EXCH ^= 1 then
+            do;
+            call ENTER_DATA_E;
+            end;
+         if AP_VEN_INV_USD ^= 0 then
+            AP_DEP_EXCH = AP_VEN_INV_USD / AP_VEN_INV_AMT;
+         end;
+      call DISPLAY_DATA_E;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   9 to   9;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* SET_DR_GL_DEF - Set the credit G/L Defaults */
+
+      AP_OPEN_TOUR_GL = AP_VEN_DEF_GL;
+      if AP_VEN_DEF_GL = 0 then
+         AP_OPEN_TOUR_GL = AP_DEF_TOUR_GL;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = AP_OPEN_TOUR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  10 to  10;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* READ_SECOND_6 - Read secondary file */
+
+      GL_ACCOUNT_NO = AP_OPEN_AP_ACCT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  12 to  12;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_B         */
+
+/****************************************************************
+	ENTER_DATA_E
+	Enter the data in screen group E
+****************************************************************/
+
+ENTER_DATA_E:
+	procedure;
+
+do LOOP_INDEX =   7 to   7;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   8 to   8;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_E         */
+
+/****************************************************************
+	DISPLAY_DATA_E
+	Display the data in screen group E
+****************************************************************/
+
+DISPLAY_DATA_E:
+	procedure;
+
+do LOOP_INDEX =   7 to   8;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_E       */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =   2 to   2;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND_DIS - Read Second - Display line version */
+
+      AP_VEN_NO = AP_OPEN_VENDOR;
+      call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         AP_VEN_NAME = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =   3 to   3;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   4 to   6;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* GET_DR_USD_AMT - Get the Debit memo US Dollar amount */
+
+      if AP_DEP_EXCH = 0 then
+         do;
+
+         /* READ_SECOND_3 - Read second */
+
+         CURR_CODE = AP_VEN_CURR;
+         call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            CURR_DESC = "** RECORD NOT FOUND **";
+            end;
+         AP_DEP_EXCH = LAST_EXCHANGE;
+         AP_VEN_INV_USD = floor(AP_VEN_INV_AMT * AP_DEP_EXCH * 100 + 0.5) / 100;
+         if AP_DEP_EXCH ^= 1 then
+            do;
+            call ENTER_DATA_E;
+            end;
+         if AP_VEN_INV_USD ^= 0 then
+            AP_DEP_EXCH = AP_VEN_INV_USD / AP_VEN_INV_AMT;
+         end;
+      call DISPLAY_DATA_E;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   9 to   9;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = AP_OPEN_TOUR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  10 to  10;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* READ_SECOND_6 - Read secondary file */
+
+      GL_ACCOUNT_NO = AP_OPEN_AP_ACCT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  12 to  12;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 95,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  5 then
+   do;
+   if SELECT =  1 then
+      LOOP_INDEX =  2;
+   if SELECT =  2 then
+      LOOP_INDEX =  4;
+   if SELECT =  3 then
+      LOOP_INDEX =  6;
+   if SELECT =  4 then
+      LOOP_INDEX =  9;
+   if SELECT =  5 then
+      LOOP_INDEX = 11;
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* CLEAR_DR_EXCH - Clear exchange rate so user must input */
+
+      AP_DEP_EXCH = 0;
+
+      end;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* SET_DR_GL_DEF - Set the credit G/L Defaults */
+
+      AP_OPEN_TOUR_GL = AP_VEN_DEF_GL;
+      if AP_VEN_DEF_GL = 0 then
+         AP_OPEN_TOUR_GL = AP_DEF_TOUR_GL;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND_DIS - Read Second - Display line version */
+
+      AP_VEN_NO = AP_OPEN_VENDOR;
+      call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   3 to   3;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =   6 then
+      do;
+
+      /* GET_DR_USD_AMT - Get the Debit memo US Dollar amount */
+
+      if AP_DEP_EXCH = 0 then
+         do;
+
+         /* READ_SECOND_3 - Read second */
+
+         CURR_CODE = AP_VEN_CURR;
+         call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            CURR_DESC = "** RECORD NOT FOUND **";
+            end;
+         AP_DEP_EXCH = LAST_EXCHANGE;
+         AP_VEN_INV_USD = floor(AP_VEN_INV_AMT * AP_DEP_EXCH * 100 + 0.5) / 100;
+         if AP_DEP_EXCH ^= 1 then
+            do;
+            call ENTER_DATA_E;
+            end;
+         if AP_VEN_INV_USD ^= 0 then
+            AP_DEP_EXCH = AP_VEN_INV_USD / AP_VEN_INV_AMT;
+         end;
+      call DISPLAY_DATA_E;
+
+      end;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = AP_OPEN_TOUR_GL;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  10 to  10;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* READ_SECOND_6 - Read secondary file */
+
+      GL_ACCOUNT_NO = AP_OPEN_AP_ACCT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  12 to  12;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+if SELECT = 90 then
+   do;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   call DISPLAY_MSG_NO ( 58);
+   end;
+if SELECT = 95 then
+   do;
+   call INPUT_FIELD (  8,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (GL_CHART_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (AP_CONTROL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,147 @@
+/****************************************************************
+	Module: AIR_DELETE
+	Top Level Logic: AIR_DELETE_TOP
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AIR_DELETE
+	Top level
+****************************************************************/
+
+%replace AIR_DELETE_1 by 353;
+AIR_DELETE:
+   procedure(
+      BK_BOOKING_RECORD);
+%replace TK_DETAIL_NO by  57;
+%replace TK_HEADER_NO by  56;
+%replace BK_BOOKING_NO by   9;
+%include "TK_DETAIL.DD";
+%include "TK_HEADER.DD";
+%include "BK_BOOKING.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_DEL_TKHDR        bit (1);
+declare		END_DELETE_TKDET     bit (1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* DELETE_AIR - Delete the air info */
+
+      END_DEL_TKHDR = NO;
+      do while (END_DEL_TKHDR ^= YES);
+         call DEL_TKHDR;
+      end;
+      END_DELETE_TKDET = NO;
+      do while (END_DELETE_TKDET ^= YES);
+         call DELETE_TKDET;
+      end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	DEL_TKHDR
+	Delete the ticket header records
+****************************************************************/
+
+DEL_TKHDR:
+	procedure;
+
+
+   /* SET_FIRST_AIRH_COPY - Set to first header to copy */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH_COPY - Last air header in booking? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_DEL_TKHDR = YES;
+      return;
+      end;
+
+   /* DELETE_AIRH - Delete the air header record */
+
+   call DELETE_RECORD (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* DEL_TKHDR            */
+
+/****************************************************************
+	DELETE_TKDET
+	Delete ticket detail
+****************************************************************/
+
+DELETE_TKDET:
+	procedure;
+
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_DELETE_TKDET = YES;
+      return;
+      end;
+
+   /* DELETE_AIRD - Delete */
+
+   call DELETE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* DELETE_TKDET         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

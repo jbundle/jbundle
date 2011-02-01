@@ -1,0 +1,19 @@
+/*********************************************************************
+	BK_TELEX File
+********************************************************************/
+
+declare	1 BK_TELEX_RECORD,
+		3 TELEX_NO             fixed binary (15),
+		3 TELEX_VENDOR         character (        6),
+		3 TELEX_NAME           character (       30),
+		3 TELEX_ADDR_1         character (       30),
+		3 TELEX_ADDR_2         character (       30),
+		3 TELEX_ADDR_3         character (       30),
+		3 TELEX_ADDR_4         character (       30),
+		3 TELEX_OR_FAX         character (        1),
+		3 TELEX_ITIN_FMT       character (1),
+		3 TELEX_NUMBER         character (       20),
+		3 TELEX_FILE           character (       20),
+		3 TELEX_USER           character (       16),
+		3 TELEX_REF            fixed binary (31);
+

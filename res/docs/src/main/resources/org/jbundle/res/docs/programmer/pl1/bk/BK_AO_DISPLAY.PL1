@@ -1,0 +1,810 @@
+/****************************************************************
+	Module: BK_AO_DISPLAY
+	Top Level Logic: AO_DISPLAY_LOGIC
+	Date: 20-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_AO_DISPLAY
+	Top Level to display the Qs & As
+****************************************************************/
+
+%replace BK_AO_DISPLAY_1 by 742;
+%replace BK_AO_DISPLAY_2 by 743;
+%replace BK_AO_DISPLAY_3 by 744;
+BK_AO_DISPLAY:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD);
+%replace BK_OPT_ALT_NO by  62;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%include "BK_OPT_ALT.DD";
+%include "BK_AO_DISPLAY.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		END_ENTER_HDR        bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_ENTER_ALT_STUFF  bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		END_ENTER_ANSW_STUFF bit (1);
+declare		ALT_TOUR_CODE_SAVE   character (        4);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		ALT_ANSW_SEQ_ARRAY(14) fixed binary (15);
+declare		BK_OPT_ALT_ERROR     fixed binary (15);
+declare		ALT_SEQ_SAVE         fixed binary (15);
+declare		ALT_ANSW_SEQ_SAVE    fixed binary (15);
+declare		ANSWER               character (1);
+declare		END_ENTER_MENU_STUFF bit (1);
+declare		ERROR_BK_BOOKING     fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+   call INITIALIZE;
+
+   /* SAVE_BK_INFO - Save the current booking for a sec */
+
+   declare BOOKING_NO_SAVE fixed binary(31);
+   BOOKING_NO_SAVE = BOOKING_NO;
+
+   if BOOKING_NO ^= 0 then
+      do;
+
+      /* UPDATE_BOOK_NUL - Update the booking record - Don't unlock */
+
+      call UPDATE_RECORD (BK_BOOKING_NO+?LOCK_RECORD,ERROR_CODE);
+      end;
+
+   call AO_DISPLAY_MAIN;
+
+   /* RESTORE_BK_INFO - Restore the original booking information */
+
+   if BOOKING_NO_SAVE = 0 then
+      do;
+
+      /* INIT_HDR_DATA - Zero everything before starting */
+
+      BOOKING_NO = 0;
+      BK_MODIFICATION = 0;
+      BK_NEXT_MOD = 0;
+      BK_AGENCY = -1;
+      BK_PAX = 0;
+      BK_TOUR_NUM = 0;
+      BK_TOUR_CODE = "";
+      BK_DEPARTURE = 0;
+
+      TOUR_NO = 0;
+      TOUR_DEP_DATE = 0;
+      TOUR_TYPE = " ";
+      TOUR_RATE_DEF = "";
+      TOUR_RATE_CLASS = "";
+      TOUR_DEF_CUTOFF = 0;
+
+      HDR_TOUR_CODE = "";
+      HDR_END_ON = 0;
+
+      end;
+   else
+      do;
+      if (BK_MODIFICATION ^= 0) ! (BOOKING_NO ^= BOOKING_NO_SAVE) then
+         do;
+         BK_MODIFICATION = 0;
+         BOOKING_NO = BOOKING_NO_SAVE;
+
+         /* READ_BOOK_LOCK - Read the booking record and lock it */
+
+         call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_BOOKING);
+         if ERROR_BK_BOOKING = RECORD_LOCKED then
+            do;
+            call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+            call PRESS_RETURN;
+            end;
+         if ERROR_BK_BOOKING > 3 then
+            call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+         end;
+      end;
+
+   /* RESTORE_BK_TOUR - Restore the tour and tour header info */
+
+   if BOOKING_NO ^= 0 then
+      do;
+      if BK_TOUR_CODE ^= "" then if BK_DEPARTURE ^= 0 then
+         if (BK_TOUR_CODE ^= HDR_TOUR_CODE) !
+            (BK_DEPARTURE < HDR_START_ON) ! (BK_DEPARTURE > HDR_END_ON) then
+               do;
+
+               /* GET_TOUR_HDR - Get the tour header */
+
+               ERROR_CODE = NORMAL_RETURN;
+
+               HDR_TOUR_CODE = BK_TOUR_CODE;
+               HDR_END_ON = BK_DEPARTURE;
+               if HDR_END_ON = 0 then
+                  HDR_END_ON = TODAYS_DATE();
+               call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE ^= END_OF_FILE then
+                  call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+               if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+                  ERROR_CODE = END_OF_FILE;
+               if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+                  ERROR_CODE = END_OF_FILE;
+
+               end;
+      if BK_TOUR_NUM ^= 0 then
+         if BK_TOUR_NUM ^= TOUR_NO then
+            do;
+            TOUR_NO = BK_TOUR_NUM;
+
+            /* READ_TOUR_REC - Read the tour file record */
+
+            call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+            if ERROR_BK_TOUR > 3 then
+               call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+            end;
+      end;
+
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   ALT_SELECT_BY = "N";
+   ALT_START = HDR_START_ON;
+   ALT_END = HDR_END_ON;
+   ALT_ANSWER = " ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   NOT_FIRST_TIME = "0"b;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_AO_DISPLAY_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_OPT_ALT_NO,"BK_OPT_ALT",byteaddr(BK_OPT_ALT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (BK_AO_DISPLAY_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	AO_DISPLAY_MAIN
+	Mainline logic
+****************************************************************/
+
+AO_DISPLAY_MAIN:
+	procedure;
+
+   END_ENTER_HDR = NO;
+   do while (END_ENTER_HDR ^= YES);
+      call ENTER_HDR;
+   end;
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+   call DISPLAY_DATA_G;
+   call ENTER_DATA_C;
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+
+   /* CHECK_TOUR_HDR - Check to see that the right header read */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   if (BK_DEPARTURE < HDR_START_ON) ! (BK_DEPARTURE > HDR_END_ON) then
+      do;
+
+      /* GET_TOUR_HDR - Get the tour header */
+
+      ERROR_CODE = NORMAL_RETURN;
+
+      HDR_TOUR_CODE = BK_TOUR_CODE;
+      HDR_END_ON = BK_DEPARTURE;
+      if HDR_END_ON = 0 then
+         HDR_END_ON = TODAYS_DATE();
+      call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE ^= END_OF_FILE then
+         call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+      if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+         ERROR_CODE = END_OF_FILE;
+      if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+         ERROR_CODE = END_OF_FILE;
+
+      end;
+
+
+   /* CK_HDR_FOUND - Warning if header not found */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      call DISPLAY_MESSAGE ("<BEL>Warning -- Couldn't find Tour header"c);
+      call PRESS_RETURN;
+      end;
+
+
+   /* RETURN_IF_EOF - Return if end-of-file error */
+
+   if ERROR_CODE = END_OF_FILE then
+      return;
+
+   call DISPLAY_DATA_G;
+   END_ENTER_ALT_STUFF = NO;
+   do while (END_ENTER_ALT_STUFF ^= YES);
+      call ENTER_ALT_STUFF;
+   end;
+return;
+end;	/* AO_DISPLAY_MAIN      */
+
+/****************************************************************
+	ENTER_HDR
+	Enter the tour header
+****************************************************************/
+
+ENTER_HDR:
+	procedure;
+
+   call ENTER_DATA_A;
+
+   /* CLEAR_IF_END - Clear the tour info if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+
+      /* CLEAR_TOUR_INFO - Clear the tour info */
+
+      BK_TOUR_NUM = 0;
+      BK_DEPARTURE = 0;
+      BK_TOUR_CODE = "";
+      TOUR_NO = 0;
+      TOUR_CODE = "";
+      HDR_TOUR_CODE = "";
+
+      TOUR_TYPE = "";
+
+      end;
+
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_ENTER_HDR = YES;
+      return;
+      end;
+
+
+   /* GET_TOUR_HDR - Get the tour header */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   HDR_TOUR_CODE = BK_TOUR_CODE;
+   HDR_END_ON = BK_DEPARTURE;
+   if HDR_END_ON = 0 then
+      HDR_END_ON = TODAYS_DATE();
+   call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= END_OF_FILE then
+      call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+   if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+      ERROR_CODE = END_OF_FILE;
+   if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+      ERROR_CODE = END_OF_FILE;
+
+
+   /* CK_HDR_FOUND - Warning if header not found */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      call DISPLAY_MESSAGE ("<BEL>Warning -- Couldn't find Tour header"c);
+      call PRESS_RETURN;
+      end;
+
+
+   /* TRY_AGAIN_IF_ERR - Return in a loop to try again */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_ENTER_HDR = YES;
+   return;
+   end;
+
+return;
+end;	/* ENTER_HDR            */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* BK_HDR_UC - Convert to upper case */
+
+      call CONVERT_TO_UPPER(BK_TOUR_CODE);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA_G
+	Display the data in group G
+****************************************************************/
+
+DISPLAY_DATA_G:
+	procedure;
+
+do LOOP_INDEX =  15 to  15;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_G       */
+
+/****************************************************************
+	ENTER_DATA_C
+	Enter the screen data in group C
+****************************************************************/
+
+ENTER_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  12 to  12;
+   if LOOP_INDEX =  12 then
+      call DISPLAY_MSG_NO ( 93);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_C         */
+
+/****************************************************************
+	ENTER_ALT_STUFF
+	Enter the alt seq and display answers
+****************************************************************/
+
+ENTER_ALT_STUFF:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_AO_DISPLAY_1);
+   NOT_FIRST_TIME = YES;
+   call TABLE_DISPLAY;
+   call ENTER_DATA_D;
+
+   /* RETURN_IF_NO_INPUT - Return if input length = 0 */
+
+   if INPUT_LENGTH = 0 then
+      do;
+      END_ENTER_ALT_STUFF = YES;
+      return;
+      end;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ENTER_ALT_STUFF = YES;
+      return;
+      end;
+
+   END_ENTER_ANSW_STUFF = NO;
+   do while (END_ENTER_ANSW_STUFF ^= YES);
+      call ENTER_ANSW_STUFF;
+   end;
+return;
+end;	/* ENTER_ALT_STUFF      */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		ALT_SEQ_ARRAY(14) fixed binary (15);
+ALT_TOUR_CODE = HDR_TOUR_CODE;
+ALT_TOUR_CODE_SAVE = ALT_TOUR_CODE;
+ALT_SEQ = 0;
+ALT_ANSW_SEQ = 0;
+call SET_POSITION (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (ALT_TOUR_CODE > ALT_TOUR_CODE_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 14;
+      ALT_SEQ_ARRAY(RECORD_NUMBER) = 0;
+      ALT_ANSW_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_OPT_ALT_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_OPT_ALT_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 14) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  16 to  19;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  19 then
+               do;
+
+               /* BUMP_QUESTION - Bump to the next question */
+
+               ALT_ANSW_SEQ = 32767;
+               call SET_POSITION(BK_OPT_ALT_NO,KEY_AREA_1,ERROR_CODE);
+
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         ALT_SEQ_ARRAY(RECORD_NUMBER) = ALT_SEQ;
+         ALT_ANSW_SEQ_ARRAY(RECORD_NUMBER) = ALT_ANSW_SEQ;
+         call READ_NEXT (BK_OPT_ALT_NO,KEY_AREA_1,BK_OPT_ALT_ERROR);
+         if (ALT_TOUR_CODE > ALT_TOUR_CODE_SAVE) then
+            BK_OPT_ALT_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      ALT_SEQ_SAVE = ALT_SEQ_ARRAY(14);
+      ALT_ANSW_SEQ_SAVE = ALT_ANSW_SEQ_ARRAY(14);
+      ALT_TOUR_CODE = ALT_TOUR_CODE_SAVE;
+      if BK_OPT_ALT_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 14;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if ALT_SEQ_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =16 to  19;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	ENTER_DATA_D
+	Enter screen group D
+****************************************************************/
+
+ENTER_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  13 to  13;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_D         */
+
+/****************************************************************
+	ENTER_ANSW_STUFF
+	Optionally enter an answer seq.
+****************************************************************/
+
+ENTER_ANSW_STUFF:
+	procedure;
+
+declare		ERROR_BK_OPT_ALT     fixed binary (15);
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* DISPLAY_SCREEN_2 - Display the second screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_AO_DISPLAY_2);
+   call TABLE_DISPLAY_2;
+   call ENTER_DATA_H;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ENTER_ANSW_STUFF = YES;
+      return;
+      end;
+
+
+   /* RETURN_IF_NO_INPUT - Return if input length = 0 */
+
+   if INPUT_LENGTH = 0 then
+      do;
+      END_ENTER_ANSW_STUFF = YES;
+      return;
+      end;
+
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_BK_OPT_ALT);
+   if ERROR_BK_OPT_ALT > 3 then
+      call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_BK_OPT_ALT);
+   END_ENTER_MENU_STUFF = NO;
+   do while (END_ENTER_MENU_STUFF ^= YES);
+      call ENTER_MENU_STUFF;
+   end;
+return;
+end;	/* ENTER_ANSW_STUFF     */
+
+/****************************************************************
+	TABLE_DISPLAY_2
+	Display a table on the screen
+****************************************************************/
+
+TABLE_DISPLAY_2:
+	procedure;
+
+ALT_TOUR_CODE_SAVE = ALT_TOUR_CODE;
+ALT_SEQ_SAVE = ALT_SEQ;
+ALT_ANSW_SEQ = 0;
+call SET_POSITION (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (ALT_TOUR_CODE > ALT_TOUR_CODE_SAVE) !
+   (ALT_SEQ > ALT_SEQ_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to  7;
+      ALT_ANSW_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_OPT_ALT_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_OPT_ALT_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <=  7) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+         do LOOP_INDEX =  15 to  22;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         ALT_ANSW_SEQ_ARRAY(RECORD_NUMBER) = ALT_ANSW_SEQ;
+         call READ_NEXT (BK_OPT_ALT_NO,KEY_AREA_1,BK_OPT_ALT_ERROR);
+         if (ALT_TOUR_CODE > ALT_TOUR_CODE_SAVE) !
+         (ALT_SEQ > ALT_SEQ_SAVE) then
+            BK_OPT_ALT_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      ALT_ANSW_SEQ_SAVE = ALT_ANSW_SEQ_ARRAY( 7);
+      ALT_TOUR_CODE = ALT_TOUR_CODE_SAVE;
+      ALT_SEQ = ALT_SEQ_SAVE;
+      if BK_OPT_ALT_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to  7;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+      if ALT_ANSW_SEQ_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =15 to  22;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY_2      */
+
+/****************************************************************
+	ENTER_DATA_H
+	Enter group H
+****************************************************************/
+
+ENTER_DATA_H:
+	procedure;
+
+do LOOP_INDEX =  14 to  14;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_H         */
+
+/****************************************************************
+	ENTER_MENU_STUFF
+	Display the Alt/Opt display menu
+****************************************************************/
+
+ENTER_MENU_STUFF:
+	procedure;
+
+
+   /* DISPLAY_SCREEN_3 - Display Screen 3 */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_AO_DISPLAY_3);
+   call DISPLAY_DATA_J;
+
+   /* INPUT_OPTION - Input the option on the screen */
+
+   call INPUT_FIELD ( 17,INPUT_LENGTH,RETURN_CODE);
+   if (BK_AO_SELECT = 0) !
+        (RETURN_CODE ^= NORMAL_RETURN) then
+      do;
+      END_ENTER_MENU_STUFF = YES;
+      return;
+      end;
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   %include "BK_ALT_PRICE.DCL";
+   %include "BK_ALT_HOTEL.DCL";
+   %include "BK_ALT_LAND.DCL";
+   %include "BK_ALT_AIR.DCL";
+   %include "BK_ALT_REMARK.DCL";
+   do case (BK_AO_SELECT);
+         /* Option   1 */
+      call BK_ALT_PRICE(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_OPT_ALT_RECORD);
+         /* Option   2 */
+      call BK_ALT_HOTEL(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_OPT_ALT_RECORD);
+         /* Option   3 */
+      call BK_ALT_LAND(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_OPT_ALT_RECORD);
+         /* Option   4 */
+      call BK_ALT_AIR(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_OPT_ALT_RECORD);
+         /* Option   5 */
+      call BK_ALT_REMARK(
+         BK_TOUR_HDR_RECORD,
+         BK_TOUR_RECORD,
+         BK_BOOKING_RECORD,
+         BK_OPT_ALT_RECORD);
+   end;
+   otherwise
+      do;
+      end;
+return;
+end;	/* ENTER_MENU_STUFF     */
+
+/****************************************************************
+	DISPLAY_DATA_J
+	Display screen group J
+****************************************************************/
+
+DISPLAY_DATA_J:
+	procedure;
+
+do LOOP_INDEX =  15 to  16;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_J       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_OPT_ALT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

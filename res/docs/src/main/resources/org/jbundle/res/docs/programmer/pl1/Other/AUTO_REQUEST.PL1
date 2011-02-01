@@ -1,0 +1,25 @@
+/****************************************************************
+	Module: AUTO_INVOICE
+	Top Level Logic: AUTO_LOGIC
+	Date:  6-Dec-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AUTO_INVOICE
+	Top Level to print ALL invoices
+****************************************************************/
+
+%replace AUTO_INVOICE_1 by 826;
+AUTO_REQUEST:
+   procedure;
+
+dcl BK_FINALIZE entry;
+
+call BK_FINALIZE;
+
+return;
+end;

@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_DIS_LANDD File
+********************************************************************/
+
+declare	1 BK_DIS_LANDD_RECORD,
+		3 DIS_LANDD            character (       10),
+		3 DIS_PAXD             fixed binary (15),
+		3 DIS_LDATED           fixed binary (15);
+

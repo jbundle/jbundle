@@ -1,0 +1,26 @@
+/*********************************************************************
+	CHECK_HOTEL_INV File
+********************************************************************/
+
+declare	1 CHECK_HOTEL_INV_RECORD,
+		3 NEW_COUNT            fixed binary (15),
+		3 OLD_COUNT            fixed binary (15),
+		3 NEW_HOTEL(20) character (       10),
+		3 OLD_HOTEL(20) character (       10),
+		3 NEW_DATE(20) fixed binary (15),
+		3 OLD_DATE(20) fixed binary (15),
+		3 NEW_DAYS(20) fixed binary (15),
+		3 OLD_DAYS(20) fixed binary (15),
+		3 NEW_ROOM_TYPE(20) fixed binary (15),
+		3 OLD_ROOM_TYPE(20) fixed binary (15),
+		3 NEW_ROOMS            fixed binary (15),
+		3 OLD_ROOMS            fixed binary (15),
+		3 NEW                  fixed binary (15),
+		3 OLD                  fixed binary (15),
+		3 DDFAS                character (        1),
+		3 MATCH_FOUND          character (1),
+		3 NEW_RATE_TYPE(20) character (        1),
+		3 OLD_RATE_TYPE(20) character (        1),
+		3 NEW_SEQ(20) fixed binary (15),
+		3 OLD_SEQ(20) fixed binary (15);
+

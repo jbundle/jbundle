@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<Part ID="1">
+		<LastChanged>2010-02-28T06:13:16</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>jbundle-app-dance</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="2">
+		<LastChanged>2010-02-28T06:13:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>jbundle-thin-app-dance</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="3">
+		<LastChanged>2010-02-28T06:13:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>jbundle-res-app-dance</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="4">
+		<LastChanged>2010-02-28T06:13:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>jbundle-app-contact</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="5">
+		<LastChanged>2010-02-28T06:13:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>jbundle-thin-app-contact</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="6">
+		<LastChanged>2010-02-28T06:13:07</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>jbundle-res-app-contact</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="7">
+		<LastChanged>2010-02-28T06:13:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>jbundle-app-picture</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="8">
+		<LastChanged>2010-02-28T06:13:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>jbundle-thin-app-picture</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="9">
+		<LastChanged>2010-02-28T06:13:01</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>jbundle-res-app-picture</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+</file>

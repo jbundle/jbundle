@@ -1,0 +1,29 @@
+/****************************************************************
+	Module: BK_AVAIL_CLEAR
+	Top Level Logic: NO_LOGIC
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_AVAIL_CLEAR
+	No logic yet for this program
+****************************************************************/
+
+%replace BK_AVAIL_CLEAR_1 by  44;
+BK_AVAIL_CLEAR:
+   procedure;
+%replace BK_HOTEL_NO by   8;
+%include "BK_HOTEL.DD";
+%include "BK_AVAIL_CLEAR.DD";
+
+
+   /* NO_CODE - This section has no code */
+
+   /* No code in this section */
+return;
+end;	/* NO_LOGIC             */
+/*********************************End of Program*********************/

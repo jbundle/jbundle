@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_ROOM_LIST File
+********************************************************************/
+
+declare	1 BK_ROOM_LIST_RECORD,
+		3 PAX_LONG_NAMES       character (       70),
+		3 PV_CODE              character (        4),
+		3 PAX_SAVE_ROOMD       character (        6);
+

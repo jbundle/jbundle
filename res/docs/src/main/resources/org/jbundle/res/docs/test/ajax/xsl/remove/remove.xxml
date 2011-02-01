@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="remove.xsl"?>
+<top>
+<status-text>
+This is the status text
+</status-text>
+<content>
+This is the xmled content-area
+</content>
+</top>

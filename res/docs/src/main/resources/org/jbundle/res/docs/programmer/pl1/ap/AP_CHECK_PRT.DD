@@ -1,0 +1,24 @@
+/*********************************************************************
+	AP_CHECK_PRT File
+********************************************************************/
+
+declare	1 AP_CHECK_PRT_RECORD,
+		3 AP_PRE_CHECK         character (1),
+		3 AP_CHECK_TYPES       character (        1),
+		3 AP_START_CHECK       fixed binary (31),
+		3 AP_CHECK_DATE        fixed binary (15),
+		3 AP_TEXT_AMT          character (       75),
+		3 AP_PYMT_PRT          character (1),
+		3 PYMT_TYPE_SAVE       character (        1),
+		3 CR_DATE              fixed binary (15),
+		3 CR_TIME              fixed binary (15),
+		3 CR_USER              character (       16),
+		3 CR_PAGE              fixed binary (31),
+		3 AP_CHECK_NO_SAVE     fixed binary (31),
+		3 CR_USER_NAME         character (       16),
+		3 CR_TOTAL             float binary (53),
+		3 CRR_DATE             fixed binary (15),
+		3 CRR_TIME             fixed binary (15),
+		3 AP_VOUCHER_COUNT     fixed binary (15),
+		3 AP_EXCH_SAVE         float binary (53);
+

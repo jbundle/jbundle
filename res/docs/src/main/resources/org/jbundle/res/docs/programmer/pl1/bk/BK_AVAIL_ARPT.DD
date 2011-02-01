@@ -1,0 +1,18 @@
+/*********************************************************************
+	BK_AVAIL_ARPT File
+********************************************************************/
+
+declare	1 BK_AVAIL_ARPT_RECORD,
+		3 DET_START_CAR        character (        2),
+		3 DET_END_CAR          character (        2),
+		3 DET_START_FLT        character (        4),
+		3 DET_END_FLT          character (        4),
+		3 DET_START_ADATE      fixed binary (15),
+		3 DET_END_ADATE        fixed binary (15),
+		3 DET_AIR_DET          character (1),
+		3 AAVAIL_DATE          fixed binary (15),
+		3 AAVAIL_TIME          fixed binary (15),
+		3 AAVAIL_USER          character (       16),
+		3 AAVAIL_PAGE          fixed binary (15),
+		3 AIR_CHECK            character (       10);
+

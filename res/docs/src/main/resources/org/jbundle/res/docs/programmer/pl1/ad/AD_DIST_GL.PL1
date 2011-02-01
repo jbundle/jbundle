@@ -1,0 +1,492 @@
+/****************************************************************
+	Module: AD_DIST_GL
+	Top Level Logic: AD_POST_LOGIC
+	Date: 24-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AD_DIST_GL
+	Top-Level for A/D G/L posting
+****************************************************************/
+
+%replace AD_DIST_GL_1 by 663;
+AD_DIST_GL:
+   procedure;
+%replace GL_PERIOD_NO by  98;
+%replace AD_GL_DIST_NO by 107;
+%replace GL_DETAIL_NO by  17;
+%include "AD_DIST_GL.DD";
+%include "GL_PERIOD.DD";
+%include "AD_GL_DIST.DD";
+%include "GL_DETAIL.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_UD_VALID_AD      bit (1);
+declare		END_POST_VALID_AD    bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		GL_DATE_CHECK        fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AD_GL_DIST     fixed binary (15);
+declare		END_READ_PER_THRU    bit (1);
+   call INITIALIZE;
+   call AD_POST_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   FIRST_POST_DATE = 32766;
+   LAST_POST_DATE = 0;
+   AD_DIST_POSTED = 0;
+   AD_DIST_POST = "N";
+   GL_TRX_DATE = TODAYS_DATE();
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_TRX_AMOUNT = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AD_DIST_GL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AD_DIST_GL_RECORD) );
+   call OPEN_FILE (GL_PERIOD_NO,"GL_PERIOD",byteaddr(GL_PERIOD_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_PERIOD_NO,ERROR_CODE);
+   call OPEN_FILE (AD_GL_DIST_NO,"AD_GL_DIST",byteaddr(AD_GL_DIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_GL_DIST_NO,ERROR_CODE);
+   call OPEN_FILE (GL_DETAIL_NO,"GL_DETAIL",byteaddr(GL_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	AD_POST_MAIN
+	Mainline logic
+****************************************************************/
+
+AD_POST_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CHECK_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure?");
+   call INPUT_DATA(23,24,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AD_DIST_POSTED = 0;
+   AD_DIST_GL_ACCT = 0;
+   AD_DIST_BANK = 0;
+   AD_DIST_NUMBER = 0;
+   AD_DIST_TYPE = "";
+   AD_DIST_TRX_SEQ = 0;
+   call SET_POSITION (AD_GL_DIST_NO,KEY_AREA_2,ERROR_CODE);
+   END_UD_VALID_AD = NO;
+   do while (END_UD_VALID_AD ^= YES);
+      call UD_VALID_AD;
+   end;
+
+   /* RESET_GL_ACCT - Set the G/L account number to 0 */
+
+   GL_AC_NO = 0;
+
+
+   /* RESET_GL_BAL - Set detail amount to zero */
+
+   GL_TRX_AMOUNT = 0;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   AD_DIST_POSTED = FIRST_POST_DATE;
+   AD_DIST_GL_ACCT = 0;
+   AD_DIST_BANK = 0;
+   AD_DIST_NUMBER = 0;
+   AD_DIST_TYPE = "";
+   AD_DIST_TRX_SEQ = 0;
+   call SET_POSITION (AD_GL_DIST_NO,KEY_AREA_2,ERROR_CODE);
+   END_POST_VALID_AD = NO;
+   do while (END_POST_VALID_AD ^= YES);
+      call POST_VALID_AD;
+   end;
+
+   /* WRITE_LAST_GL - Write the G/L record for last set of acs */
+
+   if GL_AC_NO ^= 0 then
+      do;
+
+      /* WRITE_RECORD - Write the record */
+
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+         call WRITE_RECORD (GL_DETAIL_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            GL_SEQ_NO = GL_SEQ_NO + 1;
+      end;
+      end;
+
+return;
+end;	/* AD_POST_MAIN         */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+AD_POST_CUTOFF = TODAYS_DATE();
+do LOOP_INDEX =   1 to   1;
+   if LOOP_INDEX =   1 then
+      AD_POST_CUTOFF = TODAYS_DATE();
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_AD_CUTOFF - Can't cutoff past today's date */
+
+      if AD_POST_CUTOFF > TODAYS_DATE() then
+         do;
+         call DISPLAY_MESSAGE("<BEL>The cut-off date cannot be after the current date"c);
+         call PRESS_RETURN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  1,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT =  1 then
+   do;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+      do;
+
+      /* CHECK_AD_CUTOFF - Can't cutoff past today's date */
+
+      if AD_POST_CUTOFF > TODAYS_DATE() then
+         do;
+         call DISPLAY_MESSAGE("<BEL>The cut-off date cannot be after the current date"c);
+         call PRESS_RETURN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	UD_VALID_AD
+	Set the entries up for posting
+****************************************************************/
+
+UD_VALID_AD:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AD_GL_DIST_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AD_GL_DIST_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AD_DIST_POSTED > 0) then
+      do;
+      END_UD_VALID_AD = YES;
+      return;
+      end;
+
+   /* CHECK_AD_DATE - Is this date in the range? */
+
+   if AD_DIST_DATE > AD_POST_CUTOFF then
+      return;
+
+   GL_DATE_CHECK = AD_DIST_DATE;
+
+   call GET_GL_PERIOD;
+
+   /* SET_AD_RECORD - Set up the updated record */
+
+   AD_DIST_POSTED = GL_END_PERIOD;
+
+   if AD_DIST_POSTED < FIRST_POST_DATE then
+      FIRST_POST_DATE = AD_DIST_POSTED;
+
+   if AD_DIST_POSTED > LAST_POST_DATE then
+      LAST_POST_DATE = AD_DIST_POSTED;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AD_GL_DIST_NO,ERROR_CODE);
+
+   /* RESET_AD_POST - Set this back */
+
+   AD_DIST_POSTED = 0;
+
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (AD_GL_DIST_NO,KEY_AREA_2,ERROR_AD_GL_DIST);
+   if ERROR_AD_GL_DIST > 3 then
+      call PRINT_ERROR (AD_GL_DIST_NO,ERROR_AD_GL_DIST);
+return;
+end;	/* UD_VALID_AD          */
+
+/****************************************************************
+	GET_GL_PERIOD
+	Get the correct G/L Period
+****************************************************************/
+
+GET_GL_PERIOD:
+	procedure;
+
+
+   /* CURRENT_GL_OK - Is the current G/L Period correct? */
+
+   if GL_DATE_CHECK >= GL_START_PERIOD then if GL_DATE_CHECK <= GL_END_PERIOD then
+      return;
+
+
+   /* SET_FIRST_PER - Set for the first period */
+
+   GL_END_PERIOD = GL_DATE_CHECK;
+   call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_PER - Read the next period */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_GL_AFTER - Is this range after the periods? */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+
+      /* SET_PER_FIRST - Set first */
+
+      GL_END_PERIOD = 0;
+      call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+      END_READ_PER_THRU = NO;
+      do while (END_READ_PER_THRU ^= YES);
+         call READ_PER_THRU;
+      end;
+      GL_END_PERIOD = GL_END_PERIOD + 1;
+      GL_START_PERIOD = GL_END_PERIOD + 1;
+      return;
+      end;
+
+
+   /* CHECK_GL_RANGE - Is this doc in range? */
+
+   if GL_DATE_CHECK >= GL_START_PERIOD then if GL_DATE_CHECK <= GL_END_PERIOD then
+      return;
+
+   if GL_DATE_CHECK < GL_START_PERIOD then
+      do;
+      GL_END_PERIOD = GL_START_PERIOD - 1;
+      return;
+      end;
+
+return;
+end;	/* GET_GL_PERIOD        */
+
+/****************************************************************
+	READ_PER_THRU
+	Get last period
+****************************************************************/
+
+READ_PER_THRU:
+	procedure;
+
+
+   /* READNEXT_PER - Read the next period */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_END_PER - Last period? */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_READ_PER_THRU = YES;
+      return;
+      end;
+return;
+end;	/* READ_PER_THRU        */
+
+/****************************************************************
+	POST_VALID_AD
+	Now post these entries to G/L
+****************************************************************/
+
+POST_VALID_AD:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AD_GL_DIST_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AD_GL_DIST_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AD_DIST_POSTED > LAST_POST_DATE) then
+      do;
+      END_POST_VALID_AD = YES;
+      return;
+      end;
+
+   /* CHECK_NEW_GL - Check new G/L number */
+
+   if AD_DIST_POST = "Y" then
+      return;
+
+   if (AD_DIST_POSTED ^= GL_TRX_DATE) !
+      (AD_DIST_GL_ACCT ^= GL_AC_NO) then
+         do;
+
+         /* WRITE_LAST_GL - Write the G/L record for last set of acs */
+
+         if GL_AC_NO ^= 0 then
+            do;
+
+            /* WRITE_RECORD - Write the record */
+
+            ERROR_CODE = KEY_ALREADY_EXISTS;
+            do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+               call WRITE_RECORD (GL_DETAIL_NO,ERROR_CODE);
+               if ERROR_CODE = KEY_ALREADY_EXISTS then
+                  GL_SEQ_NO = GL_SEQ_NO + 1;
+            end;
+            end;
+
+         GL_TRX_DATE = AD_DIST_POSTED;
+         GL_TRX_ENTRY = TODAYS_DATE();
+         GL_AC_NO = AD_DIST_GL_ACCT;
+         GL_SEQ_NO = 1;
+         GL_SOURCE = "Acct Maint";
+         GL_REFERENCE = "A/D System - Auto Post";
+         GL_TRX_AMOUNT = 0;
+         end;
+
+   AD_DIST_POST = "Y";
+
+   GL_TRX_AMOUNT=floor((GL_TRX_AMOUNT + AD_DIST_AMOUNT) * 100 + 0.5) / 100;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AD_GL_DIST_NO,ERROR_CODE);
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (AD_GL_DIST_NO,KEY_AREA_2,ERROR_AD_GL_DIST);
+   if ERROR_AD_GL_DIST > 3 then
+      call PRINT_ERROR (AD_GL_DIST_NO,ERROR_AD_GL_DIST);
+return;
+end;	/* POST_VALID_AD        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (GL_PERIOD_NO);
+   call CLOSE_FILE (AD_GL_DIST_NO);
+   call CLOSE_FILE (GL_DETAIL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

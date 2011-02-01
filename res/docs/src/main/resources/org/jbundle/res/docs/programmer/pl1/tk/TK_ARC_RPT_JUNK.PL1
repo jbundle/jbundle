@@ -1,0 +1,648 @@
+/****************************************************************
+	Module: TK_ARC_RPT
+	Top Level Logic: REPORT_LOGIC
+	Date: 20-Sep-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	TK_ARC_RPT
+	Standard report logic
+****************************************************************/
+
+%replace TK_ARC_RPT_1 by 691;
+%replace TK_ARC_RPT_2 by 692;
+TK_ARC_RPT:
+   procedure;
+%replace TK_HEADER_NO by  56;
+%replace TK_CONTROL_NO by 109;
+%include "TK_ARC_RPT.DD";
+%include "TK_HEADER.DD";
+%include "TK_CONTROL.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_TK_CONTROL     fixed binary (15);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_UPDATE_ARC       bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		ERROR_TK_HEADER      fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TK_ARC_END = 0;
+   ARC_DATE = TODAYS_DATE();
+   ARC_TIME = CURRENT_TIME();
+   ARC_USER = USER_NAME();
+   ARC_PAGE = 1;
+   ARC_TOTAL_TK = 0;
+   TK_NET_TOTAL = 0;
+   TK_TOTAL_CASH = 0;
+   TK_TOTAL_CREDIT = 0;
+   TK_TOTAL_FARE = 0;
+   TK_TAX_TOTAL = 0;
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   TK_REC_NO = 9999;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (TK_ARC_RPT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (TK_ARC_RPT_RECORD) );
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (TK_CONTROL_NO,"TK_CONTROL",byteaddr(TK_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (TK_ARC_RPT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* READ_TK_CONTROL - Read the control file */
+
+
+      /* SET_TK_KEY - Set up key */
+
+      TK_REC_NO = 0;
+      KEY_NO = 1;
+
+      /* READ_TK_REC - Read the record */
+
+      call READ_KEYED (TK_CONTROL_NO,KEY_NO,ERROR_TK_CONTROL);
+      if ERROR_TK_CONTROL > 3 then
+         call PRINT_ERROR (TK_CONTROL_NO,ERROR_TK_CONTROL);
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TK_MODIFICATION = 0;
+   TK_UD_STATUS = TICK_TK;
+   TK_NUMBER = "";
+   TK_BK_TK_NO = 0;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+
+   /* CALC_TK_REMIT - Calculate the remittance */
+
+   TK_TOTAL_REMIT=floor((TK_TOTAL_CASH - TK_TOTAL_CREDIT) * 100 + 0.5)/100;
+
+   do LOOP_INDEX =   9 to  11;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* UPDATE_ARC_TK - Update the ARC G/L Accounts? */
+
+
+   /* CLOSE_LPT - Close the printer */
+
+   call CLOSE_PRINTER;
+
+
+
+   /* RETURN_IF_LOCK - Return if ERROR_CODE = locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   call OUTPUT_LINE(23,10,"Are you sure you want to update the ARC fields?");
+   call INPUT_DATA(23,58,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TK_MODIFICATION = 0;
+   TK_UD_STATUS = TICK_TK;
+   TK_NUMBER = "";
+   TK_BK_TK_NO = 0;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+   END_UPDATE_ARC = NO;
+   do while (END_UPDATE_ARC ^= YES);
+      call UPDATE_ARC;
+   end;
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* SET_ARC_DATE - Set the ARC default date */
+
+      TK_ARC_END = TODAYS_DATE();
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   2 to   2;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* SET_TK_ARC - Set the ARC summary A/R account */
+
+
+      /* READ_TK_CONTROL - Read the control file */
+
+
+         /* SET_TK_KEY - Set up key */
+
+         TK_REC_NO = 0;
+         KEY_NO = 1;
+
+         /* READ_TK_REC - Read the record */
+
+         call READ_KEYED (TK_CONTROL_NO,KEY_NO,ERROR_TK_CONTROL);
+         if ERROR_TK_CONTROL > 3 then
+            call PRINT_ERROR (TK_CONTROL_NO,ERROR_TK_CONTROL);
+      ARC_CASH_AC = TK_DEF_ARC_SUM;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  1,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT =  1 then
+   do;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   6;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+ARC_PAGE = ARC_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+dcl TYPE char(1);
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > 0) !
+   (TK_UD_STATUS > TICK_TK) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_ARC_SELECT - Should this ticket go on ARC report? */
+
+
+   /* RETURN_IF_LOCK - Return if ERROR_CODE = locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+
+   if TK_TICKET_BY = "A" then
+      return;
+
+   if TK_NUMBER = "" then
+      return;
+
+   if TK_ISSUE_DATE = 0 then
+      return;
+
+   if TK_VOID ^="Y" then
+      do;
+      if TK_ARC_COST = TK_NET_FARE then
+         return;
+
+      if TK_ISSUE_DATE > TK_ARC_END then
+         return;
+      end;
+   else
+      do;
+      if TK_ARC_COST = 0 then
+         return;
+
+      if TK_VOID_DATE > TK_ARC_END then
+         return;
+      end;
+
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (TK_HEADER_NO,KEY_AREA_5,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+
+   /* SET_CASH_CREDIT - Set cash or credit field */
+
+   if TK_VOID = "Y" then
+      TK_NET_FARE = 0;
+
+   TK_NET_FARE = floor((TK_NET_FARE - TK_ARC_COST) * 100 + 0.5) / 100;
+
+   if TK_CREDIT = "Y" then
+      do;
+      TK_CREDIT_FARE = TK_COMM_AMT;
+      if TK_VOID = "Y" then
+         TK_CREDIT_FARE = -TK_COMM_AMT;
+      TK_CASH_FARE = 0;
+      end;
+   else
+      do;
+      TK_CREDIT_FARE = 0;
+      TK_CASH_FARE = TK_NET_FARE;
+      end;
+
+   do LOOP_INDEX =   7 to   7;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* CHECK_EXCH_TK - Is this an exchanged ticket */
+
+   if TK_EXCH_TICKET ^= "" then
+      do;
+
+      /* PRINT_LINE_D2 - Print lines */
+
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+
+   /* ADD_TOTALS - Add to the total fields */
+
+   ARC_TOTAL_TK = ARC_TOTAL_TK + 1;
+   TK_TOTAL_FARE = floor((TK_TOTAL_FARE + TK_FARE) * 100 + 0.5) / 100;
+   TK_TAX_TOTAL = floor((TK_TAX_TOTAL + TK_TAX_1) * 100 + 0.5) / 100;
+   TK_NET_TOTAL = floor((TK_NET_TOTAL + TK_NET_FARE) * 100 + 0.5) / 100;
+   TK_TOTAL_CASH = floor((TK_TOTAL_CASH + TK_CASH_FARE) * 100 + 0.5) / 100;
+   TK_TOTAL_CREDIT = floor((TK_TOTAL_CREDIT + TK_CREDIT_FARE) * 100 + 0.5) / 100;
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	UPDATE_ARC
+	Read through and update the ARC records
+****************************************************************/
+
+UPDATE_ARC:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > 0) !
+   (TK_UD_STATUS > TICK_TK) then
+      do;
+      END_UPDATE_ARC = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_ARC_SELECT - Should this ticket go on ARC report? */
+
+
+   /* RETURN_IF_LOCK - Return if ERROR_CODE = locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      END_UPDATE_ARC = YES;
+      return;
+      end;
+
+
+   if TK_TICKET_BY = "A" then
+      return;
+
+   if TK_NUMBER = "" then
+      return;
+
+   if TK_ISSUE_DATE = 0 then
+      return;
+
+   if TK_VOID ^= "Y" then
+      do;
+      if TK_ARC_COST = TK_NET_FARE then
+         return;
+
+      if TK_ISSUE_DATE > TK_ARC_END then
+         return;
+      end;
+   else
+      do;
+      if TK_ARC_COST = 0 then
+         return;
+
+      if TK_VOID_DATE > TK_ARC_END then
+         return;
+      end;
+
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (TK_HEADER_NO+?LOCK_RECORD,KEY_AREA_5,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+
+   /* SET_ARC_UD - Update the ARC number */
+
+   TK_ARC_UD_DATE = ARC_DATE;
+   TK_CASH_AC = ARC_CASH_AC;
+   if TK_VOID = "N" then
+      TK_ARC_COST = TK_NET_FARE;
+   else
+      TK_ARC_COST = 0;
+
+
+   /* UD_TK_STATUS - Does the ticket status need updating? */
+
+/*
+   if TK_ISSUE_UD_DATE ^= 0 then
+      if TK_ARC_UD_DATE ^= 0 then
+      if TK_DEP_UD_DATE ^= 0 then
+*/
+         TK_UD_STATUS = ALL_TK;
+
+   if TK_VOID = "Y" then
+      if (TK_ARC_UD_DATE ^= 0) & (TK_ARC_COST = 0) then
+      if (TK_ISSUE_UD_DATE ^= 0) & (TK_NET_POSTED = 0) then
+         TK_UD_STATUS = OVER_TK;
+
+
+   call UPDATE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   TK_UD_STATUS = TICK_TK;
+   call READ_KEYED (TK_HEADER_NO,KEY_AREA_5,ERROR_CODE);
+
+return;
+end;	/* UPDATE_ARC           */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_CONTROL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

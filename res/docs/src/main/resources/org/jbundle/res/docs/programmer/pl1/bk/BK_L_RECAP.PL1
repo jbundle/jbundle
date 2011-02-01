@@ -1,0 +1,449 @@
+/****************************************************************
+	Module: BK_L_RECAP
+	Top Level Logic: PRT_RECAP_LOGIC
+	Date: 20-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_L_RECAP
+	Print the recap information
+****************************************************************/
+
+%replace BK_L_RECAP_2 by 813;
+BK_L_RECAP:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      AP_VENDOR_RECORD,
+      BK_DET_LAND_RECORD,
+      BK_LAND_RECORD,
+      TK_DETAIL_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_L_RECAP_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace AP_VENDOR_NO by  30;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_LAND_NO by  54;
+%replace TK_DETAIL_NO by  57;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_L_RECAP.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "AP_VENDOR.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_LAND.DD";
+%include "TK_DETAIL.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_PRT_RECAP_MAIN   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		LINE                 fixed binary (15);
+declare		END_PRT_THRU_PAX     bit (1);
+   call NO_DIS_INIT;
+
+   /* READ_SECOND - Read info and display secondary fileinfo */
+
+   AP_VEN_NO = LRECAP_LVEN;
+   call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      AP_VEN_NAME = "** RECORD NOT FOUND **";
+      end;
+   else
+      do;
+      end;
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   LDET_MOD = 0;
+   LDET_VENDOR = LRECAP_LVEN;
+   LDET_DAY = LRECAP_LSTART;
+   LDET_BK_TK_NO = 0;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_2,ERROR_CODE);
+   END_PRT_RECAP_MAIN = NO;
+   do while (END_PRT_RECAP_MAIN ^= YES);
+      call PRT_RECAP_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	NO_DIS_INIT
+	Initialize (but don't dis screen)
+****************************************************************/
+
+NO_DIS_INIT:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   LRECAP_DATE = TODAYS_DATE();
+   LRECAP_TIME = CURRENT_TIME();
+   LRECAP_USER = USER_NAME();
+   LRECAP_PAGE = 1;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   LINE = 0;
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_L_RECAP_RECORD) );
+return;
+end;	/* NO_DIS_INIT          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_L_RECAP_2);
+do LOOP_INDEX =   1 to   4;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+LRECAP_PAGE = LRECAP_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	PRT_RECAP_MAIN
+	Mainline logic
+****************************************************************/
+
+PRT_RECAP_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_BOOKING     fixed binary (15);
+
+   /* READ_NEXT - Read the next record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > 0) !
+   (LDET_VENDOR > LRECAP_LVEN) !
+   (LDET_DAY > LRECAP_LEND) then
+      do;
+      END_PRT_RECAP_MAIN = YES;
+      return;
+      end;
+
+   /* CHECK_LOGIC - Write this code */
+
+
+   /* CHECK_LRECAP_INV - If inv recap, check inv flag */
+
+   if LRECAP_LINV = "Y" then if LDET_INV ^= "Y" then
+      return;
+
+   if LDET_ALT_SEQ ^= 0 then
+      return;
+
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   BK_MODIFICATION = 0;
+   BOOKING_NO = LDET_BK_TK_NO;
+   KEY_NO = 1;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (BK_BOOKING_NO,KEY_NO,ERROR_BK_BOOKING);
+   if ERROR_BK_BOOKING > 3 then
+      call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* SKIP_NO_BK - Skip if booking not found or status = XL */
+
+   if ERROR_BK_BOOKING ^= NORMAL_RETURN then
+      return;
+
+   if BK_STATUS = "XL" then
+      return;
+
+
+   /* PRT_DETAIL - Print the detail lines */
+
+
+   /* READ_SECOND_2 - Read secondary info */
+
+   LAND_CODE = LDET_TOUR_NO;
+   call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      LAND_DESC_1 = "** RECORD NOT FOUND **";
+      end;
+   do LOOP_INDEX =   5 to   6;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* CHECK_LRECAP_DET - Print detail lines? */
+
+   if LRECAP_LPAX = "Y" then
+      do;
+
+      /* PRINT_BK_PAX - Print the pax for this booking */
+
+
+         /* SET_FIRST_PAX - Set up for seq read */
+
+         BK_PAX_MOD = BK_MODIFICATION;
+         BK_PAX_BK_NO = BOOKING_NO;
+         BK_PAX_SEQ = 0;
+         call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+         END_PRT_THRU_PAX = NO;
+         do while (END_PRT_THRU_PAX ^= YES);
+            call PRT_THRU_PAX;
+         end;
+      end;
+
+   if LRECAP_LAIR = "Y" then if LAND_TYPE = "T" then
+      do;
+      BK_PAX_SEQ = 0;
+
+      TK_DATE = LDET_DATE;
+      TK_CITY = TOUR_CITY;
+      TK_ARR_DATE = LDET_DATE;
+      TK_ARR_CITY = TOUR_CITY;
+      call GET_FLIGHTS;
+
+      /* PRINT_LINE_D2 - Print lines */
+
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+return;
+end;	/* PRT_RECAP_MAIN       */
+
+/****************************************************************
+	PRT_THRU_PAX
+	Print each pax
+****************************************************************/
+
+PRT_THRU_PAX:
+	procedure;
+
+
+   /* READ_NEXT_PAX - Read the next passenger */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_END_PAX - Check for the end of the passengers */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_PRT_THRU_PAX = YES;
+      return;
+      end;
+
+   /* PRINT_LINE_X2 - PRINT */
+
+   do LOOP_INDEX =   7 to   7;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_THRU_PAX         */
+
+/****************************************************************
+	GET_FLIGHTS
+	Get the arrival & Departure flights
+****************************************************************/
+
+GET_FLIGHTS:
+	procedure;
+
+/* This routine get the most obvious arrival and departure flights
+   for a hotel or land/transportation voucher */
+
+/* To get accurate information, the calling routine should supply:
+	TK_DATE - First date of service
+	TK_ARR_DATE - Last date of service
+	TK_CITY - Departure CITY
+	TK_ARR_CITY  - Arrival CITY
+Returns:
+	TK_DATE,TK_TIME,TK_CARRIER,TK_FLIGHT - Departure info.
+	TK_ARR_DATE,TK_ARR_TIME,TK_STATUS,TK_DETAIL_MODULE - Arrv. info.
+   This routine automatically puts the right values in the right flds */
+
+declare	FIRST_DATE fixed binary;
+declare	LAST_DATE fixed binary;
+declare	FIRST_CITY character(3);
+declare	LAST_CITY character(3);
+
+declare	ARRIVE_CARRIER character(2);
+declare ARRIVE_FLT_NO character(4);
+declare ARRIVE_DATE fixed binary;
+declare ARRIVE_TIME fixed binary;
+declare DEPART_CARRIER character(2);
+declare DEPART_FLT_NO character(4);
+declare DEPART_DATE fixed binary;
+declare DEPART_TIME fixed binary;
+
+ARRIVE_CARRIER = "";
+ARRIVE_FLT_NO = "";
+ARRIVE_DATE = 0;
+ARRIVE_TIME = NO_TIME;
+DEPART_CARRIER = "";
+DEPART_FLT_NO = "";
+DEPART_DATE = 0;
+DEPART_TIME = NO_TIME;
+
+FIRST_DATE = TK_DATE;
+LAST_DATE = TK_ARR_DATE;
+FIRST_CITY = TK_CITY;
+LAST_CITY = TK_ARR_CITY;
+
+TK_DET_MOD = 0;
+TK_DET_BK_TK = BOOKING_NO;
+TK_DET_ALT_SEQ = BK_PAX_SEQ;
+TK_DET_ANSW_SEQ = 0;
+TK_DATE = FIRST_DATE - 2;
+TK_SEQ = 0;
+call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+ERROR_CODE = NORMAL_RETURN;
+do while (ERROR_CODE = NORMAL_RETURN);
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if (TK_DET_MOD > 0) !
+      (TK_DET_BK_TK > BOOKING_NO) !
+      (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+      (TK_DET_ANSW_SEQ > 0) !
+      (TK_DATE > FIRST_DATE) then
+         ERROR_CODE = END_OF_FILE;
+
+   if ERROR_CODE ^= END_OF_FILE then
+      do;
+      ARRIVE_CARRIER = TK_CARRIER;
+      ARRIVE_FLT_NO = TK_FLIGHT;
+      ARRIVE_DATE = TK_DATE + TK_ARR_DAY;
+      ARRIVE_TIME = TK_ARR_TIME;
+      if TK_ARR_CITY = LAST_CITY then
+         ERROR_CODE = END_OF_FILE;	/* Okay */
+      end;
+end;	/* do while */
+
+TK_DET_MOD = 0;
+TK_DET_BK_TK = BOOKING_NO;
+TK_DET_ALT_SEQ = BK_PAX_SEQ;
+TK_DET_ANSW_SEQ = 0;
+TK_DATE = LAST_DATE;
+TK_SEQ = 0;
+call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+declare FIRST_FLIGHT bit(1);
+FIRST_FLIGHT = YES;
+
+do while (ERROR_CODE = 0);
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if (TK_DET_MOD > 0) !
+      (TK_DET_BK_TK > BOOKING_NO) !
+      (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+      (TK_DET_ANSW_SEQ > 0) !
+      (TK_DATE > LAST_DATE + 1) then
+         ERROR_CODE = END_OF_FILE;
+
+   if ERROR_CODE ^= END_OF_FILE then
+      do;
+      if FIRST_FLIGHT ! (FIRST_CITY = TK_CITY) then
+         do;
+         DEPART_CARRIER = TK_CARRIER;
+         DEPART_FLT_NO = TK_FLIGHT;
+         DEPART_DATE = TK_DATE;
+         DEPART_TIME = TK_TIME;
+         if TK_CITY = FIRST_CITY then
+            ERROR_CODE = END_OF_FILE;	/* Ok */
+         end;
+      end;
+   FIRST_FLIGHT = NO;
+end;	/* do while */
+
+TK_CARRIER = ARRIVE_CARRIER;
+TK_FLIGHT = ARRIVE_FLT_NO;
+TK_DATE = ARRIVE_DATE;
+TK_TIME = ARRIVE_TIME;
+TK_STATUS = DEPART_CARRIER;
+TK_DETAIL_MODULE = DEPART_FLT_NO;
+TK_ARR_DATE = DEPART_DATE;
+TK_ARR_TIME = DEPART_TIME;
+
+return;
+end;	/* GET_FLIGHTS          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

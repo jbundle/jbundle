@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jbundle-base-reactor</artifactId>
+    <groupId>org.jbundle.base</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.jbundle.base.message</groupId>
+  <artifactId>jbundle-base-message-reactor</artifactId>
+  <packaging>pom</packaging>
+
+  <name>jbundle-base-message-reactor - Messaging parent</name>
+  <description>Messaging parent</description>
+
+  <modules>
+    <module>jibx</module>
+    <module>jaxb</module>
+    <module>xmlbeans</module>
+  </modules>
+</project>

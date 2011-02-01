@@ -1,0 +1,144 @@
+/****************************************************************
+	Module: BK_INFO_VENDOR
+	Top Level Logic: DIS_INFO_LOGIC
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_INFO_VENDOR
+	Display file information (top level)
+****************************************************************/
+
+%replace BK_INFO_VENDOR_1 by 520;
+BK_INFO_VENDOR:
+   procedure;
+%replace AP_VENDOR_NO by  30;
+%include "AP_VENDOR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		FIRST_ITEM           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+   call INITIALIZE;
+   call DIS_IO;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_INFO_VENDOR_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_IO
+	Enter key and display info
+****************************************************************/
+
+DIS_IO:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_AP_VENDOR      fixed binary (15);
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+   FIRST_ITEM = 2;
+
+   /* READ_DATA - Read the record from the file */
+
+   call READ_KEYED (AP_VENDOR_NO,KEY_NO,ERROR_AP_VENDOR);
+   if ERROR_AP_VENDOR > 3 then
+      call PRINT_ERROR (AP_VENDOR_NO,ERROR_AP_VENDOR);
+
+   /* DIS_FOUND - Display data if found */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_AP_VENDOR = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* NO_CODE - This section has no code */
+
+      /* No code in this section */
+      if ERROR_INPUT_SCREEN then return;
+      end;
+return;
+end;	/* DIS_IO               */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+declare		LOOP_INDEX           fixed binary (15);
+do LOOP_INDEX = FIRST_ITEM to  24;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AP_VENDOR_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

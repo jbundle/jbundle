@@ -1,0 +1,257 @@
+/****************************************************************
+	Module: BK_FIT_ITIN
+	Top Level Logic: DIS_ITIN_LOGIC
+	Date: 21-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_FIT_ITIN
+	Display fit itin text (Top Level)
+****************************************************************/
+
+%replace BK_FIT_ITIN_1 by 525;
+BK_FIT_ITIN:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD);
+%replace BK_LAND_NO by  54;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%include "BK_LAND.DD";
+%include "BK_FIT_ITIN.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   call DIS_ITIN_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   LAND_TAX = 0;
+   LAND_SVC_CHG = 0;
+   LAND_COMM = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_FIT_ITIN_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (BK_FIT_ITIN_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_ITIN_MAIN
+	Mainline logic for dis itin
+****************************************************************/
+
+DIS_ITIN_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_LAND        fixed binary (15);
+
+   /* INPUT_DATA_A - Input the data in group A */
+
+   do LOOP_INDEX =  11 to  11;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* RETURN_IF_ERR - Return if error/end typed */
+
+   if RETURN_CODE = END_TYPED then
+      return;
+
+   /* READ_DATA - Read the record from the file */
+
+   call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_BK_LAND);
+   if ERROR_BK_LAND > 3 then
+      call PRINT_ERROR (BK_LAND_NO,ERROR_BK_LAND);
+
+   /* DIS_ITIN_FOUND - Is the record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_LAND = NORMAL_RETURN then
+      do;
+      call FOUND_ITIN;
+      end;
+   else
+      do;
+
+      /* NO_CODE - This section has no code */
+
+      /* No code in this section */
+      if ERROR_INPUT_SCREEN then return;
+      end;
+return;
+end;	/* DIS_ITIN_MAIN        */
+
+/****************************************************************
+	FOUND_ITIN
+	Found itin, display
+****************************************************************/
+
+FOUND_ITIN:
+	procedure;
+
+declare		ANSWER               character (1);
+   call DISPLAY_DATA_C;
+
+   /* ITIN_DISPLAY - Display the itinerary paragraph */
+
+   %replace BK_TEXT_NO by 83;
+   %include "BK_TEXT.DD";
+   declare	LINE	fixed binary;
+
+   call OPEN_SFILE(BK_TEXT_NO,"ITIN:" !! CUT_SPACES(LAND_CODE),byteaddr(BK_STRING),ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+   FIT_ITIN_LINE = "";
+   LINE = 0;
+
+   do while ("1"b);
+      call READ_SEQN(BK_TEXT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE ^= NORMAL_RETURN then
+         do;
+         call SET_ROW_OFFSET(0);
+         call CLOSE_SFILE(BK_TEXT_NO);
+         return;
+         end;
+
+      declare LOOP fixed binary;
+      do LOOP = 1 to 132;
+         if substr(BK_STRING,LOOP,1) < " " then
+            substr(BK_STRING,LOOP,1) = " ";
+      end;
+
+      FIT_ITIN_LINE = BK_STRING;
+      if LINE > 14 then
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if ANSWER = "Y" then
+            do;
+            call SET_ROW_OFFSET(0);
+            call CLOSE_SFILE(BK_TEXT_NO);
+            return;
+            end;
+         LINE = 0;
+         call SET_ROW_OFFSET(0);
+
+         /* DISPLAY_SCREEN - Display the screen */
+
+         call OPEN_SCREEN;
+         call DISPLAY_SCREEN (BK_FIT_ITIN_1);
+         call DISPLAY_DATA_A;
+         call DISPLAY_DATA_C;
+         end;
+      call SET_ROW_OFFSET(LINE);
+      LINE = LINE + 1;
+      call DISPLAY_DATA_B;
+
+   end;
+
+return;
+end;	/* FOUND_ITIN           */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  12 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  14 to  14;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_LAND_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns:xfm="http://www.w3.org/2000/12/xforms"> 
+<head> 
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
+<title>Home menu</title> 
+<meta name="keywords" content=""> 
+<meta name="description" content="Home menu"> 
+<script type="text/javascript"> 
+				djConfig = {
+					isDebug: false,
+					preventBackButtonFix: false
+				};
+			</script><script djConfig="parseOnLoad: true" src="docs/styles/js/dojo/dojo.js" type="text/javascript"></script> 
+<style type="text/css"> 
+		        @import "docs/styles/js/dijit/themes/tundra/tundra.css";
+			</style> 
+<link title="basicstyle" href="docs/styles/css/style.css" type="text/css" rel="stylesheet"> 
+<script type="text/javascript" src="docs/styles/js/tourapp/back.js"></script><script type="text/javascript" src="docs/styles/js/tourapp/main.js"></script><script type="text/javascript" src="docs/styles/js/tourapp/classes.js"></script><script type="text/javascript" src="docs/styles/js/tourapp/remote.js"></script><script type="text/javascript" src="docs/styles/js/tourapp/gui.js"></script><script type="text/javascript" src="docs/styles/js/tourapp/xml.js"></script><script type="text/javascript" src="docs/styles/js/tourapp/util.js"></script><script type="text/javascript" src="docs/styles/js/tourapp/java.js"></script><script type="text/javascript" src="docs/styles/js/sha/sha1.js"></script><script type="text/javascript"> 
+			dojo.require("dijit.form.Button");
+			dojo.require("dijit.form.TextBox");
+			dojo.require("dijit.form.Textarea");
+			dojo.require("dijit.form.CheckBox");
+			dojo.require("dijit.form.ComboBox");
+			dojo.require("dojo.parser");
+			dojo.require("dojo.back");
+			</script> 
+</head> 
+<body class="tundra"> 
+<script src="http://java.com/js/deployJava.js" type="text/javascript"></script><script type="text/javascript">dojo.back.init(tourapp.java.doJavaBrowserHashChange);</script> 
+<table id="menubar" class="top-menu" cellpadding="0" cellspacing="0"> 
+<tr> 
+<td align="left"> 
+<table border="0" cellpadding="0" cellspacing="0"> 
+<tr> 
+<td><button id="Home" onClick=" 
+					tourapp.util.doLink('?menu=Main');
+				" dojoType="dijit.form.Button" class="button" type="button"><img src="images/buttons/Home.gif" width="16" height="16" alt="Home page"><span class="desc">Home</span></button></td><td><button id="My home" onClick=" 
+					tourapp.util.doLink('?menu=');
+				" dojoType="dijit.form.Button" class="button" type="button"><img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home"><span class="desc">My home</span></button></td> 
+</tr> 
+</table> 
+</td><td align="center" class="title"><span id="title" class="spantitle">Home menu</span></td><td align="right"> 
+<table border="0" cellpadding="0" cellspacing="0"> 
+<tr> 
+<td class="title"><span class="spantitle" id="userName">don</span>&nbsp;&nbsp;
+						</td><td class="help-button"><button id="Sign out" onClick=" 
+					tourapp.util.doLink('?user=&amp;menu=');
+				" dojoType="dijit.form.Button" class="button" type="button"><img src="images/buttons/Logout.gif" width="16" height="16" alt="Sign out"><span class="desc">Sign out</span></button></td><td class="help-button"><button id="Settings" onClick=" 
+					tourapp.util.doLink('?screen=.main.user.screen.UserPreferenceScreen&amp;java=no');
+				" dojoType="dijit.form.Button" class="button" type="button"><img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings"><span class="desc">Settings</span></button></td><td class="help-button"><button id="Help" onClick=" 
+					tourapp.util.doLink('?help=&amp;menu=Main&amp;class=org.jbundle.base.screen.model.report.HelpScreen');
+				" dojoType="dijit.form.Button" class="button" type="button"><img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen"><span class="desc">Help</span></button></td> 
+</tr> 
+</table> 
+</td> 
+</tr> 
+<tr style="background-color: black"> 
+<td colspan="7" height="1" style="width: 100%;"></td> 
+</tr> 
+</table> 
+<table cellpadding="0" cellspacing="0" id="top-table"> 
+<tr valign="top"> 
+<th id="navStart" style="background-image: url(images/graphics/NavBack.gif);" class="navStart"> 
+<div align="right"> 
+<button onClick=" 
+					tourapp.util.doLink('?menu=&amp;navmenus=IconsOnly&amp;preferences=');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/buttons/Contract.gif" width="16" height="16" alt="Change the menu pane to Icons only"></button><button onClick=" 
+					tourapp.util.doLink('?menu=&amp;navmenus=No&amp;preferences=');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/buttons/Close.gif" width="16" height="16" alt="Close the menu pane"></button> 
+</div> 
+<br> 
+<div class="title">Navigation<br> 
+</div> 
+<hr> 
+<button onClick=" 
+					tourapp.util.doLink('?menu=Main');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/buttons/Home.gif" width="16" height="16" alt="Home"><span class="desc">Home</span></button> 
+<br> 
+<button onClick=" 
+					tourapp.util.doLink('?menu=');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home"><span class="desc">My home</span></button> 
+<br> 
+<button onClick=" 
+					tourapp.util.doLink('?screen=.main.user.screen.UserPreferenceScreen&amp;java=no');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings"><span class="desc">Settings</span></button> 
+<br> 
+<button onClick=" 
+					tourapp.util.doLink('?screen=.main.user.screen.UserLoginScreen&amp;java=no');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/buttons/Login.gif" width="16" height="16" alt="Display sign in screen"><span class="desc">Sign in</span></button> 
+<br> 
+<button onClick=" 
+					tourapp.util.doLink('?user=');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out"><span class="desc">Sign out</span></button> 
+<br> 
+<button onClick=" 
+					tourapp.util.doLink('?help=&amp;class=.base.screen.model.report.HelpScreen');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen"><span class="desc">Help</span></button> 
+<br> 
+</th><th id="navStartShadow" style="background-image: url(images/graphics/NavHShadow.gif);" class="navStartShadow"><img height="1" width="1" src="images/graphics/1ptrans.gif"></th><td valign="top"> 
+<div id="content-area"> 
+	
+<table cellspacing="10" style="border: 0; width: 100%;"> 
+<tr> 
+<td valign="top" align="left"><button id="Application Menu" onClick=" 
+					tourapp.util.doLink('?menu=app');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/icons/Menu.gif" width="24" height="24" alt=""><span class="desc">Application Menu</span></button> 
+<br> 
+<span class="comment"></span></td> 
+</tr> 
+<tr> 
+<td valign="top" align="left"> 
+<hr> 
+<button id="Travel Agent Menu" onClick=" 
+					tourapp.util.doLink('?menu=travelagent');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/icons/Menu.gif" width="24" height="24" alt=""><span class="desc">Travel Agent Menu</span></button> 
+<br> 
+<span class="comment"></span></td> 
+</tr> 
+<tr> 
+<td valign="top" align="left"> 
+<hr> 
+<button id="Vendor Menu" onClick=" 
+					tourapp.util.doLink('?menu=vendor');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/icons/Menu.gif" width="24" height="24" alt=""><span class="desc">Vendor Menu</span></button> 
+<br> 
+<span class="comment"></span></td> 
+</tr> 
+<tr> 
+<td valign="top" align="left"> 
+<hr> 
+<button id="Application main menu" onClick=" 
+					tourapp.util.doLink('?menu=management');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/icons/Menu.gif" width="24" height="24" alt=""><span class="desc">Application main menu</span></button> 
+<br> 
+<span class="comment">Full application menus</span></td> 
+</tr> 
+<tr> 
+<td valign="top" align="left"> 
+<hr> 
+<button id="Reservations main menu" onClick=" 
+					tourapp.util.doLink('?menu=resagent');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/icons/Menu.gif" width="24" height="24" alt=""><span class="desc">Reservations main menu</span></button> 
+<br> 
+<span class="comment"></span></td> 
+</tr> 
+<tr> 
+<td valign="top" align="left"> 
+<hr> 
+<button id="Products" onClick=" 
+					tourapp.util.doLink('?menu=productmain');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/icons/Menu.gif" width="24" height="24" alt=""><span class="desc">Products</span></button> 
+<br> 
+<span class="comment"> 
+    Software <b xmlns:fo="http://www.w3.org/1999/XSL/Format">for</b> every type and size of tour company
+  </span></td> 
+</tr> 
+<tr> 
+<td valign="top" align="left"> 
+<hr> 
+<button id="Free Software" onClick=" 
+					tourapp.util.doLink('?menu=Juggie');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/icons/Menu.gif" width="24" height="24" alt=""><span class="desc">Free Software</span></button> 
+<br> 
+<span class="comment"></span></td> 
+</tr> 
+<tr> 
+<td valign="top" align="left"> 
+<hr> 
+<button id="Development menu" onClick=" 
+					tourapp.util.doLink('?menu=Development');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/icons/Menu.gif" width="24" height="24" alt=""><span class="desc">Development menu</span></button> 
+<br> 
+<span class="comment"> 
+ 
+<p>Html <b>bold</b> fields</p> 
+ 
+</span></td> 
+</tr> 
+<tr> 
+<td valign="top" align="left"> 
+<hr> 
+<button id="Payroll menu (not used)" onClick=" 
+					tourapp.util.doLink('?menu=obsolete');
+				" dojoType="dijit.form.Button" class="link" type="button"><img src="images/icons/Menu.gif" width="24" height="24" alt=""><span class="desc">Payroll menu (not used)</span></button> 
+<br> 
+<span class="comment"></span></td> 
+</tr> 
+</table> 
+ 
+ 
+</div> 
+</td> 
+</tr> 
+<tr height="8"> 
+<th id="navStartVShadow" style="background-image: url(images/graphics/NavVShadow.gif);" class="navStart"><img height="1" width="1" src="images/graphics/1ptrans.gif"></th><th id="navStartSECorner" style="background-image: url(images/graphics/NavSECorner.gif);" class="navStartShadow"><img height="1" width="1" src="images/graphics/1ptrans.gif"></th> 
+</tr> 
+</table> 
+<table class="trailer" width="100%"> 
+<tr valign="center"> 
+<td valign="center" align="left"><a href="http://www.tourgeek.com"><img src="images/com/tourgeek/nameblack.gif" border="0"></a> 
+<br> 
+<span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif">&copy; Copyright 2009 
+			<a href="http://www.tourgeek.com">tourgeek<span style="color: red; font-weight: bold">.</span>com
+			</a> 
+			. All rights reserved.&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+<br> 
+<span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif"><a href="mailto:webmaster@tourgeek.com"><img border="0" height="16" width="16" src="images/buttons/Mail.gif">&nbsp;e-mail the webmaster.
+			</a></span></td><td align="right"></td><td valign="top" align="right"><a href="./?menu=&amp;trailers=No&amp;preferences="><img height="16" width="16" border="0" alt="Close the footer pane" src="images/buttons/Close.gif"></a></td> 
+</tr> 
+</table> 
+</body> 
+</html> 

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="form3test.xsl"?>
+<form height="30cm" xmlns:xfm="http://www.w3.org/2000/12/xforms">
+
+<xform id="form1" xmlns="http://www.w3.org/2000/12/xforms">
+  <submitInfo id="submit1" localfile="temp2.xml" method2="postxml" target2="http://www.hut.fi/"/>
+  <model>
+  <!-- The model is currently ignored -->
+  </model>
+  <instance id="instance1" xmlns="">
+    <?xml2-stylesheet type="text/xsl" href="../demo/fo/submit.xsl"?>
+    <purchaseOrder>
+      <shipTo>
+        <name>Alice Smith</name>
+        <street>123 Maple Street</street>
+        <city type="ao">Mill Valley</city>
+        <state>CA</state>
+        <zip>90952</zip>
+        <shipped value="false"/>
+   <selection>Ghana</selection>
+   <static>
+      <data>333</data>
+   </static>
+   <text>Original</text>
+      </shipTo>
+    </purchaseOrder>
+  </instance>
+</xform>
+
+   <script type="text\ecmascript">
+        <![CDATA[
+function println(line)
+{
+   browser.println(line);
+}
+function formevent(evt)
+{
+   nameelem=document.getElementsByTagName("name").item(0);
+   name=nameelem.getFirstChild().getNodeValue();
+   text="JAVASCRIPT: "+new Date()+". Got an event: "+evt;
+   text=text+"\nName is "+name;
+   alert(text);
+}
+function changeevent(evt)
+{
+   nameelem=document.getElementsByTagName("name").item(0);
+   nameelem.getFirstChild().setNodeValue("Changed by ECMAScript");
+   alert("Input field text changed!");
+}
+function mouseover()
+{
+   elem=document.getElementsByTagName("text").item(0);
+   elem.getFirstChild().setNodeValue("You're on top of me!");
+}
+function mouseout()
+{
+   elem=document.getElementsByTagName("text").item(0);
+   elem.getFirstChild().setNodeValue("You left!");
+}
+function mouseclick()
+{
+   elem=document.getElementsByTagName("text").item(0);
+   elem.getFirstChild().setNodeValue("You clicked me!");
+   alert(evt.getType()+" target:"+evt.getTarget().getFirstChild().getNodeValue());
+}
+function mouseup()
+{
+   elem=document.getElementsByTagName("text").item(0);
+   elem.getFirstChild().setNodeValue("You released me!");
+}
+function mousedown()
+{
+   elem=document.getElementsByTagName("text").item(0);
+   elem.getFirstChild().setNodeValue("You press me!");
+}
+       ]]>
+   </script>
+
+
+
+<h1>XForms / ECMAScript support in X-Smiles</h1>
+<xfm:textbox cols="30" ref="purchaseOrder/shipTo/name" xform="form1">
+   <xfm:caption>Onerow textbox</xfm:caption>
+</xfm:textbox>
+<xfm:textbox cols="30" ref="purchaseOrder/shipTo/street" rows="4" style="font-weight: bold; color: red;">
+   <xfm:caption>Multirow textbox</xfm:caption>
+</xfm:textbox>
+<xfm:checkbox ref="purchaseOrder/shipTo/shipped/@value" xform="form1">
+   <xfm:caption>Check me</xfm:caption>
+</xfm:checkbox>
+<xfm:output cols="15" ref="purchaseOrder/shipTo/shipped/@value" rows="1"/>
+<p>Differend kinds of exclusive selections</p>
+<xfm:exclusiveSelect ref="purchaseOrder/shipTo/selection" style="font-weight: bold; color: blue;list-ui:radio;hip:hop" xform="form1">
+      <xfm:caption>Select one</xfm:caption>
+      <xfm:item>Finland</xfm:item>
+      <xfm:item value="No way!">Norway</xfm:item>
+      <xfm:item>Ghana</xfm:item>
+</xfm:exclusiveSelect>
+<xfm:exclusiveSelect ref="purchaseOrder/shipTo/selection" style="font-weight: bold; color: blue; list-ui:checkbox;hip:hop" xform="form1">
+      <xfm:caption>Select one</xfm:caption>
+      <xfm:item>Finland</xfm:item>
+      <xfm:item value="No way!">Norway</xfm:item>
+      <xfm:item>Ghana</xfm:item>
+</xfm:exclusiveSelect>
+
+<xfm:exclusiveSelect ref="purchaseOrder/shipTo/selection" style="font-weight: bold; color: blue;list-ui:listbox;hip:hop" xform="form1">
+      <xfm:caption>Select one</xfm:caption>
+      <xfm:item>Finland</xfm:item>
+      <xfm:item value="No way!">Norway</xfm:item>
+      <xfm:item>Ghana</xfm:item>
+</xfm:exclusiveSelect>
+
+<xfm:output cols="15" ref="purchaseOrder/shipTo/selection" rows="1">
+</xfm:output>
+
+<xfm:button>
+   <xfm:caption>Read value</xfm:caption>
+   <xfm:onevent type="click"><xfm:script>formevent('buttonevent');</xfm:script></xfm:onevent>
+</xfm:button>
+<xfm:button>
+   <xfm:caption>Change value</xfm:caption>
+   <xfm:onevent type="click">
+      <xfm:script>changeevent('buttonevent');</xfm:script>
+   </xfm:onevent>
+</xfm:button>
+
+<xfm:submit name="Submit" ref="test" to="submit1">
+   <xfm:caption>Submit</xfm:caption>
+</xfm:submit>
+<p>JavaScript events: onMouseOver. Try moving the mouse over the text field below:</p>
+
+<xfm:output cols="15" ref="purchaseOrder/shipTo/text" rows="1" style="font-weight:bold;font-size:14px;">
+      <xfm:onevent type="mousedown"><xfm:script>mousedown(evt);</xfm:script></xfm:onevent>
+      <xfm:onevent type="mouseup"><xfm:script>mouseup();</xfm:script></xfm:onevent>
+      <xfm:onevent type="mouseover"><xfm:script>mouseover();</xfm:script></xfm:onevent>
+      <xfm:onevent type="mouseout"><xfm:script>mouseout();</xfm:script></xfm:onevent>
+      <xfm:onevent type="click"><xfm:script>mouseclick();</xfm:script></xfm:onevent>
+</xfm:output>
+
+
+<xfm:button>
+   <xfm:caption>Go to X-Smiles home</xfm:caption>
+   <xfm:onevent type="click"><xfm:script>
+      browser.navigate("http://www.xsmiles.org/demo/demos.xml");
+   </xfm:script></xfm:onevent>
+</xfm:button>
+
+</form>

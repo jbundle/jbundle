@@ -1,0 +1,176 @@
+/****************************************************************
+	Module: AM_MENU
+	Top Level Logic: MENU_LOGIC
+	Date: 14-Aug-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AM_MENU
+	Logic for menu programs
+****************************************************************/
+
+%replace AM_MENU_1 by   2;
+AM_MENU:
+   procedure;
+%include "AM_MENU.DD";
+
+declare		END_SELECT_AND_RUN   bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+   call INITIALIZE;
+   END_SELECT_AND_RUN = NO;
+   do while (END_SELECT_AND_RUN ^= YES);
+      call SELECT_AND_RUN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AM_MENU_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AM_MENU_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SELECT_AND_RUN
+	Select option and run
+****************************************************************/
+
+SELECT_AND_RUN:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+
+   /* REDIS_AND_SET - Redisplay the screen and set the var ptr */
+
+   if NOT_FIRST_TIME then
+      do;
+      call DISPLAY_SCREEN (AM_MENU_1);
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (AM_MENU_RECORD) );
+      end;
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_OPTION - Input the option on the screen */
+
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (AM_MENU_SELECT = 0) !
+        (RETURN_CODE ^= NORMAL_RETURN) then
+      do;
+      END_SELECT_AND_RUN = YES;
+      return;
+      end;
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   declare AM_CTRL_MAINT entry;
+   declare AM_MAINT entry;
+   declare AM_SCF_MAINT entry;
+   declare AM_SCF_ADJ entry;
+   declare AM_BROC_REQ entry;
+   declare AM_AFFIL_MAINT entry;
+   declare AM_AGCY_LIST entry;
+   declare AM_AGCY_ZIP entry;
+   declare AM_SCF_RPT entry;
+   declare AM_BROC_PRT entry;
+   declare AM_AFFIL_RPT entry;
+   declare AM_AGCY_LBLS entry;
+   declare AM_SUMM_AGCY entry;
+   declare AM_AGCY_COUNT entry;
+   declare AM_AGCY_EXPORT entry;
+   do case (AM_MENU_SELECT);
+         /* Option   1 */
+      call AM_CTRL_MAINT(
+);
+         /* Option   2 */
+      call AM_MAINT(
+);
+         /* Option   3 */
+      call AM_SCF_MAINT(
+);
+         /* Option   4 */
+      call AM_SCF_ADJ(
+);
+         /* Option   5 */
+      call AM_BROC_REQ(
+);
+         /* Option   6 */
+      call AM_AFFIL_MAINT(
+);
+         /* Option   7 */
+      call AM_AGCY_LIST(
+);
+         /* Option   8 */
+      call AM_AGCY_ZIP(
+);
+         /* Option   9 */
+      call AM_SCF_RPT(
+);
+         /* Option  10 */
+      call AM_BROC_PRT(
+);
+         /* Option  11 */
+      call AM_AFFIL_RPT(
+);
+         /* Option  12 */
+      call AM_AGCY_LBLS(
+);
+         /* Option  13 */
+      call AM_SUMM_AGCY(
+);
+         /* Option  14 */
+      call AM_AGCY_COUNT(
+);
+         /* Option  15 */
+      call AM_AGCY_EXPORT(
+);
+   end;
+   otherwise
+      do;
+      end;
+return;
+end;	/* SELECT_AND_RUN       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

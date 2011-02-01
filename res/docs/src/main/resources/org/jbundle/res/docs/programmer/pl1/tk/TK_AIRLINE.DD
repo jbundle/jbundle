@@ -1,0 +1,10 @@
+/*********************************************************************
+	TK_AIRLINE File
+********************************************************************/
+
+declare	1 TK_AIRLINE_RECORD,
+		3 AIRLINE_CODE         character (        2),
+		3 AIRLINE_DESC         character (       16),
+		3 AIRLINE_NO           fixed binary (15),
+		3 AIRLINE_DESC_LONG    character (       40);
+

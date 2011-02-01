@@ -1,0 +1,17 @@
+/*********************************************************************
+	BK_PRICING File
+********************************************************************/
+
+declare	1 BK_PRICING_RECORD,
+		3 PRICE_TOUR_CODE      character (        4),
+		3 PRICE_ALT_OPT        fixed binary (15),
+		3 PRICE_ALT_SEQ        fixed binary (15),
+		3 PRICE_PAX_CAT        character (        1),
+		3 PRICE_SEQ            fixed binary (15),
+		3 PRICE_MOD_CODE       character (        1),
+		3 PRICE_DESC           character (       30),
+		3 PRICE_COMMABLE       character (1),
+		3 PRICE_COMM           float binary (21),
+		3 PRICE_SELL           float binary (53),
+		3 PRICE_PAY_AT         character (        1);
+

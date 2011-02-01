@@ -1,0 +1,14 @@
+/*********************************************************************
+	TK_AIRPORT File
+********************************************************************/
+
+declare	1 TK_AIRPORT_RECORD,
+		3 AIRPORT_CODE         character (        3),
+		3 AIRPORT_DESC_LONG    character (       40),
+		3 AIRPORT_DESC         character (       16),
+		3 AIRPORT_CITY_DESC    character (       30),
+		3 AIRPORT_COUNTRY      character (        2),
+		3 AIRPORT_CURR         character (        3),
+		3 AIRPORT_DOM_TAX      float binary (53),
+		3 AIRPORT_INT_TAX      float binary (53);
+

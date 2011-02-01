@@ -1,0 +1,35 @@
+/*********************************************************************
+	PR_HIST_RPT File
+********************************************************************/
+
+declare	1 PR_HIST_RPT_RECORD,
+		3 HIST_EMP_START       fixed binary (31),
+		3 HIST_EMP_END         fixed binary (31),
+		3 EMP_GROSS_TOTAL      float binary (53),
+		3 EMP_TOTAL_NON_TAX    float binary (53),
+		3 EMP_TOTAL_FED        float binary (21),
+		3 EMP_TOTAL_STATE      float binary (21),
+		3 EMP_TOTAL_LOCAL      float binary (21),
+		3 EMP_TOTAL_FICA       float binary (21),
+		3 EMP_TOTAL_SDI        float binary (21),
+		3 EMP_TOTAL_DED        float binary (21),
+		3 EMP_NET_TOTAL        float binary (53),
+		3 EMP_WEEKS_TOTAL      float binary (21),
+		3 EMP_GROSS_GRAND      float binary (53),
+		3 EMP_NON_GRAND        float binary (53),
+		3 EMP_FED_GRAND        float binary (21),
+		3 EMP_STATE_GRAND      float binary (21),
+		3 EMP_LOCAL_GRAND      float binary (21),
+		3 EMP_FICA_GRAND       float binary (21),
+		3 EMP_SDI_GRAND        float binary (21),
+		3 EMP_DED_GRAND        float binary (21),
+		3 EMP_NET_GRAND        float binary (53),
+		3 EMP_WEEKS_GRAND      float binary (21),
+		3 START_CHECK_DATE     fixed binary (15),
+		3 END_CHECK_DATE       fixed binary (15),
+		3 EMP_SAVE             fixed binary (31),
+		3 PR_HIST_DATE         fixed binary (15),
+		3 PR_HIST_TIME         fixed binary (15),
+		3 PR_HIST_USER         character (       16),
+		3 PR_HIST_PAGE         fixed binary (31);
+

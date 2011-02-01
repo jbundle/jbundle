@@ -1,0 +1,143 @@
+/****************************************************************
+	Module: BK_EDIT_DOC
+	Top Level Logic: TEXT_EDIT_LOGIC
+	Date: 22-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_EDIT_DOC
+	Top Level to call text editor
+****************************************************************/
+
+%replace BK_EDIT_DOC_1 by 865;
+BK_EDIT_DOC:
+   procedure;
+%include "BK_EDIT_DOC.DD";
+
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   call TEXT_EDIT_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+declare		ERROR_CODE           fixed binary (15);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_EDIT_DOC_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_EDIT_DOC_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	TEXT_EDIT_MAIN
+	Mainline logic
+****************************************************************/
+
+TEXT_EDIT_MAIN:
+	procedure;
+
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CALL_TEXT_EDIT - Call the text editor */
+
+   if EDIT_DOC = "" then
+      return;
+   declare BK_TEXT file;
+   declare ERROR_CODE fixed binary;
+
+   on syserror(BK_TEXT)
+      begin;
+      ERROR_CODE = 1;
+      end;
+
+   ERROR_CODE = 0;
+   open file (BK_TEXT) stream input title ("FORM:" !!
+      CUT_SPACES(EDIT_DOC)) environment(lineend recsize(255));
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      open file (BK_TEXT) stream output title ("FORM:" !!
+         CUT_SPACES(EDIT_DOC)) environment(filetype(68) lineend);
+      end;
+
+   close file (BK_TEXT);
+
+   if CRT_TYPE() = 7 then
+      return;
+
+   call DIR("FORM ");
+   call XEQ(":WPOFFICE:WPOEXE:PE.VS.PR,1," !! CUT_SPACES(EDIT_DOC) !! " ");
+   call DIR("^ ");
+
+return;
+end;	/* TEXT_EDIT_MAIN       */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

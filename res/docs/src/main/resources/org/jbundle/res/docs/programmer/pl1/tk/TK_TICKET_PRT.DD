@@ -1,0 +1,23 @@
+/*********************************************************************
+	TK_TICKET_PRT File
+********************************************************************/
+
+declare	1 TK_TICKET_PRT_RECORD,
+		3 TK_START_NO          character (       20),
+		3 TK_ISSUE             fixed binary (15),
+		3 TK_DATE5             character (        5),
+		3 TK_TIME5             character (        5),
+		3 TK_AIR3              character (        3),
+		3 TK_AIR4              character (        4),
+		3 TK_TEMP_NO           character (       28),
+		3 TK_TEMP_NUM          float binary (53),
+		3 TK_OLD_CITY          character (        3),
+		3 TK_DATE_SAVE         fixed binary (15),
+		3 TK_SEQ_SAVE          fixed binary (15),
+		3 TK_DESC_SAVE         character (       17),
+		3 TK_TFARE_1           character (       60),
+		3 TK_TFARE_2           character (       60),
+		3 TK_TFARE_3           character (       60),
+		3 TK_COMM10            character (       10),
+		3 TK_TAX10             character (       10);
+

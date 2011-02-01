@@ -1,0 +1,29 @@
+/*********************************************************************
+	BK_HOTEL_RECAP File
+********************************************************************/
+
+declare	1 BK_HOTEL_RECAP_RECORD,
+		3 RECAP_START_HTL      character (       10),
+		3 RECAP_END_HTL        character (       10),
+		3 RECAP_ROOM_TYPE      fixed binary (15),
+		3 RECAP_START_DATE     fixed binary (15),
+		3 RECAP_END_DATE       fixed binary (15),
+		3 RECAP_TO_DATE        fixed binary (15),
+		3 RECAP_ROOM_DESC      character (        6),
+		3 RECAP_PAX_NAMES      character (       40),
+		3 RECAP_HOTEL          character (       10),
+		3 RECAP_AIR            character (1),
+		3 FLIGHT_CARRIER       character (        2),
+		3 FLIGHT_FLIGHT        character (        4),
+		3 FLIGHT_TIME          fixed binary (15),
+		3 RECAP_RATE_TYPE      character (        1),
+		3 RECAP_INV            character (1),
+		3 RECAP_PAX            character (1),
+		3 RECAP_START_VEN      character (        6),
+		3 RECAP_END_VEN        character (        6),
+		3 RECAP_START_LDATE    fixed binary (15),
+		3 RECAP_END_LDATE      fixed binary (15),
+		3 RECAP_LINV           character (1),
+		3 RECAP_LPAX           character (1),
+		3 RECAP_LAIR           character (1);
+

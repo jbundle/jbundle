@@ -1,0 +1,867 @@
+/****************************************************************
+	Module: PR_EMP_MAINT
+	Top Level Logic: TWO_SCREEN_MAINT
+	Date: 15-May-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	PR_EMP_MAINT
+	Standard file maintenance for 2 screens
+****************************************************************/
+
+%replace PR_EMP_MAINT_1 by  16;
+%replace PR_EMP_MAINT_2 by  17;
+%replace PR_EMP_MAINT_3 by 903;
+PR_EMP_MAINT:
+   procedure;
+%replace EMPLOYEE_NO by   6;
+%include "EMPLOYEE.DD";
+
+declare		END_TWO_SCREEN_IO    bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_SEQ_ACCESS_2     bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		ANSWER               character (1);
+declare		END_CHANGE_ITEM_2    bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		SELECT               fixed binary (15);
+declare		NAME_INDEX           fixed binary (15);
+declare		LAST_FOUND           bit (1);
+   call INITIALIZE;
+   END_TWO_SCREEN_IO = NO;
+   do while (END_TWO_SCREEN_IO ^= YES);
+      call TWO_SCREEN_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   EMP_STATE = "CA";
+   FED_ALLOW = 2;
+   PAY_FREQ = "W";
+   PAY_TYPE = "H";
+   IN_PENSION = "Y";
+   DE_1 = "";
+   DE_2 = "";
+   DE_3 = "";
+   DE_4 = "";
+   QTD_SS_GROSS = 0;
+   QTD_STATE_GROSS = 0;
+   YTD_SS_GROSS = 0;
+   YTD_STATE_GROSS = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (PR_EMP_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (EMPLOYEE_NO,"EMPLOYEE",byteaddr(EMPLOYEE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (EMPLOYEE_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	TWO_SCREEN_IO
+	Screen I/O for two screen file maint.
+****************************************************************/
+
+TWO_SCREEN_IO:
+	procedure;
+
+declare		ERROR_EMPLOYEE       fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (PR_EMP_MAINT_1);
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_TWO_SCREEN_IO = YES;
+      return;
+      end;
+   FIRST_ITEM = 2;
+   if INPUT_LENGTH = 0 then
+      do;
+      KEY_NO = 2;
+      INPUT_LENGTH = 1;
+      call INPUT_FIELD ( 34,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         END_TWO_SCREEN_IO = YES;
+         return;
+         end;
+      FIRST_ITEM = 1;
+      if INPUT_LENGTH = 0 then
+         do;
+         END_TWO_SCREEN_IO = YES;
+         return;
+         end;
+      END_SEQ_ACCESS_2 = NO;
+      call SEQ_ACCESS_2;
+      if END_SEQ_ACCESS_2 then
+         return;
+      end;
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (EMPLOYEE_NO+?LOCK_RECORD,KEY_NO,ERROR_EMPLOYEE);
+   if ERROR_EMPLOYEE = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_EMPLOYEE > 3 then
+      call PRINT_ERROR (EMPLOYEE_NO,ERROR_EMPLOYEE);
+
+   /* TWO_REC_FOUND - Record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_EMPLOYEE = NORMAL_RETURN then
+      do;
+
+      /* DIS_TWO_SCRNS - Display the two screens */
+
+         call DISPLAY_DATA;
+         END_CHANGE_ITEM = NO;
+         do while (END_CHANGE_ITEM ^= YES);
+            call CHANGE_ITEM;
+         end;
+
+         /* SEE_SCREEN_2 - Display Screen 2? */
+
+         if RETURN_CODE ^= DELETE_TYPED then
+            do;
+            call OUTPUT_LINE (24,10,"Display second screen?");
+            call INPUT_DATA (24,33,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+            call CLEAR_TO_BOS (24);
+            if ANSWER = "Y" then
+               do;
+               call YES_DISPLAY_2;
+               end;
+            end;
+
+      end;
+   else
+      do;
+
+      /* INPUT_2_SCRNS - Input the 2 screens of information */
+
+
+         /* CLEAR_FIELDS - Clear non-screen file fields */
+
+         LST_RAISE_DATE = 0;
+         PREV_SALARY = 0;
+         PREV_PAY_RATE = 0;
+         REVIEW_DATE = 0;
+         ANNIV_DATE = 0;
+         MTD_GROSS = 0;
+         MTD_OT_HOURS = 0;
+         MTD_SICK_HRS = 0;
+         MTD_SICK_PAY = 0;
+         QTD_TXBL_GROSS = 0;
+         QTD_NON_TAX = 0;
+         QTD_FED_WH = 0;
+         QTD_STATE_WH = 0;
+         QTD_LOCAL_WH = 0;
+         QTD_EMP_FICA = 0;
+         QTD_SDI_WH = 0;
+         QTD_DEDUCT = 0;
+         QTD_NET = 0;
+         QTD_OT_HRS = 0;
+         QTD_SICK_HRS = 0;
+         QTD_SICK_PAY = 0;
+         QTD_WEEKS = 0;
+         YTD_REGULAR = 0;
+         YTD_OT = 0;
+         YTD_SP_1 = 0;
+         YTD_SP_2 = 0;
+         YTD_TAX_GROSS = 0;
+         YTD_NON_TAX = 0;
+         YTD_FED_WH = 0;
+         YTD_STATE_WH = 0;
+         YTD_LOCAL_WH = 0;
+         YTD_EMP_FICA = 0;
+         YTD_SDI_WH = 0;
+         YTD_DEDUCT = 0;
+         YTD_NET_PAID = 0;
+         YTD_SUI_PAID = 0;
+         YTD_FUI_PAID = 0;
+         YTD_OVERTIME = 0;
+         YTD_SICK_HRS = 0;
+         YTD_SICK_PAY = 0;
+         call INPUT_SCREEN;
+
+         /* TRY_AGAIN_IF_END - Try again if end typed */
+
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            return;
+
+         END_CHANGE_ITEM = NO;
+         do while (END_CHANGE_ITEM ^= YES);
+            call CHANGE_ITEM;
+         end;
+
+         /* AGAIN_IF_DEL - return (Do again) if delete */
+
+         if RETURN_CODE = DELETE_TYPED then
+            return;
+
+
+         /* DISPLAY_SCREEN_2 - Display the second screen */
+
+         call OPEN_SCREEN;
+         call DISPLAY_SCREEN (PR_EMP_MAINT_2);
+
+         /* FIRST_TO_ONE - Set FIRST_ITEM to 1 */
+
+         FIRST_ITEM = 1;
+
+         call INPUT_SCRN_2;
+         END_CHANGE_ITEM_2 = NO;
+         do while (END_CHANGE_ITEM_2 ^= YES);
+            call CHANGE_ITEM_2;
+         end;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_EMPLOYEE = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (EMPLOYEE_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (EMPLOYEE_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (EMPLOYEE_NO,ERROR_CODE);
+         end;
+      end;
+return;
+end;	/* TWO_SCREEN_IO        */
+
+/****************************************************************
+	SEQ_ACCESS_2
+	Sequential access for secondary key
+****************************************************************/
+
+SEQ_ACCESS_2:
+	procedure;
+
+declare		RECORD_MATCH         bit (1);
+declare	TEMP_EMP_LAST	character ( 10) varying;
+TEMP_EMP_LAST = CUT_SPACES(EMP_LAST);
+call SET_POSITION (EMPLOYEE_NO,KEY_NO,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (EMPLOYEE_NO+?KEY_ONLY,KEY_NO,ERROR_CODE);
+   if substr(EMP_LAST,1,length(TEMP_EMP_LAST)) >
+      TEMP_EMP_LAST then
+         ERROR_CODE = END_OF_FILE;
+   if ERROR_CODE = END_OF_FILE then
+      do;
+      call DISPLAY_MESSAGE ("<BEL>End of records!"c);
+      call PRESS_RETURN;
+      END_SEQ_ACCESS_2 = YES;
+      return;
+      end;
+      RECORD_MATCH = NO;
+   if substr(EMP_LAST,1,length(TEMP_EMP_LAST)) =
+      TEMP_EMP_LAST then
+         RECORD_MATCH = YES;
+   if RECORD_MATCH then
+      do;
+      call READ_KEYED (EMPLOYEE_NO,KEY_NO,ERROR_CODE);
+      end;
+   if RECORD_MATCH then
+      do;
+      FIRST_ITEM = 1;
+      call DISPLAY_DATA;
+      call OUTPUT_LINE (23,20,"Correct record?");
+      call INPUT_DATA (23,36,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_MESSAGE;
+      call DUMP_BUFFER;
+      if ANSWER = "Y" then
+         do;
+         FIRST_ITEM = LAST_ITEM_NUMBER() + 1;
+         return;
+         end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         END_SEQ_ACCESS_2 = YES;
+         return;
+         end;
+      end;
+end; /* do loop */
+return;
+end;	/* SEQ_ACCESS_2         */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX = FIRST_ITEM to  34;
+   call KEEP_TRAILING_SPACES;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+call ANY_CHANGE (1, 33,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 33 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   8 then
+      call DISPLAY_MSG_NO (  6);
+   if LOOP_INDEX =  10 then
+      call DISPLAY_MSG_NO (  8);
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* SET_STATE - Set state default */
+
+      STATE = EMP_STATE;
+
+      end;
+   if LOOP_INDEX =  14 then
+      call DISPLAY_MSG_NO (  8);
+   if LOOP_INDEX =  18 then
+      call DISPLAY_MSG_NO (  8);
+   if LOOP_INDEX =  26 then
+      call DISPLAY_MSG_NO (  9);
+   if LOOP_INDEX =  27 then
+      call DISPLAY_MSG_NO ( 10);
+   if LOOP_INDEX =  29 then
+      do;
+
+      /* CALC_HOURLY - Calculate the hourly if salaried */
+
+      if PAY_TYPE = "S" then if PAY_FREQ = "S" then
+         do;
+         HOURLY_RATE = floor(SALARY * 24 / 52 / 5 / 8 * 100 + 0.5) / 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  30 then
+      do;
+
+      /* OVERTIME_DEF - Default overtime to 1.5 x Regular */
+
+      OVERTIME = floor(HOURLY_RATE * 1.5 * 100 + 0.5) / 100;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* SET_LAST_NAME - Set up the employee last name for key */
+
+      LAST_FOUND = NO;
+      do NAME_INDEX = length(EMP_NAME) to 1 by -1;
+      	if substr(EMP_NAME,NAME_INDEX,1) ^= " " then
+      		LAST_FOUND = YES;
+      	else
+      		if LAST_FOUND = YES then
+      			goto LOOP_FOUND_OVER;
+      end;
+      LOOP_FOUND_OVER:
+      EMP_LAST = substr(EMP_NAME,NAME_INDEX+1,
+      	min(length(EMP_LAST),length(EMP_NAME) - NAME_INDEX) );
+      call CONVERT_TO_UPPER(EMP_LAST);
+
+      end;
+   if LOOP_INDEX =  26 then
+      do;
+
+      /* CHECK_FREQ - Check pay frequency */
+
+      if index("WBSMQ",PAY_FREQ) = 0 then
+         LOOP_INDEX = LOOP_INDEX - 1;
+
+      end;
+   if LOOP_INDEX =  27 then
+      do;
+
+      /* CHECK_PAY_TYPE - Check the pay type */
+
+      if (PAY_TYPE ^= "H") & (PAY_TYPE ^= "S") then
+         LOOP_INDEX = LOOP_INDEX - 1;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	YES_DISPLAY_2
+	Yes, Display screen 2
+****************************************************************/
+
+YES_DISPLAY_2:
+	procedure;
+
+
+   /* DISPLAY_SCREEN_2 - Display the second screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (PR_EMP_MAINT_2);
+
+   /* FIRST_TO_ONE - Set FIRST_ITEM to 1 */
+
+   FIRST_ITEM = 1;
+
+   call DIS_DATA_2;
+   END_CHANGE_ITEM_2 = NO;
+   do while (END_CHANGE_ITEM_2 ^= YES);
+      call CHANGE_ITEM_2;
+   end;
+return;
+end;	/* YES_DISPLAY_2        */
+
+/****************************************************************
+	DIS_DATA_2
+	Display the data for screen 2
+****************************************************************/
+
+DIS_DATA_2:
+	procedure;
+
+do LOOP_INDEX = FIRST_ITEM to  28;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DIS_DATA_2           */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+EMP_NAME = "";
+EMP_ADDR = "";
+EMP_CITY = "";
+EMP_ZIP = "";
+EMP_SS_NO = "";
+EMP_MARITAL = "";
+ADD_DEDUCT = 0;
+WH_EXEMPT = "";
+STATE = "";
+STATE_ALLOW = FED_ALLOW;
+ADD_STATE = 0;
+STATE_EXEMPT = "";
+LOCAL_CODE = "";
+LOCAL_ALLOW = 0;
+ADD_LOCAL = 0;
+LOCAL_EXEMPT = "";
+FICA_EXEMPT = "";
+FUI_EXEMPT = "";
+SUI_EXEMPT = "";
+SDI_EXEMPT = "";
+BIRTHDATE = 0;
+HIRE_DATE = TODAYS_DATE();
+SALARY = 0;
+HOURLY_RATE = 0;
+OVERTIME = 0;
+SPECIAL_1 = 0;
+SPECIAL_2 = 0;
+do LOOP_INDEX = FIRST_ITEM to  32;
+   if LOOP_INDEX =   8 then
+      call DISPLAY_MSG_NO (  6);
+   if LOOP_INDEX =  10 then
+      call DISPLAY_MSG_NO (  8);
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* SET_STATE - Set state default */
+
+      STATE = EMP_STATE;
+
+      end;
+   if LOOP_INDEX =  13 then
+      STATE_ALLOW = FED_ALLOW;
+   if LOOP_INDEX =  14 then
+      call DISPLAY_MSG_NO (  8);
+   if LOOP_INDEX =  18 then
+      call DISPLAY_MSG_NO (  8);
+   if LOOP_INDEX =  25 then
+      HIRE_DATE = TODAYS_DATE();
+   if LOOP_INDEX =  26 then
+      call DISPLAY_MSG_NO (  9);
+   if LOOP_INDEX =  27 then
+      call DISPLAY_MSG_NO ( 10);
+   if LOOP_INDEX =  29 then
+      do;
+
+      /* CALC_HOURLY - Calculate the hourly if salaried */
+
+      if PAY_TYPE = "S" then if PAY_FREQ = "S" then
+         do;
+         HOURLY_RATE = floor(SALARY * 24 / 52 / 5 / 8 * 100 + 0.5) / 100;
+         end;
+
+      end;
+   if LOOP_INDEX =  30 then
+      do;
+
+      /* OVERTIME_DEF - Default overtime to 1.5 x Regular */
+
+      OVERTIME = floor(HOURLY_RATE * 1.5 * 100 + 0.5) / 100;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* SET_LAST_NAME - Set up the employee last name for key */
+
+      LAST_FOUND = NO;
+      do NAME_INDEX = length(EMP_NAME) to 1 by -1;
+      	if substr(EMP_NAME,NAME_INDEX,1) ^= " " then
+      		LAST_FOUND = YES;
+      	else
+      		if LAST_FOUND = YES then
+      			goto LOOP_FOUND_OVER;
+      end;
+      LOOP_FOUND_OVER:
+      EMP_LAST = substr(EMP_NAME,NAME_INDEX+1,
+      	min(length(EMP_LAST),length(EMP_NAME) - NAME_INDEX) );
+      call CONVERT_TO_UPPER(EMP_LAST);
+
+      end;
+   if LOOP_INDEX =  26 then
+      do;
+
+      /* CHECK_FREQ - Check pay frequency */
+
+      if index("WBSMQ",PAY_FREQ) = 0 then
+         LOOP_INDEX = LOOP_INDEX - 1;
+
+      end;
+   if LOOP_INDEX =  27 then
+      do;
+
+      /* CHECK_PAY_TYPE - Check the pay type */
+
+      if (PAY_TYPE ^= "H") & (PAY_TYPE ^= "S") then
+         LOOP_INDEX = LOOP_INDEX - 1;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX = max(FIRST_ITEM, 33) to  34;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	INPUT_SCRN_2
+	Input the items on screen 2
+****************************************************************/
+
+INPUT_SCRN_2:
+	procedure;
+
+DEPT_NO = 0;
+HOME_GL = 0;
+AUTO_PR = 0;
+DIST_PAY = "";
+DIST_JOBS = "";
+SICK_DUE = 0;
+SICK_TAKEN = 0;
+VAC_DUE = 0;
+VAC_TAKEN = 0;
+FREQ_1 = "";
+AMT_1 = 0;
+YTD_1 = 0;
+FREQ_2 = "";
+AMT_2 = 0;
+YTD_2 = 0;
+FREQ_3 = "";
+AMT_3 = 0;
+YTD_3 = 0;
+FREQ_4 = "";
+AMT_4 = 0;
+YTD_4 = 0;
+do LOOP_INDEX = FIRST_ITEM to   2;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX = max(FIRST_ITEM,  3) to  28;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* AFTER_DE - If the user hits return after D/E, stop */
+
+      if INPUT_LENGTH = 0 then
+      	LOOP_INDEX = 128;
+
+      end;
+   if LOOP_INDEX =  17 then
+      do;
+
+      /* AFTER_DE - If the user hits return after D/E, stop */
+
+      if INPUT_LENGTH = 0 then
+      	LOOP_INDEX = 128;
+
+      end;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* AFTER_DE - If the user hits return after D/E, stop */
+
+      if INPUT_LENGTH = 0 then
+      	LOOP_INDEX = 128;
+
+      end;
+   if LOOP_INDEX =  25 then
+      do;
+
+      /* AFTER_DE - If the user hits return after D/E, stop */
+
+      if INPUT_LENGTH = 0 then
+      	LOOP_INDEX = 128;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCRN_2         */
+
+/****************************************************************
+	CHANGE_ITEM_2
+	Change the items on screen number 2
+****************************************************************/
+
+CHANGE_ITEM_2:
+	procedure;
+
+call ANY_CHANGE (1, 14,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM_2 = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM_2 = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 10 then
+   do;
+
+      LOOP_INDEX = SELECT +   2;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+if SELECT = 11 then
+   do;
+   do LOOP_INDEX =  13 to  16;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  13 then
+         do;
+
+         /* AFTER_DE - If the user hits return after D/E, stop */
+
+         if INPUT_LENGTH = 0 then
+         	LOOP_INDEX = 128;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 12 then
+   do;
+   do LOOP_INDEX =  17 to  20;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  17 then
+         do;
+
+         /* AFTER_DE - If the user hits return after D/E, stop */
+
+         if INPUT_LENGTH = 0 then
+         	LOOP_INDEX = 128;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 13 then
+   do;
+   do LOOP_INDEX =  21 to  24;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  21 then
+         do;
+
+         /* AFTER_DE - If the user hits return after D/E, stop */
+
+         if INPUT_LENGTH = 0 then
+         	LOOP_INDEX = 128;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 14 then
+   do;
+   do LOOP_INDEX =  25 to  28;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  25 then
+         do;
+
+         /* AFTER_DE - If the user hits return after D/E, stop */
+
+         if INPUT_LENGTH = 0 then
+         	LOOP_INDEX = 128;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+return;
+end;	/* CHANGE_ITEM_2        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (EMPLOYEE_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

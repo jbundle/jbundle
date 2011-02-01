@@ -1,0 +1,190 @@
+/****************************************************************
+	Module: BK_DIS_TELEX
+	Top Level Logic: DIS_TELEX_LOGIC
+	Date: 28-Jun-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_TELEX
+	Display telexes
+****************************************************************/
+
+%replace BK_DIS_TELEX_1 by 522;
+BK_DIS_TELEX:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD);
+%replace BK_TELEX_NO by  88;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%include "BK_DIS_TELEX.DD";
+%include "BK_TELEX.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   call DISPLAY_TELEX;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   USER_TELEX = USER_NAME();
+   TELEX_USER = USER_NAME();
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_DIS_TELEX_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_DIS_TELEX_RECORD) );
+   call OPEN_FILE (BK_TELEX_NO,"BK_TELEX",byteaddr(BK_TELEX_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TELEX_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DISPLAY_TELEX
+	Display the telexes for this user
+****************************************************************/
+
+DISPLAY_TELEX:
+	procedure;
+
+   call DISPLAY_DATA_A;
+   call TABLE_DISPLAY;
+return;
+end;	/* DISPLAY_TELEX        */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =  10 to  10;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		TELEX_USER_SAVE      character (       16);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		TELEX_NO_ARRAY(16) fixed binary (15);
+declare		BK_TELEX_ERROR       fixed binary (15);
+declare		TELEX_NO_SAVE        fixed binary (15);
+declare		ANSWER               character (1);
+TELEX_USER = USER_TELEX;
+TELEX_USER_SAVE = TELEX_USER;
+TELEX_NO = 0;
+call SET_POSITION (BK_TELEX_NO,KEY_AREA_3,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_TELEX_NO,KEY_AREA_3,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (TELEX_USER > TELEX_USER_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 16;
+      TELEX_NO_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_TELEX_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_TELEX_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 16) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  12 to  16;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         TELEX_NO_ARRAY(RECORD_NUMBER) = TELEX_NO;
+         call READ_NEXT (BK_TELEX_NO,KEY_AREA_3,BK_TELEX_ERROR);
+         if (TELEX_USER > TELEX_USER_SAVE) then
+            BK_TELEX_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      TELEX_NO_SAVE = TELEX_NO_ARRAY(16);
+      TELEX_USER = TELEX_USER_SAVE;
+      if BK_TELEX_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 16;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if TELEX_NO_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =12 to  16;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_TELEX_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

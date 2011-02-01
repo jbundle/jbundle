@@ -1,0 +1,1 @@
+Remember: Because cocoon can't take a path as a param, this directory is flattened in build.

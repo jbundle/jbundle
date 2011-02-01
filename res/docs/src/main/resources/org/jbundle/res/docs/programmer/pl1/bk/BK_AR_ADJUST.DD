@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_AR_ADJUST File
+********************************************************************/
+
+declare	1 BK_AR_ADJUST_RECORD,
+		3 ADJ_LAST_SEQ         fixed binary (15),
+		3 AR_REFUND_AMT        float binary (53),
+		3 BK_NEW_AR            character (1),
+		3 AR_CHARGES           float binary (53);
+

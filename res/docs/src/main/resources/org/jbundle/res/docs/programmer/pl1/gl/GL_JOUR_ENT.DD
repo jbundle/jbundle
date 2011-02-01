@@ -1,0 +1,17 @@
+/*********************************************************************
+	GL_JOUR_ENT File
+********************************************************************/
+
+declare	1 GL_JOUR_ENT_RECORD,
+		3 GL_JOUR_TRX_NO       fixed binary (15),
+		3 GL_JOUR_REF          character (       30),
+		3 GL_JOUR_SOURCE       character (       10),
+		3 GL_ANSWER            character (1),
+		3 GL_AGAIN             character (1),
+		3 GL_CURR_TRX          fixed binary (15),
+		3 GL_AUTO_RUNNING      float binary (53),
+		3 GL_PER_RUNNING       float binary (21),
+		3 GL_AUTO_TOTAL_AMT    float binary (53),
+		3 GL_INPUT             character (1),
+		3 QQ                   character (        1);
+

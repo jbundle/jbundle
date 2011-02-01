@@ -1,0 +1,16 @@
+/*********************************************************************
+	AR_CUTOFF File
+********************************************************************/
+
+declare	1 AR_CUTOFF_RECORD,
+		3 AR_CUTOFF_DATE       fixed binary (15),
+		3 AR_CUT_DATE          fixed binary (15),
+		3 AR_CUT_TIME          fixed binary (15),
+		3 AR_CUT_USER          character (       16),
+		3 AR_CUT_PAGE          fixed binary (31),
+		3 AR_CUT_TOTAL         float binary (53),
+		3 AR_CUT_COUNT         fixed binary (31),
+		3 AR_TRX_CUTOFF        fixed binary (15),
+		3 AR_INC_DC            character (1),
+		3 AR_INC_REF           character (1);
+

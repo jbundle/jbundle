@@ -1,0 +1,75 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>When a payment has to be made before the services are rendered, a prepayment request is entered.
+Later, after the services have been rendered, the prepayment is distributed to invoices until the balance
+reaches zero.
+
+<br wp="br1"><br wp="br2">
+<p>There are two type of prepayments. One which is for specific future services and one which is general.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>To enter a new prepayment request, type 0; otherwise enter the prepaymant request that you wish to
+modify.
+
+<br wp="br1"><br wp="br2">
+<p>This is a very simple program. To enter a prepayment, just enter the vendor code and the amount of
+the prepayment. If the prepayment is for a specific tour, then enter the tour number.
+
+<br wp="br1"><br wp="br2">
+<p>Enter the starting service date if you know it, otherwise enter a space to select no date. The list on the
+check stub is in order by starting service date.
+
+<br wp="br1"><br wp="br2">
+<p>If you want, you can enter a description of the prepayment. This will appear on the check. The
+description defaults to "Prepayment for tour XXX departing on XX-XX-XX.
+
+<br wp="br1"><br wp="br2">
+<p>After entering each prepayment request, the system will automatically select this prepayment request
+for payment.
+
+<br wp="br1"><br wp="br2">
+<p>If you enter a check request, then the next check run will contain a check to the specified vendor for
+the amount of the prepayment.
+
+<br wp="br1"><br wp="br2">
+<p>	Note: This program is also used to change and delete current prepayment requests. Just type in the entry
+number of the prepayment request and the information will display. Once the prepayment request has
+been paid, then it can't be changed.
+
+<br wp="br1"><br wp="br2">
+<p>This whole sub-system can be overridden by going to the check request program, entering an amount,
+and running the check printing program. Any balance unselected will be distributed to a prepayment.
+
+<br wp="br1"><br wp="br2">
+<p>The booking system will automatically transfer information on prepayment requests to the A/P system
+to be reviewed and paid. This is a major source of prepayments requests.
+
+<br wp="br1"><br wp="br2">
+<p>Prepayment requests that haven't been paid can be deleted from the system at any time with no
+consequences to any other system. Nothing is updated until the check is printed!
+
+<br wp="br1"><br wp="br2">
+<p>To see the resulting G/L entries, take a look at the check printing program. Prepayment requests aren't
+posted until they are paid.
+
+<br wp="br1"><br wp="br2">
+<p>In the inquiry and report programs, a prepayment request will display, but the balance will be zero
+until a check is printed (then the balance will be a credit for the prepayment amount).
+</body>
+</html>

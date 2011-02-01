@@ -1,0 +1,27 @@
+package idekpockja1b9fckjafvop;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#Environment:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#Environment:oiref>=201,28,99,59,1:oigroup>
+*/
+class __positions {
+}

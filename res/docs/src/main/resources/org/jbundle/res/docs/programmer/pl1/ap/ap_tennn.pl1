@@ -1,0 +1,532 @@
+/****************************************************************
+	Module: AP_TENNN
+	Top Level Logic: REPORT_LOGIC
+	Date: 12-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_TENNN
+	Standard report logic
+****************************************************************/
+
+%replace AP_TENNN_1 by 679;
+%replace AP_TENNN_2 by 678;
+AP_TENNN:
+   procedure;
+%replace AP_VENDOR_NO by  30;
+%replace AP_PYMT_HIST_NO by  33;
+%replace AP_OPEN_NO by  32;
+%include "AP_TENNN.DD";
+%include "AP_VENDOR.DD";
+%include "AP_PYMT_HIST.DD";
+%include "AP_OPEN.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		END_READ_THRU_TEN    bit (1);
+declare		END_READ_PYMT_THRU   bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AP_TEN_START_DATE = 0;
+   AP_TEN_END_DATE = 0;
+   AP_TEN_TOTAL = 0;
+   AP_TEN_PRINT = "N";
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_TENNN_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AP_TENNN_RECORD) );
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_PYMT_HIST_NO,"AP_PYMT_HIST",byteaddr(AP_PYMT_HIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_PYMT_HIST_NO,ERROR_CODE);
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (AP_TENNN_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_VEN_NO = AP_TEN_START;
+   call SET_POSITION (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+AP_TEN_END = AP_TEN_START;
+do LOOP_INDEX =   1 to   5;
+   if LOOP_INDEX =   2 then
+      AP_TEN_END = AP_TEN_START;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* SET_TEN_DEF - Set the detail */
+
+      declare (DAY,MONTH,YEAR) fixed binary;
+      call DAY_TO_DMY(TODAYS_DATE(),DAY,MONTH,YEAR);
+      DAY = 1;
+      MONTH = 1;
+      YEAR = YEAR - 1;
+      call DMY_TO_DAY(AP_TEN_START_DATE,DAY,MONTH,YEAR);
+      DAY = 31;
+      MONTH = 12;
+      call DMY_TO_DAY(AP_TEN_END_DATE,DAY,MONTH,YEAR);
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         AP_TEN_START = "";
+         AP_TEN_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  5,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  5 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* SET_TEN_DEF - Set the detail */
+
+      declare (DAY,MONTH,YEAR) fixed binary;
+      call DAY_TO_DMY(TODAYS_DATE(),DAY,MONTH,YEAR);
+      DAY = 1;
+      MONTH = 1;
+      YEAR = YEAR - 1;
+      call DMY_TO_DAY(AP_TEN_START_DATE,DAY,MONTH,YEAR);
+      DAY = 31;
+      MONTH = 12;
+      call DMY_TO_DAY(AP_TEN_END_DATE,DAY,MONTH,YEAR);
+
+      end;
+   if LOOP_INDEX =   3 then
+      call DISPLAY_MSG_NO (  3);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         AP_TEN_START = "";
+         AP_TEN_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =  24 to   1;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_VENDOR_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_VEN_NO > AP_TEN_END) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_TEN - Print a 1099? */
+
+   if AP_VEN_1099 ^= "Y" then
+      return;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   call ADD_TEN_DET;
+   do LOOP_INDEX =   1 to  12;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* PRINT_TEN_DET - Print the detail payments */
+
+   if AP_TEN_DETAIL = "Y" then
+      do;
+      AP_TEN_PRINT = "Y";
+
+      /* PRINT_LINE_D1 -  */
+
+      do LOOP_INDEX =  13 to  14;
+         call PRINT_REPORT_LINE;
+      end;
+      call ADD_TEN_DET;
+      AP_TEN_PRINT = "N";
+      end;
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	ADD_TEN_DET
+	Add to the detail
+****************************************************************/
+
+ADD_TEN_DET:
+	procedure;
+
+
+   /* ZERO_TEN - Zero the count */
+
+   AP_TEN_TOTAL = 0;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   AP_OPEN_VENDOR = AP_VEN_NO;
+   AP_ENTRY_TYPE = 0;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+   END_READ_THRU_TEN = NO;
+   do while (END_READ_THRU_TEN ^= YES);
+      call READ_THRU_TEN;
+   end;
+return;
+end;	/* ADD_TEN_DET          */
+
+/****************************************************************
+	READ_THRU_TEN
+	Read thru the Detail
+****************************************************************/
+
+READ_THRU_TEN:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_VENDOR > AP_VEN_NO) then
+      do;
+      END_READ_THRU_TEN = YES;
+      return;
+      end;
+
+   /* SET_FIRST_3 - Set first */
+
+   AP_HIST_ENTRY = AP_ENTRY_NO;
+   AP_HIST_CHECK_DATE = AP_TEN_START_DATE;
+   AP_HIST_SEQ = 0;
+   call SET_POSITION (AP_PYMT_HIST_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_PYMT_THRU = NO;
+   do while (END_READ_PYMT_THRU ^= YES);
+      call READ_PYMT_THRU;
+   end;
+return;
+end;	/* READ_THRU_TEN        */
+
+/****************************************************************
+	READ_PYMT_THRU
+	Read thru the payments
+****************************************************************/
+
+READ_PYMT_THRU:
+	procedure;
+
+
+   /* READNEXT_3 - Read next */
+
+   call READ_NEXT (AP_PYMT_HIST_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_PYMT_HIST_NO,ERROR_CODE);
+
+   /* CHECK_END_3 - Check for end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_HIST_ENTRY > AP_ENTRY_NO) !
+   (AP_HIST_CHECK_DATE > AP_TEN_END_DATE) then
+      do;
+      END_READ_PYMT_THRU = YES;
+      return;
+      end;
+
+   /* ADD_TEN - Add to the count */
+
+   AP_TEN_TOTAL=floor((AP_TEN_TOTAL + AP_HIST_AMT_APPL) * 100 + 0.5) / 100;
+
+
+   /* CHECK_PRINT_DET - Print the detail? */
+
+   if AP_TEN_PRINT = "Y" then
+      do;
+
+      /* PRINT_LINE_D2 - Print lines */
+
+      do LOOP_INDEX =  15 to  15;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+return;
+end;	/* READ_PYMT_THRU       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (AP_PYMT_HIST_NO);
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

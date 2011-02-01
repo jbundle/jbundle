@@ -1,0 +1,778 @@
+/****************************************************************
+	Module: BK_ANAL_BK
+	Top Level Logic: ANALYZE_LOGIC
+	Date: 23-Feb-94
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ANAL_BK
+	Top Level to analyze the file's info
+****************************************************************/
+
+%replace BK_ANAL_BK_0 by 919;
+%replace BK_ANAL_BK_1 by 876;
+%replace BK_ANAL_BK_2 by 875;
+%replace BK_ANAL_BK_5 by 878;
+BK_ANAL_BK:
+   procedure;
+%replace BK_BOOKING_NO by   9;
+%replace AR_OPEN_NO by  43;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace AM_SCF_CONTROL_NO by  11;
+%include "BK_ANAL_BK.DD";
+%include "BK_BOOKING.DD";
+%include "AR_OPEN.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "AM_SCF_CONTROL.DD";
+
+declare		END_ANALYZE_MAIN     bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		KEY_LENGTH           fixed binary (15);
+declare		RECORD_LENGTH        fixed binary (15);
+declare		TEMP_RECORD          character (     1000);
+declare		END_ANAL_THRU_FILE   bit (1);
+declare		END_PRINT_THRU_TEMP  bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_ANALYZE_MAIN = NO;
+   do while (END_ANALYZE_MAIN ^= YES);
+      call ANALYZE_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   SS_REPORT_TYPE = "S";
+   SS_START_BK = 0;
+   SS_DATE_TYPE = "D";
+   SS_DAY = TODAYS_DATE();
+   SS_CUR_TIME = CURRENT_TIME();
+   SS_USER = USER_NAME();
+   SS_PAGE = 1;
+   SS_PAX_TOTAL = 0;
+   SS_GROSS_TOTAL = 0;
+   SS_NET_TOTAL = 0;
+   SS_BAL_TOTAL = 0;
+   SS_ELAP_TOTAL = 0;
+   SS_LAST_AGENT = "z";
+   SS_GRAND_PAX = 0;
+   SS_GRAND_GROSS = 0;
+   SS_GRAND_NET = 0;
+   SS_GRAND_BAL = 0;
+   SS_GRAND_ELAPSED = 0;
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   AR_ACCT_DR = 0;
+   AR_ACCT_DEP = 0;
+   AR_POSTED = 0;
+   AR_ACTION = 0;
+   AR_DEPARTURE = 0;
+   TOUR_QUADS = 0;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+   SCF_TO = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ANAL_BK_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_ANAL_BK_RECORD) );
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (AR_OPEN_NO,"AR_OPEN",byteaddr(AR_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+   call OPEN_FILE (AM_SCF_CONTROL_NO,"AM_SCF_CONTROL",byteaddr(AM_SCF_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_SCF_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	ANALYZE_MAIN
+	Mainline logic to analyze the files
+****************************************************************/
+
+ANALYZE_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ANALYZE_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ANALYZE_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("SSHEET");
+   call SETUP_PRINT_FORMAT (BK_ANAL_BK_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* SET_TEMP_FILE - Set up the temporary file */
+
+   declare CREATE_TEMP entry(fixed binary,fixed binary);
+   KEY_LENGTH =
+      bytesize(BK_MOD_BY) +
+      bytesize(SS_DATE) +
+      bytesize(BOOKING_NO) +
+      bytesize(BK_MODIFICATION);
+   RECORD_LENGTH = KEY_LENGTH  +
+      bytesize(BK_DATE) +
+      bytesize(BK_TOUR_CODE) +
+      bytesize(BK_DEPARTURE) +
+      bytesize(BK_PAX) +
+      bytesize(BK_TOUR_PRICE) +
+      bytesize(BK_NET_PRICE) +
+      bytesize(BK_BALANCE) +
+      bytesize(BK_NEXT_MOD) +
+      bytesize(SS_TIME) +
+      bytesize(BK_TIME) +
+      bytesize(BK_STATUS);
+   call CREATE_TEMP(KEY_LENGTH,RECORD_LENGTH);
+   %replace TEMP_DB by 512;
+   call OPEN_FILE (TEMP_DB,"?TEMP_DB",byteaddr(TEMP_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      END_ANALYZE_MAIN = YES;
+      return;
+      end;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* CHECK_BK_REPORT - Report format? */
+
+   if SS_REPORT_TYPE = "R" then
+      do;
+
+      /* CLOSE_LPT - Close the printer */
+
+      call CLOSE_PRINTER;
+
+
+      /* OPEN_RPT - Open the "REPORT" print file */
+
+      call OPEN_PRINTER("REPORT");
+      call SETUP_PRINT_FORMAT (BK_ANAL_BK_2);
+      call PRINTING_OCCURRING;
+      call DUMP_BUFFER;
+      end;
+   call PRT_PAGE_HEADING;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   BK_MOD_DATE = SS_START_BK;
+   BOOKING_NO = 0;
+   BK_MODIFICATION = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_5,ERROR_CODE);
+   END_ANAL_THRU_FILE = NO;
+   do while (END_ANAL_THRU_FILE ^= YES);
+      call ANAL_THRU_FILE;
+   end;
+
+   /* SET_FIRST_TEMP - Set to the first record in the temp db */
+
+   call SET_POSITION (TEMP_DB+?RESET,KEY_AREA_1,ERROR_CODE);
+
+   END_PRINT_THRU_TEMP = NO;
+   do while (END_PRINT_THRU_TEMP ^= YES);
+      call PRINT_THRU_TEMP;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* CHECK_BK_TOTAL - Print the total? */
+
+   if SS_REPORT_TYPE = "R" then
+      do;
+
+      /* PRT_GRAND_TOTAL - Print the grand total */
+
+      do LOOP_INDEX =   8 to  11;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+
+   /* CLOSE_TEMP_FILE - Close the temporary file */
+
+   call CLOSE_FILE (TEMP_DB);
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_ANALYZE_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* ANALYZE_MAIN         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+SS_END_BK = SS_START_BK;
+do LOOP_INDEX =   1 to   7;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (108);
+   if LOOP_INDEX =   3 then
+      SS_END_BK = SS_START_BK;
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO (109);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         SS_START_BK = 0;
+         SS_END_BK = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  7,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  7 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (108);
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO (109);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         SS_START_BK = 0;
+         SS_END_BK = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   6;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+SS_PAGE = SS_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	ANAL_THRU_FILE
+	Read sequentially thru file and analyze
+****************************************************************/
+
+ANAL_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_ANAL_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_SELECT_BK - Does this booking belong in this list? */
+
+   if SS_INCL_MODS = "N" then
+      do;
+      if BK_DATE > SS_END_BK then
+         do;
+         END_ANAL_THRU_FILE = YES;
+         return;
+         end;
+      if BK_MODIFICATION ^= 0 then
+         return;
+      /*	Commented out if history is not in the file
+      if BK_MODIFICATION = 0 then if BK_NEXT_MOD > 0 then
+         return;
+      if BK_MODIFICATION > 1 then
+         return;
+      if BK_MODIFICATION = 1 then
+         do;
+         declare (DATE_SAVE,ERROR,TIME_SAVE,ELAP_SAVE) fixed binary;
+         BK_MODIFICATION = 0;
+         DATE_SAVE = BK_MOD_DATE;
+         TIME_SAVE = BK_TIME;
+         if BK_TIME_ELAPSED > 32767 then
+            BK_TIME_ELAPSED = 32767;
+         if BK_TIME_ELAPSED < 0 then
+            BK_TIME_ELAPSED = 0;
+         ELAP_SAVE = BK_TIME_ELAPSED;
+         call READ_KEYED (BK_BOOKING_NO,KEY_AREA_1,ERROR_CODE);
+         BK_MODIFICATION = 32767;
+         BK_MOD_DATE = DATE_SAVE;
+         call SET_POSITION (BK_BOOKING_NO,KEY_AREA_5,ERROR_CODE);
+         if ERROR_CODE ^= NORMAL_RETURN then
+            return;
+         BK_MODIFICATION = 0;
+         BK_MOD_BY = BK_RES_AGENT;
+         BK_TIME = TIME_SAVE;
+         BK_TIME_ELAPSED = ELAP_SAVE;
+         end;
+      */
+      end;
+   else
+      do;
+      if BK_DATE > SS_END_BK then
+         do;
+         END_ANAL_THRU_FILE = YES;
+         return;
+         end;
+      if BK_MODIFICATION = 0 then
+         BK_MODIFICATION = BK_NEXT_MOD + 1;
+      end;
+
+   if (BK_STATUS = "XL") ! (BK_STATUS = "NS") then
+      if SS_DATE_TYPE ^= "L" then
+         return;
+
+   if SS_DATE_TYPE = "B" then
+      do;
+      SS_DATE = BK_MOD_DATE;
+      end;
+
+   if SS_DATE_TYPE = "A" then
+      do;
+      AR_BOOKING_NO = BOOKING_NO;
+      AR_SEQ_NO = 0;
+      call SET_POSITION (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+      call READ_NEXT (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+      if AR_BOOKING_NO ^= BOOKING_NO then
+         ERROR_CODE = END_OF_FILE;
+      if ERROR_CODE = NORMAL_RETURN then
+         do;
+         SS_DATE = AR_TRX_DATE;
+         end;
+
+      if ERROR_CODE = END_OF_FILE then
+         return;
+      end;
+
+   if SS_DATE_TYPE = "D" then
+      do;
+      if BK_NET_PRICE <= BK_BALANCE then
+         return;
+
+      AR_BOOKING_NO = BOOKING_NO;
+      AR_SEQ_NO = 0;
+      call SET_POSITION (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+      ERROR_CODE = NORMAL_RETURN;
+      do while (ERROR_CODE = NORMAL_RETURN);
+         call READ_NEXT (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+         if AR_BOOKING_NO ^= BOOKING_NO then
+            ERROR_CODE = END_OF_FILE;
+         if ERROR_CODE = NORMAL_RETURN then if (AR_DOC_TYPE = "P") ! (AR_DOC_TYPE = "C") ! (AR_DOC_TYPE = "M") then
+            do;
+            SS_DATE = AR_TRX_DATE;
+            ERROR_CODE = 1;
+            end;
+         end;
+
+      if ERROR_CODE = END_OF_FILE then
+         return;
+      end;
+
+   if SS_DATE_TYPE = "F" then
+      do;
+      if BK_BALANCE > 0 then
+         return;
+
+      BK_BALANCE = 0;
+      AR_BOOKING_NO = BOOKING_NO;
+      AR_SEQ_NO = 0;
+      call SET_POSITION (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+      ERROR_CODE = NORMAL_RETURN;
+      do while (ERROR_CODE = NORMAL_RETURN);
+         call READ_NEXT (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+         if AR_BOOKING_NO ^= BOOKING_NO then
+            ERROR_CODE = END_OF_FILE;
+         else
+            BK_BALANCE = floor((BK_BALANCE + AR_AMOUNT) * 100 + 0.5) / 100;
+         if BK_BALANCE <= 0 then
+            do;
+            SS_DATE = AR_TRX_DATE;
+            ERROR_CODE = 1;
+            end;
+         end;
+
+      if ERROR_CODE = END_OF_FILE then
+         return;
+      end;
+
+   if SS_DATE_TYPE = "P" then
+      do;
+      SS_DATE = BK_DEPARTURE;
+      end;
+
+   if SS_DATE_TYPE = "L" then
+      do;
+      SS_DATE = BK_MOD_DATE;
+      end;
+
+   if (SS_DATE < SS_START_DATE) ! (SS_DATE > SS_END_DATE) then
+      return;
+
+   SS_TIME = float(BK_TIME_ELAPSED,21)/30;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* ADD_TEMP_RECORD - Add this information to the temp file */
+
+   declare FAKE_FIELD character(100) based;
+   TEMP_RECORD =
+      substr(byteaddr(BK_MOD_BY)->FAKE_FIELD,1,bytesize(BK_MOD_BY)) !!
+      substr(byteaddr(SS_DATE)->FAKE_FIELD,1,bytesize(SS_DATE)) !!
+      substr(byteaddr(BOOKING_NO)->FAKE_FIELD,1,bytesize(BOOKING_NO)) !!
+      substr(byteaddr(BK_MODIFICATION)->FAKE_FIELD,1,bytesize(BK_MODIFICATION)) !!
+      substr(byteaddr(BK_DATE)->FAKE_FIELD,1,bytesize(BK_DATE)) !!
+      substr(byteaddr(BK_TOUR_CODE)->FAKE_FIELD,1,bytesize(BK_TOUR_CODE)) !!
+      substr(byteaddr(BK_DEPARTURE)->FAKE_FIELD,1,bytesize(BK_DEPARTURE)) !!
+      substr(byteaddr(BK_PAX)->FAKE_FIELD,1,bytesize(BK_PAX)) !!
+      substr(byteaddr(BK_TOUR_PRICE)->FAKE_FIELD,1,bytesize(BK_TOUR_PRICE)) !!
+      substr(byteaddr(BK_NET_PRICE)->FAKE_FIELD,1,bytesize(BK_NET_PRICE)) !!
+      substr(byteaddr(BK_BALANCE)->FAKE_FIELD,1,bytesize(BK_BALANCE)) !!
+      substr(byteaddr(BK_NEXT_MOD)->FAKE_FIELD,1,bytesize(BK_NEXT_MOD)) !!
+      substr(byteaddr(SS_TIME)->FAKE_FIELD,1,bytesize(SS_TIME)) !!
+      substr(byteaddr(BK_TIME)->FAKE_FIELD,1,bytesize(BK_TIME)) !!
+      substr(byteaddr(BK_STATUS)->FAKE_FIELD,1,bytesize(BK_STATUS));
+
+   /* WRITE_TEMP_RECORD - Write the temporary record */
+
+   call WRITE_RECORD (TEMP_DB,ERROR_CODE);
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* ANAL_THRU_FILE       */
+
+/****************************************************************
+	PRINT_THRU_TEMP
+	Read thru the data file and print/write
+****************************************************************/
+
+PRINT_THRU_TEMP:
+	procedure;
+
+
+   /* READ_NEXT_TEMP - Read the next temp record */
+
+   call READ_NEXT (TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+   /* RETURN_IF_EOF - Return if end-of-file error */
+
+   if ERROR_CODE = END_OF_FILE then
+      do;
+      END_PRINT_THRU_TEMP = YES;
+      return;
+      end;
+
+
+   /* GET_TEMP_FILE - Set up all the fields for the temp rec. */
+
+   declare MOVE_FIELD character (100) based;
+   declare FIELDPTR pointer;
+   declare FIELDBIN fixed binary(31) defined(FIELDPTR);
+   FIELDPTR = byteaddr(TEMP_RECORD);
+   substr(byteaddr(BK_MOD_BY)->MOVE_FIELD,1,bytesize(BK_MOD_BY)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_MOD_BY));
+   FIELDBIN = FIELDBIN + bytesize(BK_MOD_BY);
+   substr(byteaddr(SS_DATE)->MOVE_FIELD,1,bytesize(SS_DATE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(SS_DATE));
+   FIELDBIN = FIELDBIN + bytesize(SS_DATE);
+   substr(byteaddr(BOOKING_NO)->MOVE_FIELD,1,bytesize(BOOKING_NO)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BOOKING_NO));
+   FIELDBIN = FIELDBIN + bytesize(BOOKING_NO);
+   substr(byteaddr(BK_MODIFICATION)->MOVE_FIELD,1,bytesize(BK_MODIFICATION)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_MODIFICATION));
+   FIELDBIN = FIELDBIN + bytesize(BK_MODIFICATION);
+   substr(byteaddr(BK_DATE)->MOVE_FIELD,1,bytesize(BK_DATE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_DATE));
+   FIELDBIN = FIELDBIN + bytesize(BK_DATE);
+   substr(byteaddr(BK_TOUR_CODE)->MOVE_FIELD,1,bytesize(BK_TOUR_CODE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_TOUR_CODE));
+   FIELDBIN = FIELDBIN + bytesize(BK_TOUR_CODE);
+   substr(byteaddr(BK_DEPARTURE)->MOVE_FIELD,1,bytesize(BK_DEPARTURE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_DEPARTURE));
+   FIELDBIN = FIELDBIN + bytesize(BK_DEPARTURE);
+   substr(byteaddr(BK_PAX)->MOVE_FIELD,1,bytesize(BK_PAX)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_PAX));
+   FIELDBIN = FIELDBIN + bytesize(BK_PAX);
+   substr(byteaddr(BK_TOUR_PRICE)->MOVE_FIELD,1,bytesize(BK_TOUR_PRICE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_TOUR_PRICE));
+   FIELDBIN = FIELDBIN + bytesize(BK_TOUR_PRICE);
+   substr(byteaddr(BK_NET_PRICE)->MOVE_FIELD,1,bytesize(BK_NET_PRICE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_NET_PRICE));
+   FIELDBIN = FIELDBIN + bytesize(BK_NET_PRICE);
+   substr(byteaddr(BK_BALANCE)->MOVE_FIELD,1,bytesize(BK_BALANCE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_BALANCE));
+   FIELDBIN = FIELDBIN + bytesize(BK_BALANCE);
+   substr(byteaddr(BK_NEXT_MOD)->MOVE_FIELD,1,bytesize(BK_NEXT_MOD)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_NEXT_MOD));
+   FIELDBIN = FIELDBIN + bytesize(BK_NEXT_MOD);
+   substr(byteaddr(SS_TIME)->MOVE_FIELD,1,bytesize(SS_TIME)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(SS_TIME));
+   FIELDBIN = FIELDBIN + bytesize(SS_TIME);
+   substr(byteaddr(BK_TIME)->MOVE_FIELD,1,bytesize(BK_TIME)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_TIME));
+   FIELDBIN = FIELDBIN + bytesize(BK_TIME);
+   substr(byteaddr(BK_STATUS)->MOVE_FIELD,1,bytesize(BK_STATUS)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(BK_STATUS));
+   FIELDBIN = FIELDBIN + bytesize(BK_STATUS);
+
+   /* PRT_DETAIL - Print the detail lines */
+
+
+   /* CHECK_RPT_FORMAT - Check the report format */
+
+   if SS_REPORT_TYPE = "R" then
+      do;
+      if SS_LAST_AGENT ^= BK_MOD_BY then
+         do;
+         if SS_LAST_AGENT ^= "z" then
+            do;
+
+            /* PRINT_LINE_T1 - Print lines */
+
+            do LOOP_INDEX =   8 to   9;
+               call PRINT_REPORT_LINE;
+            end;
+
+            /* SET_FIELDS - Set the values for these fields */
+
+            SS_PAX_TOTAL = 0;
+            SS_GROSS_TOTAL = 0;
+            SS_NET_TOTAL = 0;
+            SS_BAL_TOTAL = 0;
+            SS_ELAP_TOTAL = 0;
+            end;
+         SS_LAST_AGENT = BK_MOD_BY;
+         end;
+
+      /* PRINT_LINE_D -  */
+
+      do LOOP_INDEX =   7 to   7;
+         call PRINT_REPORT_LINE;
+      end;
+
+      /* ADD_TOTALS - Add to the total fields */
+
+      SS_PAX_TOTAL = SS_PAX_TOTAL + BK_PAX;
+      SS_GROSS_TOTAL = floor((SS_GROSS_TOTAL + BK_TOUR_PRICE) * 100 + 0.5) / 100;
+      SS_NET_TOTAL = floor((SS_NET_TOTAL + BK_NET_PRICE) * 100 + 0.5) / 100;
+      SS_BAL_TOTAL = floor((SS_BAL_TOTAL + BK_BALANCE) * 100 + 0.5) / 100;
+      SS_ELAP_TOTAL = floor((SS_ELAP_TOTAL + SS_TIME) * 100 + 0.5) / 100;
+      SS_GRAND_PAX = SS_GRAND_PAX + BK_PAX;
+      SS_GRAND_GROSS = floor((SS_GRAND_GROSS + BK_TOUR_PRICE) * 100 + 0.5) / 100;
+      SS_GRAND_NET = floor((SS_GRAND_NET + BK_NET_PRICE) * 100 + 0.5) / 100;
+      SS_GRAND_BAL = floor((SS_GRAND_BAL + BK_BALANCE) * 100 + 0.5) / 100;
+      SS_GRAND_ELAPSED = floor((SS_GRAND_ELAPSED + SS_TIME) * 100 + 0.5) / 100;
+      return;
+      end;
+
+   do LOOP_INDEX =   7 to   7;
+      call SPREAD_SHEET_OUT(LOOP_INDEX);
+   end;
+return;
+end;	/* PRINT_THRU_TEMP      */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (AR_OPEN_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+   call CLOSE_FILE (AM_SCF_CONTROL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

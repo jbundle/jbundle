@@ -1,0 +1,13 @@
+/*********************************************************************
+	AP_DETAIL_TOUR File
+********************************************************************/
+
+declare	1 AP_DETAIL_TOUR_RECORD,
+		3 AP_EST_BAL           float binary (53),
+		3 AP_EST_AMT           float binary (53),
+		3 AP_EST_AMT_TOT       float binary (53),
+		3 AP_EST_BAL_TOT       float binary (53),
+		3 AP_EST_AMT_USD       float binary (53),
+		3 AP_EST_BAL_USD       float binary (53),
+		3 V_DISPLAY            fixed binary (15);
+

@@ -1,0 +1,12 @@
+/*********************************************************************
+	DED_EARN File
+********************************************************************/
+
+declare	1 DED_EARN_RECORD,
+		3 DE_CODE              character (        3),
+		3 DE_DESC              character (       30),
+		3 DE_SHORT             character (       15),
+		3 DE_TYPE              character (        1),
+		3 DE_GL_NO             fixed binary (31),
+		3 PR_ENTER_HRS         character (1);
+

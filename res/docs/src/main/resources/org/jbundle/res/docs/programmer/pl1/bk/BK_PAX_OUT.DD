@@ -1,0 +1,19 @@
+/*********************************************************************
+	BK_PAX_OUT File
+********************************************************************/
+
+declare	1 BK_PAX_OUT_RECORD,
+		3 START_PAX            character (        9),
+		3 END_PAX              character (        9),
+		3 PAX_TYPE1            character (        2),
+		3 PAX_TYPE2            character (        2),
+		3 PAX_TYPE3            character (        2),
+		3 PAX_TYPE4            character (        2),
+		3 PAX_TYPE5            character (        2),
+		3 TVL_INT1             character (        2),
+		3 TVL_INT2             character (        2),
+		3 TVL_INT3             character (        2),
+		3 TVL_INT4             character (        2),
+		3 TVL_INT5             character (        2),
+		3 PAX_WP_FILE          character (       20);
+

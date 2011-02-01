@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_DIS_V_VENDOR File
+********************************************************************/
+
+declare	1 BK_DIS_V_VENDOR_RECORD,
+		3 VDIS_NON_ACK         character (1),
+		3 VDIS_START_SVC       fixed binary (15);
+

@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+    
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    
+  <meta name="Author" content="Ann Corley">
+    
+  <meta name="GENERATOR" content="Mozilla/4.7 [en] (Win98; U) [Netscape]">
+  <title>Linux Configuration</title>
+</head>
+  <body>
+  
+<h1> Setting up a Linux System from Scratch</h1>
+ 1. Install the O/S from CDs 
+<p>- DHCP = NO </p>
+<p>IP 209.85.16.222 (Server) (218-222)<br>
+Mask 255.255.255.0<br>
+Gateway 209.85.16.217<br>
+Hostname: tourbean.com <br>
+DNS 206.149.144.2<br>
+206.149.144.3 </p>
+<p>Firewall: None </p>
+<p>Users: <br>
+don <br>
+ann <br>
+other </p>
+<p>Monitor: True color 1024 x 768 </p>
+<p>Create and save boot disk. </p>
+<p>/tmp/install.log Shows what was installed. </p>
+<p><b>Install Done</b> </p>
+<p><b>Fix the partitioning.</b> <br>
+Do not boot the new system, fix the wierd partitioning first: <br>
+1. Reboot RH Install 1 <br>
+2. ...-&gt;Install <br>
+3. Manually partition empty disk space w/fdisk <br>
+hda: new/extended/first/max/write <br>
+hdc: new/primary/#2/first/max/write <br>
+<b>Set up the System:</b> <br>
+Sign on as root </p>
+<p>Format the new partitions: <br>
+mke2fs /dev/hdc2 <br>
+mke2fs /dev/hda6 </p>
+<p>Panel size -&gt; 24 <br>
+Gnome Configuration (toolbox icon) -&gt; Mouse -&gt; Left </p>
+<p>Create directory /mnt/hdc and /mnt/hda <br>
+mount /dev/hdc2 /mnt/hdc <br>
+mount /dev/hda6 /mnt/hda </p>
+<p>use df to see the disk space, mount to see the mounts </p>
+<p><b>Note: There are two disks: HDA and HDC (the secondary disk).</b> </p>
+<p>Set up for downloads by creating /root/download/ linux and java </p>
+<h3> Install and test the printer:</h3>
+ Program -&gt; System -&gt; Printer Configuration <br>
+Queue Name: HP5 <br>
+Queue Type: Local <br>
+Printer Driver: HP5L (lj5gray) <br>
+Save, Restart, Print Test Page 
+<h3> Install and test Netscape:</h3>
+ (netscape 6 doesn't work with RH 7.1 yet) 
+<h3> Install and test Samba:</h3>
+ Download Samba. <br>
+tar -zxvf Sambaxxx.tar.gz <br>
+cd samba2.xx.xx/source <br>
+./configure --with-smbmount <br>
+make <br>
+make install 
+<p>cd /usr/local/samba <br>
+edit (/etc/samba/smb.conf is the config file) <br>
+workgroup=DBSERVER </p>
+<p>run testparm <br>
+(create directory /var/lock/samba) <br>
+link /usr/local/samba/lib/smb.conf to conf file </p>
+<p>(in source dir, test samba:) <br>
+./smbd -D <br>
+./nmbd -D </p>
+<p>Add the Samba startup script to init.d </p>
+<p><b>MySQL setup:</b> </p>
+<p>The setup is fairly easy. Make sure you get the grants correct and create 
+the databases. </p>
+<p><b>Java setup:</b> <br>
+Install in: /usr/local/java/jdk <br>
+(must be 1.3.1 or later) <br>
+Link /usr/local/bin/java, javac, jar <br>
+Install docs <br>
+Install J2SDKEE <br>
+Install J2DSKEE Docs </p>
+<p><b>Tomcat setup:</b> <br>
+Unzip <br>
+Create script to execute tomcat w/TOMCAT_HOME <br>
+and in the tomcat script include my classpaths first (not last as it is now). 
+</p>
+<p><b>Cocoon setup:</b> <br>
+Move cocoon/lib to tomcat/lib <br>
+Follow the rest of the directions </p>
+<p><b>Download:</b> <br>
+StarOffice 5.2 www.sun.com <br>
+Java2 SDK 1.3 www.javasoft.com <br>
+Java2 SDK 1.3 Documentation <br>
+Java2 SKDEE 1.3 Beta <br>
+J2EE Documentation <br>
+Samba www.samba.org <br>
+MySQL www.mysql.com <br>
+mm.msql.jdbc 2.0 (java driver for mysql) </p>
+<p><b>Install the following:</b> <br>
+- Mozilla <br>
+- Java + Docs (link plug to mozilla plug-in directory) <br>
+- Java Web Start <br>
+- StarOffice + Adabas <br>
+- Netbeans <br>
+- MySQL jar (mm.mysql) <br>
+- Tomcat <br>
+- Cocoon <br>
+- Oreilly <br>
+- J2SDKEE + Docs <br>
+- ant <br>
+- log4j <br>
+- junit <br>
+- Jedit <br>
+- JExplorer <br>
+- javacomm <br>
+- winnie <br>
+- bbtools <br>
+- xalan, xerces (apache), jaxp (javasoft) </p>
+<p><b>Create links (scripts in /usr/local/bin)</b> <br>
+jar <br>
+java <br>
+javac <br>
+javaws * <br>
+web -&gt; mozilla * <br>
+soffice * <br>
+runide * <br>
+tomcat <br>
+jedit (auto on install) * <br>
+jexplorer * <br>
+ant </p>
+<p>* Add these to the desktop. </p>
+<p><b>Add the plug-ins to netscape:</b> <br>
+Shockwave (application/x-shockwave-flash) <br>
+realplayer (audio/x-pn-realaudio) <br>
+adobe acrobat (application/pdf) <br>
+java web start (application/x-java-jnlp-file) <br>
+&nbsp; </p>
+</body>
+</html>

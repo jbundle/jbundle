@@ -1,0 +1,13 @@
+/*********************************************************************
+	GL_PERIOD_RPT File
+********************************************************************/
+
+declare	1 GL_PERIOD_RPT_RECORD,
+		3 GL_PERIOD_DATE       fixed binary (15),
+		3 GL_PERIOD_TIME       fixed binary (15),
+		3 GL_PERIOD_PAGE       fixed binary (15),
+		3 GL_PERIOD_COUNT      fixed binary (15),
+		3 GL_PER_START         fixed binary (15),
+		3 GL_PER_END           fixed binary (15),
+		3 GL_PERIOD_USER       character (       16);
+

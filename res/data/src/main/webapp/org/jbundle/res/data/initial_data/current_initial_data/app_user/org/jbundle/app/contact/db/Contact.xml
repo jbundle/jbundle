@@ -1,0 +1,5683 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<Contact ID="1">
+		<LastChanged>2010-02-16T13:50:58</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>test</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2010-02-16</DateEntered>
+		<DateChanged>2010-02-16</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>TEST</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="2">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Seasons 4</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown>Mammoth</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode/>
+		<Country/>
+		<Tel>(619) 934-2030</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2002-12-23</DateChanged>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>SEASON</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="3">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>DER (Germany)</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>5/15 Chicago called interested in system</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>DER (G</NameSort>
+		<PostalCodeSort/>
+		<Contact>Werner Sulberg</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="6">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Innovative Systems Group</Name>
+		<AddressLine1><![CDATA[18710 South Wilmington Ave
+Suite 108]]></AddressLine1>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode>Rancho Dom</PostalCode>
+		<Country/>
+		<Tel>1-800-540-4782</Tel>
+		<Fax>1-310-632-5234</Fax>
+		<Email>isgisg@msn.com</Email>
+		<Web>(310) 632-9674</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-07-01</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Brian & Steve & James
+Take 710S to 91W Off at Wilmington sales 714-847-0598, serv 800-540-4782, Fax 714-847-4128,
+16371 Gothard Street, Suite H
+Huntington Beach, CA  92647 
+Raul @ personal cell: 714-307-5427
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>INNOVA</NameSort>
+		<PostalCodeSort>Ranch</PostalCodeSort>
+		<Contact>Karen Flynn</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="7">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>11265 Garfield Ave.</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Culver City</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90230</PostalCode>
+		<Country/>
+		<Tel>310-915-9419</Tel>
+		<Fax>310-299-4719 Jack's Page</Fax>
+		<Email>jackbommarito@aol.com</Email>
+		<Web>(818) 470-1351 Mara's Pager</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-08-26</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Gianna, Gregory, and Mathew
+Mara's brothers are:
+John and ?
+Jack's
+Dad: Frank
+Mom: ?
+Sister:
+Matthew cell (310) 433-1753
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>BOMMAR</NameSort>
+		<PostalCodeSort>90230</PostalCodeSort>
+		<Contact>Jack &amp; Mara Bommarito</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="8">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Image Unlimited</Name>
+		<AddressLine1>543 B. So. Raymond Ave.</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Pasadena</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91105</PostalCode>
+		<Country/>
+		<Tel>(818) 564-0925</Tel>
+		<Fax>(818) 214-2720</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Disk duplication services (Nick &amp; Hope's son)</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>IMAGE </NameSort>
+		<PostalCodeSort>91105</PostalCodeSort>
+		<Contact>John Navarro</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="9">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>16047 Ludlow Street</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Granada Hills</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91344</PostalCode>
+		<Country/>
+		<Tel>818-366-3433</Tel>
+		<Fax>(818) 360-1807</Fax>
+		<Email>nbforest111@aol.com</Email>
+		<Web>(626) 960-1933</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2000-04-02</DateChanged>
+		<ChangedID>2,167</ChangedID>
+		<Comments><![CDATA[Kesang, Nicole
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>BALL</NameSort>
+		<PostalCodeSort>91344</PostalCodeSort>
+		<Contact>John Ball</Contact>
+		<Title/>
+		<HomeTel>(818) 366-3433</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="10">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>15737 Kenneth Ave.</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Canyon Country</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91351</PostalCode>
+		<Country/>
+		<Tel>818-896-1141 x4523</Tel>
+		<Fax>(661) 251-4881 (Home)</Fax>
+		<Email>vicki_cisneros@yahoo.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-10-01</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Robert, Chris, Matt, Sam 
+1-818-834-3523
+
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>CISNER</NameSort>
+		<PostalCodeSort>91351</PostalCodeSort>
+		<Contact>Vicki Cisneros</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="12">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Sandy &amp; Franks Living Trust A</Name>
+		<AddressLine1>280 E. Thousand Oaks Blvd. #F</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Thousand Oaks</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91360</PostalCode>
+		<Country/>
+		<Tel>(805) 496-4529</Tel>
+		<Fax>(805) 497-9476</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2003-12-17</DateChanged>
+		<ChangedID>4</ChangedID>
+		<Comments>97-65-19</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>SANDY </NameSort>
+		<PostalCodeSort>91360</PostalCodeSort>
+		<Contact>Felix G. Masci</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="13">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>14234 Breezeway Place</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>San Diego</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92128</PostalCode>
+		<Country/>
+		<Tel>619-451-8190x244</Tel>
+		<Fax/>
+		<Email>owen808@sbcglobal.net</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2007-06-05</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Kim, Karly, and Cameron
+
+I-15 North
+
+Carmel Mountain Road cut off
+
+Take a right on to Carmel Mtn Road
+
+2nd signal light ? turn right on to Stoney Peak
+
+Go all the way up the hill and take a right on Sea Bridge
+
+Go up a short hill and take the first left on Cedarhurst
+
+Take the first right on Breezeway
+
+We?re at the bottom of the cul-de-sac on the right ]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>IMAIZU</NameSort>
+		<PostalCodeSort>92128</PostalCodeSort>
+		<Contact>Owen Imaizumi</Contact>
+		<Title/>
+		<HomeTel>(858) 485-6763 (Home)</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="14">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Australian Travel Service</Name>
+		<AddressLine1>100 N. First Street #301</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Burbank</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91502</PostalCode>
+		<Country/>
+		<Tel>(818) 841-1030</Tel>
+		<Fax>Alex - x310</Fax>
+		<Email>aparker@ats-islands.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2003-10-27</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[http://www.atstours.com/
+http://www.islandsinthesun.com/
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>AUSTRA</NameSort>
+		<PostalCodeSort>91502</PostalCodeSort>
+		<Contact>Alen &amp; Gerlinde Parker</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="15">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>213 Green Lea Place</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Thousand Oaks</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91360</PostalCode>
+		<Country/>
+		<Tel>805-495-5697</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>SHOLZ</NameSort>
+		<PostalCodeSort>91360</PostalCodeSort>
+		<Contact>Kelly Sholz</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="16">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Kobo Enterprises</Name>
+		<AddressLine1>857 Meridian Ave</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Irwindale</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91010</PostalCode>
+		<Country/>
+		<Tel>(818) 303-3699</Tel>
+		<Fax>(818) 303-2686 (Steve)</Fax>
+		<Email>smfktk@aol.com</Email>
+		<Web>(714) 770-7044 (Home)</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-10-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[To access the qualityX website, visit http://www.myfamily.com and enter the
+following login information:
+
+
+Username: AnnCorley44
+Password: [Withheld for security reasons]
+
+Code to house:
+0122 'unlock'
+Code to alarm
+0122
+password:
+sportfishing
+
+Karen Fukutaki
+701 Glencoe
+Denver, CO 80220]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>KOBO E</NameSort>
+		<PostalCodeSort>91010</PostalCodeSort>
+		<Contact>Steve Fukutaki</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="18">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2003-12-15</DateChanged>
+		<ChangedID>186</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>TANAMA</NameSort>
+		<PostalCodeSort/>
+		<Contact>Noreen Tanamachi-Liu</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="19">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1900 Jones Ave</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Los Angeles</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90032</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax>323-223-4618</Fax>
+		<Email>cmendoza@netzero.net</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2007-03-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Tom's work number (323) 223-9039
+Mommy & Daddy baby
+Tom's Beeper 213-919-4693
+Lupe at work: 584-1043 (Becky, Theresa, Lisa)
+Tom's Fax 323-223-4618
+Clemen at home 323-227-9665
+Clemen's beeper 213-812-3424
+Clemen's Cell Phone 323-683-6170
+Tom and Lucia Carinio 323-221-2363
+Friends:
+Richard Espinosa + Wife
+Benny Padilla + Wife
+Eddy and Magena (Wife) (Dance friends)
+323-899-7648 (Tom's new cell)
+Lupe (new cell) 323-348-9897]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>ARAUJO</NameSort>
+		<PostalCodeSort>90032</PostalCodeSort>
+		<Contact>Tom &amp; Lupe Araujo</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail>(323) 223-5799</HomeEmail>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="20">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Pacific Citizen</Name>
+		<AddressLine1>7 Cumapi Circle</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Monterey Park</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode/>
+		<Country/>
+		<Tel>(213) 725-0083</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[Harry Honda, Richard, Andy, Francis
+60 off on garfield/wilcox (east) to Potero Grande to Atlas, First Stop
+Andy now at Gardena Valley News
+(310) 329-6351
+Martha @ Home
+(310) 538-1302]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PACIFI</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="21">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Harrison Elementary School</Name>
+		<AddressLine1>3529 City Terrace Drive</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Los Angeles</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90063-3741</PostalCode>
+		<Country/>
+		<Tel>(323) 263-9191</Tel>
+		<Fax>(323) 263-7708 Fax</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-11-14</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments>Bill and Celia Adams &lt;cadams@laedu.lalc.k12.ca.us&gt;, Anita Deloffre &lt;adeloffre@hotmail.com&gt;, "Jill A. Aguilar" &lt;jaa@usc.edu&gt;, Amy Ardell &lt;amyardell@hotmail.com&gt;, Ann and Don Corley &lt;don@donandann.com&gt;, Scott Baker &lt;sbaker@oregon.uoregon.edu&gt;, Carla Bartlett &lt;cbartlett@msmc.la.edu&gt;, Debbie Bermeo &lt;Wekebbie@aol.com&gt;, Cliff Bender &lt;cbender@lausd.k12.ca.us&gt;, Chris Givner &lt;cgivner@calstatela.edu&gt;, Ann Chambers &lt;cherokeechick15@hotmail.com&gt;, Margie Curwen &lt;curwen@usc.edu&gt;, Joe Dimino &lt;jdimino@eugeneresearch.org&gt;, Danielle Bogdanov &lt;home.bogdanov@verizon.net&gt;, Dolores Beltran &lt;Beltran_Dolores@lacoe.edu&gt;, Kathy Fuller &lt;KFullerbla@aol.com&gt;, Elizabeth Feldman &lt;erf78@hotmail.com&gt;, Diane Haager &lt;dhaager@calstatela.edu&gt;, Nan Hunt &lt;NanHunt@aol.com&gt;, Jo Ann Isken &lt;joann_isken@lennox.k12.ca.us&gt;, Jennifer Skoda &lt;skoda@usc.edu&gt;, Kathy &amp; Peter Reynolds &lt;reynolds@pacificnet.net&gt;, Lilia Sarmiento &lt;lsarmiento@whittiercity.k12.ca.us&gt;, Marta Reinoso &lt;mreinoso20@hotmail.com&gt;, Suzie Oh &lt;Sko1212@aol.com&gt;, Gus Ortiz &lt;Ortizesc@cs.com&gt;, Patty Tye &lt;j.pmjstye@verizon.net&gt;, Romelia Ulloa &lt;romyz69@aol.com&gt;, Elena Velarde &lt;evelarde@lausd.k12.ca.us&gt;, Cookie Zack &lt;Cooksboys@aol.com&gt;</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>HARRIS</NameSort>
+		<PostalCodeSort>90063</PostalCodeSort>
+		<Contact>Mike Jeffers</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="22">
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>4090 Adelaide Ave. Apt A</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Klammath Falls</CityOrTown>
+		<StateOrRegion>OR</StateOrRegion>
+		<PostalCode>97603-4885</PostalCode>
+		<Country/>
+		<Tel>541-850-8215</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2007-12-26</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Garvar, Staci, Arron, Dayon
+Russ, Ethan
+
+Take 5, off at Lions, (L) Newhall Ave, (R) 14th St., (R) Chestnut
+works at Valencia Golf Course.
+
+Garvar Brummett
+2670 Willamette
+Eugene, OR  97405
+(541)485-4270
+
+Dayon Schwartz
+4400 E. Kell Lane
+Space 301
+Las Vegas, NV  89115
+(702) 437-1517
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>SCHWAR</NameSort>
+		<PostalCodeSort>97603</PostalCodeSort>
+		<Contact>Cheri Schwartz</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="24">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>401 S. Big Five Rd.</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Rahrump</CityOrTown>
+		<StateOrRegion>NV</StateOrRegion>
+		<PostalCode>89048</PostalCode>
+		<Country/>
+		<Tel>775-751-9372</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2006-01-07</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments>Dennis Cox, Taco, Aunt Else - Renje?</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>RENJE</NameSort>
+		<PostalCodeSort>89048</PostalCodeSort>
+		<Contact>Ilse M Renje</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="25">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1184 Ponce de Leon Avenue</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Las Vegas</CityOrTown>
+		<StateOrRegion>NV</StateOrRegion>
+		<PostalCode>89123</PostalCode>
+		<Country/>
+		<Tel>(702) 896-6773</Tel>
+		<Fax>(702) 851-4691 (Work IBM</Fax>
+		<Email>damicom@us.ibm.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-10-22</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[(702) 480-1343 (Mike Cellular)
+(702) 338-8266 (Vicki's Cell)
+(661) 252-1215 (Vicki's Mom - Pat Vignaroli)
+Vicki Viggy05@cs.com
+Mike, Vicki, Michelle, Joey, and Jenny, Mikalia
+Glen Miller:
+Home 435-628-5352
+glenmiller@skyviewsoftware.com
+Cell 435-862-0104
+Sally:
+sgluckma@us.ibm.com
+702-461-9785 (cell)
+702-731-6001 (work)
+Jessica Walters
+jesswalt@us.ibm.com
+792-853-4806 (work)
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>D'AMIC</NameSort>
+		<PostalCodeSort>89123</PostalCodeSort>
+		<Contact>Mike &amp; Vicky D'Amico</Contact>
+		<Title>mdamico@compuserve.com</Title>
+		<HomeTel>1-702-792-4793 Fax</HomeTel>
+		<HomeEmail>mhdamico@cox.net</HomeEmail>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="27">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>5765 N. Campbell Way</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Las Vegas</CityOrTown>
+		<StateOrRegion>NV</StateOrRegion>
+		<PostalCode>89149</PostalCode>
+		<Country>USA</Country>
+		<Tel>(702) 656-7047</Tel>
+		<Fax>(805) 495-2955 Tim's Mom</Fax>
+		<Email>recklessgun@hotmail.com</Email>
+		<Web>blazingtrails@earthlink.net (Greg)</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-08-19</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[New New Cell Phone: 702-205-5120
+New Cell Kaffers: 702-860-2053
+other? Phone: 702-656-7047
+martinwyand.com pics
+Danielle, Gabriel, and Tyler
+Deedee, Gaby, and Buba
+Mrs. D - Moorpark at Jans left, left to columbia, rt to 1849 Burleson
+Cellular 702-219-1369
+gab's email is something like bee you tee ful girl@aol.com
+Kaffer's cell 702-526-3674
+Kaffer's new cell 702-839-5008
+Deed's cell phone: 702-526-3671
+Kaffers new cell: 702-205-5120
+Kaffers Home (new Cell?boyfriend?): 702-839-5008
+Greg's House: 702-839-1784
+Deed's Cell Phone: 702-308-4209
+Tim's Cell Phone: 702-308-5251
+Tim @ Home 702-658-8091
+Gab's Cell Phone: 702-308-4910
+Greg Vasquez
+9395 W. Verde Way
+Greg's Cell 702-401-9361
+Bubs Phone no: 702-423-2790
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>DEBRUN</NameSort>
+		<PostalCodeSort>89149</PostalCodeSort>
+		<Contact>Kaffers DeBruno</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="28">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>JACL</Name>
+		<AddressLine1>1765 Sutter Street</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>San Francisco</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>94115</PostalCode>
+		<Country/>
+		<Tel>(415) 921-5225</Tel>
+		<Fax>(415) 931-4671 FAX</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>JACL</NameSort>
+		<PostalCodeSort>94115</PostalCodeSort>
+		<Contact>Clay Harada</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="29">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Tortuga Express</Name>
+		<AddressLine1>730 N. Euclid Street, Suite 114</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Anaheim</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92803</PostalCode>
+		<Country/>
+		<Tel>(714) 774-3121</Tel>
+		<Fax>Tour Operator</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2002-09-27</DateChanged>
+		<ChangedID>611</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>TORTUG</NameSort>
+		<PostalCodeSort>92803</PostalCodeSort>
+		<Contact>Tom (Pres), Linda King (Op mgr</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="30">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>860 Bretton Pl</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Simi Valley</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>93065</PostalCode>
+		<Country/>
+		<Tel>(805) 526-6873</Tel>
+		<Fax/>
+		<Email>natanis.geo@yahoo.com</Email>
+		<Web>http://www.geocities.com/CapeCanaveral/9</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-10-14</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Jane's number: 1-253-631-3105
+Geri's Number 310-455-2475
+http://www.geocities.com/CapeCanaveral/9348/
+Jane's address:
+25956 158th Ct SE
+Covington, WA  98042]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MCGRAT</NameSort>
+		<PostalCodeSort>93065</PostalCodeSort>
+		<Contact>Tom McGrath</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="32">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>4405 Juniper Trail</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Reno</CityOrTown>
+		<StateOrRegion>NV</StateOrRegion>
+		<PostalCode>89509</PostalCode>
+		<Country/>
+		<Tel>1-775-747-5044</Tel>
+		<Fax>1-775-287-6946 (Cell)</Fax>
+		<Email>Ollieturky@charter.net</Email>
+		<Web>1-702-746-0524 Patty &amp; John</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-12-25</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[395N
+don't get on fwy, turns into S Virginia
+(L) on McCarron West (Exit 10) 4 streets
+(R) on Mayberry (1 mile)
+(L) on Plateau
+(L) on Meadowgate
+(R) on Juniper Trail
+Code 1873 
+N6625724
+N6749919
+035246895
+155605372
+53347000x2378205
+53347000x2378304
+47773921x3080810
+54106540x4180113
+1118
+
+
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>FARRIN</NameSort>
+		<PostalCodeSort>89509</PostalCodeSort>
+		<Contact>Frank &amp; Sandy Farrington</Contact>
+		<Title/>
+		<HomeTel>L7-33-19</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="33">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-949-322-5895</Tel>
+		<Fax/>
+		<Email>melynfarr@msn.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-11-25</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Cell: 949-525-3940
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>FARRIN</NameSort>
+		<PostalCodeSort/>
+		<Contact>Melanie Farrington</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="34">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>4136 Monterey Road</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Los Angeles</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90032</PostalCode>
+		<Country/>
+		<Tel>(323) 222-7485</Tel>
+		<Fax>292-0034 Work</Fax>
+		<Email>iris@koboworld.com</Email>
+		<Web>(818) 242-1206</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2007-07-06</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Cellular 626-664-6020
+714-329-5124
+Pat DeRose 213-283-6681]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>FUKUTA</NameSort>
+		<PostalCodeSort>90032</PostalCodeSort>
+		<Contact>Iris Fukutaki</Contact>
+		<Title/>
+		<HomeTel>1-818-792-8031 Fax Mielke</HomeTel>
+		<HomeEmail>213-499-4529 Beeper</HomeEmail>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="35">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Calway Funding</Name>
+		<AddressLine1>19099 Colima Rd.</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Rowland Hts</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91748</PostalCode>
+		<Country/>
+		<Tel>(626) 913-8889</Tel>
+		<Fax>(909) 861-2893 (Home)</Fax>
+		<Email>pepinc@ix.netcom.com</Email>
+		<Web>(626) 588-0524 (Beeper)</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-03-28</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Nogales, rt to Colima
+Mobil phone: 626-695-1688
+Fax: 626-913-8882
+Pager: 626-588-0524
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>CALWAY</NameSort>
+		<PostalCodeSort>91748</PostalCodeSort>
+		<Contact>Jessie Hu</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="36">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Sierra Service</Name>
+		<AddressLine1>27346 W. Provident</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Agoura Hills</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91301</PostalCode>
+		<Country/>
+		<Tel>(818) 889-5612</Tel>
+		<Fax/>
+		<Email>jolson4257@aol.com</Email>
+		<Web>(818) 889-5671 (Bus)</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-04-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Uncle John, Varia, Alex
+818-292-5204 (Varia's cell phone)
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>SIERRA</NameSort>
+		<PostalCodeSort>91301</PostalCodeSort>
+		<Contact>John Olson</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="37">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>3621 Lake Trail Drive</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Kenner</CityOrTown>
+		<StateOrRegion>LA</StateOrRegion>
+		<PostalCode>70065</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Aunt Bonzy</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>SCHWAR</NameSort>
+		<PostalCodeSort>70065</PostalCodeSort>
+		<Contact>Mr. and Mrs William Schwartz</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="38">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1><![CDATA[429 Edgewood Ave
+Elkhorn Wisconsin]]></AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Elkhorn</CityOrTown>
+		<StateOrRegion>WI</StateOrRegion>
+		<PostalCode>53121</PostalCode>
+		<Country/>
+		<Tel>(262) 723-4468</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-10-27</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Uncle Bird
+rleibsle@townsquare.com
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>L</NameSort>
+		<PostalCodeSort>53121</PostalCodeSort>
+		<Contact>Mr. and Mrs. Robert &amp; Family L</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail>rleibsle@elknet.net</HomeEmail>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="39">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown>Lawrence</CityOrTown>
+		<StateOrRegion>Kansas</StateOrRegion>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>SALVAT</NameSort>
+		<PostalCodeSort/>
+		<Contact>Mr. and Mrs. Mark Salvatore</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="40">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>RAND Corporation</Name>
+		<AddressLine1>1700 Main Street PO Box 2138</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Santa Monica</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90407-2138</PostalCode>
+		<Country/>
+		<Tel>(Scans all messages answ</Tel>
+		<Fax>(310) 398-3241 Home</Fax>
+		<Email/>
+		<Web>(310) 393-0411 x7826</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[Home:
+11811 Washington Pl #211
+Los Angeles, CA  90066-4651
+Directions:
+405 South to Venice (Rt)
+(left) onto Sepulveda
+(right) on Washington Place
+1700 Main Street POBox 2138
+Santa Monica, CA  90407-2138
+Development Office]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>RAND C</NameSort>
+		<PostalCodeSort>90407</PostalCodeSort>
+		<Contact>Mark Osaki</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="41">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1208 N. Story Place</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Alhambra</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91801</PostalCode>
+		<Country/>
+		<Tel>(626) 458-1495</Tel>
+		<Fax>(626) 403-6128 (Holy Fam</Fax>
+		<Email>dponnet@holyfamily.org</Email>
+		<Web>1-818-799-8909 Holy Family Rectory</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-08-09</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[626-644-0863 cell
+626-644-0836 frank cell
+fponnet@holyfamily.org
+403-6116
+Jolinda
+799-0423 (Holy Family FAX)
+Donna 602-830-2617
+Shiela 445-8635
+Stacey Cell: 626-644-1681
+Luke Cell: 626-644-0834]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PONNET</NameSort>
+		<PostalCodeSort>91801</PostalCodeSort>
+		<Contact>Frank &amp; Dawn Kopitcke- Ponnet</Contact>
+		<Title/>
+		<HomeTel>818-542-8306 Pager</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="42">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>2946 North Riverside Avenue</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Rialto</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92376</PostalCode>
+		<Country/>
+		<Tel>760-904-6507</Tel>
+		<Fax/>
+		<Email>curmudgeon2@msn.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2007-06-22</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Uncle sal 698-0811 605->Washington E to 12401 Washington blvd Lambert
+Caesar J. Wood
+620 E. Route 66, Suite 214
+Glendora, CA 91740
+626-335-3230
+www.residencemortgageco.com
+909-845-3649]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MANCIL</NameSort>
+		<PostalCodeSort>92376</PostalCodeSort>
+		<Contact>Carlos Mancillas</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="44">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>Am Schlossberg 1055585 Altenbamberg</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>011 (00) 49 6362 308 354</Tel>
+		<Fax/>
+		<Email>denmaico@aol.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2006-04-20</DateChanged>
+		<ChangedID>-1</ChangedID>
+		<Comments><![CDATA[Dennis, Irma, Marco, and Sandra----Miaka (Mike-a) coxia@excite.de
+Irma: Hauptstrabe 35
+55595 Gutenberg
+(011) 49 67 06 14 21
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>COX</NameSort>
+		<PostalCodeSort/>
+		<Contact>Dennis G. Cox</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="45">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Rancho Simi Dental Plaza</Name>
+		<AddressLine1>1987 Royal Avenue - Suite 2</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Simi Valley</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>93065</PostalCode>
+		<Country/>
+		<Tel>(805) 526-8637</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-04-14</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>RANCHO</NameSort>
+		<PostalCodeSort>93065</PostalCodeSort>
+		<Contact>Kenneth E. Kolz, D.D.S.</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="46">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>9860 Estrella Avenue</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Temple City</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91780</PostalCode>
+		<Country/>
+		<Tel>(818) 285-5117</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Robert bought computer from:</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MARTIN</NameSort>
+		<PostalCodeSort>91780</PostalCodeSort>
+		<Contact>Frank &amp; Margie Martinez</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="47">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>PoBox 313</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>PioneerTown</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92268</PostalCode>
+		<Country/>
+		<Tel>(760) 228-1297</Tel>
+		<Fax/>
+		<Email>rimrockrockjack@hotmail.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-01-17</DateChanged>
+		<ChangedID>6</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>MCCABE</NameSort>
+		<PostalCodeSort>92268</PostalCodeSort>
+		<Contact>Jack McCabe</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="48">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>3011 Willow St</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Anchorage</CityOrTown>
+		<StateOrRegion>AK</StateOrRegion>
+		<PostalCode>99517</PostalCode>
+		<Country/>
+		<Tel>907-272-7673</Tel>
+		<Fax/>
+		<Email>twinkleroo@aol.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Jane and Charlie
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>STOCKA</NameSort>
+		<PostalCodeSort>99517</PostalCodeSort>
+		<Contact>Julie and Carol Stockard</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="49">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>317 Melrose Drive</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Oxnard</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>93035</PostalCode>
+		<Country/>
+		<Tel>1-805-985-3349</Tel>
+		<Fax/>
+		<Email>jscott_olson@hotmail.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-07-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Voice Mail 1-800-321-2213 x5503
+Cust Svc 1-800-322-4966
+Cell Phone 1-805-704-8045
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>OLSON</NameSort>
+		<PostalCodeSort>93035</PostalCodeSort>
+		<Contact>Scott Olson</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="50">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>(818) 363-9702</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>PATRIC</NameSort>
+		<PostalCodeSort/>
+		<Contact>Mike Patrick</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="51">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>2624 Vista Loop</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Oxnard</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>93036</PostalCode>
+		<Country/>
+		<Tel>(805) 604-9217</Tel>
+		<Fax/>
+		<Email>schoenbaumdds@aol.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-08-14</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[David Schoenbaum
+101 off on Victoria (lt) to Harbor(rt) to Costa de Oro(rt) to 4574 Gates Head Bay(lt)
+OXNARD CA 93035-3706
+(805) 231-7189 (Cell)
+
+
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>OLSON</NameSort>
+		<PostalCodeSort>93036</PostalCodeSort>
+		<Contact>Susan Olson</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="52">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>40328 Odessa Drive</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Temecula</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92591</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>trishbowers17@yahoo.com</Email>
+		<Web>pantyman115@cs.com</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-07-30</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Billy, Briana, & Brandon
+Amy, Shana, Billy, Briana, Brandon
+Billy: 909-698-9215
+Trisha new cell: 1-951-757-4599
+Bill's Dad - Bill Shields/Wife Chris Shields
+Bill's ex-wife Chris Shields 805-379-9664 Sam 702-674-3736, Bill's beeper 1-310-287-8093x, Friend Eric Eryle 310-391-6485, Bill on Boat 310-822-9007. Last address 12425 Woodgreen, L.A. 90063. Bill's Friend in Marina 310-574-6533. Directions to boat: Marina freeway, right on Lincoln to Washington, left on Via Marina, left Panay to Chart House Restaurant.
+From L.A.
+(lt) off Winchester
+(rt) onto Margareta
+(lt) onto General Cherney
+(lt) onto Campos Verdes
+(rt) onto Cervantes
+(lt) onto a small street (Odessa Dr)]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>BOWERS</NameSort>
+		<PostalCodeSort>92591</PostalCodeSort>
+		<Contact>Bruce and Patricia Bowers</Contact>
+		<Title/>
+		<HomeTel>(951) 699-0180 Home</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="54">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>10265 Rue Chamberry</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>San Diego</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92131</PostalCode>
+		<Country/>
+		<Tel>858-271-7019</Tel>
+		<Fax>(619) 282-3131</Fax>
+		<Email>ttanaka9@gmail.com</Email>
+		<Web>(619) 283-3131 FAX</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2007-02-02</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Owen x260
+Encino Home: 134 Off @Van Nuys: South almost to Mulholland; left on Coy; Left on Glorietta St, Left on 3467 Glorietta Place 1-818-784-3590
+Cell Phone 858-349-1466 
+old email:ttanaka@san.rr.com
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>TANAKA</NameSort>
+		<PostalCodeSort>92131</PostalCodeSort>
+		<Contact>Tyler Tanaka</Contact>
+		<Title/>
+		<HomeTel>(619) 282-4379 Modem</HomeTel>
+		<HomeEmail>tyler3@earthlink.net</HomeEmail>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="55">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Yamato Travel</Name>
+		<AddressLine1>250 E. First Street #1112</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Los Angeles</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90012</PostalCode>
+		<Country/>
+		<Tel>(213) 680-0333</Tel>
+		<Fax/>
+		<Email>yamototrav@aol.com</Email>
+		<Web>yamatogroups@aol.com</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-11-25</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Peggy Mikuni & Gary
+Noreen Tanamachi-Liu
+Kenji, Grace, and Scott
+Sandy
+Sharon (works with Noreen)
+Shari (Accountant)
+Lily
+Masako
+Peggy's cell phone: 626-318-4504
+..
+Sandy Abe
+29351 Madeira Lane
+Santa Clarita, CA  91354
+(661)775-7737 (home)
+323-356-7639 (cell) 
+661-295-2009
+
+Galileo ID: MF7
+pin: 860292
+Sandy's ClientID: A0151712 
+
+Grace's info:
+ClientID a0151714
+pwd: 8gmsaka33 
+contivity password: 66dd53
+son/zgs
+Home 626-288-7721
+Cell 626-592-2174
+Scott Home 626-308-0549
+Scott Cell: 626-718-7941
+scott: sakamoto.scott@gmail.com]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>YAMATO</NameSort>
+		<PostalCodeSort>90012</PostalCodeSort>
+		<Contact>Grace Sakamoto</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="56">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1548 Crystal Downs</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Banning</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92220</PostalCode>
+		<Country/>
+		<Tel>1-909-845-0154</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2000-12-07</DateChanged>
+		<ChangedID>2,299</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>WESSER</NameSort>
+		<PostalCodeSort>92220</PostalCodeSort>
+		<Contact>Tony &amp; Rita Wesser</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="57">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>13620 Vollmer Road</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Colorado Spring</CityOrTown>
+		<StateOrRegion>CO</StateOrRegion>
+		<PostalCode>80908</PostalCode>
+		<Country/>
+		<Tel>1-719-495-2493</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>KYLE</NameSort>
+		<PostalCodeSort>80908</PostalCodeSort>
+		<Contact>Jean &amp; Bob Kyle</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="58">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Pacific Best Tours</Name>
+		<AddressLine1><![CDATA[Best Tours Building
+228 River Vale Road]]></AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>RiverVale</CityOrTown>
+		<StateOrRegion>NJ</StateOrRegion>
+		<PostalCode>07675</PostalCode>
+		<Country/>
+		<Tel>1-201-664-8778</Tel>
+		<Fax/>
+		<Email/>
+		<Web>1-800-688-3288</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[12/14/93 demo
+Robert - D.P. Person]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PACIFI</NameSort>
+		<PostalCodeSort>07675</PostalCodeSort>
+		<Contact>Peter Yeung</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="59">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Plog Research</Name>
+		<AddressLine1>18631 Sherman Way</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Reseda</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91325</PostalCode>
+		<Country/>
+		<Tel>1-818-345-7363</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Ruth Sharp (MIS)</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PLOG R</NameSort>
+		<PostalCodeSort>91325</PostalCodeSort>
+		<Contact>Stan Plog</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="60">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Africa Travel</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-818-507-7893</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-02-03</DateChanged>
+		<ChangedID>439</ChangedID>
+		<Comments><![CDATA[David Herbert
+Bob - Source of Venture Capital
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>AFRICA</NameSort>
+		<PostalCodeSort/>
+		<Contact>Robert Torme</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="61">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1781 Bitterbrush Ct</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Gardenerville</CityOrTown>
+		<StateOrRegion>NV</StateOrRegion>
+		<PostalCode>89410</PostalCode>
+		<Country/>
+		<Tel>775-782-2394</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-12-16</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[395N past Minden, rt on Stephanie, lt on Vicki, rt on Porter
+His Dad 805-252-7792
+Jerry (Works on cars here) 805-268-0349]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>DAVIS</NameSort>
+		<PostalCodeSort>89410</PostalCodeSort>
+		<Contact>Bill &amp; Pat Davis</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="62">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Merisel</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-800-482-6824</Tel>
+		<Fax/>
+		<Email/>
+		<Web>1-800-252-5014 x818</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[1-800-637-4735
+Nancy - New Financial Rep
+Cust# 840360
+S/W Licensing 800-227-1312
+John Raymond Direct 310-615-3080 x3073]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MERISE</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="63">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Microsoft</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-800-426-9400</Tel>
+		<Fax/>
+		<Email/>
+		<Web>1-206-936-6735 Data</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[Customer Service 800-462-5241
+My customer ID:134415 Don Corley Pass: Donwpp]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MICROS</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="64">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown>Los Angeles</CityOrTown>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>bcadams7@msn.com</Email>
+		<Web>213-722-4805x2222 Commerce</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-07-31</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Parents: Tony and Haru Yamasaki 323-262-0322
+Brother: Dale and Michelle
+Palm Springs 760-321-1220]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>ADAMS</NameSort>
+		<PostalCodeSort/>
+		<Contact>Bill &amp; Celia Adams</Contact>
+		<Title/>
+		<HomeTel>562-463-0078</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="65">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>4223 Rutgers Ave</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Long Beach</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90808</PostalCode>
+		<Country/>
+		<Tel>1-562-425-5316</Tel>
+		<Fax>1-562-867-9516</Fax>
+		<Email>c_araujo_henderson@yahoo.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-09-16</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>HENDER</NameSort>
+		<PostalCodeSort>90808</PostalCodeSort>
+		<Contact>Don &amp; Christy Henderson</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="66">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>7697 Lobos Ave.</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Hesperia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92345</PostalCode>
+		<Country/>
+		<Tel>1-760-244-4386</Tel>
+		<Fax/>
+		<Email>araujofamily@charter.net</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2005-12-26</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Grandparents: Armando and Lorraine Navaro: 760-244-0637
+Main to Peach(rt) to (Davenport?)(lt) to Arcadia(rt) to Yuma(lt).
+Lorraine and Armondo
+18504 Yuba Street
+Hesperia, CA 92345
+Cell: 760-964-8521
+Liz Cell: 760-408-0178
+Relatives:
+Arron, Amanda, Alaura, and Dresden 
+Tommy's cell (work) 760-686-4424]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>ARAUJO</NameSort>
+		<PostalCodeSort>92345</PostalCodeSort>
+		<Contact>Tommy &amp; Liz Araujo</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="68">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-818-791-3225</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>KENNED</NameSort>
+		<PostalCodeSort/>
+		<Contact>Donald Kennedy</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="70">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1604 Venice Ave</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Monrovia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91016</PostalCode>
+		<Country/>
+		<Tel>1-626-445-7002</Tel>
+		<Fax/>
+		<Email>phil2000@pacbell.net</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-10-26</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Carphone 818-404-4379 
+Susie's Cell 626-487-1383
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>STILLW</NameSort>
+		<PostalCodeSort>91016</PostalCodeSort>
+		<Contact>Phil and Susie Stillwell</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="71">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Ready Beeper</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-800-786-2777</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Beeper 818-418-4723 code 0, 630</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>READY </NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="72">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Japan &amp; Orient Tours, Inc.</Name>
+		<AddressLine1>3131 Camino del Rio North</AddressLine1>
+		<AddressLine2>Suite 1080</AddressLine2>
+		<CityOrTown>San Diego</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92108-5789</PostalCode>
+		<Country/>
+		<Tel>1-800-377-1080</Tel>
+		<Fax>1-619-283-3131</Fax>
+		<Email/>
+		<Web>1-619-282-3131</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-07-29</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Luke's cell number: (619) 892-3859
+Direct to xfer - 282-3455 brent 7111 luke 7110
+282-6516, 282-4174 WAW, 282-5472?, 282-5690 Credit Card, 282-4164 JOA Fax, 282-2763 NT Server,
+282-2754 DG Fax, 282-4379 ?, 282-0402 DataGeneral, 282-2763 PC Modem, 282-9486 Internet line, 282-6379 PC MS at Work Fax, ISDN 516-7015/6
+260 Owen, 215 Kim, 201 Cindy, 203 Robin
+282-3659 Kurt
+Sylvia @Home 691-7758
+Verna @home 488-3174, Sales 1083 1#, Mailing 1082 1, Mktg 1084 1, Tyler 1081 1
+ISDN 619-516-7015/6 SPID +00
+New lines: 282-0850 0402 0176 0739
+jose 619-650-1363 pager
+Luke@home: 619 589-8328
+Luke@cell: 619 992-3163
+Luke email: lbeamer5321@cox.net
+
+
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>JAPAN </NameSort>
+		<PostalCodeSort>92108</PostalCodeSort>
+		<Contact/>
+		<Title/>
+		<HomeTel>1-619-282-3778 Accounting</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="74">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>318 Maui Drive</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Placentia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92670</PostalCode>
+		<Country/>
+		<Tel>1-714-528-5315</Tel>
+		<Fax/>
+		<Email/>
+		<Web>1-714-528-6740 Donna</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2002-12-23</DateChanged>
+		<ChangedID/>
+		<Comments>Mom's name: Donna</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>BOWERS</NameSort>
+		<PostalCodeSort>92670</PostalCodeSort>
+		<Contact>Amy and Shana Bowers</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="75">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2>531 Christie Dr.</AddressLine2>
+		<CityOrTown>South Lake Taho</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>96150</PostalCode>
+		<Country/>
+		<Tel>1-530-542-3108</Tel>
+		<Fax/>
+		<Email>rvcorley@charter.net</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-06-06</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[P.O. Box 613232
+96152
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>CORLEY</NameSort>
+		<PostalCodeSort>96150</PostalCodeSort>
+		<Contact>Vera Corley</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="76">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>4915 N. Ardsley Drive</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>(818) 286-0705</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>60 Off at La Rosa to Signal; rt on Sparklett, left onto Ardsley</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PONNET</NameSort>
+		<PostalCodeSort/>
+		<Contact>Chris Ponnet</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="77">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>MicroAge</Name>
+		<AddressLine1>12627 Hiddencreek Way</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Cerritos</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90701</PostalCode>
+		<Country/>
+		<Tel>1-310-802-8000</Tel>
+		<Fax>1-310-802-8020 Fax</Fax>
+		<Email/>
+		<Web>1-310-406-4171 Pager</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>New contact Darian X202</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MICROA</NameSort>
+		<PostalCodeSort>90701</PostalCodeSort>
+		<Contact>Beverly Houwing</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="78">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>818-337-5010</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>BOBIDI</NameSort>
+		<PostalCodeSort/>
+		<Contact>Blas &amp; Josephina Bobidilla</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="79">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>P.O. Box 5000</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Sheridan</CityOrTown>
+		<StateOrRegion>OR</StateOrRegion>
+		<PostalCode>97378-5000</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-07-29</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[
+
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>BRUMME</NameSort>
+		<PostalCodeSort>97378</PostalCodeSort>
+		<Contact>Garvar Brummett</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="80">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>National Computer Products</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>619-488-3174</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2003-01-06</DateChanged>
+		<ChangedID>9</ChangedID>
+		<Comments>NCP 403-454-7400</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>NATION</NameSort>
+		<PostalCodeSort/>
+		<Contact>Verna &amp; Pat Dailey</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="81">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-818-766-8260</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2001-09-04</DateChanged>
+		<ChangedID>26</ChangedID>
+		<Comments><![CDATA[Operations person for Africa Travel (Robert Torme say would be good contact for selling software)
+Sells XIQ for use with Tech-7 systems]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>STAPLE</NameSort>
+		<PostalCodeSort/>
+		<Contact>Yian Staple</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="85">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>JET Research Laboratories</Name>
+		<AddressLine1>450 S. Fair Oaks Avenue</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Pasadena</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91105</PostalCode>
+		<Country/>
+		<Tel>818-578-0456</Tel>
+		<Fax>818-578-0527</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>PC Cable</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>JET RE</NameSort>
+		<PostalCodeSort>91105</PostalCodeSort>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="86">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>PC System</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-818-792-1391</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Cables, PC Stuff</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PC SYS</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="87">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Kingston Technology</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-714-435-2600</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>KINGST</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="90">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1><![CDATA[03322-036
+FPC/FCC
+P.O. Box 5000]]></AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Florence</CityOrTown>
+		<StateOrRegion>CO</StateOrRegion>
+		<PostalCode>81226</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2000-06-02</DateChanged>
+		<ChangedID>2,319</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>FARRIN</NameSort>
+		<PostalCodeSort>81226</PostalCodeSort>
+		<Contact>Frank Farrington</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="93">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Recycler Classified</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>818-966-FREE</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[DonCorley
+TomAraujo
+Password: Donwpp
+Password: tomasa
+Dad:DonaldCorley
+Pass: Donald]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>RECYCL</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="94">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>2750 East Washington Blvd #270</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Pasadena</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91107</PostalCode>
+		<Country/>
+		<Tel>1-818-797-0999</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>RIESS</NameSort>
+		<PostalCodeSort>91107</PostalCodeSort>
+		<Contact>Dorothy Young Riess</Contact>
+		<Title>Internist</Title>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="99">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>16571 Patricia Lane</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Huntington Beac</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92647</PostalCode>
+		<Country/>
+		<Tel>1-714-847-3368</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Recommends the Supervoice system for Windows voice messaging</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PENTON</NameSort>
+		<PostalCodeSort>92647</PostalCodeSort>
+		<Contact>Jack Penton</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="100">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>DER Tours</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-310-392-8909</Tel>
+		<Fax/>
+		<Email/>
+		<Web>1-310-479-4411x3011</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Edie Lah is no longer there</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>DER TO</NameSort>
+		<PostalCodeSort/>
+		<Contact>Larry?? Faro??</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="102">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>DiPeppe's Pizza</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-626-445-0544</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2004-08-11</DateChanged>
+		<ChangedID>4</ChangedID>
+		<Comments><![CDATA[Larry's Home# 462-0825
+Cell Phone: 260-8711
+(These could be reversed)]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>DIPEPP</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="104">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Pacific Bell</Name>
+		<AddressLine1>2600 Camino Ramon, Room 3N100CC</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>San Ramon</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>94583</PostalCode>
+		<Country/>
+		<Tel>1-510-867-7175</Tel>
+		<Fax>1-510-830-2719</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[Knows about ISDN
+Pac Bell - Order ISDN 800-4PB-ISDN
+Check ISDN Avail. 800-995-0346]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PACIFI</NameSort>
+		<PostalCodeSort>94583</PostalCodeSort>
+		<Contact>Henry Zissel</Contact>
+		<Title>Market Manager</Title>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="105">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Travelinfo</Name>
+		<AddressLine1><![CDATA[7910 Ivanhoe Ave
+Suite 306]]></AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>La Jolla</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92037</PostalCode>
+		<Country/>
+		<Tel>1-619-279-7320</Tel>
+		<Fax>1-619-560-8301</Fax>
+		<Email>dcrellen@travelinfo.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Travel internet consultant</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>TRAVEL</NameSort>
+		<PostalCodeSort>92037</PostalCodeSort>
+		<Contact>David Crellen</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="106">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1202 Little Sidnee Drive</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Las Vegas</CityOrTown>
+		<StateOrRegion>NV</StateOrRegion>
+		<PostalCode>89123</PostalCode>
+		<Country/>
+		<Tel>896-6829</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2005-07-04</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments>Cell 702-340-4756</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>D'AMIC</NameSort>
+		<PostalCodeSort>89123</PostalCodeSort>
+		<Contact>Carla D'Amico</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="107">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Kaiser Permanente</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>213-580-7270</Tel>
+		<Fax/>
+		<Email>stanaka@crl.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>KAISER</NameSort>
+		<PostalCodeSort/>
+		<Contact>Stuart Tanaka</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="108">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Microsoft Network</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[Name: Don_Corley
+Password: DonWizard
+Access Number: 1-213-620-8910]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MICROS</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="109">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Compuserve</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[User: 102314,1142
+Password: GOTTEN+TWILL
+User name: AnnC
+EMail Password: sci2rode
+EMail Host: m2.interserv.com
+EMail Address: annc@interserv.com
+Access Number: 818-303-3869
+DNS Servers 149.174.211.5 and 149.174.213.5
+news.compuserve.com 
+cancellation number 32452678
+new deactivation number 41874681
+payment reversal number 4187466 for XLN amount.]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>COMPUS</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="110">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>213-623-5407</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2002-12-23</DateChanged>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>ASIK</NameSort>
+		<PostalCodeSort/>
+		<Contact>Asik</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="111">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Megahertz Corp</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>801-320-7777</Tel>
+		<Fax/>
+		<Email/>
+		<Web>BBS 801-320-6337</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Sales 800-527-8677</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MEGAHE</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="112">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1032 Randall Road</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Whittier</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-562-690-6150</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2005-10-26</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Whittier Blvd past Whitwood Mall
+Left on Russell
+Right and Randall]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>CHAMBE</NameSort>
+		<PostalCodeSort/>
+		<Contact>Ann Chambers</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail>cherokeechick15@hotmail.com</HomeEmail>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="113">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Pacific Bell</Name>
+		<AddressLine1>JOT Rep. 574-3909- Sandy - San Diego</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>800-870-2355</Tel>
+		<Fax>800-472-4736 ISDN Orderi</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>ISDN 818-405-7544 Gabriel (My Line)</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PACIFI</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="116">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Wells Fargo Bank</Name>
+		<AddressLine1>1038 S. Baldwin Avenue</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Arcadia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91007</PostalCode>
+		<Country/>
+		<Tel>818-445-5903</Tel>
+		<Fax>818-445-2235</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[Online banking 1-800-
+www.welsfargo.com
+password: 366977 (Donwpp on the phone)]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>WELLS </NameSort>
+		<PostalCodeSort>91007</PostalCodeSort>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="117">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Tech Data</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-800-237-8931</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2009-01-23</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Cust# 1032704
+Online: 12144
+Password: donwpp88
+
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>TECH D</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="119">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Quicken</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-505-896-7219</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>QUICKE</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="120">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Sumitomo Bank</Name>
+		<AddressLine1>101 S. San Pedro Street</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Los Angeles</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90012</PostalCode>
+		<Country/>
+		<Tel>1-213-229-4000</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>SUMITO</NameSort>
+		<PostalCodeSort>90012</PostalCodeSort>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="121">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Taos Mountain Software</Name>
+		<AddressLine1><![CDATA[1804 Embarcadero
+Suite 200]]></AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Palo Alto</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>94303</PostalCode>
+		<Country/>
+		<Tel>1-415-813-0900</Tel>
+		<Fax>-1415-813-0808</Fax>
+		<Email>bkt@netcom.com</Email>
+		<Web>415-668-9567 Home</Web>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2002-12-23</DateChanged>
+		<ChangedID/>
+		<Comments><![CDATA[Home:  133 Cook Street, Apt 1
+   San Francisco, CA 94118
+415-933-4950Voicemail
+btanaka@corp.sgi.com]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>TAOS M</NameSort>
+		<PostalCodeSort>94303</PostalCodeSort>
+		<Contact>Brian Tanaka</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="123">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>5205 Soledad Canyon Road</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Acton</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>93510</PostalCode>
+		<Country/>
+		<Tel>661-269-8651</Tel>
+		<Fax/>
+		<Email>DJCorley935@netzero.net</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-11-19</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Recycler: DonaldCorley
+Password Donald
+Scanjet 5300C
+Pavillion 524g
+
+
+
+
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>CORLEY</NameSort>
+		<PostalCodeSort>93510</PostalCodeSort>
+		<Contact>Donald Corley</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="124">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Liberty Mutual</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>805-497-2899</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Policy AO2-261-270-272-015 8</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>LIBERT</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="125">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Lava Link Serial I/O Card</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>800-241-5282</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Lava Link 650 Serial I/O card 416-674-5942</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>LAVA L</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="127">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>RPM - Holly Carb Rebuilders</Name>
+		<AddressLine1>15167 Moran Street</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Westminister</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92683</PostalCode>
+		<Country/>
+		<Tel>714-897-1452</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>RPM - </NameSort>
+		<PostalCodeSort>92683</PostalCodeSort>
+		<Contact>Bob</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="128">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Tour Operator</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>1-714-564-8336</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments>Given to me by Kelly Smith</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>TOUR O</NameSort>
+		<PostalCodeSort/>
+		<Contact>Barney Lusina</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="129">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Sun Computers</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2003-03-02</DateChanged>
+		<ChangedID>279</ChangedID>
+		<Comments><![CDATA[member ID: DonCorley
+Password: Donwpp]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>SUN CO</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="130">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Office Depot</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown>Temple City</CityOrTown>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>818-309-7594</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>OFFICE</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="131">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>West Tech Computers</Name>
+		<AddressLine1>Rosemead</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>818-279-1356</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2003-01-29</DateChanged>
+		<ChangedID>9</ChangedID>
+		<Comments>Robert Martinez's computer company</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>WEST T</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="133">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Verisign</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[President of Peru
+(Challenge Phrase)
+Private key name: PrivateKey]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>VERISI</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="134">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Tourism Associates</Name>
+		<AddressLine1>2304 Meadow Valley Terrace</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Los Angeles</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90039</PostalCode>
+		<Country/>
+		<Tel>(213) 662-4772</Tel>
+		<Fax>(213) 666-9929</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[Carms, Samantha
+Altadena Country Club 626-794-7163]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>TOURIS</NameSort>
+		<PostalCodeSort>90039</PostalCodeSort>
+		<Contact>Scott Feinerman</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="135">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>DeWitt Stern of California</Name>
+		<AddressLine1><![CDATA[4605 Lankershim Blvd.
+Suite 600]]></AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>North Hollywood</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91602</PostalCode>
+		<Country/>
+		<Tel>818-623-1170</Tel>
+		<Fax>818-623-1180</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[Motorcycle Insurance
+http://www.vansa.com]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>DEWITT</NameSort>
+		<PostalCodeSort>91602</PostalCodeSort>
+		<Contact>Ralph Gold</Contact>
+		<Title>Senior Account Manager</Title>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="136">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Pleasant Holidays</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>818-991-3390</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments><![CDATA[Westlake Blvd to 2404 Townsgate Blvd (lt)
+Ed Bascam]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PLEASA</NameSort>
+		<PostalCodeSort/>
+		<Contact>Del</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="139">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>8811 West Avenue E12</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Lancaster</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>93536</PostalCode>
+		<Country/>
+		<Tel>661-728-9704</Tel>
+		<Fax/>
+		<Email>kodewah@verizon.net</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-08-16</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[14Fwy, Exit Ave S, 20 th 25 East Left on 30th East, press #298 at gate Glamour shots 805-253-0558 Denise pager 224-4622
+Brian, Hannah, Hailey
+Denise's Cell: 661-406-7044
+Brian Cell: 661-492-8890
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MONSOU</NameSort>
+		<PostalCodeSort>93536</PostalCodeSort>
+		<Contact>Denise and Brian Monsour</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail>kodewah@yahoo.com</HomeEmail>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="140">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>3030 Waring Place</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Fairfield</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>94533</PostalCode>
+		<Country/>
+		<Tel>707-422-2046</Tel>
+		<Fax/>
+		<Email>yipee123us@gmail.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2006-07-05</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[chris_westbrook@hotmail.com
+Christopher and Katie
+Caroline
+www.tri-des.com
+Cheryl
+
+
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>CORLEY</NameSort>
+		<PostalCodeSort>94533</PostalCodeSort>
+		<Contact>Christy Corley</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="141">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-355-4342</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2001-06-28</DateChanged>
+		<ChangedID>128</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>BARBI</NameSort>
+		<PostalCodeSort/>
+		<Contact>Barbi</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="142">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>10259 Pangborn Ave.</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Downey</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90241</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged/>
+		<ChangedID/>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>HAM</NameSort>
+		<PostalCodeSort>90241</PostalCodeSort>
+		<Contact>Manny and Julie Ham</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="143">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>4800 Daleview Ave #149</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>El Monte</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91731</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>Martinez705@aol.com</Email>
+		<Web/>
+		<DateEntered>2005-07-04</DateEntered>
+		<DateChanged>2008-09-29</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments>David, Brian and Little David</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>GARCIA</NameSort>
+		<PostalCodeSort>91731</PostalCodeSort>
+		<Contact>Helen Garcia</Contact>
+		<Title/>
+		<HomeTel>626-350-0376</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="145">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>(626) 462-0825</Tel>
+		<Fax>(626)622-0292Jackie Cell</Fax>
+		<Email/>
+		<Web/>
+		<DateEntered>2000-06-20</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Pizza 445-0544
+626-260-8711 (Larry's Cell)
+
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>DEPEPP</NameSort>
+		<PostalCodeSort/>
+		<Contact>Larry and Jackie DePeppe</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="147">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>114 Peppertree Lane</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Monrovia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91016-1007</PostalCode>
+		<Country>USA</Country>
+		<Tel>626-358-4874</Tel>
+		<Fax>(240) 384-4874</Fax>
+		<Email>don@donandann.com</Email>
+		<Web/>
+		<DateEntered>2000-08-04</DateEntered>
+		<DateChanged>2007-07-03</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Ann's cell phone 626-221-1306
+845579 
+MyMemoryStore NDZR0 
+eFax: (240) 384-4874 Pin 9725
+sumi1439 
+microsoft web site (tourloco.com) tw0step]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>CORLEY</NameSort>
+		<PostalCodeSort>91016</PostalCodeSort>
+		<Contact>Don Corley</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="148">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Jose Osornio</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>619-671-1332 Work-direct</Tel>
+		<Fax>josornio@bacou-dalloz.co</Fax>
+		<Email>joseoso@cox.net</Email>
+		<Web>joseosornio@yahoo.com</Web>
+		<DateEntered>2000-08-25</DateEntered>
+		<DateChanged>2008-11-14</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Howard Leight
+7828 Waterville Road
+San Diego, CA  92154
+(619) 661-8383
+Fax: (619) 661-1051
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>JOSE O</NameSort>
+		<PostalCodeSort/>
+		<Contact>Jose Osornio</Contact>
+		<Title>josornio@howardleight.com</Title>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="149">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>(626) 221-1306 (Cell)</Tel>
+		<Fax/>
+		<Email>ann@donandann.com</Email>
+		<Web/>
+		<DateEntered>2000-11-24</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>5</ChangedID>
+		<Comments><![CDATA[
+
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>CORLEY</NameSort>
+		<PostalCodeSort/>
+		<Contact>Ann Corley</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="150">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>tvlounge@webtv.net</Email>
+		<Web/>
+		<DateEntered>2000-11-24</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>2,299</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>GARCIA</NameSort>
+		<PostalCodeSort/>
+		<Contact>Carla and Philip Garcia</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="151">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>goillinigo@aol.com</Email>
+		<Web/>
+		<DateEntered>2000-11-24</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>2,299</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>HOON</NameSort>
+		<PostalCodeSort/>
+		<Contact>Mrs. Hoon</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="152">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>5826 Rowland Ave.</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Temple City</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91780</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>nadia.gott@gmail.com</Email>
+		<Web/>
+		<DateEntered>2001-02-06</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>164</ChangedID>
+		<Comments><![CDATA[Pentium Dell Dimension XPS P133c 
+yaboyu007@hotmail.com
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>GOTT</NameSort>
+		<PostalCodeSort>91780</PostalCodeSort>
+		<Contact>Nadia Gott</Contact>
+		<Title/>
+		<HomeTel>626-285-0296</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="153">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>700 N. Stoneman</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Alhambra</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-300-0427</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2001-04-25</DateEntered>
+		<DateChanged>2008-07-29</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Mom's Aunt 
+Burt Miller
+(San Francisco)
+415-290-7230
+millerbl@mac.com 
+415-221-2807 (Home)
+Leibsle's from Reistat (neer Stutgard)
+Power shovel was a Nothern 
+Journey's end drive (Daddy's Carl's house)]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MILLER</NameSort>
+		<PostalCodeSort/>
+		<Contact>Dorothy Miller</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="154">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>krisserob@aol.com</Email>
+		<Web/>
+		<DateEntered>2001-10-22</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>203</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>ROB</NameSort>
+		<PostalCodeSort/>
+		<Contact>Krisse Rob</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="156">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>mwindmueller@attbi.com</Email>
+		<Web/>
+		<DateEntered>2002-03-05</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>2</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>WINDMU</NameSort>
+		<PostalCodeSort/>
+		<Contact>Michelle Windmueller</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="157">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Namale Resort</Name>
+		<AddressLine1>9888 Carroll Center Road</AddressLine1>
+		<AddressLine2>Suite 100</AddressLine2>
+		<CityOrTown>San Diego</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92126</PostalCode>
+		<Country>USA</Country>
+		<Tel>800-727-FIJI</Tel>
+		<Fax>(858) 585-6385</Fax>
+		<Email>namalefiji@aol.com</Email>
+		<Web>www.namalefiji.com</Web>
+		<DateEntered>2002-04-01</DateEntered>
+		<DateChanged>2002-04-01</DateChanged>
+		<ChangedID>234</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>NAMALE</NameSort>
+		<PostalCodeSort>92126</PostalCodeSort>
+		<Contact>Robyn Schumacher</Contact>
+		<Title>Director of Sales and Marketin</Title>
+		<HomeTel>Local 858-535-6380</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="158">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Asian Tours</Name>
+		<AddressLine1>23 Soi Chidlom</AddressLine1>
+		<AddressLine2>Rolenchit Road</AddressLine2>
+		<CityOrTown>Bangkok</CityOrTown>
+		<StateOrRegion/>
+		<PostalCode>10330</PostalCode>
+		<Country>Thailand</Country>
+		<Tel>02-255-4221</Tel>
+		<Fax>02-253-1994</Fax>
+		<Email>horner@loxinfo.co.th</Email>
+		<Web>asiantur@loxinfo.co.th</Web>
+		<DateEntered>2002-10-03</DateEntered>
+		<DateChanged>2006-03-15</DateChanged>
+		<ChangedID>-1</ChangedID>
+		<Comments><![CDATA[asiantur@loxinfo.co.th
+Andre, Chalita, Penn, Sam
+Chalita's email: csittitrai@yahoo.com]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>ASIAN </NameSort>
+		<PostalCodeSort>10330</PostalCodeSort>
+		<Contact>Andre</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="161">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2003-02-19</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Work: 818-238-1313
+Andrea (Sister) 626-841-3668
+Norman P. Lau
+NASCAR Administration
+Wells Fargo Bank, NA
+(626) 573-6056
+nlau@wellsfargo.com]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>WONG</NameSort>
+		<PostalCodeSort/>
+		<Contact>Marcella Wong</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="162">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Prescott Management</Name>
+		<AddressLine1>1655 E. 6th Street</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Corona</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92879-1719</PostalCode>
+		<Country/>
+		<Tel>909-634-3444</Tel>
+		<Fax>909-739-0190</Fax>
+		<Email>dlidyoff@prescottmgt.com</Email>
+		<Web/>
+		<DateEntered>2003-02-21</DateEntered>
+		<DateChanged>2004-02-12</DateChanged>
+		<ChangedID>3</ChangedID>
+		<Comments><![CDATA[Dave
+Letty
+888-680-0700]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PRESCO</NameSort>
+		<PostalCodeSort>92879</PostalCodeSort>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="163">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>39790 Monarch Drive</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Murrieta</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92563-4069</PostalCode>
+		<Country/>
+		<Tel>951-698-9215</Tel>
+		<Fax/>
+		<Email>pantyman115@cs.com</Email>
+		<Web/>
+		<DateEntered>2003-02-23</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>-1</ChangedID>
+		<Comments><![CDATA[Cell: (951) 757-1693
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>SHIELD</NameSort>
+		<PostalCodeSort>92563</PostalCodeSort>
+		<Contact>Bill Shields</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="164">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>6047 Camellia Ave #E</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Temple City</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>9</PostalCode>
+		<Country/>
+		<Tel>626-287-1461</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2003-04-06</DateEntered>
+		<DateChanged>2008-04-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Nursing Home
+615 W. Duarte Rd.
+Monrovia, CA
+626-358-4547]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>GATTON</NameSort>
+		<PostalCodeSort>9</PostalCodeSort>
+		<Contact>Vicki Gattoni</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="165">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>619.449-7934</Tel>
+		<Fax/>
+		<Email>irish2004@cox.net</Email>
+		<Web/>
+		<DateEntered>2003-06-25</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[We are at the 
+intersection of Mission Gorge Road and Magnolia (the main intersection about two 
+unbroken blocks away )  and directly acros the street from the lawn and 
+trees and huge yard of Edgemoor Hospital.  Our Condo complex is called  RIDERWOOD MEADOWS  and on 
+Magnolia there is a horseshoe drive in of Lisa Meadows and curves past the 
+swimming pool which is central, then back out on Holly Meadows Drive.  We 
+are the first bldg. to the left of the swimming pool and it is a 4-unit 
+Condo.  We are C which is upstairs and downstairs.  (2 of these and 2 
+one-floor in each bldg.)
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>PETERS</NameSort>
+		<PostalCodeSort/>
+		<Contact>Sandy Peterson</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="166">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>877-480-5503</Tel>
+		<Fax/>
+		<Email>beemanj@wwdb.org</Email>
+		<Web/>
+		<DateEntered>2003-07-10</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[(Dance friends)
+3 Kids:
+Felicia,
+2 boys]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>BEEMAN</NameSort>
+		<PostalCodeSort/>
+		<Contact>Joe and Sylvia Beeman</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="167">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Domains</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2003-07-16</DateEntered>
+		<DateChanged>2008-03-05</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[use:
+http://www.cheap-domainregistration.com/
+
+https://www.secureserver.net/account/default.asp?prog_id=domains
+DNS:
+http://www.everydns.net
+doncorley
+donwpp
+
+
+Thank you for contacting customer support. 
+You will first need to register your IP address as a nameserver. 
+The Domain Host Information section is used for registering name servers.
+ You are not required to enter anything under Domain Host Information.
+ It is used to connect a network to the Internet so that you can host a web site or setup your own mail servers.
+ This should not be confused with connecting to the Internet through AOL or MSN.
+ In those cases a person connects to the ISP's network and through them to the Internet.
+ Registering name servers connects a network to the Internet directly.
+ Please follow the steps below to register your name servers.
+
+Go to the following link:
+Account Management and Login.
+
+Once logged in click the drop down menu at the top right of your screen and select ]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>DOMAIN</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="168">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Mexican Food</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2003-08-19</DateEntered>
+		<DateChanged>2003-08-19</DateChanged>
+		<ChangedID>-1</ChangedID>
+		<Comments><![CDATA[La Princessita: (Tortillas): Down Evergreen to Ceasar Chavez,
+Near corner of Alma or Hicks.
+El Centro Meat Market: (Order the Ranchera meat [carne asada])
+750 S. Kern Ave #A, Los Angeles, CA  90022
+(323-269-6533]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MEXICA</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="169">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-358-0396</Tel>
+		<Fax/>
+		<Email>tom2sue@earthlink.net</Email>
+		<Web/>
+		<DateEntered>2003-10-25</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Dancing
+Tom's cell = 626-673-3745
+Susan's cell = 626-673-3746]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>SUSAN</NameSort>
+		<PostalCodeSort/>
+		<Contact>Thomas and Susan</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="170">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>67/208 Soi Seenanikom I</AddressLine1>
+		<AddressLine2>Ladprao</AddressLine2>
+		<CityOrTown>Bangkok</CityOrTown>
+		<StateOrRegion/>
+		<PostalCode>10230</PostalCode>
+		<Country>Thailand</Country>
+		<Tel>+66 2 942 3120</Tel>
+		<Fax>+66 2 570 3915</Fax>
+		<Email>penn40@hotmail.com</Email>
+		<Web/>
+		<DateEntered>2003-12-17</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Penn of Asian Tours
+Brother Mike's address:
+18423 Sandringham Ct
+Northridge, CA
+Mike Home: 818-832-6796
+Mike Cell: 213-392-1033
+Other: 213-622-2922
+Other (Penn cell?): 213-392-8100
+Good Thai Restaurant:
+Sunshine Thai
+13212 Sherman Way
+North Hollywood, CA  91605]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MATHAN</NameSort>
+		<PostalCodeSort>10230</PostalCodeSort>
+		<Contact>Penn (Boonpen Mathanasalute)</Contact>
+		<Title/>
+		<HomeTel>+66 1 348 7865 mobile</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="171">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>Kurtbodmer@aol.com</Email>
+		<Web/>
+		<DateEntered>2003-12-26</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>6</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>BODMER</NameSort>
+		<PostalCodeSort/>
+		<Contact>Kurt Bodmer</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="173">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Moneydance</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2004-02-03</DateEntered>
+		<DateChanged>2008-07-08</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[License:
+B300275-1B332886
+Not: JL10000014-BC52D42E
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MONEYD</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="174">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>psnp2@earthlink.net</Email>
+		<Web/>
+		<DateEntered>2004-02-19</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments>Dancers</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>NELUN</NameSort>
+		<PostalCodeSort/>
+		<Contact>Paul and Nelun</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="176">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-221-9612</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2004-03-24</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>LLAMAS</NameSort>
+		<PostalCodeSort/>
+		<Contact>Hector Llamas</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="177">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>8409 Vast Horizon Ave.</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Las Vegas</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>89129</PostalCode>
+		<Country/>
+		<Tel>(702) 655-0247</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2004-03-25</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>KOSEOG</NameSort>
+		<PostalCodeSort>89129</PostalCodeSort>
+		<Contact>Siegie Knobling/Jack Koseoglu</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="178">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>201 Acacia Ave</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Monrovia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91016</PostalCode>
+		<Country/>
+		<Tel>626-359-1055</Tel>
+		<Fax/>
+		<Email>kgundersen@altrionet.com</Email>
+		<Web/>
+		<DateEntered>2004-03-28</DateEntered>
+		<DateChanged>2008-09-19</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Business Address:
+174 W. Foothill Blvd #321
+Web page:
+http://www.monroviacc.com/member/login
+http://www.monroviacc.com/member?1412
+Swingncountry
+John&Katie]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>WATSON</NameSort>
+		<PostalCodeSort>91016</PostalCodeSort>
+		<Contact>John and Katie Watson</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="179">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>7708 N Debbie Ln</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Castle Rock</CityOrTown>
+		<StateOrRegion>CO</StateOrRegion>
+		<PostalCode>80108</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>mmswilson@comcast.net</Email>
+		<Web/>
+		<DateEntered>2004-03-28</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments>Dancers</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>WILSON</NameSort>
+		<PostalCodeSort>80108</PostalCodeSort>
+		<Contact>Mike and Maggie Wilson</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="180">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>818-988-5580</Tel>
+		<Fax/>
+		<Email>chaseresources@earthlink.net</Email>
+		<Web/>
+		<DateEntered>2004-03-28</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>CHASE</NameSort>
+		<PostalCodeSort/>
+		<Contact>Leanna Chase</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="181">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>Peppertree Lane</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Monrovia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91016</PostalCode>
+		<Country/>
+		<Tel>303-3331</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2004-04-25</DateEntered>
+		<DateChanged>2008-09-25</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments>626-688-0309 (cell)</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>JEW</NameSort>
+		<PostalCodeSort>91016</PostalCodeSort>
+		<Contact>Deanna Jew</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="183">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-358-1447</Tel>
+		<Fax/>
+		<Email>nkomatsu@aol.com</Email>
+		<Web/>
+		<DateEntered>2004-06-03</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>KOMATS</NameSort>
+		<PostalCodeSort/>
+		<Contact>Nami Komatsu</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="184">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-254-0447</Tel>
+		<Fax/>
+		<Email>margarita.faundez@sgvn.com</Email>
+		<Web/>
+		<DateEntered>2004-06-03</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments>Dance</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>FAUNDE</NameSort>
+		<PostalCodeSort/>
+		<Contact>Jorge and Margarita Faundez</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="185">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>jmarguglio@email.com</Email>
+		<Web/>
+		<DateEntered>2004-06-06</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>4</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>MARGUG</NameSort>
+		<PostalCodeSort/>
+		<Contact>Jeff Marguglio</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="187">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1024 Royal Oaks Drive, #1202</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Monrovia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91016</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>rtm52@yahoo.com</Email>
+		<Web/>
+		<DateEntered>2004-06-28</DateEntered>
+		<DateChanged>2008-01-15</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Dancer
+(626) 299-4299 Ext. 6348
+So. Cal. Edison
+sce: 626-302-3268/PAX 23268
+ramona.montoya@sce.com
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MONTOY</NameSort>
+		<PostalCodeSort>91016</PostalCodeSort>
+		<Contact>Mona Montoya</Contact>
+		<Title/>
+		<HomeTel>(626) 359-8186 (Home)</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="188">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion>Alpine</StateOrRegion>
+		<PostalCode/>
+		<Country>CA</Country>
+		<Tel>619-445-6466</Tel>
+		<Fax/>
+		<Email>radsmom@mac.com</Email>
+		<Web/>
+		<DateEntered>2004-07-01</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>DENNET</NameSort>
+		<PostalCodeSort/>
+		<Contact>C.J. Dennett</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="189">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-358-0445</Tel>
+		<Fax/>
+		<Email>justaddboat@yahoo.com</Email>
+		<Web/>
+		<DateEntered>2004-07-29</DateEntered>
+		<DateChanged>2004-08-20</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Dancer
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>COCKRO</NameSort>
+		<PostalCodeSort/>
+		<Contact>Roger Cockroff</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="190">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>(858) 576-0798</Tel>
+		<Fax/>
+		<Email>eduardschmiege@yahoo.com</Email>
+		<Web/>
+		<DateEntered>2004-08-28</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[(858) 576-0798, my cell phone is
+(619) 316-3645.
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>SCHMIE</NameSort>
+		<PostalCodeSort/>
+		<Contact>Eduard Schmiege</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="192">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-357-3534</Tel>
+		<Fax>626-308-2674</Fax>
+		<Email>Alice.Mah@verizon.net</Email>
+		<Web/>
+		<DateEntered>2004-09-28</DateEntered>
+		<DateChanged>2006-09-20</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments>Dancers</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MAH</NameSort>
+		<PostalCodeSort/>
+		<Contact>Craig and Alice Mah</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="193">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>mhawkins@lausd.k12.ca.us</Email>
+		<Web/>
+		<DateEntered>2004-09-28</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>HAWKIN</NameSort>
+		<PostalCodeSort/>
+		<Contact>Margie Hawkins</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="195">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>372 Beechworth Ave</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Monrovia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91016</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>ckaybishop@yahoo.com</Email>
+		<Web/>
+		<DateEntered>2004-09-28</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Dancer
+210 Fwy East to Myrtle
+Exit Myrtle and go North (Left)
+Go to Foothill Blvd and Make a Right on Foothill.
+Go to Canyon and make a left on Canyon
+(You will pass Greystone, next street after Greystone is Prospect.)
+Go to Prospect.
+Go to 4th street on the left to Beechworth to 372 Beechworth.  House is on right side of street.
+ 
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>BISHOP</NameSort>
+		<PostalCodeSort>91016</PostalCodeSort>
+		<Contact>Cheryl Bishop</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="196">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>fusilli70@hotmail.com</Email>
+		<Web/>
+		<DateEntered>2004-10-07</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>GADNEY</NameSort>
+		<PostalCodeSort/>
+		<Contact>Trace Gadney</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="197">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>aschin88@hotmail.com</Email>
+		<Web/>
+		<DateEntered>2004-10-07</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>-1</ChangedID>
+		<Comments><![CDATA[Dancer
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>CHIN</NameSort>
+		<PostalCodeSort/>
+		<Contact>Amy Chin</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="201">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1080 Lorain Road</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>San Marino</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91108-2402</PostalCode>
+		<Country/>
+		<Tel>626-576-7232</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2004-10-10</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[
+
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>LEE</NameSort>
+		<PostalCodeSort>91108</PostalCodeSort>
+		<Contact>Louis and Jean Lee</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="202">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>320 No. Marguerita Ave #10</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Alhambra</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91801</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>peggy@yamatotravel.com</Email>
+		<Web/>
+		<DateEntered>2004-10-11</DateEntered>
+		<DateChanged>2007-07-26</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MIKUNI</NameSort>
+		<PostalCodeSort>91801</PostalCodeSort>
+		<Contact>Peggy Mikuni</Contact>
+		<Title/>
+		<HomeTel>626-570-1739</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="203">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>7 Haley Court</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Aliso Viejo</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>92656</PostalCode>
+		<Country>USA</Country>
+		<Tel>949-360-1554</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2004-10-11</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>FUKUTA</NameSort>
+		<PostalCodeSort>92656</PostalCodeSort>
+		<Contact>Claire Fukutaki</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="204">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>325 Cambridge Drive</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Arcadia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91107</PostalCode>
+		<Country>USA</Country>
+		<Tel>626-664-0084</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2004-10-11</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>FUKUTA</NameSort>
+		<PostalCodeSort>91107</PostalCodeSort>
+		<Contact>Steve Fukutaki</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="205">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>(626) 215-3502 (cell)</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2004-10-31</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>MASUMI</NameSort>
+		<PostalCodeSort/>
+		<Contact>Masumi</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="206">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>IRN</Name>
+		<AddressLine1>556 W. Las Tunas</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Arcadia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91007</PostalCode>
+		<Country>USA</Country>
+		<Tel>626-447-5100</Tel>
+		<Fax/>
+		<Email>awong925@yahoo.com</Email>
+		<Web/>
+		<DateEntered>2004-11-01</DateEntered>
+		<DateChanged>2004-11-01</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[
+]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>IRN</NameSort>
+		<PostalCodeSort>91007</PostalCodeSort>
+		<Contact>Andrea Wong</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="207">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>IBM People</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2005-05-31</DateEntered>
+		<DateChanged>2005-06-01</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Don Bowsher
+702-851-4686
+Mobile: 702-525-5888
+dbowsher@us.ibm.com
+Sally
+Cell: 702-461-9785]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>IBM PE</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="208">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Treasury Direct</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web>www.treasurydirect.gov</Web>
+		<DateEntered>2005-11-16</DateEntered>
+		<DateChanged>2005-11-16</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[E-366-447-669
+Same11]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>TREASU</NameSort>
+		<PostalCodeSort/>
+		<Contact/>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="209">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>2934 Ilopango Dr</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Hacienda Height</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-330-3456</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2006-01-08</DateEntered>
+		<DateChanged>2006-04-11</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>DAGENP</NameSort>
+		<PostalCodeSort/>
+		<Contact>Dolores Dagenpat</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="210">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>IBM</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2006-03-14</DateEntered>
+		<DateChanged>2006-03-14</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>IBM</NameSort>
+		<PostalCodeSort/>
+		<Contact>Don Bowsher</Contact>
+		<Title/>
+		<HomeTel>702-525-5888</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="211">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>IBM</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2006-03-14</DateEntered>
+		<DateChanged>2006-03-14</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>IBM</NameSort>
+		<PostalCodeSort/>
+		<Contact>Sally</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="212">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>IBM</Name>
+		<AddressLine1>6443 Bombax Ct.</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Las Vegas</CityOrTown>
+		<StateOrRegion>NV</StateOrRegion>
+		<PostalCode>89141</PostalCode>
+		<Country/>
+		<Tel>702-677-1300 *cell</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2006-03-14</DateEntered>
+		<DateChanged>2006-03-14</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>IBM</NameSort>
+		<PostalCodeSort>89141</PostalCodeSort>
+		<Contact>Jessica Walters</Contact>
+		<Title/>
+		<HomeTel>702-736-4304 home</HomeTel>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="213">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>thomas_toni@sbcglobal.net</Email>
+		<Web/>
+		<DateEntered>2006-07-19</DateEntered>
+		<DateChanged>2006-07-19</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments>Dancer</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>THOMAS</NameSort>
+		<PostalCodeSort/>
+		<Contact>Toni Thomas</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="214">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-744-7257</Tel>
+		<Fax/>
+		<Email>jscott@cityofpasadena.net</Email>
+		<Web/>
+		<DateEntered>2007-01-03</DateEntered>
+		<DateChanged>2007-01-03</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>SCOTT</NameSort>
+		<PostalCodeSort/>
+		<Contact>Jacki and Doug Scott</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="215">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>jsnodgr@calstatela.edu</Email>
+		<Web/>
+		<DateEntered>2007-04-05</DateEntered>
+		<DateChanged>2007-04-05</DateChanged>
+		<ChangedID>1</ChangedID>
+		<Comments><![CDATA[Dancer 
+Sociologist
+Teacher @ calstate]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>SNODGR</NameSort>
+		<PostalCodeSort/>
+		<Contact>Jon Snodgrass</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="216">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>108 Peppertree Lane</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Monrovia</CityOrTown>
+		<StateOrRegion>91016</StateOrRegion>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-926-7425</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2007-09-29</DateEntered>
+		<DateChanged>2008-09-05</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments>Lives across the street</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MILLOT</NameSort>
+		<PostalCodeSort/>
+		<Contact>Alfred Millot</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="217">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>12216 Rives Avenue</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Downey</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>90242-3424</PostalCode>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>lzambrana@aol.com</Email>
+		<Web/>
+		<DateEntered>2007-10-16</DateEntered>
+		<DateChanged>2007-10-18</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments>Dancers</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>CROUSE</NameSort>
+		<PostalCodeSort>90242</PostalCodeSort>
+		<Contact>Jeff and Leslie Crouse</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="218">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>50 Eldorado St</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Arcadia</CityOrTown>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email>stucando@msn.com</Email>
+		<Web/>
+		<DateEntered>2007-11-08</DateEntered>
+		<DateChanged>2008-04-12</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Tracey @home 626-574-7324
+Stu @cell 303-521-7120]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>TRACEY</NameSort>
+		<PostalCodeSort/>
+		<Contact>Stu and Tracey</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="219">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>965 N. Holliston Ave.</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Pasadena</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91104</PostalCode>
+		<Country/>
+		<Tel>626-794-4674</Tel>
+		<Fax/>
+		<Email>jpllck@earthlink.net</Email>
+		<Web/>
+		<DateEntered>2008-02-29</DateEntered>
+		<DateChanged>2008-06-18</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Home: 626-791-1698
+Dancers 
+Jonathan cell: 626-590-1254]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>POLLOC</NameSort>
+		<PostalCodeSort>91104</PostalCodeSort>
+		<Contact>Jonathan and Mary Pollock</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="220">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>535 So. Sierra Madre Blvd</AddressLine1>
+		<AddressLine2>Apt C.</AddressLine2>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>626-792-0762</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2008-03-20</DateEntered>
+		<DateChanged>2008-03-20</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments>Cell 807-6655</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>VERDUG</NameSort>
+		<PostalCodeSort/>
+		<Contact>Lydia Verdugo</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="221">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name>Bevin and Brock</Name>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2008-04-23</DateEntered>
+		<DateChanged>2008-04-23</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments><![CDATA[Manhole cover - Dimensions
+H 2", W 14". L 24" (actually 23.5 ")]]></Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>BEVIN </NameSort>
+		<PostalCodeSort/>
+		<Contact>Marilyn</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="222">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel/>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2008-08-09</DateEntered>
+		<DateChanged>2008-08-09</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments>dancer</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>JAIME</NameSort>
+		<PostalCodeSort/>
+		<Contact>Jaime</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail>balboadancer@hotmail.com</HomeEmail>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="223">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1997 E. Villa Street</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Pasadena</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91107</PostalCode>
+		<Country/>
+		<Tel>626-644-0834</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2008-08-20</DateEntered>
+		<DateChanged>2008-08-20</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments/>
+		<UserID/>
+		<Password/>
+		<NameSort>PONNET</NameSort>
+		<PostalCodeSort>91107</PostalCodeSort>
+		<Contact>Luke Ponnet</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="224">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1/>
+		<AddressLine2/>
+		<CityOrTown/>
+		<StateOrRegion/>
+		<PostalCode/>
+		<Country/>
+		<Tel>310-367-9483</Tel>
+		<Fax/>
+		<Email>nancy.chetron@xerox.com</Email>
+		<Web/>
+		<DateEntered>2008-11-04</DateEntered>
+		<DateChanged>2008-11-04</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments>work: 626-294-3749</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>NANCY</NameSort>
+		<PostalCodeSort/>
+		<Contact>Nancy</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail>dancer_nc@att.com</HomeEmail>
+		<ContactCategoryID/>
+	</Contact>
+	<Contact ID="225">
+		<LastChanged>2009-06-04T10:12:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Code/>
+		<Name/>
+		<AddressLine1>1223 10th Ave</AddressLine1>
+		<AddressLine2/>
+		<CityOrTown>Arcadia</CityOrTown>
+		<StateOrRegion>CA</StateOrRegion>
+		<PostalCode>91006</PostalCode>
+		<Country/>
+		<Tel>626-975-7620</Tel>
+		<Fax/>
+		<Email/>
+		<Web/>
+		<DateEntered>2008-11-26</DateEntered>
+		<DateChanged>2008-11-26</DateChanged>
+		<ChangedID>11</ChangedID>
+		<Comments>Horseback riding lessons</Comments>
+		<UserID/>
+		<Password/>
+		<NameSort>MAIA</NameSort>
+		<PostalCodeSort>91006</PostalCodeSort>
+		<Contact>Maia</Contact>
+		<Title/>
+		<HomeTel/>
+		<HomeEmail/>
+		<ContactCategoryID/>
+	</Contact>
+</file>

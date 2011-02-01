@@ -1,0 +1,32 @@
+/*********************************************************************
+	GL_FIN_STMTS File
+********************************************************************/
+
+declare	1 GL_FIN_STMTS_RECORD,
+		3 GL_FIN_CODE          character (        6),
+		3 GL_START_STMT        fixed binary (15),
+		3 GL_END_STMT          fixed binary (15),
+		3 GL_BUD_COMP          character (        1),
+		3 GL_AMT_COL_1         float binary (53),
+		3 GL_AMT_COL_2         float binary (53),
+		3 GL_AMT_COL_3         float binary (53),
+		3 GL_AMT_COL_4         float binary (53),
+		3 GL_AMT_COL_5         float binary (53),
+		3 GL_AMT_COL_6         float binary (53),
+		3 GL_STMT_BEGIN        fixed binary (15),
+		3 GL_STMT_FINISH       fixed binary (15),
+		3 GL_TOTAL( 9) float binary (53),
+		3 GL_BALANCE           float binary (53),
+		3 GL_LINE              character (      127),
+		3 GL_CONVERT           character (       20),
+		3 GL_BUD_COM           float binary (53),
+		3 GL_FIN_PC            fixed binary (15),
+		3 GL_AMT_START         float binary (53),
+		3 GL_BUD_START         float binary (53),
+		3 GL_INCOME_SUM        fixed binary (31),
+		3 STMT_TOTAL(99) float binary (53),
+		3 BC_TOTAL( 9) float binary (53),
+		3 GL_INC_SUM           fixed binary (31),
+		3 GL_IS_AMT            float binary (53),
+		3 GL_IS_MODE           character (1);
+

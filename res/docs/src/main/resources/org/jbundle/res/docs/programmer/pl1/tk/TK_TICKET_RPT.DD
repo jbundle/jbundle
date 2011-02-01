@@ -1,0 +1,12 @@
+/*********************************************************************
+	TK_TICKET_RPT File
+********************************************************************/
+
+declare	1 TK_TICKET_RPT_RECORD,
+		3 TICKET_START         character (       20),
+		3 TICKET_END           character (       20),
+		3 TICKET_DATE          fixed binary (15),
+		3 TICKET_TIME          fixed binary (15),
+		3 TICKET_USER          character (       16),
+		3 TICKET_PAGE          fixed binary (31);
+

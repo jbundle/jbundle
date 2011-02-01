@@ -1,0 +1,171 @@
+/****************************************************************
+	Module: PR_TAX_DIS
+	Top Level Logic: DIS_FILE_LOGIC
+	Date: 14-May-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	PR_TAX_DIS
+	Logic to Display a record
+****************************************************************/
+
+%replace PR_TAX_DIS_1 by  46;
+PR_TAX_DIS:
+   procedure;
+%replace EMPLOYEE_NO by   6;
+%include "EMPLOYEE.DD";
+
+declare		END_DIS_SCREEN_IO    bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+   call INITIALIZE;
+   END_DIS_SCREEN_IO = NO;
+   do while (END_DIS_SCREEN_IO ^= YES);
+      call DIS_SCREEN_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   EMP_STATE = "CA";
+   FED_ALLOW = 2;
+   PAY_FREQ = "W";
+   PAY_TYPE = "H";
+   IN_PENSION = "Y";
+   DE_1 = "";
+   DE_2 = "";
+   DE_3 = "";
+   DE_4 = "";
+   QTD_SS_GROSS = 0;
+   QTD_STATE_GROSS = 0;
+   YTD_SS_GROSS = 0;
+   YTD_STATE_GROSS = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (PR_TAX_DIS_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (EMPLOYEE_NO,"EMPLOYEE",byteaddr(EMPLOYEE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (EMPLOYEE_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_SCREEN_IO
+	Enter key/Display data
+****************************************************************/
+
+DIS_SCREEN_IO:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_EMPLOYEE       fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (PR_TAX_DIS_1);
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_DIS_SCREEN_IO = YES;
+      return;
+      end;
+   FIRST_ITEM = 2;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (EMPLOYEE_NO,KEY_NO,ERROR_EMPLOYEE);
+   if ERROR_EMPLOYEE > 3 then
+      call PRINT_ERROR (EMPLOYEE_NO,ERROR_EMPLOYEE);
+
+   /* DIS_RECORD_FOUND - Record Found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_EMPLOYEE = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* NOT_FOUND_AGAIN - Not found, try again!! */
+
+      call DISPLAY_MESSAGE ("Record not found!!!<Bel>"c);
+      call PRESS_RETURN;
+      return;
+
+      if ERROR_INPUT_SCREEN then return;
+      end;
+
+   /* HIT_RETURN - Tell the user to Hit Return */
+
+   call PRESS_RETURN;
+
+return;
+end;	/* DIS_SCREEN_IO        */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+declare		LOOP_INDEX           fixed binary (15);
+do LOOP_INDEX = FIRST_ITEM to  38;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (EMPLOYEE_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

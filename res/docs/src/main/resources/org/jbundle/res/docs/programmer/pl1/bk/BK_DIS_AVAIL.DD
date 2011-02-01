@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_DIS_AVAIL File
+********************************************************************/
+
+declare	1 BK_DIS_AVAIL_RECORD,
+		3 TOUR_DIS_CODE        character (        4),
+		3 TOUR_A_START_DATE    fixed binary (15);
+

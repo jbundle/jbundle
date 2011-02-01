@@ -1,0 +1,24 @@
+/*********************************************************************
+	BK_TOUR_COPY File
+********************************************************************/
+
+declare	1 BK_TOUR_COPY_RECORD,
+		3 NEW_TOUR_CODE        character (        4),
+		3 START_Q_NO           fixed binary (15),
+		3 END_Q_NO             fixed binary (15),
+		3 START_A_NO           fixed binary (15),
+		3 END_A_NO             fixed binary (15),
+		3 COPY_DOC             character (1),
+		3 COPY_PRICE           character (1),
+		3 COPY_HOTEL           character (1),
+		3 COPY_LAND            character (1),
+		3 COPY_AIRH            character (1),
+		3 COPY_AIR_HDR         character (1),
+		3 COPY_AIR_DET         character (1),
+		3 COPY_REMARK          character (1),
+		3 COPY_COMMENT         character (1),
+		3 SAVE_TOUR_HDR        character (        4),
+		3 SAVE_TOUR_END        fixed binary (15),
+		3 SAVE_Q_SEQ           fixed binary (15),
+		3 SAVE_A_SEQ           fixed binary (15);
+

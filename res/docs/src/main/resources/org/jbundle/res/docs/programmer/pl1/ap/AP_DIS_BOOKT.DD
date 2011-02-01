@@ -1,0 +1,8 @@
+/*********************************************************************
+	AP_DIS_BOOKT File
+********************************************************************/
+
+declare	1 AP_DIS_BOOKT_RECORD,
+		3 BOOKT_TOUR_CODE      character (        4),
+		3 BOOKT_TOUR_DEP       fixed binary (15);
+

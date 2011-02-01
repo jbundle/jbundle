@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="hello.xsl"?>
+<?cocoon-process type="xslt"?>
+<top>
+<test>
+This is the Hello
+</test>
+<test2>
+This is the Hello2
+</test2>
+<html>
+This is the body
+<b>This is marked up</b>
+</html>
+</top>
+

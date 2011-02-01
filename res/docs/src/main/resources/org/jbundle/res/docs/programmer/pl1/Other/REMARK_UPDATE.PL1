@@ -1,0 +1,164 @@
+/****************************************************************
+	Module: REMARK_UPDATE
+	Top Level Logic: REMARK_UPDATE_TOP
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	REMARK_UPDATE
+	Update top level
+****************************************************************/
+
+%replace REMARK_UPDATE_1 by 349;
+REMARK_UPDATE:
+   procedure(
+      BK_BOOKING_RECORD);
+%replace BK_COMMENT_NO by  48;
+%replace BK_BOOKING_NO by   9;
+%include "BK_COMMENT.DD";
+%include "BK_BOOKING.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_DEL_REMARK       bit (1);
+declare		END_UPDATE_REMARK    bit (1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_COMMENT_NO,"BK_COMMENT",byteaddr(BK_COMMENT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_COMMENT_NO,ERROR_CODE);
+   END_DEL_REMARK = NO;
+   do while (END_DEL_REMARK ^= YES);
+      call DEL_REMARK;
+   end;
+
+   /* SET_PREV_MOD - Set to previous mod number */
+
+   BK_MODIFICATION = BK_NEXT_MOD;
+   BK_NEXT_MOD = 0;
+
+   END_UPDATE_REMARK = NO;
+   do while (END_UPDATE_REMARK ^= YES);
+      call UPDATE_REMARK;
+   end;
+
+   /* SET_ZERO_MOD - Set to the current mod */
+
+   BK_NEXT_MOD = BK_MODIFICATION;
+   BK_MODIFICATION = 0;
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	DEL_REMARK
+	Delete all the comments and remarks
+****************************************************************/
+
+DEL_REMARK:
+	procedure;
+
+
+   /* SET_FIRST_REMARKD - Set first */
+
+   BK_TOUR_MOD_NO = BK_MODIFICATION;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_COMM_ALT_SEQ = 0;
+   BK_COMM_ANSW_SEQ = 0;
+   BK_TOUR_C_R = "R";
+   BK_TOUR_SEQ = 0;
+   call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_REMARKD - Read next */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END_REMARKD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > BK_MODIFICATION) !
+   (BK_OR_TOUR_NO > BOOKING_NO) !
+   (BK_COMM_ALT_SEQ > BK_COMM_ALT_SEQ) !
+   (BK_COMM_ANSW_SEQ > BK_COMM_ANSW_SEQ) !
+   (BK_TOUR_C_R > "R") then
+      do;
+      END_DEL_REMARK = YES;
+      return;
+      end;
+
+   /* DELETE_REMARKD - Delete */
+
+   call DELETE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+return;
+end;	/* DEL_REMARK           */
+
+/****************************************************************
+	UPDATE_REMARK
+	Change remark detail back to the orig.
+****************************************************************/
+
+UPDATE_REMARK:
+	procedure;
+
+
+   /* SET_FIRST_REMARKD - Set first */
+
+   BK_TOUR_MOD_NO = BK_MODIFICATION;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_COMM_ALT_SEQ = 0;
+   BK_COMM_ANSW_SEQ = 0;
+   BK_TOUR_C_R = "R";
+   BK_TOUR_SEQ = 0;
+   call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_REMARKD - Read next */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END_REMARKD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > BK_MODIFICATION) !
+   (BK_OR_TOUR_NO > BOOKING_NO) !
+   (BK_COMM_ALT_SEQ > BK_COMM_ALT_SEQ) !
+   (BK_COMM_ANSW_SEQ > BK_COMM_ANSW_SEQ) !
+   (BK_TOUR_C_R > "R") then
+      do;
+      END_UPDATE_REMARK = YES;
+      return;
+      end;
+
+   /* CHANGE_REMARKD - Change remark mod code to 0 */
+
+   BK_TOUR_MOD_NO = BK_NEXT_MOD;
+
+
+   /* UPDATE_REMARKD - Update */
+
+   call UPDATE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+return;
+end;	/* UPDATE_REMARK        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_COMMENT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

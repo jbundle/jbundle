@@ -1,0 +1,16 @@
+/*********************************************************************
+	GL_BUDGET_C_RPT File
+********************************************************************/
+
+declare	1 GL_BUDGET_C_RPT_RECORD,
+		3 GL_START_BC_ACCT     fixed binary (31),
+		3 GL_END_BC_ACCT       fixed binary (31),
+		3 GL_BC_CHOICE         character (        1),
+		3 GL_REPORT_TYPE       character (       11),
+		3 GL_BUD_RPT_DATE      fixed binary (15),
+		3 GL_BUD_TIME          fixed binary (15),
+		3 GL_BUD_PAGE_NO       fixed binary (15),
+		3 GL_BC_START_DATE     fixed binary (15),
+		3 GL_BC_END_DATE       fixed binary (15),
+		3 GL_BUD_USER          character (       16);
+

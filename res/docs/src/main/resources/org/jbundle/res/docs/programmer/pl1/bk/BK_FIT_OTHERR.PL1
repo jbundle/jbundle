@@ -1,0 +1,107 @@
+/****************************************************************
+	Module: BK_FIT_OTHERR
+	Top Level Logic: CALL_OTHER_LOGIC
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_FIT_OTHERR
+	Main logic
+****************************************************************/
+
+BK_FIT_OTHERR:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD);
+%replace BK_DET_LAND_NO by  68;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_DET_LAND.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+
+   /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+   if BOOKING_NO = 0 then
+      return;
+
+
+   /* CHECK_ALL_INFO - Are all Agency, Pax, and Tour in? */
+
+   if BK_AGENCY = -1 then
+      do;
+      call DISPLAY_MESSAGE ("Agency not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   if BK_PAX = 0 then
+      do;
+      call DISPLAY_MESSAGE ("Passengers not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   if BK_TOUR_NUM = 0 then
+      do;
+      call DISPLAY_MESSAGE ("Tour not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+
+   /* SETUP_LAND_IF_NEW - Set up the land detail if new */
+
+   if BK_TOUR_MOD = -1 then
+      do;
+
+      /* BK_SET_LAND_DET - Set up the land detail */
+
+      %include "BK_SET_LAND_DET.DCL";
+      call BK_SET_LAND_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_LAND_RECORD);
+      end;
+
+
+   /* BK_FIT_OTHER - Call program */
+
+   %include "BK_FIT_OTHER.DCL";
+   call BK_FIT_OTHER(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_DET_LAND_RECORD,
+      BK_PASSENGERS_RECORD);
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_DET_LAND_NO);
+return;
+end;	/* CALL_OTHER_LOGIC     */
+/*********************************End of Program*********************/

@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+  Copyright 1999-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+--><!--+
+    | This is the 'heart' of Cocoon. The sitemap maps URI space to
+    | resources. It consists basicaly of two parts: components and
+    | pipelines. Pipelines are made out of components. There is such a
+    | vast number of components available that it would be impossible to
+    | describe them here, please refer to the accompanying
+    | documentation. For specific components, have a look also at the
+    | javadocs for them. Most pipelines are present to demonstrate some
+    | feature or technique, often they are explained in more detail in
+    | the accompanying documentation. The sitemaps which come with each
+    | sample and each block will help to explain.
+    |
+    | CVS $Id: tourapp.xmap,v 1.2 2008/12/22 10:02:06 don Exp $
+    +-->
+    
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+
+  <!--+
+      | Matchers are executed during pipeline setup. They decide if a
+      | pipeline fragment is used within a pipeline. Usually, the decision
+      | is based on a match on the requested URI but matchers exist, that
+      | match different things as well. Most often the fragment contained in
+      | a matcher has a generator as well as a serializer. This is not a
+      | necessity, matchers can be nested while chaining does not work.
+      +-->
+ <map:components>
+  <map:generators default="file">
+    <map:generator  name="xmlfilter" src="org.jbundle.base.screen.control.servlet.xml.cocoon.XMLFilter"/>
+    <map:generator  name="xmlfilefilter" src="org.jbundle.base.screen.control.servlet.xml.cocoon.XMLFileFilter"/>
+  </map:generators>
+
+<map:matchers default="wildcard">
+    <map:matcher name="help-param" src="org.apache.cocoon.matching.WildcardParameterValueMatcher">
+      <parameter-name>help</parameter-name>
+    </map:matcher>
+    <map:matcher name="file-param" src="org.apache.cocoon.matching.WildcardParameterValueMatcher">
+      <parameter-name>file</parameter-name>
+    </map:matcher>
+    <map:matcher name="template-param" src="org.apache.cocoon.matching.WildcardParameterValueMatcher">
+      <parameter-name>template</parameter-name>
+    </map:matcher>
+    <map:matcher name="menu-param" src="org.apache.cocoon.matching.WildcardParameterValueMatcher">
+      <parameter-name>menu</parameter-name>
+    </map:matcher>
+    <map:matcher name="forms-param" src="org.apache.cocoon.matching.WildcardParameterValueMatcher">
+      <parameter-name>forms</parameter-name>
+    </map:matcher>
+    <map:matcher name="screen-param" src="org.apache.cocoon.matching.WildcardParameterValueMatcher">
+      <parameter-name>screen</parameter-name>
+    </map:matcher>
+    <map:matcher name="record-param" src="org.apache.cocoon.matching.WildcardParameterValueMatcher">
+      <parameter-name>record</parameter-name>
+    </map:matcher>
+    <map:matcher name="applet-param" src="org.apache.cocoon.matching.WildcardParameterValueMatcher">
+      <parameter-name>applet</parameter-name>
+    </map:matcher>
+    <map:matcher name="command-param" src="org.apache.cocoon.matching.WildcardParameterValueMatcher">
+      <parameter-name>command</parameter-name>
+    </map:matcher>
+  </map:matchers>
+ </map:components>
+
+  <map:pipelines>
+
+  <map:component-configurations>
+    <global-variables>
+       <!--+
+           | Define global parameters here:
+           |   <skin>my_skin</skin>
+           |   ...
+           | You can access them by {global:*name*}, e.g. {global:skin}.
+           | These values are inherited into sub-sitemaps and can
+           | be extended there.
+           +-->
+    </global-variables>
+  </map:component-configurations>
+
+  <!-- main pipeline -->
+  <map:pipeline>
+    <!-- ================  Hello  =========================== -->
+    <map:match pattern="hello.html">
+      <map:generate src="docs/test/xml/hello.xml"/>
+      <map:transform src="docs/test/xml/hello.xsl"/>
+      <map:serialize type="html"/>
+    </map:match>
+    <!-- ================  Test  =========================== -->
+    <map:match pattern="docs/test/xml/*.xml">
+      <map:generate src="docs/test/xml/{1}.xml"/>
+      <map:transform src="docs/test/xml/{1}.xsl"/>
+      <map:serialize type="html"/>
+    </map:match>
+    
+    <!-- ================  Itin  =========================== -->
+    <map:match pattern="docs/test/xml/itin/*.xml">
+      <map:generate src="docs/test/xml/itin/{1}.xml"/>
+      <map:transform src="docs/test/xml/itin/{1}.xsl"/>
+      <map:serialize type="fo2pdf"/>
+    </map:match>
+    
+    <!-- ================  Alex  =========================== -->
+    <map:match pattern="docs/test/xml/alex/xml.xml">
+      <map:generate src="docs/test/xml/alex/alex.xml"/>
+      <map:transform src="docs/test/xml/alex/xml2html.xsl"/>
+      <map:serialize type="html"/>
+    </map:match>
+    <map:match pattern="docs/test/xml/alex/xmlpdf.xml">
+      <map:generate src="docs/test/xml/alex/xmlpdf.xml"/>
+      <map:transform src="docs/test/xml/alex/xml2html.xsl"/>
+      <map:serialize type="html"/>
+    </map:match>
+    <map:match pattern="docs/test/xml/alex/xmlhtml.xml">
+      <map:generate src="docs/test/xml/alex/xmlhtml.xml"/>
+      <map:transform src="docs/test/xml/alex/xml2html.xsl"/>
+      <map:serialize type="html"/>
+    </map:match>
+    <map:match pattern="docs/test/xml/alex/pdf.xml">
+      <map:generate src="docs/test/xml/alex/alex.xml"/>
+      <map:transform src="docs/test/xml/alex/pdf.xsl"/>
+      <map:serialize type="fo2pdf"/>
+    </map:match>
+    <map:match pattern="docs/test/xml/alex/html.xml">
+      <map:generate src="docs/test/xml/alex/alex.xml"/>
+      <map:transform src="docs/test/xml/alex/html.xsl"/>
+      <map:serialize type="html"/>
+    </map:match>
+    
+    <!-- ================  Everything else  =========================== -->
+<!--    <map:match pattern="**.xml"> -->
+
+         <map:match pattern="**images/**.*">
+              <map:read src="images/{2}.{3}" mime-type="image/{3}" />
+         </map:match>
+
+<!-- XSL Initial page -->
+    	<map:match pattern="tourappxsl**">
+          <map:generate type="xmlfilter"/>
+          <map:match type="template-param" pattern="*-fo">
+            <map:transform src="docs/styles/xsl/cocoon/all/{1}-fo.xsl"/>
+            <map:serialize type="fo2pdf"/>
+          </map:match>
+          <map:match type="template-param" pattern="*">
+            <map:transform src="docs/styles/xsl/cocoon/all/{1}.xsl"/>
+            <map:serialize type="html"/>
+          </map:match>
+          <map:match type="help-param" pattern="">
+            <map:match type="menu-param" pattern="*">
+              <map:select type="browser">
+                <map:when test="explorer">
+                    <map:transform src="docs/styles/xsl/cocoon/base/menuhelp-ie.xsl"/>
+                </map:when>
+                <map:when test="java">
+                    <map:transform src="docs/styles/xsl/cocoon/base/menuhelp-java.xsl"/>
+                </map:when>
+                <map:otherwise>
+                    <map:transform src="docs/styles/xsl/cocoon/base/menuhelp.xsl"/>
+                </map:otherwise>
+              </map:select>
+              <map:serialize type="html"/>
+            </map:match>
+              <map:select type="browser">
+                <map:when test="explorer">
+                    <map:transform src="docs/styles/xsl/cocoon/base/help-ie.xsl"/>
+                </map:when>
+                <map:when test="java">
+                    <map:transform src="docs/styles/xsl/cocoon/base/help-java.xsl"/>
+                </map:when>
+                <map:otherwise>
+                    <map:transform src="docs/styles/xsl/cocoon/base/help.xsl"/>
+                </map:otherwise>
+              </map:select>
+            <map:serialize type="html"/>
+          </map:match>
+          <map:match type="help-param" pattern="*">
+            <map:transform src="docs/styles/xsl/cocoon/all/tech.xsl"/>
+            <map:serialize type="html"/>
+          </map:match>
+          <map:match type="screen-param" pattern="*GridScreen">
+            <map:transform src="docs/styles/xsl/ajax/base/report-ajax.xsl"/>
+         	<map:serialize type="html"/>
+          </map:match>
+          <map:match type="screen-param" pattern="*">
+          	<map:match type="forms-param" pattern="display">
+            	<map:transform src="docs/styles/xsl/ajax/base/report-ajax.xsl"/>
+         	    <map:serialize type="html"/>
+         	</map:match>
+            <map:transform src="docs/styles/xsl/ajax/base/form-ajax.xsl"/>
+            <map:serialize type="html"/>
+          </map:match>
+          <map:match type="record-param" pattern="*">
+          	<map:match type="command-param" pattern="Form*">
+            	<map:transform src="docs/styles/xsl/ajax/base/form-ajax.xsl"/>
+         	    <map:serialize type="html"/>
+         	</map:match>
+            <map:transform src="docs/styles/xsl/ajax/base/report-ajax.xsl"/>
+         	<map:serialize type="html"/>
+          </map:match>
+          
+            <map:select type="host">
+                <map:when test="tourgeek">
+              <map:select type="browser">
+                <map:when test="explorer">
+                    <map:transform src="docs/styles/xsl/com/tourgeek/menus-tourgeek-ajax-ie.xsl"/>
+                </map:when>
+                <map:when test="java">
+                    <map:transform src="docs/styles/xsl/com/tourgeek/menus-tourgeek-java.xsl"/>
+                </map:when>
+                <map:otherwise>
+                    <map:transform src="docs/styles/xsl/com/tourgeek/menus-tourgeek-ajax.xsl"/>
+                </map:otherwise>
+              </map:select>
+                </map:when>
+                <map:otherwise>
+              <map:select type="browser">
+                <map:when test="explorer">
+                    <map:transform src="docs/styles/xsl/ajax/base/menus-ajax-ie.xsl"/>
+                </map:when>
+                <map:when test="java">
+                    <map:transform src="docs/styles/xsl/ajax/base/menus-java.xsl"/>
+                </map:when>
+                <map:otherwise>
+                    <map:transform src="docs/styles/xsl/ajax/base/menus-ajax.xsl"/>
+                </map:otherwise>
+              </map:select>
+                </map:otherwise>
+			</map:select>
+          
+          <map:serialize type="html"/>
+        </map:match>
+<!-- end FOR TESTING ONLY -->
+
+
+    	<map:match pattern="**">
+      <!--
+          <map:match type="file-param" pattern="*">
+            <map:generate type="xmlfilefilter" src="{1}"/>
+            <map:transform src="docs/styles/xsl/cocoon/base/help.xsl"/>
+            <map:serialize type="html"/>
+          </map:match>
+          -->
+          <map:generate type="xmlfilter"/>
+          <map:match type="template-param" pattern="*-fo">
+            <map:transform src="docs/styles/xsl/cocoon/all/{1}-fo.xsl"/>
+            <map:serialize type="fo2pdf"/>
+          </map:match>
+          <map:match type="template-param" pattern="*">
+            <map:transform src="docs/styles/xsl/cocoon/all/{1}.xsl"/>
+            <map:serialize type="html"/>
+          </map:match>
+          <map:match type="help-param" pattern="">
+            <map:match type="menu-param" pattern="*">
+              <map:select type="browser">
+                <map:when test="explorer">
+                    <map:transform src="docs/styles/xsl/cocoon/base/menuhelp-ie.xsl"/>
+                </map:when>
+                <map:when test="java">
+                    <map:transform src="docs/styles/xsl/cocoon/base/menuhelp-java.xsl"/>
+                </map:when>
+                <map:otherwise>
+                    <map:transform src="docs/styles/xsl/cocoon/base/menuhelp.xsl"/>
+                </map:otherwise>
+              </map:select>
+              <map:serialize type="html"/>
+            </map:match>
+              <map:select type="browser">
+                <map:when test="explorer">
+                    <map:transform src="docs/styles/xsl/cocoon/base/help-ie.xsl"/>
+                </map:when>
+                <map:when test="java">
+                    <map:transform src="docs/styles/xsl/cocoon/base/help-java.xsl"/>
+                </map:when>
+                <map:otherwise>
+                    <map:transform src="docs/styles/xsl/cocoon/base/help.xsl"/>
+                </map:otherwise>
+              </map:select>
+            <map:serialize type="html"/>
+          </map:match>
+          <map:match type="help-param" pattern="*">
+            <map:transform src="docs/styles/xsl/cocoon/all/tech.xsl"/>
+            <map:serialize type="html"/>
+          </map:match>
+          <map:match type="screen-param" pattern="*GridScreen">
+            <map:transform src="docs/styles/xsl/cocoon/extendedbase/report.xsl"/>
+         	<map:serialize type="html"/>
+          </map:match>
+          <map:match type="screen-param" pattern="*">
+          	<map:match type="forms-param" pattern="display">
+            	<map:transform src="docs/styles/xsl/cocoon/extendedbase/report.xsl"/>
+         	    <map:serialize type="html"/>
+         	</map:match>
+            <map:transform src="docs/styles/xsl/cocoon/extendedbase/form.xsl"/>
+            <map:serialize type="html"/>
+          </map:match>
+          <map:match type="record-param" pattern="*">
+          	<map:match type="command-param" pattern="Form*">
+            	<map:transform src="docs/styles/xsl/cocoon/extendedbase/form.xsl"/>
+         	    <map:serialize type="html"/>
+         	</map:match>
+            <map:transform src="docs/styles/xsl/cocoon/extendedbase/report.xsl"/>
+         	<map:serialize type="html"/>
+          </map:match>
+            <map:select type="host">
+                <map:when test="tourgeek">
+              <map:select type="browser">
+                <map:when test="explorer">
+                    <map:transform src="docs/styles/xsl/com/tourgeek/menus-tourgeek-ie.xsl"/>
+                </map:when>
+                <map:when test="java">
+                    <map:transform src="docs/styles/xsl/com/tourgeek/menus-tourgeek-java.xsl"/>
+                </map:when>
+                <map:otherwise>
+                    <map:transform src="docs/styles/xsl/com/tourgeek/menus-tourgeek.xsl"/>
+                </map:otherwise>
+              </map:select>
+                </map:when>
+                <map:otherwise>
+              <map:select type="browser">
+                <map:when test="explorer">
+                    <map:transform src="docs/styles/xsl/cocoon/base/menus-ie.xsl"/>
+                </map:when>
+                <map:when test="java">
+                    <map:transform src="docs/styles/xsl/cocoon/base/menus-java.xsl"/>
+                </map:when>
+                <map:otherwise>
+                    <map:transform src="docs/styles/xsl/cocoon/base/menus.xsl"/>
+                </map:otherwise>
+              </map:select>
+                </map:otherwise>
+			</map:select>
+          <map:serialize type="html"/>
+        </map:match>
+
+  </map:pipeline>
+ </map:pipelines>
+
+</map:sitemap>

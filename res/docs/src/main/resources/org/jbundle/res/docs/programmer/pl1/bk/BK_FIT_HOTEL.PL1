@@ -1,0 +1,2068 @@
+/****************************************************************
+	Module: BK_FIT_HOTEL
+	Top Level Logic: FIT_HOTEL_LOGIC
+	Date: 14-Aug-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_FIT_HOTEL
+	Top Level Logic for Hotel Costing/Disply
+****************************************************************/
+
+%replace BK_FIT_HOTEL_1 by 255;
+BK_FIT_HOTEL:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_HOTEL_RECORD,
+      BK_HOTEL_DET_RECORD,
+      AD_CURR_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_LAND_RECORD);
+%replace BK_HOTEL_CAT_NO by 116;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_HOTEL_NO by   8;
+%replace BK_HOTEL_DET_NO by  52;
+%replace AD_CURR_NO by  25;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_LAND_NO by  54;
+%include "BK_FIT_HOTEL.DD";
+%include "BK_HOTEL_CAT.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_HOTEL.DD";
+%include "BK_HOTEL_DET.DD";
+%include "AD_CURR.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_LAND.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_ENT_HOTEL_PRICES bit (1);
+declare		END_CHANGE_FIT_HOTEL bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		ANSWER               character (1);
+declare		END_ENTER_HOTEL_CURR bit (1);
+declare		END_READ_THRU_MEALS  bit (1);
+declare		LINE                 fixed binary (15);
+declare		END_READ_THRU_SVC    bit (1);
+   call INITIALIZE;
+   call FIT_HOTEL_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   MARKUP_FROM_LAST = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_FIT_HOTEL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_FIT_HOTEL_RECORD) );
+   call OPEN_FILE (BK_HOTEL_CAT_NO,"BK_HOTEL_CAT",byteaddr(BK_HOTEL_CAT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_CAT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	FIT_HOTEL_MAIN
+	Main line logic
+****************************************************************/
+
+FIT_HOTEL_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_HOTEL       fixed binary (15);
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+
+   /* CHECK_HOTEL_CODE - Is the hotel code already in? */
+
+   if HDET_HOTEL = "" then
+      do;
+      call ENTER_DATA_A;
+      end;
+   else
+      do;
+      call DISPLAY_DATA_A;
+      end;
+
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+
+   /* GET_HOTEL_REC - Read/Enter the FIT hotel desctiption */
+
+   if HOTEL_CODE ^= HDET_HOTEL then
+      do;
+      HOTEL_NAME_2 = "";
+      if HDET_MANUAL ^= "" then
+         HOTEL_NAME = HDET_MANUAL;
+      else
+         do;
+
+         /* GET_HOTEL_RECD - Read in the hotel description */
+
+
+            /* RESET_ERROR - Reset the error code to zero */
+
+            ERROR_CODE = 0;
+
+
+            /* SETUP_HOTEL_CODE - Set the HOTEL_CODE */
+
+            HOTEL_CODE = HDET_HOTEL;
+
+
+            /* READ_HOTEL - Read hotel record */
+
+            call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_BK_HOTEL);
+            if ERROR_BK_HOTEL > 3 then
+               call PRINT_ERROR (BK_HOTEL_NO,ERROR_BK_HOTEL);
+
+            /* FIT_HOTEL_FOUND - Was the record found? */
+
+            ERROR_INPUT_SCREEN = NO;
+            if ERROR_BK_HOTEL = NORMAL_RETURN then
+               do;
+
+               /* NO_CODE - This section has no code */
+
+               /* No code in this section */
+               end;
+            else
+               do;
+               call HOTEL_NOT_FOUND;
+               if ERROR_INPUT_SCREEN then return;
+               end;
+
+            /* RETURN_IF_ERROR - Return if ERROR_CODE <> 0 */
+
+            if ERROR_CODE ^= NORMAL_RETURN then
+               return;
+
+         end;
+      end;
+
+   call DISPLAY_DATA_B;
+   call DISPLAY_DATA_I;
+   call DISPLAY_DATA_C;
+
+   /* DISPLAY_DATA_P - Display Data */
+
+   do LOOP_INDEX =  15 to  16;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* CHECK_HOTEL_DATE - Check to see if the hotel date is in */
+
+   if HDET_DATE = 0 then
+      do;
+      HDET_DATE = BK_DEPARTURE;
+      call ENTER_DATA_M;
+      end;
+   else
+      do;
+
+      /* DISPLAY_DATA_M - Display group M */
+
+      do LOOP_INDEX =  18 to  18;
+         call OUTPUT_FIELD (LOOP_INDEX);
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CHECK_RATE_IN - Check to see if the rate is in already */
+
+   if HDET_MANUAL = "" then
+      if HDET_RATE_TYPE = "" then if HDET_CLASS = "" then
+         do;
+
+         /* SET_RATE_TYPE - Set the rate type */
+
+         HDET_RATE_TYPE = TOUR_RATE_DEF;
+         HDET_CLASS = TOUR_RATE_CLASS;
+
+         end;
+
+   call BK_COST_HOTEL;
+
+   if (HDET_ROOM_COST = 0) & (HDET_MEAL_COST = 0) then
+      do;
+
+      /* ENT_HOTEL - Enter hotel prices & meals */
+
+      END_ENT_HOTEL_PRICES = NO;
+      do while (END_ENT_HOTEL_PRICES ^= YES);
+         call ENT_HOTEL_PRICES;
+      end;
+      if HDET_ROOM_COST = 0 then
+         do;
+         HDET_NIGHTS = 0;
+         return;
+         end;
+      if HDET_NIGHTS ^= 0 then
+         do;
+         call ENT_MEAL_PRICES;
+         end;
+
+      end;
+   else
+      do;
+      call DIS_HOTEL_PRICES;
+      end;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   call DISPLAY_DATA_Q;
+   call DISPLAY_DATA_R;
+
+   /* DISPLAY_DATA_S - Display */
+
+   do LOOP_INDEX =  63 to  63;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* DISPLAY_DATA_T - DISPLAY */
+
+   do LOOP_INDEX =  64 to  64;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   call DIS_H_SVCS;
+   END_CHANGE_FIT_HOTEL = NO;
+   do while (END_CHANGE_FIT_HOTEL ^= YES);
+      call CHANGE_FIT_HOTEL;
+   end;
+return;
+end;	/* FIT_HOTEL_MAIN       */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	HOTEL_NOT_FOUND
+	Hotel code doesn't exist
+****************************************************************/
+
+HOTEL_NOT_FOUND:
+	procedure;
+
+
+   /* ITIN_HOTEL_REC - Clear the unused hotel fields */
+
+   HOTEL_CODE = "";
+   HOTEL_NAME = "";
+   HOTEL_NAME_2 = "";
+   HOTEL_VENDOR_NO = "";
+   HOTEL_ONE_FREE = 0;
+   HOTEL_FREE_TYPE = "";
+   HOTEL_COMMENT_1 = "";
+   HOTEL_COMMENT_2 = "";
+
+
+   /* MANUAL - Manual hotel entry? */
+
+   call DISPLAY_MESSAGE ("Hotel not found, Enter manual hotel?");
+   call INPUT_DATA (23,38,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   if ANSWER ^= "Y" then
+      do;
+      ERROR_CODE = 1;
+      return;
+      end;
+
+   call ENTER_DATA_B;
+   END_ENTER_HOTEL_CURR = NO;
+   do while (END_ENTER_HOTEL_CURR ^= YES);
+      call ENTER_HOTEL_CURR;
+   end;
+
+   /* MANUAL_RATE_TYPE - Initialize the Hotel detail for manual */
+
+   HDET_MANUAL = HOTEL_NAME;
+   HDET_EXCHANGE = COSTING_EXCH;
+
+
+   /* SET_RATE_TYPE - Set the rate type */
+
+   HDET_RATE_TYPE = TOUR_RATE_DEF;
+   HDET_CLASS = TOUR_RATE_CLASS;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+return;
+end;	/* HOTEL_NOT_FOUND      */
+
+/****************************************************************
+	ENTER_DATA_B
+	Enter the screen data for group B
+****************************************************************/
+
+ENTER_DATA_B:
+	procedure;
+
+HOTEL_NAME = "";
+HOTEL_NAME_2 = "";
+do LOOP_INDEX =  12 to  12;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  13 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_B         */
+
+/****************************************************************
+	ENTER_HOTEL_CURR
+	Enter the currency code
+****************************************************************/
+
+ENTER_HOTEL_CURR:
+	procedure;
+
+   call ENTER_DATA_C;
+
+   /* RETURN_IF_NO_ERROR - Return if ERROR_CODE = 0 */
+
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      END_ENTER_HOTEL_CURR = YES;
+      return;
+      end;
+
+return;
+end;	/* ENTER_HOTEL_CURR     */
+
+/****************************************************************
+	ENTER_DATA_C
+	Enter the screen data in group C
+****************************************************************/
+
+ENTER_DATA_C:
+	procedure;
+
+HOTEL_VENDOR_NO = "";
+do LOOP_INDEX =  14 to  14;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      CURR_CODE = HOTEL_CURR;
+      call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         CURR_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  15 to  16;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  17 to  17;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_C         */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  12 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	DISPLAY_DATA_I
+	Display screen group I
+****************************************************************/
+
+DISPLAY_DATA_I:
+	procedure;
+
+do LOOP_INDEX =  57 to  60;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_I       */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  14 to  14;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      CURR_CODE = HOTEL_CURR;
+      call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         CURR_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  15 to  16;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  17 to  17;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	ENTER_DATA_M
+	Enter screen group M
+****************************************************************/
+
+ENTER_DATA_M:
+	procedure;
+
+do LOOP_INDEX =  18 to  18;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_M         */
+
+/****************************************************************
+	BK_COST_HOTEL
+	Do a hotel costing
+****************************************************************/
+
+BK_COST_HOTEL:
+	procedure;
+
+%include "BK_COST_HOTEL.DCL";
+call BK_COST_HOTEL(
+   BK_BOOKING_RECORD,
+   BK_TOUR_RECORD,
+   BK_TOUR_HDR_RECORD,
+   BK_DET_HOTEL_RECORD,
+   BK_HOTEL_RECORD,
+   BK_HOTEL_DET_RECORD,
+   AD_CURR_RECORD);
+return;
+end;	/* BK_COST_HOTEL        */
+
+/****************************************************************
+	ENT_HOTEL_PRICES
+	Enter the hotel prices
+****************************************************************/
+
+ENT_HOTEL_PRICES:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+
+   /* GET_HOTEL_PRICE - Get the hotel price from the user */
+
+   if HDET_MANUAL ^= "" then
+      do;
+      call ENTER_H_PRICE;
+      end;
+   else
+      do;
+      if (HDET_RATE_TYPE = "") & (HDET_CLASS = "") then
+         do;
+
+         /* GET_THE_PRICE - Get the hotel's price */
+
+
+         /* SET_RATE_TYPE - Set the rate type */
+
+         HDET_RATE_TYPE = TOUR_RATE_DEF;
+         HDET_CLASS = TOUR_RATE_CLASS;
+
+         call DIS_AVAIL_RATES;
+         call ENTER_DATA_D;
+         if ERROR_INPUT_SCREEN then
+            do;
+
+            /* CLEAR_HOTEL_COST - Clear the hotel cost */
+
+            HDET_SINGLE = 0;
+            HDET_DOUBLE = 0;
+            HDET_TRIPLE = 0;
+            HDET_QUAD = 0;
+            HDET_ROOM_COST = 0;
+            HDET_MEAL_PRICE = 0;
+            HDET_MEAL_COST = 0;
+
+            ERROR_CODE = 1;
+            HDET_NIGHTS = 0;
+            do;
+            END_ENT_HOTEL_PRICES = YES;
+            return;
+            end;
+            end;
+
+         call BK_COST_HOTEL;
+         if HDET_DOUBLE = 0 then
+            do;
+            call GET_OTHER_PRICE;
+            end;
+         else
+            do;
+            call DISPLAY_DATA_H;
+            end;
+
+         end;
+      else
+         do;
+
+         /* DIS_THE_PRICE - Rates are already in, display and lookup */
+
+         call DISPLAY_DATA_D;
+         call BK_COST_HOTEL;
+         if HDET_DOUBLE = 0 then
+            do;
+
+            /* GET_THE_PRICE - Get the hotel's price */
+
+
+            /* SET_RATE_TYPE - Set the rate type */
+
+            HDET_RATE_TYPE = TOUR_RATE_DEF;
+            HDET_CLASS = TOUR_RATE_CLASS;
+
+            call DIS_AVAIL_RATES;
+            call ENTER_DATA_D;
+            if ERROR_INPUT_SCREEN then
+               do;
+
+               /* CLEAR_HOTEL_COST - Clear the hotel cost */
+
+               HDET_SINGLE = 0;
+               HDET_DOUBLE = 0;
+               HDET_TRIPLE = 0;
+               HDET_QUAD = 0;
+               HDET_ROOM_COST = 0;
+               HDET_MEAL_PRICE = 0;
+               HDET_MEAL_COST = 0;
+
+               ERROR_CODE = 1;
+               HDET_NIGHTS = 0;
+               do;
+               END_ENT_HOTEL_PRICES = YES;
+               return;
+               end;
+               end;
+
+            call BK_COST_HOTEL;
+            if HDET_DOUBLE = 0 then
+               do;
+               call GET_OTHER_PRICE;
+               end;
+            else
+               do;
+               call DISPLAY_DATA_H;
+               end;
+
+            end;
+         else
+            do;
+            call DISPLAY_DATA_H;
+            end;
+
+         end;
+      end;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_ENT_HOTEL_PRICES = YES;
+      return;
+      end;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+
+   /* ERROR_NO_PRICE - Set error flag if no hotel price */
+
+   if HDET_DOUBLE = 0 then
+      ERROR_CODE = 1;
+
+
+   /* RET_IF_ERROR - return if ERROR_CODE <> 0 */
+
+   if ERROR_CODE ^= 0 then
+      return;
+
+
+   /* CHECK_DAYS_IN - Check to see if the days are in */
+
+   if HDET_NIGHTS = 0 then
+      do;
+      call ENTER_DATA_F;
+      end;
+   else
+      do;
+      call DISPLAY_DATA_F;
+      end;
+
+   call BK_COST_HOTEL;
+   call DISPLAY_DATA_K;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_ENT_HOTEL_PRICES = YES;
+   return;
+   end;
+
+return;
+end;	/* ENT_HOTEL_PRICES     */
+
+/****************************************************************
+	ENTER_H_PRICE
+	Enter the hotel price (manually)
+****************************************************************/
+
+ENTER_H_PRICE:
+	procedure;
+
+   call ENTER_DATA_H;
+return;
+end;	/* ENTER_H_PRICE        */
+
+/****************************************************************
+	ENTER_DATA_H
+	Enter group H
+****************************************************************/
+
+ENTER_DATA_H:
+	procedure;
+
+HOTEL_MEALS = "EP";
+do LOOP_INDEX =  35 to  35;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  36 to  45;
+   if LOOP_INDEX =  37 then
+      do;
+
+      /* CALC_USD_SINGLE - Calculate USD estimate for single */
+
+      USD_SINGLE = HDET_SINGLE * COSTING_EXCH + 0.5;
+
+      end;
+   if LOOP_INDEX =  37 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =  38 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =  40 then
+      do;
+
+      /* CALC_USD_DOUBLE - Calculate USE equiv. */
+
+      USD_DOUBLE = HDET_DOUBLE * COSTING_EXCH + 0.5;
+
+      end;
+   if LOOP_INDEX =  40 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =  41 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =  43 then
+      do;
+
+      /* CALC_USD_TRIPLE - Calc. equiv. */
+
+      USD_TRIPLE = HDET_TRIPLE * COSTING_EXCH + 0.5;
+
+      end;
+   if LOOP_INDEX =  43 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   if LOOP_INDEX =  44 then
+      do;
+      call OUTPUT_FIELD (LOOP_INDEX);
+      LOOP_INDEX = LOOP_INDEX + 1;
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  46 to  47;
+   if LOOP_INDEX =  46 then
+      do;
+
+      /* CALC_USD_QUAD - Calculate the equiv usd amount */
+
+      USD_QUAD = HDET_QUAD * COSTING_EXCH + 0.5;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_H         */
+
+/****************************************************************
+	DIS_AVAIL_RATES
+	Display the available rate types
+****************************************************************/
+
+DIS_AVAIL_RATES:
+	procedure;
+
+declare LOOP fixed binary;
+declare TYPE_STRING character(30)varying;
+TYPE_STRING = "";
+HOTEL_CAT_STRING = "";
+
+HOTEL_CODE_DET = HOTEL_CODE;
+HOTEL_RATE_TYPE = "A";
+HOTEL_CLASS = "";
+
+do while (YES);
+   HOTEL_END = HDET_DATE;
+   call SET_POSITION(BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+   call READ_NEXT(BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+      (HOTEL_CODE ^= HOTEL_CODE_DET) !
+      (HOTEL_RATE_TYPE > "z") then
+         do;
+         call OUTPUT_LINE (24,20,"Available Rates are: "c !! TYPE_STRING);
+         HDET_RATE_TYPE = "";
+         HDET_CLASS = "";
+         return;
+         end;
+   if HDET_DATE >= HOTEL_START then if HDET_DATE <= HOTEL_END then
+      do;
+         if HOTEL_USE_RATE_TYPE = "" then
+            do;
+            if length(TYPE_STRING) ^= 0 then
+               TYPE_STRING = TYPE_STRING !! ",";
+            if HOTEL_CLASS = "" then
+               TYPE_STRING = TYPE_STRING !! HOTEL_RATE_TYPE;
+            else
+               TYPE_STRING = TYPE_STRING !! HOTEL_RATE_TYPE !! "/" !! HOTEL_CLASS;
+            do LOOP = 1 to 10;
+               if substr(HOTEL_CAT_STRING, LOOP*2-1, 2) = "  " then
+                  substr(HOTEL_CAT_STRING,LOOP*2-1, 2) = HOTEL_CLASS;
+               if substr(HOTEL_CAT_STRING, LOOP*2-1, 2) = HOTEL_CLASS then
+                  LOOP = 99;
+            end;
+            end;
+         else
+            do;
+            declare	TEMP_RATE_TYPE	character(1);
+            declare	TEMP_USE_RATE_TYPE	character(1);
+            declare	TEMP_CLASS	character(2);
+            declare	TEMP_USE_CLASS	character(2);
+            TEMP_RATE_TYPE = HOTEL_RATE_TYPE;
+            TEMP_CLASS = HOTEL_CLASS;
+            TEMP_USE_RATE_TYPE = HOTEL_USE_RATE_TYPE;
+            TEMP_USE_CLASS = HOTEL_USE_CLASS;
+
+            HOTEL_RATE_TYPE = HOTEL_USE_RATE_TYPE;
+            HOTEL_CLASS = HOTEL_USE_CLASS;
+            HOTEL_END = HDET_DATE;
+            call SET_POSITION(BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT(BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+            if (HOTEL_CODE_DET = HOTEL_CODE) &
+            (HOTEL_RATE_TYPE = TEMP_USE_RATE_TYPE) &
+            (HOTEL_CLASS = TEMP_USE_CLASS) &
+            (HOTEL_START <= HDET_DATE) &
+            (HOTEL_END >= HDET_DATE) then
+               do;
+               if length(TYPE_STRING) ^= 0 then
+                  TYPE_STRING = TYPE_STRING !! ", ";
+               if TEMP_CLASS = "" then
+                  TYPE_STRING = TYPE_STRING !! TEMP_RATE_TYPE;
+               else
+                  TYPE_STRING = TYPE_STRING !! TEMP_RATE_TYPE !! "/" !! TEMP_CLASS;
+               do LOOP = 1 to 10;
+                  if substr(HOTEL_CAT_STRING,LOOP*2-1, 2) = "  " then
+                     substr(HOTEL_CAT_STRING, LOOP*2-1, 2) = TEMP_CLASS;
+                  if substr(HOTEL_CAT_STRING, LOOP*2-1, 2) = TEMP_CLASS then
+                     LOOP = 99;
+               end;
+               end;
+               HOTEL_CODE_DET = HOTEL_CODE;
+               HOTEL_RATE_TYPE = TEMP_RATE_TYPE;
+               HOTEL_CLASS = TEMP_CLASS;
+               HOTEL_END = HDET_DATE;
+            end;
+         end;
+   if HDET_DATE <= HOTEL_END then
+      substr(HOTEL_CLASS,2,1) = ascii(rank(substr(HOTEL_CLASS,2,1)) + 1);
+end;
+
+return;
+end;	/* DIS_AVAIL_RATES      */
+
+/****************************************************************
+	ENTER_DATA_D
+	Enter screen group D
+****************************************************************/
+
+ENTER_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  19 to  20;
+   if LOOP_INDEX =  19 then
+      call DISPLAY_MSG_NO ( 46);
+   if LOOP_INDEX =  20 then
+      do;
+
+      /* DIS_HOTEL_CAT - Display the categories */
+
+      declare LOOP fixed binary;
+      declare TYPE_STRING char(80) varying;
+      TYPE_STRING = "";
+
+      do LOOP = 1 to 10;
+         if (substr(HOTEL_CAT_STRING,LOOP*2-1,2) ^= "  ")
+         & (substr(HOTEL_CAT_STRING,LOOP*2-1,2) ^= "S ")
+         & (substr(HOTEL_CAT_STRING,LOOP*2-1,2) ^= "P ")
+         & (substr(HOTEL_CAT_STRING,LOOP*2-1,2) ^= "L ")
+         & (substr(HOTEL_CAT_STRING,LOOP*2-1,2) ^= "R ") then
+            LOOP = 101;
+      end;
+      if LOOP < 100 then
+         call DISPLAY_MSG_NO(42);
+      else
+         do;
+         do LOOP = 1 to 10;
+            if (substr(HOTEL_CAT_STRING,LOOP*2-1,2) ^= "  ") then
+               do;
+               HOTEL_CAT = substr(HOTEL_CAT_STRING,LOOP*2-1,2);
+               call READ_KEYED(BK_HOTEL_CAT_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = NORMAL_RETURN then if length(TYPE_STRING) < 60 then
+                  do;
+                  if length(TYPE_STRING) ^= 0 then
+                     TYPE_STRING = TYPE_STRING !! ", ";
+                  TYPE_STRING = TYPE_STRING !! HOTEL_CAT !! "-" !! CUT_SPACES(HOTEL_CAT_DESC);
+                  end;
+               end;
+         end;
+         call OUTPUT_LINE(23,1,TYPE_STRING);
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  20 then
+      do;
+
+      /* CLEAR_TO_BOS - Clear the last two lines on screen */
+
+      call CLEAR_TO_BOS(23);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_D         */
+
+/****************************************************************
+	GET_OTHER_PRICE
+	Price not found, get alternate price
+****************************************************************/
+
+GET_OTHER_PRICE:
+	procedure;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+
+   /* SET_FIRST_LAST - Set first record of last year */
+
+   declare (DAY,MONTH,YEAR) fixed binary;
+   call DAY_TO_DMY(HDET_DATE,DAY,MONTH,YEAR);
+   YEAR = YEAR - 1;
+   call DMY_TO_DAY(HDET_DATE,DAY,MONTH,YEAR);
+
+   call BK_COST_HOTEL;
+
+   /* LAST_YRS_FOUND - Last year's rate found? */
+
+   call DAY_TO_DMY(HDET_DATE,DAY,MONTH,YEAR);
+   YEAR = YEAR + 1;
+   call DMY_TO_DAY(HDET_DATE,DAY,MONTH,YEAR);
+
+   if HDET_DOUBLE ^= 0 then
+      do;
+      call DISPLAY_DATA_H;
+      call DISPLAY_MESSAGE ("<BEL>Rate not found, Use last year's rate as a basis for rate?"c);
+      call INPUT_DATA (23,59,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      end;
+
+   if (ANSWER ^= "Y") ! (HDET_DOUBLE = 0) then
+      do;
+
+      /* GET_ALT_PRICE - Price still not found, enter manual info */
+
+      call OUTPUT_LINE(23,10,"Not found, enter manual price?");
+      call INPUT_DATA(23,41,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_TO_BOS(23);
+      call DUMP_BUFFER;
+      if ANSWER ^= "Y" then
+         do;
+
+         /* CLEAR_HOTEL_COST - Clear the hotel cost */
+
+         HDET_SINGLE = 0;
+         HDET_DOUBLE = 0;
+         HDET_TRIPLE = 0;
+         HDET_QUAD = 0;
+         HDET_ROOM_COST = 0;
+         HDET_MEAL_PRICE = 0;
+         HDET_MEAL_COST = 0;
+
+         HDET_NIGHTS = 0;
+         end;
+      else
+         do;
+         call ENTER_H_PRICE;
+         end;
+
+      end;
+   else
+      do;
+      call USE_LAST_PRICE;
+      end;
+
+return;
+end;	/* GET_OTHER_PRICE      */
+
+/****************************************************************
+	USE_LAST_PRICE
+	Use last year's price
+****************************************************************/
+
+USE_LAST_PRICE:
+	procedure;
+
+   call ENTER_DATA_E;
+   call DISPLAY_DATA_H;
+return;
+end;	/* USE_LAST_PRICE       */
+
+/****************************************************************
+	ENTER_DATA_E
+	Enter the data in screen group E
+****************************************************************/
+
+ENTER_DATA_E:
+	procedure;
+
+do LOOP_INDEX =  21 to  21;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* REVERSE_PRICE - Reverse the old price */
+
+      HDET_SINGLE=floor(HDET_SINGLE / (1 + MARKUP_FROM_LAST/100)*100+0.5)/100;
+      HDET_DOUBLE=floor(HDET_DOUBLE / (1 + MARKUP_FROM_LAST/100)*100+0.5)/100;
+      HDET_TRIPLE=floor(HDET_TRIPLE / (1 + MARKUP_FROM_LAST/100)*100+0.5)/100;
+      HDET_QUAD=floor(HDET_QUAD / (1 + MARKUP_FROM_LAST/100)*100+0.5)/100;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* CALC_NEW_PRICE - Calculate new marked-up prices */
+
+      HDET_SINGLE =floor(HDET_SINGLE * (1+MARKUP_FROM_LAST/100)*100+0.5)/100;
+      HDET_DOUBLE =floor(HDET_DOUBLE * (1+MARKUP_FROM_LAST/100)*100+0.5)/100;
+      HDET_TRIPLE =floor(HDET_TRIPLE * (1+MARKUP_FROM_LAST/100)*100+0.5)/100;
+      HDET_QUAD =floor(HDET_QUAD * (1+MARKUP_FROM_LAST/100)*100+0.5)/100;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_E         */
+
+/****************************************************************
+	DISPLAY_DATA_H
+	Display screen group H
+****************************************************************/
+
+DISPLAY_DATA_H:
+	procedure;
+
+do LOOP_INDEX =  35 to  47;
+   if LOOP_INDEX =  37 then
+      do;
+
+      /* CALC_USD_SINGLE - Calculate USD estimate for single */
+
+      USD_SINGLE = HDET_SINGLE * COSTING_EXCH + 0.5;
+
+      end;
+   if LOOP_INDEX =  40 then
+      do;
+
+      /* CALC_USD_DOUBLE - Calculate USE equiv. */
+
+      USD_DOUBLE = HDET_DOUBLE * COSTING_EXCH + 0.5;
+
+      end;
+   if LOOP_INDEX =  43 then
+      do;
+
+      /* CALC_USD_TRIPLE - Calc. equiv. */
+
+      USD_TRIPLE = HDET_TRIPLE * COSTING_EXCH + 0.5;
+
+      end;
+   if LOOP_INDEX =  46 then
+      do;
+
+      /* CALC_USD_QUAD - Calculate the equiv usd amount */
+
+      USD_QUAD = HDET_QUAD * COSTING_EXCH + 0.5;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_H       */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  19 to  20;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	ENTER_DATA_F
+	Enter the data in group F
+****************************************************************/
+
+ENTER_DATA_F:
+	procedure;
+
+HDET_NIGHTS = 0;
+do LOOP_INDEX =  22 to  22;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_F         */
+
+/****************************************************************
+	DISPLAY_DATA_F
+	Display the data in group F
+****************************************************************/
+
+DISPLAY_DATA_F:
+	procedure;
+
+do LOOP_INDEX =  22 to  22;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_F       */
+
+/****************************************************************
+	DISPLAY_DATA_K
+	Display screen group K
+****************************************************************/
+
+DISPLAY_DATA_K:
+	procedure;
+
+do LOOP_INDEX =  52 to  52;
+   if LOOP_INDEX =  52 then
+      do;
+
+      /* CALC_ROOM_COST - Calc room cost */
+
+      HDET_RM_COST =
+         floor(((TOUR_SINGLES * HDET_SINGLE) +
+         (TOUR_DOUBLES * HDET_DOUBLE) +
+         (TOUR_TRIPLES * HDET_TRIPLE) +
+         (TOUR_QUADS * HDET_QUAD)) *
+         HDET_NIGHTS * 100 + 0.5) / 100;
+
+      if HOTEL_ONE_FREE > 0 then if TOUR_PAX + TOUR_FOCS > HOTEL_ONE_FREE then
+         do;
+         dcl FREES fixed binary;
+         FREES = divide((TOUR_PAX + TOUR_FOCS),(HOTEL_ONE_FREE + 1),15);
+         if HOTEL_FREE_TYPE = "S" then
+            HDET_RM_COST =
+               floor(((TOUR_SINGLES * min(HDET_SINGLE,FREES)) +
+               (TOUR_DOUBLES * (HDET_DOUBLE - float(max(0,FREES-HDET_SINGLE),21)/2)) +
+               (TOUR_TRIPLES * HDET_TRIPLE) +
+               (TOUR_QUADS * HDET_QUAD)) *
+               HDET_NIGHTS * 100 + 0.5) / 100;
+         if HOTEL_FREE_TYPE = "T" then
+            HDET_RM_COST =
+               floor(((TOUR_SINGLES * HDET_SINGLE) +
+               (TOUR_DOUBLES * (HDET_DOUBLE - (float(FREES,21) / 2))) +
+               (TOUR_TRIPLES * HDET_TRIPLE) +
+               (TOUR_QUADS * HDET_QUAD)) *
+               HDET_NIGHTS * 100 + 0.5) / 100;
+         end;
+      HDET_ROOM_COST = floor(HDET_RM_COST * HDET_EXCHANGE * 100 + 0.5) / 100;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_K       */
+
+/****************************************************************
+	ENT_MEAL_PRICES
+	Enter the meal stuff
+****************************************************************/
+
+ENT_MEAL_PRICES:
+	procedure;
+
+   call DISPLAY_MEALS;
+
+   /* CLEAR_MEAL_COST - Clean the meals */
+
+   HDET_MEAL = "";
+   HDET_MEAL_QTY = 0;
+   HDET_MEAL_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+
+   call ENTER_DATA_G;
+
+   /* CALC_MEAL_COST - Calculate the meal cost */
+
+   HDET_ML_COST =
+      floor(( ( (HDET_MEAL_QTY(1) * HDET_MEAL_PRICE(1)) +
+      (HDET_MEAL_QTY(2) * HDET_MEAL_PRICE(2)) +
+      (HDET_MEAL_QTY(3) * HDET_MEAL_PRICE(3)) +
+      (HDET_MEAL_QTY(4) * HDET_MEAL_PRICE(4)) ) *
+         (TOUR_PAX + TOUR_FOCS)) * 100 + 0.5) / 100;
+   HDET_MEAL_COST = floor(HDET_ML_COST * HDET_EXCHANGE * 100 + 0.5) / 100;
+
+   call DISPLAY_DATA_L;
+return;
+end;	/* ENT_MEAL_PRICES      */
+
+/****************************************************************
+	DISPLAY_MEALS
+	Display all the meal prices
+****************************************************************/
+
+DISPLAY_MEALS:
+	procedure;
+
+
+   /* RESET_LINE - Init the line offset to 0 */
+
+   LINE = 0;
+
+
+   /* SET_FIRST_MEAL - Set to the first meal */
+
+   HOTEL_CODE_DET = HOTEL_CODE;
+   HOTEL_RATE_TYPE = " ";
+   HOTEL_CLASS = "";
+   HOTEL_END = 0;
+   call SET_POSITION (BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_MEALS = NO;
+   do while (END_READ_THRU_MEALS ^= YES);
+      call READ_THRU_MEALS;
+   end;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+return;
+end;	/* DISPLAY_MEALS        */
+
+/****************************************************************
+	READ_THRU_MEALS
+	Read thru all the meals
+****************************************************************/
+
+READ_THRU_MEALS:
+	procedure;
+
+
+   /* READ_NEXT_MEAL - Read the next meal */
+
+   call READ_NEXT (BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_HOTEL_DET_NO,ERROR_CODE);
+
+   /* CHECK_END_MEAL - Last meal to display? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HOTEL_CODE_DET > HOTEL_CODE) !
+   (HOTEL_RATE_TYPE > " ") then
+      do;
+      END_READ_THRU_MEALS = YES;
+      return;
+      end;
+
+   /* CHECK_MEAL_DATE - Is this meal in the date range? */
+
+   if HOTEL_START > HDET_DATE then
+      return;
+   if HOTEL_END < HDET_DATE then
+      return;
+
+
+   /* SET_LINE_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET(LINE);
+
+
+   /* DISPLAY_DATA_N - Display data N */
+
+   do LOOP_INDEX =  48 to  51;
+      if LOOP_INDEX =  50 then
+         do;
+
+         /* CALC_NET_MEAL - Calculate the net meal cost */
+
+         if HOTEL_MARKUP_LINE >= 1 then if HOTEL_MARKUP_LINE <= 3 then
+            do;
+            HOTEL_SINGLE = HOTEL_SINGLE *
+               (1 + (HOTEL_TAX(HOTEL_MARKUP_LINE) + HOTEL_SVC_CHG(HOTEL_MARKUP_LINE) -
+               HOTEL_COMM(HOTEL_MARKUP_LINE))/100);
+            end;
+
+         end;
+      if LOOP_INDEX =  51 then
+         do;
+
+         /* CALC_USD_MEAL - Calc USD meal equiv. rate */
+
+         USD_MEAL = HOTEL_SINGLE * COSTING_EXCH + 0.5;
+
+         end;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* INC_LINE - Increment the line */
+
+   LINE = LINE + 1;
+
+
+   /* CHECK_EIGHT_LINES - Eight lines out? */
+
+   if LINE >= 8 then
+      do;
+      END_READ_THRU_MEALS = YES;
+      return;
+      end;
+
+return;
+end;	/* READ_THRU_MEALS      */
+
+/****************************************************************
+	ENTER_DATA_G
+	Enter the data in group G
+****************************************************************/
+
+ENTER_DATA_G:
+	procedure;
+
+HDET_MEAL( 1) = "";
+HDET_MEAL_QTY( 1) = HDET_NIGHTS;
+HDET_MEAL_DAYS( 1) = 0;
+HDET_MEAL( 2) = "";
+HDET_MEAL_QTY( 2) = HDET_NIGHTS;
+HDET_MEAL_DAYS( 2) = 0;
+HDET_MEAL( 3) = "";
+HDET_MEAL_QTY( 3) = HDET_NIGHTS;
+HDET_MEAL_DAYS( 3) = 0;
+HDET_MEAL( 4) = "";
+HDET_MEAL_QTY( 4) = HDET_NIGHTS;
+HDET_MEAL_DAYS( 4) = 0;
+do LOOP_INDEX =  23 to  34;
+   if LOOP_INDEX =  23 then
+      call DISPLAY_MSG_NO ( 35);
+   if LOOP_INDEX =  24 then
+      HDET_MEAL_QTY( 1) = HDET_NIGHTS;
+   if LOOP_INDEX =  26 then
+      call DISPLAY_MSG_NO ( 35);
+   if LOOP_INDEX =  27 then
+      HDET_MEAL_QTY( 2) = HDET_NIGHTS;
+   if LOOP_INDEX =  29 then
+      call DISPLAY_MSG_NO ( 35);
+   if LOOP_INDEX =  30 then
+      HDET_MEAL_QTY( 3) = HDET_NIGHTS;
+   if LOOP_INDEX =  32 then
+      call DISPLAY_MSG_NO ( 35);
+   if LOOP_INDEX =  33 then
+      HDET_MEAL_QTY( 4) = HDET_NIGHTS;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  23 then
+      do;
+
+      /* CHECK_M_DEFAULT - Check to see if no meal was entered */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         LOOP_INDEX = 99;
+         end;
+      else
+         do;
+         call BK_COST_HOTEL;
+         if HDET_MEAL_PRICE(divide(LOOP_INDEX-20,3,15)) = 0 then
+            do;
+            call OUTPUT_LINE(23,10,"Meal not found, enter manual price?");
+            call INPUT_DATA(23,46,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+            call CLEAR_TO_BOS(23);
+            call DUMP_BUFFER;
+            if ANSWER ^= "Y" then
+               do;
+               HDET_MEAL(divide(LOOP_INDEX-20,3,15)) = "";
+               LOOP_INDEX = 99;
+               end;
+            else
+               do;
+               call INPUT_FIELD (LOOP_INDEX + 2,INPUT_LENGTH,RETURN_CODE);
+               HDET_MEAL_PRICE(divide(LOOP_INDEX-20,3,15)) =
+                  HDET_MEAL_DAYS(divide(LOOP_INDEX-20,3,15));
+                  HDET_MEAL_DAYS(divide(LOOP_INDEX-20,3,15)) = 0;
+               end;
+            end;
+         end;
+
+      end;
+   if LOOP_INDEX =  26 then
+      do;
+
+      /* CHECK_M_DEFAULT - Check to see if no meal was entered */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         LOOP_INDEX = 99;
+         end;
+      else
+         do;
+         call BK_COST_HOTEL;
+         if HDET_MEAL_PRICE(divide(LOOP_INDEX-20,3,15)) = 0 then
+            do;
+            call OUTPUT_LINE(23,10,"Meal not found, enter manual price?");
+            call INPUT_DATA(23,46,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+            call CLEAR_TO_BOS(23);
+            call DUMP_BUFFER;
+            if ANSWER ^= "Y" then
+               do;
+               HDET_MEAL(divide(LOOP_INDEX-20,3,15)) = "";
+               LOOP_INDEX = 99;
+               end;
+            else
+               do;
+               call INPUT_FIELD (LOOP_INDEX + 2,INPUT_LENGTH,RETURN_CODE);
+               HDET_MEAL_PRICE(divide(LOOP_INDEX-20,3,15)) =
+                  HDET_MEAL_DAYS(divide(LOOP_INDEX-20,3,15));
+                  HDET_MEAL_DAYS(divide(LOOP_INDEX-20,3,15)) = 0;
+               end;
+            end;
+         end;
+
+      end;
+   if LOOP_INDEX =  29 then
+      do;
+
+      /* CHECK_M_DEFAULT - Check to see if no meal was entered */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         LOOP_INDEX = 99;
+         end;
+      else
+         do;
+         call BK_COST_HOTEL;
+         if HDET_MEAL_PRICE(divide(LOOP_INDEX-20,3,15)) = 0 then
+            do;
+            call OUTPUT_LINE(23,10,"Meal not found, enter manual price?");
+            call INPUT_DATA(23,46,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+            call CLEAR_TO_BOS(23);
+            call DUMP_BUFFER;
+            if ANSWER ^= "Y" then
+               do;
+               HDET_MEAL(divide(LOOP_INDEX-20,3,15)) = "";
+               LOOP_INDEX = 99;
+               end;
+            else
+               do;
+               call INPUT_FIELD (LOOP_INDEX + 2,INPUT_LENGTH,RETURN_CODE);
+               HDET_MEAL_PRICE(divide(LOOP_INDEX-20,3,15)) =
+                  HDET_MEAL_DAYS(divide(LOOP_INDEX-20,3,15));
+                  HDET_MEAL_DAYS(divide(LOOP_INDEX-20,3,15)) = 0;
+               end;
+            end;
+         end;
+
+      end;
+   if LOOP_INDEX =  32 then
+      do;
+
+      /* CHECK_M_DEFAULT - Check to see if no meal was entered */
+
+      if INPUT_LENGTH = 0 then
+         do;
+         LOOP_INDEX = 99;
+         end;
+      else
+         do;
+         call BK_COST_HOTEL;
+         if HDET_MEAL_PRICE(divide(LOOP_INDEX-20,3,15)) = 0 then
+            do;
+            call OUTPUT_LINE(23,10,"Meal not found, enter manual price?");
+            call INPUT_DATA(23,46,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+            call CLEAR_TO_BOS(23);
+            call DUMP_BUFFER;
+            if ANSWER ^= "Y" then
+               do;
+               HDET_MEAL(divide(LOOP_INDEX-20,3,15)) = "";
+               LOOP_INDEX = 99;
+               end;
+            else
+               do;
+               call INPUT_FIELD (LOOP_INDEX + 2,INPUT_LENGTH,RETURN_CODE);
+               HDET_MEAL_PRICE(divide(LOOP_INDEX-20,3,15)) =
+                  HDET_MEAL_DAYS(divide(LOOP_INDEX-20,3,15));
+                  HDET_MEAL_DAYS(divide(LOOP_INDEX-20,3,15)) = 0;
+               end;
+            end;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_G         */
+
+/****************************************************************
+	DISPLAY_DATA_L
+	Display the data in group L
+****************************************************************/
+
+DISPLAY_DATA_L:
+	procedure;
+
+do LOOP_INDEX =  53 to  53;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_L       */
+
+/****************************************************************
+	DIS_HOTEL_PRICES
+	Display the fit prices
+****************************************************************/
+
+DIS_HOTEL_PRICES:
+	procedure;
+
+   call DISPLAY_DATA_D;
+   call DISPLAY_DATA_H;
+   call DISPLAY_DATA_F;
+   call DISPLAY_DATA_K;
+   call DISPLAY_MEALS;
+   call DISPLAY_DATA_G;
+   call DISPLAY_DATA_L;
+return;
+end;	/* DIS_HOTEL_PRICES     */
+
+/****************************************************************
+	DISPLAY_DATA_G
+	Display the data in group G
+****************************************************************/
+
+DISPLAY_DATA_G:
+	procedure;
+
+do LOOP_INDEX =  23 to  34;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_G       */
+
+/****************************************************************
+	DISPLAY_DATA_Q
+	Display data
+****************************************************************/
+
+DISPLAY_DATA_Q:
+	procedure;
+
+do LOOP_INDEX =  61 to  61;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_Q       */
+
+/****************************************************************
+	DISPLAY_DATA_R
+	Display data in group R
+****************************************************************/
+
+DISPLAY_DATA_R:
+	procedure;
+
+do LOOP_INDEX =  62 to  62;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_R       */
+
+/****************************************************************
+	DIS_H_SVCS
+	Display the first five hotel services
+****************************************************************/
+
+DIS_H_SVCS:
+	procedure;
+
+
+   /* RESET_LINE - Init the line offset to 0 */
+
+   LINE = 0;
+
+
+   /* RETURN_IF_HMANUAL - Return if manual hotel */
+
+   if HDET_MANUAL ^= "" then
+      return;
+
+
+   /* SET_FIRST_SVC - Set for the first service read */
+
+   LAND_VENDOR_NO = HOTEL_VENDOR_NO;
+   LAND_CODE = "";
+   call SET_POSITION (BK_LAND_NO,KEY_AREA_3,ERROR_CODE);
+   END_READ_THRU_SVC = NO;
+   do while (END_READ_THRU_SVC ^= YES);
+      call READ_THRU_SVC;
+   end;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+return;
+end;	/* DIS_H_SVCS           */
+
+/****************************************************************
+	READ_THRU_SVC
+	Read thru the services
+****************************************************************/
+
+READ_THRU_SVC:
+	procedure;
+
+
+   /* READ_NEXT_SVC - Read the next service */
+
+   call READ_NEXT (BK_LAND_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_SVC - last svc to display? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LAND_VENDOR_NO > HOTEL_VENDOR_NO) then
+      do;
+      END_READ_THRU_SVC = YES;
+      return;
+      end;
+
+   /* SET_LINE_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET(LINE);
+
+   call DISPLAY_DATA_J;
+
+   /* INC_LINE - Increment the line */
+
+   LINE = LINE + 1;
+
+
+   /* INC_LAND_LINE - 2 line desc? */
+
+   if LAND_DESC_2 ^= "" then
+      LINE = LINE + 1;
+
+
+   /* CHECK_FIVE_LINES - Five lines out? */
+
+   if LINE >= 5 then
+      do;
+      END_READ_THRU_SVC = YES;
+      return;
+      end;
+
+return;
+end;	/* READ_THRU_SVC        */
+
+/****************************************************************
+	DISPLAY_DATA_J
+	Display screen group J
+****************************************************************/
+
+DISPLAY_DATA_J:
+	procedure;
+
+do LOOP_INDEX =  54 to  56;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_J       */
+
+/****************************************************************
+	CHANGE_FIT_HOTEL
+	Change an item on the screen and recalc
+****************************************************************/
+
+CHANGE_FIT_HOTEL:
+	procedure;
+
+declare		SELECT		fixed binary;
+call ANY_CHANGE(1,9,SELECT,RETURN_CODE);
+if SELECT = 0 then
+   do;
+   END_CHANGE_FIT_HOTEL = YES;
+   return;
+   end;
+do case (SELECT);
+      do;
+      call CHANGE_H_DATE;
+      end;
+      do;
+      call CHANGE_H_RATE;
+      end;
+      do;
+      call CHANGE_H_MARKUP;
+      end;
+      do;
+      call CHANGE_H_NIGHTS;
+      end;
+      do;
+      call CHANGE_H_MEALS;
+      end;
+      do;
+      call ENTER_DATA_Q;
+      end;
+      do;
+      call ENTER_DATA_R;
+      end;
+      do;
+      call ENTER_DATA_S;
+      end;
+      do;
+
+      /* ENTER_DATA_T - Enter data */
+
+      do LOOP_INDEX =  64 to  64;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+end;
+otherwise
+   do;
+   end;
+
+return;
+end;	/* CHANGE_FIT_HOTEL     */
+
+/****************************************************************
+	CHANGE_H_DATE
+	Change date and recalculate
+****************************************************************/
+
+CHANGE_H_DATE:
+	procedure;
+
+
+   /* CLEAR_RATE_TYPE - Clear the rate type to " " */
+
+   HDET_SINGLE = 0;
+   HDET_DOUBLE = 0;
+   HDET_TRIPLE = 0;
+   HDET_QUAD = 0;
+   HDET_ROOM_COST = 0;
+
+   call ENTER_DATA_M;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_ENT_HOTEL_PRICES = NO;
+   do while (END_ENT_HOTEL_PRICES ^= YES);
+      call ENT_HOTEL_PRICES;
+   end;
+return;
+end;	/* CHANGE_H_DATE        */
+
+/****************************************************************
+	CHANGE_H_RATE
+	Change rate/class and recalculate
+****************************************************************/
+
+CHANGE_H_RATE:
+	procedure;
+
+
+   /* CLEAR_HOTEL_COST - Clear the hotel cost */
+
+   HDET_SINGLE = 0;
+   HDET_DOUBLE = 0;
+   HDET_TRIPLE = 0;
+   HDET_QUAD = 0;
+   HDET_ROOM_COST = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_COST = 0;
+
+
+   /* CLEAR_HDET_RATE - Clear the current hotel rate/class */
+
+   HDET_RATE_TYPE = "";
+   HDET_CLASS = "";
+
+   END_ENT_HOTEL_PRICES = NO;
+   do while (END_ENT_HOTEL_PRICES ^= YES);
+      call ENT_HOTEL_PRICES;
+   end;
+return;
+end;	/* CHANGE_H_RATE        */
+
+/****************************************************************
+	CHANGE_H_MARKUP
+	Change markup and recalculate
+****************************************************************/
+
+CHANGE_H_MARKUP:
+	procedure;
+
+   call ENTER_DATA_E;
+   call DISPLAY_DATA_H;
+   call DISPLAY_DATA_K;
+return;
+end;	/* CHANGE_H_MARKUP      */
+
+/****************************************************************
+	CHANGE_H_NIGHTS
+	Change # nights and recalculate
+****************************************************************/
+
+CHANGE_H_NIGHTS:
+	procedure;
+
+   call ENTER_DATA_F;
+   call BK_COST_HOTEL;
+   call DISPLAY_DATA_K;
+return;
+end;	/* CHANGE_H_NIGHTS      */
+
+/****************************************************************
+	CHANGE_H_MEALS
+	Change meals
+****************************************************************/
+
+CHANGE_H_MEALS:
+	procedure;
+
+   call ENT_MEAL_PRICES;
+return;
+end;	/* CHANGE_H_MEALS       */
+
+/****************************************************************
+	ENTER_DATA_Q
+	Enter data
+****************************************************************/
+
+ENTER_DATA_Q:
+	procedure;
+
+do LOOP_INDEX =  61 to  61;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  61 then
+      do;
+
+      /* SET_HOTEL_UINV - Set hotel inv used flag if used */
+
+      if HDET_INV = "Y" then
+         BK_HOTEL_UINV = "Y";
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_Q         */
+
+/****************************************************************
+	ENTER_DATA_R
+	Enter data
+****************************************************************/
+
+ENTER_DATA_R:
+	procedure;
+
+do LOOP_INDEX =  62 to  62;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_R         */
+
+/****************************************************************
+	ENTER_DATA_S
+	Enter
+****************************************************************/
+
+ENTER_DATA_S:
+	procedure;
+
+do LOOP_INDEX =  63 to  63;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_S         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_HOTEL_CAT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

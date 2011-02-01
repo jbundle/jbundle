@@ -1,0 +1,37 @@
+/*********************************************************************
+	TK_ANAL_RPT File
+********************************************************************/
+
+declare	1 TK_ANAL_RPT_RECORD,
+		3 TK_MONTH_GROSS       float binary (53),
+		3 TK_MONTH_TAX         float binary (53),
+		3 TK_MONTH_COMM        float binary (53),
+		3 TK_MONTH_NET         float binary (53),
+		3 TK_TOTAL_GROSS       float binary (53),
+		3 TK_TOTAL_TAX         float binary (53),
+		3 TK_TOTAL_COMM        float binary (53),
+		3 TK_TOTAL_NET         float binary (53),
+		3 TK_START_DEP         fixed binary (15),
+		3 TK_END_DEP           fixed binary (15),
+		3 TK_COMM_TWO          character (1),
+		3 TK_COMM_THREE        character (1),
+		3 TK_MATCH_AIRL(10) character (        2),
+		3 TK_COMM_MATCH        fixed binary (15),
+		3 TK_MATCH_COMMENT( 5) character (       20),
+		3 TK_MONTH_SAVE        fixed binary (15),
+		3 TK_MONTH_DESC        character (        9),
+		3 TK_VOIDED_TIC        character (1),
+		3 TK_MATCH_BY( 5) character (       10),
+		3 TK_START_ENT         fixed binary (15),
+		3 TK_END_ENT           fixed binary (15),
+		3 TK_ANL_DATE          fixed binary (15),
+		3 TK_ANL_TIME          fixed binary (15),
+		3 TK_ANL_USER          character (       16),
+		3 TK_ANL_PAGE          fixed binary (31),
+		3 TK_INCL_DETAIL       character (1),
+		3 TK_MONTH_PAX         fixed binary (31),
+		3 TK_TOTAL_PAX         fixed binary (31),
+		3 TK_TAXES             float binary (53),
+		3 TK_ANAL_SS           character (        1),
+		3 TK_MATCH_INTER( 5) character (        2);
+

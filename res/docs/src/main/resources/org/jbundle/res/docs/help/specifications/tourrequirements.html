@@ -1,0 +1,251 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="Author" content="Don Corley">
+<meta name="GENERATOR" content="Mozilla/4.5 [en] (WinNT; U) [Netscape]">
+<title>Tour Requirements</title>
+</head>
+<body>
+
+<center>
+<h1>tourdata.com</h1>
+</center>
+
+<center>
+<h4>Business Requirements Document</h4>
+</center>
+
+<center>
+<h3>"Build your own customized tour on the Internet"</h3>
+</center>
+Summary:
+<blockquote>This document describes the requirements for a
+Internet based tour-building system.
+<p>There are three components to this system:</p>
+<ol>
+	<li>A web-based tour-building system</li>
+
+	<li>An XML based tour-component data supply system</li>
+
+	<li>The technology component (Hardware, Software, Channels, etc)</li>
+</ol>
+Although, my main focus is selling the technology components, this
+document will focus on the "Tour-building" system, to allow me to
+correctly design the technology and back-end systems.
+<p>The "Tour-building system" is an Internet-based web site which
+allows the customer to easily shop and compare tour products, build a
+customized tour from a pre-existing template or from scratch, and make
+any changes. The customer can check product descriptions, pricing, and
+availability. Then, they can save or book their tour and provide payment
+information. The web site would then be used to check payment status and
+comfirmation information for each component and allow modifications or
+cancellations before and during their tour. Post-tour, this system could
+be used to provide fellow users with product-reviews or to process
+refunds and adjustments.</p>
+<p>The tour-building system requires data from vendors. The data is
+supplied from the tour-component systems, and should be in a open,
+publicly-available, standardized format. The "server-side" of this
+system is an order fulfillment system for tour companies.</p>
+<p>The technology component deals with physical hosting of the
+tour-builder, hosting of the tour-component supply systems, target
+customers, and sales channels for these systems.</p>
+</blockquote>
+Points:
+<blockquote>
+<li>The "Tour Builder" should be simple enough for an end-user to
+user over the Internet intuitively.</li>
+
+<li>The tour data should be accessed directly from Vendor's web
+sites to provide accurate and immediate response.</li>
+
+<li>Product delivery should be flexible--from direct, wholesale, or
+resale channels.</li>
+
+<li>Feedback should be provided to supply reviews for future
+customers.</li>
+
+<li>Vendor interfaces should use open (non-proprietary) interfaces.</li>
+
+<li>How am I gonna make any money on this?</li>
+</blockquote>
+<b>Customers:</b>
+<blockquote><b>Product:</b> Internet hosted tour builder
+supplying Tours, Hotels, Air, Cars, and other tour products. <br>
+<b>Target:</b> Leisure traveler. <br>
+<b>Attracting Customers: </b>Targeted Banner ads, Search engines, Press
+Release/Reviews in Travel/consumer Pubs. Traditional advertising. Also
+track lead sources. <br>
+<b>Displaying Products:</b> Make sure customers get what they are
+looking for when they visit the site. Make sure they immediately know
+the value of this site "Custom built tours direct from the supplier"
+(on-line demo). Start with pre-built itineraries by destination.
+Specials. Past customer reviews by destination. Once they have started
+building a tour, customers need full control over every component of
+their tour. Immediate display of pricing and availability. Ability to
+compare prices/features of components and options. Terms of sales
+(timing of charges, charges for changes, cancellation). Insurance.
+Options, alternates (targeted banners?), recommendations. <br>
+<b>Processing Orders:</b> Immediate confirmation of components or
+notification of On-request items to be cleared by e-mail. Secure
+credit-card entry, verification, and reservation of funds, notice of
+fund disbursement timetable/purpose. <br>
+<b>Fulfilling Orders:</b> Voucher/Tour Order/Product
+descriptions/confirmations can be produced at any time for hard-copy
+presentation to vendors. <br>
+<b>Customer Service:</b> Changes and cancellations can be made before
+and during the tour (since data is Internet hosted). Auto-notification
+of inter-connected product changes (flight change produces notice to
+supplier of arrival transfer). Communication with vendors (Pre-sale,
+post-sale, during tour, post-tour). <br>
+<b>Post-Sales Processing:</b> Product reviews for future customers.
+Refunds/complaints for cancellations or services not supplied. Thank you
+correspondence to contacts/tour guides. Posting of itinerary and review
+for future customers. <br>
+<b>Typical Web Site:</b> (Sales focus!)
+<ul>
+	<li>Logo/Company Name</li>
+
+	<li>Sign-in (for customized screens, preferences, saved data,
+	intranet)</li>
+
+	<li>Menu bar (logo(opt)/home/preferences [language]/about tour
+	co/desc/help)</li>
+
+	<li>Nav bar (?more for intranet use e-mail/word
+	process/spreadsheet/db/etc...)</li>
+
+	<ul>
+		<li>My tours (directory [on cookie/sign-on])</li>
+	</ul>
+
+	<li>Statement of purpose (custom built tours)</li>
+
+	<li>Technology statement (live links to vendors) (links to detail)</li>
+
+	<li>Demo</li>
+
+	<li>Java info/warning/download (microsoft/java)</li>
+
+	<li>Build tours by...</li>
+
+	<ul>
+		<li>Continent/Region/Country(s)/States/Citie(s)</li>
+
+		<li>Interests/Categories (non-exclusive)</li>
+
+		<li>Budget (non exclusive)</li>
+	</ul>
+
+	<li>Tour types:</li>
+
+	<ul>
+		<li>Series Tours</li>
+
+		<li>Set ininerary tours</li>
+
+		<li>Modulars</li>
+
+		<li>Pre-built templates -> customize</li>
+
+		<li>Build from scratch</li>
+	</ul>
+
+	<li>Search for information/pricing/availability</li>
+
+	<ul>
+		<li>Tours/Air/Hotels/Sightseeing/etc</li>
+	</ul>
+
+	<li>Tour Vendor information (link to software site)</li>
+
+	<li>Footer line (Copyright, e-mail address, java, no ms, stds
+	logo, xml)</li>
+</ul>
+</blockquote>
+<b>Vendors:</b>
+<blockquote><b>Product:</b> Server-side of the tourdata.com
+system. Standards-based publishing of product information, pricing, and
+availability. Ability to get orders, changes, cancellations, marketing
+info, and order details. <br>
+<b>Target:</b> Travel suppliers. Airlines, Hotels, Car Rental,
+Transportation, Cruises, Local tour operators, Wholesalers, Retailers <br>
+<b>Attracting Vendors: </b>Link/banner on tourdata.com, Targeted e-mail,
+physical vendor visits, Press Release/Reviews in Travel/consumer Pubs.
+Traditional advertising. Also track lead sources. <br>
+<b>Displaying Products:</b> XML based data hosted on vendor site to be
+polled or read on-demand. Product descriptions/itineraries, Pricing,
+availability. Since this data can be static, this module can be supplied
+free to publish data at the vendor site (/xml). <br>
+<b>Processing Orders:</b> XML based product availability, confirmation,
+and payment reservation/arraignment. <br>
+<b>Fulfilling Orders:</b> Service recaps. <br>
+<b>Customer Service:</b> Changes and cancellations (and charges). <br>
+<b>Post-Sales Processing:</b> Correspondence with customers,
+adjustments. <br>
+<b>Typical Web Site:</b> (Sales focus!)
+<ul>
+	<li>Logo/Company Name</li>
+
+	<li>Menu bar (logo(opt)/home/search/tours/about tour co/desc/help)</li>
+
+	<li>Nav bar (?more for intranet use - tour information entry)</li>
+
+	<li>Tour(s)/Product summary</li>
+
+	<li>Search for information/pricing/availability</li>
+
+	<ul>
+		<li>Tours/Air/Hotels/Sightseeing/etc</li>
+	</ul>
+
+	<li>Tour builder information (link to tour builder site)</li>
+
+	<li>Footer line (Copyright, e-mail address, stds logo, xml,
+	locosw)</li>
+</ul>
+</blockquote>
+<b>Technology:</b>
+<blockquote><b>Product:</b> Travel Vendor Internet based
+Back-office systems. <br>
+<b>Target:</b> Tour-product providers (Hotel, Sightseeing operators,
+etc.) <br>
+<b>Attracting Customers:</b> tourdata.com site, customer visits, direct
+(personalized) e-mail <br>
+<b>Processing Orders:</b> (for the technology component) on-line order
+entry <br>
+<b>Channel:</b> Resale through ISPs, VARs, or Hosted on a virtual server
+service <br>
+<b>Customer Service:</b> e-mail, bug button, forum (no direct calls?) <br>
+<b>Typical Web Site:</b> (Sales focus!)
+<ul>
+	<li>Logo/Company Name</li>
+
+	<li>Menu bar (logo(opt)/home/search/tours/about tour co/desc/help)</li>
+
+	<li>Nav bar (?more for intranet use - tour information entry)</li>
+
+	<li>About the Tour builder</li>
+
+	<li>Link to demo site</li>
+
+	<li>Technical info</li>
+
+	<li>Sales info for IPSs, VARs, direct?</li>
+
+	<li>Links to customers and vendors sites</li>
+
+	<li>Footer line (Copyright, e-mail address, stds logo, xml,
+	locosw)</li>
+</ul>
+</blockquote>
+<b>Competition:</b>
+<blockquote>Who has similar products and what benefits do
+you offer your users?</blockquote>
+
+<blockquote>Microsoft Expedia (www.expedia.com) <br>
+Travelocity (www.travelocity.com) <br>
+Internet Travel Network (www.itn.com)</blockquote>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+/*********************************************************************
+	AR_CONTROL File
+********************************************************************/
+
+declare	1 AR_CONTROL_RECORD,
+		3 AR_REC_NO            fixed binary (15),
+		3 AR_DEF_AC            fixed binary (15),
+		3 AR_ONE_AC            character (1),
+		3 AR_DEF_AR            fixed binary (31),
+		3 AR_ONE_AR            character (1),
+		3 AR_DEF_MCO           fixed binary (31),
+		3 AR_ONE_MCO           character (1),
+		3 AR_PRT_DEPOSIT       character (1),
+		3 AR_MCO_DEF_COMM      float binary (21),
+		3 AR_MCO_SVC_CHG       float binary (21),
+		3 AR_MCO_ABSORB        character (1),
+		3 AR_MCO_ACCT          fixed binary (31),
+		3 AR_NON_TOUR          fixed binary (31),
+		3 AR_REFUND_DEF_AC     fixed binary (15),
+		3 AR_PAST_DUE_TEXT     character (       20),
+		3 AR_CANCEL_TEXT       character (       20),
+		3 AR_PRE_GL            fixed binary (31),
+		3 AR_INCOME_GL         fixed binary (31),
+		3 AR_CANCEL_GL         fixed binary (31),
+		3 AR_REFUND_GL         fixed binary (31);
+

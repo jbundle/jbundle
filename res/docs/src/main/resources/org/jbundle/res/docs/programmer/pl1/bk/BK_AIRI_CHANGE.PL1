@@ -1,0 +1,642 @@
+/****************************************************************
+	Module: BK_AIRI_CHANGE
+	Top Level Logic: INV_SETUP_LOGIC
+	Date: 13-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_AIRI_CHANGE
+	Setup/Change the inventory
+****************************************************************/
+
+%replace BK_AIRI_CHANGE_1 by 735;
+BK_AIRI_CHANGE:
+   procedure;
+%replace BK_INV_DET_NO by  61;
+%include "BK_AIRI_CHANGE.DD";
+%include "BK_INV_DET.DD";
+
+declare		END_INV_SETUP        bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		END_DEL_INV_DET      bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		ERROR_BK_INV_DET     fixed binary (15);
+declare		END_WRITE_NEW_INV    bit (1);
+declare		END_CHECK_AVAIL      bit (1);
+declare		END_SET_NEW_AVAIL    bit (1);
+   call INITIALIZE;
+   END_INV_SETUP = NO;
+   do while (END_INV_SETUP ^= YES);
+      call INV_SETUP;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   BK_AIR_FLIGHT = "";
+   BK_AIR_CLASS = "";
+   BK_AIR_BLOCKED = 0;
+   BK_AIR_OVERSELL = 0;
+   INV_DET_TYPE = "H";
+   INV_CODE_TYPE = "B";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_AIRI_CHANGE_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_AIRI_CHANGE_RECORD) );
+   call OPEN_FILE (BK_INV_DET_NO,"BK_INV_DET",byteaddr(BK_INV_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_INV_DET_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	INV_SETUP
+	Mainline logic
+****************************************************************/
+
+INV_SETUP:
+	procedure;
+
+declare		ANSWER               character (1);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_AIRI_CHANGE_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_ERR - Return if error/end typed */
+
+   if RETURN_CODE = END_TYPED then
+      do;
+      END_INV_SETUP = YES;
+      return;
+      end;
+
+   /* RETURN_IF_NOT_FND - Return if the record is not found */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   call ENTER_DATA_B;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* CHECK_INV_DEL - Delete the inventory */
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+      call OUTPUT_LINE(23,10,"Are you sure you want to delete the detail?");
+      call INPUT_DATA(23,54,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_TO_BOS(23);
+      call DUMP_BUFFER;
+      if ANSWER ^= "Y" then
+         do;
+         END_INV_SETUP = YES;
+         return;
+         end;
+
+
+      /* SETUP_KEY - Set up this key for a read */
+
+      INV_DET_TYPE = "A";
+      INV_DET_ENTRY = BK_AIR_KEY;
+      INV_DET_DATE = BK_AIR_START;
+      INV_CODE_TYPE = BK_AIR_CLASS;
+      INV_ROOM_TYPE = 0;
+      KEY_NO = 1;
+      END_DEL_INV_DET = NO;
+      do while (END_DEL_INV_DET ^= YES);
+         call DEL_INV_DET;
+      end;
+      return;
+      end;
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   INV_DET_TYPE = "A";
+   INV_DET_ENTRY = BK_AIR_KEY;
+   INV_DET_DATE = BK_AIR_START;
+   INV_CODE_TYPE = BK_AIR_CLASS;
+   INV_ROOM_TYPE = 0;
+   call SET_POSITION (BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_INV_DET_NO,ERROR_CODE);
+   call ANY_THERE;
+
+   /* CREATE_OR_CHANGE - Create a new inventory or change old one */
+
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      call SET_INV_NEW;
+      end;
+   else
+      do;
+      call CHG_OLD_INV;
+      end;
+
+return;
+end;	/* INV_SETUP            */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =   1 to   2;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* SET_FLIGHT_KEY - Set up the Carrier/Flight */
+
+      BK_AIR_KEY = BK_AIR_CARRIER !! BK_AIR_FLIGHT;
+
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* SET_FLIGHT_KEY - Set up the Carrier/Flight */
+
+      BK_AIR_KEY = BK_AIR_CARRIER !! BK_AIR_FLIGHT;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   3 to   3;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	ENTER_DATA_B
+	Enter the screen data for group B
+****************************************************************/
+
+ENTER_DATA_B:
+	procedure;
+
+BK_AIR_START = TODAYS_DATE();
+BK_AIR_END = TODAYS_DATE();
+do LOOP_INDEX =   4 to   6;
+   if LOOP_INDEX =   4 then
+      BK_AIR_START = TODAYS_DATE();
+   if LOOP_INDEX =   5 then
+      BK_AIR_END = TODAYS_DATE();
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   7 to   7;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_B         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  5,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  5 then
+   do;
+   if SELECT <=  2 then
+      LOOP_INDEX = SELECT;
+   if SELECT >=  3 then
+      LOOP_INDEX = SELECT +   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* SET_FLIGHT_KEY - Set up the Carrier/Flight */
+
+      BK_AIR_KEY = BK_AIR_CARRIER !! BK_AIR_FLIGHT;
+
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* SET_FLIGHT_KEY - Set up the Carrier/Flight */
+
+      BK_AIR_KEY = BK_AIR_CARRIER !! BK_AIR_FLIGHT;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	DEL_INV_DET
+	Delete the inventory detail
+****************************************************************/
+
+DEL_INV_DET:
+	procedure;
+
+
+   /* READ_INV_REC - Read the inventory record */
+
+   call READ_KEYED (BK_INV_DET_NO,KEY_AREA_1,ERROR_BK_INV_DET);
+   if ERROR_BK_INV_DET > 3 then
+      call PRINT_ERROR (BK_INV_DET_NO,ERROR_BK_INV_DET);
+
+   /* DELETE_INV_REC - Delete this record */
+
+   call DELETE_RECORD (BK_INV_DET_NO,ERROR_CODE);
+
+   /* INC_HOTEL_DATE - Increment the hotel date */
+
+   INV_DET_DATE = INV_DET_DATE + 1;
+
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (INV_DET_TYPE > "A") !
+   (INV_DET_ENTRY > BK_AIR_KEY) !
+   (INV_DET_DATE > BK_AIR_END) !
+   (INV_CODE_TYPE > BK_AIR_CLASS) !
+   (INV_ROOM_TYPE > 0) then
+      do;
+      END_DEL_INV_DET = YES;
+      return;
+      end;
+return;
+end;	/* DEL_INV_DET          */
+
+/****************************************************************
+	ANY_THERE
+	Are there any records there?
+****************************************************************/
+
+ANY_THERE:
+	procedure;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (INV_DET_TYPE > "A") !
+   (INV_DET_ENTRY > BK_AIR_KEY) !
+   (INV_DET_DATE > BK_AIR_END) !
+   (INV_CODE_TYPE > BK_AIR_CLASS) !
+   (INV_ROOM_TYPE > 0) then
+      return;
+
+   /* SET_ERROR - Set the error code */
+
+   ERROR_CODE = 1;
+
+return;
+end;	/* ANY_THERE            */
+
+/****************************************************************
+	SET_INV_NEW
+	Set up a new inventory
+****************************************************************/
+
+SET_INV_NEW:
+	procedure;
+
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   INV_DET_TYPE = "A";
+   INV_DET_ENTRY = BK_AIR_KEY;
+   INV_DET_DATE = BK_AIR_START;
+   INV_CODE_TYPE = BK_AIR_CLASS;
+   INV_ROOM_TYPE = 0;
+   KEY_NO = 1;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* SET_INIT_AIR - Set up the inventory */
+
+   INV_BLOCKED = BK_AIR_BLOCKED;
+   INV_USED = 0;
+   INV_AVAIL = BK_AIR_BLOCKED;
+   INV_OVERSELL = BK_AIR_OVERSELL;
+
+   END_WRITE_NEW_INV = NO;
+   do while (END_WRITE_NEW_INV ^= YES);
+      call WRITE_NEW_INV;
+   end;
+return;
+end;	/* SET_INV_NEW          */
+
+/****************************************************************
+	WRITE_NEW_INV
+	Write the new inventory
+****************************************************************/
+
+WRITE_NEW_INV:
+	procedure;
+
+
+   /* WRITE_INV_REC - Write the record */
+
+   call WRITE_RECORD (BK_INV_DET_NO,ERROR_CODE);
+
+   /* HOTEL_ERR_RETURN - If error on hotel, then return */
+
+   if ERROR_CODE = KEY_ALREADY_EXISTS then
+      do;
+      END_WRITE_NEW_INV = YES;
+      return;
+      end;
+
+
+   /* INC_HOTEL_DATE - Increment the hotel date */
+
+   INV_DET_DATE = INV_DET_DATE + 1;
+
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (INV_DET_TYPE > "A") !
+   (INV_DET_ENTRY > BK_AIR_KEY) !
+   (INV_DET_DATE > BK_AIR_END) !
+   (INV_CODE_TYPE > BK_AIR_CLASS) !
+   (INV_ROOM_TYPE > 0) then
+      do;
+      END_WRITE_NEW_INV = YES;
+      return;
+      end;
+return;
+end;	/* WRITE_NEW_INV        */
+
+/****************************************************************
+	CHG_OLD_INV
+	Change old inventoru
+****************************************************************/
+
+CHG_OLD_INV:
+	procedure;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+   END_CHECK_AVAIL = NO;
+   do while (END_CHECK_AVAIL ^= YES);
+      call CHECK_AVAIL;
+   end;
+
+   /* RETURN_IF_ERROR - Return if ERROR_CODE <> 0 */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   INV_DET_TYPE = "A";
+   INV_DET_ENTRY = BK_AIR_KEY;
+   INV_DET_DATE = BK_AIR_START;
+   INV_CODE_TYPE = BK_AIR_CLASS;
+   INV_ROOM_TYPE = 0;
+   KEY_NO = 1;
+   END_SET_NEW_AVAIL = NO;
+   do while (END_SET_NEW_AVAIL ^= YES);
+      call SET_NEW_AVAIL;
+   end;
+return;
+end;	/* CHG_OLD_INV          */
+
+/****************************************************************
+	CHECK_AVAIL
+	Check to see avail is enough if reducing
+****************************************************************/
+
+CHECK_AVAIL:
+	procedure;
+
+
+   /* READ_INV_REC - Read the inventory record */
+
+   call READ_KEYED (BK_INV_DET_NO,KEY_AREA_1,ERROR_BK_INV_DET);
+   if ERROR_BK_INV_DET > 3 then
+      call PRINT_ERROR (BK_INV_DET_NO,ERROR_BK_INV_DET);
+
+   /* CHECK_LOGIC - Write this code */
+
+
+   /* CHECK_ENOUGH_AIR - Enough inventory left? */
+
+   if BK_AIR_BLOCKED ^= -1 then if INV_USED > BK_AIR_BLOCKED + BK_AIR_OVERSELL then
+      do;
+      call DISPLAY_MESSAGE ("Can't reduce block below used space!");
+      call PRESS_RETURN;
+      ERROR_CODE = 1;
+      do;
+      END_CHECK_AVAIL = YES;
+      return;
+      end;
+      end;
+
+
+   /* INC_HOTEL_DATE - Increment the hotel date */
+
+   INV_DET_DATE = INV_DET_DATE + 1;
+
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (INV_DET_TYPE > "A") !
+   (INV_DET_ENTRY > BK_AIR_KEY) !
+   (INV_DET_DATE > BK_AIR_END) !
+   (INV_CODE_TYPE > BK_AIR_CLASS) !
+   (INV_ROOM_TYPE > 0) then
+      do;
+      END_CHECK_AVAIL = YES;
+      return;
+      end;
+return;
+end;	/* CHECK_AVAIL          */
+
+/****************************************************************
+	SET_NEW_AVAIL
+	Set the new room availability
+****************************************************************/
+
+SET_NEW_AVAIL:
+	procedure;
+
+
+   /* READ_INV_REC - Read the inventory record */
+
+   call READ_KEYED (BK_INV_DET_NO,KEY_AREA_1,ERROR_BK_INV_DET);
+   if ERROR_BK_INV_DET > 3 then
+      call PRINT_ERROR (BK_INV_DET_NO,ERROR_BK_INV_DET);
+
+   /* CHECK_INV_CHANGE - Change inventory or add new? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_INV_DET = NORMAL_RETURN then
+      do;
+
+      /* INV_CHG_OLD - Change this inventory */
+
+
+         /* OTHER_LOGIC_2 - Other logic */
+
+
+         /* CALC_NEW_AIR - Set new inventory */
+
+         if BK_AIR_BLOCKED = -1 then
+            INV_BLOCKED = INV_USED;
+         else
+            INV_BLOCKED = BK_AIR_BLOCKED;
+         INV_OVERSELL = BK_AIR_OVERSELL;
+         INV_AVAIL = INV_BLOCKED - INV_USED;
+
+
+         /* UPDATE_INV_REC - Update the inventory record */
+
+         call UPDATE_RECORD (BK_INV_DET_NO,ERROR_CODE);
+      end;
+   else
+      do;
+
+      /* INV_SET_NEW - Set new record */
+
+
+         /* OTHER_LOGIC - Any other logic */
+
+
+         /* SET_INIT_AIR - Set up the inventory */
+
+         INV_BLOCKED = BK_AIR_BLOCKED;
+         INV_USED = 0;
+         INV_AVAIL = BK_AIR_BLOCKED;
+         INV_OVERSELL = BK_AIR_OVERSELL;
+
+
+         /* WRITE_INV_REC - Write the record */
+
+         call WRITE_RECORD (BK_INV_DET_NO,ERROR_CODE);
+      if ERROR_INPUT_SCREEN then return;
+      end;
+
+   /* INC_HOTEL_DATE - Increment the hotel date */
+
+   INV_DET_DATE = INV_DET_DATE + 1;
+
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (INV_DET_TYPE > "A") !
+   (INV_DET_ENTRY > BK_AIR_KEY) !
+   (INV_DET_DATE > BK_AIR_END) !
+   (INV_CODE_TYPE > BK_AIR_CLASS) !
+   (INV_ROOM_TYPE > 0) then
+      do;
+      END_SET_NEW_AVAIL = YES;
+      return;
+      end;
+return;
+end;	/* SET_NEW_AVAIL        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_INV_DET_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

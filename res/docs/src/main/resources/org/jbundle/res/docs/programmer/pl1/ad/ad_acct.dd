@@ -1,0 +1,15 @@
+/*********************************************************************
+	AD_ACCT File
+********************************************************************/
+
+declare	1 AD_ACCT_RECORD,
+		3 AD_ACCOUNT_NO        fixed binary (15),
+		3 AD_AC_DESC           character (       30),
+		3 AD_AC_CURR           character (        3),
+		3 AD_BANK_ABA          character (       10),
+		3 AD_BANK_AC_NO        character (       20),
+		3 AD_GL_ACCT_NO        fixed binary (31),
+		3 AD_BALANCE           float binary (53),
+		3 AD_LAST_CHECK        fixed binary (31),
+		3 AD_LAST_SEQ          fixed binary (31);
+

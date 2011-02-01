@@ -1,0 +1,13 @@
+/*********************************************************************
+	AD_TRX_REPORT File
+********************************************************************/
+
+declare	1 AD_TRX_REPORT_RECORD,
+		3 AD_SUM_START         fixed binary (15),
+		3 AD_SUM_END           fixed binary (15),
+		3 AD_SUM_DETAIL        character (        1),
+		3 AD_SUM_DATE          fixed binary (15),
+		3 AD_SUM_TIME          fixed binary (15),
+		3 AD_SUM_USER          character (       16),
+		3 AD_SUM_PAGE          fixed binary (31);
+

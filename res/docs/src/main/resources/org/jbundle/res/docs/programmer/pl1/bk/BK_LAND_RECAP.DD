@@ -1,0 +1,13 @@
+/*********************************************************************
+	BK_LAND_RECAP File
+********************************************************************/
+
+declare	1 BK_LAND_RECAP_RECORD,
+		3 LRECAP_START_VEN     character (        6),
+		3 LRECAP_END_VEN       character (        6),
+		3 LRECAP_START_DATE    fixed binary (15),
+		3 LRECAP_END_DATE      fixed binary (15),
+		3 LRECAP_INV           character (1),
+		3 LRECAP_PAX           character (1),
+		3 LRECAP_AIR           character (1);
+

@@ -1,0 +1,69 @@
+/****************************************************************
+	Module: BK_IT_WP
+	Top Level Logic: WP_IT_LOGIC
+	Date: 28-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_IT_WP
+	Top Level
+****************************************************************/
+
+%replace BK_IT_WP_1 by 499;
+BK_IT_WP:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD);
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+
+
+   /* CALL_WP_IT - Word-process the tour itinerary */
+
+   if CRT_TYPE() = 7 then
+      return;
+
+   if BOOKING_NO = 0 then
+      return;
+   declare BK_TEMP character(20);
+   BK_TEMP = BOOKING_NO;
+   do while (substr(BK_TEMP,1,1) = " ");
+      BK_TEMP = substr(BK_TEMP,2,19);
+   end;
+   call XEQ(":WRDP:SSIWP.PR,1,WP:" !! CUT_SPACES(BK_TEMP) !! " ");
+
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_IT_WP_1);
+   call DISPLAY_DATA_A;
+return;
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+do LOOP_INDEX =   1 to  10;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+end;	/* DISPLAY_DATA_A       */
+/*********************************End of Program*********************/

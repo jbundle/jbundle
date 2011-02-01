@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.jbundle.org/app/program/demo/CreateSite" xmlns:tns="http://www.jbundle.org/app/program/demo/CreateSite" elementFormDefault="qualified">
+
+    <element name="RunRemoteProcessRequest">
+	    <complexType>
+	    	<sequence>
+	    		<element name="ProcessToRun" type="string"></element>
+	    		<element name="CreateSiteRequest" type="tns:CreateSiteRequest"></element>
+	    	</sequence>
+	    </complexType>
+    </element>
+
+    <element name="StandardMessageResponse">
+	    <complexType>
+	    	<sequence>
+	    		<element name="Message" type="string"></element>
+	    	</sequence>
+	    </complexType>
+    </element>
+
+    <complexType name="CreateSiteRequest">
+    	<sequence>
+    		<element name="UserInfo" type="tns:UserInfoType"></element>
+    		<element name="Menus" type="tns:MenusType"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="UserInfoType">
+    	<sequence>
+    		<element name="UserName" type="string"></element>
+    		<element name="Password" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="MenusType">
+    	<sequence>
+    		<element name="SiteName" type="string"></element>
+    		<element name="domainName" type="string"></element>
+    		<element name="xslTemplate" type="string"></element>
+    		<element name="SiteTemplateCode" type="string"></element>
+    		<element name="SiteHomeCode" type="string"></element>
+    		<element name="SitePrefix" type="string"></element>
+    	</sequence>
+    </complexType>
+
+</schema>

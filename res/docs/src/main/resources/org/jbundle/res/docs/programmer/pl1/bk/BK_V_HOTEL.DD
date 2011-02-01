@@ -1,0 +1,32 @@
+/*********************************************************************
+	BK_V_HOTEL File
+********************************************************************/
+
+declare	1 BK_V_HOTEL_RECORD,
+		3 HV_HOTEL(25) character (       10),
+		3 HV_DATE(25) fixed binary (15),
+		3 HV_NIGHTS(25) fixed binary (15),
+		3 HV_RATE_TYPE(25) character (        1),
+		3 HV_CLASS(25) character (        2),
+		3 HV_FIRST_BK(25) fixed binary (31),
+		3 HV_PAX_MOD(25) fixed binary (15),
+		3 HV_MATCH_COUNT(25) fixed binary (15),
+		3 HV_SEQ(25) fixed binary (15),
+		3 HS_INV               character (1),
+		3 HS_HOTEL             character (       10),
+		3 HS_NIGHTS            fixed binary (15),
+		3 HS_RATE_TYPE         character (        1),
+		3 HS_CLASS             character (        2),
+		3 HS_MANUAL            character (1),
+		3 HS_SEND_TO           character (1),
+		3 HS_MEAL( 4) character (        2),
+		3 HS_MEAL_QTY( 4) fixed binary (15),
+		3 HS_MEAL_DAYS( 4) character (       10),
+		3 HV_VOUCHER(25) fixed binary (31),
+		3 HS_MEAL_DAY( 4) fixed binary (31),
+		3 BK_V_SINGLE          fixed binary (15),
+		3 BK_V_DOUBLE          fixed binary (15),
+		3 BK_V_TRIPLE          fixed binary (15),
+		3 BK_V_QUAD            fixed binary (15),
+		3 HOTEL_SAME           character (1);
+

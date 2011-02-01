@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_DIS_ARECAP File
+********************************************************************/
+
+declare	1 BK_DIS_ARECAP_RECORD,
+		3 ARECAP_START_DATE    fixed binary (15),
+		3 ARECAP_INV           character (1),
+		3 ACOMP_SEQ            fixed binary (15);
+

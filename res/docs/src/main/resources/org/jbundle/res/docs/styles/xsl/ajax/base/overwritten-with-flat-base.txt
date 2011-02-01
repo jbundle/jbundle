@@ -1,0 +1,4 @@
+When deployed these files are overwritten with
+../flat/base
+After changing any of these files, remember to run the flatten utility.
+(Google Chrome Webkit bug http://code.google.com/p/chromium/issues/detail?id=8441)

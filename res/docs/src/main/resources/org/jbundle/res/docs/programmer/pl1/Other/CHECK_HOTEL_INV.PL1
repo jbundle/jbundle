@@ -1,0 +1,588 @@
+/****************************************************************
+	Module: CHECK_HOTEL_INV
+	Top Level Logic: HOTEL_INV_LOGIC
+	Date: 10-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	CHECK_HOTEL_INV
+	Top level
+****************************************************************/
+
+%replace CHECK_HOTEL_INV_1 by 387;
+CHECK_HOTEL_INV:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_INV_DET_RECORD,
+      BK_ENT_HDR_RECORD,
+      ERROR_CODE);
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_INV_DET_NO by  61;
+%include "CHECK_HOTEL_INV.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_INV_DET.DD";
+%include "BK_ENT_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_READ_THRU_NEW    bit (1);
+declare		END_GO_THRU_OLD      bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_DET_HOTEL   fixed binary (15);
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   NEW_COUNT = 0;
+   OLD_COUNT = 0;
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (CHECK_HOTEL_INV_RECORD) );
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call HOTEL_INV_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	HOTEL_INV_MAIN
+	Main line logic
+****************************************************************/
+
+HOTEL_INV_MAIN:
+	procedure;
+
+
+   /* SETUP_HOTEL_IF_NEW - If new, setup the hotel detail */
+
+   if BK_HOTEL_MOD = -1 then
+      do;
+
+      /* BK_SET_HOTEL_DET - Setup hotel detail */
+
+      %include "BK_SET_HOTEL_DET.DCL";
+      call BK_SET_HOTEL_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_HOTEL_RECORD);
+      end;
+
+
+   /* RET_IF_NO_MOD - Return if no hotel modifications made */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   if BK_HOTEL_UINV ^= "Y" then
+      return;
+
+   if BK_NEXT_MOD ^= BK_HOTEL_MOD then
+      if BK_SINGLE = OLD_SINGLE then
+      if BK_DOUBLE = OLD_DOUBLE then
+      if BK_TRIPLE = OLD_TRIPLE then
+      if BK_QUAD = OLD_QUAD then
+      if BK_STATUS ^= "XL" then
+         return;
+
+
+   /* RESET_HOTEL_UINV - Reset the inventory flag */
+
+   BK_HOTEL_UINV = "N";
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   HDET_MOD = 0;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_NEW = NO;
+   do while (END_READ_THRU_NEW ^= YES);
+      call READ_THRU_NEW;
+   end;
+
+   /* CHECK_OLD - Are there old hotels? */
+
+   if BK_NEXT_MOD ^= 0 then
+      do;
+      if (BK_HOTEL_MOD = BK_NEXT_MOD) & (BK_STATUS ^= "XL") then
+         do;
+
+         /* READ_THRU_OLD - Read thru old */
+
+
+            /* SET_FIRST_2 - Set the file pointer to the first key */
+
+            HDET_MOD = BK_NEXT_MOD;
+            HDET_BK_TR_NO = BOOKING_NO;
+            HDET_ALT_SEQ = 0;
+            HDET_ANSW_SEQ = 0;
+            HDET_DAY = 0;
+            HDET_SEQ = 0;
+            call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+            END_GO_THRU_OLD = NO;
+            do while (END_GO_THRU_OLD ^= YES);
+               call GO_THRU_OLD;
+            end;
+         end;
+      else
+         do;
+         do NEW = 1 to NEW_COUNT;
+            OLD_HOTEL(NEW) = NEW_HOTEL(NEW);
+            OLD_DATE(NEW) = NEW_DATE(NEW);
+            OLD_DAYS(NEW) = NEW_DAYS(NEW);
+            OLD_RATE_TYPE(NEW) = NEW_RATE_TYPE(NEW);
+            OLD_ROOM_TYPE(NEW) = NEW_ROOM_TYPE(NEW);
+         end;
+         OLD_COUNT = NEW_COUNT;
+         end;
+      end;
+
+
+   /* RET_IF_NO_MOD - Return if no hotel modifications made */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   if BK_HOTEL_UINV ^= "Y" then
+      return;
+
+   if BK_NEXT_MOD ^= BK_HOTEL_MOD then
+      if BK_SINGLE = OLD_SINGLE then
+      if BK_DOUBLE = OLD_DOUBLE then
+      if BK_TRIPLE = OLD_TRIPLE then
+      if BK_QUAD = OLD_QUAD then
+      if BK_STATUS ^= "XL" then
+         return;
+
+   call SUB_NEW_BLOCK;
+
+   /* RETURN_IF_ERROR - Return if ERROR_CODE <> 0 */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+   call ADD_BACK_OLD;
+return;
+end;	/* HOTEL_INV_MAIN       */
+
+/****************************************************************
+	READ_THRU_NEW
+	Read thru all the new hotel blocks
+****************************************************************/
+
+READ_THRU_NEW:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > 0) !
+   (HDET_BK_TR_NO > BOOKING_NO) !
+   (HDET_ALT_SEQ > 0) !
+   (HDET_ANSW_SEQ > 0) then
+      do;
+      END_READ_THRU_NEW = YES;
+      return;
+      end;
+
+   /* NEXT_IF_NOT_BLOCK - Next hotel if this is not a blocked htl */
+
+   if HDET_INV ^= "Y" then
+      return;
+   else
+      BK_HOTEL_UINV = "Y";
+
+
+   /* SET_NEW_HOTEL - Set the new hotel name */
+
+   NEW_COUNT = NEW_COUNT + 1;
+
+   NEW_HOTEL(NEW_COUNT) = HDET_HOTEL;
+   NEW_DATE(NEW_COUNT) = HDET_DATE;
+   NEW_DAYS(NEW_COUNT) = HDET_NIGHTS;
+   NEW_RATE_TYPE(NEW_COUNT) = "";
+   NEW_ROOM_TYPE(NEW_COUNT) = 0;
+
+   NEW_SEQ(NEW_COUNT) = HDET_SEQ;
+
+return;
+end;	/* READ_THRU_NEW        */
+
+/****************************************************************
+	GO_THRU_OLD
+	Read thru all the old
+****************************************************************/
+
+GO_THRU_OLD:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_NEXT_MOD) !
+   (HDET_BK_TR_NO > BOOKING_NO) !
+   (HDET_ALT_SEQ > 0) !
+   (HDET_ANSW_SEQ > 0) then
+      do;
+      END_GO_THRU_OLD = YES;
+      return;
+      end;
+
+   /* NEXT_IF_NOT_BLOCK - Next hotel if this is not a blocked htl */
+
+   if HDET_INV ^= "Y" then
+      return;
+   else
+      BK_HOTEL_UINV = "Y";
+
+
+   /* SET_OLD_HOTEL - Set the old hotel */
+
+   OLD_COUNT = OLD_COUNT + 1;
+
+   OLD_HOTEL(OLD_COUNT) = HDET_HOTEL;
+   OLD_DATE(OLD_COUNT) = HDET_DATE;
+   OLD_DAYS(OLD_COUNT) = HDET_NIGHTS;
+   OLD_RATE_TYPE(OLD_COUNT) = "";
+   OLD_ROOM_TYPE(OLD_COUNT) = 0;
+
+   OLD_SEQ(OLD_COUNT) = HDET_SEQ;
+
+return;
+end;	/* GO_THRU_OLD          */
+
+/****************************************************************
+	SUB_NEW_BLOCK
+	Subtract from the hotel inventory
+****************************************************************/
+
+SUB_NEW_BLOCK:
+	procedure;
+
+
+   /* GO_THRU_NEW - Process each hotel block request */
+
+   do NEW = 1 to NEW_COUNT;
+
+      MATCH_FOUND = "N";
+      do OLD = 1 to OLD_COUNT;
+
+         if NEW_HOTEL(NEW) = OLD_HOTEL(OLD) then
+         if NEW_DATE(NEW) = OLD_DATE(OLD) then
+         if NEW_DAYS(NEW) = OLD_DAYS(OLD) then
+         if NEW_RATE_TYPE(NEW) = OLD_RATE_TYPE(OLD) then
+         if NEW_ROOM_TYPE(NEW) = OLD_ROOM_TYPE(OLD) then
+            MATCH_FOUND = "Y";
+
+      end;
+
+      if MATCH_FOUND = "Y" then
+         OLD_ROOMS = OLD_SINGLE + OLD_DOUBLE + OLD_TRIPLE + OLD_QUAD;
+      else
+         OLD_ROOMS = 0;
+
+      NEW_ROOMS = BK_SINGLE + BK_DOUBLE + BK_TRIPLE + BK_QUAD;
+      if BK_STATUS = "XL" then
+         NEW_ROOMS = 0;
+
+      /* SET_HOTELD_KEY - Set up the key */
+
+      HDET_MOD = BK_MODIFICATION;
+      HDET_BK_TR_NO = BOOKING_NO;
+      HDET_ALT_SEQ = 0;
+      HDET_ANSW_SEQ = 0;
+      HDET_DAY = NEW_DATE(NEW);
+      HDET_SEQ = NEW_SEQ(NEW);
+      KEY_NO = 1;
+
+      /* READ_HOTELD - Read the hotel detail record */
+
+      call READ_KEYED (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_BK_DET_HOTEL);
+      if ERROR_BK_DET_HOTEL > 3 then
+         call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_BK_DET_HOTEL);
+
+      call UD_INV_DET;
+      if ERROR_CODE ^= NORMAL_RETURN then
+         do;
+
+         /* REVERSE_NEW - If there is an error, reverse any blocks */
+
+         declare		NEW2		fixed binary;
+
+         NEW2 = NEW - 1;
+         do NEW = 1 to NEW2;
+
+            MATCH_FOUND = "N";
+            do OLD = 1 to OLD_COUNT;
+
+               if NEW_HOTEL(NEW) = OLD_HOTEL(OLD) then
+               if NEW_DATE(NEW) = OLD_DATE(OLD) then
+               if NEW_DAYS(NEW) = OLD_DAYS(OLD) then
+               if NEW_RATE_TYPE(NEW) = OLD_RATE_TYPE(OLD) then
+               if NEW_ROOM_TYPE(NEW) = OLD_ROOM_TYPE(OLD) then
+                  MATCH_FOUND = "Y";
+
+            end;
+
+            if MATCH_FOUND = "Y" then
+               NEW_ROOMS = OLD_SINGLE + OLD_DOUBLE + OLD_TRIPLE + OLD_QUAD;
+            else
+               NEW_ROOMS = 0;
+
+            OLD_ROOMS = BK_SINGLE + BK_DOUBLE + BK_TRIPLE + BK_QUAD;
+
+            /* SET_HOTELD_KEY - Set up the key */
+
+            HDET_MOD = BK_MODIFICATION;
+            HDET_BK_TR_NO = BOOKING_NO;
+            HDET_ALT_SEQ = 0;
+            HDET_ANSW_SEQ = 0;
+            HDET_DAY = NEW_DATE(NEW);
+            HDET_SEQ = NEW_SEQ(NEW);
+            KEY_NO = 1;
+
+            /* READ_HOTELD - Read the hotel detail record */
+
+            call READ_KEYED (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_BK_DET_HOTEL);
+            if ERROR_BK_DET_HOTEL > 3 then
+               call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_BK_DET_HOTEL);
+
+            call UD_INV_DET;
+            if MATCH_FOUND = "N" then
+               HDET_INV_MOD = -1;
+            else
+               HDET_INV_MOD = BK_NEXT_MOD;
+
+            /* UPDATE_HOTELD - Update */
+
+            call UPDATE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+         end;
+
+         ERROR_CODE = 1;
+         return;
+         end;
+      HDET_INV_MOD = BK_NEXT_MOD;
+
+      /* UPDATE_HOTELD - Update */
+
+      call UPDATE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   end;
+
+   ERROR_CODE = NORMAL_RETURN;
+
+return;
+end;	/* SUB_NEW_BLOCK        */
+
+/****************************************************************
+	UD_INV_DET
+	Update the inventory detail
+****************************************************************/
+
+UD_INV_DET:
+	procedure;
+
+declare (DATE_INDEX,DATE_INDEX2) fixed binary;
+
+do DATE_INDEX = HDET_DATE to HDET_DATE + HDET_NIGHTS - 1;
+
+   INV_DET_TYPE = "H";
+   INV_DET_ENTRY = HDET_HOTEL;
+   INV_DET_DATE = DATE_INDEX;
+   INV_CODE_TYPE = " ";
+   INV_ROOM_TYPE = 0;
+   ERROR_CODE = RECORD_LOCKED;
+   do while (ERROR_CODE = RECORD_LOCKED);
+      call READ_KEYED(BK_INV_DET_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+   end;
+   if (ERROR_CODE = NORMAL_RETURN) &
+   (INV_DET_TYPE = "H") &
+   (INV_DET_ENTRY = HDET_HOTEL) &
+   (INV_DET_DATE = DATE_INDEX) &
+   (INV_CODE_TYPE = " ") &
+   (INV_ROOM_TYPE = 0) then
+      do;
+      INV_USED = INV_USED + NEW_ROOMS - OLD_ROOMS;
+      INV_AVAIL = INV_BLOCKED - INV_USED;
+      if INV_AVAIL < 0 then
+         do;
+         call DISPLAY_MESSAGE ("Warning --- This Hotel Block is Full<Bel>"c);
+         call RELEASE_LOCKS(BK_INV_DET_NO);
+         call PRESS_RETURN;
+         goto ADD_BACK;
+         end;
+      call UPDATE_RECORD(BK_INV_DET_NO,ERROR_CODE);
+      end;
+   else
+      do;
+      call DISPLAY_MESSAGE ("Warning --- This Hotel Does not have a block<Bel>"c);
+      call RELEASE_LOCKS(BK_INV_DET_NO);
+      call PRESS_RETURN;
+      goto ADD_BACK;
+      end;
+
+end;
+
+ERROR_CODE = 0;
+UPDATE_DONE:
+return;
+
+ADD_BACK:
+do DATE_INDEX2 = HDET_DATE to DATE_INDEX - 1;
+
+   INV_DET_TYPE = "H";
+   INV_DET_ENTRY = HDET_HOTEL;
+   INV_DET_DATE = DATE_INDEX2;
+   INV_CODE_TYPE = " ";
+   INV_ROOM_TYPE = 0;
+   if (NEW_ROOMS ^= 0) ! (BK_STATUS = "XL") then
+      do;
+      ERROR_CODE = RECORD_LOCKED;
+      do while (ERROR_CODE = RECORD_LOCKED);
+         call SET_POSITION(BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+         call READ_NEXT(BK_INV_DET_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+      end;
+      if (ERROR_CODE = NORMAL_RETURN) &
+      (INV_DET_TYPE = "H") &
+      (INV_DET_ENTRY = HDET_HOTEL) &
+      (INV_DET_DATE = DATE_INDEX2) &
+      (INV_CODE_TYPE = " ") &
+      (INV_ROOM_TYPE = 0) then
+         do;
+         INV_USED = INV_USED + OLD_ROOMS - NEW_ROOMS;
+         INV_AVAIL = INV_BLOCKED - INV_USED;
+         call UPDATE_RECORD(BK_INV_DET_NO,ERROR_CODE);
+         end;
+      end;
+end;
+ERROR_CODE = 1;
+
+return;
+end;	/* UD_INV_DET           */
+
+/****************************************************************
+	ADD_BACK_OLD
+	Put the old hotels back into inventory
+****************************************************************/
+
+ADD_BACK_OLD:
+	procedure;
+
+do OLD = 1 to OLD_COUNT;
+
+   DDFAS = "N";
+   MATCH_FOUND = "N";
+   do NEW = 1 to NEW_COUNT;
+
+      if NEW_HOTEL(NEW) = OLD_HOTEL(OLD) then
+      if NEW_DATE(NEW) = OLD_DATE(OLD) then
+      if NEW_DAYS(NEW) = OLD_DAYS(OLD) then
+      if NEW_RATE_TYPE(NEW) = OLD_RATE_TYPE(OLD) then
+      if NEW_ROOM_TYPE(NEW) = OLD_ROOM_TYPE(OLD) then
+         MATCH_FOUND = "Y";
+
+      if NEW_HOTEL(NEW) = OLD_HOTEL(OLD) then
+      if NEW_DATE(NEW) = OLD_DATE(OLD) then
+      if NEW_ROOM_TYPE(NEW) = OLD_ROOM_TYPE(OLD) then
+         DDFAS = "Y";
+
+   end;
+
+   if MATCH_FOUND = "N" then
+      do;
+      OLD_ROOMS = OLD_SINGLE + OLD_DOUBLE + OLD_TRIPLE + OLD_QUAD;
+      NEW_ROOMS = 0;
+
+      /* SET_HOTELD_KEY - Set up the key */
+
+      HDET_MOD = BK_MODIFICATION;
+      HDET_BK_TR_NO = BOOKING_NO;
+      HDET_ALT_SEQ = 0;
+      HDET_ANSW_SEQ = 0;
+      HDET_DAY = NEW_DATE(NEW);
+      HDET_SEQ = NEW_SEQ(NEW);
+      KEY_NO = 1;
+      HDET_MOD = BK_NEXT_MOD;
+      HDET_DATE = OLD_DATE(OLD);
+      HDET_SEQ  = OLD_SEQ(OLD);
+
+      /* READ_HOTELD - Read the hotel detail record */
+
+      call READ_KEYED (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_BK_DET_HOTEL);
+      if ERROR_BK_DET_HOTEL > 3 then
+         call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_BK_DET_HOTEL);
+      call UD_INV_DET;
+      if DDFAS = "N" then
+         do;
+         HDET_INV_MOD = BK_NEXT_MOD;
+
+         /* UPDATE_HOTELD - Update */
+
+         call UPDATE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+         end;
+      end;
+end;
+
+return;
+end;	/* ADD_BACK_OLD         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,429 @@
+/****************************************************************
+	Module: BK_COST_HOTEL
+	Top Level Logic: COST_HOTEL_LOGIC
+	Date:  3-Aug-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_COST_HOTEL
+	Top-Level to cost hotel detail
+****************************************************************/
+
+BK_COST_HOTEL:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_HOTEL_RECORD,
+      BK_HOTEL_DET_RECORD,
+      AD_CURR_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_HOTEL_NO by   8;
+%replace BK_HOTEL_DET_NO by  52;
+%replace AD_CURR_NO by  25;
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_HOTEL.DD";
+%include "BK_HOTEL_DET.DD";
+%include "AD_CURR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call COST_HOTEL_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	COST_HOTEL_MAIN
+	Main-logic cost hotel
+****************************************************************/
+
+COST_HOTEL_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_HOTEL       fixed binary (15);
+declare		ERROR_AD_CURR        fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+
+   /* GET_COST_HOTEL - Read in the hotel record if neccessary */
+
+   if HDET_HOTEL = "" then
+      return;
+
+   if HDET_MANUAL = "" then if HDET_HOTEL ^= HOTEL_CODE then
+      do;
+      HOTEL_CODE = HDET_HOTEL;
+
+      /* READ_HOTEL - Read hotel record */
+
+      call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_BK_HOTEL);
+      if ERROR_BK_HOTEL > 3 then
+         call PRINT_ERROR (BK_HOTEL_NO,ERROR_BK_HOTEL);
+      if ERROR_BK_HOTEL ^= NORMAL_RETURN then
+         do;
+         HOTEL_CODE = "";
+         return;
+         end;
+      end;
+
+
+   /* GET_CURR_HOTEL - If the currency hasn't been read, read */
+
+   if HDET_EXCHANGE = 0 then
+      do;
+      if HOTEL_CURR ^= CURR_CODE then
+         do;
+         CURR_CODE = HOTEL_CURR;
+
+         /* READ_CURR - Read in the currency */
+
+         call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_AD_CURR);
+         if ERROR_AD_CURR > 3 then
+            call PRINT_ERROR (AD_CURR_NO,ERROR_AD_CURR);
+         if ERROR_AD_CURR ^= NORMAL_RETURN then
+            return;
+         end;
+      HDET_EXCHANGE = COSTING_EXCH;
+      end;
+
+
+   /* READ_MEAL_COST - Read all the meal costs */
+
+   do LOOP_INDEX = 1 to 4;
+      if HDET_MEAL(LOOP_INDEX) = "" then
+         HDET_MEAL_PRICE(LOOP_INDEX) = 0;
+      else
+         if HDET_MEAL_PRICE(LOOP_INDEX) = 0 then
+            do;
+            HOTEL_CODE_DET = HOTEL_CODE;
+            HOTEL_RATE_TYPE = "";
+            HOTEL_CLASS = HDET_MEAL(LOOP_INDEX);
+            HOTEL_END = HDET_DATE;
+            call SET_POSITION(BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT(BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+            if (HOTEL_CODE_DET = HOTEL_CODE) &
+               (HOTEL_RATE_TYPE = " ") &
+               (HOTEL_CLASS = HDET_MEAL(LOOP_INDEX)) &
+               (HOTEL_START <= HDET_DATE) &
+               (HOTEL_END >= HDET_DATE) then
+                  do;
+                  HOTEL_DOUBLE = HOTEL_SINGLE;
+                  if HOTEL_MARKUP_LINE >= 1 then if HOTEL_MARKUP_LINE <= 3 then
+                     do;
+                     HOTEL_DOUBLE = HOTEL_DOUBLE *
+                        (1 + (HOTEL_TAX(HOTEL_MARKUP_LINE) + HOTEL_SVC_CHG(HOTEL_MARKUP_LINE) -
+                        HOTEL_COMM(HOTEL_MARKUP_LINE))/100);
+                     end;
+                  HDET_MEAL_PRICE(LOOP_INDEX) = HOTEL_DOUBLE;
+                  end;
+            end;
+   end;
+
+
+   /* CALC_MEAL_COST - Calculate the meal cost */
+
+   HDET_ML_COST =
+      floor(( ( (HDET_MEAL_QTY(1) * HDET_MEAL_PRICE(1)) +
+      (HDET_MEAL_QTY(2) * HDET_MEAL_PRICE(2)) +
+      (HDET_MEAL_QTY(3) * HDET_MEAL_PRICE(3)) +
+      (HDET_MEAL_QTY(4) * HDET_MEAL_PRICE(4)) ) *
+         (TOUR_PAX + TOUR_FOCS)) * 100 + 0.5) / 100;
+   HDET_MEAL_COST = floor(HDET_ML_COST * HDET_EXCHANGE * 100 + 0.5) / 100;
+
+
+   /* COST_IF_NEW - Cost the hotel if new */
+
+   if HDET_DOUBLE = 0 then
+      do;
+      call GET_HOTEL_PRICES;
+      end;
+
+
+   /* CALC_ROOM_COST - Calc room cost */
+
+   HDET_RM_COST =
+      floor(((TOUR_SINGLES * HDET_SINGLE) +
+      (TOUR_DOUBLES * HDET_DOUBLE) +
+      (TOUR_TRIPLES * HDET_TRIPLE) +
+      (TOUR_QUADS * HDET_QUAD)) *
+      HDET_NIGHTS * 100 + 0.5) / 100;
+
+   if HOTEL_ONE_FREE > 0 then if TOUR_PAX + TOUR_FOCS > HOTEL_ONE_FREE then
+      do;
+      dcl FREES fixed binary;
+      FREES = divide((TOUR_PAX + TOUR_FOCS),(HOTEL_ONE_FREE + 1),15);
+      if HOTEL_FREE_TYPE = "S" then
+         HDET_RM_COST =
+            floor(((TOUR_SINGLES * min(HDET_SINGLE,FREES)) +
+            (TOUR_DOUBLES * (HDET_DOUBLE - float(max(0,FREES-HDET_SINGLE),21)/2)) +
+            (TOUR_TRIPLES * HDET_TRIPLE) +
+            (TOUR_QUADS * HDET_QUAD)) *
+            HDET_NIGHTS * 100 + 0.5) / 100;
+      if HOTEL_FREE_TYPE = "T" then
+         HDET_RM_COST =
+            floor(((TOUR_SINGLES * HDET_SINGLE) +
+            (TOUR_DOUBLES * (HDET_DOUBLE - (float(FREES,21) / 2))) +
+            (TOUR_TRIPLES * HDET_TRIPLE) +
+            (TOUR_QUADS * HDET_QUAD)) *
+            HDET_NIGHTS * 100 + 0.5) / 100;
+      end;
+   HDET_ROOM_COST = floor(HDET_RM_COST * HDET_EXCHANGE * 100 + 0.5) / 100;
+
+return;
+end;	/* COST_HOTEL_MAIN      */
+
+/****************************************************************
+	GET_HOTEL_PRICES
+	Retrieve and calculate the hotel prices
+****************************************************************/
+
+GET_HOTEL_PRICES:
+	procedure;
+
+
+   /* READ_H_PRICES - Read the hotel price for this hotel */
+
+
+      /* CHECK_NEW_RATE - Don't need to re-read if it is in */
+
+      if (HOTEL_CODE_DET ^= HDET_HOTEL) !
+         (HOTEL_RATE_TYPE ^= HDET_RATE_TYPE) !
+         (HOTEL_CLASS ^= HDET_CLASS) !
+         (HOTEL_START > HDET_DATE) !
+         (HOTEL_END < HDET_DATE + HDET_NIGHTS - 1) then
+            do;
+
+            /* SET_FIRST_RATE - Set to the first hotel rate */
+
+            HOTEL_CODE_DET = HOTEL_CODE;
+            HOTEL_RATE_TYPE = HDET_RATE_TYPE;
+            HOTEL_CLASS = HDET_CLASS;
+            HOTEL_END = HDET_DATE;
+            call SET_POSITION (BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+            /* READ_NEXT_RATE - Get the next hotel rate */
+
+            call READ_NEXT (BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE > 3 then
+            	call PRINT_ERROR (BK_HOTEL_DET_NO,ERROR_CODE);
+            end;
+         else
+            ERROR_CODE = NORMAL_RETURN;
+
+
+      /* CHECK_USE_RC - Use a different Rate/Class? */
+
+      if (ERROR_CODE = NORMAL_RETURN) &
+         (HOTEL_CODE_DET = HOTEL_CODE) &
+         (HOTEL_RATE_TYPE = HDET_RATE_TYPE) &
+         (HOTEL_CLASS = HDET_CLASS) &
+         (HOTEL_START <= HDET_DATE) &
+         (HOTEL_END >= HDET_DATE) then
+            do;
+            if HOTEL_USE_RATE_TYPE = "" then
+               do;
+               if HOTEL_END >= HDET_DATE + HDET_NIGHTS - 1 then
+                  do;
+                  call CALC_HDET_PRICES;
+                  end;
+               else
+                  do;
+                  call CALC_MARG_PRICE;
+                  end;
+               end;
+            else
+               do;
+               declare HDET_RATE_SAVE character(1);
+               declare HDET_CLASS_SAVE character(2);
+               HDET_RATE_SAVE = HDET_RATE_TYPE;
+               HDET_CLASS_SAVE = HDET_CLASS;
+               HDET_RATE_TYPE = HOTEL_USE_RATE_TYPE;
+               if HOTEL_USE_CLASS ^= "" then
+                  HDET_CLASS = HOTEL_USE_CLASS;
+
+               /* SET_FIRST_RATE - Set to the first hotel rate */
+
+               HOTEL_CODE_DET = HOTEL_CODE;
+               HOTEL_RATE_TYPE = HDET_RATE_TYPE;
+               HOTEL_CLASS = HDET_CLASS;
+               HOTEL_END = HDET_DATE;
+               call SET_POSITION (BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+
+               /* READ_NEXT_RATE - Get the next hotel rate */
+
+               call READ_NEXT (BK_HOTEL_DET_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE > 3 then
+               	call PRINT_ERROR (BK_HOTEL_DET_NO,ERROR_CODE);
+               if (ERROR_CODE = NORMAL_RETURN) &
+                  (HOTEL_CODE_DET = HOTEL_CODE) &
+                  (HOTEL_RATE_TYPE = HDET_RATE_TYPE) &
+                  (HOTEL_CLASS = HDET_CLASS) &
+                  (HOTEL_START <= HDET_DATE) &
+                  (HOTEL_END >= HDET_DATE) then
+                     do;
+                     if HOTEL_END >= HDET_DATE + HDET_NIGHTS - 1 then
+                        do;
+                        call CALC_HDET_PRICES;
+                        end;
+                     else
+                        do;
+                        call CALC_MARG_PRICE;
+                        end;
+                     end;
+               HDET_RATE_TYPE = HDET_RATE_SAVE;
+               HDET_CLASS = HDET_CLASS_SAVE;
+               end;
+            HDET_MEAL_PLAN = HOTEL_MEALS;
+            end;
+         else
+            do;
+            HDET_SINGLE = 0;
+            HDET_DOUBLE = 0;
+            HDET_TRIPLE = 0;
+            HDET_QUAD = 0;
+            end;
+
+return;
+end;	/* GET_HOTEL_PRICES     */
+
+/****************************************************************
+	CALC_HDET_PRICES
+	Calc the detail prices
+****************************************************************/
+
+CALC_HDET_PRICES:
+	procedure;
+
+
+   /* CALC_SINGLE - Calc single room cost */
+
+   HDET_SINGLE = HOTEL_SINGLE;
+   if HOTEL_MARKUP_LINE >= 1 then if HOTEL_MARKUP_LINE <= 3 then
+      do;
+      HDET_SINGLE = HDET_SINGLE *
+         (1 + (HOTEL_TAX(HOTEL_MARKUP_LINE) + HOTEL_SVC_CHG(HOTEL_MARKUP_LINE) -
+         HOTEL_COMM(HOTEL_MARKUP_LINE))/100);
+      end;
+
+
+   /* CALC_DOUBLE - Calculate double price */
+
+   HDET_DOUBLE = HOTEL_DOUBLE;
+   if HOTEL_MARKUP_LINE >= 1 then if HOTEL_MARKUP_LINE <= 3 then
+      do;
+      HDET_DOUBLE = HDET_DOUBLE *
+         (1 + (HOTEL_TAX(HOTEL_MARKUP_LINE) + HOTEL_SVC_CHG(HOTEL_MARKUP_LINE) -
+         HOTEL_COMM(HOTEL_MARKUP_LINE))/100);
+      end;
+
+
+   /* CALC_TRIPLE - Calc triple price */
+
+   HDET_TRIPLE = HOTEL_TRIPLE;
+   if HOTEL_MARKUP_LINE >= 1 then if HOTEL_MARKUP_LINE <= 3 then
+      do;
+      HDET_TRIPLE = HDET_TRIPLE *
+         (1 + (HOTEL_TAX(HOTEL_MARKUP_LINE) + HOTEL_SVC_CHG(HOTEL_MARKUP_LINE) -
+         HOTEL_COMM(HOTEL_MARKUP_LINE))/100);
+      end;
+
+
+   /* CALC_QUAD - Calc Quad net price */
+
+   HDET_QUAD = HOTEL_QUAD;
+   if HOTEL_MARKUP_LINE >= 1 then if HOTEL_MARKUP_LINE <= 3 then
+      do;
+      HDET_QUAD = HDET_QUAD *
+         (1 + (HOTEL_TAX(HOTEL_MARKUP_LINE) + HOTEL_SVC_CHG(HOTEL_MARKUP_LINE) -
+         HOTEL_COMM(HOTEL_MARKUP_LINE))/100);
+      end;
+
+return;
+end;	/* CALC_HDET_PRICES     */
+
+/****************************************************************
+	CALC_MARG_PRICE
+	Calculate the marginal price
+****************************************************************/
+
+CALC_MARG_PRICE:
+	procedure;
+
+/* Price changes during stay, calc average price */
+
+declare (SAVE_SINGLE,SAVE_DOUBLE,SAVE_TRIPLE,SAVE_QUAD) float binary;
+declare (SAVE_NIGHTS,SAVE_DATE) fixed binary;
+
+call CALC_HDET_PRICES;
+SAVE_SINGLE = HDET_SINGLE;
+SAVE_DOUBLE = HDET_DOUBLE;
+SAVE_TRIPLE = HDET_TRIPLE;
+SAVE_QUAD = HDET_QUAD;
+SAVE_NIGHTS = HDET_NIGHTS;
+SAVE_DATE = HDET_DATE;
+
+HDET_NIGHTS = HDET_NIGHTS - (HOTEL_END - HDET_DATE + 1);
+HDET_DATE = HOTEL_END + 1;
+
+call GET_HOTEL_PRICES;
+
+if HDET_SINGLE ^= 0 then
+   HDET_SINGLE =
+      SAVE_SINGLE * (float((SAVE_NIGHTS - HDET_NIGHTS),21) / SAVE_NIGHTS)
+      + HDET_SINGLE * (float(HDET_NIGHTS,21) / SAVE_NIGHTS);
+
+if HDET_DOUBLE ^= 0 then
+   HDET_DOUBLE =
+      SAVE_DOUBLE * (float((SAVE_NIGHTS - HDET_NIGHTS),21) / SAVE_NIGHTS)
+      + HDET_DOUBLE * (float(HDET_NIGHTS,21) / SAVE_NIGHTS);
+
+if HDET_TRIPLE ^= 0 then
+   HDET_TRIPLE =
+      SAVE_TRIPLE * (float((SAVE_NIGHTS - HDET_NIGHTS),21) / SAVE_NIGHTS)
+      + HDET_TRIPLE * (float(HDET_NIGHTS,21) / SAVE_NIGHTS);
+
+if HDET_QUAD ^= 0 then
+   HDET_QUAD =
+      SAVE_QUAD * (float((SAVE_NIGHTS - HDET_NIGHTS),21) / SAVE_NIGHTS)
+      + HDET_QUAD * (float(HDET_NIGHTS,21) / SAVE_NIGHTS);
+
+HDET_NIGHTS = SAVE_NIGHTS;
+HDET_DATE = SAVE_DATE;
+
+return;
+end;	/* CALC_MARG_PRICE      */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,153 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Don Corley">
+   <TITLE>Super Travel</TITLE>
+</HEAD>
+<BODY background="images/backgrounds/background.gif" marginwidth=0 marginheight=0>
+
+
+<!--TOOLBAR_START-->
+<SCRIPT LANGUAGE="javascript">
+
+<!--
+function turnRed() {
+        what = window.event.srcElement;
+        if (what.tagName == "IMG") {
+                what.src = what.src.substring(0,(what.src.indexOf(".gif"))) + "-red.gif";
+                window.event.cancelBubble = true;
+        }
+}
+
+function turnWhite () {
+        what = window.event.srcElement
+        if (what.tagName == "IMG") {
+                what.src = what.src.substring(0,(what.src.indexOf("-red.gif"))) + ".gif";
+                window.event.cancelBubble = true;
+        }
+}
+//-->
+
+</SCRIPT>
+
+
+<TABLE WIDTH=100% HEIGHT=100% CELLPADDING=0 CELLSPACING=0 BORDER=0 bordercolor=yellow BGCOLOR=BLACK>
+<tr><td colspan=2>
+	<table background="images/backgrounds/heading.gif" bgcolor=purple width=100% border=0 cellspacing=0 cellpadding=0>
+	<tr>
+		<td>
+		<a href="servlet/tour.screen.DBServlet?menu="><img src="images/nav/Home.gif" alt="Home"
+								border="0" width="75" height="23"></a></td>
+		<td>
+		<a href="/servlet/tour.screen.DBServlet?record=tour.agency.User"><img src="images/nav/Preferences.gif" alt="View or change preferences"
+								border="0" width="75" height="23"></a></td>
+		<td>
+		<a href="/html/info/about.html"><img src="images/nav/About.gif" alt="About the company"
+								border="0" width="75" height="23"></a></td>
+		<td width=100% align=center>
+			<FONT color=white><strong>Menu</strong></font></td>
+		<td align=right>
+		<a href="?frames=Yes"><IMG SRC="images/buttons/frame.gif" 
+		ALT="Turn on Frames" BORDER=0 
+		HEIGHT=15 WIDTH=16></a><a href="?java=Yes"><IMG SRC="images/buttons/java.gif" 
+		ALT="Turn on Java" BORDER=0 
+		HEIGHT=15 WIDTH=16></a><a href="/html/help/index.html"><img src="images/nav/Help.gif" alt="Help"
+								border="0" width="75" height="23"></a>
+		</td>
+	</tr>
+	</table>
+	</td>
+</tr>
+<TR>
+	<TD BGCOLOR=black background="" WIDTH=100% HEIGHT=1 COLSPAN=2><IMG 
+	SRC="images/graphics/1ptrans.gif" WIDTH=1 
+	HEIGHT=1 ALT="" BORDER=0></TD>
+</TR>
+<tr>
+	<td>
+	<TABLE CELLSPACING=0 CELLPADDING=0 WIDTH="100%" HEIGHT="90%" border=0>
+	<TR VALIGN=TOP>
+		<TD WIDTH="25%" BGCOLOR="#C0C0C0" BACKGROUND="images/backgrounds/leftmargin.gif"><A HREF="home"><IMG SRC="delete.gif" ALT="Close" BORDER=0 HEIGHT=16 WIDTH=15 ALIGN=RIGHT></A>&nbsp;
+		<BR><B>Don's personal menu</B>&nbsp;
+		<BR>
+		<HR><A HREF="home"><IMG SRC="file://c|/home.gif" ALT="Home" BORDER=0 HEIGHT=16 WIDTH=15 ALIGN=CENTER></A>
+		<A HREF="home">Home</A>
+		<BR><A HREF="booking/entry"><IMG SRC="images/buttons/mail.gif" ALT="E-Mail" BORDER=0 HEIGHT=16 WIDTH=15 ALIGN=CENTER></A>
+		<A HREF="booking/entry">E-Mail Center</A>
+		<BR>
+		<BR><A HREF="html/help/specifications/index.html"><IMG SRC="images/buttons/help.gif" ALT="Specifications" BORDER=0 HEIGHT=16 WIDTH=15 ALIGN=CENTER></A>
+		<A HREF="html/help/specifications/index.html">Specifications</A></TD>
+		
+		<!--VERTICAL_RULE-->
+		<TD ROWSPAN=4 VALIGN=TOP ALIGN=LEFT WIDTH=2 HEIGHT="100%" BGCOLOR="#333366">
+		<IMG SRC="images/graphics/spacer.gif" HEIGHT=1 WIDTH=2 BORDER=0><BR></TD>
+		
+		<!--TD BGCOLOR=black WIDTH=1-->
+		<!--IMG SRC="images/graphics/1ptrans.gif" WIDTH=1 HEIGHT=1 ALT="" BORDER=0-->
+		<!--/TD-->
+		
+		
+		<TD BGCOLOR="#808080" BACKGROUND="images/backgrounds/maintable.gif" width=24>
+		<TABLE BORDER=0 CELLSPACING=10 WIDTH="100%" >
+		<TR>
+			<TD ALIGN=LEFT><A HREF="booking/entry"><IMG SRC="images/icons/file.gif" ALT="Booking Entry" BORDER=0 ALIGN=ABSBOTTOM></A><A HREF="booking/entry">
+			Booking Entry</A>&nbsp;</TD>
+			
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/menu.gif" ALT="Operations" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			Operations</A>&nbsp;</TD>
+			
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/link.gif" ALT="General Ledger" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			General Ledger</A>&nbsp;</TD>
+			</TR>
+			
+			<TR>
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/file.gif" ALT="Booking Entry" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			Booking Entry</A>&nbsp;</TD>
+			
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/menu.gif" ALT="Operations" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			Operations</A>&nbsp;</TD>
+			
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/link.gif" ALT="General Ledger" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			General Ledger</A>&nbsp;</TD>
+			</TR>
+			
+			<TR>
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/link.gif" ALT="Booking Entry" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			Booking Entry</A>&nbsp;</TD>
+			
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/menu.gif" ALT="Operations" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			Operations</A>&nbsp;</TD>
+			
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/link.gif" ALT="General Ledger" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			General Ledger</A>&nbsp;</TD>
+			</TR>
+			
+			<TR>
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/file.gif" ALT="Booking Entry" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			Booking Entry</A>&nbsp;</TD>
+			
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/menu.gif" ALT="Operations" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			Operations</A>&nbsp;</TD>
+			
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/link.gif" ALT="General Ledger" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			General Ledger</A>&nbsp;</TD>
+			</TR>
+			
+			<TR>
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/file.gif" ALT="Booking Entry" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			Booking Entry</A>&nbsp;</TD>
+			
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/menu.gif" ALT="Operations" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			Operations</A>&nbsp;</TD>
+			
+			<TD ALIGN=LEFT VALIGN=TOP><A HREF="booking/entry"><IMG SRC="images/icons/link.gif" ALT="General Ledger" BORDER=0  ALIGN=CENTER></A><A HREF="booking/entry">
+			General Ledger</A>&nbsp;</TD>
+		</TR>
+		</TABLE>
+	</TR>
+	</TABLE>
+	</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

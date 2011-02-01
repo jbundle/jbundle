@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_DIS_TOURB File
+********************************************************************/
+
+declare	1 BK_DIS_TOURB_RECORD,
+		3 START_BROC           character (        4),
+		3 START_BROC_DATE      fixed binary (15),
+		3 END_BROC_DATE        fixed binary (15);
+

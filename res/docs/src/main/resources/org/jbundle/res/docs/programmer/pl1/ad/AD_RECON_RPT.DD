@@ -1,0 +1,16 @@
+/*********************************************************************
+	AD_RECON_RPT File
+********************************************************************/
+
+declare	1 AD_RECON_RPT_RECORD,
+		3 AD_RECON_CUTOFF      fixed binary (15),
+		3 AD_ACCT_RECON        fixed binary (15),
+		3 AD_DATE_RECON        fixed binary (15),
+		3 AD_TIME_RECON        fixed binary (15),
+		3 AD_USER_RECON        character (       16),
+		3 AD_PAGE_RECON        fixed binary (15),
+		3 AD_RECON_COUNT       fixed binary (31),
+		3 AD_RECON_CHANGE      float binary (53),
+		3 AD_ACCT_BAL          float binary (53),
+		3 AD_BANK_BAL          float binary (53);
+

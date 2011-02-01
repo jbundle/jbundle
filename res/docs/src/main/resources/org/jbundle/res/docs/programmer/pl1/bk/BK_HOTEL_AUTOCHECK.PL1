@@ -1,0 +1,562 @@
+/****************************************************************
+	Module: BK_HOTEL_CHECK
+	Top Level Logic: REPORT_LOGIC
+	Date:  4-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_HOTEL_CHECK
+	Standard report logic
+****************************************************************/
+
+%replace BK_HOTEL_CHECK_1 by 827;
+%replace BK_HOTEL_CHECK_2 by 828;
+BK_HOTEL_AUTOCHECK:
+   procedure;
+%replace BK_HOTEL_NO by   8;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_INV_DET_NO by  61;
+%replace BK_BOOKING_NO by   9;
+%include "BK_HOTEL_CHECK.DD";
+%include "BK_HOTEL.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_INV_DET.DD";
+%include "BK_BOOKING.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   INV_H_START = "";
+   INV_H_SDATE = TODAYS_DATE();
+   INV_H_DATE = TODAYS_DATE();
+   INV_H_TIME = CURRENT_TIME();
+   INV_USER = USER_NAME();
+   INV_PAGE = 1;
+   INV_ARRAY = 0;
+   OVER_BOOKED = "";
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   INV_DET_TYPE = "H";
+   INV_CODE_TYPE = "B";
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_HOTEL_CHECK_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_HOTEL_CHECK_RECORD) );
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_INV_DET_NO,"BK_INV_DET",byteaddr(BK_INV_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_INV_DET_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+INV_H_SDATE = TODAYS_DATE();
+INV_H_EDATE = INV_H_SDATE + 364;
+INV_H_START = "";
+INV_H_END = "~";
+INV_H_FIX = "Y";
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (BK_HOTEL_CHECK_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* INIT_H_INV - Initialize the values */
+
+   INV_ARRAY = 0;
+   INV_DET_DATE = INV_H_SDATE-99;
+   HOTEL_CODE = "";
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   HDET_MOD = 0;
+   HDET_HOTEL = INV_H_START;
+   HDET_DAY = INV_H_SDATE-99;
+   HDET_BK_TR_NO = 0;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_2,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+INV_H_END = INV_H_START;
+INV_H_EDATE = INV_H_SDATE+364;
+INV_H_FIX = "N";
+do LOOP_INDEX =   1 to   5;
+   if LOOP_INDEX =   2 then
+      INV_H_END = INV_H_START;
+   if LOOP_INDEX =   4 then
+      INV_H_EDATE = INV_H_SDATE+364;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         INV_H_START = "";
+         INV_H_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  5,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  5 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         INV_H_START = "";
+         INV_H_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+INV_PAGE = INV_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+declare		ERROR_BK_BOOKING     fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > 0) !
+   (HDET_HOTEL > INV_H_END) then
+      do;
+      if HOTEL_CODE ^= "" then
+         do;
+         HDET_DATE = INV_H_EDATE + 1;
+         HDET_NIGHTS = 0;
+         BK_SINGLE = 0;
+         BK_DOUBLE = 0;
+         BK_TRIPLE = 0;
+         BK_QUAD = 0;
+         call CHECK_INV_MAIN;
+	end;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_INV_LINE - Check out this inventory line */
+
+   if HDET_DATE < INV_H_SDATE - 99 then
+      return;
+
+   if (HDET_INV ^= "Y") ! (HDET_HOTEL = "") ! (HDET_MANUAL ^= "") then
+      return;
+
+if (HDET_ALT_SEQ ^= 0) ! (HDET_ANSW_SEQ ^= 0) then
+	return;
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   BK_MODIFICATION = 0;
+   BOOKING_NO = HDET_BK_TR_NO;
+   KEY_NO = 1;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (BK_BOOKING_NO,KEY_NO,ERROR_BK_BOOKING);
+   if ERROR_BK_BOOKING > 3 then
+      call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+   if (ERROR_BK_BOOKING ^= 0) ! (BK_STATUS = "XL") then
+      return;
+
+   if HDET_HOTEL ^= HOTEL_CODE then
+      do;
+      if HOTEL_CODE ^= "" then
+         do;
+         HDET_DATE = INV_H_EDATE + 1;
+         HDET_NIGHTS = 0;
+         BK_SINGLE = 0;
+         BK_DOUBLE = 0;
+         BK_TRIPLE = 0;
+         BK_QUAD = 0;
+         call CHECK_INV_MAIN;
+
+
+         /* SET_POSITION - Set the file position */
+
+         HDET_MOD = 0;
+         HDET_BK_TR_NO = 0;
+         HDET_ALT_SEQ = 0;
+         HDET_ANSW_SEQ = 0;
+         HDET_SEQ = 0;
+         call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_2,ERROR_CODE);
+
+         HOTEL_CODE = "";
+         return;
+         end;
+
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      HOTEL_CODE = HDET_HOTEL;
+      call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         HOTEL_NAME = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         end;
+      call PRT_PAGE_HEADING;
+      INV_ARRAY = 0;
+      INV_DET_DATE = INV_H_SDATE-99;
+      end;
+
+call CHECK_INV_MAIN;
+
+return;
+
+
+/* CTRL_BREAK - Control break logic */
+
+if FIRST_TIME then
+   do;
+   end;
+FIRST_TIME = NO;
+
+/* PRT_DETAIL - Print the detail lines */
+
+
+/* CHECK_OVER_BOOKED - Flag if overbooked */
+
+if INV_BLOCKED < INV_ACTUAL then
+   OVER_BOOKED = "Yes";
+else
+   OVER_BOOKED = "   ";
+
+do LOOP_INDEX =   6 to   6;
+   call PRINT_REPORT_LINE;
+end;
+
+/* ADD_TOTALS - Add to the total fields */
+
+
+/* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	CHECK_INV_MAIN
+	Find the next valid hotel detail
+****************************************************************/
+
+CHECK_INV_MAIN:
+	procedure;
+
+declare		ERROR_BK_INV_DET     fixed binary (15);
+do while (HDET_DATE > INV_DET_DATE);
+   INV_ACTUAL = INV_ARRAY(1);
+   if (INV_DET_DATE >= INV_H_SDATE) & (INV_DET_DATE <= INV_H_EDATE) then
+      do;
+
+      /* SETUP_KEY_2 - Setup the key */
+
+      INV_DET_TYPE = "H";
+      INV_DET_ENTRY = HOTEL_CODE;
+      INV_DET_DATE = INV_DET_DATE;
+      INV_CODE_TYPE = " ";
+      INV_ROOM_TYPE = 0;
+      KEY_NO = 1;
+
+      /* READ_RECORD_2 - Read from another file */
+
+      call READ_KEYED (BK_INV_DET_NO,KEY_AREA_1,ERROR_BK_INV_DET);
+      if ERROR_BK_INV_DET > 3 then
+         call PRINT_ERROR (BK_INV_DET_NO,ERROR_BK_INV_DET);
+      if ERROR_BK_INV_DET ^= NORMAL_RETURN then
+         do;
+         INV_USED = 0;
+         INV_AVAIL = 0;
+         INV_OVERSELL = 0;
+         end;
+      INV_DIF = INV_USED - INV_ACTUAL;
+
+      if (INV_DIF ^= 0) ! (INV_AVAIL + INV_OVERSELL < 0) then
+         do;
+
+         /* PRT_DETAIL - Print the detail lines */
+
+
+         /* CHECK_OVER_BOOKED - Flag if overbooked */
+
+         if INV_BLOCKED < INV_ACTUAL then
+            OVER_BOOKED = "Yes";
+         else
+            OVER_BOOKED = "   ";
+
+         do LOOP_INDEX =   6 to   6;
+            call PRINT_REPORT_LINE;
+         end;
+         if INV_H_FIX = "Y" then
+            do;
+            INV_USED = INV_ACTUAL;
+            INV_AVAIL = INV_BLOCKED - INV_USED;
+
+            /* UPDATE_RECORD - Update the record */
+
+            call UPDATE_RECORD (BK_INV_DET_NO,ERROR_CODE);
+            end;
+         end;
+      end;
+
+      do LOOP_INDEX = 1 to 98;
+         INV_ARRAY(LOOP_INDEX) = INV_ARRAY(LOOP_INDEX + 1);
+      end;
+      INV_ARRAY(99) = 0;
+      INV_DET_DATE = INV_DET_DATE + 1;
+   end;
+
+   do LOOP_INDEX = 1 to HDET_NIGHTS;
+      INV_ARRAY(LOOP_INDEX) = INV_ARRAY(LOOP_INDEX) +
+         BK_SINGLE + BK_DOUBLE + BK_TRIPLE + BK_QUAD;
+   end;
+
+   return;
+   end;	/* CHECK_INV_MAIN       */
+
+   /****************************************************************
+   	PRINT_REPORT_LINE
+   	Print out this report line
+   ****************************************************************/
+
+   PRINT_REPORT_LINE:
+   	procedure;
+
+   declare		SAVE_FORMAT          fixed binary (15);
+   declare		SAVE_INDEX           fixed binary (15);
+   LINE = LINE + 1;
+   if LINE > 60 then
+      do;
+      call PRINT_LINE ("<FF>"c);
+      LINE = 1;
+      SAVE_INDEX = LOOP_INDEX;
+      call GET_PRINT_FORMAT(SAVE_FORMAT);
+      call PRT_PAGE_HEADING;
+      call GET_PRINT_FORMAT(LOOP_INDEX);
+      if LOOP_INDEX ^= SAVE_FORMAT then
+         call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+      LOOP_INDEX = SAVE_INDEX;
+      end;
+   call PRINT_LINE_OUT (LOOP_INDEX);
+   return;
+   end;	/* PRINT_REPORT_LINE    */
+
+   /****************************************************************
+   	END_RPT_PROGRAM
+   	End of the program
+   ****************************************************************/
+
+   END_RPT_PROGRAM:
+   	procedure;
+
+
+      /* CLOSE_RPT_FILES - Close the files for this report program */
+
+      call CLOSE_FILE (BK_HOTEL_NO);
+      call CLOSE_FILE (BK_DET_HOTEL_NO);
+      call CLOSE_FILE (BK_INV_DET_NO);
+      call CLOSE_FILE (BK_BOOKING_NO);
+      call CLOSE_PRINTER;
+   return;
+   end;	/* END_RPT_PROGRAM      */
+   end;	/* END_RPT_PROGRAM      */
+   /*********************************End of Program*********************/

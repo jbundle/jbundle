@@ -1,0 +1,1081 @@
+/****************************************************************
+	Module: AP_POST_SUMMARY
+	Top Level Logic: REPORT_LOGIC
+	Date: 13-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_POST_SUMMARY
+	Standard report logic
+****************************************************************/
+
+%replace AP_POST_SUMMARY_1 by 852;
+%replace AP_POST_SUMMARY_2 by 851;
+AP_POST_SUMMARY:
+   procedure;
+%replace AP_OPEN_NO by  32;
+%replace AP_PYMT_HIST_NO by  33;
+%replace BK_TOUR_NO by  34;
+%replace AP_VENDOR_NO by  30;
+%include "AP_POST_SUMMARY.DD";
+%include "AP_OPEN.DD";
+%include "AP_PYMT_HIST.DD";
+%include "BK_TOUR.DD";
+%include "AP_VENDOR.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		END_SCAN_ALL_PAYMENT bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TS_DATE = TODAYS_DATE();
+   TS_TIME = CURRENT_TIME();
+   TS_USER = USER_NAME();
+   TS_END = 0;
+   TS_PAGE = 1;
+   TS_POSTED = "";
+   TS_DEBIT_TOTAL = 0;
+   TS_CREDIT_TOTAL = 0;
+   TS_VAR_TOTAL = 0;
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   TOUR_QUADS = 0;
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_POST_SUMMARY_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AP_POST_SUMMARY_RECORD) );
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AP_PYMT_HIST_NO,"AP_PYMT_HIST",byteaddr(AP_PYMT_HIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_PYMT_HIST_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (AP_POST_SUMMARY_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =  13 to  14;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   5;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (100);
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO (101);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TS_START = 0;
+         TS_END = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  5,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  5 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (100);
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO (101);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TS_START = 0;
+         TS_END = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+TS_PAGE = TS_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_TS_SELECT - Should this transaction be printed? */
+
+   if TS_TYPE = "D" then
+      do;
+      if (AP_OPEN_DEP < TS_START) ! (AP_OPEN_DEP > TS_END) then
+         return;
+      if AP_ENTRY_TYPE ^= INVOICE then
+         if AP_ENTRY_TYPE ^= DEP_EST then
+         if AP_ENTRY_TYPE ^= PD_INV then
+            return;
+      if TS_POSTED = "Y" then if AP_GL_STATUS = DEP_TYPE then
+         return;
+      if TS_POSTED = "N" then if AP_GL_STATUS ^= DEP_TYPE then
+         return;
+      if AP_GL_STATUS = DEP_TYPE then
+         AP_DEP_EST_GL = AP_DEP_EST_USD;
+      if AP_DEP_EST_GL = 0 then
+         return;
+      end;
+
+
+   if TS_TYPE = "I" then
+      do;
+      if (AP_INV_ENTERED < TS_START) ! (AP_INV_ENTERED > TS_END) then
+         return;
+      if AP_ENTRY_TYPE ^= INVOICE then
+         if AP_ENTRY_TYPE ^= CR_INV then
+         if AP_ENTRY_TYPE ^= PD_CINV then
+         if AP_ENTRY_TYPE ^= PD_INV then
+            return;
+      if AP_GL_STATUS = DEP_TYPE then
+         do;
+         AP_DEP_EST_GL = AP_DEP_EST_USD;
+         AP_VEN_INV_GL = AP_VEN_INV_USD;
+         end;
+      if AP_GL_STATUS = IN_TYPE then
+         AP_VEN_INV_GL = AP_VEN_INV_USD;
+      if TS_POSTED = "Y" then if AP_GL_STATUS < PA_TYPE then
+         return;
+      if TS_POSTED = "N" then if AP_GL_STATUS >= PA_TYPE then
+         return;
+      if AP_VEN_INV_GL = 0 then if AP_DEP_EST_GL = 0 then
+         return;
+      AP_VARIANCE = AP_VEN_INV_GL - AP_DEP_EST_GL;
+      end;
+
+
+   if TS_TYPE = "C" then
+      do;
+      if (AP_INV_ENTERED < TS_START) ! (AP_INV_ENTERED > TS_END) then
+         return;
+      if AP_ENTRY_TYPE ^= CR_MEMO then
+         if AP_ENTRY_TYPE ^= PD_CRMM then
+            return;
+      if TS_POSTED = "Y" then if AP_GL_STATUS = CM_TYPE then
+         return;
+      if TS_POSTED = "N" then if AP_GL_STATUS ^= CM_TYPE then
+         return;
+      if AP_GL_STATUS = CM_TYPE then
+         AP_VEN_INV_GL = AP_VEN_INV_USD;
+      if AP_VEN_INV_GL = 0 then
+         return;
+      AP_VARIANCE = AP_VEN_INV_GL - AP_DEP_EST_GL;
+      end;
+
+
+   if TS_TYPE = "Y" then
+      do;
+      if (AP_INV_ENTERED < TS_START) ! (AP_INV_ENTERED > TS_END) then
+         return;
+      if AP_ENTRY_TYPE ^= PRPYMT then
+         if AP_ENTRY_TYPE ^= DIST_PP then
+            return;
+      if TS_POSTED = "Y" then if AP_GL_STATUS = PU_TYPE then
+         return;
+      if TS_POSTED = "N" then if AP_GL_STATUS ^= PU_TYPE then
+         return;
+      if AP_PAID_USD = 0 then
+         return;
+      end;
+
+
+   if TS_TYPE = "B" then
+      do;
+      if (AP_INV_ENTERED < TS_START) ! (AP_INV_ENTERED > TS_END) then
+         return;
+      if AP_ENTRY_TYPE ^= DR_MEMO then
+         if AP_ENTRY_TYPE ^= DIST_DR then
+            return;
+      if TS_POSTED = "Y" then if AP_GL_STATUS = DM_TYPE then
+         return;
+      if TS_POSTED = "N" then if AP_GL_STATUS ^= DM_TYPE then
+         return;
+      if AP_VEN_INV_GL = 0 then
+         AP_VEN_INV_GL = AP_VEN_INV_USD;
+      end;
+
+
+   if TS_TYPE = "P" then
+      do;
+      if AP_ENTRY_TYPE ^= INVOICE then
+         if AP_ENTRY_TYPE ^= CR_INV then
+         if AP_ENTRY_TYPE ^= CR_MEMO then
+         if AP_ENTRY_TYPE ^= PD_CINV then
+         if AP_ENTRY_TYPE ^= PD_INV then
+         if AP_ENTRY_TYPE ^= PD_CRMM then
+            return;
+      if AP_PAID_USD = 0 then
+         return;
+      end;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* SET_AP_LINE - Set up the A/P transaction line to print */
+
+   if TS_TYPE = "D" then
+      do;
+
+      /* PRINT_LINE_D1 -  */
+
+
+      /* SET_AP_TYPE - Set up the type description */
+
+      do case (AP_ENTRY_TYPE);
+         AP_ENTRY_TYPE_DESC = "Brk Pmt";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Brk Dft";
+         AP_ENTRY_TYPE_DESC = "PP Req ";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dep Est";
+         AP_ENTRY_TYPE_DESC = "Fin Est";
+      end;
+      otherwise
+         AP_ENTRY_TYPE_DESC = "";
+
+
+      /* SET_V_DESC - Set the Voucher Status Description */
+
+      do case (AP_GL_STATUS + 1);
+         AP_V_DESC = "Vch Held";
+         AP_V_DESC = "No stat.";
+         AP_V_DESC = "Vchr Rqd";
+         AP_V_DESC = "Wait Ack";
+         AP_V_DESC = "Ack Rcvd";
+         AP_V_DESC = "Vch Prtd";
+         AP_V_DESC = "Xln Reqd";
+         AP_V_DESC = "Wait Xln";
+         AP_V_DESC = "Ackn Xln";
+         AP_V_DESC = "Xln Prtd";
+         AP_V_DESC = "Reprt Vh";
+         AP_V_DESC = "Manual V";
+         AP_V_DESC = "Dep Est ";
+         AP_V_DESC = "Invoice ";
+         AP_V_DESC = "Cr memo ";
+         AP_V_DESC = "Prepaymt";
+         AP_V_DESC = "Dr memo ";
+         AP_V_DESC = "Payment ";
+         AP_V_DESC = "Posted  ";
+      end;
+      otherwise
+         AP_V_DESC = "No Vchr ";
+
+      do LOOP_INDEX =   7 to   7;
+         call PRINT_REPORT_LINE;
+      end;
+
+      /* CHECK_TS_DETAIL - Print the tour detail> */
+
+      if TS_DETAIL = "Y" then
+         do;
+
+         /* PRINT_LINE_C -  */
+
+
+         /* READ_SECOND_2 - Read secondary info */
+
+         AP_VEN_NO = AP_OPEN_VENDOR;
+         call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            AP_VEN_NAME = "** RECORD NOT FOUND **";
+            end;
+         else
+            do;
+            end;
+
+         /* READ_SECOND - Read info and display secondary fileinfo */
+
+         TOUR_NO = AP_OPEN_TOUR;
+         call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            TOUR_DESC = "";
+            end;
+         else
+            do;
+            end;
+         do LOOP_INDEX =  12 to  12;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+
+      TS_DEBIT_TOTAL = floor((TS_DEBIT_TOTAL + AP_DEP_EST_GL) * 100 + 0.5) / 100;
+      TS_CREDIT_TOTAL = floor((TS_CREDIT_TOTAL + AP_DEP_EST_GL) * 100 + 0.5) / 100;
+      end;
+
+   if TS_TYPE = "I" then
+      do;
+
+      /* PRINT_LINE_D2 - Print lines */
+
+
+      /* SET_V_DESC - Set the Voucher Status Description */
+
+      do case (AP_GL_STATUS + 1);
+         AP_V_DESC = "Vch Held";
+         AP_V_DESC = "No stat.";
+         AP_V_DESC = "Vchr Rqd";
+         AP_V_DESC = "Wait Ack";
+         AP_V_DESC = "Ack Rcvd";
+         AP_V_DESC = "Vch Prtd";
+         AP_V_DESC = "Xln Reqd";
+         AP_V_DESC = "Wait Xln";
+         AP_V_DESC = "Ackn Xln";
+         AP_V_DESC = "Xln Prtd";
+         AP_V_DESC = "Reprt Vh";
+         AP_V_DESC = "Manual V";
+         AP_V_DESC = "Dep Est ";
+         AP_V_DESC = "Invoice ";
+         AP_V_DESC = "Cr memo ";
+         AP_V_DESC = "Prepaymt";
+         AP_V_DESC = "Dr memo ";
+         AP_V_DESC = "Payment ";
+         AP_V_DESC = "Posted  ";
+      end;
+      otherwise
+         AP_V_DESC = "No Vchr ";
+
+
+      /* SET_AP_TYPE - Set up the type description */
+
+      do case (AP_ENTRY_TYPE);
+         AP_ENTRY_TYPE_DESC = "Brk Pmt";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Brk Dft";
+         AP_ENTRY_TYPE_DESC = "PP Req ";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dep Est";
+         AP_ENTRY_TYPE_DESC = "Fin Est";
+      end;
+      otherwise
+         AP_ENTRY_TYPE_DESC = "";
+
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+
+      /* CHECK_TS_DETAIL - Print the tour detail> */
+
+      if TS_DETAIL = "Y" then
+         do;
+
+         /* PRINT_LINE_C -  */
+
+
+         /* READ_SECOND_2 - Read secondary info */
+
+         AP_VEN_NO = AP_OPEN_VENDOR;
+         call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            AP_VEN_NAME = "** RECORD NOT FOUND **";
+            end;
+         else
+            do;
+            end;
+
+         /* READ_SECOND - Read info and display secondary fileinfo */
+
+         TOUR_NO = AP_OPEN_TOUR;
+         call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            TOUR_DESC = "";
+            end;
+         else
+            do;
+            end;
+         do LOOP_INDEX =  12 to  12;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+
+      TS_DEBIT_TOTAL = floor((TS_DEBIT_TOTAL + AP_DEP_EST_GL) * 100 + 0.5) / 100;
+      TS_CREDIT_TOTAL= floor((TS_CREDIT_TOTAL + AP_VEN_INV_GL) * 100 + 0.5) / 100;
+      TS_VAR_TOTAL= floor((TS_VAR_TOTAL + AP_VARIANCE) * 100 + 0.5) / 100;
+      end;
+
+   if TS_TYPE = "P" then
+      do;
+      call SCAN_AP_PAYMENTS;
+      end;
+
+   if TS_TYPE = "Y" then
+      do;
+      call SCAN_AP_PAYMENTS;
+      end;
+
+   if TS_TYPE = "B" then
+      do;
+
+      /* PRINT_LINE_D4 - PRINT */
+
+
+      /* SET_AP_TYPE - Set up the type description */
+
+      do case (AP_ENTRY_TYPE);
+         AP_ENTRY_TYPE_DESC = "Brk Pmt";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Brk Dft";
+         AP_ENTRY_TYPE_DESC = "PP Req ";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dep Est";
+         AP_ENTRY_TYPE_DESC = "Fin Est";
+      end;
+      otherwise
+         AP_ENTRY_TYPE_DESC = "";
+
+
+      /* SET_V_DESC - Set the Voucher Status Description */
+
+      do case (AP_GL_STATUS + 1);
+         AP_V_DESC = "Vch Held";
+         AP_V_DESC = "No stat.";
+         AP_V_DESC = "Vchr Rqd";
+         AP_V_DESC = "Wait Ack";
+         AP_V_DESC = "Ack Rcvd";
+         AP_V_DESC = "Vch Prtd";
+         AP_V_DESC = "Xln Reqd";
+         AP_V_DESC = "Wait Xln";
+         AP_V_DESC = "Ackn Xln";
+         AP_V_DESC = "Xln Prtd";
+         AP_V_DESC = "Reprt Vh";
+         AP_V_DESC = "Manual V";
+         AP_V_DESC = "Dep Est ";
+         AP_V_DESC = "Invoice ";
+         AP_V_DESC = "Cr memo ";
+         AP_V_DESC = "Prepaymt";
+         AP_V_DESC = "Dr memo ";
+         AP_V_DESC = "Payment ";
+         AP_V_DESC = "Posted  ";
+      end;
+      otherwise
+         AP_V_DESC = "No Vchr ";
+
+      do LOOP_INDEX =  10 to  10;
+         call PRINT_REPORT_LINE;
+      end;
+
+      /* CHECK_TS_DETAIL - Print the tour detail> */
+
+      if TS_DETAIL = "Y" then
+         do;
+
+         /* PRINT_LINE_C -  */
+
+
+         /* READ_SECOND_2 - Read secondary info */
+
+         AP_VEN_NO = AP_OPEN_VENDOR;
+         call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            AP_VEN_NAME = "** RECORD NOT FOUND **";
+            end;
+         else
+            do;
+            end;
+
+         /* READ_SECOND - Read info and display secondary fileinfo */
+
+         TOUR_NO = AP_OPEN_TOUR;
+         call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            TOUR_DESC = "";
+            end;
+         else
+            do;
+            end;
+         do LOOP_INDEX =  12 to  12;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+
+      TS_DEBIT_TOTAL = floor((TS_DEBIT_TOTAL + AP_VEN_INV_GL) * 100 + 0.5) / 100;
+      TS_CREDIT_TOTAL= floor((TS_CREDIT_TOTAL + AP_VEN_INV_GL) * 100 + 0.5) / 100;
+      end;
+
+   if TS_TYPE = "C" then
+      do;
+
+      /* PRINT_LINE_D2 - Print lines */
+
+
+      /* SET_V_DESC - Set the Voucher Status Description */
+
+      do case (AP_GL_STATUS + 1);
+         AP_V_DESC = "Vch Held";
+         AP_V_DESC = "No stat.";
+         AP_V_DESC = "Vchr Rqd";
+         AP_V_DESC = "Wait Ack";
+         AP_V_DESC = "Ack Rcvd";
+         AP_V_DESC = "Vch Prtd";
+         AP_V_DESC = "Xln Reqd";
+         AP_V_DESC = "Wait Xln";
+         AP_V_DESC = "Ackn Xln";
+         AP_V_DESC = "Xln Prtd";
+         AP_V_DESC = "Reprt Vh";
+         AP_V_DESC = "Manual V";
+         AP_V_DESC = "Dep Est ";
+         AP_V_DESC = "Invoice ";
+         AP_V_DESC = "Cr memo ";
+         AP_V_DESC = "Prepaymt";
+         AP_V_DESC = "Dr memo ";
+         AP_V_DESC = "Payment ";
+         AP_V_DESC = "Posted  ";
+      end;
+      otherwise
+         AP_V_DESC = "No Vchr ";
+
+
+      /* SET_AP_TYPE - Set up the type description */
+
+      do case (AP_ENTRY_TYPE);
+         AP_ENTRY_TYPE_DESC = "Brk Pmt";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Brk Dft";
+         AP_ENTRY_TYPE_DESC = "PP Req ";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dep Est";
+         AP_ENTRY_TYPE_DESC = "Fin Est";
+      end;
+      otherwise
+         AP_ENTRY_TYPE_DESC = "";
+
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+
+      /* CHECK_TS_DETAIL - Print the tour detail> */
+
+      if TS_DETAIL = "Y" then
+         do;
+
+         /* PRINT_LINE_C -  */
+
+
+         /* READ_SECOND_2 - Read secondary info */
+
+         AP_VEN_NO = AP_OPEN_VENDOR;
+         call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            AP_VEN_NAME = "** RECORD NOT FOUND **";
+            end;
+         else
+            do;
+            end;
+
+         /* READ_SECOND - Read info and display secondary fileinfo */
+
+         TOUR_NO = AP_OPEN_TOUR;
+         call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            TOUR_DESC = "";
+            end;
+         else
+            do;
+            end;
+         do LOOP_INDEX =  12 to  12;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+
+      TS_DEBIT_TOTAL = floor((TS_DEBIT_TOTAL + AP_DEP_EST_GL) * 100 + 0.5) / 100;
+      TS_CREDIT_TOTAL= floor((TS_CREDIT_TOTAL + AP_VEN_INV_GL) * 100 + 0.5) / 100;
+      TS_VAR_TOTAL= floor((TS_VAR_TOTAL + AP_VARIANCE) * 100 + 0.5) / 100;
+      end;
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	SCAN_AP_PAYMENTS
+	Scan the A/P payments
+****************************************************************/
+
+SCAN_AP_PAYMENTS:
+	procedure;
+
+
+   /* ZERO_TS_COUNT - Initialize the payment count */
+
+   TS_COUNT = AP_VEN_INV_AMT;
+   TS_COUNT_USD = AP_VEN_INV_USD;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   AP_HIST_ENTRY = AP_ENTRY_NO;
+   AP_HIST_CHECK_DATE = 0;
+   AP_HIST_SEQ = 0;
+   call SET_POSITION (AP_PYMT_HIST_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_ALL_PAYMENT = NO;
+   do while (END_SCAN_ALL_PAYMENT ^= YES);
+      call SCAN_ALL_PAYMENTS;
+   end;
+return;
+end;	/* SCAN_AP_PAYMENTS     */
+
+/****************************************************************
+	SCAN_ALL_PAYMENTS
+	Scan the payments for detail in range
+****************************************************************/
+
+SCAN_ALL_PAYMENTS:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (AP_PYMT_HIST_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_PYMT_HIST_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_HIST_ENTRY > AP_ENTRY_NO) then
+      do;
+      END_SCAN_ALL_PAYMENT = YES;
+      return;
+      end;
+
+   /* SET_GL_PAYMENT - Set up the payment line */
+
+   if (AP_INV_BAL = 0) & (floor((TS_COUNT - AP_HIST_AMT_APPL) * 100 + 0.1) = 0) then
+      TS_INV_PYMT = TS_COUNT_USD;
+   else
+      TS_INV_PYMT = floor(AP_HIST_AMT_APPL * AP_DEP_EXCH * 100 + 0.5) / 100;
+   TS_COUNT = TS_COUNT - AP_HIST_AMT_APPL; /* Don't normalize */
+   TS_COUNT_USD=floor((TS_COUNT_USD - TS_INV_PYMT)*100 + 0.5) /100;
+
+   if (AP_HIST_CHECK_DATE < TS_START) ! (AP_HIST_CHECK_DATE > TS_END) then
+      return;
+
+   if TS_POSTED = "Y" then if AP_HIST_APPL_GL = 0 then
+      return;
+
+   if TS_POSTED = "N" then if AP_HIST_APPL_GL ^= 0 then
+      return;
+
+   if AP_HIST_APPL_GL = 0 then
+      AP_HIST_APPL_GL = TS_INV_PYMT;
+
+   AP_VARIANCE = AP_HIST_APPL_USD - AP_HIST_APPL_GL;
+
+   TS_DEBIT_TOTAL = floor((TS_DEBIT_TOTAL + AP_HIST_APPL_GL) * 100 + 0.5) / 100;
+   TS_CREDIT_TOTAL = floor((TS_CREDIT_TOTAL + AP_HIST_APPL_USD) * 100 + 0.5) / 100;
+   TS_VAR_TOTAL = floor((TS_VAR_TOTAL + AP_VARIANCE) * 100 + 0.5) / 100;
+
+
+   /* PRINT_LINE_D3 - Print lines */
+
+
+   /* SET_AP_TYPE - Set up the type description */
+
+   do case (AP_ENTRY_TYPE);
+      AP_ENTRY_TYPE_DESC = "Brk Pmt";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Brk Dft";
+      AP_ENTRY_TYPE_DESC = "PP Req ";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dep Est";
+      AP_ENTRY_TYPE_DESC = "Fin Est";
+   end;
+   otherwise
+      AP_ENTRY_TYPE_DESC = "";
+
+
+   /* SET_V_DESC - Set the Voucher Status Description */
+
+   do case (AP_GL_STATUS + 1);
+      AP_V_DESC = "Vch Held";
+      AP_V_DESC = "No stat.";
+      AP_V_DESC = "Vchr Rqd";
+      AP_V_DESC = "Wait Ack";
+      AP_V_DESC = "Ack Rcvd";
+      AP_V_DESC = "Vch Prtd";
+      AP_V_DESC = "Xln Reqd";
+      AP_V_DESC = "Wait Xln";
+      AP_V_DESC = "Ackn Xln";
+      AP_V_DESC = "Xln Prtd";
+      AP_V_DESC = "Reprt Vh";
+      AP_V_DESC = "Manual V";
+      AP_V_DESC = "Dep Est ";
+      AP_V_DESC = "Invoice ";
+      AP_V_DESC = "Cr memo ";
+      AP_V_DESC = "Prepaymt";
+      AP_V_DESC = "Dr memo ";
+      AP_V_DESC = "Payment ";
+      AP_V_DESC = "Posted  ";
+   end;
+   otherwise
+      AP_V_DESC = "No Vchr ";
+
+   do LOOP_INDEX =   9 to   9;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* CHECK_TS_DETAIL - Print the tour detail> */
+
+   if TS_DETAIL = "Y" then
+      do;
+
+      /* PRINT_LINE_C -  */
+
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      AP_VEN_NO = AP_OPEN_VENDOR;
+      call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         AP_VEN_NAME = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         end;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      TOUR_NO = AP_OPEN_TOUR;
+      call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         TOUR_DESC = "";
+         end;
+      else
+         do;
+         end;
+      do LOOP_INDEX =  12 to  12;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+return;
+end;	/* SCAN_ALL_PAYMENTS    */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (AP_PYMT_HIST_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

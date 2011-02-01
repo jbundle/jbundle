@@ -1,0 +1,15 @@
+/*********************************************************************
+	PR_UPDATE File
+********************************************************************/
+
+declare	1 PR_UPDATE_RECORD,
+		3 UP_CASH              float binary (53),
+		3 UP_FED               float binary (21),
+		3 UP_STATE             float binary (21),
+		3 UP_LOCAL             float binary (21),
+		3 UP_FICA              float binary (21),
+		3 UP_FUI               float binary (21),
+		3 UP_SDI               float binary (21),
+		3 GL_SAVE              fixed binary (31),
+		3 GL_AMT_SAVE          float binary (53);
+

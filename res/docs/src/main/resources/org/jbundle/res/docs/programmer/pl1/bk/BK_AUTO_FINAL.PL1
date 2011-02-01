@@ -1,0 +1,64 @@
+/****************************************************************
+	Module: BK_AUTO_FINAL
+	Top Level Logic: AUTO_FINAL_LOGIC
+	Date: 27-Feb-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_AUTO_FINAL
+	Automatic Finalization logic
+****************************************************************/
+
+BK_AUTO_FINAL:
+   procedure;
+
+declare		ERROR_CODE           fixed binary (15);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* OPEN_FILES - Open all the files for this program */
+
+
+   /* SET_AUTO_FINAL - Set the params to automatic finalization */
+
+   call OPEN_SCREEN;
+
+   %include "BK_FINALIZE.DD";
+
+   DATE_CUT_OFF = TODAYS_DATE();
+   PRT_TOUR_TYPE = "";
+   PRT_TOUR_CODE = "";
+   PRT_DOC_TYPE = 0;
+
+
+   /* BK_FINALIZE - Call finalize program */
+
+   %include "BK_FINALIZE.DCL";
+   call BK_FINALIZE(
+      BK_FINALIZE_RECORD);
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

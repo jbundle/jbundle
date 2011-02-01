@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<PictureControl ID="1">
+		<LastChanged>2009-12-30T02:36:24</LastChanged>
+		<Deleted>N</Deleted>
+		<BaseDirectory>/space/web/pictures/</BaseDirectory>
+		<HtmlLocation>docs/pics/</HtmlLocation>
+		<ImageLocation>images/</ImageLocation>
+		<PictureLocation>pictures/</PictureLocation>
+		<MediumPictureFolder>mediumpics/</MediumPictureFolder>
+		<SmallPictureFolder>smallpics/</SmallPictureFolder>
+		<ThumbPictureFolder>thumbpics/</ThumbPictureFolder>
+		<LastScanned>2009-12-30T02:35:25</LastScanned>
+		<LastProcessed>2009-12-30T02:36:24</LastProcessed>
+		<LastExported>2000-05-01T07:12:00</LastExported>
+	</PictureControl>
+</file>

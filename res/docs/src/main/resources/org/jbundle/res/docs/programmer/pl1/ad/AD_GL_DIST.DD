@@ -1,0 +1,15 @@
+/*********************************************************************
+	AD_GL_DIST File
+********************************************************************/
+
+declare	1 AD_GL_DIST_RECORD,
+		3 AD_DIST_BANK         fixed binary (15),
+		3 AD_DIST_NUMBER       fixed binary (31),
+		3 AD_DIST_TYPE         character (        1),
+		3 AD_DIST_TRX_SEQ      fixed binary (15),
+		3 AD_DIST_GL_ACCT      fixed binary (31),
+		3 AD_DIST_DATE         fixed binary (15),
+		3 AD_DIST_AMOUNT       float binary (53),
+		3 AD_DIST_POSTED       fixed binary (15),
+		3 AD_DIST_POST         character (1);
+

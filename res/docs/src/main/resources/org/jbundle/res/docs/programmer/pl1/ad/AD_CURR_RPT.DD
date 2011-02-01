@@ -1,0 +1,13 @@
+/*********************************************************************
+	AD_CURR_RPT File
+********************************************************************/
+
+declare	1 AD_CURR_RPT_RECORD,
+		3 START_CURR           character (        3),
+		3 END_CURR             character (        3),
+		3 AD_CURR_DATE         fixed binary (15),
+		3 AD_CURR_TIME         fixed binary (15),
+		3 AD_CURR_USER         character (       16),
+		3 AD_CURR_PAGE         fixed binary (15),
+		3 AD_CURR_TOTAL        fixed binary (15);
+

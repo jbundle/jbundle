@@ -1,0 +1,11 @@
+/*********************************************************************
+	BK_DIS_HOTELS File
+********************************************************************/
+
+declare	1 BK_DIS_HOTELS_RECORD,
+		3 HOTELS_RATE_TYPE     character (        1),
+		3 HOTELS_CLASS         character (        2),
+		3 HOTELS_START         fixed binary (15),
+		3 HOTELS_END           fixed binary (15),
+		3 SHORT_CAT_DESC       character (       10);
+

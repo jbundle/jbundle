@@ -1,0 +1,176 @@
+/****************************************************************
+	Module: AD_MENU
+	Top Level Logic: MENU_LOGIC
+	Date: 24-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AD_MENU
+	Logic for menu programs
+****************************************************************/
+
+%replace AD_MENU_1 by  69;
+AD_MENU:
+   procedure;
+%include "AD_MENU.DD";
+
+declare		END_SELECT_AND_RUN   bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+   call INITIALIZE;
+   END_SELECT_AND_RUN = NO;
+   do while (END_SELECT_AND_RUN ^= YES);
+      call SELECT_AND_RUN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AD_MENU_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AD_MENU_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SELECT_AND_RUN
+	Select option and run
+****************************************************************/
+
+SELECT_AND_RUN:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+
+   /* REDIS_AND_SET - Redisplay the screen and set the var ptr */
+
+   if NOT_FIRST_TIME then
+      do;
+      call DISPLAY_SCREEN (AD_MENU_1);
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (AD_MENU_RECORD) );
+      end;
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_OPTION - Input the option on the screen */
+
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (AD_SELECT = 0) !
+        (RETURN_CODE ^= NORMAL_RETURN) then
+      do;
+      END_SELECT_AND_RUN = YES;
+      return;
+      end;
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   declare AD_CTL_MAINT entry;
+   declare AD_ACCT_MAINT entry;
+   declare AD_CURR_MAINT entry;
+   declare AD_CURR_DIS entry;
+   declare AD_CHECK_DIS entry;
+   declare AD_TRX_ENT entry;
+   declare AD_RECON_MENU entry;
+   declare AD_ACCT_RPT entry;
+   declare AD_CURR_RPT entry;
+   declare AD_CHECK_REG entry;
+   declare AD_CHECK_INQ entry;
+   declare AD_TRX_REPORT entry;
+   declare AD_DIST_GL entry;
+   declare AD_PURGE entry;
+   declare AD_CHECK_EXPORT entry;
+   do case (AD_SELECT);
+         /* Option   1 */
+      call AD_CTL_MAINT(
+);
+         /* Option   2 */
+      call AD_ACCT_MAINT(
+);
+         /* Option   3 */
+      call AD_CURR_MAINT(
+);
+         /* Option   4 */
+      call AD_CURR_DIS(
+);
+         /* Option   5 */
+      call AD_CHECK_DIS(
+);
+         /* Option   6 */
+      call AD_TRX_ENT(
+);
+         /* Option   7 */
+      call AD_RECON_MENU(
+);
+         /* Option   8 */
+      call AD_ACCT_RPT(
+);
+         /* Option   9 */
+      call AD_CURR_RPT(
+);
+         /* Option  10 */
+      call AD_CHECK_REG(
+);
+         /* Option  11 */
+      call AD_CHECK_INQ(
+);
+         /* Option  12 */
+      call AD_TRX_REPORT(
+);
+         /* Option  13 */
+      call AD_DIST_GL(
+);
+         /* Option  14 */
+      call AD_PURGE(
+);
+         /* Option  15 */
+      call AD_CHECK_EXPORT(
+);
+   end;
+   otherwise
+      do;
+      end;
+return;
+end;	/* SELECT_AND_RUN       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

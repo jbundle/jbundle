@@ -1,0 +1,452 @@
+/****************************************************************
+	Module: AR_CASH_PLAN
+	Top Level Logic: REPORT_LOGIC
+	Date: 26-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_CASH_PLAN
+	Standard report logic
+****************************************************************/
+
+%replace AR_CASH_PLAN_1 by 171;
+%replace AR_CASH_PLAN_2 by 172;
+AR_CASH_PLAN:
+   procedure;
+%replace BK_BOOKING_NO by   9;
+%replace AR_OPEN_NO by  43;
+%include "AR_CASH_PLAN.DD";
+%include "BK_BOOKING.DD";
+%include "AR_OPEN.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AR_PLAN_START = TODAYS_DATE();
+   AR_PLAN_PERIOD = "W";
+   AR_PLAN_PERIODS = 12;
+   AR_PLAN_DATE = TODAYS_DATE();
+   AR_PLAN_TIME = CURRENT_TIME();
+   AR_PLAN_PAGE = 1;
+   AR_PLAN_DAYS = 30;
+   AR_PLAN_BY = USER_NAME();
+   AR_PLAN_DEP = 0;
+   AR_PLAN_DER = 0;
+   AR_PLAN_FIN = 0;
+   AR_PLAN_FIR = 0;
+   AR_PLAN_USER = USER_NAME();
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   AR_ACCT_DR = 0;
+   AR_ACCT_DEP = 0;
+   AR_POSTED = 0;
+   AR_ACTION = 0;
+   AR_DEPARTURE = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_CASH_PLAN_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AR_CASH_PLAN_RECORD) );
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (AR_OPEN_NO,"AR_OPEN",byteaddr(AR_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_OPEN_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (AR_CASH_PLAN_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   BK_MODIFICATION = 0;
+   BK_DATE = AR_PLAN_START-365;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_5,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* PRT_CASH_TOTAL - Print the cash totals */
+
+   AR_PLAN_FROM = AR_PLAN_START;
+
+   do AR_INDEX = 1 to AR_PLAN_PERIODS;
+      AR_PLAN_DEPOSITS = AR_PLAN_DEP(AR_INDEX);
+      AR_DEP_REC = AR_PLAN_DER(AR_INDEX);
+      AR_PLAN_FINAL = AR_PLAN_FIN(AR_INDEX);
+      AR_PLAN_FIN_REC = AR_PLAN_FIR(AR_INDEX);
+      AR_PLAN_BAL = AR_PLAN_DEPOSITS - AR_DEP_REC + AR_PLAN_FINAL - AR_PLAN_FIN_REC;
+
+      /* PRINT_LINE_D1 -  */
+
+      do LOOP_INDEX =   9 to   9;
+         call PRINT_REPORT_LINE;
+      end;
+
+      /* RECALC_PLAN - Recalculate the ending period */
+
+      AR_PLAN_END = AR_PLAN_START + (AR_PLAN_DAYS * AR_PLAN_PERIODS) - 1;
+
+      AR_PLAN_FROM = AR_PLAN_FROM + AR_PLAN_DAYS;
+   end;
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   3;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* RECALC_PLAN - Recalculate the ending period */
+
+      AR_PLAN_END = AR_PLAN_START + (AR_PLAN_DAYS * AR_PLAN_PERIODS) - 1;
+
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* RECALC_PLAN - Recalculate the ending period */
+
+      AR_PLAN_END = AR_PLAN_START + (AR_PLAN_DAYS * AR_PLAN_PERIODS) - 1;
+
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* RECALC_PLAN - Recalculate the ending period */
+
+      AR_PLAN_END = AR_PLAN_START + (AR_PLAN_DAYS * AR_PLAN_PERIODS) - 1;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  3,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  3 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* RECALC_PLAN - Recalculate the ending period */
+
+      AR_PLAN_END = AR_PLAN_START + (AR_PLAN_DAYS * AR_PLAN_PERIODS) - 1;
+
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* RECALC_PLAN - Recalculate the ending period */
+
+      AR_PLAN_END = AR_PLAN_START + (AR_PLAN_DAYS * AR_PLAN_PERIODS) - 1;
+
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* RECALC_PLAN - Recalculate the ending period */
+
+      AR_PLAN_END = AR_PLAN_START + (AR_PLAN_DAYS * AR_PLAN_PERIODS) - 1;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   8;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+AR_PLAN_PAGE = AR_PLAN_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_DATE > AR_PLAN_END) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* ADD_CASH_PLAN - Add the cash receipts planning data */
+
+   if BK_STATUS = "XL" then
+      return;
+
+   if BK_FINAL_DUE < AR_PLAN_START then
+      return;
+
+   if BK_DEPOSIT_DUE > AR_PLAN_END then
+      return;
+
+   if BK_STATUS ^= "OK" then if BK_BALANCE = BK_NET_PRICE then
+      return;
+
+   if BK_DEPOSIT_DUE >= AR_PLAN_START then
+      do;
+      AR_INDEX = divide((BK_DEPOSIT_DUE - AR_PLAN_START),AR_PLAN_DAYS,15) + 1;
+      AR_PLAN_DEP(AR_INDEX) = AR_PLAN_DEP(AR_INDEX) + BK_DEPOSIT;
+      AR_PLAN_DER(AR_INDEX) = AR_PLAN_DER(AR_INDEX) + min(BK_DEPOSIT,BK_NET_PRICE-BK_BALANCE);
+      end;
+
+   if BK_FINAL_DUE <= AR_PLAN_END then
+      do;
+      AR_INDEX = divide((BK_FINAL_DUE - AR_PLAN_START),AR_PLAN_DAYS,15) + 1;
+      AR_PLAN_FIN(AR_INDEX) = AR_PLAN_FIN(AR_INDEX) + BK_NET_PRICE - BK_DEPOSIT;
+      AR_PLAN_FIR(AR_INDEX) = AR_PLAN_FIR(AR_INDEX) +
+         min(BK_NET_PRICE-BK_DEPOSIT,max(0,BK_NET_PRICE-BK_BALANCE-BK_DEPOSIT));
+      end;
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (AR_OPEN_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

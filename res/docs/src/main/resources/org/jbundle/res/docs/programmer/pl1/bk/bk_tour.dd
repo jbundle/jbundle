@@ -1,0 +1,57 @@
+/*********************************************************************
+	BK_TOUR File
+********************************************************************/
+
+declare	1 BK_TOUR_RECORD,
+		3 TOUR_NO              fixed binary (31),
+		3 TOUR_DESC            character (       30),
+		3 TOUR_DESC_2          character (       30),
+		3 TOUR_STATUS          character (        2),
+		3 TOUR_MIN_TO_OP       fixed binary (15),
+		3 TOUR_DEF_CUTOFF      fixed binary (15),
+		3 TOUR_PAX             fixed binary (15),
+		3 TOUR_FOCS            fixed binary (15),
+		3 TOUR_SINGLES         fixed binary (15),
+		3 TOUR_DOUBLES         fixed binary (15),
+		3 TOUR_TRIPLES         fixed binary (15),
+		3 TOUR_QUADS           fixed binary (15),
+		3 TOUR_RATE_DEF        character (        1),
+		3 TOUR_RATE_CLASS      character (        2),
+		3 TOUR_CODE            character (        4),
+		3 TOUR_DEP_DATE        fixed binary (15),
+		3 TOUR_TYPE            character (        1),
+		3 TOUR_IT_NAME         character (       20),
+		3 TOUR_CONF_NAME       character (       20),
+		3 TOUR_FILE_NO         character (       10),
+		3 TOUR_FINALIZE        fixed binary (15),
+		3 TOUR_FINAL_DOC       fixed binary (15),
+		3 TOUR_TICKET          fixed binary (15),
+		3 TOUR_SP1_DATE        fixed binary (15),
+		3 TOUR_SP2_DATE        fixed binary (15),
+		3 TOUR_FINALIZED       character (1),
+		3 TOUR_FINAL_DOCS      character (1),
+		3 TOUR_TICKETS         character (1),
+		3 TOUR_SP1             character (1),
+		3 TOUR_SP2             character (1),
+		3 TOUR_BOOKING         character (1),
+		3 TOUR_DEP_REC         character (1),
+		3 TOUR_SERV_CONF       character (1),
+		3 TOUR_FIN_PAY         character (1),
+		3 TOUR_DEPARTED        character (1),
+		3 TOUR_ORDERING_CUR    character (1),
+		3 ACTION_DATE          fixed binary (15),
+		3 ACTION_TYPE          fixed binary (15),
+		3 ACTION_TYPE_DESC     character (       10);
+
+%replace BOOK_UD              by 1;
+%replace DEP_REC_UD           by 2;
+%replace SERV_CONF_UD         by 3;
+%replace FIN_PAY_UD           by 4;
+%replace FINALIZED_UD         by 5;
+%replace FINAL_DOCS_UD        by 6;
+%replace TICKET_UD            by 7;
+%replace SP1_UD               by 8;
+%replace SP2_UD               by 9;
+%replace DEPARTURE_UD         by 10;
+%replace XL_UD                by 11;
+%replace NO_STATUS_UD         by 99;

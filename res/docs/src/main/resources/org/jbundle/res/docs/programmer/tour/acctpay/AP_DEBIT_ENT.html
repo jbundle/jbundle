@@ -1,0 +1,79 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>A debit memo is a charge against a vendor's account (Debit A/P). In the system it is treated pretty
+much like an prepayment. The major difference is that a check doesn't have to be printed to affect the
+vendor's account balance.
+
+<br wp="br1"><br wp="br2">
+<p>For example, you may bring some merchandise to a tour operator, instead of paying in cash. The
+amount which the vendor values the merchandise is the amount of the debit memo.
+
+<br wp="br1"><br wp="br2">
+<p>A frequent use for debit memo entry is to correct errors in estimates or invoices after they have been
+posted to A/P.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>To start a new debit memo, type zero. To change a current debit memo, type the entry number.
+Partially distributed debit memos may not be changed.
+
+<br wp="br1"><br wp="br2">
+<p>Then, enter the Vendor number and the Debit Description and amount. If the debit memo is in a
+currency other than U.S. dollars, then you will be asked for the USD amount. This is the amount
+posted to the General Ledger. Next, enter the A/P number to debit (Defaults to Vendor's default) and
+the account to Credit (defaults to the prepayment default).
+
+<br wp="br1"><br wp="br2">
+<p>	Note: To enter a negative amount against a tour, use invoice entry and type a negative amount (For a credit
+invoice).
+
+<br wp="br1"><br wp="br2">
+<p>	Note: Internally, debit memos are treated the same as prepayments. You must use the prepayment distribution
+program to distribute the amounts to specific invoices.
+
+<br wp="br1"><br wp="br2">
+<p>G/L entries are created automatically:
+
+<br wp="br1"><br wp="br2">
+<p>1/15/86	Accounts Payable - Tours   500.00
+
+<p>			Flight bag expense (decrease)     500.00
+
+<p>				(Gave flight bags to tour operator)
+
+<br wp="br1"><br wp="br2">
+<p>This program is also used to fix estimates and invoices after they have been posted to A/P. You can
+zero out the incorrect invoice by distributing a debit memo to it.
+
+<br wp="br1"><br wp="br2">
+<p>For example, say you enter a departure estimate for 910.00 rather than 190.00 and you didn't catch
+it on the edit list. To fix it, enter a fake invoice for the 910.00, enter a debit memo for 910.00 and then
+distribute the debit memo to the invoice to cancel it out. Go back and enter the correct departure
+estimate. (Usually you wouldn't go through all this trouble for an estimate. You would only do it for
+an incorrect invoice)
+
+<br wp="br1"><br wp="br2">
+<p>The entry from the debit memo posting would be:
+
+<p>4/12/86	Accounts Payable - Tours  910.00
+
+<p>			Cost of Tours                910.00
+
+<p>				(Reverse incorrect entry)
+</body>
+</html>

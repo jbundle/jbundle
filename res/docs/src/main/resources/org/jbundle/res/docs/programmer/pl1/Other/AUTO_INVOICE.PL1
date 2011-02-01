@@ -1,0 +1,272 @@
+/****************************************************************
+	Module: AUTO_INVOICE
+	Top Level Logic: AUTO_LOGIC
+	Date:  6-Dec-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AUTO_INVOICE
+	Top Level to print ALL invoices
+****************************************************************/
+
+%replace AUTO_INVOICE_1 by 826;
+AUTO_INVOICE:
+   procedure;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_COMMENT_NO by  48;
+%replace TK_HEADER_NO by  56;
+%replace TK_DETAIL_NO by  57;
+%replace BK_LINE_NO by  51;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_HOTEL_NO by   8;
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_COMMENT.DD";
+%include "TK_HEADER.DD";
+%include "TK_DETAIL.DD";
+%include "BK_LINE.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_HOTEL.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_AUTO_PROCESS     bit (1);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   TOUR_QUADS = 0;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+   BK_TOUR_MOD_CODE = "A";
+   BK_TOUR_SEQ = 0;
+   BK_COMM_MOD_CODE = "";
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   TK_SEQ = 1;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* OPEN_SCREEN - Initialize the screen system */
+
+   call OPEN_SCREEN;
+
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_COMMENT_NO,"BK_COMMENT",byteaddr(BK_COMMENT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_COMMENT_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LINE_NO,"BK_LINE",byteaddr(BK_LINE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LINE_NO,ERROR_CODE);
+   call OPEN_FILE (BK_PASSENGERS_NO,"BK_PASSENGERS",byteaddr(BK_PASSENGERS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("MULTIFORM");
+   call PRINT_LINE("[FORM: INVOICE]");
+   call SETUP_PRINT_FORMAT (AUTO_INVOICE_1);
+
+   /* INIT_LINE - Initialize Line */
+
+   BOOKING_NO = 0;
+
+   END_AUTO_PROCESS = NO;
+   do while (END_AUTO_PROCESS ^= YES);
+      call AUTO_PROCESS;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	AUTO_PROCESS
+	Process all the invoices
+****************************************************************/
+
+AUTO_PROCESS:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   BK_MODIFICATION = 0;
+   BK_PRINT_INV = "Y";
+   BOOKING_NO = BOOKING_NO+1;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_4,ERROR_CODE);
+
+   /* READNEXT_LOCK - Read the next record and lock it */
+
+   call READ_NEXT (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_4,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* TRY_AGAIN_IF_LOCK - Return if record locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      return;
+
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_PRINT_INV > "Y") then
+      do;
+      END_AUTO_PROCESS = YES;
+      return;
+      end;
+
+   /* SET_TOUR_INFO - Set up the tour and tour hdr file 4 read */
+
+   TOUR_NO = BK_TOUR_NUM;
+
+   HDR_TOUR_CODE = BK_TOUR_CODE;
+   HDR_END_ON = BK_DEPARTURE;
+
+
+   /* READ_TOUR_REC - Read the tour file record */
+
+   call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+   if ERROR_BK_TOUR > 3 then
+      call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+
+   /* GET_TOUR_HDR - Get the tour header */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   HDR_TOUR_CODE = BK_TOUR_CODE;
+   HDR_END_ON = BK_DEPARTURE;
+   if HDR_END_ON = 0 then
+      HDR_END_ON = TODAYS_DATE();
+   call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= END_OF_FILE then
+      call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+   if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+      ERROR_CODE = END_OF_FILE;
+   if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+      ERROR_CODE = END_OF_FILE;
+
+
+   /* SET_INVOICE_FORM - Set the form type to "INVOICE" */
+
+   call PRINT_LINE ("[FORM: INVOICE]");
+
+
+   /* BK_INVOICE - Print an invoice for this booking */
+
+   %include "BK_INVOICE.DCL";
+   call BK_INVOICE(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_LINE_RECORD,
+      BK_DET_HOTEL_RECORD,
+      BK_COMMENT_RECORD,
+      TK_HEADER_RECORD,
+      TK_DETAIL_RECORD,
+      BK_HOTEL_RECORD);
+
+   /* SET_INV_PRINTED - Invoice printed */
+
+   BK_PRINT_INV = "N";
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (BK_BOOKING_NO,ERROR_CODE);
+return;
+end;	/* AUTO_PROCESS         */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+   call CLOSE_FILE (BK_COMMENT_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (BK_LINE_NO);
+   call CLOSE_FILE (BK_PASSENGERS_NO);
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

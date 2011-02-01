@@ -1,0 +1,1155 @@
+/****************************************************************
+	Module: BK_TOUR_PRINT
+	Top Level Logic: REPORT_LOGIC
+	Date: 28-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_TOUR_PRINT
+	Standard report logic
+****************************************************************/
+
+%replace BK_TOUR_PRINT_1 by 376;
+%replace BK_TOUR_PRINT_2 by 377;
+%replace BK_TOUR_PRINT_3 by 381;
+%replace BK_TOUR_PRINT_4 by 382;
+%replace BK_TOUR_PRINT_5 by 383;
+%replace BK_TOUR_PRINT_6 by 442;
+%replace BK_TOUR_PRINT_7 by 558;
+BK_TOUR_PRINT:
+   procedure;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_INV_DET_NO by  61;
+%replace BK_OPT_ALT_NO by  62;
+%replace BK_PRICING_NO by  59;
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_HOTEL_NO by   8;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_LAND_NO by  54;
+%replace TK_DETAIL_NO by  57;
+%replace TK_HEADER_NO by  56;
+%replace BK_COMMENT_NO by  48;
+%replace BK_TOUR_DOC_NO by  76;
+%include "BK_TOUR_PRINT.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_INV_DET.DD";
+%include "BK_OPT_ALT.DD";
+%include "BK_PRICING.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_LAND.DD";
+%include "TK_DETAIL.DD";
+%include "TK_HEADER.DD";
+%include "BK_COMMENT.DD";
+%include "BK_TOUR_DOC.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TOUR_PRT_DATE = TODAYS_DATE();
+   TOUR_PRT_TIME = CURRENT_TIME();
+   TOUR_PRT_USER = USER_NAME();
+   TOUR_PRT_PAGE = 1;
+   TOUR_PRT_ASTART = 0;
+   TOUR_PRT_AEND = 9999;
+   OLD_HDR_CODE = "";
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+   TOUR_QUADS = 0;
+   INV_DET_TYPE = "H";
+   INV_CODE_TYPE = "B";
+   ALT_SELECT_BY = "N";
+   ALT_ANSWER = " ";
+   PRICE_MOD_CODE = "A";
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   LAND_TAX = 0;
+   LAND_SVC_CHG = 0;
+   LAND_COMM = 0;
+   TK_SEQ = 1;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   BK_TOUR_MOD_CODE = "A";
+   BK_TOUR_SEQ = 0;
+   BK_COMM_MOD_CODE = "";
+   ACTION_DESC = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_TOUR_PRINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_TOUR_PRINT_RECORD) );
+   call OPEN_FILE (BK_TOUR_HDR_NO,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_INV_DET_NO,"BK_INV_DET",byteaddr(BK_INV_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_INV_DET_NO,ERROR_CODE);
+   call OPEN_FILE (BK_OPT_ALT_NO,"BK_OPT_ALT",byteaddr(BK_OPT_ALT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+   call OPEN_FILE (BK_PRICING_NO,"BK_PRICING",byteaddr(BK_PRICING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PRICING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (BK_COMMENT_NO,"BK_COMMENT",byteaddr(BK_COMMENT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_COMMENT_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_DOC_NO,"BK_TOUR_DOC",byteaddr(BK_TOUR_DOC_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_DOC_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   HDR_TOUR_CODE = TOUR_START;
+   HDR_END_ON = TOUR_DATE_START;
+   call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_1);
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+END_TOUR = TOUR_START;
+TOUR_DATE_END = TOUR_DATE_START+364;
+TOUR_PRT_OEND = TOUR_PRT_OSTART;
+do LOOP_INDEX =   1 to  20;
+   if LOOP_INDEX =   2 then
+      END_TOUR = TOUR_START;
+   if LOOP_INDEX =   5 then
+      TOUR_DATE_END = TOUR_DATE_START+364;
+   if LOOP_INDEX =  11 then
+      TOUR_PRT_OEND = TOUR_PRT_OSTART;
+   if LOOP_INDEX =  13 then
+      TOUR_PRT_AEND = TOUR_PRT_ASTART;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TOUR_START = "";
+         END_TOUR = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TOUR_DATE_START = 0;
+         TOUR_DATE_END = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* CHECK_NO_QA - Skip rest of q's if "N" */
+
+      if TOUR_OA = "N" then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =  10 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TOUR_PRT_OSTART = 0;
+         TOUR_PRT_OEND = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TOUR_PRT_ASTART = 0;
+         TOUR_PRT_AEND = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 20,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 20 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TOUR_START = "";
+         END_TOUR = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TOUR_DATE_START = 0;
+         TOUR_DATE_END = 32767;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* CHECK_NO_QA - Skip rest of q's if "N" */
+
+      if TOUR_OA = "N" then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =  10 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TOUR_PRT_OSTART = 0;
+         TOUR_PRT_OEND = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         TOUR_PRT_ASTART = 0;
+         TOUR_PRT_AEND = 9999;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_2);
+do LOOP_INDEX =   1 to   4;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+TOUR_PRT_PAGE = TOUR_PRT_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDR_TOUR_CODE > END_TOUR) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_2);
+   do LOOP_INDEX =   5 to   5;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+   call PRT_TOUR_DETAIL;
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRT_TOUR_DETAIL
+	Print any of the tour detail
+****************************************************************/
+
+PRT_TOUR_DETAIL:
+	procedure;
+
+if TOUR_HDR_DETAIL = "Y" then
+   do;
+
+   /* PRINT_TOUR_HDR - Print the header detail */
+
+   do LOOP_INDEX =   6 to  14;
+      call PRINT_REPORT_LINE;
+   end;
+   end;
+
+if HDR_TOUR_CODE ^= OLD_HDR_CODE then
+   do;
+   if TOUR_DEPARTURE = "Y" then if HDR_TOUR_TYPE = "G" then
+      do;
+      call PRINT_TOUR_DEP;
+      end;
+
+   if TOUR_INVENTORY = "Y" then
+      do;
+      call PRINT_TOUR_INV;
+      end;
+
+   if TOUR_DOCS = "Y" then
+      do;
+      call PRINT_TOUR_DOCS;
+      end;
+
+   if TOUR_OA = "Y" then
+      do;
+      call PRINT_TOUR_OA_HDR;
+      end;
+   end;
+OLD_HDR_CODE = HDR_TOUR_CODE;
+
+return;
+end;	/* PRT_TOUR_DETAIL      */
+
+/****************************************************************
+	PRINT_TOUR_DEP
+	Print the departures
+****************************************************************/
+
+PRINT_TOUR_DEP:
+	procedure;
+
+declare	FIRST_TIME	bit(1);
+FIRST_TIME = YES;
+TOUR_CODE = HDR_TOUR_CODE;
+TOUR_DEP_DATE = TOUR_DATE_START;
+TOUR_NO = 0;
+call SET_POSITION (BK_TOUR_NO,KEY_AREA_2,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (BK_TOUR_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TOUR_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (TOUR_CODE > HDR_TOUR_CODE) !
+   (TOUR_DEP_DATE > TOUR_DATE_END) then
+      return;
+   if FIRST_TIME then
+      do;
+      call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_3);
+      do LOOP_INDEX =   1 to   3;
+         call PRINT_REPORT_LINE;
+      end;
+      FIRST_TIME = NO;
+      end;
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_3);
+   do LOOP_INDEX =   4 to   4;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* CHECK_TOUR_DETAIL - Print the tour detail? */
+
+   if TOUR_DETAIL = "Y" then
+      do;
+
+      /* PRINT_TOUR_DETAIL - Print the detail info for each */
+
+      call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_3);
+      do LOOP_INDEX =   5 to  14;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+end;
+return;
+end;	/* PRINT_TOUR_DEP       */
+
+/****************************************************************
+	PRINT_TOUR_INV
+	Print the inventory for the tour
+****************************************************************/
+
+PRINT_TOUR_INV:
+	procedure;
+
+declare	FIRST_TIME	bit(1);
+FIRST_TIME = YES;
+INV_DET_TYPE = HDR_TOUR_CODE;
+INV_DET_ENTRY = "T";
+INV_DET_DATE = TOUR_DATE_START;
+INV_CODE_TYPE = "";
+INV_ROOM_TYPE = 0;
+call SET_POSITION (BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_INV_DET_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (INV_DET_TYPE > HDR_TOUR_CODE) !
+   (INV_DET_ENTRY > "T") !
+   (INV_DET_DATE > TOUR_DATE_END) then
+      return;
+   if FIRST_TIME then
+      do;
+      call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_4);
+      do LOOP_INDEX =   1 to   3;
+         call PRINT_REPORT_LINE;
+      end;
+      FIRST_TIME = NO;
+      end;
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_4);
+   do LOOP_INDEX =   4 to   4;
+      call PRINT_REPORT_LINE;
+   end;
+end;
+return;
+end;	/* PRINT_TOUR_INV       */
+
+/****************************************************************
+	PRINT_TOUR_DOCS
+	Print the tour documents
+****************************************************************/
+
+PRINT_TOUR_DOCS:
+	procedure;
+
+declare	FIRST_TIME	bit(1);
+FIRST_TIME = YES;
+DOC_TOUR_HDR_NO = HDR_TOUR_CODE;
+DOC_PRINT_ON = 0;
+DOC_SEQ = 0;
+call SET_POSITION (BK_TOUR_DOC_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (BK_TOUR_DOC_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TOUR_DOC_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (DOC_TOUR_HDR_NO > HDR_TOUR_CODE) then
+      return;
+   if FIRST_TIME then
+      do;
+      call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_6);
+      do LOOP_INDEX =  12 to  12;
+         call PRINT_REPORT_LINE;
+      end;
+      FIRST_TIME = NO;
+      end;
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_6);
+   do LOOP_INDEX =  13 to  13;
+      call PRINT_REPORT_LINE;
+   end;
+end;
+return;
+end;	/* PRINT_TOUR_DOCS      */
+
+/****************************************************************
+	PRINT_TOUR_OA_HDR
+	Print the Opt/Alt header
+****************************************************************/
+
+PRINT_TOUR_OA_HDR:
+	procedure;
+
+declare	FIRST_TIME	bit(1);
+FIRST_TIME = YES;
+ALT_TOUR_CODE = HDR_TOUR_CODE;
+ALT_SEQ = TOUR_PRT_OSTART;
+ALT_ANSW_SEQ = TOUR_PRT_ASTART;
+call SET_POSITION (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (BK_OPT_ALT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_OPT_ALT_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (ALT_TOUR_CODE > HDR_TOUR_CODE) !
+   (ALT_SEQ > TOUR_PRT_OEND) !
+   (ALT_ANSW_SEQ > TOUR_PRT_AEND) then
+      return;
+   if FIRST_TIME then
+      do;
+      call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_4);
+      do LOOP_INDEX =   7 to   7;
+         call PRINT_REPORT_LINE;
+      end;
+      FIRST_TIME = NO;
+      end;
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_4);
+   do LOOP_INDEX =   8 to   8;
+      call PRINT_REPORT_LINE;
+   end;
+   call PRT_TOUR_OA;
+end;
+return;
+end;	/* PRINT_TOUR_OA_HDR    */
+
+/****************************************************************
+	PRT_TOUR_OA
+	Print tour optional & Alternates
+****************************************************************/
+
+PRT_TOUR_OA:
+	procedure;
+
+if TOUR_PRICE = "Y" then
+   do;
+   call PRINT_TOUR_PRICE;
+   end;
+
+if TOUR_HOTEL = "Y" then
+   do;
+   call PRINT_TOUR_HOTEL;
+   end;
+
+if TOUR_LAND = "Y" then
+   do;
+   call PRINT_TOUR_LAND;
+   end;
+
+if TOUR_AIR = "Y" then
+   do;
+
+   /* PRINT_TOUR_AIR - Air stuff */
+
+      call PRINT_TOUR_AIRH;
+      call PRINT_TOUR_AIRD;
+   end;
+
+if TOUR_COMMENT = "Y" then
+   do;
+   call PRINT_TOUR_COMMENT;
+   end;
+
+if TOUR_BK_COMM = "Y" then
+   do;
+   call PRINT_TOUR_BK_COMM;
+   end;
+
+return;
+end;	/* PRT_TOUR_OA          */
+
+/****************************************************************
+	PRINT_TOUR_PRICE
+	Print the price detail
+****************************************************************/
+
+PRINT_TOUR_PRICE:
+	procedure;
+
+declare	FIRST_TIME	bit(1);
+FIRST_TIME = YES;
+PRICE_TOUR_CODE = HDR_TOUR_CODE;
+PRICE_ALT_OPT = ALT_SEQ;
+PRICE_ALT_SEQ = ALT_ANSW_SEQ;
+PRICE_PAX_CAT = "";
+PRICE_SEQ = 0;
+call SET_POSITION (BK_PRICING_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (BK_PRICING_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PRICING_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (PRICE_TOUR_CODE > HDR_TOUR_CODE) !
+   (PRICE_ALT_OPT > ALT_SEQ) !
+   (PRICE_ALT_SEQ > ALT_ANSW_SEQ) then
+      return;
+   if FIRST_TIME then
+      do;
+      call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_4);
+      do LOOP_INDEX =   9 to   9;
+         call PRINT_REPORT_LINE;
+      end;
+      FIRST_TIME = NO;
+      end;
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_4);
+   do LOOP_INDEX =  10 to  10;
+      call PRINT_REPORT_LINE;
+   end;
+end;
+return;
+end;	/* PRINT_TOUR_PRICE     */
+
+/****************************************************************
+	PRINT_TOUR_HOTEL
+	Print the hotel detail
+****************************************************************/
+
+PRINT_TOUR_HOTEL:
+	procedure;
+
+declare	FIRST_TIME	bit(1);
+FIRST_TIME = YES;
+HDET_MOD = -1;
+HDET_TOUR_HDR = HDR_TOUR_CODE;
+HDET_ALT_SEQ = ALT_SEQ;
+HDET_ANSW_SEQ = ALT_ANSW_SEQ;
+HDET_DAY = 0;
+HDET_SEQ = 0;
+call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > -1) !
+   (HDET_TOUR_HDR > HDR_TOUR_CODE) !
+   (HDET_ALT_SEQ > ALT_SEQ) !
+   (HDET_ANSW_SEQ > ALT_ANSW_SEQ) then
+      return;
+   if FIRST_TIME then
+      do;
+      call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_4);
+      do LOOP_INDEX =  11 to  11;
+         call PRINT_REPORT_LINE;
+      end;
+      FIRST_TIME = NO;
+      end;
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_4);
+
+   /* READ_SECOND - Read info and display secondary fileinfo */
+
+   HOTEL_CODE = HDET_HOTEL;
+   call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      HOTEL_NAME = "** RECORD NOT FOUND **";
+      end;
+   else
+      do;
+      end;
+   do LOOP_INDEX =  12 to  12;
+      call PRINT_REPORT_LINE;
+   end;
+end;
+return;
+end;	/* PRINT_TOUR_HOTEL     */
+
+/****************************************************************
+	PRINT_TOUR_LAND
+	Print the land detail
+****************************************************************/
+
+PRINT_TOUR_LAND:
+	procedure;
+
+declare	FIRST_TIME	bit(1);
+FIRST_TIME = YES;
+LDET_MOD = -1;
+LDET_TOUR_CODE = HDR_TOUR_CODE;
+LDET_ALT_SEQ = ALT_SEQ;
+LDET_ANSW_SEQ = ALT_ANSW_SEQ;
+LDET_DAY = 0;
+LDET_SEQ = 0;
+call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > -1) !
+   (LDET_TOUR_CODE > HDR_TOUR_CODE) !
+   (LDET_ALT_SEQ > ALT_SEQ) !
+   (LDET_ANSW_SEQ > ALT_ANSW_SEQ) then
+      return;
+   if FIRST_TIME then
+      do;
+      call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_4);
+      do LOOP_INDEX =  13 to  13;
+         call PRINT_REPORT_LINE;
+      end;
+      FIRST_TIME = NO;
+      end;
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_4);
+
+   /* READ_SECOND_2 - Read secondary info */
+
+   LAND_CODE = LDET_TOUR_NO;
+   call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      LAND_DESC_1 = "** RECORD NOT FOUND **";
+      end;
+   do LOOP_INDEX =  14 to  14;
+      call PRINT_REPORT_LINE;
+   end;
+end;
+return;
+end;	/* PRINT_TOUR_LAND      */
+
+/****************************************************************
+	PRINT_TOUR_AIRH
+	Print the air header info
+****************************************************************/
+
+PRINT_TOUR_AIRH:
+	procedure;
+
+declare	FIRST_TIME	bit(1);
+FIRST_TIME = YES;
+TK_MODIFICATION = -1;
+TK_TOUR_HDR = HDR_TOUR_CODE;
+TK_ALT_SEQ = ALT_SEQ;
+TK_ANSW_SEQ = ALT_ANSW_SEQ;
+call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > -1) !
+   (TK_TOUR_HDR > HDR_TOUR_CODE) !
+   (TK_ALT_SEQ > ALT_SEQ) !
+   (TK_ANSW_SEQ > ALT_ANSW_SEQ) then
+      return;
+   if FIRST_TIME then
+      do;
+      call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_6);
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+      FIRST_TIME = NO;
+      end;
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_6);
+   do LOOP_INDEX =   9 to   9;
+      call PRINT_REPORT_LINE;
+   end;
+end;
+return;
+end;	/* PRINT_TOUR_AIRH      */
+
+/****************************************************************
+	PRINT_TOUR_AIRD
+	Print the air detail
+****************************************************************/
+
+PRINT_TOUR_AIRD:
+	procedure;
+
+declare	FIRST_TIME	bit(1);
+FIRST_TIME = YES;
+TK_DET_MOD = -1;
+TK_DET_TR_CODE = HDR_TOUR_CODE;
+TK_DET_ALT_SEQ = ALT_SEQ;
+TK_DET_ANSW_SEQ = ALT_ANSW_SEQ;
+TK_DATE = 0;
+TK_SEQ = 0;
+call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > -1) !
+   (TK_DET_TR_CODE > HDR_TOUR_CODE) !
+   (TK_DET_ALT_SEQ > ALT_SEQ) !
+   (TK_DET_ANSW_SEQ > ALT_ANSW_SEQ) then
+      return;
+   if FIRST_TIME then
+      do;
+      call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_6);
+      do LOOP_INDEX =   6 to   6;
+         call PRINT_REPORT_LINE;
+      end;
+      FIRST_TIME = NO;
+      end;
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_6);
+   do LOOP_INDEX =   7 to   7;
+      call PRINT_REPORT_LINE;
+   end;
+end;
+return;
+end;	/* PRINT_TOUR_AIRD      */
+
+/****************************************************************
+	PRINT_TOUR_COMMENT
+	Print the remark detail
+****************************************************************/
+
+PRINT_TOUR_COMMENT:
+	procedure;
+
+declare	FIRST_TIME	bit(1);
+FIRST_TIME = YES;
+BK_TOUR_MOD_NO = -1;
+BK_COMM_TOUR_CODE = HDR_TOUR_CODE;
+BK_COMM_ALT_SEQ = ALT_SEQ;
+BK_COMM_ANSW_SEQ = ALT_ANSW_SEQ;
+BK_TOUR_C_R = "R";
+BK_TOUR_SEQ = 0;
+call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > -1) !
+   (BK_COMM_TOUR_CODE > HDR_TOUR_CODE) !
+   (BK_COMM_ALT_SEQ > ALT_SEQ) !
+   (BK_COMM_ANSW_SEQ > ALT_ANSW_SEQ) !
+   (BK_TOUR_C_R > "R") then
+      return;
+   if FIRST_TIME then
+      do;
+      call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_6);
+      do LOOP_INDEX =  10 to  10;
+         call PRINT_REPORT_LINE;
+      end;
+      FIRST_TIME = NO;
+      end;
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_6);
+   do LOOP_INDEX =  11 to  11;
+      call PRINT_REPORT_LINE;
+   end;
+end;
+return;
+end;	/* PRINT_TOUR_COMMENT   */
+
+/****************************************************************
+	PRINT_TOUR_BK_COMM
+	Print the booking comments
+****************************************************************/
+
+PRINT_TOUR_BK_COMM:
+	procedure;
+
+declare	FIRST_TIME	bit(1);
+FIRST_TIME = YES;
+BK_TOUR_MOD_NO = -1;
+BK_COMM_TOUR_CODE = HDR_TOUR_CODE;
+BK_COMM_ALT_SEQ = ALT_SEQ;
+BK_COMM_ANSW_SEQ = ALT_ANSW_SEQ;
+BK_TOUR_C_R = "B";
+BK_TOUR_SEQ = 0;
+call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > -1) !
+   (BK_COMM_TOUR_CODE > HDR_TOUR_CODE) !
+   (BK_COMM_ALT_SEQ > ALT_SEQ) !
+   (BK_COMM_ANSW_SEQ > ALT_ANSW_SEQ) !
+   (BK_TOUR_C_R > "B") then
+      return;
+   if FIRST_TIME then
+      do;
+      do LOOP_INDEX =  10 to  10;
+         call PRINT_REPORT_LINE;
+      end;
+      FIRST_TIME = NO;
+      end;
+   call SETUP_PRINT_FORMAT (BK_TOUR_PRINT_6);
+   do LOOP_INDEX =  11 to  11;
+      call PRINT_REPORT_LINE;
+   end;
+end;
+return;
+end;	/* PRINT_TOUR_BK_COMM   */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_INV_DET_NO);
+   call CLOSE_FILE (BK_OPT_ALT_NO);
+   call CLOSE_FILE (BK_PRICING_NO);
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_HOTEL_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (BK_LAND_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (BK_COMMENT_NO);
+   call CLOSE_FILE (BK_TOUR_DOC_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

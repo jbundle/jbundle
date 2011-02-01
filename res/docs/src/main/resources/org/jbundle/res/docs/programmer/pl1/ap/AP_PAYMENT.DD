@@ -1,0 +1,15 @@
+/*********************************************************************
+	AP_PAYMENT File
+********************************************************************/
+
+declare	1 AP_PAYMENT_RECORD,
+		3 AP_PYMT_BANK         fixed binary (15),
+		3 AP_PYMT_VENDOR       character (        6),
+		3 AP_PYMT_SEQ          fixed binary (15),
+		3 AP_PYMT_AMT          float binary (53),
+		3 AP_PYMT_TYPE         character (        1),
+		3 AP_PYMT_GL           fixed binary (31),
+		3 AP_PYMT_CK_NO        fixed binary (31),
+		3 AP_PYMT_COMMENT      character (       30),
+		3 AP_SEL_TYPE          character (        1);
+

@@ -1,0 +1,12 @@
+/*********************************************************************
+	BK_SET_LAND_DET File
+********************************************************************/
+
+declare	1 BK_SET_LAND_DET_RECORD,
+		3 BK_L_DAY             fixed binary (15),
+		3 BK_L_SEQ             fixed binary (15),
+		3 BK_L_ALT_SEQ         fixed binary (15),
+		3 BK_L_ANSW_SEQ        fixed binary (15),
+		3 NEXT_L_SEQ           fixed binary (15),
+		3 BK_L_NX_SEQ          fixed binary (15);
+

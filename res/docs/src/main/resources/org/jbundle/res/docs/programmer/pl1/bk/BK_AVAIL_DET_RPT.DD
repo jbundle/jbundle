@@ -1,0 +1,19 @@
+/*********************************************************************
+	BK_AVAIL_DET_RPT File
+********************************************************************/
+
+declare	1 BK_AVAIL_DET_RPT_RECORD,
+		3 DET_START_HOTEL      character (       10),
+		3 DET_END_HOTEL        character (       10),
+		3 DET_ROOM_TYPE        fixed binary (15),
+		3 DET_START_DATE       fixed binary (15),
+		3 DET_END_DATE         fixed binary (15),
+		3 BK_DET_RPT_RT        character (       10),
+		3 HOTEL_CHECK          character (        9),
+		3 HAVAIL_DATE          fixed binary (15),
+		3 HAVAIL_TIME          fixed binary (15),
+		3 HAVAIL_USER          character (       16),
+		3 HAVAIL_PAGE          fixed binary (15),
+		3 HAVAIL_ROOMS         fixed binary (15),
+		3 PRT_HAVAIL           character (1);
+

@@ -1,0 +1,447 @@
+/****************************************************************
+	Module: GL_FS_PRINT
+	Top Level Logic: REPORT_LOGIC
+	Date: 26-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_FS_PRINT
+	Standard report logic
+****************************************************************/
+
+%replace GL_FS_PRINT_1 by 635;
+%replace GL_FS_PRINT_2 by 634;
+GL_FS_PRINT:
+   procedure;
+%replace GL_FS_HEADER_NO by 104;
+%replace GL_FS_STMTS_NO by 105;
+%replace GL_FS_DETAIL_NO by 106;
+%include "GL_FS_PRINT.DD";
+%include "GL_FS_HEADER.DD";
+%include "GL_FS_STMTS.DD";
+%include "GL_FS_DETAIL.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   GL_FS_DATE = TODAYS_DATE();
+   GL_FS_TIME = CURRENT_TIME();
+   GL_FS_PAGE = 1;
+   GL_FS_COUNT = 0;
+   GL_FS_NUMBER = "T";
+   GL_SH_FORMAT = "C";
+   GL_DL_STMT = 1;
+   GL_DL_INDENT = 0;
+   GL_DL_INVIS = "N";
+   GL_DL_PAREN = "D";
+   GL_DL_SUBTOTAL = 0;
+   GL_DL_COLUMN = 1;
+   GL_DL_SPECIAL = "  ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_FS_PRINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (GL_FS_PRINT_RECORD) );
+   call OPEN_FILE (GL_FS_HEADER_NO,"GL_FS_HEADER",byteaddr(GL_FS_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_FS_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (GL_FS_STMTS_NO,"GL_FS_STMTS",byteaddr(GL_FS_STMTS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_FS_STMTS_NO,ERROR_CODE);
+   call OPEN_FILE (GL_FS_DETAIL_NO,"GL_FS_DETAIL",byteaddr(GL_FS_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (GL_FS_PRINT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   GL_DL_CODE = GL_CODE_START;
+   GL_DL_STMT = GL_STMT_START;
+   GL_DL_SEQ = 0;
+   call SET_POSITION (GL_FS_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =  11 to  12;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+GL_CODE_END = GL_CODE_START;
+GL_STMT_END = GL_STMT_START;
+do LOOP_INDEX =   1 to   4;
+   if LOOP_INDEX =   2 then
+      GL_CODE_END = GL_CODE_START;
+   if LOOP_INDEX =   4 then
+      GL_STMT_END = GL_STMT_START;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GL_CODE_START = "";
+         GL_CODE_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GL_STMT_START = 0;
+         GL_STMT_END = 99;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  4,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  4 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GL_CODE_START = "";
+         GL_CODE_END = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GL_STMT_START = 0;
+         GL_STMT_END = 99;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+GL_FS_PAGE = GL_FS_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+declare		OLD_GL_DL_CODE       character (        6);
+declare		OLD_GL_DL_STMT       fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_FS_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_DL_CODE > GL_CODE_END) !
+   (GL_DL_STMT > GL_STMT_END) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      OLD_GL_DL_CODE = "~";
+      OLD_GL_DL_STMT = -1;
+      end;
+   if GL_DL_STMT ^= OLD_GL_DL_STMT then
+      do;
+      if ^FIRST_TIME then
+         do;
+         do LOOP_INDEX =  24 to   1;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      end;
+   if GL_DL_CODE ^= OLD_GL_DL_CODE then
+      do;
+      if ^FIRST_TIME then
+         do;
+         do LOOP_INDEX =  24 to   1;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      end;
+   if GL_DL_CODE ^= OLD_GL_DL_CODE then
+      do;
+
+      /* READ_SECOND_DIS - Read Second - Display line version */
+
+      GL_FS_CODE = GL_DL_CODE;
+      call READ_KEYED (GL_FS_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_FS_DESC = "** RECORD NOT FOUND **";
+         end;
+      do LOOP_INDEX =   6 to   7;
+         call PRINT_REPORT_LINE;
+      end;
+      OLD_GL_DL_CODE = GL_DL_CODE;
+      end;
+   if GL_DL_STMT ^= OLD_GL_DL_STMT then
+      do;
+
+      /* READ_SECOND_DIS_2 - Read second - display mode */
+
+      GL_SH_CODE = GL_DL_CODE;
+      GL_SH_STMT = GL_DL_STMT;
+      call READ_KEYED (GL_FS_STMTS_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         end;
+      do LOOP_INDEX =   8 to   9;
+         call PRINT_REPORT_LINE;
+      end;
+      OLD_GL_DL_STMT = GL_DL_STMT;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =  10 to  10;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+   GL_FS_COUNT = GL_FS_COUNT + 1;
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (GL_FS_HEADER_NO);
+   call CLOSE_FILE (GL_FS_STMTS_NO);
+   call CLOSE_FILE (GL_FS_DETAIL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

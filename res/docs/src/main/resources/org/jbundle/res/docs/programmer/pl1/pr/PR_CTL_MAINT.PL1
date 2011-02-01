@@ -1,0 +1,369 @@
+/****************************************************************
+	Module: PR_CTL_MAINT
+	Top Level Logic: CONTROL_FILE_MAINT
+	Date: 31-Dec-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	PR_CTL_MAINT
+	Control file maintenance
+****************************************************************/
+
+%replace PR_CTL_MAINT_1 by  18;
+PR_CTL_MAINT:
+   procedure;
+%replace EMP_CONTROL_NO by   1;
+%include "EMP_CONTROL.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		DISPLAY_REC          bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		ERROR_EMP_CONTROL    fixed binary (15);
+declare		END_CTL_CHANGE_ITEM  bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   call CTL_SCREEN_IO;
+   call CTL_END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   CTRL_REC_NO = 9999;
+   NEXT_PR_CK_NO = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   DISPLAY_REC = YES;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (PR_CTL_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (EMP_CONTROL_NO,"EMP_CONTROL",byteaddr(EMP_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (EMP_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	CTL_SCREEN_IO
+	Screen I/O for control file maint.
+****************************************************************/
+
+CTL_SCREEN_IO:
+	procedure;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (PR_CTL_MAINT_1);
+   NOT_FIRST_TIME = YES;
+
+   /* CHECK_FIRST - Check to see if this is the first time! */
+
+   DISPLAY_REC = YES;
+   LOOP_INDEX = 1;
+   call GET_CORRECT_REC;	/* If first time - will return an error */
+   FIRST_ITEM = 1;
+
+
+   /* CTL_RECORD_FOUND - Record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_EMP_CONTROL = NORMAL_RETURN then
+      do;
+      call CTL_DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* CTL_INPUT_STUFF - This is the first time, Input the data */
+
+
+         /* SET_DISPLAY_NO - Set the display flag to NO */
+
+         DISPLAY_REC = NO;
+
+         call CTL_INPUT_SCREEN;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+
+   /* SET_DISPLAY_NO - Set the display flag to NO */
+
+   DISPLAY_REC = NO;
+
+   END_CTL_CHANGE_ITEM = NO;
+   do while (END_CTL_CHANGE_ITEM ^= YES);
+      call CTL_CHANGE_ITEM;
+   end;
+return;
+end;	/* CTL_SCREEN_IO        */
+
+/****************************************************************
+	CTL_DISPLAY_DATA
+	Display the items on the screen
+****************************************************************/
+
+CTL_DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX = FIRST_ITEM to  47;
+   call GET_CORRECT_REC;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* CTL_DISPLAY_DATA     */
+
+/****************************************************************
+	GET_CORRECT_REC
+	Get the correct record for this field
+****************************************************************/
+
+GET_CORRECT_REC:
+	procedure;
+
+declare		NEW_REC_NO           fixed binary (15);
+if LOOP_INDEX = 0 then
+   NEW_REC_NO = 9999;
+
+if LOOP_INDEX >=  1 then if LOOP_INDEX <=  4 then
+   NEW_REC_NO =   0;
+if LOOP_INDEX >=  5 then if LOOP_INDEX <=  7 then
+   NEW_REC_NO =   1;
+if LOOP_INDEX >=  9 then if LOOP_INDEX <= 10 then
+   NEW_REC_NO =   2;
+if LOOP_INDEX >= 12 then if LOOP_INDEX <= 13 then
+   NEW_REC_NO =   2;
+if LOOP_INDEX >= 15 then if LOOP_INDEX <= 16 then
+   NEW_REC_NO =   2;
+if LOOP_INDEX >= 18 then if LOOP_INDEX <= 21 then
+   NEW_REC_NO =   2;
+if LOOP_INDEX >= 29 then if LOOP_INDEX <= 38 then
+   NEW_REC_NO =   2;
+if LOOP_INDEX >= 40 then if LOOP_INDEX <= 47 then
+   NEW_REC_NO =   2;
+if LOOP_INDEX =  8 then
+   NEW_REC_NO =   3;
+if LOOP_INDEX = 11 then
+   NEW_REC_NO =   3;
+if LOOP_INDEX = 14 then
+   NEW_REC_NO =   3;
+if LOOP_INDEX = 17 then
+   NEW_REC_NO =   3;
+if LOOP_INDEX >= 22 then if LOOP_INDEX <= 28 then
+   NEW_REC_NO =   3;
+if LOOP_INDEX = 39 then
+   NEW_REC_NO =   3;
+if NEW_REC_NO ^= CTRL_REC_NO then
+   do;
+   if DISPLAY_REC ^= YES then
+      call UPDATE_RECORD (EMP_CONTROL_NO,ERROR_EMP_CONTROL);
+   CTRL_REC_NO = NEW_REC_NO;
+   if LOOP_INDEX ^= 0 then
+      do;
+      call READ_KEYED (EMP_CONTROL_NO,KEY_AREA_1,ERROR_EMP_CONTROL);
+      if ERROR_EMP_CONTROL = RECORD_NOT_FOUND then
+         do;
+         call WRITE_RECORD (EMP_CONTROL_NO,ERROR_EMP_CONTROL);
+         ERROR_EMP_CONTROL = RECORD_NOT_FOUND;
+         end;
+      end;
+   end;
+return;
+end;	/* GET_CORRECT_REC      */
+
+/****************************************************************
+	CTL_INPUT_SCREEN
+	Input thhe items on the screen
+****************************************************************/
+
+CTL_INPUT_SCREEN:
+	procedure;
+
+EMPLOYER_NAME = "";
+EMPLOYER_ADDR_1 = "";
+EMPLOYER_ADDR_2 = "";
+EMPLOYER_ADDR_3 = "";
+FEDERAL_ID_NO = "";
+STATE_ID_NO = "";
+LOCAL_ID_NO = "";
+FED_TAX_DESC = "";
+FED_EXEMPTION = 0;
+FED_TAX_GL = 0;
+STATE_TAX_DESC = "";
+STATE_EXEMPTION = 0;
+STATE_TAX_GL = 0;
+LOCAL_TAX_DESC = "";
+LOCAL_EXEMPTION = 0;
+LOCAL_TAX_GL = 0;
+FICA_TAX_DESC = "";
+FICA_EMPE_PER = 0;
+FICA_EMPR_PER = FICA_EMPE_PER;
+MAX_FICA_WH = 0;
+FICA_TAX_GL = 0;
+REG_PAY_DESC = "";
+OT_PAY_DESC = "";
+OT_TIMES_BASE = 0;
+SP1_DESC = "";
+SP1_TIMES_BASE = 0;
+SP2_DESC = "";
+SP2_TIMES_BASE = 0;
+FUI_PER = 0;
+FUI_MAX = 0;
+FUI_TAX_GL = 0;
+CASH_AP_AC_NO = 0;
+PR_CASH_GL = 0;
+PR_TAX_GL = 0;
+STATE_DEF = "";
+SUI_PER = 0;
+SUI_MAX = 0;
+SUI_TAX_GL = 0;
+SDI_TAX_DESC = "";
+SDI_PER = 0;
+SDI_MAX = 0;
+SDI_TAX_GL = 0;
+AP_AUTO_POST = "";
+GL_AUTO_POST = "";
+DIST_TO_GL = "";
+JOB_AUTO_POST = "";
+DIST_TO_JOBS = "";
+do LOOP_INDEX = FIRST_ITEM to  47;
+   call GET_CORRECT_REC;
+   if LOOP_INDEX =  19 then
+      FICA_EMPR_PER = FICA_EMPE_PER;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* CTL_INPUT_SCREEN     */
+
+/****************************************************************
+	CTL_CHANGE_ITEM
+	Change items on the screen
+****************************************************************/
+
+CTL_CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+call ANY_CHANGE (1, 44,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CTL_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CTL_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 22 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call GET_CORRECT_REC;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+if SELECT = 23 then
+   do;
+   do LOOP_INDEX =  23 to  24;
+      call GET_CORRECT_REC;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 24 then
+   do;
+   do LOOP_INDEX =  25 to  26;
+      call GET_CORRECT_REC;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 25 then
+   do;
+   do LOOP_INDEX =  27 to  28;
+      call GET_CORRECT_REC;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT >= 26 then if SELECT <= 44 then
+   do;
+
+      LOOP_INDEX = SELECT +   3;
+   call GET_CORRECT_REC;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CTL_CHANGE_ITEM      */
+
+/****************************************************************
+	CTL_END_PROGRAM
+	End of control maint program
+****************************************************************/
+
+CTL_END_PROGRAM:
+	procedure;
+
+
+   /* WRITE_LAST_CTL - Write out the last control file record */
+
+   LOOP_INDEX = 0;
+   call GET_CORRECT_REC;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (EMP_CONTROL_NO);
+return;
+end;	/* CTL_END_PROGRAM      */
+end;	/* CTL_END_PROGRAM      */
+/*********************************End of Program*********************/

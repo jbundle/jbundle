@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_DIS_LRECAP File
+********************************************************************/
+
+declare	1 BK_DIS_LRECAP_RECORD,
+		3 LRECAP_START         fixed binary (15),
+		3 LDET_INV_ONLY        character (1);
+

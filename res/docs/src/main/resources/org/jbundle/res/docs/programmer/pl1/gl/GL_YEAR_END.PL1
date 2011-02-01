@@ -1,0 +1,558 @@
+/****************************************************************
+	Module: GL_YEAR_END
+	Top Level Logic: YEAR_END_LOGIC
+	Date: 26-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_YEAR_END
+	G/L Year-end logic
+****************************************************************/
+
+%replace GL_YEAR_END_1 by 638;
+GL_YEAR_END:
+   procedure;
+%replace GL_CHART_NO by  16;
+%replace GL_DETAIL_NO by  17;
+%replace GL_PERIOD_NO by  98;
+%replace GL_BUDGET_C_NO by 103;
+%replace GL_CONTROL_NO by  20;
+%include "GL_YEAR_END.DD";
+%include "GL_CHART.DD";
+%include "GL_DETAIL.DD";
+%include "GL_PERIOD.DD";
+%include "GL_BUDGET_C.DD";
+%include "GL_CONTROL.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_CHART  bit (1);
+declare		END_FIX_PERIODS      bit (1);
+declare		END_SCAN_THRU        bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_READ_THRU_DETAIL bit (1);
+   call INITIALIZE;
+   call YEAR_END_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   GL_CUTOFF = 32767;
+   PERIOD_NO = 0;
+   GL_RE_AMT = 0;
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+   GL_TRX_DATE = TODAYS_DATE();
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_TRX_AMOUNT = 0;
+   GL_BUD_CODE = "B";
+   GL_REC_NUMBER = 9999;
+   GL_NEXT_SEQ = 1;
+   GL_LAST_POST = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_YEAR_END_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (GL_YEAR_END_RECORD) );
+   call OPEN_FILE (GL_CHART_NO+?EXCLUSIVE_OPEN,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call OPEN_FILE (GL_DETAIL_NO+?EXCLUSIVE_OPEN,"GL_DETAIL",byteaddr(GL_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (GL_PERIOD_NO+?EXCLUSIVE_OPEN,"GL_PERIOD",byteaddr(GL_PERIOD_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_PERIOD_NO,ERROR_CODE);
+   call OPEN_FILE (GL_BUDGET_C_NO+?EXCLUSIVE_OPEN,"GL_BUDGET_C",byteaddr(GL_BUDGET_C_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_BUDGET_C_NO,ERROR_CODE);
+   call OPEN_FILE (GL_CONTROL_NO+?EXCLUSIVE_OPEN,"GL_CONTROL",byteaddr(GL_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	YEAR_END_MAIN
+	Main logic for year-end processing
+****************************************************************/
+
+YEAR_END_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+   call SCAN_PERIODS;
+   call INPUT_SCREEN;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CHECK_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure?");
+   call INPUT_DATA(23,24,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* GL_GET_CINFO - Get the info from the control file */
+
+   GL_REC_NUMBER = 0;
+   call READ_KEYED (GL_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 1 then
+      call PRINT_ERROR (GL_CONTROL_NO,ERROR_CODE);
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   GL_ACCOUNT_NO = 0;
+   call SET_POSITION (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_CHART = NO;
+   do while (END_READ_THRU_CHART ^= YES);
+      call READ_THRU_CHART;
+   end;
+
+   /* WRITE_RE_AMT - Write the Retained erarings amount */
+
+   GL_AC_NO = GL_RE_ACCT;
+   GL_TRX_AMOUNT = GL_RE_AMT;
+   GL_SEQ_NO = GL_NEXT_SEQ;
+   GL_TRX_DATE = GL_CUTOFF + 1;
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_SOURCE = "START";
+   GL_REFERENCE = "Beginning balance";
+
+
+   /* WRITE_RECORD_2 - Write the record */
+
+   ERROR_CODE = KEY_ALREADY_EXISTS;
+   do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+      call WRITE_RECORD (GL_DETAIL_NO,ERROR_CODE);
+      if ERROR_CODE = KEY_ALREADY_EXISTS then
+         GL_SEQ_NO = GL_SEQ_NO + 1;
+   end;
+   GL_NEXT_SEQ = GL_SEQ_NO + 1;
+
+   END_FIX_PERIODS = NO;
+   do while (END_FIX_PERIODS ^= YES);
+      call FIX_PERIODS;
+   end;
+
+   /* GL_UPDATE_CINFO - Update the control info */
+
+   call UPDATE_RECORD (GL_CONTROL_NO,ERROR_CODE);
+   if ERROR_CODE > 1 then
+      call PRINT_ERROR (GL_CONTROL_NO,ERROR_CODE);
+
+return;
+end;	/* YEAR_END_MAIN        */
+
+/****************************************************************
+	SCAN_PERIODS
+	Scan all last year's periods
+****************************************************************/
+
+SCAN_PERIODS:
+	procedure;
+
+
+   /* SET_FIRST_3 - Set first */
+
+   GL_END_PERIOD = 0;
+   call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_THRU = NO;
+   do while (END_SCAN_THRU ^= YES);
+      call SCAN_THRU;
+   end;
+return;
+end;	/* SCAN_PERIODS         */
+
+/****************************************************************
+	SCAN_THRU
+	Read thru all periods and put in array
+****************************************************************/
+
+SCAN_THRU:
+	procedure;
+
+
+   /* READNEXT_3 - Read next */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_END_3 - Check for end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_END_PERIOD > GL_CUTOFF+1) then
+      do;
+      END_SCAN_THRU = YES;
+      return;
+      end;
+
+   /* ADD_PERIOD - Add this end-period to the array */
+
+   PERIOD_NO = PERIOD_NO + 1;
+   PERIOD_ARRAY(PERIOD_NO) = GL_END_PERIOD;
+
+return;
+end;	/* SCAN_THRU            */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   2;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* SET_CUTOFF_DEF - Set the cutoff default */
+
+      GL_CUTOFF = PERIOD_ARRAY(PERIOD_NO);
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = GL_RE_ACCT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   3 to   3;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  2,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  2 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* SET_CUTOFF_DEF - Set the cutoff default */
+
+      GL_CUTOFF = PERIOD_ARRAY(PERIOD_NO);
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = GL_RE_ACCT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   3 to   3;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	READ_THRU_CHART
+	Read thru each chart of a/c account
+****************************************************************/
+
+READ_THRU_CHART:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_CHART_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_READ_THRU_CHART = YES;
+      return;
+      end;
+
+   /* SET_FIRST_PERIOD - Reset for setting up comparison file */
+
+   CURRENT_PERIOD = 1;
+   CURRENT_BALANCE = 0;
+
+   END_READ_THRU_DETAIL = NO;
+   do while (END_READ_THRU_DETAIL ^= YES);
+      call READ_THRU_DETAIL;
+   end;
+
+   /* PROCESS_AMT - Now that all the detail are gone,process */
+
+   if GL_INCOME_EXP = "Y" then
+      do;
+      GL_RE_AMT = floor((CURRENT_BALANCE + GL_RE_AMT) * 100 + 0.5) / 100;
+      end;
+   else
+      do;
+      GL_AC_NO = GL_ACCOUNT_NO;
+      GL_TRX_AMOUNT = CURRENT_BALANCE;
+      GL_SEQ_NO = GL_NEXT_SEQ;
+      GL_TRX_DATE = GL_CUTOFF + 1;
+      GL_TRX_ENTRY = TODAYS_DATE();
+      GL_SOURCE = "START";
+      GL_REFERENCE = "Beginning balance";
+
+
+      /* WRITE_RECORD_2 - Write the record */
+
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+         call WRITE_RECORD (GL_DETAIL_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            GL_SEQ_NO = GL_SEQ_NO + 1;
+      end;
+      GL_NEXT_SEQ = GL_SEQ_NO + 1;
+      end;
+
+return;
+end;	/* READ_THRU_CHART      */
+
+/****************************************************************
+	READ_THRU_DETAIL
+	Read thru and delete G/L detail
+****************************************************************/
+
+READ_THRU_DETAIL:
+	procedure;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   GL_AC_NO = GL_ACCOUNT_NO;
+   GL_TRX_DATE = 0;
+   GL_SEQ_NO = 0;
+   call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_PERIOD - Transaction in next period? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_ACCOUNT_NO) then
+      GL_TRX_DATE = 32767;
+
+   do LOOP_INDEX = CURRENT_PERIOD to PERIOD_NO;
+      if GL_TRX_DATE > PERIOD_ARRAY(LOOP_INDEX) then
+         do;
+         GL_BUD_ACCT = GL_ACCOUNT_NO;
+         GL_BUD_CODE = "C";
+         GL_BUD_DATE = PERIOD_ARRAY(LOOP_INDEX);
+         GL_BUD_AMOUNT = CURRENT_BALANCE;
+         GL_ERROR_SAVE = ERROR_CODE;
+
+         /* WRITE_RECORD_4 - Write the record */
+
+         call WRITE_RECORD (GL_BUDGET_C_NO,ERROR_CODE);
+         CURRENT_PERIOD = LOOP_INDEX + 1;
+         ERROR_CODE = GL_ERROR_SAVE;
+         end;
+   end;
+
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_ACCOUNT_NO) !
+   (GL_TRX_DATE > GL_CUTOFF) then
+      do;
+      END_READ_THRU_DETAIL = YES;
+      return;
+      end;
+
+   /* ADD_DETAIL_AMT - Add the the detail amount balance */
+
+   CURRENT_BALANCE = floor((CURRENT_BALANCE + GL_TRX_AMOUNT) * 100 + 0.5) / 100;
+
+
+   /* DELETE_RECORD_2 - Delete the record */
+
+   call DELETE_RECORD (GL_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* READ_THRU_DETAIL     */
+
+/****************************************************************
+	FIX_PERIODS
+	Add one year to all the periods
+****************************************************************/
+
+FIX_PERIODS:
+	procedure;
+
+
+   /* SET_FIRST_3 - Set first */
+
+   GL_END_PERIOD = 0;
+   call SET_POSITION (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_3 - Read next */
+
+   call READ_NEXT (GL_PERIOD_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_PERIOD_NO,ERROR_CODE);
+
+   /* CHECK_END_3 - Check for end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_END_PERIOD > GL_CUTOFF+1) then
+      do;
+      END_FIX_PERIODS = YES;
+      return;
+      end;
+
+   /* FIX_PERIOD - Fix the period record */
+
+   declare (DAY,MONTH,YEAR) fixed binary;
+   call DAY_TO_DMY(GL_START_PERIOD,DAY,MONTH,YEAR);
+   YEAR = YEAR + 1;
+   call DMY_TO_DAY(GL_START_PERIOD,DAY,MONTH,YEAR);
+
+   call DAY_TO_DMY(GL_END_PERIOD,DAY,MONTH,YEAR);
+   YEAR = YEAR + 1;
+   call DMY_TO_DAY(GL_END_PERIOD,DAY,MONTH,YEAR);
+
+
+   /* UPDATE_RECORD_3 - Update the record */
+
+   call UPDATE_RECORD (GL_PERIOD_NO,ERROR_CODE);
+return;
+end;	/* FIX_PERIODS          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (GL_CHART_NO);
+   call CLOSE_FILE (GL_DETAIL_NO);
+   call CLOSE_FILE (GL_PERIOD_NO);
+   call CLOSE_FILE (GL_BUDGET_C_NO);
+   call CLOSE_FILE (GL_CONTROL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

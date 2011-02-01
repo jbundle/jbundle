@@ -1,0 +1,25 @@
+/*********************************************************************
+	BK_ENT_HDR File
+********************************************************************/
+
+declare	1 BK_ENT_HDR_RECORD,
+		3 BK_HDR_CUR_BK        fixed binary (31),
+		3 OLD_PAX              fixed binary (15),
+		3 OLD_SINGLE           fixed binary (15),
+		3 OLD_DOUBLE           fixed binary (15),
+		3 OLD_TRIPLE           fixed binary (15),
+		3 OLD_QUAD             fixed binary (15),
+		3 OLD_TOUR_NO          fixed binary (31),
+		3 OLD_TOUR_STATUS      character (        2),
+		3 OLD_ACTION_TYPE      fixed binary (15),
+		3 OLD_ACTION_DATE      fixed binary (15),
+		3 OLD_MIN_TO_OP        fixed binary (15),
+		3 OLD_BK_NET_PRICE     float binary (53),
+		3 BK_CANCEL_CHG        float binary (53),
+		3 BK_SAVE_SINGLE_COST  float binary (53),
+		3 BK_SAVE_DOUBLE_COST  float binary (53),
+		3 BK_SAVE_TRIPLE_COST  float binary (53),
+		3 BK_SAVE_QUAD_COST    float binary (53),
+		3 OLD_FOC              fixed binary (15),
+		3 OLD_DEP_DATE         fixed binary (15);
+

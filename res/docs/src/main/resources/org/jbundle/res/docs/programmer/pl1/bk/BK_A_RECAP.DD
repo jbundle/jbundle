@@ -1,0 +1,20 @@
+/*********************************************************************
+	BK_A_RECAP File
+********************************************************************/
+
+declare	1 BK_A_RECAP_RECORD,
+		3 ARECAP_DATE          fixed binary (15),
+		3 ARECAP_TIME          fixed binary (15),
+		3 ARECAP_USER          character (       16),
+		3 ARECAP_PAGE          fixed binary (15),
+		3 ARECAP_START_CF      character (        6),
+		3 ARECAP_END_CF        character (        6),
+		3 ARECAP_CF            character (       10),
+		3 ARECAP_INV_ONLY      character (1),
+		3 ARECAP_DATE_START    fixed binary (15),
+		3 ARECAP_DATE_END      fixed binary (15),
+		3 ARECAP_CARRIER       character (        2),
+		3 ARECAP_FLIGHT        character (        4),
+		3 AIR_PAX              fixed binary (15),
+		3 AIR_COMP_SEQ         fixed binary (15);
+

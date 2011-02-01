@@ -1,0 +1,57 @@
+<html>
+<head>
+	<script language="JavaScript" type="text/javascript">
+		// Dojo configuration
+		djConfig = {
+			//debugAtAllCosts: true, //Don't normally need this in applications.
+			isDebug: true,
+//			dojoIframeHistoryUrl: "../../iframe_history.html", //for xdomain
+			preventBackButtonFix: false
+		};
+	</script>
+	<script language="JavaScript" type="text/javascript" src="../../../styles/js/dojo/dojo.js"></script>
+	<script language="JavaScript" type="text/javascript">
+		dojo.require("dojo.back");
+
+	
+	function goIoBind(page) {
+			var state = {
+				back: function() { alert("Back was clicked!"); },
+				forward: function() { alert("Forward was clicked!"); },
+				changeUrl: page
+			}; 
+
+			dojo.back.addToHistory(state);
+	}
+
+	function onLoad() {
+		var state = {
+			back: function() { alert("Back was clicked!"); },
+			forward: function() { alert("Forward was clicked!"); }
+		}; 
+
+		dojo.back.setInitialState(state);
+	}
+	
+	</script>
+</head>
+<body onload="onLoad();">
+	<script type="text/javascript">dojo.back.init();</script>
+	<div style="padding-bottom: 20px; width: 100%; border-bottom: 1px solid gray">
+	Test.
+	</div>
+	<div style="float:left; padding: 20px">
+		<button onclick="goIoBind('xhr1')">XHR 1</button><br />
+		<button onclick="goIoBind('xhr2')">XHR 2</button><br />
+		<button onclick="goIoBind('xhr3')">XHR 3</button><br />
+		<button onclick="goIoBind('xhr4')">XHR 4</button><br />	
+	</div>
+	<div style="float: left; padding: 20px">
+		<b>Data Output:</b><br />
+		<div id="output"></div>
+		<hr />
+		<i>Back/Forward Info:</i><br />
+		<div id="dataOutput"></div>
+	</div>
+</body>
+</html>

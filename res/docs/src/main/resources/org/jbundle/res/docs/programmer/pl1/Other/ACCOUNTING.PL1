@@ -1,0 +1,23 @@
+/****************************************************************
+	Module: ACCOUNTING
+	Top Level Logic: AC_LOGIC
+	Date: 21-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/* AC_LOGIC - Call accounting system menu */
+
+ACCOUNTING:
+	procedure;
+
+declare MAIN_MENU entry;
+
+call MAIN_MENU;
+
+stop;
+
+end;	/* AC_LOGIC             */
+/*********************************End of Program*********************/

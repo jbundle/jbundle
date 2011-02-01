@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<DanceTeacher ID="1">
+		<LastChanged>2007-03-05T11:08:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Terryl</Name>
+	</DanceTeacher>
+	<DanceTeacher ID="2">
+		<LastChanged>2007-03-05T11:09:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>John and Katie</Name>
+	</DanceTeacher>
+	<DanceTeacher ID="3">
+		<LastChanged>2007-03-05T11:09:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Enio</Name>
+	</DanceTeacher>
+	<DanceTeacher ID="4">
+		<LastChanged>2007-03-05T11:09:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Robert</Name>
+	</DanceTeacher>
+	<DanceTeacher ID="5">
+		<LastChanged>2007-03-05T11:09:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Lauren</Name>
+	</DanceTeacher>
+	<DanceTeacher ID="6">
+		<LastChanged>2007-03-05T11:09:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Bill</Name>
+	</DanceTeacher>
+	<DanceTeacher ID="7">
+		<LastChanged>2007-03-05T11:10:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Brigitte</Name>
+	</DanceTeacher>
+	<DanceTeacher ID="8">
+		<LastChanged>2007-03-05T11:10:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Annteje</Name>
+	</DanceTeacher>
+</file>

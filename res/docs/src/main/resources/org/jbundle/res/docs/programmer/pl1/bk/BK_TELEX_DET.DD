@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_TELEX_DET File
+********************************************************************/
+
+declare	1 BK_TELEX_DET_RECORD,
+		3 TELEX_DET_NO         fixed binary (31),
+		3 TELEX_SEQ_NO         fixed binary (15),
+		3 TELEX_TEXT           character (       69);
+

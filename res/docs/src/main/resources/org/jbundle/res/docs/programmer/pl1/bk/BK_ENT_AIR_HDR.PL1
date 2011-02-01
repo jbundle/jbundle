@@ -1,0 +1,2787 @@
+/****************************************************************
+	Module: BK_ENT_AIR_HDR
+	Top Level Logic: AIR_HDR_MAINT
+	Date: 20-Jun-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ENT_AIR_HDR
+	Header Maint
+****************************************************************/
+
+%replace BK_ENT_AIR_HDR_1 by 685;
+BK_ENT_AIR_HDR:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD);
+%replace TK_HEADER_NO by  56;
+%replace TK_DETAIL_NO by  57;
+%replace TK_AIRLINE_NO by  71;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_PASSENGERS_NO by  49;
+%include "TK_HEADER.DD";
+%include "BK_ENT_AIR_HDR.DD";
+%include "TK_DETAIL.DD";
+%include "TK_AIRLINE.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_TK_HEADER      fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		SELECT               fixed binary (15);
+declare		END_COPY_AIRH        bit (1);
+declare		END_COPY_AIR         bit (1);
+declare		END_DEL_TKHDR        bit (1);
+declare		END_DELETE_TKDET     bit (1);
+declare		END_DEL_PAX_TKHDR    bit (1);
+declare		END_DEL_PAX_TKDET    bit (1);
+declare		END_COPY_PAX_AIRD    bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_ADD_AIR_FARES    bit (1);
+   call INITIALIZE;
+   call AIR_HDR_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+   TEMP_FARE_1 = "";
+   TEMP_FARE_2 = "";
+   TEMP_FARE_3 = "";
+   TK_PRINT_TK = "N";
+   AIR_TOTAL_FARE = "N";
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ENT_AIR_HDR_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (BK_ENT_AIR_HDR_RECORD) );
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_AIRLINE_NO,"TK_AIRLINE",byteaddr(TK_AIRLINE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_AIRLINE_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	AIR_HDR_MAIN
+	Mainline logic
+****************************************************************/
+
+AIR_HDR_MAIN:
+	procedure;
+
+
+   /* INIT_AIR_HDR - Init the air header info */
+
+
+      /* INIT_AIR_STUFF - Do stuff before accessing air detail */
+
+
+         /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+         if BOOKING_NO = 0 then
+            return;
+
+
+         /* CHECK_ALL_INFO - Are all Agency, Pax, and Tour in? */
+
+         if BK_AGENCY = -1 then
+            do;
+            call DISPLAY_MESSAGE ("Agency not entered!");
+            call PRESS_RETURN;
+            return;
+            end;
+
+         if BK_PAX = 0 then
+            do;
+            call DISPLAY_MESSAGE ("Passengers not entered!");
+            call PRESS_RETURN;
+            return;
+            end;
+
+         if BK_TOUR_NUM = 0 then
+            do;
+            call DISPLAY_MESSAGE ("Tour not entered!");
+            call PRESS_RETURN;
+            return;
+            end;
+
+
+         /* SETUP_AIR_IF_NEW - Has the air detail been changed before? */
+
+         if BK_AIR_MOD = -1 then
+            do;
+
+            /* BK_SET_AIR_DET - Call the program to set up air */
+
+            %include "BK_SET_AIR_DET.DCL";
+            call BK_SET_AIR_DET(
+               BK_BOOKING_RECORD,
+               BK_TOUR_RECORD,
+               BK_TOUR_HDR_RECORD,
+               TK_DETAIL_RECORD,
+               TK_HEADER_RECORD);
+            end;
+
+
+         /* CHECK_PAX_AIR - Is this a passenger air mod? */
+
+         if BK_PAX_SEQ ^= 0 then
+            do;
+            call SET_PAX_AIR;
+            end;
+         else
+            BK_PAX_SHARE_SEQ = 0;
+
+
+      /* SETUP_AIRH - Set up the air header fields */
+
+      TK_MODIFICATION = BK_MODIFICATION;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = BK_PAX_SEQ;
+      TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+      KEY_NO = 1;
+
+      /* READ_AIRH_LOCK - Read the Air record and lock */
+
+      call READ_KEYED (TK_HEADER_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_TK_HEADER);
+      if ERROR_TK_HEADER = RECORD_LOCKED then
+         do;
+         call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+         call PRESS_RETURN;
+         return;
+         end;
+      if ERROR_TK_HEADER > 3 then
+         call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+      /* FOUND_AIRH - Was the air header record found? */
+
+      ERROR_INPUT_SCREEN = NO;
+      if ERROR_TK_HEADER = NORMAL_RETURN then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* INIT_AIRH - Initialize the airh record */
+
+
+            /* CLEAR_AIRH - Clear the air header fields */
+
+            TK_MODIFICATION = 0;
+            TK_BK_TK_NO = 0;
+            TK_ALT_SEQ = 0;
+            TK_ANSW_SEQ = 0;
+            TK_MOD_CODE = "A";
+            TK_NUMBER = "";
+            TK_AIRL_CODE = "";
+            TK_AIRLINE_IATA = 0;
+            TK_AIRLINE_DESC = "";
+            TK_CONJ = 0;
+            TK_ENDORSEMENTS = "";
+            TK_ORIGIN = "";
+            TK_DESTINATION = "";
+            TK_ISSUE_DATE = 0;
+            TK_PAX_NAME = "";
+            TK_FORM_OF_PYMT = "";
+            TK_TOUR_CODE = "";
+            TK_FARE = 0;
+            TK_EQUIVALENT = 0;
+            TK_CURR = "";
+            TK_TAX_P = 0;
+            TK_TAX_1 = 0;
+            TK_TAX_1_DESC = "";
+            TK_TAX_2 = 0;
+            TK_TAX_2_DESC = "";
+            TK_TOTAL = 0;
+            TK_COMM = "";
+            TK_TAX = "";
+            TK_COMM_RATE = "";
+            TK_AGENT = "";
+            TK_INTERNATIONAL = "";
+            TK_COMM_P = 0;
+            TK_COMM_AMT = 0;
+            TK_TICKET_BY = "";
+            TK_NET_FARE = 0;
+            TK_OVERRIDE_P = 0;
+            TK_OVERRIDE = 0;
+            TK_NET = 0;
+            TK_NET_POSTED = 0;
+            TK_OR_COLL = 0;
+            TK_OR_COLL_DATE = 0;
+            TK_ARC_COST = 0;
+            TK_COST_POSTED = 0;
+            TK_OR_POSTED = 0;
+            TK_COST_POSTED_ON = 0;
+            TK_PNR = "";
+            TK_VOID = "N";
+            TK_VOID_DATE = 0;
+            TK_EXCH_TICKET = "";
+            TK_DEP_DATE = 0;
+            TK_COAS_GL = 0;
+            TK_OVER_REC = 0;
+            TK_PP_TICKETS = 0;
+            TK_AP_ACCT = 0;
+            TK_OVER_VAR = 0;
+            TK_CASH_AC = 0;
+            TK_OVER_CASH = 0;
+            TK_ISSUE_UD_DATE = 0;
+            TK_ARC_UD_DATE = 0;
+            TK_DEP_UD_DATE = 0;
+            TK_OR_UD_DATE = 0;
+            TK_BK_DEP_DATE = 0;
+            TK_UD_STATUS = 0;
+            TK_CREDIT = "N";
+            TK_COMMENT1 = "";
+            TK_COMMENT2 = "";
+            TK_COMMENT3 = "";
+            TK_CRS_STATUS = "";
+            TK_FARE_1 = "";
+            TK_FARE_2 = "";
+            TK_FARE_3 = "";
+
+            /* SETUP_AIRH - Set up the air header fields */
+
+            TK_MODIFICATION = BK_MODIFICATION;
+            TK_BK_TK_NO = BOOKING_NO;
+            TK_ALT_SEQ = BK_PAX_SEQ;
+            TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+            KEY_NO = 1;
+
+            /* CHECK_SET_PAX - Set up the default pax name? */
+
+            if ERROR_TK_HEADER ^= NORMAL_RETURN then
+               do;
+
+               /* SET_AIR_NAME - Set up the ticket name */
+
+               if BK_PAX_SEQ = 0 then
+                  do;
+                  LOOP_INDEX = 99;
+                  end;
+               else
+                  do;
+                  dcl (NAME_INDEX,CHAR_LAST) fixed binary;
+                  dcl LAST_FOUND bit(1);
+                  LAST_FOUND = NO;
+                  CHAR_LAST = 1;
+                  do NAME_INDEX = length(BK_PAX_NAME) to 1 by -1;
+                     if substr(BK_PAX_NAME,NAME_INDEX,1) ^= " " then
+                        do;
+                        if CHAR_LAST = 1 then
+                           CHAR_LAST = NAME_INDEX;
+                        LAST_FOUND = YES;
+                        end;
+                     else
+                        if LAST_FOUND = YES then
+                           goto LOOP_FOUND_OVER;
+                  end;
+                  LOOP_FOUND_OVER:
+                  TK_PAX_NAME = substr(BK_PAX_NAME,NAME_INDEX+1,CHAR_LAST-NAME_INDEX) !!
+                     "/" !! substr(BK_PAX_NAME,1,NAME_INDEX);
+                  call CONVERT_TO_UPPER(TK_PAX_NAME);
+                  end;
+
+               end;
+
+
+            /* SET_TK_GL - Set the G/L accounts for a ticket */
+
+            TK_COAS_GL = HDR_AIR_GL;
+            TK_OVER_REC = HDR_OVERRIDE_GL;
+            TK_PP_TICKETS = HDR_PP_TIC_GL;
+            TK_OVER_VAR = HDR_OVER_VAR_GL;
+
+         if ERROR_INPUT_SCREEN then return;
+         end;
+
+      /* SAVE_TK_ERROR - Save the error code for a sec */
+
+      DECLARE 	TEMP_ERROR	fixed binary;
+      TEMP_ERROR = ERROR_TK_HEADER;
+
+   call DISPLAY_DATA;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* FINISH_AIR_HDR - Write/rewrite the header */
+
+
+      /* RESTORE_TK_ERROR - Restore the original error */
+
+      ERROR_TK_HEADER = TEMP_ERROR;
+
+      call GET_TK_DEP_DATE;
+
+      /* DIS_INP_AIRH - Was the air header read or created? */
+
+      ERROR_INPUT_SCREEN = NO;
+      if ERROR_TK_HEADER = NORMAL_RETURN then
+         do;
+
+         /* DIS_DEL_AIRH - Deleted or ok? */
+
+         if RETURN_CODE = DELETE_TYPED then
+            do;
+
+            /* NO_CODE - This section has no code */
+
+            /* No code in this section */
+            end;
+         else
+            do;
+
+            /* UPDATE_AIRH - Update the record */
+
+            call UPDATE_RECORD (TK_HEADER_NO,ERROR_CODE);
+            end;
+         end;
+      else
+         do;
+
+         /* INP_DEL_AIRH - Deleted? */
+
+         if RETURN_CODE = DELETE_TYPED then
+            do;
+
+            /* NO_CODE - This section has no code */
+
+            /* No code in this section */
+            end;
+         else
+            do;
+
+            /* WRITE_AIRH - Write the air header record */
+
+            call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+            end;
+         if ERROR_INPUT_SCREEN then return;
+         end;
+return;
+end;	/* AIR_HDR_MAIN         */
+
+/****************************************************************
+	SET_PAX_AIR
+	Check and set up this passenger's air
+****************************************************************/
+
+SET_PAX_AIR:
+	procedure;
+
+   call DISPLAY_DATA_C;
+
+   /* SET_PAX_TK_HDR - Set up the tk header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   KEY_NO = 1;
+
+   /* READ_TK_HDR - Read the header record */
+
+   call READ_KEYED (TK_HEADER_NO,KEY_AREA_1,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+   /* COPY_IF_PAX_AIR - Copy if there isn't a pax air yet */
+
+   if ERROR_TK_HEADER ^= NORMAL_RETURN then
+      do;
+      call COPY_PAX_AIR;
+      end;
+
+return;
+end;	/* SET_PAX_AIR          */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  52 to  52;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	COPY_PAX_AIR
+	Copy the current passenger air
+****************************************************************/
+
+COPY_PAX_AIR:
+	procedure;
+
+
+   /* SET_CHG_PARAMS - Simulate an item change */
+
+   RETURN_CODE = 0;
+   SELECT = 10;
+
+
+   /* CHECK_AIR_CHG - Check of air mods */
+
+   if (SELECT ^= 0 ! RETURN_CODE = DELETE_TYPED) then
+   if BK_NEXT_MOD ^= BK_AIR_MOD then
+      do;
+
+      /* SET_FIRST_AIRH_COPY - Set to first header to copy */
+
+      TK_MODIFICATION = BK_MODIFICATION;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = 0;
+      TK_ANSW_SEQ = 0;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIRH = NO;
+      do while (END_COPY_AIRH ^= YES);
+         call COPY_AIRH;
+      end;
+
+      /* SETUP_KEY_AIRH - Set up the key for air header record */
+
+      TK_MODIFICATION = BK_MODIFICATION;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = BK_PAX_SEQ;
+      TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+      KEY_NO = 1;
+
+      /* READ_AND_LOCK_AIRH - Read the record and lock it */
+
+      call READ_KEYED (TK_HEADER_NO+?LOCK_RECORD,KEY_NO,ERROR_TK_HEADER);
+      if ERROR_TK_HEADER = RECORD_LOCKED then
+         do;
+         call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+         call PRESS_RETURN;
+         end;
+      if ERROR_TK_HEADER > 3 then
+         call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+      /* SET_FIRST_AIRD_COPY - First air detail of this record */
+
+      TK_DET_MOD = BK_MODIFICATION;
+      TK_DET_BK_TK = BOOKING_NO;
+      TK_DET_ALT_SEQ = 0;
+      TK_DET_ANSW_SEQ = 0;
+      TK_DATE = 0;
+      TK_SEQ = 0;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIR = NO;
+      do while (END_COPY_AIR ^= YES);
+         call COPY_AIR;
+      end;
+      BK_AIR_MOD = BK_NEXT_MOD;
+      end;
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+      if BK_PAX_SEQ = 0 then
+         do;
+         END_DEL_TKHDR = NO;
+         do while (END_DEL_TKHDR ^= YES);
+            call DEL_TKHDR;
+         end;
+         END_DELETE_TKDET = NO;
+         do while (END_DELETE_TKDET ^= YES);
+            call DELETE_TKDET;
+         end;
+         BK_AIR_MOD = -1;
+         end;
+      else
+         do;
+         END_DEL_PAX_TKHDR = NO;
+         do while (END_DEL_PAX_TKHDR ^= YES);
+            call DEL_PAX_TKHDR;
+         end;
+         END_DEL_PAX_TKDET = NO;
+         do while (END_DEL_PAX_TKDET ^= YES);
+            call DEL_PAX_TKDET;
+         end;
+         BK_AIR_MOD = BK_NEXT_MOD;
+         end;
+      end;
+
+
+   /* SETUP_KEY_AIRD - Set up the air detail key */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   KEY_NO = 1;
+
+
+   /* RESET_NEW_PARAMS - Reset these just in case... */
+
+   RETURN_CODE = 0;
+   SELECT = 0;
+
+
+   /* SET_TK_HDR - Set up the key */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   KEY_NO = 1;
+
+   /* READ_TK_HDR - Read the header record */
+
+   call READ_KEYED (TK_HEADER_NO,KEY_AREA_1,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+   /* RET_IF_AIR_FOUND - Return if air header not found */
+
+   if ERROR_TK_HEADER ^= NORMAL_RETURN then
+      return;
+
+
+   /* SET_PAX_AIRH - Set up the new header */
+
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+
+
+   /* SET_AIR_NAME - Set up the ticket name */
+
+   if BK_PAX_SEQ = 0 then
+      do;
+      LOOP_INDEX = 99;
+      end;
+   else
+      do;
+      dcl (NAME_INDEX,CHAR_LAST) fixed binary;
+      dcl LAST_FOUND bit(1);
+      LAST_FOUND = NO;
+      CHAR_LAST = 1;
+      do NAME_INDEX = length(BK_PAX_NAME) to 1 by -1;
+         if substr(BK_PAX_NAME,NAME_INDEX,1) ^= " " then
+            do;
+            if CHAR_LAST = 1 then
+               CHAR_LAST = NAME_INDEX;
+            LAST_FOUND = YES;
+            end;
+         else
+            if LAST_FOUND = YES then
+               goto LOOP_FOUND_OVER;
+      end;
+      LOOP_FOUND_OVER:
+      TK_PAX_NAME = substr(BK_PAX_NAME,NAME_INDEX+1,CHAR_LAST-NAME_INDEX) !!
+         "/" !! substr(BK_PAX_NAME,1,NAME_INDEX);
+      call CONVERT_TO_UPPER(TK_PAX_NAME);
+      end;
+
+
+   /* SET_TK_GL - Set the G/L accounts for a ticket */
+
+   TK_COAS_GL = HDR_AIR_GL;
+   TK_OVER_REC = HDR_OVERRIDE_GL;
+   TK_PP_TICKETS = HDR_PP_TIC_GL;
+   TK_OVER_VAR = HDR_OVER_VAR_GL;
+
+
+   /* WRITE_TK_HDR - Write the header record */
+
+   call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_COPY_PAX_AIRD = NO;
+   do while (END_COPY_PAX_AIRD ^= YES);
+      call COPY_PAX_AIRD;
+   end;
+
+   /* SET_AIR_MOD - Set the air mod code */
+
+   BK_AIR_MOD = BK_NEXT_MOD;
+
+return;
+end;	/* COPY_PAX_AIR         */
+
+/****************************************************************
+	COPY_AIRH
+	Copy all the headers to the last md
+****************************************************************/
+
+COPY_AIRH:
+	procedure;
+
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH_COPY - Last air header in booking? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_COPY_AIRH = YES;
+      return;
+      end;
+
+   /* SET_TKHDR - Set to next mod */
+
+   TK_MODIFICATION = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRH - Write the air header record */
+
+   call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRHC - Set to the next air Header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ANSW_SEQ = TK_ANSW_SEQ+1;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIRH            */
+
+/****************************************************************
+	COPY_AIR
+	Copy the air detail
+****************************************************************/
+
+COPY_AIR:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_COPY_AIR = YES;
+      return;
+      end;
+
+   /* CHANGE_AIRD - Change mod code to 0 */
+
+   TK_DET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRD - Write the air detail record */
+
+   call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRC - Set to the next record */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_SEQ = TK_SEQ+1;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIR             */
+
+/****************************************************************
+	DEL_TKHDR
+	Delete the ticket header records
+****************************************************************/
+
+DEL_TKHDR:
+	procedure;
+
+
+   /* SET_FIRST_AIRH_COPY - Set to first header to copy */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH_COPY - Last air header in booking? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_DEL_TKHDR = YES;
+      return;
+      end;
+
+   /* RETURN_IF_TICKET - Return if this is a valid ticket */
+
+   if TK_ALT_SEQ ^= 0 then if TK_UD_STATUS >= TICK_TK then
+      if ((TK_ISSUE_UD_DATE ^= 0) ! (TK_ARC_UD_DATE ^= 0) ! (TK_DEP_UD_DATE ^= 0)) then
+         do;
+         END_DEL_TKHDR = YES;
+         return;
+         end;
+
+
+   /* DELETE_AIRH - Delete the air header record */
+
+   call DELETE_RECORD (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* DEL_TKHDR            */
+
+/****************************************************************
+	DELETE_TKDET
+	Delete ticket detail
+****************************************************************/
+
+DELETE_TKDET:
+	procedure;
+
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_DELETE_TKDET = YES;
+      return;
+      end;
+
+   /* DELETE_AIRD - Delete */
+
+   call DELETE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* DELETE_TKDET         */
+
+/****************************************************************
+	DEL_PAX_TKHDR
+	Delete the pax ticket header
+****************************************************************/
+
+DEL_PAX_TKHDR:
+	procedure;
+
+
+   /* SET_FIRST_AIRH - Set to read the first Air header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH - Last header? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) !
+   (TK_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      do;
+      END_DEL_PAX_TKHDR = YES;
+      return;
+      end;
+
+   /* RETURN_IF_TICKET - Return if this is a valid ticket */
+
+   if TK_ALT_SEQ ^= 0 then if TK_UD_STATUS >= TICK_TK then
+      if ((TK_ISSUE_UD_DATE ^= 0) ! (TK_ARC_UD_DATE ^= 0) ! (TK_DEP_UD_DATE ^= 0)) then
+         do;
+         END_DEL_PAX_TKHDR = YES;
+         return;
+         end;
+
+
+   /* DELETE_AIRH - Delete the air header record */
+
+   call DELETE_RECORD (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* DEL_PAX_TKHDR        */
+
+/****************************************************************
+	DEL_PAX_TKDET
+	Delete the passenger tk detail
+****************************************************************/
+
+DEL_PAX_TKDET:
+	procedure;
+
+
+   /* SET_FIRST_AIRP - Set first air detail for this pax */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRP - End of this pax air detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_DET_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      do;
+      END_DEL_PAX_TKDET = YES;
+      return;
+      end;
+
+   /* DELETE_AIRD - Delete */
+
+   call DELETE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* DEL_PAX_TKDET        */
+
+/****************************************************************
+	COPY_PAX_AIRD
+	Copy the air detail
+****************************************************************/
+
+COPY_PAX_AIRD:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRZ - End of the header air detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > 0) !
+   (TK_DET_ANSW_SEQ > 0) then
+      do;
+      END_COPY_PAX_AIRD = YES;
+      return;
+      end;
+
+   /* CHANGE_PAX_AIRD - Change the detail for write */
+
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+
+
+   /* WRITE_AIRD - Write the air detail record */
+
+   call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+   /* SET_NEXT_AIRD - Set the next air detail up */
+
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_SEQ = TK_SEQ + 1;
+
+
+   /* SET_AIRD_POS - Set the air position */
+
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+return;
+end;	/* COPY_PAX_AIRD        */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX =  11 to  37;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* SET_TEMP_1 - Set temp fare field */
+
+      TEMP_FARE_1 = TK_FARE_1;
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* SET_TEMP_2 -  */
+
+      TEMP_FARE_2 = TK_FARE_2;
+
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* SET_TEMP_3 -  */
+
+      TEMP_FARE_3 = TK_FARE_3;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  42 to  42;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  39 to  40;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  43 to  43;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  45 to  45;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  47 to  47;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  41 to  41;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  44 to  44;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  46 to  46;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  50 to  50;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  49 to  49;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  51 to  51;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  38 to  38;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  48 to  48;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  53 to  54;
+   if LOOP_INDEX =  53 then
+      do;
+
+      /* SAVE_TK_STATUS - Save the old ticket status */
+
+      TK_OLD_STATUS = TK_UD_STATUS;
+
+      end;
+   if LOOP_INDEX =  54 then
+      do;
+
+      /* SET_TK_STATUS - Set the status description */
+
+      do case (TK_UD_STATUS + 1);
+         TK_STATUS_TK = "No status";
+         TK_STATUS_TK = "Request tk";
+         TK_STATUS_TK = "Req autoTK";
+         TK_STATUS_TK = "Waitlisted";
+         TK_STATUS_TK = "Ticketed";
+         TK_STATUS_TK = "Ticketed";
+         TK_STATUS_TK = "Ticketed";
+         TK_STATUS_TK = "Ticketed";
+         TK_STATUS_TK = "Cancel Rq";
+         TK_STATUS_TK = "Cancelled";
+      end;
+      otherwise
+         TK_STATUS_TK = "Ticketed";
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  53 then
+      do;
+
+      /* CHECK_TK_STATUS - Is this a valid ticket status? */
+
+      if TK_ALT_SEQ = 0 then if TK_UD_STATUS >= WAIT_TK then
+         do;
+         call DISPLAY_MESSAGE ("Header tickets can not be ticketed");
+         call PRESS_RETURN;
+         TK_UD_STATUS = TK_OLD_STATUS;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      if TK_ALT_SEQ ^= 0 then if TK_OLD_STATUS >= TICK_TK then
+         if TK_NUMBER ^= "" then if TK_ISSUE_DATE ^= 0 then if TK_UD_STATUS ^= TK_OLD_STATUS then
+            do;
+            call DISPLAY_MESSAGE ("Can't change issued ticket's status");
+            call PRESS_RETURN;
+            TK_UD_STATUS = TK_OLD_STATUS;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+
+      /* DISPLAY_DATA_Z - Display data */
+
+      do LOOP_INDEX =  54 to  54;
+         if LOOP_INDEX =  54 then
+            do;
+
+            /* SET_TK_STATUS - Set the status description */
+
+            do case (TK_UD_STATUS + 1);
+               TK_STATUS_TK = "No status";
+               TK_STATUS_TK = "Request tk";
+               TK_STATUS_TK = "Req autoTK";
+               TK_STATUS_TK = "Waitlisted";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Cancel Rq";
+               TK_STATUS_TK = "Cancelled";
+            end;
+            otherwise
+               TK_STATUS_TK = "Ticketed";
+
+            end;
+         call KEEP_TRAILING_SPACES;
+         call OUTPUT_FIELD (LOOP_INDEX);
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+call ANY_CHANGE (1, 98,SELECT,RETURN_CODE);
+
+/* CHECK_AIR_CHG - Check of air mods */
+
+if (SELECT ^= 0 ! RETURN_CODE = DELETE_TYPED) then
+if BK_NEXT_MOD ^= BK_AIR_MOD then
+   do;
+
+   /* SET_FIRST_AIRH_COPY - Set to first header to copy */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   END_COPY_AIRH = NO;
+   do while (END_COPY_AIRH ^= YES);
+      call COPY_AIRH;
+   end;
+
+   /* SETUP_KEY_AIRH - Set up the key for air header record */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   KEY_NO = 1;
+
+   /* READ_AND_LOCK_AIRH - Read the record and lock it */
+
+   call READ_KEYED (TK_HEADER_NO+?LOCK_RECORD,KEY_NO,ERROR_TK_HEADER);
+   if ERROR_TK_HEADER = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_TK_HEADER > 3 then
+      call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+   /* SET_FIRST_AIRD_COPY - First air detail of this record */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   END_COPY_AIR = NO;
+   do while (END_COPY_AIR ^= YES);
+      call COPY_AIR;
+   end;
+   BK_AIR_MOD = BK_NEXT_MOD;
+   end;
+
+if RETURN_CODE = DELETE_TYPED then
+   do;
+   if BK_PAX_SEQ = 0 then
+      do;
+      END_DEL_TKHDR = NO;
+      do while (END_DEL_TKHDR ^= YES);
+         call DEL_TKHDR;
+      end;
+      END_DELETE_TKDET = NO;
+      do while (END_DELETE_TKDET ^= YES);
+         call DELETE_TKDET;
+      end;
+      BK_AIR_MOD = -1;
+      end;
+   else
+      do;
+      END_DEL_PAX_TKHDR = NO;
+      do while (END_DEL_PAX_TKHDR ^= YES);
+         call DEL_PAX_TKHDR;
+      end;
+      END_DEL_PAX_TKDET = NO;
+      do while (END_DEL_PAX_TKDET ^= YES);
+         call DEL_PAX_TKDET;
+      end;
+      BK_AIR_MOD = BK_NEXT_MOD;
+      end;
+   end;
+
+
+/* SETUP_KEY_AIRD - Set up the air detail key */
+
+TK_DET_MOD = BK_MODIFICATION;
+TK_DET_BK_TK = BOOKING_NO;
+TK_DET_ALT_SEQ = BK_PAX_SEQ;
+TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+KEY_NO = 1;
+
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 10 then
+   do;
+   if SELECT =  1 then
+      LOOP_INDEX = 38;
+   if SELECT >=  2 then
+      LOOP_INDEX = SELECT +   9;
+   if LOOP_INDEX =  38 then
+      do;
+
+      /* CHECK_NOT_PAX - Do not allow entry if this isn't a pax */
+
+      if BK_PAX_SEQ = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =  13 then
+      do;
+
+      /* SET_AIR_NAME - Set up the ticket name */
+
+      if BK_PAX_SEQ = 0 then
+         do;
+         LOOP_INDEX = 99;
+         end;
+      else
+         do;
+         dcl (NAME_INDEX,CHAR_LAST) fixed binary;
+         dcl LAST_FOUND bit(1);
+         LAST_FOUND = NO;
+         CHAR_LAST = 1;
+         do NAME_INDEX = length(BK_PAX_NAME) to 1 by -1;
+            if substr(BK_PAX_NAME,NAME_INDEX,1) ^= " " then
+               do;
+               if CHAR_LAST = 1 then
+                  CHAR_LAST = NAME_INDEX;
+               LAST_FOUND = YES;
+               end;
+            else
+               if LAST_FOUND = YES then
+                  goto LOOP_FOUND_OVER;
+         end;
+         LOOP_FOUND_OVER:
+         TK_PAX_NAME = substr(BK_PAX_NAME,NAME_INDEX+1,CHAR_LAST-NAME_INDEX) !!
+            "/" !! substr(BK_PAX_NAME,1,NAME_INDEX);
+         call CONVERT_TO_UPPER(TK_PAX_NAME);
+         end;
+
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* SET_TEMP_1 - Set temp fare field */
+
+      TEMP_FARE_1 = TK_FARE_1;
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* SET_TEMP_2 -  */
+
+      TEMP_FARE_2 = TK_FARE_2;
+
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* SET_TEMP_3 -  */
+
+      TEMP_FARE_3 = TK_FARE_3;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  38 then
+      do;
+
+      /* CHECK_ISSUE_DATE - If ticket no, issue date must be in. */
+
+      if TK_NUMBER ^= "" then
+         do;
+         if TK_ISSUE_DATE = 0 then
+            do;
+            call ENTER_DATA_N;
+            end;
+         TK_UD_STATUS = 4;
+
+         /* DISPLAY_DATA_Y - Display */
+
+         do LOOP_INDEX =  53 to  53;
+            if LOOP_INDEX =  53 then
+               do;
+
+               /* SAVE_TK_STATUS - Save the old ticket status */
+
+               TK_OLD_STATUS = TK_UD_STATUS;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  53 then
+               do;
+
+               /* CHECK_TK_STATUS - Is this a valid ticket status? */
+
+               if TK_ALT_SEQ = 0 then if TK_UD_STATUS >= WAIT_TK then
+                  do;
+                  call DISPLAY_MESSAGE ("Header tickets can not be ticketed");
+                  call PRESS_RETURN;
+                  TK_UD_STATUS = TK_OLD_STATUS;
+                  LOOP_INDEX = LOOP_INDEX - 1;
+                  end;
+               if TK_ALT_SEQ ^= 0 then if TK_OLD_STATUS >= TICK_TK then
+                  if TK_NUMBER ^= "" then if TK_ISSUE_DATE ^= 0 then if TK_UD_STATUS ^= TK_OLD_STATUS then
+                     do;
+                     call DISPLAY_MESSAGE ("Can't change issued ticket's status");
+                     call PRESS_RETURN;
+                     TK_UD_STATUS = TK_OLD_STATUS;
+                     LOOP_INDEX = LOOP_INDEX - 1;
+                     end;
+
+               /* DISPLAY_DATA_Z - Display data */
+
+               do LOOP_INDEX =  54 to  54;
+                  if LOOP_INDEX =  54 then
+                     do;
+
+                     /* SET_TK_STATUS - Set the status description */
+
+                     do case (TK_UD_STATUS + 1);
+                        TK_STATUS_TK = "No status";
+                        TK_STATUS_TK = "Request tk";
+                        TK_STATUS_TK = "Req autoTK";
+                        TK_STATUS_TK = "Waitlisted";
+                        TK_STATUS_TK = "Ticketed";
+                        TK_STATUS_TK = "Ticketed";
+                        TK_STATUS_TK = "Ticketed";
+                        TK_STATUS_TK = "Ticketed";
+                        TK_STATUS_TK = "Cancel Rq";
+                        TK_STATUS_TK = "Cancelled";
+                     end;
+                     otherwise
+                        TK_STATUS_TK = "Ticketed";
+
+                     end;
+                  call KEEP_TRAILING_SPACES;
+                  call OUTPUT_FIELD (LOOP_INDEX);
+               end;
+               LOOP_INDEX = LOOP_INDEX - 1;
+
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         TK_ISSUE_DATE = 0;
+         call CLEAR_DATA_N;
+         end;
+
+      end;
+   if LOOP_INDEX =  11 then
+      do;
+
+      /* CHECK_AIRLINE - Read the airline, if not found, enter */
+
+      AIRLINE_CODE = TK_AIRL_CODE;
+      call READ_KEYED(TK_AIRLINE_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = NORMAL_RETURN then
+         do;
+         TK_AIRLINE_IATA = AIRLINE_NO;
+         TK_AIRLINE_DESC = AIRLINE_DESC;
+         call DISPLAY_DATA_B;
+         end;
+      else
+         do;
+         call ENTER_DATA_B;
+         end;
+
+      end;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* SET_FARE_1 -  */
+
+      TK_FARE_1 = TEMP_FARE_1;
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* SET_FARE_2 -  */
+
+      TK_FARE_2 = TEMP_FARE_2;
+
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* SET_FARE_3 -  */
+
+      TK_FARE_3 = TEMP_FARE_3;
+
+      end;
+   if LOOP_INDEX =  18 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+   if LOOP_INDEX =  19 then
+      do;
+
+      /* CHECK_AIR_TOTAL - Total the current air fare detail? */
+
+      if AIR_TOTAL_FARE = "Y" then
+         do;
+         TK_FARE = 0;
+
+         /* SET_FIRST_AIRP - Set first air detail for this pax */
+
+         TK_DET_MOD = BK_MODIFICATION;
+         TK_DET_BK_TK = BOOKING_NO;
+         TK_DET_ALT_SEQ = BK_PAX_SEQ;
+         TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+         TK_DATE = 0;
+         TK_SEQ = 0;
+         call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+         END_ADD_AIR_FARES = NO;
+         do while (END_ADD_AIR_FARES ^= YES);
+            call ADD_AIR_FARES;
+         end;
+         call DISPLAY_DATA_K;
+
+         /* DIS_TK_TOTALS - Display the new totals */
+
+         ERROR_CODE = LOOP_INDEX;
+         if TK_TAX_P ^= 0 then
+            do;
+            TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+            call DISPLAY_DATA_E;
+            end;
+         TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+         if TK_COMM_P ^= 0 then
+            do;
+            TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+            call DISPLAY_DATA_F;
+            end;
+         TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+         if TK_OVERRIDE_P ^= 0 then
+            TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+         call DISPLAY_DATA_G;
+         TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+         call DISPLAY_DATA_D;
+         LOOP_INDEX = ERROR_CODE;
+
+         end;
+
+      end;
+   end;
+if SELECT = 11 then
+   do;
+   do LOOP_INDEX =  20 to  21;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 12 then
+   do;
+   do LOOP_INDEX =  22 to  23;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  23 then
+         do;
+
+         /* CHECK_TAX_PER - Check/Set the tax percentage */
+
+         if TK_TAX_P = 0 then
+            do;
+            call ENTER_DATA_E;
+            end;
+         else
+            do;
+            dcl CHAR_FIELD character(20);
+            TK_TAX_1 = TK_TAX_P;
+            call CONV_FP(TK_TAX_1,CHAR_FIELD);
+            TK_TAX = substr(CHAR_FIELD,10,10);
+
+            /* DIS_TK_TOTALS - Display the new totals */
+
+            ERROR_CODE = LOOP_INDEX;
+            if TK_TAX_P ^= 0 then
+               do;
+               TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+               call DISPLAY_DATA_E;
+               end;
+            TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+            if TK_COMM_P ^= 0 then
+               do;
+               TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+               call DISPLAY_DATA_F;
+               end;
+            TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+            if TK_OVERRIDE_P ^= 0 then
+               TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+            call DISPLAY_DATA_G;
+            TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+            call DISPLAY_DATA_D;
+            LOOP_INDEX = ERROR_CODE;
+
+            call DISPLAY_DATA_E;
+            call DISPLAY_DATA_J;
+            end;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT = 13 then
+   do;
+   call INPUT_FIELD( 24,INPUT_LENGTH,RETURN_CODE);
+   call INPUT_FIELD( 42,INPUT_LENGTH,RETURN_CODE);
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+   end;
+if SELECT >= 14 then if SELECT <= 24 then
+   do;
+   if SELECT = 14 then
+      LOOP_INDEX = 43;
+   if SELECT >= 15 then if SELECT <= 18 then
+      LOOP_INDEX = SELECT +  10;
+   if SELECT = 19 then
+      LOOP_INDEX = 48;
+   if SELECT >= 20 then
+      LOOP_INDEX = SELECT +   9;
+   if LOOP_INDEX =  48 then
+      do;
+
+      /* CHECK_NOT_PAX - Do not allow entry if this isn't a pax */
+
+      if BK_PAX_SEQ = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =  29 then
+      do;
+
+      /* CHECK_NOT_PAX - Do not allow entry if this isn't a pax */
+
+      if BK_PAX_SEQ = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =  29 then
+      call DISPLAY_MSG_NO ( 77);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  43 then
+      do;
+
+      /* BACK_CALC_TK - Total entered, calc starting fare */
+
+      if TK_TAX_P = 0 then
+         do;
+         TK_FARE = floor((TK_TOTAL - TK_TAX_1 - TK_TAX_2) * 100 + 0.5) / 100;
+         end;
+      else
+         do;
+         TK_FARE = floor(((TK_TOTAL - TK_TAX_2) / (1 + TK_TAX_P / 100)) * 100 + 0.5) / 100;
+         TK_TAX_1 = floor((TK_TOTAL - TK_TAX_1 - TK_FARE) * 100 + 0.5) / 100;
+         end;
+      call DISPLAY_DATA_K;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+
+      end;
+   if LOOP_INDEX =  25 then
+      do;
+
+      /* CHECK_COMM_PER - Check commission percentage input */
+
+      if TK_COMM_P = 0 then
+         do;
+         call ENTER_DATA_F;
+         TK_COMM_RATE = "  0";
+         end;
+      else
+         do;
+         TK_COMM_AMT = TK_COMM_P;
+         dcl COM_FIELD character(20);
+         call CONV_FP(TK_COMM_AMT,COM_FIELD);
+         TK_COMM = substr(COM_FIELD,10,10);
+         TK_COMM_RATE = substr(COM_FIELD,15,5);
+
+         /* DIS_TK_TOTALS - Display the new totals */
+
+         ERROR_CODE = LOOP_INDEX;
+         if TK_TAX_P ^= 0 then
+            do;
+            TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+            call DISPLAY_DATA_E;
+            end;
+         TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+         if TK_COMM_P ^= 0 then
+            do;
+            TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+            call DISPLAY_DATA_F;
+            end;
+         TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+         if TK_OVERRIDE_P ^= 0 then
+            TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+         call DISPLAY_DATA_G;
+         TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+         call DISPLAY_DATA_D;
+         LOOP_INDEX = ERROR_CODE;
+
+         call DISPLAY_DATA_F;
+         call DISPLAY_DATA_I;
+         end;
+      call DISPLAY_DATA_H;
+
+      end;
+   if LOOP_INDEX =  26 then
+      do;
+
+      /* CHECK_OVER_PER - Percentage entered */
+
+      if TK_OVERRIDE_P = 0 then
+         do;
+         call ENTER_DATA_G;
+         end;
+      else
+         do;
+
+         /* DIS_TK_TOTALS - Display the new totals */
+
+         ERROR_CODE = LOOP_INDEX;
+         if TK_TAX_P ^= 0 then
+            do;
+            TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+            call DISPLAY_DATA_E;
+            end;
+         TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+         if TK_COMM_P ^= 0 then
+            do;
+            TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+            call DISPLAY_DATA_F;
+            end;
+         TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+         if TK_OVERRIDE_P ^= 0 then
+            TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+         call DISPLAY_DATA_G;
+         TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+         call DISPLAY_DATA_D;
+         LOOP_INDEX = ERROR_CODE;
+
+         call DISPLAY_DATA_G;
+         end;
+
+      end;
+   if LOOP_INDEX =  48 then
+      do;
+
+      /* CHECK_TK_NO - If issue date, ticket no must be entered */
+
+      if TK_ISSUE_DATE ^= 0 then
+         do;
+         if TK_NUMBER = "" then
+            do;
+            call ENTER_DATA_L;
+            end;
+         end;
+      else
+         do;
+         TK_NUMBER = "";
+         call CLEAR_DATA_L;
+         end;
+
+      end;
+   end;
+if SELECT = 25 then
+   do;
+   do LOOP_INDEX =  49 to  50;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT >= 26 then if SELECT <= 27 then
+   do;
+   if SELECT = 26 then
+      LOOP_INDEX = 51;
+   if SELECT = 27 then
+      LOOP_INDEX = 34;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+if SELECT = 28 then
+   do;
+   do LOOP_INDEX =  35 to  36;
+      if LOOP_INDEX =  36 then
+         TK_VOID_DATE = TODAYS_DATE();
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   end;
+if SELECT >= 29 then if SELECT <= 30 then
+   do;
+   if SELECT = 29 then
+      LOOP_INDEX = 37;
+   if SELECT = 30 then
+      LOOP_INDEX = 53;
+   if LOOP_INDEX =  53 then
+      do;
+
+      /* SAVE_TK_STATUS - Save the old ticket status */
+
+      TK_OLD_STATUS = TK_UD_STATUS;
+
+      end;
+   if LOOP_INDEX =  53 then
+      call DISPLAY_MSG_NO ( 94);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  53 then
+      do;
+
+      /* CHECK_TK_STATUS - Is this a valid ticket status? */
+
+      if TK_ALT_SEQ = 0 then if TK_UD_STATUS >= WAIT_TK then
+         do;
+         call DISPLAY_MESSAGE ("Header tickets can not be ticketed");
+         call PRESS_RETURN;
+         TK_UD_STATUS = TK_OLD_STATUS;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      if TK_ALT_SEQ ^= 0 then if TK_OLD_STATUS >= TICK_TK then
+         if TK_NUMBER ^= "" then if TK_ISSUE_DATE ^= 0 then if TK_UD_STATUS ^= TK_OLD_STATUS then
+            do;
+            call DISPLAY_MESSAGE ("Can't change issued ticket's status");
+            call PRESS_RETURN;
+            TK_UD_STATUS = TK_OLD_STATUS;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+
+      /* DISPLAY_DATA_Z - Display data */
+
+      do LOOP_INDEX =  54 to  54;
+         if LOOP_INDEX =  54 then
+            do;
+
+            /* SET_TK_STATUS - Set the status description */
+
+            do case (TK_UD_STATUS + 1);
+               TK_STATUS_TK = "No status";
+               TK_STATUS_TK = "Request tk";
+               TK_STATUS_TK = "Req autoTK";
+               TK_STATUS_TK = "Waitlisted";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Cancel Rq";
+               TK_STATUS_TK = "Cancelled";
+            end;
+            otherwise
+               TK_STATUS_TK = "Ticketed";
+
+            end;
+         call KEEP_TRAILING_SPACES;
+         call OUTPUT_FIELD (LOOP_INDEX);
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+
+      end;
+   end;
+if SELECT >= 93 then if SELECT <= 94 then
+   do;
+
+      LOOP_INDEX = SELECT + -54;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+if SELECT >= 96 then if SELECT <= 98 then
+   do;
+   if SELECT = 96 then
+      LOOP_INDEX = 41;
+   if SELECT = 97 then
+      LOOP_INDEX = 44;
+   if SELECT = 98 then
+      LOOP_INDEX = 46;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  41 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+   if LOOP_INDEX =  44 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+   if LOOP_INDEX =  46 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	ENTER_DATA_N
+	Enter data N
+****************************************************************/
+
+ENTER_DATA_N:
+	procedure;
+
+TK_ISSUE_DATE = TODAYS_DATE();
+do LOOP_INDEX =  48 to  48;
+   if LOOP_INDEX =  48 then
+      TK_ISSUE_DATE = TODAYS_DATE();
+   if LOOP_INDEX =  48 then
+      do;
+
+      /* CHECK_NOT_PAX - Do not allow entry if this isn't a pax */
+
+      if BK_PAX_SEQ = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  48 then
+      do;
+
+      /* CHECK_TK_NO - If issue date, ticket no must be entered */
+
+      if TK_ISSUE_DATE ^= 0 then
+         do;
+         if TK_NUMBER = "" then
+            do;
+            call ENTER_DATA_L;
+            end;
+         end;
+      else
+         do;
+         TK_NUMBER = "";
+         call CLEAR_DATA_L;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_N         */
+
+/****************************************************************
+	CLEAR_DATA_N
+	Clear
+****************************************************************/
+
+CLEAR_DATA_N:
+	procedure;
+
+do LOOP_INDEX =  48 to  48;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+return;
+end;	/* CLEAR_DATA_N         */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  39 to  40;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	ENTER_DATA_B
+	Enter the screen data for group B
+****************************************************************/
+
+ENTER_DATA_B:
+	procedure;
+
+TK_AIRLINE_IATA = 0;
+do LOOP_INDEX =  39 to  40;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_B         */
+
+/****************************************************************
+	DISPLAY_DATA_E
+	Display the data in screen group E
+****************************************************************/
+
+DISPLAY_DATA_E:
+	procedure;
+
+do LOOP_INDEX =  41 to  41;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_E       */
+
+/****************************************************************
+	DISPLAY_DATA_F
+	Display the data in group F
+****************************************************************/
+
+DISPLAY_DATA_F:
+	procedure;
+
+do LOOP_INDEX =  44 to  44;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_F       */
+
+/****************************************************************
+	DISPLAY_DATA_G
+	Display the data in group G
+****************************************************************/
+
+DISPLAY_DATA_G:
+	procedure;
+
+do LOOP_INDEX =  46 to  46;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_G       */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  43 to  43;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  45 to  45;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  47 to  47;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	ADD_AIR_FARES
+	Add all the air fares
+****************************************************************/
+
+ADD_AIR_FARES:
+	procedure;
+
+
+   /* READ_NEXT_AIR - Read the next air record */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRP - End of this pax air detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_DET_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      do;
+      END_ADD_AIR_FARES = YES;
+      return;
+      end;
+
+   /* ADD_AIR_FARE - Add this fare to the total fare */
+
+   TK_FARE = floor((TK_FARE + TK_DET_FARE) * 100 + 0.5) / 100;
+
+return;
+end;	/* ADD_AIR_FARES        */
+
+/****************************************************************
+	DISPLAY_DATA_K
+	Display screen group K
+****************************************************************/
+
+DISPLAY_DATA_K:
+	procedure;
+
+do LOOP_INDEX =  11 to  37;
+   if LOOP_INDEX =  14 then
+      do;
+
+      /* SET_TEMP_1 - Set temp fare field */
+
+      TEMP_FARE_1 = TK_FARE_1;
+
+      end;
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* SET_TEMP_2 -  */
+
+      TEMP_FARE_2 = TK_FARE_2;
+
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* SET_TEMP_3 -  */
+
+      TEMP_FARE_3 = TK_FARE_3;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  42 to  42;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  39 to  40;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  43 to  43;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  45 to  45;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  47 to  47;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  41 to  41;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  44 to  44;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  46 to  46;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  50 to  50;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  49 to  49;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  51 to  51;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  38 to  38;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  48 to  48;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  53 to  54;
+   if LOOP_INDEX =  53 then
+      do;
+
+      /* SAVE_TK_STATUS - Save the old ticket status */
+
+      TK_OLD_STATUS = TK_UD_STATUS;
+
+      end;
+   if LOOP_INDEX =  54 then
+      do;
+
+      /* SET_TK_STATUS - Set the status description */
+
+      do case (TK_UD_STATUS + 1);
+         TK_STATUS_TK = "No status";
+         TK_STATUS_TK = "Request tk";
+         TK_STATUS_TK = "Req autoTK";
+         TK_STATUS_TK = "Waitlisted";
+         TK_STATUS_TK = "Ticketed";
+         TK_STATUS_TK = "Ticketed";
+         TK_STATUS_TK = "Ticketed";
+         TK_STATUS_TK = "Ticketed";
+         TK_STATUS_TK = "Cancel Rq";
+         TK_STATUS_TK = "Cancelled";
+      end;
+      otherwise
+         TK_STATUS_TK = "Ticketed";
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  53 then
+      do;
+
+      /* CHECK_TK_STATUS - Is this a valid ticket status? */
+
+      if TK_ALT_SEQ = 0 then if TK_UD_STATUS >= WAIT_TK then
+         do;
+         call DISPLAY_MESSAGE ("Header tickets can not be ticketed");
+         call PRESS_RETURN;
+         TK_UD_STATUS = TK_OLD_STATUS;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      if TK_ALT_SEQ ^= 0 then if TK_OLD_STATUS >= TICK_TK then
+         if TK_NUMBER ^= "" then if TK_ISSUE_DATE ^= 0 then if TK_UD_STATUS ^= TK_OLD_STATUS then
+            do;
+            call DISPLAY_MESSAGE ("Can't change issued ticket's status");
+            call PRESS_RETURN;
+            TK_UD_STATUS = TK_OLD_STATUS;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+
+      /* DISPLAY_DATA_Z - Display data */
+
+      do LOOP_INDEX =  54 to  54;
+         if LOOP_INDEX =  54 then
+            do;
+
+            /* SET_TK_STATUS - Set the status description */
+
+            do case (TK_UD_STATUS + 1);
+               TK_STATUS_TK = "No status";
+               TK_STATUS_TK = "Request tk";
+               TK_STATUS_TK = "Req autoTK";
+               TK_STATUS_TK = "Waitlisted";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Ticketed";
+               TK_STATUS_TK = "Cancel Rq";
+               TK_STATUS_TK = "Cancelled";
+            end;
+            otherwise
+               TK_STATUS_TK = "Ticketed";
+
+            end;
+         call KEEP_TRAILING_SPACES;
+         call OUTPUT_FIELD (LOOP_INDEX);
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_K       */
+
+/****************************************************************
+	ENTER_DATA_E
+	Enter the data in screen group E
+****************************************************************/
+
+ENTER_DATA_E:
+	procedure;
+
+TK_TAX_1 = 0;
+do LOOP_INDEX =  41 to  41;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  41 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_E         */
+
+/****************************************************************
+	DISPLAY_DATA_J
+	Display screen group J
+****************************************************************/
+
+DISPLAY_DATA_J:
+	procedure;
+
+do LOOP_INDEX =  51 to  51;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_J       */
+
+/****************************************************************
+	ENTER_DATA_F
+	Enter the data in group F
+****************************************************************/
+
+ENTER_DATA_F:
+	procedure;
+
+do LOOP_INDEX =  44 to  44;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  44 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_F         */
+
+/****************************************************************
+	DISPLAY_DATA_I
+	Display screen group I
+****************************************************************/
+
+DISPLAY_DATA_I:
+	procedure;
+
+do LOOP_INDEX =  49 to  49;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_I       */
+
+/****************************************************************
+	DISPLAY_DATA_H
+	Display screen group H
+****************************************************************/
+
+DISPLAY_DATA_H:
+	procedure;
+
+do LOOP_INDEX =  50 to  50;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_H       */
+
+/****************************************************************
+	ENTER_DATA_G
+	Enter the data in group G
+****************************************************************/
+
+ENTER_DATA_G:
+	procedure;
+
+TK_OVERRIDE = 0;
+do LOOP_INDEX =  46 to  46;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  46 then
+      do;
+
+      /* DIS_TK_TOTALS - Display the new totals */
+
+      ERROR_CODE = LOOP_INDEX;
+      if TK_TAX_P ^= 0 then
+         do;
+         TK_TAX_1 = floor(TK_FARE * TK_TAX_P + 0.5) / 100;
+         call DISPLAY_DATA_E;
+         end;
+      TK_TOTAL = floor((TK_FARE + TK_TAX_1 + TK_TAX_2) * 100 + 0.5) / 100;
+      if TK_COMM_P ^= 0 then
+         do;
+         TK_COMM_AMT = floor(TK_FARE * TK_COMM_P + 0.5) / 100;
+         call DISPLAY_DATA_F;
+         end;
+      TK_NET_FARE = floor((TK_TOTAL - TK_COMM_AMT) * 100 + 0.5) / 100;
+      if TK_OVERRIDE_P ^= 0 then
+         TK_OVERRIDE = floor(TK_FARE * TK_OVERRIDE_P + 0.5) / 100;
+      call DISPLAY_DATA_G;
+      TK_NET =floor((TK_TOTAL - (TK_COMM_AMT+TK_OVERRIDE)) * 100 + 0.5) / 100;
+      call DISPLAY_DATA_D;
+      LOOP_INDEX = ERROR_CODE;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_G         */
+
+/****************************************************************
+	ENTER_DATA_L
+	Enter screen group L
+****************************************************************/
+
+ENTER_DATA_L:
+	procedure;
+
+TK_NUMBER = "";
+do LOOP_INDEX =  38 to  38;
+   if LOOP_INDEX =  38 then
+      do;
+
+      /* CHECK_NOT_PAX - Do not allow entry if this isn't a pax */
+
+      if BK_PAX_SEQ = 0 then
+         LOOP_INDEX = 99;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  38 then
+      do;
+
+      /* CHECK_ISSUE_DATE - If ticket no, issue date must be in. */
+
+      if TK_NUMBER ^= "" then
+         do;
+         if TK_ISSUE_DATE = 0 then
+            do;
+            call ENTER_DATA_N;
+            end;
+         TK_UD_STATUS = 4;
+
+         /* DISPLAY_DATA_Y - Display */
+
+         do LOOP_INDEX =  53 to  53;
+            if LOOP_INDEX =  53 then
+               do;
+
+               /* SAVE_TK_STATUS - Save the old ticket status */
+
+               TK_OLD_STATUS = TK_UD_STATUS;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  53 then
+               do;
+
+               /* CHECK_TK_STATUS - Is this a valid ticket status? */
+
+               if TK_ALT_SEQ = 0 then if TK_UD_STATUS >= WAIT_TK then
+                  do;
+                  call DISPLAY_MESSAGE ("Header tickets can not be ticketed");
+                  call PRESS_RETURN;
+                  TK_UD_STATUS = TK_OLD_STATUS;
+                  LOOP_INDEX = LOOP_INDEX - 1;
+                  end;
+               if TK_ALT_SEQ ^= 0 then if TK_OLD_STATUS >= TICK_TK then
+                  if TK_NUMBER ^= "" then if TK_ISSUE_DATE ^= 0 then if TK_UD_STATUS ^= TK_OLD_STATUS then
+                     do;
+                     call DISPLAY_MESSAGE ("Can't change issued ticket's status");
+                     call PRESS_RETURN;
+                     TK_UD_STATUS = TK_OLD_STATUS;
+                     LOOP_INDEX = LOOP_INDEX - 1;
+                     end;
+
+               /* DISPLAY_DATA_Z - Display data */
+
+               do LOOP_INDEX =  54 to  54;
+                  if LOOP_INDEX =  54 then
+                     do;
+
+                     /* SET_TK_STATUS - Set the status description */
+
+                     do case (TK_UD_STATUS + 1);
+                        TK_STATUS_TK = "No status";
+                        TK_STATUS_TK = "Request tk";
+                        TK_STATUS_TK = "Req autoTK";
+                        TK_STATUS_TK = "Waitlisted";
+                        TK_STATUS_TK = "Ticketed";
+                        TK_STATUS_TK = "Ticketed";
+                        TK_STATUS_TK = "Ticketed";
+                        TK_STATUS_TK = "Ticketed";
+                        TK_STATUS_TK = "Cancel Rq";
+                        TK_STATUS_TK = "Cancelled";
+                     end;
+                     otherwise
+                        TK_STATUS_TK = "Ticketed";
+
+                     end;
+                  call KEEP_TRAILING_SPACES;
+                  call OUTPUT_FIELD (LOOP_INDEX);
+               end;
+               LOOP_INDEX = LOOP_INDEX - 1;
+
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         TK_ISSUE_DATE = 0;
+         call CLEAR_DATA_N;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_L         */
+
+/****************************************************************
+	CLEAR_DATA_L
+	Clear
+****************************************************************/
+
+CLEAR_DATA_L:
+	procedure;
+
+do LOOP_INDEX =  38 to  38;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+return;
+end;	/* CLEAR_DATA_L         */
+
+/****************************************************************
+	GET_TK_DEP_DATE
+	Get the ticket departure date
+****************************************************************/
+
+GET_TK_DEP_DATE:
+	procedure;
+
+
+   /* INIT_TK_HDR - Set up the Header fields */
+
+   TK_BK_DEP_DATE = TOUR_DEP_DATE;
+   TK_DEP_DATE = TOUR_DEP_DATE;
+
+
+   /* SET_FIRST_AIRP - Set first air detail for this pax */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRP - End of this pax air detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_DET_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      return;
+
+   /* CHECK_TK_DEP_DATE - Is this the first date? */
+
+   TK_DEP_DATE = TK_DATE;
+
+return;
+end;	/* GET_TK_DEP_DATE      */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (TK_AIRLINE_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

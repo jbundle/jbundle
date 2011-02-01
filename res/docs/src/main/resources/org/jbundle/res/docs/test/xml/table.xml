@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="table.xsl"?>
+<?cocoon-process type="xslt"?>
+<full-screen>
+<title>Menu Screen</title>
+<meta-keywords>travel, tours, custom tours, air, hotel, sightseeing, transfer, cruise, car rental, airport transfer, flight, travel agent</meta-keywords>
+<meta-description>Menu screen</meta-description>
+	<top-menu>
+		<menu-item>
+			<description>Home</description>
+			<link>?menu=</link>
+			<image>Home</image>
+		</menu-item>
+		<menu-item>
+			<description>Programmer's technical Information</description>
+			<link>?screen=&amp;record=.tour.genled.db.Account&amp;tech=&amp;help=</link>
+			<image>Tech</image>
+		</menu-item>
+		<menu-item>
+			<description>Run this program</description>
+			<link>?screen=&amp;record=.tour.genled.db.Account</link>
+			<image>Run</image>
+		</menu-item>
+		<menu-item>
+			<description>Report a bug in this program</description>
+			<link>?record=.main.Message&amp;move=New&amp;screenname=&amp;recordname=.tour.genled.db.Account</link>
+			<image>Bugs</image>
+		</menu-item>
+	</top-menu>
+
+	<navigation-menu>
+		<navigation-item>
+			<description>Home</description>
+			<link>?menu=</link>
+			<image>Home</image>
+		</navigation-item>
+		<navigation-item>
+			<description>Email</description>
+			<link>/</link>
+			<image>Mail</image>
+		</navigation-item>
+	</navigation-menu>
+	
+	<content-area>
+	    <Menus ID="79">
+        	<Name>Product Lookup</Name>
+       		<ParentFolderID>420</ParentFolderID>
+	    	<Sequence>1,000</Sequence>
+    	    <Description>This is the menu description</Description>
+	       	<Code/>
+	       	<Type>screen</Type>
+    	    <AutoDesc>N</AutoDesc>
+   	    	<Program>tour.booking.DProductList</Program>
+	        <Params/>
+    	   	<IconResource/>
+        	<Keywords/>
+        	<Html/>
+    	</Menus>
+		<menulist>
+	    	<Menus ID="79">
+    	    	<Name>Product Lookup</Name>
+        		<ParentFolderID>420</ParentFolderID>
+	    	    <Sequence>1,000</Sequence>
+    		    <Description/>
+	        	<Code/>
+	        	<Type>screen</Type>
+    		    <AutoDesc>N</AutoDesc>
+    	    	<Program>tour.booking.DProductList</Program>
+		        <Params/>
+    	    	<IconResource/>
+        		<Keywords/>
+    	    	<Html/>
+	    	</Menus>
+	    	<Menus ID="79">
+    	    	<Name>Item Number 2</Name>
+        		<ParentFolderID>420</ParentFolderID>
+	    	    <Sequence>1,000</Sequence>
+    		    <Description/>
+	        	<Code/>
+	        	<Type>screen</Type>
+    		    <AutoDesc>N</AutoDesc>
+    	    	<Program>tour.booking.DProductList</Program>
+		        <Params/>
+    	    	<IconResource/>
+        		<Keywords/>
+    	    	<Html/>
+	    	</Menus>
+	    	<Menus ID="79">
+    	    	<Name>Product Lookup</Name>
+        		<ParentFolderID>420</ParentFolderID>
+	    	    <Sequence>1,000</Sequence>
+    		    <Description/>
+	        	<Code/>
+	        	<Type>screen</Type>
+    		    <AutoDesc>N</AutoDesc>
+    	    	<Program>tour.booking.DProductList</Program>
+		        <Params/>
+    	    	<IconResource/>
+        		<Keywords/>
+    	    	<Html/>
+	    	</Menus>
+	    	<Menus ID="79">
+    	    	<Name>Product Lookup</Name>
+        		<ParentFolderID>420</ParentFolderID>
+	    	    <Sequence>1,000</Sequence>
+    		    <Description/>
+	        	<Code/>
+	        	<Type>screen</Type>
+    		    <AutoDesc>N</AutoDesc>
+    	    	<Program>tour.booking.DProductList</Program>
+		        <Params/>
+    	    	<IconResource/>
+        		<Keywords/>
+    	    	<Html/>
+	    	</Menus>
+	    	<Menus ID="79">
+    	    	<Name>Product Lookup</Name>
+        		<ParentFolderID>420</ParentFolderID>
+	    	    <Sequence>1,000</Sequence>
+    		    <Description/>
+	        	<Code/>
+	        	<Type>screen</Type>
+    		    <AutoDesc>N</AutoDesc>
+    	    	<Program>tour.booking.DProductList</Program>
+		        <Params/>
+    	    	<IconResource/>
+        		<Keywords/>
+    	    	<Html/>
+	    	</Menus>
+	    	<Menus ID="79">
+    	    	<Name>Product Lookup</Name>
+        		<ParentFolderID>420</ParentFolderID>
+	    	    <Sequence>1,000</Sequence>
+    		    <Description/>
+	        	<Code/>
+	        	<Type>screen</Type>
+    		    <AutoDesc>N</AutoDesc>
+    	    	<Program>tour.booking.DProductList</Program>
+		        <Params/>
+    	    	<IconResource/>
+        		<Keywords/>
+    	    	<Html/>
+	    	</Menus>
+	    	<Menus ID="79">
+    	    	<Name>Product Lookup</Name>
+        		<ParentFolderID>420</ParentFolderID>
+	    	    <Sequence>1,000</Sequence>
+    		    <Description/>
+	        	<Code/>
+	        	<Type>screen</Type>
+    		    <AutoDesc>N</AutoDesc>
+    	    	<Program>tour.booking.DProductList</Program>
+		        <Params/>
+    	    	<IconResource/>
+        		<Keywords/>
+    	    	<Html/>
+	    	</Menus>
+		</menulist>
+	</content-area>
+</full-screen>

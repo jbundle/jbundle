@@ -1,0 +1,24 @@
+/*********************************************************************
+	GL_PRINT File
+********************************************************************/
+
+declare	1 GL_PRINT_RECORD,
+		3 GL_START_AC_NO       fixed binary (31),
+		3 GL_END_AC_NO         fixed binary (31),
+		3 GL_START_DATE        fixed binary (15),
+		3 GL_END_DATE          fixed binary (15),
+		3 GL_DETAIL            character (1),
+		3 GL_SKIP_PAGE         character (1),
+		3 GL_TRIAL_CREDIT      float binary (53),
+		3 GL_TRIAL_DEBIT       float binary (53),
+		3 GL_ACCOUNTS          fixed binary (15),
+		3 GL_DEBIT_TOTAL       float binary (53),
+		3 GL_CREDIT_TOTAL      float binary (53),
+		3 GL_PAGE_NUM          fixed binary (31),
+		3 GL_LED_DATE          fixed binary (15),
+		3 GL_LED_TIME          fixed binary (15),
+		3 GL_LED_USER          character (       16),
+		3 GL_START_ENTRY       fixed binary (15),
+		3 GL_END_ENTRY         fixed binary (15),
+		3 GL_PROFIT_CENTER     fixed binary (15);
+

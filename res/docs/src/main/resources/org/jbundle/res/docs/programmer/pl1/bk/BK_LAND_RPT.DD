@@ -1,0 +1,21 @@
+/*********************************************************************
+	BK_LAND_RPT File
+********************************************************************/
+
+declare	1 BK_LAND_RPT_RECORD,
+		3 TOUR_FILE_START      character (       10),
+		3 TOUR_FILE_END        character (       10),
+		3 TOUR_FILE_DETAIL     character (1),
+		3 LAND_PRICING         character (1),
+		3 LAND_START_DATE      fixed binary (15),
+		3 LAND_END_DATE        fixed binary (15),
+		3 WP_LINE              character (       80),
+		3 ITIN_FILLER          character (       60),
+		3 LAND_ITIN            character (1),
+		3 END_ITIN             character (1),
+		3 LAND_DATE            fixed binary (15),
+		3 LAND_TIME            fixed binary (15),
+		3 LAND_USER            character (       16),
+		3 LAND_PAGE_NO         fixed binary (31),
+		3 LAND_COUNT           fixed binary (31);
+

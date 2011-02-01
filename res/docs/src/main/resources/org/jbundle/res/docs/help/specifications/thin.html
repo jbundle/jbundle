@@ -1,0 +1,56 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Don Corley">
+   <meta name="GENERATOR" content="Mozilla/4.51 [en] (WinNT; I) [Netscape]">
+   <title>Main Specifications</title>
+</head>
+<body>
+
+<h2>
+<b>Thin specifications</b></h2>
+The thin packages are used to supply the client with enough code to do
+most simple data manipulation and display.
+<p>Whenever possible, utilities in the base packages are used to cut the
+code size.
+<p>The Thin packages are split as follows:
+<ul>
+<li>
+db - Simple file/record/field manipulation</li>
+
+<li>
+screen - Simple presentation of screens/transfer of db record data</li>
+</ul>
+The db <b>record</b> implementations serve two purposes (Two basic concrete
+implementations)
+<ol>
+<li>
+Provide simple manipulation of record based data</li>
+
+<li>
+Provide and easy (and standard) way to transfer data back and forth to
+the host</li>
+</ol>
+The db <b>field</b> implementation:
+<ol>
+<li>
+Provide simple data validation</li>
+
+<li>
+Provide simple data conversion and standardized display (using classes
+from the JDK)</li>
+</ol>
+The field class figures out the data conversion by checking the data type
+of the default value.
+<br>Valid conversions are:
+<br>Short: 1234
+<br>Integer: 123456789
+<br>Float: 12345.67 (Always assume fixed at two decimals)
+<br>Double: 123,456,789.01 (Two decimals)
+<br>Date: Mar 15, 1999 (MEDIUM date format)
+<p>Numbers use the NumberConverters.
+<br>Date uses the Calendar converters.
+<br>&nbsp;
+</body>
+</html>

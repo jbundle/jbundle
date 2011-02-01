@@ -1,0 +1,221 @@
+/****************************************************************
+	Module: BK_SET_REMARK_DET
+	Top Level Logic: BK_SETUP_REMARK
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_SET_REMARK_DET
+	Top-Level for setting up remarks
+****************************************************************/
+
+%replace BK_SET_REMARK_DET_1 by 357;
+BK_SET_REMARK_DET:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_COMMENT_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_COMMENT_NO by  48;
+%include "BK_SET_REMARK_DET.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_COMMENT.DD";
+
+declare		END_SETUP_REMARK_DET bit (1);
+declare		ALT_OPT_INDEX        fixed binary (15);
+declare		SET_ALT_ANSW         fixed binary (15);
+declare		SET_ALT_OPT          fixed binary (15);
+
+   /* INIT_REMARK_DET - Init the remark variables */
+
+   NEXT_R_SEQ = 1;
+
+
+   /* SCAN_ALT_OPT - Go through the selected alt & opt 1 by 1 */
+
+   SET_ALT_OPT = 1;
+   ALT_OPT_INDEX = 1;
+   do while (SET_ALT_OPT ^= 0);
+      SET_ALT_OPT = BK_ALT_OPT_SQ(ALT_OPT_INDEX);
+      SET_ALT_ANSW = BK_AO_ANSW_SQ(ALT_OPT_INDEX);
+      if SET_ALT_OPT ^= 0 then
+         do;
+         ALT_OPT_INDEX = ALT_OPT_INDEX + 1;
+
+         /* INIT_LOGIC - Initialize for the read */
+
+
+         /* NEXT_REMARK_DET - Set for the next scan */
+
+         BK_R_ALT_SEQ = SET_ALT_OPT;
+         BK_R_ANSW_SEQ = SET_ALT_ANSW;
+         BK_R_SEQ = 0;
+
+
+         /* XFER_LOGIC - Logic to transfer the records */
+
+         END_SETUP_REMARK_DET = NO;
+         do while (END_SETUP_REMARK_DET ^= YES);
+            call SETUP_REMARK_DET;
+         end;
+         end;
+   end;
+
+
+   /* SET_REMARK_MOD - Set the remark modified number */
+
+   BK_REMARK_MOD = BK_NEXT_MOD;
+
+return;
+
+/****************************************************************
+	SETUP_REMARK_DET
+	Copy the detail
+****************************************************************/
+
+SETUP_REMARK_DET:
+	procedure;
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_COMMENT     fixed binary (15);
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   BK_TOUR_MOD_NO = -1;
+   BK_COMM_TOUR_CODE = HDR_TOUR_CODE;
+   BK_COMM_ALT_SEQ = BK_R_ALT_SEQ;
+   BK_COMM_ANSW_SEQ = BK_R_ANSW_SEQ;
+   BK_TOUR_C_R = "R";
+   BK_TOUR_SEQ = BK_R_SEQ;
+   call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > -1) !
+   (BK_COMM_TOUR_CODE > HDR_TOUR_CODE) !
+   (BK_COMM_ALT_SEQ > BK_R_ALT_SEQ) !
+   (BK_COMM_ANSW_SEQ > BK_R_ANSW_SEQ) !
+   (BK_TOUR_C_R > "R") then
+      do;
+      END_SETUP_REMARK_DET = YES;
+      return;
+      end;
+
+   /* SET_REMARK_TEMP - Save current key for next time */
+
+   BK_R_SEQ = BK_TOUR_SEQ;
+
+
+   /* SETUP_REMARK_KEY - Set up the keys for write */
+
+   BK_TOUR_MOD_NO = 0;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_COMM_ALT_SEQ = 0;
+   BK_COMM_ANSW_SEQ = 0;
+   BK_TOUR_C_R = "R";
+
+   BK_COMM_MOD_CODE = HDR_TOUR_CODE;
+
+
+   /* DEL_REMARK_COPY - Get rid of the old one if replace or del */
+
+   if BK_R_ALT_SEQ ^= BK_ALT_OPT_SQ(1) then
+      do;
+      if (BK_TOUR_MOD_CODE = "R") ! (BK_TOUR_MOD_CODE = "D") then
+         do;
+
+         /* DEL_REMARK_REC - Delete the old version and restore this1 */
+
+
+            /* READ_RECORD - Read the record */
+
+            call READ_KEYED (BK_COMMENT_NO,KEY_AREA_1,ERROR_BK_COMMENT);
+            if ERROR_BK_COMMENT > 3 then
+               call PRINT_ERROR (BK_COMMENT_NO,ERROR_BK_COMMENT);
+
+            /* DELETE_RECORD - Delete the record */
+
+            call DELETE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+
+            /* SET_DKEY_REMARK - Set back to the key to write */
+
+            BK_TOUR_MOD_NO = -1;
+            BK_COMM_TOUR_CODE = HDR_TOUR_CODE;
+            BK_COMM_ALT_SEQ = BK_R_ALT_SEQ;
+            BK_COMM_ANSW_SEQ = BK_R_ANSW_SEQ;
+            BK_TOUR_C_R = "R";
+            BK_TOUR_SEQ = BK_R_SEQ;
+            KEY_NO = 1;
+
+            /* READ_RECORD - Read the record */
+
+            call READ_KEYED (BK_COMMENT_NO,KEY_AREA_1,ERROR_BK_COMMENT);
+            if ERROR_BK_COMMENT > 3 then
+               call PRINT_ERROR (BK_COMMENT_NO,ERROR_BK_COMMENT);
+
+            /* SETUP_REMARK_KEY - Set up the keys for write */
+
+            BK_TOUR_MOD_NO = 0;
+            BK_OR_TOUR_NO = BOOKING_NO;
+            BK_COMM_ALT_SEQ = 0;
+            BK_COMM_ANSW_SEQ = 0;
+            BK_TOUR_C_R = "R";
+
+            BK_COMM_MOD_CODE = HDR_TOUR_CODE;
+
+         end;
+      else
+         do;
+         BK_TOUR_SEQ = NEXT_R_SEQ;
+         NEXT_R_SEQ = NEXT_R_SEQ + 1;
+         end;
+      end;
+
+
+   /* ADD_REMARK_REC - If this is not a delete, add the rec */
+
+   if BK_TOUR_MOD_CODE ^= "D" then
+      do;
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            BK_TOUR_SEQ = BK_TOUR_SEQ + 1;
+      end;
+      end;
+
+
+   /* SET_NEXT_REMARK - Set pointer to the next remark */
+
+   BK_R_SEQ = BK_R_SEQ + 1;
+
+
+   /* SET_NEXT_R_SEQ - Check next seq number */
+
+   if BK_TOUR_SEQ + 1 > NEXT_R_SEQ then
+      NEXT_R_SEQ = BK_TOUR_SEQ + 1;
+
+return;
+end;	/* SETUP_REMARK_DET     */
+end;	/* SETUP_REMARK_DET     */
+/*********************************End of Program*********************/

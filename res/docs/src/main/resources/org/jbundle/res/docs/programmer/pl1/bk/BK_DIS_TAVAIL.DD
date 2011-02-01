@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_DIS_TAVAIL File
+********************************************************************/
+
+declare	1 BK_DIS_TAVAIL_RECORD,
+		3 HDR_START_INV        fixed binary (15),
+		3 THDR_TOUR_CODE       character (        4);
+

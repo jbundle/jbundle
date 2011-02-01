@@ -1,0 +1,431 @@
+<HELP>
+	<html>
+		<head>
+			<title>Toolbar Button Functions</title>
+		</head>
+		<body TEXT="#000000" LINK="#0000ff" VLINK="#800080" BGCOLOR="#ffffff">
+
+			<B>
+				<CENTER>
+					<H1>Toolbar Button Functions</H1>
+				</CENTER>
+			</B>
+			<TABLE BORDER="1">
+				<TR>
+
+					<TD>
+						<B>Icon</B>
+					</TD>
+					<TD>
+						<B>Function</B>
+					</TD>
+					<TD>
+						<B>
+							Keyboard
+							<BR />
+							Shortcut
+						</B>
+					</TD>
+					<TD>
+						<B>
+							Menu
+							<BR />
+							Function
+						</B>
+					</TD>
+					<TD>
+						<B>Description</B>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD />
+					<TD>Next Field</TD>
+					<TD>
+						Tab
+						<BR />
+						Enter
+						<BR />
+						Down Arrow
+					</TD>
+					<TD />
+					<TD>Move the cursor to the next field</TD>
+				</TR>
+
+				<TR>
+					<TD />
+					<TD>Previous Field</TD>
+					<TD>
+						Shift+Tab
+						<BR />
+						Up Arrow
+					</TD>
+					<TD />
+					<TD>Move the cursor to the previous field</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<P />
+						<IMG SRC="../../../images/buttons/Cut.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Cut</TD>
+					<TD>
+						Ctrl+Delete
+						<BR />
+						Ctrl+X
+					</TD>
+					<TD>
+						Edit
+						<BR />
+						Cut
+					</TD>
+					<TD>Delete the currently selected text and place it on the
+						clipboard.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Copy.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Copy</TD>
+					<TD>
+						Ctrl+C
+						<BR />
+						Ctrl+Insert
+					</TD>
+					<TD>
+						Edit
+						<BR />
+						Copy
+					</TD>
+					<TD>Copy the currently selected text and place it on the clipboard.
+					</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Paste.gif" WIDTH="16"
+							HEIGHT="15" />
+					</TD>
+					<TD>Paste</TD>
+					<TD>
+						Shift+Insert
+						<BR />
+						Ctrl+V
+					</TD>
+					<TD>
+						Edit
+						<BR />
+						Paste
+					</TD>
+					<TD> Paste the text on the clipboard to the current cursor location
+						or selection.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Lookup.gif" WIDTH="16"
+							HEIGHT="15" />
+					</TD>
+					<TD>Lookup</TD>
+					<TD />
+					<TD />
+					<TD>
+						Change this form to lookup mode to search for a record.
+						<BR />
+						For Fields, bring up the lookup grid for this file.
+					</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Print.gif" WIDTH="16"
+							HEIGHT="15" />
+					</TD>
+					<TD>Print</TD>
+					<TD>Ctrl+P</TD>
+					<TD>
+						File
+						<BR />
+						Print
+					</TD>
+					<TD>Print this screen.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/First.gif" WIDTH="16"
+							HEIGHT="15" />
+					</TD>
+					<TD>First Record</TD>
+					<TD />
+					<TD>
+						Record
+						<BR />
+						First Record
+					</TD>
+					<TD>Display the first record.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Next.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Next Record</TD>
+					<TD>Ctrl+Down Arrow</TD>
+					<TD>
+						Record
+						<BR />
+						Next Record
+					</TD>
+					<TD>Display the next record.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Prev.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Previous Record</TD>
+					<TD>Ctrl+Up Arrow</TD>
+					<TD>
+						Record
+						<BR />
+						Previous Record
+					</TD>
+					<TD>Display the previous record.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Last.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Last Record</TD>
+					<TD />
+					<TD>
+						Record
+						<BR />
+						Last Record
+					</TD>
+					<TD>Display the last record.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/New.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>New Record</TD>
+					<TD>
+						Ctrl+Enter
+						<BR />
+						Ctrl+(+)
+					</TD>
+					<TD>
+						Record
+						<BR />
+						New Record
+					</TD>
+					<TD>Display a new blank record.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Refresh.gif" WIDTH="16"
+							HEIGHT="15" />
+					</TD>
+					<TD>Refresh Record</TD>
+					<TD>Esc+Esc</TD>
+					<TD>
+						Record
+						<BR />
+						Refresh Record
+					</TD>
+					<TD>Undo all the changes on this record and redisplay the old data.
+					</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Delete.gif" WIDTH="16"
+							HEIGHT="15" />
+					</TD>
+					<TD>Delete Record</TD>
+					<TD>
+						Ctrl+Delete
+						<BR />
+						Ctrl+(-)
+					</TD>
+					<TD>
+						Record
+						<BR />
+						Delete Record
+					</TD>
+					<TD>Delete this record.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Help.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Help</TD>
+					<TD>F1</TD>
+					<TD>
+						Help
+						<BR />
+						Help
+					</TD>
+					<TD>Access the help information for this screen.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Context.gif" WIDTH="16"
+							HEIGHT="15" />
+					</TD>
+					<TD>Context Sensitive Help</TD>
+					<TD />
+					<TD />
+					<TD>Access the help information for this item.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/EMail.gif" WIDTH="16"
+							HEIGHT="15" />
+					</TD>
+					<TD>E-Mail</TD>
+					<TD />
+					<TD />
+					<TD>Bring up the e-mail screen with this address.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Fax.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Fax</TD>
+					<TD />
+					<TD />
+					<TD>Bring up the fax screen with this fax address.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Form.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Form</TD>
+					<TD />
+					<TD />
+					<TD>Bring up the data-entry form for this file.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Grid.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Grid</TD>
+					<TD />
+					<TD />
+					<TD>Bring up the data-display grid for this file.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Home.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Home</TD>
+					<TD />
+					<TD />
+					<TD>Go to the home page.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Mail.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Mail</TD>
+					<TD />
+					<TD />
+					<TD>Bring up the mail screen for this address.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Phone.gif" WIDTH="16"
+							HEIGHT="15" />
+					</TD>
+					<TD>Phone</TD>
+					<TD />
+					<TD />
+					<TD>Dial this phone number (must have a JTAPI-enabled computer).
+					</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Undo.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>Undo</TD>
+					<TD>
+						Ctrl+Z
+						<BR />
+						Esc
+					</TD>
+					<TD>
+						Edit
+						<BR />
+						Undo
+					</TD>
+					<TD>Undo the last editing operation.</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/URL.gif" WIDTH="16" HEIGHT="15" />
+					</TD>
+					<TD>URL</TD>
+					<TD />
+					<TD />
+					<TD>Bring up the browser and go to this URL.</TD>
+				</TR>
+
+				<TR>
+					<TD />
+					<TD>Hard Return</TD>
+					<TD>Shift+Enter</TD>
+					<TD />
+					<TD>Enter a carriage return in a text box</TD>
+				</TR>
+
+				<TR>
+					<TD>
+						<IMG SRC="../../../images/buttons/Close.gif" WIDTH="16"
+							HEIGHT="15" />
+					</TD>
+					<TD>Close Window</TD>
+					<TD>Ctrl+W</TD>
+					<TD>
+						File
+						<BR />
+						Close
+					</TD>
+					<TD>Close the current window</TD>
+				</TR>
+
+				<TR>
+					<TD />
+					<TD>Preferences</TD>
+					<TD />
+					<TD>
+						Edit
+						<BR />
+						Preferences
+					</TD>
+					<TD>Open the screen preferences window</TD>
+				</TR>
+
+			</TABLE>
+
+		</body>
+	</html>
+</HELP>

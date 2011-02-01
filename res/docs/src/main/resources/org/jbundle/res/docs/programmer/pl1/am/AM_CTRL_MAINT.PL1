@@ -1,0 +1,257 @@
+/****************************************************************
+	Module: AM_CTRL_MAINT
+	Top Level Logic: CONTROL_FILE_MAINT
+	Date:  7-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AM_CTRL_MAINT
+	Control file maintenance
+****************************************************************/
+
+%replace AM_CTRL_MAINT_1 by 833;
+AM_CTRL_MAINT:
+   procedure;
+%replace AM_CONTROL_NO by 114;
+%include "AM_CONTROL.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		DISPLAY_REC          bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		ERROR_AM_CONTROL     fixed binary (15);
+declare		END_CTL_CHANGE_ITEM  bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   call CTL_SCREEN_IO;
+   call CTL_END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AM_REC_NO = 9;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   DISPLAY_REC = YES;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AM_CTRL_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AM_CONTROL_NO,"AM_CONTROL",byteaddr(AM_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	CTL_SCREEN_IO
+	Screen I/O for control file maint.
+****************************************************************/
+
+CTL_SCREEN_IO:
+	procedure;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AM_CTRL_MAINT_1);
+   NOT_FIRST_TIME = YES;
+
+   /* CHECK_FIRST - Check to see if this is the first time! */
+
+   DISPLAY_REC = YES;
+   LOOP_INDEX = 1;
+   call GET_CORRECT_REC;	/* If first time - will return an error */
+   FIRST_ITEM = 1;
+
+
+   /* CTL_RECORD_FOUND - Record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_AM_CONTROL = NORMAL_RETURN then
+      do;
+      call CTL_DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* CTL_INPUT_STUFF - This is the first time, Input the data */
+
+
+         /* SET_DISPLAY_NO - Set the display flag to NO */
+
+         DISPLAY_REC = NO;
+
+         call CTL_INPUT_SCREEN;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+
+   /* SET_DISPLAY_NO - Set the display flag to NO */
+
+   DISPLAY_REC = NO;
+
+   END_CTL_CHANGE_ITEM = NO;
+   do while (END_CTL_CHANGE_ITEM ^= YES);
+      call CTL_CHANGE_ITEM;
+   end;
+return;
+end;	/* CTL_SCREEN_IO        */
+
+/****************************************************************
+	CTL_DISPLAY_DATA
+	Display the items on the screen
+****************************************************************/
+
+CTL_DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX = FIRST_ITEM to   9;
+   call GET_CORRECT_REC;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* CTL_DISPLAY_DATA     */
+
+/****************************************************************
+	GET_CORRECT_REC
+	Get the correct record for this field
+****************************************************************/
+
+GET_CORRECT_REC:
+	procedure;
+
+declare		NEW_REC_NO           fixed binary (15);
+if LOOP_INDEX = 0 then
+   NEW_REC_NO = 9999;
+
+ERROR_AM_CONTROL = NORMAL_RETURN;
+if LOOP_INDEX >=  1 then if LOOP_INDEX <=  9 then
+   NEW_REC_NO =   0;
+if NEW_REC_NO ^= AM_REC_NO then
+   do;
+   if DISPLAY_REC ^= YES then
+      call UPDATE_RECORD (AM_CONTROL_NO,ERROR_AM_CONTROL);
+   AM_REC_NO = NEW_REC_NO;
+   if LOOP_INDEX ^= 0 then
+      do;
+      call READ_KEYED (AM_CONTROL_NO,KEY_AREA_1,ERROR_AM_CONTROL);
+      if ERROR_AM_CONTROL = RECORD_NOT_FOUND then
+         do;
+         call WRITE_RECORD (AM_CONTROL_NO,ERROR_AM_CONTROL);
+         ERROR_AM_CONTROL = RECORD_NOT_FOUND;
+         end;
+      end;
+   end;
+return;
+end;	/* GET_CORRECT_REC      */
+
+/****************************************************************
+	CTL_INPUT_SCREEN
+	Input thhe items on the screen
+****************************************************************/
+
+CTL_INPUT_SCREEN:
+	procedure;
+
+AM_NAME_1 = "";
+AM_NAME_2 = "";
+AM_NAME_3 = "";
+AM_NAME_4 = "";
+AM_BULK_1 = "";
+AM_BULK_2 = "";
+AM_BULK_3 = "";
+AM_BULK_4 = "";
+AM_BULK_5 = "";
+do LOOP_INDEX = FIRST_ITEM to   9;
+   call GET_CORRECT_REC;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* CTL_INPUT_SCREEN     */
+
+/****************************************************************
+	CTL_CHANGE_ITEM
+	Change items on the screen
+****************************************************************/
+
+CTL_CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+call ANY_CHANGE (1,  9,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CTL_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CTL_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  9 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call GET_CORRECT_REC;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CTL_CHANGE_ITEM      */
+
+/****************************************************************
+	CTL_END_PROGRAM
+	End of control maint program
+****************************************************************/
+
+CTL_END_PROGRAM:
+	procedure;
+
+
+   /* WRITE_LAST_CTL - Write out the last control file record */
+
+   LOOP_INDEX = 0;
+   call GET_CORRECT_REC;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AM_CONTROL_NO);
+return;
+end;	/* CTL_END_PROGRAM      */
+end;	/* CTL_END_PROGRAM      */
+/*********************************End of Program*********************/

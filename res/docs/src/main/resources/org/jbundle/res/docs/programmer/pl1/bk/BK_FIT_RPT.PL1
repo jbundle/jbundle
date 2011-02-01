@@ -1,0 +1,1357 @@
+/****************************************************************
+	Module: BK_FIT_RPT
+	Top Level Logic: FIT_RPT_LOGIC
+	Date: 14-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_FIT_RPT
+	Top Level - Print FIT costing report
+****************************************************************/
+
+%replace BK_FIT_RPT_1 by 543;
+%replace BK_FIT_RPT_2 by 544;
+%replace BK_FIT_RPT_3 by 546;
+%replace BK_FIT_RPT_4 by 547;
+BK_FIT_RPT:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_LINE_RECORD,
+      BK_PASSENGERS_RECORD);
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_HOTEL_NO by   8;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_LAND_NO by  54;
+%replace BK_TRANS_NO by  64;
+%replace TK_DETAIL_NO by  57;
+%replace TK_HEADER_NO by  56;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace BK_LINE_NO by  51;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_FIT_RPT.DD";
+%include "BK_DET_HOTEL.DD";
+%include "BK_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_LAND.DD";
+%include "BK_TRANS.DD";
+%include "TK_DETAIL.DD";
+%include "TK_HEADER.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_LINE.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		DISPLAY_FIT          character (1);
+declare		END_RPT_FIT          bit (1);
+declare		END_RPT_AIRH_DET     bit (1);
+declare		END_RPT_OTHER_DET    bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+   call INITIALIZE;
+   call FIT_RPT_MAIN;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   RPT_WIDE = "Y";
+   RPT_ALL = "Y";
+   RPT_HOTEL = "Y";
+   RPT_LAND = "Y";
+   RPT_ITIN = "Y";
+   RPT_TRANS = "Y";
+   RPT_AIR = "Y";
+   RPT_OTHER = "Y";
+   RPT_HOTEL_COST = 0;
+   RPT_MEAL_COST = 0;
+   RPT_LAND_COST = 0;
+   RPT_TRANS_COST = 0;
+   RPT_AIR_COST = 0;
+   RPT_OTHER_COSTS = 0;
+   RPT_TOUR_COST = 0;
+RPT_OVERHEAD_AMT = 0;
+   RPT_MARKUP_AMT = 0;
+   RPT_TOUR_NET = 0;
+   RPT_COMM_AMT = 0;
+   RPT_TOUR_GROSS = 0;
+   RPT_DOUBLE_PRICE = 0;
+   RPT_SINGLE_PRICE = 0;
+   RPT_TRIPLE_PRICE = 0;
+   RPT_QUAD_PRICE = 0;
+   RPT_SINGLE_GO = "Y";
+   RPT_DOUBLE_GO = "Y";
+   RPT_TRIPLE_GO = "Y";
+   RPT_QUAD_GO = "Y";
+   RPT_PAX_COUNT = 0;
+   RPT_PAX_MATCH = 0;
+   RPT_AVG_AIR_COST = 0;
+   HDET_MOD_CODE = "A";
+   HDET_INV = "N";
+   HDET_INV_MOD = -1;
+   HDET_INV_RATE = "";
+   HDET_MANUAL = "";
+   HDET_SEND_TO = "Y";
+   HDET_ACK_DAYS = 0;
+   HDET_MEAL_PRICE = 0;
+   HDET_MEAL_PLAN = "";
+   HDET_QUAD = 0;
+   HDET_MODULE = "";
+   HDET_STATUS = "RQ";
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_CUTOFF = 0;
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   LDET_DATE = BK_DEPARTURE;
+   LAND_TAX = 0;
+   LAND_SVC_CHG = 0;
+   LAND_COMM = 0;
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+   TK_MOD_CODE = "A";
+   TK_TAX_P = 0;
+   TK_ISSUE_UD_DATE = 0;
+   TK_ARC_UD_DATE = 0;
+   TK_DEP_UD_DATE = 0;
+   TK_OR_UD_DATE = 0;
+   TK_BK_DEP_DATE = 0;
+   TK_UD_STATUS = 0;
+   TK_CREDIT = "N";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_FIT_RPT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_FIT_RPT_RECORD) );
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_HOTEL_NO,"BK_HOTEL",byteaddr(BK_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_NO,"BK_TRANS",byteaddr(BK_TRANS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	FIT_RPT_MAIN
+	Mainline logic to print detail
+****************************************************************/
+
+FIT_RPT_MAIN:
+	procedure;
+
+
+   /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+   if BOOKING_NO = 0 then
+      return;
+
+
+   /* CHECK_ALL_INFO - Are all Agency, Pax, and Tour in? */
+
+   if BK_AGENCY = -1 then
+      do;
+      call DISPLAY_MESSAGE ("Agency not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   if BK_PAX = 0 then
+      do;
+      call DISPLAY_MESSAGE ("Passengers not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+   if BK_TOUR_NUM = 0 then
+      do;
+      call DISPLAY_MESSAGE ("Tour not entered!");
+      call PRESS_RETURN;
+      return;
+      end;
+
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+   call REPORT_SCREEN;
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* PRINT_LINE_C -  */
+
+   call SETUP_PRINT_FORMAT (BK_FIT_RPT_4);
+   do LOOP_INDEX =   1 to   7;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* PRINT_LINE_N -  */
+
+   call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+   do LOOP_INDEX =   1 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* SETUP_HOTEL_IF_NEW - If new, setup the hotel detail */
+
+   if BK_HOTEL_MOD = -1 then
+      do;
+
+      /* BK_SET_HOTEL_DET - Setup hotel detail */
+
+      %include "BK_SET_HOTEL_DET.DCL";
+      call BK_SET_HOTEL_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_HOTEL_RECORD);
+      end;
+
+
+   /* SETUP_LAND_IF_NEW - Set up the land detail if new */
+
+   if BK_TOUR_MOD = -1 then
+      do;
+
+      /* BK_SET_LAND_DET - Set up the land detail */
+
+      %include "BK_SET_LAND_DET.DCL";
+      call BK_SET_LAND_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_LAND_RECORD);
+      end;
+
+
+   /* SETUP_AIR_IF_NEW - Has the air detail been changed before? */
+
+   if BK_AIR_MOD = -1 then
+      do;
+
+      /* BK_SET_AIR_DET - Call the program to set up air */
+
+      %include "BK_SET_AIR_DET.DCL";
+      call BK_SET_AIR_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         TK_DETAIL_RECORD,
+         TK_HEADER_RECORD);
+      end;
+
+
+   /* SET_FIRST_HOTEL - First hotel */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* SET_FIRST_LAND - Set to the first land record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* SET_FIRST_AIR - Set up for reading the air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_HOTEL_END;
+
+   /* SET_END_HOTEL - If eof, set end hotel flag */
+
+   if DISPLAY_FIT ^= "E" then
+      HDET_DATE = 32767;
+
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_LAND_END;
+
+   /* SET_END_LAND - Check for end of land */
+
+   if DISPLAY_FIT ^= "E" then
+      LDET_DATE = 32767;
+
+
+   /* RESET_FLAG - Init Flag */
+
+   DISPLAY_FIT = "D";
+
+   call CHECK_AIR_END;
+
+   /* SET_END_AIR - Check for end of air detail */
+
+   if DISPLAY_FIT ^= "E" then
+      TK_DATE = 32767;
+
+   END_RPT_FIT = NO;
+   do while (END_RPT_FIT ^= YES);
+      call RPT_FIT;
+   end;
+
+   /* SET_FIRST_AIRH - Set to read the first Air header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   END_RPT_AIRH_DET = NO;
+   do while (END_RPT_AIRH_DET ^= YES);
+      call RPT_AIRH_DET;
+   end;
+
+   /* RPT_PP_AIR - Calc the P/P air for the report printout */
+
+   RPT_AIR_COST = RPT_AIR_COST + ((TOUR_PAX-RPT_PAX_COUNT) * RPT_AVG_AIR_COST);
+   RPT_PP_AIR_COST = RPT_AIR_COST / TOUR_PAX;
+
+   RPT_DOUBLE_PRICE = floor((RPT_DOUBLE_PRICE + RPT_PP_AIR_COST) * 100 + 0.5) / 100;
+
+
+   /* SKIP_RPT_AIRH - Skip air detail printing */
+
+   if RPT_AIR = "Y" then if RPT_AIR_COST ^= 0 then
+      do;
+
+      /* PRINT_LINE_Q -  */
+
+      call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+      do LOOP_INDEX =  12 to  12;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   LDET_MOD = 0;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 1;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_RPT_OTHER_DET = NO;
+   do while (END_RPT_OTHER_DET ^= YES);
+      call RPT_OTHER_DET;
+   end;
+
+   /* RPT_TOTAL_COST - Add up the total cost */
+
+   RPT_TOUR_COST = RPT_HOTEL_COST + RPT_MEAL_COST + RPT_LAND_COST +
+      RPT_TRANS_COST + RPT_AIR_COST + RPT_OTHER_COSTS;
+   RPT_OVERHEAD_AMT = RPT_TOUR_COST / 100;
+   RPT_MARKUP_AMT = floor(RPT_TOUR_COST * BK_MARKUP + 0.5) / 100;
+   RPT_TOUR_NET = RPT_TOUR_COST + RPT_MARKUP_AMT + RPT_OVERHEAD_AMT;
+   RPT_TOUR_GROSS = floor(RPT_TOUR_NET / (1-BK_STD_COMM/100)*100+0.5)/100;
+   RPT_COMM_AMT = RPT_TOUR_GROSS - RPT_TOUR_NET;
+   if RPT_DOUBLE_GO = "N" then
+      RPT_DOUBLE_PRICE = 0;
+   else
+      RPT_DOUBLE_PRICE = floor((RPT_DOUBLE_PRICE * (100 + 1 + BK_MARKUP) / 100) / ((100 - BK_STD_COMM) / 100) + 0.5);
+   if RPT_SINGLE_GO = "N" then
+      RPT_SINGLE_PRICE = 0;
+   else
+      RPT_SINGLE_PRICE = floor((RPT_SINGLE_PRICE * (100 + 1 + BK_MARKUP) / 100) / ((100 - BK_STD_COMM) / 100) + 0.5);
+   if RPT_TRIPLE_GO = "N" then
+      RPT_TRIPLE_PRICE = 0;
+   else
+      RPT_TRIPLE_PRICE = floor((RPT_TRIPLE_PRICE * (100 + 1 + BK_MARKUP) / 100) / ((100 - BK_STD_COMM) / 100) + 0.5);
+      if RPT_QUAD_GO = "N" then
+         RPT_QUAD_PRICE = 0;
+      else
+         RPT_QUAD_PRICE = floor((RPT_QUAD_PRICE * (100 + 1 + BK_MARKUP) / 100) / ((100 - BK_STD_COMM) / 100) + 0.5);
+      RPT_NET_ROUNDED =
+         floor(TOUR_PAX * RPT_DOUBLE_PRICE +
+         + (TOUR_SINGLES - min(TOUR_SINGLES,TOUR_FOCS)) * RPT_SINGLE_PRICE -
+         TOUR_TRIPLES * 3 * RPT_TRIPLE_PRICE +
+         TOUR_QUADS * 4 * RPT_QUAD_PRICE + 0.5);
+
+
+      /* PRINT_LINE_D -  */
+
+      call SETUP_PRINT_FORMAT (BK_FIT_RPT_4);
+      do LOOP_INDEX =   8 to  14;
+         call PRINT_REPORT_LINE;
+      end;
+   return;
+   end;	/* FIT_RPT_MAIN         */
+
+   /****************************************************************
+   	REPORT_SCREEN
+   	Get the report data from the screen
+   ****************************************************************/
+
+   REPORT_SCREEN:
+   	procedure;
+
+      call INPUT_SCREEN;
+
+      /* CHECK_AGAIN - Should I return to do this again? */
+
+      if RETURN_CODE = DO_AGAIN then
+         return;
+
+
+      /* RETURN_IF_INP_ERR - Return if input error */
+
+      if ERROR_INPUT_SCREEN then
+         return;
+
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+
+      /* CHECK_AGAIN - Should I return to do this again? */
+
+      if RETURN_CODE = DO_AGAIN then
+         return;
+
+
+      /* RETURN_IF_INP_ERR - Return if input error */
+
+      if ERROR_INPUT_SCREEN then
+         return;
+
+
+      /* OPEN_LPT - Open the printer */
+
+      call OPEN_PRINTER("REPORT");
+      call SETUP_PRINT_FORMAT (BK_FIT_RPT_2);
+      call PRINTING_OCCURRING;
+      call DUMP_BUFFER;
+   return;
+   end;	/* REPORT_SCREEN        */
+
+   /****************************************************************
+   	INPUT_SCREEN
+   	Input the data for this screen
+   ****************************************************************/
+
+   INPUT_SCREEN:
+   	procedure;
+
+   declare		FIRST_ITEM           fixed binary (15);
+   do LOOP_INDEX =  11 to  18;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+      if LOOP_INDEX =  12 then
+         do;
+
+         /* SKIP_ALL_YES - Skip if "Y"es for all options */
+
+         if RPT_ALL = "Y" then
+            LOOP_INDEX = 99;
+
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   return;
+   end;	/* INPUT_SCREEN         */
+
+   /****************************************************************
+   	CHANGE_ITEM
+   	Any change? (Input screen fields)
+   ****************************************************************/
+
+   CHANGE_ITEM:
+   	procedure;
+
+   declare		SELECT               fixed binary (15);
+   call ANY_CHANGE (1,  8,SELECT,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      do;
+      END_CHANGE_ITEM = YES;
+      return;
+      end;
+      end;
+   if SELECT = 0 then
+      do;
+      END_CHANGE_ITEM = YES;
+      return;
+      end;
+   if SELECT >=  1 then if SELECT <=  8 then
+      do;
+
+         LOOP_INDEX = SELECT +  10;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if LOOP_INDEX =  12 then
+         do;
+
+         /* SKIP_ALL_YES - Skip if "Y"es for all options */
+
+         if RPT_ALL = "Y" then
+            LOOP_INDEX = 99;
+
+         end;
+      end;
+   return;
+   end;	/* CHANGE_ITEM          */
+
+   /****************************************************************
+   	PRINT_REPORT_LINE
+   	Print out this report line
+   ****************************************************************/
+
+   PRINT_REPORT_LINE:
+   	procedure;
+
+   declare		SAVE_FORMAT          fixed binary (15);
+   declare		SAVE_INDEX           fixed binary (15);
+   call PRINT_LINE_OUT (LOOP_INDEX);
+   return;
+   end;	/* PRINT_REPORT_LINE    */
+
+   /****************************************************************
+   	CHECK_HOTEL_END
+   	Any hotels?
+   ****************************************************************/
+
+   CHECK_HOTEL_END:
+   	procedure;
+
+
+      /* READ_NEXT_HOTELD - Read next */
+
+      call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+      /* CHECK_END_HOTELP - Last hotel detail? */
+
+      if (ERROR_CODE = END_OF_FILE) !
+      (HDET_MOD > BK_MODIFICATION) !
+      (HDET_BK_TR_NO > BOOKING_NO) !
+      (HDET_ALT_SEQ > BK_PAX_SEQ) !
+      (HDET_ANSW_SEQ > 0) then
+         return;
+
+      /* SET_FLAG - Set the flag */
+
+      DISPLAY_FIT = "E";
+
+   return;
+   end;	/* CHECK_HOTEL_END      */
+
+   /****************************************************************
+   	CHECK_LAND_END
+   	Any Land?
+   ****************************************************************/
+
+   CHECK_LAND_END:
+   	procedure;
+
+
+      /* READ_NEXT_LANDD - Read the next land detail record */
+
+      call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+      /* CHECK_END_LANDP - Last land in this pax mod? */
+
+      if (ERROR_CODE = END_OF_FILE) !
+      (LDET_MOD > BK_MODIFICATION) !
+      (LDET_BK_TK_NO > BOOKING_NO) !
+      (LDET_ALT_SEQ > BK_PAX_SEQ) !
+      (LDET_ANSW_SEQ > 0) then
+         return;
+
+      /* SET_FLAG - Set the flag */
+
+      DISPLAY_FIT = "E";
+
+   return;
+   end;	/* CHECK_LAND_END       */
+
+   /****************************************************************
+   	CHECK_AIR_END
+   	Any air?
+   ****************************************************************/
+
+   CHECK_AIR_END:
+   	procedure;
+
+
+      /* READ_NEXT_AIRD - Read next */
+
+      call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+      /* CHECK_END_AIRP - End of this pax air detail? */
+
+      if (ERROR_CODE = END_OF_FILE) !
+      (TK_DET_MOD > BK_MODIFICATION) !
+      (TK_DET_BK_TK > BOOKING_NO) !
+      (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+      (TK_DET_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+         return;
+
+      /* SET_FLAG - Set the flag */
+
+      DISPLAY_FIT = "E";
+
+   return;
+   end;	/* CHECK_AIR_END        */
+
+   /****************************************************************
+   	RPT_FIT
+   	Print the FIT detail
+   ****************************************************************/
+
+   RPT_FIT:
+   	procedure;
+
+   if (HDET_DATE = 32767) & (LDET_DATE = 32767) & (TK_DATE = 32767) then
+      do;
+      ERROR_CODE = END_OF_FILE;
+      do;
+      END_RPT_FIT = YES;
+      return;
+      end;
+      end;
+
+   RPT_TYPE = "H";
+   RPT_DATE = HDET_DATE;
+
+   if RPT_DATE > LDET_DATE then
+      do;
+      RPT_TYPE = LDET_TORT;
+      RPT_DATE = LDET_DATE;
+      end;
+
+   if RPT_DATE > TK_DATE then
+      do;
+      RPT_TYPE = "A";
+      RPT_DATE = TK_DATE;
+      end;
+
+   RPT_DAY = RPT_DATE - BK_DEPARTURE + 1;
+
+
+   /* GET_RPT_WEEK_DAY - Get day of week */
+
+   RPT_WEEK_DAY = substr("SunMonTueWedThuFriSat",
+      fixed((float(RPT_DATE,21)/7-trunc(float(RPT_DATE,21)/7))*7+0.5,15)*3+1,3);
+
+
+   do case (index("HLTIA",RPT_TYPE));
+         do;
+         call RPT_HOTEL_DET;
+         end;
+         do;
+         call RPT_LAND_DET;
+         end;
+         do;
+         call RPT_TRANS_DET;
+         end;
+         do;
+         call RPT_ITIN_DET;
+         end;
+         do;
+         call RPT_AIR_DET;
+         end;
+   end;
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   return;
+   end;	/* RPT_FIT              */
+
+   /****************************************************************
+   	RPT_HOTEL_DET
+   	Print this hotel detail
+   ****************************************************************/
+
+   RPT_HOTEL_DET:
+   	procedure;
+
+
+      /* RPT_HOTEL_COST - Add this cost to the hotel cost */
+
+      FIT_PP_COST = floor(HDET_EXCHANGE * HDET_DOUBLE / 2 * HDET_NIGHTS * 100 + 0.5) / 100;
+      FIT_PP_COST_2 = floor(HDET_MEAL_COST / TOUR_PAX * 100 + 0.5) / 100;
+      RPT_HOTEL_COST = RPT_HOTEL_COST + HDET_ROOM_COST;
+      RPT_MEAL_COST = RPT_MEAL_COST + HDET_MEAL_COST;
+
+      RPT_DOUBLE_PRICE = RPT_DOUBLE_PRICE +
+         floor(HDET_EXCHANGE * HDET_DOUBLE / 2 * HDET_NIGHTS * 100 + 0.5) / 100;
+      RPT_SINGLE_PRICE = RPT_SINGLE_PRICE +
+         floor(HDET_EXCHANGE * (HDET_SINGLE - HDET_DOUBLE / 2) * HDET_NIGHTS * 100 + 0.5) /100;
+      RPT_TRIPLE_PRICE = RPT_TRIPLE_PRICE +
+         floor(HDET_EXCHANGE * (HDET_DOUBLE / 2 - HDET_TRIPLE / 3) * HDET_NIGHTS * 100 + 0.5) / 100;
+      RPT_QUAD_PRICE = RPT_QUAD_PRICE +
+         floor(HDET_EXCHANGE * (HDET_DOUBLE / 2 - HDET_QUAD / 4) * HDET_NIGHTS * 100 + 0.5) / 100;
+
+      RPT_DOUBLE_PRICE = RPT_DOUBLE_PRICE +
+         floor(HDET_MEAL_COST / TOUR_PAX * 100 + 0.5) / 100;
+
+      if HDET_SINGLE = 0 then
+         RPT_SINGLE_GO = "N";
+      if HDET_DOUBLE = 0 then
+         RPT_DOUBLE_GO = "N";
+      if HDET_TRIPLE = 0 then
+         RPT_TRIPLE_GO = "N";
+      if HDET_QUAD = 0 then
+         RPT_QUAD_GO = "N";
+
+
+      /* SET_RETURN_CODE - Set return code to 1 */
+
+      RETURN_CODE = 1;
+
+
+      /* READ_HOTEL_DESC - Get the hotel description */
+
+      HOTEL_CODE = HDET_HOTEL;
+      if HDET_MANUAL = "" then
+         call READ_KEYED (BK_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+      else
+         do;
+         HOTEL_NAME = HDET_MANUAL;
+         HOTEL_NAME_2 = "";
+         HOTEL_CURR = "";
+         ERROR_CODE = NORMAL_RETURN;
+         end;
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         if RETURN_CODE = 0 then	/*INPUT*/
+            do;
+            call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+            call PRESS_RETURN;
+            call CLEAR_MESSAGE;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         else
+            do;
+            HOTEL_NAME = "** Record not found **";
+            HOTEL_NAME_2 = "";
+            end;
+         end;
+
+
+      /* SKIP_RPT_HOTEL - Skip hotel detail? */
+
+      if RPT_HOTEL = "Y" then
+         do;
+
+         /* PRINT_LINE_E - Print lines */
+
+         call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+
+         /* GET_RPT_WEEK_DAY - Get day of week */
+
+         RPT_WEEK_DAY = substr("SunMonTueWedThuFriSat",
+            fixed((float(RPT_DATE,21)/7-trunc(float(RPT_DATE,21)/7))*7+0.5,15)*3+1,3);
+
+         do LOOP_INDEX =   3 to   3;
+            call PRINT_REPORT_LINE;
+         end;
+
+         /* PRINT_HOTEL_2 - Print 2nd line of hotel desc (if not b) */
+
+         if HOTEL_NAME_2 ^= "" then
+            do;
+
+            /* PRINT_LINE_F -  */
+
+            call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+            do LOOP_INDEX =   4 to   4;
+               call PRINT_REPORT_LINE;
+            end;
+            end;
+
+
+         /* PRINT_MEALS - Print meals if they exist */
+
+         if (HDET_MEAL(1) ^= "  ") ! (HDET_MEAL_COST ^= 0) then
+            do;
+
+            /* PRINT_LINE_G -  */
+
+            call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+            do LOOP_INDEX =   5 to   5;
+               call PRINT_REPORT_LINE;
+            end;
+            end;
+
+         end;
+
+
+      /* RESET_FLAG - Init Flag */
+
+      DISPLAY_FIT = "D";
+
+      call CHECK_HOTEL_END;
+
+      /* SET_END_HOTEL - If eof, set end hotel flag */
+
+      if DISPLAY_FIT ^= "E" then
+         HDET_DATE = 32767;
+
+   return;
+   end;	/* RPT_HOTEL_DET        */
+
+   /****************************************************************
+   	RPT_LAND_DET
+   	Print land detail
+   ****************************************************************/
+
+   RPT_LAND_DET:
+   	procedure;
+
+
+      /* RPT_LAND_COST - Add this land cost to the total */
+
+      FIT_PP_COST = floor(LDET_TOUR_COST / TOUR_PAX * 100 + 0.5) / 100;
+      if LDET_TORT ^= "T" then
+         RPT_LAND_COST = RPT_LAND_COST + LDET_TOUR_COST;
+      else
+         RPT_TRANS_COST = RPT_TRANS_COST + LDET_TOUR_COST;
+
+      RPT_DOUBLE_PRICE = RPT_DOUBLE_PRICE +
+         floor(LDET_TOUR_COST / TOUR_PAX * 100 + 0.5) / 100;
+
+
+      /* SET_RETURN_CODE - Set return code to 1 */
+
+      RETURN_CODE = 1;
+
+
+      /* READ_LAND_TRANS - Read land or transportation record */
+
+      LAND_CODE = LDET_TOUR_NO;
+      if LDET_MANUAL = "" then
+         call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      else
+         do;
+         LAND_DESC_1 = LDET_MANUAL;
+         LAND_DESC_2 = "";
+         LAND_CURR = "";
+         ERROR_CODE = NORMAL_RETURN;
+         end;
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         TRANS_NO = LDET_TOUR_NO;
+         call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            if RETURN_CODE = 0 then	/*INPUT*/
+               do;
+               call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+               call PRESS_RETURN;
+               call CLEAR_MESSAGE;
+               LOOP_INDEX = LOOP_INDEX - 1;
+               end;
+            else
+               do;
+               LAND_DESC_1 = "** Record not found **";
+               LAND_DESC_2 = "";
+               LAND_TYPE = "";
+               end;
+            end;
+         else
+            do;
+            LAND_DESC_1 = TRANS_FROM !! " to " !! TRANS_TO;
+            LAND_DESC_2 = "";
+            LAND_TYPE = "~";
+            LAND_VENDOR_NO = TRANS_VEN_NO;
+            end;
+         end;
+
+
+      /* SKIP_RPT_LAND - Skip the land detail? */
+
+      if RPT_LAND = "Y" then
+         do;
+
+         /* PRINT_LINE_H -  */
+
+         call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+
+         /* GET_RPT_WEEK_DAY - Get day of week */
+
+         RPT_WEEK_DAY = substr("SunMonTueWedThuFriSat",
+            fixed((float(RPT_DATE,21)/7-trunc(float(RPT_DATE,21)/7))*7+0.5,15)*3+1,3);
+
+         do LOOP_INDEX =   6 to   6;
+            call PRINT_REPORT_LINE;
+         end;
+
+         /* PRINT_LAND_2 - Print the second line of land rec? */
+
+         if LAND_DESC_2 ^= "" then
+            do;
+
+            /* PRINT_LINE_I -  */
+
+            call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+            do LOOP_INDEX =   7 to   7;
+               call PRINT_REPORT_LINE;
+            end;
+            end;
+
+         end;
+
+
+      /* RESET_FLAG - Init Flag */
+
+      DISPLAY_FIT = "D";
+
+      call CHECK_LAND_END;
+
+      /* SET_END_LAND - Check for end of land */
+
+      if DISPLAY_FIT ^= "E" then
+         LDET_DATE = 32767;
+
+   return;
+   end;	/* RPT_LAND_DET         */
+
+   /****************************************************************
+   	RPT_TRANS_DET
+   	Print trans detail
+   ****************************************************************/
+
+   RPT_TRANS_DET:
+   	procedure;
+
+
+      /* RPT_LAND_COST - Add this land cost to the total */
+
+      FIT_PP_COST = floor(LDET_TOUR_COST / TOUR_PAX * 100 + 0.5) / 100;
+      if LDET_TORT ^= "T" then
+         RPT_LAND_COST = RPT_LAND_COST + LDET_TOUR_COST;
+      else
+         RPT_TRANS_COST = RPT_TRANS_COST + LDET_TOUR_COST;
+
+      RPT_DOUBLE_PRICE = RPT_DOUBLE_PRICE +
+         floor(LDET_TOUR_COST / TOUR_PAX * 100 + 0.5) / 100;
+
+
+      /* READ_2_TRANS - Read the transportation record */
+
+      TRANS_NO = LDET_TOUR_NO;
+      call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         TRANS_FROM = "** RECORD NOT FOUND **";
+         end;
+
+      /* SKIP_RPT_TRANS - Skip printing the trans detail? */
+
+      if RPT_TRANS = "Y" then
+            do;
+
+            /* PRINT_LINE_L - Print data L */
+
+            call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+
+            /* GET_RPT_WEEK_DAY - Get day of week */
+
+            RPT_WEEK_DAY = substr("SunMonTueWedThuFriSat",
+               fixed((float(RPT_DATE,21)/7-trunc(float(RPT_DATE,21)/7))*7+0.5,15)*3+1,3);
+
+            do LOOP_INDEX =  10 to  10;
+               call PRINT_REPORT_LINE;
+            end;
+            end;
+
+
+      /* RESET_FLAG - Init Flag */
+
+      DISPLAY_FIT = "D";
+
+      call CHECK_LAND_END;
+
+      /* SET_END_LAND - Check for end of land */
+
+      if DISPLAY_FIT ^= "E" then
+         LDET_DATE = 32767;
+
+   return;
+   end;	/* RPT_TRANS_DET        */
+
+   /****************************************************************
+   	RPT_ITIN_DET
+   	Read land
+   ****************************************************************/
+
+   RPT_ITIN_DET:
+   	procedure;
+
+
+      /* SET_RETURN_CODE - Set return code to 1 */
+
+      RETURN_CODE = 1;
+
+
+      /* READ_LAND_TRANS - Read land or transportation record */
+
+      LAND_CODE = LDET_TOUR_NO;
+      if LDET_MANUAL = "" then
+         call READ_KEYED (BK_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      else
+         do;
+         LAND_DESC_1 = LDET_MANUAL;
+         LAND_DESC_2 = "";
+         LAND_CURR = "";
+         ERROR_CODE = NORMAL_RETURN;
+         end;
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         TRANS_NO = LDET_TOUR_NO;
+         call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = RECORD_NOT_FOUND then
+            do;
+            if RETURN_CODE = 0 then	/*INPUT*/
+               do;
+               call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+               call PRESS_RETURN;
+               call CLEAR_MESSAGE;
+               LOOP_INDEX = LOOP_INDEX - 1;
+               end;
+            else
+               do;
+               LAND_DESC_1 = "** Record not found **";
+               LAND_DESC_2 = "";
+               LAND_TYPE = "";
+               end;
+            end;
+         else
+            do;
+            LAND_DESC_1 = TRANS_FROM !! " to " !! TRANS_TO;
+            LAND_DESC_2 = "";
+            LAND_TYPE = "~";
+            LAND_VENDOR_NO = TRANS_VEN_NO;
+            end;
+         end;
+
+
+      /* SKIP_RPT_ITIN - Skip the itin detail? */
+
+      if RPT_ITIN = "Y" then
+         do;
+
+         /* PRINT_LINE_J -  */
+
+         call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+
+         /* GET_RPT_WEEK_DAY - Get day of week */
+
+         RPT_WEEK_DAY = substr("SunMonTueWedThuFriSat",
+            fixed((float(RPT_DATE,21)/7-trunc(float(RPT_DATE,21)/7))*7+0.5,15)*3+1,3);
+
+         do LOOP_INDEX =   8 to   8;
+            call PRINT_REPORT_LINE;
+         end;
+
+         /* PRINT_LAND_2 - Print the second line of land rec? */
+
+         if LAND_DESC_2 ^= "" then
+            do;
+
+            /* PRINT_LINE_I -  */
+
+            call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+            do LOOP_INDEX =   7 to   7;
+               call PRINT_REPORT_LINE;
+            end;
+            end;
+
+         end;
+
+
+      /* RESET_FLAG - Init Flag */
+
+      DISPLAY_FIT = "D";
+
+      call CHECK_LAND_END;
+
+      /* SET_END_LAND - Check for end of land */
+
+      if DISPLAY_FIT ^= "E" then
+         LDET_DATE = 32767;
+
+   return;
+   end;	/* RPT_ITIN_DET         */
+
+   /****************************************************************
+   	RPT_AIR_DET
+   	Print air detail
+   ****************************************************************/
+
+   RPT_AIR_DET:
+   	procedure;
+
+
+      /* SKIP_RPT_AIR - Skip the air detail? */
+
+      if RPT_AIR = "Y" then
+         do;
+
+         /* PRINT_LINE_M -  */
+
+         call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+
+         /* GET_RPT_WEEK_DAY - Get day of week */
+
+         RPT_WEEK_DAY = substr("SunMonTueWedThuFriSat",
+            fixed((float(RPT_DATE,21)/7-trunc(float(RPT_DATE,21)/7))*7+0.5,15)*3+1,3);
+
+         do LOOP_INDEX =  11 to  11;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+
+
+      /* RESET_FLAG - Init Flag */
+
+      DISPLAY_FIT = "D";
+
+      call CHECK_AIR_END;
+
+      /* SET_END_AIR - Check for end of air detail */
+
+      if DISPLAY_FIT ^= "E" then
+         TK_DATE = 32767;
+
+   return;
+   end;	/* RPT_AIR_DET          */
+
+   /****************************************************************
+   	RPT_AIRH_DET
+   	Add the air cost
+   ****************************************************************/
+
+   RPT_AIRH_DET:
+   	procedure;
+
+
+      /* READ_NEXT_AIRH - Read the next air header */
+
+      call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+      /* CHECK_END_TKHDR - Last TK header? */
+
+      if (ERROR_CODE = END_OF_FILE) !
+      (TK_MODIFICATION > BK_MODIFICATION) !
+      (TK_BK_TK_NO > BOOKING_NO) then
+         do;
+         END_RPT_AIRH_DET = YES;
+         return;
+         end;
+
+      /* SKIP_XL_TK - Skip cancelled tickets */
+
+      if TK_UD_STATUS >= XL_TK then
+         return;
+
+
+      /* SKIP_AGENT_TK - Skip agent ticket */
+
+      if TK_TICKET_BY = "A" then
+         return;
+
+
+      /* RPT_AIR_COST - Add to the air cost */
+
+      if TK_ALT_SEQ = 0 then
+         do;
+         RPT_AVG_AIR_COST = floor((RPT_AVG_AIR_COST + TK_NET) * 100 + 0.5) / 100;
+         return;
+         end;
+
+      RPT_AIR_COST = floor((RPT_AIR_COST + TK_NET) * 100 + 0.5) / 100;
+      if TK_ALT_SEQ ^= RPT_PAX_MATCH then
+         do;
+         RPT_PAX_MATCH = TK_ALT_SEQ;
+         RPT_PAX_COUNT = RPT_PAX_COUNT + 1;
+         end;
+
+   return;
+   end;	/* RPT_AIRH_DET         */
+
+   /****************************************************************
+   	RPT_OTHER_DET
+   	Print the other cost detail
+   ****************************************************************/
+
+   RPT_OTHER_DET:
+   	procedure;
+
+
+      /* READNEXT - Read the next record */
+
+      call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+      /* CHECK_END - Check to see if this is the last record */
+
+      if (ERROR_CODE = END_OF_FILE) !
+      (LDET_MOD > 0) !
+      (LDET_BK_TK_NO > BOOKING_NO) !
+      (LDET_ALT_SEQ > 0) !
+      (LDET_ANSW_SEQ > 1) then
+         do;
+         END_RPT_OTHER_DET = YES;
+         return;
+         end;
+
+      /* RPT_OTHER_COST - Add this other to the total */
+
+      if LDET_TOUR_COST ^= 0 then
+         do;
+         FIT_PP_COST = LDET_TOUR_COST / TOUR_PAX;
+         RPT_OTHER_COSTS = RPT_OTHER_COSTS + LDET_TOUR_COST;
+
+         RPT_DOUBLE_PRICE = RPT_DOUBLE_PRICE +
+            floor(LDET_TOUR_COST / TOUR_PAX * 100 + 0.5) / 100;
+         end;
+      else
+         do;
+         FIT_PP_COST = LDET_TOUR_PP_COST;
+         RPT_OTHER_COSTS = RPT_OTHER_COSTS + LDET_TOUR_PP_COST * TOUR_PAX;
+
+         RPT_DOUBLE_PRICE = floor((RPT_DOUBLE_PRICE + LDET_TOUR_PP_COST) * 100 + 0.5) / 100;
+         end;
+
+
+      /* SKIP_RPT_OTHER - Skip other costs */
+
+      if RPT_OTHER = "Y" then
+         do;
+
+         /* PRINT_LINE_O -  */
+
+         call SETUP_PRINT_FORMAT (BK_FIT_RPT_3);
+         do LOOP_INDEX =  13 to  13;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+
+   return;
+   end;	/* RPT_OTHER_DET        */
+
+   /****************************************************************
+   	END_RPT_PROGRAM
+   	End of the program
+   ****************************************************************/
+
+   END_RPT_PROGRAM:
+   	procedure;
+
+
+      /* CLOSE_RPT_FILES - Close the files for this report program */
+
+      call CLOSE_FILE (BK_DET_HOTEL_NO);
+      call CLOSE_FILE (BK_HOTEL_NO);
+      call CLOSE_FILE (BK_DET_LAND_NO);
+      call CLOSE_FILE (BK_LAND_NO);
+      call CLOSE_FILE (BK_TRANS_NO);
+      call CLOSE_FILE (TK_DETAIL_NO);
+      call CLOSE_FILE (TK_HEADER_NO);
+      call CLOSE_PRINTER;
+   return;
+   end;	/* END_RPT_PROGRAM      */
+   end;	/* END_RPT_PROGRAM      */
+   /*********************************End of Program*********************/

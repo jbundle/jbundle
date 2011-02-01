@@ -1,0 +1,559 @@
+/****************************************************************
+	Module: BK_TOUR_PAX
+	Top Level Logic: TOUR_PAX_LOGIC
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_TOUR_PAX
+	Top-Level Logic
+****************************************************************/
+
+%replace BK_TOUR_PAX_1 by 397;
+%replace BK_TOUR_PAX_2 by 398;
+BK_TOUR_PAX:
+   procedure;
+%replace BK_TOUR_NO by  34;
+%replace BK_INV_DET_NO by  61;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_TOUR_PAX.DD";
+%include "BK_TOUR.DD";
+%include "BK_INV_DET.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_READ_THROUGH     bit (1);
+declare		END_READ_THRU_BKS    bit (1);
+declare		END_READ_THRU_PASS   bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   call REPORT_SCREEN;
+   call PRT_REPORT;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TOUR_QUADS = 0;
+   INV_DET_TYPE = "H";
+   INV_CODE_TYPE = "B";
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_TOUR_PAX_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_TOUR_PAX_RECORD) );
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_INV_DET_NO,"BK_INV_DET",byteaddr(BK_INV_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_INV_DET_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_PASSENGERS_NO,"BK_PASSENGERS",byteaddr(BK_PASSENGERS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_SCREEN
+	Get the report data from the screen
+****************************************************************/
+
+REPORT_SCREEN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("@LPT");
+   call SETUP_PRINT_FORMAT (BK_TOUR_PAX_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+return;
+end;	/* REPORT_SCREEN        */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+GROUP_END = GROUP_START;
+do LOOP_INDEX =   1 to   6;
+   if LOOP_INDEX =   2 then
+      GROUP_END = GROUP_START;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHK_ALL_SERIES - Check for default */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GROUP_START = "";
+         GROUP_END = "~~~~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      else
+         GROUP_END = GROUP_START;
+
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHK_ALL_RANGE - Check for default */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GROUP_DAY_F = 0;
+         GROUP_DAY_L = 32760;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  6,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  6 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* CHK_ALL_SERIES - Check for default */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GROUP_START = "";
+         GROUP_END = "~~~~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      else
+         GROUP_END = GROUP_START;
+
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHK_ALL_RANGE - Check for default */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         GROUP_DAY_F = 0;
+         GROUP_DAY_L = 32760;
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_REPORT
+	Print the report
+****************************************************************/
+
+PRT_REPORT:
+	procedure;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   TOUR_CODE = GROUP_START;
+   TOUR_DEP_DATE = GROUP_DAY_F;
+   TOUR_NO = 0;
+   call SET_POSITION (BK_TOUR_NO,KEY_AREA_2,ERROR_CODE);
+   END_READ_THROUGH = NO;
+   do while (END_READ_THROUGH ^= YES);
+      call READ_THROUGH;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =   9 to   9;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_REPORT           */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THROUGH
+	Read through the file
+****************************************************************/
+
+READ_THROUGH:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_TOUR_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_TOUR_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TOUR_CODE > GROUP_END) !
+   (TOUR_DEP_DATE > GROUP_DAY_L) then
+      do;
+      END_READ_THROUGH = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   call SET_TOUR_INV;
+   do LOOP_INDEX =   6 to   6;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TO_TOTALS - Add to the totals */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* BOOKING_DETAIL - Print the booking detail? */
+
+   if GROUP_BK = "Y" then
+      do;
+      call PRINT_BOOKINGS;
+      end;
+
+return;
+end;	/* READ_THROUGH         */
+
+/****************************************************************
+	SET_TOUR_INV
+	Read in the applicable Inventory
+****************************************************************/
+
+SET_TOUR_INV:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_INV_DET     fixed binary (15);
+
+   /* RESET_INV - Set to zero in case not found */
+
+   INV_BLOCKED = 0;
+   INV_USED = 0;
+   INV_AVAIL = 0;
+
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   INV_DET_TYPE = TOUR_CODE;
+   INV_DET_ENTRY = "T";
+   INV_DET_DATE = 0;
+   INV_CODE_TYPE = TOUR_DEP_DATE;
+   KEY_NO = 1;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (BK_INV_DET_NO,KEY_AREA_1,ERROR_BK_INV_DET);
+   if ERROR_BK_INV_DET > 3 then
+      call PRINT_ERROR (BK_INV_DET_NO,ERROR_BK_INV_DET);
+return;
+end;	/* SET_TOUR_INV         */
+
+/****************************************************************
+	PRINT_BOOKINGS
+	Print the bookings for this tour
+****************************************************************/
+
+PRINT_BOOKINGS:
+	procedure;
+
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_READ_THRU_BKS = NO;
+   do while (END_READ_THRU_BKS ^= YES);
+      call READ_THRU_BKS;
+   end;
+return;
+end;	/* PRINT_BOOKINGS       */
+
+/****************************************************************
+	READ_THRU_BKS
+	Read thru all the bookings
+****************************************************************/
+
+READ_THRU_BKS:
+	procedure;
+
+
+   /* READNEXT_BK - Read the next booking */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_READ_THRU_BKS = YES;
+      return;
+      end;
+
+   /* CK_CXL_BK - Skip any cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+
+   /* PRINT_LINE_D2 -  */
+
+   do LOOP_INDEX =   7 to   7;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* PRINT_PASSENGERS - Print the passengers? */
+
+   if GROUP_PAX = "Y" then
+      do;
+      call PRINT_PASS;
+      end;
+
+return;
+end;	/* READ_THRU_BKS        */
+
+/****************************************************************
+	PRINT_PASS
+	Print out the passengers
+****************************************************************/
+
+PRINT_PASS:
+	procedure;
+
+
+   /* SET_FIRST_PAX - Set up for seq read */
+
+   BK_PAX_MOD = 0;
+   BK_PAX_BK_NO = BOOKING_NO;
+   BK_PAX_SEQ = 0;
+   call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_PASS = NO;
+   do while (END_READ_THRU_PASS ^= YES);
+      call READ_THRU_PASS;
+   end;
+return;
+end;	/* PRINT_PASS           */
+
+/****************************************************************
+	READ_THRU_PASS
+	Read thru the passengers
+****************************************************************/
+
+READ_THRU_PASS:
+	procedure;
+
+
+   /* READ_NEXT_PAX - Read the next passenger */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_END_PAX - Check for the end of the passengers */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > 0) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_READ_THRU_PASS = YES;
+      return;
+      end;
+
+   /* PRINT_LINE_D3 -  */
+
+   do LOOP_INDEX =   8 to   8;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* READ_THRU_PASS       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_INV_DET_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_PASSENGERS_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

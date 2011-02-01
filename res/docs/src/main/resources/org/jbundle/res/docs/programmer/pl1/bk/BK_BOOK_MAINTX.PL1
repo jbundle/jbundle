@@ -1,0 +1,23 @@
+/****************************************************************
+	Module: BOOKING
+	Top Level Logic: BK_LOGIC
+	Date: 16-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/* BK_LOGIC - Logic for the booking entry program */
+
+BOOKING:
+	procedure;
+
+declare BK_BOOK_MAINT entry;
+
+call BK_BOOK_MAINT;
+
+stop;
+
+end;	/* BK_LOGIC             */
+/*********************************End of Program*********************/

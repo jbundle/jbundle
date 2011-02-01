@@ -1,0 +1,39 @@
+<HELP>
+<ClassInfo>
+<ClassDesc>General system information</ClassDesc>
+<ClassHelp>
+
+	<paragraph>
+		Help Index
+	</paragraph>
+
+	<paragraph>
+
+		Applications
+		<br />
+
+		<button-link>
+			<name>Data entry forms</name>
+			<link>?help=&amp;screen=Screen</link>
+			<image>Help</image>
+		</button-link>
+		<br />
+
+		<button-link>
+			<name>Data display and lookup grids</name>
+			<link>?help=&amp;screen=GridScreen</link>
+			<image>Help</image>
+		</button-link>
+		<br />
+
+		<button-link>
+			<name>Toolbar button functions</name>
+			<link>?help=&amp;xml=docs/help/user/basic/toolbarbuttons.xml</link>
+			<image>Help</image>
+		</button-link>
+		<br />
+	</paragraph>
+
+</ClassHelp>
+</ClassInfo>
+</HELP>

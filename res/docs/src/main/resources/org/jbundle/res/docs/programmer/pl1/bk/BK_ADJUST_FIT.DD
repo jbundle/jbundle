@@ -1,0 +1,13 @@
+/*********************************************************************
+	BK_ADJUST_FIT File
+********************************************************************/
+
+declare	1 BK_ADJUST_FIT_RECORD,
+		3 ALT_SEQ_ARRAY(99) fixed binary (15),
+		3 ANSW_SEQ_ARRAY(99) fixed binary (15),
+		3 DATE_SEQ_ARRAY(99) fixed binary (15),
+		3 SEQ_SEQ_ARRAY(99) fixed binary (15),
+		3 XINDEX               fixed binary (15),
+		3 OLD_DEPARTURE        fixed binary (15),
+		3 CINDEX               fixed binary (15);
+

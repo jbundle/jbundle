@@ -1,0 +1,15 @@
+/*********************************************************************
+	BK_ITIN_DET File
+********************************************************************/
+
+declare	1 BK_ITIN_DET_RECORD,
+		3 ITIN_BK_NO           fixed binary (31),
+		3 ITIN_DATE            fixed binary (15),
+		3 ITIN_CODE            character (       10),
+		3 ITIN_ANSW_SEQ        fixed binary (15),
+		3 ITIN_QUES_TEXT       character (       30),
+		3 ITIN_ANSWER          character (       60),
+		3 ITIN_DESC_1          character (       30),
+		3 ITIN_DESC_2          character (       30),
+		3 ITIN_LAND_CODE       character (       10);
+

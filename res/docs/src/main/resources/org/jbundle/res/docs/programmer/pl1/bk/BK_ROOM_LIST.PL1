@@ -1,0 +1,960 @@
+/****************************************************************
+	Module: BK_ROOM_LIST
+	Top Level Logic: ROOM_LIST_LOGIC
+	Date: 22-Feb-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ROOM_LIST
+	Top-Level to print the tour rooming list
+****************************************************************/
+
+%replace BK_ROOM_LIST_1 by 842;
+BK_ROOM_LIST:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_TOUR_DOC_RECORD,
+      BK_CONTROL_RECORD);
+%replace BK_TEXT_NO by  83;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_TOUR_DOC_NO by  76;
+%replace BK_CONTROL_NO by  47;
+%include "BK_ROOM_LIST.DD";
+%include "BK_TEXT.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_TOUR_DOC.DD";
+%include "BK_CONTROL.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_PRT_THRU_PAXT    bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_READ_THRU_PAX    bit (1);
+declare		PAX_COUNT            fixed binary (15);
+declare		ROOM_TYPE_DESC       character (        6);
+declare		LINE                 fixed binary (15);
+declare		END_PRT_THRU_PAXLL   bit (1);
+declare		END_PRT_THRU_PAXL    bit (1);
+declare		END_ADD_THRU_PAXD    bit (1);
+declare		END_PRT_THRU_PAXDD   bit (1);
+declare		END_PRT_THRU_PAXDDD  bit (1);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   LINE = 0;
+
+   /* SET_SCRN_VARS - Set the screen variables pointer */
+
+   call SET_SCREEN_VARS (byteaddr (BK_ROOM_LIST_RECORD) );
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   call ROOM_LIST_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	ROOM_LIST_MAIN
+	Mainline logic
+****************************************************************/
+
+ROOM_LIST_MAIN:
+	procedure;
+
+
+   /* SET_THIS_FMT - Set up the document's format */
+
+   if BK_H_FORM ^= "" then
+      call PRINT_LINE ("[FORM: " !! CUT_SPACES(BK_H_FORM) !! "]");
+
+
+   /* PAX_PRT - Open the pax format and print */
+
+   if DOC_NAME = "" then
+      do;
+      END_PRT_THRU_PAXT = NO;
+      do while (END_PRT_THRU_PAXT ^= YES);
+         call PRT_THRU_PAXT;
+      end;
+      end;
+   else
+      do;
+      call OPEN_SFILE (BK_TEXT_NO,"FORM:" !! CUT_SPACES(DOC_NAME),
+         byteaddr(BK_TEXT_RECORD),ERROR_CODE);
+      if ERROR_CODE ^= NORMAL_RETURN then
+         do;
+         END_PRT_THRU_PAXT = NO;
+         do while (END_PRT_THRU_PAXT ^= YES);
+            call PRT_THRU_PAXT;
+         end;
+         LINE = 100;
+         goto END_SEQN_READ;
+         end;
+      do while (YES);		/* Until EOF */
+      call READ_SEQN(BK_TEXT_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE = END_OF_FILE then
+            do;
+            goto END_SEQN_READ;
+            end;
+         if substr(BK_STRING,1,1) ^= "[" then
+            call PRINT_LINE(CUT_SPACES_LONG(BK_STRING));
+         else
+            do;
+            PV_CODE = substr(BK_STRING,2,5);
+            call PRT_PV_PAX;
+            end;
+      end;
+      end;
+   END_SEQN_READ:
+   call CLOSE_SFILE (BK_TEXT_NO);
+
+return;
+end;	/* ROOM_LIST_MAIN       */
+
+/****************************************************************
+	PRT_THRU_PAXT
+	Print the the tour pax's bookings
+****************************************************************/
+
+PRT_THRU_PAXT:
+	procedure;
+
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_PRT_THRU_PAXT = YES;
+      return;
+      end;
+
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+   call PRT_DATA_C;
+return;
+end;	/* PRT_THRU_PAXT        */
+
+/****************************************************************
+	PRT_DATA_C
+	Print the Passenger information
+****************************************************************/
+
+PRT_DATA_C:
+	procedure;
+
+
+   /* PRINT_LINE_C1 -  */
+
+   call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+   do LOOP_INDEX =   1 to   7;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* SET_FIRST_PAXD - Set first */
+
+   BK_PAX_MOD = BK_MODIFICATION;
+   BK_PAX_BK_NO = BOOKING_NO;
+   BK_PAX_SEQ = 0;
+   call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* INIT_PAX - Init the pax count */
+
+   PAX_COUNT = 1;
+
+   END_READ_THRU_PAX = NO;
+   do while (END_READ_THRU_PAX ^= YES);
+      call READ_THRU_PAX;
+   end;
+
+   /* FINISH_PAX - Finish printing the lines if not done */
+
+   BK_PAX_ROOM_CODE = 0;
+   BK_PAX_NAME = "";
+
+   do while (PAX_COUNT < 7);
+      if (PAX_COUNT = 2) & (BK_SINGLE = 0) then
+         PAX_COUNT = 3;
+
+      if (PAX_COUNT = 3) & (BK_DOUBLE = 0) then
+         PAX_COUNT = 4;
+
+      if (PAX_COUNT = 4) & (BK_TRIPLE = 0) then
+         PAX_COUNT = 5;
+
+      if (PAX_COUNT = 5) & (BK_QUAD = 0) then
+         PAX_COUNT = 6;
+
+      do case (PAX_COUNT);
+         do;
+
+         /* PRINT_LINE_C2 -  */
+
+         call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   8 to   8;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C3 -  */
+
+         call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =   9 to   9;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C4 -  */
+
+         call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =  10 to  10;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C5 -  */
+
+         call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =  11 to  11;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C6 -  */
+
+         call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =  12 to  12;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+         do;
+
+         /* PRINT_LINE_C7 - Print lines */
+
+         call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+         /* SETUP_ROOM_DESC - Set the room description */
+
+         do case (BK_PAX_ROOM_CODE + 1);
+            BK_PAX_ROOM_DESC = "";
+            BK_PAX_ROOM_DESC = "Single";
+            BK_PAX_ROOM_DESC = "Twin";
+            BK_PAX_ROOM_DESC = "Triple";
+            BK_PAX_ROOM_DESC = "Quad";
+            BK_PAX_ROOM_DESC = "Sgl FC";
+            BK_PAX_ROOM_DESC = "Twn FC";
+            BK_PAX_ROOM_DESC = "Tpl FC";
+            BK_PAX_ROOM_DESC = "Qud FC";
+            BK_PAX_ROOM_DESC = "Shr FC";
+         end;
+         otherwise
+            do;
+            BK_PAX_ROOM_DESC = "";
+            end;
+
+         do LOOP_INDEX =  13 to  13;
+            call PRINT_REPORT_LINE;
+         end;
+         end;
+      end;
+      PAX_COUNT = PAX_COUNT + 1;
+   end;
+
+return;
+end;	/* PRT_DATA_C           */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =  24 to   1;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_PAX
+	Print out each pax
+****************************************************************/
+
+READ_THRU_PAX:
+	procedure;
+
+
+   /* READ_NEXT_PAXD - Read next */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_END_PAXD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_READ_THRU_PAX = YES;
+      return;
+      end;
+
+   /* PRINT_PAX - Print out the pax information */
+
+   if (PAX_COUNT = 2) & (BK_SINGLE = 0) then
+      PAX_COUNT = 3;
+
+   if (PAX_COUNT = 3) & (BK_DOUBLE = 0) then
+      PAX_COUNT = 4;
+
+   if (PAX_COUNT = 4) & (BK_TRIPLE = 0) then
+      PAX_COUNT = 5;
+
+   if (PAX_COUNT = 5) & (BK_QUAD = 0) then
+      PAX_COUNT = 6;
+
+   do case (PAX_COUNT);
+      do;
+
+      /* PRINT_LINE_C2 -  */
+
+      call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   8 to   8;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C3 -  */
+
+      call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =   9 to   9;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C4 -  */
+
+      call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =  10 to  10;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C5 -  */
+
+      call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =  11 to  11;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C6 -  */
+
+      call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =  12 to  12;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+      do;
+
+      /* PRINT_LINE_C7 - Print lines */
+
+      call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+      /* SETUP_ROOM_DESC - Set the room description */
+
+      do case (BK_PAX_ROOM_CODE + 1);
+         BK_PAX_ROOM_DESC = "";
+         BK_PAX_ROOM_DESC = "Single";
+         BK_PAX_ROOM_DESC = "Twin";
+         BK_PAX_ROOM_DESC = "Triple";
+         BK_PAX_ROOM_DESC = "Quad";
+         BK_PAX_ROOM_DESC = "Sgl FC";
+         BK_PAX_ROOM_DESC = "Twn FC";
+         BK_PAX_ROOM_DESC = "Tpl FC";
+         BK_PAX_ROOM_DESC = "Qud FC";
+         BK_PAX_ROOM_DESC = "Shr FC";
+      end;
+      otherwise
+         do;
+         BK_PAX_ROOM_DESC = "";
+         end;
+
+      do LOOP_INDEX =  13 to  13;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   end;
+   PAX_COUNT = PAX_COUNT + 1;
+   if PAX_COUNT > 6 then
+      PAX_COUNT = 6;
+
+return;
+end;	/* READ_THRU_PAX        */
+
+/****************************************************************
+	PRT_PV_PAX
+	Print the passenger detail
+****************************************************************/
+
+PRT_PV_PAX:
+	procedure;
+
+do case (index("012",substr(PV_CODE,4,1)));
+      do;
+      END_PRT_THRU_PAXT = NO;
+      do while (END_PRT_THRU_PAXT ^= YES);
+         call PRT_THRU_PAXT;
+      end;
+      end;
+      do;
+      END_PRT_THRU_PAXLL = NO;
+      do while (END_PRT_THRU_PAXLL ^= YES);
+         call PRT_THRU_PAXLL;
+      end;
+      end;
+      do;
+      call PRT_THRU_PAXD;
+      end;
+end;
+otherwise
+do;
+END_PRT_THRU_PAXT = NO;
+do while (END_PRT_THRU_PAXT ^= YES);
+   call PRT_THRU_PAXT;
+end;
+end;
+
+return;
+end;	/* PRT_PV_PAX           */
+
+/****************************************************************
+	PRT_THRU_PAXLL
+	Print thrut the passenger long names
+****************************************************************/
+
+PRT_THRU_PAXLL:
+	procedure;
+
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_PRT_THRU_PAXLL = YES;
+      return;
+      end;
+
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+   END_PRT_THRU_PAXL = NO;
+   do while (END_PRT_THRU_PAXL ^= YES);
+      call PRT_THRU_PAXL;
+   end;
+return;
+end;	/* PRT_THRU_PAXLL       */
+
+/****************************************************************
+	PRT_THRU_PAXL
+	Print thru the long passenger detail
+****************************************************************/
+
+PRT_THRU_PAXL:
+	procedure;
+
+
+   /* SET_FIRST_PAXD - Set first */
+
+   BK_PAX_MOD = BK_MODIFICATION;
+   BK_PAX_BK_NO = BOOKING_NO;
+   BK_PAX_SEQ = 0;
+   call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_PAXD - Read next */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_END_PAXD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_PRT_THRU_PAXL = YES;
+      return;
+      end;
+
+   /* INIT_LONG_PAXD - Set up for processing */
+
+   PAX_SAVE_ROOMD = BK_PAX_ROOM_CODE;
+   PAX_LONG_NAMES = BK_PAX_NAME;
+
+   END_ADD_THRU_PAXD = NO;
+   do while (END_ADD_THRU_PAXD ^= YES);
+      call ADD_THRU_PAXD;
+   end;
+return;
+end;	/* PRT_THRU_PAXL        */
+
+/****************************************************************
+	ADD_THRU_PAXD
+	Add names thru the passenger detail
+****************************************************************/
+
+ADD_THRU_PAXD:
+	procedure;
+
+
+   /* READ_NEXT_PAXD - Read next */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_LONG_PAXD - Add this record to the pax desc */
+
+   if (ERROR_CODE = NORMAL_RETURN) &
+   (BK_MODIFICATION = BK_PAX_MOD) &
+   (BOOKING_NO = BK_PAX_BK_NO) &
+   (BK_PAX_ROOM_CODE = 0) then
+      do;
+      if PAX_LONG_NAMES = "" then
+         PAX_LONG_NAMES = BK_PAX_NAME;
+      else
+         PAX_LONG_NAMES = CUT_SPACES_LONG(PAX_LONG_NAMES) !! ", " !! BK_PAX_NAME;
+      end;
+   else
+      do;
+      declare TEMP fixed binary;
+      TEMP = PAX_SAVE_ROOMD;
+      PAX_SAVE_ROOMD = BK_PAX_ROOM_CODE;
+      BK_PAX_ROOM_CODE = TEMP;
+      PAX_LONG_NAMES = BK_PAX_NAME;
+      end;
+
+
+   /* CHECK_END_PAXD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_ADD_THRU_PAXD = YES;
+      return;
+      end;
+return;
+end;	/* ADD_THRU_PAXD        */
+
+/****************************************************************
+	PRT_THRU_PAXD
+	Print thru the passenger detail
+****************************************************************/
+
+PRT_THRU_PAXD:
+	procedure;
+
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_PRT_THRU_PAXDD = NO;
+   do while (END_PRT_THRU_PAXDD ^= YES);
+      call PRT_THRU_PAXDD;
+   end;
+return;
+end;	/* PRT_THRU_PAXD        */
+
+/****************************************************************
+	PRT_THRU_PAXDD
+	Print
+****************************************************************/
+
+PRT_THRU_PAXDD:
+	procedure;
+
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_PRT_THRU_PAXDD = YES;
+      return;
+      end;
+
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+
+   /* SET_FIRST_PAX - Set up for seq read */
+
+   BK_PAX_MOD = BK_MODIFICATION;
+   BK_PAX_BK_NO = BOOKING_NO;
+   BK_PAX_SEQ = 0;
+   call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   END_PRT_THRU_PAXDDD = NO;
+   do while (END_PRT_THRU_PAXDDD ^= YES);
+      call PRT_THRU_PAXDDD;
+   end;
+return;
+end;	/* PRT_THRU_PAXDD       */
+
+/****************************************************************
+	PRT_THRU_PAXDDD
+	Print
+****************************************************************/
+
+PRT_THRU_PAXDDD:
+	procedure;
+
+
+   /* READ_NEXT_PAXD - Read next */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_END_PAXD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_PRT_THRU_PAXDDD = YES;
+      return;
+      end;
+
+   /* PRINT_LINE_A -  */
+
+   call SETUP_PRINT_FORMAT (BK_ROOM_LIST_1);
+
+   /* SETUP_ROOM_DESC - Set the room description */
+
+   do case (BK_PAX_ROOM_CODE + 1);
+      BK_PAX_ROOM_DESC = "";
+      BK_PAX_ROOM_DESC = "Single";
+      BK_PAX_ROOM_DESC = "Twin";
+      BK_PAX_ROOM_DESC = "Triple";
+      BK_PAX_ROOM_DESC = "Quad";
+      BK_PAX_ROOM_DESC = "Sgl FC";
+      BK_PAX_ROOM_DESC = "Twn FC";
+      BK_PAX_ROOM_DESC = "Tpl FC";
+      BK_PAX_ROOM_DESC = "Qud FC";
+      BK_PAX_ROOM_DESC = "Shr FC";
+   end;
+   otherwise
+      do;
+      BK_PAX_ROOM_DESC = "";
+      end;
+
+   do LOOP_INDEX =  16 to  16;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_THRU_PAXDDD      */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_SFILE (BK_TEXT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

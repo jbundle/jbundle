@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<configuration name="itin"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.xmlmind.com/xmleditor/schema/configuration"
+  xmlns:cfg="http://www.xmlmind.com/xmleditor/schema/configuration">
+
+  <detect>
+    <rootElementNamespace>http://www.xmlmind.com/xmleditor/schema/itin</rootElementNamespace>
+  </detect>
+
+  <schema>
+    <location>http://www.xmlmind.com/xmleditor/schema/itin
+              itin.xsd</location>
+  </schema>
+
+  <css name="Style sheet" location="itin.css" />
+
+  <template name="Template" location="itin.xml" />
+
+</configuration>

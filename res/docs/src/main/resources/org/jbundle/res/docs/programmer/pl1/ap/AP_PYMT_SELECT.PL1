@@ -1,0 +1,793 @@
+/****************************************************************
+	Module: AP_PYMT_SELECT
+	Top Level Logic: TABLE_CHG_MAINT
+	Date: 10-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_PYMT_SELECT
+	Table file maintenance - Change only!
+****************************************************************/
+
+%replace AP_PYMT_SELECT_1 by 100;
+AP_PYMT_SELECT:
+   procedure;
+%replace AP_VENDOR_NO by  30;
+%replace AD_CURR_NO by  25;
+%replace AP_OPEN_NO by  32;
+%replace BK_TOUR_NO by  34;
+%include "AP_VENDOR.DD";
+%include "AD_CURR.DD";
+%include "AP_OPEN.DD";
+%include "BK_TOUR.DD";
+%include "AP_PYMT_SELECT.DD";
+
+declare		END_TABLE_CHG_ONLY   bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_COUNT_SELECT     bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		AP_ENTRY_TYPE_ARRAY( 9) fixed binary (15);
+declare		AP_START_SVC_ARRAY( 9) fixed binary (15);
+declare		AP_ENTRY_NO_ARRAY( 9) fixed binary (31);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_SELECT_ALL       bit (1);
+   call INITIALIZE;
+   END_TABLE_CHG_ONLY = NO;
+   do while (END_TABLE_CHG_ONLY ^= YES);
+      call TABLE_CHG_ONLY;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   TOUR_QUADS = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_PYMT_SELECT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (AP_PYMT_SELECT_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	TABLE_CHG_ONLY
+	Mainline logic
+****************************************************************/
+
+TABLE_CHG_ONLY:
+	procedure;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AP_PYMT_SELECT_1);
+   NOT_FIRST_TIME = YES;
+   call INPUT_HDR_INFO;
+
+   /* RETURN_IF_ERR - Return if error/end typed */
+
+   if RETURN_CODE = END_TYPED then
+      do;
+      END_TABLE_CHG_ONLY = YES;
+      return;
+      end;
+
+   /* OTHER_LOGIC - Any other logic */
+
+   call ADD_SELECTION;
+   call TABLE_MAINT;
+return;
+end;	/* TABLE_CHG_ONLY       */
+
+/****************************************************************
+	INPUT_HDR_INFO
+	Input the table header information
+****************************************************************/
+
+INPUT_HDR_INFO:
+	procedure;
+
+AP_VEN_CURR = "";
+CURR_DESC = "";
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   3 to   4;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* READ_SECOND_3 - Read second */
+
+      CURR_CODE = AP_VEN_CURR;
+      call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         CURR_DESC = "** RECORD NOT FOUND **";
+         end;
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_HDR_INFO       */
+
+/****************************************************************
+	ADD_SELECTION
+	Add up the current selection
+****************************************************************/
+
+ADD_SELECTION:
+	procedure;
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+
+   /* GET_TOTAL_SELECT - Add up the total selection */
+
+
+      /* ZERO_SELECT - Zero the selection */
+
+      AP_SELECT_AMT = 0;
+
+
+      /* SET_FIRST - Set the record pointer to the first rec */
+
+      AP_OPEN_SELECT = "Y";
+      AP_OPEN_VENDOR = AP_VEN_NO;
+      AP_START_SVC = 0;
+      AP_ENTRY_NO = 0;
+      call SET_POSITION (AP_OPEN_NO,KEY_AREA_5,ERROR_CODE);
+      END_COUNT_SELECT = NO;
+      do while (END_COUNT_SELECT ^= YES);
+         call COUNT_SELECT;
+      end;
+   call DISPLAY_DATA_D;
+return;
+end;	/* ADD_SELECTION        */
+
+/****************************************************************
+	COUNT_SELECT
+	Count up the current selection
+****************************************************************/
+
+COUNT_SELECT:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_SELECT > "Y") !
+   (AP_OPEN_VENDOR > AP_VEN_NO) then
+      do;
+      END_COUNT_SELECT = YES;
+      return;
+      end;
+
+   /* ADD_SELECT - Add this to the selection */
+
+   AP_SELECT_AMT=floor((AP_SELECT_AMT + AP_AMT_SELECTED) * 100 + 0.5)/100;
+
+
+   /* OTHER_LOGIC_2 - Other logic */
+
+return;
+end;	/* COUNT_SELECT         */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =   5 to   5;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	TABLE_MAINT
+	Table display/maintenance
+****************************************************************/
+
+TABLE_MAINT:
+	procedure;
+
+declare		AP_OPEN_VENDOR_SAVE  character (        6);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		AP_OPEN_ERROR        fixed binary (15);
+declare		AP_ENTRY_TYPE_SAVE   fixed binary (15);
+declare		AP_START_SVC_SAVE    fixed binary (15);
+declare		AP_ENTRY_NO_SAVE     fixed binary (31);
+declare		ANSWER               character (1);
+AP_OPEN_VENDOR = AP_VEN_NO;
+AP_OPEN_VENDOR_SAVE = AP_OPEN_VENDOR;
+AP_ENTRY_TYPE = BROKER;
+AP_START_SVC = 0;
+AP_ENTRY_NO = 0;
+call SET_POSITION (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_VENDOR > AP_OPEN_VENDOR_SAVE) !
+   (AP_ENTRY_TYPE > INVOICE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to  9;
+      AP_ENTRY_TYPE_ARRAY(RECORD_NUMBER) = 0;
+      AP_START_SVC_ARRAY(RECORD_NUMBER) = 0;
+      AP_ENTRY_NO_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      AP_OPEN_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (AP_OPEN_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <=  9) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+         do LOOP_INDEX =   6 to  15;
+            if LOOP_INDEX =   7 then
+               do;
+
+               /* SET_AP_TYPE - Set up the type description */
+
+               do case (AP_ENTRY_TYPE);
+                  AP_ENTRY_TYPE_DESC = "Brk Pmt";
+                  AP_ENTRY_TYPE_DESC = "Dr Memo";
+                  AP_ENTRY_TYPE_DESC = "PrePymt";
+                  AP_ENTRY_TYPE_DESC = "Cr Memo";
+                  AP_ENTRY_TYPE_DESC = "Cr Inv";
+                  AP_ENTRY_TYPE_DESC = "Invoice";
+                  AP_ENTRY_TYPE_DESC = "Dr Memo";
+                  AP_ENTRY_TYPE_DESC = "PrePymt";
+                  AP_ENTRY_TYPE_DESC = "Brk Dft";
+                  AP_ENTRY_TYPE_DESC = "PP Req ";
+                  AP_ENTRY_TYPE_DESC = "Cr Memo";
+                  AP_ENTRY_TYPE_DESC = "Cr Inv";
+                  AP_ENTRY_TYPE_DESC = "Invoice";
+                  AP_ENTRY_TYPE_DESC = "Dep Est";
+                  AP_ENTRY_TYPE_DESC = "Fin Est";
+               end;
+               otherwise
+                  AP_ENTRY_TYPE_DESC = "";
+
+               end;
+            if LOOP_INDEX =  13 then
+               do;
+
+               /* SET_INV_BAL_DIS - Set the invoice balance to display */
+
+               INV_BAL_DIS = AP_INV_BAL;
+               if AP_ENTRY_TYPE = PP_REQ then
+                  INV_BAL_DIS = AP_VEN_INV_AMT + AP_INV_BAL;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =   8 then
+               do;
+
+               /* READ_SECOND - Read info and display secondary fileinfo */
+
+               TOUR_NO = AP_OPEN_TOUR;
+               call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  TOUR_DESC = "";
+                  end;
+               else
+                  do;
+                  end;
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         AP_ENTRY_TYPE_ARRAY(RECORD_NUMBER) = AP_ENTRY_TYPE;
+         AP_START_SVC_ARRAY(RECORD_NUMBER) = AP_START_SVC;
+         AP_ENTRY_NO_ARRAY(RECORD_NUMBER) = AP_ENTRY_NO;
+         call READ_NEXT (AP_OPEN_NO,KEY_AREA_2,AP_OPEN_ERROR);
+         if (AP_OPEN_VENDOR > AP_OPEN_VENDOR_SAVE) !
+         (AP_ENTRY_TYPE > INVOICE) then
+            AP_OPEN_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      AP_ENTRY_TYPE_SAVE = AP_ENTRY_TYPE_ARRAY( 9);
+      AP_START_SVC_SAVE = AP_START_SVC_ARRAY( 9);
+      AP_ENTRY_NO_SAVE = AP_ENTRY_NO_ARRAY( 9);
+      AP_OPEN_VENDOR = AP_OPEN_VENDOR_SAVE;
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = DELETE_TYPED) then
+         GET_OUT = YES;
+      else
+         if AP_OPEN_ERROR ^= END_OF_FILE then
+            do;
+            AP_ENTRY_TYPE = AP_ENTRY_TYPE_SAVE;
+            AP_START_SVC = AP_START_SVC_SAVE;
+            AP_ENTRY_NO = AP_ENTRY_NO_SAVE;
+            call SET_POSITION (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+            call READ_NEXT (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+            call READ_NEXT (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+            end;
+         else
+            if AP_ENTRY_TYPE_ARRAY( 9) = 0 then
+               GET_OUT = YES;
+            else
+               do;
+               ANSWER = "N";
+               if ANSWER = "N" then
+                  GET_OUT = YES;
+               else
+                  DISPLAY_RECORDS = NO;
+               end;
+      end;
+   else	/*DISPLAY_RECORDS = NO*/
+      do;
+      call DISPLAY_MESSAGE("There are no records to display");
+      call PRESS_RETURN;
+      GET_OUT = YES;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to  9;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+      if AP_ENTRY_TYPE_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX = 6 to  15;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_MAINT          */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 98,SELECT,RETURN_CODE);
+
+/* CHECK_SEL_ALL - Select all if they type "All" */
+
+if RETURN_CODE = ALL_TYPED then
+   do;
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   AP_OPEN_VENDOR = AP_VEN_NO;
+   AP_ENTRY_TYPE = BROKER;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+   END_SELECT_ALL = NO;
+   do while (END_SELECT_ALL ^= YES);
+      call SELECT_ALL;
+   end;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  9 then
+   do;
+   RECORD_NUMBER = SELECT;
+   call AP_OPEN_LINE;
+   call SET_ROW_OFFSET (0);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	SELECT_ALL
+	Select all vendor invoices at balance
+****************************************************************/
+
+SELECT_ALL:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AP_OPEN        fixed binary (15);
+
+   /* READ_NEXT_2 - Read next */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_VENDOR > AP_VEN_NO) !
+   (AP_ENTRY_TYPE > INVOICE) then
+      do;
+      END_SELECT_ALL = YES;
+      return;
+      end;
+
+   /* UD_SEL_FIELDS - Update the select fields */
+
+   AP_OPEN_SELECT = "Y";
+   AP_AMT_SELECTED = AP_INV_BAL;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (AP_OPEN_NO,KEY_AREA_2,ERROR_AP_OPEN);
+   if ERROR_AP_OPEN > 3 then
+      call PRINT_ERROR (AP_OPEN_NO,ERROR_AP_OPEN);
+return;
+end;	/* SELECT_ALL           */
+
+/****************************************************************
+	AP_OPEN_LINE
+	Change one line in the secondary file
+****************************************************************/
+
+AP_OPEN_LINE:
+	procedure;
+
+declare		REWRITE              bit (1);
+declare		DEL_RECORD           bit (1);
+call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+REWRITE = NO;
+if AP_ENTRY_TYPE_ARRAY(RECORD_NUMBER) ^= 0 then
+   do;
+   REWRITE = YES;
+   AP_ENTRY_TYPE = AP_ENTRY_TYPE_ARRAY(RECORD_NUMBER);
+   AP_START_SVC = AP_START_SVC_ARRAY(RECORD_NUMBER);
+   AP_ENTRY_NO = AP_ENTRY_NO_ARRAY(RECORD_NUMBER);
+   call READ_KEYED (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      return;
+      end;
+   do LOOP_INDEX =  6 to  15;
+      call CLEAR_FIELD (LOOP_INDEX);
+   end;
+   end;
+else
+   do;
+   call DISPLAY_MESSAGE ("Records may not be added!!!<BEL>"c);
+   call PRESS_RETURN;
+   return;
+   end;
+ERROR_CODE = 1;
+do while (ERROR_CODE ^= 0);
+   ERROR_CODE = 0;
+   do LOOP_INDEX =   6 to   6;
+      if LOOP_INDEX =   6 then
+         do;
+         call OUTPUT_FIELD (LOOP_INDEX);
+         LOOP_INDEX = 99;
+         end;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   if AP_ENTRY_NO = 0 then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   DEL_RECORD = YES;
+   if (INPUT_LENGTH ^= 0) & (RETURN_CODE ^= END_TYPED) then
+      do;
+      DEL_RECORD = NO;
+      do LOOP_INDEX =   7 to  15;
+         if LOOP_INDEX =   7 then
+            do;
+
+            /* SET_AP_TYPE - Set up the type description */
+
+            do case (AP_ENTRY_TYPE);
+               AP_ENTRY_TYPE_DESC = "Brk Pmt";
+               AP_ENTRY_TYPE_DESC = "Dr Memo";
+               AP_ENTRY_TYPE_DESC = "PrePymt";
+               AP_ENTRY_TYPE_DESC = "Cr Memo";
+               AP_ENTRY_TYPE_DESC = "Cr Inv";
+               AP_ENTRY_TYPE_DESC = "Invoice";
+               AP_ENTRY_TYPE_DESC = "Dr Memo";
+               AP_ENTRY_TYPE_DESC = "PrePymt";
+               AP_ENTRY_TYPE_DESC = "Brk Dft";
+               AP_ENTRY_TYPE_DESC = "PP Req ";
+               AP_ENTRY_TYPE_DESC = "Cr Memo";
+               AP_ENTRY_TYPE_DESC = "Cr Inv";
+               AP_ENTRY_TYPE_DESC = "Invoice";
+               AP_ENTRY_TYPE_DESC = "Dep Est";
+               AP_ENTRY_TYPE_DESC = "Fin Est";
+            end;
+            otherwise
+               AP_ENTRY_TYPE_DESC = "";
+
+            end;
+         if LOOP_INDEX =   7 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =   8 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =   9 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =  10 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =  11 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =  12 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =  13 then
+            do;
+
+            /* SET_INV_BAL_DIS - Set the invoice balance to display */
+
+            INV_BAL_DIS = AP_INV_BAL;
+            if AP_ENTRY_TYPE = PP_REQ then
+               INV_BAL_DIS = AP_VEN_INV_AMT + AP_INV_BAL;
+
+            end;
+         if LOOP_INDEX =  13 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = LOOP_INDEX + 1;
+            end;
+         if LOOP_INDEX =  14 then
+            do;
+
+            /* SET_SELECT_AMT - Set the default amount to select */
+
+
+            /* SUB_SELECT_AMT - Subtract this amount from the total */
+
+            AP_SELECT_AMT = floor((AP_SELECT_AMT - AP_AMT_SELECTED) * 100 + 0.5) / 100;
+
+            AP_AMT_SELECTED = INV_BAL_DIS;
+
+            end;
+         if LOOP_INDEX =  15 then
+            do;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            LOOP_INDEX = 99;
+            end;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+         if LOOP_INDEX =  14 then
+            do;
+
+            /* CHECK_SELECT_FLAG - Should the select flag be set? */
+
+            if AP_ENTRY_TYPE ^= CR_INV then if AP_AMT_SELECTED > INV_BAL_DIS then
+               do;
+               call DISPLAY_MESSAGE("Can't select more than the balance!!!<BEL>"c);
+               call PRESS_RETURN;
+               AP_AMT_SELECTED = INV_BAL_DIS;
+               LOOP_INDEX = LOOP_INDEX - 1;
+               end;
+
+            if (AP_ENTRY_TYPE = CR_INV) ! (AP_ENTRY_TYPE = PP_REQ) then
+               if AP_AMT_SELECTED ^= 0 then if AP_AMT_SELECTED ^= INV_BAL_DIS then
+                  do;
+                  call DISPLAY_MESSAGE ("Selection must match amount for P/P and CR Inv");
+                  call PRESS_RETURN;
+                  LOOP_INDEX = LOOP_INDEX - 1;
+                  AP_AMT_SELECTED = 0;
+                  end;
+
+            if AP_AMT_SELECTED = 0 then
+               AP_OPEN_SELECT = "N";
+            else
+               do;
+               AP_OPEN_SELECT = "Y";
+               end;
+
+            if INV_BAL_DIS = 0 then
+               AP_OPEN_SELECT = "Y";
+
+
+            /* ADD_SELECT - Add this to the selection */
+
+            AP_SELECT_AMT=floor((AP_SELECT_AMT + AP_AMT_SELECTED) * 100 + 0.5)/100;
+
+            declare LOOP_SAVE fixed binary;
+            call SET_ROW_OFFSET(0);
+            LOOP_SAVE = LOOP_INDEX;
+            call DISPLAY_DATA_D;
+            LOOP_INDEX = LOOP_SAVE;
+            call SET_ROW_OFFSET(RECORD_NUMBER * 2 - 2);
+
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      INPUT_LENGTH = 1;
+      end;
+   ERROR_CODE = 0;
+   if DEL_RECORD = YES then
+      do;
+      AP_ENTRY_TYPE = AP_ENTRY_TYPE_ARRAY(RECORD_NUMBER);
+      if REWRITE = YES then
+         call DELETE_RECORD (AP_OPEN_NO,ERROR_CODE);
+      call CLEAR_FIELD(LOOP_INDEX);
+      AP_ENTRY_TYPE = 0;
+      end;
+   else
+      do;
+      if REWRITE = NO then
+         call WRITE_RECORD (AP_OPEN_NO,ERROR_CODE);
+      else
+         call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+      end;
+   if ERROR_CODE ^= KEY_ALREADY_EXISTS then
+      do;
+      AP_ENTRY_TYPE_ARRAY(RECORD_NUMBER) = AP_ENTRY_TYPE;
+      AP_START_SVC_ARRAY(RECORD_NUMBER) = AP_START_SVC;
+      AP_ENTRY_NO_ARRAY(RECORD_NUMBER) = AP_ENTRY_NO;
+      end;
+end;
+return;
+end;	/* AP_OPEN_LINE         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

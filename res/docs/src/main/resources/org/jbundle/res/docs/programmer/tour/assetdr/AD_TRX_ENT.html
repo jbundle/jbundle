@@ -1,0 +1,60 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program allows additions to the bank account detail file. This program is used to enter bank
+service charges, automatic charges, and any other transaction not handled by the Accounts Receivable
+or Accounts Payable system.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>First, enter a valid bank account number. Next, enter the Transaction type (C=Check D=Deposit), the
+payee, date, amount, and comment.
+
+<br wp="br1"><br wp="br2">
+<p>Once the general account information is entered, you will be asked to enter the G/L distribution.
+
+<br wp="br1"><br wp="br2">
+<p>After making any changes, you will be asked if the transaction is okay. If it is, the transaction will be
+added to the checking detail file. The detail will be added to the G/L distribution file which will be
+posted to the G/L at the next posting date.
+
+<br wp="br1"><br wp="br2">
+<p>Note: To enter a void check, just enter a check with an amount of zero and a payee of VOID. This
+will not create any entries, but will maintain the complete list of check numbers for the audit trail.
+
+<br wp="br1"><br wp="br2">
+<p>Note: This program is also used to cancel a check which was lost, etc. Just use the Dr entry mode and
+distribute to the original G/L distribution. This will insure the correct amounts in the General Ledger.
+
+<br wp="br1"><br wp="br2">
+<p>Note: When entering transactions which have been entered in another system, remember that a G/L
+transaction will also be created in the other system. For example, a check received in A/R is returned
+by the bank; First, you would enter a debit memo in credit/memo entry, then you would enter a credit
+in this program. The G/L entry created by A/R would be:
+
+<p>4/15/91	Accounts Receivable			200.00
+
+<p>			Returned Check Summary		200.00
+
+<p>The G/L entry created by this program would be:
+
+<p>4/15/91	Returned Check Summary		200.00
+
+<p>			Cash						200.00
+
+</body>
+</html>

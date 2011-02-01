@@ -1,0 +1,314 @@
+/****************************************************************
+	Module: AP_OPEN_ADJ
+	Top Level Logic: NO_DEL_FILE_MAINT
+	Date: 20-Sep-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_OPEN_ADJ
+	Standard file maintenance (can't delete)
+****************************************************************/
+
+%replace AP_OPEN_ADJ_1 by 124;
+AP_OPEN_ADJ:
+   procedure;
+%replace AP_OPEN_NO by  32;
+%include "AP_OPEN.DD";
+
+declare		END_NO_DEL_IO        bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_NO_DEL_IO = NO;
+   do while (END_NO_DEL_IO ^= YES);
+      call NO_DEL_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_OPEN_ADJ_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	NO_DEL_IO
+	Mainline logic
+****************************************************************/
+
+NO_DEL_IO:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AP_OPEN        fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AP_OPEN_ADJ_1);
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_NO_DEL_IO = YES;
+      return;
+      end;
+   FIRST_ITEM = 2;
+
+   /* READ_AND_LOCKT - Read, lock and try again if lock */
+
+   call READ_KEYED (AP_OPEN_NO+?LOCK_RECORD,KEY_NO,ERROR_AP_OPEN);
+   if ERROR_AP_OPEN = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      return;
+      end;
+   if ERROR_AP_OPEN > 3 then
+      call PRINT_ERROR (AP_OPEN_NO,ERROR_AP_OPEN);
+
+   /* DISPLAY_REC_FOUND - Display is found, otherwise try again */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_AP_OPEN = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* REC_NOT_FOUND - Display rec not found and do again */
+
+
+         /* RECORD_NOT_FOUND - Record not found */
+
+         call DISPLAY_MESSAGE("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         ERROR_INPUT_SCREEN = YES;
+
+
+         /* DO_AGAIN - Return to do it again */
+
+         return;
+
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_AP_OPEN = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (AP_OPEN_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (AP_OPEN_NO,ERROR_CODE);
+         end;
+      end;
+
+return;
+end;	/* NO_DEL_IO            */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX = FIRST_ITEM to  39;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* SET_AP_TYPE - Set up the type description */
+
+      do case (AP_ENTRY_TYPE);
+         AP_ENTRY_TYPE_DESC = "Brk Pmt";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dr Memo";
+         AP_ENTRY_TYPE_DESC = "PrePymt";
+         AP_ENTRY_TYPE_DESC = "Brk Dft";
+         AP_ENTRY_TYPE_DESC = "PP Req ";
+         AP_ENTRY_TYPE_DESC = "Cr Memo";
+         AP_ENTRY_TYPE_DESC = "Cr Inv";
+         AP_ENTRY_TYPE_DESC = "Invoice";
+         AP_ENTRY_TYPE_DESC = "Dep Est";
+         AP_ENTRY_TYPE_DESC = "Fin Est";
+      end;
+      otherwise
+         AP_ENTRY_TYPE_DESC = "";
+
+      end;
+   if LOOP_INDEX =  38 then
+      do;
+
+      /* SET_V_DESC - Set the Voucher Status Description */
+
+      do case (AP_GL_STATUS + 1);
+         AP_V_DESC = "TO Held";
+         AP_V_DESC = "No stat.";
+         AP_V_DESC = "T.O. Rqd";
+         AP_V_DESC = "Wait Ack";
+         AP_V_DESC = "Ack Rcvd";
+         AP_V_DESC = "TO Prtd";
+         AP_V_DESC = "Xln Reqd";
+         AP_V_DESC = "Wait Xln";
+         AP_V_DESC = "Ackn Xln";
+         AP_V_DESC = "Xln Prtd";
+         AP_V_DESC = "Reprt TO";
+         AP_V_DESC = "Manual T";
+         AP_V_DESC = "Dep Est ";
+         AP_V_DESC = "Invoice ";
+         AP_V_DESC = "Cr memo ";
+         AP_V_DESC = "Prepaymt";
+         AP_V_DESC = "Dr memo ";
+         AP_V_DESC = "Payment ";
+         AP_V_DESC = "Posted  ";
+      end;
+      otherwise
+         AP_V_DESC = "No TO   ";
+
+      end;
+   if LOOP_INDEX =  39 then
+      do;
+
+      /* SKIP_LARGE_DATE - Skip the Post date if not a date */
+
+      if AP_GL_ACTION_DATE = LARGE_DATE then
+         LOOP_INDEX = LOOP_INDEX + 1;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 95,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+      	LOOP_INDEX = SELECT;
+   	call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AP_OPEN_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

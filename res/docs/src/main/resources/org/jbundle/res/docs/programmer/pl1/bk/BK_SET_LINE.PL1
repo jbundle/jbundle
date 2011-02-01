@@ -1,0 +1,292 @@
+/****************************************************************
+	Module: BK_SET_LINE
+	Top Level Logic: SET_LINE_LOGIC
+	Date: 21-Sep-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_SET_LINE
+	Write out the line items top-level
+****************************************************************/
+
+%replace BK_SET_LINE_1 by 325;
+BK_SET_LINE:
+   procedure(
+      BK_LINE_RECORD,
+      BK_BOOKING_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD);
+%replace BK_PRICING_NO by  59;
+%replace BK_LINE_NO by  51;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%include "BK_SET_LINE.DD";
+%include "BK_PRICING.DD";
+%include "BK_LINE.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		SET_ALT_ANSW         fixed binary (15);
+declare		SET_ALT_OPT          fixed binary (15);
+declare		END_XFER_PRICES      bit (1);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   NEXT_PRICE_SEQ = 1;
+   OLD_NET_PRICE = BK_NET_PRICE;
+   PRICE_MOD_CODE = "A";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_PRICING_NO,"BK_PRICING",byteaddr(BK_PRICING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PRICING_NO,ERROR_CODE);
+   call SET_MAIN;
+
+   /* SET_MISC - Set up some miscellaneous stuff */
+
+   if HDR_TOUR_TYPE ^= "H" then
+      BK_DEPOSIT = floor(HDR_DEPOSIT_AMT * BK_PAX * 100 + 0.5) / 100;
+   BK_BALANCE = floor((BK_BALANCE + BK_NET_PRICE - OLD_NET_PRICE) * 100 + 0.5) /100;
+
+   BK_LINE_CHGD = BK_NEXT_MOD;
+
+   if BK_STATUS = "OK" then
+      BK_PRINT_INV = "Y";
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	SET_MAIN
+	Mainline code
+****************************************************************/
+
+SET_MAIN:
+	procedure;
+
+declare		ALT_OPT_INDEX        fixed binary (15);
+
+   /* SCAN_ALT_OPT - Go through the selected alt & opt 1 by 1 */
+
+   SET_ALT_OPT = 1;
+   ALT_OPT_INDEX = 1;
+   do while (SET_ALT_OPT ^= 0);
+      SET_ALT_OPT = BK_ALT_OPT_SQ(ALT_OPT_INDEX);
+      SET_ALT_ANSW = BK_AO_ANSW_SQ(ALT_OPT_INDEX);
+      if SET_ALT_OPT ^= 0 then
+         do;
+         ALT_OPT_INDEX = ALT_OPT_INDEX + 1;
+
+         /* INIT_LOGIC - Initialize for the read */
+
+
+         /* FIRST_PRICE - Set up for sequential pricing file read */
+
+         PRICE_TOUR_CODE = HDR_TOUR_CODE;
+         PRICE_ALT_OPT = SET_ALT_OPT;
+         PRICE_ALT_SEQ = SET_ALT_ANSW;
+         PRICE_PAX_CAT = "";
+         PRICE_SEQ = 0;
+         call SET_POSITION (BK_PRICING_NO,KEY_AREA_1,ERROR_CODE);
+
+         /* XFER_LOGIC - Logic to transfer the records */
+
+         END_XFER_PRICES = NO;
+         do while (END_XFER_PRICES ^= YES);
+            call XFER_PRICES;
+         end;
+         end;
+   end;
+
+return;
+end;	/* SET_MAIN             */
+
+/****************************************************************
+	XFER_PRICES
+	Transfer all of the prices for this alt
+****************************************************************/
+
+XFER_PRICES:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_LINE        fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_PRICING_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PRICING_NO,ERROR_CODE);
+
+   /* NEXT_PRICE - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (PRICE_TOUR_CODE > HDR_TOUR_CODE) !
+   (PRICE_ALT_OPT > SET_ALT_OPT) !
+   (PRICE_ALT_SEQ > SET_ALT_ANSW) then
+      do;
+      END_XFER_PRICES = YES;
+      return;
+      end;
+
+   /* CHECK_PRICE_CAT - Check to see if this price cat applies */
+
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = PRICE_SEQ;
+   BK_LINE_MOD = 0;
+   BK_LINE_DESC = PRICE_DESC;
+   BK_LINE_PRICE = PRICE_SELL;
+   do case (fixed(PRICE_PAX_CAT,15)+1);
+      BK_LINE_QTY = BK_PAX;
+      BK_LINE_QTY = BK_SINGLE;
+      BK_LINE_QTY = BK_DOUBLE * 2;
+      BK_LINE_QTY = BK_TRIPLE * 3;
+      BK_LINE_QTY = BK_QUAD * 4;
+      BK_LINE_QTY = 1;
+   end;
+   otherwise
+      BK_LINE_QTY = 0;
+   if BK_LINE_QTY = 0 then
+      return;
+   BK_LINE_EXTEN = floor(BK_LINE_PRICE * BK_LINE_QTY * 100 + 0.5) / 100;
+   if PRICE_COMMABLE = "Y" then
+      BK_LINE_COMM = BK_STD_COMM;
+   else
+      BK_LINE_COMM = PRICE_COMM;
+   if PRICE_PAY_AT = "A" then
+      BK_LINE_NET = 0;
+   else
+      BK_LINE_NET = floor(BK_LINE_EXTEN * (100 - BK_LINE_COMM) + 0.5) / 100;
+   BK_LINE_MAN = "N";
+   BK_LINE_PAY_AT = PRICE_PAY_AT;
+   BK_LINE_FULL_COMM = PRICE_COMMABLE;
+   BK_LINE_TOUR_CODE = HDR_TOUR_CODE;
+
+
+   /* DELETE_IF_NOT_ADD - Delete the main record for Delete&Replac */
+
+   if PRICE_ALT_OPT ^= BK_ALT_OPT_SQ(1) then
+      do;
+      if PRICE_MOD_CODE ^= "A" then
+         do;
+
+         /* DELETE_LINE_IT - Delete this line item */
+
+
+            /* READ_RECORD - Read the record */
+
+            call READ_KEYED (BK_LINE_NO,KEY_AREA_1,ERROR_BK_LINE);
+            if ERROR_BK_LINE > 3 then
+               call PRINT_ERROR (BK_LINE_NO,ERROR_BK_LINE);
+
+            /* SUB_FROM_PRICE - Subtract this one from the totals */
+
+            if ERROR_BK_LINE = NORMAL_RETURN then
+               do;
+               BK_TOUR_PRICE =floor((BK_TOUR_PRICE - BK_LINE_EXTEN) * 100 + 0.5) / 100;
+               BK_NET_PRICE = floor((BK_NET_PRICE - BK_LINE_NET) * 100 + 0.5) / 100;
+               end;
+
+
+            /* DELETE_RECORD - Delete the record */
+
+            call DELETE_RECORD (BK_LINE_NO,ERROR_CODE);
+         end;
+      else
+         do;
+         PRICE_SEQ = NEXT_PRICE_SEQ;
+         NEXT_PRICE_SEQ = NEXT_PRICE_SEQ + 1;
+         end;
+      end;
+
+
+   /* CHECK_PRICE_CAT - Check to see if this price cat applies */
+
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = PRICE_SEQ;
+   BK_LINE_MOD = 0;
+   BK_LINE_DESC = PRICE_DESC;
+   BK_LINE_PRICE = PRICE_SELL;
+   do case (fixed(PRICE_PAX_CAT,15)+1);
+      BK_LINE_QTY = BK_PAX;
+      BK_LINE_QTY = BK_SINGLE;
+      BK_LINE_QTY = BK_DOUBLE * 2;
+      BK_LINE_QTY = BK_TRIPLE * 3;
+      BK_LINE_QTY = BK_QUAD * 4;
+      BK_LINE_QTY = 1;
+   end;
+   otherwise
+      BK_LINE_QTY = 0;
+   if BK_LINE_QTY = 0 then
+      return;
+   BK_LINE_EXTEN = floor(BK_LINE_PRICE * BK_LINE_QTY * 100 + 0.5) / 100;
+   if PRICE_COMMABLE = "Y" then
+      BK_LINE_COMM = BK_STD_COMM;
+   else
+      BK_LINE_COMM = PRICE_COMM;
+   if PRICE_PAY_AT = "A" then
+      BK_LINE_NET = 0;
+   else
+      BK_LINE_NET = floor(BK_LINE_EXTEN * (100 - BK_LINE_COMM) + 0.5) / 100;
+   BK_LINE_MAN = "N";
+   BK_LINE_PAY_AT = PRICE_PAY_AT;
+   BK_LINE_FULL_COMM = PRICE_COMMABLE;
+   BK_LINE_TOUR_CODE = HDR_TOUR_CODE;
+
+
+   /* WRITE_IF_NOT_DEL - Write the record for Replace and Adds */
+
+   if PRICE_MOD_CODE ^= "D" then
+      do;
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (BK_LINE_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            BK_LINE_SEQ = BK_LINE_SEQ + 1;
+      end;
+      end;
+
+
+   /* ADD_TO_PRICE - Add to amount to the prices */
+
+   BK_TOUR_PRICE =floor((BK_TOUR_PRICE + BK_LINE_EXTEN) * 100 + 0.5) / 100;
+   BK_NET_PRICE = floor((BK_NET_PRICE + BK_LINE_NET) * 100 + 0.5) / 100;
+
+
+   /* SET_NEXT_SEQ - Set up the line item next seq no. */
+
+   if BK_LINE_SEQ + 1 > NEXT_PRICE_SEQ then
+      NEXT_PRICE_SEQ = BK_LINE_SEQ + 1;
+
+return;
+end;	/* XFER_PRICES          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_PRICING_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

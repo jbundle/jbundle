@@ -1,0 +1,18 @@
+/*********************************************************************
+	BK_AFFIL_SALES File
+********************************************************************/
+
+declare	1 BK_AFFIL_SALES_RECORD,
+		3 START_AFFIL_DEP      fixed binary (15),
+		3 END_AFFIL_DEP        fixed binary (15),
+		3 AFFIL_MATCH          character (        4),
+		3 AFFIL_TOTAL_PRICE    float binary (53),
+		3 AFFIL_TOTAL_NET      float binary (53),
+		3 AFFIL_TOTAL_BOOKINGS fixed binary (31),
+		3 LOOP_AFFIL           fixed binary (15),
+		3 AFFIL_MATRIX(99) character (        4),
+		3 DATE_AFFIL           fixed binary (15),
+		3 TIME_AFFIL           fixed binary (15),
+		3 USER_AFFIL           character (       16),
+		3 PAGE_AFFIL           fixed binary (31);
+

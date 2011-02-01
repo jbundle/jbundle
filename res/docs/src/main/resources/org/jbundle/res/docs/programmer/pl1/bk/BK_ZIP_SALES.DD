@@ -1,0 +1,18 @@
+/*********************************************************************
+	BK_ZIP_SALES File
+********************************************************************/
+
+declare	1 BK_ZIP_SALES_RECORD,
+		3 BK_START_ZIP         character (       10),
+		3 BK_END_ZIP           character (       10),
+		3 ZIP_TOTAL_PRICE      float binary (53),
+		3 ZIP_TOTAL_NET        float binary (53),
+		3 ZIP_TOTAL_BOOKINGS   fixed binary (31),
+		3 BK_START_DEP         fixed binary (15),
+		3 BK_END_DEP           fixed binary (15),
+		3 ZIP_DETAIL           character (1),
+		3 ZIP_DATE             fixed binary (15),
+		3 ZIP_TIME             fixed binary (15),
+		3 ZIP_USER             character (       16),
+		3 ZIP_PAGE             fixed binary (31);
+

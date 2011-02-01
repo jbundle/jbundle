@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_UNSCH_MAINT File
+********************************************************************/
+
+declare	1 BK_UNSCH_MAINT_RECORD,
+		3 TOUR_START_DATE      fixed binary (15),
+		3 TOUR_END_DATE        fixed binary (15),
+		3 TOUR_PAX_SPACE       fixed binary (15),
+		3 BK_UNSCH_SELECT      fixed binary (15);
+

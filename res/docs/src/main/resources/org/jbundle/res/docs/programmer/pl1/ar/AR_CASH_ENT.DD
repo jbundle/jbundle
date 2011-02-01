@@ -1,0 +1,9 @@
+/*********************************************************************
+	AR_CASH_ENT File
+********************************************************************/
+
+declare	1 AR_CASH_ENT_RECORD,
+		3 AR_REMAINING         float binary (53),
+		3 AR_CASH_SELECT       fixed binary (15),
+		3 BOOK_ARRAY(15) fixed binary (31);
+

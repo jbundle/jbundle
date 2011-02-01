@@ -1,0 +1,362 @@
+/****************************************************************
+	Module: AP_DIST_DIS
+	Top Level Logic: TABLE_FILE_DIS
+	Date: 10-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_DIST_DIS
+	Display table logic
+****************************************************************/
+
+%replace AP_DIST_DIS_1 by 589;
+AP_DIST_DIS:
+   procedure;
+%replace AP_OPEN_NO by  32;
+%replace AP_VENDOR_NO by  30;
+%replace AD_CURR_NO by  25;
+%replace AP_PYMT_HIST_NO by  33;
+%include "AP_DIST_DIS.DD";
+%include "AP_OPEN.DD";
+%include "AP_VENDOR.DD";
+%include "AD_CURR.DD";
+%include "AP_PYMT_HIST.DD";
+
+declare		END_DISPLAY_IO       bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   END_DISPLAY_IO = NO;
+   do while (END_DISPLAY_IO ^= YES);
+      call DISPLAY_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_DIST_DIS_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AP_DIST_DIS_RECORD) );
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_PYMT_HIST_NO,"AP_PYMT_HIST",byteaddr(AP_PYMT_HIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_PYMT_HIST_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DISPLAY_IO
+	Main logic for table display
+****************************************************************/
+
+DISPLAY_IO:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AP_DIST_DIS_1);
+   NOT_FIRST_TIME = YES;
+   call INPUT_HDR_INFO;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_DISPLAY_IO = YES;
+      return;
+      end;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* DISPLAY_IO           */
+
+/****************************************************************
+	INPUT_HDR_INFO
+	Input the table header information
+****************************************************************/
+
+INPUT_HDR_INFO:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      AP_ENTRY_NO = DIST_ENTRY_NO;
+      call READ_KEYED (AP_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to  12;
+            if LOOP_INDEX =   2 then
+               do;
+
+               /* SET_AP_TYPE - Set up the type description */
+
+               do case (AP_ENTRY_TYPE);
+                  AP_ENTRY_TYPE_DESC = "Brk Pmt";
+                  AP_ENTRY_TYPE_DESC = "Dr Memo";
+                  AP_ENTRY_TYPE_DESC = "PrePymt";
+                  AP_ENTRY_TYPE_DESC = "Cr Memo";
+                  AP_ENTRY_TYPE_DESC = "Cr Inv";
+                  AP_ENTRY_TYPE_DESC = "Invoice";
+                  AP_ENTRY_TYPE_DESC = "Dr Memo";
+                  AP_ENTRY_TYPE_DESC = "PrePymt";
+                  AP_ENTRY_TYPE_DESC = "Brk Dft";
+                  AP_ENTRY_TYPE_DESC = "PP Req ";
+                  AP_ENTRY_TYPE_DESC = "Cr Memo";
+                  AP_ENTRY_TYPE_DESC = "Cr Inv";
+                  AP_ENTRY_TYPE_DESC = "Invoice";
+                  AP_ENTRY_TYPE_DESC = "Dep Est";
+                  AP_ENTRY_TYPE_DESC = "Fin Est";
+               end;
+               otherwise
+                  AP_ENTRY_TYPE_DESC = "";
+
+               end;
+            if LOOP_INDEX =   4 then
+               do;
+
+               /* READ_SECOND_2 - Read secondary info */
+
+               AP_VEN_NO = AP_OPEN_VENDOR;
+               call READ_KEYED (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  AP_VEN_NAME = "** RECORD NOT FOUND **";
+                  end;
+               end;
+            if LOOP_INDEX =   6 then
+               do;
+
+               /* READ_SECOND_3 - Read second */
+
+               CURR_CODE = AP_OPEN_CURR;
+               call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  CURR_DESC = "** RECORD NOT FOUND **";
+                  end;
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_HDR_INFO       */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		AP_HIST_BANK_SAVE    fixed binary (15);
+declare		AP_HIST_CHECK_SAVE   fixed binary (31);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		AP_HIST_ENTRY_ARRAY(12) fixed binary (31);
+declare		AP_HIST_SEQ_ARRAY(12) fixed binary (15);
+declare		AP_PYMT_HIST_ERROR   fixed binary (15);
+declare		AP_HIST_ENTRY_SAVE   fixed binary (31);
+declare		AP_HIST_SEQ_SAVE     fixed binary (15);
+declare		ANSWER               character (1);
+AP_HIST_BANK = 0;
+AP_HIST_BANK_SAVE = AP_HIST_BANK;
+AP_HIST_CHECK = DIST_ENTRY_NO;
+AP_HIST_CHECK_SAVE = AP_HIST_CHECK;
+AP_HIST_ENTRY = 0;
+AP_HIST_SEQ = 0;
+call SET_POSITION (AP_PYMT_HIST_NO,KEY_AREA_2,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (AP_PYMT_HIST_NO,KEY_AREA_2,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (AP_HIST_BANK > AP_HIST_BANK_SAVE) !
+   (AP_HIST_CHECK > AP_HIST_CHECK_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 12;
+      AP_HIST_ENTRY_ARRAY(RECORD_NUMBER) = 0;
+      AP_HIST_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      AP_PYMT_HIST_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (AP_PYMT_HIST_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 12) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  13 to  18;
+            if LOOP_INDEX =  14 then
+               do;
+
+               /* READ_SECOND_4 - read secondary file */
+
+               AP_ENTRY_NO = AP_HIST_ENTRY;
+               call READ_KEYED (AP_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  end;
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         AP_HIST_ENTRY_ARRAY(RECORD_NUMBER) = AP_HIST_ENTRY;
+         AP_HIST_SEQ_ARRAY(RECORD_NUMBER) = AP_HIST_SEQ;
+         call READ_NEXT (AP_PYMT_HIST_NO,KEY_AREA_2,AP_PYMT_HIST_ERROR);
+         if (AP_HIST_BANK > AP_HIST_BANK_SAVE) !
+         (AP_HIST_CHECK > AP_HIST_CHECK_SAVE) then
+            AP_PYMT_HIST_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      AP_HIST_ENTRY_SAVE = AP_HIST_ENTRY_ARRAY(12);
+      AP_HIST_SEQ_SAVE = AP_HIST_SEQ_ARRAY(12);
+      AP_HIST_BANK = AP_HIST_BANK_SAVE;
+      AP_HIST_CHECK = AP_HIST_CHECK_SAVE;
+      if AP_PYMT_HIST_ERROR = END_OF_FILE then
+         do;
+         GET_OUT = YES;
+         call PRESS_RETURN;
+         end;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      do;
+      GET_OUT = YES;
+      call PRESS_RETURN;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 12;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if AP_HIST_ENTRY_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =13 to  18;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (AP_PYMT_HIST_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

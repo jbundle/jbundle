@@ -1,0 +1,14 @@
+/*********************************************************************
+	BK_DIS_TOUR File
+********************************************************************/
+
+declare	1 BK_DIS_TOUR_RECORD,
+		3 DIS_TOUR_TYPE        character (        1),
+		3 DIS_MAIN_CARRIER     character (        2),
+		3 DIS_BROCHURE         character (        4),
+		3 DIS_PROD_CODE        character (        4),
+		3 DIS_START_DEP        fixed binary (15),
+		3 DIS_END_DEP          fixed binary (15),
+		3 DIS_SAVE_TC          character (        4),
+		3 DIS_SAVE_END         fixed binary (15);
+

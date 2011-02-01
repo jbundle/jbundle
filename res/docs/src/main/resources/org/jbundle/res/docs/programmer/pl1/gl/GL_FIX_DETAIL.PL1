@@ -1,0 +1,444 @@
+/****************************************************************
+	Module: GL_FIX_DETAIL
+	Top Level Logic: GL_FIX_LOGIC
+	Date: 28-Mar-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_FIX_DETAIL
+	Top-Level Fix G/L Postings
+****************************************************************/
+
+%replace GL_FIX_DETAIL_1 by 898;
+GL_FIX_DETAIL:
+   procedure;
+%replace GL_CHART_NO by  16;
+%replace GL_DETAIL_NO by  17;
+%include "GL_FIX_DETAIL.DD";
+%include "GL_CHART.DD";
+%include "GL_DETAIL.DD";
+
+declare		END_GL_FIX_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_FIX_ALL_GL       bit (1);
+declare		END_ADD_RUN_BAL      bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_FIX_THESE_GLS    bit (1);
+   call INITIALIZE;
+   END_GL_FIX_MAIN = NO;
+   do while (END_GL_FIX_MAIN ^= YES);
+      call GL_FIX_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   GL_FIX_COMMENT = "Corrected G/L account";
+   GL_RUN_BALANCE = 0;
+   GL_CHECK_BAL = "Y";
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+   GL_TRX_DATE = TODAYS_DATE();
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_TRX_AMOUNT = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_FIX_DETAIL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (GL_FIX_DETAIL_RECORD) );
+   call OPEN_FILE (GL_CHART_NO+?EXCLUSIVE_OPEN,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call OPEN_FILE (GL_DETAIL_NO+?EXCLUSIVE_OPEN,"GL_DETAIL",byteaddr(GL_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	GL_FIX_MAIN
+	Mainline logic
+****************************************************************/
+
+GL_FIX_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_GL_FIX_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* CHECK_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure?");
+   call INPUT_DATA(23,24,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      do;
+      END_GL_FIX_MAIN = YES;
+      return;
+      end;
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   GL_AC_NO = 0;
+   GL_TRX_DATE = 0;
+   GL_SEQ_NO = 0;
+   call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   END_FIX_ALL_GL = NO;
+   do while (END_FIX_ALL_GL ^= YES);
+      call FIX_ALL_GL;
+   end;
+
+   /* CHECK_RUN_BAL - Check the running balance */
+
+   if GL_CHECK_BAL = "Y" then
+      do;
+      GL_RUN_BALANCE = 0;
+
+      /* SET_FIRST - Set the record pointer to the first rec */
+
+      GL_AC_NO = 0;
+      GL_TRX_DATE = 0;
+      GL_SEQ_NO = 0;
+      call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+      END_ADD_RUN_BAL = NO;
+      do while (END_ADD_RUN_BAL ^= YES);
+         call ADD_RUN_BAL;
+      end;
+      if GL_RUN_BALANCE ^= 0 then
+         do;
+         GL_AC_NO = GL_FIX_ACCOUNT;
+         GL_TRX_DATE = TODAYS_DATE();
+         GL_TRX_ENTRY = 1;
+         GL_SEQ_NO = 1;
+         GL_TRX_AMOUNT = -GL_RUN_BALANCE;
+         GL_SOURCE = "";
+         GL_REFERENCE = "To balance G/L";
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (GL_DETAIL_NO,ERROR_CODE);
+         end;
+      end;
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_GL_FIX_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* GL_FIX_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = GL_FIX_ACCOUNT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   3 to   4;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  3,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  3 then
+   do;
+   if SELECT =  1 then
+      LOOP_INDEX =  1;
+   if SELECT >=  2 then
+      LOOP_INDEX = SELECT +   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      GL_ACCOUNT_NO = GL_FIX_ACCOUNT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	FIX_ALL_GL
+	Read-thru and fix all G/L accounts
+****************************************************************/
+
+FIX_ALL_GL:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_GL_CHART       fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_FIX_ALL_GL = YES;
+      return;
+      end;
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   GL_ACCOUNT_NO = GL_AC_NO;
+   KEY_NO = 1;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (GL_CHART_NO,KEY_NO,ERROR_GL_CHART);
+   if ERROR_GL_CHART > 3 then
+      call PRINT_ERROR (GL_CHART_NO,ERROR_GL_CHART);
+
+   /* FIX_THIS_GL - Fix this entry if it isn't found in chrt */
+
+   if ERROR_GL_CHART = RECORD_NOT_FOUND then
+      do;
+      END_FIX_THESE_GLS = NO;
+      do while (END_FIX_THESE_GLS ^= YES);
+         call FIX_THESE_GLS;
+      end;
+      end;
+
+
+   /* SET_POSITION - Set the file position */
+
+   GL_AC_NO = GL_ACCOUNT_NO+1;
+   GL_TRX_DATE = 0;
+   GL_SEQ_NO = 0;
+   call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+return;
+end;	/* FIX_ALL_GL           */
+
+/****************************************************************
+	FIX_THESE_GLS
+	Fix all accounts with this G/L number
+****************************************************************/
+
+FIX_THESE_GLS:
+	procedure;
+
+
+   /* SET_POSITION_2 - Set pointer to this position */
+
+   GL_AC_NO = GL_ACCOUNT_NO;
+   GL_TRX_DATE = 0;
+   GL_SEQ_NO = 0;
+   call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* READ_NEXT_2 - Read next */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_ACCOUNT_NO) then
+      do;
+      END_FIX_THESE_GLS = YES;
+      return;
+      end;
+
+   /* FIX_GL_NO - Fix this G/L number */
+
+   GL_AC_NO = GL_FIX_ACCOUNT;
+   if GL_FIX_COMMENT ^= "" then
+      GL_REFERENCE = GL_FIX_COMMENT;
+
+
+   /* UPDATE_RECORD_2 - Update the record */
+
+   call UPDATE_RECORD (GL_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* FIX_THESE_GLS        */
+
+/****************************************************************
+	ADD_RUN_BAL
+	Add the running balance
+****************************************************************/
+
+ADD_RUN_BAL:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_ADD_RUN_BAL = YES;
+      return;
+      end;
+
+   /* ADD_RUNNING_BAL - Add to the running balance */
+
+   GL_RUN_BALANCE = floor((GL_RUN_BALANCE + GL_TRX_AMOUNT) * 100 + 0.5) / 100;
+
+return;
+end;	/* ADD_RUN_BAL          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (GL_CHART_NO);
+   call CLOSE_FILE (GL_DETAIL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

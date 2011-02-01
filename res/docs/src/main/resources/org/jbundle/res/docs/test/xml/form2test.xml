@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?cocoon-process type="xslt"?>
+<?xml-stylesheet type="text/xsl" href="form2test.xsl"?>
+
+<form xmlns:xfm="http://www.w3.org/2000/12/xforms" height="30cm">
+
+<xform id="form1">
+  <submitInfo
+	id="submit1"
+	method2="postxml"
+	localfile="temp2.xml"
+	target2="http://www.hut.fi/"
+  />
+  <model href="purchase.xsd">
+  <!-- The model is currently ignored -->
+  </model>
+  <instance id="instance1" xmlns="">
+    <name>Alice Smith</name>
+    <city type="ao">Mill Valley</city>
+    <flag>true</flag>
+    <combo>No way!</combo>
+  </instance>
+</xform>
+
+
+	<h1>XForms model in X-Smiles</h1>
+	<p>The model in XForms defines the allowed content of form fields</p>
+	<xfm:textbox xform="form1" ref="name" cols="20">
+		<xfm:caption>Name</xfm:caption>
+	</xfm:textbox>
+	<xfm:textbox xform="form1" ref="city" cols="20">
+		<xfm:caption>city</xfm:caption>
+	</xfm:textbox>
+
+	<xfm:secret xform="form1" ref="city" cols="20">
+		<xfm:caption>city</xfm:caption>
+	</xfm:secret>
+
+	<xfm:textbox cols="30" xform="form1" ref="city" rows="4" style="font-weight: bold; color: red;">
+   		<xfm:caption>Multirow textbox</xfm:caption>
+	</xfm:textbox>
+
+<xfm:checkbox ref="flag" xform="form1">
+   <xfm:caption>Check me</xfm:caption>
+</xfm:checkbox>
+
+<xfm:exclusiveSelect ref="combo" style="font-weight: bold; color: blue; list-ui:listbox; hip:hop" xform="form1">
+      <xfm:caption>Select one</xfm:caption>
+      <xfm:item>Finland</xfm:item>
+      <xfm:item value="No way!">Norway</xfm:item>
+      <xfm:item>Ghana</xfm:item>
+</xfm:exclusiveSelect>
+
+<xfm:button>
+   <xfm:caption>Go to X-Smiles home</xfm:caption>
+</xfm:button>
+
+	<submit name="Submit" ref="test" to="submit1">
+		<hint>Click to submit</hint>
+		<caption>Submit</caption>
+	</submit>
+
+</form>
+	  

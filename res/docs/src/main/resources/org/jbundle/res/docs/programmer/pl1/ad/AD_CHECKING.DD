@@ -1,0 +1,26 @@
+/*********************************************************************
+	AD_CHECKING File
+********************************************************************/
+
+declare	1 AD_CHECKING_RECORD,
+		3 AD_BANK_NO           fixed binary (15),
+		3 AD_TRX_TYPE          character (        1),
+		3 AD_TRX_NUMBER        fixed binary (31),
+		3 AD_TRX_SEQ           fixed binary (15),
+		3 AD_TRX_DATE          fixed binary (15),
+		3 AD_CHECK_TYPE        character (        1),
+		3 AD_SYS_NUMBER        character (        6),
+		3 AD_PAYEE             character (       30),
+		3 AD_TRX_AMOUNT        float binary (53),
+		3 AD_TRX_AMT_USD       float binary (53),
+		3 AD_TRX_COMMENT       character (       30),
+		3 AD_DATE_RECONCILED   fixed binary (15),
+		3 AD_MANUAL            character (1),
+		3 AD_TRX_DESC          character (        7),
+		3 AD_SYS_DESC          character (        3);
+
+declare	1 AD_CHECKING_01_RECORD defined (AD_TRX_DATE),
+		3 AD_TRX_DATE01        fixed binary (15),
+		3 AD_ALGNM_ONLY        character (        1),
+		3 AD_ARC_EMP           fixed binary (31);
+

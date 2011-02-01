@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<ProjectTask ID="1">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Name/>
+		<ParentProjectTaskID/>
+		<Sequence>0</Sequence>
+		<Comment/>
+		<Code/>
+		<StartDateTime/>
+		<Duration>1.00000000</Duration>
+		<EndDateTime/>
+		<Progress/>
+		<ProjectID/>
+		<ProjectVersionID/>
+		<ProjectTypeID/>
+		<ProjectStatusID/>
+		<AssignedUserID/>
+		<ProjectPriorityID/>
+		<EnteredDate>2009-10-30T12:45:20</EnteredDate>
+		<EnteredByUserID>-1</EnteredByUserID>
+		<ChangedDate>2009-10-30T12:45:20</ChangedDate>
+		<ChangedByUserID>-1</ChangedByUserID>
+		<HasChildren>N</HasChildren>
+	</ProjectTask>
+	<ProjectTask ID="2">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Name/>
+		<ParentProjectTaskID/>
+		<Sequence>0</Sequence>
+		<Comment/>
+		<Code/>
+		<StartDateTime/>
+		<Duration>1.00000000</Duration>
+		<EndDateTime/>
+		<Progress/>
+		<ProjectID/>
+		<ProjectVersionID/>
+		<ProjectTypeID/>
+		<ProjectStatusID/>
+		<AssignedUserID/>
+		<ProjectPriorityID/>
+		<EnteredDate>2010-02-03T11:46:00</EnteredDate>
+		<EnteredByUserID>-1</EnteredByUserID>
+		<ChangedDate>2010-02-03T11:46:00</ChangedDate>
+		<ChangedByUserID>-1</ChangedByUserID>
+		<HasChildren>N</HasChildren>
+	</ProjectTask>
+</file>

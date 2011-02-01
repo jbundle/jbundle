@@ -1,0 +1,523 @@
+/****************************************************************
+	Module: CHECK_LAND_INV
+	Top Level Logic: LAND_INV_LOGIC
+	Date:  9-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	CHECK_LAND_INV
+	Top level - land inventory
+****************************************************************/
+
+%replace CHECK_LAND_INV_1 by 789;
+CHECK_LAND_INV:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_INV_DET_RECORD,
+      BK_ENT_HDR_RECORD,
+      ERROR_CODE);
+%replace BK_DET_LAND_NO by  68;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_INV_DET_NO by  61;
+%include "CHECK_LAND_INV.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_INV_DET.DD";
+%include "BK_ENT_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_READ_THRU_LNEW   bit (1);
+declare		END_GO_THRU_LOLD     bit (1);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_DET_LAND    fixed binary (15);
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   NEW_LCOUNT = 0;
+   OLD_LCOUNT = 0;
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (CHECK_LAND_INV_RECORD) );
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call LAND_INV_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	LAND_INV_MAIN
+	Mainline logic
+****************************************************************/
+
+LAND_INV_MAIN:
+	procedure;
+
+
+   /* SETUP_LAND_IF_NEW - Set up the land detail if new */
+
+   if BK_TOUR_MOD = -1 then
+      do;
+
+      /* BK_SET_LAND_DET - Set up the land detail */
+
+      %include "BK_SET_LAND_DET.DCL";
+      call BK_SET_LAND_DET(
+         BK_BOOKING_RECORD,
+         BK_TOUR_RECORD,
+         BK_TOUR_HDR_RECORD,
+         BK_DET_LAND_RECORD);
+      end;
+
+
+   /* RET_IF_NO_LMOD - Return if no land modification */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   if BK_LAND_UINV ^= "Y" then
+      return;
+
+   if BK_NEXT_MOD ^= BK_TOUR_MOD then
+      if BK_SINGLE = OLD_SINGLE then
+      if BK_DOUBLE = OLD_DOUBLE then
+      if BK_TRIPLE = OLD_TRIPLE then
+      if BK_QUAD = OLD_QUAD then
+      if BK_STATUS ^= "XL" then
+         return;
+
+
+   /* RESET_LAND_UINV - Reset the inventory flag */
+
+   BK_LAND_UINV = "N";
+
+
+   /* SET_FIRST_LANDD - Set to the first land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_LNEW = NO;
+   do while (END_READ_THRU_LNEW ^= YES);
+      call READ_THRU_LNEW;
+   end;
+
+   /* CHECK_LOLD - Any old land? */
+
+   if BK_NEXT_MOD ^= 0 then
+      do;
+      if BK_TOUR_MOD = BK_NEXT_MOD then
+         do;
+
+         /* READ_THRU_LOLD - Read thru the old detail */
+
+
+            /* SET_FIRST_2 - Set the file pointer to the first key */
+
+            LDET_MOD = BK_NEXT_MOD;
+            LDET_BK_TK_NO = BOOKING_NO;
+            LDET_ALT_SEQ = 0;
+            LDET_ANSW_SEQ = 0;
+            LDET_DAY = 0;
+            LDET_SEQ = 0;
+            call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+            END_GO_THRU_LOLD = NO;
+            do while (END_GO_THRU_LOLD ^= YES);
+               call GO_THRU_LOLD;
+            end;
+         end;
+      else
+         do;
+         do LNEW = 1 to NEW_LCOUNT;
+            OLD_LAND(LNEW) = NEW_LAND(LNEW);
+            OLD_LDATE(LNEW) = NEW_LDATE(LNEW);
+         end;
+         OLD_LCOUNT = NEW_LCOUNT;
+         end;
+      end;
+
+
+   /* RET_IF_NO_LMOD - Return if no land modification */
+
+   ERROR_CODE = NORMAL_RETURN;
+
+   if BK_LAND_UINV ^= "Y" then
+      return;
+
+   if BK_NEXT_MOD ^= BK_TOUR_MOD then
+      if BK_SINGLE = OLD_SINGLE then
+      if BK_DOUBLE = OLD_DOUBLE then
+      if BK_TRIPLE = OLD_TRIPLE then
+      if BK_QUAD = OLD_QUAD then
+      if BK_STATUS ^= "XL" then
+         return;
+
+   call SUB_NEW_LBLOCK;
+
+   /* RETURN_IF_ERROR - Return if ERROR_CODE <> 0 */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+   call ADD_BACK_LOLD;
+return;
+end;	/* LAND_INV_MAIN        */
+
+/****************************************************************
+	READ_THRU_LNEW
+	Read thru the new land detail
+****************************************************************/
+
+READ_THRU_LNEW:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDD - Last land detail record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > 0) !
+   (LDET_ANSW_SEQ > 0) then
+      do;
+      END_READ_THRU_LNEW = YES;
+      return;
+      end;
+
+   /* NEXT_IF_NOT_LINV - Next hotel if not block */
+
+   if LDET_INV ^= "Y" then
+      return;
+   else
+      BK_LAND_UINV = "Y";
+
+
+   /* SET_NEW_LAND - Set the land array info */
+
+   NEW_LCOUNT = NEW_LCOUNT + 1;
+
+   NEW_LAND(NEW_LCOUNT) = LDET_TOUR_NO;
+   NEW_LDATE(NEW_LCOUNT) = LDET_DATE;
+
+   NEW_LSEQ(NEW_LCOUNT) = LDET_SEQ;
+
+return;
+end;	/* READ_THRU_LNEW       */
+
+/****************************************************************
+	GO_THRU_LOLD
+	Go thru the old detail
+****************************************************************/
+
+GO_THRU_LOLD:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_NEXT_MOD) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > 0) !
+   (LDET_ANSW_SEQ > 0) then
+      do;
+      END_GO_THRU_LOLD = YES;
+      return;
+      end;
+
+   /* NEXT_IF_NOT_LINV - Next hotel if not block */
+
+   if LDET_INV ^= "Y" then
+      return;
+   else
+      BK_LAND_UINV = "Y";
+
+
+   /* SET_OLD_LAND - Set the old land array */
+
+   OLD_LCOUNT = OLD_LCOUNT + 1;
+
+   OLD_LAND(OLD_LCOUNT) = LDET_TOUR_NO;
+   OLD_LDATE(OLD_LCOUNT) = LDET_DATE;
+
+   OLD_LSEQ(OLD_LCOUNT) = LDET_SEQ;
+
+return;
+end;	/* GO_THRU_LOLD         */
+
+/****************************************************************
+	SUB_NEW_LBLOCK
+	Subtrack from the land inventory
+****************************************************************/
+
+SUB_NEW_LBLOCK:
+	procedure;
+
+
+   /* GO_THRU_LNEW - Process each land block request */
+
+   do LNEW = 1 to NEW_LCOUNT;
+
+      MATCH_LFOUND = "N";
+      do LOLD = 1 to OLD_LCOUNT;
+
+         if NEW_LAND(LNEW) = OLD_LAND(LOLD) then
+         if NEW_LDATE(LNEW) = OLD_LDATE(LOLD) then
+            MATCH_LFOUND = "Y";
+
+      end;
+
+      if MATCH_LFOUND = "Y" then
+         OLD_LPAX = OLD_PAX;
+      else
+         OLD_LPAX = 0;
+
+      NEW_LPAX = BK_PAX;
+      if BK_STATUS = "XL" then
+         NEW_LPAX = 0;
+
+      /* SET_LANDD_KEY - Setup the key */
+
+      LDET_MOD = BK_MODIFICATION;
+      LDET_BK_TK_NO = BOOKING_NO;
+      LDET_ALT_SEQ = 0;
+      LDET_ANSW_SEQ = 0;
+      LDET_DAY = NEW_LDATE(LNEW);
+      LDET_SEQ = NEW_LSEQ(LNEW);
+      KEY_NO = 1;
+
+      /* READ_LANDD - Read the land detail record */
+
+      call READ_KEYED (BK_DET_LAND_NO,KEY_AREA_1,ERROR_BK_DET_LAND);
+      if ERROR_BK_DET_LAND > 3 then
+         call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+
+      call UD_INV_LDET;
+      if ERROR_CODE ^= NORMAL_RETURN then
+         do;
+
+         /* REVERSE_LNEW - If error, reverse the blocks */
+
+         declare		LNEW2		fixed binary;
+
+         LNEW2 = LNEW - 1;
+         do LNEW = 1 to LNEW2 - 1;
+
+            MATCH_LFOUND = "N";
+            do LOLD = 1 to OLD_LCOUNT;
+
+               if NEW_LAND(LNEW) = OLD_LAND(LOLD) then
+               if NEW_LDATE(LNEW) = OLD_LDATE(LOLD) then
+                  MATCH_LFOUND = "Y";
+
+            end;
+
+            if MATCH_LFOUND = "Y" then
+               NEW_LPAX = OLD_PAX;
+            else
+               NEW_LPAX = 0;
+
+            OLD_LPAX = BK_PAX;
+
+            /* SET_LANDD_KEY - Setup the key */
+
+            LDET_MOD = BK_MODIFICATION;
+            LDET_BK_TK_NO = BOOKING_NO;
+            LDET_ALT_SEQ = 0;
+            LDET_ANSW_SEQ = 0;
+            LDET_DAY = NEW_LDATE(LNEW);
+            LDET_SEQ = NEW_LSEQ(LNEW);
+            KEY_NO = 1;
+
+            /* READ_LANDD - Read the land detail record */
+
+            call READ_KEYED (BK_DET_LAND_NO,KEY_AREA_1,ERROR_BK_DET_LAND);
+            if ERROR_BK_DET_LAND > 3 then
+               call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+
+            call UD_INV_LDET;
+            if MATCH_LFOUND = "N" then
+               BK_INV_MOD = -1;
+            else
+               BK_INV_MOD = BK_NEXT_MOD;
+
+            /* UPDATE_LANDD - Update the land detail */
+
+            call UPDATE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+         end;
+
+         ERROR_CODE = 1;
+         return;
+         end;
+      BK_INV_MOD = BK_NEXT_MOD;
+
+      /* UPDATE_LANDD - Update the land detail */
+
+      call UPDATE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+   end;
+
+   ERROR_CODE = NORMAL_RETURN;
+
+return;
+end;	/* SUB_NEW_LBLOCK       */
+
+/****************************************************************
+	UD_INV_LDET
+	Update the detail land inventory
+****************************************************************/
+
+UD_INV_LDET:
+	procedure;
+
+INV_DET_TYPE = "L";
+INV_DET_ENTRY = LDET_TOUR_NO;
+INV_DET_DATE = LDET_DATE;
+INV_CODE_TYPE = " ";
+INV_ROOM_TYPE = 0;
+ERROR_CODE = RECORD_LOCKED;
+do while (ERROR_CODE = RECORD_LOCKED);
+   call SET_POSITION(BK_INV_DET_NO,KEY_AREA_1,ERROR_CODE);
+   call READ_NEXT(BK_INV_DET_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+end;
+if (ERROR_CODE = NORMAL_RETURN) &
+(INV_DET_TYPE = "L") &
+(INV_DET_ENTRY = LDET_TOUR_NO) &
+(INV_DET_DATE = LDET_DATE) &
+(INV_CODE_TYPE = " ") &
+(INV_ROOM_TYPE = 0) then
+   do;
+   INV_USED = INV_USED + NEW_LPAX - OLD_LPAX;
+   INV_AVAIL = INV_BLOCKED - INV_USED;
+   if INV_AVAIL < 0 then
+      do;
+      call DISPLAY_MESSAGE ("Warning --- This Land Block is Full<Bel>"c);
+      call RELEASE_LOCKS(BK_INV_DET_NO);
+      call PRESS_RETURN;
+      ERROR_CODE = 1;
+      return;
+      end;
+   call UPDATE_RECORD(BK_INV_DET_NO,ERROR_CODE);
+   end;
+else
+   do;
+   call DISPLAY_MESSAGE ("Warning --- This Land Does not have a block<Bel>"c);
+   call RELEASE_LOCKS(BK_INV_DET_NO);
+   call PRESS_RETURN;
+   ERROR_CODE = 1;
+   return;
+   end;
+
+ERROR_CODE = 0;
+
+return;
+end;	/* UD_INV_LDET          */
+
+/****************************************************************
+	ADD_BACK_LOLD
+	Add back the old hotels
+****************************************************************/
+
+ADD_BACK_LOLD:
+	procedure;
+
+do LOLD = 1 to OLD_LCOUNT;
+
+
+   MATCH_LFOUND = "N";
+   do LNEW = 1 to NEW_LCOUNT;
+
+      if NEW_LAND(LNEW) = OLD_LAND(LOLD) then
+      if NEW_LDATE(LNEW) = OLD_LDATE(LOLD) then
+         MATCH_LFOUND = "Y";
+
+   end;
+
+   if MATCH_LFOUND = "N" then
+      do;
+      OLD_LPAX = OLD_PAX;
+      NEW_LPAX = 0;
+
+      /* SET_LANDD_KEY - Setup the key */
+
+      LDET_MOD = BK_MODIFICATION;
+      LDET_BK_TK_NO = BOOKING_NO;
+      LDET_ALT_SEQ = 0;
+      LDET_ANSW_SEQ = 0;
+      LDET_DAY = NEW_LDATE(LNEW);
+      LDET_SEQ = NEW_LSEQ(LNEW);
+      KEY_NO = 1;
+      LDET_DATE = OLD_LDATE(LOLD);
+      LDET_SEQ  = OLD_LSEQ(LOLD);
+
+      /* READ_LANDD - Read the land detail record */
+
+      call READ_KEYED (BK_DET_LAND_NO,KEY_AREA_1,ERROR_BK_DET_LAND);
+      if ERROR_BK_DET_LAND > 3 then
+         call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+      call UD_INV_LDET;
+      end;
+end;
+
+return;
+end;	/* ADD_BACK_LOLD        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_DET_LAND_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

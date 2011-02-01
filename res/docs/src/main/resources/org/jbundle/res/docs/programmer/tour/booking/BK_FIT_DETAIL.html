@@ -1,0 +1,99 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program displays a day by day list of all the services for this booking/tour, including hotel, land,
+transportations, air, and additional itinerary paragraphs.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>When you first enter this screen, any previous services will display on the screen, leaving enough room
+at the bottom to add at least two more services. After the display, the Any Change? prompt will
+appear. To continue with the display, just hit return.
+
+<br wp="br1"><br wp="br2">
+<p>	NOTE: If this is a new booking, no services will display, the prompt will be positioned to enter the first
+service. The day automatically defaults to the same day if the last entry was a hotel, otherwise it
+defaults to the next day.
+
+<br wp="br1"><br wp="br2">
+<p>The reaction of the cursor to the Any Change? prompt depends if information is on the selected line.
+
+<br wp="br1"><br wp="br2">
+<p>- If there is information on the selected line, then the cursor   moves to the day input position of the
+line.
+
+<p>  - The current day is the default
+
+<p>  - Typing 0 or end or del will delete the line
+
+<p>  - Typing a different day will cause the system to
+
+<p>    ask "Adjust subsequent services?"
+
+<p>- If there is no information on the selected line, then a day is reqd.   Note: After entering a new line,
+the cursor prompts on the next line   rather then going back to the "Any change?" prompt.
+
+<br wp="br1"><br wp="br2">
+<p>- Next, the service is entered (defaults to old/last city)   - Hit ESCape to display services, the system
+will ask Hotel...etc.   - First the system checks for a matching FIT module.
+
+<p>  - Then the system checks for a matching Hotel code.
+
+<p>  - Then the system checks for a matching Land code.
+
+<p>  - Then the system checks for a matching Transportation code.   - Then the system checks for a
+matching Air code.
+
+<p>  (If the code matches any of the files, then the appropriate    information/entry screen appears)
+
+<p>  - If a match isn't found, then the system asks which type of service.
+
+<br wp="br1"><br wp="br2">
+<p>Then this screen will re-appear. To end detail entry, just hit return at the "Any Change?" prompt. (In
+the middle of a service display, type end.
+
+<br wp="br1"><br wp="br2">
+<p>Next, the system will ask, "Recost Services?" Selecting yes will display the costing screen. You may
+make changes to the markup, etc at this point. After hitting return, the system will take a few seconds
+and re-cost the entire itinerary. The cost(s) will appear on the screen.
+
+<br wp="br1"><br wp="br2">
+<p>----
+
+<br wp="br1"><br wp="br2">
+<p>When a service is found, the action depends on the service type:
+
+<br wp="br1"><br wp="br2">
+<p>For hotels, the system checks to see if a rate exists for the tour's default rate/class.
+
+<p>-	If the rate exists, the system will ask for the number of nights
+
+<p>-	Typing 0 for the number of nights sends you to the cost scrn.
+
+<p>-	If the rate doesn't exist, then the hotel name and default rate type are passed to the hotel
+pricing display/entry program which will either get the information for the hotel, or return an
+error which will clear the current line.
+
+<br wp="br1"><br wp="br2">
+<p>/USE: BK_FIT_HOTEL/
+
+<p>/USE: BK_FIT_TOUR/
+
+<p>/USE: BK_FIT_TRANS/
+
+</body>
+</html>

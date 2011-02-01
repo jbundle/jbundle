@@ -1,0 +1,401 @@
+/****************************************************************
+	Module: AP_DIS_PAX
+	Top Level Logic: AP_PAX_LOGIC
+	Date: 29-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_DIS_PAX
+	Top Level - Display pax on this tour
+****************************************************************/
+
+%replace AP_DIS_PAX_1 by 570;
+AP_DIS_PAX:
+   procedure;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		END_AP_PAX_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		NOT_FIRST_TIME       bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		ANSWER               character (1);
+declare		END_READ_THRU_TOURS  bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_AP_PAX_MAIN = NO;
+   do while (END_AP_PAX_MAIN ^= YES);
+      call AP_PAX_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TOUR_QUADS = 0;
+   BK_MODIFICATION = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   NOT_FIRST_TIME = "0"b;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_DIS_PAX_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_PASSENGERS_NO,"BK_PASSENGERS",byteaddr(BK_PASSENGERS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	AP_PAX_MAIN
+	Mainline logic
+****************************************************************/
+
+AP_PAX_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_AP_PAX_MAIN = YES;
+      return;
+      end;
+
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_BK_TOUR);
+   if ERROR_BK_TOUR > 3 then
+      call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+
+   /* DIS_RECORD_FOUND - Record Found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_BK_TOUR = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* NOT_FOUND_AGAIN - Not found, try again!! */
+
+      call DISPLAY_MESSAGE ("Record not found!!!<Bel>"c);
+      call PRESS_RETURN;
+      return;
+
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   call DISPLAY_TOURS;
+
+   /* HIT_RETURN - Tell the user to Hit Return */
+
+   call PRESS_RETURN;
+
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AP_DIS_PAX_1);
+   NOT_FIRST_TIME = YES;
+
+   /* RESET_LINE - Init the line offset to 0 */
+
+   LINE = 0;
+
+
+   /* SET_FIRST_TIME_NO - Set flag to no (First time) */
+
+   NOT_FIRST_TIME = NO;
+
+return;
+end;	/* AP_PAX_MAIN          */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX =   2 to   5;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  16 to  16;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	DISPLAY_TOURS
+	Display the tours
+****************************************************************/
+
+DISPLAY_TOURS:
+	procedure;
+
+
+   /* INIT_ANSWER - Initialize the ANSWER text */
+
+   ANSWER = "N";
+
+
+   /* SET_FIRST_TOURS - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_READ_THRU_TOURS = NO;
+   do while (END_READ_THRU_TOURS ^= YES);
+      call READ_THRU_TOURS;
+   end;
+return;
+end;	/* DISPLAY_TOURS        */
+
+/****************************************************************
+	READ_THRU_TOURS
+	Read thru all the tours
+****************************************************************/
+
+READ_THRU_TOURS:
+	procedure;
+
+
+   /* READ_NEXT_TOURS - Read the next tour */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_READ_THRU_TOURS = YES;
+      return;
+      end;
+
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+
+   /* SET_LINE_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET(LINE);
+
+   call DISPLAY_DATA_B;
+   call DIS_PAX;
+
+   /* RETURN_IF_STOP - Return if the user says Stop Displaying */
+
+   if ANSWER = "Y" then
+      do;
+      END_READ_THRU_TOURS = YES;
+      return;
+      end;
+
+return;
+end;	/* READ_THRU_TOURS      */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =   6 to  13;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	DIS_PAX
+	Display the passenger info
+****************************************************************/
+
+DIS_PAX:
+	procedure;
+
+BK_PAX_MOD = 0;
+BK_PAX_BK_NO = BOOKING_NO;
+BK_PAX_SEQ = 0;
+call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > 0) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      return;
+   call SET_ROW_OFFSET(LINE);
+   LINE = LINE + 1;
+   do LOOP_INDEX =  14 to  15;
+      if LOOP_INDEX =  14 then
+         do;
+
+         /* CHECK_LINE - Check to see if past Bottom of Pge */
+
+         if LINE = 1 then
+            do;
+
+            /* REDISPLAY_SCREEN - Re-display the screen */
+
+            if NOT_FIRST_TIME then
+               call DISPLAY_SCREEN (AP_DIS_PAX_1);
+            NOT_FIRST_TIME = YES;
+            if BK_PAX_ROOM_CODE ^= 0 then
+               do;
+               declare		LOOP_SAVE	fixed binary;
+               LOOP_SAVE = LOOP_INDEX;
+               call DISPLAY_DATA_A;
+               call DISPLAY_DATA_B;
+               LOOP_INDEX = LOOP_SAVE;
+               end;
+            end;
+
+         end;
+      call OUTPUT_FIELD (LOOP_INDEX);
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   if LINE > 14 then
+      do;
+      call OUTPUT_LINE (24,10,"Stop Displaying?");
+      call INPUT_DATA(24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_TO_BOS(24);
+      if ANSWER = "Y" then
+         return;
+      do LINE = 0 to 14;
+         call SET_ROW_OFFSET(LINE);
+         do LOOP_INDEX = 14 to 15;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+         end;
+      LINE = 0;
+      end;
+end;
+return;
+end;	/* DIS_PAX              */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =   1 to   1;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_PASSENGERS_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

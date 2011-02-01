@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_FINAL File
+********************************************************************/
+
+declare	1 BK_FINAL_RECORD,
+		3 FINAL_CUT_OFF        fixed binary (15),
+		3 FINAL_TOUR_TYPE      character (        1),
+		3 FINAL_TOUR_CODE      character (        4),
+		3 FINAL_TYPE           fixed binary (15);
+

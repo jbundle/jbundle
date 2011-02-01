@@ -1,0 +1,29 @@
+/*********************************************************************
+	AR_MCO_DET File
+********************************************************************/
+
+declare	1 AR_MCO_DET_RECORD,
+		3 AR_MCO_BK_NO         fixed binary (31),
+		3 AR_MCO_SEQ_NO        fixed binary (15),
+		3 AR_MCO_SEQ           fixed binary (15),
+		3 AR_MCO_NO            character (       16),
+		3 AR_MCO_STATUS        fixed binary (15),
+		3 AR_MCO_CARRIER       character (        2),
+		3 AR_MCO_DATE_REC      fixed binary (15),
+		3 AR_MCO_GROSS         float binary (53),
+		3 AR_MCO_COMM_PER      float binary (21),
+		3 AR_MCO_COMM_AMT      float binary (53),
+		3 AR_MCO_SVC_PER       float binary (21),
+		3 AR_MCO_SVC_AMT       float binary (53),
+		3 AR_MCO_TAX_PER       float binary (21),
+		3 AR_MCO_TAX_AMT       float binary (53),
+		3 AR_MCO_NET           float binary (53),
+		3 AR_MCO_AMT_APLY      float binary (53),
+		3 AR_MCO_GL_ACCT       fixed binary (31),
+		3 AR_MCO_REMARK        character (       30),
+		3 AR_MCO_AMT_APPLIED   float binary (53),
+		3 AR_MCO_DATE_SUBM     fixed binary (15),
+		3 AR_MCO_DATE_PAID     fixed binary (15),
+		3 AR_MCO_AMT_PAID      float binary (53),
+		3 AR_MCO_STATUS_DESC   character (        9);
+

@@ -1,0 +1,24 @@
+/*********************************************************************
+	AR_PAST_DUE File
+********************************************************************/
+
+declare	1 AR_PAST_DUE_RECORD,
+		3 AR_AS_OF_DATE        fixed binary (15),
+		3 AR_CHECK_DEP         character (1),
+		3 AR_CHECK_FINAL       character (1),
+		3 AR_PRINT_RPT         character (1),
+		3 AR_PRT_NOTICE        character (1),
+		3 AR_DEP_OR_PYMT       character (        1),
+		3 AR_AMT_DUE           float binary (53),
+		3 AR_DUE_DATE          fixed binary (15),
+		3 AR_PAST_DATE         fixed binary (15),
+		3 AR_PAST_TIME         fixed binary (15),
+		3 AR_PAST_DUE_TIME     fixed binary (15),
+		3 AR_PAST_PAGE         fixed binary (31),
+		3 AR_PAST_TOTAL        fixed binary (31),
+		3 AR_MCO_PER           float binary (21),
+		3 AR_PAST_PYMT         float binary (53),
+		3 AR_PAST_MCO          float binary (53),
+		3 AR_PAST_DESC         character (       13),
+		3 AR_USER_NAME         character (       16);
+

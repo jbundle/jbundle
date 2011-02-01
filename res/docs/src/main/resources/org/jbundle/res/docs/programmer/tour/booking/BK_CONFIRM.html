@@ -1,0 +1,58 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>Print the confirmation/invoices and update the A/R and G/L systems.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>This document will automatically be sent to the client's agent when the first payment is due. For
+example, for an FIT, this document would be sent when the clients accept the tour. If payment is not
+required until the services are confirmed, then a document is sent (See document maint) on the
+booking date, and the confirmation/invoice is sent when (and if) the services are confirmed.
+
+<br wp="br1"><br wp="br2">
+<p>If the final payment is required in advance, then the user will first enter the booking, then enter the
+payment, then print the confirmation. The confirmation will automatically show any payments made.
+
+<br wp="br1"><br wp="br2">
+<p>The way this operates is as follows:
+
+<br wp="br1"><br wp="br2">
+<p>For FITs where the acceptance is required, the initial booking and tour status is NS (proposal stage).
+If the client accepts the proposal, then you go to booking entry and change the BOOKING status to
+OK and the TOUR status to HK (awaiting confirmation). When all of the services are confirmed, the
+system will automatically change the status to OK.
+
+<br wp="br1"><br wp="br2">
+<p>For tours where the invoice is sent immediately after booking (ie., TRVL B) the initial BOOKING
+status is OK and the initial TOUR status is OK. When the services are requested (same day) the tour
+status is changed to HK until all the services have been acknowledged.
+
+<br wp="br1"><br wp="br2">
+<p>For tours where the invoice is sent only after the services are confirmed (Travel Bargains?) the initial
+TOUR and BOOKING status are HK. When the services are confirmed, the TOUR status changes
+to OK and the BOOKING status changes automatically to OK (Which causes an invoice to print)
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN8/
+
+<p>/SDESC8/
+
+<br wp="br1"><br wp="br2">
+<p>This is the format of the sales journal, which details the confirmations sent.
+</body>
+</html>

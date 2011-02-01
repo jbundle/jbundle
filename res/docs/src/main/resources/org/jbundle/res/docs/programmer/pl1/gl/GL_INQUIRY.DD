@@ -1,0 +1,11 @@
+/*********************************************************************
+	GL_INQUIRY File
+********************************************************************/
+
+declare	1 GL_INQUIRY_RECORD,
+		3 GL_START_DTE         fixed binary (15),
+		3 GL_END_DTE           fixed binary (15),
+		3 GL_INQ_DEBIT         float binary (53),
+		3 GL_INQ_CREDIT        float binary (53),
+		3 GL_CALC_START        character (1);
+

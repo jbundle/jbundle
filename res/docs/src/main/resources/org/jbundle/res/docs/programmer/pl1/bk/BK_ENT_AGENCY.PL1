@@ -1,0 +1,879 @@
+/****************************************************************
+	Module: BK_ENT_AGENCY
+	Top Level Logic: BK_AGENCY_LOGIC
+	Date: 14-Feb-97
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_ENT_AGENCY
+	Agency maintenance logic
+****************************************************************/
+
+%replace BK_ENT_AGENCY_1 by 234;
+BK_ENT_AGENCY:
+   procedure(
+      BK_ENT_HDR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_TOUR_RECORD,
+      BK_BOOKING_RECORD);
+%replace AM_AGCY_NO by  10;
+%replace AM_AFFIL_NO by  40;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_TOUR_NO by  34;
+%replace BK_BOOKING_NO by   9;
+%include "AM_AGCY.DD";
+%include "AM_AFFIL.DD";
+%include "BK_ENT_HDR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_TOUR.DD";
+%include "BK_BOOKING.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		ERROR_AM_AGCY        fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		END_SEQ_ACCESS_2     bit (1);
+
+   /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+   if BOOKING_NO = 0 then
+      return;
+
+   call INITIALIZE;
+   call BK_AGENCY_ENT;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_ENT_AGENCY_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AM_AGCY_NO,"AM_AGCY",byteaddr(AM_AGCY_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_AGCY_NO,ERROR_CODE);
+   call OPEN_FILE (AM_AFFIL_NO,"AM_AFFIL",byteaddr(AM_AFFIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_AFFIL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	BK_AGENCY_ENT
+	Booking agency entry main-line code
+****************************************************************/
+
+BK_AGENCY_ENT:
+	procedure;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+
+   /* ENT_OR_DIS_AGENCY - Enter or display the agency info. */
+
+   if BK_AGENCY = -1 then
+      call GET_AGENCY;
+   else
+      do;
+      if BK_AGENCY = 0 then
+         do;
+         call DISPLAY_CONTACT;
+
+         /* MOVE_AGCY_DATA - Move the agency data */
+
+         AGENCY_NUMBER = BK_AGENCY;
+         AGENCY_NAME = BK_AGENCY_NAME;
+         AGENCY_ADDRESS_1 = BK_AGENCY_ADD_1;
+         AGENCY_ADDRESS_2 = BK_AGENCY_ADD_2;
+         AGENCY_ADDRESS_3 = BK_AGENCY_ADD_3;
+         AGENCY_ZIP_CODE = BK_AGENCY_ZIP;
+         AGENCY_PHONE = BK_AGENCY_PHONE;
+         AGENCY_FAX = BK_FAX;
+
+         call DIS_AGENCY_DATA;
+
+         /* DIS_AGCY_COMM - Display the agency commission */
+
+         do LOOP_INDEX =  26 to  26;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         call DISPLAY_AGENCY;
+      end;
+
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+
+   /* RETURN_IF_ERROR - Return if ERROR_CODE <> 0 */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* NO_AGENCY - Check to see if they cleared the agency */
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+      BK_AGENCY = -1;
+      AGENCY_NUMBER = 0;
+      call CLEAR_DATA_C;
+      call CLEAR_DATA;
+      return;
+      end;
+
+
+   /* BK_MOVE_AGCY - Move the agency file stuff */
+
+   BK_AGENCY = AGENCY_NUMBER;
+   BK_AGENCY_NAME = AGENCY_NAME;
+   BK_AGENCY_ADD_1 = AGENCY_ADDRESS_1;
+   BK_AGENCY_ADD_2 = AGENCY_ADDRESS_2;
+   BK_AGENCY_ADD_3 = AGENCY_ADDRESS_3;
+   BK_AGENCY_ZIP = AGENCY_ZIP_CODE;
+   BK_AGENCY_PHONE = AGENCY_PHONE;
+   BK_FAX = AGENCY_FAX;
+   call DISPLAY_DATA_C;
+
+   /* MANUAL_ENTER - Don't write if the data is manually ent. */
+
+   if BK_AGENCY = 0 then
+      return;
+
+
+   /* UPDATE_AGENCY - Update the agency info if changed */
+
+   if ERROR_AM_AGCY = NORMAL_RETURN then
+      do;
+
+      /* UPDATE_RECORD - Update the record */
+
+      call UPDATE_RECORD (AM_AGCY_NO,ERROR_CODE);
+      end;
+   else
+      do;
+
+      /* WRITE_RECORD - Write the record */
+
+      call WRITE_RECORD (AM_AGCY_NO,ERROR_CODE);
+      end;
+return;
+end;	/* BK_AGENCY_ENT        */
+
+/****************************************************************
+	GET_AGENCY
+	Enter and retrieve the agency info
+****************************************************************/
+
+GET_AGENCY:
+	procedure;
+
+   call INPUT_AGCY_KEY;
+
+   /* END_IF_NO_INPUT - Set the error code if input length = 0 */
+
+   if INPUT_LENGTH = 0 then
+      RETURN_CODE = END_TYPED;
+
+
+   /* RETURN_IF_ERROR - Return if ERROR_CODE <> 0 */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+
+   /* CHECK_VALID_ARC - Check to see if a valid ARC number enter */
+
+   if INPUT_LENGTH ^= 8 then if AGENCY_NUMBER ^= 0 then if KEY_NO = 1 then
+      do;
+      call DISPLAY_MESSAGE ("ARC Number must be 8 digits long<BEL>"c);
+      call PRESS_RETURN;
+      call CLEAR_MESSAGE;
+      RETURN_CODE = END_TYPED;
+      return;
+      end;
+
+   if mod(divide(AGENCY_NUMBER,10,31),7) ^=
+   (AGENCY_NUMBER - (divide(AGENCY_NUMBER,10,31)*10)) then
+      do;
+      call DISPLAY_MESSAGE ("This is an invalid ARC number<BEL>"c);
+      call PRESS_RETURN;
+      call CLEAR_MESSAGE;
+      RETURN_CODE = END_TYPED;
+      return;
+      end;
+
+
+   /* CHECK_FOR_ZERO - Check to see if a zero agent was entered */
+
+   if AGENCY_NUMBER = 0 then if KEY_NO = 1 then
+      do;
+      call ENTER_AGENCY_INFO;
+      call ENTER_CONTACT;
+
+BK_STD_COMM = 0.00;
+      /* DIS_AGCY_COMM - Display the agency commission */
+
+      do LOOP_INDEX =  26 to  26;
+         call OUTPUT_FIELD (LOOP_INDEX);
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      return;
+      end;
+
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (AM_AGCY_NO+?LOCK_RECORD,KEY_NO,ERROR_AM_AGCY);
+   if ERROR_AM_AGCY = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_AM_AGCY > 3 then
+      call PRINT_ERROR (AM_AGCY_NO,ERROR_AM_AGCY);
+
+   /* RETURN_IF_LOCKED - Return if the agency record is locked */
+
+   if ERROR_AM_AGCY = RECORD_LOCKED then
+      do;
+      call CLEAR_MESSAGE;
+      RETURN_CODE = END_TYPED;
+      return;
+      end;
+
+
+   /* AGENCY_REC_FOUND - Was the agency record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_AM_AGCY = NORMAL_RETURN then
+      do;
+
+      /* FOUND_AGENCY - Found the agency */
+
+
+         /* SET_CONTACT_DEF - Set the default contact */
+
+         BK_CONTACT = AGENCY_CONTACT;
+
+
+         /* READ_AFFIL_COMM - Read the affiliation */
+
+         AM_AFFIL_CODE = AGENCY_AFFILIATION;
+         call READ_KEYED(AM_AFFIL_NO, KEY_AREA_1, ERROR_AM_AFFIL);
+         if ERROR_AM_AFFIL = NORMAL_RETURN then
+            do;
+            BK_STD_COMM = AM_AFFIL_BK_COMM;
+            do LOOP_INDEX = 26 to 26;
+               call OUTPUT_FIELD(LOOP_INDEX);
+            end;
+            end;
+
+         call DISPLAY_DATA;
+         call ENTER_CONTACT;
+      end;
+   else
+      do;
+
+      /* AGENCY_NOT_FOUND - Agency not found, enter */
+
+
+         /* CLEAR_AGENCY_FIELDS - Clear out the non-screen agency fields */
+
+         AGENCY_CONTACT = "";
+         AGENCY_SHORT_NAME = "";
+         call INPUT_SCREEN;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+return;
+end;	/* GET_AGENCY           */
+
+/****************************************************************
+	INPUT_AGCY_KEY
+	Input the agency key
+****************************************************************/
+
+INPUT_AGCY_KEY:
+	procedure;
+
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   call INPUT_FIELD ( 11,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+   FIRST_ITEM = 1;
+   if INPUT_LENGTH = 0 then
+      do;
+      KEY_NO = 3;
+      INPUT_LENGTH = 1;
+      AGENCY_NAME = "";
+      call INPUT_FIELD ( 12,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         return;
+      AGENCY_ZIP_CODE = "";
+      call INPUT_FIELD ( 16,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         return;
+      FIRST_ITEM = 1;
+      if INPUT_LENGTH = 0 then
+         return;
+      END_SEQ_ACCESS_2 = NO;
+      call SEQ_ACCESS_2;
+      if END_SEQ_ACCESS_2 then
+         return;
+      end;
+
+   /* RETURN - Normal Return */
+
+   return;
+
+return;
+end;	/* INPUT_AGCY_KEY       */
+
+/****************************************************************
+	SEQ_ACCESS_2
+	Sequential access for secondary key
+****************************************************************/
+
+SEQ_ACCESS_2:
+	procedure;
+
+declare		ANSWER               character (1);
+declare		RECORD_MATCH         bit (1);
+declare	TEMP_AGENCY_NAME	character ( 30) varying;
+declare	TEMP_AGENCY_ZIP_CODE	character ( 10) varying;
+AGENCY_SHORT_NAME = AGENCY_NAME;
+TEMP_AGENCY_NAME = CUT_SPACES(AGENCY_NAME);
+TEMP_AGENCY_ZIP_CODE = CUT_SPACES(AGENCY_ZIP_CODE);
+call SET_POSITION (AM_AGCY_NO,KEY_NO,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (AM_AGCY_NO+?KEY_ONLY,KEY_NO,ERROR_CODE);
+   if substr(AGENCY_ZIP_CODE,1,length(TEMP_AGENCY_ZIP_CODE)) >
+      TEMP_AGENCY_ZIP_CODE then
+         ERROR_CODE = END_OF_FILE;
+   if ERROR_CODE = END_OF_FILE then
+      do;
+      call DISPLAY_MESSAGE ("<BEL>End of records!"c);
+      call PRESS_RETURN;
+      END_SEQ_ACCESS_2 = YES;
+      return;
+      end;
+      RECORD_MATCH = NO;
+   if substr(AGENCY_SHORT_NAME,1,min( 6,length(TEMP_AGENCY_NAME))) =
+      substr(TEMP_AGENCY_NAME,1,min( 6,length(TEMP_AGENCY_NAME))) then
+   if substr(AGENCY_ZIP_CODE,1,length(TEMP_AGENCY_ZIP_CODE)) =
+      TEMP_AGENCY_ZIP_CODE then
+         RECORD_MATCH = YES;
+   if RECORD_MATCH then
+      do;
+      call READ_KEYED (AM_AGCY_NO,KEY_NO,ERROR_CODE);
+      if length (TEMP_AGENCY_NAME) >  6 then
+         if substr (AGENCY_NAME,1,length(TEMP_AGENCY_NAME)) ^= TEMP_AGENCY_NAME then
+            RECORD_MATCH = NO;
+      end;
+   if RECORD_MATCH then
+      do;
+      call READ_KEYED (AM_AGCY_NO,KEY_NO,ERROR_CODE);
+      end;
+   if RECORD_MATCH then
+      do;
+      FIRST_ITEM = 1;
+      call DISPLAY_DATA;
+      call OUTPUT_LINE (23,20,"Correct record?");
+      call INPUT_DATA (23,36,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_MESSAGE;
+      call DUMP_BUFFER;
+      if ANSWER = "Y" then
+         do;
+         FIRST_ITEM = LAST_ITEM_NUMBER() + 1;
+         return;
+         end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         END_SEQ_ACCESS_2 = YES;
+         return;
+         end;
+      end;
+end; /* do loop */
+return;
+end;	/* SEQ_ACCESS_2         */
+
+/****************************************************************
+	ENTER_AGENCY_INFO
+	Enter all of the fields on screen
+****************************************************************/
+
+ENTER_AGENCY_INFO:
+	procedure;
+
+AGENCY_NAME = "";
+AGENCY_ADDRESS_1 = "";
+AGENCY_ADDRESS_2 = "";
+AGENCY_ADDRESS_3 = "";
+AGENCY_ZIP_CODE = "";
+AGENCY_PHONE = "";
+AGENCY_FAX = "";
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  12 to  18;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* UPDATE_SHORT_NAME - Update the short name field for AGY file */
+
+      AGENCY_SHORT_NAME = AGENCY_NAME;
+      call CONVERT_TO_UPPER (AGENCY_SHORT_NAME);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_AGENCY_INFO    */
+
+/****************************************************************
+	ENTER_CONTACT
+	Enter the agency contact
+****************************************************************/
+
+ENTER_CONTACT:
+	procedure;
+
+do LOOP_INDEX =  19 to  19;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_CONTACT        */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX =  11 to  18;
+   call KEEP_TRAILING_SPACES;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  20 to  25;
+   call KEEP_TRAILING_SPACES;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  27 to  34;
+   call KEEP_TRAILING_SPACES;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  19 to  19;
+   call KEEP_TRAILING_SPACES;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  26 to  26;
+   call KEEP_TRAILING_SPACES;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+AGENCY_NAME = "";
+AGENCY_ADDRESS_1 = "";
+AGENCY_ADDRESS_2 = "";
+AGENCY_ADDRESS_3 = "";
+AGENCY_ZIP_CODE = "";
+AGENCY_PHONE = "";
+AGENCY_FAX = "";
+AGENCY_AFFILIATION = "";
+AGENCY_TYPE = "N";
+DATE_ESTABLISHED = TODAYS_DATE();
+AGENCY_COMMENT_1 = "";
+AGENCY_COMMENT_2 = "";
+AGENCY_COMMENT_3 = "";
+AGENCY_SALES_TO_DATE = 0;
+AGENCY_SALES_YTD = 0;
+AGENCY_BALANCE_DUE = 0;
+AGENCY_DATE_LAST_REC = 0;
+AGENCY_NO_BOOKINGS = 0;
+AGENCY_LAST_REVISED = 0;
+BK_STD_COMM = 10.00;
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  12 to  18;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* UPDATE_SHORT_NAME - Update the short name field for AGY file */
+
+      AGENCY_SHORT_NAME = AGENCY_NAME;
+      call CONVERT_TO_UPPER (AGENCY_SHORT_NAME);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  20 to  22;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  23 to  25;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  23 then
+      do;
+
+      /* SKIP_OTHER_2 - If you hit return, skip next two fields */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = LOOP_INDEX + 2;
+
+      end;
+   if LOOP_INDEX =  24 then
+      do;
+
+      /* SKIP_OTHER_1 - Skip the next line if you hit return */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = LOOP_INDEX + 1;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  27 to  34;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  19 to  19;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  26 to  26;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	DISPLAY_CONTACT
+	Display the booking contact
+****************************************************************/
+
+DISPLAY_CONTACT:
+	procedure;
+
+do LOOP_INDEX =  19 to  19;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_CONTACT      */
+
+/****************************************************************
+	DIS_AGENCY_DATA
+	Display the agency data
+****************************************************************/
+
+DIS_AGENCY_DATA:
+	procedure;
+
+do LOOP_INDEX =  11 to  18;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DIS_AGENCY_DATA      */
+
+/****************************************************************
+	DISPLAY_AGENCY
+	Read and display the agency information
+****************************************************************/
+
+DISPLAY_AGENCY:
+	procedure;
+
+
+   /* SET_ARC_NO - Set the agency ARC no */
+
+   AGENCY_NUMBER = BK_AGENCY;
+   KEY_NO = 1;
+
+
+   /* READ_AND_LOCK - Read the record and lock it */
+
+   call READ_KEYED (AM_AGCY_NO+?LOCK_RECORD,KEY_NO,ERROR_AM_AGCY);
+   if ERROR_AM_AGCY = RECORD_LOCKED then
+      do;
+      call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+      call PRESS_RETURN;
+      end;
+   if ERROR_AM_AGCY > 3 then
+      call PRINT_ERROR (AM_AGCY_NO,ERROR_AM_AGCY);
+
+   /* RETURN_IF_LOCKED - Return if the agency record is locked */
+
+   if ERROR_AM_AGCY = RECORD_LOCKED then
+      do;
+      call CLEAR_MESSAGE;
+      RETURN_CODE = END_TYPED;
+      return;
+      end;
+
+
+   /* CHECK_NO_AGCY - Is this still a valid Agency? */
+
+   if ERROR_AM_AGCY = RECORD_NOT_FOUND then
+      do;
+      BK_AGENCY = 0;
+      call DISPLAY_CONTACT;
+
+      /* MOVE_AGCY_DATA - Move the agency data */
+
+      AGENCY_NUMBER = BK_AGENCY;
+      AGENCY_NAME = BK_AGENCY_NAME;
+      AGENCY_ADDRESS_1 = BK_AGENCY_ADD_1;
+      AGENCY_ADDRESS_2 = BK_AGENCY_ADD_2;
+      AGENCY_ADDRESS_3 = BK_AGENCY_ADD_3;
+      AGENCY_ZIP_CODE = BK_AGENCY_ZIP;
+      AGENCY_PHONE = BK_AGENCY_PHONE;
+      AGENCY_FAX = BK_FAX;
+
+      call DIS_AGENCY_DATA;
+
+      /* DIS_AGCY_COMM - Display the agency commission */
+
+      do LOOP_INDEX =  26 to  26;
+         call OUTPUT_FIELD (LOOP_INDEX);
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      end;
+
+   call DISPLAY_DATA;
+return;
+end;	/* DISPLAY_AGENCY       */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 13,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 13 then
+   do;
+   if SELECT <=  9 then
+      LOOP_INDEX = SELECT +  11;
+   if SELECT >= 10 then
+      LOOP_INDEX = SELECT +  13;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  12 then
+      do;
+
+      /* UPDATE_SHORT_NAME - Update the short name field for AGY file */
+
+      AGENCY_SHORT_NAME = AGENCY_NAME;
+      call CONVERT_TO_UPPER (AGENCY_SHORT_NAME);
+
+      end;
+   if LOOP_INDEX =  23 then
+      do;
+
+      /* SKIP_OTHER_2 - If you hit return, skip next two fields */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = LOOP_INDEX + 2;
+
+      end;
+   if LOOP_INDEX =  24 then
+      do;
+
+      /* SKIP_OTHER_1 - Skip the next line if you hit return */
+
+      if INPUT_LENGTH = 0 then
+         LOOP_INDEX = LOOP_INDEX + 1;
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	CLEAR_DATA_C
+	Clear the data in group C
+****************************************************************/
+
+CLEAR_DATA_C:
+	procedure;
+
+do LOOP_INDEX =   4 to   6;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+return;
+end;	/* CLEAR_DATA_C         */
+
+/****************************************************************
+	CLEAR_DATA
+	Clear fields from the screen
+****************************************************************/
+
+CLEAR_DATA:
+	procedure;
+
+do LOOP_INDEX =  11 to  18;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+do LOOP_INDEX =  20 to  25;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+do LOOP_INDEX =  27 to  34;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+do LOOP_INDEX =  19 to  19;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+do LOOP_INDEX =  26 to  26;
+   call CLEAR_FIELD(LOOP_INDEX);
+end;
+return;
+end;	/* CLEAR_DATA           */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =   4 to   6;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AM_AGCY_NO);
+   call CLOSE_FILE (AM_AFFIL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

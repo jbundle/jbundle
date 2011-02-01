@@ -1,0 +1,37 @@
+/*********************************************************************
+	AP_VENDOR File
+********************************************************************/
+
+declare	1 AP_VENDOR_RECORD,
+		3 AP_VEN_NO            character (        6),
+		3 AP_VEN_NAME          character (       30),
+		3 AP_ADDR_1            character (       30),
+		3 AP_ADDR_2            character (       30),
+		3 AP_ADDR_3            character (       30),
+		3 AP_ADDR_4            character (       30),
+		3 AP_VEN_CNTRY         character (        2),
+		3 AP_VEN_CURR          character (        3),
+		3 AP_VEN_PHONE         character (       20),
+		3 AP_VEN_TELEX         character (       20),
+		3 AP_VEN_ANSWERBK      character (       20),
+		3 AP_VEN_FAX           character (       20),
+		3 AP_VEN_CABLE         character (       20),
+		3 AP_VEN_STATUS        character (        1),
+		3 AP_VEN_CYCLE         character (        1),
+		3 AP_VEN_PYMT_CD       character (        1),
+		3 AP_GEN_PP_OR_INV     character (        1),
+		3 AP_LAST_ACTIVITY     fixed binary (15),
+		3 AP_CUR_BAL           float binary (53),
+		3 AP_MTD_PUR           float binary (53),
+		3 AP_YTD_PUR           float binary (53),
+		3 AP_LAST_PUR          float binary (53),
+		3 AP_VEN_COMMENT       character (       30),
+		3 AP_VEN_CONTACT       character (       30),
+		3 AP_SELECT_AMT        float binary (53),
+		3 AP_SELECT_STATUS     character (        1),
+		3 AP_SHORT_NAME        character (       10),
+		3 AP_COMM_CODE         character (        1),
+		3 AP_VEN_DEF_GL        fixed binary (31),
+		3 AP_VEN_1099          character (1),
+		3 AP_VEN_TAX_ID        character (       11);
+

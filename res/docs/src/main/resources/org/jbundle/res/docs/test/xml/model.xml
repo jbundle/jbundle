@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="forms.xsl"?>
+
+<form xmlns:xfm="http://www.w3.org/2000/12/xforms" height="30cm">
+
+<xform id="form1" xmlns="http://www.w3.org/2000/12/xforms">
+  <submitInfo
+	id="submit1"
+	method2="postxml"
+	localfile="temp2.xml"
+	target2="http://www.hut.fi/"
+  />
+  <model href="purchase.xsd">
+  <!-- The model is currently ignored -->
+  </model>
+  <instance id="instance1" xmlns="">
+    <?xml2-stylesheet type="text/xsl" href="../demo/fo/submit.xsl"?>
+    <purchaseOrder>
+      <shipTo>
+        <name>Alice Smith</name>
+        <street>123 Maple Street</street>
+        <city type="ao">Mill Valley</city>
+        <state>CA</state>
+        <zip>90952</zip>
+        <shipped>false</shipped>
+	<selection>Ghana</selection>
+	<static>
+		<data>333</data>
+	</static>
+	<text>Original</text>
+	<date>2001-05-23</date>
+      </shipTo>
+      <itemlist>
+        <list>xsmiles_personal xsmiles_support</list>
+	<number>2</number>
+	<corresponds>true</corresponds>
+      </itemlist>
+    </purchaseOrder> 
+  </instance>
+</xform>
+
+
+	<h1>XForms model in X-Smiles</h1>
+	<p>The model in XForms defines the allowed content of form fields</p>
+	<xfm:textbox xform="form1" ref="purchaseOrder/shipTo/name" cols="20">
+		<xfm:caption>Name</xfm:caption>
+	</xfm:textbox>
+	<xfm:textbox ref="purchaseOrder/shipTo/street" cols="30" rows="1">
+		<xfm:caption>Address</xfm:caption>
+		<xfm:hint>Accepts anything</xfm:hint>
+	</xfm:textbox>
+	<xfm:textbox xform="form1" ref="purchaseOrder/shipTo/zip" cols="8" >
+		<xfm:caption>Zip (Accepts only numeric values)</xfm:caption>
+		<xfm:hint>Accepts only numeric values</xfm:hint>
+	</xfm:textbox>
+	<xfm:multipleSelect xform="form1" ref="purchaseOrder/itemlist/list">
+		<xfm:caption>Ordered items</xfm:caption>
+		<xfm:item value="xsmiles_personal">X-Smiles personal</xfm:item>
+		<xfm:item value="xsmiles_office">X-Smiles office</xfm:item>
+		<xfm:item value="xsmiles_support">X-Smiles 24h support</xfm:item>
+	</xfm:multipleSelect>
+	<!--
+	<xfm:textbox xform="form1" ref="purchaseOrder/items/number" cols="5"
+		calculate="string-length(purchaseOrder/items/list)">
+		<caption>Number of items</caption>
+	</xfm:textbox>
+	-->
+	<p>Already shipped [ true/false/maybe(!) ]</p>
+	<xfm:checkbox xform="form1" ref="purchaseOrder/shipTo/shipped" >
+		<xfm:caption>Check me</xfm:caption>
+	</xfm:checkbox>
+	<xfm:textbox xform="form1" ref="purchaseOrder/shipTo/shipped" cols="30" />
+	<xfm:textbox xform="form1" ref="purchaseOrder/shipTo/date" cols="20" >
+		<xfm:caption>Date shipped</xfm:caption>
+	</xfm:textbox>
+	<xfm:exclusiveSelect xform="form1" ref="purchaseOrder/shipTo/selection" style="list-ui:radio;hip:hop">
+		<xfm:hint>Select country</xfm:hint>
+		<xfm:caption>Select country</xfm:caption>
+		<xfm:item>Finland</xfm:item>
+		<xfm:item value="No way!">Norway</xfm:item>
+		<xfm:item>Ghana</xfm:item>
+	</xfm:exclusiveSelect>
+	<xfm:submit name="Submit" ref="test" to="submit1">
+		<xfm:hint>Click to submit</xfm:hint>
+		<xfm:caption>Submit</xfm:caption>
+	</xfm:submit>
+
+</form>
+	  

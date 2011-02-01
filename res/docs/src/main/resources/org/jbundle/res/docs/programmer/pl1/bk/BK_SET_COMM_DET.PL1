@@ -1,0 +1,212 @@
+/****************************************************************
+	Module: BK_SET_COMM_DET
+	Top Level Logic: BK_SETUP_COMM
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_SET_COMM_DET
+	Setup up the booking tour comment detail
+****************************************************************/
+
+%replace BK_SET_COMM_DET_1 by 555;
+BK_SET_COMM_DET:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_COMMENT_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_COMMENT_NO by  48;
+%include "BK_SET_COMM_DET.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_COMMENT.DD";
+
+declare		END_SETUP_COMM_DET   bit (1);
+declare		ALT_OPT_INDEX        fixed binary (15);
+declare		SET_ALT_ANSW         fixed binary (15);
+declare		SET_ALT_OPT          fixed binary (15);
+
+   /* INIT_COMM_DET - Initialize the booking tour comment info */
+
+   NEXT_B_SEQ = 1;
+
+
+   /* SCAN_ALT_OPT - Go through the selected alt & opt 1 by 1 */
+
+   SET_ALT_OPT = 1;
+   ALT_OPT_INDEX = 1;
+   do while (SET_ALT_OPT ^= 0);
+      SET_ALT_OPT = BK_ALT_OPT_SQ(ALT_OPT_INDEX);
+      SET_ALT_ANSW = BK_AO_ANSW_SQ(ALT_OPT_INDEX);
+      if SET_ALT_OPT ^= 0 then
+         do;
+         ALT_OPT_INDEX = ALT_OPT_INDEX + 1;
+
+         /* INIT_LOGIC - Initialize for the read */
+
+
+         /* NEXT_COMM_DET - Initialize for the next read */
+
+         BK_B_ALT_SEQ = SET_ALT_OPT;
+         BK_B_ANSW_SEQ = SET_ALT_ANSW;
+         BK_B_SEQ = 0;
+
+
+         /* XFER_LOGIC - Logic to transfer the records */
+
+         END_SETUP_COMM_DET = NO;
+         do while (END_SETUP_COMM_DET ^= YES);
+            call SETUP_COMM_DET;
+         end;
+         end;
+   end;
+
+return;
+
+/****************************************************************
+	SETUP_COMM_DET
+	Setup the booking tour comment detail
+****************************************************************/
+
+SETUP_COMM_DET:
+	procedure;
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_COMMENT     fixed binary (15);
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   BK_TOUR_MOD_NO = -1;
+   BK_COMM_TOUR_CODE = HDR_TOUR_CODE;
+   BK_COMM_ALT_SEQ = BK_B_ALT_SEQ;
+   BK_COMM_ANSW_SEQ = BK_B_ANSW_SEQ;
+   BK_TOUR_C_R = "B";
+   BK_TOUR_SEQ = BK_B_SEQ;
+   call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > -1) !
+   (BK_COMM_TOUR_CODE > HDR_TOUR_CODE) !
+   (BK_COMM_ALT_SEQ > BK_B_ALT_SEQ) !
+   (BK_COMM_ANSW_SEQ > BK_B_ANSW_SEQ) !
+   (BK_TOUR_C_R > "B") then
+      do;
+      END_SETUP_COMM_DET = YES;
+      return;
+      end;
+
+   /* SET_COMM_TEMP - Save current key for next time */
+
+   BK_B_SEQ = BK_TOUR_SEQ;
+
+
+   /* SETUP_COMM_KEY - Set up the comment key */
+
+   BK_TOUR_MOD_NO = 0;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_COMM_ALT_SEQ = 0;
+   BK_COMM_ANSW_SEQ = 0;
+   BK_TOUR_C_R = "B";
+
+
+   /* DEL_COMM_COPY - Get rid of the old one on replace or del */
+
+   if BK_B_ALT_SEQ ^= BK_ALT_OPT_SQ(1) then
+      do;
+      if (BK_TOUR_MOD_CODE = "R") ! (BK_TOUR_MOD_CODE = "D") then
+         do;
+
+         /* DEL_COMM_REC - Delete the old version and restore this */
+
+
+            /* READ_RECORD - Read the record */
+
+            call READ_KEYED (BK_COMMENT_NO,KEY_AREA_1,ERROR_BK_COMMENT);
+            if ERROR_BK_COMMENT > 3 then
+               call PRINT_ERROR (BK_COMMENT_NO,ERROR_BK_COMMENT);
+
+            /* DELETE_RECORD - Delete the record */
+
+            call DELETE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+
+            /* SET_DKEY_REMARK - Set back to the key to write */
+
+            BK_TOUR_MOD_NO = -1;
+            BK_COMM_TOUR_CODE = HDR_TOUR_CODE;
+            BK_COMM_ALT_SEQ = BK_B_ALT_SEQ;
+            BK_COMM_ANSW_SEQ = BK_B_ANSW_SEQ;
+            BK_TOUR_C_R = "B";
+            BK_TOUR_SEQ = BK_B_SEQ;
+            KEY_NO = 1;
+
+            /* READ_RECORD - Read the record */
+
+            call READ_KEYED (BK_COMMENT_NO,KEY_AREA_1,ERROR_BK_COMMENT);
+            if ERROR_BK_COMMENT > 3 then
+               call PRINT_ERROR (BK_COMMENT_NO,ERROR_BK_COMMENT);
+
+            /* SETUP_COMM_KEY - Set up the comment key */
+
+            BK_TOUR_MOD_NO = 0;
+            BK_OR_TOUR_NO = BOOKING_NO;
+            BK_COMM_ALT_SEQ = 0;
+            BK_COMM_ANSW_SEQ = 0;
+            BK_TOUR_C_R = "B";
+
+         end;
+      else
+         do;
+         BK_TOUR_SEQ = NEXT_B_SEQ;
+         NEXT_B_SEQ = NEXT_B_SEQ + 1;
+         end;
+      end;
+
+
+   /* ADD_REMARK_REC - If this is not a delete, add the rec */
+
+   if BK_TOUR_MOD_CODE ^= "D" then
+      do;
+      ERROR_CODE = KEY_ALREADY_EXISTS;
+      do while (ERROR_CODE = KEY_ALREADY_EXISTS);
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+         if ERROR_CODE = KEY_ALREADY_EXISTS then
+            BK_TOUR_SEQ = BK_TOUR_SEQ + 1;
+      end;
+      end;
+
+
+   /* SET_NEXT_COMM - Set pointer to next comment */
+
+   BK_B_SEQ = BK_B_SEQ + 1;
+
+
+   /* SET_NEXT_B_SEQ - Set the next sequence number */
+
+   if BK_TOUR_SEQ + 1 > NEXT_B_SEQ then
+      NEXT_B_SEQ = BK_TOUR_SEQ + 1;
+
+return;
+end;	/* SETUP_COMM_DET       */
+end;	/* SETUP_COMM_DET       */
+/*********************************End of Program*********************/

@@ -1,0 +1,13 @@
+/*********************************************************************
+	PR_DEPT_RPT File
+********************************************************************/
+
+declare	1 PR_DEPT_RPT_RECORD,
+		3 START_DEPT           fixed binary (15),
+		3 END_DEPT             fixed binary (15),
+		3 DEPT_DATE            fixed binary (15),
+		3 DEPT_TIME            fixed binary (15),
+		3 DEPT_USER            character (       16),
+		3 DEPT_PAGE            fixed binary (15),
+		3 DEPT_COUNT           fixed binary (15);
+

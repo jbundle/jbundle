@@ -1,0 +1,17 @@
+/*********************************************************************
+	GL_JOUR_PRT File
+********************************************************************/
+
+declare	1 GL_JOUR_PRT_RECORD,
+		3 START_TRX_NO         fixed binary (15),
+		3 END_TRX_NO           fixed binary (15),
+		3 GL_JOUR_DEBIT_AMT    float binary (53),
+		3 GL_JOUR_CREDIT_AMT   float binary (53),
+		3 GL_JOUR_DATE         fixed binary (15),
+		3 GL_JOUR_TIME         fixed binary (15),
+		3 GL_JOUR_PAGE         fixed binary (15),
+		3 GL_JOUR_TRX_COUNT    fixed binary (31),
+		3 GL_JOUR_DEBIT_TOTAL  float binary (53),
+		3 GL_JOUR_CREDIT_TOTAL float binary (53),
+		3 GL_DBATCH_NO         fixed binary (15);
+

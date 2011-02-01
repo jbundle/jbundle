@@ -1,0 +1,66 @@
+/*********************************************************************
+	EMP_CONTROL File
+********************************************************************/
+
+declare	1 EMP_CONTROL_RECORD,
+		3 CTRL_REC_NO          fixed binary (15),
+		3 EMPLOYER_NAME        character (       30),
+		3 EMPLOYER_ADDR_1      character (       30),
+		3 EMPLOYER_ADDR_2      character (       30),
+		3 EMPLOYER_ADDR_3      character (       30),
+		3 EMP_FILLER           character (       40);
+
+declare	1 EMP_CONTROL_01_RECORD defined (CTRL_REC_NO),
+		3 CTRL_REC_NO01        fixed binary (15),
+		3 FEDERAL_ID_NO        character (       11),
+		3 STATE_ID_NO          character (       11),
+		3 LOCAL_ID_NO          character (       11);
+
+declare	1 EMP_CONTROL_02_RECORD defined (CTRL_REC_NO),
+		3 CTRL_REC_NO02        fixed binary (15),
+		3 FED_EXEMPTION        float binary (21),
+		3 STATE_EXEMPTION      float binary (21),
+		3 LOCAL_EXEMPTION      float binary (21),
+		3 FED_TAX_GL           fixed binary (31),
+		3 STATE_TAX_GL         fixed binary (31),
+		3 LOCAL_TAX_GL         fixed binary (31),
+		3 FICA_EMPE_PER        float binary (21),
+		3 FICA_EMPR_PER        float binary (21),
+		3 MAX_FICA_WH          float binary (21),
+		3 FICA_TAX_GL          fixed binary (31),
+		3 FUI_PER              float binary (21),
+		3 FUI_MAX              float binary (21),
+		3 FUI_TAX_GL           fixed binary (31),
+		3 CASH_AP_AC_NO        fixed binary (15),
+		3 PR_CASH_GL           fixed binary (31),
+		3 PR_TAX_GL            fixed binary (31),
+		3 STATE_DEF            character (        2),
+		3 SUI_PER              float binary (21),
+		3 SUI_MAX              float binary (21),
+		3 SUI_TAX_GL           fixed binary (31),
+		3 SDI_PER              float binary (21),
+		3 SDI_MAX              float binary (21),
+		3 SDI_TAX_GL           fixed binary (31),
+		3 LAST_PAY_PERIOD      character (1),
+		3 AP_AUTO_POST         character (1),
+		3 GL_AUTO_POST         character (1),
+		3 JOB_AUTO_POST        character (1),
+		3 DIST_TO_GL           character (        1),
+		3 DIST_TO_JOBS         character (        1),
+		3 NEXT_PR_CK_NO        fixed binary (31);
+
+declare	1 EMP_CONTROL_03_RECORD defined (CTRL_REC_NO),
+		3 CTRL_REC_NO03        fixed binary (15),
+		3 FED_TAX_DESC         character (       15),
+		3 STATE_TAX_DESC       character (       15),
+		3 LOCAL_TAX_DESC       character (       15),
+		3 FICA_TAX_DESC        character (       15),
+		3 SDI_TAX_DESC         character (       15),
+		3 REG_PAY_DESC         character (       15),
+		3 OT_PAY_DESC          character (       15),
+		3 OT_TIMES_BASE        float binary (21),
+		3 SP1_DESC             character (       15),
+		3 SP1_TIMES_BASE       float binary (21),
+		3 SP2_DESC             character (       15),
+		3 SP2_TIMES_BASE       float binary (21);
+

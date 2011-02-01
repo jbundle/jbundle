@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_DIS_LANDT File
+********************************************************************/
+
+declare	1 BK_DIS_LANDT_RECORD,
+		3 DIS_LANDT            character (        3),
+		3 DIS_PAXT             fixed binary (15),
+		3 DIS_LDATET           fixed binary (15),
+		3 DIS_LAND_TY          character (        1);
+

@@ -1,0 +1,13 @@
+/*********************************************************************
+	GL_CONTROL File
+********************************************************************/
+
+declare	1 GL_CONTROL_RECORD,
+		3 GL_REC_NUMBER        fixed binary (15),
+		3 GL_PERIOD_START      fixed binary (15),
+		3 GL_PERIOD_END        fixed binary (15),
+		3 GL_ACCRUAL_CODE      character (       10),
+		3 GL_NEXT_SEQ          fixed binary (31),
+		3 GL_LAST_POST         fixed binary (15),
+		3 GL_PROFIT_CNTR       character (1);
+

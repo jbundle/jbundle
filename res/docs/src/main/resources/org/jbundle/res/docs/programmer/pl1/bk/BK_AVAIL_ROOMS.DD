@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_AVAIL_ROOMS File
+********************************************************************/
+
+declare	1 BK_AVAIL_ROOMS_RECORD,
+		3 ROOMS_ROOM_CODE      character (        1),
+		3 ROOMS_START_DATE     fixed binary (15);
+

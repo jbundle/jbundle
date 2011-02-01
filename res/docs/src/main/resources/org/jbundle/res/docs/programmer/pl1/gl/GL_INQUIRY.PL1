@@ -1,0 +1,414 @@
+/****************************************************************
+	Module: GL_INQUIRY
+	Top Level Logic: TABLE_FILE_DIS
+	Date: 25-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_INQUIRY
+	Display table logic
+****************************************************************/
+
+%replace GL_INQUIRY_1 by  59;
+GL_INQUIRY:
+   procedure;
+%replace GL_CHART_NO by  16;
+%replace GL_DETAIL_NO by  17;
+%include "GL_CHART.DD";
+%include "GL_INQUIRY.DD";
+%include "GL_DETAIL.DD";
+
+declare		END_DISPLAY_IO       bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_CALC_START_GL    bit (1);
+   call INITIALIZE;
+   END_DISPLAY_IO = NO;
+   do while (END_DISPLAY_IO ^= YES);
+      call DISPLAY_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+   GL_TRX_DATE = TODAYS_DATE();
+   GL_TRX_ENTRY = TODAYS_DATE();
+   GL_TRX_AMOUNT = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_INQUIRY_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (GL_INQUIRY_RECORD) );
+   call OPEN_FILE (GL_DETAIL_NO,"GL_DETAIL",byteaddr(GL_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DISPLAY_IO
+	Main logic for table display
+****************************************************************/
+
+DISPLAY_IO:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (GL_INQUIRY_1);
+   NOT_FIRST_TIME = YES;
+   call INPUT_HDR_INFO;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_DISPLAY_IO = YES;
+      return;
+      end;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_DISPLAY;
+
+   /* AFTER_LOGIC - Other Logic */
+
+   call DISPLAY_DATA_D;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* PRESS_RETURN - Press return */
+
+   call PRESS_RETURN;
+
+return;
+end;	/* DISPLAY_IO           */
+
+/****************************************************************
+	INPUT_HDR_INFO
+	Input the table header information
+****************************************************************/
+
+INPUT_HDR_INFO:
+	procedure;
+
+GL_START_DTE = TODAYS_DATE();
+GL_END_DTE = GL_START_DTE;
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   3 to   5;
+   if LOOP_INDEX =   4 then
+      GL_START_DTE = TODAYS_DATE();
+   if LOOP_INDEX =   5 then
+      GL_END_DTE = GL_START_DTE;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* CHECK_GL_START - Calc the G/L starting balance? */
+
+      ACCOUNT_BALANCE = 0;
+      if GL_CALC_START = "Y" then
+         do;
+
+         /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+         call PROCESSING_OCCURRING;
+         call DUMP_BUFFER;
+
+
+         /* SET_FIRST - Set the record pointer to the first rec */
+
+         GL_AC_NO = GL_ACCOUNT_NO;
+         GL_TRX_DATE = 0;
+         GL_SEQ_NO = 0;
+         call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+         END_CALC_START_GL = NO;
+         do while (END_CALC_START_GL ^= YES);
+            call CALC_START_GL;
+         end;
+         call DISPLAY_DATA_C;
+         call CLEAR_TO_BOS(23);
+         end;
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_HDR_INFO       */
+
+/****************************************************************
+	CALC_START_GL
+	Calculate the starting balance
+****************************************************************/
+
+CALC_START_GL:
+	procedure;
+
+
+   /* READ_NEXT - Read the next record */
+
+   call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_ACCOUNT_NO) !
+   (GL_TRX_DATE > GL_START_DTE-1) then
+      do;
+      END_CALC_START_GL = YES;
+      return;
+      end;
+
+   /* ADD_ACCOUNT_BAL - Add to the G/L account balance */
+
+   ACCOUNT_BALANCE = floor((ACCOUNT_BALANCE + GL_TRX_AMOUNT) * 100 + 0.5) / 100;
+
+return;
+end;	/* CALC_START_GL        */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =  11 to  11;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		GL_AC_NO_SAVE        fixed binary (31);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		GL_TRX_DATE_ARRAY(17) fixed binary (15);
+declare		GL_SEQ_NO_ARRAY(17) fixed binary (31);
+declare		GL_DETAIL_ERROR      fixed binary (15);
+declare		GL_TRX_DATE_SAVE     fixed binary (15);
+declare		GL_SEQ_NO_SAVE       fixed binary (31);
+declare		ANSWER               character (1);
+GL_AC_NO = GL_ACCOUNT_NO;
+GL_AC_NO_SAVE = GL_AC_NO;
+GL_TRX_DATE = GL_START_DTE;
+GL_SEQ_NO = 0;
+call SET_POSITION (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (GL_AC_NO > GL_AC_NO_SAVE) !
+   (GL_TRX_DATE > GL_END_DTE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 17;
+      GL_TRX_DATE_ARRAY(RECORD_NUMBER) = 0;
+      GL_SEQ_NO_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      GL_DETAIL_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (GL_DETAIL_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 17) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =   6 to  10;
+            if LOOP_INDEX =   7 then
+               do;
+
+               /* GL_CHECK_DEBIT - Check to see if the trx amt is a debit */
+
+               if GL_TRX_AMOUNT > 0 then
+                  GL_INQ_DEBIT = GL_TRX_AMOUNT;
+               else
+                  GL_INQ_DEBIT = 0;
+
+               end;
+            if LOOP_INDEX =   8 then
+               do;
+
+               /* GL_CHECK_CREDIT - Check to see if the amount is a credit */
+
+               if GL_TRX_AMOUNT < 0 then
+                  GL_INQ_CREDIT = -GL_TRX_AMOUNT;
+               else
+                  GL_INQ_CREDIT = 0;
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  10 then
+               do;
+
+               /* ADD_ACCOUNT_BAL - Add to the G/L account balance */
+
+               ACCOUNT_BALANCE = floor((ACCOUNT_BALANCE + GL_TRX_AMOUNT) * 100 + 0.5) / 100;
+
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         GL_TRX_DATE_ARRAY(RECORD_NUMBER) = GL_TRX_DATE;
+         GL_SEQ_NO_ARRAY(RECORD_NUMBER) = GL_SEQ_NO;
+         call READ_NEXT (GL_DETAIL_NO,KEY_AREA_2,GL_DETAIL_ERROR);
+         if (GL_AC_NO > GL_AC_NO_SAVE) !
+         (GL_TRX_DATE > GL_END_DTE) then
+            GL_DETAIL_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      GL_TRX_DATE_SAVE = GL_TRX_DATE_ARRAY(17);
+      GL_SEQ_NO_SAVE = GL_SEQ_NO_ARRAY(17);
+      GL_AC_NO = GL_AC_NO_SAVE;
+      if GL_DETAIL_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 17;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if GL_TRX_DATE_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX = 6 to  10;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	DISPLAY_DATA_D
+	Display the data in screen group D
+****************************************************************/
+
+DISPLAY_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  12 to  12;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_D       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (GL_CHART_NO);
+   call CLOSE_FILE (GL_DETAIL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

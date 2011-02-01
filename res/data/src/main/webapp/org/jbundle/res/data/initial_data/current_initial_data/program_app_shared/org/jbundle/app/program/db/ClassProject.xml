@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<ClassProject ID="1">
+		<LastChanged>2010-06-07T03:37:20</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-dance</Name>
+		<ParentFolderID>8</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Dance sample application</Description>
+		<SystemClasses>N</SystemClasses>
+		<PackageName>.app.dance</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.app.dance</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.app.dance</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="3">
+		<LastChanged>2011-01-13T04:36:49</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-contact</Name>
+		<ParentFolderID>7</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Contact sample application</Description>
+		<SystemClasses/>
+		<PackageName>.app.contact</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.app.contact</ThinPackage>
+		<ThinProjectPath>jbundle-thin-app-contact</ThinProjectPath>
+		<ResourcePackage>.app.contact</ResourcePackage>
+		<ResProjectPath>jbundle-res-app-contact</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="4">
+		<LastChanged>2010-06-07T03:38:38</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-picture</Name>
+		<ParentFolderID>6</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Picture sample application</Description>
+		<SystemClasses/>
+		<PackageName>.app.picture</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.app.picture</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.app.picture</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="5">
+		<LastChanged>2010-06-05T19:14:21</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>delete-this-project</Name>
+		<ParentFolderID>16,777,291</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Not used</Description>
+		<SystemClasses/>
+		<PackageName>.test</PackageName>
+		<ProjectPath/>
+		<ThinPackage>.test</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.test</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="6">
+		<LastChanged>2010-06-09T17:50:46</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-picture-root</Name>
+		<ParentFolderID>16,777,257</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Picture app</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="7">
+		<LastChanged>2010-06-09T17:50:55</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-contact-root</Name>
+		<ParentFolderID>16,777,257</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Contact app</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="8">
+		<LastChanged>2010-06-09T17:51:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle-app-dance-root</Name>
+		<ParentFolderID>16,777,257</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Dance app</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+</file>

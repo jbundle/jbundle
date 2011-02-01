@@ -1,0 +1,189 @@
+/****************************************************************
+	Module: BK_FINAL
+	Top Level Logic: FINAL_LOGIC
+	Date: 21-Feb-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_FINAL
+	Top-Level Logic to enter and call fnlze
+****************************************************************/
+
+%replace BK_FINAL_1 by 836;
+BK_FINAL:
+   procedure;
+%include "BK_FINAL.DD";
+
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+   call INITIALIZE;
+   call FINAL_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+declare		ERROR_CODE           fixed binary (15);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   FINAL_CUT_OFF = TODAYS_DATE();
+   FINAL_TOUR_TYPE = "";
+   FINAL_TOUR_CODE = "";
+   FINAL_TYPE = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_FINAL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (BK_FINAL_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	FINAL_MAIN
+	Mainline logic to finalize
+****************************************************************/
+
+FINAL_MAIN:
+	procedure;
+
+
+   /* RESET_INP_ERR - Reset the input error flag */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* SET_FINAL_PARAMS - Set the finalize parameters */
+
+   %include "BK_FINALIZE.DD";
+
+   DATE_CUT_OFF = FINAL_CUT_OFF;
+   PRT_TOUR_TYPE = FINAL_TOUR_TYPE;
+   PRT_TOUR_CODE = FINAL_TOUR_CODE;
+   PRT_DOC_TYPE = FINAL_TYPE;
+
+
+   /* BK_FINALIZE - Call finalize program */
+
+   %include "BK_FINALIZE.DCL";
+   call BK_FINALIZE(
+      BK_FINALIZE_RECORD);
+return;
+end;	/* FINAL_MAIN           */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   4;
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO ( 37);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  4,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  4 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO ( 37);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

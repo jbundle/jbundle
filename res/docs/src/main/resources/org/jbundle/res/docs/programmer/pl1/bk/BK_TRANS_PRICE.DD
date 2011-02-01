@@ -1,0 +1,14 @@
+/*********************************************************************
+	BK_TRANS_PRICE File
+********************************************************************/
+
+declare	1 BK_TRANS_PRICE_RECORD,
+		3 TRANS_PR_NO          character (       10),
+		3 TRANS_START          fixed binary (15),
+		3 TRANS_END            fixed binary (15),
+		3 TRANS_CLASS          character (       10),
+		3 TRANS_FROM_PAX       fixed binary (15),
+		3 TRANS_TO_PAX         fixed binary (15),
+		3 TRANS_PRICE          float binary (53),
+		3 TRANS_CL_NO          fixed binary (15);
+

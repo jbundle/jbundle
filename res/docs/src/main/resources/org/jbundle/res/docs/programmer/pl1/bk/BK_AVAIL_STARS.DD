@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_AVAIL_STARS File
+********************************************************************/
+
+declare	1 BK_AVAIL_STARS_RECORD,
+		3 STARS_ROOM_TYPE      character (        1),
+		3 STARS_START_DATE     fixed binary (15),
+		3 STARS                character (       51);
+

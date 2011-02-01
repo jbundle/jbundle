@@ -1,0 +1,16 @@
+/*********************************************************************
+	AM_REQUESTS File
+********************************************************************/
+
+declare	1 AM_REQUESTS_RECORD,
+		3 BROC_AGENCY_NUMBER   fixed binary (31),
+		3 BROC_AGENCY_NAME     character (       30),
+		3 BROC_ADDRESS_1       character (       30),
+		3 BROC_ADDRESS_2       character (       30),
+		3 BROC_ADDRESS_3       character (       20),
+		3 BROC_ZIP_CODE        character (       10),
+		3 BROC_ATTENTION       character (       25),
+		3 BROC_TYPE            character (        1),
+		3 BROC_DESC( 6) character (        3),
+		3 BROC_QTY( 6) fixed binary (15);
+

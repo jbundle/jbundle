@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_DIS_MENU File
+********************************************************************/
+
+declare	1 BK_DIS_MENU_RECORD,
+		3 MENU_ITEM            character (       10),
+		3 MENU_LINE            character (       70),
+		3 MENU_CODE            character (       40);
+

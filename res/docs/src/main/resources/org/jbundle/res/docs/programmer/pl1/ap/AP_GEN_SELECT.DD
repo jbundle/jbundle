@@ -1,0 +1,16 @@
+/*********************************************************************
+	AP_GEN_SELECT File
+********************************************************************/
+
+declare	1 AP_GEN_SELECT_RECORD,
+		3 AP_SELECT_GEN        character (        1),
+		3 AP_PRT_REPORT        character (1),
+		3 AP_PYMT_SEL          character (1),
+		3 AP_REQ_CKS           character (1),
+		3 AP_SEL_BANK          fixed binary (15),
+		3 AP_GEN_DATE          fixed binary (15),
+		3 AP_GEN_TIME          fixed binary (15),
+		3 AP_GEN_USER          character (       16),
+		3 AP_GEN_PAGE          fixed binary (31),
+		3 AP_GEN_SELECTION     float binary (53);
+

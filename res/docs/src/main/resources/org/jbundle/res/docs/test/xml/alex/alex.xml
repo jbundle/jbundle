@@ -1,0 +1,95 @@
+<document>
+
+  <paragraph>
+    Alex,
+  </paragraph>
+  
+  <paragraph>
+    I'm answering your e-mail in three different formats to illustrate how you
+	would deliver a document using XML and XSL.
+  </paragraph>
+
+  <paragraph>
+    Actually, I only wrote this letter once. When I was ready to send it to you,
+	I selected the output format using an XSLT stylesheet. I have two XSLT
+	stylesheets. One to convert a letter to web format (html) and another to
+	convert a letter to pdf.
+  </paragraph>
+
+  <paragraph>
+    If you are interested here are the original documents:
+	<list>
+	  <item>
+	    The original letter looks like this:
+		  <link>
+		    <name>Original letter to Alex in XML.</name>
+			<url>http://www.donandann.com/docs/test/xml/alex/xml.xml</url>
+		  </link>
+	  </item>
+	  <item>
+	    The html stylesheet looks like this:
+		  <link>
+		    <name>XSLT stylesheet to create a web (html) document.</name>
+			<url>http://www.donandann.com/docs/test/xml/alex/xmlhtml.xml</url>
+		  </link>
+	  </item>
+	  <item>
+	    The pdf stylesheet looks like this:
+		  <link>
+		    <name>XSLT stylesheet to create an adobe (XSL-FO or PDF) document.</name>
+			<url>http://www.donandann.com/docs/test/xml/alex/xmlpdf.xml</url>
+		  </link>
+	  </item>
+	</list>
+  </paragraph>
+
+  <paragraph>
+    Back to your question.
+  </paragraph>
+
+  <paragraph>
+    To send a itinerary or document in pdf from BCS or another system, you would
+	do the following:
+	<list>
+	  <item>
+	    First, tell your system to create the document in XML.
+	  </item>
+	  <item>
+	    Next, tell your XSLT converter to convert the document to the format
+		you want to send the document in (html, pdf, or whatever).
+	  </item>
+	  <item>
+	    Last, send it to the customer or vendor. Generally, you would send it as
+		an e-mail attachment or as a link to the document on your web server.
+	  </item>
+	</list>
+  </paragraph>
+
+  <paragraph>
+    Many software companies have packages to do XSLT (Microsoft, Sun, IBM, etc.)
+	Their capabilites and prices vary by vendor and capability.
+  </paragraph>
+
+  <paragraph>
+    I prefer cocoon by apache. It's free and it does everything. The pdf
+	converter is also free. No royalties, no licences, runs on any computer.
+  </paragraph>
+
+  <paragraph>
+    XSL technology isn't a secret. The specification is available for free on the
+	Web. Every technology company is pushing it. It is simple for programmers
+	because document only has to created in a single format (XML) and the
+	XSL stylesheet does to conversion to text, PDF, HTML, or whatever new
+	format comes up.
+  </paragraph>
+
+  <paragraph>
+    Hope this helps.
+  </paragraph>
+
+  <paragraph>
+    Don
+  </paragraph>
+
+</document>
+

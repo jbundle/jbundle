@@ -1,0 +1,33 @@
+/*********************************************************************
+	BK_SUMM_TOUR File
+********************************************************************/
+
+declare	1 BK_SUMM_TOUR_RECORD,
+		3 RT_ANALYZE_BY        character (        1),
+		3 TR_TOUR_ORDER        character (1),
+		3 RT_PERIOD_TYPE       character (        1),
+		3 TR_PERIOD_LENGTH     fixed binary (15),
+		3 RT_START_DATE        fixed binary (15),
+		3 RT_END_DATE          fixed binary (15),
+		3 RT_DATE_RPT          fixed binary (15),
+		3 RT_TIME              fixed binary (15),
+		3 RT_USER              character (       16),
+		3 RT_CODE              character (        4),
+		3 RT_CODE_2            character (        4),
+		3 RT_DATE              fixed binary (15),
+		3 RT_TOURS             fixed binary (31),
+		3 RT_BOOKINGS          fixed binary (31),
+		3 RT_PAX               fixed binary (31),
+		3 RT_GROSS             float binary (53),
+		3 RT_NET               float binary (53),
+		3 RT_TOUR_COST         float binary (53),
+		3 RT_AIR_COST          float binary (53),
+		3 RT_DAY               fixed binary (15),
+		3 RT_MONTH             fixed binary (15),
+		3 RT_YEAR              fixed binary (15),
+		3 RT_BK_COUNT          fixed binary (15),
+		3 RT_TR_GROSS          float binary (53),
+		3 RT_TR_NET            float binary (53),
+		3 RT_TR_COST           float binary (53),
+		3 RT_AIR               float binary (53);
+

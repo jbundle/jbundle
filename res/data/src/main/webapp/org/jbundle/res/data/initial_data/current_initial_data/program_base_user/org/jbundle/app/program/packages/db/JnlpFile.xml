@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<JnlpFile ID="1">
+		<LastChanged>2010-12-02T15:08:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>thick</Name>
+		<Description>Thick Base Application Resources</Description>
+		<ShortDesc>Thick Application Resources</ShortDesc>
+		<Title>Thick Application Resources</Title>
+		<Icon>images/tour/icons/Tour.gif</Icon>
+		<FileLocation/>
+	</JnlpFile>
+	<JnlpFile ID="2">
+		<LastChanged>2010-12-02T15:08:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>thin</Name>
+		<Description>Thin Base Application Resources</Description>
+		<ShortDesc>Thin Application Resources</ShortDesc>
+		<Title>Thin Application Resources</Title>
+		<Icon>images/tour/icons/Tour.gif</Icon>
+		<FileLocation/>
+	</JnlpFile>
+	<JnlpFile ID="5">
+		<LastChanged>2010-12-02T15:08:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>notusedbase</Name>
+		<Description/>
+		<ShortDesc/>
+		<Title/>
+		<Icon/>
+		<FileLocation/>
+	</JnlpFile>
+	<JnlpFile ID="9">
+		<LastChanged>2010-12-02T15:08:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>development</Name>
+		<Description>Development App</Description>
+		<ShortDesc>Development application</ShortDesc>
+		<Title>Development app</Title>
+		<Icon>images/tour/icons/Tour.gif</Icon>
+		<FileLocation/>
+	</JnlpFile>
+	<JnlpFile ID="10">
+		<LastChanged>2010-12-02T15:08:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>splash</Name>
+		<Description>Splash (starter screen)</Description>
+		<ShortDesc>Splash Screen Resources</ShortDesc>
+		<Title>Splash Screen Resources</Title>
+		<Icon>images/tour/icons/Tour.gif</Icon>
+		<FileLocation/>
+	</JnlpFile>
+</file>

@@ -1,0 +1,11 @@
+/*********************************************************************
+	BK_TOUR_CHANGE File
+********************************************************************/
+
+declare	1 BK_TOUR_CHANGE_RECORD,
+		3 BK_TOUR_START        fixed binary (15),
+		3 BK_LAND_ENDD         fixed binary (15),
+		3 BK_TOUR_END          fixed binary (15),
+		3 BK_TOUR_PAX          fixed binary (15),
+		3 BK_TOUR_OVERSELL     fixed binary (15);
+

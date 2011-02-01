@@ -1,0 +1,13 @@
+/*********************************************************************
+	AM_SCF_RPT File
+********************************************************************/
+
+declare	1 AM_SCF_RPT_RECORD,
+		3 SCF_DATE             fixed binary (15),
+		3 SCF_TIME             fixed binary (15),
+		3 SCF_USER             character (       16),
+		3 SCF_PAGE             fixed binary (31),
+		3 SCF_TOTAL            fixed binary (31),
+		3 SCF_START            character (        3),
+		3 SCF_END              character (        3);
+

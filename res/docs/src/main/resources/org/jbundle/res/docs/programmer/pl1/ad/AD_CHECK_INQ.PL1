@@ -1,0 +1,284 @@
+/****************************************************************
+	Module: AD_CHECK_INQ
+	Top Level Logic: DISPLAY_FILE_LOGIC
+	Date:  7-May-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AD_CHECK_INQ
+	Top Level, Input A, Display C
+****************************************************************/
+
+%replace AD_CHECK_INQ_1 by 873;
+AD_CHECK_INQ:
+   procedure;
+%replace AD_CHECKING_NO by  26;
+%replace AD_ACCT_NO by  24;
+%include "AD_CHECKING.DD";
+%include "AD_ACCT.DD";
+
+declare		END_DISPLAY_MAIN     bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_DISPLAY_MAIN = NO;
+   do while (END_DISPLAY_MAIN ^= YES);
+      call DISPLAY_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AD_TRX_SEQ = 0;
+   AD_CHECK_TYPE = "M";
+   AD_SYS_NUMBER = "";
+   AD_TRX_AMT_USD = 0;
+   AD_DATE_RECONCILED = 0;
+   AD_MANUAL = "Y";
+   AD_BALANCE = 0;
+   AD_LAST_CHECK = 0;
+   AD_LAST_SEQ = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AD_CHECK_INQ_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AD_CHECKING_NO,"AD_CHECKING",byteaddr(AD_CHECKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CHECKING_NO,ERROR_CODE);
+   call OPEN_FILE (AD_ACCT_NO,"AD_ACCT",byteaddr(AD_ACCT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_ACCT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DISPLAY_MAIN
+	Mainline logic
+****************************************************************/
+
+DISPLAY_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AD_CHECKING    fixed binary (15);
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AD_CHECK_INQ_1);
+   NOT_FIRST_TIME = YES;
+   call ENTER_DATA_A;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_DISPLAY_MAIN = YES;
+      return;
+      end;
+
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   AD_BANK_NO = AD_BANK_NO;
+   AD_TRX_TYPE = "C";
+   AD_TRX_NUMBER = AD_TRX_NUMBER;
+   AD_TRX_SEQ = 1;
+   KEY_NO = 2;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (AD_CHECKING_NO,KEY_NO,ERROR_AD_CHECKING);
+   if ERROR_AD_CHECKING > 3 then
+      call PRINT_ERROR (AD_CHECKING_NO,ERROR_AD_CHECKING);
+
+   /* DIS_RECORD_FOUND - Record Found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_AD_CHECKING = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* NOT_FOUND_AGAIN - Not found, try again!! */
+
+      call DISPLAY_MESSAGE ("Record not found!!!<Bel>"c);
+      call PRESS_RETURN;
+      return;
+
+      if ERROR_INPUT_SCREEN then return;
+      end;
+
+   /* HIT_RETURN - Tell the user to Hit Return */
+
+   call PRESS_RETURN;
+
+return;
+end;	/* DISPLAY_MAIN         */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      AD_ACCOUNT_NO = AD_BANK_NO;
+      call READ_KEYED (AD_ACCT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   3 to   3;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX =   4 to  11;
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* NO_PR_DIS - Don't Display Payroll Amounts */
+
+      if AD_CHECK_TYPE = "P" then
+         LOOP_INDEX = LOOP_INDEX + 1;
+
+      end;
+   if LOOP_INDEX =   7 then
+      do;
+
+      /* SET_AD_DESC - Set the transaction description */
+
+      do case (index("CDSXBI+-",AD_TRX_TYPE) + 1);
+         AD_TRX_DESC = "";
+         AD_TRX_DESC = "Check";
+         AD_TRX_DESC = "Deposit";
+         AD_TRX_DESC = "Start";
+         AD_TRX_DESC = "Xfer";
+         AD_TRX_DESC = "Charge";
+         AD_TRX_DESC = "Interst";
+         AD_TRX_DESC = "Debit";
+         AD_TRX_DESC = "Credit";
+      end;
+      otherwise
+         AD_TRX_DESC = "";
+
+      end;
+   if LOOP_INDEX =   9 then
+      do;
+
+      /* SET_SYS_DESC - Set system description */
+
+      do case (index("ARPM",AD_CHECK_TYPE) + 1);
+         AD_SYS_DESC = "";
+         AD_SYS_DESC = "A/P";
+         AD_SYS_DESC = "A/R";
+         AD_SYS_DESC = "P/R";
+         AD_SYS_DESC = "Man";
+      end;
+
+      end;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AD_CHECKING_NO);
+   call CLOSE_FILE (AD_ACCT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

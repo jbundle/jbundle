@@ -1,0 +1,172 @@
+/****************************************************************
+	Module: BK_DIS_TRANS
+	Top Level Logic: DIS_TRANS_LOGIC
+	Date:  5-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_DIS_TRANS
+	Call transportation display
+****************************************************************/
+
+%replace BK_DIS_TRANS_1 by 551;
+BK_DIS_TRANS:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD);
+%replace AD_CURR_NO by  25;
+%replace BK_TRANS_NO by  64;
+%replace BK_TRANS_PRICE_NO by  69;
+%replace BK_DET_LAND_NO by  68;
+%replace BK_LAND_NO by  54;
+%replace BK_LAND_DET_NO by  91;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%include "AD_CURR.DD";
+%include "BK_TRANS.DD";
+%include "BK_TRANS_PRICE.DD";
+%include "BK_DET_LAND.DD";
+%include "BK_LAND.DD";
+%include "BK_LAND_DET.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+
+declare		END_DIS_TRANS_MAIN   bit (1);
+declare		ERROR_CODE           fixed binary (15);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   TRANS_CLASS = "";
+   LDET_MOD_CODE = "A";
+   LDET_INV = "N";
+   BK_INV_MOD = -1;
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_MANUAL = "";
+   LDET_MODULE = "";
+   LDET_ACK_DAYS = 0;
+   LDET_SEND_TO = "Y";
+   LDET_STATUS = "OK";
+   LDET_SIC_PMC = "";
+   LDET_PMC = 0;
+   LDET_SIC = 0;
+   LAND_TAX = 0;
+   LAND_SVC_CHG = 0;
+   LAND_COMM = 0;
+   LAND_MARKUP_LINE = 0;
+   LAND_VARIES_ON = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_NO,"BK_TRANS",byteaddr(BK_TRANS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_PRICE_NO,"BK_TRANS_PRICE",byteaddr(BK_TRANS_PRICE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_PRICE_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_NO,"BK_LAND",byteaddr(BK_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (BK_LAND_DET_NO,"BK_LAND_DET",byteaddr(BK_LAND_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_LAND_DET_NO,ERROR_CODE);
+   END_DIS_TRANS_MAIN = NO;
+   do while (END_DIS_TRANS_MAIN ^= YES);
+      call DIS_TRANS_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	DIS_TRANS_MAIN
+	Main logic
+****************************************************************/
+
+DIS_TRANS_MAIN:
+	procedure;
+
+
+   /* SET_T_DIS - Set the ititial tour stuff */
+
+   LDET_TORT = "T";
+
+   TDTT_TRANS_NO = "";
+   LDTT_CLASS = 0;
+   LDET_DATE = 0;
+   LDET_MANUAL = "";
+
+   LDET_VARIES_CODE = "";
+   LDET_VARIES_QTY = 0;
+   LDET_VARIES_COST = 0;
+   LDET_EXCHANGE = 0;
+   LDET_SIC = 0;
+   LDET_PMC = 0;
+   LDET_TOUR_COST = 0;
+   LDET_TOUR_PP_COST = 0;
+   if BOOKING_NO = 0 then if BK_TOUR_NUM = 0 then
+      do;
+      TOUR_PAX = 2;
+      TOUR_FOCS = 0;
+      end;
+
+
+   /* BK_FIT_TRANS - Call the transportation info screen */
+
+   %include "BK_FIT_TRANS.DCL";
+   call BK_FIT_TRANS(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      AD_CURR_RECORD,
+      BK_TRANS_RECORD,
+      BK_TRANS_PRICE_RECORD,
+      BK_DET_LAND_RECORD,
+      BK_LAND_RECORD,
+      BK_LAND_DET_RECORD);
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_DIS_TRANS_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* DIS_TRANS_MAIN       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (BK_TRANS_NO);
+   call CLOSE_FILE (BK_TRANS_PRICE_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (BK_LAND_NO);
+   call CLOSE_FILE (BK_LAND_DET_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,225 @@
+/****************************************************************
+	Module: GL_RECUR_MENU
+	Top Level Logic: RECUR_LOGIC
+	Date: 25-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_RECUR_MENU
+	Top-Level Logic
+****************************************************************/
+
+%replace GL_RECUR_MENU_1 by 628;
+GL_RECUR_MENU:
+   procedure;
+%replace GL_DET_BATCH_NO by  19;
+%include "GL_RECUR_MENU.DD";
+%include "GL_DET_BATCH.DD";
+
+declare		END_GL_SELECT_AND_RU bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+   call INITIALIZE;
+   END_GL_SELECT_AND_RU = NO;
+   do while (END_GL_SELECT_AND_RU ^= YES);
+      call GL_SELECT_AND_RUN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   GL_DBATCH_USER = USER_NAME();
+   GL_DBATCH_DEF_DATE = TODAYS_DATE();
+   GL_DBATCH_DEF_SOURCE = "";
+   GL_DBATCH_DEF_COM = "";
+   GL_DBATCH_NEXT_TRX = 1;
+   GL_DBATCH_BAL = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_RECUR_MENU_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (GL_RECUR_MENU_RECORD) );
+   call OPEN_FILE (GL_DET_BATCH_NO,"GL_DET_BATCH",byteaddr(GL_DET_BATCH_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_DET_BATCH_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	GL_SELECT_AND_RUN
+	Select and run a program
+****************************************************************/
+
+GL_SELECT_AND_RUN:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+
+   /* REDIS_AND_SET - Redisplay the screen and set the var ptr */
+
+   if NOT_FIRST_TIME then
+      do;
+      call DISPLAY_SCREEN (GL_RECUR_MENU_1);
+
+      /* SET_SCRN_VARS - Set the screen variables pointer */
+
+      call SET_SCREEN_VARS (byteaddr (GL_RECUR_MENU_RECORD) );
+      end;
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_OPTION - Input the option on the screen */
+
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (GL_RECUR_SELECT = 0) !
+        (RETURN_CODE ^= NORMAL_RETURN) then
+      do;
+      END_GL_SELECT_AND_RU = YES;
+      return;
+      end;
+   call SET_BATCH_HDR;
+
+   /* CALL_PROGRAM - Dispatch to the right program */
+
+   %include "GL_JOUR_ENT.DCL";
+   %include "GL_JOUR_PRT.DCL";
+   %include "GL_RECUR_POST.DCL";
+   do case (GL_RECUR_SELECT);
+         /* Option   1 */
+      call GL_JOUR_ENT(
+         GL_DET_BATCH_RECORD);
+         /* Option   2 */
+      call GL_JOUR_PRT(
+         GL_DET_BATCH_RECORD);
+         /* Option   3 */
+      call GL_RECUR_POST(
+         GL_DET_BATCH_RECORD);
+         /* Option   4 */
+      call GL_JOUR_ENT(
+         GL_DET_BATCH_RECORD);
+         /* Option   5 */
+      call GL_JOUR_PRT(
+         GL_DET_BATCH_RECORD);
+         /* Option   6 */
+      call GL_RECUR_POST(
+         GL_DET_BATCH_RECORD);
+   end;
+   otherwise
+      do;
+      end;
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (GL_DET_BATCH_NO,ERROR_CODE);
+return;
+end;	/* GL_SELECT_AND_RUN    */
+
+/****************************************************************
+	SET_BATCH_HDR
+	Set up the batch header for the entries
+****************************************************************/
+
+SET_BATCH_HDR:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_GL_DET_BATCH   fixed binary (15);
+
+   /* SET_BATCH_CODE - Set the batch code for fixed/var */
+
+   if (GL_RECUR_SELECT < 1) ! (GL_RECUR_SELECT > 6) then
+      return;
+
+   GL_DBATCH_USER = " * FIXED * ";
+   if GL_RECUR_SELECT > 3 then
+      GL_DBATCH_USER = " * VARIABLE * ";
+
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (GL_DET_BATCH_NO,KEY_AREA_1,ERROR_GL_DET_BATCH);
+   if ERROR_GL_DET_BATCH > 3 then
+      call PRINT_ERROR (GL_DET_BATCH_NO,ERROR_GL_DET_BATCH);
+
+   /* BATCH_HDR_FOUND - Does the header exist? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_GL_DET_BATCH = NORMAL_RETURN then
+      do;
+
+      /* NO_CODE - This section has no code */
+
+      /* No code in this section */
+      end;
+   else
+      do;
+
+      /* SET_NEW_BATCH - Batch header not found, set up new batch */
+
+
+         /* INIT_FILE_VARS - Initialize the file variables */
+
+         GL_DBATCH_USER = USER_NAME();
+         GL_DBATCH_DEF_DATE = TODAYS_DATE();
+         GL_DBATCH_DEF_SOURCE = "";
+         GL_DBATCH_DEF_COM = "";
+         GL_DBATCH_NEXT_TRX = 1;
+         GL_DBATCH_BAL = 0;
+
+         /* SET_BATCH_CODE - Set the batch code for fixed/var */
+
+         if (GL_RECUR_SELECT < 1) ! (GL_RECUR_SELECT > 6) then
+            return;
+
+         GL_DBATCH_USER = " * FIXED * ";
+         if GL_RECUR_SELECT > 3 then
+            GL_DBATCH_USER = " * VARIABLE * ";
+
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (GL_DET_BATCH_NO,ERROR_CODE);
+      if ERROR_INPUT_SCREEN then return;
+      end;
+return;
+end;	/* SET_BATCH_HDR        */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (GL_DET_BATCH_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

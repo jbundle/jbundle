@@ -1,0 +1,510 @@
+/****************************************************************
+	Module: PR_QTRY_RPT
+	Top Level Logic: REPORT_LOGIC
+	Date: 14-May-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	PR_QTRY_RPT
+	Standard report logic
+****************************************************************/
+
+%replace PR_QTRY_RPT_1 by  66;
+%replace PR_QTRY_RPT_2 by  67;
+PR_QTRY_RPT:
+   procedure;
+%replace EMPLOYEE_NO by   6;
+%replace EMP_CONTROL_NO by   1;
+%include "PR_QTRY_RPT.DD";
+%include "EMPLOYEE.DD";
+%include "EMP_CONTROL.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+declare		END_PR_READ_THRU     bit (1);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   QTD_TXBL_GROSS_TOTAL = 0;
+   QTD_NON_TAX_TOTAL = 0;
+   QTD_FED_WH_TOTAL = 0;
+   QTD_STATE_WH_TOTAL = 0;
+   QTD_LOCAL_WH_TOTAL = 0;
+   QTD_EMP_FICA_TOTAL = 0;
+   QTD_SDI_WH_TOTAL = 0;
+   QTD_DEDUCT_TOTAL = 0;
+   QTD_NET_TOTAL = 0;
+   EMP_COUNT = 0;
+   PR_QTRY_DATE = TODAYS_DATE();
+   PR_QTRY_TIME = CURRENT_TIME();
+   PR_QTRY_USER = USER_NAME();
+   PR_QTRY_PAGE = 1;
+   PR_SUI_WAGES = 0;
+   PR_FUTA_TAX = 0;
+   PR_SUI_TAXES = 0;
+   PR_SDI_WAGES = 0;
+   PR_SDI_TAXES = 0;
+   PR_FUTA_WAGES = 0;
+   PR_QTRY_END = TODAYS_DATE();
+   EMP_STATE = "CA";
+   FED_ALLOW = 2;
+   PAY_FREQ = "W";
+   PAY_TYPE = "H";
+   IN_PENSION = "Y";
+   DE_1 = "";
+   DE_2 = "";
+   DE_3 = "";
+   DE_4 = "";
+   QTD_SS_GROSS = 0;
+   QTD_STATE_GROSS = 0;
+   YTD_SS_GROSS = 0;
+   YTD_STATE_GROSS = 0;
+   CTRL_REC_NO = 9999;
+   NEXT_PR_CK_NO = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (PR_QTRY_RPT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (PR_QTRY_RPT_RECORD) );
+   call OPEN_FILE (EMPLOYEE_NO,"EMPLOYEE",byteaddr(EMPLOYEE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (EMPLOYEE_NO,ERROR_CODE);
+   call OPEN_FILE (EMP_CONTROL_NO,"EMP_CONTROL",byteaddr(EMP_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (EMP_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (PR_QTRY_RPT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* GET_CTL_INFO - Get the info (tax info) from the ct file */
+
+   CTRL_REC_NO = 2;
+   call READ_KEYED (EMP_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      stop;
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   EMP_NO = 0;
+   call SET_POSITION (EMPLOYEE_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =   9 to  14;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* PR_OK_TO_CLEAR - Ok to clear the QTD info? */
+
+
+   /* CLOSE_LPT - Close the printer */
+
+   call CLOSE_PRINTER;
+
+
+   call OUTPUT_LINE (23,10,"Do you want to clear the QTD info?");
+   call INPUT_DATA (23,45,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call ERASE_LINE (23);
+   Call DUMP_BUFFER;
+   if ANSWER = "Y" then
+      call PR_CLEAR_QTD;
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  1,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT =  1 then
+   do;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+PR_QTRY_PAGE = PR_QTRY_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (EMPLOYEE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (EMPLOYEE_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* SKIP_NO_QTD - Skip this employee if no QTD info */
+
+   if QTD_TXBL_GROSS = 0 then
+      return;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =   6 to   8;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_UI - Add the quarterly unemployment numbers */
+
+   YTD_SDI_TAX = floor(YTD_TAX_GROSS * SDI_PER + 0.5) / 100;
+   if YTD_SDI_TAX > SDI_MAX then
+      YTD_SDI_TAX = SDI_MAX;
+
+   QTD_SDI_TAX = floor((YTD_TAX_GROSS - QTD_TXBL_GROSS) * SDI_PER + 0.5) / 100;
+   if QTD_SDI_TAX > SDI_MAX then
+      QTD_SDI_TAX = SDI_MAX;
+
+   QTD_SDI_TAX = YTD_SDI_TAX - QTD_SDI_TAX;
+   PR_SDI_TAXES = floor((PR_SDI_TAXES + QTD_SDI_TAX) * 100 + 0.5) / 100;
+   PR_SDI_WAGES = PR_SDI_TAXES / SDI_PER * 100;
+
+   YTD_FUTA_TAX = floor(YTD_TAX_GROSS * FUI_PER + 0.5) / 100;
+   if YTD_FUTA_TAX > FUI_MAX then
+      YTD_FUTA_TAX = FUI_MAX;
+
+   QTD_FUTA_TAX = floor((YTD_TAX_GROSS - QTD_TXBL_GROSS) * FUI_PER + 0.5) / 100;
+   if QTD_FUTA_TAX > FUI_MAX then
+      QTD_FUTA_TAX = FUI_MAX;
+
+   QTD_FUTA_TAX = YTD_FUTA_TAX - QTD_FUTA_TAX;
+   PR_FUTA_TAX = floor((PR_FUTA_TAX + QTD_FUTA_TAX) * 100 + 0.5) / 100;
+   PR_FUTA_WAGES = PR_FUTA_TAX / FUI_PER * 100;
+
+   YTD_SUI_TAX = floor(YTD_TAX_GROSS * SUI_PER + 0.5) / 100;
+   if YTD_SUI_TAX > SUI_MAX then
+      YTD_SUI_TAX = SUI_MAX;
+
+   QTD_SUI_TAX = floor((YTD_TAX_GROSS - QTD_TXBL_GROSS) * SUI_PER + 0.5) / 100;
+   if QTD_SUI_TAX > SUI_MAX then
+      QTD_SUI_TAX = SUI_MAX;
+
+   QTD_SUI_TAX = YTD_SUI_TAX - QTD_SUI_TAX;
+   PR_SUI_TAXES = floor((PR_SUI_TAXES + QTD_SUI_TAX) * 100 + 0.5) / 100;
+   PR_SUI_WAGES = PR_SUI_TAXES / SUI_PER * 100;
+
+
+   /* ADD_TOTALS - Add to the total fields */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* ADD_QTRY_TOTALS - Add to the qtrly totals */
+
+   QTD_TXBL_GROSS_TOTAL = floor((QTD_TXBL_GROSS_TOTAL + QTD_TXBL_GROSS) * 100 + 0.5) / 100;
+   QTD_NON_TAX_TOTAL = floor((QTD_NON_TAX_TOTAL + QTD_NON_TAX) * 100 + 0.5) / 100;
+   QTD_FED_WH_TOTAL = floor((QTD_FED_WH_TOTAL + QTD_FED_WH) * 100 + 0.5) / 100;
+   QTD_STATE_WH_TOTAL = floor((QTD_STATE_WH_TOTAL + QTD_STATE_WH) * 100 + 0.5) / 100;
+   QTD_LOCAL_WH_TOTAL = floor((QTD_LOCAL_WH_TOTAL + QTD_LOCAL_WH) * 100 + 0.5) / 100;
+   QTD_EMP_FICA_TOTAL = floor((QTD_EMP_FICA_TOTAL + QTD_EMP_FICA) * 100 + 0.5) / 100;
+   QTD_SDI_WH_TOTAL = floor((QTD_SDI_WH_TOTAL + QTD_SDI_WH) * 100 + 0.5) / 100;
+   QTD_DEDUCT_TOTAL = floor((QTD_DEDUCT_TOTAL + QTD_DEDUCT) * 100 + 0.5) / 100;
+   QTD_NET_TOTAL = floor((QTD_NET_TOTAL + QTD_NET) * 100 + 0.5) / 100;
+
+   EMP_COUNT = EMP_COUNT + 1;
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	PR_CLEAR_QTD
+	Clear the QTD information
+****************************************************************/
+
+PR_CLEAR_QTD:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   EMP_NO = 0;
+   call SET_POSITION (EMPLOYEE_NO,KEY_AREA_1,ERROR_CODE);
+   END_PR_READ_THRU = NO;
+   do while (END_PR_READ_THRU ^= YES);
+      call PR_READ_THRU;
+   end;
+return;
+end;	/* PR_CLEAR_QTD         */
+
+/****************************************************************
+	PR_READ_THRU
+	Read thru all the records and clear QTD
+****************************************************************/
+
+PR_READ_THRU:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_EMPLOYEE       fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (EMPLOYEE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (EMPLOYEE_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_PR_READ_THRU = YES;
+      return;
+      end;
+
+   /* PR_SET_QTD_ZERO - Set the QTD data to zero! */
+
+   QTD_TXBL_GROSS = 0;
+   QTD_NON_TAX = 0;
+   QTD_FED_WH = 0;
+   QTD_STATE_WH = 0;
+   QTD_LOCAL_WH = 0;
+   QTD_EMP_FICA = 0;
+   QTD_SDI_WH = 0;
+   QTD_DEDUCT = 0;
+   QTD_NET = 0;
+   QTD_OT_HRS = 0;
+   QTD_SICK_HRS = 0;
+   QTD_SICK_PAY = 0;
+   QTD_WEEKS = 0;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (EMPLOYEE_NO,ERROR_CODE);
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (EMPLOYEE_NO,KEY_AREA_1,ERROR_EMPLOYEE);
+   if ERROR_EMPLOYEE > 3 then
+      call PRINT_ERROR (EMPLOYEE_NO,ERROR_EMPLOYEE);
+return;
+end;	/* PR_READ_THRU         */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (EMPLOYEE_NO);
+   call CLOSE_FILE (EMP_CONTROL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

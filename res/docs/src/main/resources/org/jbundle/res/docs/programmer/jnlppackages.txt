@@ -1,0 +1,106 @@
+THIN PACKAGE:
+
+thinbase.jar
+	com/tourapp/thin/base/screen/*
+	com/tourapp/thin/base/screen/comp/*
+	com/tourapp/thin/base/screen/res/*
+	com/tourapp/thin/base/thread/*
+	com/tourapp/thin/base/message/*
+	com/tourapp/thin/base/message/remote/*
+	com/tourapp/thin/base/remote/*
+	com/tourapp/thin/base/db/*
+	com/tourapp/thin/base/db/client/**
+	com/tourapp/thin/base/db/util/**
+
+thinmemory.jar
+	com/tourapp/thin/base/db/buff/*
+	com/tourapp/thin/base/db/mem/**
+
+thingrid.jar
+	com/tourapp/thin/base/screen/grid/*
+	com/tourapp/thin/base/screen/grid/opt/*
+	com/tourapp/thin/base/screen/util/*
+	com/tourapp/thin/base/screen/menu/*
+	com/tourapp/thin/base/message/event/*
+
+thinmessage.jar
+	com/tourapp/thin/base/message/event/*
+	com/tourapp/thin/base/message/session/*
+
+thinstrbuff.jar
+	com/tourapp/thin/base/db/buff/str/*"
+
+thincalbutton.jar
+	com/tourapp/thin/base/screen/util/cal/*
+
+thincalendar.jar
+	com/tourapp/thin/opt/calendar/**
+	com/tourapp/thin/opt/calendargrid/*
+
+thinutil.jar
+	com/tourapp/thin/base/screen/util/html/*
+	com/tourapp/thin/base/message/util/mail/*
+
+thinmain.jar
+	com/tourapp/thin/main/db/**
+
+resmain.jar
+	com/tourapp/res/main/db/*
+
+TEST THIN
+
+thintest.jar
+	com/tourapp/thin/test/manual/screentest/*
+
+thindbtest.jar
+	com/tourapp/thin/test/test/db/*
+
+gridformtest.jar
+	com/tourapp/thin/test/manual/gridformtest/*
+	
+restest.jar
+	com/tourapp/res/test/test/db/*
+
+thickdb.jar
+	com/tourapp/base/db/*
+	com/tourapp/base/db/Client/**
+	com/tourapp/base/db/Memory/**
+	com/tourapp/base/db/Net/**
+	com/tourapp/base/db/Physical/**
+	com/tourapp/base/db/event/**
+	com/tourapp/base/db/filter/**
+	com/tourapp/base/db/grid/**
+	com/tourapp/base/db/util/**
+	com/tourapp/base/field/**
+
+thickscreen.jar
+	com/tourapp/Main.class
+	com/tourapp/base/screen/*
+	com/tourapp/base/screen/control/swing/**
+	com/tourapp/base/screen/model/**
+	com/tourapp/base/screen/resources/**
+	com/tourapp/base/screen/view/*
+	com/tourapp/base/screen/view/swing/**
+
+thickmain.jar
+	com/tourapp/main/db/**
+	com/tourapp/main/screen/**
+
+thickother.jar
+	com/tourapp/base/message/**
+	com/tourapp/base/remote/**
+	com/tourapp/base/thread/**
+	com/tourapp/base/util/**
+
+all.jar
+	com/tourapp/**
+	images/**
+
+Not included in any
+    com/tourapp/thin/base/db/converter/**
+	com/tourapp/thin/base/remote/proxy/**
+
+tour.zip
+			<fileset dir="../" excludes="tour/docs/programmer/**,tour/${classes}/images/**" includes="tour/index.html,tour/bin/**,tour/docs/**,tour/images/**,tour/WEB-INF/**"/>
+		</zip>
+

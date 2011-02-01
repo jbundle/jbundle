@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<DanceType ID="1">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Pattern</Description>
+	</DanceType>
+	<DanceType ID="2">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Move</Description>
+	</DanceType>
+	<DanceType ID="3">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Steps</Description>
+	</DanceType>
+</file>

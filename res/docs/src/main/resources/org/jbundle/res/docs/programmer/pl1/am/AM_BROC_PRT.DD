@@ -1,0 +1,8 @@
+/*********************************************************************
+	AM_BROC_PRT File
+********************************************************************/
+
+declare	1 AM_BROC_PRT_RECORD,
+		3 BROCHURE_TYPE        character (        1),
+		3 BROCHURE_COUNT       fixed binary (15);
+

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<FileHdr ID="11">
+		<LastChanged>2009-11-20T00:58:23</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Animal</FileName>
+		<FileDesc>Animal Object</FileDesc>
+		<FileMainFilename/>
+		<Type>MEMORY | BASE_TABLE_CLASS | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled>Animal</FileRecCalled>
+		<DisplayClass>AnimalGridScreen</DisplayClass>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="12">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>AnimalVets</FileName>
+		<FileDesc>Test Query</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled>AnimalVets</FileRecCalled>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="54">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Cat</FileName>
+		<FileDesc>Cat</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled>Cat</FileRecCalled>
+		<DisplayClass>CatVetGridScreen</DisplayClass>
+		<MaintClass>CatVetScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="70">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Dog</FileName>
+		<FileDesc>Dog</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="151">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>TestTable</FileName>
+		<FileDesc>Table for Testing Java Code</FileDesc>
+		<FileMainFilename>TestTable</FileMainFilename>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled>Test</FileRecCalled>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="181">
+		<LastChanged>2009-11-18T22:05:39</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Vet</FileName>
+		<FileDesc>Vet</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="207">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>TestTableNoAuto</FileName>
+		<FileDesc>Test table without auto-counter field</FileDesc>
+		<FileMainFilename>TestTableNoAuto</FileMainFilename>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="208">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>TestTableHistory</FileName>
+		<FileDesc>The history file</FileDesc>
+		<FileMainFilename>TestTableHistory</FileMainFilename>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled>History</FileRecCalled>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="209">
+		<LastChanged>2009-11-19T20:41:46</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>TestSecond</FileName>
+		<FileDesc>Secondary File</FileDesc>
+		<FileMainFilename>TestSecond</FileMainFilename>
+		<Type>REMOTE | SHARED_DATA | LOCALIZABLE</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="235">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Reptile</FileName>
+		<FileDesc>Reptile base class</FileDesc>
+		<FileMainFilename/>
+		<Type>REMOTE | BASE_TABLE_CLASS | SHARED_TABLE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
+	<FileHdr ID="236">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Snake</FileName>
+		<FileDesc>Snake file</FileDesc>
+		<FileMainFilename>Reptile</FileMainFilename>
+		<Type>REMOTE | SHARED_TABLE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>SnakeGridScreen</DisplayClass>
+		<MaintClass>SnakeScreen</MaintClass>
+	</FileHdr>
+	<FileHdr ID="237">
+		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Lizard</FileName>
+		<FileDesc>Lizard file</FileDesc>
+		<FileMainFilename>Reptile</FileMainFilename>
+		<Type>REMOTE | SHARED_TABLE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>test</DatabaseName>
+		<FileRecCalled/>
+		<DisplayClass>LizardGridScreen</DisplayClass>
+		<MaintClass>LizardScreen</MaintClass>
+	</FileHdr>
+</file>

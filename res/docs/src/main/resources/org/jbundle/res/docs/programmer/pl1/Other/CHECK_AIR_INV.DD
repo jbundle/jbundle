@@ -1,0 +1,29 @@
+/*********************************************************************
+	CHECK_AIR_INV File
+********************************************************************/
+
+declare	1 CHECK_AIR_INV_RECORD,
+		3 MATCH_AFOUND         character (1),
+		3 AOLD                 fixed binary (15),
+		3 ANEW                 fixed binary (15),
+		3 NEW_ACOUNT           fixed binary (15),
+		3 OLD_ACOUNT           fixed binary (15),
+		3 NEW_AIR(25) character (       10),
+		3 NEW_ADATE(25) fixed binary (15),
+		3 NEW_ASEQ(25) fixed binary (15),
+		3 OLD_AIR(25) character (       10),
+		3 OLD_ADATE(25) fixed binary (15),
+		3 OLD_ASEQ(25) fixed binary (15),
+		3 CUR_PAX_SEQ          fixed binary (15),
+		3 NEW_APAX(25) fixed binary (15),
+		3 NEW_AALT(25) fixed binary (15),
+		3 OLD_APAX(25) fixed binary (15),
+		3 OLD_AALT(25) fixed binary (15),
+		3 NEW_AIR_PAX          fixed binary (15),
+		3 OLD_AIR_PAX          fixed binary (15),
+		3 NEW_AANSW(25) fixed binary (15),
+		3 OLD_AANSW(25) fixed binary (15),
+		3 ANEW_PAX             fixed binary (15),
+		3 AOLD_PAX             fixed binary (15),
+		3 ANEW_SEQ             fixed binary (15);
+

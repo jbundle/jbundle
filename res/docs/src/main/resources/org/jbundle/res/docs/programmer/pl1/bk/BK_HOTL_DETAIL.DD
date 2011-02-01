@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_HOTL_DETAIL File
+********************************************************************/
+
+declare	1 BK_HOTL_DETAIL_RECORD,
+		3 HOTL_MEAL_QTY        fixed binary (15),
+		3 HOTL_MEAL_DAYS       fixed binary (31);
+

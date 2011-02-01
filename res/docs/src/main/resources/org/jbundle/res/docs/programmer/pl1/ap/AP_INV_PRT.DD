@@ -1,0 +1,27 @@
+/*********************************************************************
+	AP_INV_PRT File
+********************************************************************/
+
+declare	1 AP_INV_PRT_RECORD,
+		3 AP_CURR_1            character (        3),
+		3 AP_CURR_2            character (        3),
+		3 AP_CURR_3            character (        3),
+		3 AP_CURR_4            character (        3),
+		3 AP_CURR_5            character (        3),
+		3 AP_MIN_INV_BAL       float binary (53),
+		3 AP_MIN_DAYS          fixed binary (15),
+		3 AP_PYMT_CODE_1       character (        1),
+		3 AP_PYMT_CODE_2       character (        1),
+		3 AP_PYMT_CODE_3       character (        1),
+		3 AP_PYMT_CODE_4       character (        1),
+		3 AP_PYMT_CODE_5       character (        1),
+		3 AP_SELECT_VEN        fixed binary (31),
+		3 AP_VEN_START         character (        6),
+		3 AP_VEN_END           character (        6),
+		3 AP_INV_CUTOFF        fixed binary (15),
+		3 AP_DATE_INV          fixed binary (15),
+		3 AP_TIME_INV          fixed binary (15),
+		3 AP_USER_NAME         character (       16),
+		3 AP_PAGE_INV          fixed binary (31),
+		3 AP_INV_BALANCE       float binary (53);
+

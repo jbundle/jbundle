@@ -1,0 +1,12 @@
+/*********************************************************************
+	AR_MCO_REV File
+********************************************************************/
+
+declare	1 AR_MCO_REV_RECORD,
+		3 AR_DATE_REV          fixed binary (15),
+		3 AR_MCO_TIME          fixed binary (15),
+		3 AR_MCO_PAGE          fixed binary (15),
+		3 MCO_TOTAL            fixed binary (31),
+		3 AR_MCO_TOTAL         float binary (53),
+		3 AR_USER_REV          character (       16);
+

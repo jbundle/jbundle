@@ -1,0 +1,158 @@
+/****************************************************************
+	Module: TOURD_UPDATE
+	Top Level Logic: TOUR_UPDATE_TOP
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	TOURD_UPDATE
+	Top LEVEL
+****************************************************************/
+
+%replace TOURD_UPDATE_1 by 351;
+TOURD_UPDATE:
+   procedure(
+      BK_BOOKING_RECORD);
+%replace BK_DET_LAND_NO by  68;
+%replace BK_BOOKING_NO by   9;
+%include "BK_DET_LAND.DD";
+%include "BK_BOOKING.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_DELETE_TOUR      bit (1);
+declare		END_UPDATE_TOUR      bit (1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   END_DELETE_TOUR = NO;
+   do while (END_DELETE_TOUR ^= YES);
+      call DELETE_TOUR;
+   end;
+
+   /* SET_PREV_MOD - Set to previous mod number */
+
+   BK_MODIFICATION = BK_NEXT_MOD;
+   BK_NEXT_MOD = 0;
+
+   END_UPDATE_TOUR = NO;
+   do while (END_UPDATE_TOUR ^= YES);
+      call UPDATE_TOUR;
+   end;
+
+   /* SET_ZERO_MOD - Set to the current mod */
+
+   BK_NEXT_MOD = BK_MODIFICATION;
+   BK_MODIFICATION = 0;
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	DELETE_TOUR
+	Delete the tour detail
+****************************************************************/
+
+DELETE_TOUR:
+	procedure;
+
+
+   /* SET_FIRST_LANDD - Set to the first land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDD - Last land detail record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_DELETE_TOUR = YES;
+      return;
+      end;
+
+   /* DELETE_LANDD - Delete land detail */
+
+   call DELETE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+return;
+end;	/* DELETE_TOUR          */
+
+/****************************************************************
+	UPDATE_TOUR
+	Restore the previous tour detail
+****************************************************************/
+
+UPDATE_TOUR:
+	procedure;
+
+
+   /* SET_FIRST_TOURD - Set first rec */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_TOURD - Read next */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_TOURD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_UPDATE_TOUR = YES;
+      return;
+      end;
+
+   /* CHANGE_TOURD - Change mod code to 0 */
+
+   LDET_MOD = BK_NEXT_MOD;
+
+
+   /* UPDATE_TOURD - Update */
+
+   call UPDATE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+return;
+end;	/* UPDATE_TOUR          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_DET_LAND_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

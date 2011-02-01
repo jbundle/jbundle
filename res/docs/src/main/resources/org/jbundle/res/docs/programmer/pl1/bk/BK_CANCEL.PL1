@@ -1,0 +1,437 @@
+/****************************************************************
+	Module: BK_CANCEL
+	Top Level Logic: CANCEL_LOGIC
+	Date: 26-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_CANCEL
+	Top-level for cancellation logic
+****************************************************************/
+
+%replace BK_CANCEL_1 by 262;
+BK_CANCEL:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_ENT_HDR_RECORD);
+%replace AR_OPEN_NO by  43;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_PASSENGERS_NO by  49;
+%include "AR_OPEN.DD";
+%include "BK_CANCEL.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_ENT_HDR.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_ENTER_CNL_CHG    bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+
+   /* CHECK_BOOKING - Is this a booking-in-progress? */
+
+   if BOOKING_NO = 0 then
+      return;
+
+   call INITIALIZE;
+   call DISPLAY_DATA_A;
+   call TABLE_DISPLAY;
+   call CANCEL_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AR_ACCT_DR = 0;
+   AR_ACCT_DEP = 0;
+   AR_POSTED = 0;
+   AR_ACTION = 0;
+   AR_DEPARTURE = 0;
+   CAN_REFUND_AMT = 0;
+   LAST_SEQ = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_CANCEL_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AR_OPEN_NO,"AR_OPEN",byteaddr(AR_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_OPEN_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (BK_CANCEL_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =  11 to  15;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  17 to  18;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	TABLE_DISPLAY
+	Display the table info
+****************************************************************/
+
+TABLE_DISPLAY:
+	procedure;
+
+declare		AR_BOOKING_NO_SAVE   fixed binary (31);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		AR_SEQ_NO_ARRAY(13) fixed binary (15);
+declare		AR_OPEN_ERROR        fixed binary (15);
+declare		AR_SEQ_NO_SAVE       fixed binary (15);
+declare		ANSWER               character (1);
+BK_BALANCE = 0;
+AR_BOOKING_NO = BOOKING_NO;
+AR_BOOKING_NO_SAVE = AR_BOOKING_NO;
+AR_SEQ_NO = 0;
+call SET_POSITION (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (AR_BOOKING_NO > AR_BOOKING_NO_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 13;
+      AR_SEQ_NO_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      AR_OPEN_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (AR_OPEN_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 13) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =  19 to  23;
+            if LOOP_INDEX =  20 then
+               do;
+
+               /* SET_TRX_DESC - Set the transaction description for A/R */
+
+               do case (index("IPCDRAM",AR_DOC_TYPE) + 1);
+                  AR_TRX_DESC = "";
+                  AR_TRX_DESC = "Invoice";
+                  AR_TRX_DESC = "Payment";
+                  AR_TRX_DESC = "Cr memo";
+                  AR_TRX_DESC = "Dr memo";
+                  AR_TRX_DESC = "Refund";
+                  AR_TRX_DESC = "Adjment";
+                  AR_TRX_DESC = "MCO rec";
+               end;
+               otherwise
+                  AR_TRX_DESC = "";
+
+               end;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =  22 then
+               do;
+
+               /* ADD_PAYMENTS - Total the payments made */
+
+               if (AR_DOC_TYPE = "P") ! (AR_DOC_TYPE = "M") ! (AR_DOC_TYPE = "C") then
+                  CAN_REFUND_AMT = CAN_REFUND_AMT - AR_AMOUNT;
+
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         BK_BALANCE = floor((BK_BALANCE + AR_AMOUNT) * 100 + 0.5) / 100;
+         AR_SEQ_NO_ARRAY(RECORD_NUMBER) = AR_SEQ_NO;
+         call READ_NEXT (AR_OPEN_NO,KEY_AREA_1,AR_OPEN_ERROR);
+         if (AR_BOOKING_NO > AR_BOOKING_NO_SAVE) then
+            AR_OPEN_ERROR = END_OF_FILE;
+         if AR_OPEN_ERROR = END_OF_FILE then
+            do;
+            call SET_ROW_OFFSET (0);
+            do LOOP_INDEX =  16 to  16;
+               call OUTPUT_FIELD (LOOP_INDEX);
+            end;
+            LOOP_INDEX = LOOP_INDEX - 1;
+            end;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      AR_SEQ_NO_SAVE = AR_SEQ_NO_ARRAY(13);
+      AR_BOOKING_NO = AR_BOOKING_NO_SAVE;
+      if AR_OPEN_ERROR = END_OF_FILE then
+         GET_OUT = YES;
+      else
+         do;
+         call OUTPUT_LINE (24,10,"Stop Displaying?");
+         call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+         call CLEAR_TO_BOS (24);
+         if (ANSWER = "Y") then
+            GET_OUT = YES;
+         end;
+      end;
+   else
+      GET_OUT = YES;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 13;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if AR_SEQ_NO_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX =19 to  23;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_DISPLAY        */
+
+/****************************************************************
+	CANCEL_MAIN
+	Main logic for booking cancelation
+****************************************************************/
+
+CANCEL_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_BK_TOUR        fixed binary (15);
+   END_ENTER_CNL_CHG = NO;
+   do while (END_ENTER_CNL_CHG ^= YES);
+      call ENTER_CNL_CHG;
+   end;
+   call DISPLAY_DATA_E;
+   call ENTER_DATA_D;
+
+   /* RETURN_IF_NO - Return if user says "NO" */
+
+   if CAN_CANCEL = "N" then
+      return;
+
+
+   /* CANCEL_BOOKING - Cancel the booking */
+
+   BK_STATUS = "XL";
+   BK_BALANCE = 0;
+
+   BK_CANCEL_CHG = CAN_CANCEL_CHG;
+
+
+   /* RET_IF_NO_TOUR - Return if no tour */
+
+   if BK_TOUR_NUM = 0 then
+      return;
+
+
+   /* CANCEL_TOUR_REC - Cancel this tour if it is not a group tr */
+
+   if TOUR_NO ^= 0 then if TOUR_TYPE ^= "G" then
+      do;
+
+      /* READ_TOUR_LOCK - Read the tour record and lock it */
+
+      ERROR_BK_TOUR = RECORD_LOCKED;
+      do while (ERROR_BK_TOUR = RECORD_LOCKED);
+
+         /* READ_TOUR_LK - Read and lock the tour */
+
+         call READ_KEYED (BK_TOUR_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TOUR);
+         if ERROR_BK_TOUR > 3 then
+            call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+      end;
+
+
+      /* SET_CANCEL_TOUR - Set the canceled tour status */
+
+      TOUR_STATUS = "XL";
+      ACTION_TYPE = XL_UD;
+      ACTION_DATE = TODAYS_DATE();
+      TOUR_MIN_TO_OP = BK_NEXT_MOD;
+
+
+      /* UPDATE_TOUR_REC - Update the tour record */
+
+      call UPDATE_RECORD (BK_TOUR_NO,ERROR_CODE);
+      end;
+
+
+   /* ADJUST_TOUR_SERIES - Adjust the pax count if tour series tour */
+
+   if TOUR_NO ^= 0 then if TOUR_TYPE = "G" then
+      do;
+
+      /* READ_TOUR_LOCK - Read the tour record and lock it */
+
+      ERROR_BK_TOUR = RECORD_LOCKED;
+      do while (ERROR_BK_TOUR = RECORD_LOCKED);
+
+         /* READ_TOUR_LK - Read and lock the tour */
+
+         call READ_KEYED (BK_TOUR_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_TOUR);
+         if ERROR_BK_TOUR > 3 then
+            call PRINT_ERROR (BK_TOUR_NO,ERROR_BK_TOUR);
+      end;
+
+
+      /* SUB_TOUR_PAX - Subtract these pax from this group tour */
+
+      TOUR_SINGLES = TOUR_SINGLES - BK_SINGLE;
+      TOUR_DOUBLES = TOUR_DOUBLES - BK_DOUBLE;
+      TOUR_TRIPLES = TOUR_TRIPLES - BK_TRIPLE;
+      TOUR_QUADS = TOUR_QUADS - BK_QUAD;
+      TOUR_FOCS = TOUR_FOCS - BK_FOC;
+      TOUR_PAX = TOUR_PAX - BK_PAX;
+
+
+      /* UPDATE_TOUR_REC - Update the tour record */
+
+      call UPDATE_RECORD (BK_TOUR_NO,ERROR_CODE);
+      end;
+
+return;
+end;	/* CANCEL_MAIN          */
+
+/****************************************************************
+	ENTER_CNL_CHG
+	Enter the cancellation charge
+****************************************************************/
+
+ENTER_CNL_CHG:
+	procedure;
+
+   call ENTER_DATA_C;
+
+   /* CALC_REFUND - Calculate the refund amount */
+
+   if CAN_CANCEL_CHG > CAN_REFUND_AMT then
+      return;
+   CAN_REFUND_AMT = floor((CAN_REFUND_AMT-CAN_CANCEL_CHG)*100+0.5)/100;
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_ENTER_CNL_CHG = YES;
+   return;
+   end;
+
+return;
+end;	/* ENTER_CNL_CHG        */
+
+/****************************************************************
+	ENTER_DATA_C
+	Enter the screen data in group C
+****************************************************************/
+
+ENTER_DATA_C:
+	procedure;
+
+CAN_CANCEL_CHG = 0;
+do LOOP_INDEX =  24 to  24;
+   if LOOP_INDEX =  24 then
+      do;
+
+      /* CALC_CNL_CHG - Calculate the default cancellation chg */
+
+      CAN_CANCEL_CHG = floor(HDR_CANCEL_CHG * BK_PAX * 100 + 0.5) / 100;
+      CAN_CANCEL_CHG = min(CAN_REFUND_AMT,CAN_CANCEL_CHG);
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_C         */
+
+/****************************************************************
+	DISPLAY_DATA_E
+	Display the data in screen group E
+****************************************************************/
+
+DISPLAY_DATA_E:
+	procedure;
+
+do LOOP_INDEX =  26 to  26;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_E       */
+
+/****************************************************************
+	ENTER_DATA_D
+	Enter screen group D
+****************************************************************/
+
+ENTER_DATA_D:
+	procedure;
+
+do LOOP_INDEX =  25 to  25;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_D         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AR_OPEN_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

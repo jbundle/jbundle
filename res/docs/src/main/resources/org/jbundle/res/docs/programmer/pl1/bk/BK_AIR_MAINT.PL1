@@ -1,0 +1,438 @@
+/****************************************************************
+	Module: BK_AIR_MAINT
+	Top Level Logic: TABLE_DIS_MAINT
+	Date:  8-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_AIR_MAINT
+	Display the header and maintain a table
+****************************************************************/
+
+%replace BK_AIR_MAINT_1 by 193;
+BK_AIR_MAINT:
+   procedure(
+      BK_TOUR_HDR_RECORD,
+      BK_OPT_ALT_RECORD);
+%replace TK_DETAIL_NO by  57;
+%replace TK_AIRPORT_NO by  72;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_OPT_ALT_NO by  62;
+%include "TK_DETAIL.DD";
+%include "TK_AIRPORT.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_OPT_ALT.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		TK_DATE_ARRAY( 7) fixed binary (15);
+declare		TK_SEQ_ARRAY( 7) fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+   call INITIALIZE;
+   call TABLE_DM_IO;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_DETAIL_MODULE = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_AIR_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (TK_AIRPORT_NO,"TK_AIRPORT",byteaddr(TK_AIRPORT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_AIRPORT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	TABLE_DM_IO
+	Table display I/O
+****************************************************************/
+
+TABLE_DM_IO:
+	procedure;
+
+   call DISPLAY_DATA_A;
+
+   /* OTHER_LOGIC - Any other logic */
+
+   call TABLE_MAINT;
+return;
+end;	/* TABLE_DM_IO          */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   8;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	TABLE_MAINT
+	Table display/maintenance
+****************************************************************/
+
+TABLE_MAINT:
+	procedure;
+
+declare		TK_DET_MOD_SAVE      fixed binary (15);
+declare		TK_DET_TR_CODE_SAVE  character (        4);
+declare		TK_DET_ALT_SEQ_SAVE  fixed binary (15);
+declare		TK_DET_ANSW_SEQ_SAVE fixed binary (15);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		TK_DETAIL_ERROR      fixed binary (15);
+declare		TK_DATE_SAVE         fixed binary (15);
+declare		TK_SEQ_SAVE          fixed binary (15);
+declare		ANSWER               character (1);
+TK_DET_MOD = -1;
+TK_DET_MOD_SAVE = TK_DET_MOD;
+TK_DET_TR_CODE = HDR_TOUR_CODE;
+TK_DET_TR_CODE_SAVE = TK_DET_TR_CODE;
+TK_DET_ALT_SEQ = ALT_SEQ;
+TK_DET_ALT_SEQ_SAVE = TK_DET_ALT_SEQ;
+TK_DET_ANSW_SEQ = ALT_ANSW_SEQ;
+TK_DET_ANSW_SEQ_SAVE = TK_DET_ANSW_SEQ;
+TK_DATE = 0;
+TK_SEQ = 0;
+call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > TK_DET_MOD_SAVE) !
+   (TK_DET_TR_CODE > TK_DET_TR_CODE_SAVE) !
+   (TK_DET_ALT_SEQ > TK_DET_ALT_SEQ_SAVE) !
+   (TK_DET_ANSW_SEQ > TK_DET_ANSW_SEQ_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to  7;
+      TK_DATE_ARRAY(RECORD_NUMBER) = 0;
+      TK_SEQ_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      TK_DETAIL_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (TK_DETAIL_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <=  7) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+         do LOOP_INDEX =   9 to  29;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         TK_DATE_ARRAY(RECORD_NUMBER) = TK_DATE;
+         TK_SEQ_ARRAY(RECORD_NUMBER) = TK_SEQ;
+         call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,TK_DETAIL_ERROR);
+         if (TK_DET_MOD > TK_DET_MOD_SAVE) !
+         (TK_DET_TR_CODE > TK_DET_TR_CODE_SAVE) !
+         (TK_DET_ALT_SEQ > TK_DET_ALT_SEQ_SAVE) !
+         (TK_DET_ANSW_SEQ > TK_DET_ANSW_SEQ_SAVE) then
+            TK_DETAIL_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      TK_DATE_SAVE = TK_DATE_ARRAY( 7);
+      TK_SEQ_SAVE = TK_SEQ_ARRAY( 7);
+      TK_DET_MOD = TK_DET_MOD_SAVE;
+      TK_DET_TR_CODE = TK_DET_TR_CODE_SAVE;
+      TK_DET_ALT_SEQ = TK_DET_ALT_SEQ_SAVE;
+      TK_DET_ANSW_SEQ = TK_DET_ANSW_SEQ_SAVE;
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = DELETE_TYPED) then
+         GET_OUT = YES;
+      else
+         if TK_DETAIL_ERROR ^= END_OF_FILE then
+            do;
+            TK_DATE = TK_DATE_SAVE;
+            TK_SEQ = TK_SEQ_SAVE;
+            call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+            end;
+         else
+            if TK_DATE_ARRAY( 7) = 0 then
+               GET_OUT = YES;
+            else
+               do;
+               call OUTPUT_LINE (24,10,"Enter more data?");
+               call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+               if ANSWER = "N" then
+                  GET_OUT = YES;
+               else
+                  DISPLAY_RECORDS = NO;
+               end;
+      end;
+   else	/*DISPLAY_RECORDS = NO*/
+      do;
+      TK_DET_MOD = TK_DET_MOD_SAVE;
+      TK_DET_TR_CODE = TK_DET_TR_CODE_SAVE;
+      TK_DET_ALT_SEQ = TK_DET_ALT_SEQ_SAVE;
+      TK_DET_ANSW_SEQ = TK_DET_ANSW_SEQ_SAVE;
+      INPUT_LENGTH = 1;
+      RECORD_NUMBER = 1;
+      do while ( (INPUT_LENGTH ^= 0) & (RECORD_NUMBER <=  7) );
+         call TK_DETAIL_LINE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) !
+      (RETURN_CODE = DELETE_TYPED) ! (TK_DATE_ARRAY( 7) = 0) then
+         GET_OUT = YES;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to  7;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+      if TK_DATE_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX = 9 to  29;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_MAINT          */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  7,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  7 then
+   do;
+   RECORD_NUMBER = SELECT;
+   call TK_DETAIL_LINE;
+   call SET_ROW_OFFSET (0);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	TK_DETAIL_LINE
+	Change one line in the secondary file
+****************************************************************/
+
+TK_DETAIL_LINE:
+	procedure;
+
+declare		REWRITE              bit (1);
+declare		DEL_RECORD           bit (1);
+call SET_ROW_OFFSET (RECORD_NUMBER * 2 - 2);
+REWRITE = NO;
+if TK_DATE_ARRAY(RECORD_NUMBER) ^= 0 then
+   do;
+   REWRITE = YES;
+   TK_DATE = TK_DATE_ARRAY(RECORD_NUMBER);
+   TK_SEQ = TK_SEQ_ARRAY(RECORD_NUMBER);
+   call READ_KEYED (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   do LOOP_INDEX =  9 to  29;
+      call CLEAR_FIELD (LOOP_INDEX);
+   end;
+   end;
+else
+   do;
+   TK_DATE = 0;
+   TK_SEQ = 1;
+   TK_TIME = NO_TIME;
+   TK_DET_MOD_CODE = "A";
+   TK_INV = "N";
+   TK_INV_MOD = -1;
+   TK_XO = "";
+   TK_CITY = "";
+   TK_CITY_DESC = "";
+   TK_CARRIER = "";
+   TK_FLIGHT = "";
+   TK_CLASS = "";
+   TK_ARR_CITY = "";
+   TK_ARR_DESC = "";
+   TK_ARR_TIME = NO_TIME;
+   TK_ARR_DAY = 0;
+   TK_STATUS = "OK";
+   TK_FARE_BASIS = "";
+   TK_START = "";
+   TK_END = "";
+   TK_ALLOW = "";
+   TK_DET_FARE = 0;
+   TK_DETAIL_MODULE = "";
+   end;
+ERROR_CODE = 1;
+do while (ERROR_CODE ^= 0);
+   ERROR_CODE = 0;
+   do LOOP_INDEX =   9 to   9;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   if TK_DAY = 0 then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   DEL_RECORD = YES;
+   if (INPUT_LENGTH ^= 0) & (RETURN_CODE ^= END_TYPED) then
+      do;
+      DEL_RECORD = NO;
+      do LOOP_INDEX =  10 to  29;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+         if LOOP_INDEX =  12 then
+            do;
+
+            /* FIX_FLIGHT - Standardize th airline flight no */
+
+            declare LOOP fixed binary;
+            do LOOP = 1 to length(TK_FLIGHT);
+               if substr(TK_FLIGHT,LOOP,1) = "0" then
+                  substr(TK_FLIGHT,LOOP,1) = " ";
+               if substr(TK_FLIGHT,LOOP,1) ^= " " then
+                  goto LOOP_DONE;
+            end;
+            LOOP = 4;
+            LOOP_DONE:
+            TK_FLIGHT = substr(TK_FLIGHT,LOOP,5-LOOP);
+
+            end;
+         if LOOP_INDEX =  15 then
+            do;
+
+            /* GET_CITY_DESC - Read the City file */
+
+            AIRPORT_CODE = TK_CITY;
+            call READ_KEYED(TK_AIRPORT_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE = NORMAL_RETURN then
+               TK_CITY_DESC = AIRPORT_DESC;
+
+            end;
+         if LOOP_INDEX =  16 then
+            do;
+
+            /* GET_CITY2_DESC - Get the City Description */
+
+            AIRPORT_CODE = TK_ARR_CITY;
+            call READ_KEYED(TK_AIRPORT_NO,KEY_AREA_1,ERROR_CODE);
+            if ERROR_CODE = NORMAL_RETURN then
+               TK_ARR_DESC = AIRPORT_DESC;
+
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      INPUT_LENGTH = 1;
+      end;
+   ERROR_CODE = 0;
+   if DEL_RECORD = YES then
+      do;
+      TK_DATE = TK_DATE_ARRAY(RECORD_NUMBER);
+      if REWRITE = YES then
+         call DELETE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+      call CLEAR_FIELD(LOOP_INDEX);
+      TK_DATE = 0;
+      end;
+   else
+      do;
+      if REWRITE = NO then
+         call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+      else
+         call UPDATE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+      end;
+   if ERROR_CODE ^= KEY_ALREADY_EXISTS then
+      do;
+      TK_DATE_ARRAY(RECORD_NUMBER) = TK_DATE;
+      TK_SEQ_ARRAY(RECORD_NUMBER) = TK_SEQ;
+      end;
+end;
+return;
+end;	/* TK_DETAIL_LINE       */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (TK_AIRPORT_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

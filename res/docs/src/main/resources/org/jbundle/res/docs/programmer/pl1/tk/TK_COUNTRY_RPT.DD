@@ -1,0 +1,13 @@
+/*********************************************************************
+	TK_COUNTRY_RPT File
+********************************************************************/
+
+declare	1 TK_COUNTRY_RPT_RECORD,
+		3 COUNTRY_START        character (        2),
+		3 COUNTRY_END          character (        2),
+		3 TK_COUN_DATE         fixed binary (15),
+		3 TK_COUN_TIME         fixed binary (15),
+		3 TK_COUN_USER         character (       16),
+		3 TK_COUN_PAGE         fixed binary (15),
+		3 TK_COUN_COUNT        fixed binary (15);
+

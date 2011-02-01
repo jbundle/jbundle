@@ -1,0 +1,10 @@
+/*********************************************************************
+	BK_DIS_V_DETAIL File
+********************************************************************/
+
+declare	1 BK_DIS_V_DETAIL_RECORD,
+		3 V_TYPE               character (        5),
+		3 V_CURRENT            character (1),
+		3 V_SELECT             fixed binary (15),
+		3 TEMP_MOD             fixed binary (31);
+

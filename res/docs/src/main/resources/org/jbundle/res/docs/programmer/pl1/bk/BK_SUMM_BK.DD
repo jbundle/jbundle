@@ -1,0 +1,31 @@
+/*********************************************************************
+	BK_SUMM_BK File
+********************************************************************/
+
+declare	1 BK_SUMM_BK_RECORD,
+		3 RS_BK_START          fixed binary (15),
+		3 RS_BK_END            fixed binary (15),
+		3 RS_DATE_TYPE         character (        1),
+		3 RS_PERIOD_TYPE       character (        1),
+		3 RS_PERIOD_LENGTH     fixed binary (15),
+		3 RS_START_DATE        fixed binary (15),
+		3 RS_END_DATE          fixed binary (15),
+		3 RS_DATE              fixed binary (15),
+		3 RS_TIME              fixed binary (15),
+		3 RS_USER              character (       16),
+		3 RS_RES_AGENT         character (       16),
+		3 RS_FROM_DATE         fixed binary (15),
+		3 RS_BOOKINGS          fixed binary (15),
+		3 RS_TIME_ELAPSED      float binary (53),
+		3 RS_PAX               fixed binary (31),
+		3 RS_GROSS             float binary (53),
+		3 RS_NET               float binary (53),
+		3 RS_BALANCE           float binary (53),
+		3 RS_XLD               fixed binary (15),
+		3 RS_XL_TIME           float binary (53),
+		3 RS_TIME_MIN          float binary (21),
+		3 RS_MONTH             fixed binary (15),
+		3 RS_DAY               fixed binary (15),
+		3 RS_YEAR              fixed binary (15),
+		3 RS_DATE_RPT          fixed binary (15);
+

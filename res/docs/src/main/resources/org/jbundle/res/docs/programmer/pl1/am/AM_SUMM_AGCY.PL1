@@ -1,0 +1,622 @@
+/****************************************************************
+	Module: AM_SUMM_AGCY
+	Top Level Logic: SUMMARIZE_LOGIC
+	Date: 16-May-94
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AM_SUMM_AGCY
+	Top Level to summarize and print data
+****************************************************************/
+
+%replace AM_SUMM_AGCY_1 by 893;
+%replace AM_SUMM_AGCY_2 by 892;
+AM_SUMM_AGCY:
+   procedure;
+%replace AM_AGCY_NO by  10;
+%replace AM_SCF_CONTROL_NO by  11;
+%include "AM_SUMM_AGCY.DD";
+%include "AM_AGCY.DD";
+%include "AM_SCF_CONTROL.DD";
+
+declare		END_SUMMARIZE_MAIN   bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		KEY_LENGTH           fixed binary (15);
+declare		RECORD_LENGTH        fixed binary (15);
+declare		TEMP_RECORD          character (     1000);
+declare		END_ANAL_THRU_SUMM   bit (1);
+declare		END_PRINT_THRU_TEMP  bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_SUMMARIZE_MAIN = NO;
+   do while (END_SUMMARIZE_MAIN ^= YES);
+      call SUMMARIZE_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   RM_ANALYZE_BY = "T";
+   RM_DATE = TODAYS_DATE();
+   RM_TIME = CURRENT_TIME();
+   RM_USER = USER_NAME();
+   RM_COUNT = 0;
+   RM_BOOKINGS = 0;
+   RM_SALES = 0;
+   RM_YTD_SALES = 0;
+   SCF_TO = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AM_SUMM_AGCY_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AM_SUMM_AGCY_RECORD) );
+   call OPEN_FILE (AM_AGCY_NO,"AM_AGCY",byteaddr(AM_AGCY_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_AGCY_NO,ERROR_CODE);
+   call OPEN_FILE (AM_SCF_CONTROL_NO,"AM_SCF_CONTROL",byteaddr(AM_SCF_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_SCF_CONTROL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	SUMMARIZE_MAIN
+	Main logic to summarize data
+****************************************************************/
+
+SUMMARIZE_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_SUMMARIZE_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_SUMMARIZE_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("SSHEET");
+   call SETUP_PRINT_FORMAT (AM_SUMM_AGCY_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* SET_TEMP_FILE - Set up the temporary file */
+
+   declare CREATE_TEMP entry(fixed binary,fixed binary);
+   KEY_LENGTH =
+      bytesize(RM_CODE) +
+      bytesize(RM_CODE_2);
+   RECORD_LENGTH = KEY_LENGTH  +
+      bytesize(RM_COUNT) +
+      bytesize(RM_BOOKINGS) +
+      bytesize(RM_SALES) +
+      bytesize(RM_YTD_SALES);
+   call CREATE_TEMP(KEY_LENGTH,RECORD_LENGTH);
+   %replace TEMP_DB by 512;
+   call OPEN_FILE (TEMP_DB,"?TEMP_DB",byteaddr(TEMP_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= NORMAL_RETURN then
+      do;
+      END_SUMMARIZE_MAIN = YES;
+      return;
+      end;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AGENCY_NUMBER = 0;
+   call SET_POSITION (AM_AGCY_NO,KEY_AREA_1,ERROR_CODE);
+   END_ANAL_THRU_SUMM = NO;
+   do while (END_ANAL_THRU_SUMM ^= YES);
+      call ANAL_THRU_SUMM;
+   end;
+
+   /* SET_FIRST_TEMP - Set to the first record in the temp db */
+
+   call SET_POSITION (TEMP_DB+?RESET,KEY_AREA_1,ERROR_CODE);
+
+   END_PRINT_THRU_TEMP = NO;
+   do while (END_PRINT_THRU_TEMP ^= YES);
+      call PRINT_THRU_TEMP;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* CLOSE_TEMP_FILE - Close the temporary file */
+
+   call CLOSE_FILE (TEMP_DB);
+
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_SUMMARIZE_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* SUMMARIZE_MAIN       */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+RM_END_CODE = RM_START_CODE;
+RM_ANALYZE_2 = "X";
+do LOOP_INDEX =   1 to   4;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (114);
+   if LOOP_INDEX =   3 then
+      RM_END_CODE = RM_START_CODE;
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO (115);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         RM_START_CODE = "";
+         RM_END_CODE = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  4,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  4 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO (114);
+   if LOOP_INDEX =   4 then
+      call DISPLAY_MSG_NO (115);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* CHECK_ALL - Check to see if all typed (report scrn) */
+
+      if RETURN_CODE = ALL_TYPED then
+         do;
+         RM_START_CODE = "";
+         RM_END_CODE = "~";
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   4;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	ANAL_THRU_SUMM
+	Analyze data and add to summary slot
+****************************************************************/
+
+ANAL_THRU_SUMM:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AM_AGCY_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AM_AGCY_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_ANAL_THRU_SUMM = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_RM_SELECT - Set up the fields */
+
+   RM_CODE = "";
+   if index("STRZ",RM_ANALYZE_BY) ^= 0 then
+      do;
+      SCF_TO = AGENCY_ZIP_CODE;
+
+      call SET_POSITION (AM_SCF_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE ^= END_OF_FILE then
+         call READ_NEXT (AM_SCF_CONTROL_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = END_OF_FILE then
+         ERROR_CODE = 1;
+
+      if SCF_FROM > substr(AGENCY_ZIP_CODE,1,3) then
+         ERROR_CODE = 1;
+
+      if ERROR_CODE = NORMAL_RETURN then
+         do;
+         if RM_ANALYZE_BY = "S" then
+            do;
+            declare LOOP fixed binary;
+            do LOOP = length(SCF_DESCRIPTION) to 2 by -1;
+               if substr(SCF_DESCRIPTION,LOOP,1) ^= " " then
+                  do;
+                  RM_CODE = substr(SCF_DESCRIPTION,LOOP-1,2);
+                  LOOP = 1;
+                  end;
+            end;
+            end;
+         if RM_ANALYZE_BY = "T" then
+            do;
+            AGENCY_ZIP_CODE = SALESPERSON_TERR;
+            RM_CODE = substr(AGENCY_ZIP_CODE,6,4);
+            end;
+         if RM_ANALYZE_BY = "R" then
+            do;
+            RM_CODE = SALES_REGION;
+            end;
+         if RM_ANALYZE_BY = "Z" then
+            do;
+            RM_CODE = SCF_FROM;
+            end;
+         end;
+      end;
+
+   if (RM_CODE < RM_START_CODE) ! (RM_CODE > RM_END_CODE) then
+      return;
+
+   RM_CODE_2 = "";
+   if RM_ANALYZE_2 = "A" then
+      RM_CODE_2 = AGENCY_AFFILIATION;
+   if RM_ANALYZE_2 = "T" then
+      RM_CODE_2 = AGENCY_TYPE;
+   if RM_ANALYZE_2 = "N" then
+      do;
+      AGENCY_ZIP_CODE = AGENCY_NO_BOOKINGS;
+      RM_CODE_2 = substr(AGENCY_ZIP_CODE,6,4);
+      end;
+   if RM_ANALYZE_2 = "S" then
+      do;
+      AGENCY_ZIP_CODE = fixed(AGENCY_SALES_TO_DATE/1000+0.5,15);
+      RM_CODE_2 = substr(AGENCY_ZIP_CODE,6,4);
+      end;
+   if RM_ANALYZE_2 = "C" then
+      RM_CODE_2 = AGENCY_COLOR;
+
+
+   /* OTHER_LOGIC_2 - Other logic */
+
+
+   /* TEMP_ADD - Add temp */
+
+      call SET_TEMP_KEY;
+
+      /* READ_TEMP_RECORD - Read the temp record */
+
+      call READ_KEYED(TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+      /* TEMP_RECORD_FOUND - Was the record found? */
+
+      if ERROR_CODE = NORMAL_RETURN then
+         begin;
+
+         /* GET_TEMP_FILE - Set up all the fields for the temp rec. */
+
+         declare MOVE_FIELD character (100) based;
+         declare FIELDPTR pointer;
+         declare FIELDBIN fixed binary(31) defined(FIELDPTR);
+         FIELDPTR = byteaddr(TEMP_RECORD);
+         substr(byteaddr(RM_CODE)->MOVE_FIELD,1,bytesize(RM_CODE)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_CODE));
+         FIELDBIN = FIELDBIN + bytesize(RM_CODE);
+         substr(byteaddr(RM_CODE_2)->MOVE_FIELD,1,bytesize(RM_CODE_2)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_CODE_2));
+         FIELDBIN = FIELDBIN + bytesize(RM_CODE_2);
+         substr(byteaddr(RM_COUNT)->MOVE_FIELD,1,bytesize(RM_COUNT)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_COUNT));
+         FIELDBIN = FIELDBIN + bytesize(RM_COUNT);
+         substr(byteaddr(RM_BOOKINGS)->MOVE_FIELD,1,bytesize(RM_BOOKINGS)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_BOOKINGS));
+         FIELDBIN = FIELDBIN + bytesize(RM_BOOKINGS);
+         substr(byteaddr(RM_SALES)->MOVE_FIELD,1,bytesize(RM_SALES)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_SALES));
+         FIELDBIN = FIELDBIN + bytesize(RM_SALES);
+         substr(byteaddr(RM_YTD_SALES)->MOVE_FIELD,1,bytesize(RM_YTD_SALES)) =
+            substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_YTD_SALES));
+         FIELDBIN = FIELDBIN + bytesize(RM_YTD_SALES);
+         end;
+      else
+         do;
+
+         /* SET_FIELDS - Set the values for these fields */
+
+         RM_CODE = "";
+         RM_CODE_2 = "";
+         RM_COUNT = 0;
+         RM_BOOKINGS = 0;
+         RM_SALES = 0;
+         RM_YTD_SALES = 0;
+         call RESTORE_KEY;
+         end;
+
+
+      /* ADD_TOTALS - Add to the total fields */
+
+      RM_COUNT = RM_COUNT + 1;
+      RM_BOOKINGS = RM_BOOKINGS + AGENCY_NO_BOOKINGS;
+      RM_SALES = floor((RM_SALES + AGENCY_SALES_TO_DATE) * 100 + 0.5) / 100;
+      RM_YTD_SALES = floor((RM_YTD_SALES + AGENCY_SALES_YTD) * 100 + 0.5) / 100;
+
+      /* ADD_TEMP_RECORD - Add this information to the temp file */
+
+      declare FAKE_FIELD character(100) based;
+      TEMP_RECORD =
+         substr(byteaddr(RM_CODE)->FAKE_FIELD,1,bytesize(RM_CODE)) !!
+         substr(byteaddr(RM_CODE_2)->FAKE_FIELD,1,bytesize(RM_CODE_2)) !!
+         substr(byteaddr(RM_COUNT)->FAKE_FIELD,1,bytesize(RM_COUNT)) !!
+         substr(byteaddr(RM_BOOKINGS)->FAKE_FIELD,1,bytesize(RM_BOOKINGS)) !!
+         substr(byteaddr(RM_SALES)->FAKE_FIELD,1,bytesize(RM_SALES)) !!
+         substr(byteaddr(RM_YTD_SALES)->FAKE_FIELD,1,bytesize(RM_YTD_SALES));
+
+      /* UPDATE_WRITE_TEMP - Update or write the temporary record */
+
+      if ERROR_CODE = NORMAL_RETURN then
+         do;
+
+         /* UPDATE_TEMP_RECORD - Update the temp record */
+
+         call UPDATE_RECORD (TEMP_DB,ERROR_CODE);
+
+         end;
+      else
+         do;
+
+         /* WRITE_TEMP_RECORD - Write the temporary record */
+
+         call WRITE_RECORD (TEMP_DB,ERROR_CODE);
+
+         end;
+
+return;
+end;	/* ANAL_THRU_SUMM       */
+
+/****************************************************************
+	SET_TEMP_KEY
+	Set up the temporary key
+****************************************************************/
+
+SET_TEMP_KEY:
+	procedure;
+
+declare FAKE_FIELD character(100) based;
+TEMP_RECORD =
+   substr(byteaddr(RM_CODE)->FAKE_FIELD,1,bytesize(RM_CODE)) !!
+   substr(byteaddr(RM_CODE_2)->FAKE_FIELD,1,bytesize(RM_CODE_2));
+return;
+end;	/* SET_TEMP_KEY         */
+
+/****************************************************************
+	RESTORE_KEY
+	Key the key back, now that it was erased
+****************************************************************/
+
+RESTORE_KEY:
+	procedure;
+
+declare MOVE_FIELD character (100) based;
+declare FIELDPTR pointer;
+declare FIELDBIN fixed binary(31) defined(FIELDPTR);
+FIELDPTR = byteaddr(TEMP_RECORD);
+substr(byteaddr(RM_CODE)->MOVE_FIELD,1,bytesize(RM_CODE)) =
+   substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_CODE));
+FIELDBIN = FIELDBIN + bytesize(RM_CODE);
+substr(byteaddr(RM_CODE_2)->MOVE_FIELD,1,bytesize(RM_CODE_2)) =
+   substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_CODE_2));
+FIELDBIN = FIELDBIN + bytesize(RM_CODE_2);
+return;
+end;	/* RESTORE_KEY          */
+
+/****************************************************************
+	PRINT_THRU_TEMP
+	Read thru the data file and print/write
+****************************************************************/
+
+PRINT_THRU_TEMP:
+	procedure;
+
+
+   /* READ_NEXT_TEMP - Read the next temp record */
+
+   call READ_NEXT (TEMP_DB,KEY_AREA_1,ERROR_CODE);
+
+
+   /* RETURN_IF_EOF - Return if end-of-file error */
+
+   if ERROR_CODE = END_OF_FILE then
+      do;
+      END_PRINT_THRU_TEMP = YES;
+      return;
+      end;
+
+
+   /* GET_TEMP_FILE - Set up all the fields for the temp rec. */
+
+   declare MOVE_FIELD character (100) based;
+   declare FIELDPTR pointer;
+   declare FIELDBIN fixed binary(31) defined(FIELDPTR);
+   FIELDPTR = byteaddr(TEMP_RECORD);
+   substr(byteaddr(RM_CODE)->MOVE_FIELD,1,bytesize(RM_CODE)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_CODE));
+   FIELDBIN = FIELDBIN + bytesize(RM_CODE);
+   substr(byteaddr(RM_CODE_2)->MOVE_FIELD,1,bytesize(RM_CODE_2)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_CODE_2));
+   FIELDBIN = FIELDBIN + bytesize(RM_CODE_2);
+   substr(byteaddr(RM_COUNT)->MOVE_FIELD,1,bytesize(RM_COUNT)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_COUNT));
+   FIELDBIN = FIELDBIN + bytesize(RM_COUNT);
+   substr(byteaddr(RM_BOOKINGS)->MOVE_FIELD,1,bytesize(RM_BOOKINGS)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_BOOKINGS));
+   FIELDBIN = FIELDBIN + bytesize(RM_BOOKINGS);
+   substr(byteaddr(RM_SALES)->MOVE_FIELD,1,bytesize(RM_SALES)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_SALES));
+   FIELDBIN = FIELDBIN + bytesize(RM_SALES);
+   substr(byteaddr(RM_YTD_SALES)->MOVE_FIELD,1,bytesize(RM_YTD_SALES)) =
+      substr(FIELDPTR->MOVE_FIELD,1,bytesize(RM_YTD_SALES));
+   FIELDBIN = FIELDBIN + bytesize(RM_YTD_SALES);
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =   5 to   5;
+      call SPREAD_SHEET_OUT(LOOP_INDEX);
+   end;
+return;
+end;	/* PRINT_THRU_TEMP      */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (AM_AGCY_NO);
+   call CLOSE_FILE (AM_SCF_CONTROL_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

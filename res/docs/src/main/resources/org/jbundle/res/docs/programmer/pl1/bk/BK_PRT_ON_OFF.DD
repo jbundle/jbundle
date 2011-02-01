@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_PRT_ON_OFF File
+********************************************************************/
+
+declare	1 BK_PRT_ON_OFF_RECORD,
+		3 PRINT_BOOKING        character (1),
+		3 PRINT_SP1            character (1),
+		3 PRINT_SP2            character (1);
+

@@ -1,0 +1,12 @@
+/*********************************************************************
+	BK_L_VOUCHER File
+********************************************************************/
+
+declare	1 BK_L_VOUCHER_RECORD,
+		3 LVOUCHER_PAGE        fixed binary (15),
+		3 LV_CODE              character (        5),
+		3 SIC_PMC_DESC         character (       20),
+		3 LDET_ACK             fixed binary (15),
+		3 LVOUCHER_DATE        fixed binary (15),
+		3 START_LV_CODE        fixed binary (15);
+

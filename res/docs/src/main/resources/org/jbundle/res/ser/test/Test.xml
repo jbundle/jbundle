@@ -1,0 +1,89 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="docs/styles/css/style.css" title="basicstyle">
+<link rel="shortcut icon" href="images/com/favicon.ico" type="image/x-icon">
+<title>Brochure request entry - HTML version</title>
+<meta name="Keywords" content="travel, tours, custom tours, air, hotel, sightseeing, transfer, cruise, car rental, airport transfer, flight, travel agent">
+<meta name="description" content="">
+</head>
+<body marginwidth="0" marginheight="0">
+<table class="top-menu" cellpadding="0" cellspacing="0">
+<tr>
+<td><span class="link"><a href="?menu=Main"><img class="button" src="images/buttons/Home.gif" width="16" height="16" alt="Site home page" /></a><span><a class="button" href="?menu=Main">Home</a></span></span>
+<span class="link"><a href="?menu="><img class="button" src="images/buttons/MyHome.gif" width="16" height="16" alt="Your home page" /></a><span><a class="button" href="?menu=">My Home</a></span></span></td>
+<td class="menu-title"><span class="spantitle">Brochure request entry - HTML version</span></td>
+<td class="help-button">
+<span class="spantitle">don</span>
+<span class="link"><a href="?user=&amp;menu="><img class="button" src="images/buttons/Logout.gif" width="16" height="16" alt="Sign out this user" /></a><a class="button" href="?user=&amp;menu=">Sign out</a></span>
+<span class="link"><a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"><img class="button" src="images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /></a><a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no">Settings</a></span>
+<span class="link"><a href="tourappxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='?screen=com.tourapp.tour.request.html.RequestHtmlScreen'&amp;class=.base.screen.model.report.HelpScreen"><img class="button" src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /></a><a class="button" href="tourappxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='?screen=com.tourapp.tour.request.html.RequestHtmlScreen'&amp;class=.base.screen.model.report.HelpScreen">Help</a></span>
+</td>
+</tr><tr style="background-color: black"><td colspan="6" height="1" style="width: 100%;"></td></tr>
+</table>
+<table border="0" width="100%" height="50%" cellspacing="0" cellpadding="5">
+<tr valign="top">
+<th id="navStart" class="navStart" style="background-image: url(images/graphics/NavBack.gif);">
+<!-- Start Nav Menu -->
+<div align="right">
+<a href="?menu=&amp;navmenus=IconsOnly&amp;preferences="><img src="images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /></a><a href="?menu=&amp;navmenus=No&amp;preferences="><img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" /></a>
+</div>
+<strong>Navigation menu</strong>
+<br/>
+<hr/>
+<a href="?menu=Home"><img src="images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/>&nbsp;Home</a><br/>
+<a href="?menu="><img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/>&nbsp;My home</a><br/>
+<a href="?screen=.main.user.screen.UserPreferenceScreen&java=no"><img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/>&nbsp;Settings</a><br/>
+<a href="?screen=.main.user.screen.UserLoginScreen&java=no"><img src="images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/>&nbsp;Sign in</a><br/>
+<a href="?user=&amp;menu="><img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/>&nbsp;Sign out</a><br/>
+<a href="?help=&class=.base.screen.model.report.HelpScreen"><img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/>&nbsp;Help</a><br/>
+<!-- End Nav menu -->
+</th>
+<th id="navStartShadow" class="navStartShadow" style="background-image: url(images/graphics/NavHShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>
+<td valign="top">
+<!-- Start Content Area -->
+<form action="tourappxhtml" method="post">
+<input type="hidden" name="record" value="com.tourapp.tour.request.db.Request">
+<input type="hidden" name="forms" value="">
+<input type="hidden" name="screen" value="com.tourapp.tour.request.html.RequestHtmlScreen">
+<input type="hidden" name="agent" value="no">
+<br><a href="?screen=com.tourapp.tour.request.html.RequestHtmlScreen&agent=yes">If you are a travel agent, click here</a>
+<table border="0">
+<tr>
+    <Request.GenericName></Request.GenericName>
+</tr>
+<tr>
+    <Request.AddressLine1></Request.AddressLine1>
+</tr>
+<tr>
+    <Request.AddressLine2></Request.AddressLine2>
+</tr>
+<tr>
+    <Request.CityOrTown></Request.CityOrTown>
+</tr>
+<tr>
+    <Request.StateOrRegion></Request.StateOrRegion>
+</tr>
+<tr>
+    <Request.PostalCode></Request.PostalCode>
+</tr>
+<tr>
+    <Request.Country></Request.Country>
+</tr>
+<tr>
+    <Request.Email></Request.Email>
+</tr>
+<tr>
+    <Request.BrochureText></Request.BrochureText>
+</tr>
+</table>
+</form>
+<!-- End Content Area -->
+</td>
+</tr>
+<tr id="navAfterContent" class="navAfterContent">
+<th id="navStartVShadow" class="navStart" style="background-image: url(images/graphics/NavVShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>
+<th id="navStartSECorner" class="navStartShadow" style="background-image: url(images/graphics/NavSECorner.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>
+</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,12 @@
+/*********************************************************************
+	GL_DET_BATCH File
+********************************************************************/
+
+declare	1 GL_DET_BATCH_RECORD,
+		3 GL_DBATCH_USER       character (       16),
+		3 GL_DBATCH_DEF_DATE   fixed binary (15),
+		3 GL_DBATCH_DEF_SOURCE character (       10),
+		3 GL_DBATCH_DEF_COM    character (       30),
+		3 GL_DBATCH_NEXT_TRX   fixed binary (15),
+		3 GL_DBATCH_BAL        float binary (53);
+

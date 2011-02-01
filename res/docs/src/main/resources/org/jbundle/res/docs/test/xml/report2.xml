@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="report.xsl"?>
+<?cocoon-process type="xslt"?>
+<full-screen>
+	<content-area>
+		<controls>
+			<detail name="TestTable">
+				<form xmlns:xfm="http://www.w3.org/2000/12/xforms" >
+					<xfm:textbox xform="form1" ref="TestName" cols="20">
+						<xfm:caption>Name</xfm:caption>
+					</xfm:textbox>
+					<xfm:textbox xform="form1" ref="TestDateTime" cols="20">
+						<xfm:caption>Date and Time</xfm:caption>
+					</xfm:textbox>
+				</form>
+				<detail name="TestTable2">
+					<form xmlns:xfm="http://www.w3.org/2000/12/xforms" >
+						<xfm:textbox xform="form1" ref="TestName" cols="20">
+							<xfm:caption>Name</xfm:caption>
+						</xfm:textbox>
+						<xfm:textbox xform="form1" ref="TestDateTime" cols="20">
+							<xfm:caption>Date and Time</xfm:caption>
+						</xfm:textbox>
+					</form>
+				</detail>
+				<trailer>
+					<form xmlns:xfm="http://www.w3.org/2000/12/xforms" >
+						<xfm:textbox xform="form1" ref="TestName" cols="20">
+							<xfm:caption>Name</xfm:caption>
+						</xfm:textbox>
+						<xfm:textbox xform="form1" ref="TestDateTime" cols="20">
+							<xfm:caption>Date and Time</xfm:caption>
+						</xfm:textbox>
+					</form>
+				</trailer>
+			</detail>
+			<heading>
+				<form xmlns:xfm="http://www.w3.org/2000/12/xforms" >
+					<xfm:textbox xform="form1" ref="TestName" cols="20">
+						<xfm:caption>Name</xfm:caption>
+					</xfm:textbox>
+					<xfm:textbox xform="form1" ref="TestDateTime" cols="20">
+						<xfm:caption>Date and Time</xfm:caption>
+					</xfm:textbox>
+				</form>
+			</heading>
+			<trailer>
+				<form xmlns:xfm="http://www.w3.org/2000/12/xforms" >
+					<xfm:textbox xform="form1" ref="TestName" cols="20">
+						<xfm:caption>Name</xfm:caption>
+					</xfm:textbox>
+					<xfm:textbox xform="form1" ref="TestDateTime" cols="20">
+						<xfm:caption>Date and Time</xfm:caption>
+					</xfm:textbox>
+				</form>
+			</trailer>
+		</controls>
+		<data>
+			<heading>
+				<file>
+					<TestTable
+        				ID="1">
+						<TestName>A - Excellent Agent</TestName>
+						<TestDateTime>Aug 28, 2001 1:48 AM</TestDateTime>
+					</TestTable>
+				</file>
+			</heading>
+			<trailer>
+				<file>
+					<TestTable3 ID="1">
+						<TestName>A - Excellent Agent</TestName>
+						<TestDateTime>Aug 28, 2001 1:48 AM</TestDateTime>
+					</TestTable3>
+				</file>
+			</trailer>
+			<detail>
+<file>
+	<TestTable
+        ID="1">
+		<TestCode/>
+		<TestName>A - Excellent Agent</TestName>
+		<TestMemo><![CDATA[This is a very long line
+This is the second line.]]></TestMemo>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>15,000,000</TestLong>
+		<TestShort>14,000</TestShort>
+		<TestDateTime>Aug 28, 2001 1:48 AM</TestDateTime>
+		<TestDate>Aug 28, 2001</TestDate>
+		<TestTime>5:15 PM</TestTime>
+		<TestFloat>1,234.56</TestFloat>
+		<TestDouble>1,234,567.89</TestDouble>
+		<TestPercent>34.5600</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
+		<TestVirtual/>
+		<TestKey>A</TestKey>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+		<detail>
+			<file>
+				<TestTable2 ID="1">
+					<TestName>2 - Excellent Agent</TestName>
+					<TestDateTime>2 Aug 28, 2001 1:48 AM</TestDateTime>
+				</TestTable2>
+			</file>
+		</detail>
+		<trailer>
+			<file>
+				<TestTable3 ID="1">
+					<TestName>3 A - Excellent Agent</TestName>
+					<TestDateTime>3 Aug 28, 2001 1:48 AM</TestDateTime>
+				</TestTable3>
+			</file>
+		</trailer>
+	</TestTable>
+	<TestTable
+        ID="2">
+		<TestCode/>
+		<TestName>B - Pretty Good Agent</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>Aug 28, 2001 12:00 AM</TestDateTime>
+		<TestDate/>
+		<TestTime>1:48 AM</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
+		<TestVirtual/>
+		<TestKey>B</TestKey>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+	</TestTable>
+	<TestTable
+        ID="4">
+		<TestCode/>
+		<TestName>F - Fam Trip Agent</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>Aug 28, 2001 12:00 AM</TestDateTime>
+		<TestDate/>
+		<TestTime>1:48 AM</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
+		<TestVirtual/>
+		<TestKey>B</TestKey>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+	</TestTable>
+	<TestTable
+        ID="5">
+		<TestCode/>
+		<TestName>T - Tour Operator</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>Aug 28, 2001 12:00 AM</TestDateTime>
+		<TestDate/>
+		<TestTime>1:48 AM</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
+		<TestVirtual/>
+		<TestKey>B</TestKey>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+	</TestTable>
+	<TestTable
+        ID="6">
+		<TestCode/>
+		<TestName>Q - Q Agency</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>Aug 28, 2001 12:00 AM</TestDateTime>
+		<TestDate/>
+		<TestTime>1:48 AM</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
+		<TestVirtual/>
+		<TestKey>Q</TestKey>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+	</TestTable>
+	<TestTable ID="7">
+		<TestCode/>
+		<TestName>F - Fam Trip Agent</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>Aug 28, 2001 12:00 AM</TestDateTime>
+		<TestDate/>
+		<TestTime>1:48 AM</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
+		<TestVirtual/>
+		<TestKey>X</TestKey>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+	</TestTable>
+</file>
+			</detail>
+		</data>
+	</content-area>
+</full-screen>

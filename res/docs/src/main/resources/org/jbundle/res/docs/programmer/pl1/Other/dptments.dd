@@ -1,0 +1,9 @@
+/*********************************************************************
+	DPTMENTS File
+********************************************************************/
+
+declare	1 DPTMENTS_RECORD,
+		3 DEPARTMENT           fixed binary (15),
+		3 DEPT_DESC            character (       30),
+		3 DEPT_GL              fixed binary (31);
+

@@ -1,0 +1,752 @@
+/****************************************************************
+	Module: BK_PAX_MAINT
+	Top Level Logic: PAX_MAINT_LOGIC
+	Date:  7-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_PAX_MAINT
+	Top-Level for Passenger Maintenance
+****************************************************************/
+
+%replace BK_PAX_MAINT_0 by 523;
+%replace BK_PAX_MAINT_1 by 502;
+%replace BK_PAX_MAINT_2 by 524;
+BK_PAX_MAINT:
+   procedure(
+      BK_BOOKING_RECORD,
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_PASSENGERS_RECORD);
+%replace PA_PAX_NO by  95;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_PASSENGERS_NO by  49;
+%include "PA_PAX.DD";
+%include "BK_PAX_MAINT.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		END_PAX_MAINT_MAIN   bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_SEQ_ACCESS_2     bit (1);
+declare		END_GET_ALL_PAX      bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_PAX_MAINT_MAIN = NO;
+   do while (END_PAX_MAINT_MAIN ^= YES);
+      call PAX_MAINT_MAIN;
+   end;
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   PAX_ENTERED = TODAYS_DATE();
+   PA_PAX_1 = "";
+   PA_PAX_2 = "";
+   PA_PAX_3 = "";
+   PA_PAX_4 = "";
+   PA_TYPE_1 = 0;
+   PA_TYPE_2 = 0;
+   PA_TYPE_3 = 0;
+   PA_TYPE_4 = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_PAX_MAINT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (PA_PAX_NO,"PA_PAX",byteaddr(PA_PAX_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (PA_PAX_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (BK_PAX_MAINT_RECORD) );
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	PAX_MAINT_MAIN
+	Mainline-logic for passenger maintenance
+****************************************************************/
+
+PAX_MAINT_MAIN:
+	procedure;
+
+declare		ERROR_PA_PAX         fixed binary (15);
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_PAX_MAINT_1);
+   NOT_FIRST_TIME = YES;
+
+   /* INPUT_KEY - Input the key-data from the screen */
+
+   KEY_NO = 1;
+   INPUT_LENGTH = 1;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_PAX_MAINT_MAIN = YES;
+      return;
+      end;
+   FIRST_ITEM = 2;
+   if INPUT_LENGTH = 0 then
+      do;
+      KEY_NO = 3;
+      INPUT_LENGTH = 1;
+      call INPUT_FIELD ( 15,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         END_PAX_MAINT_MAIN = YES;
+         return;
+         end;
+      FIRST_ITEM = 1;
+      if INPUT_LENGTH = 0 then
+         do;
+         END_PAX_MAINT_MAIN = YES;
+         return;
+         end;
+      END_SEQ_ACCESS_2 = NO;
+      call SEQ_ACCESS_2;
+      if END_SEQ_ACCESS_2 then
+         return;
+      end;
+
+   /* PAX_MAINT_READ - Read record and/or set up default */
+
+   if KEY_NO ^= 1 then
+      do;
+
+      /* READ_AND_LOCK - Read the record and lock it */
+
+      call READ_KEYED (PA_PAX_NO+?LOCK_RECORD,KEY_NO,ERROR_PA_PAX);
+      if ERROR_PA_PAX = RECORD_LOCKED then
+         do;
+         call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+         call PRESS_RETURN;
+         end;
+      if ERROR_PA_PAX > 3 then
+         call PRINT_ERROR (PA_PAX_NO,ERROR_PA_PAX);
+      end;
+   else
+      do;
+      if PAX_NO ^= 0 then
+         do;
+
+         /* READ_AND_LOCK - Read the record and lock it */
+
+         call READ_KEYED (PA_PAX_NO+?LOCK_RECORD,KEY_NO,ERROR_PA_PAX);
+         if ERROR_PA_PAX = RECORD_LOCKED then
+            do;
+            call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+            call PRESS_RETURN;
+            end;
+         if ERROR_PA_PAX > 3 then
+            call PRINT_ERROR (PA_PAX_NO,ERROR_PA_PAX);
+         end;
+      else
+         do;
+         PAX_NO = BOOKING_NO;
+         if PAX_NO = 0 then
+            PAX_NO = CURRENT_TIME();
+         ERROR_PA_PAX = NORMAL_RETURN;
+         do WHILE (ERROR_PA_PAX = NORMAL_RETURN);
+
+            /* READ_AND_LOCK - Read the record and lock it */
+
+            call READ_KEYED (PA_PAX_NO+?LOCK_RECORD,KEY_NO,ERROR_PA_PAX);
+            if ERROR_PA_PAX = RECORD_LOCKED then
+               do;
+               call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+               call PRESS_RETURN;
+               end;
+            if ERROR_PA_PAX > 3 then
+               call PRINT_ERROR (PA_PAX_NO,ERROR_PA_PAX);
+            if ERROR_PA_PAX = NORMAL_RETURN then
+               PAX_NO = PAX_NO + CURRENT_TIME();
+         end;
+         call DISPLAY_DATA_C;
+         end;
+      end;
+
+
+   /* PAX_MAINT_DEF - Set up default if new passenger */
+
+   if ERROR_PA_PAX ^= NORMAL_RETURN then
+      do;
+      if BOOKING_NO = 0 then
+         do;
+         PAX_NAME = "";
+         PAX_SALUTATION = "";
+         PAX_BOOKING = 0;
+         end;
+      else
+         do;
+         PA_PAX_1 = "";
+         PA_PAX_2 = "";
+         PA_PAX_3 = "";
+         PA_PAX_4 = "";
+         PA_TYPE_1 = 0;
+         PA_TYPE_2 = 0;
+         PA_TYPE_3 = 0;
+         PA_TYPE_4 = 0;
+
+         PA_COUNT = 1;
+
+         /* SET_FIRST - Set the record pointer to the first rec */
+
+         BK_PAX_MOD = BK_MODIFICATION;
+         BK_PAX_BK_NO = BOOKING_NO;
+         BK_PAX_SEQ = 0;
+         call SET_POSITION (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+         END_GET_ALL_PAX = NO;
+         do while (END_GET_ALL_PAX ^= YES);
+            call GET_ALL_PAX;
+         end;
+         call DISPLAY_DATA_B;
+         PAX_BOOKING = BOOKING_NO;
+         PAX_SALUTATION = "";
+         if PA_TYPE_1 = 1 then
+            PAX_NAME = PA_PAX_1;
+         else
+            do;
+            call SET_DEF_PAX;
+            end;
+         end;
+      end;
+
+
+   /* RECORD_FOUND - Was the record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_PA_PAX = NORMAL_RETURN then
+      do;
+      call DISPLAY_DATA;
+      end;
+   else
+      do;
+
+      /* ENTER_SCREEN - Enter screen for the first time */
+
+
+         /* CLEAR_FIELDS - Clear non-screen file fields */
+
+         call INPUT_SCREEN;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_PA_PAX = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (PA_PAX_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (PA_PAX_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         call WRITE_RECORD (PA_PAX_NO,ERROR_CODE);
+         end;
+      end;
+return;
+end;	/* PAX_MAINT_MAIN       */
+
+/****************************************************************
+	SEQ_ACCESS_2
+	Sequential access for secondary key
+****************************************************************/
+
+SEQ_ACCESS_2:
+	procedure;
+
+declare		ANSWER               character (1);
+declare		RECORD_MATCH         bit (1);
+declare	TEMP_PAX_LAST_NAME	character ( 10) varying;
+TEMP_PAX_LAST_NAME = CUT_SPACES(PAX_LAST_NAME);
+call SET_POSITION (PA_PAX_NO,KEY_NO,ERROR_CODE);
+do while (YES);
+   call READ_NEXT (PA_PAX_NO+?KEY_ONLY,KEY_NO,ERROR_CODE);
+   if substr(PAX_LAST_NAME,1,length(TEMP_PAX_LAST_NAME)) >
+      TEMP_PAX_LAST_NAME then
+         ERROR_CODE = END_OF_FILE;
+   if ERROR_CODE = END_OF_FILE then
+      do;
+      call DISPLAY_MESSAGE ("<BEL>End of records!"c);
+      call PRESS_RETURN;
+      END_SEQ_ACCESS_2 = YES;
+      return;
+      end;
+      RECORD_MATCH = NO;
+   if substr(PAX_LAST_NAME,1,length(TEMP_PAX_LAST_NAME)) =
+      TEMP_PAX_LAST_NAME then
+         RECORD_MATCH = YES;
+   if RECORD_MATCH then
+      do;
+      call READ_KEYED (PA_PAX_NO,KEY_NO,ERROR_CODE);
+      end;
+   if RECORD_MATCH then
+      do;
+      FIRST_ITEM = 1;
+      call DISPLAY_DATA;
+      call OUTPUT_LINE (23,20,"Correct record?");
+      call INPUT_DATA (23,36,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_MESSAGE;
+      call DUMP_BUFFER;
+      if ANSWER = "Y" then
+         do;
+         FIRST_ITEM = LAST_ITEM_NUMBER() + 1;
+         return;
+         end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         END_SEQ_ACCESS_2 = YES;
+         return;
+         end;
+      end;
+end; /* do loop */
+return;
+end;	/* SEQ_ACCESS_2         */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =   1 to   1;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	GET_ALL_PAX
+	Read in the first four passengers
+****************************************************************/
+
+GET_ALL_PAX:
+	procedure;
+
+
+   /* READ_NEXT - Read the next record */
+
+   call READ_NEXT (BK_PASSENGERS_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_PASSENGERS_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_PAX_MOD > BK_MODIFICATION) !
+   (BK_PAX_BK_NO > BOOKING_NO) then
+      do;
+      END_GET_ALL_PAX = YES;
+      return;
+      end;
+
+   /* SET_NEXT_PAX - Set the next pax field */
+
+   if PA_COUNT > 4 then
+      do;
+      END_GET_ALL_PAX = YES;
+      return;
+      end;
+
+   do case (PA_COUNT);
+      PA_PAX_1 = BK_PAX_NAME;
+      PA_PAX_2 = BK_PAX_NAME;
+      PA_PAX_3 = BK_PAX_NAME;
+      PA_PAX_4 = BK_PAX_NAME;
+   end;
+
+   do case (PA_COUNT);
+      PA_TYPE_1 = BK_PAX_ROOM_CODE;
+      PA_TYPE_2 = BK_PAX_ROOM_CODE;
+      PA_TYPE_3 = BK_PAX_ROOM_CODE;
+      PA_TYPE_4 = BK_PAX_ROOM_CODE;
+   end;
+
+   PA_COUNT = PA_COUNT + 1;
+
+return;
+end;	/* GET_ALL_PAX          */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =  17 to  24;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	SET_DEF_PAX
+	Set up the default passenger name
+****************************************************************/
+
+SET_DEF_PAX:
+	procedure;
+
+dcl NAME_INDEX fixed binary;
+dcl LAST_FOUND bit(1);
+LAST_FOUND = NO;
+do NAME_INDEX = length(PA_PAX_1) to 1 by -1;
+   if substr(PA_PAX_1,NAME_INDEX,1) ^= " " then
+      LAST_FOUND = YES;
+   else
+      if LAST_FOUND = YES then
+         goto LOOP_FOUND_OVER;
+end;
+LOOP_FOUND_OVER:
+PAX_LAST_NAME = substr(PA_PAX_1,NAME_INDEX+1,
+   min(length(PAX_LAST_NAME),length(PA_PAX_1) - NAME_INDEX) );
+LAST_FOUND = NO;
+do NAME_INDEX = length(PA_PAX_2) to 1 by -1;
+   if substr(PA_PAX_2,NAME_INDEX,1) ^= " " then
+      LAST_FOUND = YES;
+   else
+      if LAST_FOUND = YES then
+         goto LOOP_FOUND_2;
+end;
+LOOP_FOUND_2:
+if PAX_LAST_NAME = substr(PA_PAX_2,NAME_INDEX+1,
+   min(length(PAX_LAST_NAME),length(PA_PAX_2) - NAME_INDEX) ) then
+      do;
+      do LOOP_INDEX = 1 to 2;
+         if LOOP_INDEX = 1 then
+            PAX_NAME = PA_PAX_1;
+         else
+            PAX_NAME = PA_PAX_2;
+         PAX_SALUTATION = "";
+
+         /* SET_SAL_DEF - Set up the default salutation */
+
+         if PAX_SALUTATION = "" then
+            do;
+            PAX_SALUTATION = PAX_NAME;
+            dcl NAME_2 fixed binary;
+            dcl LAST_2 bit(1);
+            LAST_2 = NO;
+            do NAME_2 = length(PAX_SALUTATION) to 1 by -1;
+            	if substr(PAX_SALUTATION,NAME_2,1) ^= " " then
+            		LAST_2 = YES;
+            	else
+            		if LAST_2 = YES then
+            			goto LOOP_FOUND_SAL;
+            end;
+            LOOP_FOUND_SAL:
+            if NAME_2 > 1 then
+               do;
+               substr(PAX_SALUTATION,NAME_2+1,30-NAME_2) = "";
+               if substr(PAX_SALUTATION,NAME_2-1,1) = "." then if NAME_2 > 2 then
+                  substr(PAX_SALUTATION,NAME_2-2,2) = "  ";
+               end;
+               if substr(PAX_SALUTATION,1,1) = "M" then if substr(PAX_SALUTATION,3,1) = "." then
+                  PAX_SALUTATION = substr(PAX_SALUTATION,5,26);
+               if substr(PAX_SALUTATION,1,4) = "Mrs." then
+                  PAX_SALUTATION = substr(PAX_SALUTATION,6,25);
+            end;
+
+         if LOOP_INDEX = 1 then
+            PA_PAX_1 = PAX_SALUTATION;
+         else
+            PA_PAX_2 = PAX_SALUTATION;
+      end;
+      PAX_NAME = CUT_SPACES(PA_PAX_1) !! " and " !! CUT_SPACES(PA_PAX_2) !!
+         " " !! PAX_LAST_NAME;
+      PAX_SALUTATION = "";
+      end;
+   else
+      PAX_NAME = CUT_SPACES(PA_PAX_1) !! " and " !! PA_PAX_2;
+
+return;
+end;	/* SET_DEF_PAX          */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX =   2 to  16;
+   call KEEP_TRAILING_SPACES;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   1 to   1;
+   call KEEP_TRAILING_SPACES;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+PAX_ADDR_1 = "";
+PAX_ADDR_2 = "";
+PAX_ADDR_3 = "";
+PAX_ZIP = "";
+PAX_PHONE = "";
+PAX_WORK_PHONE = "";
+PAX_TYPE = "";
+PAX_INTEREST( 1) = "";
+PAX_COMMENT1 = "";
+PAX_COMMENT2 = "";
+do LOOP_INDEX =   2 to  13;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* SET_SAL_DEF - Set up the default salutation */
+
+      if PAX_SALUTATION = "" then
+         do;
+         PAX_SALUTATION = PAX_NAME;
+         dcl NAME_2 fixed binary;
+         dcl LAST_2 bit(1);
+         LAST_2 = NO;
+         do NAME_2 = length(PAX_SALUTATION) to 1 by -1;
+         	if substr(PAX_SALUTATION,NAME_2,1) ^= " " then
+         		LAST_2 = YES;
+         	else
+         		if LAST_2 = YES then
+         			goto LOOP_FOUND_SAL;
+         end;
+         LOOP_FOUND_SAL:
+         if NAME_2 > 1 then
+            do;
+            substr(PAX_SALUTATION,NAME_2+1,30-NAME_2) = "";
+            if substr(PAX_SALUTATION,NAME_2-1,1) = "." then if NAME_2 > 2 then
+               substr(PAX_SALUTATION,NAME_2-2,2) = "  ";
+            end;
+            if substr(PAX_SALUTATION,1,1) = "M" then if substr(PAX_SALUTATION,3,1) = "." then
+               PAX_SALUTATION = substr(PAX_SALUTATION,5,26);
+            if substr(PAX_SALUTATION,1,4) = "Mrs." then
+               PAX_SALUTATION = substr(PAX_SALUTATION,6,25);
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* SET_PAX_LAST - Set up the pax last name */
+
+      dcl NAME_INDEX fixed binary;
+      dcl LAST_FOUND bit(1);
+      LAST_FOUND = NO;
+      do NAME_INDEX = length(PAX_NAME) to 1 by -1;
+      	if substr(PAX_NAME,NAME_INDEX,1) ^= " " then
+      		LAST_FOUND = YES;
+      	else
+      		if LAST_FOUND = YES then
+      			goto LOOP_FOUND_OVER;
+      end;
+      LOOP_FOUND_OVER:
+      PAX_LAST_NAME = substr(PAX_NAME,NAME_INDEX+1,
+      	min(length(PAX_LAST_NAME),length(PAX_NAME) - NAME_INDEX) );
+      call CONVERT_TO_UPPER(PAX_LAST_NAME);
+
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  14 to  16;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 14,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 14 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* SET_SAL_DEF - Set up the default salutation */
+
+      if PAX_SALUTATION = "" then
+         do;
+         PAX_SALUTATION = PAX_NAME;
+         dcl NAME_2 fixed binary;
+         dcl LAST_2 bit(1);
+         LAST_2 = NO;
+         do NAME_2 = length(PAX_SALUTATION) to 1 by -1;
+         	if substr(PAX_SALUTATION,NAME_2,1) ^= " " then
+         		LAST_2 = YES;
+         	else
+         		if LAST_2 = YES then
+         			goto LOOP_FOUND_SAL;
+         end;
+         LOOP_FOUND_SAL:
+         if NAME_2 > 1 then
+            do;
+            substr(PAX_SALUTATION,NAME_2+1,30-NAME_2) = "";
+            if substr(PAX_SALUTATION,NAME_2-1,1) = "." then if NAME_2 > 2 then
+               substr(PAX_SALUTATION,NAME_2-2,2) = "  ";
+            end;
+            if substr(PAX_SALUTATION,1,1) = "M" then if substr(PAX_SALUTATION,3,1) = "." then
+               PAX_SALUTATION = substr(PAX_SALUTATION,5,26);
+            if substr(PAX_SALUTATION,1,4) = "Mrs." then
+               PAX_SALUTATION = substr(PAX_SALUTATION,6,25);
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   2 then
+      do;
+
+      /* SET_PAX_LAST - Set up the pax last name */
+
+      dcl NAME_INDEX fixed binary;
+      dcl LAST_FOUND bit(1);
+      LAST_FOUND = NO;
+      do NAME_INDEX = length(PAX_NAME) to 1 by -1;
+      	if substr(PAX_NAME,NAME_INDEX,1) ^= " " then
+      		LAST_FOUND = YES;
+      	else
+      		if LAST_FOUND = YES then
+      			goto LOOP_FOUND_OVER;
+      end;
+      LOOP_FOUND_OVER:
+      PAX_LAST_NAME = substr(PAX_NAME,NAME_INDEX+1,
+      	min(length(PAX_LAST_NAME),length(PAX_NAME) - NAME_INDEX) );
+      call CONVERT_TO_UPPER(PAX_LAST_NAME);
+
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (PA_PAX_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

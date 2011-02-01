@@ -1,0 +1,35 @@
+<jnlp spec="1.0+" codebase="http://fred.tourgeek.com/">
+  <information>
+    <title>Tourapp Application</title>
+    <vendor>tourapp.com</vendor>
+    <homepage href="http://fred.tourgeek.com/docs/index.html"/>
+    <description kind="short">
+    Tourapp Application
+    </description>
+    <description kind="one-line">Tourapp Application</description>
+    <icon href="http://fred.tourgeek.com/images/tour/icons/Tour.gif" kind="default"/>
+    <offline-allowed/>
+  </information>
+  <update check="timeout" policy="always"/>
+  <resources>
+   <java version="1.5+"/>
+    <jar href="http://fred.tourgeek.com/lib/thickscreen.jar" part="thickscreen" download="eager" main="false"/>
+    <package name="org.jbundle.Main" part="thickscreen" recursive="false"/>
+    <extension href="http://fred.tourgeek.com/docs/jnlp/thin.jnlp" name="docs/jnlp/thin"/>
+    <extension href="http://fred.tourgeek.com/docs/jnlp/thintest.jnlp" name="docs/jnlp/thintest"/>
+    <extension href="http://fred.tourgeek.com/docs/jnlp/thick.jnlp" name="docs/jnlp/thick"/>
+    <extension href="http://fred.tourgeek.com/docs/jnlp/resource.jnlp" name="docs/jnlp/resource"/>
+    <extension href="http://fred.tourgeek.com/docs/jnlp/thintour.jnlp" name="docs/jnlp/thintour"/>
+    <extension href="http://fred.tourgeek.com/docs/jnlp/tour.jnlp" name="docs/jnlp/tour"/>
+    <extension href="http://fred.tourgeek.com/docs/jnlp/thicktest.jnlp" name="docs/jnlp/thicktest"/>
+  </resources>
+  <application-desc main-class="org.jbundle.Main">
+    <argument>backgroundcolor=#eeeeff</argument>
+    <argument>background=backgrounds/worldmapalpha.gif</argument>
+    <argument>url=http://fred.tourgeek.com/tourapp</argument>
+    <argument>baseURL=fred.tourgeek.com/</argument>
+    <argument>menu=dev.tourapp.com</argument>
+    <argument>domain=fred.tourgeek.com</argument>
+    <argument>userid=11</argument>
+  </application-desc>
+</jnlp>

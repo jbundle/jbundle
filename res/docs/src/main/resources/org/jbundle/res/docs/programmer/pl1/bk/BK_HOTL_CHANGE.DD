@@ -1,0 +1,12 @@
+/*********************************************************************
+	BK_HOTL_CHANGE File
+********************************************************************/
+
+declare	1 BK_HOTL_CHANGE_RECORD,
+		3 BK_CHANGE_START      fixed binary (15),
+		3 BK_CHANGE_END        fixed binary (15),
+		3 BK_CHG_BLOCKED       fixed binary (15),
+		3 BK_CHG_RATE          character (        1),
+		3 BK_CHG_ROOM_TYPE     fixed binary (15),
+		3 BK_CHG_OVERSELL      fixed binary (15);
+

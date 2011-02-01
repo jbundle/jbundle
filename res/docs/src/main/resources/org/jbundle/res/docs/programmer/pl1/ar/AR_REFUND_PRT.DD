@@ -1,0 +1,20 @@
+/*********************************************************************
+	AR_REFUND_PRT File
+********************************************************************/
+
+declare	1 AR_REFUND_PRT_RECORD,
+		3 AR_REFUND_AC         fixed binary (15),
+		3 AR_CHECK_NUM         fixed binary (31),
+		3 AR_CHECK_DATE        fixed binary (15),
+		3 AR_REP_DATE          fixed binary (15),
+		3 AR_REF_TIME          fixed binary (15),
+		3 AR_REF_PAGE          fixed binary (15),
+		3 AR_REF_TOTAL         fixed binary (31),
+		3 AR_TOTAL_REF         float binary (53),
+		3 AR_START_CHECK       fixed binary (31),
+		3 AR_CHECK_AMT         float binary (53),
+		3 AR_AMOUNT_DESC       character (       75),
+		3 AR_REF_USER          character (       16),
+		3 REFUND_PAX( 4) character (       30),
+		3 RE_PAX_SEQ           fixed binary (15);
+

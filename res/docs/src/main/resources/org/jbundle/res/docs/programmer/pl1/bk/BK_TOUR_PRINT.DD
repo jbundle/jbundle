@@ -1,0 +1,38 @@
+/*********************************************************************
+	BK_TOUR_PRINT File
+********************************************************************/
+
+declare	1 BK_TOUR_PRINT_RECORD,
+		3 START_TOUR           character (        4),
+		3 END_TOUR             character (        4),
+		3 TOUR_HEADER          character (1),
+		3 TOUR_D_START         fixed binary (15),
+		3 TOUR_D_END           fixed binary (15),
+		3 TOUR_DEPARTURE       character (1),
+		3 START_TOUR_DEP       fixed binary (15),
+		3 END_TOUR_DEP         fixed binary (15),
+		3 END_DEPART           fixed binary (15),
+		3 TOUR_START           character (        4),
+		3 TOUR_DETAIL          character (1),
+		3 TOUR_DATE_START      fixed binary (15),
+		3 TOUR_DATE_END        fixed binary (15),
+		3 TOUR_INVENTORY       character (1),
+		3 TOUR_OA              character (1),
+		3 TOUR_PRICE           character (1),
+		3 TOUR_HOTEL           character (1),
+		3 TOUR_LAND            character (1),
+		3 TOUR_AIR             character (1),
+		3 TOUR_COMMENT         character (1),
+		3 TOUR_DOCS            character (1),
+		3 TOUR_HDR_DETAIL      character (1),
+		3 TOUR_PRT_DATE        fixed binary (15),
+		3 TOUR_PRT_TIME        fixed binary (15),
+		3 TOUR_PRT_USER        character (       16),
+		3 TOUR_PRT_PAGE        fixed binary (15),
+		3 TOUR_PRT_OSTART      fixed binary (15),
+		3 TOUR_PRT_OEND        fixed binary (15),
+		3 TOUR_PRT_ASTART      fixed binary (15),
+		3 TOUR_PRT_AEND        fixed binary (15),
+		3 OLD_HDR_CODE         character (        4),
+		3 TOUR_BK_COMM         character (1);
+

@@ -1,0 +1,1064 @@
+/****************************************************************
+	Module: BK_NEW_INFO
+	Top Level Logic: NEW_INFO_LOGIC
+	Date: 20-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_NEW_INFO
+	Top Level Logic
+****************************************************************/
+
+BK_NEW_INFO:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_LINE_RECORD,
+      BK_PASSENGERS_RECORD);
+%replace BK_DET_HOTEL_NO by  67;
+%replace BK_DET_LAND_NO by  68;
+%replace TK_HEADER_NO by  56;
+%replace TK_DETAIL_NO by  57;
+%replace BK_COMMENT_NO by  48;
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace BK_LINE_NO by  51;
+%replace BK_PASSENGERS_NO by  49;
+%include "BK_DET_HOTEL.DD";
+%include "BK_DET_LAND.DD";
+%include "TK_HEADER.DD";
+%include "TK_DETAIL.DD";
+%include "BK_COMMENT.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_LINE.DD";
+%include "BK_PASSENGERS.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		END_GO_THRU_LINE     bit (1);
+declare		END_DELETE_LINES     bit (1);
+declare		END_COPY_HOTEL       bit (1);
+declare		END_DELETE_HOTEL     bit (1);
+declare		END_DELETE_PAX_HOTEL bit (1);
+declare		END_COPY_TOUR        bit (1);
+declare		END_DELETE_TOUR      bit (1);
+declare		END_DELETE_PAX_LAND  bit (1);
+declare		END_COPY_AIRH        bit (1);
+declare		END_COPY_AIR         bit (1);
+declare		END_DEL_TKHDR        bit (1);
+declare		END_DELETE_TKDET     bit (1);
+declare		END_DEL_PAX_TKHDR    bit (1);
+declare		END_DEL_PAX_TKDET    bit (1);
+declare		END_COPY_REMARK      bit (1);
+declare		END_DELETE_REMARK    bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		SELECT               fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_TK_HEADER      fixed binary (15);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_DET_HOTEL_NO,"BK_DET_HOTEL",byteaddr(BK_DET_HOTEL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_DET_LAND_NO,"BK_DET_LAND",byteaddr(BK_DET_LAND_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+   call OPEN_FILE (TK_HEADER_NO,"TK_HEADER",byteaddr(TK_HEADER_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_HEADER_NO,ERROR_CODE);
+   call OPEN_FILE (TK_DETAIL_NO,"TK_DETAIL",byteaddr(TK_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (TK_DETAIL_NO,ERROR_CODE);
+   call OPEN_FILE (BK_COMMENT_NO,"BK_COMMENT",byteaddr(BK_COMMENT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* SET_NEW_PARAMS - Set so routines will work correctly */
+
+   RETURN_CODE = DELETE_TYPED;
+   SELECT = 10;
+
+
+   /* CHECK_LINE_CHG - Check to see if any changes */
+
+   if (SELECT ^= 0 ! RETURN_CODE = DELETE_TYPED) then
+   if BK_LINE_CHGD ^= BK_NEXT_MOD then
+      do;
+
+      /* SET_FIRST_LINE - Set for first read */
+
+      BK_LINE_MOD = BK_MODIFICATION;
+      BK_LINE_BK_NO = BOOKING_NO;
+      BK_LINE_SEQ = 0;
+      call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+      END_GO_THRU_LINE = NO;
+      do while (END_GO_THRU_LINE ^= YES);
+         call GO_THRU_LINE;
+      end;
+      BK_LINE_CHGD = BK_NEXT_MOD;
+      end;
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+      END_DELETE_LINES = NO;
+      do while (END_DELETE_LINES ^= YES);
+         call DELETE_LINES;
+      end;
+      BK_TOUR_PRICE = 0;
+      BK_NET_PRICE = 0;
+      BK_LINE_CHGD = -1;
+      end;
+
+   BK_LINE_MOD = BK_MODIFICATION;
+   BK_LINE_BK_NO = BOOKING_NO;
+
+
+   /* ZERO_BK_BALANCE - Zero the field */
+
+   BK_BALANCE = 0;
+
+
+   /* CHECK_HOTEL_CHG - Check for a change to the hotel detail */
+
+   if (SELECT ^= 0 ! RETURN_CODE = DELETE_TYPED) then
+      do;
+
+      /* COPY_HOTEL_DETL - Copy the hotel detail if change */
+
+      if BK_NEXT_MOD ^= BK_HOTEL_MOD then
+         do;
+
+         /* SET_FIRST_HOTELD - Set first hotel detail */
+
+         HDET_MOD = BK_MODIFICATION;
+         HDET_BK_TR_NO = BOOKING_NO;
+         HDET_ALT_SEQ = 0;
+         HDET_ANSW_SEQ = 0;
+         HDET_DAY = 0;
+         HDET_SEQ = 0;
+         call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+         END_COPY_HOTEL = NO;
+         do while (END_COPY_HOTEL ^= YES);
+            call COPY_HOTEL;
+         end;
+         BK_HOTEL_MOD = BK_NEXT_MOD;
+         end;
+
+      end;
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+      if BK_PAX_SEQ = 0 then
+         do;
+         END_DELETE_HOTEL = NO;
+         do while (END_DELETE_HOTEL ^= YES);
+            call DELETE_HOTEL;
+         end;
+         BK_HOTEL_MOD = -1;
+         end;
+      else
+         do;
+         END_DELETE_PAX_HOTEL = NO;
+         do while (END_DELETE_PAX_HOTEL ^= YES);
+            call DELETE_PAX_HOTEL;
+         end;
+         BK_HOTEL_MOD = BK_NEXT_MOD;
+         end;
+      end;
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = BK_PAX_SEQ;
+   HDET_ANSW_SEQ = 0;
+
+
+   /* CHECK_TOUR_CHG - Check to see if copy or delete */
+
+   if (SELECT ^= 0 ! RETURN_CODE = DELETE_TYPED) then
+
+   /* COPY_TOUR_DETL - Copy land detail if any changes */
+
+   if BK_NEXT_MOD ^= BK_TOUR_MOD then
+      do;
+
+      /* SET_FIRST_LANDD - Set to the first land detail record */
+
+      LDET_MOD = BK_MODIFICATION;
+      LDET_BK_TK_NO = BOOKING_NO;
+      LDET_ALT_SEQ = 0;
+      LDET_ANSW_SEQ = 0;
+      LDET_DAY = 0;
+      LDET_SEQ = 0;
+      call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_TOUR = NO;
+      do while (END_COPY_TOUR ^= YES);
+         call COPY_TOUR;
+      end;
+      BK_TOUR_MOD = BK_NEXT_MOD;
+      end;
+
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+      if BK_PAX_SEQ = 0 then
+         do;
+         END_DELETE_TOUR = NO;
+         do while (END_DELETE_TOUR ^= YES);
+            call DELETE_TOUR;
+         end;
+         BK_TOUR_MOD = -1;
+         end;
+      else
+         do;
+         END_DELETE_PAX_LAND = NO;
+         do while (END_DELETE_PAX_LAND ^= YES);
+            call DELETE_PAX_LAND;
+         end;
+         BK_TOUR_MOD = BK_NEXT_MOD;
+         end;
+      end;
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = BK_PAX_SEQ;
+   LDET_ANSW_SEQ = 0;
+
+
+   /* CHECK_AIR_CHG - Check of air mods */
+
+   if (SELECT ^= 0 ! RETURN_CODE = DELETE_TYPED) then
+   if BK_NEXT_MOD ^= BK_AIR_MOD then
+      do;
+
+      /* SET_FIRST_AIRH_COPY - Set to first header to copy */
+
+      TK_MODIFICATION = BK_MODIFICATION;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = 0;
+      TK_ANSW_SEQ = 0;
+      call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIRH = NO;
+      do while (END_COPY_AIRH ^= YES);
+         call COPY_AIRH;
+      end;
+
+      /* SETUP_KEY_AIRH - Set up the key for air header record */
+
+      TK_MODIFICATION = BK_MODIFICATION;
+      TK_BK_TK_NO = BOOKING_NO;
+      TK_ALT_SEQ = BK_PAX_SEQ;
+      TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+      KEY_NO = 1;
+
+      /* READ_AND_LOCK_AIRH - Read the record and lock it */
+
+      call READ_KEYED (TK_HEADER_NO+?LOCK_RECORD,KEY_NO,ERROR_TK_HEADER);
+      if ERROR_TK_HEADER = RECORD_LOCKED then
+         do;
+         call DISPLAY_MESSAGE("Record locked by " !! LOCK_NAME() !! "<BEL>"c);
+         call PRESS_RETURN;
+         end;
+      if ERROR_TK_HEADER > 3 then
+         call PRINT_ERROR (TK_HEADER_NO,ERROR_TK_HEADER);
+
+      /* SET_FIRST_AIRD_COPY - First air detail of this record */
+
+      TK_DET_MOD = BK_MODIFICATION;
+      TK_DET_BK_TK = BOOKING_NO;
+      TK_DET_ALT_SEQ = 0;
+      TK_DET_ANSW_SEQ = 0;
+      TK_DATE = 0;
+      TK_SEQ = 0;
+      call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_AIR = NO;
+      do while (END_COPY_AIR ^= YES);
+         call COPY_AIR;
+      end;
+      BK_AIR_MOD = BK_NEXT_MOD;
+      end;
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+      if BK_PAX_SEQ = 0 then
+         do;
+         END_DEL_TKHDR = NO;
+         do while (END_DEL_TKHDR ^= YES);
+            call DEL_TKHDR;
+         end;
+         END_DELETE_TKDET = NO;
+         do while (END_DELETE_TKDET ^= YES);
+            call DELETE_TKDET;
+         end;
+         BK_AIR_MOD = -1;
+         end;
+      else
+         do;
+         END_DEL_PAX_TKHDR = NO;
+         do while (END_DEL_PAX_TKHDR ^= YES);
+            call DEL_PAX_TKHDR;
+         end;
+         END_DEL_PAX_TKDET = NO;
+         do while (END_DEL_PAX_TKDET ^= YES);
+            call DEL_PAX_TKDET;
+         end;
+         BK_AIR_MOD = BK_NEXT_MOD;
+         end;
+      end;
+
+
+   /* SETUP_KEY_AIRD - Set up the air detail key */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   KEY_NO = 1;
+
+
+   /* CHECK_REMARK_CHG - Check remark changes */
+
+   if (SELECT ^= 0 ! RETURN_CODE = DELETE_TYPED) then
+   if BK_NEXT_MOD ^= BK_REMARK_MOD then
+      do;
+
+      /* SET_FIRST_REMARKD - Set first */
+
+      BK_TOUR_MOD_NO = BK_MODIFICATION;
+      BK_OR_TOUR_NO = BOOKING_NO;
+      BK_COMM_ALT_SEQ = BK_PAX_SEQ;
+      BK_COMM_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+      BK_TOUR_C_R = "R";
+      BK_TOUR_SEQ = 0;
+      call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+      END_COPY_REMARK = NO;
+      do while (END_COPY_REMARK ^= YES);
+         call COPY_REMARK;
+      end;
+      BK_REMARK_MOD = BK_NEXT_MOD;
+      end;
+
+   if RETURN_CODE = DELETE_TYPED then
+      do;
+      END_DELETE_REMARK = NO;
+      do while (END_DELETE_REMARK ^= YES);
+         call DELETE_REMARK;
+      end;
+      if BK_PAX_SEQ = 0 then
+         BK_REMARK_MOD = -1;
+      end;
+
+   BK_TOUR_MOD_NO = BK_MODIFICATION;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_COMM_ALT_SEQ = BK_PAX_SEQ;
+   BK_COMM_ANSW_SEQ = 0;
+   BK_TOUR_C_R = "R";
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_DET_HOTEL_NO);
+   call CLOSE_FILE (BK_DET_LAND_NO);
+   call CLOSE_FILE (TK_HEADER_NO);
+   call CLOSE_FILE (TK_DETAIL_NO);
+   call CLOSE_FILE (BK_COMMENT_NO);
+return;
+
+/****************************************************************
+	GO_THRU_LINE
+	Read thru the pax info and copy to mod
+****************************************************************/
+
+GO_THRU_LINE:
+	procedure;
+
+
+   /* READ_NEXT_LINE - Read the next line record */
+
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LINE_NO,ERROR_CODE);
+
+   /* CHECK_END_LINE - Last record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_LINE_MOD > BK_MODIFICATION) !
+   (BK_LINE_BK_NO > BOOKING_NO) then
+      do;
+      END_GO_THRU_LINE = YES;
+      return;
+      end;
+
+   /* SET_MOD_LINE - Set the line to the correct mod number */
+
+   BK_LINE_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_LINE - Write the line detail record */
+
+   call WRITE_RECORD (BK_LINE_NO,ERROR_CODE);
+
+   /* SET_LINE_POS - Set the position for the next read */
+
+   BK_LINE_MOD = BK_MODIFICATION;
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = BK_LINE_SEQ+1;
+   call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* GO_THRU_LINE         */
+
+/****************************************************************
+	DELETE_LINES
+	Delete the line item detail
+****************************************************************/
+
+DELETE_LINES:
+	procedure;
+
+
+   /* SET_FIRST_LINE - Set for first read */
+
+   BK_LINE_MOD = BK_MODIFICATION;
+   BK_LINE_BK_NO = BOOKING_NO;
+   BK_LINE_SEQ = 0;
+   call SET_POSITION (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_LINE - Read the next line record */
+
+   call READ_NEXT (BK_LINE_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_LINE_NO,ERROR_CODE);
+
+   /* CHECK_END_LINE - Last record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_LINE_MOD > BK_MODIFICATION) !
+   (BK_LINE_BK_NO > BOOKING_NO) then
+      do;
+      END_DELETE_LINES = YES;
+      return;
+      end;
+
+   /* DELETE_LINE_ITEM - Delete this line item */
+
+   call DELETE_RECORD (BK_LINE_NO,ERROR_CODE);
+return;
+end;	/* DELETE_LINES         */
+
+/****************************************************************
+	COPY_HOTEL
+	Make a copy of the current hotel detail
+****************************************************************/
+
+COPY_HOTEL:
+	procedure;
+
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) then
+      do;
+      END_COPY_HOTEL = YES;
+      return;
+      end;
+
+   /* CHANGE_HOTELD - Set mod to 0 */
+
+   HDET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_HOTELD - Write the hotel detail */
+
+   call WRITE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* SET_FIRST_HOTELC - Set for first read */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_SEQ = HDET_SEQ+1;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_HOTEL           */
+
+/****************************************************************
+	DELETE_HOTEL
+	Delete the hotel detail
+****************************************************************/
+
+DELETE_HOTEL:
+	procedure;
+
+
+   /* SET_FIRST_HOTELD - Set first hotel detail */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = 0;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) then
+      do;
+      END_DELETE_HOTEL = YES;
+      return;
+      end;
+
+   /* DELETE_HOTELD - Delete */
+
+   call DELETE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+return;
+end;	/* DELETE_HOTEL         */
+
+/****************************************************************
+	DELETE_PAX_HOTEL
+	Delete the passenger hotel detail
+****************************************************************/
+
+DELETE_PAX_HOTEL:
+	procedure;
+
+
+   /* SET_FIRST_HOTELP - Set to the first hotel detail */
+
+   HDET_MOD = BK_MODIFICATION;
+   HDET_BK_TR_NO = BOOKING_NO;
+   HDET_ALT_SEQ = BK_PAX_SEQ;
+   HDET_ANSW_SEQ = 0;
+   HDET_DAY = 0;
+   HDET_SEQ = 0;
+   call SET_POSITION (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_HOTELD - Read next */
+
+   call READ_NEXT (BK_DET_HOTEL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_HOTEL_NO,ERROR_CODE);
+
+   /* CHECK_END_HOTELP - Last hotel detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (HDET_MOD > BK_MODIFICATION) !
+   (HDET_BK_TR_NO > BOOKING_NO) !
+   (HDET_ALT_SEQ > BK_PAX_SEQ) !
+   (HDET_ANSW_SEQ > 0) then
+      do;
+      END_DELETE_PAX_HOTEL = YES;
+      return;
+      end;
+
+   /* DELETE_HOTELD - Delete */
+
+   call DELETE_RECORD (BK_DET_HOTEL_NO,ERROR_CODE);
+return;
+end;	/* DELETE_PAX_HOTEL     */
+
+/****************************************************************
+	COPY_TOUR
+	Copy the tour detail
+****************************************************************/
+
+COPY_TOUR:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDD - Last land detail record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_COPY_TOUR = YES;
+      return;
+      end;
+
+   /* CHANGE_TOURD - Change mod code to 0 */
+
+   LDET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_LANDD - Write the land detail record */
+
+   call WRITE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* SET_FIRST_TOURC - Set next record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_SEQ = LDET_SEQ+1;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_TOUR            */
+
+/****************************************************************
+	DELETE_TOUR
+	Delete the tour detail
+****************************************************************/
+
+DELETE_TOUR:
+	procedure;
+
+
+   /* SET_FIRST_LANDD - Set to the first land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDD - Last land detail record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_DELETE_TOUR = YES;
+      return;
+      end;
+
+   /* DELETE_LANDD - Delete land detail */
+
+   call DELETE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+return;
+end;	/* DELETE_TOUR          */
+
+/****************************************************************
+	DELETE_PAX_LAND
+	Delete the passenger land detail
+****************************************************************/
+
+DELETE_PAX_LAND:
+	procedure;
+
+
+   /* SET_FIRST_LANDP - Set first land in this pax mod */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = BK_PAX_SEQ;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDP - Last land in this pax mod? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > BK_PAX_SEQ) !
+   (LDET_ANSW_SEQ > 0) then
+      do;
+      END_DELETE_PAX_LAND = YES;
+      return;
+      end;
+
+   /* DELETE_LANDD - Delete land detail */
+
+   call DELETE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+return;
+end;	/* DELETE_PAX_LAND      */
+
+/****************************************************************
+	COPY_AIRH
+	Copy all the headers to the last md
+****************************************************************/
+
+COPY_AIRH:
+	procedure;
+
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH_COPY - Last air header in booking? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_COPY_AIRH = YES;
+      return;
+      end;
+
+   /* SET_TKHDR - Set to next mod */
+
+   TK_MODIFICATION = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRH - Write the air header record */
+
+   call WRITE_RECORD (TK_HEADER_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRHC - Set to the next air Header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ANSW_SEQ = TK_ANSW_SEQ+1;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIRH            */
+
+/****************************************************************
+	COPY_AIR
+	Copy the air detail
+****************************************************************/
+
+COPY_AIR:
+	procedure;
+
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_COPY_AIR = YES;
+      return;
+      end;
+
+   /* CHANGE_AIRD - Change mod code to 0 */
+
+   TK_DET_MOD = BK_NEXT_MOD;
+
+
+   /* WRITE_AIRD - Write the air detail record */
+
+   call WRITE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+
+   /* SET_FIRST_AIRC - Set to the next record */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_SEQ = TK_SEQ+1;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_AIR             */
+
+/****************************************************************
+	DEL_TKHDR
+	Delete the ticket header records
+****************************************************************/
+
+DEL_TKHDR:
+	procedure;
+
+
+   /* SET_FIRST_AIRH_COPY - Set to first header to copy */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = 0;
+   TK_ANSW_SEQ = 0;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH_COPY - Last air header in booking? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_DEL_TKHDR = YES;
+      return;
+      end;
+
+   /* RETURN_IF_TICKET - Return if this is a valid ticket */
+
+   if TK_ALT_SEQ ^= 0 then if TK_UD_STATUS >= TICK_TK then
+      if ((TK_ISSUE_UD_DATE ^= 0) ! (TK_ARC_UD_DATE ^= 0) ! (TK_DEP_UD_DATE ^= 0)) then
+         do;
+         END_DEL_TKHDR = YES;
+         return;
+         end;
+
+
+   /* DELETE_AIRH - Delete the air header record */
+
+   call DELETE_RECORD (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* DEL_TKHDR            */
+
+/****************************************************************
+	DELETE_TKDET
+	Delete ticket detail
+****************************************************************/
+
+DELETE_TKDET:
+	procedure;
+
+
+   /* SET_FIRST_AIRD - Set first air */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = 0;
+   TK_DET_ANSW_SEQ = 0;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) then
+      do;
+      END_DELETE_TKDET = YES;
+      return;
+      end;
+
+   /* DELETE_AIRD - Delete */
+
+   call DELETE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* DELETE_TKDET         */
+
+/****************************************************************
+	DEL_PAX_TKHDR
+	Delete the pax ticket header
+****************************************************************/
+
+DEL_PAX_TKHDR:
+	procedure;
+
+
+   /* SET_FIRST_AIRH - Set to read the first Air header */
+
+   TK_MODIFICATION = BK_MODIFICATION;
+   TK_BK_TK_NO = BOOKING_NO;
+   TK_ALT_SEQ = BK_PAX_SEQ;
+   TK_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   call SET_POSITION (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRH - Read the next air header */
+
+   call READ_NEXT (TK_HEADER_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_HEADER_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRH - Last header? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_MODIFICATION > BK_MODIFICATION) !
+   (TK_BK_TK_NO > BOOKING_NO) !
+   (TK_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      do;
+      END_DEL_PAX_TKHDR = YES;
+      return;
+      end;
+
+   /* RETURN_IF_TICKET - Return if this is a valid ticket */
+
+   if TK_ALT_SEQ ^= 0 then if TK_UD_STATUS >= TICK_TK then
+      if ((TK_ISSUE_UD_DATE ^= 0) ! (TK_ARC_UD_DATE ^= 0) ! (TK_DEP_UD_DATE ^= 0)) then
+         do;
+         END_DEL_PAX_TKHDR = YES;
+         return;
+         end;
+
+
+   /* DELETE_AIRH - Delete the air header record */
+
+   call DELETE_RECORD (TK_HEADER_NO,ERROR_CODE);
+return;
+end;	/* DEL_PAX_TKHDR        */
+
+/****************************************************************
+	DEL_PAX_TKDET
+	Delete the passenger tk detail
+****************************************************************/
+
+DEL_PAX_TKDET:
+	procedure;
+
+
+   /* SET_FIRST_AIRP - Set first air detail for this pax */
+
+   TK_DET_MOD = BK_MODIFICATION;
+   TK_DET_BK_TK = BOOKING_NO;
+   TK_DET_ALT_SEQ = BK_PAX_SEQ;
+   TK_DET_ANSW_SEQ = BK_PAX_SHARE_SEQ;
+   TK_DATE = 0;
+   TK_SEQ = 0;
+   call SET_POSITION (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_AIRD - Read next */
+
+   call READ_NEXT (TK_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (TK_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_AIRP - End of this pax air detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (TK_DET_MOD > BK_MODIFICATION) !
+   (TK_DET_BK_TK > BOOKING_NO) !
+   (TK_DET_ALT_SEQ > BK_PAX_SEQ) !
+   (TK_DET_ANSW_SEQ > BK_PAX_SHARE_SEQ) then
+      do;
+      END_DEL_PAX_TKDET = YES;
+      return;
+      end;
+
+   /* DELETE_AIRD - Delete */
+
+   call DELETE_RECORD (TK_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* DEL_PAX_TKDET        */
+
+/****************************************************************
+	COPY_REMARK
+	Copy the remarks to the next mod
+****************************************************************/
+
+COPY_REMARK:
+	procedure;
+
+
+   /* READ_NEXT_REMARKD - Read next */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END_REMARKD - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > BK_MODIFICATION) !
+   (BK_OR_TOUR_NO > BOOKING_NO) !
+   (BK_COMM_ALT_SEQ > BK_PAX_SEQ) !
+   (BK_COMM_ANSW_SEQ > BK_PAX_SHARE_SEQ) !
+   (BK_TOUR_C_R > "R") then
+      do;
+      END_COPY_REMARK = YES;
+      return;
+      end;
+
+   /* CHANGE_REMARKD - Change remark mod code to 0 */
+
+   BK_TOUR_MOD_NO = BK_NEXT_MOD;
+
+
+   /* WRITE_REMARKD - Write a remark record */
+
+   call WRITE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+
+   /* SET_FIRST_REMARKC - Set for the next remark */
+
+   BK_TOUR_MOD_NO = BK_MODIFICATION;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_TOUR_SEQ = BK_TOUR_SEQ+1;
+   call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+return;
+end;	/* COPY_REMARK          */
+
+/****************************************************************
+	DELETE_REMARK
+	Delete the REMARK detail
+****************************************************************/
+
+DELETE_REMARK:
+	procedure;
+
+
+   /* SET_FIRST_REMARKR - Set to the first REMARK */
+
+   BK_TOUR_MOD_NO = BK_MODIFICATION;
+   BK_OR_TOUR_NO = BOOKING_NO;
+   BK_COMM_ALT_SEQ = BK_PAX_SEQ;
+   BK_COMM_ANSW_SEQ = 0;
+   BK_TOUR_C_R = "R";
+   BK_TOUR_SEQ = 0;
+   call SET_POSITION (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READ_NEXT_REMARKD - Read next */
+
+   call READ_NEXT (BK_COMMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_COMMENT_NO,ERROR_CODE);
+
+   /* CHECK_END_REMARKR - Last REMARK? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_TOUR_MOD_NO > BK_MODIFICATION) !
+   (BK_OR_TOUR_NO > BOOKING_NO) !
+   (BK_COMM_ALT_SEQ > BK_PAX_SEQ) !
+   (BK_COMM_ANSW_SEQ > 0) !
+   (BK_TOUR_C_R > "R") then
+      do;
+      END_DELETE_REMARK = YES;
+      return;
+      end;
+
+   /* DELETE_REMARKD - Delete */
+
+   call DELETE_RECORD (BK_COMMENT_NO,ERROR_CODE);
+return;
+end;	/* DELETE_REMARK        */
+end;	/* DELETE_REMARK        */
+/*********************************End of Program*********************/

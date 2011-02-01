@@ -1,0 +1,15 @@
+/*********************************************************************
+	AR_CASH_REC File
+********************************************************************/
+
+declare	1 AR_CASH_REC_RECORD,
+		3 AR_CASH_USER         character (       16),
+		3 AR_CASH_BK_NO        fixed binary (31),
+		3 AR_CASH_BK_SEQ       fixed binary (15),
+		3 AR_CHECK_NO          character (        8),
+		3 AR_CHECK_ABA         character (       10),
+		3 AR_REC_AMOUNT        float binary (53),
+		3 AR_AMT_APPLIED       float binary (53),
+		3 AR_REMARK            character (       30),
+		3 AR_GL_ACCT           fixed binary (31);
+

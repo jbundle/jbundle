@@ -1,0 +1,19 @@
+/*********************************************************************
+	BK_AIR_CHECK File
+********************************************************************/
+
+declare	1 BK_AIR_CHECK_RECORD,
+		3 INV_H_START          character (       10),
+		3 INV_H_END            character (       10),
+		3 INV_H_SDATE          fixed binary (15),
+		3 INV_H_EDATE          fixed binary (15),
+		3 INV_H_FIX            character (1),
+		3 INV_H_DATE           fixed binary (15),
+		3 INV_H_TIME           fixed binary (15),
+		3 INV_USER             character (       16),
+		3 INV_PAGE             fixed binary (15),
+		3 INV_ACTUAL           fixed binary (15),
+		3 INV_DIF              fixed binary (15),
+		3 INV_ARRAY(99) fixed binary (15),
+		3 OVER_BOOKED          character (        3);
+

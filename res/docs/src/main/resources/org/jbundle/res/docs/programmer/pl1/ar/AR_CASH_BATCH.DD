@@ -1,0 +1,16 @@
+/*********************************************************************
+	AR_CASH_BATCH File
+********************************************************************/
+
+declare	1 AR_CASH_BATCH_RECORD,
+		3 BATCH_USER           character (       16),
+		3 BATCH_DATE           fixed binary (15),
+		3 BATCH_CHECKS         fixed binary (15),
+		3 BATCH_CHECKS_ACT     fixed binary (15),
+		3 BATCH_TOTAL          float binary (53),
+		3 BATCH_TOTAL_ACT      float binary (53),
+		3 BATCH_NEXT_SEQ       fixed binary (15),
+		3 AR_UNDIST            float binary (53),
+		3 AR_CHECKS_FRA        float binary (21),
+		3 BATCH_CASH           fixed binary (15);
+

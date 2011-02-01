@@ -1,0 +1,351 @@
+/****************************************************************
+	Module: AR_CHECK_DIST
+	Top Level Logic: DIS_FILE_TOP
+	Date: 21-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_CHECK_DIST
+	Display file - Top Level
+****************************************************************/
+
+%replace AR_CHECK_DIST_1 by 861;
+AR_CHECK_DIST:
+   procedure;
+%replace AD_CHECKING_NO by  26;
+%replace AD_ACCT_NO by  24;
+%replace BK_BOOKING_NO by   9;
+%replace BK_TOUR_NO by  34;
+%replace AR_OPEN_NO by  43;
+%replace AR_PYMT_HIST_NO by  44;
+%include "AD_CHECKING.DD";
+%include "AD_ACCT.DD";
+%include "BK_BOOKING.DD";
+%include "BK_TOUR.DD";
+%include "AR_OPEN.DD";
+%include "AR_PYMT_HIST.DD";
+
+declare		END_DIS_FILE_MAIN    bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_ITEM           fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+   call INITIALIZE;
+   END_DIS_FILE_MAIN = NO;
+   do while (END_DIS_FILE_MAIN ^= YES);
+      call DIS_FILE_MAIN;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AD_TRX_SEQ = 0;
+   AD_CHECK_TYPE = "M";
+   AD_SYS_NUMBER = "";
+   AD_TRX_AMT_USD = 0;
+   AD_DATE_RECONCILED = 0;
+   AD_BALANCE = 0;
+   AD_LAST_CHECK = 0;
+   AD_LAST_SEQ = 0;
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   TOUR_QUADS = 0;
+   AR_ACCT_DR = 0;
+   AR_ACCT_DEP = 0;
+   AR_POSTED = 0;
+   AR_ACTION = 0;
+   AR_DEPARTURE = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_CHECK_DIST_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (AD_CHECKING_NO,"AD_CHECKING",byteaddr(AD_CHECKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CHECKING_NO,ERROR_CODE);
+   call OPEN_FILE (AD_ACCT_NO,"AD_ACCT",byteaddr(AD_ACCT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_ACCT_NO,ERROR_CODE);
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_NO,"BK_TOUR",byteaddr(BK_TOUR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_NO,ERROR_CODE);
+   call OPEN_FILE (AR_OPEN_NO,"AR_OPEN",byteaddr(AR_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AR_PYMT_HIST_NO,"AR_PYMT_HIST",byteaddr(AR_PYMT_HIST_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_PYMT_HIST_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	DIS_FILE_MAIN
+	Mainline logic
+****************************************************************/
+
+DIS_FILE_MAIN:
+	procedure;
+
+
+   /* RESET_INPUT_ERROR - Set input error to NO */
+
+   ERROR_INPUT_SCREEN = NO;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AR_CHECK_DIST_1);
+   NOT_FIRST_TIME = YES;
+   call INPUT_HDR_INFO;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_DIS_FILE_MAIN = YES;
+      return;
+      end;
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+
+   /* GET_PYMT_BK - Get the payment that goes with this bk. */
+
+
+      /* SET_FIRST - Set the record pointer to the first rec */
+
+      AR_HIST_TYPE = "R";
+      AR_HIST_BANK = AD_BANK_NO;
+      AR_HIST_CHECK = AD_TRX_NUMBER;
+      AR_HIST_BOOKING = 0;
+      AR_HIST_SEQ = 0;
+      call SET_POSITION (AR_PYMT_HIST_NO,KEY_AREA_2,ERROR_CODE);
+
+      /* READ_NEXT - Read the next record */
+
+      call READ_NEXT (AR_PYMT_HIST_NO,KEY_AREA_2,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (AR_PYMT_HIST_NO,ERROR_CODE);
+
+      /* CHECK_HIST_MATCH - Does this history match the check? */
+
+      if (ERROR_CODE = END_OF_FILE) !
+         (AR_HIST_TYPE ^= "R") !
+         (AR_HIST_BANK ^= AD_BANK_NO) !
+         (AR_HIST_CHECK ^= AD_TRX_NUMBER) then
+            do;
+            call DISPLAY_MESSAGE ("This check does not have an A/R history!");
+            call PRESS_RETURN;
+            return;
+            end;
+
+
+      /* READ_SECOND_4 - read secondary file */
+
+      BK_MODIFICATION = 0;
+      BOOKING_NO = AR_HIST_BOOKING;
+      call READ_KEYED (BK_BOOKING_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         end;
+      else
+         do;
+         end;
+   call DISPLAY_DATA;
+
+   /* AFTER_LOGIC - Other Logic */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* PRESS_RETURN - Press return */
+
+   call PRESS_RETURN;
+
+return;
+end;	/* DIS_FILE_MAIN        */
+
+/****************************************************************
+	INPUT_HDR_INFO
+	Input the table header information
+****************************************************************/
+
+INPUT_HDR_INFO:
+	procedure;
+
+declare		INPUT_LENGTH         fixed binary (15);
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND_3 - Read second */
+
+      AD_ACCOUNT_NO = AD_BANK_NO;
+      call READ_KEYED (AD_ACCT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   2;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   3 to   3;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      AD_BANK_NO = AD_BANK_NO;
+      AD_TRX_TYPE = "C";
+      AD_TRX_NUMBER = AD_TRX_NUMBER;
+      AD_TRX_SEQ = 1;
+      call READ_KEYED (AD_CHECKING_NO,KEY_AREA_2,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   4 to   6;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_HDR_INFO       */
+
+/****************************************************************
+	DISPLAY_DATA
+	Display the data for this screen
+****************************************************************/
+
+DISPLAY_DATA:
+	procedure;
+
+do LOOP_INDEX =   7 to  23;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  15 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      AR_BOOKING_NO = AR_HIST_BOOKING;
+      AR_SEQ_NO = AR_HIST_SEQ;
+      call READ_KEYED (AR_OPEN_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         end;
+      else
+         do;
+         end;
+      end;
+   if LOOP_INDEX =  16 then
+      do;
+
+      /* READ_SECOND_2 - Read secondary info */
+
+      TOUR_NO = BK_TOUR_NUM;
+      call READ_KEYED (BK_TOUR_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         TOUR_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (AD_CHECKING_NO);
+   call CLOSE_FILE (AD_ACCT_NO);
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (BK_TOUR_NO);
+   call CLOSE_FILE (AR_OPEN_NO);
+   call CLOSE_FILE (AR_PYMT_HIST_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

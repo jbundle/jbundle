@@ -1,0 +1,509 @@
+/****************************************************************
+	Module: BK_TRAN_PRICE
+	Top Level Logic: TABLE_FILE_MAINT
+	Date: 14-Nov-89
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_TRAN_PRICE
+	Top Level for table display/maintenance
+****************************************************************/
+
+%replace BK_TRAN_PRICE_1 by 478;
+BK_TRAN_PRICE:
+   procedure;
+%replace BK_TRANS_NO by  64;
+%replace BK_TRANS_PRICE_NO by  69;
+%replace AD_CURR_NO by  25;
+%include "BK_TRANS.DD";
+%include "BK_TRANS_PRICE.DD";
+%include "AD_CURR.DD";
+
+declare		END_TABLE_IO         bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		RECORD_NUMBER        fixed binary (15);
+declare		TRANS_CL_NO_ARRAY(16) fixed binary (15);
+declare		TRANS_TO_PAX_ARRAY(16) fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+   call INITIALIZE;
+   END_TABLE_IO = NO;
+   do while (END_TABLE_IO ^= YES);
+      call TABLE_IO;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   TRANS_CLASS = "";
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (BK_TRAN_PRICE_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_TRANS_NO,"BK_TRANS",byteaddr(BK_TRANS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TRANS_PRICE_NO,"BK_TRANS_PRICE",byteaddr(BK_TRANS_PRICE_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TRANS_PRICE_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	TABLE_IO
+	Table file with header info maint.
+****************************************************************/
+
+TABLE_IO:
+	procedure;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (BK_TRAN_PRICE_1);
+   NOT_FIRST_TIME = YES;
+   call INPUT_HDR_INFO;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_ERR - Return if error/end typed */
+
+   if RETURN_CODE = END_TYPED then
+      do;
+      END_TABLE_IO = YES;
+      return;
+      end;
+
+   /* OTHER_LOGIC - Any other logic */
+
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call TABLE_MAINT;
+
+   /* AFTER_LOGIC - Other Logic */
+
+return;
+end;	/* TABLE_IO             */
+
+/****************************************************************
+	INPUT_HDR_INFO
+	Input the table header information
+****************************************************************/
+
+INPUT_HDR_INFO:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+TRANS_START = 0;
+TRANS_END = 0;
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   3;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         do LOOP_INDEX =   6 to   6;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =   6 then
+               do;
+
+               /* READ_SECOND_DIS - Read Second - Display line version */
+
+               CURR_CODE = TRANS_CURR;
+               call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  CURR_DESC = "** RECORD NOT FOUND **";
+                  end;
+               else
+                  do;
+                  do LOOP_INDEX =   7 to   7;
+                     call OUTPUT_FIELD (LOOP_INDEX);
+                  end;
+                  LOOP_INDEX = LOOP_INDEX - 1;
+                  end;
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =   4 to   5;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_HDR_INFO       */
+
+/****************************************************************
+	TABLE_MAINT
+	Table display/maintenance
+****************************************************************/
+
+TABLE_MAINT:
+	procedure;
+
+declare		TRANS_PR_NO_SAVE     character (       10);
+declare		TRANS_END_SAVE       fixed binary (15);
+declare		DISPLAY_RECORDS      bit (1);
+declare		GET_OUT              bit (1);
+declare		BK_TRANS_PRICE_ERROR fixed binary (15);
+declare		TRANS_CL_NO_SAVE     fixed binary (15);
+declare		TRANS_TO_PAX_SAVE    fixed binary (15);
+declare		ANSWER               character (1);
+TRANS_PR_NO = TRANS_NO;
+TRANS_PR_NO_SAVE = TRANS_PR_NO;
+TRANS_END = TRANS_END;
+TRANS_END_SAVE = TRANS_END;
+TRANS_CL_NO = 0;
+TRANS_TO_PAX = 0;
+call SET_POSITION (BK_TRANS_PRICE_NO,KEY_AREA_1,ERROR_CODE);
+DISPLAY_RECORDS = YES;
+call READ_NEXT (BK_TRANS_PRICE_NO,KEY_AREA_1,ERROR_CODE);
+if (ERROR_CODE = END_OF_FILE) !
+   (TRANS_PR_NO > TRANS_PR_NO_SAVE) !
+   (TRANS_END > TRANS_END_SAVE) then
+      DISPLAY_RECORDS = NO;
+GET_OUT = NO;
+do while (GET_OUT = NO);
+   do RECORD_NUMBER = 1 to 16;
+      TRANS_CL_NO_ARRAY(RECORD_NUMBER) = 0;
+      TRANS_TO_PAX_ARRAY(RECORD_NUMBER) = 0;
+   end;	/* do loop */
+   if DISPLAY_RECORDS = YES then
+      do;
+      BK_TRANS_PRICE_ERROR = NORMAL_RETURN;
+      RECORD_NUMBER = 1;
+      do while ( (BK_TRANS_PRICE_ERROR ^= END_OF_FILE) & (RECORD_NUMBER <= 16) );
+         call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+         do LOOP_INDEX =   8 to  12;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         TRANS_CL_NO_ARRAY(RECORD_NUMBER) = TRANS_CL_NO;
+         TRANS_TO_PAX_ARRAY(RECORD_NUMBER) = TRANS_TO_PAX;
+         call READ_NEXT (BK_TRANS_PRICE_NO,KEY_AREA_1,BK_TRANS_PRICE_ERROR);
+         if (TRANS_PR_NO > TRANS_PR_NO_SAVE) !
+         (TRANS_END > TRANS_END_SAVE) then
+            BK_TRANS_PRICE_ERROR = END_OF_FILE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      TRANS_CL_NO_SAVE = TRANS_CL_NO_ARRAY(16);
+      TRANS_TO_PAX_SAVE = TRANS_TO_PAX_ARRAY(16);
+      TRANS_PR_NO = TRANS_PR_NO_SAVE;
+      TRANS_END = TRANS_END_SAVE;
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = DELETE_TYPED) then
+         GET_OUT = YES;
+      else
+         if BK_TRANS_PRICE_ERROR ^= END_OF_FILE then
+            do;
+            TRANS_CL_NO = TRANS_CL_NO_SAVE;
+            TRANS_TO_PAX = TRANS_TO_PAX_SAVE;
+            call SET_POSITION (BK_TRANS_PRICE_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (BK_TRANS_PRICE_NO,KEY_AREA_1,ERROR_CODE);
+            call READ_NEXT (BK_TRANS_PRICE_NO,KEY_AREA_1,ERROR_CODE);
+            end;
+         else
+            if TRANS_CL_NO_ARRAY(16) = 0 then
+               GET_OUT = YES;
+            else
+               do;
+               call OUTPUT_LINE (24,10,"Enter more data?");
+               call INPUT_DATA (24,27,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+               if ANSWER = "N" then
+                  GET_OUT = YES;
+               else
+                  DISPLAY_RECORDS = NO;
+               end;
+      end;
+   else	/*DISPLAY_RECORDS = NO*/
+      do;
+      TRANS_PR_NO = TRANS_PR_NO_SAVE;
+      TRANS_END = TRANS_END_SAVE;
+      INPUT_LENGTH = 1;
+      RECORD_NUMBER = 1;
+      do while ( (INPUT_LENGTH ^= 0) & (RECORD_NUMBER <= 16) );
+         call BK_TRANS_PRICE_LINE;
+         RECORD_NUMBER = RECORD_NUMBER + 1;
+      end;
+      call SET_ROW_OFFSET (0);
+      END_CHANGE_ITEM = NO;
+      do while (END_CHANGE_ITEM ^= YES);
+         call CHANGE_ITEM;
+      end;
+      if (RETURN_CODE = END_TYPED) !
+      (RETURN_CODE = DELETE_TYPED) ! (TRANS_CL_NO_ARRAY(16) = 0) then
+         GET_OUT = YES;
+      end;
+   if GET_OUT = NO then
+   do RECORD_NUMBER = 1 to 16;
+      call SET_ROW_OFFSET (RECORD_NUMBER * 1 - 1);
+      if TRANS_CL_NO_ARRAY(RECORD_NUMBER) ^= 0 then
+         do LOOP_INDEX = 8 to  12;
+            call CLEAR_FIELD (LOOP_INDEX);
+         end;
+      end;
+      call SET_ROW_OFFSET (0);
+end;	/* do while (GET_OUT = NO) */
+return;
+end;	/* TABLE_MAINT          */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 97,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <= 16 then
+   do;
+   RECORD_NUMBER = SELECT;
+   call BK_TRANS_PRICE_LINE;
+   call SET_ROW_OFFSET (0);
+   end;
+if SELECT >= 95 then if SELECT <= 97 then
+   do;
+   if SELECT = 95 then
+      LOOP_INDEX =  1;
+   if SELECT >= 96 then
+      LOOP_INDEX = SELECT + -92;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   1 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      call READ_KEYED (BK_TRANS_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   2 to   3;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         do LOOP_INDEX =   6 to   6;
+            call OUTPUT_FIELD (LOOP_INDEX);
+            if LOOP_INDEX =   6 then
+               do;
+
+               /* READ_SECOND_DIS - Read Second - Display line version */
+
+               CURR_CODE = TRANS_CURR;
+               call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+               if ERROR_CODE = RECORD_NOT_FOUND then
+                  do;
+                  CURR_DESC = "** RECORD NOT FOUND **";
+                  end;
+               else
+                  do;
+                  do LOOP_INDEX =   7 to   7;
+                     call OUTPUT_FIELD (LOOP_INDEX);
+                  end;
+                  LOOP_INDEX = LOOP_INDEX - 1;
+                  end;
+               end;
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	BK_TRANS_PRICE_LINE
+	Change one line in the secondary file
+****************************************************************/
+
+BK_TRANS_PRICE_LINE:
+	procedure;
+
+declare		REWRITE              bit (1);
+declare		DEL_RECORD           bit (1);
+call SET_ROW_OFFSET (RECORD_NUMBER - 1);
+REWRITE = NO;
+if TRANS_CL_NO_ARRAY(RECORD_NUMBER) ^= 0 then
+   do;
+   REWRITE = YES;
+   TRANS_CL_NO = TRANS_CL_NO_ARRAY(RECORD_NUMBER);
+   TRANS_TO_PAX = TRANS_TO_PAX_ARRAY(RECORD_NUMBER);
+   call READ_KEYED (BK_TRANS_PRICE_NO,KEY_AREA_1,ERROR_CODE);
+   do LOOP_INDEX =  8 to  12;
+      call CLEAR_FIELD (LOOP_INDEX);
+   end;
+   end;
+else
+   do;
+   TRANS_START = 0;
+   TRANS_FROM_PAX = 0;
+   TRANS_TO_PAX = 0;
+   TRANS_PRICE = 0;
+   TRANS_CL_NO = 0;
+   end;
+ERROR_CODE = 1;
+do while (ERROR_CODE ^= 0);
+   ERROR_CODE = 0;
+   do LOOP_INDEX =   8 to   8;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+   if TRANS_CL_NO = 0 then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   DEL_RECORD = YES;
+   if (INPUT_LENGTH ^= 0) & (RETURN_CODE ^= END_TYPED) then
+      do;
+      DEL_RECORD = NO;
+      do LOOP_INDEX =   9 to  12;
+         call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+         if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+            do;
+            ERROR_INPUT_SCREEN = YES;
+            return;
+            end;
+      end;
+      LOOP_INDEX = LOOP_INDEX - 1;
+      INPUT_LENGTH = 1;
+      end;
+   ERROR_CODE = 0;
+   if DEL_RECORD = YES then
+      do;
+      TRANS_CL_NO = TRANS_CL_NO_ARRAY(RECORD_NUMBER);
+      if REWRITE = YES then
+         call DELETE_RECORD (BK_TRANS_PRICE_NO,ERROR_CODE);
+      call CLEAR_FIELD(LOOP_INDEX);
+      TRANS_CL_NO = 0;
+      end;
+   else
+      do;
+      if REWRITE = NO then
+         call WRITE_RECORD (BK_TRANS_PRICE_NO,ERROR_CODE);
+      else
+         call UPDATE_RECORD (BK_TRANS_PRICE_NO,ERROR_CODE);
+      end;
+   if ERROR_CODE ^= KEY_ALREADY_EXISTS then
+      do;
+      TRANS_CL_NO_ARRAY(RECORD_NUMBER) = TRANS_CL_NO;
+      TRANS_TO_PAX_ARRAY(RECORD_NUMBER) = TRANS_TO_PAX;
+      end;
+end;
+return;
+end;	/* BK_TRANS_PRICE_LINE  */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_TRANS_NO);
+   call CLOSE_FILE (BK_TRANS_PRICE_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

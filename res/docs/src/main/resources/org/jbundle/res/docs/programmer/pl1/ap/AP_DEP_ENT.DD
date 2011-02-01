@@ -1,0 +1,12 @@
+/*********************************************************************
+	AP_DEP_ENT File
+********************************************************************/
+
+declare	1 AP_DEP_ENT_RECORD,
+		3 AP_DEP_SELECT        fixed binary (15),
+		3 AP_DEFAULT_TOUR      fixed binary (31),
+		3 AP_ENTER_AGAIN       character (1),
+		3 AP_NEW_EST           character (1),
+		3 AP_DEP_EST_FLAG      character (1),
+		3 AP_DEP_FIN_EST       float binary (53);
+

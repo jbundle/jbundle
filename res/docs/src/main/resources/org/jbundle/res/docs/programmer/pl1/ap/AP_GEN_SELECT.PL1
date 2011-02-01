@@ -1,0 +1,735 @@
+/****************************************************************
+	Module: AP_GEN_SELECT
+	Top Level Logic: REPORT_LOGIC
+	Date: 10-Mar-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AP_GEN_SELECT
+	Standard report logic
+****************************************************************/
+
+%replace AP_GEN_SELECT_1 by 110;
+%replace AP_GEN_SELECT_2 by 675;
+AP_GEN_SELECT:
+   procedure;
+%replace AD_ACCT_NO by  24;
+%replace AP_VENDOR_NO by  30;
+%replace AD_CURR_NO by  25;
+%replace AP_OPEN_NO by  32;
+%replace AP_PAYMENT_NO by  38;
+%include "AP_GEN_SELECT.DD";
+%include "AD_ACCT.DD";
+%include "AP_VENDOR.DD";
+%include "AD_CURR.DD";
+%include "AP_OPEN.DD";
+%include "AP_PAYMENT.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		END_PRT_THRU_SELECT  bit (1);
+declare		LINE                 fixed binary (15);
+declare		END_SELECT_THRU      bit (1);
+declare		END_UPDATE_SEL_DET   bit (1);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AP_GEN_DATE = TODAYS_DATE();
+   AP_GEN_TIME = CURRENT_TIME();
+   AP_GEN_USER = USER_NAME();
+   AP_GEN_PAGE = 1;
+   AP_GEN_SELECTION = 0;
+   AD_BALANCE = 0;
+   AD_LAST_CHECK = 0;
+   AD_LAST_SEQ = 0;
+   AP_LAST_ACTIVITY = 0;
+   AP_CUR_BAL = 0;
+   AP_MTD_PUR = 0;
+   AP_YTD_PUR = 0;
+   AP_LAST_PUR = 0;
+   AP_SELECT_AMT = 0;
+   AP_SELECT_STATUS = "N";
+   AP_COMM_CODE = "F";
+   AP_VEN_TAX_ID = "";
+   CURR_CODE = "";
+   LAST_EX_DATE = TODAYS_DATE();
+   COSTING_EXCH = 0;
+   CURR_INT_DESC = "Dollar";
+   AP_OPEN_TOUR_GL = 0;
+   AP_SERVICES = "";
+   AP_START_SVC = 0;
+   AP_END_SVC = 0;
+   AP_V_BASED_SEQ = 0;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AP_GEN_SELECT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AP_GEN_SELECT_RECORD) );
+   call OPEN_FILE (AD_ACCT_NO,"AD_ACCT",byteaddr(AD_ACCT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_ACCT_NO,ERROR_CODE);
+   call OPEN_FILE (AP_VENDOR_NO,"AP_VENDOR",byteaddr(AP_VENDOR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_VENDOR_NO,ERROR_CODE);
+   call OPEN_FILE (AD_CURR_NO,"AD_CURR",byteaddr(AD_CURR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AD_CURR_NO,ERROR_CODE);
+   call OPEN_FILE (AP_OPEN_NO,"AP_OPEN",byteaddr(AP_OPEN_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_OPEN_NO,ERROR_CODE);
+   call OPEN_FILE (AP_PAYMENT_NO,"AP_PAYMENT",byteaddr(AP_PAYMENT_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AP_PAYMENT_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (AP_GEN_SELECT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_VEN_NO = "";
+   call SET_POSITION (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+   do LOOP_INDEX =  24 to   1;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+   call UPDATE_GEN_SELECT;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+AP_PYMT_SEL = "Y";
+do LOOP_INDEX =   1 to   4;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO ( 20);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_SKIP_BANK - Skip the bank acct input? */
+
+      if AP_REQ_CKS ^= "Y" then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      AD_ACCOUNT_NO = AP_SEL_BANK;
+      call READ_KEYED (AD_ACCT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   5 to   5;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  4,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  4 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO ( 20);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =   3 then
+      do;
+
+      /* CHECK_SKIP_BANK - Skip the bank acct input? */
+
+      if AP_REQ_CKS ^= "Y" then
+         LOOP_INDEX = 99;
+
+      end;
+   if LOOP_INDEX =   4 then
+      do;
+
+      /* READ_SECOND - Read info and display secondary fileinfo */
+
+      AD_ACCOUNT_NO = AP_SEL_BANK;
+      call READ_KEYED (AD_ACCT_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =   5 to   5;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+
+/* CHECK_SEL_ITEMS - Did they want to select these items? */
+
+if AP_PYMT_SEL ^= "Y" then
+   return;
+
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+AP_GEN_PAGE = AP_GEN_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_VENDOR_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* CHECK_GEN_SELECT - Check general pymt selection */
+
+   if AP_SELECT_GEN ^= AP_VEN_PYMT_CD then
+      return;
+
+   if AP_REQ_CKS ^= "N" then if AD_AC_CURR ^= AP_VEN_CURR then
+      return;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+
+   /* CHECK_SEL_ITEMS - Did they want to select these items? */
+
+   if AP_PYMT_SEL ^= "Y" then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+
+   /* READ_SECOND_DIS - Read Second - Display line version */
+
+   CURR_CODE = AP_VEN_CURR;
+   call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = RECORD_NOT_FOUND then
+      do;
+      CURR_DESC = "** RECORD NOT FOUND **";
+      end;
+   do LOOP_INDEX =   6 to   8;
+      call PRINT_REPORT_LINE;
+   end;
+   call PRT_SELECT_DET;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRT_SELECT_DET
+	Print the items to be selected
+****************************************************************/
+
+PRT_SELECT_DET:
+	procedure;
+
+
+   /* ZERO_SELECTION - Zero total selection */
+
+   AP_GEN_SELECTION = 0;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   AP_OPEN_SELECT = "Y";
+   AP_OPEN_VENDOR = AP_VEN_NO;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_5,ERROR_CODE);
+   END_PRT_THRU_SELECT = NO;
+   do while (END_PRT_THRU_SELECT ^= YES);
+      call PRT_THRU_SELECT;
+   end;
+
+   /* PRINT_LINE_T -  */
+
+   do LOOP_INDEX =  10 to  11;
+      call PRINT_REPORT_LINE;
+   end;
+return;
+end;	/* PRT_SELECT_DET       */
+
+/****************************************************************
+	PRT_THRU_SELECT
+	Print the detail selection
+****************************************************************/
+
+PRT_THRU_SELECT:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_SELECT > "Y") !
+   (AP_OPEN_VENDOR > AP_VEN_NO) then
+      do;
+      END_PRT_THRU_SELECT = YES;
+      return;
+      end;
+
+   /* PRINT_LINE_D1 -  */
+
+
+   /* SET_AP_TYPE - Set up the type description */
+
+   do case (AP_ENTRY_TYPE);
+      AP_ENTRY_TYPE_DESC = "Brk Pmt";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dr Memo";
+      AP_ENTRY_TYPE_DESC = "PrePymt";
+      AP_ENTRY_TYPE_DESC = "Brk Dft";
+      AP_ENTRY_TYPE_DESC = "PP Req ";
+      AP_ENTRY_TYPE_DESC = "Cr Memo";
+      AP_ENTRY_TYPE_DESC = "Cr Inv";
+      AP_ENTRY_TYPE_DESC = "Invoice";
+      AP_ENTRY_TYPE_DESC = "Dep Est";
+      AP_ENTRY_TYPE_DESC = "Fin Est";
+   end;
+   otherwise
+      AP_ENTRY_TYPE_DESC = "";
+
+   do LOOP_INDEX =   9 to   9;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_GEN_SELECT - Add this balance to the selection */
+
+   AP_GEN_SELECTION=floor((AP_GEN_SELECTION + AP_AMT_SELECTED) * 100 + 0.5)/100;
+
+return;
+end;	/* PRT_THRU_SELECT      */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	UPDATE_GEN_SELECT
+	Update the generalized selection
+****************************************************************/
+
+UPDATE_GEN_SELECT:
+	procedure;
+
+declare		ANSWER               character (1);
+
+   /* CHECK_REQ_CHECKS - Request these checks */
+
+   if AP_REQ_CKS ^= "Y" then
+      return;
+
+
+   /* CLOSE_LPT - Close the printer */
+
+   call CLOSE_PRINTER;
+
+
+   /* CHECK_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure?");
+   call INPUT_DATA(23,24,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AP_VEN_NO = "";
+   call SET_POSITION (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   END_SELECT_THRU = NO;
+   do while (END_SELECT_THRU ^= YES);
+      call SELECT_THRU;
+   end;
+return;
+end;	/* UPDATE_GEN_SELECT    */
+
+/****************************************************************
+	SELECT_THRU
+	Go thru and select the correct items
+****************************************************************/
+
+SELECT_THRU:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AP_VENDOR_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_VENDOR_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      do;
+      END_SELECT_THRU = YES;
+      return;
+      end;
+
+   /* CHECK_GEN_SELECT - Check general pymt selection */
+
+   if AP_SELECT_GEN ^= AP_VEN_PYMT_CD then
+      return;
+
+   if AP_REQ_CKS ^= "N" then if AD_AC_CURR ^= AP_VEN_CURR then
+      return;
+
+
+   /* ZERO_SELECTION - Zero total selection */
+
+   AP_GEN_SELECTION = 0;
+
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   AP_OPEN_SELECT = "Y";
+   AP_OPEN_VENDOR = AP_VEN_NO;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_5,ERROR_CODE);
+   END_UPDATE_SEL_DET = NO;
+   do while (END_UPDATE_SEL_DET ^= YES);
+      call UPDATE_SEL_DET;
+   end;
+
+   /* SETUP_AUTO_PYMT - Setup the payment header record */
+
+   if AP_GEN_SELECTION <= 0 then
+      return;
+
+
+   /* SET_FIRST_3 - Set first */
+
+   AP_PYMT_BANK = AP_SEL_BANK;
+   AP_PYMT_VENDOR = AP_VEN_NO;
+   AP_PYMT_SEQ = 0;
+   call SET_POSITION (AP_PAYMENT_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_3 - Read next */
+
+   call READ_NEXT (AP_PAYMENT_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_PAYMENT_NO,ERROR_CODE);
+   if (ERROR_CODE = NORMAL_RETURN) &
+      (AP_PYMT_BANK = AP_SEL_BANK) &
+      (AP_PYMT_VENDOR = AP_VEN_NO) &
+      (AP_SEL_TYPE = "A") then
+         do;
+         AP_PYMT_AMT = AP_GEN_SELECTION;
+         AP_PYMT_TYPE = "A";
+         AP_PYMT_GL = AD_GL_ACCT_NO;
+         AP_PYMT_CK_NO = -1;
+         AP_SEL_TYPE = "A";
+
+         /* UPDATE_RECORD_2 - Update the record */
+
+         call UPDATE_RECORD (AP_PAYMENT_NO,ERROR_CODE);
+         end;
+      else
+         do;
+         AP_PYMT_BANK = AP_SEL_BANK;
+         AP_PYMT_VENDOR = AP_VEN_NO;
+         AP_PYMT_SEQ = 1;
+         AP_PYMT_AMT = AP_GEN_SELECTION;
+         AP_PYMT_TYPE = "A";
+         AP_PYMT_GL = AD_GL_ACCT_NO;
+         AP_PYMT_CK_NO = -1;
+         AP_PYMT_COMMENT = "Payment";
+         AP_SEL_TYPE = "A";
+
+         /* WRITE_RECORD_2 - Write the record */
+
+         call WRITE_RECORD (AP_PAYMENT_NO,ERROR_CODE);
+         end;
+
+return;
+end;	/* SELECT_THRU          */
+
+/****************************************************************
+	UPDATE_SEL_DET
+	Add the current selection
+****************************************************************/
+
+UPDATE_SEL_DET:
+	procedure;
+
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_5,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_2 - Check for end of records */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_SELECT > "Y") !
+   (AP_OPEN_VENDOR > AP_VEN_NO) then
+      do;
+      END_UPDATE_SEL_DET = YES;
+      return;
+      end;
+
+   /* ADD_GEN_SELECT - Add this balance to the selection */
+
+   AP_GEN_SELECTION=floor((AP_GEN_SELECTION + AP_AMT_SELECTED) * 100 + 0.5)/100;
+
+return;
+end;	/* UPDATE_SEL_DET       */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (AD_ACCT_NO);
+   call CLOSE_FILE (AP_VENDOR_NO);
+   call CLOSE_FILE (AD_CURR_NO);
+   call CLOSE_FILE (AP_OPEN_NO);
+   call CLOSE_FILE (AP_PAYMENT_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

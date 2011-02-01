@@ -1,0 +1,88 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program prints a list of all the tickets issued, changed, and cancelled each week to be used for
+the weekly ARC sales report.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>Enter the ticketing date of the last ticket to process in the ARC sales report. ARC Accounts Receivable
+Summary account number will display.
+
+<br wp="br1"><br wp="br2">
+<p>All tickets with a status of "Ticketed" and without an ARC update date with a ticketing date before
+or on the entered date will be included in this report. The system will ask if the tickets printed match
+the tickets sent to the ARC. If you answer Yes, the ticket's ARC update date will be set to the system
+date.
+
+<br wp="br1"><br wp="br2">
+<p>The G/L transaction done for the issue date is as follows:
+
+<p>12/31/90	Prepaid Tickets			1000.00
+
+<p>			Accounts Receivable - ARC		1000.00
+
+<br wp="br1"><br wp="br2">
+<p>When you enter the automatic transfer in Accounts Payable, use the same A/R account, so the
+transaction will be:
+
+<p>12/31/90	Accounts Receivable - ARC	1000.00
+
+<p>			Cash						1000.00
+
+<br wp="br1"><br wp="br2">
+<p>Tickets which have been changed or cancelled are also included on this report. The resulting G/L
+transactions is similar to the transaction for tickets.
+
+<br wp="br1"><br wp="br2">
+<p>Note: Although air purchased with a credit card is more likely to be paid for with an MCO, it is
+possible for the credit portion of the ticket to be validated by a wholesaler. For example, in the
+previous example, The ticket face value (with taxes) was 1075.00, leaving $75.00 of commissions to
+be collected from the ARC. The $1075 was colected directly from the customer by using the credit
+form on the ticket. The Issue transaction would be the same:
+
+<p>12/31/90	Prepaid Tickets			1000.00
+
+<p>			Accounts Receivable - ARC		1000.00
+
+<p>The ARC transaction would be:
+
+<p>12/31/90	Cash						  75.00
+
+<p>			Accounts Receivable - ARC		  75.00
+
+<p>Because there would be no cash payment, a debit memo must be entered into A/R, with the
+distribution reducing the receivable to the ARC:
+
+<p>12/31/90	Accounts Receivable - ARC	1075.00
+
+<p>			Accounts Receivable - FITs		1075.00
+
+<br wp="br1"><br wp="br2">
+<br wp="br1"><br wp="br2">
+<p>In any case, the ARC Receivable account is only a control account, all transactions will eventually zero
+out this account.
+
+<br wp="br1"><br wp="br2">
+<p>Note: If you change the ARC summary account be careful try to do it before you do the A/R posting.
+It is possible to post issued tickets until the end of a period (with the original ARC acct), then change
+the ARC acct and run the ARC report with the new ARC number. All transactions after the end of
+the period would have the new ARC A/R acct. You would then use the ticket tranaction review report
+to set up the distribution for the ARC payment.
+
+</body>
+</html>

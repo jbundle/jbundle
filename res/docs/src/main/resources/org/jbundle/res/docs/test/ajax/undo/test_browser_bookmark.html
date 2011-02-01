@@ -1,0 +1,128 @@
+<html>
+<head>
+	<script language="JavaScript" type="text/javascript">
+		// Dojo configuration
+		djConfig = {
+			//debugAtAllCosts: true, //Don't normally need this in applications.
+			isDebug: true,
+//			dojoIframeHistoryUrl: "../../iframe_history.html", //for xdomain
+			preventBackButtonFix: false
+		};
+	</script>
+	<script language="JavaScript" type="text/javascript" src="../../../styles/js/dojo/dojo.js"></script>
+	<script language="JavaScript" type="text/javascript" src="browser/ApplicationState.js"></script>
+	<script language="JavaScript" type="text/javascript">
+//		dojo.require("dojo.lang.common");
+		dojo.require("dojo.back");
+//		dojo.require("dojo.io.*");
+		//dojo.hostenv.writeIncludes(); //Don't normally need this in applications.
+	
+		//****************************************
+		function goIoBind(id){
+			doApplicationStateBind("browser/" + id + ".xml", "output", "dataOutput", id);
+		}
+		
+		
+		//****************************************
+		/*
+		This method illustrates using dojo.io.bind() that also saves an application
+		state via dojo.back (dojo.io.bind() will automatically use dojo.back
+		if the dojo.io.bind() request object contains a back for forward function).
+		*/
+		function doApplicationStateBind(url, outputDivId, backForwardOutputDivId, bookmarkValue){
+			dojo.xhrGet({
+				//Standard dojo.io.bind parameter
+				url: url,
+		
+				//Standard dojo.io.bind parameter.
+				//For this test, all of the bind requests are for text/xml documents.
+				mimetype: "text/xml",
+				
+				//Standard dojo.io.bind parameter: if this is a value that evaluates
+				//to true, then the page URL will change (by adding a fragment identifier
+				//to the URL)
+				changeUrl: bookmarkValue,
+		
+				//Data for use once we have data for an ApplicationState object
+				outputDivId: outputDivId,
+				backForwardOutputDivId: backForwardOutputDivId,
+				
+				//A holder for the application state object.
+				//It will be created once we have a response from the bind request.
+				appState: null,
+				
+				//Standard dojo.io.bind parameter. The ioRequest object is returned
+				//to the load function as the fourth parameter. The ioRequest object
+				//is the object we are creating and passing to this dojo.io.bind() call.
+				load: function(type, evaldObj, xhrObject){
+					var a = evaldObj.xhr;
+					var b = a.responseXML;
+					var stateData = "XHR: " + b.getElementsByTagName("data")[0].childNodes[0].nodeValue;
+					var ioRequest = evaldObj.args;
+					ioRequest.appState = new ApplicationState(stateData, ioRequest.outputDivId, ioRequest.backForwardOutputDivId, ioRequest.changeUrl);
+					ioRequest.appState.showStateData();
+
+					if (initial)
+						dojo.back.setInitialState(ioRequest.appState);
+					else
+						dojo.back.addToHistory(ioRequest.appState);
+					initial = false;
+				},
+		
+				back: function(){
+					this.appState.back();
+				},
+				
+				forward: function(){
+					this.appState.forward();
+				}
+			});
+		}
+
+initial = true;
+
+		//****************************************
+		dojo.addOnLoad(function(){
+			//See if there is a bookmark hash on the page URL.
+			var bookmarkId = location.hash;
+			if(bookmarkId){
+				bookmarkId = bookmarkId.substring(1, bookmarkId.length);
+			}
+
+			//If we have a bookmark, load that as the initial state.
+			if(bookmarkId){
+				//Load the XHR data for the bookmarked URL
+				initial = true;
+	bookmarkId = bookmarkId.substr(bookmarkId.indexOf("file=") + 5, bookmarkId.indexOf("&test="));
+				goIoBind(bookmarkId);
+			}else{
+				var appState = new ApplicationState("This is the initial state (page first loaded, no dojo.io.bind() calls yet)", "output", "dataOutput");
+				appState.showStateData();
+				dojo.back.setInitialState(appState);
+				
+				initial = false;
+			}
+		});
+	</script>
+</head>
+<body>
+	<script type="text/javascript">dojo.back.init();</script>
+	
+	<div style="padding-bottom: 20px; width: 100%; border-bottom: 1px solid gray">
+	Test.
+	</div>
+	<div style="float:left; padding: 20px">
+		<button onclick="goIoBind('xhr1')">XHR 1</button><br />
+		<button onclick="goIoBind('xhr2')">XHR 2</button><br />
+		<button onclick="goIoBind('xhr3')">XHR 3</button><br />
+		<button onclick="goIoBind('xhr4')">XHR 4</button><br />	
+	</div>
+	<div style="float: left; padding: 20px">
+		<b>Data Output:</b><br />
+		<div id="output"></div>
+		<hr />
+		<i>Back/Forward Info:</i><br />
+		<div id="dataOutput"></div>
+	</div>
+</body>
+</html>

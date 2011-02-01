@@ -1,0 +1,8 @@
+/*********************************************************************
+	BK_AVAIL_DIS File
+********************************************************************/
+
+declare	1 BK_AVAIL_DIS_RECORD,
+		3 SCREEN_ROOM_CODE     character (        1),
+		3 SCREEN_START_DATE    fixed binary (15);
+

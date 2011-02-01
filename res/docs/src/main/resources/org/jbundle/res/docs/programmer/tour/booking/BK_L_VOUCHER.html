@@ -1,0 +1,104 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program prints a tour order or voucher for the current A/P voucher in this tour.
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>For this program to work the following information must be passed in:
+
+<br wp="br1"><br wp="br2">
+<p>- Tour (Current)
+
+<p>  - Voucher format
+
+<p>- Tour Header (Current)
+
+<p>- Land A/P Open Voucher
+
+<br wp="br1"><br wp="br2">
+<p>- Form must be passed in in AP_CONTROL
+
+<br wp="br1"><br wp="br2">
+<p>NOTE: The A/P voucher status is updated by this program
+
+<br wp="br1"><br wp="br2">
+<p>For voucher formats, the following codes are valid:
+
+<p>HDR0 - Standard header
+
+<p>	HDR1 - Header line (Tour Order/Change)
+
+<p>		** Tour Order**
+
+<p>		** Tour Modification **
+
+<p>		** Tour Cancellation **
+
+<p>		** Tour Voucher **
+
+<p>	HDR1L - Header line (Left justified, for fax/telex)
+
+<p>	HDR2 - Voucher number
+
+<p>	HDR3 - Vendor, date, flight info, Tour info, and no pax
+
+<br wp="br1"><br wp="br2">
+<p>	HDR4 - Voucher number (left justified)
+
+<p>	HDR5 - Voucher date
+
+<p>	HDR6 - Tour code/desc
+
+<p>	HDR7 - Force Hotel Tour Order Format
+
+<p>	HDR8 - Force Hotel Voucher Format
+
+<p>PAX0 - Passenger Information (Vertical)
+
+<p>PAX1 - Passenger Information (No room config)
+
+<p>PAX2 - Number of passengers
+
+<p>FLT0 - Default in/out flights
+
+<p>FLT1 - Default in/out flights (includes depart/arrival info)
+
+<p>HTL0 - Hotel Name (of most appropriate hotel)
+
+<p>HTL1 - Hotel Name (Can be included in text)
+
+<p>LND0 - Land detail for each day
+
+<p>MSC0 - Please provide services as described in itin...
+
+<p>AGT0 - Operation agent's name
+
+<p>CWD0 - Word describing action (Confirm/Cancel/Change)
+
+<p>CWD1 - Tour description (Can be included)
+
+<p>CWD2 - Issue date (Can be included in text)
+
+<p>RTE0 - Land rate
+
+<p>TVA1 - Travel Agency Name
+
+<p>TVA2 - Travel Agency City &amp; State
+
+<p>TVA3 - Travel Agency Contact
+
+<p>VEN0 - Vendor Name
+
+<p>VEN1 - Vendor Contact
+
+</body>
+</html>

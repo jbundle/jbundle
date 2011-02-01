@@ -1,0 +1,8 @@
+/*********************************************************************
+	AD_CURR_MAINT File
+********************************************************************/
+
+declare	1 AD_CURR_MAINT_RECORD,
+		3 AD_INDIRECT          float binary (53),
+		3 AD_INDIRECTC         float binary (53);
+

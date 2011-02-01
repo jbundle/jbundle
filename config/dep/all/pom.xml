@@ -1,0 +1,126 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jbundle-config-dep-reactor</artifactId>
+    <groupId>org.jbundle.config.dep</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>jbundle-config-dep-all</artifactId>
+  <packaging>pom</packaging>
+  <name>jbundle-config-dep-all</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle.thin.app</groupId>
+      <artifactId>org.jbundle.thin.app.calendar</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.thin.app</groupId>
+      <artifactId>org.jbundle.thin.app.program</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jbundle.app.test</groupId>
+      <artifactId>org.jbundle.app.test</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res.app.program</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res.data</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jbundle.config.dep</groupId>
+      <artifactId>jbundle-config-dep-base-db-all</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+      <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.config.dep</groupId>
+      <artifactId>jbundle-config-dep-main</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+      <type>pom</type>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program.demo</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program.manual</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.app.test</groupId>
+      <artifactId>org.jbundle.app.test</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+
+    <!-- dependency>
+      <groupId>org.jbundle.base.screen</groupId>
+      <artifactId>org.jbundle.base.screen.control.cocoon</artifactId>
+      <version>0.7.6-SNAPSHOT</version>
+    </dependency -->
+    <dependency>
+      <groupId>org.jbundle.base.screen</groupId>
+      <artifactId>org.jbundle.base.screen.view.xml</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.base.screen</groupId>
+      <artifactId>org.jbundle.base.screen.view.html</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.base.screen</groupId>
+      <artifactId>org.jbundle.base.screen.view.swing</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <!-- dependency>
+      <groupId>org.jbundle.base.screen</groupId>
+      <artifactId>org.jbundle.base.screen.view.swing.jaxe</artifactId>
+      <version>0.7.6-SNAPSHOT</version>
+    </dependency -->
+
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res.docs</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res.images</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.base</groupId>
+      <artifactId>org.jbundle.base.remote</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+</project>

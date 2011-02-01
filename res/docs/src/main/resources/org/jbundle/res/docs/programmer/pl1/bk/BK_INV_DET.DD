@@ -1,0 +1,15 @@
+/*********************************************************************
+	BK_INV_DET File
+********************************************************************/
+
+declare	1 BK_INV_DET_RECORD,
+		3 INV_DET_ENTRY        character (       10),
+		3 INV_DET_TYPE         character (        1),
+		3 INV_CODE_TYPE        character (        1),
+		3 INV_ROOM_TYPE        fixed binary (15),
+		3 INV_DET_DATE         fixed binary (15),
+		3 INV_BLOCKED          fixed binary (15),
+		3 INV_USED             fixed binary (15),
+		3 INV_AVAIL            fixed binary (15),
+		3 INV_OVERSELL         fixed binary (15);
+

@@ -1,0 +1,72 @@
+<html>
+<head>
+<script>
+ djConfig = {
+   isDebug: false,
+   preventBackButtonFix: false
+ };
+</script>
+<script djConfig="parseOnLoad: true" src="/docs/styles/js/dojo/dojo.js" type="text/javascript"></script>
+<style type="text/css">
+        @import "/docs/styles/js/dijit/themes/tundra/tundra.css";
+</style>
+
+<link rel="stylesheet" type="text/css" href="/docs/styles/css/style.css" title="basicstyle">
+<link rel="shortcut icon" href="/images/com/favicon.ico" type="image/x-icon">
+
+<script type="text/javascript" language="javascript">
+ dojo.require("dijit.form.Button");
+ dojo.require("dijit.form.TextBox");
+ dojo.require("dijit.form.Textarea");
+ dojo.require("dijit.form.CheckBox");
+ dojo.require("dijit.form.ComboBox");
+ dojo.require("dojo.back");
+</script>
+
+<script type="text/javascript" language="javascript">
+function doLink(command)
+{
+	window.location = command;
+};
+</script>
+
+<title>Java Window</title>
+<meta name="Keywords" content="travel, tours, custom tours, air, hotel, sightseeing, transfer, cruise, car rental, airport transfer, flight, travel agent">
+<meta name="description" content="">
+</head>
+<body marginwidth="0" marginheight="0">
+<table class="top-menu" cellpadding="0" cellspacing="0">
+<tr>
+
+<td>
+<button id="Home" onClick="doLink('.?menu=');"
+ dojoType="dijit.form.Button" class="button">
+<img src="/images/buttons/Exit.gif" width="16" height="16" alt="Exit java application"><span class="desc">Exit application</span></button>
+</td>
+
+<td class="menu-title"><span class="spantitle">Java Window</span></td>
+<td class="help-button">
+<span class="spantitle">don</span>
+
+<button id="Logoff" onClick="doLink('.?user=&amp;menu=');"
+ dojoType="dijit.form.Button" class="button">
+<img src="/images/buttons/Logout.gif" width="16" height="16" alt="Sign out this user"><span class="desc">Sign out</span></button>
+<button id="Settings" onClick="doLink('.?screen=.main.user.screen.UserPreferenceScreen&amp;java=no');"
+ dojoType="dijit.form.Button" class="button">
+<img src="/images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences"><span class="desc">Settings</span></button>
+<button id="Help" onClick="doLink('tourappxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu=''&amp;class=.base.screen.model.report.HelpScreen');"
+ dojoType="dijit.form.Button" class="button">
+<img src="/images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen"><span class="desc">Help</span></button>
+</td>
+</tr><tr style="background-color: black"><td colspan="6" height="1" style="width: 100%;"></td></tr>
+</table>
+<center>
+<!-- 
+<script src="http://java.com/js/deployJava.js"></script>
+ -->
+<script>
+document.write("<b>Hello world</b>");
+</script>
+</center>
+</body>
+</html>

@@ -1,0 +1,1015 @@
+/****************************************************************
+	Module: BK_V_LAND
+	Top Level Logic: V_LAND_LOGIC
+	Date: 11-Jul-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	BK_V_LAND
+	Main Logic
+****************************************************************/
+
+%replace BK_V_LAND_1 by 771;
+BK_V_LAND:
+   procedure(
+      BK_TOUR_RECORD,
+      BK_TOUR_HDR_RECORD,
+      BK_BOOKING_RECORD,
+      BK_PASSENGERS_RECORD,
+      BK_DET_LAND_RECORD,
+      AP_OPEN_RECORD,
+      AP_CONTROL_RECORD,
+      BK_LAND_RECORD,
+      BK_LAND_DET_RECORD,
+      AD_CURR_RECORD,
+      BK_TRANS_RECORD,
+      BK_TRANS_PRICE_RECORD,
+      ERROR_CODE);
+%replace BK_TOUR_NO by  34;
+%replace BK_TOUR_HDR_NO by  58;
+%replace BK_BOOKING_NO by   9;
+%replace BK_PASSENGERS_NO by  49;
+%replace BK_DET_LAND_NO by  68;
+%replace AP_OPEN_NO by  32;
+%replace AP_CONTROL_NO by  29;
+%replace BK_LAND_NO by  54;
+%replace BK_LAND_DET_NO by  91;
+%replace AD_CURR_NO by  25;
+%replace BK_TRANS_NO by  64;
+%replace BK_TRANS_PRICE_NO by  69;
+%include "BK_V_LAND.DD";
+%include "BK_TOUR.DD";
+%include "BK_TOUR_HDR.DD";
+%include "BK_BOOKING.DD";
+%include "BK_PASSENGERS.DD";
+%include "BK_DET_LAND.DD";
+%include "AP_OPEN.DD";
+%include "AP_CONTROL.DD";
+%include "BK_LAND.DD";
+%include "BK_LAND_DET.DD";
+%include "AD_CURR.DD";
+%include "BK_TRANS.DD";
+%include "BK_TRANS_PRICE.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		ERROR_BK_BOOKING     fixed binary (15);
+declare		END_SCAN_AP_LAND     bit (1);
+declare		END_SCAN_BK_LANDS    bit (1);
+declare		END_SCAN_BK_LANDD    bit (1);
+declare		ERROR_AP_OPEN        fixed binary (15);
+declare		END_CHECK_OLD_LAND   bit (1);
+declare		LOOP_2               fixed binary (15);
+declare		ERROR_AP_CONTROL     fixed binary (15);
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+
+   /* GET_AP_CONTROL - Read the A/P control file */
+
+
+      /* SET_AP_CONTROL - Set the key to read A/P control file */
+
+      AP_REC_NO = 0;
+      KEY_NO = 1;
+
+      /* READ_AP_CONTROL - Read the A/P control file */
+
+      call READ_KEYED (AP_CONTROL_NO,KEY_NO,ERROR_AP_CONTROL);
+      if ERROR_AP_CONTROL > 3 then
+         call PRINT_ERROR (AP_CONTROL_NO,ERROR_AP_CONTROL);
+   call V_LAND_MAIN;
+
+   /* RELEASE_LOCKS - Release all locks on this file */
+
+   call RELEASE_LOCKS (BK_BOOKING_NO);
+
+   /* RELEASE_LOCKS_2 - Release Locks */
+
+   call RELEASE_LOCKS (AP_OPEN_NO);
+
+   /* SAVE_ERROR_CODE - Save the error code */
+
+   declare ERROR_SAVE fixed binary;
+   ERROR_SAVE = ERROR_CODE;
+
+
+   /* BACK_OUT_AP - Set the AP entry number back */
+
+   AP_REC_NO = 0;
+
+   call READ_KEYED (AP_CONTROL_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE = NORMAL_RETURN then
+      do;
+      if AP_ENTRY_NO >= AP_NEXT_ENTRY then
+         AP_NEXT_ENTRY = AP_ENTRY_NO;
+      call UPDATE_RECORD (AP_CONTROL_NO,ERROR_CODE);
+      end;
+
+
+   /* RESTORE_ERROR_CODE - Restore the error code */
+
+   ERROR_CODE = ERROR_SAVE;
+
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	V_LAND_MAIN
+	Mainline logic
+****************************************************************/
+
+V_LAND_MAIN:
+	procedure;
+
+
+   /* NO_PAX_SEQ - Set pax seq to zero to get booking air */
+
+   BK_PAX_SEQ = 0;
+   BK_PAX_SHARE_SEQ = 0;
+
+
+   /* LAND_TABLE_INIT - Init the land table */
+
+   LV_LAND(1) = "";
+
+   call SCAN_LANDS;
+
+   /* RETURN_IF_LOCK - Return if ERROR_CODE = locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      return;
+
+
+   /* CREATE_LV - Create the Land Vouchers/Estimates */
+
+   do LOOP_INDEX = 1 to 50;
+      if LV_LAND(LOOP_INDEX) = "" then
+         LOOP_INDEX = 99;
+      else
+         if LV_VENDOR(LOOP_INDEX) ^= "" then
+            do;
+            if (BK_MODIFICATION ^= 0) !
+            (BOOKING_NO ^= LV_FIRST_BK(LOOP_INDEX)) !
+            (LV_MATCH_COUNT(LOOP_INDEX) > 1) then
+               do;
+               BK_MODIFICATION = 0;
+               BOOKING_NO = LV_FIRST_BK(LOOP_INDEX);
+               KEY_NO = 1;
+
+               /* READ_BK_REC - Read the booking record */
+
+               call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_BOOKING);
+               if ERROR_BK_BOOKING > 3 then
+                  call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+               if LV_MATCH_COUNT(LOOP_INDEX) ^= 1 then
+                  do;
+                  /* Fix this later (Scan all bookings, add up pax) */
+                  BK_SINGLE = TOUR_SINGLES;
+                  BK_DOUBLE = TOUR_DOUBLES;
+                  BK_TRIPLE = TOUR_TRIPLES;
+                  BK_QUAD = TOUR_QUADS;
+                  end;
+               end;
+
+            declare LOOP_2 fixed binary;
+            if LV_VOUCHER(LOOP_INDEX) = 0 then
+               do LOOP_2 = LOOP_INDEX + 1 to 50;
+                  if LV_LAND(LOOP_2) = "" then
+                     LOOP_2 = 99;
+                  else
+                     do;
+                     if LV_VENDOR(LOOP_2) ^= "" then
+                     if LV_VENDOR(LOOP_INDEX) = LV_VENDOR(LOOP_2) then
+                     if LV_FIRST_BK(LOOP_INDEX) = LV_FIRST_BK(LOOP_2) then
+                     if LV_VOUCHER(LOOP_2) ^= 0 then
+                        do;
+                        LV_VOUCHER(LOOP_INDEX) = LV_VOUCHER(LOOP_2);
+                        LOOP_2 = 99;
+                        end;
+                     end;
+               end;
+
+            call CREATE_L_VOUCHER;
+            if ERROR_CODE = RECORD_LOCKED then
+               return;
+            LV_VOUCHER(LOOP_INDEX) = AP_ENTRY_NO;
+
+            end;
+   end;
+
+
+   /* SET_FIRST_AP_OPEN - Set to the first tour detail */
+
+   AP_OPEN_TOUR = TOUR_NO;
+   AP_START_SVC = 0;
+   AP_ENTRY_NO = 0;
+   call SET_POSITION (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+   END_SCAN_AP_LAND = NO;
+   do while (END_SCAN_AP_LAND ^= YES);
+      call SCAN_AP_LAND;
+   end;
+return;
+end;	/* V_LAND_MAIN          */
+
+/****************************************************************
+	SCAN_LANDS
+	Scan land, set array, Any chg?
+****************************************************************/
+
+SCAN_LANDS:
+	procedure;
+
+
+   /* RETURN_IF_XL - Don't scan current if tour is XLD */
+
+   if ACTION_TYPE = XL_UD then
+      return;
+
+
+   /* SET_FIRST_BK - Set up for read */
+
+   BK_MODIFICATION = 0;
+   BK_TOUR_NUM = TOUR_NO;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_3,ERROR_CODE);
+   END_SCAN_BK_LANDS = NO;
+   do while (END_SCAN_BK_LANDS ^= YES);
+      call SCAN_BK_LANDS;
+   end;
+return;
+end;	/* SCAN_LANDS           */
+
+/****************************************************************
+	SCAN_BK_LANDS
+	Scan the booking, then land detail
+****************************************************************/
+
+SCAN_BK_LANDS:
+	procedure;
+
+
+   /* READ_NEXT_BK - Read the next booking record */
+
+   call READ_NEXT (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END_BK - No bookings = no docs */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_TOUR_NUM > TOUR_NO) then
+      do;
+      END_SCAN_BK_LANDS = YES;
+      return;
+      end;
+
+   /* RETURN_IF_LOCK - Return if ERROR_CODE = locked */
+
+   if ERROR_CODE = RECORD_LOCKED then
+      do;
+      END_SCAN_BK_LANDS = YES;
+      return;
+      end;
+
+
+   /* SKIP_XL_BK - Skip cancelled bookings */
+
+   if BK_STATUS = "XL" then
+      return;
+
+
+   /* SKIP_NS_BK - Skip bookings with no status */
+
+   if BK_STATUS = "NS" then
+      return;
+
+
+   /* SET_FIRST_LANDD - Set to the first land detail record */
+
+   LDET_MOD = BK_MODIFICATION;
+   LDET_BK_TK_NO = BOOKING_NO;
+   LDET_ALT_SEQ = 0;
+   LDET_ANSW_SEQ = 0;
+   LDET_DAY = 0;
+   LDET_SEQ = 0;
+   call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   END_SCAN_BK_LANDD = NO;
+   do while (END_SCAN_BK_LANDD ^= YES);
+      call SCAN_BK_LANDD;
+   end;
+return;
+end;	/* SCAN_BK_LANDS        */
+
+/****************************************************************
+	SCAN_BK_LANDD
+	Scan the land detail
+****************************************************************/
+
+SCAN_BK_LANDD:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDD - Last land detail record? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) then
+      do;
+      END_SCAN_BK_LANDD = YES;
+      return;
+      end;
+
+   /* SKIP_NON_LAND - Skip non-land detail */
+
+   if LDET_TORT ="I" then
+      return;
+
+   if LDET_ALT_SEQ = 0 then if LDET_ANSW_SEQ = 1 then if LDET_DATE = 0 then
+      return;
+
+
+   /* SKIP_MAN_LAND - Skip manual land detail */
+
+   if LDET_MANUAL ^= "" then
+      return;
+
+
+   /* LAND_TABLE_CHECK - Check and add land to the table */
+
+   if LDET_ALT_SEQ ^= 0 then
+      return;		/* Temporary */
+
+   do LOOP_INDEX = 1 to 49;
+      if LV_LAND(LOOP_INDEX) = "" then
+         do;
+         LV_LAND(LOOP_INDEX) = LDET_TOUR_NO;
+         LV_DATE(LOOP_INDEX) = LDET_DATE;
+         LV_SEQ(LOOP_INDEX) = LDET_SEQ;
+         LV_SIC_PMC(LOOP_INDEX) = LDET_SIC_PMC;
+         LV_VENDOR(LOOP_INDEX) = LDET_VENDOR;
+         LV_VOUCHER(LOOP_INDEX) = LDET_VOUCHER;
+         LV_FIRST_BK(LOOP_INDEX) = BOOKING_NO;
+         LV_PAX_SEQ(LOOP_INDEX) = LDET_ALT_SEQ;
+         LV_INV(LOOP_INDEX) = LDET_INV;
+         LV_SEND_TO(LOOP_INDEX) = LDET_SEND_TO;
+         LV_MATCH_COUNT(LOOP_INDEX) = 1;
+         LV_LAND(LOOP_INDEX + 1) = "";
+         LOOP_INDEX = 99;
+         end;
+      else
+         do;
+         if LDET_TOUR_NO = LV_LAND(LOOP_INDEX) then
+         if LDET_DATE = LV_DATE(LOOP_INDEX) then
+         if LDET_SIC_PMC = LV_SIC_PMC(LOOP_INDEX) then
+            do;
+            LV_MATCH_COUNT(LOOP_INDEX) = LV_MATCH_COUNT(LOOP_INDEX) + 1;
+            LOOP_INDEX = 99;
+            end;
+         end;
+   end;
+
+return;
+end;	/* SCAN_BK_LANDD        */
+
+/****************************************************************
+	CREATE_L_VOUCHER
+	Create a voucher for this land vendor
+****************************************************************/
+
+CREATE_L_VOUCHER:
+	procedure;
+
+declare		ERROR_BK_DET_LAND    fixed binary (15);
+declare		ERROR_AD_CURR        fixed binary (15);
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   AP_ENTRY_NO = LV_VOUCHER(LOOP_INDEX);
+   KEY_NO = 1;
+
+   /* GET_OLD_VOUCHER - Read the old voucher if it exists */
+
+   if AP_ENTRY_NO ^= 0 then
+      do;
+
+      /* READ_AP_OPEN - Read the A/P Open record */
+
+      call READ_KEYED (AP_OPEN_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_AP_OPEN);
+      if ERROR_AP_OPEN > 3 then
+         call PRINT_ERROR (AP_OPEN_NO,ERROR_AP_OPEN);
+      end;
+   else
+      ERROR_AP_OPEN = RECORD_NOT_FOUND;
+
+   if ERROR_AP_OPEN = RECORD_LOCKED then
+      do;
+      ERROR_CODE = RECORD_LOCKED;
+      return;
+      end;
+
+
+   /* CHECK_MAN_L_AP - Is there a manual A/P entry for this? */
+
+   if ERROR_AP_OPEN = NORMAL_RETURN then
+      do;
+      if LV_VENDOR(LOOP_INDEX) ^= AP_OPEN_VENDOR then
+         do;
+         AP_ENTRY_NO = 0;
+         ERROR_AP_OPEN = RECORD_NOT_FOUND;
+         end;
+      end;
+
+   if ERROR_AP_OPEN = RECORD_NOT_FOUND then
+      do;
+      AP_OPEN_TOUR = TOUR_NO;
+      AP_START_SVC = LV_DATE(LOOP_INDEX);
+      AP_ENTRY_NO = 0;
+
+      call SET_POSITION(AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+      ERROR_CODE = NORMAL_RETURN;
+      do while (ERROR_CODE = NORMAL_RETURN);
+         call READ_NEXT(AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+         if AP_OPEN_TOUR ^= TOUR_NO then
+            ERROR_CODE = END_OF_FILE;
+         if AP_START_SVC ^= LV_DATE(LOOP_INDEX) then
+            ERROR_CODE = END_OF_FILE;
+         if ERROR_CODE = NORMAL_RETURN then
+            do;
+            if LV_VENDOR(LOOP_INDEX) = AP_OPEN_VENDOR then
+               if AP_V_BASED_BK = 0 then
+                  do;
+                  return;
+                  end;
+            end;
+      end;
+
+      /* INIT_AP_OPEN - Initialize the A/P open fields */
+
+      AP_ENTRY_TYPE = 0;
+      AP_OPEN_VENDOR = "";
+      AP_OPEN_CURR = "";
+      AP_OPEN_TOUR = 0;
+      AP_OPEN_TOUR_CODE = "";
+      AP_OPEN_TOUR_GL = 0;
+      AP_OPEN_DEP = 0;
+      AP_FINL_EST = 0;
+      AP_FINL_DATE = 0;
+      AP_DEP_EST = 0;
+      AP_DEP_EXCH = 0;
+      AP_DEP_EST_USD = 0;
+      AP_DEP_EST_GL = 0;
+      AP_EST_GL = 0;
+      AP_VEN_INV_NO = "";
+      AP_INV_ENTERED = 0;
+      AP_VEN_INV_DATE = 0;
+      AP_VEN_INV_GL = 0;
+      AP_VEN_INV_AMT = 0;
+      AP_VEN_INV_USD = 0;
+      AP_INV_BAL = 0;
+      AP_INV_BAL_USD = 0;
+      AP_OPEN_AP_ACCT = 0;
+      AP_OVER_UNDER_GL = 0;
+      AP_OPEN_SELECT = "N";
+      AP_AMT_SELECTED = 0;
+      AP_GAIN_LOSS_GL = 0;
+      AP_PAID_USD = 0;
+      AP_PYMT_DATE = 0;
+      AP_V_BASED_BK = 0;
+      AP_V_BASED_MOD = 0;
+      AP_V_BASED_PAX = 0;
+      AP_V_BASED_SEQ = 0;
+      BK_V_DATE = 0;
+      AP_ACK_DATE = 0;
+      AP_ACKED_ON = 0;
+      AP_ACK_BY = "";
+      AP_GL_STATUS = 0;
+      AP_GL_ACTION_DATE = 0;
+      AP_ENTRY_TYPE_DESC = "";
+      AP_V_DESC = "";
+      AP_OPEN_TYPE = "";
+      AP_OPEN_CURRENT = "N";
+
+      end;
+
+
+   /* SET_LAND_EST - Set up the land estimate if different */
+
+   if ERROR_AP_OPEN = RECORD_NOT_FOUND then
+      do;
+      AP_OPEN_VENDOR = LV_VENDOR(LOOP_INDEX);
+      AP_OPEN_CURR = "";
+      AP_ENTRY_NO = AP_NEXT_ENTRY;
+      end;
+
+   if ACTION_TYPE ^= DEPARTURE_UD then
+      do;
+      AP_ENTRY_TYPE = FIN_EST;
+      if ERROR_AP_OPEN = NORMAL_RETURN then
+         do;
+         LAND_SAME = "Y";
+         if BK_TOUR_MOD >= AP_V_BASED_MOD then
+            do;
+            declare TOUR_MOD_SAVE fixed binary;
+            TOUR_MOD_SAVE = BK_TOUR_MOD;
+            LOOP_2 = BK_TOUR_MOD + 1;
+            if LOOP_2 > BK_NEXT_MOD then
+               LOOP_2 = BK_NEXT_MOD;
+            /* Find the first change since based mod (old land detail) */
+            do BK_MODIFICATION = AP_V_BASED_MOD + 1 to LOOP_2;
+
+               /* READ_BK_REC - Read the booking record */
+
+               call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_BOOKING);
+               if ERROR_BK_BOOKING > 3 then
+                  call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+               if BK_TOUR_MOD = BK_NEXT_MOD then
+                  goto MOD_FOUND;
+            end;
+            BK_TOUR_MOD = TOUR_MOD_SAVE;
+            MOD_FOUND:
+            BK_MODIFICATION = BK_TOUR_MOD;
+
+
+            /* SET_FIRST_LANDP - Set first land in this pax mod */
+
+            LDET_MOD = BK_MODIFICATION;
+            LDET_BK_TK_NO = BOOKING_NO;
+            LDET_ALT_SEQ = AP_V_BASED_PAX;
+            LDET_ANSW_SEQ = 0;
+            LDET_DAY = AP_START_SVC;
+            LDET_SEQ = 0;
+            call SET_POSITION (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+            END_CHECK_OLD_LAND = NO;
+            do while (END_CHECK_OLD_LAND ^= YES);
+               call CHECK_OLD_LAND;
+            end;
+            BK_MODIFICATION = 0;
+
+            /* READ_BK_REC - Read the booking record */
+
+            call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_BOOKING);
+            if ERROR_BK_BOOKING > 3 then
+               call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+            do LOOP_2 = 1 to 50;
+               if LV_LAND(LOOP_2) = "" then
+                  LOOP_2 = 99;
+               else
+                  if LV_VENDOR(LOOP_2) ^= "" then
+                  if LV_VENDOR(LOOP_2) = AP_OPEN_VENDOR then
+                  if LV_FIRST_BK(LOOP_2) = AP_V_BASED_BK then
+                  if LV_PAX_SEQ(LOOP_2) = AP_V_BASED_PAX then
+                  if LV_INV(LOOP_2) ^= "*" then
+                     LAND_SAME = "N";
+            end;
+         end;
+
+         if LAND_SAME = "Y" then
+            do;
+            BK_MODIFICATION = AP_V_BASED_MOD;
+
+            /* READ_BK_REC - Read the booking record */
+
+            call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_BOOKING);
+            if ERROR_BK_BOOKING > 3 then
+               call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+            BK_V_PAX = BK_PAX;
+            BK_MODIFICATION = 0;
+
+            /* READ_BK_REC - Read the booking record */
+
+            call READ_KEYED (BK_BOOKING_NO+?LOCK_RECORD,KEY_AREA_1,ERROR_BK_BOOKING);
+            if ERROR_BK_BOOKING > 3 then
+               call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+            if BK_V_PAX = BK_PAX then
+               do;
+               do LOOP_2 = 1 to 50;
+                  if LV_LAND(LOOP_2) = "" then
+                     LOOP_2 = 99;
+                  else
+                     if LV_VENDOR(LOOP_2) = AP_OPEN_VENDOR then
+                     if LV_FIRST_BK(LOOP_2) = AP_V_BASED_BK then
+                     if LV_PAX_SEQ(LOOP_2) = AP_V_BASED_PAX then
+                        LV_VENDOR(LOOP_2) = "";
+               end;
+               return;
+               end;
+            end;
+      end;
+
+      AP_OPEN_TOUR = TOUR_NO;
+      AP_OPEN_TOUR_CODE = TOUR_CODE;
+      AP_OPEN_DEP = TOUR_DEP_DATE;
+      AP_SERVICES = "Land: ";
+      AP_START_SVC = LV_DATE(LOOP_INDEX);
+      AP_END_SVC = LV_DATE(LOOP_INDEX);
+      AP_V_BASED_BK = BOOKING_NO;
+      AP_V_BASED_PAX = LV_PAX_SEQ(LOOP_INDEX);
+      AP_V_BASED_SEQ = -1;
+      AP_V_BASED_MOD = BK_NEXT_MOD + 1;
+      if LV_SEND_TO(LOOP_INDEX) = "N" then
+         AP_GL_STATUS = NO_VCHR;
+      else
+         do;
+         if ((AP_GL_STATUS >= ACK_VCHR) & (AP_GL_STATUS <= VCHR_PRTD)) !
+         (AP_GL_STATUS = REQ_REPRT) then
+            AP_GL_STATUS = REQ_REPRT;
+         else
+            AP_GL_STATUS = REQ_VCHR;
+         end;
+      AP_ACK_DATE = 0;
+      AP_FINL_DATE = TODAYS_DATE();
+      AP_GL_ACTION_DATE = AP_FINL_DATE;
+      AP_FINL_EST = 0;
+      end;
+   else
+      do;
+      if ERROR_AP_OPEN = RECORD_NOT_FOUND then
+         do;
+         AP_ENTRY_NO = AP_NEXT_ENTRY;
+         end;
+      AP_OPEN_TOUR = TOUR_NO;
+      AP_OPEN_TOUR_CODE = TOUR_CODE;
+      AP_OPEN_DEP = TOUR_DEP_DATE;
+      AP_SERVICES = "Land: ";
+      AP_START_SVC = LV_DATE(LOOP_INDEX);
+      AP_END_SVC = LV_DATE(LOOP_INDEX);
+      AP_V_BASED_BK = BOOKING_NO;
+      AP_V_BASED_PAX = LV_PAX_SEQ(LOOP_INDEX);
+      AP_V_BASED_SEQ = -1;
+      AP_V_BASED_MOD = BK_NEXT_MOD + 1;
+
+      AP_ENTRY_TYPE = DEP_EST;
+
+      AP_GL_STATUS = DEP_TYPE;
+      AP_GL_ACTION_DATE = AP_OPEN_DEP;
+
+      AP_DEP_EST = 0;
+      AP_DEP_EXCH = 0;
+      AP_DEP_EST_USD = 0;
+      AP_DEP_EST_GL = 0;
+
+
+      /* INIT_AP_DATA - Init data for any invoice */
+
+      if AP_OPEN_TOUR_GL = 0 then
+         AP_OPEN_TOUR_GL = HDR_LAND_GL;
+      if AP_OPEN_TOUR_GL = 0 then
+         AP_OPEN_TOUR_GL = AP_DEF_TOUR_GL;
+      if AP_EST_GL = 0 then
+         AP_EST_GL = HDR_UNINV_GL;
+      if AP_EST_GL = 0 then
+         AP_EST_GL = AP_DEF_EST;
+      if AP_OVER_UNDER_GL = 0 then
+         AP_OVER_UNDER_GL = HDR_COST_OU_GL;
+      if AP_OVER_UNDER_GL = 0 then
+         AP_OVER_UNDER_GL = AP_DEF_OU;
+      if AP_OPEN_AP_ACCT = 0 then
+         AP_OPEN_AP_ACCT = HDR_AP_GL;
+      if AP_OPEN_AP_ACCT = 0 then
+         AP_OPEN_AP_ACCT = AP_DEF_AP;
+      if AP_GAIN_LOSS_GL = 0 then
+         AP_GAIN_LOSS_GL = HDR_CURR_OU_GL;
+      if AP_GAIN_LOSS_GL = 0 then
+         AP_GAIN_LOSS_GL = AP_DEF_GL;
+
+      end;
+
+
+   /* AP_UPDATE_WRITE - Update or Write the A/P open */
+
+   if ERROR_AP_OPEN = NORMAL_RETURN then
+      do;
+
+      /* UPDATE_AP_OPEN - Update the A/P Open Record */
+
+      call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+      end;
+   else
+      do;
+
+      /* WRITE_AP_OPN - Write new file and update control file */
+
+
+         /* WRITE_AP_OPEN - Write the A/P Open file */
+
+         ERROR_CODE = KEY_ALREADY_EXISTS;
+         do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+            call WRITE_RECORD (AP_OPEN_NO,ERROR_CODE);
+            if ERROR_CODE = KEY_ALREADY_EXISTS then
+               AP_ENTRY_NO = AP_ENTRY_NO + 1;
+         end;
+
+         /* SET_NEXT_AP - Set new next A/P number */
+
+         AP_NEXT_ENTRY = AP_ENTRY_NO + 1;
+
+      end;
+
+   /* ADD_OTHER_LAND - Scan current Land detail */
+
+   do LOOP_2 = 1 to 50;
+      if LV_LAND(LOOP_2) = "" then
+         LOOP_2 = 99;
+      else
+         if LV_VENDOR(LOOP_2) ^= "" then
+            if LV_VENDOR(LOOP_2) = AP_OPEN_VENDOR then
+            if LV_FIRST_BK(LOOP_2) = BOOKING_NO then
+               do;
+               LDET_MOD = BK_MODIFICATION;
+               LDET_BK_TK_NO = BOOKING_NO;
+               LDET_ALT_SEQ = LV_PAX_SEQ(LOOP_2);
+               LDET_ANSW_SEQ = 0;
+               LDET_DATE = LV_DATE(LOOP_2);
+               LDET_SEQ = LV_SEQ(LOOP_2);
+
+               /* READ_LANDD - Read the land detail record */
+
+               call READ_KEYED (BK_DET_LAND_NO,KEY_AREA_1,ERROR_BK_DET_LAND);
+               if ERROR_BK_DET_LAND > 3 then
+                  call PRINT_ERROR (BK_DET_LAND_NO,ERROR_BK_DET_LAND);
+               if ERROR_BK_DET_LAND = NORMAL_RETURN then
+                  do;
+                  call BK_COST_LAND;
+                  if LDET_TORT = "T" then
+                     do;
+                     AP_OPEN_VENDOR = TRANS_VEN_NO;
+                     AP_OPEN_CURR = TRANS_CURR;
+                     end;
+                  else
+                     do;
+                     AP_OPEN_VENDOR = LAND_VENDOR_NO;
+                     AP_OPEN_CURR = LAND_CURR;
+                     end;
+                  if LDET_DATE < AP_START_SVC then
+                     AP_START_SVC = LDET_DATE;
+                  if LDET_DATE > AP_END_SVC then
+                     AP_END_SVC = LDET_DATE;
+                  if LDET_TORT = "T" then
+                     LAND_TYPE = "Z";
+                  AP_SERVICES = CUT_SPACES(AP_SERVICES) !! " " !!
+                     substr("     Trf, S/S, Ent, Trn, ",(index("TSEZ",LAND_TYPE)*5+1),5);
+                  if ACTION_TYPE ^= DEPARTURE_UD then
+                     do;
+                     AP_FINL_EST =
+                        floor((AP_FINL_EST + LDET_TOUR_PP_COST * TOUR_PAX) * 100 + 0.5) / 100;
+                     end;
+                  else
+                     do;
+                     if AP_DEP_EXCH = 0 then if CURR_CODE ^= AP_OPEN_CURR then
+                        do;
+                        CURR_CODE = AP_OPEN_CURR;
+
+                        /* READ_CURR - Read in the currency */
+
+                        call READ_KEYED (AD_CURR_NO,KEY_AREA_1,ERROR_AD_CURR);
+                        if ERROR_AD_CURR > 3 then
+                           call PRINT_ERROR (AD_CURR_NO,ERROR_AD_CURR);
+                        if (ERROR_AD_CURR ^= NORMAL_RETURN) ! (LAST_EXCHANGE = 0) then
+                           LAST_EXCHANGE = LDET_EXCHANGE;
+                        AP_DEP_EXCH = LAST_EXCHANGE;
+                        end;
+                     AP_DEP_EST =
+                        floor((AP_DEP_EST + LDET_TOUR_PP_COST * TOUR_PAX) * 100 + 0.5) / 100;
+                     AP_DEP_EST_USD = floor(AP_DEP_EST * AP_DEP_EXCH * 100 + 0.5) / 100;
+                     end;
+
+
+                  /* SET_LVOUCHER - Set the land detail voucher number */
+
+                  LDET_VOUCHER = AP_ENTRY_NO;
+
+
+                  /* UPDATE_LANDD - Update the land detail */
+
+                  call UPDATE_RECORD (BK_DET_LAND_NO,ERROR_CODE);
+                  LV_VOUCHER(LOOP_2) = AP_ENTRY_NO;
+
+                  LV_VENDOR(LOOP_2) = "";
+                  end;
+               end;
+   end;
+
+   LOOP_2 = length(CUT_SPACES(AP_SERVICES));
+   if LOOP_2 ^= 0 then if substr(AP_SERVICES,LOOP_2,1) = "," then
+      substr(AP_SERVICES,LOOP_2,1) = " ";
+
+
+   /* UPDATE_AP_OPEN - Update the A/P Open Record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+return;
+end;	/* CREATE_L_VOUCHER     */
+
+/****************************************************************
+	CHECK_OLD_LAND
+	Go thru old land
+****************************************************************/
+
+CHECK_OLD_LAND:
+	procedure;
+
+
+   /* READ_NEXT_LANDD - Read the next land detail record */
+
+   call READ_NEXT (BK_DET_LAND_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_DET_LAND_NO,ERROR_CODE);
+
+   /* CHECK_END_LANDP - Last land in this pax mod? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (LDET_MOD > BK_MODIFICATION) !
+   (LDET_BK_TK_NO > BOOKING_NO) !
+   (LDET_ALT_SEQ > AP_V_BASED_PAX) !
+   (LDET_ANSW_SEQ > 0) !
+   (LDET_DAY > AP_END_SVC) then
+      do;
+      END_CHECK_OLD_LAND = YES;
+      return;
+      end;
+
+   /* SKIP_NON_LAND - Skip non-land detail */
+
+   if LDET_TORT ="I" then
+      return;
+
+   if LDET_ALT_SEQ = 0 then if LDET_ANSW_SEQ = 1 then if LDET_DATE = 0 then
+      return;
+
+
+   /* SKIP_MAN_LAND - Skip manual land detail */
+
+   if LDET_MANUAL ^= "" then
+      return;
+
+
+   /* CHECK_LAND_SAME - Is the old land the same as the new land */
+
+   do LOOP_2 = 1 to 50;
+      if LV_LAND(LOOP_2) = "" then
+      do;
+         if LDET_VENDOR = AP_OPEN_VENDOR then
+            if LDET_BK_TK_NO = AP_V_BASED_BK then
+            if LDET_ALT_SEQ = AP_V_BASED_PAX then
+               LAND_SAME = "N";
+         LOOP_2 = 99;
+      end;
+      else
+         if LV_VENDOR(LOOP_2) ^= "" then
+         if LV_VENDOR(LOOP_2) = AP_OPEN_VENDOR then
+         if LV_FIRST_BK(LOOP_2) = AP_V_BASED_BK then
+         if LV_PAX_SEQ(LOOP_2) = AP_V_BASED_PAX then
+         if LV_LAND(LOOP_2) = LDET_TOUR_NO then
+         if LV_DATE(LOOP_2) = LDET_DATE then
+         if LV_INV(LOOP_2) ^= "*" then
+            do;
+            if (LV_INV(LOOP_2) ^= LDET_INV) !
+            (LV_SIC_PMC(LOOP_2) ^= LDET_SIC_PMC) !
+            (LV_VENDOR(LOOP_2) ^= LDET_VENDOR) !
+            (LV_SEND_TO(LOOP_2) ^= LDET_SEND_TO) then
+               LAND_SAME = "N";
+
+            LV_INV(LOOP_2) = "*";
+            LOOP_2 = 99;
+            end;
+   end;
+
+return;
+end;	/* CHECK_OLD_LAND       */
+
+/****************************************************************
+	BK_COST_LAND
+	Call the module to cost this land mod
+****************************************************************/
+
+BK_COST_LAND:
+	procedure;
+
+%include "BK_COST_LAND.DCL";
+call BK_COST_LAND(
+   BK_BOOKING_RECORD,
+   BK_TOUR_RECORD,
+   BK_TOUR_HDR_RECORD,
+   BK_DET_LAND_RECORD,
+   BK_LAND_RECORD,
+   AD_CURR_RECORD,
+   BK_LAND_DET_RECORD,
+   BK_TRANS_RECORD,
+   BK_TRANS_PRICE_RECORD);
+return;
+end;	/* BK_COST_LAND         */
+
+/****************************************************************
+	SCAN_AP_LAND
+	Read thru and check all updated
+****************************************************************/
+
+SCAN_AP_LAND:
+	procedure;
+
+
+   /* READ_NEXT_AP_OPEN - Read next */
+
+   call READ_NEXT (AP_OPEN_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AP_OPEN_NO,ERROR_CODE);
+
+   /* CHECK_END_AP_OPEN - Last detail? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AP_OPEN_TOUR > TOUR_NO) then
+      do;
+      END_SCAN_AP_LAND = YES;
+      return;
+      end;
+
+   /* SKIP_AP_NON_FIN - Skip if this isn't a finalization est. */
+
+   if AP_ENTRY_TYPE ^= FIN_EST then
+      return;
+
+
+   /* SKIP_AP_HOTEL - Skip hotel A/P estimates */
+
+   if AP_V_BASED_SEQ ^= -1 then
+      return;
+
+
+   /* SKIP_MAN_VOUCHER - Skip manually entered A/P voucher */
+
+   if AP_V_BASED_BK = 0 then
+      return;
+
+
+   /* CHECK_AP_LAND - Is this an old voucher? */
+
+   do LOOP_INDEX = 1 to 50;
+      if LV_LAND(LOOP_INDEX) = "" then
+         LOOP_INDEX = 99;
+      else
+         do;
+         if LV_VOUCHER(LOOP_INDEX) = AP_ENTRY_NO then
+            return;
+         end;
+
+   end;
+
+   if (AP_GL_STATUS >= CXL_REQ) & (AP_GL_STATUS <= CXL_PRTD) then
+      return;
+   if AP_GL_STATUS > REQ_REPRT then
+      return;
+
+   if ACTION_TYPE = DEPARTURE_UD then
+      return;
+
+   AP_FINL_EST = 0;
+   if AP_GL_STATUS <= REQ_VCHR then
+      AP_GL_STATUS = AP_GL_DONE;
+   else
+      AP_GL_STATUS = CXL_REQ;
+   AP_GL_ACTION_DATE = TODAYS_DATE();
+
+
+   /* UPDATE_AP_OPEN - Update the A/P Open Record */
+
+   call UPDATE_RECORD (AP_OPEN_NO,ERROR_CODE);
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (AP_OPEN_NO,KEY_AREA_3,ERROR_AP_OPEN);
+   if ERROR_AP_OPEN > 3 then
+      call PRINT_ERROR (AP_OPEN_NO,ERROR_AP_OPEN);
+return;
+end;	/* SCAN_AP_LAND         */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

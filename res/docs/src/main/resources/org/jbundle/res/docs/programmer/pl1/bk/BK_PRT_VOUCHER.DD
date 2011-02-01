@@ -1,0 +1,9 @@
+/*********************************************************************
+	BK_PRT_VOUCHER File
+********************************************************************/
+
+declare	1 BK_PRT_VOUCHER_RECORD,
+		3 VOUCHER_FORMAT       character (       20),
+		3 VOUCHER_PRT          character (1),
+		3 VOUCHER_FORM         character (       20);
+

@@ -1,0 +1,12 @@
+/*********************************************************************
+	BK_IT_BLD File
+********************************************************************/
+
+declare	1 BK_IT_BLD_RECORD,
+		3 BK_ITIN_VERSION      character (        1),
+		3 BK_ITIN_DATE         fixed binary (15),
+		3 BK_ITIN_DAY          fixed binary (15),
+		3 BK_ITIN_DEP_ARV      fixed binary (15),
+		3 ITIN_TEMPLATE        character (       20),
+		3 BK_IT_EDIT           character (1);
+

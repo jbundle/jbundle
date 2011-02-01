@@ -1,0 +1,132 @@
+<html>
+<head>
+<title></title>
+</head>
+<body text="#000000" link="#0000ff" vlink="#551a8b" alink="#ff0000" bgcolor="#c0c0c0">
+
+<p>/PROG_HDR/
+
+<br wp="br1"><br wp="br2">
+<p>Program Description:
+
+<br wp="br1"><br wp="br2">
+<p>This program is used to enter invoices amounts received from vendors.
+
+<br wp="br1"><br wp="br2">
+<p>Program Explanation:
+
+<br wp="br1"><br wp="br2">
+<p>When invoices (or statements if no invoices are sent) are recieved for services provided by vendors,
+the amount owed for a service becomes certain. This is the amount which the vendor expects to
+receive.
+
+<br wp="br1"><br wp="br2">
+<p>This program allows you to enter invoices as they come in. In most cases there will be a departure
+estimate to check against the vendor's invoice.
+
+<br wp="br1"><br wp="br2">
+<p>The system will also take invoices that do not have a departure estimate (A UPS bill for instance).
+
+<br wp="br1"><br wp="br2">
+<p>All of the invoices entered are automatically selected for payment, so paying all of the items on the
+vendor's month-end statement will be a  breeze. (See payment selection)
+
+<br wp="br1"><br wp="br2">
+<p>Sometimes the amount estimated at departure is different from the invoice amount (Changes in
+itinerary, etc). In these cases, a gain or loss will be recognized.
+
+<br wp="br1"><br wp="br2">
+<p>/SCREEN1/
+
+<br wp="br1"><br wp="br2">
+<p>Program Operation:
+
+<br wp="br1"><br wp="br2">
+<p>When you enter this program, you have two choices. You can enter the vendor number and enter all
+of the invoices for that vendor, or you can enter the reference number of the departure estimate which
+corresponds to the invoice. The second method is easier only when the invoices are returned with your
+voucher numbers. The vouchers have the reference numbers printed on them.
+
+<br wp="br1"><br wp="br2">
+<p>If you don't enter the vendor number under item #1, then you can enter the entry number of the
+finalization estimate under #6.
+
+<br wp="br1"><br wp="br2">
+<p>If you do enter the vendor number under number 1, then the computer will automatically display all
+departure estimates that have been made and you will be given a chance to enter the invoice amount
+for all of them.
+
+<br wp="br1"><br wp="br2">
+<p>If you want to enter an invoice that isn't on the screen,
+
+<p>then press return at "SELECT" and "DISPLAY NEXT PAGE" and enter the tour number. If this is
+for a tour, the system will ask for the services description and the dates.
+
+<br wp="br1"><br wp="br2">
+<p>To enter an invoice for a non-tour related item, enter a tour number of 0, then enter a cost and A/P
+G/L number. The Cost G/L defaults to the G/L account in the vendor file. The A/P G/L default the
+the non-tour G/L in the A/P control file.
+
+<br wp="br1"><br wp="br2">
+<p>The invoice amount defaults to the departure estimate and the General Ledger numbers automatically
+display from the numbers entered in the voucher detail. For non-tour invoices, the G/L cost account
+is entered on the screen.
+
+<br wp="br1"><br wp="br2">
+<p>After entering the invoice, you have a chance to change it at the CHANGE ITEM prompt. To delete
+an invoice, type DEL. You cannot delete invoices which have been posted to G/L.
+
+<br wp="br1"><br wp="br2">
+<p>After entering this invoice the cursor returns to the field where this invoice was started.
+
+<br wp="br1"><br wp="br2">
+<p>To return to the A/P menu, hit return until the cursor is on the Entry prompt. Hit return one more time
+to end.
+
+<br wp="br1"><br wp="br2">
+<p>	Note: This system should be used to enter all costs directly related to a tour. Tour director checks should be
+entered here, then a check should be requested, rather than entering the check in Asset/Debt
+maintenance.
+
+<br wp="br1"><br wp="br2">
+<p>Vendor entries should be made for Tour Conductors and independent contractors, so a 1099 can be
+produced at the end of the year.
+
+<br wp="br1"><br wp="br2">
+<p>The Over/Under estimate is a gain or loss due to changes in the cost of services, not exchange rates,
+so it is based on the exchange rate on the departure estimate date.
+
+<br wp="br1"><br wp="br2">
+<p>Usually the Over/Under estimate is posted in the current period because the amount is not be known
+for some time after the departure date and the amount is usually not material. If you want to match
+the cost of over/under estimates and gains/losses on currency changes to the correct period, then wait
+a few months for all the payments to be made and run the Tour Cost Analysis Report. This will give
+you the adjusting entry for the general ledger (don't forget the reversing entry).
+
+<br wp="br1"><br wp="br2">
+<p>Note: If you try deleting an invoice and you get a warning that it has already been posted to G/L the
+only way to clear the invoice is to enter zero for the amount, select the amount and include it in a
+payment or prepayment distribution. If a departure estimate was set up already, you might do a manual
+G/L entry to correct the cost classification. (ie., Debit Over/Under, Credit the cost account)
+
+<br wp="br1"><br wp="br2">
+<p>	G/L entries:
+
+<p>2/12/86 Accounts Payable - Tours (Estimate)    925.00
+
+<p>           Over/Under estimate of tour cost          5.00
+
+<p>           Accounts Payable - Tours                920.00
+
+<p>               (Hyatt invoice - M/M Jones)
+
+<br wp="br1"><br wp="br2">
+<p>3/12/86 Accounts Payable                       234.12
+
+<p>           Mailing Cost                           234.12
+
+<p>              (UPS bill)
+
+<p>(Invoice entry date)
+</body>
+</html>

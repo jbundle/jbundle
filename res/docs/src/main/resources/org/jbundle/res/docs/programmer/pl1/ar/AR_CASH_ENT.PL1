@@ -1,0 +1,1050 @@
+/****************************************************************
+	Module: AR_CASH_ENT
+	Top Level Logic: CASH_ENT_LOGIC
+	Date: 21-Sep-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_CASH_ENT
+	Top_level of Cash Receipts Entry
+****************************************************************/
+
+%replace AR_CASH_ENT_1 by 148;
+AR_CASH_ENT:
+   procedure(
+      AR_CASH_BATCH_RECORD,
+      AR_CASH_REC_RECORD,
+      AR_CONTROL_RECORD);
+%replace BK_BOOKING_NO by   9;
+%replace GL_CHART_NO by  16;
+%replace AM_AGCY_NO by  10;
+%replace BK_TOUR_HDR_NO by  58;
+%replace AR_CASH_BATCH_NO by  96;
+%replace AR_CASH_REC_NO by  42;
+%replace AR_CONTROL_NO by  41;
+%include "BK_BOOKING.DD";
+%include "AR_CASH_ENT.DD";
+%include "GL_CHART.DD";
+%include "AM_AGCY.DD";
+%include "BK_TOUR_HDR.DD";
+%include "AR_CASH_BATCH.DD";
+%include "AR_CASH_REC.DD";
+%include "AR_CONTROL.DD";
+
+declare		END_ENT_CHECKS       bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		NOT_FIRST_TIME       bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AR_CASH_REC    fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		FIRST_ITEM           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		END_READ_THRU_BOOK   bit (1);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_ENT_CHECKS = NO;
+   do while (END_ENT_CHECKS ^= YES);
+      call ENT_CHECKS;
+   end;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   BK_MODIFICATION = 0;
+   BOOKING_NO = 0;
+   BK_FOC = 0;
+   BK_DEPARTED = "N";
+   BK_ORDER_CURR = "N";
+   BK_PRINT_INV = "Y";
+   BK_REMARK_MOD = 0;
+   BK_HOTEL_UINV = "N";
+   BK_LAND_UINV = "N";
+   BK_AIR_UINV = "N";
+   BK_AMOUNT_PAID = 0;
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+   HDR_TOUR_DESC2 = "";
+   HDR_START_ON = 0;
+   HDR_END_ON = 0;
+   HDR_DEF_RATE = "F";
+   HDR_DEF_CLASS = "S ";
+   HDR_DEF_CUTOFF = 0;
+   HDR_UPGRADE_AGCY = "A";
+   HDR_INIT_STATUS = "OK";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   NOT_FIRST_TIME = "0"b;
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_CASH_ENT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call OPEN_FILE (BK_BOOKING_NO,"BK_BOOKING",byteaddr(BK_BOOKING_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_BOOKING_NO,ERROR_CODE);
+   call SET_SCREEN_VARS (byteaddr (AR_CASH_ENT_RECORD) );
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call OPEN_FILE (AM_AGCY_NO,"AM_AGCY",byteaddr(AM_AGCY_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_AGCY_NO,ERROR_CODE);
+   call OPEN_FILE (BK_TOUR_HDR_NO,"BK_TOUR_HDR",byteaddr(BK_TOUR_HDR_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (BK_TOUR_HDR_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	ENT_CHECKS
+	Enter the checks
+****************************************************************/
+
+ENT_CHECKS:
+	procedure;
+
+
+   /* REDISPLAY_SCREEN - Re-display the screen */
+
+   if NOT_FIRST_TIME then
+      call DISPLAY_SCREEN (AR_CASH_ENT_1);
+   NOT_FIRST_TIME = YES;
+   call ENT_CASH_BK;
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      END_ENT_CHECKS = YES;
+      return;
+      end;
+
+
+   /* AGAIN_IF_ERROR - return if ERROR ^= 0 */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+   call DIS_BK_INFO;
+   call ENTER_DATA_D;
+
+   /* SETUP_KEY_2 - Setup the key */
+
+   AR_CASH_USER = BATCH_USER;
+   AR_CASH_BK_NO = BOOKING_NO;
+   KEY_NO = 2;
+
+   /* READ_RECORD_2 - Read from another file */
+
+   call READ_KEYED (AR_CASH_REC_NO,KEY_AREA_2,ERROR_AR_CASH_REC);
+   if ERROR_AR_CASH_REC > 3 then
+      call PRINT_ERROR (AR_CASH_REC_NO,ERROR_AR_CASH_REC);
+
+   /* CASH_FOUND - Was the record found? */
+
+   ERROR_INPUT_SCREEN = NO;
+   if ERROR_AR_CASH_REC = NORMAL_RETURN then
+      do;
+      call AR_CASH_FOUND;
+      end;
+   else
+      do;
+      call AR_CASH_NOTFOUND;
+      if ERROR_INPUT_SCREEN then return;
+      end;
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* CHECK_ZERO_REC - Skip this one if amt rec. = zero */
+
+   if RETURN_CODE ^= DELETE_TYPED then if AR_REC_AMOUNT = 0 then
+      return;
+
+
+   /* DISPLAY_OR_INPUTED - Was the data displayed or inputed? */
+
+   if ERROR_AR_CASH_REC = NORMAL_RETURN then
+      do;
+
+      /* DIS_DELETED_OR_OK - Displayed, was this record deleted? */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* DELETE_RECORD - Delete the record */
+
+         call DELETE_RECORD (AR_CASH_REC_NO,ERROR_CODE);
+         end;
+      else
+         do;
+
+         /* UPDATE_RECORD - Update the record */
+
+         call UPDATE_RECORD (AR_CASH_REC_NO,ERROR_CODE);
+         end;
+      end;
+   else
+      do;
+
+      /* INP_DELETED_OR_OK - Inputed data, should I delete or it ok */
+
+      if RETURN_CODE = DELETE_TYPED then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* WRITE_RECORD - Write the record */
+
+         ERROR_CODE = KEY_ALREADY_EXISTS;
+         do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+            call WRITE_RECORD (AR_CASH_REC_NO,ERROR_CODE);
+            if ERROR_CODE = KEY_ALREADY_EXISTS then
+               AR_CASH_BK_SEQ = AR_CASH_BK_SEQ + 1;
+         end;
+         end;
+      end;
+
+   /* ADD_CASH_COUNT - Add to batch */
+
+   if RETURN_CODE ^= DELETE_TYPED then
+      do;
+
+      /* ADD_BATCH_TOTALS - Add to the cash batch totals */
+
+      AR_CHECKS_FRA = AR_CHECKS_FRA + (AR_AMT_APPLIED / AR_REC_AMOUNT);
+      BATCH_CHECKS_ACT = AR_CHECKS_FRA + 0.1;
+      BATCH_TOTAL_ACT = floor((BATCH_TOTAL_ACT + AR_AMT_APPLIED)*100+0.5)/100;
+
+      end;
+
+return;
+end;	/* ENT_CHECKS           */
+
+/****************************************************************
+	ENT_CASH_BK
+	Enter/Read/Find the booking number
+****************************************************************/
+
+ENT_CASH_BK:
+	procedure;
+
+declare		ERROR_AM_AGCY        fixed binary (15);
+declare		ERROR_BK_BOOKING     fixed binary (15);
+   call ENTER_DATA_A;
+
+   /* RETURN_IF_END - Return if end typed */
+
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      return;
+
+
+   /* RESET_ERROR - Reset the error code to zero */
+
+   ERROR_CODE = 0;
+
+
+   /* ENTERED_BK_NO - Did the user enter the bk number? */
+
+   if INPUT_LENGTH = 0 then
+      do;
+      call ENTER_DATA_B;
+
+      /* END_IF_NO_INPUT - Set the error code if input length = 0 */
+
+      if INPUT_LENGTH = 0 then
+         RETURN_CODE = END_TYPED;
+
+
+      /* RETURN_IF_END - Return if end typed */
+
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         return;
+
+
+      /* SETUP_KEY - Set up this key for a read */
+
+      AGENCY_NUMBER = BK_AGENCY;
+      KEY_NO = 1;
+
+      /* READ_AGENCY - Read the agency FILE */
+
+      call READ_KEYED (AM_AGCY_NO,KEY_AREA_1,ERROR_AM_AGCY);
+      if ERROR_AM_AGCY > 3 then
+         call PRINT_ERROR (AM_AGCY_NO,ERROR_AM_AGCY);
+
+      /* AGENCY_FOUND - Was the agency record found? */
+
+      ERROR_INPUT_SCREEN = NO;
+      if ERROR_AM_AGCY = NORMAL_RETURN then
+         do;
+         call DISPLAY_OPEN_BK;
+         end;
+      else
+         do;
+
+         /* AGCY_NOT_FOUND - Agency not found, try again */
+
+
+            /* SET_ERROR - Set the error code */
+
+            ERROR_CODE = 1;
+
+
+            /* RETURN - Normal Return */
+
+            return;
+
+         if ERROR_INPUT_SCREEN then return;
+         end;
+      end;
+
+
+   /* AGAIN_IF_ERROR - return if ERROR ^= 0 */
+
+   if ERROR_CODE ^= NORMAL_RETURN then
+      return;
+
+
+   /* CHECK_NON_TOUR - Is this a non-tour cash receipt? */
+
+   if BOOKING_NO ^= 0 then
+      do;
+
+      /* READ_RECORD - Read the record */
+
+      call READ_KEYED (BK_BOOKING_NO,KEY_AREA_1,ERROR_BK_BOOKING);
+      if ERROR_BK_BOOKING > 3 then
+         call PRINT_ERROR (BK_BOOKING_NO,ERROR_BK_BOOKING);
+
+      /* BOOK_FOUND - Was the booking record found? */
+
+      ERROR_INPUT_SCREEN = NO;
+      if ERROR_BK_BOOKING = NORMAL_RETURN then
+         do;
+
+         /* NO_CODE - This section has no code */
+
+         /* No code in this section */
+         end;
+      else
+         do;
+
+         /* BOOK_NOT_FOUND - Booking was not found */
+
+
+            /* SET_ERROR - Set the error code */
+
+            ERROR_CODE = 1;
+
+
+            /* RETURN - Normal Return */
+
+            return;
+
+         if ERROR_INPUT_SCREEN then return;
+         end;
+      end;
+   else
+      do;
+      BK_DEPOSIT = 0;
+      BK_BALANCE = 0;
+      BK_TOUR_CODE = "";
+      BK_DEPARTURE = 0;
+      BK_DEPOSIT_DUE = 0;
+      BK_FINAL_DUE = 0;
+      BK_AGENCY = 0;
+      BK_AGENCY_NAME = "Non-tour cash receipt";
+      AR_GL_ACCT = AR_NON_TOUR;
+      end;
+
+return;
+end;	/* ENT_CASH_BK          */
+
+/****************************************************************
+	ENTER_DATA_A
+	Enter screen data - Screen Group A
+****************************************************************/
+
+ENTER_DATA_A:
+	procedure;
+
+BOOKING_NO = 0;
+do LOOP_INDEX =   1 to   1;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO ( 70);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_A         */
+
+/****************************************************************
+	ENTER_DATA_B
+	Enter the screen data for group B
+****************************************************************/
+
+ENTER_DATA_B:
+	procedure;
+
+BK_AGENCY = 0;
+do LOOP_INDEX =   2 to   2;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_B         */
+
+/****************************************************************
+	DISPLAY_OPEN_BK
+	Display all open bookings for this agcy
+****************************************************************/
+
+DISPLAY_OPEN_BK:
+	procedure;
+
+
+   /* FAKE_AGENCY_NAME - Set the booking agency name for display */
+
+   BK_AGENCY_NAME = AGENCY_NAME;
+
+   call DISPLAY_DATA_C;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   BK_MODIFICATION = 0;
+   BK_AGENCY = AGENCY_NUMBER;
+   BOOKING_NO = 0;
+   call SET_POSITION (BK_BOOKING_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* RESET_LINE - Init the line offset to 0 */
+
+   LINE = 0;
+
+   END_READ_THRU_BOOK = NO;
+   do while (END_READ_THRU_BOOK ^= YES);
+      call READ_THRU_BOOK;
+   end;
+
+   /* RESET_OFFSET - Set row offset to 0 */
+
+   call SET_ROW_OFFSET(0);
+
+
+   /* ENTER_DATA_K - Enter data K */
+
+   do LOOP_INDEX =  13 to  13;
+      call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+      if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+         do;
+         ERROR_INPUT_SCREEN = YES;
+         return;
+         end;
+   end;
+   LOOP_INDEX = LOOP_INDEX - 1;
+
+   /* SET_BOOK - Set the cooresponding booking number */
+
+   BK_MODIFICATION = 0;
+   if (AR_CASH_SELECT ^= 0) &
+      (AR_CASH_SELECT > 5) & (AR_CASH_SELECT < 16) then
+         do;
+         BOOKING_NO = BOOK_ARRAY(AR_CASH_SELECT - 5);
+         end;
+      else
+         ERROR_CODE = 1;
+
+return;
+end;	/* DISPLAY_OPEN_BK      */
+
+/****************************************************************
+	DISPLAY_DATA_C
+	Display the data in screen group C
+****************************************************************/
+
+DISPLAY_DATA_C:
+	procedure;
+
+do LOOP_INDEX =   3 to   3;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  14 to  20;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_C       */
+
+/****************************************************************
+	READ_THRU_BOOK
+	Read thru the bookings for this agency
+****************************************************************/
+
+READ_THRU_BOOK:
+	procedure;
+
+declare		ANSWER               character (1);
+
+   /* READ_NEXT - Read the next record */
+
+   call READ_NEXT (BK_BOOKING_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (BK_BOOKING_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BK_MODIFICATION > 0) !
+   (BK_AGENCY > AGENCY_NUMBER) then
+      do;
+      END_READ_THRU_BOOK = YES;
+      return;
+      end;
+
+   /* CHECK_VALID_BOOK - Should this booking be displayed? */
+
+   if BK_BALANCE = 0 then
+      return;
+
+   if BK_STATUS = "XL" then
+      return;
+
+   if LINE = 10 then
+      do;
+      call OUTPUT_LINE(24,12,"Display next screen?");
+      call INPUT_DATA (24,34,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+      call CLEAR_TO_BOS(24);
+      if ANSWER ^= "Y" then
+         do;
+         END_READ_THRU_BOOK = YES;
+         return;
+         end;
+
+      LINE = 0;
+      end;
+
+   BOOK_ARRAY(LINE+1) = BOOKING_NO;
+
+
+   /* SET_LINE_OFFSET - Set the row offset */
+
+   call SET_ROW_OFFSET(LINE);
+
+   call DISPLAY_DATA_H;
+
+   /* INC_LINE - Increment the line */
+
+   LINE = LINE + 1;
+
+return;
+end;	/* READ_THRU_BOOK       */
+
+/****************************************************************
+	DISPLAY_DATA_H
+	Display screen group H
+****************************************************************/
+
+DISPLAY_DATA_H:
+	procedure;
+
+do LOOP_INDEX =   9 to  12;
+   call KEEP_TRAILING_SPACES;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_H       */
+
+/****************************************************************
+	DIS_BK_INFO
+	Display the booking information
+****************************************************************/
+
+DIS_BK_INFO:
+	procedure;
+
+   call DISPLAY_DATA_A;
+   call DISPLAY_DATA_B;
+   call DISPLAY_DATA_C;
+return;
+end;	/* DIS_BK_INFO          */
+
+/****************************************************************
+	DISPLAY_DATA_A
+	Display the items in screen group A
+****************************************************************/
+
+DISPLAY_DATA_A:
+	procedure;
+
+do LOOP_INDEX =   1 to   1;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_A       */
+
+/****************************************************************
+	DISPLAY_DATA_B
+	Display the screen data in group B
+****************************************************************/
+
+DISPLAY_DATA_B:
+	procedure;
+
+do LOOP_INDEX =   2 to   2;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_B       */
+
+/****************************************************************
+	ENTER_DATA_D
+	Enter screen group D
+****************************************************************/
+
+ENTER_DATA_D:
+	procedure;
+
+do LOOP_INDEX =   4 to   4;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_D         */
+
+/****************************************************************
+	AR_CASH_FOUND
+	Found
+****************************************************************/
+
+AR_CASH_FOUND:
+	procedure;
+
+   call DISPLAY_DATA_E;
+
+   /* SUB_BATCH_TOTALS - Subtract this one from batch totals */
+
+   AR_CHECKS_FRA = AR_CHECKS_FRA - (AR_AMT_APPLIED / AR_REC_AMOUNT);
+   BATCH_CHECKS_ACT = AR_CHECKS_FRA + 0.1;
+   BATCH_TOTAL_ACT = floor((BATCH_TOTAL_ACT - AR_AMT_APPLIED)*100+0.5)/100;
+
+return;
+end;	/* AR_CASH_FOUND        */
+
+/****************************************************************
+	DISPLAY_DATA_E
+	Display the data in screen group E
+****************************************************************/
+
+DISPLAY_DATA_E:
+	procedure;
+
+do LOOP_INDEX =   5 to   8;
+   call OUTPUT_FIELD (LOOP_INDEX);
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  21 to  21;
+   call OUTPUT_FIELD (LOOP_INDEX);
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = AR_GL_ACCT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         GL_ACCOUNT_DESC = "** RECORD NOT FOUND **";
+         end;
+      else
+         do;
+         do LOOP_INDEX =  22 to  22;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* DISPLAY_DATA_E       */
+
+/****************************************************************
+	AR_CASH_NOTFOUND
+	Not found
+****************************************************************/
+
+AR_CASH_NOTFOUND:
+	procedure;
+
+   call ENTER_DATA_E;
+
+   /* BUMP_CASH_SEQ - Bump the cash sequence number */
+
+   BATCH_NEXT_SEQ = BATCH_NEXT_SEQ + 1;
+
+   AR_CASH_BK_SEQ = BATCH_NEXT_SEQ;
+
+return;
+end;	/* AR_CASH_NOTFOUND     */
+
+/****************************************************************
+	ENTER_DATA_E
+	Enter the data in screen group E
+****************************************************************/
+
+ENTER_DATA_E:
+	procedure;
+
+AR_REC_AMOUNT = 0;
+AR_AMT_APPLIED = 0;
+AR_REMARK = "";
+AR_GL_ACCT = 0;
+do LOOP_INDEX =   5 to   8;
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* SET_DEF_PYMT - Set up a default payment amount */
+
+      AR_REC_AMOUNT = BK_BALANCE;
+      if (BK_BALANCE = BK_NET_PRICE) &
+         (TODAYS_DATE() < BK_DEPOSIT_DUE + 5) &
+         (TODAYS_DATE() < BK_FINAL_DUE + 15) then
+            AR_REC_AMOUNT = BK_DEPOSIT;
+
+      end;
+   if LOOP_INDEX =   7 then
+      do;
+
+      /* CHECK_APPLY_DEF - Check to see if apply should default */
+
+      if AR_AMT_APPLIED = 0 then
+         do;
+         AR_AMT_APPLIED = AR_REC_AMOUNT;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+
+      end;
+   if LOOP_INDEX =   8 then
+      do;
+
+      /* SET_COMMENT_DEF - Set up a default comment */
+
+      declare	TEMP_LOOP	fixed binary;
+      declare	TEMP_FIELD	character(20);
+      TEMP_FIELD = AR_CHECK_NO;
+      do TEMP_LOOP = 1 to 20;
+         if substr(TEMP_FIELD,1,1) = " " then
+            TEMP_FIELD = substr(TEMP_FIELD,2,19);
+      end;
+
+      if AR_AMT_APPLIED = BK_DEPOSIT then
+         AR_REMARK = "Deposit - Check no. " !! TEMP_FIELD;
+      else
+         do;
+         if AR_AMT_APPLIED = BK_BALANCE then
+            AR_REMARK = "Final Pymt - Check no. " !! TEMP_FIELD;
+         else
+            AR_REMARK = "Payment - Check no. " !! TEMP_FIELD;
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+do LOOP_INDEX =  21 to  21;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* SET_AR_GL_ACCT - Set up the account number for display */
+
+      if BOOKING_NO = 0 then
+         AR_GL_ACCT = AR_NON_TOUR;
+      else
+         do;
+
+         /* GET_TOUR_HDR - Get the tour header */
+
+         ERROR_CODE = NORMAL_RETURN;
+
+         HDR_TOUR_CODE = BK_TOUR_CODE;
+         HDR_END_ON = BK_DEPARTURE;
+         if HDR_END_ON = 0 then
+            HDR_END_ON = TODAYS_DATE();
+         call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE ^= END_OF_FILE then
+            call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+         if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+            ERROR_CODE = END_OF_FILE;
+         if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+            ERROR_CODE = END_OF_FILE;
+
+         AR_GL_ACCT = HDR_AR_GL;
+         if AR_GL_ACCT = 0 then
+            AR_GL_ACCT = AR_DEF_AR;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         LOOP_INDEX = 99;
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = AR_GL_ACCT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  22 to  22;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* ENTER_DATA_E         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1, 92,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  5 then
+   do;
+   if SELECT <=  4 then
+      LOOP_INDEX = SELECT +   4;
+   if SELECT =  5 then
+      LOOP_INDEX = 21;
+   if LOOP_INDEX =   5 then
+      do;
+
+      /* SET_DEF_PYMT - Set up a default payment amount */
+
+      AR_REC_AMOUNT = BK_BALANCE;
+      if (BK_BALANCE = BK_NET_PRICE) &
+         (TODAYS_DATE() < BK_DEPOSIT_DUE + 5) &
+         (TODAYS_DATE() < BK_FINAL_DUE + 15) then
+            AR_REC_AMOUNT = BK_DEPOSIT;
+
+      end;
+   if LOOP_INDEX =   7 then
+      do;
+
+      /* CHECK_APPLY_DEF - Check to see if apply should default */
+
+      if AR_AMT_APPLIED = 0 then
+         do;
+         AR_AMT_APPLIED = AR_REC_AMOUNT;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         LOOP_INDEX = LOOP_INDEX + 1;
+         end;
+
+      end;
+   if LOOP_INDEX =   8 then
+      do;
+
+      /* SET_COMMENT_DEF - Set up a default comment */
+
+      declare	TEMP_LOOP	fixed binary;
+      declare	TEMP_FIELD	character(20);
+      TEMP_FIELD = AR_CHECK_NO;
+      do TEMP_LOOP = 1 to 20;
+         if substr(TEMP_FIELD,1,1) = " " then
+            TEMP_FIELD = substr(TEMP_FIELD,2,19);
+      end;
+
+      if AR_AMT_APPLIED = BK_DEPOSIT then
+         AR_REMARK = "Deposit - Check no. " !! TEMP_FIELD;
+      else
+         do;
+         if AR_AMT_APPLIED = BK_BALANCE then
+            AR_REMARK = "Final Pymt - Check no. " !! TEMP_FIELD;
+         else
+            AR_REMARK = "Payment - Check no. " !! TEMP_FIELD;
+         end;
+
+      end;
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* SET_AR_GL_ACCT - Set up the account number for display */
+
+      if BOOKING_NO = 0 then
+         AR_GL_ACCT = AR_NON_TOUR;
+      else
+         do;
+
+         /* GET_TOUR_HDR - Get the tour header */
+
+         ERROR_CODE = NORMAL_RETURN;
+
+         HDR_TOUR_CODE = BK_TOUR_CODE;
+         HDR_END_ON = BK_DEPARTURE;
+         if HDR_END_ON = 0 then
+            HDR_END_ON = TODAYS_DATE();
+         call SET_POSITION (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE ^= END_OF_FILE then
+            call READ_NEXT (BK_TOUR_HDR_NO,KEY_AREA_1,ERROR_CODE);
+
+         if BK_TOUR_CODE ^= HDR_TOUR_CODE then
+            ERROR_CODE = END_OF_FILE;
+         if BK_DEPARTURE ^= 0 then if BK_DEPARTURE < HDR_START_ON then
+            ERROR_CODE = END_OF_FILE;
+
+         AR_GL_ACCT = HDR_AR_GL;
+         if AR_GL_ACCT = 0 then
+            AR_GL_ACCT = AR_DEF_AR;
+         call OUTPUT_FIELD(LOOP_INDEX);
+         LOOP_INDEX = 99;
+         end;
+
+      end;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if LOOP_INDEX =  21 then
+      do;
+
+      /* READ_SECOND_5 - Read second */
+
+      GL_ACCOUNT_NO = AR_GL_ACCT;
+      call READ_KEYED (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE = RECORD_NOT_FOUND then
+         do;
+         call DISPLAY_MESSAGE ("Record not found!!!<BEL>"c);
+         call PRESS_RETURN;
+         call CLEAR_MESSAGE;
+         RETURN_CODE = DO_AGAIN;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      else
+         do;
+         do LOOP_INDEX =  22 to  22;
+            call OUTPUT_FIELD (LOOP_INDEX);
+         end;
+         LOOP_INDEX = LOOP_INDEX - 1;
+         end;
+      end;
+   end;
+if SELECT = 88 then
+   do;
+   call INPUT_FIELD ( 13,INPUT_LENGTH,RETURN_CODE);
+   end;
+if SELECT >= 90 then if SELECT <= 92 then
+   do;
+   if SELECT <= 91 then
+      LOOP_INDEX = SELECT + -89;
+   if SELECT = 92 then
+      LOOP_INDEX =  4;
+   if LOOP_INDEX =   1 then
+      call DISPLAY_MSG_NO ( 70);
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (BK_BOOKING_NO);
+   call CLOSE_FILE (GL_CHART_NO);
+   call CLOSE_FILE (AM_AGCY_NO);
+   call CLOSE_FILE (BK_TOUR_HDR_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

@@ -1,0 +1,447 @@
+/****************************************************************
+	Module: AR_MCO_COL_RPT
+	Top Level Logic: REPORT_LOGIC
+	Date: 28-Jan-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AR_MCO_COL_RPT
+	Standard report logic
+****************************************************************/
+
+%replace AR_MCO_COL_RPT_1 by 646;
+%replace AR_MCO_COL_RPT_2 by 645;
+AR_MCO_COL_RPT:
+   procedure;
+%replace AR_MCO_DET_NO by  50;
+%include "AR_MCO_COL_RPT.DD";
+%include "AR_MCO_DET.DD";
+
+declare		END_REPORT_MAIN      bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_READ_THRU_FILE   bit (1);
+declare		LOOP_INDEX           fixed binary (15);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		RETURN_CODE          fixed binary (15);
+declare		FIRST_TIME           bit (1);
+declare		LINE                 fixed binary (15);
+declare		END_UD_THRU_PAID     bit (1);
+   call INITIALIZE;
+   END_REPORT_MAIN = NO;
+   do while (END_REPORT_MAIN ^= YES);
+      call REPORT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   AR_COLL_DATE = TODAYS_DATE();
+   AR_COLL_TIME = CURRENT_TIME();
+   AR_COLL_PAGE = 1;
+   AR_TOTAL_GROSS = 0;
+   AR_COLL_COUNT = 0;
+   AR_TOTAL_MNET = 0;
+   AR_TOTAL_REC = 0;
+   AR_TOTAL_APPLIED = 0;
+   AR_MCO_USER = USER_NAME();
+   AR_MCO_STATUS = 1;
+   AR_MCO_CARRIER = "";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   FIRST_TIME = YES;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AR_MCO_COL_RPT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AR_MCO_COL_RPT_RECORD) );
+   call OPEN_FILE (AR_MCO_DET_NO,"AR_MCO_DET",byteaddr(AR_MCO_DET_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	REPORT_MAIN
+	Mainline Logic
+****************************************************************/
+
+REPORT_MAIN:
+	procedure;
+
+   call INPUT_SCREEN;
+
+   /* CHECK_AGAIN - Should I return to do this again? */
+
+   if RETURN_CODE = DO_AGAIN then
+      return;
+
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_REPORT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("REPORT");
+   call SETUP_PRINT_FORMAT (AR_MCO_COL_RPT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* BEFORE_LOGIC - Before logic */
+
+   call PRT_PAGE_HEADING;
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AR_MCO_STATUS = 3;
+   AR_MCO_CARRIER = AR_CARR_COLL;
+   AR_MCO_DATE_REC = 0;
+   AR_MCO_SEQ = 0;
+   call SET_POSITION (AR_MCO_DET_NO,KEY_AREA_3,ERROR_CODE);
+   END_READ_THRU_FILE = NO;
+   do while (END_READ_THRU_FILE ^= YES);
+      call READ_THRU_FILE;
+   end;
+
+   /* PRT_GRAND_TOTAL - Print the grand total */
+
+
+   /* CALC_MCO_VARIANCE - Calculate the MCO variance */
+
+   AR_MCO_REC_VAR = AR_TOTAL_APPLIED - AR_TOTAL_REC;
+
+   do LOOP_INDEX =   7 to   9;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* AFTER_LOGIC - Other Logic */
+
+   call UD_MCO_PAID;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_REPORT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* REPORT_MAIN          */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+AR_CARR_COLL = "";
+do LOOP_INDEX =   1 to   1;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  1,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT =  1 then
+   do;
+   call INPUT_FIELD (  1,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =   1 to   5;
+   call PRINT_REPORT_LINE;
+end;
+
+/* BUMP_PAGE_NO - Increase this variable by one */
+
+AR_COLL_PAGE = AR_COLL_PAGE + 1;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	READ_THRU_FILE
+	Read sequentially through file
+****************************************************************/
+
+READ_THRU_FILE:
+	procedure;
+
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AR_MCO_DET_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_MCO_STATUS > 3) !
+   (AR_MCO_CARRIER > AR_CARR_COLL) then
+      do;
+      END_READ_THRU_FILE = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* SKIP_NOT_PAID - Skip MCOs that weren't paid yet */
+
+   if AR_MCO_AMT_PAID = 0 then
+      return;
+
+
+   /* CTRL_BREAK - Control break logic */
+
+   if FIRST_TIME then
+      do;
+      end;
+   FIRST_TIME = NO;
+
+   /* PRT_DETAIL - Print the detail lines */
+
+   do LOOP_INDEX =   6 to   6;
+      call PRINT_REPORT_LINE;
+   end;
+
+   /* ADD_TOTALS - Add to the total fields */
+
+   AR_TOTAL_GROSS = floor((AR_TOTAL_GROSS + AR_MCO_GROSS) * 100 + 0.5) / 100;
+   AR_COLL_COUNT = AR_COLL_COUNT + 1;
+   AR_TOTAL_MNET = floor((AR_TOTAL_MNET + AR_MCO_NET) * 100 + 0.5) / 100;
+   AR_TOTAL_APPLIED = floor((AR_TOTAL_APPLIED + AR_MCO_AMT_APPLIED) * 100 + 0.5) / 100;
+   AR_TOTAL_REC = floor((AR_TOTAL_REC + AR_MCO_AMT_PAID) * 100 + 0.5) / 100;
+
+   /* OTHER_LOGIC - Any other logic */
+
+return;
+end;	/* READ_THRU_FILE       */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 60 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	UD_MCO_PAID
+	Update the paid MCOs
+****************************************************************/
+
+UD_MCO_PAID:
+	procedure;
+
+declare		ANSWER               character (1);
+
+   /* CLOSE_LPT - Close the printer */
+
+   call CLOSE_PRINTER;
+
+
+   /* SURE_UD_MCO - Are you sure */
+
+   call OUTPUT_LINE(23,10,"Are you sure you want to update these MCOs?");
+   call INPUT_DATA(23,55,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   AR_MCO_STATUS = 3;
+   AR_MCO_CARRIER = AR_CARR_COLL;
+   AR_MCO_DATE_REC = 0;
+   AR_MCO_SEQ = 0;
+   call SET_POSITION (AR_MCO_DET_NO,KEY_AREA_3,ERROR_CODE);
+   END_UD_THRU_PAID = NO;
+   do while (END_UD_THRU_PAID ^= YES);
+      call UD_THRU_PAID;
+   end;
+return;
+end;	/* UD_MCO_PAID          */
+
+/****************************************************************
+	UD_THRU_PAID
+	Update the Paid MCOs
+****************************************************************/
+
+UD_THRU_PAID:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AR_MCO_DET     fixed binary (15);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AR_MCO_DET_NO,KEY_AREA_3,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AR_MCO_DET_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (AR_MCO_STATUS > 3) !
+   (AR_MCO_CARRIER > AR_CARR_COLL) then
+      do;
+      END_UD_THRU_PAID = YES;
+      return;
+      end;
+
+   /* CHECK_SELECT - Check selection criteria */
+
+
+   /* SKIP_NOT_PAID - Skip MCOs that weren't paid yet */
+
+   if AR_MCO_AMT_PAID = 0 then
+      return;
+
+
+   /* UD_PAID_MCO - Update this MCO to Paid status */
+
+   AR_MCO_STATUS = 4;
+
+
+   /* UPDATE_RECORD - Update the record */
+
+   call UPDATE_RECORD (AR_MCO_DET_NO,ERROR_CODE);
+
+   /* UD_PAID_BACK - Set to the pervious value */
+
+   AR_MCO_STATUS = 3;
+
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (AR_MCO_DET_NO,KEY_AREA_3,ERROR_AR_MCO_DET);
+   if ERROR_AR_MCO_DET > 3 then
+      call PRINT_ERROR (AR_MCO_DET_NO,ERROR_AR_MCO_DET);
+return;
+end;	/* UD_THRU_PAID         */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (AR_MCO_DET_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

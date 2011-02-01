@@ -1,0 +1,24 @@
+/*********************************************************************
+	MAIL_LOG File
+********************************************************************/
+
+declare	1 MAIL_LOG_RECORD,
+		3 MAIL_ENTRY           fixed binary (15),
+		3 MAIL_DATE            fixed binary (15),
+		3 MAIL_TIME            fixed binary (15),
+		3 MAIL_ENTERED         character (       16),
+		3 MAIL_AGENCY          fixed binary (31),
+		3 MAIL_AGENCY_NAME     character (       30),
+		3 MAIL_AGENCY_ADD_1    character (       30),
+		3 MAIL_AGENCY_ADD_2    character (       30),
+		3 MAIL_AGENCY_ADD_3    character (       20),
+		3 MAIL_AGENCY_ZIP      character (       10),
+		3 MAIL_BY              character (        1),
+		3 MAIL_RATE_TYPE       fixed binary (15),
+		3 MAIL_ZONE            character (        1),
+		3 MAIL_CODE            character (       10),
+		3 MAIL_MAILED          character (1),
+		3 MAIL_RATE            float binary (21),
+		3 MAIL_DESC            character (       30),
+		3 MAIL_RATE_TYPE_DESC  character (       20);
+

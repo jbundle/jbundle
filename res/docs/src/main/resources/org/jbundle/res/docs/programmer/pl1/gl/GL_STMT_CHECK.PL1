@@ -1,0 +1,551 @@
+/****************************************************************
+	Module: GL_STMT_CHECK
+	Top Level Logic: STMT_CK_LOGIC
+	Date: 25-Apr-90
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	GL_STMT_CHECK
+	Top-Level to check statment
+****************************************************************/
+
+%replace GL_STMT_CHECK_1 by 639;
+GL_STMT_CHECK:
+   procedure(
+      GL_FS_HEADER_RECORD);
+%replace GL_CHART_NO by  16;
+%replace GL_FS_DETAIL_NO by 106;
+%replace GL_FS_HEADER_NO by 104;
+%include "GL_STMT_CHECK.DD";
+%include "GL_CHART.DD";
+%include "GL_FS_DETAIL.DD";
+%include "GL_FS_HEADER.DD";
+
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_COMPARE_ALL      bit (1);
+declare		END_DEL_LAST_FMTS    bit (1);
+declare		END_MOVE_OLD_FMT     bit (1);
+declare		END_SET_NEW_FMT      bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_GL_FS_DETAIL   fixed binary (15);
+   call INITIALIZE;
+   call STMT_CK_MAIN;
+   call END_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   GL_NEXT_COUNT = 10;
+   GL_STMT_SAVE = 100;
+   TYPICAL_BAL = "D";
+   SECTION_SUB = "N";
+   COUNTER_BAL_AC = 0;
+   GL_INCOME_EXP = "N";
+   DISCONTINUED_ON = 0;
+   GL_DL_STMT = 1;
+   GL_DL_INDENT = 0;
+   GL_DL_INVIS = "N";
+   GL_DL_PAREN = "D";
+   GL_DL_SUBTOTAL = 0;
+   GL_DL_COLUMN = 1;
+   GL_DL_SPECIAL = "  ";
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (GL_STMT_CHECK_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (GL_STMT_CHECK_RECORD) );
+   call OPEN_FILE (GL_CHART_NO,"GL_CHART",byteaddr(GL_CHART_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_CHART_NO,ERROR_CODE);
+   call OPEN_FILE (GL_FS_DETAIL_NO,"GL_FS_DETAIL",byteaddr(GL_FS_DETAIL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	STMT_CK_MAIN
+	Mainline logic
+****************************************************************/
+
+STMT_CK_MAIN:
+	procedure;
+
+declare		ANSWER               character (1);
+   call INPUT_SCREEN;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      return;
+
+
+   /* CHECK_SURE - Are you sure? */
+
+   call OUTPUT_LINE(23,10,"Are you sure?");
+   call INPUT_DATA(23,24,1,"Y",byteaddr(ANSWER),INPUT_LENGTH,RETURN_CODE);
+   call CLEAR_TO_BOS(23);
+   call DUMP_BUFFER;
+   if ANSWER ^= "Y" then
+      return;
+
+
+   /* PROC_OCCURRING - Processing occurring, please wait msg */
+
+   call PROCESSING_OCCURRING;
+   call DUMP_BUFFER;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   GL_ACCOUNT_NO = 0;
+   call SET_POSITION (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_CHART_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) then
+      return;
+
+   /* SET_FIRST_2 - Set the file pointer to the first key */
+
+   GL_DL_CODE = GL_FS_CODE;
+   GL_DL_ACCT = 1000;
+   GL_DL_STMT = 0;
+   GL_DL_SEQ = 0;
+   call SET_POSITION (GL_FS_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (GL_FS_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_FMT - Last format? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+      (GL_DL_CODE > GL_FS_CODE) then
+         GL_DL_ACCT = 10000000;
+
+   END_COMPARE_ALL = NO;
+   do while (END_COMPARE_ALL ^= YES);
+      call COMPARE_ALL;
+   end;
+   END_DEL_LAST_FMTS = NO;
+   do while (END_DEL_LAST_FMTS ^= YES);
+      call DEL_LAST_FMTS;
+   end;
+   END_MOVE_OLD_FMT = NO;
+   do while (END_MOVE_OLD_FMT ^= YES);
+      call MOVE_OLD_FMT;
+   end;
+   END_SET_NEW_FMT = NO;
+   do while (END_SET_NEW_FMT ^= YES);
+      call SET_NEW_FMT;
+   end;
+return;
+end;	/* STMT_CK_MAIN         */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+do LOOP_INDEX =   1 to   2;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+      do;
+      ERROR_INPUT_SCREEN = YES;
+      return;
+      end;
+end;
+LOOP_INDEX = LOOP_INDEX - 1;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+declare		SELECT               fixed binary (15);
+call ANY_CHANGE (1,  2,SELECT,RETURN_CODE);
+if (RETURN_CODE = END_TYPED) ! (RETURN_CODE = ESCAPE) then
+   do;
+   ERROR_INPUT_SCREEN = YES;
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+   end;
+if SELECT = 0 then
+   do;
+   END_CHANGE_ITEM = YES;
+   return;
+   end;
+if SELECT >=  1 then if SELECT <=  2 then
+   do;
+
+      LOOP_INDEX = SELECT;
+   call INPUT_FIELD (LOOP_INDEX,INPUT_LENGTH,RETURN_CODE);
+   end;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	COMPARE_ALL
+	Compare all the fmts to the chart
+****************************************************************/
+
+COMPARE_ALL:
+	procedure;
+
+if GL_DL_ACCT = GL_ACCOUNT_NO then
+   do;
+
+   /* FS_EQUAL - Financial Statements equal */
+
+
+      /* SET_NEXT_GL - Set the next sequence no for new a/c */
+
+      GL_NEXT_COUNT = GL_DL_SEQ + 1;
+
+
+      /* READNEXT_2 - Read the next record */
+
+      call READ_NEXT (GL_FS_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+
+      /* CHECK_END_FMT - Last format? */
+
+      if (ERROR_CODE = END_OF_FILE) !
+         (GL_DL_CODE > GL_FS_CODE) then
+            GL_DL_ACCT = 10000000;
+
+
+      /* READNEXT - Read the next record */
+
+      call READ_NEXT (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+      if ERROR_CODE > 3 then
+      	call PRINT_ERROR (GL_CHART_NO,ERROR_CODE);
+
+      /* CHECK_END - Check to see if this is the last record */
+
+      if (ERROR_CODE = END_OF_FILE) then
+         do;
+         END_COMPARE_ALL = YES;
+         return;
+         end;
+   end;
+else
+   do;
+   if GL_DL_ACCT < GL_ACCOUNT_NO then
+      do;
+
+      /* FS_LESS - Format code is less that chart account */
+
+
+         /* DELETE_RECORD_2 - Delete the record */
+
+         call DELETE_RECORD (GL_FS_DETAIL_NO,ERROR_CODE);
+
+         /* READ_RECORD_2 - Read from another file */
+
+         call READ_KEYED (GL_FS_DETAIL_NO,KEY_AREA_2,ERROR_GL_FS_DETAIL);
+         if ERROR_GL_FS_DETAIL > 3 then
+            call PRINT_ERROR (GL_FS_DETAIL_NO,ERROR_GL_FS_DETAIL);
+
+         /* READNEXT_2 - Read the next record */
+
+         call READ_NEXT (GL_FS_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+         if ERROR_CODE > 3 then
+         	call PRINT_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+
+         /* CHECK_END_FMT - Last format? */
+
+         if (ERROR_CODE = END_OF_FILE) !
+            (GL_DL_CODE > GL_FS_CODE) then
+               GL_DL_ACCT = 10000000;
+
+      end;
+   else
+      do;
+
+      /* FS_MORE - The Format account is more than chart */
+
+
+         /* ADD_FORMAT - Set up and add this format account */
+
+         GL_DL_CODE = GL_FS_CODE;
+         if GL_INCOME_EXP ^= "Y" then
+            GL_DL_STMT = GL_BS_STMT;
+         else
+            GL_DL_STMT = GL_IS_STMT;
+         GL_DL_SEQ = GL_NEXT_COUNT;
+         GL_DL_ACCT = GL_ACCOUNT_NO;
+         GL_DL_DESC = GL_ACCOUNT_DESC;
+         GL_DL_INDENT = 0;
+         GL_DL_INVIS = "N";
+         GL_DL_PAREN = TYPICAL_BAL;
+         GL_DL_SUBTOTAL = 0;
+         GL_DL_COLUMN = 1;
+         GL_DL_SPECIAL = "  ";
+
+
+         /* WRITE_RECORD_2 - Write the record */
+
+         ERROR_CODE = KEY_ALREADY_EXISTS;
+         do while(ERROR_CODE = KEY_ALREADY_EXISTS);
+            call WRITE_RECORD (GL_FS_DETAIL_NO,ERROR_CODE);
+            if ERROR_CODE = KEY_ALREADY_EXISTS then
+               GL_DL_SEQ = GL_DL_SEQ + 1;
+         end;
+
+         /* SET_NEXT_GL - Set the next sequence no for new a/c */
+
+         GL_NEXT_COUNT = GL_DL_SEQ + 1;
+
+
+         /* SET_FIRST_3 - Set first */
+
+         GL_DL_CODE = GL_FS_CODE;
+         GL_DL_ACCT = GL_DL_ACCT+1;
+         GL_DL_STMT = 0;
+         GL_DL_SEQ = 0;
+         call SET_POSITION (GL_FS_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+
+         /* READNEXT_2 - Read the next record */
+
+         call READ_NEXT (GL_FS_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+         if ERROR_CODE > 3 then
+         	call PRINT_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+
+         /* CHECK_END_FMT - Last format? */
+
+         if (ERROR_CODE = END_OF_FILE) !
+            (GL_DL_CODE > GL_FS_CODE) then
+               GL_DL_ACCT = 10000000;
+
+
+         /* READNEXT - Read the next record */
+
+         call READ_NEXT (GL_CHART_NO,KEY_AREA_1,ERROR_CODE);
+         if ERROR_CODE > 3 then
+         	call PRINT_ERROR (GL_CHART_NO,ERROR_CODE);
+
+         /* CHECK_END - Check to see if this is the last record */
+
+         if (ERROR_CODE = END_OF_FILE) then
+            do;
+            END_COMPARE_ALL = YES;
+            return;
+            end;
+      end;
+   end;
+
+return;
+end;	/* COMPARE_ALL          */
+
+/****************************************************************
+	DEL_LAST_FMTS
+	Delete all the remaining formats
+****************************************************************/
+
+DEL_LAST_FMTS:
+	procedure;
+
+
+   /* SKIP_NO_FMTS - Quit if no more format records */
+
+   if GL_DL_ACCT = 10000000 then
+      do;
+      END_DEL_LAST_FMTS = YES;
+      return;
+      end;
+
+
+   /* DELETE_RECORD_2 - Delete the record */
+
+   call DELETE_RECORD (GL_FS_DETAIL_NO,ERROR_CODE);
+
+   /* READ_RECORD_2 - Read from another file */
+
+   call READ_KEYED (GL_FS_DETAIL_NO,KEY_AREA_2,ERROR_GL_FS_DETAIL);
+   if ERROR_GL_FS_DETAIL > 3 then
+      call PRINT_ERROR (GL_FS_DETAIL_NO,ERROR_GL_FS_DETAIL);
+
+   /* READNEXT_2 - Read the next record */
+
+   call READ_NEXT (GL_FS_DETAIL_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_FMT - Last format? */
+
+   if (ERROR_CODE = END_OF_FILE) !
+      (GL_DL_CODE > GL_FS_CODE) then
+         GL_DL_ACCT = 10000000;
+
+return;
+end;	/* DEL_LAST_FMTS        */
+
+/****************************************************************
+	MOVE_OLD_FMT
+	Change to current format to <0>
+****************************************************************/
+
+MOVE_OLD_FMT:
+	procedure;
+
+
+   /* SET_FIRST_4 - Set first */
+
+   GL_DL_CODE = GL_FS_CODE;
+   GL_DL_STMT = 0;
+   GL_DL_SEQ = 0;
+   call SET_POSITION (GL_FS_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_4 - Read next */
+
+   call READ_NEXT (GL_FS_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_4 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_DL_CODE > GL_FS_CODE) then
+      do;
+      END_MOVE_OLD_FMT = YES;
+      return;
+      end;
+
+   /* CHANGE_CODE - Change the F/S code to <0> temporarly */
+
+   GL_DL_CODE = "<0>"c;
+
+
+   /* UPDATE_RECORD_4 - Update the record */
+
+   call UPDATE_RECORD (GL_FS_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* MOVE_OLD_FMT         */
+
+/****************************************************************
+	SET_NEW_FMT
+	Set up the new renumbered format
+****************************************************************/
+
+SET_NEW_FMT:
+	procedure;
+
+
+   /* SET_FIRST_5 - Set first */
+
+   GL_DL_CODE = "<0>"c;
+   GL_DL_STMT = 0;
+   GL_DL_SEQ = 0;
+   call SET_POSITION (GL_FS_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+
+   /* READNEXT_4 - Read next */
+
+   call READ_NEXT (GL_FS_DETAIL_NO,KEY_AREA_1,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (GL_FS_DETAIL_NO,ERROR_CODE);
+
+   /* CHECK_END_5 - Check end */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (GL_DL_CODE > "<0>"c) then
+      do;
+      END_SET_NEW_FMT = YES;
+      return;
+      end;
+
+   /* RESET_COUNT - Reset the seq no if break */
+
+   if GL_STMT_SAVE ^= GL_DL_STMT then
+      do;
+      GL_NEXT_COUNT = 10;
+      GL_STMT_SAVE = GL_DL_STMT;
+      end;
+
+
+   /* SET_NEXT_FMT - Set this format up for re-write */
+
+   GL_DL_CODE = GL_FS_CODE;
+   GL_DL_SEQ = GL_NEXT_COUNT;
+
+   GL_NEXT_COUNT = GL_NEXT_COUNT + 10;
+
+
+   /* UPDATE_RECORD_4 - Update the record */
+
+   call UPDATE_RECORD (GL_FS_DETAIL_NO,ERROR_CODE);
+return;
+end;	/* SET_NEW_FMT          */
+
+/****************************************************************
+	END_PROGRAM
+	End of program stuff
+****************************************************************/
+
+END_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_FILES - Close all the files for this program */
+
+   call CLOSE_FILE (GL_CHART_NO);
+   call CLOSE_FILE (GL_FS_DETAIL_NO);
+return;
+end;	/* END_PROGRAM          */
+end;	/* END_PROGRAM          */
+/*********************************End of Program*********************/

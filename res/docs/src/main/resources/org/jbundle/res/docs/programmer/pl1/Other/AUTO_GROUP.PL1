@@ -1,0 +1,300 @@
+/****************************************************************
+	Module: AM_BROC_PRT
+	Top Level Logic: BROC_RPT_LOGIC
+	Date: 12-Dec-91
+	Program Revision: 0.00
+	S/G Revision: 0.00
+****************************************************************/
+
+%include "FIO.IN";
+
+/****************************************************************
+	AM_BROC_PRT
+	Brochure request logic -T.L.
+****************************************************************/
+
+%replace AM_BROC_PRT_1 by 390;
+%replace AM_BROC_PRT_2 by 391;
+%replace AM_BROC_PRT_3 by 436;
+AM_BROC_PRT:
+   procedure;
+%replace AM_CONTROL_NO by 114;
+%replace AM_REQUESTS_NO by  12;
+%include "AM_BROC_PRT.DD";
+%include "AM_CONTROL.DD";
+%include "AM_REQUESTS.DD";
+
+declare		END_BROC_RPT_MAIN    bit (1);
+declare		ERROR_CODE           fixed binary (15);
+declare		ERROR_INPUT_SCREEN   bit (1);
+declare		RETURN_CODE          fixed binary (15);
+declare		END_CHANGE_ITEM      bit (1);
+declare		END_PRT_BROC_REQ     bit (1);
+declare		INPUT_LENGTH         fixed binary (15);
+declare		LOOP_INDEX           fixed binary (15);
+declare		LINE                 fixed binary (15);
+   call INITIALIZE;
+   END_BROC_RPT_MAIN = NO;
+   do while (END_BROC_RPT_MAIN ^= YES);
+      call BROC_RPT_MAIN;
+   end;
+   call END_RPT_PROGRAM;
+return;
+
+/****************************************************************
+	INITIALIZE
+	Initialize the program
+****************************************************************/
+
+INITIALIZE:
+	procedure;
+
+
+   /* INIT_FILE_VARS - Initialize the file variables */
+
+   BROCHURE_TYPE = "U";
+   BROCHURE_COUNT = 1;
+   AM_REC_NO = 9;
+
+   /* INIT_PROG_VARS - INITIALIZE THE PROGRAM VARIABLES */
+
+   ERROR_INPUT_SCREEN = NO;
+   LINE = 0;
+
+   /* DISPLAY_SCREEN - Display the screen */
+
+   call OPEN_SCREEN;
+   call DISPLAY_SCREEN (AM_BROC_PRT_1);
+
+   /* OPEN_FILES - Open all the files for this program */
+
+   call SET_SCREEN_VARS (byteaddr (AM_BROC_PRT_RECORD) );
+   call OPEN_FILE (AM_CONTROL_NO,"AM_CONTROL",byteaddr(AM_CONTROL_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_CONTROL_NO,ERROR_CODE);
+   call OPEN_FILE (AM_REQUESTS_NO,"AM_REQUESTS",byteaddr(AM_REQUESTS_RECORD),ERROR_CODE);
+   if ERROR_CODE ^= 0 then call OPEN_ERROR (AM_REQUESTS_NO,ERROR_CODE);
+return;
+end;	/* INITIALIZE           */
+
+/****************************************************************
+	BROC_RPT_MAIN
+	Mainline logic
+****************************************************************/
+
+BROC_RPT_MAIN:
+	procedure;
+
+declare		KEY_NO               fixed binary (15);
+declare		ERROR_AM_CONTROL     fixed binary (15);
+   call INPUT_SCREEN;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_BROC_RPT_MAIN = YES;
+      return;
+      end;
+
+   END_CHANGE_ITEM = NO;
+   do while (END_CHANGE_ITEM ^= YES);
+      call CHANGE_ITEM;
+   end;
+
+   /* RETURN_IF_INP_ERR - Return if input error */
+
+   if ERROR_INPUT_SCREEN then
+      do;
+      END_BROC_RPT_MAIN = YES;
+      return;
+      end;
+
+
+   /* OPEN_LPT - Open the printer */
+
+   call OPEN_PRINTER("ONEUP");
+   call SETUP_PRINT_FORMAT (AM_BROC_PRT_2);
+   call PRINTING_OCCURRING;
+   call DUMP_BUFFER;
+
+   /* CHECK_FOR_BULK - Check to see if they typed Bulk */
+
+   if BROCHURE_TYPE = "B" then
+      do;
+      call SETUP_PRINT_FORMAT(AM_BROC_PRT_2);
+      /*  call SETUP_PRINT_FORMAT(AM_BROC_PRT_3); TEMP FIX */
+      end;
+
+
+   /* SETUP_KEY - Set up this key for a read */
+
+   AM_REC_NO = 0;
+   KEY_NO = 1;
+
+   /* READ_RECORD - Read the record */
+
+   call READ_KEYED (AM_CONTROL_NO,KEY_NO,ERROR_AM_CONTROL);
+   if ERROR_AM_CONTROL > 3 then
+      call PRINT_ERROR (AM_CONTROL_NO,ERROR_AM_CONTROL);
+   call PRT_PAGE_HEADING;
+   END_PRT_BROC_REQ = NO;
+   do while (END_PRT_BROC_REQ ^= YES);
+      call PRT_BROC_REQ;
+   end;
+
+   /* RETURN - Normal Return */
+
+   do;
+   END_BROC_RPT_MAIN = YES;
+   return;
+   end;
+
+return;
+end;	/* BROC_RPT_MAIN        */
+
+/****************************************************************
+	INPUT_SCREEN
+	Input the data for this screen
+****************************************************************/
+
+INPUT_SCREEN:
+	procedure;
+
+declare		FIRST_ITEM           fixed binary (15);
+BROCHURE_TYPE = "G";
+BROCHURE_COUNT = 2;
+return;
+end;	/* INPUT_SCREEN         */
+
+/****************************************************************
+	CHANGE_ITEM
+	Any change? (Input screen fields)
+****************************************************************/
+
+CHANGE_ITEM:
+	procedure;
+
+   END_CHANGE_ITEM = YES;
+return;
+end;	/* CHANGE_ITEM          */
+
+/****************************************************************
+	PRT_PAGE_HEADING
+	Print the page heading
+****************************************************************/
+
+PRT_PAGE_HEADING:
+	procedure;
+
+do LOOP_INDEX =  24 to   1;
+   call PRINT_REPORT_LINE;
+end;
+return;
+end;	/* PRT_PAGE_HEADING     */
+
+/****************************************************************
+	PRINT_REPORT_LINE
+	Print out this report line
+****************************************************************/
+
+PRINT_REPORT_LINE:
+	procedure;
+
+declare		SAVE_FORMAT          fixed binary (15);
+declare		SAVE_INDEX           fixed binary (15);
+LINE = LINE + 1;
+if LINE > 7 then
+   do;
+   call PRINT_LINE ("<FF>"c);
+   LINE = 1;
+   SAVE_INDEX = LOOP_INDEX;
+   call GET_PRINT_FORMAT(SAVE_FORMAT);
+   call PRT_PAGE_HEADING;
+   call GET_PRINT_FORMAT(LOOP_INDEX);
+   if LOOP_INDEX ^= SAVE_FORMAT then
+      call SETUP_PRINT_FORMAT (SAVE_FORMAT);
+   LOOP_INDEX = SAVE_INDEX;
+   end;
+call PRINT_LINE_OUT (LOOP_INDEX);
+return;
+end;	/* PRINT_REPORT_LINE    */
+
+/****************************************************************
+	PRT_BROC_REQ
+	Print the broc. request
+****************************************************************/
+
+PRT_BROC_REQ:
+	procedure;
+
+
+   /* SET_FIRST - Set the record pointer to the first rec */
+
+   BROC_TYPE = BROCHURE_TYPE;
+   BROC_ZIP_CODE = "";
+   BROC_AGENCY_NUMBER = 0;
+   call SET_POSITION (AM_REQUESTS_NO,KEY_AREA_2,ERROR_CODE);
+
+   /* READNEXT - Read the next record */
+
+   call READ_NEXT (AM_REQUESTS_NO,KEY_AREA_2,ERROR_CODE);
+   if ERROR_CODE > 3 then
+   	call PRINT_ERROR (AM_REQUESTS_NO,ERROR_CODE);
+
+   /* CHECK_END - Check to see if this is the last record */
+
+   if (ERROR_CODE = END_OF_FILE) !
+   (BROC_TYPE > BROCHURE_TYPE) then
+      do;
+      END_PRT_BROC_REQ = YES;
+      return;
+      end;
+
+   /* PRT_LABELS - Print the Label(s) */
+
+   declare INDEX fixed binary;
+   do INDEX = 1 to BROCHURE_COUNT;
+      do;
+
+      /* PRT_DETAIL - Print the detail lines */
+
+
+      /* MOVE_AGCY_UP - Move the spaces in the agency name up */
+
+      if BROC_ADDRESS_1 = "" then if BROC_AGENCY_NAME ^= "" then
+         do;
+         BROC_ADDRESS_1 = BROC_AGENCY_NAME;
+         BROC_AGENCY_NAME = "";
+         end;
+
+      do LOOP_INDEX =   5 to  11;
+         call PRINT_REPORT_LINE;
+      end;
+      end;
+   end;
+
+
+   /* DELETE_RECORD - Delete the record */
+
+   call DELETE_RECORD (AM_REQUESTS_NO,ERROR_CODE);
+return;
+end;	/* PRT_BROC_REQ         */
+
+/****************************************************************
+	END_RPT_PROGRAM
+	End of the program
+****************************************************************/
+
+END_RPT_PROGRAM:
+	procedure;
+
+
+   /* CLOSE_RPT_FILES - Close the files for this report program */
+
+   call CLOSE_FILE (AM_CONTROL_NO);
+   call CLOSE_FILE (AM_REQUESTS_NO);
+   call CLOSE_PRINTER;
+return;
+end;	/* END_RPT_PROGRAM      */
+end;	/* END_RPT_PROGRAM      */
+/*********************************End of Program*********************/

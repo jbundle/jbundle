@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<PictureType ID="1">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>File</Description>
+	</PictureType>
+	<PictureType ID="2">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Folder</Description>
+	</PictureType>
+	<PictureType ID="3">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>Deleted</Description>
+	</PictureType>
+</file>

@@ -1,0 +1,19 @@
+/*********************************************************************
+	BK_OPT_ALT File
+********************************************************************/
+
+declare	1 BK_OPT_ALT_RECORD,
+		3 ALT_TOUR_CODE        character (        4),
+		3 ALT_OR_OPT           character (1),
+		3 ALT_SEQ              fixed binary (15),
+		3 ALT_SELECT_BY        character (1),
+		3 ALT_QUESTION         character (       30),
+		3 ALT_ANSW_SEQ         fixed binary (15),
+		3 ALT_START            fixed binary (15),
+		3 ALT_END              fixed binary (15),
+		3 ALT_ANSWER           character (       30),
+		3 ALT_USE_SEQ          fixed binary (15),
+		3 ALT_GATEWAY          character (        3),
+		3 ALT_DAY_OF_WEEK      character (        6),
+		3 ALT_COMMENT          character (       30);
+
