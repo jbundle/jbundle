@@ -1,5 +1,7 @@
 package org.jbundle.thin.base.util.osgi.impl;
 
+import java.net.URL;
+
 import org.jbundle.thin.base.util.osgi.ClassAccess;
 
 /**
@@ -20,5 +22,10 @@ public class ClassAccessImpl extends Object
 		Class<?> c = Class.forName(className);
 		return c;
 	}
+
+    public URL getResource(String name)
+    {
+    	return ClassAccessImpl.class.getClassLoader().getResource(name);
+    }
 
 }
