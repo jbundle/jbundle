@@ -1,8 +1,10 @@
 package org.jbundle.thin.base.util.osgi;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Dictionary;
 
+import org.apache.felix.bundlerepository.Capability;
 import org.apache.felix.bundlerepository.DataModelHelper;
 import org.apache.felix.bundlerepository.Reason;
 import org.apache.felix.bundlerepository.Repository;
@@ -11,7 +13,6 @@ import org.apache.felix.bundlerepository.Requirement;
 import org.apache.felix.bundlerepository.Resolver;
 import org.apache.felix.bundlerepository.Resource;
 import org.jbundle.model.Task;
-import org.jbundle.thin.base.util.Util;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -96,6 +97,23 @@ public class OsgiClassService implements BundleActivator
         }
         return osgiUtil.findClassesBundle(className, task, bErrorIfNotFound);
     }
+    /**
+     * findClassBundle
+     * 
+     * @param className
+     * @param task
+     * @param bErrorIfNotFound
+     * @return
+     */
+    public static URL findResourceBundle(String className, Task task, boolean bErrorIfNotFound)
+    {
+        if (osgiUtil == null)
+        {
+            System.out.println("Error: --- Don't call findClassBundle until the service is up ---");
+            return null;
+        }
+        return osgiUtil.findResourcesBundle(className, task, bErrorIfNotFound);
+    }
     // Not sure of the performance of service lookup, so for now I use a static object
     // Don't use a static, lookup the service like everyone else.
     protected static OsgiClassService osgiUtil = null;   // NO NO NO
@@ -113,12 +131,39 @@ public class OsgiClassService implements BundleActivator
         if (repositoryAdmin == null)
             return null;
 
-        Class<?> c = makeClassFromBundle(className);
+        Class<?> c = makeClassFromBundle(null, className);
 
         if (c == null) {
-            if (deployThisResource(repositoryAdmin, className, Resolver.START) != null)
-                c = makeClassFromBundle(className);
+            Resource resource = deployThisResource(repositoryAdmin, className, Resolver.START);
+            if (resource != null)
+            {
+                c = makeClassFromBundle(resource, className);
+            }
+        }
 
+        return c;
+    }
+    /**
+     * findClassBundle
+     * 
+     * @param className
+     * @param task
+     * @param bErrorIfNotFound
+     * @return
+     */
+    public URL findResourcesBundle(String className, Task task, boolean bErrorIfNotFound)
+    {
+        if (repositoryAdmin == null)
+            return null;
+
+        URL c = makeResourceFromBundle(null, className);
+
+        if (c == null) {
+            Resource resource = deployThisResource(repositoryAdmin, className, Resolver.START);
+            if (resource != null)
+            {
+            	c = makeResourceFromBundle(null, className);
+            }
         }
 
         return c;
@@ -133,7 +178,7 @@ public class OsgiClassService implements BundleActivator
     public static Resource deployThisResource(RepositoryAdmin repositoryAdmin, String className, int options)
     {
         DataModelHelper helper = repositoryAdmin.getHelper();
-        String packageName = Util.getPackageName(className);
+        String packageName = getPackageName(className);
         String filter2 = "(package=" + packageName + ")"; // + "(version=xxx)"
         Requirement requirement = helper.requirement("package", filter2);
         Requirement[] requirements = { requirement };// repositoryAdmin
@@ -171,6 +216,8 @@ public class OsgiClassService implements BundleActivator
         if (context == null)
             return null;
         Bundle[] bundles = context.getBundles();
+        Bundle bestBundle = null;
+        String bestVersion = null;
         for (Bundle bundle : bundles)
         {
             if (resource != null)
@@ -182,6 +229,7 @@ public class OsgiClassService implements BundleActivator
             {
                 Dictionary<?, ?> dictionary = bundle.getHeaders();
                 String packages = (String)dictionary.get("Export-Package");
+                String version = (String)dictionary.get("Bundle-Version");
                 if (packages != null)
                 {
                     StringBuilder sb = new StringBuilder(packages);
@@ -216,13 +264,20 @@ public class OsgiClassService implements BundleActivator
                     for (String pack : packs)
                     {
                         if (packageName.equals(pack))
-                            return bundle;
+                        {
+                        	if ((bestVersion == null)
+                        		|| (bestVersion.compareTo(version) < 0))
+                        	{
+                        		bestBundle = bundle;	// TODO Newest version NO NO NO - Should get requested versions ie., 'x.x.)'
+                        		bestVersion = version;
+                        	}
+                        }
                     }
                 }
             }
         }
         
-        return null;
+        return bestBundle;
     }
     /**
      * startOsgiUtil
@@ -261,7 +316,7 @@ public class OsgiClassService implements BundleActivator
         waitingForRepositoryAdmin = false;  // You would never call me if the repos wasn't up
         
         Resource resource = deployThisResource(repositoryAdmin, OsgiClassService.class.getName(), 0);  // Get the bundle info from the repos
-        String packageName = Util.getPackageName(OsgiClassService.class.getName()); // If the repository is not up, but the bundle is deployed, this will find it
+        String packageName = getPackageName(OsgiClassService.class.getName()); // If the repository is not up, but the bundle is deployed, this will find it
         
         Bundle bundle = getBundleFromResource(resource, context, packageName);
         
@@ -287,18 +342,26 @@ public class OsgiClassService implements BundleActivator
      * @param className
      * @return
      */
-    private Class<?> makeClassFromBundle(String className)
+    private Class<?> makeClassFromBundle(Resource resource, String className)
     {
         Class<?> c = null;
         try {
-            String filter = "(className=" + className + ")";
-            ServiceReference[] refs = bundleContext.getServiceReferences(ClassAccess.class.getName(), filter);
-
-            if (refs != null)
+            if (resource != null)
             {
-                ClassAccess classAccess = (ClassAccess) bundleContext.getService(refs[0]);
-
-                c = classAccess.makeClass(className);
+            	Bundle bundle = getBundleFromResource(resource, bundleContext, getPackageName(className));
+	            c = bundle.loadClass(className);
+            }
+            else
+            {
+                String filter = "(className=" + className + ")";
+                ServiceReference[] refs = bundleContext.getServiceReferences(ClassAccess.class.getName(), filter);
+	
+	            if (refs != null)
+	            {
+	                ClassAccess classAccess = (ClassAccess) bundleContext.getService(refs[0]);
+	
+	                c = classAccess.makeClass(className);
+	            }
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -306,6 +369,42 @@ public class OsgiClassService implements BundleActivator
             e.printStackTrace();
         }
         return c;
+    }
+
+    /**
+     * makeClassFromBundle
+     * 
+     * @param className
+     * @return
+     */
+    private URL makeResourceFromBundle(Resource resource, String className)
+    {
+        Class<?> c = null;
+        try {
+            if (resource != null)
+            {
+            	Bundle bundle = getBundleFromResource(resource, bundleContext, getPackageName(className));
+	            c = bundle.loadClass(className);
+            }
+            else
+            {
+                String filter = "(className=" + className + ")";
+                ServiceReference[] refs = bundleContext.getServiceReferences(ClassAccess.class.getName(), filter);
+	
+	            if (refs != null)
+	            {
+	                ClassAccess classAccess = (ClassAccess) bundleContext.getService(refs[0]);
+	
+	                c = classAccess.makeClass(className);
+	            }
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InvalidSyntaxException e) {
+            e.printStackTrace();
+        }
+        //return c;
+        return null;
     }
 
     public static RepositoryAdmin getRepositoryAdmin(BundleContext context) throws InvalidSyntaxException
@@ -323,12 +422,17 @@ public class OsgiClassService implements BundleActivator
         if (repositoryAdmin == null)
             return;
         String repository = context.getProperty("jbundle.repository.url");
-        OsgiClassService.addRepository(repositoryAdmin, repository);
+        if (repository != null)
+        	if (repository.length() > 0)
+        		OsgiClassService.addRepository(repositoryAdmin, repository);
 
-        repository = "file:" + System.getProperty("user.home") + File.separator + "repository.xml";
-        OsgiClassService.addRepository(repositoryAdmin, repository);
+//        repository = "file:" + System.getProperty("user.home") + File.separator + "repository.xml";
+//        OsgiClassService.addRepository(repositoryAdmin, repository);
         
-        repository = "file:" + System.getProperty("user.home") + File.separator + ".m2" + File.separator  + "repository" + File.separator  + "repository.xml";
+//        repository = "file:" + System.getProperty("user.home") + File.separator + ".m2" + File.separator  + "repository" + File.separator  + "repository.xml";
+//        OsgiClassService.addRepository(repositoryAdmin, repository);        
+
+        repository = "file:" + System.getProperty("user.home") + File.separator + ".m2" + File.separator  + "full-repository.xml";
         OsgiClassService.addRepository(repositoryAdmin, repository);        
     }
     public static void addRepository(RepositoryAdmin repositoryAdmin, String repository)
@@ -352,5 +456,18 @@ public class OsgiClassService implements BundleActivator
         } catch (Exception e) {
             // Ignore exception e.printStackTrace();
         }
+    }
+    /**
+     * Get the package name of this class name
+     * @param className
+     * @return
+     */
+    public static String getPackageName(String className)
+    {
+        String packageName = null;
+        if (className != null)
+            if (className.lastIndexOf('.') != -1)
+                packageName = className.substring(0, className.lastIndexOf('.'));
+        return packageName;
     }
 }

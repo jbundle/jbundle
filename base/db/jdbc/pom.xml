@@ -29,13 +29,15 @@
             	org.jbundle.base.db.jdbc;version=${project.version},
             	org.jbundle.base.db.jdbc.service.*;version=${project.version}
             </Export-Package>
+            <Private-Package>org.jbundle.base.db.jdbc.*,
+            	org.jbundle.thin.base.util.osgi.impl.*</Private-Package>
             <Import-Package>
                 *;resolution:=optional,
                 com.mysql.jdbc;resolution:=optional, <!-- Why doesn't this happen automatically? -->
                 com.mysql.jdbc.jdbc2.optional;resolution:=optional,
             </Import-Package>
             <Bundle-Version>${project.version}</Bundle-Version>
-            <Bundle-Activator>org.jbundle.base.db.Jdbc.service.Activator</Bundle-Activator>
+            <Bundle-Activator>org.jbundle.base.db.jdbc.service.Activator</Bundle-Activator>
           </instructions>
         </configuration>
       </plugin>
@@ -68,6 +70,12 @@
       <artifactId>org.osgi.core</artifactId>
       <version>${org.osgi.coreVersion}</version>
       <scope>provided</scope> <!-- This better be provided -->
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jbundle.thin.base</groupId>
+      <version>0.7.7-SNAPSHOT</version>
+      <artifactId>org.jbundle.thin.base.util.osgi</artifactId>
     </dependency>
 
   </dependencies>

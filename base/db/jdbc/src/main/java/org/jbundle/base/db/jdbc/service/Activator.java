@@ -5,10 +5,12 @@ import java.util.Hashtable;
 
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.jdbc.JdbcDatabase;
-import org.jbundle.thin.base.util.osgi.ClassAccess;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
+import org.jbundle.thin.base.util.osgi.*;
+import org.jbundle.thin.base.util.osgi.impl.ClassAccessImpl;
+import org.jbundle.base.util.*;
 
 /**
  * The bundle start activator. 
@@ -27,9 +29,9 @@ public class Activator implements BundleActivator {
         
         ClassAccess classService = new ClassAccessImpl();
         Dictionary<String,String> properties = new Hashtable<String,String>();
-        properties.put("className", JdbcDatabase.class.getName());
-        properties.put("interface", BaseDatabase.class.getName());
-        properties.put("type", "Jdbc");
+        properties.put(ClassAccess.CLASS_NAME, JdbcDatabase.class.getName());
+        properties.put(ClassAccess.INTERFACE, BaseDatabase.class.getName());
+        properties.put(ClassAccess.TYPE, DBParams.JDBC);
         helloServiceRegistration = context.registerService(ClassAccess.class.getName(), classService, properties);
     }
     

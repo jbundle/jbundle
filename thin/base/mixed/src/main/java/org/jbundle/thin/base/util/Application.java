@@ -627,7 +627,7 @@ public abstract class Application extends Object
             if (m_resources != null)
                 if (strResourceName.equals(m_resources.getClass().getName()))
                     return m_resources;
-            resources = ResourceBundle.getBundle(strResourceName, currentLocale);
+            resources = Util.getBundle(strResourceName, currentLocale);
         } catch (MissingResourceException ex) {
         	Util.getLogger().warning("Missing resource " + strResourceName + " locale: " + this.getLocale());
             resources = null;

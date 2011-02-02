@@ -14,7 +14,8 @@
   <name>jbundle-thin-base-util-reactor - Thin utilities parent</name>
 
   <modules>
-    <module>base64</module>
     <module>util</module>
+    <module>osgi</module>
+    <module>base64</module>
   </modules>
 </project>

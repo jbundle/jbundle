@@ -56,22 +56,25 @@
       </p>
       <p>
 
-      	mv /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.war /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.jar
-		java -jar ~/Download/bindex.jar -r ~/.m2/full-repository.xml ~/.m2/repository
-		mv /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.jar /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.war
+      	mv /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.war /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.jar
+		java -jar ~/Download/software/bindex.jar -r ~/.m2/full-repository.xml ~/.m2/repository
+		mv /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.jar /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.war
 		jedit ~/.m2/full-repository.xml    (change jar to war)
 
       	<br/>
 
         telnet localhost 6666
         
+        repos add http://felix.apache.org/obr/releases.xml
+        # repos add file:/home/don/workspace/bin/obr/jbundle-release-obr.xml
         repos add file:/home/don/.m2/full-repository.xml
         
         deploy 'jbundle-app-contact - Contact example'@1.0.0-SNAPSHOT
         
         deploy -s 'jbundle-config-web-bundle - OSGi Bundle'@0.7.6.SNAPSHOT
         
-        deploy -s 'jbundle-config-web-webbundle - Hybrid web osgi webapp'@0.7.6.SNAPSHOT
+        # deploy -s 'jbundle-config-web-webbundle - Hybrid web osgi webapp'@0.7.6.SNAPSHOT
+        install file:///home/don/.m2/repository/org/jbundle/config/web/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.war
         
       	<br/>
 

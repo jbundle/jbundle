@@ -1,10 +1,12 @@
-package org.jbundle.base.db.jdbc.service;
+package org.jbundle.thin.base.util.osgi.impl;
 
 import org.jbundle.thin.base.util.osgi.ClassAccess;
 
 /**
  * Create a class in this bundle.
  * This object is created by the ogsi bundle start Activator.
+ * Note: This should remain visible to all, since it is the default
+ * implementation for all class creation bundles.
  * @author don
  *
  */

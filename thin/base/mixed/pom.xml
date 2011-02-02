@@ -20,6 +20,18 @@
   <packaging>jar</packaging>	<!-- This is NOT an OSGi bundle -->
   <name>jbundle-thin-base-mixed - Thin framework base code</name>
 
+  <build>
+   <resources>
+     <resource>
+       <directory>${basedir}/src/main/resources</directory>
+       <includes>
+       <include>**/*.properties</include>
+       </includes>
+       <filtering>true</filtering>
+     </resource>
+   </resources>
+  </build>
+
   <dependencies>
     
     <dependency>
@@ -65,19 +77,12 @@
       <scope>system</scope>
       <systemPath>${java.home}/lib/javaws.jar</systemPath>
     </dependency>
-
+    
     <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.core</artifactId>
-      <version>${org.osgi.coreVersion}</version>
-      <scope>provided</scope> <!-- This better be provided -->
+      <groupId>org.jbundle.thin.base</groupId>
+      <artifactId>org.jbundle.thin.base.util.osgi</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency>
-	<dependency>
-   		<groupId>org.apache.felix</groupId>
-   		<artifactId>org.apache.felix.bundlerepository</artifactId>
-   		<version>1.6.4</version>
-        <scope>provided</scope> <!-- This better be provided -->
-	</dependency>
 
   </dependencies>
 

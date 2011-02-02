@@ -14,7 +14,11 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.rmi.RemoteException;
+import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.ResourceBundle.Control;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -611,6 +615,26 @@ public class Util extends Object
        return className;
    }
    /**
+    * Gets a resource bundle using the specified base name and locale,
+    * @param baseName the base name of the resource bundle, a fully qualified class name
+    * @param locale the locale for which a resource bundle is desired
+    * @exception NullPointerException if <code>baseName</code> or <code>locale</code> is <code>null</code>
+    * @exception MissingResourceException if no resource bundle for the specified base name can be found
+    * @return a resource bundle for the given base name and locale
+    */
+   public static final ResourceBundle getBundle(String baseName, Locale locale)
+   {
+	   Object object = null;
+	   object = Util.makeObjectFromClassName(baseName, null, false);
+	   if (object == null)
+		   object = Util.makeObjectFromClassName(baseName + ".properties", null, false);
+	   // ResourceBundle resources = ResourceBundle.getBundle(baseName, locale);
+	   
+	   ResourceBundle resources = (ResourceBundle)object;
+	   
+       return resources;
+   }
+   /**
     * Create this object given the class name.
     * @param className
     * @return
@@ -658,6 +682,40 @@ public class Util extends Object
        return object;
    }
    /**
+    * Create this object given the class name.
+    * @param className
+    * @return
+    */
+   public static URL getResourceFromName(String className)
+   {
+	   return Util.getResourceFromName(className, null, true);
+   }
+   /**
+    * Create this object given the class name.
+    * @param className
+    * @return
+    */
+   public static URL getResourceFromName(String className, Task task, boolean bErrorIfNotFound)
+   {
+	   if (className == null)
+		   return null;
+	   className = Util.getFullClassName(className);
+      
+	   URL url = Util.class.getClass().getClassLoader().getResource(className);
+       if (url == null)
+       {
+    	   try {
+    		   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
+    		   url = OsgiClassService.findResourceBundle(className, task, bErrorIfNotFound);	// Try to find this class in the obr repos
+           } catch (Exception ex) {
+        	   //Ignore this - just means osgi is not installed
+           }
+    	   if (url == null)
+    	       Util.handleClassException(null, className, task, bErrorIfNotFound);
+       }
+       return url;
+   }
+   /**
     * 
     * @param ex
     * @param className
@@ -669,7 +727,8 @@ public class Util extends Object
        if (bErrorIfNotFound)
        {
            Util.getLogger().warning("Error on create class: " + className);
-           ex.printStackTrace();
+           if (ex != null)
+        	   ex.printStackTrace();
            if (task != null)
                task.setLastError("Error on create class: " + className);
        }

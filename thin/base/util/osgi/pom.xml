@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jbundle-thin-base-util-reactor</artifactId>
+    <groupId>org.jbundle.thin.base</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>org.jbundle.thin.base.util.osgi</artifactId>
+  <name>jbundle-thin-base-util-osgi - osgi code</name>
+  <packaging>bundle</packaging>
+
+<dependencies>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>${org.osgi.coreVersion}</version>
+      <scope>provided</scope> <!-- This better be provided -->
+    </dependency>
+	<dependency>
+   		<groupId>org.apache.felix</groupId>
+   		<artifactId>org.apache.felix.bundlerepository</artifactId>
+   		<version>1.6.4</version>
+        <scope>provided</scope> <!-- This better be provided -->
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jbundle</groupId>
+	  <artifactId>org.jbundle.model</artifactId>
+	  <version>0.7.7-SNAPSHOT</version>
+	</dependency>
+</dependencies>
+
+</project>

@@ -126,9 +126,9 @@
       </p>
       <p>
 
-      	mv /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.war /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.jar
+      	mv /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.war /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.jar
 		java -jar ~/Download/bindex.jar -r ~/.m2/full-repository.xml ~/.m2/repository
-		mv /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.jar /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.6-SNAPSHOT/jbundle-config-web-webbundle-0.7.6-SNAPSHOT.war
+		mv /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.jar /home/don/.m2/repository/org/jbundle/config/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.war
 		jedit ~/.m2/full-repository.xml    (change jar to war)
 
       	<br/>
