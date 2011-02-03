@@ -65,16 +65,17 @@
 
         telnet localhost 6666
         
-        repos add http://felix.apache.org/obr/releases.xml
+        # repos add http://felix.apache.org/obr/releases.xml
         # repos add file:/home/don/workspace/bin/obr/jbundle-release-obr.xml
         repos add file:/home/don/.m2/full-repository.xml
         
-        deploy 'jbundle-app-contact - Contact example'@1.0.0-SNAPSHOT
+        # deploy 'jbundle-app-contact - Contact example'@1.0.0-SNAPSHOT
         
-        deploy -s 'jbundle-config-web-bundle - OSGi Bundle'@0.7.6.SNAPSHOT
+        deploy -s 'jbundle-config-web-bundle - OSGi Bundle'@0.7.7.SNAPSHOT
         
         # deploy -s 'jbundle-config-web-webbundle - Hybrid web osgi webapp'@0.7.6.SNAPSHOT
         install file:///home/don/.m2/repository/org/jbundle/config/web/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.war
+        start xxx
         
       	<br/>
 

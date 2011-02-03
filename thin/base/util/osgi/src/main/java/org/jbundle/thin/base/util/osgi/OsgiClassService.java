@@ -1,10 +1,14 @@
 package org.jbundle.thin.base.util.osgi;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Dictionary;
+import java.util.Locale;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
-import org.apache.felix.bundlerepository.Capability;
 import org.apache.felix.bundlerepository.DataModelHelper;
 import org.apache.felix.bundlerepository.Reason;
 import org.apache.felix.bundlerepository.Repository;
@@ -105,14 +109,31 @@ public class OsgiClassService implements BundleActivator
      * @param bErrorIfNotFound
      * @return
      */
-    public static URL findResourceBundle(String className, Task task, boolean bErrorIfNotFound)
+    public static URL findBundleResource(String className, Task task, boolean bErrorIfNotFound)
     {
         if (osgiUtil == null)
         {
             System.out.println("Error: --- Don't call findClassBundle until the service is up ---");
             return null;
         }
-        return osgiUtil.findResourcesBundle(className, task, bErrorIfNotFound);
+        return osgiUtil.findBundleResources(className, task, bErrorIfNotFound);
+    }
+    /**
+     * findClassBundle
+     * 
+     * @param className
+     * @param task
+     * @param bErrorIfNotFound
+     * @return
+     */
+    public static ResourceBundle findResourceBundle(String className, Locale locale, Task task, boolean bErrorIfNotFound)
+    {
+        if (osgiUtil == null)
+        {
+            System.out.println("Error: --- Don't call findClassBundle until the service is up ---");
+            return null;
+        }
+        return osgiUtil.findResourcesBundle(className, locale, task, bErrorIfNotFound);
     }
     // Not sure of the performance of service lookup, so for now I use a static object
     // Don't use a static, lookup the service like everyone else.
@@ -151,24 +172,64 @@ public class OsgiClassService implements BundleActivator
      * @param bErrorIfNotFound
      * @return
      */
-    public URL findResourcesBundle(String className, Task task, boolean bErrorIfNotFound)
+    public URL findBundleResources(String className, Task task, boolean bErrorIfNotFound)
     {
         if (repositoryAdmin == null)
             return null;
 
-        URL c = getResourceFromBundle(null, className);
+        URL url = getResourceFromBundle(null, className);
 
-        if (c == null) {
+        if (url == null) {
             Resource resource = deployThisResource(repositoryAdmin, className, Resolver.START, true);
             if (resource != null)
             {
-            	c = getResourceFromBundle(null, className);
+            	url = getResourceFromBundle(resource, className);
             }
         }
 
-        return c;
+        return url;
     }
+    /**
+     * findClassBundle
+     * 
+     * @param className
+     * @param task
+     * @param bErrorIfNotFound
+     * @return
+     */
+    public ResourceBundle findResourcesBundle(String className, Locale locale, Task task, boolean bErrorIfNotFound)
+    {
+        if (repositoryAdmin == null)
+            return null;
 
+        ResourceBundle resourceBundle = getResourceBundleFromBundle(null, className, locale);
+
+        if (resourceBundle == null) {
+            Resource resource = deployThisResource(repositoryAdmin, className, Resolver.START, true);
+            if (resource != null)
+            {
+            	resourceBundle = getResourceBundleFromBundle(resource, className, locale);
+            	if (resourceBundle == null)
+            	{
+            		Class<?> c = makeClassFromBundle(resource, className);
+            		if (c != null)
+            		{
+					   try {
+						   resourceBundle = (ResourceBundle)c.newInstance();
+					   } catch (InstantiationException e)   {
+					       e.printStackTrace();	// Never
+					   } catch (IllegalAccessException e)   {
+					       e.printStackTrace();	// Never
+					   } catch (Exception e) {
+					       e.printStackTrace();	// Never
+					   }            			
+            		}
+            	}
+            }
+        }
+
+        return resourceBundle;
+    }
     /**
      * 
      * @param className
@@ -346,12 +407,7 @@ public class OsgiClassService implements BundleActivator
     {
         Class<?> c = null;
         try {
-            if (resource != null)
-            {
-            	Bundle bundle = getBundleFromResource(resource, bundleContext, getPackageName(className, false));
-	            c = bundle.loadClass(className);
-            }
-            else
+            if (resource == null)
             {
                 String filter = "(className=" + className + ")";
                 ServiceReference[] refs = bundleContext.getServiceReferences(ClassAccess.class.getName(), filter);
@@ -363,6 +419,11 @@ public class OsgiClassService implements BundleActivator
 	                c = classAccess.makeClass(className);
 	            }
             }
+            else
+            {
+            	Bundle bundle = getBundleFromResource(resource, bundleContext, getPackageName(className, false));
+	            c = bundle.loadClass(className);
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (InvalidSyntaxException e) {
@@ -370,7 +431,6 @@ public class OsgiClassService implements BundleActivator
         }
         return c;
     }
-
     /**
      * makeClassFromBundle
      * 
@@ -379,14 +439,9 @@ public class OsgiClassService implements BundleActivator
      */
     private URL getResourceFromBundle(Resource resource, String className)
     {
-        URL c = null;
+        URL url = null;
         try {
-	        if (resource != null)
-	        {
-	        	Bundle bundle = getBundleFromResource(resource, bundleContext, getPackageName(className, true));
-	            c = bundle.getEntry(className);
-	        }
-	        else
+	        if (resource == null)
 	        {
 	            String filter = "(className=" + className + ")";
 	            ServiceReference[] refs = bundleContext.getServiceReferences(ClassAccess.class.getName(), filter);
@@ -395,13 +450,78 @@ public class OsgiClassService implements BundleActivator
 	            {
 	                ClassAccess classAccess = (ClassAccess) bundleContext.getService(refs[0]);
 	
-	                c = classAccess.getResource(className);
+	                url = classAccess.getResource(className);
 	            }
+	        }
+	        else
+	        {
+	        	Bundle bundle = getBundleFromResource(resource, bundleContext, getPackageName(className, true));
+	            url = bundle.getEntry(className);
 	        }
         } catch (InvalidSyntaxException e) {
             e.printStackTrace();
         }
-        return c;
+        return url;
+    }
+    /**
+     * makeClassFromBundle
+     * 
+     * @param className
+     * @return
+     */
+    boolean flag = true;
+    private ResourceBundle getResourceBundleFromBundle(Resource resource, String baseName, Locale locale)
+    {
+    	ResourceBundle resourceBundle = null;
+        try {
+	        if (resource == null)
+	        {
+	            String filter = "(className=" + baseName + ")";
+	            ServiceReference[] refs = bundleContext.getServiceReferences(ClassAccess.class.getName(), filter);
+	
+	            if (refs != null)
+	            {
+	                ClassAccess classAccess = (ClassAccess) bundleContext.getService(refs[0]);
+	                
+	                ClassLoader loader = classAccess.getClass().getClassLoader();
+
+	                if (flag)
+	                {
+		                try {
+							URL url = classAccess.getResource(baseName);
+							InputStream stream = url.openStream();
+							resourceBundle = new PropertyResourceBundle(stream);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+	                }
+	                else
+	                	resourceBundle = ResourceBundle.getBundle(baseName, locale, loader);
+	            }
+	        }
+	        else
+	        {
+	        	Bundle bundle = getBundleFromResource(resource, bundleContext, getPackageName(baseName, true));
+	        	ClassLoader loader = bundle.getClass().getClassLoader();
+                if (flag)
+                {
+	                try {
+//						URL url = loader.getResource(baseName);
+	                	baseName = baseName.replace('.', File.separatorChar) + PROPERTIES;
+						URL url = bundle.getEntry(baseName);
+						if (url != null)
+							resourceBundle = new PropertyResourceBundle(url.openStream());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+                }
+                else
+                	resourceBundle = ResourceBundle.getBundle(baseName, locale, loader);
+	        }
+        } catch (InvalidSyntaxException e) {
+            e.printStackTrace();
+        }
+        return resourceBundle;
     }
 
     public static RepositoryAdmin getRepositoryAdmin(BundleContext context) throws InvalidSyntaxException

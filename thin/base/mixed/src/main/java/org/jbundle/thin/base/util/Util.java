@@ -615,26 +615,6 @@ public class Util extends Object
        return className;
    }
    /**
-    * Gets a resource bundle using the specified base name and locale,
-    * @param baseName the base name of the resource bundle, a fully qualified class name
-    * @param locale the locale for which a resource bundle is desired
-    * @exception NullPointerException if <code>baseName</code> or <code>locale</code> is <code>null</code>
-    * @exception MissingResourceException if no resource bundle for the specified base name can be found
-    * @return a resource bundle for the given base name and locale
-    */
-   public static final ResourceBundle getBundle(String baseName, Locale locale)
-   {
-	   Object object = null;
-	   object = Util.makeObjectFromClassName(baseName, null, false);
-	   if (object == null)
-		   object = Util.makeObjectFromClassName(baseName + ".properties", null, false);
-	   // ResourceBundle resources = ResourceBundle.getBundle(baseName, locale);
-	   
-	   ResourceBundle resources = (ResourceBundle)object;
-	   
-       return resources;
-   }
-   /**
     * Create this object given the class name.
     * @param className
     * @return
@@ -686,34 +666,62 @@ public class Util extends Object
     * @param className
     * @return
     */
-   public static URL getResourceFromName(String className)
-   {
-	   return Util.getResourceFromName(className, null, true);
-   }
-   /**
-    * Create this object given the class name.
-    * @param className
-    * @return
-    */
-   public static URL getResourceFromName(String className, Task task, boolean bErrorIfNotFound)
+   public static URL getResourceFromPathName(String className, Task task, boolean bErrorIfNotFound, ClassLoader classLoader)
    {
 	   if (className == null)
 		   return null;
-	   className = Util.getFullClassName(className);
       
-	   URL url = Util.class.getClass().getClassLoader().getResource(className);
+	   URL url = classLoader.getResource(className);
        if (url == null)
        {
-    	   try {
-    		   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-    		   url = OsgiClassService.findResourceBundle(className, task, bErrorIfNotFound);	// Try to find this class in the obr repos
-           } catch (Exception ex) {
-        	   //Ignore this - just means osgi is not installed
-           }
-    	   if (url == null)
-    	       Util.handleClassException(null, className, task, bErrorIfNotFound);
+		   try {
+			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
+			   url = OsgiClassService.findBundleResource(className, task, bErrorIfNotFound);	// Try to find this class in the obr repos
+	       } catch (Exception ex) {
+	    	   //Ignore this - just means osgi is not installed
+	       }
+		   if (url == null)
+		       Util.handleClassException(null, className, task, bErrorIfNotFound);
        }
-       return url;
+	   return url;
+   }
+   /**
+    * Gets a resource bundle using the specified base name and locale,
+    * @param baseName the base name of the resource bundle, a fully qualified class name
+    * @param locale the locale for which a resource bundle is desired
+    * @exception NullPointerException if <code>baseName</code> or <code>locale</code> is <code>null</code>
+    * @exception MissingResourceException if no resource bundle for the specified base name can be found
+    * @return a resource bundle for the given base name and locale
+    */
+   public static final ResourceBundle getResourceBundle(String className, Locale locale, Task task, boolean bErrorIfNotFound, ClassLoader classLoader)
+   {
+	   MissingResourceException ex = null;
+	   ResourceBundle resourceBundle = null;
+	   try {
+		   resourceBundle = ResourceBundle.getBundle(className, locale);
+	   } catch (MissingResourceException e) {
+		   ex = e;
+	   }
+	   
+	   if (resourceBundle == null)
+       {
+		   try {
+			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
+			   resourceBundle = OsgiClassService.findResourceBundle(className, locale, task, bErrorIfNotFound);	// Try to find this class in the obr repos
+		   } catch (MissingResourceException e) {
+			   ex = e;
+	       } catch (Exception e) {
+	    	   //Ignore this - just means osgi is not installed
+	       }
+		   if (resourceBundle == null)
+		       Util.handleClassException(null, className, task, bErrorIfNotFound);	// May throw MissingResourceException
+       }
+	   
+	   if (resourceBundle == null)
+		   if (ex != null)
+			   throw ex;
+	   
+       return resourceBundle;
    }
    /**
     * 

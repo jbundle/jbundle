@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>org.jbundle.res</artifactId>
-  <packaging>jar</packaging>
+  <packaging>bundle</packaging>
   <name>jbundle-res-core - Resources</name>
 
  <build>
