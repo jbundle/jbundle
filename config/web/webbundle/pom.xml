@@ -121,6 +121,7 @@
 							<groupId>org.jbundle.res</groupId>
 							<artifactId>org.jbundle.res.images</artifactId>
 							<version>${project.version}</version>
+			                <classifier>root</classifier>
 							<type>jar</type>
 							<outputDirectory>${project.build.directory}/${project.build.finalName}
 							</outputDirectory>
@@ -129,6 +130,7 @@
 							<groupId>org.jbundle.res</groupId>
 							<artifactId>org.jbundle.res.docs</artifactId>
 							<version>${project.version}</version>
+			                <classifier>root</classifier>
 							<type>jar</type>
 							<outputDirectory>${project.build.directory}/${project.build.finalName}
 							</outputDirectory>

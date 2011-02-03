@@ -13,7 +13,29 @@
   <packaging>bundle</packaging>
 
   <properties>
-    <jbundle.package>*</jbundle.package>	<!-- HACK FIX THIS Bundle packages to export -->
+    <resourceLocation>src/main/resources/org/jbundle/res</resourceLocation>
   </properties>  
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-pluginVersion}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <classesDirectory>${resourceLocation}</classesDirectory>
+          <classifier>root</classifier>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

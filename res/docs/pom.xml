@@ -13,7 +13,6 @@
   <packaging>bundle</packaging>
 
   <properties>
-    <jbundle.package>*</jbundle.package>	<!-- HACK FIX THIS Bundle packages to export -->
     <resourceLocation>src/main/resources/org/jbundle/res</resourceLocation>
   </properties>  
 
@@ -26,24 +25,41 @@
          </includes>
       </resource>
       <resource>
-        <directory>${resourceLocation}</directory>
+        <directory>${basedir}/src/main/resources</directory>
         <filtering>true</filtering>
         <includes>
           <include>docs/jnlp/**</include>
         </includes>
       </resource>
       <resource>
-        <directory>${resourceLocation}</directory>
+        <directory>${basedir}/src/main/resources</directory>
         <filtering>false</filtering>
         <excludes>
-          <exclude>docs/jnlp/**</exclude>
-          <exclude>docs/styles/xsl/ajax/base/**</exclude>   <!-- These are set up in the ant script -->
-          <exclude>docs/styles/xsl/cocoon/all/**</exclude>
+          <exclude>${resourceLocation}/docs/jnlp/**</exclude>
+          <exclude>${resourceLocation}/docs/styles/xsl/ajax/base/**</exclude>   <!-- These are set up in the ant script -->
+          <exclude>${resourceLocation}/docs/styles/xsl/cocoon/all/**</exclude>
         </excludes>
       </resource>
     </resources>
     
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-pluginVersion}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <classesDirectory>${resourceLocation}</classesDirectory>
+          <classifier>root</classifier>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.jbundle.app.program</groupId>
         <artifactId>org.jbundle.app.program.plugin</artifactId>
@@ -59,8 +75,8 @@
               <properties>
                 <process>org.jbundle.app.program.manual.convert.ConvertCode</process>
                 <listenerClass>org.jbundle.app.program.manual.scan.XslImportScanListener</listenerClass>
-                <converterPath>${basedir}/src/main/webapp/docs/styles/xsl/program/</converterPath>
-                <sourcePrefix>${basedir}/src/main/webapp/docs/styles/xsl</sourcePrefix>
+                <converterPath>${resourceLocation}/docs/styles/xsl/program/</converterPath>
+                <sourcePrefix>${resourceLocation}/docs/styles/xsl</sourcePrefix>
                 <sourceDir>/com/tourgeek</sourceDir>
                 <destDir>/flat/base</destDir>
                 <extension>.xsl</extension>
@@ -77,8 +93,8 @@
               <properties>
                 <process>org.jbundle.app.program.manual.convert.ConvertCode</process>
                 <listenerClass>org.jbundle.app.program.manual.scan.XslImportScanListener</listenerClass>
-                <converterPath>${basedir}/src/main/webapp/docs/styles/xsl/program/</converterPath>
-                <sourcePrefix>${basedir}/src/main/webapp/docs/styles/xsl</sourcePrefix>
+                <converterPath>${resourceLocation}/docs/styles/xsl/program/</converterPath>
+                <sourcePrefix>${resourceLocation}/docs/styles/xsl</sourcePrefix>
                 <sourceDir>/ajax/base</sourceDir>
                 <destDir>/flat/base</destDir>
                 <extension>xsl</extension>
@@ -102,6 +118,7 @@
                 <property name="project.version" value="${project.version}" />
                 <property name="project.artifactId" value="${project.artifactId}" />
                 <property name="dev.home" value="${dev.home}" />
+                <property name="resourceLocation" value="${resourceLocation}" />
 
                 <ant antfile="${basedir}/build.xml">
                   <target name="flatten" />
