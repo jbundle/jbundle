@@ -17,6 +17,7 @@
 
 	<properties>
 		<dev.home>/usr/local/java</dev.home>
+		<jbundlePackage>org.jbundle.webbundle</jbundlePackage>
 	</properties>
 
 	<build>
@@ -56,7 +57,12 @@
 					<instructions>
 						<Bundle-Activator>example1.impl.Activator</Bundle-Activator>
 						<Export-Package>example1,org.jbundle.webbundle</Export-Package>
-						<!-- +++ Private-Package>org.jbundle.webbundle</Private-Package +++ -->
+			            <Import-Package>
+			                ${jbundlePackage};resolution:=optional,
+			                org.osgi.framework;resolution:=optional,	<!-- I Don't explicitly reference this, but I check to see if this exists to enable OSGi -->
+			            </Import-Package>
+			            <Bundle-Activator>org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap</Bundle-Activator>
+			            <Include-Resource>org.jbundle.thin.base.util.osgi.bootstrap</Include-Resource>
 						<!-- This is the context root of this application -->
 						<Web-ContextPath>/${project.artifactId}</Web-ContextPath>
 						<!--
@@ -235,6 +241,12 @@
 			<version>${webstart-jnlp-servletVersion}</version>
 			<!-- systemPath ${java.home}/../sample/jnlp/servlet/jnlp-servlet.jar -->
 		</dependency>
+
+	    <dependency>
+	      <groupId>org.jbundle.thin.base</groupId>
+	      <artifactId>org.jbundle.thin.base.util.osgi</artifactId>
+	      <version>0.7.7-SNAPSHOT</version>
+	    </dependency>
 	</dependencies>
 
 </project>

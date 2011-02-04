@@ -620,7 +620,7 @@ public class Util extends Object
     */
    public static ClassService getOsgiClassService()
    {
-	   return ClassServiceBootstrap.getOsgiClassService();
+	   return ClassServiceBootstrap.getClassService();
    }
    /**
     * Create this object given the class name.

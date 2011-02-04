@@ -8,13 +8,11 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import org.apache.felix.bundlerepository.RepositoryAdmin;
 import org.apache.felix.bundlerepository.Resolver;
 import org.apache.felix.bundlerepository.Resource;
 import org.jbundle.thin.base.util.osgi.bootstrap.ClassAccess;
 import org.jbundle.thin.base.util.osgi.bootstrap.ClassService;
 import org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap;
-import org.jbundle.thin.base.util.osgi.bootstrap.RepositoryAdminServiceListener;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -51,6 +49,8 @@ public class ClassServiceImpl implements BundleActivator, ClassService
         System.out.println("Starting ObrUtil bundle");
         
         bundleContext = context;
+
+        ClassServiceBootstrap.setClassService(this);
     }
     /**
      * Bundle shutting down.
@@ -60,6 +60,8 @@ public class ClassServiceImpl implements BundleActivator, ClassService
         // I'm unregistered automatically
 
         bundleContext = null;
+        if (ClassServiceBootstrap.getClassService() == this)
+        	ClassServiceBootstrap.setClassService(null);
     }
     /**
      * Find, resolve, and return this class definition.

@@ -25,7 +25,7 @@ import org.osgi.framework.ServiceReference;
  */
 public class ClassServiceBootstrap implements BundleActivator
 {
-	private static ClassService osgiClassService = null;
+	private static ClassService classService = null;
 	
     public static RepositoryAdmin repositoryAdmin = null;
 
@@ -114,7 +114,7 @@ public class ClassServiceBootstrap implements BundleActivator
     {
         System.out.println("Registering ObrUtil bundle");
         
-        bundleContext.registerService(ClassServiceBootstrap.class.getName(), this, null);        
+        bundleContext.registerService(ClassServiceBootstrap.class.getName(), this, null);
 
         waitingForRepositoryAdmin = false;
     }
@@ -128,23 +128,25 @@ public class ClassServiceBootstrap implements BundleActivator
         repositoryAdmin = null;
         waitingForRepositoryAdmin = false;
     }
-	public static ClassService getOsgiClassService()
+    /**
+     * 
+     * @return
+     */
+	public static ClassService getClassService()
 	{
 	   int count = 0;
-	   while (osgiClassService == null)
-	   {	// Not running, try to start the class service
-		   if (osgiClassService == null)
-		   {	// Wait 6 sec and try again
-			   Thread thread = Thread.currentThread();
-		        synchronized (thread)
-		        {
-		           try {
-		               thread.wait(6000);
-		           } catch (InterruptedException ex) {
-		               ex.printStackTrace();
-		           }
-		        }
-		   }
+	   while (classService == null)
+	   {	// Not running, try to find the class service
+		   // Wait 6 sec and try again
+		   Thread thread = Thread.currentThread();
+	       synchronized (thread)
+	       {
+	           try {
+	               thread.wait(6000);
+	           } catch (InterruptedException ex) {
+	               ex.printStackTrace();
+	           }
+	       }
 	       if (count++ == 10)
 	       {
 	    	   System.out.println("The OsgiService Bootstrap never started - \n" +
@@ -152,7 +154,15 @@ public class ClassServiceBootstrap implements BundleActivator
 	    	   break;	// A minute is too long to wait
 	       }
 	   }
-	   return osgiClassService;
+	   return classService;
+	}
+	/**
+	 * Set the one and only classService (called from the classService when it starts)
+	 * @param classService
+	 */
+	public static void setClassService(ClassService classService)
+	{
+		ClassServiceBootstrap.classService = classService;
 	}
     /**
      * Get the repository admin service.
@@ -178,38 +188,6 @@ public class ClassServiceBootstrap implements BundleActivator
         }
 
         return admin;
-    }
-    /**
-     * Convenience method to start this service.
-     * If admin service is not up yet, this starts it.
-     * @param className
-     * @return true If I'm up already
-     * @return false If the you will have to wait for me to come up.
-     */
-    @Deprecated
-    public static boolean startOsgiUtil(BundleContext context)
-    {
-        try {
-            RepositoryAdmin repositoryAdmin = ClassServiceBootstrap.getRepositoryAdmin(context, null);
-            
-            if (repositoryAdmin == null)
-            {   // Wait until the repository service is up until I start up
-//+                synchronized (OsgiClassService.waitingForRepositoryAdmin)
-                {
-                    if (ClassServiceBootstrap.waitingForRepositoryAdmin == false)
-                        context.addServiceListener(new RepositoryAdminServiceListener(null, context), "(objectClass=" + RepositoryAdmin.class.getName() + ")");
-                    ClassServiceBootstrap.waitingForRepositoryAdmin = true;
-                }
-                return false;
-            }
-            else
-            {   // Good, the repository admin is up, bring me up
-                return ClassServiceBootstrap.startOsgiService(repositoryAdmin, context);
-            }
-        } catch (InvalidSyntaxException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
     /**
      * Convenience method to start this service.
