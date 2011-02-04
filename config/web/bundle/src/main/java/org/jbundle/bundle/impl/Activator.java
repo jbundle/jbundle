@@ -56,6 +56,8 @@ public class Activator extends ClassServiceBootstrap
 		} catch (InvalidSyntaxException e) {
 			e.printStackTrace();
 		}
+		
+		context.registerService(this.getClass().getName(), this, null);	// So other processes can find me
     }
 
     @Override
@@ -79,7 +81,7 @@ public class Activator extends ClassServiceBootstrap
         
         super.stop(context);
         
-        // No need to Shutdown the server, since this will be unregistered (and service changed will shut this down)
+        // No need to Shutdown the server, since this will be unregistered automatically (and service changed will shut this down)
         
     }
 

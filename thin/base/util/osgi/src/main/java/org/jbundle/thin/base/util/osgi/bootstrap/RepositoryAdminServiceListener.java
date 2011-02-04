@@ -42,7 +42,7 @@ public class RepositoryAdminServiceListener implements ServiceListener
                 repositoryAdmin = (RepositoryAdmin)service; // Always
             ClassServiceBootstrap.addBootstrapRepository(repositoryAdmin, context);
             if (osgiUtil == null)
-            	ClassServiceBootstrap.startOsgiService(repositoryAdmin, context);    // Now that I have the repo, start the OsgiUtilService
+            	ClassServiceBootstrap.startClassService(repositoryAdmin, context);    // Now that I have the repo, start the OsgiClassService
             else
                 osgiUtil.registerClassServiceBootstrap(context); // Now that the repository started, you can register my started service for others to use
         }

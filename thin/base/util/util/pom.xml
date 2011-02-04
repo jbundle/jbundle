@@ -24,17 +24,11 @@
         <configuration>
           <instructions>
             <Export-Package>
-            ${jbundlePackageFilter};version=${project.version},
+                ${jbundlePackage};version=${project.version},	<!-- This explicitly ONLY copies ..util, not sub-packages -->
+                org.jbundle.thin.base.util.osgi.bootstrap,	<!-- Except, Do copy this code in -->
             </Export-Package>
             <Import-Package>
             	*;resolution:=optional,
-            	<!-- org.jbundle.base.db.Jdbc;resolution:=optional,	 Class.createInstance() looks up bundle in obr -->
-                org.jbundle.main.schedule.app;resolution:=optional, <!-- Trx message listener creates JobSchedulerApp -->
-                org.jbundle.main.msg.process;resolution:=optional,	<!-- Process runner task creates MessageTimeoutProcess -->
-                org.jbundle.main.msg.app;resolution:=optional,
-                org.jbundle.base.field.event;resolution:=optional,
-                org.jbundle.thin.base.util.osgi.bootstrap.*,	<!-- Copy this code in -->
-                !org.jbundle.thin.base.util.osgi.impl.*,	<!-- Copy this code in -->
                 org.osgi.framework;resolution:=optional,	<!-- I Don't explicitly reference this, but I check to see if this exists to enable OSGi -->
             </Import-Package>
             <Bundle-Activator>org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap</Bundle-Activator>

@@ -25,12 +25,19 @@
           <instructions>
             <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
             <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-            <Bundle-Activator>org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap</Bundle-Activator>
             <Export-Package>org.jbundle.thin.base.util.osgi.bootstrap.*;version=${project.version}</Export-Package>
             <Private-Package>org.jbundle.thin.base.util.osgi.impl</Private-Package>
             <Import-Package>
                 *;resolution:=optional,
+                <!-- Note: These are some of the possible classes that will be created by the ClassService
+                Remove them only after your have converted them to services -->
+               <!-- org.jbundle.base.db.Jdbc;resolution:=optional,      Class.createInstance() looks up bundle in obr -->
+                org.jbundle.main.schedule.app;resolution:=optional, <!-- Trx message listener creates JobSchedulerApp -->
+                org.jbundle.main.msg.process;resolution:=optional,     <!-- Process runner task creates MessageTimeoutProcess -->
+                org.jbundle.main.msg.app;resolution:=optional,
+                org.jbundle.base.field.event;resolution:=optional,
             </Import-Package>
+            <Bundle-Activator>org.jbundle.thin.base.util.osgi.impl.ClassServiceImpl</Bundle-Activator>
             <!-- Embed-Dependency>*;scope=compile|runtime;groupId=org.jbundle.res|org.jbundle.thin|org.jbundle.base|mysql</Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive -->
           </instructions>

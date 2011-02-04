@@ -46,7 +46,7 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      */
     public void start(BundleContext context) throws Exception
     {
-        System.out.println("Starting ObrUtil bundle");
+        System.out.println("Starting ClassService bundle");
         
         bundleContext = context;
 
@@ -56,10 +56,11 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      * Bundle shutting down.
      */
     public void stop(BundleContext context) throws Exception {
-        System.out.println("Stopping ObrUtil bundle");
+        System.out.println("Stopping ClassService bundle");
         // I'm unregistered automatically
 
         bundleContext = null;
+        
         if (ClassServiceBootstrap.getClassService() == this)
         	ClassServiceBootstrap.setClassService(null);
     }

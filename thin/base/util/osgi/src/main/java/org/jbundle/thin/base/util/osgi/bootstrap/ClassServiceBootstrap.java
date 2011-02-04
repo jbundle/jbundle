@@ -18,7 +18,17 @@ import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 
 /**
- * OsgiBootstrapService - My only job is to get the ClassServiceImpl running.
+ * ClassServiceBootstrap - My only job is to get the ClassServiceImpl running.
+ * 
+ * This class can be used in one of three ways:
+ * 1. Import this code into your OSGi module. Call getClassService() and this utility
+ * will start the ClassServiceImpl and return a reference.
+ * 2. Override this code if you have a service that you want to register. Remember
+ * to call context.registerService(this.getClass().getName(), this, null); in your
+ * overriding class to register a service.
+ * 3. Call getClassService() from your module (not recommended). This works fine if
+ * you already have this module installed, but will not work as a bootstrap
+ * (since this module would need to be loaded by the bootstrap).
  * 
  * @author don
  * 
@@ -112,12 +122,14 @@ public class ClassServiceBootstrap implements BundleActivator
      * Override this to register your service if you need a service.
      * I Don't register this bootstrap for two reasons:
      * 1. I Don't need this object
-     * 2. This object was usually instaniated by bootstrap code copied to the calling classes' jar.
+     * 2. This object was usually instanciated by bootstrap code copied to the calling classes' jar.
      */
     public void registerClassServiceBootstrap(BundleContext context)
     {
         System.out.println("ClassServiceBootstrap is up");
 
+        ClassServiceBootstrap.startClassService(repositoryAdmin, context);    // Now that I have the repo, start the OsgiClassService
+        
         waitingForRepositoryAdmin = false;
     }
     /**
@@ -198,14 +210,15 @@ public class ClassServiceBootstrap implements BundleActivator
      * @return true If I'm up already
      * @return false If you will have to wait for me to come up.
      */
-    public static boolean startOsgiService(RepositoryAdmin repositoryAdmin, BundleContext context)
+    public static boolean startClassService(RepositoryAdmin repositoryAdmin, BundleContext context)
     {
     	waitingForRepositoryAdmin = false;  // You would never call me if the repository wasn't up
         
+    	String classToStart = "org.jbundle.thin.base.util.osgi.impl.ClassServiceImpl";
         // If the repository is not up, but the bundle is deployed, this will find it
-        Resource resource = ClassServiceBootstrap.deployThisResource(repositoryAdmin, ClassServiceBootstrap.class.getName(), 0, false);  // Get the bundle info from the repos
+        Resource resource = ClassServiceBootstrap.deployThisResource(repositoryAdmin, classToStart, 0, false);  // Get the bundle info from the repos
         
-        String packageName = ClassServiceBootstrap.getPackageName(ClassServiceBootstrap.class.getName(), false);
+        String packageName = ClassServiceBootstrap.getPackageName(classToStart, false);
         Bundle bundle = ClassServiceBootstrap.getBundleFromResource(resource, context, packageName);
         
         if (bundle != null)
