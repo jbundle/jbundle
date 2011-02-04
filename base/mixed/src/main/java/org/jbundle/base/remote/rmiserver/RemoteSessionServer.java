@@ -247,6 +247,6 @@ public class RemoteSessionServer extends UnicastRemoteObject
             Utility.getLogger().warning("Active sessions being freed.");
         }
         env.free();
-        System.exit(0);
+//x        System.exit(0);
     }
 }

@@ -10,6 +10,7 @@ import org.jbundle.base.util.DBParams;
 import org.jbundle.thin.base.util.osgi.bootstrap.*;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
@@ -20,44 +21,54 @@ import org.osgi.framework.ServiceRegistration;
  * @author don
  *
  */
-public class Activator implements BundleActivator, ServiceListener {
-    ServiceRegistration helloServiceRegistration;
+public class Activator extends ClassServiceBootstrap
+		implements BundleActivator, ServiceListener {
 
     String[] args = {DBParams.JMSSERVER + "=" + DBConstants.TRUE,
             DBParams.REMOTEAPP + "=" + "msgapp",
             DBParams.PROVIDER + "=" + "linux-laptop"};
-    
+
+    private RemoteSessionServer remoteSessionServer = null;
+
     /**
      * 
      */
     public void start(BundleContext context) throws Exception {
         System.out.println("Starting Server bundle");
-        
-        ServiceReference[] ref = context.getServiceReferences(ClassServiceBootstrap.class.getName(), null);
 
-        if ((ref == null) || (ref.length == 0))
-        {
-            context.addServiceListener(this, "(objectClass=" + ClassServiceBootstrap.class.getName() + ")");
-//+            ClassServiceBootstrap.startOsgiUtil(context);    // HACK - OsgiUtil is suppose to autostart, here I start it manually
-        }
-        else
-        { // Osgi Service is up, Okay to start the server
-            System.out.println("Starting Server");
-            RemoteSessionServer.main(args);         
-        }   
+        super.start(context);
         
     }
     
+    /**
+     * Called when this service is active.
+     * Override this to register your service if you need a service.
+     * I Don't register this bootstrap for two reasons:
+     * 1. I Don't need this object
+     * 2. This object was usually instaniated by bootstrap code copied to the calling classes' jar.
+     */
+    public void registerClassServiceBootstrap(BundleContext context)
+    {
+        super.registerClassServiceBootstrap(context);
+        
+        try {
+			context.addServiceListener(this, "(objectClass=" + this.getClass().getName() + ")");
+		} catch (InvalidSyntaxException e) {
+			e.printStackTrace();
+		}
+    }
+
     @Override
     public void serviceChanged(ServiceEvent event) {
         if (event.getType() == ServiceEvent.REGISTERED)
         { // Osgi Service is up, Okay to start the server
             System.out.println("Starting Server");
-            RemoteSessionServer.main(args);         
+            remoteSessionServer = RemoteSessionServer.startup(args);
         }
         if (event.getType() == ServiceEvent.UNREGISTERING)
         {
-            // What do I do?
+            if (remoteSessionServer != null)
+            	remoteSessionServer.shutdown();
         }        
     }
     /**
@@ -66,7 +77,9 @@ public class Activator implements BundleActivator, ServiceListener {
     public void stop(BundleContext context) throws Exception {
         System.out.println("Stopping Server bundle");
         
-        // +++ Shutdown the server
+        super.stop(context);
+        
+        // No need to Shutdown the server, since this will be unregistered (and service changed will shut this down)
         
     }
 

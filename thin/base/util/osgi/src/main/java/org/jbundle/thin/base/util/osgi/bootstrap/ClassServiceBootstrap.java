@@ -52,7 +52,7 @@ public class ClassServiceBootstrap implements BundleActivator
      */
     public void start(BundleContext context) throws Exception
     {
-        System.out.println("Starting Osgi Bootstrap");
+        System.out.println("Starting ClassServiceBootstrap");
 
         bundleContext = context;
         repositoryAdmin = ClassServiceBootstrap.getRepositoryAdmin(context, this);
@@ -60,7 +60,7 @@ public class ClassServiceBootstrap implements BundleActivator
         if (repositoryAdmin != null)
         {   // If the repository is up, I can get to work (otherwise, I'll be waiting)
         	ClassServiceBootstrap.addBootstrapRepository(repositoryAdmin, context);
-            this.registerOsgiService();
+            this.registerClassServiceBootstrap(context);
         }
     }
     /**
@@ -108,13 +108,15 @@ public class ClassServiceBootstrap implements BundleActivator
         }
     }
     /**
-     * Register me as a service.
+     * Called when this service is active.
+     * Override this to register your service if you need a service.
+     * I Don't register this bootstrap for two reasons:
+     * 1. I Don't need this object
+     * 2. This object was usually instaniated by bootstrap code copied to the calling classes' jar.
      */
-    public void registerOsgiService()
+    public void registerClassServiceBootstrap(BundleContext context)
     {
-        System.out.println("Registering ObrUtil bundle");
-        
-        bundleContext.registerService(ClassServiceBootstrap.class.getName(), this, null);
+        System.out.println("ClassServiceBootstrap is up");
 
         waitingForRepositoryAdmin = false;
     }
@@ -182,9 +184,9 @@ public class ClassServiceBootstrap implements BundleActivator
         if (admin == null)
         	if (autoStartNotify != null)
         {   // Wait until the repository service is up until I start servicing clients
-            if (ClassServiceBootstrap.waitingForRepositoryAdmin == false)
+            if (waitingForRepositoryAdmin == false)
                 context.addServiceListener(new RepositoryAdminServiceListener(autoStartNotify, context), "(objectClass=" + RepositoryAdmin.class.getName() + ")");
-            ClassServiceBootstrap.waitingForRepositoryAdmin = true;
+            waitingForRepositoryAdmin = true;
         }
 
         return admin;
@@ -198,7 +200,7 @@ public class ClassServiceBootstrap implements BundleActivator
      */
     public static boolean startOsgiService(RepositoryAdmin repositoryAdmin, BundleContext context)
     {
-    	ClassServiceBootstrap.waitingForRepositoryAdmin = false;  // You would never call me if the repository wasn't up
+    	waitingForRepositoryAdmin = false;  // You would never call me if the repository wasn't up
         
         // If the repository is not up, but the bundle is deployed, this will find it
         Resource resource = ClassServiceBootstrap.deployThisResource(repositoryAdmin, ClassServiceBootstrap.class.getName(), 0, false);  // Get the bundle info from the repos
