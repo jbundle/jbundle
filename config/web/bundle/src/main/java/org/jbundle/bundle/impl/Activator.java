@@ -7,7 +7,7 @@ package org.jbundle.bundle.impl;
 import org.jbundle.base.remote.rmiserver.RemoteSessionServer;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
-import org.jbundle.thin.base.util.osgi.OsgiClassService;
+import org.jbundle.thin.base.util.osgi.bootstrap.*;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
@@ -33,12 +33,12 @@ public class Activator implements BundleActivator, ServiceListener {
     public void start(BundleContext context) throws Exception {
         System.out.println("Starting Server bundle");
         
-        ServiceReference[] ref = context.getServiceReferences(OsgiClassService.class.getName(), null);
+        ServiceReference[] ref = context.getServiceReferences(ClassServiceBootstrap.class.getName(), null);
 
         if ((ref == null) || (ref.length == 0))
         {
-            context.addServiceListener(this, "(objectClass=" + OsgiClassService.class.getName() + ")");
-            OsgiClassService.startOsgiUtil(context);    // HACK - OsgiUtil is suppose to autostart, here I start it manually
+            context.addServiceListener(this, "(objectClass=" + ClassServiceBootstrap.class.getName() + ")");
+            ClassServiceBootstrap.startOsgiUtil(context);    // HACK - OsgiUtil is suppose to autostart, here I start it manually
         }
         else
         { // Osgi Service is up, Okay to start the server

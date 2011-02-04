@@ -18,7 +18,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle.Control;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -45,7 +44,8 @@ import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.remote.RemoteTable;
-import org.jbundle.thin.base.util.osgi.OsgiClassService;
+import org.jbundle.thin.base.util.osgi.bootstrap.ClassService;
+import org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
@@ -615,6 +615,15 @@ public class Util extends Object
        return className;
    }
    /**
+    * Get the Osgi class service.
+    * NOTE: The bootstrap code needs to be copied to this jar (since the code make not be accessible yet)
+    * @return
+    */
+   public static ClassService getOsgiClassService()
+   {
+	   return ClassServiceBootstrap.getOsgiClassService();
+   }
+   /**
     * Create this object given the class name.
     * @param className
     * @return
@@ -640,7 +649,8 @@ public class Util extends Object
        } catch (ClassNotFoundException e) {
     	   try {
     		   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-    		   c = OsgiClassService.findClassBundle(className, task, bErrorIfNotFound);	// Try to find this class in the obr repos
+			   if (Util.getOsgiClassService() != null)
+				   c = Util.getOsgiClassService().findClassBundle(className);	// Try to find this class in the obr repos
            } catch (Exception ex) {
         	   //Ignore this - just means osgi is not installed
            }
@@ -676,7 +686,8 @@ public class Util extends Object
        {
 		   try {
 			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   url = OsgiClassService.findBundleResource(className, task, bErrorIfNotFound);	// Try to find this class in the obr repos
+			   if (Util.getOsgiClassService() != null)
+				   url = Util.getOsgiClassService().findBundleResource(className);	// Try to find this class in the obr repos
 	       } catch (Exception ex) {
 	    	   //Ignore this - just means osgi is not installed
 	       }
@@ -707,7 +718,8 @@ public class Util extends Object
        {
 		   try {
 			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   resourceBundle = OsgiClassService.findResourceBundle(className, locale, task, bErrorIfNotFound);	// Try to find this class in the obr repos
+			   if (Util.getOsgiClassService() != null)
+				   resourceBundle = Util.getOsgiClassService().findResourceBundle(className, locale);	// Try to find this class in the obr repos
 		   } catch (MissingResourceException e) {
 			   ex = e;
 	       } catch (Exception e) {

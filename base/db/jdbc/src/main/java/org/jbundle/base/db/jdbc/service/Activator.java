@@ -8,9 +8,9 @@ import org.jbundle.base.db.jdbc.JdbcDatabase;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
-import org.jbundle.thin.base.util.osgi.*;
-import org.jbundle.thin.base.util.osgi.impl.ClassAccessImpl;
 import org.jbundle.base.util.*;
+import org.jbundle.thin.base.util.osgi.bootstrap.ClassAccess;
+import org.jbundle.thin.base.util.osgi.impl.ClassAccessImpl;
 
 /**
  * The bundle start activator. 
@@ -27,14 +27,13 @@ public class Activator implements BundleActivator {
     public void start(BundleContext context) throws Exception {
         System.out.println("Starting Jdbc bundle");
         
-        ClassAccess classService = new ClassAccessImpl();
         Dictionary<String,String> properties = new Hashtable<String,String>();
         properties.put(ClassAccess.CLASS_NAME, JdbcDatabase.class.getName());
         properties.put(ClassAccess.INTERFACE, BaseDatabase.class.getName());
         properties.put(ClassAccess.TYPE, DBParams.JDBC);
+        ClassAccess classService = new ClassAccessImpl(properties);
         helloServiceRegistration = context.registerService(ClassAccess.class.getName(), classService, properties);
-    }
-    
+    }    
     /**
      * Bundle stopping.
      */

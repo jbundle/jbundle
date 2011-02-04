@@ -1,4 +1,4 @@
-package org.jbundle.thin.base.util.osgi;
+package org.jbundle.thin.base.util.osgi.bootstrap;
 
 import org.apache.felix.bundlerepository.RepositoryAdmin;
 import org.osgi.framework.Bundle;
@@ -13,13 +13,13 @@ import org.osgi.framework.ServiceReference;
  * @author don
  * 
  */
-public class RepositoryAdminServiceListener  implements ServiceListener
+public class RepositoryAdminServiceListener implements ServiceListener
 {
     BundleContext context = null;
     
-    OsgiClassService osgiUtil = null;
+    ClassServiceBootstrap osgiUtil = null;
     
-    public RepositoryAdminServiceListener(OsgiClassService osgiUtil, BundleContext context)
+    public RepositoryAdminServiceListener(ClassServiceBootstrap osgiUtil, BundleContext context)
     {
         this.context = context;
         this.osgiUtil = osgiUtil;
@@ -40,9 +40,9 @@ public class RepositoryAdminServiceListener  implements ServiceListener
             RepositoryAdmin repositoryAdmin = null;
             if (service instanceof RepositoryAdmin)
                 repositoryAdmin = (RepositoryAdmin)service; // Always
-            OsgiClassService.fixRepository(repositoryAdmin, context);
+            ClassServiceBootstrap.addBootstrapRepository(repositoryAdmin, context);
             if (osgiUtil == null)
-                OsgiClassService.startOsgiService(repositoryAdmin, context);    // Now that I have the repo, start the OsgiUtilService
+            	ClassServiceBootstrap.startOsgiService(repositoryAdmin, context);    // Now that I have the repo, start the OsgiUtilService
             else
                 osgiUtil.registerOsgiService(); // Now that the repository started, you can register my started service for others to use
         }
