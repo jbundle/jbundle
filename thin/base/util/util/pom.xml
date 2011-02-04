@@ -24,8 +24,7 @@
         <configuration>
           <instructions>
             <Export-Package>
-            org.jbundle.thin.base.util;version=${project.version},
-            org.jbundle.thin.base.util.osgi;version=${project.version},
+            ${jbundlePackageFilter};version=${project.version},
             </Export-Package>
             <Import-Package>
             	*;resolution:=optional,
@@ -34,10 +33,11 @@
                 org.jbundle.main.msg.process;resolution:=optional,	<!-- Process runner task creates MessageTimeoutProcess -->
                 org.jbundle.main.msg.app;resolution:=optional,
                 org.jbundle.base.field.event;resolution:=optional,
+                org.jbundle.thin.base.util.osgi.bootstrap.*,	<!-- Copy this code in -->
+                !org.jbundle.thin.base.util.osgi.impl.*,	<!-- Copy this code in -->
                 org.osgi.framework;resolution:=optional,	<!-- I Don't explicitly reference this, but I check to see if this exists to enable OSGi -->
             </Import-Package>
             <Bundle-Activator>org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap</Bundle-Activator>
-            <Include-Resource>org.jbundle.thin.base.util.osgi.bootstrap</Include-Resource>
             <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>	<!-- This is not supported -->
           </instructions>
         </configuration>

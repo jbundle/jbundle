@@ -16,7 +16,7 @@
 
   <properties>
     <cocoon.home>/usr/local/java/web/cocoon</cocoon.home>
-    <jbundle.package>org.jbundle.base.screen.control.servlet.xml.cocoon</jbundle.package>	<!-- Bundle packages to export -->
+    <jbundlePackage>org.jbundle.base.screen.control.servlet.xml.cocoon</jbundlePackage>	<!-- Bundle packages to export -->
   </properties>
   
   <dependencies>

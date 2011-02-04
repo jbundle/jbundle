@@ -27,15 +27,12 @@
           <instructions>
             <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
             <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-            <Bundle-Activator>org.jbundle.bundle.impl.Activator</Bundle-Activator>
-            <Export-Package>org.jbundle.bundle.*;version=${project.version}</Export-Package>
+            <Export-Package>${jbundlePackage}.*;version=${project.version}</Export-Package>
             <Private-Package>org.jbundle.bundle.impl</Private-Package>
             <Import-Package>
-                ${jbundle.package};resolution:=optional,
-                org.osgi.framework;resolution:=optional,	<!-- I Don't explicitly reference this, but I check to see if this exists to enable OSGi -->
+                *;resolution:=optional,
             </Import-Package>
-            <Bundle-Activator>org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap</Bundle-Activator>
-            <Include-Resource>org.jbundle.thin.base.util.osgi.bootstrap</Include-Resource>
+            <Bundle-Activator>org.jbundle.bundle.impl.Activator</Bundle-Activator>
           </instructions>
         </configuration>
       </plugin>
@@ -81,6 +78,11 @@
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.util.osgi</artifactId>
       <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.base</groupId>
+      <version>0.7.7-SNAPSHOT</version>
+      <artifactId>org.jbundle.base.remote</artifactId>
     </dependency>
   </dependencies>
 </project>

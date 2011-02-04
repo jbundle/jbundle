@@ -14,10 +14,10 @@
   <packaging>bundle</packaging>
 
   <properties>
-    <jbundle.package.export>
+    <jbundlePackageExport>
        org.jbundle.base.remote.*;version=${project.version},
        org.jbundle.server;version=${project.version},  <!-- org.jbundle.servlet.Servlet -->
-    </jbundle.package.export>	<!-- Bundle packages to export -->
+    </jbundlePackageExport>	<!-- Bundle packages to export -->
   </properties>  
 
   <dependencies>

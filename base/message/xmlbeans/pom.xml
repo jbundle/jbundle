@@ -14,7 +14,7 @@
   <description>xmlbeans Messaging</description>
 
   <properties>
-    <jbundle.package>org.jbundle.base.message.trx.message.external.convert.xmlbeans</jbundle.package>	<!-- Bundle packages to export -->
+    <jbundlePackage>org.jbundle.base.message.trx.message.external.convert.xmlbeans</jbundlePackage>	<!-- Bundle packages to export -->
   </properties>  
 
   <dependencies>

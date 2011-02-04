@@ -38,7 +38,7 @@ public class Activator implements BundleActivator, ServiceListener {
         if ((ref == null) || (ref.length == 0))
         {
             context.addServiceListener(this, "(objectClass=" + ClassServiceBootstrap.class.getName() + ")");
-            ClassServiceBootstrap.startOsgiUtil(context);    // HACK - OsgiUtil is suppose to autostart, here I start it manually
+//+            ClassServiceBootstrap.startOsgiUtil(context);    // HACK - OsgiUtil is suppose to autostart, here I start it manually
         }
         else
         { // Osgi Service is up, Okay to start the server
