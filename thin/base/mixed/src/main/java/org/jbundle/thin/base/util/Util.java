@@ -53,7 +53,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-
 /**
  * A Application encompasses all of a single user's apps.
  * For client apps, there is only one Application class, for server apps there

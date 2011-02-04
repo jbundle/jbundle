@@ -34,6 +34,7 @@
                 org.jbundle.main.msg.process;resolution:=optional,	<!-- Process runner task creates MessageTimeoutProcess -->
                 org.jbundle.main.msg.app;resolution:=optional,
                 org.jbundle.base.field.event;resolution:=optional,
+                org.osgi.framework;resolution:=optional,	<!-- I Don't explicitly reference this, but I check to see if this exists to enable OSGi -->
             </Import-Package>
             <Bundle-Activator>org.jbundle.thin.base.util.osgi.OsgiClassService</Bundle-Activator>
             <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>	<!-- This is not supported -->
