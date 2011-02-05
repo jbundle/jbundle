@@ -18,6 +18,10 @@
        org.jbundle.base.remote.*;version=${project.version},
        org.jbundle.server;version=${project.version},  <!-- org.jbundle.servlet.Servlet -->
     </jbundlePackageExport>	<!-- Bundle packages to export -->
+    <jbundlePackageImport>
+    	*;resolution:=optional,
+	    org.jbundle.thin.base.remote;resolution:=optional, <!-- RMI Requires access to .ApplicationServer class -->
+    </jbundlePackageImport>
   </properties>  
 
   <dependencies>

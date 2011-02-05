@@ -1,9 +1,11 @@
-package org.jbundle.thin.base.util.osgi.impl;
+package org.jbundle.thin.base.util.osgi.service;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -46,11 +48,15 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      */
     public void start(BundleContext context) throws Exception
     {
-        System.out.println("Starting ClassService bundle");
+        System.out.println("Starting and registering the ClassService");
         
         bundleContext = context;
 
-        ClassServiceBootstrap.setClassService(this);
+        Dictionary<String, String> properties = new Hashtable<String, String>();
+        properties.put(ClassAccess.PACKAGE_NAME, ClassServiceBootstrap.getPackageName(ClassServiceBootstrap.INTERFACE_NAME, true));
+        context.registerService(ClassServiceBootstrap.INTERFACE_NAME, this, null);//properties);
+        
+        ClassServiceBootstrap.setClassService(this);	// If this bundle is starting, make sure my local bootstrap knows where I am
     }
     /**
      * Bundle shutting down.
@@ -60,9 +66,6 @@ public class ClassServiceImpl implements BundleActivator, ClassService
         // I'm unregistered automatically
 
         bundleContext = null;
-        
-        if (ClassServiceBootstrap.getClassService() == this)
-        	ClassServiceBootstrap.setClassService(null);
     }
     /**
      * Find, resolve, and return this class definition.
@@ -74,13 +77,15 @@ public class ClassServiceImpl implements BundleActivator, ClassService
         if (ClassServiceBootstrap.repositoryAdmin == null)
             return null;
 
-        Class<?> c = getClassFromBundle(null, className);
+        Class<?> c = this.getClassFromBundle(null, className);
 
         if (c == null) {
             Resource resource = ClassServiceBootstrap.deployThisResource(ClassServiceBootstrap.repositoryAdmin, className, Resolver.START, false);
             if (resource != null)
             {
-                c = getClassFromBundle(resource, className);
+            	c = this.getClassFromBundle(null, className);	// It is possible that the newly started bundle registered itself
+            	if (c == null)
+            		c = getClassFromBundle(resource, className);
             }
         }
 
@@ -155,14 +160,27 @@ public class ClassServiceImpl implements BundleActivator, ClassService
     private ClassAccess getClassAccessService(String className)
     {
         try {
-            String filter = "(className=" + className + ")";
+        	String packageName = ClassServiceBootstrap.getPackageName(className, true);
+        	ServiceReference ref = null;
+            String filter = "(" + ClassAccess.PACKAGE_NAME + "=" + packageName + ")";
             ServiceReference[] refs = bundleContext.getServiceReferences(ClassAccess.class.getName(), filter);
 
-            if (refs != null)
+            if ((refs != null) && (refs.length > 0))
+            	ref = refs[0];
+            else
             {
-                ClassAccess classAccess = (ClassAccess) bundleContext.getService(refs[0]);
-                return classAccess;
+            	refs = bundleContext.getServiceReferences(ClassAccess.class.getName(), null);
+            	if (refs != null)
+            	{
+            		for (ServiceReference ref2 : refs)
+            		{
+            			if (packageName.equals(ref.getProperty(ClassAccess.PACKAGE_NAME)))
+            				ref = ref2;
+            		}
+            	}
             }
+            if (ref != null)
+                return (ClassAccess)bundleContext.getService(ref);
         } catch (InvalidSyntaxException e) {
             e.printStackTrace();
         }

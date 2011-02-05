@@ -14,13 +14,20 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
+import org.osgi.framework.Constants;
 import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceEvent;
+import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 
 /**
  * ClassServiceBootstrap - My only job is to get the ClassServiceImpl running.
+ *
+ * NOTE: Be very careful when using this class. Remember that this class is both
+ * run standalone and it is embedded in a jar. This means that setting a static
+ * will only set the static variable for the current version.
  * 
- * This class can be used in one of three ways:
+ * This activator class can be used in one of three ways:
  * 1. Import this code into your OSGi module. Call getClassService() and this utility
  * will start the ClassServiceImpl and return a reference.
  * 2. Override this code if you have a service that you want to register. Remember
@@ -35,6 +42,9 @@ import org.osgi.framework.ServiceReference;
  */
 public class ClassServiceBootstrap implements BundleActivator
 {
+	public static final String CLASS_TO_START = "org.jbundle.thin.base.util.osgi.service.ClassServiceImpl";
+	public static final String INTERFACE_NAME = "org.jbundle.thin.base.util.osgi.bootstrap.ClassService";
+
 	private static ClassService classService = null;
 	
     public static RepositoryAdmin repositoryAdmin = null;
@@ -45,9 +55,9 @@ public class ClassServiceBootstrap implements BundleActivator
     public static Boolean waitingForRepositoryAdmin = false;
 
     /**
-	 * Good from start to stop.
+	 * Good from start to stop. May be needed by overriding class.
 	 */
-    private BundleContext bundleContext = null;
+    protected static BundleContext bundleContext = null;
 
     /**
      * Service to find resources by class name.
@@ -148,35 +158,84 @@ public class ClassServiceBootstrap implements BundleActivator
      */
 	public static ClassService getClassService()
 	{
-	   int count = 0;
-	   while (classService == null)
-	   {	// Not running, try to find the class service
-		   // Wait 6 sec and try again
-		   Thread thread = Thread.currentThread();
-	       synchronized (thread)
-	       {
-	           try {
-	               thread.wait(6000);
-	           } catch (InterruptedException ex) {
-	               ex.printStackTrace();
-	           }
-	       }
-	       if (count++ == 10)
-	       {
-	    	   System.out.println("The OsgiService Bootstrap never started - \n" +
-	    	   		"Include it in your bundle and make sure it is listed as an activator!");
-	    	   break;	// A minute is too long to wait
-	       }
-	   }
-	   return classService;
+		if (classService == null)
+		{	// First time or not running, try to find the class service
+			classService = findClassService();
+			if (classService != null)
+				return classService;
+			// TODO Minor synchronization issue here
+			Thread thread = Thread.currentThread();
+			try {
+				bundleContext.addServiceListener(new ClassServiceListener(thread), "(" + Constants.OBJECTCLASS + "=" + INTERFACE_NAME + ")");
+			} catch (InvalidSyntaxException e) {
+				e.printStackTrace();
+			}
+
+			// Wait a minute for the ClassService to come up
+			synchronized (thread)
+			{
+				try {
+					thread.wait(60000);
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
+				}
+				classService = findClassService();
+				if (classService == null)
+					System.out.println("The ClassService never started - \n" +
+						"Include the bootstrap code in your bundle and make sure it is listed as an activator!");
+			}
+		}
+		return classService;
 	}
 	/**
-	 * Set the one and only classService (called from the classService when it starts)
-	 * @param classService
+	 * Get the class service.
+	 * @return The class service or null if it doesn't exist.
 	 */
-	public static void setClassService(ClassService classService)
+	public static ClassService findClassService()
 	{
-		ClassServiceBootstrap.classService = classService;
+		if (bundleContext == null)
+		{
+			System.out.println("Error: ClassServiceBootstrap was never started");
+			return null;
+		}
+		try {
+			ServiceReference[] ref = bundleContext.getServiceReferences(INTERFACE_NAME, null);
+		
+			if ((ref != null) && (ref.length > 0))
+				return (ClassService)bundleContext.getService(ref[0]);
+		} catch (InvalidSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/**
+	 * Listen for the class service to come up and notify this waiting thread when it does.
+	 */
+	public static class ClassServiceListener implements ServiceListener
+	{
+		private Thread thread = null;
+	    
+	    public ClassServiceListener(Thread thread)
+	    {
+	        super();
+	        this.thread = thread;
+	    }
+	    /**
+	     * 
+	     * @param event
+	     */
+	    @Override
+	    public void serviceChanged(ServiceEvent event)
+	    {
+	        if (event.getType() == ServiceEvent.REGISTERED)
+	        {   // Repository admin came up 
+	        	thread.notify();
+	        }
+	        if (event.getType() == ServiceEvent.UNREGISTERING)
+	        {
+	            // What do I do?
+	        }
+	    }
 	}
     /**
      * Get the repository admin service.
@@ -197,7 +256,7 @@ public class ClassServiceBootstrap implements BundleActivator
         	if (autoStartNotify != null)
         {   // Wait until the repository service is up until I start servicing clients
             if (waitingForRepositoryAdmin == false)
-                context.addServiceListener(new RepositoryAdminServiceListener(autoStartNotify, context), "(objectClass=" + RepositoryAdmin.class.getName() + ")");
+                context.addServiceListener(new RepositoryAdminServiceListener(autoStartNotify, context), "(" + Constants.OBJECTCLASS + "=" + RepositoryAdmin.class.getName() + ")");
             waitingForRepositoryAdmin = true;
         }
 
@@ -208,22 +267,27 @@ public class ClassServiceBootstrap implements BundleActivator
      * If admin service is not up yet, this starts it.
      * @param className
      * @return true If I'm up already
-     * @return false If you will have to wait for me to come up.
+     * @return false If I had a problem.
      */
     public static boolean startClassService(RepositoryAdmin repositoryAdmin, BundleContext context)
     {
     	waitingForRepositoryAdmin = false;  // You would never call me if the repository wasn't up
         
-    	String classToStart = "org.jbundle.thin.base.util.osgi.impl.ClassServiceImpl";
+    	if (classService != null)
+    		return true;	// Never
+    	classService = findClassService();	// See if someone else started it up
+    	if (classService != null)
+    		return true;	// Already up!
         // If the repository is not up, but the bundle is deployed, this will find it
-        Resource resource = ClassServiceBootstrap.deployThisResource(repositoryAdmin, classToStart, 0, false);  // Get the bundle info from the repos
+        Resource resource = ClassServiceBootstrap.deployThisResource(repositoryAdmin, CLASS_TO_START, 0, false);  // Get the bundle info from the repos
         
-        String packageName = ClassServiceBootstrap.getPackageName(classToStart, false);
+        String packageName = ClassServiceBootstrap.getPackageName(CLASS_TO_START, false);
         Bundle bundle = ClassServiceBootstrap.getBundleFromResource(resource, context, packageName);
         
         if (bundle != null)
         {
-            if ((bundle.getState() & Bundle.ACTIVE) == 0)
+            if (((bundle.getState() & Bundle.ACTIVE) == 0)
+            		&& ((bundle.getState() & Bundle.STARTING) == 0))
             {
                 try {
                     bundle.start();
@@ -231,10 +295,10 @@ public class ClassServiceBootstrap implements BundleActivator
                     e.printStackTrace();
                 }
             }
-            else
-                return true;    // I'm up already
+            classService = getClassService();	// This will wait until it is up to return
+            return (classService != null);	// Success
         }
-        return false;
+        return false;	// Error! Where is my bundle?
     }
     /**
      * Find this resource in the repository, then deploy and optionally start it.
@@ -346,6 +410,14 @@ public class ClassServiceBootstrap implements BundleActivator
         }
         
         return bestBundle;
+    }
+    /**
+     * Set the class service.
+     * @param service
+     */
+    public static void setClassService(ClassService service)
+    {
+    	classService = service;
     }
     /**
      * Get the package name of this class name

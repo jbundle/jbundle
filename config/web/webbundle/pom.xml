@@ -58,9 +58,12 @@
 						<Export-Package>example1,org.jbundle.webbundle</Export-Package>
 			            <Import-Package>
 			                *;resolution:=optional,
-			                org.jbundle.thin.base.util.osgi.bootstrap.*,	<!-- Copy this code in -->
 			                org.osgi.framework;resolution:=optional,	<!-- I Don't explicitly reference this, but I check to see if this exists to enable OSGi -->
+			                org.jbundle.thin.base.util.osgi.service;resolution:=optional, <!-- This allows me to start it once I deploy it -->
 			            </Import-Package>
+			            <Private-Package>
+			                org.jbundle.thin.base.util.osgi.bootstrap,	<!-- Except, Do copy this code in -->
+			            </Private-Package>
 						<Bundle-Activator>org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap</Bundle-Activator>
 						<!-- This is the context root of this application -->
 						<Web-ContextPath>/${project.artifactId}</Web-ContextPath>
@@ -221,12 +224,14 @@
 			<artifactId>jbundle-config-dep-all</artifactId>
 			<version>0.7.7-SNAPSHOT</version>
 			<type>pom</type>
+			<scope>provided</scope>	<!-- Hey this is OSGi -->
 		</dependency>
 		<dependency>
 			<groupId>org.jbundle.util.webapp</groupId>
 			<artifactId>org.jbundle.util.webapp.redirect</artifactId>
 			<version>0.9.1-SNAPSHOT</version>
 			<classifier>classes</classifier>
+			<scope>provided</scope>	<!-- Hey this is OSGi -->
 		</dependency>
 		<dependency>
 			<groupId>jardiff</groupId>
@@ -245,6 +250,7 @@
 	      <groupId>org.jbundle.thin.base</groupId>
 	      <artifactId>org.jbundle.thin.base.util.osgi</artifactId>
 	      <version>0.7.7-SNAPSHOT</version>
+	      <scope>provided</scope>	<!-- Hey this is OSGi -->
 	    </dependency>
 	</dependencies>
 

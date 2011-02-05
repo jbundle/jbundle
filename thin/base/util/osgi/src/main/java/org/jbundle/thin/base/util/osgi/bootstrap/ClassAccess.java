@@ -4,7 +4,10 @@ import java.net.URL;
 
 public interface ClassAccess {
 	
-    public static final String CLASS_NAME = "className";
+	/**
+	 * Right now, services are registered under their class name. May want to change to package name.
+	 */
+    public static final String PACKAGE_NAME = "packageName";	// className is reserved
     public static final String INTERFACE = "interface";
     public static final String TYPE = "type";
 

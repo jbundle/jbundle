@@ -1,4 +1,4 @@
-package org.jbundle.thin.base.util.osgi.impl;
+package org.jbundle.thin.base.util.osgi.service;
 
 import java.net.URL;
 import java.util.Dictionary;

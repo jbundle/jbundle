@@ -74,8 +74,9 @@
         deploy -s 'jbundle-config-web-bundle - OSGi Bundle'@0.7.7.SNAPSHOT
         
         # deploy -s 'jbundle-config-web-webbundle - Hybrid web osgi webapp'@0.7.6.SNAPSHOT
-        install file:///home/don/.m2/repository/org/jbundle/config/web/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.war
-        start xxx
+        # install ~
+        start file:///home/don/.m2/repository/org/jbundle/config/web/jbundle-config-web-webbundle/0.7.7-SNAPSHOT/jbundle-config-web-webbundle-0.7.7-SNAPSHOT.war
+        # start xxx
         
       	<br/>
 
