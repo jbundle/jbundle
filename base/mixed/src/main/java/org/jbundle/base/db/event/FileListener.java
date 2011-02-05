@@ -422,7 +422,7 @@ public class FileListener extends BaseListener
         Object objData = daIn.readObject();
         if (fldCurrent == null) if (strFieldName.length() > 0)
         {
-        	fldCurrent = (BaseField)Utility.makeObjectFromClassName(strFieldName);
+        	fldCurrent = (BaseField)Utility.makeObjectFromClassName(Object.class.getName(), strFieldName);
         	if (fldCurrent != null)
         	{
                 fldCurrent.init(null, null, DBConstants.DEFAULT_FIELD_LENGTH, null, null);

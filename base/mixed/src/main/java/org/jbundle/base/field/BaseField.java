@@ -241,7 +241,7 @@ public class BaseField extends FieldInfo
     {
         BaseField field = null;
         String strClassName = fieldToClone.getClass().getName();
-        field = (BaseField)Utility.makeObjectFromClassName(strClassName);
+        field = (BaseField)Utility.makeObjectFromClassName(Object.class.getName(), strClassName);
         if (field != null)
         {
             field.init(null, fieldToClone.getFieldName(), fieldToClone.getMaxLength(), fieldToClone.getFieldDesc(), fieldToClone.getDefault());

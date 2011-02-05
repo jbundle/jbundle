@@ -140,7 +140,7 @@ public class NetUtility {
      */
     public static FieldList makeThinRecordFromClassname(String strClassName)
     {
-        FieldList record = (FieldList)Utility.makeObjectFromClassName(strClassName);
+        FieldList record = (FieldList)Utility.makeObjectFromClassName(Object.class.getName(), strClassName);
         if (record != null)
         	record.init(null);
         return record;

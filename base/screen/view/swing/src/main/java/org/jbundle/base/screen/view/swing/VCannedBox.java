@@ -291,7 +291,7 @@ public class VCannedBox extends VButtonBox
         if (this.getScreenField().getConverter().getField() instanceof XmlField)
             schema = ((XmlField)this.getScreenField().getConverter().getField()).getSchema();
         String strScreenClass = JaxeReference.JAXE_EDITOR_CLASS;
-        Editor screen = (Editor)Utility.makeObjectFromClassName(strScreenClass);
+        Editor screen = (Editor)Utility.makeObjectFromClassName(Object.class.getName(), strScreenClass);
         if (screen != null)
         	return screen.startEditor(this, string, schema);
         return true;    // Success

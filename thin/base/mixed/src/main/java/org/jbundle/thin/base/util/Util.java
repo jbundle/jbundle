@@ -627,16 +627,16 @@ public class Util extends Object
     * @param className
     * @return
     */
-   public static Object makeObjectFromClassName(String className)
+   public static Object makeObjectFromClassName(String interfaceName, String className)
    {
-	   return Util.makeObjectFromClassName(className, null, true);
+	   return Util.makeObjectFromClassName(interfaceName, className, null, true);
    }
    /**
     * Create this object given the class name.
     * @param className
     * @return
     */
-   public static Object makeObjectFromClassName(String className, Task task, boolean bErrorIfNotFound)
+   public static Object makeObjectFromClassName(String interfaceName, String className, Task task, boolean bErrorIfNotFound)
    {
 	   if (className == null)
 		   return null;

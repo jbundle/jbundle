@@ -115,7 +115,7 @@ public class ImportXMLScanListener extends BaseScanListener
         {
             while (!classFound)
             {
-            	record = (Record)Utility.makeObjectFromClassName(className);
+            	record = (Record)Utility.makeObjectFromClassName(Object.class.getName(), className);
             	if (record != null)
             	{
                     record.init(this.m_parent);

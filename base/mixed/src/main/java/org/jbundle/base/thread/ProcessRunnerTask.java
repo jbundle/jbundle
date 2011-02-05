@@ -104,7 +104,7 @@ public class ProcessRunnerTask extends AutoTask
     public void runTask()
     {
         String strProcess = this.getProperty(DBParams.PROCESS);
-        BaseProcess job = (BaseProcess)Utility.makeObjectFromClassName(strProcess);
+        BaseProcess job = (BaseProcess)Utility.makeObjectFromClassName(Object.class.getName(), strProcess);
         if (job != null)
         {
             this.runProcess(job, m_properties);

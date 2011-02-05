@@ -235,7 +235,7 @@ public class JdbcDatabase extends BaseDatabase
             if (m_datasourceFactory == null)
             {
                 String strClassName = this.getProperty(SQLParams.DATASOURCE_FACTORY);
-//                m_datasourceFactory = (DatasourceFactory)Utility.makeObjectFromClassName(strClassName);
+//                m_datasourceFactory = (DatasourceFactory)Utility.makeObjectFromClassName(Object.class.getName(), strClassName);
                 try {
                 	strClassName = Utility.getFullClassName(strClassName);
              	    Class<?> c = Class.forName(strClassName);
@@ -314,7 +314,7 @@ public class JdbcDatabase extends BaseDatabase
             return;
 
         if (m_classDB == null)
-        	m_classDB = Utility.makeObjectFromClassName(strJdbcDriver);
+        	m_classDB = Utility.makeObjectFromClassName(Object.class.getName(), strJdbcDriver);
         Utility.getLogger().info("Driver found: " + (m_classDB != null));
         m_JDBCConnection = this.getJDBCConnection();    // Setup the initial connection
     }
@@ -748,7 +748,7 @@ public class JdbcDatabase extends BaseDatabase
                 String strClassName = DBProperties_mysql.class.getName();
                 strDatabaseProductName = strClassName.substring(0, strClassName.length() - "mysql".length()) + strDatabaseProductName;
             }
-//            dbProperties = (ListResourceBundle)Utility.makeObjectFromClassName(strDatabaseProductName);
+//            dbProperties = (ListResourceBundle)Utility.makeObjectFromClassName(Object.class.getName(), strDatabaseProductName);
 
             
             

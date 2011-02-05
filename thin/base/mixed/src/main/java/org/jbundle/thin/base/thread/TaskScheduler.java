@@ -147,7 +147,7 @@ public class TaskScheduler extends Object
             String strClass = (String)properties.get(Params.TASK);
             if (strClass == null)
                 strClass = (String)properties.get(Params.APPLET); // Applets are also run as tasks
-            Object job = Util.makeObjectFromClassName(strClass);
+            Object job = Util.makeObjectFromClassName(Object.class.getName(), strClass);
             if (job instanceof Task)
             {
                 ((Task)job).initTask(this.getApplication(), properties);

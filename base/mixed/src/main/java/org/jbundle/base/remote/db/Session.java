@@ -198,7 +198,7 @@ public class Session extends BaseSession
                 }
                 else
                 {
-                    BaseMessageFilter newMessageFilter = (BaseMessageFilter)Utility.makeObjectFromClassName(strClassName);
+                    BaseMessageFilter newMessageFilter = (BaseMessageFilter)Utility.makeObjectFromClassName(Object.class.getName(), strClassName);
                     if (newMessageFilter != null)
                         newMessageFilter.init(messageFilter.getQueueName(), messageFilter.getQueueType(), null, null);
                     if (newMessageFilter != null)

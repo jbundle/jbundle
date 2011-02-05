@@ -167,7 +167,7 @@ public class TrxMessageListener extends BaseMessageListener
             else if (m_properties.get(ServletTask.APPLICATION) != null)
             {
                 String strApplicationClass = (String)m_properties.get(ServletTask.APPLICATION);
-                Application app  = (Application)Utility.makeObjectFromClassName(strApplicationClass);
+                Application app  = (Application)Utility.makeObjectFromClassName(Object.class.getName(), strApplicationClass);
                 if (app != null)
                 {
                     Environment env = ((BaseApplication)m_application).getEnvironment();

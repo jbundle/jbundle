@@ -231,7 +231,7 @@ public class TableSession extends Session
                         }
                         if (listener == null)
                         {
-                        	listener = (FileListener)Utility.makeObjectFromClassName(strBehaviorName);
+                        	listener = (FileListener)Utility.makeObjectFromClassName(Object.class.getName(), strBehaviorName);
                         }
                         else
                         {

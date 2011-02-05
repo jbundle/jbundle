@@ -94,7 +94,7 @@ public class FieldListener extends BaseListener
      */
     public Object clone(BaseField field) throws CloneNotSupportedException
     {
-        FieldListener listener = (FieldListener)Utility.makeObjectFromClassName(this.getClass().getName());
+        FieldListener listener = (FieldListener)Utility.makeObjectFromClassName(Object.class.getName(), this.getClass().getName());
         boolean bInitCalled = this.syncClonedListener(field, listener, false);
         if (!bInitCalled)
             listener.init(null);

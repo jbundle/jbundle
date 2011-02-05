@@ -309,7 +309,7 @@ public class BaseApplet extends JApplet
         if (parent == null)
             parent = m_parent;
         String strScreen = this.getProperty(Params.SCREEN);
-        JBasePanel baseScreen = (JBasePanel)Util.makeObjectFromClassName(strScreen);
+        JBasePanel baseScreen = (JBasePanel)Util.makeObjectFromClassName(Object.class.getName(), strScreen);
         if (baseScreen != null)
         {
             FieldList record = null;

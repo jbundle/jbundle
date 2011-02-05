@@ -445,7 +445,7 @@ public abstract class BaseMessage extends Object
        if ((strMessageClassName != null) && (strMessageClassName.length() > 0))
        {
            strMessageClassName = Util.getFullClassName(strMessageClassName);
-           Object obj = (BaseMessage)Util.makeObjectFromClassName(strMessageClassName);
+           Object obj = (BaseMessage)Util.makeObjectFromClassName(Object.class.getName(), strMessageClassName);
            if (obj instanceof BaseMessage)
            {
                message = (BaseMessage)obj;
@@ -470,7 +470,7 @@ public abstract class BaseMessage extends Object
              if (this.getMessageHeader() != null)
                  strMessageDataClassName = (String)this.getMessageHeader().get(BaseMessageHeader.INTERNAL_MESSAGE_CLASS);
          }
-         MessageRecordDesc messageRecordDesc = (MessageRecordDesc)Util.makeObjectFromClassName(strMessageDataClassName);
+         MessageRecordDesc messageRecordDesc = (MessageRecordDesc)Util.makeObjectFromClassName(Object.class.getName(), strMessageDataClassName);
          if (messageRecordDesc != null)
                  messageRecordDesc.init(this, null);
      }

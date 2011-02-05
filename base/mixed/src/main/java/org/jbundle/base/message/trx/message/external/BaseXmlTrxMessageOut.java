@@ -77,7 +77,7 @@ public class BaseXmlTrxMessageOut extends ExternalTrxMessageOut
             String strMessageClass = (String)trxMessageHeader.get(TrxMessageHeader.MESSAGE_MARSHALLER_CLASS);
             String strPackage = (String)trxMessageHeader.get(TrxMessageHeader.BASE_PACKAGE);
             strMessageClass = Utility.getFullClassName(strPackage, strMessageClass);
-            m_convertToNative = (BaseConvertToNative)Utility.makeObjectFromClassName(strMessageClass);
+            m_convertToNative = (BaseConvertToNative)Utility.makeObjectFromClassName(Object.class.getName(), strMessageClass);
             if (m_convertToNative != null)
             	m_convertToNative.init(this);
         }
