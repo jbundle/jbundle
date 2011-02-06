@@ -55,7 +55,7 @@
 						<supportedProjectType>war</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>example1,org.jbundle.webbundle</Export-Package>
+						<Export-Package>org.jbundle.webbundle.*</Export-Package>
 			            <Import-Package>
 			                *;resolution:=optional,
 			                org.osgi.framework;resolution:=optional,	<!-- I Don't explicitly reference this, but I check to see if this exists to enable OSGi -->

@@ -9,7 +9,7 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.jbundle.base.util.*;
-import org.jbundle.thin.base.util.osgi.bootstrap.ClassAccess;
+import org.jbundle.thin.base.util.osgi.ClassAccess;
 import org.jbundle.thin.base.util.osgi.service.ClassAccessImpl;
 import org.jbundle.thin.base.util.Util;
 

@@ -44,7 +44,6 @@ import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.remote.RemoteTable;
-import org.jbundle.thin.base.util.osgi.bootstrap.ClassService;
 import org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -615,12 +614,12 @@ public class Util extends Object
    }
    /**
     * Get the Osgi class service.
-    * NOTE: The bootstrap code needs to be copied to this jar (since the code make not be accessible yet)
+    * NOTE: Don't import this package as the ClassService class may not be available until this service is started.
     * @return
     */
-   public static ClassService getClassService()
+   public static org.jbundle.thin.base.util.osgi.ClassService getClassService()
    {
-	   return ClassServiceBootstrap.getClassService();
+	   return (org.jbundle.thin.base.util.osgi.ClassService)ClassServiceBootstrap.getClassService();
    }
    /**
     * Create this object given the class name.

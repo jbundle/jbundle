@@ -3,7 +3,7 @@ package org.jbundle.thin.base.util.osgi.service;
 import java.net.URL;
 import java.util.Dictionary;
 
-import org.jbundle.thin.base.util.osgi.bootstrap.ClassAccess;
+import org.jbundle.thin.base.util.osgi.ClassAccess;
 
 /**
  * Create a class in this bundle.

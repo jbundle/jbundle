@@ -4,16 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import org.apache.felix.bundlerepository.Resolver;
 import org.apache.felix.bundlerepository.Resource;
-import org.jbundle.thin.base.util.osgi.bootstrap.ClassAccess;
-import org.jbundle.thin.base.util.osgi.bootstrap.ClassService;
+import org.jbundle.thin.base.util.osgi.ClassAccess;
+import org.jbundle.thin.base.util.osgi.ClassService;
 import org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;

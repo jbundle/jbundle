@@ -42,9 +42,10 @@ import org.osgi.framework.ServiceReference;
  */
 public class ClassServiceBootstrap implements BundleActivator
 {
+	public static final String CLASS_SERVICE_CLASS_NAME = "org.jbundle.thin.base.util.osgi.ClassService";
 	public static final String CLASS_SERVICE_IMPL_CLASS_NAME = "org.jbundle.thin.base.util.osgi.service.ClassServiceImpl";
 
-	private static ClassService cachedClassService = null;
+	private static Object cachedClassService = null;
 	
     public static RepositoryAdmin repositoryAdmin = null;
 
@@ -176,13 +177,15 @@ public class ClassServiceBootstrap implements BundleActivator
         bundleContext = null;
         repositoryAdmin = null;
         waitingForRepositoryAdmin = false;
+        waitingForClassService = false;
+        cachedClassService = null;
     }
     /**
      * Get the class service.
      * This call should activate this bundle and start the ClassService.
      * @return
      */
-	public static ClassService getClassService()
+	public static Object getClassService()
 	{
 		if (cachedClassService != null)
 			return cachedClassService;
@@ -197,7 +200,7 @@ public class ClassServiceBootstrap implements BundleActivator
 	 * @param waitForStart TODO
 	 * @return The class service or null if it doesn't exist.
 	 */
-	public static ClassService findClassService(boolean waitForStart)
+	public static Object findClassService(boolean waitForStart)
 	{
         if (bundleContext == null)
 		{
@@ -206,13 +209,13 @@ public class ClassServiceBootstrap implements BundleActivator
 			return null;
 		}
 
-        ClassService classService = null;
+        Object classService = null;
     	
 		try {
-			ServiceReference[] ref = bundleContext.getServiceReferences(ClassService.class.getName(), null);
+			ServiceReference[] ref = bundleContext.getServiceReferences(CLASS_SERVICE_CLASS_NAME, null);
 		
 			if ((ref != null) && (ref.length > 0))
-				classService =  (ClassService)bundleContext.getService(ref[0]);
+				classService =  bundleContext.getService(ref[0]);
 		} catch (InvalidSyntaxException e) {
 			e.printStackTrace();
 		}
@@ -225,7 +228,7 @@ public class ClassServiceBootstrap implements BundleActivator
 			// TODO Minor synchronization issue here
 			Thread thread = Thread.currentThread();
 			try {
-				bundleContext.addServiceListener(new ClassServiceListener(thread, bundleContext), "(" + Constants.OBJECTCLASS + "=" + ClassService.class.getName() + ")");
+				bundleContext.addServiceListener(new ClassServiceListener(thread, bundleContext), "(" + Constants.OBJECTCLASS + "=" + CLASS_SERVICE_CLASS_NAME + ")");
 			} catch (InvalidSyntaxException e) {
 				e.printStackTrace();
 			}
@@ -242,10 +245,10 @@ public class ClassServiceBootstrap implements BundleActivator
 			waitingForClassService = false;
 			
 			try {
-				ServiceReference[] ref = bundleContext.getServiceReferences(ClassService.class.getName(), null);
+				ServiceReference[] ref = bundleContext.getServiceReferences(CLASS_SERVICE_CLASS_NAME, null);
 			
 				if ((ref != null) && (ref.length > 0))
-					classService =  (ClassService)bundleContext.getService(ref[0]);
+					classService =  bundleContext.getService(ref[0]);
 			} catch (InvalidSyntaxException e) {
 				e.printStackTrace();
 			}

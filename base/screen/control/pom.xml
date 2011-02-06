@@ -14,8 +14,8 @@
   <name>jbundle-base-screen-control</name>
 
   <modules>
-    <module>cocoon</module>
-    <module>servlet</module>
+    <!-- module>cocoon</module>
+    <module>servlet</module -->
   </modules>
   
 </project>

@@ -1,4 +1,4 @@
-package org.jbundle.thin.base.util.osgi.bootstrap;
+package org.jbundle.thin.base.util.osgi;
 
 import java.net.URL;
 import java.util.Locale;
