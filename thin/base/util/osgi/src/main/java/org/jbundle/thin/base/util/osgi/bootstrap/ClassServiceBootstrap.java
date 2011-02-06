@@ -52,6 +52,7 @@ public class ClassServiceBootstrap implements BundleActivator
      * Be sure to synchronize on this when you change it.
      */
     public static Boolean waitingForRepositoryAdmin = false;
+    public static Boolean waitingForClassService = false;
 
     /**
 	 * Good from start to stop. May be needed by overriding class.
@@ -99,9 +100,9 @@ public class ClassServiceBootstrap implements BundleActivator
         
         if (admin == null)
         	if (autoStartNotify != null)
+                if (waitingForRepositoryAdmin == false)
         {   // Wait until the repository service is up until I start servicing clients
-            if (waitingForRepositoryAdmin == false)
-                context.addServiceListener(new RepositoryAdminServiceListener(autoStartNotify, context), "(" + Constants.OBJECTCLASS + "=" + RepositoryAdmin.class.getName() + ")");
+            context.addServiceListener(new RepositoryAdminServiceListener(autoStartNotify, context), "(" + Constants.OBJECTCLASS + "=" + RepositoryAdmin.class.getName() + ")");
             waitingForRepositoryAdmin = true;
         }
 
@@ -160,11 +161,11 @@ public class ClassServiceBootstrap implements BundleActivator
      */
     public void registerClassServiceBootstrap(BundleContext context)
     {
+        waitingForRepositoryAdmin = false;
+
         System.out.println("ClassServiceBootstrap is up");
 
         this.startClassService(repositoryAdmin, context);    // Now that I have the repo, start the ClassService
-        
-        waitingForRepositoryAdmin = false;
     }
     /**
      * Bundle shutting down.
@@ -187,38 +188,16 @@ public class ClassServiceBootstrap implements BundleActivator
 			return cachedClassService;
 
 		// First time or not running, try to find the class service
-		cachedClassService = findClassService();
-		if (cachedClassService != null)
-			return cachedClassService;
-		// TODO Minor synchronization issue here
-		Thread thread = Thread.currentThread();
-		try {
-			bundleContext.addServiceListener(new ClassServiceListener(thread, bundleContext), "(" + Constants.OBJECTCLASS + "=" + ClassService.class.getName() + ")");
-		} catch (InvalidSyntaxException e) {
-			e.printStackTrace();
-		}
-
-		// Wait a minute for the ClassService to come up while the activator starts this service
-		synchronized (thread)
-		{
-			try {
-				thread.wait(60000);
-			} catch (InterruptedException ex) {
-				ex.printStackTrace();
-			}
-			cachedClassService = findClassService();
-			if (cachedClassService == null)
-				System.out.println("The ClassService never started - \n" +
-					"Include the bootstrap code in your bundle and make sure it is listed as an activator!");
-		}
+		cachedClassService = findClassService(true);
 		
 		return cachedClassService;
 	}
 	/**
 	 * Get the class service.
+	 * @param waitForStart TODO
 	 * @return The class service or null if it doesn't exist.
 	 */
-	public static ClassService findClassService()
+	public static ClassService findClassService(boolean waitForStart)
 	{
         if (bundleContext == null)
 		{
@@ -237,16 +216,45 @@ public class ClassServiceBootstrap implements BundleActivator
 		} catch (InvalidSyntaxException e) {
 			e.printStackTrace();
 		}
-		
-		/* ?? ++
-        if (admin == null)
-        	if (autoStartNotify != null)
-        {   // Wait until the repository service is up until I start servicing clients
-            if (waitingForRepositoryAdmin == false)
-                context.addServiceListener(new RepositoryAdminServiceListener(autoStartNotify, context), "(" + Constants.OBJECTCLASS + "=" + RepositoryAdmin.class.getName() + ")");
-            waitingForRepositoryAdmin = true;
-        }
-		 */
+
+		if (classService == null)
+			if (waitForStart)
+				if (waitingForClassService == false)
+		{
+			waitingForClassService = true;
+			// TODO Minor synchronization issue here
+			Thread thread = Thread.currentThread();
+			try {
+				bundleContext.addServiceListener(new ClassServiceListener(thread, bundleContext), "(" + Constants.OBJECTCLASS + "=" + ClassService.class.getName() + ")");
+			} catch (InvalidSyntaxException e) {
+				e.printStackTrace();
+			}
+
+			// Wait a minute for the ClassService to come up while the activator starts this service
+			synchronized (thread)
+			{
+				try {
+					thread.wait(60000);
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
+				}
+			}
+			waitingForClassService = false;
+			
+			try {
+				ServiceReference[] ref = bundleContext.getServiceReferences(ClassService.class.getName(), null);
+			
+				if ((ref != null) && (ref.length > 0))
+					classService =  (ClassService)bundleContext.getService(ref[0]);
+			} catch (InvalidSyntaxException e) {
+				e.printStackTrace();
+			}
+
+			if (classService == null)
+				System.out.println("The ClassService never started - \n" +
+					"Include the bootstrap code in your bundle and make sure it is listed as an activator!");
+		}
+
 		return classService;
 	}
     /**
@@ -258,11 +266,9 @@ public class ClassServiceBootstrap implements BundleActivator
      */
     public boolean startClassService(RepositoryAdmin repositoryAdmin, BundleContext context)
     {
-    	waitingForRepositoryAdmin = false;  // You would never call me if the repository wasn't up
-        
     	if (cachedClassService != null)
     		return true;	// Never
-    	cachedClassService = findClassService();	// See if someone else started it up
+    	cachedClassService = findClassService(false);	// See if someone else started it up
     	if (cachedClassService != null)
     		return true;	// Already up!
         // If the repository is not up, but the bundle is deployed, this will find it
