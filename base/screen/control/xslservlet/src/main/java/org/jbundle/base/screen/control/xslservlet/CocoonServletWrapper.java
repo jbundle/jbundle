@@ -1,4 +1,4 @@
-package org.jbundle.base.screen.control.servlet.xml.cocoon;
+package org.jbundle.base.screen.control.xslservlet;
 
 /**
  * @(#)DBServlet.java 0.00 12-Feb-97 Don Corley
@@ -35,14 +35,15 @@ import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
  *  menu - Display this menu page
  * </pre>
  */
-public class CocoonServletWrapper extends org.apache.cocoon.servlet.CocoonServlet
-/* extends org.apache.cocoon.servletservice.DispatcherServlet */
+public class CocoonServletWrapper extends Object
+{
+/* org.apache.cocoon.servlet.CocoonServlet
 {
 	private static final long serialVersionUID = 1L;
 
     /**
      * Constructor.
-     */
+     *
     public CocoonServletWrapper()
     {
         super();
@@ -50,7 +51,7 @@ public class CocoonServletWrapper extends org.apache.cocoon.servlet.CocoonServle
     /**
      * init method.
      * @exception ServletException From inherited class.
-     */
+     *
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
@@ -59,7 +60,7 @@ public class CocoonServletWrapper extends org.apache.cocoon.servlet.CocoonServle
     /**
      * Destroy this Servlet and any active applications.
      * This is only called when all users are done using this Servlet.
-     */
+     *
     public void destroy()
     {
         super.destroy();
@@ -69,7 +70,7 @@ public class CocoonServletWrapper extends org.apache.cocoon.servlet.CocoonServle
      *  process an HTML post.
      * @exception ServletException From inherited class.
      * @exception IOException From inherited class.
-     */
+     *
     public void service(HttpServletRequest req, HttpServletResponse resp) 
         throws ServletException, IOException
     {

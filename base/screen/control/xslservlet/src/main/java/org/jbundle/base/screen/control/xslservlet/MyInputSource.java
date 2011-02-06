@@ -14,17 +14,6 @@
  * limitations under the License.
  */
 package org.jbundle.base.screen.control.servlet.xml.cocoon;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-
-import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceFactory;
-import org.apache.excalibur.source.SourceNotFoundException;
-import org.apache.excalibur.source.SourceValidity;
-import org.xml.sax.InputSource;
-
 /**
  * @cocoon.sitemap.component.documentation
  * The <code>FileGenerator</code> is a class that reads XML from a source
@@ -44,7 +33,7 @@ import org.xml.sax.InputSource;
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @version CVS $Id: MyInputSource.java,v 1.1 2009/01/16 21:30:08 don Exp $
  */
-public class MyInputSource extends InputSource
+ public class MyInputSource extends Object { /*InputSource
     implements Source
 {
     protected String m_strRequestURI = null;
@@ -66,7 +55,7 @@ public class MyInputSource extends InputSource
      * Does this source exist ?
      * 
      * @return true if the source exists
-     */
+     *
     public boolean exists()
     {
         return true;
@@ -83,7 +72,7 @@ public class MyInputSource extends InputSource
      * @return the <code>InputStream</code> to read data from (never <code>null</code>).
      * @throws IOException if some I/O problem occurs.
      * @throws SourceNotFoundException if the source doesn't exist.
-     */
+     *
     public InputStream getInputStream()
         throws IOException, SourceNotFoundException
     {
@@ -94,7 +83,7 @@ public class MyInputSource extends InputSource
      * Get the absolute URI for this source.
      * 
      * @return the source URI.
-     */
+     *
     public String getURI()
     {
         return m_strRequestURI;
@@ -107,7 +96,7 @@ public class MyInputSource extends InputSource
      * This scheme can be used to get the {@link SourceFactory} responsible for this object.
      * 
      * @return the URI scheme.
-     */
+     *
     public String getScheme()
     {
         if (m_strRequestURI != null)
@@ -124,7 +113,7 @@ public class MyInputSource extends InputSource
      * <code>null</code> is returned.
      * 
      * @return the validity, or <code>null</code>.
-     */
+     *
     public SourceValidity getValidity()
     {
         return null;
@@ -135,7 +124,7 @@ public class MyInputSource extends InputSource
      * <p>
      * Some implementations may cache some values to speedup sucessive calls. Refreshing
      * ensures you get the latest information.
-     */
+     *
     public void refresh()
     {
     }
@@ -146,7 +135,7 @@ public class MyInputSource extends InputSource
      * this can be <code>null</code>.
      * 
      * @return the source's mime-type or <code>null</code>.
-     */
+     *
     public String getMimeType()
     {
         return m_strMimeType;
@@ -157,7 +146,7 @@ public class MyInputSource extends InputSource
      * unknown.
      * 
      * @return the source's content length or -1.
-     */
+     *
     public long getContentLength()
     {
         return -1;
@@ -169,10 +158,10 @@ public class MyInputSource extends InputSource
      * and is <code>0</code> if it's unknown.
      * 
      * @return the last modification date or <code>0</code>.
-     */
+     *
     public long getLastModified()
     {
         return 0;
     }
-    
+    */
 }

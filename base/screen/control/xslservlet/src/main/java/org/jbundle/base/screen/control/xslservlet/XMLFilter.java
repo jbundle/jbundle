@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbundle.base.screen.control.servlet.xml.cocoon;
+package org.jbundle.base.screen.control.xslservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,33 +22,6 @@ import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.components.source.SourceUtil;
-import org.apache.cocoon.environment.SourceResolver;
-import org.apache.cocoon.environment.http.HttpEnvironment;
-import org.apache.cocoon.generation.ServiceableGenerator;
-import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceException;
-import org.apache.excalibur.source.SourceValidity;
-import org.apache.excalibur.xml.sax.SAXParser;
-import org.jbundle.base.screen.control.servlet.BasicServlet;
-import org.jbundle.base.screen.control.servlet.ServletTask;
-import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
-import org.jbundle.base.screen.control.servlet.xml.XmlScreen;
-import org.jbundle.base.screen.model.TopScreen;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.Utility;
-import org.jbundle.model.RecordOwnerParent;
-import org.jbundle.thin.base.db.FieldList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 
 /**
@@ -70,16 +43,18 @@ import org.xml.sax.SAXException;
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @version CVS $Id: XMLFilter.java,v 1.1 2009/01/16 21:30:08 don Exp $
  */
-public class XMLFilter extends ServiceableGenerator
+public class XMLFilter extends Object
+{
+/*ServiceableGenerator
     implements BasicServlet
 {
-    /** The input source */
+    /** The input source *
     protected Source inputSource;
 
     /**
      * Recycle this component.
      * All instance variables are set to <code>null</code>.
-     */
+     *
     public void recycle() {
         if (null != this.inputSource) {
             super.resolver.release(this.inputSource);
@@ -91,7 +66,7 @@ public class XMLFilter extends ServiceableGenerator
     /**
      * Setup the file generator.
      * Try to get the last modification date of the source for caching.
-     */
+     *
     public void setup(SourceResolver resolver, Map objectModel, String src, Parameters par)
         throws ProcessingException, SAXException, IOException {
 
@@ -110,7 +85,7 @@ public class XMLFilter extends ServiceableGenerator
      * This key must be unique inside the space of this component.
      *
      * @return The generated key hashes the src
-     */
+     *
     public Serializable getKey() {
         return this.inputSource.getURI();
     }
@@ -120,14 +95,14 @@ public class XMLFilter extends ServiceableGenerator
      *
      * @return The generated validity object or <code>null</code> if the
      *         component is currently not cacheable.
-     */
+     *
     public SourceValidity getValidity() {
         return this.inputSource.getValidity();
     }
     
     /**
      * Generate XML data.
-     */
+     *
     public void generate()
         throws IOException, SAXException, ProcessingException {
 
@@ -151,7 +126,7 @@ public class XMLFilter extends ServiceableGenerator
     protected static boolean m_bFirstTime = true;
     /**
      * Process the stream and return the request.
-     */
+     *
     public Reader getStream(HttpServletRequest request)
         throws IOException
     {
@@ -186,13 +161,13 @@ public class XMLFilter extends ServiceableGenerator
     /**
      * Do any of the initial servlet stuff.
      * @param servletTask The calling servlet task.
-     */
+     *
     public void initServletSession(ServletTask servletTask)
     {
     }
     /**
      * Get the physical path for this internet path.
-     */
+     *
     public String getRealPath(HttpServletRequest request, String strFilename)
     {
         try {
@@ -210,7 +185,7 @@ public class XMLFilter extends ServiceableGenerator
 
     /**
      * Set the content type for this type of servlet.
-     */
+     *
     public void setContentType(HttpServletResponse res)
     {
         // No, set by cocoon/XSL
@@ -219,7 +194,7 @@ public class XMLFilter extends ServiceableGenerator
 
     /**
      * Get the main screen (with the correct view factory!).
-     */
+     *
     public TopScreen createTopScreen(RecordOwnerParent parent, FieldList recordMain, Object properties)
     {
         return new XmlScreen(parent, recordMain, properties);
@@ -227,11 +202,12 @@ public class XMLFilter extends ServiceableGenerator
 
     /**
      * Get the output stream.
-     */
+     *
     public PrintWriter getOutputStream(HttpServletResponse res)
         throws IOException
     {
 //      return new PrintWriter(res.getOutputStream());
         return null;    // not needed for filters.
     }
+    */
 }

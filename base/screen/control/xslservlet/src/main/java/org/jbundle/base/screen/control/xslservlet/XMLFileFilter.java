@@ -1,4 +1,4 @@
-package org.jbundle.base.screen.control.servlet.xml.cocoon;
+package org.jbundle.base.screen.control.xslservlet;
 
 /**
  * @(#)DBServlet.java 0.00 12-Feb-97 Don Corley
@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * XMLFileFilter - File producer.
@@ -21,34 +20,34 @@ import javax.servlet.http.HttpServletRequest;
  * The advantage is all files can be referenced as if they were in the root
  * directory.
  */
-public class XMLFileFilter extends XMLFilter
+ public class XMLFileFilter extends Object { /*XMLFilter
 {
     public static final String FILE_PARAM = "file";
 
     /**
      * Constructor.
-     */
+     *
     public XMLFileFilter()
     {
         super();
     }
     /**
      * Get the status.
-     */
+     *
     public String getPath(HttpServletRequest request)
     {
         return "";
     }
     /**
      * Get the status.
-     */
+     *
     public String getStatus()
     {
         return "Help Producer";
     }
     /**
      * Process the stream and return the request.
-     */
+     *
     public Reader getStream(HttpServletRequest request)
         throws IOException
     {
@@ -79,4 +78,5 @@ public class XMLFileFilter extends XMLFilter
                 "</html>";
         return new StringReader(string);
     }
+    */
 }
