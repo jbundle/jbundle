@@ -52,9 +52,7 @@ public class ClassServiceImpl implements BundleActivator, ClassService
         
         bundleContext = context;
 
-        Dictionary<String, String> properties = new Hashtable<String, String>();
-        properties.put(ClassAccess.PACKAGE_NAME, ClassServiceBootstrap.getPackageName(ClassService.class.getName(), true));
-        context.registerService(ClassService.class.getName(), this, null);//properties);
+        context.registerService(ClassService.class.getName(), this, null);	// Should be only one of these
     }
     /**
      * Bundle shutting down.
@@ -83,7 +81,7 @@ public class ClassServiceImpl implements BundleActivator, ClassService
             {
             	c = this.getClassFromBundle(null, className);	// It is possible that the newly started bundle registered itself
             	if (c == null)
-            		c = getClassFromBundle(resource, className);
+            		c = this.getClassFromBundle(resource, className);
             }
         }
 
@@ -99,14 +97,12 @@ public class ClassServiceImpl implements BundleActivator, ClassService
         if (ClassServiceBootstrap.repositoryAdmin == null)
             return null;
 
-        URL url = getResourceFromBundle(null, className);
+        URL url = this.getResourceFromBundle(null, className);
 
         if (url == null) {
             Resource resource = ClassServiceBootstrap.deployThisResource(ClassServiceBootstrap.repositoryAdmin, className, Resolver.START, true);
             if (resource != null)
-            {
-            	url = getResourceFromBundle(resource, className);
-            }
+            	url = this.getResourceFromBundle(resource, className);
         }
 
         return url;
@@ -159,26 +155,11 @@ public class ClassServiceImpl implements BundleActivator, ClassService
     {
         try {
         	String packageName = ClassServiceBootstrap.getPackageName(className, true);
-        	ServiceReference ref = null;
             String filter = "(" + ClassAccess.PACKAGE_NAME + "=" + packageName + ")";
             ServiceReference[] refs = bundleContext.getServiceReferences(ClassAccess.class.getName(), filter);
 
             if ((refs != null) && (refs.length > 0))
-            	ref = refs[0];
-            else
-            {
-            	refs = bundleContext.getServiceReferences(ClassAccess.class.getName(), null);
-            	if (refs != null)
-            	{
-            		for (ServiceReference ref2 : refs)
-            		{
-            			if (packageName.equals(ref.getProperty(ClassAccess.PACKAGE_NAME)))
-            				ref = ref2;
-            		}
-            	}
-            }
-            if (ref != null)
-                return (ClassAccess)bundleContext.getService(ref);
+                return (ClassAccess)bundleContext.getService(refs[0]);
         } catch (InvalidSyntaxException e) {
             e.printStackTrace();
         }
