@@ -25,9 +25,7 @@
           <instructions>
             <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
             <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-            <Export-Package>org.jbundle.thin.base.util.osgi.bootstrap;version=${project.version},
-            	<!-- This has to be exposed, so the bootstrap can find it in the repo and start it -->
-            	org.jbundle.thin.base.util.osgi.service;version=${project.version}</Export-Package>
+            <Export-Package>org.jbundle.thin.base.util.osgi.*;version=${project.version}</Export-Package>
             <Import-Package>
                 *;resolution:=optional,
             <!-- Note: These are some of the possible classes that will be created by the ClassService

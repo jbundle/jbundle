@@ -151,7 +151,9 @@ public class RemoteSessionServer extends UnicastRemoteObject
         } catch (RemoteException ex)    {
             ex.printStackTrace();
         } catch (NamingException ex)    {
-            ex.printStackTrace();
+            //x ex.printStackTrace();
+            System.out.println("RemoteSessionServer could not start as an rmi server, starting as a standalone service");
+            Utility.getLogger().info("RemoteSessionServer could not start as an rmi server, starting as a standalone service");
         }
         return remoteServer;
     }

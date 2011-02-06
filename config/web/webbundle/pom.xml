@@ -22,7 +22,6 @@
 
 	<build>
 		<plugins>
-
 			<plugin> <!-- Need to use this plugin to build war files -->
 				<artifactId>maven-war-plugin</artifactId>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -55,16 +54,16 @@
 						<supportedProjectType>war</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>org.jbundle.webbundle.*</Export-Package>
-			            <Import-Package>
-			                *;resolution:=optional,
-			                org.osgi.framework;resolution:=optional,	<!-- I Don't explicitly reference this, but I check to see if this exists to enable OSGi -->
-			                org.jbundle.thin.base.util.osgi.service;resolution:=optional, <!-- This allows me to start it once I deploy it -->
-			            </Import-Package>
-			            <Private-Package>
-			                org.jbundle.thin.base.util.osgi.bootstrap,	<!-- Except, Do copy this code in -->
-			            </Private-Package>
-						<Bundle-Activator>org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap</Bundle-Activator>
+						<Export-Package>org.jbundle.webbundle.*;version=${project.version},</Export-Package>
+            <Private-Package>
+                org.jbundle.thin.base.util.osgi.bootstrap,	<!-- Except, Do copy this code in -->
+            </Private-Package>
+            <Import-Package>
+            	*;resolution:=optional,
+                org.osgi.framework;resolution:=optional, <!-- I Don't explicitly reference this, but I need to check to see if this exists to enable OSGi -->
+			    org.jbundle.thin.base.util.osgi.service;resolution:=optional, <!-- This allows me to start it once I deploy it -->
+            </Import-Package>
+            <Bundle-Activator>org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap</Bundle-Activator>
 						<!-- This is the context root of this application -->
 						<Web-ContextPath>/${project.artifactId}</Web-ContextPath>
 						<!--
@@ -250,7 +249,6 @@
 	      <groupId>org.jbundle.thin.base</groupId>
 	      <artifactId>org.jbundle.thin.base.util.osgi</artifactId>
 	      <version>0.7.7-SNAPSHOT</version>
-	      <scope>provided</scope>	<!-- Hey this is OSGi -->
 	    </dependency>
 	</dependencies>
 

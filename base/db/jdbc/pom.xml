@@ -29,15 +29,19 @@
             	org.jbundle.base.db.jdbc;version=${project.version},
             	org.jbundle.base.db.jdbc.service.*;version=${project.version}
             </Export-Package>
-            <Private-Package>org.jbundle.base.db.jdbc.*,
-            	org.jbundle.thin.base.util.osgi.impl.*</Private-Package>
+            <Private-Package>
+            	org.jbundle.base.db.jdbc.*,
+                org.jbundle.thin.base.util.osgi.bootstrap,	<!-- Except, Do copy this code in -->
+            </Private-Package>
             <Import-Package>
-                *;resolution:=optional,
+            	*;resolution:=optional,
                 com.mysql.jdbc;resolution:=optional, <!-- Why doesn't this happen automatically? -->
                 com.mysql.jdbc.jdbc2.optional;resolution:=optional,
+                org.osgi.framework;resolution:=optional, <!-- I Don't explicitly reference this, but I need to check to see if this exists to enable OSGi -->
+			    org.jbundle.thin.base.util.osgi.service;resolution:=optional, <!-- This allows me to start it once I deploy it -->
             </Import-Package>
-            <Bundle-Version>${project.version}</Bundle-Version>
             <Bundle-Activator>org.jbundle.base.db.jdbc.service.Activator</Bundle-Activator>
+            <Bundle-Version>${project.version}</Bundle-Version>
           </instructions>
         </configuration>
       </plugin>

@@ -641,25 +641,25 @@ public class Util extends Object
 		   return null;
 	   className = Util.getFullClassName(className);
       
-	   Class<?> c = null;
+	   Class<?> clazz = null;
        try {
-			c = Class.forName(className);
+			clazz = Class.forName(className);
        } catch (ClassNotFoundException e) {
     	   try {
     		   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   if (Util.getClassService() != null)
-				   c = Util.getClassService().findClassBundle(interfaceName, className);	// Try to find this class in the obr repos
+			   if (ClassServiceBootstrap.getClassService() != null)
+				   clazz = Util.getClassService().findClassBundle(interfaceName, className);	// Try to find this class in the obr repos
            } catch (Exception ex) {
         	   //Ignore this - just means osgi is not installed
            }
-    	   if (c == null)
+    	   if (clazz == null)
     	       Util.handleClassException(e, className, task, bErrorIfNotFound);
        }
        
 	   Object object = null;
        try {
-    	   if (c != null)
-    		   object = c.newInstance();
+    	   if (clazz != null)
+    		   object = clazz.newInstance();
 	   } catch (InstantiationException e)   {
 	       Util.handleClassException(e, className, task, bErrorIfNotFound);
 	   } catch (IllegalAccessException e)   {
@@ -684,7 +684,7 @@ public class Util extends Object
        {
 		   try {
 			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   if (Util.getClassService() != null)
+			   if (ClassServiceBootstrap.getClassService() != null)
 				   url = Util.getClassService().findBundleResource(className);	// Try to find this class in the obr repos
 	       } catch (Exception ex) {
 	    	   //Ignore this - just means osgi is not installed
@@ -716,7 +716,7 @@ public class Util extends Object
        {
 		   try {
 			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   if (Util.getClassService() != null)
+			   if (ClassServiceBootstrap.getClassService() != null)
 				   resourceBundle = Util.getClassService().findResourceBundle(className, locale);	// Try to find this class in the obr repos
 		   } catch (MissingResourceException e) {
 			   ex = e;
