@@ -17,12 +17,12 @@ public class RepositoryAdminServiceListener implements ServiceListener
 {
     BundleContext context = null;
     
-    ClassServiceBootstrap osgiUtil = null;
+    ClassServiceBootstrap classServiceBootstrap = null;
     
-    public RepositoryAdminServiceListener(ClassServiceBootstrap osgiUtil, BundleContext context)
+    public RepositoryAdminServiceListener(ClassServiceBootstrap classServiceBootstrap, BundleContext context)
     {
         this.context = context;
-        this.osgiUtil = osgiUtil;
+        this.classServiceBootstrap = classServiceBootstrap;
     }
     /**
      * 
@@ -40,11 +40,8 @@ public class RepositoryAdminServiceListener implements ServiceListener
             RepositoryAdmin repositoryAdmin = null;
             if (service instanceof RepositoryAdmin)
                 repositoryAdmin = (RepositoryAdmin)service; // Always
-            ClassServiceBootstrap.addBootstrapRepository(repositoryAdmin, context);
-            if (osgiUtil == null)
-            	ClassServiceBootstrap.startClassService(repositoryAdmin, context);    // Now that I have the repo, start the OsgiClassService
-            else
-                osgiUtil.registerClassServiceBootstrap(context); // Now that the repository started, you can register my started service for others to use
+            classServiceBootstrap.addBootstrapRepository(repositoryAdmin, context);
+            classServiceBootstrap.registerClassServiceBootstrap(context); // Now that the repository started, you can register my started service for others to use
         }
         if (event.getType() == ServiceEvent.UNREGISTERING)
         {

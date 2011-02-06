@@ -12,7 +12,7 @@ public interface ClassService {
      * @param className
      * @return The class definition or null if not found.
      */
-    public Class<?> findClassBundle(String className);
+    public Class<?> findClassBundle(String interfaceName, String className);
     /**
      * Find, resolve, and return this resource's URL.
      * Static convenience method.

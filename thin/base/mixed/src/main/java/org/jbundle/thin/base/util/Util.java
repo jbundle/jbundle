@@ -618,7 +618,7 @@ public class Util extends Object
     * NOTE: The bootstrap code needs to be copied to this jar (since the code make not be accessible yet)
     * @return
     */
-   public static ClassService getOsgiClassService()
+   public static ClassService getClassService()
    {
 	   return ClassServiceBootstrap.getClassService();
    }
@@ -648,8 +648,8 @@ public class Util extends Object
        } catch (ClassNotFoundException e) {
     	   try {
     		   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   if (Util.getOsgiClassService() != null)
-				   c = Util.getOsgiClassService().findClassBundle(className);	// Try to find this class in the obr repos
+			   if (Util.getClassService() != null)
+				   c = Util.getClassService().findClassBundle(interfaceName, className);	// Try to find this class in the obr repos
            } catch (Exception ex) {
         	   //Ignore this - just means osgi is not installed
            }
@@ -685,8 +685,8 @@ public class Util extends Object
        {
 		   try {
 			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   if (Util.getOsgiClassService() != null)
-				   url = Util.getOsgiClassService().findBundleResource(className);	// Try to find this class in the obr repos
+			   if (Util.getClassService() != null)
+				   url = Util.getClassService().findBundleResource(className);	// Try to find this class in the obr repos
 	       } catch (Exception ex) {
 	    	   //Ignore this - just means osgi is not installed
 	       }
@@ -717,8 +717,8 @@ public class Util extends Object
        {
 		   try {
 			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   if (Util.getOsgiClassService() != null)
-				   resourceBundle = Util.getOsgiClassService().findResourceBundle(className, locale);	// Try to find this class in the obr repos
+			   if (Util.getClassService() != null)
+				   resourceBundle = Util.getClassService().findResourceBundle(className, locale);	// Try to find this class in the obr repos
 		   } catch (MissingResourceException e) {
 			   ex = e;
 	       } catch (Exception e) {

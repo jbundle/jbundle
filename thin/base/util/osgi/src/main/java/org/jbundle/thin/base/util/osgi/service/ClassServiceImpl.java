@@ -53,10 +53,8 @@ public class ClassServiceImpl implements BundleActivator, ClassService
         bundleContext = context;
 
         Dictionary<String, String> properties = new Hashtable<String, String>();
-        properties.put(ClassAccess.PACKAGE_NAME, ClassServiceBootstrap.getPackageName(ClassServiceBootstrap.INTERFACE_NAME, true));
-        context.registerService(ClassServiceBootstrap.INTERFACE_NAME, this, null);//properties);
-        
-        ClassServiceBootstrap.setClassService(this);	// If this bundle is starting, make sure my local bootstrap knows where I am
+        properties.put(ClassAccess.PACKAGE_NAME, ClassServiceBootstrap.getPackageName(ClassService.class.getName(), true));
+        context.registerService(ClassService.class.getName(), this, null);//properties);
     }
     /**
      * Bundle shutting down.
@@ -72,7 +70,7 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      * @param className
      * @return The class definition or null if not found.
      */
-    public Class<?> findClassBundle(String className)
+    public Class<?> findClassBundle(String interfaceName, String className)
     {
         if (ClassServiceBootstrap.repositoryAdmin == null)
             return null;
