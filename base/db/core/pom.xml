@@ -13,6 +13,45 @@
   <name>jbundle-base-db</name>
   <packaging>bundle</packaging>
 
+  <profiles>
+    <profile> 
+      <id>sonatype-oss-release</id>
+      <build>
+      <!-- ***CAREFUL*** This logic moves the source code to the current project, then
+      does NOT compile it. This way, the api and source are in the repo. -->
+	    <plugins>
+	      <plugin>
+	        <artifactId>maven-resources-plugin</artifactId>
+	        <version>2.4.3</version>
+	        <executions>
+          <execution>
+            <id>copy-jibx-bind</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/src/main/java</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>${baseMixedSourceDir}</directory>
+                  <filtering>false</filtering>
+                  <includes>
+                    <include>org/jbundle/base/db/**/*.java</include>
+                    <include>org/jbundle/base/field/**/*.java</include>
+                    <include>org/jbundle/*.java</include>
+                  </includes>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+	        </executions>
+	      </plugin>
+	    </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
   <build>
     <plugins>
       <plugin>
