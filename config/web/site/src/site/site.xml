@@ -14,4 +14,7 @@
       <item name="Calendar Panel" href="/calendarpanel"/>      
     </menu>
   </body>
+  
+  <menu ref="reports"/>
+
 </project>
