@@ -18,7 +18,6 @@
       <plugin>
         <groupId>org.codehaus.mojo.webstart</groupId>
         <artifactId>webstart-maven-plugin</artifactId>
-        <version>${webstart-maven-pluginVersion}</version>
         <executions>
           <execution>
             <phase>process-resources</phase>
@@ -299,7 +298,6 @@
       
     <plugin>	<!-- ZIP - The dependencies are zipped -->
       <artifactId>maven-assembly-plugin</artifactId>
-      <version>${maven-assembly-pluginVersion}</version>
       <configuration>
         <descriptors>
           <descriptor>src/main/assembly/zip.xml</descriptor>

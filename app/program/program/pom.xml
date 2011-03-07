@@ -42,7 +42,6 @@
     <dependency>
       <groupId>jtidy</groupId>  <!-- net.sourceforge.jtidy -->
       <artifactId>jtidy</artifactId>
-      <version>${jtidyVersion}</version> <!-- r938 -->
     </dependency>
   </dependencies>
   
@@ -57,7 +56,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>${exec-maven-pluginVersion}</version>
         <executions>
           <execution>
           	<phase>run</phase>

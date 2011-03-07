@@ -18,7 +18,6 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>${maven-bundle-pluginVersion}</version>
         <extensions>true</extensions>
         <configuration>
           <instructions>
@@ -66,13 +65,11 @@
     <dependency>     <!-- **** NOTE: This should be a 'runtime' dependency! Fix your code ***** -->
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>${mysql-connector-javaVersion}</version>
     </dependency>
 
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
-      <version>${org.osgi.coreVersion}</version>
       <scope>provided</scope> <!-- This better be provided -->
     </dependency>
     

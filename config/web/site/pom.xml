@@ -17,7 +17,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
-        <version>${maven-site-pluginVersion}</version>
         <configuration>
           <locales>en,fr</locales>
         </configuration>
@@ -25,7 +24,6 @@
     
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>${maven-resources-pluginVersion}</version>
 	   <executions>
 	     <execution>
 	     <phase>site</phase>

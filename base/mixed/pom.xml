@@ -27,7 +27,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>${exec-maven-pluginVersion}</version>
         <executions>
           <execution>
             <phase>run</phase>
@@ -76,19 +75,16 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>${servlet-apiVersion}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>    <!-- This is in the java.net repository -->
-      <version>${mailVersion}</version>
       <!-- scope>provided</scope - removed from glassfish in 3.1-->
     </dependency>
     <dependency>
       <groupId>com.sun.messaging.mq</groupId>
       <artifactId>jaxm-api</artifactId>    <!-- This is in the java.net repository -->
-      <version>${jaxm-apiVersion}</version>
       <!-- NOTE: This is not provided, because it is not in the glassfish dist (it is, but it isn't on the classpath) -->
       <!-- scope>system</scope -->
       <!-- systemPath>/usr/local/java/web/glassfish/mq/lib/jaxm-api.jar</systemPath -->
@@ -142,12 +138,10 @@
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
-      <version>${jsonVersion}</version>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
-      <version>${org.osgi.coreVersion}</version>
       <scope>provided</scope> <!-- This better be provided -->
     </dependency>
 

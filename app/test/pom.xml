@@ -37,13 +37,11 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junitVersion}</version>
       <scope>test</scope>
     </dependency>
 	<dependency>
 	  <groupId>log4j</groupId>
 	  <artifactId>log4j</artifactId>
-	  <version>1.2.16</version>
       <scope>test</scope>
 	</dependency>
 
@@ -91,13 +89,11 @@
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
-      <version>${jsonVersion}</version>
     </dependency>
 
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>${servlet-apiVersion}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
