@@ -9,7 +9,7 @@ package org.jbundle.base.db.serial;
  */
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.Memory.MemoryTable;
+import org.jbundle.base.db.memory.MemoryTable;
 
 /**
  * SerialTable - Exactly the same as a Memory table, but the

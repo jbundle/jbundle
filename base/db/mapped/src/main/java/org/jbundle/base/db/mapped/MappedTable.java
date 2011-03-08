@@ -9,7 +9,7 @@ package org.jbundle.base.db.mapped;
  */
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.Memory.MemoryTable;
+import org.jbundle.base.db.memory.MemoryTable;
 
 /**
  * MappedTable - Reads through another table and filters the data depending on the record.

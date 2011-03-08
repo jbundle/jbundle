@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbundle.base.screen.control.servlet.xml.cocoon;
+package org.jbundle.base.screen.control.xslservlet;
 /**
  * @cocoon.sitemap.component.documentation
  * The <code>FileGenerator</code> is a class that reads XML from a source

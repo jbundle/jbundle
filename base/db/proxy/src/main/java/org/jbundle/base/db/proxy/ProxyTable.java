@@ -9,7 +9,7 @@ package org.jbundle.base.db.proxy;
  */
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.Memory.MemoryTable;
+import org.jbundle.base.db.memory.MemoryTable;
 import org.jbundle.base.util.DBParams;
 
 /**

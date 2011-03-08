@@ -8,7 +8,7 @@ package org.jbundle.base.db.xml;
  *
  */
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.Memory.MemoryDatabase;
+import org.jbundle.base.db.memory.MemoryDatabase;
 import org.jbundle.base.db.physical.PhysicalTable;
 import org.jbundle.base.util.DatabaseOwner;
 import org.jbundle.thin.base.db.ThinPhysicalDatabase;

@@ -10,7 +10,7 @@ package org.jbundle.base.db.serial;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.Memory.MemoryDatabase;
+import org.jbundle.base.db.memory.MemoryDatabase;
 import org.jbundle.base.db.physical.PhysicalTable;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DatabaseOwner;
