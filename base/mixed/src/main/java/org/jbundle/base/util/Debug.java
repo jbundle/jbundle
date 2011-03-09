@@ -175,6 +175,10 @@ System.exit(0);
     public static String getStackTrace()
     {
         Exception ex = new Exception();
+        return Debug.getStackTrace(ex);
+    }
+    public static String getStackTrace(Exception ex)
+    {
         StringWriter sw = new StringWriter();
         PrintWriter s = new PrintWriter(sw);
         ex.printStackTrace(s);

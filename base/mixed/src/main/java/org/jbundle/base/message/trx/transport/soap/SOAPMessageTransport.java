@@ -45,7 +45,6 @@ import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
 import org.jbundle.thin.base.message.TreeMessage;
-import org.w3c.dom.Element;
 
 
 /**
@@ -182,13 +181,18 @@ public class SOAPMessageTransport extends BaseMessageTransport
                 msg.getMimeHeaders().setHeader(CONTENT_TYPE, (String)trxMessageHeader.get(CONTENT_TYPE)); // "text/xml"
             if (trxMessageHeader.get(SOAP_ACTION) != null)
                 msg.getMimeHeaders().setHeader(SOAP_ACTION, (String)trxMessageHeader.get(SOAP_ACTION)); // Not recommended
+            
+        	//OutputStream out = new ByteArrayOutputStream();
+        	//msg.writeTo(out);
+        	//out.flush();
+        	//Utility.getLogger().info(out.toString());
+
+            strTrxID = this.logMessage(strTrxID, messageOut, MessageInfoType.REQUEST, MessageType.MESSAGE_OUT, MessageStatus.SENT, null, null);
 
             SOAPMessage reply = m_con.call(msg, urlEndpoint);
 // To test this locally, use the next two lines.
 //            MessageReceivingServlet servlet = new MessageReceivingServlet();
 //            SOAPMessage reply = servlet.onMessage(msg);
-
-            this.logMessage(strTrxID, messageOut, MessageInfoType.REQUEST, MessageType.MESSAGE_OUT, MessageStatus.SENT, null, null);
 
             if (reply != null)
             {
@@ -234,11 +238,7 @@ public class SOAPMessageTransport extends BaseMessageTransport
             DOMResult result = new DOMResult(body);
             if (((BaseXmlTrxMessageOut)message.getExternalMessage()).copyMessageToResult(result))
             {   // Success
-                Element node = (Element)body.getChildElements().next();
-            
-                if (node instanceof SOAPElement)    // Always
-                    this.addSchemaLocation(message, (SOAPElement)node);
-            
+            	// Note: For Jabx, I would have to fix the namespace of the message (so don't use JAXB)
                 msg.saveChanges();
                 return msg;
             }
@@ -248,36 +248,6 @@ public class SOAPMessageTransport extends BaseMessageTransport
             +e.getMessage());
         }
         return null;
-    }
-    /**
-     * Add the schema location to this node.
-     * @param node
-     * @throws SOAPException
-     */
-    public void addSchemaLocation(BaseMessage message, SOAPElement node) throws SOAPException
-    {
-        if ((message != null)
-            && (message.getMessageHeader() != null)
-            && (message.getMessageHeader().get(TrxMessageHeader.SCHEMA_LOCATION) != null))
-        {
-            String schemaLocation = (String)message.getMessageHeader().get(TrxMessageHeader.SCHEMA_LOCATION);
-            String XML_NAMESPACE = "http://www.w3.org/2001/XMLSchema-instance";
-            String xmlPrefix = "xs";
-            Iterator<?> iterator = node.getNamespacePrefixes();
-            while (iterator.hasNext())
-            {
-                String prefix = (String)iterator.next();
-                if (node.getNamespaceURI(prefix).equalsIgnoreCase(XML_NAMESPACE))
-                {
-                    xmlPrefix = prefix;
-                    break;
-                }
-                if (xmlPrefix.equalsIgnoreCase(xmlPrefix))
-                    xmlPrefix = xmlPrefix + "1";
-            }
-            SOAPElement ns = node.addNamespaceDeclaration(xmlPrefix, XML_NAMESPACE);
-            ns.setAttributeNS(XML_NAMESPACE, xmlPrefix + ":schemaLocation", schemaLocation);
-        }
     }
     /**
      * From this external message, figure out the message type.

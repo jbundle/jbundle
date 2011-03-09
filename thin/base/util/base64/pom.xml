@@ -17,7 +17,6 @@
 	<dependency>
 	   <groupId>biz.source_code</groupId>
 	   <artifactId>base64coder</artifactId>
-	   <version>${base64coderVersion}</version>
 	</dependency>
   </dependencies>
 
