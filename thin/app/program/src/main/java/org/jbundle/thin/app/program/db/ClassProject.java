@@ -90,7 +90,7 @@ public class ClassProject extends org.jbundle.thin.main.db.Folder
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ParentFolderID");
         keyArea.addKeyField("ParentFolderID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "Name");
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Name");
         keyArea.addKeyField("Name", Constants.ASCENDING);
     }
 

@@ -115,21 +115,21 @@ public class ImportXMLScanListener extends BaseScanListener
         {
             while (!classFound)
             {
-            	record = (Record)Utility.makeObjectFromClassName(Object.class.getName(), className);
-            	if (record != null)
-            	{
+               record = (Record)Utility.makeObjectFromClassName(Object.class.getName(), className);
+               if (record != null)
+               {
                     record.init(this.m_parent);
                     classFound = true;
-            	}
-            	else
-            	{
-                    if (className.indexOf('.') == -1)
-                    {
-                        System.out.println("Class not found: " + fileSource.toString());
-                        return;
-                    }
-                    databaseName = className.substring(0, className.indexOf('.'));
-                    className = className.substring(className.indexOf('.') + 1);
+               }
+               else
+               {
+                   if (className.indexOf('.') == -1)
+                   {
+                       System.out.println("Class not found: " + fileSource.toString());
+                       return;
+                   }
+                   databaseName = className.substring(0, className.indexOf('.'));
+                   className = className.substring(className.indexOf('.') + 1);
                 }
             }
             this.saveOldProperties(oldProperties, record);

@@ -190,7 +190,7 @@ public class ClassProject extends Folder
         }
         if (iKeyArea == kNameKey)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "Name");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Name");
             keyArea.addKeyField(kName, DBConstants.ASCENDING);
         }
         if (keyArea == null) if (iKeyArea < kClassProjectLastKey)
