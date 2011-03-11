@@ -445,7 +445,7 @@ public abstract class BaseMessage extends Object
        if ((strMessageClassName != null) && (strMessageClassName.length() > 0))
        {
            strMessageClassName = Util.getFullClassName(strMessageClassName);
-           Object obj = (BaseMessage)Util.makeObjectFromClassName(Object.class.getName(), strMessageClassName);
+           Object obj = Util.makeObjectFromClassName(Object.class.getName(), strMessageClassName);
            if (obj instanceof BaseMessage)
            {
                message = (BaseMessage)obj;

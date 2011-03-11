@@ -183,8 +183,8 @@ public class BaseConvertToNative extends Object
            }
        }
        if (message.get("Version") == null)
-           this.setPayloadProperty(DEFAULT_VERSION, msg, "Version", BigDecimal.class);
-       this.setPayloadProperty(this.getTimeStamp(), msg, "TimeStamp", XMLGregorianCalendar.class); // Current timestamp
+           this.setPayloadProperty(DEFAULT_VERSION, msg, "Version", Float.class);
+       this.setPayloadProperty(this.getTimeStamp(), msg, "TimeStamp", org.joda.time.DateTime.class); // Current timestamp
    }
    /**
     * Move this standard payload properties from the message to the xml.
@@ -256,6 +256,9 @@ public class BaseConvertToNative extends Object
                objData = new BigDecimal((String)objData);
            else if (classData == BigInteger.class)
                objData = new BigInteger((String)objData);
+           else if (classData == org.joda.time.DateTime.class)
+        	   objData = new org.joda.time.DateTime(objData);
+
            return objData;
        } catch (Exception e) {
            e.printStackTrace();
