@@ -66,6 +66,8 @@ public class GetMethodInfo extends Object
                     this.moveupMethodInfo(logicFile, false);
         //d     m_ClassInfo.AddNew();
                 m_ClassInfo.getField(ClassInfo.kClassName).setString(strBaseClass);     // Class of this record
+                if ((strBaseClass == null) || (strBaseClass.length() == 0))
+                	break;
             }
             if (!logicFile.getField(LogicFile.kCopyFrom).isNull())
             {   // Copy code from another class
