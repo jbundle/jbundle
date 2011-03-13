@@ -17,7 +17,5 @@
 
   <modules>
     <module>jibx</module>
-    <module>jaxb</module>
-    <module>xmlbeans</module>
   </modules>
 </project>
