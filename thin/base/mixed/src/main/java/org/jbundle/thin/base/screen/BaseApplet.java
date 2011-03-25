@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.SystemColor;
+import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -142,10 +143,6 @@ public class BaseApplet extends JApplet
      * Right above the first JScreen.
      */
     protected Container m_parent = null;
-    /**
-     * Default - see init!
-     */
-    public static char m_chSeparator = '/';
     /**
      * Children record owners.
      */
@@ -663,10 +660,10 @@ public class BaseApplet extends JApplet
             return null;    // A null will tell a JButton not to load an image
         if (strFilename.indexOf('.') == -1)
             strFilename += ".gif";
-        if ((strFilename.indexOf(m_chSeparator) == -1) && (strFilename.indexOf('/') == -1))
-            strFilename = "images" + m_chSeparator + strSubDirectory + m_chSeparator + strFilename;
-        else if ((strFilename.indexOf("images" + m_chSeparator) == -1) && (strFilename.indexOf("images/") == -1))
-            strFilename = "images" + m_chSeparator + strFilename;
+        if ((strFilename.indexOf(File.separator) == -1) && (strFilename.indexOf('/') == -1))
+            strFilename = Constants.IMAGE_LOCATION + File.separator + strSubDirectory + File.separator + strFilename;
+        else if ((strFilename.indexOf("images" + File.separator) == -1) && (strFilename.indexOf("images/") == -1))
+            strFilename = Constants.IMAGE_LOCATION + File.separator + strFilename;
         return strFilename;
     }
     /**

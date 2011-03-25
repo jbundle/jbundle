@@ -124,6 +124,8 @@ public interface Constants
     public static String CLASS_DIR = "classes";
     public static String FILE_ROOT = "";        // "../";       // Prefix for image files, etc.
     public static final String ROOT_PACKAGE = "org.jbundle.";  // Package prefix
+    public static final String IMAGE_LOCATION = "org/jbundle/res/images";
+    public static final String DOC_LOCATION = "org/jbundle/res/docs";
     public static final String THIN_SUBPACKAGE = "thin.";   // All thin are in this package
     public static final String RES_SUBPACKAGE = "res.";     // All resources are in this package
     public static final String SEEK_CURRENT_RECORD = "*"; // Package prefix
