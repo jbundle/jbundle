@@ -19,6 +19,7 @@
     <module>webapp</module>
     <module>site</module>
     <module>webbundle</module>
+    <module>httpservice</module>
   </modules>
 
 </project>
