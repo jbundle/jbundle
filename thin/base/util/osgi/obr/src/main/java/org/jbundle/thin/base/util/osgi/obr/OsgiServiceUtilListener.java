@@ -1,4 +1,4 @@
-package org.jbundle.thin.base.util.osgi.bootstrap;
+package org.jbundle.thin.base.util.osgi.obr;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
@@ -7,13 +7,13 @@ import org.osgi.framework.ServiceListener;
 /**
  * Listen for the class service to come up and notify this waiting thread when it does.
  */
-public class ClassServiceListener implements ServiceListener
+public class OsgiServiceUtilListener implements ServiceListener
 {
     BundleContext context = null;
 
     private Thread thread = null;
     
-    public ClassServiceListener(Thread thread, BundleContext context)
+    public OsgiServiceUtilListener(Thread thread, BundleContext context)
     {
         super();
         this.thread = thread;

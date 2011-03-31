@@ -106,20 +106,6 @@
       cd ..
       mvn install > ~/mvn.log
       
-      
-      cd /home/don/workspace/jbundle-workspace/jbundle-root/jbundle-thin/jbundle-thin-base/jbundle-thin-base-db/jbundle-thin-base-db-core
-
-/home/don/.m2/repository/org/jbundle/app/contact/jbundle-app-contact-jnlp/1.0.0-SNAPSHOT
-/home/don/.m2/repository/org/jbundle/app/contact/jbundle-app-contact-web-jnlp/1.0.0-SNAPSHOT
-
-
-start felix...
-g! deploy -s 'Apache Felix iPOJO'
-g! repos add http://chameleon.ow2.org/repository/chameleon-releases.xml
-g! repos add http://chameleon.ow2.org/repository/chameleon-commons.xml
-g! deploy -s 'OW2 Chameleon - json.org JSON Service Implementation'
-g! start file:/home/don/workspace-ow2/jsontest/target/jsontest-0.0.1-SNAPSHOT.jar
-
 ]]>
       </p>
 	</section>

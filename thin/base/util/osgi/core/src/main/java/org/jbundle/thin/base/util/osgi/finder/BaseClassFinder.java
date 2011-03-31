@@ -1,4 +1,4 @@
-package org.jbundle.thin.base.util.osgi.service;
+package org.jbundle.thin.base.util.osgi.finder;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,11 +8,7 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import org.apache.felix.bundlerepository.Resolver;
-import org.apache.felix.bundlerepository.Resource;
-import org.jbundle.thin.base.util.osgi.ClassAccess;
-import org.jbundle.thin.base.util.osgi.ClassService;
-import org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap;
+import org.jbundle.thin.base.util.osgi.bundle.BundleService;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -25,17 +21,19 @@ import org.osgi.framework.ServiceReference;
  * @author don
  * 
  */
-public class ClassServiceImpl implements BundleActivator, ClassService
+public abstract class BaseClassFinder extends Object
+	implements BundleActivator, ClassFinder
 {
 	/**
 	 * Good from start to stop.
 	 */
-    private BundleContext bundleContext = null;
+    protected BundleContext bundleContext = null;
 
     /**
      * Service to find resources by class name.
+     * Singleton.
      */
-    public ClassServiceImpl()
+    protected BaseClassFinder()
     {
         super();
     }
@@ -46,11 +44,11 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      */
     public void start(BundleContext context) throws Exception
     {
-        System.out.println("Starting and registering the ClassService");
+        System.out.println("Starting and registering the (repository) ClassService");
         
         bundleContext = context;
 
-        context.registerService(ClassService.class.getName(), this, null);	// Should be only one of these
+        context.registerService(ClassFinder.class.getName(), this, null);	// Should be only one of these
     }
     /**
      * Bundle shutting down.
@@ -68,13 +66,13 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      */
     public Class<?> findClassBundle(String interfaceName, String className)
     {
-        if (ClassServiceBootstrap.repositoryAdmin == null)
-            return null;
+        //if (ClassServiceBootstrap.repositoryAdmin == null)
+        //    return null;
 
         Class<?> c = this.getClassFromBundle(null, className);
 
         if (c == null) {
-            Resource resource = ClassServiceBootstrap.deployThisResource(ClassServiceBootstrap.repositoryAdmin, className, Resolver.START, false);
+            Object resource = this.deployThisResource(className, true, false);
             if (resource != null)
             {
             	c = this.getClassFromBundle(null, className);	// It is possible that the newly started bundle registered itself
@@ -92,13 +90,13 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      */
     public URL findBundleResource(String className)
     {
-        if (ClassServiceBootstrap.repositoryAdmin == null)
-            return null;
+        //if (ClassServiceBootstrap.repositoryAdmin == null)
+        //    return null;
 
         URL url = this.getResourceFromBundle(null, className);
 
         if (url == null) {
-            Resource resource = ClassServiceBootstrap.deployThisResource(ClassServiceBootstrap.repositoryAdmin, className, Resolver.START, true);
+            Object resource = this.deployThisResource(className, true, true);
             if (resource != null)
             	url = this.getResourceFromBundle(resource, className);
         }
@@ -113,13 +111,13 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      */
     public ResourceBundle findResourceBundle(String className, Locale locale)
     {
-        if (ClassServiceBootstrap.repositoryAdmin == null)
-            return null;
+        //if (ClassServiceBootstrap.repositoryAdmin == null)
+        //    return null;
 
         ResourceBundle resourceBundle = this.getResourceBundleFromBundle(null, className, locale);
 
         if (resourceBundle == null) {
-            Resource resource = ClassServiceBootstrap.deployThisResource(ClassServiceBootstrap.repositoryAdmin, className, Resolver.START, true);
+            Object resource = this.deployThisResource(className, true, true);
             if (resource != null)
             {
             	resourceBundle = this.getResourceBundleFromBundle(resource, className, locale);
@@ -149,15 +147,15 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      * @param className
      * @return
      */
-    private ClassAccess getClassAccessService(String className)
+    private BundleService getClassAccessService(String className)
     {
         try {
-        	String packageName = ClassServiceBootstrap.getPackageName(className, true);
-            String filter = "(" + ClassAccess.PACKAGE_NAME + "=" + packageName + ")";
-            ServiceReference[] refs = bundleContext.getServiceReferences(ClassAccess.class.getName(), filter);
+        	String packageName = ClassFinderUtility.getPackageName(className, true);
+            String filter = "(" + BundleService.PACKAGE_NAME + "=" + packageName + ")";
+            ServiceReference[] refs = bundleContext.getServiceReferences(BundleService.class.getName(), filter);
 
             if ((refs != null) && (refs.length > 0))
-                return (ClassAccess)bundleContext.getService(refs[0]);
+                return (BundleService)bundleContext.getService(refs[0]);
         } catch (InvalidSyntaxException e) {
             e.printStackTrace();
         }
@@ -168,19 +166,19 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      * @param className
      * @return
      */
-    private Class<?> getClassFromBundle(Resource resource, String className)
+    private Class<?> getClassFromBundle(Object resource, String className)
     {
         Class<?> c = null;
         try {
             if (resource == null)
             {
-                ClassAccess classAccess = this.getClassAccessService(className);
+                BundleService classAccess = this.getClassAccessService(className);
                 if (classAccess != null)
                 	c = classAccess.makeClass(className);
             }
             else
             {
-            	Bundle bundle = ClassServiceBootstrap.getBundleFromResource(resource, bundleContext, ClassServiceBootstrap.getPackageName(className, false));
+            	Bundle bundle = this.getBundleFromResource(resource, bundleContext, ClassFinderUtility.getPackageName(className, false));
 	            c = bundle.loadClass(className);
             }
         } catch (ClassNotFoundException e) {
@@ -194,18 +192,18 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      * @param className
      * @return
      */
-    private URL getResourceFromBundle(Resource resource, String className)
+    private URL getResourceFromBundle(Object resource, String className)
     {
         URL url = null;
         if (resource == null)
         {
-            ClassAccess classAccess = this.getClassAccessService(className);
+            BundleService classAccess = this.getClassAccessService(className);
             if (classAccess != null)
                 url = classAccess.getResource(className);
         }
         else
         {
-        	Bundle bundle = ClassServiceBootstrap.getBundleFromResource(resource, bundleContext, ClassServiceBootstrap.getPackageName(className, true));
+        	Bundle bundle = this.getBundleFromResource(resource, bundleContext, ClassFinderUtility.getPackageName(className, true));
             url = bundle.getEntry(className);
         }
         return url;
@@ -217,12 +215,12 @@ public class ClassServiceImpl implements BundleActivator, ClassService
      * @return
      */
     boolean USE_NO_RESOURCE_HACK = true; // TODO - There must be a way to get the class loader????
-    private ResourceBundle getResourceBundleFromBundle(Resource resource, String baseName, Locale locale)
+    private ResourceBundle getResourceBundleFromBundle(Object resource, String baseName, Locale locale)
     {
     	ResourceBundle resourceBundle = null;
         if (resource == null)
         {
-            ClassAccess classAccess = this.getClassAccessService(baseName);
+            BundleService classAccess = this.getClassAccessService(baseName);
             if (classAccess != null)
             {
                 if (USE_NO_RESOURCE_HACK)
@@ -244,12 +242,12 @@ public class ClassServiceImpl implements BundleActivator, ClassService
         }
         else
         {
-        	Bundle bundle = ClassServiceBootstrap.getBundleFromResource(resource, bundleContext, ClassServiceBootstrap.getPackageName(baseName, true));
+        	Bundle bundle = this.getBundleFromResource(resource, bundleContext, ClassFinderUtility.getPackageName(baseName, true));
             if (USE_NO_RESOURCE_HACK)
             {
                 try {
                 	// TODO - If I have to do this, then I will have to link up the resourcebundle using the locales.
-                	baseName = baseName.replace('.', File.separatorChar) + ClassServiceBootstrap.PROPERTIES;
+                	baseName = baseName.replace('.', File.separatorChar) + ClassFinderUtility.PROPERTIES;
 					URL url = bundle.getEntry(baseName);
 					if (url != null)
 						resourceBundle = new PropertyResourceBundle(url.openStream());
@@ -265,4 +263,20 @@ public class ClassServiceImpl implements BundleActivator, ClassService
         }
         return resourceBundle;
     }
+    /**
+     * Find this resource in the repository, then deploy and optionally start it.
+     * @param className
+     * @param options 
+     * @return
+     */
+    public abstract Object deployThisResource(String className, boolean start, boolean resourceType);
+    /**
+     * Find the currently installed bundle that exports this package.
+     * NOTE: This is stupid, there has to be a way to do this.
+     * @param resource
+     * @param context
+     * @return
+     */
+    public abstract Bundle getBundleFromResource(Object resource, BundleContext context, String packageName);
+
 }

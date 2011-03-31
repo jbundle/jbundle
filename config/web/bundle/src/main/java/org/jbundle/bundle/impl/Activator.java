@@ -7,21 +7,18 @@ package org.jbundle.bundle.impl;
 import org.jbundle.base.remote.rmiserver.RemoteSessionServer;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
-import org.jbundle.thin.base.util.osgi.bootstrap.*;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
-import org.osgi.framework.ServiceReference;
-import org.osgi.framework.ServiceRegistration;
 
 /**
  * 
  * @author don
  *
  */
-public class Activator extends ClassServiceBootstrap
+public class Activator extends Object
 		implements BundleActivator, ServiceListener {
 
     String[] args = {DBParams.JMSSERVER + "=" + DBConstants.TRUE,
@@ -36,7 +33,7 @@ public class Activator extends ClassServiceBootstrap
     public void start(BundleContext context) throws Exception {
         System.out.println("Starting Server bundle");
 
-        super.start(context);
+//?        super.start(context);
         
     }
     
@@ -49,7 +46,7 @@ public class Activator extends ClassServiceBootstrap
      */
     public void registerClassServiceBootstrap(BundleContext context)
     {
-        super.registerClassServiceBootstrap(context);
+//        super.registerClassServiceBootstrap(context);
         
         try {
 			context.addServiceListener(this, "(objectClass=" + this.getClass().getName() + ")");
@@ -79,7 +76,7 @@ public class Activator extends ClassServiceBootstrap
     public void stop(BundleContext context) throws Exception {
         System.out.println("Stopping Server bundle");
         
-        super.stop(context);
+//        super.stop(context);
         
         // No need to Shutdown the server, since this will be unregistered automatically (and service changed will shut this down)
         

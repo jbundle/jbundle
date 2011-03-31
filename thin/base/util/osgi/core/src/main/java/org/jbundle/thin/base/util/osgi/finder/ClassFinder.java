@@ -1,10 +1,10 @@
-package org.jbundle.thin.base.util.osgi;
+package org.jbundle.thin.base.util.osgi.finder;
 
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public interface ClassService {
+public interface ClassFinder {
 	
     /**
      * Find, resolve, and return this class definition.

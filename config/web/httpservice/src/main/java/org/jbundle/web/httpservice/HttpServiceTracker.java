@@ -1,5 +1,8 @@
 package org.jbundle.web.httpservice;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpContext;
@@ -39,6 +42,11 @@ public class HttpServiceTracker extends ServiceTracker{
         	
             httpService.registerResources(addURLPath(webContextPath, "/"), "", httpContext);
             httpService.registerServlet(addURLPath(webContextPath, "/helloworld"), new HelloWorldServlet(), null, httpContext);
+
+            Dictionary<String,String> dictionary = new Hashtable<String,String>();
+            dictionary.put("remotehost", "localhost");
+            
+            httpService.registerServlet(addURLPath(webContextPath, "/tourapp"), new org.jbundle.base.screen.control.servlet.html.HTMLServlet(), dictionary, httpContext);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,6 +61,7 @@ public class HttpServiceTracker extends ServiceTracker{
         HttpService httpService = (HttpService) service;
         httpService.unregister(addURLPath(webContextPath, "/"));
         httpService.unregister(addURLPath(webContextPath, "/helloworld"));
+        httpService.unregister(addURLPath(webContextPath, "/tourapp"));
         super.removedService(reference, service);
     }
     

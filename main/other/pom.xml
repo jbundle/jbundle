@@ -34,7 +34,7 @@
   <dependencies>
     <dependency>
       <groupId>org.jbundle.base</groupId>
-      <artifactId>jbundle-base-mixed</artifactId>
+      <artifactId>org.jbundle.base.mixed</artifactId>
       <version>0.7.7-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>

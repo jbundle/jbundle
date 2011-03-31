@@ -1,8 +1,12 @@
-package org.jbundle.thin.base.util.osgi;
+package org.jbundle.thin.base.util.osgi.bundle;
 
 import java.net.URL;
 
-public interface ClassAccess {
+/**
+ * Bundle resource access utilities for a service.
+ * @author don
+ */
+public interface BundleService {
 	
 	/**
 	 * Right now, services are registered under their class name. May want to change to package name.

@@ -44,7 +44,7 @@ import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.remote.RemoteTable;
-import org.jbundle.thin.base.util.osgi.bootstrap.ClassServiceBootstrap;
+import org.jbundle.thin.base.util.osgi.finder.ClassFinderUtility;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
@@ -617,9 +617,9 @@ public class Util extends Object
     * NOTE: Don't import this package as the ClassService class may not be available until this service is started.
     * @return
     */
-   public static org.jbundle.thin.base.util.osgi.ClassService getClassService()
+   public static org.jbundle.thin.base.util.osgi.finder.ClassFinder getClassService()
    {
-	   return (org.jbundle.thin.base.util.osgi.ClassService)ClassServiceBootstrap.getClassService();
+	   return (org.jbundle.thin.base.util.osgi.finder.ClassFinder)ClassFinderUtility.getClassFinder();
    }
    /**
     * Create this object given the class name.
@@ -647,7 +647,7 @@ public class Util extends Object
        } catch (ClassNotFoundException e) {
     	   try {
     		   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   if (ClassServiceBootstrap.getClassService() != null)
+			   if (Util.getClassService() != null)
 				   clazz = Util.getClassService().findClassBundle(interfaceName, className);	// Try to find this class in the obr repos
            } catch (Exception ex) {
         	   //Ignore this - just means osgi is not installed
@@ -684,7 +684,7 @@ public class Util extends Object
        {
 		   try {
 			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   if (ClassServiceBootstrap.getClassService() != null)
+			   if (Util.getClassService() != null)
 				   url = Util.getClassService().findBundleResource(className);	// Try to find this class in the obr repos
 	       } catch (Exception ex) {
 	    	   //Ignore this - just means osgi is not installed
@@ -716,7 +716,7 @@ public class Util extends Object
        {
 		   try {
 			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   if (ClassServiceBootstrap.getClassService() != null)
+			   if (Util.getClassService() != null)
 				   resourceBundle = Util.getClassService().findResourceBundle(className, locale);	// Try to find this class in the obr repos
 		   } catch (MissingResourceException e) {
 			   ex = e;
@@ -759,12 +759,27 @@ public class Util extends Object
     */
    public static String getPackageName(String className)
    {
+	   return Util.getPackageName(className, false);
+   }
+   /**
+    * Get the package name of this class name
+    * @param className
+    * @return
+    */
+   public static String getPackageName(String className, boolean resource)
+   {
        String packageName = null;
        if (className != null)
+       {
+       	if (resource)
+       		if (className.endsWith(PROPERTIES))
+       			className = className.substring(0, className.length() - PROPERTIES.length());
            if (className.lastIndexOf('.') != -1)
                packageName = className.substring(0, className.lastIndexOf('.'));
+       }
        return packageName;
    }
+   public static final String PROPERTIES = ".properties";
    /**
     * Get the logger.
     * @return The logger.

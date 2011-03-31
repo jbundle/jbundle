@@ -16,7 +16,7 @@
   </parent>
 
   <groupId>org.jbundle.base</groupId>
-  <artifactId>jbundle-base-mixed</artifactId>
+  <artifactId>org.jbundle.base.mixed</artifactId>
   <packaging>jar</packaging>	<!-- This is NOT an OSGi bundle -->
 
   <name>jbundle-base-mixed - Thick mixed nodeploy</name>

@@ -1,4 +1,4 @@
-package org.jbundle.thin.base.util.osgi.bootstrap;
+package org.jbundle.thin.base.util.osgi.obr;
 
 import org.apache.felix.bundlerepository.RepositoryAdmin;
 import org.osgi.framework.Bundle;
@@ -17,9 +17,9 @@ public class RepositoryAdminServiceListener implements ServiceListener
 {
     BundleContext context = null;
     
-    ClassServiceBootstrap classServiceBootstrap = null;
+    ObrClassFinderImpl classServiceBootstrap = null;
     
-    public RepositoryAdminServiceListener(ClassServiceBootstrap classServiceBootstrap, BundleContext context)
+    public RepositoryAdminServiceListener(ObrClassFinderImpl classServiceBootstrap, BundleContext context)
     {
         this.context = context;
         this.classServiceBootstrap = classServiceBootstrap;

@@ -16,7 +16,7 @@
   </parent>
   <groupId>org.jbundle.thin.base</groupId>
 
-  <artifactId>jbundle-thin-base-mixed</artifactId>
+  <artifactId>org.jbundle.thin.base.mixed</artifactId>
   <packaging>jar</packaging>	<!-- This is NOT an OSGi bundle -->
   <name>jbundle-thin-base-mixed - Thin framework base code</name>
 

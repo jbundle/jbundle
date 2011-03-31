@@ -11,7 +11,7 @@
 
 	<artifactId>org.jbundle.web.httpservice</artifactId>
 
-	<name>org.jbundle.web.httpservice - Hybrid osgi webapp</name>
+	<name>jbundle-web-httpservice - Hybrid osgi webapp</name>
 	<description>web osgi httpservice</description>
 
 	<packaging>bundle</packaging>
