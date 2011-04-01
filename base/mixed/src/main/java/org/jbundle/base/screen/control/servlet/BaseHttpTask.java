@@ -856,8 +856,9 @@ public class BaseHttpTask extends Object
         if (strDomain != null)
             properties.put(Params.DOMAIN, strDomain);
         String strCodeBase = this.getRealPath(req, DBConstants.BLANK);
-        if (!strCodeBase.endsWith(System.getProperty("file.separator")))
-            strCodeBase = strCodeBase + System.getProperty("file.separator");
+        if (strCodeBase != null)
+        	if (!strCodeBase.endsWith(System.getProperty("file.separator")))
+        		strCodeBase = strCodeBase + System.getProperty("file.separator");
         if (strCodeBase != null)
             properties.put(Params.CODEBASE, strCodeBase);
         return properties;

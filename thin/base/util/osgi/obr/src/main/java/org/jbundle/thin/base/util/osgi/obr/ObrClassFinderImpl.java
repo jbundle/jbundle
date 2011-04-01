@@ -30,10 +30,9 @@ import org.osgi.framework.ServiceReference;
 public class ObrClassFinderImpl extends BaseClassFinder
 	implements BundleActivator
 {
-	public static final String CLASS_SERVICE_CLASS_NAME = ClassFinder.class.getName();
-	public static final String CLASS_SERVICE_IMPL_CLASS_NAME = "org.jbundle.thin.base.util.osgi.service.ClassServiceImpl";
+	public static final String CLASS_FINDER_UTILITY_CLASS_NAME = ClassFinderUtility.class.getName();
 
-	private Object cachedClassService = null;
+	private ClassFinderUtility cachedClassFinderUtility = null;
 	
     protected RepositoryAdmin repositoryAdmin = null;
 
@@ -49,7 +48,7 @@ public class ObrClassFinderImpl extends BaseClassFinder
      */
     public void start(BundleContext context) throws Exception
     {
-        System.out.println("Starting ClassServiceImpl");
+        System.out.println("Starting ObrClassFinderImpl");
 
         super.start(context);
         repositoryAdmin = this.getRepositoryAdmin(context, this);
@@ -57,7 +56,7 @@ public class ObrClassFinderImpl extends BaseClassFinder
         if (repositoryAdmin != null)
         {   // If the repository is up, I can get to work (otherwise, I'll be waiting)
         	this.addBootstrapRepository(repositoryAdmin, context);
-            this.registerClassServiceBootstrap(context);
+            this.registerClassFinder(context);
         }
     }
     /**
@@ -136,67 +135,67 @@ public class ObrClassFinderImpl extends BaseClassFinder
      * 1. I Don't need this object
      * 2. This object was usually instansiated by bootstrap code copied to the calling classes' jar.
      */
-    public void registerClassServiceBootstrap(BundleContext context)
+    public void registerClassFinder(BundleContext context)
     {
         waitingForRepositoryAdmin = false;
 
-        System.out.println("ClassServiceBootstrap is up");
+        System.out.println("ObrClassFinderImpl is up");
 
-        this.startClassService(context);    // Now that I have the repo, start the ClassService
+        this.startClassFinderUtility(context);    // Now that I have the repo, start the ClassService
     }
     /**
      * Bundle shutting down.
      */
     public void stop(BundleContext context) throws Exception {
-        System.out.println("Stopping ClassService Bootstrap");
+        System.out.println("Stopping ObrClassFinderImpl");
 
         super.stop(context);
         repositoryAdmin = null;
         waitingForRepositoryAdmin = false;
         waitingForClassService = false;
-        cachedClassService = null;
+        cachedClassFinderUtility = null;
     }
     /**
      * Get the class service.
      * This call should activate this bundle and start the ClassService.
      * @return
      */
-	public Object getClassService()
+	public ClassFinderUtility getClassFinderUtility()
 	{
-		if (cachedClassService != null)
-			return cachedClassService;
+		if (cachedClassFinderUtility != null)
+			return cachedClassFinderUtility;
 
 		// First time or not running, try to find the class service
-		cachedClassService = findClassService(true);
+		cachedClassFinderUtility = findClassFinderUtility(true);
 		
-		return cachedClassService;
+		return cachedClassFinderUtility;
 	}
 	/**
 	 * Get the class service.
 	 * @param waitForStart TODO
 	 * @return The class service or null if it doesn't exist.
 	 */
-	public Object findClassService(boolean waitForStart)
+	public ClassFinderUtility findClassFinderUtility(boolean waitForStart)
 	{
         if (bundleContext == null)
 		{
-			System.out.println("Error: ClassServiceBootstrap was never started\n" + 
+			System.out.println("Error: ObrClassFinder was never started\n" + 
 					"Add it as your bundle activator");
 			return null;
 		}
 
-        Object classService = null;
+        ClassFinderUtility classFinderUtility = null;
     	
 		try {
-			ServiceReference[] ref = bundleContext.getServiceReferences(CLASS_SERVICE_CLASS_NAME, null);
+			ServiceReference[] ref = bundleContext.getServiceReferences(CLASS_FINDER_UTILITY_CLASS_NAME, null);
 		
 			if ((ref != null) && (ref.length > 0))
-				classService =  bundleContext.getService(ref[0]);
+				classFinderUtility =  (ClassFinderUtility)bundleContext.getService(ref[0]);
 		} catch (InvalidSyntaxException e) {
 			e.printStackTrace();
 		}
 
-		if (classService == null)
+		if (classFinderUtility == null)
 			if (waitForStart)
 				if (waitingForClassService == false)
 		{
@@ -204,7 +203,7 @@ public class ObrClassFinderImpl extends BaseClassFinder
 			// TODO Minor synchronization issue here
 			Thread thread = Thread.currentThread();
 			try {
-				bundleContext.addServiceListener(new OsgiServiceUtilListener(thread, bundleContext), "(" + Constants.OBJECTCLASS + "=" + CLASS_SERVICE_CLASS_NAME + ")");
+				bundleContext.addServiceListener(new ClassFinderUtilityListener(thread, bundleContext), "(" + Constants.OBJECTCLASS + "=" + CLASS_FINDER_UTILITY_CLASS_NAME + ")");
 			} catch (InvalidSyntaxException e) {
 				e.printStackTrace();
 			}
@@ -221,39 +220,39 @@ public class ObrClassFinderImpl extends BaseClassFinder
 			waitingForClassService = false;
 			
 			try {
-				ServiceReference[] ref = bundleContext.getServiceReferences(CLASS_SERVICE_CLASS_NAME, null);
+				ServiceReference[] ref = bundleContext.getServiceReferences(CLASS_FINDER_UTILITY_CLASS_NAME, null);
 			
 				if ((ref != null) && (ref.length > 0))
-					classService =  bundleContext.getService(ref[0]);
+					classFinderUtility =  (ClassFinderUtility)bundleContext.getService(ref[0]);
 			} catch (InvalidSyntaxException e) {
 				e.printStackTrace();
 			}
 
-			if (classService == null)
+			if (classFinderUtility == null)
 				System.out.println("The ClassService never started - \n" +
 					"Include the bootstrap code in your bundle and make sure it is listed as an activator!");
 		}
 
-		return classService;
+		return classFinderUtility;
 	}
     /**
-     * Convenience method to start this service.
+     * Convenience method to start the class finder utility service.
      * If admin service is not up yet, this starts it.
      * @param className
      * @return true If I'm up already
      * @return false If I had a problem.
      */
-    public boolean startClassService(BundleContext context)
+    public boolean startClassFinderUtility(BundleContext context)
     {
-    	if (cachedClassService != null)
+    	if (cachedClassFinderUtility != null)
     		return true;	// Never
-    	cachedClassService = findClassService(false);	// See if someone else started it up
-    	if (cachedClassService != null)
+    	cachedClassFinderUtility = findClassFinderUtility(false);	// See if someone else started it up
+    	if (cachedClassFinderUtility != null)
     		return true;	// Already up!
         // If the repository is not up, but the bundle is deployed, this will find it
-        Resource resource = (Resource)this.deployThisResource(CLASS_SERVICE_IMPL_CLASS_NAME, false, false);  // Get the bundle info from the repos
+        Resource resource = (Resource)this.deployThisResource(CLASS_FINDER_UTILITY_CLASS_NAME, false, false);  // Get the bundle info from the repos
         
-        String packageName = ClassFinderUtility.getPackageName(CLASS_SERVICE_IMPL_CLASS_NAME, false);
+        String packageName = ClassFinderUtility.getPackageName(CLASS_FINDER_UTILITY_CLASS_NAME, false);
         Bundle bundle = this.getBundleFromResource(resource, context, packageName);
         
         if (bundle != null)
@@ -267,8 +266,8 @@ public class ObrClassFinderImpl extends BaseClassFinder
                     e.printStackTrace();
                 }
             }
-            cachedClassService = getClassService();	// This will wait until it is active to return
-            return (cachedClassService != null);	// Success
+            cachedClassFinderUtility = getClassFinderUtility();	// This will wait until it is active to return
+            return (cachedClassFinderUtility != null);	// Success
         }
         return false;	// Error! Where is my bundle?
     }

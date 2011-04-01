@@ -41,7 +41,7 @@ public class RepositoryAdminServiceListener implements ServiceListener
             if (service instanceof RepositoryAdmin)
                 repositoryAdmin = (RepositoryAdmin)service; // Always
             classServiceBootstrap.addBootstrapRepository(repositoryAdmin, context);
-            classServiceBootstrap.registerClassServiceBootstrap(context); // Now that the repository started, you can register my started service for others to use
+            classServiceBootstrap.registerClassFinder(context); // Now that the repository started, you can register my started service for others to use
         }
         if (event.getType() == ServiceEvent.UNREGISTERING)
         {

@@ -7,13 +7,13 @@ import org.osgi.framework.ServiceListener;
 /**
  * Listen for the class service to come up and notify this waiting thread when it does.
  */
-public class OsgiServiceUtilListener implements ServiceListener
+public class ClassFinderUtilityListener implements ServiceListener
 {
     BundleContext context = null;
 
     private Thread thread = null;
     
-    public OsgiServiceUtilListener(Thread thread, BundleContext context)
+    public ClassFinderUtilityListener(Thread thread, BundleContext context)
     {
         super();
         this.thread = thread;

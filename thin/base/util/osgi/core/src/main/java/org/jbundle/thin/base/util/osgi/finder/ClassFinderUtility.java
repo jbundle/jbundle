@@ -12,7 +12,7 @@ import org.osgi.framework.ServiceReference;
  * @author don
  * 
  */
-public class ClassFinderUtility extends BaseBundleService
+public final class ClassFinderUtility extends BaseBundleService
 	implements BundleActivator
 {
 	/**
@@ -28,7 +28,7 @@ public class ClassFinderUtility extends BaseBundleService
      */
     public void start(BundleContext context) throws Exception
     {
-        System.out.println("Starting and registering the OsgiServiceUtil");
+        System.out.println("Starting and registering the ClassFinderUtility");
         
         gBundleContext = context;
 
@@ -38,7 +38,7 @@ public class ClassFinderUtility extends BaseBundleService
      * Bundle shutting down.
      */
     public void stop(BundleContext context) throws Exception {
-        System.out.println("Stopping ClassService bundle");
+        System.out.println("Stopping ClassFinderUtility bundle");
         // I'm unregistered automatically
         
         super.stop(context);
