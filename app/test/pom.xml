@@ -16,7 +16,6 @@
 
   <properties>
     <maven.test.skip>true</maven.test.skip> <!-- TODO Need to add a profile that will run this on the build server (ie if jdbc.url exists) -->
-    <jbundlePackage>org.jbundle.test.manual</jbundlePackage>	<!-- Bundle packages to export -->
   </properties>
   
   <build>
