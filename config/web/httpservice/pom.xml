@@ -16,11 +16,6 @@
 
 	<packaging>bundle</packaging>
 
-	<properties>
-		<dev.home>/usr/local/java</dev.home>
-		<jbundlePackage>org.jbundle.webbundle</jbundlePackage>
-	</properties>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -207,6 +202,7 @@
 	      <artifactId>org.jbundle.thin.base.util.osgi</artifactId>
 	      <version>0.7.7-SNAPSHOT</version>
 	    </dependency>
+	    
 	</dependencies>
 
 </project>

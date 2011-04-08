@@ -7,6 +7,9 @@ import java.util.Hashtable;
 import org.jbundle.thin.base.util.osgi.finder.ClassFinderUtility;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceEvent;
+import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceRegistration;
 
 
@@ -17,7 +20,7 @@ import org.osgi.framework.ServiceRegistration;
  *
  */
 public class BaseBundleService extends Object
-	implements BundleService, BundleActivator
+	implements BundleService, BundleActivator, ServiceListener
 {
 	/**
 	 * This is not necessary. It is nice for debugging.
@@ -38,6 +41,12 @@ public class BaseBundleService extends Object
         //?String interfaceName = properties.get(OsgiService.INTERFACE);
         //?String type = properties.get(OsgiService.TYPE);
 
+        try {
+			context.addServiceListener(this, "(objectClass=" + this.getClass().getName() + ")");
+		} catch (InvalidSyntaxException e) {
+			e.printStackTrace();
+		}
+		
         serviceRegistration = context.registerService(this.getClass().getName(), this, properties);
     }    
     /**
@@ -48,6 +57,11 @@ public class BaseBundleService extends Object
 //        Automatically unregistered.
     }
 
+    @Override
+    public void serviceChanged(ServiceEvent event) {
+    	// Override this to monitor event  if (event.getType() == ServiceEvent.REGISTERED)
+    }
+    
 	/**
 	 * Get the properties.
 	 * @return the properties.

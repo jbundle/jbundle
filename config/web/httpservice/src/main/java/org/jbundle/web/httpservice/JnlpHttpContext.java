@@ -14,11 +14,11 @@ import org.osgi.service.http.HttpContext;
  * @author don
  *
  */
-public class MyHttpContext implements HttpContext {
+public class JnlpHttpContext implements HttpContext {
 
     private Bundle bundle;
 
-    public MyHttpContext(Bundle bundle)
+    public JnlpHttpContext(Bundle bundle)
     {
         this.bundle = bundle;
     }
@@ -40,7 +40,7 @@ public class MyHttpContext implements HttpContext {
 
 	@Override
 	public String getMimeType(String name) {
-		return null;
+		return "application/x-java-jnlp-file";
 	}
 
 }

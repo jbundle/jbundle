@@ -22,9 +22,10 @@
         <configuration>
           <instructions>
             <Export-Package>
-            !org.jbundle.base.screen.*;version=${project.version},
-            !org.jbundle.base.db.*;version=${project.version},
-            !org.jbundle.base.field.*;version=${project.version},
+            !org.jbundle.base.screen.*,
+            !org.jbundle.base.db.*,
+            !org.jbundle.base.field.*,
+            !org.jbundle.base.remote.*,
             org.jbundle.base.*;version=${project.version},
             </Export-Package>
             <Import-Package>
