@@ -64,7 +64,7 @@ public abstract class BaseClassFinder extends Object
      * @param className
      * @return The class definition or null if not found.
      */
-    public Class<?> findClassBundle(String interfaceName, String className)
+    public Class<?> findClassBundle(String className)
     {
         //if (ClassServiceBootstrap.repositoryAdmin == null)
         //    return null;
@@ -147,12 +147,13 @@ public abstract class BaseClassFinder extends Object
      * @param className
      * @return
      */
-    private BundleService getClassAccessService(String className)
+    public BundleService getClassBundleService(String interfaceName, String className)
     {
         try {
-        	String packageName = ClassFinderUtility.getPackageName(className, true);
-            String filter = "(" + BundleService.PACKAGE_NAME + "=" + packageName + ")";
-            ServiceReference[] refs = bundleContext.getServiceReferences(BundleService.class.getName(), filter);
+            String filter = "(" + BundleService.PACKAGE_NAME + "=" + ClassFinderUtility.getPackageName(className, true) + ")";
+            if (interfaceName == null)
+            	interfaceName = BundleService.class.getName();
+            ServiceReference[] refs = bundleContext.getServiceReferences(interfaceName, filter);
 
             if ((refs != null) && (refs.length > 0))
                 return (BundleService)bundleContext.getService(refs[0]);
@@ -172,7 +173,7 @@ public abstract class BaseClassFinder extends Object
         try {
             if (resource == null)
             {
-                BundleService classAccess = this.getClassAccessService(className);
+                BundleService classAccess = this.getClassBundleService(null, className);
                 if (classAccess != null)
                 	c = classAccess.makeClass(className);
             }
@@ -197,7 +198,7 @@ public abstract class BaseClassFinder extends Object
         URL url = null;
         if (resource == null)
         {
-            BundleService classAccess = this.getClassAccessService(className);
+            BundleService classAccess = this.getClassBundleService(null, className);
             if (classAccess != null)
                 url = classAccess.getResource(className);
         }
@@ -220,7 +221,7 @@ public abstract class BaseClassFinder extends Object
     	ResourceBundle resourceBundle = null;
         if (resource == null)
         {
-            BundleService classAccess = this.getClassAccessService(baseName);
+            BundleService classAccess = this.getClassBundleService(null, baseName);
             if (classAccess != null)
             {
                 if (USE_NO_RESOURCE_HACK)

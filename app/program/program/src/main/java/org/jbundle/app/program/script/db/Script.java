@@ -271,7 +271,7 @@ public class Script extends Folder
             }
             if (strRecordName.indexOf('.') != -1)
             {
-               record = (Record)Utility.makeObjectFromClassName(Object.class.getName(), strRecordName);
+               record = (Record)Utility.makeObjectFromClassName(strRecordName);
                 if (record != null)
                     record.init(Utility.getRecordOwner(this));
             }

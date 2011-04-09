@@ -111,7 +111,7 @@ public abstract class BaseMessageProcessor extends BaseProcess
         if (externalTrxMessage != null)
             strPackage = (String)((TrxMessageHeader)externalTrxMessage.getMessageHeader()).get(TrxMessageHeader.BASE_PACKAGE);
         strClass = Utility.getFullClassName(strPackage, strClass);
-        messageProcessor = (BaseMessageProcessor)Utility.makeObjectFromClassName(Object.class.getName(), strClass);
+        messageProcessor = (BaseMessageProcessor)Utility.makeObjectFromClassName(strClass);
         if (messageProcessor != null)
         	messageProcessor.init(taskParent, null, null);
         return messageProcessor;

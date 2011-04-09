@@ -390,7 +390,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      */
     public static BaseMessageRecordDesc createMessageRecordDesc(String strMessageDataClassName, MessageDataParent messageDataParent, String strKey)
     {
-        BaseMessageRecordDesc messageData = (BaseMessageRecordDesc)Util.makeObjectFromClassName(Object.class.getName(), strMessageDataClassName);
+        BaseMessageRecordDesc messageData = (BaseMessageRecordDesc)Util.makeObjectFromClassName(strMessageDataClassName);
         if (messageData != null)
         	messageData.init(messageDataParent, strKey);
         return messageData;

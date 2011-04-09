@@ -10,6 +10,7 @@ import org.apache.felix.bundlerepository.RepositoryAdmin;
 import org.apache.felix.bundlerepository.Requirement;
 import org.apache.felix.bundlerepository.Resolver;
 import org.apache.felix.bundlerepository.Resource;
+import org.jbundle.thin.base.util.osgi.bundle.BundleService;
 import org.jbundle.thin.base.util.osgi.finder.BaseClassFinder;
 import org.jbundle.thin.base.util.osgi.finder.ClassFinder;
 import org.jbundle.thin.base.util.osgi.finder.ClassFinderUtility;
@@ -30,8 +31,6 @@ import org.osgi.framework.ServiceReference;
 public class ObrClassFinderImpl extends BaseClassFinder
 	implements BundleActivator
 {
-	public static final String CLASS_FINDER_UTILITY_CLASS_NAME = ClassFinderUtility.class.getName();
-
 	private ClassFinderUtility cachedClassFinderUtility = null;
 	
     protected RepositoryAdmin repositoryAdmin = null;
@@ -187,7 +186,7 @@ public class ObrClassFinderImpl extends BaseClassFinder
         ClassFinderUtility classFinderUtility = null;
     	
 		try {
-			ServiceReference[] ref = bundleContext.getServiceReferences(CLASS_FINDER_UTILITY_CLASS_NAME, null);
+            ServiceReference[] ref = bundleContext.getServiceReferences(ClassFinderUtility.class.getName(), null);
 		
 			if ((ref != null) && (ref.length > 0))
 				classFinderUtility =  (ClassFinderUtility)bundleContext.getService(ref[0]);
@@ -203,7 +202,7 @@ public class ObrClassFinderImpl extends BaseClassFinder
 			// TODO Minor synchronization issue here
 			Thread thread = Thread.currentThread();
 			try {
-				bundleContext.addServiceListener(new ClassFinderUtilityListener(thread, bundleContext), "(" + Constants.OBJECTCLASS + "=" + CLASS_FINDER_UTILITY_CLASS_NAME + ")");
+				bundleContext.addServiceListener(new ClassFinderUtilityListener(thread, bundleContext), "(" + Constants.OBJECTCLASS + "=" + ClassFinderUtility.class.getName() + ")");
 			} catch (InvalidSyntaxException e) {
 				e.printStackTrace();
 			}
@@ -220,7 +219,7 @@ public class ObrClassFinderImpl extends BaseClassFinder
 			waitingForClassService = false;
 			
 			try {
-				ServiceReference[] ref = bundleContext.getServiceReferences(CLASS_FINDER_UTILITY_CLASS_NAME, null);
+				ServiceReference[] ref = bundleContext.getServiceReferences(ClassFinderUtility.class.getName(), null);
 			
 				if ((ref != null) && (ref.length > 0))
 					classFinderUtility =  (ClassFinderUtility)bundleContext.getService(ref[0]);
@@ -250,9 +249,9 @@ public class ObrClassFinderImpl extends BaseClassFinder
     	if (cachedClassFinderUtility != null)
     		return true;	// Already up!
         // If the repository is not up, but the bundle is deployed, this will find it
-        Resource resource = (Resource)this.deployThisResource(CLASS_FINDER_UTILITY_CLASS_NAME, false, false);  // Get the bundle info from the repos
+        Resource resource = (Resource)this.deployThisResource(ClassFinderUtility.class.getName(), false, false);  // Get the bundle info from the repos
         
-        String packageName = ClassFinderUtility.getPackageName(CLASS_FINDER_UTILITY_CLASS_NAME, false);
+        String packageName = ClassFinderUtility.getPackageName(ClassFinderUtility.class.getName(), false);
         Bundle bundle = this.getBundleFromResource(resource, context, packageName);
         
         if (bundle != null)

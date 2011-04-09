@@ -62,7 +62,7 @@ public class RunRemoteProcessMessageInProcessor extends BaseMessageInProcessor
         Task task = this.getTask();
         Map<String,Object> properties = new HashMap<String,Object>();
         MapMessage.convertDOMtoMap(internalMessage.getDOM(), properties, true);
-        process = (BaseProcess)Utility.makeObjectFromClassName(Object.class.getName(), processClassName);
+        process = (BaseProcess)Utility.makeObjectFromClassName(processClassName);
         if (process == null)
         	return null;
         process.init(task, null, properties);

@@ -617,25 +617,34 @@ public class Util extends Object
     * NOTE: Don't import this package as the ClassService class may not be available until this service is started.
     * @return
     */
+   public static boolean classServiceAvailable = true;
    public static org.jbundle.thin.base.util.osgi.finder.ClassFinder getClassService()
    {
-	   return (org.jbundle.thin.base.util.osgi.finder.ClassFinder)ClassFinderUtility.getClassFinder();
+	   if (!classServiceAvailable)
+		   return null;
+	   try {
+		   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
+		   return (org.jbundle.thin.base.util.osgi.finder.ClassFinder)ClassFinderUtility.getClassFinder();
+       } catch (Exception ex) {
+		   classServiceAvailable = false;
+    	   return null;	// Osgi is not installed
+       }
    }
    /**
     * Create this object given the class name.
-    * @param className
+ * @param className
     * @return
     */
-   public static Object makeObjectFromClassName(String interfaceName, String className)
+   public static Object makeObjectFromClassName(String className)
    {
-	   return Util.makeObjectFromClassName(interfaceName, className, null, true);
+	   return Util.makeObjectFromClassName(className, null, true);
    }
    /**
     * Create this object given the class name.
-    * @param className
+ * @param className
     * @return
     */
-   public static Object makeObjectFromClassName(String interfaceName, String className, Task task, boolean bErrorIfNotFound)
+   public static Object makeObjectFromClassName(String className, Task task, boolean bErrorIfNotFound)
    {
 	   if (className == null)
 		   return null;
@@ -645,13 +654,8 @@ public class Util extends Object
        try {
 			clazz = Class.forName(className);
        } catch (ClassNotFoundException e) {
-    	   try {
-    		   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   if (Util.getClassService() != null)
-				   clazz = Util.getClassService().findClassBundle(interfaceName, className);	// Try to find this class in the obr repos
-           } catch (Exception ex) {
-        	   //Ignore this - just means osgi is not installed
-           }
+		   if (Util.getClassService() != null)
+			   clazz = Util.getClassService().findClassBundle(className);	// Try to find this class in the obr repos
     	   if (clazz == null)
     	       Util.handleClassException(e, className, task, bErrorIfNotFound);
        }
@@ -682,13 +686,8 @@ public class Util extends Object
 	   URL url = classLoader.getResource(className);
        if (url == null)
        {
-		   try {
-			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-			   if (Util.getClassService() != null)
-				   url = Util.getClassService().findBundleResource(className);	// Try to find this class in the obr repos
-	       } catch (Exception ex) {
-	    	   //Ignore this - just means osgi is not installed
-	       }
+		   if (Util.getClassService() != null)
+			   url = Util.getClassService().findBundleResource(className);	// Try to find this class in the obr repos
 		   if (url == null)
 		       Util.handleClassException(null, className, task, bErrorIfNotFound);
        }
@@ -715,14 +714,11 @@ public class Util extends Object
 	   if (resourceBundle == null)
        {
 		   try {
-			   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
 			   if (Util.getClassService() != null)
 				   resourceBundle = Util.getClassService().findResourceBundle(className, locale);	// Try to find this class in the obr repos
 		   } catch (MissingResourceException e) {
 			   ex = e;
-	       } catch (Exception e) {
-	    	   //Ignore this - just means osgi is not installed
-	       }
+		   }
 		   if (resourceBundle == null)
 		       Util.handleClassException(null, className, task, bErrorIfNotFound);	// May throw MissingResourceException
        }

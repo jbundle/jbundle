@@ -103,6 +103,8 @@ public abstract class Application extends Object
      */
     public static final int RMI = 1;
     public static final int PROXY = 2;
+    public static final int LOCAL_SERVICE = 3;	// OSGi service
+    public static final int REMOTE_SERVICE = 4;	// OSGi service
     public static final int DEFAULT_CONNECTION_TYPE = RMI;
 
     /**
@@ -445,6 +447,11 @@ public abstract class Application extends Object
                 {   // Use HTTP proxy instead of RMI
                     String strBaseServletPath = this.getBaseServletPath();
                     appServer = new ApplicationProxy(strServer, strBaseServletPath, strRemoteApp);
+                }
+                if (iConnectionType == LOCAL_SERVICE)
+                {   // Use local OSGi service instead of RMI
+                	if (Util.getClassService() != null)
+                		appServer = (ApplicationServer)Util.getClassService().getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator");
                 }
                 remoteTask = appServer.createRemoteTask(properties);
                 m_mainRemoteTask = remoteTask;

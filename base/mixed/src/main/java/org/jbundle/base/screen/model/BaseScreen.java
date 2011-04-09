@@ -871,7 +871,7 @@ public class BaseScreen extends BasePanel
      */
     public static BaseScreen makeNewScreen(String strScreenClass, ScreenLocation itsLocation, BasePanel screenParent, int iDisplayFieldDesc, Map<String, Object> properties, boolean initScreen)
     {
-        BaseScreen screen = (BaseScreen)Utility.makeObjectFromClassName(Object.class.getName(), strScreenClass);
+        BaseScreen screen = (BaseScreen)Utility.makeObjectFromClassName(strScreenClass);
         if (screen != null)
         {
             BaseApplet applet = null;

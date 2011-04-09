@@ -82,7 +82,7 @@ public class ThinApplication extends Application {
             if (map.get(PhysicalDatabaseParent.APP) == null)
                 map.put(PhysicalDatabaseParent.APP, this); // Access to the server, etc.
             
-            m_PhysicalDatabaseParent = (ThinPhysicalDatabaseParent)Util.makeObjectFromClassName(Object.class.getName(), Constants.ROOT_PACKAGE + "thin.base.db.mem.base.PhysicalDatabaseParent");
+            m_PhysicalDatabaseParent = (ThinPhysicalDatabaseParent)Util.makeObjectFromClassName(Constants.ROOT_PACKAGE + "thin.base.db.mem.base.PhysicalDatabaseParent");
             if (m_PhysicalDatabaseParent != null)
             	m_PhysicalDatabaseParent.init(map);  // Init
         }

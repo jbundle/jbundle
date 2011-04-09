@@ -199,7 +199,7 @@ public class SubFileIntegrityHandler extends FreeOnFreeHandler
      */
     public Record createSubRecord()
     {
-        Record record = (Record)Utility.makeObjectFromClassName(Object.class.getName(), m_strSubFile);
+        Record record = (Record)Utility.makeObjectFromClassName(m_strSubFile);
         if (record != null)
         {
             RecordOwner recordOwner = Utility.getRecordOwner(this.getOwner());

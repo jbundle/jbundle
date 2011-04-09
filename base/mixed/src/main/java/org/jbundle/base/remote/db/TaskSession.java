@@ -164,7 +164,7 @@ public class TaskSession extends BaseTaskSession
      */
     public RemoteTable makeRemoteTable(String strRecordClassName, String strTableSessionClassName, Map<String, Object> properties, Map<String, Object> propDatabase) throws RemoteException
     {
-        Record record = (Record)Utility.makeObjectFromClassName(Object.class.getName(), strRecordClassName);
+        Record record = (Record)Utility.makeObjectFromClassName(strRecordClassName);
         if (record == null)
             return null;
         if (strTableSessionClassName == null)
@@ -208,7 +208,7 @@ public class TaskSession extends BaseTaskSession
         this.setMasterSlave(-1);    //Back to default
         RemoteTable remoteTable = null;
         if (strTableSessionClassName != null)
-        	remoteTable = (TableSession)Utility.makeObjectFromClassName(Object.class.getName(), strTableSessionClassName);
+        	remoteTable = (TableSession)Utility.makeObjectFromClassName(strTableSessionClassName);
         try   {
             if (remoteTable == null)
                 remoteTable = new TableSession();

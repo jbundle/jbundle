@@ -395,7 +395,7 @@ public class BaseDatabase extends Object
      */
     public BaseTable makeResourceTable(Record record, BaseTable table, BaseDatabase databaseBase, boolean bHierarchicalTable)
     {   // Create a mirrored record in the locale database
-        Record record2 = (Record)Utility.makeObjectFromClassName(Object.class.getName(), record.getClass().getName());
+        Record record2 = (Record)Utility.makeObjectFromClassName(record.getClass().getName());
         if (record2 != null)
         {
             BaseTable table2 = databaseBase.makeTable(record2);

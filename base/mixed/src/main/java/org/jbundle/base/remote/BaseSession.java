@@ -135,7 +135,7 @@ public class BaseSession extends RemoteRecordOwner
             if (strSessionClassName.indexOf('.') == 0)
                 strSessionClassName = Constants.ROOT_PACKAGE + strSessionClassName.substring(1);
             Utility.getLogger().info("Make remote session. Remote class: " + strSessionClassName);
-        	session = (BaseSession)Utility.makeObjectFromClassName(Object.class.getName(), strSessionClassName);
+        	session = (BaseSession)Utility.makeObjectFromClassName(strSessionClassName);
             session.init(this, null, null);
         } catch (Exception ex)  {
             ex.printStackTrace();

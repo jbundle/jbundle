@@ -40,7 +40,12 @@
     </dependency>
     <dependency>
 	  <groupId>org.jbundle.main</groupId>
-	  <artifactId>org.jbundle.main.other</artifactId>
+	  <artifactId>org.jbundle.main.remote</artifactId>
+	  <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+	  <groupId>org.jbundle.main</groupId>
+	  <artifactId>org.jbundle.main.schedule</artifactId>
 	  <version>0.7.7-SNAPSHOT</version>
     </dependency>
   </dependencies>

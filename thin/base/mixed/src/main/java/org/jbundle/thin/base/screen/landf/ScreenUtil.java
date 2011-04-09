@@ -104,7 +104,7 @@ public class ScreenUtil
             if ((themeClassName == null) || (themeClassName.equalsIgnoreCase(ScreenUtil.DEFAULT)))
                 theme = null;   //? createDefaultTheme();
             else
-            	theme = (MetalTheme)Util.makeObjectFromClassName(Object.class.getName(), themeClassName);
+            	theme = (MetalTheme)Util.makeObjectFromClassName(themeClassName);
         }
         
         if (MetalLookAndFeel.class.getName().equals(lookAndFeelClassName))

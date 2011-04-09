@@ -98,7 +98,7 @@ public abstract class BaseInternalMessageProcessor extends BaseMessageProcessor
                 strClassName = strBasePackage + '.' + strMessageType.toLowerCase();
                 strClassName = strClassName + '.' + strMessageType + "MessageTransport";
             }
-            transport = (BaseMessageTransport)Utility.makeObjectFromClassName(Object.class.getName(), strClassName);
+            transport = (BaseMessageTransport)Utility.makeObjectFromClassName(strClassName);
         }
         if (transport == null)
         {

@@ -19,7 +19,8 @@
     <module>db</module>
     <module>misc</module>
     <module>msg</module>
-    <module>other</module>
+    <module>remote</module>
+    <module>schedule</module>
   </modules>
 
 </project>

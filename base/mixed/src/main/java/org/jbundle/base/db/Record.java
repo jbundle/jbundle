@@ -2476,7 +2476,7 @@ public class Record extends FieldList
      */
     public static Record makeRecordFromClassName(String strClassName, RecordOwner recordOwner, boolean bInitRecord, boolean bErrorIfNotFound)
     {
-        Record record = (Record)Utility.makeObjectFromClassName(Object.class.getName(), strClassName, (recordOwner == null) ? null : recordOwner.getTask(), bErrorIfNotFound);
+        Record record = (Record)Utility.makeObjectFromClassName(strClassName, (recordOwner == null) ? null : recordOwner.getTask(), bErrorIfNotFound);
         if (bInitRecord)
             if (record != null)
                 record.init(recordOwner);

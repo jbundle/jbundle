@@ -120,7 +120,7 @@ public class JRemoteMenuScreen extends JBaseMenuScreen
      */
     public FieldList buildFieldList()
     {
-        FieldList record = (FieldList)Util.makeObjectFromClassName(Object.class.getName(), Constants.ROOT_PACKAGE + "thin.main.db.Menus");
+        FieldList record = (FieldList)Util.makeObjectFromClassName(Constants.ROOT_PACKAGE + "thin.main.db.Menus");
         if (record != null)
             record.init(this);
         else

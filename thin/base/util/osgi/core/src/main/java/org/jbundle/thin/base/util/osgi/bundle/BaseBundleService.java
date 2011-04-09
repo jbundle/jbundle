@@ -37,17 +37,20 @@ public class BaseBundleService extends Object
         
         String packageName = this.getProperty(BundleService.PACKAGE_NAME);
         if (packageName == null)
-        	this.setProperty(BundleService.PACKAGE_NAME, ClassFinderUtility.getPackageName(this.getClass().getName(), false));
-        //?String interfaceName = properties.get(OsgiService.INTERFACE);
+        	this.setProperty(BundleService.PACKAGE_NAME, packageName = ClassFinderUtility.getPackageName(this.getClass().getName(), false));
+
+		String objectClass = this.getProperty(BundleService.INTERFACE);
+		if (objectClass == null)
+			objectClass = this.getClass().getName();
         //?String type = properties.get(OsgiService.TYPE);
 
-        try {
-			context.addServiceListener(this, "(objectClass=" + this.getClass().getName() + ")");
+		try {
+			context.addServiceListener(this, /*"(&" +*/ "(objectClass=" + objectClass + ")"); // + "(" + BundleService.PACKAGE_NAME + "=" + packageName + "))");
 		} catch (InvalidSyntaxException e) {
 			e.printStackTrace();
 		}
 		
-        serviceRegistration = context.registerService(this.getClass().getName(), this, properties);
+        serviceRegistration = context.registerService(objectClass, this, properties);
     }    
     /**
      * Bundle stopping.

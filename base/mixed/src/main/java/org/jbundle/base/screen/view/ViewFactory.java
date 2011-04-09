@@ -128,7 +128,7 @@ public class ViewFactory extends Object
                 strViewClassName = this.getViewClassNameFromModelClassName(strModelClassName);
             if (strViewClassName != null)
             {   // Great, found the class name. Try to instantiate the class.
-            	ScreenFieldView view = (ScreenFieldView)Utility.makeObjectFromClassName(Object.class.getName(), strViewClassName, null, false);	// Ignore class not found
+            	ScreenFieldView view = (ScreenFieldView)Utility.makeObjectFromClassName(strViewClassName, null, false);	// Ignore class not found
                 if (view != null)
                 {
                     if (ENABLE_CACHE)

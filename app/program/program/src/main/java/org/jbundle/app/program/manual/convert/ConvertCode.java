@@ -240,7 +240,7 @@ public class ConvertCode extends ConvertBase
     		String strClassName = this.getProperty(LISTENER_CLASS);
     		if (strClassName == null)
     			strClassName = ReplaceScanListener.class.getName();
-			m_listener = (ScanListener)Utility.makeObjectFromClassName(Object.class.getName(), strClassName);
+			m_listener = (ScanListener)Utility.makeObjectFromClassName(strClassName);
 			if (m_listener != null)
 				((BaseScanListener)m_listener).init(this, null);
 			else

@@ -177,7 +177,7 @@ public class DatabaseCollection extends Object
 
         if (strDbPrefix != null) if (strDbPrefix.indexOf('.') == -1)
             strDbPrefix = DBConstants.ROOT_PACKAGE + "base.db." + strDbPrefix.toLowerCase() + "." + strDbPrefix + "Database";
-        database = (BaseDatabase)Util.makeObjectFromClassName(Object.class.getName(), strDbPrefix);
+        database = (BaseDatabase)Util.makeObjectFromClassName(strDbPrefix);
         if (database == null)
             database = new BaseDatabase();  // default
         return database;

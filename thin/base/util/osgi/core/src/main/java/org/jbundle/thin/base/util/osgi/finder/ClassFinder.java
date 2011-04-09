@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.jbundle.thin.base.util.osgi.bundle.BundleService;
+
 public interface ClassFinder {
 	
     /**
@@ -12,7 +14,7 @@ public interface ClassFinder {
      * @param className
      * @return The class definition or null if not found.
      */
-    public Class<?> findClassBundle(String interfaceName, String className);
+    public Class<?> findClassBundle(String className);
     /**
      * Find, resolve, and return this resource's URL.
      * Static convenience method.
@@ -28,4 +30,11 @@ public interface ClassFinder {
      */
     public ResourceBundle findResourceBundle(String className, Locale locale);
 
+    /**
+     * Find this class's class access registered class access service in the current workspace.
+     * @param interfaceName The registered object name
+     * @param className The class name (that has the package that the object was registered under)
+     * @return
+     */
+    public BundleService getClassBundleService(String interfaceName, String className);
 }

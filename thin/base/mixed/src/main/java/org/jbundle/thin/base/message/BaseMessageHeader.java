@@ -352,7 +352,7 @@ public class BaseMessageHeader extends Object
      */
     public static BaseMessageHeader createMessageHeader(String strMessageHeaderClassName, String strQueueName, String strQueueType, Object source, Map<String,Object> properties)
     {
-        BaseMessageHeader messageHeader = (BaseMessageHeader)Util.makeObjectFromClassName(Object.class.getName(), strMessageHeaderClassName);
+        BaseMessageHeader messageHeader = (BaseMessageHeader)Util.makeObjectFromClassName(strMessageHeaderClassName);
         if (messageHeader != null)
         	messageHeader.init(strQueueName, strQueueType, source, properties);
         return messageHeader;

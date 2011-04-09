@@ -437,7 +437,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
         String strMessageClass = null;
         if (trxMessageHeader != null)
             strMessageClass = this.getMessageClassName(trxMessageHeader);
-        externalTrxMessage = (ExternalTrxMessage)Utility.makeObjectFromClassName(Object.class.getName(), strMessageClass);
+        externalTrxMessage = (ExternalTrxMessage)Utility.makeObjectFromClassName(strMessageClass);
         if (externalTrxMessage != null)
         	externalTrxMessage.init(message, rawData);
         // Note: A null externalTrxMessageOut is never returned, because the concrete transport class supplies the default class.

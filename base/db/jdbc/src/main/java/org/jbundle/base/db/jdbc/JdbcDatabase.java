@@ -314,7 +314,7 @@ public class JdbcDatabase extends BaseDatabase
             return;
 
         if (m_classDB == null)
-        	m_classDB = Utility.makeObjectFromClassName(Object.class.getName(), strJdbcDriver);
+        	m_classDB = Utility.makeObjectFromClassName(strJdbcDriver);
         Utility.getLogger().info("Driver found: " + (m_classDB != null));
         m_JDBCConnection = this.getJDBCConnection();    // Setup the initial connection
     }

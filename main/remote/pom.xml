@@ -9,8 +9,8 @@
   </parent>
 
   <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
-  <artifactId>org.jbundle.main.other</artifactId>
-  <name>jbundle-main-other</name>
+  <artifactId>org.jbundle.main.remote</artifactId>
+  <name>jbundle-main-remote</name>
   <packaging>bundle</packaging>
 
   <build>
@@ -23,7 +23,6 @@
           <instructions>
             <Export-Package>
             org.jbundle.main.remote.*;version=${project.version},
-            org.jbundle.main.schedule.*;version=${project.version},
             </Export-Package>
           </instructions>
         </configuration>
