@@ -152,7 +152,9 @@ public abstract class BaseClassFinder extends Object
         try {
             String filter = "(" + BundleService.PACKAGE_NAME + "=" + ClassFinderUtility.getPackageName(className, true) + ")";
             if (interfaceName == null)
-            	interfaceName = BundleService.class.getName();
+            	interfaceName = className;
+            if (interfaceName == null)
+            	interfaceName = BundleService.class.getName();	// Never
             ServiceReference[] refs = bundleContext.getServiceReferences(interfaceName, filter);
 
             if ((refs != null) && (refs.length > 0))

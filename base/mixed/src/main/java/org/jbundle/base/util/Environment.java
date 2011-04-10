@@ -413,7 +413,7 @@ Utility.getLogger().info("removeApp: " + application);
                             // Tell the remote session who my main session is
                             // so it can know where not to send server record
                             // messages (to eliminate echos in the client).
-                            appServer.setRemoteMessageTask(server); // Should have gone all the apps in this env!
+                            appServer.setRemoteMessageTask(server); // Should have done all the apps in this env!
                         } catch (RemoteException ex)    {
                             ex.printStackTrace();
                         }

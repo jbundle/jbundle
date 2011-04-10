@@ -55,6 +55,8 @@ public class RemoteSessionActivator extends BaseBundleService
             System.out.println("Starting Server");
     		if (server == null)
     		{
+//    			server = RemoteSessionServer.startup(args);
+    			// Startup the job scheduler
     	        Map<String,Object> propertiesTemp = new Hashtable<String,Object>();
     	        Util.parseArgs(propertiesTemp, args);
     	        if (propertiesTemp.get(DBParams.FREEIFDONE) == null)
@@ -81,8 +83,8 @@ public class RemoteSessionActivator extends BaseBundleService
     	            Util.parseArgs(properties, args);
     	        }
     	        app.init(env, properties, null); // Default application (with params).
-
-//+    			server = RemoteSessionServer.startup(args);
+//    	        app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
+//    	        app.getMessageManager(true);
     		}
         }
         if (event.getType() == ServiceEvent.UNREGISTERING)
