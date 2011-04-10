@@ -15,7 +15,12 @@ import org.osgi.framework.ServiceReference;
 public final class ClassFinderUtility extends BaseBundleService
 	implements BundleActivator
 {
-	/**
+    /**
+     * The byte to char and back encoding that I use. TODO(don) Move this to shared place
+     */
+    public static final String OBJECT_ENCODING = "ISO-8859-1";
+
+    /**
 	 * Good from start to stop.
 	 */
     static BundleContext gBundleContext = null;

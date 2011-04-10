@@ -33,10 +33,11 @@ public interface ClassFinder {
     /**
      * Convert this encoded string back to a Java Object.
      * TODO This is expensive, I need to synchronize and use a static writer.
+     * @param className TODO
      * @param string The string to convert.
      * @return The java object.
      */
-    public Object convertStringToObject(String string);
+    public Object findResourceConvertStringToObject(String className, String string);
 
     /**
      * Find this class's class access registered class access service in the current workspace.

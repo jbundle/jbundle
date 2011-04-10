@@ -27,4 +27,12 @@ public interface BundleService {
 	 * @return The resource URL (usually bundle:more).
 	 */
     public URL getResource(String className);
+    /**
+     * Convert this encoded string back to a Java Object.
+     * TODO This is expensive, I need to synchronize and use a static writer.
+     * @param string The string to convert.
+     * @return The java object.
+     */
+    public Object convertStringToObject(String string)
+    	throws ClassNotFoundException;
 }

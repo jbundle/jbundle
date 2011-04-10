@@ -1,5 +1,9 @@
 package org.jbundle.thin.base.util.osgi.bundle;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.net.URL;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -113,4 +117,28 @@ public class BaseBundleService extends Object
     	return BaseBundleService.class.getClassLoader().getResource(name);
     }
 
+    /**
+     * Convert this encoded string back to a Java Object.
+     * TODO This is expensive, I need to synchronize and use a static writer.
+     * @param string The string to convert.
+     * @return The java object.
+     * @throws ClassNotFoundException 
+     */
+    public Object convertStringToObject(String string)
+    	throws ClassNotFoundException
+    {
+        if ((string == null) || (string.length() == 0))
+            return null;
+        try {
+            InputStream reader = new ByteArrayInputStream(string.getBytes(ClassFinderUtility.OBJECT_ENCODING));//Constants.STRING_ENCODING));
+            ObjectInputStream inStream = new ObjectInputStream(reader);
+            Object obj = inStream.readObject();
+            reader.close();
+            inStream.close();
+            return obj;
+        } catch (IOException ex)    {
+            ex.printStackTrace();   // Never
+        }
+        return null;
+    }
 }

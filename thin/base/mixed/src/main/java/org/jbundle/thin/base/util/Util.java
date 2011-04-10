@@ -744,10 +744,17 @@ public class Util extends Object
       
 	   Object object  = null;
        try {
-    	   object = Util.convertStringToLocalObject(string);
+    	   object = Util.convertStringToObject(string);
        } catch (ClassNotFoundException e) {
 		   if (Util.getClassService() != null)
-			   object = Util.getClassService().convertStringToObject(string);	// Try to find this class in the obr repos
+		   {
+			   String className = null;
+			   int startClass = e.getMessage().indexOf('\'') + 1;
+			   int endClass = e.getMessage().indexOf('\'', startClass);
+			   if (endClass != -1)
+				   className = e.getMessage().substring(startClass, endClass);
+			   object = Util.getClassService().findResourceConvertStringToObject(className, string);	// Try to find this class in the obr repos
+		   }
     	   if (object == null)
     	       Util.handleClassException(e, null, task, bErrorIfNotFound);
        }
@@ -761,7 +768,7 @@ public class Util extends Object
     * @return The java object.
     * @throws ClassNotFoundException 
     */
-   public static Object convertStringToLocalObject(String string)
+   public static Object convertStringToObject(String string)
    		throws ClassNotFoundException
    {
        if ((string == null) || (string.length() == 0))

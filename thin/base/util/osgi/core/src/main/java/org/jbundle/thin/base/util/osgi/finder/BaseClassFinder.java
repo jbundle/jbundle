@@ -146,16 +146,67 @@ public abstract class BaseClassFinder extends Object
     }
     /**
      * Convert this encoded string back to a Java Object.
+     * @param string The string to convert.
+     * @return The java object.
+     */
+    public Object findResourceConvertStringToObject(String className, String string)
+    {
+    	Object object = this.getResourceConvertStringToObject(null, className, string);
+
+        if (object == null) {
+            Object resource = this.deployThisResource(className, true, false);
+            if (resource != null)
+            {
+            	object = this.getResourceConvertStringToObject(null, className, string);	// It is possible that the newly started bundle registered itself
+            	if (object == null)
+            		object = this.getResourceConvertStringToObject(resource, className, string);
+            }
+        }
+
+        return object;
+    }
+    /**
+     * Convert this encoded string back to a Java Object.
      * TODO This is expensive, I need to synchronize and use a static writer.
      * @param string The string to convert.
      * @return The java object.
      */
+    public Object getResourceConvertStringToObject(Object resource, String className, String string)
+    {
+        if ((string == null) || (string.length() == 0))
+            return null;
+        Object object = null;
+        try {
+            if (resource == null)
+            {
+                BundleService classAccess = this.getClassBundleService(null, className);
+                if (classAccess != null)
+                	object = classAccess.convertStringToObject(string);
+            }
+            else
+            {
+            	Bundle bundle = this.getBundleFromResource(resource, bundleContext, ClassFinderUtility.getPackageName(className, false));
+	            object = this.convertStringToObject(string);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+    /**
+     * Convert this encoded string back to a Java Object.
+     * TODO This is expensive, I need to synchronize and use a static writer.
+     * @param string The string to convert.
+     * @return The java object.
+     * @throws ClassNotFoundException 
+     */
     public Object convertStringToObject(String string)
+    	throws ClassNotFoundException
     {
         if ((string == null) || (string.length() == 0))
             return null;
         try {
-            InputStream reader = new ByteArrayInputStream(string.getBytes(OBJECT_ENCODING));//Constants.STRING_ENCODING));
+            InputStream reader = new ByteArrayInputStream(string.getBytes(ClassFinderUtility.OBJECT_ENCODING));//Constants.STRING_ENCODING));
             ObjectInputStream inStream = new ObjectInputStream(reader);
             Object obj = inStream.readObject();
             reader.close();
@@ -163,15 +214,9 @@ public abstract class BaseClassFinder extends Object
             return obj;
         } catch (IOException ex)    {
             ex.printStackTrace();   // Never
-        } catch (ClassNotFoundException ex)    {
-            ex.printStackTrace();   // Never
         }
         return null;
     }
-    /**
-     * The byte to char and back encoding that I use. TODO(don) Move this to shared place
-     */
-    public static final String OBJECT_ENCODING = "ISO-8859-1";
     /**
      * Find this class's class access registered class access service in the current workspace.
      * @param className
