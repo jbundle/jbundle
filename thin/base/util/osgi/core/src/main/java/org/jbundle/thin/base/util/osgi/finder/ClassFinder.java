@@ -31,6 +31,14 @@ public interface ClassFinder {
     public ResourceBundle findResourceBundle(String className, Locale locale);
 
     /**
+     * Convert this encoded string back to a Java Object.
+     * TODO This is expensive, I need to synchronize and use a static writer.
+     * @param string The string to convert.
+     * @return The java object.
+     */
+    public Object convertStringToObject(String string);
+
+    /**
      * Find this class's class access registered class access service in the current workspace.
      * @param interfaceName The registered object name
      * @param className The class name (that has the package that the object was registered under)

@@ -1,8 +1,10 @@
 package org.jbundle.thin.base.util.osgi.finder;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.net.URL;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
@@ -142,6 +144,34 @@ public abstract class BaseClassFinder extends Object
 
         return resourceBundle;
     }
+    /**
+     * Convert this encoded string back to a Java Object.
+     * TODO This is expensive, I need to synchronize and use a static writer.
+     * @param string The string to convert.
+     * @return The java object.
+     */
+    public Object convertStringToObject(String string)
+    {
+        if ((string == null) || (string.length() == 0))
+            return null;
+        try {
+            InputStream reader = new ByteArrayInputStream(string.getBytes(OBJECT_ENCODING));//Constants.STRING_ENCODING));
+            ObjectInputStream inStream = new ObjectInputStream(reader);
+            Object obj = inStream.readObject();
+            reader.close();
+            inStream.close();
+            return obj;
+        } catch (IOException ex)    {
+            ex.printStackTrace();   // Never
+        } catch (ClassNotFoundException ex)    {
+            ex.printStackTrace();   // Never
+        }
+        return null;
+    }
+    /**
+     * The byte to char and back encoding that I use. TODO(don) Move this to shared place
+     */
+    public static final String OBJECT_ENCODING = "ISO-8859-1";
     /**
      * Find this class's class access registered class access service in the current workspace.
      * @param className

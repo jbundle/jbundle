@@ -18,6 +18,7 @@ import java.util.Properties;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
+import org.jbundle.thin.base.util.Util;
 
 
 /**
@@ -34,10 +35,6 @@ public abstract class BaseTransport extends Object
      * The command properties.
      */
     protected Properties m_properties = null;
-    /**
-     * The byte to char and back encoding that I use.
-     */
-    public static final String MY_ENCODING = "ISO-8859-1";
 
     /**
      * Constructor.
@@ -156,7 +153,7 @@ public abstract class BaseTransport extends Object
             outStream.writeObject(obj);
             outStream.flush();
             writer.flush();
-            String string = writer.toString(MY_ENCODING);//Constants.STRING_ENCODING);
+            String string = writer.toString(Util.OBJECT_ENCODING);//Constants.STRING_ENCODING);
             writer.close();
             outStream.close();
             return string;
@@ -173,21 +170,7 @@ public abstract class BaseTransport extends Object
      */
     public static Object convertStringToObject(String string)
     {
-        if ((string == null) || (string.length() == 0))
-            return null;
-        try {
-            InputStream reader = new ByteArrayInputStream(string.getBytes(MY_ENCODING));//Constants.STRING_ENCODING));
-            ObjectInputStream inStream = new ObjectInputStream(reader);
-            Object obj = inStream.readObject();
-            reader.close();
-            inStream.close();
-            return obj;
-        } catch (IOException ex)    {
-            ex.printStackTrace();   // Never
-        } catch (ClassNotFoundException ex)    {
-            ex.printStackTrace();   // Never
-        }
-        return null;
+        return Util.convertStringToObject(string, null, true);
     }
     /**
      * Convert the return value to an object (override if this doesn't just to string to object).

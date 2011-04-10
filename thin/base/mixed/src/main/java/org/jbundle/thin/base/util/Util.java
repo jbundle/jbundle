@@ -2,11 +2,13 @@ package org.jbundle.thin.base.util;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -729,6 +731,57 @@ public class Util extends Object
 	   
        return resourceBundle;
    }
+   /**
+    * Convert this encoded string back to a Java Object.
+    * TODO This is expensive, I need to synchronize and use a static writer.
+    * @param string The string to convert.
+    * @return The java object.
+    */
+   public static Object convertStringToObject(String string, Task task, boolean bErrorIfNotFound)
+   {
+	   if (string == null)
+		   return null;
+      
+	   Object object  = null;
+       try {
+    	   object = Util.convertStringToLocalObject(string);
+       } catch (ClassNotFoundException e) {
+		   if (Util.getClassService() != null)
+			   object = Util.getClassService().convertStringToObject(string);	// Try to find this class in the obr repos
+    	   if (object == null)
+    	       Util.handleClassException(e, null, task, bErrorIfNotFound);
+       }
+       
+       return object;
+   }
+   /**
+    * Convert this encoded string back to a Java Object.
+    * TODO This is expensive, I need to synchronize and use a static writer.
+    * @param string The string to convert.
+    * @return The java object.
+    * @throws ClassNotFoundException 
+    */
+   public static Object convertStringToLocalObject(String string)
+   		throws ClassNotFoundException
+   {
+       if ((string == null) || (string.length() == 0))
+           return null;
+       try {
+           InputStream reader = new ByteArrayInputStream(string.getBytes(OBJECT_ENCODING));//Constants.STRING_ENCODING));
+           ObjectInputStream inStream = new ObjectInputStream(reader);
+           Object obj = inStream.readObject();
+           reader.close();
+           inStream.close();
+           return obj;
+       } catch (IOException ex)    {
+           ex.printStackTrace();   // Never
+       }
+       return null;
+   }
+   /**
+    * The byte to char and back encoding that I use.
+    */
+   public static final String OBJECT_ENCODING = "ISO-8859-1";
    /**
     * 
     * @param ex
