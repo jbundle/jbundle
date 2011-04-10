@@ -28,7 +28,7 @@ public class RemoteSessionActivator extends BaseBundleService
 	
 	protected RemoteSessionServer server = null;
 	
-    String[] args = {DBParams.JMSSERVER + "=" + DBConstants.TRUE,
+    String[] args = {DBParams.JMSSERVER + "=" + DBConstants.FALSE,
             DBParams.REMOTEAPP + "=" + "msgapp",
             DBParams.PROVIDER + "=" + "linux-laptop"};	// TODO(don) Fix this
 

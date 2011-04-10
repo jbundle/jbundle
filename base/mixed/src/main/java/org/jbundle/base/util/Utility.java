@@ -14,6 +14,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -508,6 +510,26 @@ public class Utility extends Util
 	        map = new Hashtable<String,Object>();
 	        for (Object key : properties.keySet())
 	        {
+                map.put((String)key, properties.get(key));	            
+	        }
+        }
+        return map;
+    }
+    /**
+     * Convert this properties object to a map.
+     * @param properties
+     * @return
+     */
+    static public Map<String,Object> propertiesToMap(Dictionary<?, ?> properties)
+    {
+        Map<String,Object> map = null;
+        if (properties != null)
+        {
+	        map = new Hashtable<String,Object>();
+	        Enumeration<?> keys = properties.keys();
+	        while (keys.hasMoreElements())
+	        {
+	        	Object key = keys.nextElement();
                 map.put((String)key, properties.get(key));	            
 	        }
         }

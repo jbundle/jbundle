@@ -26,6 +26,7 @@ import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.Params;
+import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.util.base64.Base64;
@@ -584,5 +585,15 @@ public class MainApplication extends BaseApplication
             }
         }
         return remoteTask;
+    }
+    /**
+     * Get this Message Queue (or create one if this name doesn't exist).
+     */
+    public BaseMessageManager getMessageManager()
+    {
+    	if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty(DBParams.JMSSERVER)))
+    		return this.getMessageManager(true);
+    	else
+    		return this.getMessageManager(false);
     }
 }
