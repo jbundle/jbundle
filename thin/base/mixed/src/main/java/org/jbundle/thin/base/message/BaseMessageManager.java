@@ -3,6 +3,11 @@ package org.jbundle.thin.base.message;
 import java.util.Hashtable;
 import java.util.Properties;
 
+import org.jbundle.model.MessageFilter;
+import org.jbundle.model.MessageManager;
+import org.jbundle.model.MessageQueue;
+import org.jbundle.model.MessageReceiver;
+import org.jbundle.model.MessageSender;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
@@ -20,6 +25,7 @@ import org.jbundle.thin.base.util.Application;
  * NOTE: This should probably implement the Task interface (Note: app is already passed in).
  */
 public class BaseMessageManager extends Object
+	implements MessageManager
 {
     /**
      * My parent application.
@@ -126,7 +132,7 @@ public class BaseMessageManager extends Object
      * @param strQueueType The queue type if this queue needs to be created.
      * @return The message queue.
      */
-    public BaseMessageQueue getMessageQueue(String strQueueName, String strQueueType)
+    public MessageQueue getMessageQueue(String strQueueName, String strQueueType)
     {   // Look up the message Queue!
         return (BaseMessageQueue)m_messageMap.get(strQueueName);
     }
@@ -162,9 +168,9 @@ public class BaseMessageManager extends Object
      * @param messageFilter The message filter to add.
      * @return An error code.
      */
-    public int addMessageFilter(BaseMessageFilter messageFilter)
+    public int addMessageFilter(MessageFilter messageFilter)
     {
-        BaseMessageReceiver receiver = this.getMessageQueue(messageFilter.getQueueName(), messageFilter.getQueueType()).getMessageReceiver();
+        MessageReceiver receiver = this.getMessageQueue(messageFilter.getQueueName(), messageFilter.getQueueType()).getMessageReceiver();
         receiver.addMessageFilter(messageFilter);
         return Constants.NORMAL_RETURN;
     }
@@ -179,7 +185,7 @@ public class BaseMessageManager extends Object
         BaseMessageHeader messageHeader = message.getMessageHeader();
         String strQueueType = messageHeader.getQueueType();
         String strQueueName = messageHeader.getQueueName();
-        BaseMessageSender sender = this.getMessageQueue(strQueueName, strQueueType).getMessageSender();
+        MessageSender sender = this.getMessageQueue(strQueueName, strQueueType).getMessageSender();
         if (sender != null)
             sender.sendMessage(message);
         else
@@ -210,7 +216,7 @@ public class BaseMessageManager extends Object
         RemoteSession remoteSession = ((org.jbundle.thin.base.db.client.RemoteFieldTable) table).getRemoteTableType(java.rmi.server.RemoteStub.class);
 
         BaseMessageManager messageManager = screen.getBaseApplet().getApplication().getMessageManager();
-        BaseMessageReceiver handler = messageManager.getMessageQueue(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE).getMessageReceiver();
+        MessageReceiver handler = messageManager.getMessageQueue(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE).getMessageReceiver();
 
         JMessageListener listenerForSession = null;
         Properties properties = new Properties();

@@ -125,7 +125,7 @@ public class ChatScreen extends JBasePanel
         this.addSubPanels(this);
 
         BaseMessageManager messageManager = baseApplet.getApplication().getMessageManager();
-        BaseMessageReceiver receiver = messageManager.getMessageQueue(CHAT_QUEUE_NAME, CHAT_QUEUE_TYPE).getMessageReceiver();
+        BaseMessageReceiver receiver = (BaseMessageReceiver)messageManager.getMessageQueue(CHAT_QUEUE_NAME, CHAT_QUEUE_TYPE).getMessageReceiver();
         
         m_messageFilter = new ChatMessageFilter(m_strTree, m_strBack, m_strFilter, null);
         new BaseMessageListener(m_messageFilter)   // Listener automatically added to receiver

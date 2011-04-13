@@ -1,5 +1,8 @@
 package org.jbundle.thin.base.message;
 
+import org.jbundle.model.Message;
+import org.jbundle.model.MessageSender;
+
 /**
  * BaseMessageSender.java
  *
@@ -13,6 +16,7 @@ package org.jbundle.thin.base.message;
  * @version 1.0.0
  */
 public class BaseMessageSender extends Object
+	implements MessageSender
 {
     /**
      * My parent message queue.
@@ -63,7 +67,7 @@ public class BaseMessageSender extends Object
      *  Override this to do something.
      * @param message The message to send.
      */
-    public void sendMessage(BaseMessage message)
+    public void sendMessage(Message message)
     {
         // Override this to do something
     }

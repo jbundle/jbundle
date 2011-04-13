@@ -1,10 +1,13 @@
 package org.jbundle.thin.base.message;
 
+import org.jbundle.model.MessageQueue;
+
 
 /**
  * The message queue handles receiving and distributing messages for this queue name and type.
  */
 public abstract class BaseMessageQueue extends Object
+	implements MessageQueue
 {
     /**
      * My parent message manager.

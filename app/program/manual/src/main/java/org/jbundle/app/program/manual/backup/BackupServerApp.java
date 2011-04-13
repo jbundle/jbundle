@@ -99,7 +99,7 @@ public class BackupServerApp extends ThinApplication
             return;
         }
         BaseMessageManager messageManager = RemoteMessageManager.getMessageManager(this);
-        BaseMessageReceiver receiver = messageManager.getMessageQueue(BACKUP_QUEUE_NAME, BACKUP_QUEUE_TYPE).getMessageReceiver();
+        BaseMessageReceiver receiver = (BaseMessageReceiver)messageManager.getMessageQueue(BACKUP_QUEUE_NAME, BACKUP_QUEUE_TYPE).getMessageReceiver();
         
         m_messageFilter = new BaseMessageFilter(BACKUP_QUEUE_NAME, BACKUP_QUEUE_TYPE, this, null);
         new BaseMessageListener(m_messageFilter)    // Listener added to filter.

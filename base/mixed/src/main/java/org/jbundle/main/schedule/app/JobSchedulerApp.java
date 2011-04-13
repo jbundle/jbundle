@@ -68,7 +68,7 @@ public class JobSchedulerApp extends BaseApplication
         String strQueueType = this.getProperty(MessageConstants.QUEUE_TYPE);
         if (strQueueType == null)
             strQueueType = MessageConstants.INTRANET_QUEUE; // Never
-        BaseMessageReceiver receiver = messageManager.getMessageQueue(strQueueName, strQueueType).getMessageReceiver();
+        BaseMessageReceiver receiver = (BaseMessageReceiver)messageManager.getMessageQueue(strQueueName, strQueueType).getMessageReceiver();
         new BaseMessageListener(receiver)    // Listener added to filter.
         {
             public int handleMessage(BaseMessage message)

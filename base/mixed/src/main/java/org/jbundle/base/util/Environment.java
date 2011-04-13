@@ -17,6 +17,7 @@ import org.jbundle.base.db.lock.ClientLockManager;
 import org.jbundle.base.message.core.MessageApplication;
 import org.jbundle.main.msg.app.MessageInfoApplication;
 import org.jbundle.model.App;
+import org.jbundle.model.Env;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.thin.base.db.ThinPhysicalDatabaseParent;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
@@ -36,7 +37,7 @@ import org.jbundle.thin.base.util.Util;
  * @author    Don Corley
  */
 public class Environment extends Object
-    implements PropertyOwner
+    implements Env
 {
     /**
      * The default database type for local files.

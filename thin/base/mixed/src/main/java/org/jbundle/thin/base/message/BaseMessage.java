@@ -9,6 +9,7 @@ package org.jbundle.thin.base.message;
 import java.io.Serializable;
 import java.util.Iterator;
 
+import org.jbundle.model.Message;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.util.Util;
 import org.w3c.dom.Document;
@@ -24,7 +25,7 @@ import org.w3c.dom.Node;
  * @version 1.0.0
  */
 public abstract class BaseMessage extends Object
-    implements Serializable, MessageDataParent, Cloneable
+    implements Message, Serializable, MessageDataParent, Cloneable
 {
     private static final long serialVersionUID = 1L;
 

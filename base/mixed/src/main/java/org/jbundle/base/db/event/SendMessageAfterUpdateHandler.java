@@ -98,7 +98,7 @@ public class SendMessageAfterUpdateHandler extends FileListener
                 String strQueueName = messageHeader.getQueueName();
                 if (MessageConstants.LOCAL_QUEUE.equalsIgnoreCase(strQueueType))
                 {
-                    BaseMessageReceiver messageReceiver = messageManager.getMessageQueue(strQueueName, strQueueType).getMessageReceiver();
+                    BaseMessageReceiver messageReceiver = (BaseMessageReceiver)messageManager.getMessageQueue(strQueueName, strQueueType).getMessageReceiver();
                     if (!messageReceiver.getFilterList(messageHeader).hasNext())
                     {   // First time, make sure this receiver can handle my messages\
                         BaseMessageFilter messageFilter = new BaseMessageFilter(strQueueName, strQueueType, null, null);

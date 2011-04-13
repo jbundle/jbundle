@@ -163,7 +163,7 @@ public class ReceiveQueueSession extends BaseSession
         else
         {
             remoteFilter = remoteSession.setupRemoteSessionFilter(remoteFilter); // This has the effect of calling: messageFilter.linkRemoteSession(remoteSession);
-            remoteFilter = messageManager.getMessageQueue(remoteFilter.getQueueName(), remoteFilter.getQueueType()).getMessageReceiver().getMessageFilter(remoteFilter.getFilterID());  // Must look it up
+            remoteFilter = ((BaseMessageReceiver)messageManager.getMessageQueue(remoteFilter.getQueueName(), remoteFilter.getQueueType()).getMessageReceiver()).getMessageFilter(remoteFilter.getFilterID());  // Must look it up
         }
         remoteFilter.addMessageListener(this);
 
@@ -181,7 +181,7 @@ public class ReceiveQueueSession extends BaseSession
     {
         Utility.getLogger().info("EJB removeMessageFilter filter: " + messageFilter);
         BaseMessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
-        BaseMessageReceiver messageReceiver = messageManager.getMessageQueue(messageFilter.getRemoteFilterQueueName(), messageFilter.getRemoteFilterQueueType()).getMessageReceiver();
+        BaseMessageReceiver messageReceiver = (BaseMessageReceiver)messageManager.getMessageQueue(messageFilter.getRemoteFilterQueueName(), messageFilter.getRemoteFilterQueueType()).getMessageReceiver();
         boolean bRemoved = false;
         if (messageReceiver != null)
             bRemoved = messageReceiver.removeMessageFilter(messageFilter.getRemoteFilterID(), bFreeFilter);
@@ -197,7 +197,7 @@ public class ReceiveQueueSession extends BaseSession
         Utility.getLogger().info("EJB updateRemoteFilter properties: " + mxProperties);
         // Give the filter the remote environment
         BaseMessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
-        messageFilter = messageManager.getMessageQueue(messageFilter.getQueueName(), messageFilter.getQueueType()).getMessageReceiver().getMessageFilter(messageFilter.getRemoteFilterID());  // Must look it up
+        messageFilter = ((BaseMessageReceiver)messageManager.getMessageQueue(messageFilter.getQueueName(), messageFilter.getQueueType()).getMessageReceiver()).getMessageFilter(messageFilter.getRemoteFilterID());  // Must look it up
         if (messageFilter != null)  // Always
         {
             if (mxProperties != null)

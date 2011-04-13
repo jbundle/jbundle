@@ -15,12 +15,10 @@ import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.message.record.GridRecordMessageFilter;
 import org.jbundle.base.message.record.RecordMessageFilter;
 import org.jbundle.base.remote.BaseSession;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.Debug;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.MessageReceiver;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageManager;
-import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.message.session.ClientSessionMessageFilter;
 import org.jbundle.thin.base.remote.RemoteSession;
@@ -153,7 +151,7 @@ public class Session extends BaseSession
         messageFilter = this.setupRemoteFilter(messageFilter);  // Change the filter?
         messageFilter.setThinTarget(bThinClient);   // This way the server process knows not to send a thick message here (before converting it to thin).
         BaseMessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
-        BaseMessageReceiver messageReceiver = messageManager.getMessageQueue(messageFilter.getQueueName(), messageFilter.getQueueType()).getMessageReceiver();
+        MessageReceiver messageReceiver = messageManager.getMessageQueue(messageFilter.getQueueName(), messageFilter.getQueueType()).getMessageReceiver();
         messageReceiver.addMessageFilter(messageFilter);    // I do this just in case the link code wants to add a filter to the tree (ie., RecordFilters).
         BaseMessageFilter messageFilterNew = messageFilter.linkRemoteSession(this);  // Link the filter and give filter a chance to change the remote version.
         if (messageFilterNew != messageFilter)

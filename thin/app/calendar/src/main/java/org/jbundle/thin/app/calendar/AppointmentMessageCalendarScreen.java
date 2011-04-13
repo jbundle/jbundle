@@ -9,15 +9,14 @@ package org.jbundle.thin.app.calendar;
  */
 import java.util.Properties;
 
+import org.jbundle.model.MessageReceiver;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.client.RemoteFieldTable;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageManager;
-import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.JMessageListener;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.message.event.ModelMessageHandler;
-import org.jbundle.thin.base.message.remote.RemoteMessageManager;
 import org.jbundle.thin.base.message.session.ClientSessionMessageFilter;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.screen.cal.grid.CalendarThinTableModel;
@@ -62,7 +61,7 @@ public class AppointmentMessageCalendarScreen extends AppointmentCalendarScreen
         RemoteSession remoteSession = ((RemoteFieldTable)this.getFieldList().getTable()).getRemoteTableType(java.rmi.server.RemoteStub.class);
 
         BaseMessageManager messageManager = this.getBaseApplet().getApplication().getMessageManager();
-        BaseMessageReceiver handler = messageManager.getMessageQueue(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE).getMessageReceiver();
+        MessageReceiver handler = messageManager.getMessageQueue(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE).getMessageReceiver();
 
         Properties properties = new Properties();
         properties.setProperty(MessageConstants.CLASS_NAME, MessageConstants.GRID_FILTER);

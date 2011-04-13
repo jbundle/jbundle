@@ -6,18 +6,17 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import org.jbundle.model.MessageSender;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
-import org.jbundle.thin.base.message.BaseMessageSender;
 import org.jbundle.thin.base.message.MapMessage;
-import org.jbundle.thin.base.message.remote.RemoteMessageManager;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.cal.opt.CachedItem;
 import org.jbundle.thin.base.screen.cal.popup.ProductTypeInfo;
+import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.calendarpanel.model.CalendarConstants;
 import org.jbundle.util.calendarpanel.model.CalendarItem;
 import org.jbundle.util.calendarpanel.model.CalendarModel;
-import org.jbundle.thin.base.util.Application;
 
 
 public class CalendarProduct extends CachedItem implements CalendarItem
@@ -117,7 +116,7 @@ public class CalendarProduct extends CachedItem implements CalendarItem
 
         try   {
 //+         if (database == null)
-            BaseMessageSender sendQueue = null;
+            MessageSender sendQueue = null;
             String strSendQueueName = "lookupHotelRate";
             Map<String,Object> properties = new Hashtable<String,Object>();
             properties.put("rateType", "Rack");
@@ -127,7 +126,7 @@ public class CalendarProduct extends CachedItem implements CalendarItem
             sendQueue = messageManager.getMessageQueue(strSendQueueName, null).getMessageSender();
 if (gbFirstTime)
 {
-    BaseMessageReceiver handler = messageManager.getMessageQueue("sendHotelRate", null).getMessageReceiver();
+    BaseMessageReceiver handler = (BaseMessageReceiver)messageManager.getMessageQueue("sendHotelRate", null).getMessageReceiver();
     /*?JMessageListener listener =*/ new CalendarMessageListener(handler, m_model);
     
     gbFirstTime = false;

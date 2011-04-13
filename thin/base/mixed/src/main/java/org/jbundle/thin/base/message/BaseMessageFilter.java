@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.jbundle.model.MessageFilter;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.util.Util;
 
@@ -32,7 +33,7 @@ import org.jbundle.thin.base.util.Util;
  * @version 1.0.0
  */
 public class BaseMessageFilter extends BaseMessageHeader
-    implements Serializable, Cloneable
+    implements MessageFilter, Serializable, Cloneable
 {
 	private static final long serialVersionUID = 1L;
 

@@ -28,7 +28,6 @@ import org.jbundle.main.user.db.UserInfo;
 import org.jbundle.main.user.screen.SetupNewUserHandler;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.db.ThinPhysicalDatabaseOwner;
 import org.jbundle.thin.base.db.ThinPhysicalTableOwner;
@@ -269,7 +268,7 @@ public class TaskSession extends BaseTaskSession
     public RemoteSendQueue createRemoteSendQueue(String strQueueName, String strQueueType) throws RemoteException
     {
         BaseMessageManager messageManager = this.getEnvironment().getMessageManager(this.getApplication(), true);
-        BaseMessageSender sender = messageManager.getMessageQueue(strQueueName, strQueueType).getMessageSender();
+        BaseMessageSender sender = (BaseMessageSender)messageManager.getMessageQueue(strQueueName, strQueueType).getMessageSender();
         SendQueueSession remoteQueue = new SendQueueSession(this, sender);
         return remoteQueue;
     }
@@ -282,7 +281,7 @@ public class TaskSession extends BaseTaskSession
     public RemoteReceiveQueue createRemoteReceiveQueue(String strQueueName, String strQueueType) throws RemoteException
     {
         BaseMessageManager messageManager = this.getEnvironment().getMessageManager(this.getApplication(), true);
-        BaseMessageReceiver receiver = messageManager.getMessageQueue(strQueueName, strQueueType).getMessageReceiver();
+        BaseMessageReceiver receiver = (BaseMessageReceiver)messageManager.getMessageQueue(strQueueName, strQueueType).getMessageReceiver();
         ReceiveQueueSession remoteQueue = new ReceiveQueueSession(this, receiver);
         return remoteQueue;
     }

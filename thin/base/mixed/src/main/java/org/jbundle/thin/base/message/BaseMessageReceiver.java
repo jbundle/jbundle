@@ -4,6 +4,8 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.jbundle.model.MessageFilter;
+import org.jbundle.model.MessageReceiver;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.util.Util;
@@ -15,6 +17,7 @@ import org.jbundle.thin.base.util.Util;
  * the message is sent to all filters that match this message type.
  */
 public abstract class BaseMessageReceiver extends Thread
+	implements MessageReceiver
 {
     /**
      * My parent message queue.
@@ -116,9 +119,9 @@ public abstract class BaseMessageReceiver extends Thread
      * Add this message filter to this receive queue.
      * @param The message filter to add.
      */
-    public void addMessageFilter(BaseMessageFilter messageFilter)
+    public void addMessageFilter(MessageFilter messageFilter)
     {
-        this.getMessageFilterList().addMessageFilter(messageFilter);
+        this.getMessageFilterList().addMessageFilter((BaseMessageFilter)messageFilter);
     }
     /**
      * Remove this message filter from this queue.
@@ -128,9 +131,9 @@ public abstract class BaseMessageReceiver extends Thread
      * @param bFreeFilter If true, free this filter.
      * @return True if successful.
      */
-    public boolean removeMessageFilter(BaseMessageFilter messageFilter, boolean bFreeFilter)
+    public boolean removeMessageFilter(MessageFilter messageFilter, boolean bFreeFilter)
     {
-        return this.removeMessageFilter(messageFilter.getFilterID(), bFreeFilter);
+        return this.removeMessageFilter(((BaseMessageFilter)messageFilter).getFilterID(), bFreeFilter);
     }
     /**
      * Remove this message filter from this queue.
