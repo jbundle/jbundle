@@ -510,33 +510,17 @@ public abstract class Application extends Object
      * @param applet The (optional) applet.
      * @return A URL to this filename (or null if not found).
      */
-    private ClassLoader cl = null;
+    private ClassLoader classLoader = null;
     private URL urlCodeBase = null;
-    public URL getResourceURL(String filename, BaseAppletReference applet)
+    public URL getResourceURL(String filepath, BaseAppletReference task)
     {
    // Get current classloader
-        if (cl == null)
-            cl = this.getClass().getClassLoader();
+        if (classLoader == null)
+        	classLoader = this.getClass().getClassLoader();
+        if (urlCodeBase == null)
+            urlCodeBase = this.getCodeBase(task);
         // Create icons
-        URL url = null;
-        try {
-            url = cl.getResource(filename);
-        } catch (Exception e) {
-            e.printStackTrace();    // Keep trying
-        }
-        if (url == null)
-        {
-            if (urlCodeBase == null)
-                urlCodeBase = this.getCodeBase(applet);
-            try
-            {
-                if (urlCodeBase != null)
-                    url = new URL(urlCodeBase, filename);
-            } catch(MalformedURLException ex) {
-                ex.printStackTrace();
-                return null;
-            }
-        }
+        URL url = Util.getResourceFromPathName(filepath, this.getMainTask(), false, urlCodeBase, classLoader);
         return url;
     }
     /**

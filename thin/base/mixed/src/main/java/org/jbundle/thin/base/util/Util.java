@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -677,21 +678,40 @@ public class Util extends Object
    }
    /**
     * Create this object given the class name.
-    * @param className
+    * @param filepath
     * @return
     */
-   public static URL getResourceFromPathName(String className, Task task, boolean bErrorIfNotFound, ClassLoader classLoader)
+   public static URL getResourceFromPathName(String filepath, Task task, boolean bErrorIfNotFound, URL urlCodeBase, ClassLoader classLoader)
    {
-	   if (className == null)
+	   if (filepath == null)
 		   return null;
       
-	   URL url = classLoader.getResource(className);
+       URL url = null;
+       try {
+           url = classLoader.getResource(filepath);
+       } catch (Exception e) {
+               // Keep trying
+       }
+
        if (url == null)
        {
 		   if (Util.getClassService() != null)
-			   url = Util.getClassService().findBundleResource(className);	// Try to find this class in the obr repos
+			   url = Util.getClassService().findBundleResource(filepath);	// Try to find this class in the obr repos
 		   if (url == null)
-		       Util.handleClassException(null, className, task, bErrorIfNotFound);
+		       Util.handleClassException(null, filepath, task, bErrorIfNotFound);
+       }
+
+       if (url == null)
+       {
+           try
+           {
+               if (urlCodeBase != null)
+                   url = new URL(urlCodeBase, filepath);
+           } catch(MalformedURLException ex) {
+               // Keep trying
+           } catch (Exception e) {
+               // Keep trying
+           }
        }
 	   return url;
    }

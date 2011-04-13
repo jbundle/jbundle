@@ -664,6 +664,8 @@ public class BaseApplet extends JApplet
             strFilename = Constants.IMAGE_LOCATION + File.separator + strSubDirectory + File.separator + strFilename;
         else if ((strFilename.indexOf("images" + File.separator) == -1) && (strFilename.indexOf("images/") == -1))
             strFilename = Constants.IMAGE_LOCATION + File.separator + strFilename;
+        else if ((strFilename.indexOf("images" + File.separator) == 0) || (strFilename.indexOf("images/") == 0))
+            strFilename = Constants.IMAGE_LOCATION + strFilename.substring(6);
         return strFilename;
     }
     /**

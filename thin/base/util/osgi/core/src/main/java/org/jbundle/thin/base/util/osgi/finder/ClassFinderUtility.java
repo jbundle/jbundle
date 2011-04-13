@@ -1,5 +1,7 @@
 package org.jbundle.thin.base.util.osgi.finder;
 
+import java.io.File;
+
 import org.jbundle.thin.base.util.osgi.bundle.BaseBundleService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -83,11 +85,24 @@ public final class ClassFinderUtility extends BaseBundleService
         String packageName = null;
         if (className != null)
         {
-        	if (resource)
-        		if (className.endsWith(PROPERTIES))
-        			className = className.substring(0, className.length() - PROPERTIES.length());
-            if (className.lastIndexOf('.') != -1)
-                packageName = className.substring(0, className.lastIndexOf('.'));
+    		if (className.indexOf(File.separator) != -1)
+    		{
+    			className = className.substring(0, className.lastIndexOf(File.separator));
+        		packageName = className.replace(File.separator.charAt(0), '.');
+    		}
+    		else if (className.indexOf('/') != -1)
+    		{
+    			className = className.substring(0, className.lastIndexOf('/'));
+        		packageName = className.replace('/', '.');
+    		}
+        	else
+        	{
+	        	if (resource)
+	        		if (className.endsWith(PROPERTIES))
+	        			className = className.substring(0, className.length() - PROPERTIES.length());
+	            if (className.lastIndexOf('.') != -1)
+	                packageName = className.substring(0, className.lastIndexOf('.'));
+        	}
         }
         return packageName;
     }
