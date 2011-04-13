@@ -17,7 +17,6 @@
     <module>jnlp</module>
     <module>webapp</module>
     <module>site</module>
-    <module>bundle</module>
     <module>webbundle</module>
     <module>httpservice</module>
   </modules>

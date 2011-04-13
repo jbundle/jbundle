@@ -330,7 +330,7 @@ Utility.getLogger().info("removeApp: " + application);
     }
     /**
      * Find the message application.
-     * @param strDBPrefix TODO
+     * @param strDBPrefix The database prefix.
      * @param strDomain The domain to get the message app for (or default/best guess if null)
      * @return The message manager or null if no match.
      */

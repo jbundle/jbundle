@@ -37,7 +37,7 @@ public class BaseBundleService extends Object
      * Bundle starting up.
      */
     public void start(BundleContext context) throws Exception {
-        System.out.println("Starting BaseBundleService bundle");
+        System.out.println("Starting a BundleService bundle");
         
         String packageName = this.getProperty(BundleService.PACKAGE_NAME);
         if (packageName == null)
