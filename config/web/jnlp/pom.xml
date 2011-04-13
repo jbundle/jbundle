@@ -202,6 +202,16 @@
                   <artifactId>org.jbundle.base.other</artifactId>
                   <version>${project.version}</version>
                 </jarResource>
+			    <jarResource>
+			      <groupId>org.jbundle.base</groupId>
+			      <artifactId>org.jbundle.base.util</artifactId>
+                  <version>${project.version}</version>
+			    </jarResource>
+			    <jarResource>
+			      <groupId>org.jbundle.base.message</groupId>
+			      <artifactId>org.jbundle.base.message</artifactId>
+                  <version>${project.version}</version>
+			    </jarResource>
                 
                 <jarResource>
                   <groupId>org.jbundle.base.screen</groupId>

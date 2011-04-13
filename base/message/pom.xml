@@ -16,6 +16,7 @@
   <description>Messaging parent</description>
 
   <modules>
+    <module>core</module>
     <module>jibx</module>
   </modules>
 </project>

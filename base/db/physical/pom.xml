@@ -21,7 +21,7 @@
     </dependency>
     <dependency>
       <groupId>org.jbundle.base</groupId>
-      <artifactId>org.jbundle.base.other</artifactId>
+      <artifactId>org.jbundle.base.util</artifactId>
       <version>0.7.7-SNAPSHOT</version>
     </dependency>
   </dependencies>

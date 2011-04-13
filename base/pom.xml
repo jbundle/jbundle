@@ -21,6 +21,7 @@
     <module>db</module>
     <module>message</module>
     <module>remote</module>
+    <module>util</module>
     <module>other</module>
   </modules>
 

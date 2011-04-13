@@ -16,16 +16,6 @@
   <dependencies>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
-      <artifactId>org.jbundle.base.db</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.base</groupId>
-      <artifactId>org.jbundle.base.other</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.memory</artifactId>
       <version>0.7.7-SNAPSHOT</version>
     </dependency>

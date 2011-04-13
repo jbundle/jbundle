@@ -186,7 +186,7 @@ public class ClientDatabase extends BaseDatabase
     }
     /**
      * Open the remote database.
-     * @param server The remote server object.
+     * @param environment The remote server object.
      * @param The user id/name (recommended on the initial server open).
      * @return The RemoteDatabase.
      */

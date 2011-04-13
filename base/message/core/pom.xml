@@ -4,22 +4,23 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.jbundle.base.db</groupId>
-    <artifactId>jbundle-base-db-reactor</artifactId>
+    <groupId>org.jbundle.base.message</groupId>
+    <artifactId>jbundle-base-message-reactor</artifactId>
     <version>0.7.7-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.jbundle.base.db.net</artifactId>
+  <!-- This project is temporary until the circular dependencies have been resolved -->
+  <artifactId>org.jbundle.base.message</artifactId>
+  <name>jbundle-base-message</name>
   <packaging>bundle</packaging>
-  <name>jbundle-base-db-net</name>
 
   <dependencies>
     <dependency>
-      <groupId>org.jbundle.base.db</groupId>
-      <artifactId>org.jbundle.base.db.memory</artifactId>
+      <groupId>org.jbundle.base</groupId>
+      <artifactId>org.jbundle.base.mixed</artifactId>
       <version>0.7.7-SNAPSHOT</version>
+      <scope>provided</scope>
     </dependency>
-
   </dependencies>
 
 </project>

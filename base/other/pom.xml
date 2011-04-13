@@ -26,6 +26,8 @@
             !org.jbundle.base.db.*,
             !org.jbundle.base.field.*,
             !org.jbundle.base.remote.*,
+            !org.jbundle.base.message.*,
+            !org.jbundle.base.util.*,
             org.jbundle.base.*;version=${project.version},
             </Export-Package>
             <Import-Package>
