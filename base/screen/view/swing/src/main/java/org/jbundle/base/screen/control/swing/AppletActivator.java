@@ -16,8 +16,7 @@ import org.osgi.framework.ServiceEvent;
 
 public class AppletActivator extends BaseBundleService
 {
-	
-	protected SApplet server = null;
+	protected SApplet applet = null;
 	
     String[] args = {"linux-laptop:8080/"};	// TODO(don) Fix this
 
@@ -42,7 +41,7 @@ public class AppletActivator extends BaseBundleService
         if (event.getType() == ServiceEvent.REGISTERED)
         { // Osgi Service is up, Okay to start the server
             System.out.println("Starting Applet");
-    		if (server == null)
+    		if (applet == null)
     		{
     	        Map<String,Object> propertiesTemp = new Hashtable<String,Object>();
     	        Util.parseArgs(propertiesTemp, args);
@@ -56,9 +55,9 @@ public class AppletActivator extends BaseBundleService
         }
         if (event.getType() == ServiceEvent.UNREGISTERING)
         {
-            if (server != null)
-            	server.free();
-            server = null;
+            if (applet != null)
+            	applet.free();
+            applet = null;
         }        
     }
 }

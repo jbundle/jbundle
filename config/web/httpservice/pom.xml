@@ -30,7 +30,7 @@
 						<Import-Package>
 							*;resolution:=optional,
 						</Import-Package>
-						<Bundle-Activator>org.jbundle.web.httpservice.Activator</Bundle-Activator>
+						<Bundle-Activator>org.jbundle.web.httpservice.HttpServiceActivator</Bundle-Activator>
 					</instructions>
 				</configuration>
 			</plugin>

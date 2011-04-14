@@ -6,44 +6,22 @@
  
 package org.jbundle.main.schedule.app;
 
-import org.jbundle.thin.base.util.osgi.bundle.BaseBundleService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceEvent;
+import java.util.Map;
 
-public class JobSchedulerActivator extends BaseBundleService
+import org.jbundle.base.util.BaseAppActivator;
+import org.jbundle.base.util.Environment;
+import org.jbundle.thin.base.util.Application;
+
+public class JobSchedulerActivator extends BaseAppActivator
 {
-	
-	protected JobSchedulerApp server = null;
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
-	}
-
-    @Override
-    public void serviceChanged(ServiceEvent event) {
-        if (event.getType() == ServiceEvent.REGISTERED)
-        { // Osgi Service is up, Okay to start the server
-            System.out.println("Starting Server");
-    		if (server == null)
-    			server = new JobSchedulerApp(null, null, null);
-        }
-        if (event.getType() == ServiceEvent.UNREGISTERING)
-        {
-            if (server != null)
-            	server.free();
-            server = null;
-        }        
+    /**
+     * Start this service.
+     * Override this to do all the startup.
+     * @return true if successful.
+     */
+    public Application startupThisApp(Environment env, Map<String, Object> props)
+    {
+    	return new JobSchedulerApp(env, props, null);
     }
 }
+

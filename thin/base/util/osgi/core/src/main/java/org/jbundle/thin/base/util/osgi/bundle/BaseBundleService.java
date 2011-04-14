@@ -32,12 +32,16 @@ public class BaseBundleService extends Object
 	protected Dictionary<String,String> properties = null;
 	
     ServiceRegistration serviceRegistration;
-	
+    
+    protected BundleContext context = null;
+    
     /**
      * Bundle starting up.
      */
     public void start(BundleContext context) throws Exception {
         System.out.println("Starting a BundleService bundle");
+        
+        this.context = context;
         
         String packageName = this.getProperty(BundleService.PACKAGE_NAME);
         if (packageName == null)
@@ -62,6 +66,7 @@ public class BaseBundleService extends Object
     public void stop(BundleContext context) throws Exception {
         System.out.println("Stopping BaseBundleService bundle");
 //        Automatically unregistered.
+        this.context = null;
     }
 
     @Override

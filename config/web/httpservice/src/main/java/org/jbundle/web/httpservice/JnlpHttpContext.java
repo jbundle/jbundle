@@ -10,7 +10,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.service.http.HttpContext;
 
 /**
- * Test http context.
+ * Jnlp http context.
  * @author don
  *
  */
