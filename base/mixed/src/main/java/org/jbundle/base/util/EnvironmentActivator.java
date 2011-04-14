@@ -48,4 +48,13 @@ public class EnvironmentActivator extends BaseBundleService
             environment = null;
         }        
     }
+    
+    /**
+     * Get the environment.
+     * @return
+     */
+    public Environment getEnvironment()
+    {
+    	return environment;
+    }
 }

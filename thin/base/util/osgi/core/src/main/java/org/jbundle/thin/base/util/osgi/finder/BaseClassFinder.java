@@ -14,6 +14,7 @@ import org.jbundle.thin.base.util.osgi.bundle.BundleService;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 
@@ -357,4 +358,39 @@ public abstract class BaseClassFinder extends Object
      */
     public abstract Bundle getBundleFromResource(Object resource, BundleContext context, String packageName);
 
+    /**
+     * Start up a basebundle service.
+     * Note: You will probably want to call this from a thread and attach a service
+     * listener since this may take some time.
+     * @param className
+     * @return true If I'm up already
+     * @return false If I had a problem.
+     */
+    public boolean startBaseBundle(BundleContext context, String dependentBaseBundleClassName)
+    {
+    	BundleService bundleService = this.getClassBundleService(null, dependentBaseBundleClassName);
+    	if (bundleService != null)
+    		return true;	// Already up!
+        // If the repository is not up, but the bundle is deployed, this will find it
+        Object resource = this.deployThisResource(dependentBaseBundleClassName, false, false);  // Get the bundle info from the repos
+        
+        String packageName = ClassFinderUtility.getPackageName(dependentBaseBundleClassName, false);
+        Bundle bundle = this.getBundleFromResource(resource, context, packageName);
+        
+        if (bundle != null)
+        {
+            if (((bundle.getState() & Bundle.ACTIVE) == 0)
+            		&& ((bundle.getState() & Bundle.STARTING) == 0))
+            {
+                try {
+                    bundle.start();
+                } catch (BundleException e) {
+                    e.printStackTrace();
+                }
+            }
+            bundleService = this.getClassBundleService(null, dependentBaseBundleClassName);	// This will wait until it is active to return
+            return (bundleService != null);	// Success
+        }
+        return false;	// Error! Where is my bundle?
+    }
 }

@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>org.jbundle.base.remote</artifactId>
-  <name>jbundle-base-remote - Remote module</name>
+  <name>jbundle-base-remote - Remote server</name>
   <packaging>bundle</packaging>
 
   <properties>
