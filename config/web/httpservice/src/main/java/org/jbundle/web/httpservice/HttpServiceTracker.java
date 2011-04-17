@@ -37,125 +37,163 @@ public class HttpServiceTracker extends ServiceTracker{
      */
     public Object addingService(ServiceReference reference) {
         HttpService httpService = (HttpService) context.getService(reference);
+        
+        this.addServices(httpService);
+        
+        return httpService;
+    }
+    String ROOT = "/";
+    String INDEX = "/index.html";
+    String IMAGES = "/images";
+    String LIB = "/images";
+    String DOCS = "/docs";
+    String PROXY = "/proxy";
+    String TOURAPP = "/tourapp";
+    String TABLE = TOURAPP + "/table";
+    String IMAGE = TOURAPP + "/image";
+    String JNLP = TOURAPP + "/jnlp";
+    String TOURAPP_WSDL = TOURAPP + "/wsdl";
+    String WSDL = "/wsdl";
+    String HTML = "/HTMLServlet";
+    String TOURAPP_AJAX = TOURAPP + "ajax";
+    String TOURAPP_JNLP = TOURAPP + ".jnlp";
+    String XML = TOURAPP + "xml";
+    String XSL = TOURAPP + "xsl";
+    String XHTML = TOURAPP + "xhtml";
+    String JNLP_DOWNLOAD = "*.jnlp";
+    String AJAX = "/ajax";
+    String MESSAGE = "/message";
+    String WS = "/ws";
+    String XMLWS = "/xmlws";
+    String[] paths = {
+    		ROOT,
+    		IMAGES,
+    		LIB,
+    		DOCS,
+    		PROXY,
+    		TABLE,
+    	    IMAGE,
+    	    JNLP,
+    	    TOURAPP_WSDL,
+    	    HTML,
+    	    TOURAPP_AJAX,
+    	    TOURAPP_JNLP,
+    	    TOURAPP,
+//    	    XML,
+//    	    XSL,
+    	    XHTML,
+//    	    JNLP_DOWNLOAD,
+    	    MESSAGE,
+//    	    WS,
+    	    XMLWS,
+    };
+    /**
+     * Http Service is up, add my servlets.
+     */
+    public void addServices(HttpService httpService) {
+    	for (String path : paths)
+    	{
+    		this.addService(path, httpService);
+    	}
+    }
+    /**
+     * Http Service is up, add my servlets.
+     */
+    public void addService(String path, HttpService httpService) {
         try {
             Servlet servlet = null;
-            Dictionary<String,String> dictionary = null;
-
-        	webContextPath = context.getProperty(WEB_CONTEXT);
-        	
+            Dictionary<String,String> dictionary = new Hashtable<String,String>();
         	HttpContext httpContext = null;	// new MyHttpContext(context.getBundle());
-        	
-            httpService.registerResources(addURLPath(webContextPath, "/"), "", httpContext);
+        	webContextPath = context.getProperty(WEB_CONTEXT);
+            String fullPath = addURLPath(webContextPath, path);
 
-            servlet = new org.jbundle.base.remote.proxy.ProxyServlet();
-            dictionary = new Hashtable<String,String>();
-            dictionary.put("remotehost", "localhost");
-            httpService.registerServlet(addURLPath(webContextPath, "/proxy"), servlet, dictionary, httpContext);
-
-            servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
-            dictionary = null;
-            dictionary = new Hashtable<String,String>();
-            dictionary.put("remotehost", "localhost");
-            
-            httpService.registerServlet(addURLPath(webContextPath, "/tourapp/table"), servlet, dictionary, httpContext);
-            
-            servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
-            httpService.registerServlet(addURLPath(webContextPath, "/tourapp/image"), servlet, dictionary, httpContext);
-            
-            servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
-            httpService.registerServlet(addURLPath(webContextPath, "/tourapp/jnlp"), servlet, dictionary, httpContext);
-            
-            servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
-            httpService.registerServlet(addURLPath(webContextPath, "/tourapp/wsdl"), servlet, dictionary, httpContext);
-            
-            servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
-            httpService.registerServlet(addURLPath(webContextPath, "/wsdl"), servlet, dictionary, httpContext);
-            
-            servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
-            httpService.registerServlet(addURLPath(webContextPath, "/HTMLServlet"), servlet, dictionary, httpContext);
-            
-            servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
-            httpService.registerServlet(addURLPath(webContextPath, "/tourappajax"), servlet, dictionary, httpContext);
-            
-            servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
-            httpService.registerServlet(addURLPath(webContextPath, "/tourapp.jnlp"), servlet, dictionary, httpContext);
-            
-            servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
-            httpService.registerServlet(addURLPath(webContextPath, "/tourapp"), servlet, dictionary, httpContext);
-            
-            dictionary = null;
-
-//            servlet = cocoon();
-//            httpService.registerServlet(addURLPath(webContextPath, "/tourapp/*"), servlet, dictionary, httpContext);
-
-            servlet = new org.jbundle.base.screen.control.servlet.xml.XMLServlet();
-            dictionary = new Hashtable<String,String>();
-            dictionary.put("stylesheet-path", "docs/styles/xsl/ajax/base/");
-            dictionary.put("remotehost", "localhost");
-            httpService.registerServlet(addURLPath(webContextPath, "/tourappxml"), servlet, dictionary, httpContext);
-
-            dictionary = null;
-//          servlet = cocoon();
-//          httpService.registerServlet(addURLPath(webContextPath, "/tourappxsl"), servlet, dictionary, httpContext);
-
-//          servlet = cocoon();
-//          httpService.registerServlet(addURLPath(webContextPath, "/tourappxhtml"), servlet, dictionary, httpContext);
-
-            //servlet = new XMLServlet();
-            //httpService.registerServlet(addURLPath(webContextPath, "/tourappxml"), servlet, dictionary, httpContext);
-
-//            servlet = jnlp.sample.servlet.JnlpDownloadServlet();
-//            httpContext = new JnlpHttpContext(context.getBundle());
-//            httpService.registerServlet(addURLPath(webContextPath, "*.jnlp"), servlet, dictionary, httpContext);
-
-            httpContext = null;
-
-            servlet = new org.jbundle.base.remote.proxy.AjaxServlet();
-            dictionary = new Hashtable<String,String>();
-            dictionary.put("remotehost", "localhost");
-            httpService.registerServlet(addURLPath(webContextPath, "/ajax"), servlet, dictionary, httpContext);
-
-            dictionary = new Hashtable<String,String>();
-            dictionary.put("regex", "www.+.tourgeek.com");
-            dictionary.put("regexTarget", "demo/index.html");
-            dictionary.put("ie", "tourappxsl");
-            dictionary.put("firefox", "tourappxsl");
-            dictionary.put("chrome", "tourappxsl");
-            dictionary.put("safari", "tourappxsl");
-            dictionary.put("webkit", "tourappxsl");
-            dictionary.put("java", "tourappxhtml");
-            servlet = new org.jbundle.util.webapp.redirect.RegexRedirectServlet();
-            httpService.registerServlet(addURLPath(webContextPath, "/index.html"), servlet, dictionary, httpContext);
-
-            servlet = new org.jbundle.base.message.trx.transport.html.MessageServlet();
-            dictionary = new Hashtable<String,String>();
-            dictionary.put("remotehost", "localhost");
-            httpService.registerServlet(addURLPath(webContextPath, "/message"), servlet, dictionary, httpContext);
-
-//+            servlet = new org.jbundle.base.message.trx.transport.soap.MessageReceivingServlet();
-//+            dictionary = new Hashtable<String,String>();
-//+            dictionary.put("remotehost", "localhost");
-//+            httpService.registerServlet(addURLPath(webContextPath, "/ws"), servlet, dictionary, httpContext);
-
-            servlet = new org.jbundle.base.message.trx.transport.xml.XMLMessageReceivingServlet();
-            dictionary = new Hashtable<String,String>();
-            dictionary.put("remotehost", "localhost");
-            httpService.registerServlet(addURLPath(webContextPath, "/xmlws"), servlet, dictionary, httpContext);
-
-            dictionary = null;
-/*            servlet = new Cocoon();
-            httpService.registerServlet(addURLPath(webContextPath, "*.xml"), servlet, dictionary, httpContext);
-*/
-//          servlet = new Cocoon();
-//          httpService.registerServlet(addURLPath(webContextPath, "/hello.html"), servlet, dictionary, httpContext);
-
-//          servlet = new Cocoon();
-//          httpService.registerServlet(addURLPath(webContextPath, "/docs/test/xml/*"), servlet, dictionary, httpContext);
+            if ((IMAGES.equalsIgnoreCase(path)) 
+            	|| (LIB.equalsIgnoreCase(path))
+                || (DOCS.equalsIgnoreCase(path)))
+            {
+            	httpService.registerResources(fullPath, path, httpContext);
+            }
+            if (PROXY.equalsIgnoreCase(path))
+            {
+	            servlet = new org.jbundle.base.remote.proxy.ProxyServlet();
+	            dictionary.put("remotehost", "localhost");	// Default value
+	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
+            }
+            if ((TABLE.equalsIgnoreCase(path)) 
+            		|| (IMAGE.equalsIgnoreCase(path))
+            		|| (JNLP.equalsIgnoreCase(path))
+    	    		|| (TOURAPP_WSDL.equalsIgnoreCase(path))
+    	    		|| (HTML.equalsIgnoreCase(path))
+    	    		|| (TOURAPP_AJAX.equalsIgnoreCase(path))
+    	    		|| (TOURAPP_JNLP.equalsIgnoreCase(path))
+            		|| (TOURAPP.equalsIgnoreCase(path)))
+            {
+            	servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
+                dictionary.put("remotehost", "localhost");	// Default value
+            	httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
+            }
+            if (XML.equalsIgnoreCase(path))
+            {
+	            servlet = new org.jbundle.base.screen.control.servlet.xml.XMLServlet();
+	            dictionary.put("stylesheet-path", "docs/styles/xsl/ajax/base/");
+	            dictionary.put("remotehost", "localhost");
+	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
+            }
+            if ((XSL.equalsIgnoreCase(path)) 
+            	|| (XHTML.equalsIgnoreCase(path)))
+            {
+            	dictionary = null;
+	//          servlet = cocoon();
+	//          httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
+            }
+            if (JNLP_DOWNLOAD.equalsIgnoreCase(path))
+            {
+	//          servlet = jnlp.sample.servlet.JnlpDownloadServlet();
+	//          httpContext = new JnlpHttpContext(context.getBundle());
+	//          httpService.registerServlet(addURLPath(webContextPath, "*.jnlp"), servlet, dictionary, httpContext);
+            }
+            if (AJAX.equalsIgnoreCase(path))
+            {
+            	servlet = new org.jbundle.base.remote.proxy.AjaxServlet();
+            	dictionary.put("remotehost", "localhost");
+            	httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
+            }
+            if ((ROOT.equalsIgnoreCase(path)) 
+                	|| (INDEX.equalsIgnoreCase(path)))
+            {
+	            dictionary.put("regex", "www.+.tourgeek.com");
+	            dictionary.put("regexTarget", "demo/index.html");
+	            dictionary.put("ie", "tourappxsl");
+	            dictionary.put("firefox", "tourappxsl");
+	            dictionary.put("chrome", "tourappxsl");
+	            dictionary.put("safari", "tourappxsl");
+	            dictionary.put("webkit", "tourappxsl");
+	            dictionary.put("java", "tourappxhtml");
+	            servlet = new org.jbundle.util.webapp.redirect.RegexRedirectServlet();
+	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
+            }
+            if (MESSAGE.equalsIgnoreCase(path))
+            {
+	            servlet = new org.jbundle.base.message.trx.transport.html.MessageServlet();
+	            dictionary.put("remotehost", "localhost");
+	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
+            }
+            if (WS.equalsIgnoreCase(path))
+            {
+	//+            servlet = new org.jbundle.base.message.trx.transport.soap.MessageReceivingServlet();
+	//+            dictionary.put("remotehost", "localhost");
+	//+            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
+            }
+            if (XMLWS.equalsIgnoreCase(path))
+            {
+	            servlet = new org.jbundle.base.message.trx.transport.xml.XMLMessageReceivingServlet();
+	            dictionary.put("remotehost", "localhost");
+	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return httpService;
     }
     
     /**
@@ -163,8 +201,11 @@ public class HttpServiceTracker extends ServiceTracker{
      */
     public void removedService(ServiceReference reference, Object service) {
         HttpService httpService = (HttpService) service;
-        httpService.unregister(addURLPath(webContextPath, "/"));
-        httpService.unregister(addURLPath(webContextPath, "/tourapp"));
+    	for (String path : paths)
+    	{
+            String fullPath = addURLPath(webContextPath, path);
+            httpService.unregister(fullPath);
+    	}
         super.removedService(reference, service);
     }
     
