@@ -28,12 +28,12 @@
             <Import-Package>
                 *;resolution:=optional,
             <!-- Note: These are some of the possible classes that will be created by the ClassService
-              Remove them only after your have converted them to services -->
-            	org.jbundle.base.db.jdbc;resolution:=optional,      <!-- Class.createInstance() looks up bundle in obr -->
-                org.jbundle.main.schedule.app;resolution:=optional, <!-- Trx message listener creates JobSchedulerApp -->
-                org.jbundle.main.msg.process;resolution:=optional,     <!-- Process runner task creates MessageTimeoutProcess -->
+              Remove them only after your have converted them to services
+            	org.jbundle.base.db.jdbc;resolution:=optional,       Class.createInstance() looks up bundle in obr
+                org.jbundle.main.schedule.app;resolution:=optional,  Trx message listener creates JobSchedulerApp
+                org.jbundle.main.msg.process;resolution:=optional,      Process runner task creates MessageTimeoutProcess
                 org.jbundle.main.msg.app;resolution:=optional,
-                org.jbundle.base.field.event;resolution:=optional,
+                org.jbundle.base.field.event;resolution:=optional, -->
             </Import-Package>
             <Bundle-Activator>org.jbundle.thin.base.util.osgi.obr.ObrClassFinderImpl</Bundle-Activator>
             <!-- Embed-Dependency>*;scope=compile|runtime;groupId=org.jbundle.res|org.jbundle.thin|org.jbundle.base|mysql</Embed-Dependency>

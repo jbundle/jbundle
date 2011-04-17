@@ -25,7 +25,7 @@ public final class ClassFinderUtility extends BaseBundleService
     /**
 	 * Good from start to stop.
 	 */
-    static BundleContext gBundleContext = null;
+    static BundleContext bundleContext = null;
 
     static ClassFinder classFinder = null;
 
@@ -37,7 +37,7 @@ public final class ClassFinderUtility extends BaseBundleService
     {
         System.out.println("Starting and registering the ClassFinderUtility");
         
-        gBundleContext = context;
+        this.bundleContext = context;
 
         super.start(context);
     }
@@ -50,7 +50,7 @@ public final class ClassFinderUtility extends BaseBundleService
         
         super.stop(context);
 
-        gBundleContext = null;
+        this.bundleContext = null;
     }
     
     /**
@@ -60,13 +60,13 @@ public final class ClassFinderUtility extends BaseBundleService
      */
     public static ClassFinder getClassFinder()
     {
-    	if (classFinder == null)
+    	if ((classFinder == null) && (bundleContext != null))
     	{
 			try {
-				ServiceReference[] ref = gBundleContext.getServiceReferences(ClassFinder.class.getName(), null);
+				ServiceReference[] ref = bundleContext.getServiceReferences(ClassFinder.class.getName(), null);
 			
 				if ((ref != null) && (ref.length > 0))
-					classFinder =  (ClassFinder)gBundleContext.getService(ref[0]);
+					classFinder =  (ClassFinder)bundleContext.getService(ref[0]);
 			} catch (InvalidSyntaxException e) {
 				e.printStackTrace();
 			}
