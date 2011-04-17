@@ -287,27 +287,36 @@ public class ObrClassFinderImpl extends BaseClassFinder
         Requirement requirement = helper.requirement("package", filter2);
         Requirement[] requirements = { requirement };// repositoryAdmin
         Resource[] resources = repositoryAdmin.discoverResources(requirements);
-
+        this.deployResources(resources, options);
         if ((resources != null) && (resources.length > 0))
+        	return resources[0];
+        else
+        	return null;
+    }
+    public void deployResources(Resource[] resources, int options)
+    {
+        if (resources != null)
         {
-            Resource resource = resources[0];
+        	for (Resource resource : resources)
+        	{
+        		this.deployResource(resource, options);
+        	}
+        }
+    }
 
-            Resolver resolver = repositoryAdmin.resolver();
-            resolver.add(resource);
-            if (resolver.resolve(options))
-            {
-                resolver.deploy(options);
-
-                return resource;    // Success
-                
-            } else {
-                Reason[] reqs = resolver.getUnsatisfiedRequirements();
-                for (int i = 0; i < reqs.length; i++) {
-                    System.out.println("Unable to resolve: " + reqs[i]);
-                }
+    public void deployResource(Resource resource, int options)
+    {
+        Resolver resolver = repositoryAdmin.resolver();
+        resolver.add(resource);
+        if (resolver.resolve(options))
+        {
+            resolver.deploy(options);
+        } else {
+            Reason[] reqs = resolver.getUnsatisfiedRequirements();
+            for (int i = 0; i < reqs.length; i++) {
+                System.out.println("Unable to resolve: " + reqs[i]);
             }
         }
-        return null;   //Error
     }
     /**
      * Find the currently installed bundle that exports this package.

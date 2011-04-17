@@ -235,14 +235,13 @@ public class JdbcDatabase extends BaseDatabase
             if (m_datasourceFactory == null)
             {
                 String strClassName = this.getProperty(SQLParams.DATASOURCE_FACTORY);
-//                m_datasourceFactory = (DatasourceFactory)Utility.makeObjectFromClassName(Object.class.getName(), strClassName);
+            	strClassName = Utility.getFullClassName(strClassName);
                 try {
-                	strClassName = Utility.getFullClassName(strClassName);
              	    Class<?> c = Class.forName(strClassName);
              	    m_datasourceFactory = (DatasourceFactory)c.newInstance();
                 } catch (Exception e) {
-         		    Utility.getLogger().warning("Error on create class: " + strClassName);
-         		    e.printStackTrace();
+            		Utility.getLogger().warning("Error on create class: " + strClassName);
+            		e.printStackTrace();
                 }
             }
             if (m_datasourceFactory == null)
