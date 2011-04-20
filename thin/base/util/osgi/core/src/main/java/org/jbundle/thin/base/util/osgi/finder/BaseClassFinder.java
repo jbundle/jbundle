@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import org.jbundle.thin.base.util.osgi.bundle.BaseBundleService;
 import org.jbundle.thin.base.util.osgi.bundle.BundleService;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
@@ -399,5 +400,13 @@ public abstract class BaseClassFinder extends Object
      */
     public void shutdownService(Object service)
     {
+    	String dependentBaseBundleClassName = service.getClass().getName();
+    	BundleService bundleService = this.getClassBundleService(null, dependentBaseBundleClassName);
+    	try {
+			if (bundleService != null)
+				((BaseBundleService)bundleService).stop();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 }

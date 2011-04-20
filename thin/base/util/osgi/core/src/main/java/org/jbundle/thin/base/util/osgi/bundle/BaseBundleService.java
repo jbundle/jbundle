@@ -63,6 +63,12 @@ public class BaseBundleService extends Object
     /**
      * Bundle stopping.
      */
+    public void stop() throws Exception {
+    	this.stop(context);
+    }
+    /**
+     * Bundle stopping.
+     */
     public void stop(BundleContext context) throws Exception {
         System.out.println("Stopping BaseBundleService bundle");
 //        Automatically unregistered.
