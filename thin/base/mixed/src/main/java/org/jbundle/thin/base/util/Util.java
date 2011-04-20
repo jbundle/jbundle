@@ -620,7 +620,7 @@ public class Util extends Object
     * @return
     */
    public static boolean classServiceAvailable = true;
-   public static org.jbundle.thin.base.util.osgi.finder.ClassFinder getClassService()
+   public static org.jbundle.thin.base.util.osgi.finder.ClassFinder getClassFinder()
    {
 	   if (!classServiceAvailable)
 		   return null;
@@ -656,8 +656,8 @@ public class Util extends Object
        try {
 			clazz = Class.forName(className);
        } catch (ClassNotFoundException e) {
-		   if (Util.getClassService() != null)
-			   clazz = Util.getClassService().findClassBundle(className);	// Try to find this class in the obr repos
+		   if (Util.getClassFinder() != null)
+			   clazz = Util.getClassFinder().findClassBundle(className);	// Try to find this class in the obr repos
     	   if (clazz == null)
     	       Util.handleClassException(e, className, task, bErrorIfNotFound);
        }
@@ -694,8 +694,8 @@ public class Util extends Object
 
        if (url == null)
        {
-		   if (Util.getClassService() != null)
-			   url = Util.getClassService().findBundleResource(filepath);	// Try to find this class in the obr repos
+		   if (Util.getClassFinder() != null)
+			   url = Util.getClassFinder().findBundleResource(filepath);	// Try to find this class in the obr repos
 		   if (url == null)
 		       Util.handleClassException(null, filepath, task, bErrorIfNotFound);
        }
@@ -735,8 +735,8 @@ public class Util extends Object
 	   if (resourceBundle == null)
        {
 		   try {
-			   if (Util.getClassService() != null)
-				   resourceBundle = Util.getClassService().findResourceBundle(className, locale);	// Try to find this class in the obr repos
+			   if (Util.getClassFinder() != null)
+				   resourceBundle = Util.getClassFinder().findResourceBundle(className, locale);	// Try to find this class in the obr repos
 		   } catch (MissingResourceException e) {
 			   ex = e;
 		   }
@@ -765,14 +765,14 @@ public class Util extends Object
        try {
     	   object = Util.convertStringToObject(string);
        } catch (ClassNotFoundException e) {
-		   if (Util.getClassService() != null)
+		   if (Util.getClassFinder() != null)
 		   {
 			   String className = null;
 			   int startClass = e.getMessage().indexOf('\'') + 1;
 			   int endClass = e.getMessage().indexOf('\'', startClass);
 			   if (endClass != -1)
 				   className = e.getMessage().substring(startClass, endClass);
-			   object = Util.getClassService().findResourceConvertStringToObject(className, string);	// Try to find this class in the obr repos
+			   object = Util.getClassFinder().findResourceConvertStringToObject(className, string);	// Try to find this class in the obr repos
 		   }
     	   if (object == null)
     	       Util.handleClassException(e, null, task, bErrorIfNotFound);

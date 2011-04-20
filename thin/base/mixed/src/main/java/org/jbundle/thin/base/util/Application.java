@@ -450,8 +450,8 @@ public abstract class Application extends Object
                 }
                 if (iConnectionType == LOCAL_SERVICE)
                 {   // Use local OSGi service instead of RMI
-                	if (Util.getClassService() != null)
-                		appServer = (ApplicationServer)Util.getClassService().getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator");
+                	if (Util.getClassFinder() != null)
+                		appServer = (ApplicationServer)Util.getClassFinder().getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator");
                 }
                 remoteTask = appServer.createRemoteTask(properties);
                 m_mainRemoteTask = remoteTask;
