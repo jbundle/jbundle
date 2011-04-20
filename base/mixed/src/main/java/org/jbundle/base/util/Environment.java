@@ -19,6 +19,7 @@ import org.jbundle.main.msg.app.MessageInfoApplication;
 import org.jbundle.model.App;
 import org.jbundle.model.Env;
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.Service;
 import org.jbundle.thin.base.db.ThinPhysicalDatabaseParent;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.message.BaseMessageManager;
@@ -37,7 +38,7 @@ import org.jbundle.thin.base.util.Util;
  * @author    Don Corley
  */
 public class Environment extends Object
-    implements Env
+    implements Env, Service
 {
     /**
      * The default database type for local files.
@@ -143,6 +144,8 @@ public class Environment extends Object
         
         if (gEnv == this)
         	gEnv = null;
+        
+        Util.shutdownService(this);	// Careful of circular calls
     }
     /**
      * Free this environment if you don't have any more user applications.
