@@ -25,7 +25,7 @@ public class JdbcBundleService extends BaseBundleService
         System.out.println("Starting Jdbc bundle");
         
         this.setProperty(BundleService.PACKAGE_NAME, Util.getPackageName(JdbcDatabase.class.getName()));
-        this.setProperty(BundleService.INTERFACE, BaseDatabase.class.getName());
+        //x this.setProperty(BundleService.INTERFACE, BaseDatabase.class.getName());
         this.setProperty(BundleService.TYPE, DBParams.JDBC);
         
         super.start(context);

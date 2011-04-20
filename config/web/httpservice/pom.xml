@@ -203,6 +203,11 @@
 	      <version>0.7.7-SNAPSHOT</version>
 	    </dependency>
 	    
+	    <dependency>
+		  <groupId>org.jbundle.config.other</groupId>
+		  <artifactId>org.jbundle.other.uk.org.pajhome.crypt.sha1</artifactId>
+		  <version>${project.version}</version>
+	    </dependency>
 	</dependencies>
 
 </project>

@@ -11,19 +11,19 @@ import org.osgi.framework.BundleContext;
  * @author don
  *
  */
-class BunderStarter extends Thread
+public class BundleStarter extends Thread
 {
 	BundleContext bundleContext = null;
 	String dependentBaseBundleClassName = null;
 	
-	public BunderStarter(BaseBundleService bundleService, BundleContext bundleContext, String dependentBaseBundleClassName)
+	public BundleStarter(BaseBundleService bundleService, BundleContext bundleContext, String dependentBaseBundleClassName)
 	{
 		this.bundleContext = bundleContext;
 		this.dependentBaseBundleClassName = dependentBaseBundleClassName;
 	}
 	public void run()
 	{
-		BaseClassFinder classFinder = (BaseClassFinder)ClassFinderUtility.getClassFinder();
+		BaseClassFinder classFinder = (BaseClassFinder)ClassFinderUtility.getClassFinder(bundleContext, true);
 		classFinder.startBaseBundle(bundleContext, dependentBaseBundleClassName);
 	}
 }

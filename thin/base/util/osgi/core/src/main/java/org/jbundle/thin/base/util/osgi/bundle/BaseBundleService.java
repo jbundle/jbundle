@@ -153,13 +153,13 @@ public class BaseBundleService extends Object
      */
     public boolean checkDependentServicesAndStartup(BundleContext bundleContext, String dependentBaseBundleClassName)
     {
-    	BaseBundleService bundleService = (BaseBundleService)ClassFinderUtility.getClassFinder().getClassBundleService(null, dependentBaseBundleClassName);
+    	BaseBundleService bundleService = (BaseBundleService)ClassFinderUtility.getClassFinder(bundleContext, true).getClassBundleService(null, dependentBaseBundleClassName);
     	if (bundleService != null)
     		return this.startupThisService(bundleService);	// TODO - Synchronization issue
     	// Service has not started, so I need to start it and then listen
 		try {
 			bundleContext.addServiceListener(new BundleServiceDependentListener(this, bundleContext), /*"(&" +*/ "(objectClass=" + dependentBaseBundleClassName + ")");	// This will call startupThisService once the service is up
-	    	new BunderStarter(this, bundleContext, dependentBaseBundleClassName).start();
+	    	new BundleStarter(this, bundleContext, dependentBaseBundleClassName).start();
 		} catch (InvalidSyntaxException e) {
 			e.printStackTrace();
 		}

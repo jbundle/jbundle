@@ -199,8 +199,9 @@ public class ObrClassFinderImpl extends BaseClassFinder
 			waitingForClassService = true;
 			// TODO Minor synchronization issue here
 			Thread thread = Thread.currentThread();
+			ClassFinderUtilityListener classFinderListener = null;
 			try {
-				bundleContext.addServiceListener(new ClassFinderUtilityListener(thread, bundleContext), "(" + Constants.OBJECTCLASS + "=" + ClassFinderUtility.class.getName() + ")");
+				bundleContext.addServiceListener(classFinderListener = new ClassFinderUtilityListener(thread, bundleContext), "(" + Constants.OBJECTCLASS + "=" + ClassFinderUtility.class.getName() + ")");
 			} catch (InvalidSyntaxException e) {
 				e.printStackTrace();
 			}
@@ -214,6 +215,7 @@ public class ObrClassFinderImpl extends BaseClassFinder
 					ex.printStackTrace();
 				}
 			}
+			bundleContext.removeServiceListener(classFinderListener);
 			waitingForClassService = false;
 			
 			try {

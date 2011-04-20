@@ -47,7 +47,6 @@ import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.remote.RemoteTable;
-import org.jbundle.thin.base.util.osgi.finder.ClassFinderUtility;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
@@ -627,7 +626,7 @@ public class Util extends Object
 		   return null;
 	   try {
 		   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-		   return (org.jbundle.thin.base.util.osgi.finder.ClassFinder)ClassFinderUtility.getClassFinder();
+		   return (org.jbundle.thin.base.util.osgi.finder.ClassFinder)org.jbundle.thin.base.util.osgi.finder.ClassFinderUtility.getClassFinder(null, true);
        } catch (Exception ex) {
 		   classServiceAvailable = false;
     	   return null;	// Osgi is not installed

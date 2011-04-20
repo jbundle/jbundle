@@ -3,8 +3,11 @@ package org.jbundle.thin.base.util.osgi.finder;
 import java.io.File;
 
 import org.jbundle.thin.base.util.osgi.bundle.BaseBundleService;
+import org.jbundle.thin.base.util.osgi.bundle.BundleServiceDependentListener;
+import org.jbundle.thin.base.util.osgi.bundle.BundleStarter;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 
@@ -37,7 +40,7 @@ public final class ClassFinderUtility extends BaseBundleService
     {
         System.out.println("Starting and registering the ClassFinderUtility");
         
-        this.bundleContext = context;
+        bundleContext = context;
 
         super.start(context);
     }
@@ -50,16 +53,28 @@ public final class ClassFinderUtility extends BaseBundleService
         
         super.stop(context);
 
-        this.bundleContext = null;
+        bundleContext = null;
     }
     
     /**
      * Find this class's class access registered class access service in the current workspace.
+     * @param waitForStart TODO
      * @param className
      * @return
      */
-    public static ClassFinder getClassFinder()
+    public static ClassFinder getClassFinder(Object context, boolean waitForStart)
     {
+    	if ((bundleContext == null) && (context != null))
+    	{	// This bundle was never started, so start it!
+    		bundleContext = (BundleContext)context;
+    		try {
+    			String dependentBaseBundleClassName = ClassFinderUtility.class.getName();
+    			bundleContext.addServiceListener(new BundleServiceDependentListener(null, bundleContext), /*"(&" +*/ "(objectClass=" + dependentBaseBundleClassName + ")");	// This will call startupThisService once the service is up
+    	    	new BundleStarter(null, bundleContext, dependentBaseBundleClassName).start();
+    		} catch (InvalidSyntaxException e) {
+    			e.printStackTrace();
+    		}
+    	}
     	if ((classFinder == null) && (bundleContext != null))
     	{
 			try {
@@ -71,7 +86,10 @@ public final class ClassFinderUtility extends BaseBundleService
 				e.printStackTrace();
 			}
     	}
-		
+		if (classFinder == null)
+			if (waitForStart)
+				classFinder = (ClassFinder)ClassFinderUtility.waitForBundleStartup(bundleContext, ClassFinder.class.getName());
+
 		return classFinder;
     }
     /**
@@ -107,4 +125,50 @@ public final class ClassFinderUtility extends BaseBundleService
         return packageName;
     }
     public static final String PROPERTIES = ".properties";
+    /**
+     * Wait for bundle class name.
+     * @param context
+     * @param bundleClassName
+     * @return
+     */
+    static boolean waitingForClassFinder = false;
+    public static BundleActivator waitForBundleStartup(BundleContext context, String bundleClassName)
+    {
+    	BundleActivator bundleActivator = null;
+		waitingForClassFinder = true;
+		// TODO Minor synchronization issue here
+		Thread thread = Thread.currentThread();
+		ClassFinderListener classFinderListener = null;
+		try {
+			context.addServiceListener(classFinderListener = new ClassFinderListener(thread, bundleContext), "(" + Constants.OBJECTCLASS + "=" + bundleClassName + ")");
+		} catch (InvalidSyntaxException e) {
+			e.printStackTrace();
+		}
+
+		// Wait a minute for the ClassService to come up while the activator starts this service
+		synchronized (thread)
+		{
+			try {
+				thread.wait(60000);
+			} catch (InterruptedException ex) {
+				ex.printStackTrace();
+			}
+		}
+		context.removeServiceListener(classFinderListener);
+		waitingForClassFinder = false;
+		
+		try {
+			ServiceReference[] ref = context.getServiceReferences(bundleClassName, null);
+		
+			if ((ref != null) && (ref.length > 0))
+				bundleActivator =  (BundleActivator)context.getService(ref[0]);
+		} catch (InvalidSyntaxException e) {
+			e.printStackTrace();
+		}
+
+		if (bundleActivator == null)
+			System.out.println("The " + bundleClassName + " never started - make sure you start it!");
+		
+		return bundleActivator;
+    }
 }
