@@ -43,6 +43,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.Service;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
@@ -643,7 +644,7 @@ public class Util extends Object
    }
    /**
     * Create this object given the class name.
- * @param className
+    * @param className
     * @return
     */
    public static Object makeObjectFromClassName(String className, Task task, boolean bErrorIfNotFound)
@@ -674,6 +675,15 @@ public class Util extends Object
 	       Util.handleClassException(e, className, task, bErrorIfNotFound);
        }
        return object;
+   }
+   /**
+    * Shutdown the bundle for this service.
+    * @param service The service object
+    */
+   public static void shutdownService(Object service)
+   {
+	   if (Util.getClassFinder() != null)
+		   Util.getClassFinder().shutdownService(service);	// Shutdown the bundle for this service
    }
    /**
     * Create this object given the class name.

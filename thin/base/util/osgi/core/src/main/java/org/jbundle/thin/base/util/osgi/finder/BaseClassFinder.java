@@ -393,4 +393,11 @@ public abstract class BaseClassFinder extends Object
         }
         return false;	// Error! Where is my bundle?
     }
+    /**
+     * Shutdown the bundle for this service.
+     * @param service The service object
+     */
+    public void shutdownService(Object service)
+    {
+    }
 }

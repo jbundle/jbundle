@@ -46,4 +46,9 @@ public interface ClassFinder {
      * @return
      */
     public BundleService getClassBundleService(String interfaceName, String className);
+    /**
+     * Shutdown the bundle for this service.
+     * @param service The service object
+     */
+    public void shutdownService(Object service);
 }
