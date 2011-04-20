@@ -74,7 +74,7 @@ public class RemoteSessionActivator extends BaseBundleService
             if (server != null)
             	server.shutdown();
             server = null;
-        }        
+        }
     }
     /**
      * Start this service.

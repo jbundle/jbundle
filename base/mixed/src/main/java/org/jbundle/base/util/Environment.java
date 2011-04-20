@@ -304,6 +304,8 @@ Utility.getLogger().info("removeApp: " + application);
      */
     public int getApplicationCount()
     {
+    	if (m_vApplication == null)
+    		return 0;
         return m_vApplication.size();
     }
     /**

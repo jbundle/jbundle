@@ -44,7 +44,7 @@ public class StandaloneProcessRunnerProcess extends BaseProcess
         MainApplication app = new MainApplication(env, properties, null);
         ProcessRunnerTask task = new ProcessRunnerTask(app, null, properties);
         task.run();	// Since I already have a processor thread (Note: This method will free when done)
-        env.free();
+        env.freeIfDone();
     }
     /**
      * 

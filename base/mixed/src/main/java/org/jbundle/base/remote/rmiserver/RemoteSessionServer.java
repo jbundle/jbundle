@@ -244,11 +244,11 @@ public class RemoteSessionServer extends UnicastRemoteObject
     public void shutdown()
     {
         Environment env = m_app.getEnvironment();
-        if (env.getApplicationCount() > 1)
-        {
-            Utility.getLogger().warning("Active sessions being freed.");
-        }
-        env.free();
+        if (m_app != null)
+        	m_app.free();
+        m_app = null;
+        if (env != null)
+        	env.freeIfDone();
 //x        System.exit(0);
     }
 }

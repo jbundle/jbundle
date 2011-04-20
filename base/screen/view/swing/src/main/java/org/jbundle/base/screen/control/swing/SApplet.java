@@ -194,9 +194,9 @@ public class SApplet extends BaseApplet
         Environment env = ((BaseApplication)this.getApplication()).getEnvironment();
         if (env == null)
             env = Environment.getEnvironment(null);
-        env.free();
-        if (gbStandAlone)
-        	System.exit(0); // If standalone (don't call if applet in browser)
+        env.freeIfDone();
+//        if (gbStandAlone)
+//        	System.exit(0); // If standalone (don't call if applet in browser)
     }
     /**
      * Call free for all the Freeable sub-components of the target container.
