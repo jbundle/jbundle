@@ -23,6 +23,7 @@ import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.Service;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.comp.JTiledImage;
@@ -35,6 +36,7 @@ import org.jbundle.thin.base.util.Util;
  * SApplet Class.
  */
 public class SApplet extends BaseApplet
+	implements Service
 {
 	private static final long serialVersionUID = 1L;
 
@@ -185,16 +187,18 @@ public class SApplet extends BaseApplet
             m_screenField = null;
         }
         super.free();
+        Util.shutdownService(this);	// Careful of circular calls
     }
     /**
      * This application is done, stop the application.
      */
     public void quit()
     {
-        Environment env = ((BaseApplication)this.getApplication()).getEnvironment();
-        if (env == null)
-            env = Environment.getEnvironment(null);
-        env.freeIfDone();
+        Environment env = null;
+        if (this.getApplication() != null)
+        	env = ((BaseApplication)this.getApplication()).getEnvironment();
+        if (env != null)
+        	env.freeIfDone();
 //        if (gbStandAlone)
 //        	System.exit(0); // If standalone (don't call if applet in browser)
     }

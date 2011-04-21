@@ -29,6 +29,7 @@ import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.Util;
 
+import org.jbundle.model.Service;
 
 /** 
  * RmiSessionServer - The remote server.
@@ -41,7 +42,7 @@ import org.jbundle.thin.base.util.Util;
  * @version 1.0.0
  */
 public class RemoteSessionServer extends UnicastRemoteObject
-    implements ApplicationServer
+    implements ApplicationServer, Service
 {
     private static final long serialVersionUID = 1L;
 
@@ -247,6 +248,7 @@ public class RemoteSessionServer extends UnicastRemoteObject
         if (m_app != null)
         	m_app.free();
         m_app = null;
+        Util.shutdownService(this);
         if (env != null)
         	env.freeIfDone();
 //x        System.exit(0);

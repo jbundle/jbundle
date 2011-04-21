@@ -235,17 +235,23 @@ public class BaseApplet extends JApplet
      */
     public void free()
     {
-        if (BaseApplet.getSharedInstance().getApplet() == null) if (this.getParent() != null)
-            this.getParent().remove(this);      // Remove from frame
+        if (BaseApplet.getSharedInstance() != null)
+        	if (BaseApplet.getSharedInstance().getApplet() == null)
+        		if (this.getParent() != null)
+        			this.getParent().remove(this);      // Remove from frame
         if (this.getHelpView() != null)
         	this.getHelpView().free();
         this.freeSubComponents(this); // Free all the sub-screens.
     	if (m_recordOwnerCollection != null)
     		m_recordOwnerCollection.free();
     	m_recordOwnerCollection = null;
-        boolean bEmptyTaskList = m_application.removeTask(this);  // Remove this session from the list
+        boolean bEmptyTaskList = true;
+        if (m_application != null)
+        	m_application.removeTask(this);  // Remove this session from the list
         if (bEmptyTaskList)
             this.quit();
+        if (Application.getRootApplet() == this)
+        	Application.setRootApplet(null);
         if (BaseApplet.getSharedInstance() == this)
         {
         	if (m_application.getTaskList() != null)
@@ -265,8 +271,8 @@ public class BaseApplet extends JApplet
     public void quit()
     {
         m_application.free();   // No more frames -> Quit java!
-        if (gbStandAlone)
-        	System.exit(0);
+        //if (gbStandAlone)
+        //	System.exit(0);
     }
     /**
      * For Stand-alone initialization.

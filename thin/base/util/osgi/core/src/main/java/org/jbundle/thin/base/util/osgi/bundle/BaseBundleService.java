@@ -9,7 +9,6 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 
 import org.jbundle.thin.base.util.osgi.finder.ClassFinderUtility;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
@@ -61,17 +60,6 @@ public class BaseBundleService extends Object
 		
         serviceRegistration = context.registerService(objectClass, this, properties);
     }    
-    /**
-     * Bundle stopping.
-     */
-    public void stop() throws Exception {
-    	if (context != null)
-    	{
-    		Bundle bundle = context.getBundle();
-    		if (bundle.getState() == Bundle.ACTIVE)
-    			bundle.stop();
-    	}
-    }
     /**
      * Bundle stopping.
      */

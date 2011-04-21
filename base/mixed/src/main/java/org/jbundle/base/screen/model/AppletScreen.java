@@ -74,7 +74,10 @@ public class AppletScreen extends TopScreen
      */
     public void free()
     {
+    	BasePanel parentScreen = this.getParentScreen();
         super.free();
+        if (parentScreen instanceof FrameScreen)
+        	parentScreen.free();	// Make sure I remove my frame
     }
     /**
      * Add the toolbars (not usually used for AppletScreens).

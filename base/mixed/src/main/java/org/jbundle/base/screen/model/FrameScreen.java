@@ -54,9 +54,14 @@ public class FrameScreen extends BasePanel
     /**
      * Free this control's resources.
      */
+    boolean freeing = false;
     public void free()
     {
-        super.free();
+    	if (!freeing)
+    	{	// Only call this once (since my child (AppletScreen) tries to free me.
+    		freeing = true;
+    		super.free();
+    	}
     }
     /**
      * Add toolbars.

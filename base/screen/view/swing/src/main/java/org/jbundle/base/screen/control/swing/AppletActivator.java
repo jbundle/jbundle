@@ -9,6 +9,9 @@ package org.jbundle.base.screen.control.swing;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.jbundle.model.BaseAppletReference;
+import org.jbundle.model.Task;
+import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.Util;
 import org.jbundle.thin.base.util.osgi.bundle.BaseBundleService;
 import org.osgi.framework.BundleContext;
@@ -16,7 +19,7 @@ import org.osgi.framework.ServiceEvent;
 
 public class AppletActivator extends BaseBundleService
 {
-	protected SApplet applet = null;
+	protected BaseAppletReference applet = null;
 	
     String[] args = {"linux-laptop:8080/"};	// TODO(don) Fix this
 
@@ -48,6 +51,7 @@ public class AppletActivator extends BaseBundleService
 
     	        //?server = new SApplet(args);
     	        SApplet.main(args);
+    	        applet = Application.getRootApplet();
 
 //?    	        Environment env = new Environment(propertiesTemp);
     	        // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
@@ -56,7 +60,12 @@ public class AppletActivator extends BaseBundleService
         if (event.getType() == ServiceEvent.UNREGISTERING)
         {
             if (applet != null)
-            	applet.free();
+            {
+            	if (((Task)(applet)).getApplication() != null)
+            		((Task)(applet)).getApplication().free();
+            	else
+            		applet.free();
+            }
             applet = null;
         }        
     }

@@ -2,7 +2,7 @@ package org.jbundle.model;
 
 import java.net.URL;
 
-public interface BaseAppletReference {
+public interface BaseAppletReference extends Freeable {
     /**
      * Initializes the applet.  You never need to call this directly; it is
      * called automatically by the system once the applet is created.
