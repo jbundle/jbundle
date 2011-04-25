@@ -135,7 +135,8 @@ public class ServletTask extends BaseHttpTask
             m_application = this.changeCookie((ServletApplication)m_application, req, res);
         }
 
-        servlet.setContentType(res);
+        if (res != null)
+        	servlet.setContentType(res);
         PrintWriter out = outExt;
         if (screen == null)
         {

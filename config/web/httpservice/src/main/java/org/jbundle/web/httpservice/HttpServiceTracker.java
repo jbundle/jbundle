@@ -79,8 +79,8 @@ public class HttpServiceTracker extends ServiceTracker{
     	    TOURAPP_AJAX,
     	    TOURAPP_JNLP,
     	    TOURAPP,
-//    	    XML,
-//    	    XSL,
+    	    XML,
+    	    XSL,
     	    XHTML,
 //    	    JNLP_DOWNLOAD,
     	    MESSAGE,
@@ -143,8 +143,8 @@ public class HttpServiceTracker extends ServiceTracker{
             	|| (XHTML.equalsIgnoreCase(path)))
             {
             	dictionary = null;
-	//          servlet = cocoon();
-	//          httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
+	            servlet = new org.jbundle.base.screen.control.xslservlet.XSLServlet();
+	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
             if (JNLP_DOWNLOAD.equalsIgnoreCase(path))
             {

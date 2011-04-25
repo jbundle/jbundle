@@ -196,6 +196,11 @@
 			<groupId>org.codehaus.mojo.webstart</groupId> <!-- Hopefully this will become available from java.net -->
 			<artifactId>webstart-jnlp-servlet</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.jbundle.base.screen</groupId>
+			<artifactId>org.jbundle.base.screen.control.xslservlet</artifactId>
+			<version>0.7.7-SNAPSHOT</version>
+		</dependency>
 
 	    <dependency>
 	      <groupId>org.jbundle.thin.base</groupId>
