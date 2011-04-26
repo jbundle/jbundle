@@ -35,7 +35,7 @@ import org.jbundle.thin.base.db.FieldList;
  *  menu - Display this menu page
  * </pre>
  */
-public interface BasicServlet
+public interface BasicServlet extends javax.servlet.Servlet
 {
     /**
      * Set the content type for this type of servlet.

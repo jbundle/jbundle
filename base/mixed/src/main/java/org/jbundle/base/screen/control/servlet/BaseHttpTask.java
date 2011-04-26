@@ -127,6 +127,7 @@ public class BaseHttpTask extends Object
         m_servlet = servlet;
         m_servletType = servletType;
         m_recordOwnerCollection = new RecordOwnerCollection(this);
+        m_properties = BaseHttpTask.getInitialProperties(servlet, servletType);
     }
     /**
      * Is this task shared between all sessions on this server?
@@ -150,20 +151,16 @@ public class BaseHttpTask extends Object
     /**
      * init method.
      */
-    public static void initServlet(javax.servlet.GenericServlet servlet, SERVLET_TYPE servletType)
+    public static Map<String,Object> getInitialProperties(javax.servlet.Servlet servlet, SERVLET_TYPE servletType)
     {
         Map<String,Object> properties = new Hashtable<String,Object>();
-        Enumeration<?> enumeration = servlet.getInitParameterNames();
+        Enumeration<?> enumeration = servlet.getServletConfig().getInitParameterNames();
         while (enumeration.hasMoreElements())
         {
             String strParamName = (String)enumeration.nextElement();
-            String strValue = servlet.getInitParameter(strParamName);
+            String strValue = servlet.getServletConfig().getInitParameter(strParamName);
             properties.put(strParamName, strValue);
         }
-        // Since this is called only once, make sure the logger is the servlet's logger.
-        Utility.setLogger(Logger.getLogger(DBConstants.ROOT_PACKAGE.substring(0, DBConstants.ROOT_PACKAGE.length() - 1)));
-
-        Utility.getLogger().info("ServletTask init()");
 
         properties.put(DBParams.SERVLET, DBConstants.TRUE); // Flag - yes this is a servlet
         if (properties.get(DBParams.FREEIFDONE) == null)
@@ -174,6 +171,20 @@ public class BaseHttpTask extends Object
             properties.put(DBParams.REMOTE, DBParams.JDBC);
         if (properties.get(DBParams.TABLE) == null)
             properties.put(DBParams.TABLE, DBParams.JDBC);
+        
+        return properties;
+    }
+    /**
+     * init method.
+     */
+    public static void initServlet(javax.servlet.Servlet servlet, SERVLET_TYPE servletType)
+    {
+        Map<String,Object> properties = BaseHttpTask.getInitialProperties(servlet, servletType);
+
+        // Since this is called only once, make sure the logger is the servlet's logger.
+        Utility.setLogger(Logger.getLogger(DBConstants.ROOT_PACKAGE.substring(0, DBConstants.ROOT_PACKAGE.length() - 1)));
+
+        Utility.getLogger().info("ServletTask init()");
 
         Environment env = Environment.getEnvironment(properties);  // Make sure environment is inited
         if (env.getDefaultApplication() == null)        // First time?

@@ -7,11 +7,12 @@ package org.jbundle.base.screen.control.xslservlet;
  *      don@tourgeek.com
  */
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URL;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -29,6 +30,10 @@ import javax.xml.transform.stream.StreamSource;
 import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
+import org.jbundle.base.screen.model.BaseScreen;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.util.Application;
+import org.jbundle.thin.base.util.Util;
 
 
 /**
@@ -79,12 +84,15 @@ public class XSLServlet extends XMLServlet
         throws ServletException, IOException
     {
     	//String sourceFileName = req.getParameter("source");
-    	
+
+    	String stylesheet = null;
+    	ServletTask servletTask = null;
+    	StreamSource streamTransformer = null;
     	
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
         try   {
-            ServletTask servletTask = new ServletTask(this, SERVLET_TYPE.COCOON);
+            servletTask = new ServletTask(this, SERVLET_TYPE.COCOON);
 /*            if (m_bFirstTime)
             {
                 Map<String,Object> properties = servletTask.getApplicationProperties(true);
@@ -96,7 +104,41 @@ public class XSLServlet extends XMLServlet
                 }
                 m_bFirstTime = false;
             }
-*/            servletTask.doProcess(this, req, null, writer);
+*/            // servletTask.doProcess(this, req, null, writer);
+BaseScreen screen = servletTask.doProcessInput(this, req, null);
+
+if (screen != null)
+	if (screen.getScreenFieldView() != null)
+		stylesheet = screen.getScreenFieldView().getStylesheetPath();
+if (stylesheet == null)
+	stylesheet = req.getParameter("stylesheet");
+if (stylesheet == null)
+	stylesheet = "/home/don/workspace/workspace/jbundle/jbundle/res/docs/src/main/resources/org/jbundle/res/docs/styles/xsl/flat/base/menus-ajax.xsl";
+stylesheet = Util.getFullFilename(stylesheet, null, Constants.DOC_LOCATION);
+URL stylesheetURL = null;
+Application app = servletTask.getApplication();
+if (app != null)
+    stylesheetURL = app.getResourceURL(stylesheet, null);
+else
+    stylesheetURL = this.getClass().getClassLoader().getResource(stylesheet);
+if (stylesheetURL == null)
+{
+	if (stylesheet.indexOf(':') == -1)
+		stylesheet = "file:" + stylesheet;
+	stylesheetURL = new URL(stylesheet);
+}
+
+if (stylesheetURL != null)
+{
+    try {
+        InputStream is = stylesheetURL.openStream();
+        streamTransformer = new StreamSource(is);
+    } catch (IOException ex)    {
+    	streamTransformer = null;
+    }
+}
+
+servletTask.doProcessOutput(this, req, null, writer, screen);
             servletTask.free();
         } catch (ServletException ex) {
         } // Never
@@ -106,14 +148,13 @@ public class XSLServlet extends XMLServlet
 //          "<?xml-stylesheet type=\"text/xsl\" href=\"docs/styles/help.xsl\"?>" +
 //          "<?cocoon-process type=\"xslt\"?>" +
                 stringWriter.toString();
-        writer.close();	// Doesn't do anything.
-        StringReader sourceFileReader =  new StringReader(string);
-    	
-    	
-    	String styleSheetFileName = req.getParameter("stylesheet");
-    	styleSheetFileName = "/home/don/workspace/workspace/jbundle/jbundle/res/docs/src/main/resources/org/jbundle/res/docs/styles/xsl/flat/base/menus-ajax.xsl";
+        writer.close();	// Doesn't do anything.        
+        
+        
+        StringReader sourceFileReader = new StringReader(string);
+
     	//FileReader sourceFileReader = new FileReader(sourceFileName);
-    	FileReader stylesheetFileReader = new FileReader(styleSheetFileName);
+//    	FileReader stylesheetFileReader = new FileReader(stylesheet);
     	
     	ServletOutputStream outStream = res.getOutputStream();
     	
@@ -123,7 +164,7 @@ public class XSLServlet extends XMLServlet
             Result result = new StreamResult(outStream);
 
             TransformerFactory tFact = TransformerFactory.newInstance();
-            StreamSource streamTransformer = new StreamSource(stylesheetFileReader);
+//            StreamSource streamTransformer = new StreamSource(stylesheetFileReader);
             
             Transformer transformer = tFact.newTransformer(streamTransformer);
 

@@ -104,6 +104,17 @@ public class ServletTask extends BaseHttpTask
     public void doProcess(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res, PrintWriter outExt) 
         throws ServletException, IOException
     {
+    	BaseScreen screen = this.doProcessInput(servlet, req, res);
+    	this.doProcessOutput(servlet, req, res, outExt, screen);
+    }
+    /**
+     * Process an HTML get or post.
+     * @exception ServletException From inherited class.
+     * @exception IOException From inherited class.
+     */
+    public BaseScreen doProcessInput(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res) 
+        throws ServletException, IOException
+    {
         this.parseArgs(req);    // Parameters are now available to all children of this Task.
 
         // First see if this is an active session
@@ -137,6 +148,17 @@ public class ServletTask extends BaseHttpTask
 
         if (res != null)
         	servlet.setContentType(res);
+        
+        return screen;
+    }
+    /**
+     * Process an HTML get or post.
+     * @exception ServletException From inherited class.
+     * @exception IOException From inherited class.
+     */
+    public void doProcessOutput(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res, PrintWriter outExt, BaseScreen screen) 
+        throws ServletException, IOException
+    {
         PrintWriter out = outExt;
         if (screen == null)
         {

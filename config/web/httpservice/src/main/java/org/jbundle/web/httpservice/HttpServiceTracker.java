@@ -142,8 +142,8 @@ public class HttpServiceTracker extends ServiceTracker{
             if ((XSL.equalsIgnoreCase(path)) 
             	|| (XHTML.equalsIgnoreCase(path)))
             {
-            	dictionary = null;
 	            servlet = new org.jbundle.base.screen.control.xslservlet.XSLServlet();
+	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since stylesheets are in resources
 	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
             if (JNLP_DOWNLOAD.equalsIgnoreCase(path))
