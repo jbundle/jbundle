@@ -93,87 +93,60 @@ public class XSLServlet extends XMLServlet
         PrintWriter writer = new PrintWriter(stringWriter);
         try   {
             servletTask = new ServletTask(this, SERVLET_TYPE.COCOON);
-/*            if (m_bFirstTime)
-            {
-                Map<String,Object> properties = servletTask.getApplicationProperties(true);
-                if (properties.get(DBParams.DOMAIN) == null)
-                {   // TODO(don) Is this necessary?
-                    String strDomain = Utility.getDomainFromURL(ServletTask.getParam(request, DBParams.URL), null);
-                    if (strDomain != null)
-                        properties.put(DBParams.DOMAIN, strDomain);
-                }
-                m_bFirstTime = false;
-            }
-*/            // servletTask.doProcess(this, req, null, writer);
-BaseScreen screen = servletTask.doProcessInput(this, req, null);
-
-if (screen != null)
-	if (screen.getScreenFieldView() != null)
-		stylesheet = screen.getScreenFieldView().getStylesheetPath();
-if (stylesheet == null)
-	stylesheet = req.getParameter("stylesheet");
-if (stylesheet == null)
-	stylesheet = "/home/don/workspace/workspace/jbundle/jbundle/res/docs/src/main/resources/org/jbundle/res/docs/styles/xsl/flat/base/menus-ajax.xsl";
-stylesheet = Util.getFullFilename(stylesheet, null, Constants.DOC_LOCATION);
-URL stylesheetURL = null;
-Application app = servletTask.getApplication();
-if (app != null)
-    stylesheetURL = app.getResourceURL(stylesheet, null);
-else
-    stylesheetURL = this.getClass().getClassLoader().getResource(stylesheet);
-if (stylesheetURL == null)
-{
-	if (stylesheet.indexOf(':') == -1)
-		stylesheet = "file:" + stylesheet;
-	stylesheetURL = new URL(stylesheet);
-}
-
-if (stylesheetURL != null)
-{
-    try {
-        InputStream is = stylesheetURL.openStream();
-        streamTransformer = new StreamSource(is);
-    } catch (IOException ex)    {
-    	streamTransformer = null;
-    }
-}
-
-servletTask.doProcessOutput(this, req, null, writer, screen);
-            servletTask.free();
-        } catch (ServletException ex) {
-        } // Never
-        writer.flush();
-        String string =
-//          "<?xml version=\"1.0\"?>" +
-//          "<?xml-stylesheet type=\"text/xsl\" href=\"docs/styles/help.xsl\"?>" +
-//          "<?cocoon-process type=\"xslt\"?>" +
-                stringWriter.toString();
-        writer.close();	// Doesn't do anything.        
-        
-        
-        StringReader sourceFileReader = new StringReader(string);
-
-    	//FileReader sourceFileReader = new FileReader(sourceFileName);
-//    	FileReader stylesheetFileReader = new FileReader(stylesheet);
-    	
-    	ServletOutputStream outStream = res.getOutputStream();
-    	
-        try {
-            StreamSource source = new StreamSource(sourceFileReader);
-
+			BaseScreen screen = servletTask.doProcessInput(this, req, null);
+			
+			if (screen != null)
+				if (screen.getScreenFieldView() != null)
+					stylesheet = screen.getScreenFieldView().getStylesheetPath();
+			if (stylesheet == null)
+				stylesheet = req.getParameter("stylesheet");
+			if (stylesheet == null)
+				stylesheet = "/home/don/workspace/workspace/jbundle/jbundle/res/docs/src/main/resources/org/jbundle/res/docs/styles/xsl/flat/base/menus-ajax.xsl";
+			stylesheet = Util.getFullFilename(stylesheet, null, Constants.DOC_LOCATION);
+			URL stylesheetURL = null;
+			Application app = servletTask.getApplication();
+			if (app != null)
+			    stylesheetURL = app.getResourceURL(stylesheet, null);
+			else
+			    stylesheetURL = this.getClass().getClassLoader().getResource(stylesheet);
+			if (stylesheetURL == null)
+			{
+				if (stylesheet.indexOf(':') == -1)
+					stylesheet = "file:" + stylesheet;
+				stylesheetURL = new URL(stylesheet);
+			}
+			
+			if (stylesheetURL != null)
+			{
+			    try {
+			        InputStream is = stylesheetURL.openStream();
+			        streamTransformer = new StreamSource(is);
+			    } catch (IOException ex)    {
+			    	streamTransformer = null;
+			    }
+			}
+			
+	    	ServletOutputStream outStream = res.getOutputStream();
             Result result = new StreamResult(outStream);
 
             TransformerFactory tFact = TransformerFactory.newInstance();
-//            StreamSource streamTransformer = new StreamSource(stylesheetFileReader);
-            
             Transformer transformer = tFact.newTransformer(streamTransformer);
+            // TODO - Create a task to feed the writer to the (transformer) input stream.
+			servletTask.doProcessOutput(this, req, null, writer, screen);
+
+			writer.flush();
+	        String string = stringWriter.toString();
+	        StringReader sourceFileReader = new StringReader(string);
+            StreamSource source = new StreamSource(sourceFileReader);
 
             transformer.transform(source, result);
         } catch (TransformerConfigurationException ex)    {
             ex.printStackTrace();
         } catch (TransformerException ex) {
             ex.printStackTrace();
-        }                    
+            servletTask.free();
+        } catch (ServletException ex) {
+        } // Never
     	
     	super.service(req, res);
     }
