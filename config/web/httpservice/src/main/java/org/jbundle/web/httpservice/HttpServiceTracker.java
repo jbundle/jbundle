@@ -55,7 +55,6 @@ public class HttpServiceTracker extends ServiceTracker{
     String TOURAPP_WSDL = TOURAPP + "/wsdl";
     String WSDL = "/wsdl";
     String HTML = "/HTMLServlet";
-    String TOURAPP_AJAX = TOURAPP + "ajax";
     String TOURAPP_JNLP = TOURAPP + ".jnlp";
     String XML = TOURAPP + "xml";
     String XSL = TOURAPP + "xsl";
@@ -76,7 +75,7 @@ public class HttpServiceTracker extends ServiceTracker{
     	    JNLP,
     	    TOURAPP_WSDL,
     	    HTML,
-    	    TOURAPP_AJAX,
+    	    AJAX,
     	    TOURAPP_JNLP,
     	    TOURAPP,
     	    XML,
@@ -124,7 +123,6 @@ public class HttpServiceTracker extends ServiceTracker{
             		|| (JNLP.equalsIgnoreCase(path))
     	    		|| (TOURAPP_WSDL.equalsIgnoreCase(path))
     	    		|| (HTML.equalsIgnoreCase(path))
-    	    		|| (TOURAPP_AJAX.equalsIgnoreCase(path))
     	    		|| (TOURAPP_JNLP.equalsIgnoreCase(path))
             		|| (TOURAPP.equalsIgnoreCase(path)))
             {
