@@ -132,8 +132,8 @@ public class ReceiveQueueSession extends BaseSession
         if (message.getProcessedByClientSession() == this.getParentSession())
             return DBConstants.NORMAL_RETURN;     // Do not process this message (the client has already taken care of it).
         if (message.getProcessedByClientSession() instanceof RemoteObject)
-            if (this.getParentSession() instanceof RemoteObject) // Always
-                if (((RemoteObject)this.getParentSession()).getRef().remoteEquals(((RemoteObject)message.getProcessedByClientSession()).getRef()))
+//            if (this.getParentSession() instanceof RemoteObject) // Always
+//                if (((RemoteObject)this.getParentSession()).getRef().remoteEquals(((RemoteObject)message.getProcessedByClientSession()).getRef()))
                     return DBConstants.NORMAL_RETURN;   // Same client.
         if (message == m_messageLastMessage)
             return DBConstants.NORMAL_RETURN;   // Don't send a message to the same client twice.

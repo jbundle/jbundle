@@ -41,7 +41,7 @@ import org.jbundle.thin.base.util.RecordOwnerCollection;
  * NOTE: LAME CODE ALERT: BaseRecordOwner is exactly the same as RemoteRecordOwner
  * except BaseRecordOwner subclasses Object and RemoteRecordOwner subclasses UnicastRemoteObject.
  */
-public class RemoteRecordOwner extends UnicastRemoteObject
+public class RemoteRecordOwner extends Object
     implements RecordOwner
 {
     private static final long serialVersionUID = 1L;
@@ -139,11 +139,11 @@ public class RemoteRecordOwner extends UnicastRemoteObject
             m_databaseCollection.free();
         m_databaseCollection = null;
 
-        try   {
-            UnicastRemoteObject.unexportObject(this, false);    // I'm no longer available for remote calls (RMI, not EJB)
-        } catch (NoSuchObjectException ex)  {
-            ex.printStackTrace();
-        }
+//        try   {
+//            UnicastRemoteObject.unexportObject(this, false);    // I'm no longer available for remote calls (RMI, not EJB)
+//        } catch (NoSuchObjectException ex)  {
+//            ex.printStackTrace();
+//        }
 
         if (m_sessionObjectParent != null)
         	m_sessionObjectParent.removeRecordOwner(this);
