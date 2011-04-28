@@ -213,6 +213,7 @@
 		  <artifactId>org.jbundle.other.uk.org.pajhome.crypt.sha1</artifactId>
 		  <version>${project.version}</version>
 	    </dependency>
+	    
 	</dependencies>
 
 </project>

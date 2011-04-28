@@ -45,7 +45,7 @@ public class HttpServiceTracker extends ServiceTracker{
     String ROOT = "/";
     String INDEX = "/index.html";
     String IMAGES = "/images";
-    String LIB = "/images";
+    String LIB = "/lib";
     String DOCS = "/docs";
     String PROXY = "/proxy";
     String TOURAPP = "/tourapp";
@@ -146,9 +146,9 @@ public class HttpServiceTracker extends ServiceTracker{
             }
             if (JNLP_DOWNLOAD.equalsIgnoreCase(path))
             {
-	//          servlet = jnlp.sample.servlet.JnlpDownloadServlet();
-	//          httpContext = new JnlpHttpContext(context.getBundle());
-	//          httpService.registerServlet(addURLPath(webContextPath, "*.jnlp"), servlet, dictionary, httpContext);
+	          servlet = new jnlp.sample.servlet.JnlpDownloadServlet();
+	          httpContext = new JnlpHttpContext(context.getBundle());
+	          httpService.registerServlet(addURLPath(webContextPath, "*.jnlp"), servlet, dictionary, httpContext);
             }
             if (AJAX.equalsIgnoreCase(path))
             {
