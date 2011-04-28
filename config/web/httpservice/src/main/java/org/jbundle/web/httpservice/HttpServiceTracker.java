@@ -59,7 +59,7 @@ public class HttpServiceTracker extends ServiceTracker{
     String XML = TOURAPP + "xml";
     String XSL = TOURAPP + "xsl";
     String XHTML = TOURAPP + "xhtml";
-    String JNLP_DOWNLOAD = "*.jnlp";
+    String JNLP_DOWNLOAD = "/docs/jnlp";	// "*.jnlp";
     String AJAX = "/ajax";
     String MESSAGE = "/message";
     String WS = "/ws";
@@ -81,7 +81,7 @@ public class HttpServiceTracker extends ServiceTracker{
     	    XML,
     	    XSL,
     	    XHTML,
-//    	    JNLP_DOWNLOAD,
+    	    JNLP_DOWNLOAD,
     	    MESSAGE,
 //    	    WS,
     	    XMLWS,
@@ -146,9 +146,11 @@ public class HttpServiceTracker extends ServiceTracker{
             }
             if (JNLP_DOWNLOAD.equalsIgnoreCase(path))
             {
-	          servlet = new jnlp.sample.servlet.JnlpDownloadServlet();
+	          servlet = new org.jbundle.util.webapp.jnlpservlet.JnlpServlet();
+//	          servlet = new jnlp.sample.servlet.JnlpDownloadServlet();
 	          httpContext = new JnlpHttpContext(context.getBundle());
-	          httpService.registerServlet(addURLPath(webContextPath, "*.jnlp"), servlet, dictionary, httpContext);
+//	          httpService.registerServlet(addURLPath(webContextPath, "*.jnlp"), servlet, dictionary, httpContext);
+	          httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
             if (AJAX.equalsIgnoreCase(path))
             {
