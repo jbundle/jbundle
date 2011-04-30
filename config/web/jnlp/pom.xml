@@ -299,6 +299,37 @@
               </jarResources>
             </jnlpFile>
 
+            <jnlpFile>
+              <templateFilename>bio.jnlp.vm</templateFilename>
+              <outputFilename>bio.jnlp</outputFilename>
+              <jarResources>
+                <jarResource>
+    <groupId>org.jbundle.util.biorhythm</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  <artifactId>org.jbundle.util.biorhythm</artifactId>
+                  <mainClass>org.jbundle.util.biorhythm.Biorhythm</mainClass>
+                </jarResource>
+                <jarResource>
+    <groupId>org.jbundle.util.biorhythm</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  <artifactId>org.jbundle.util.biorhythm.i18n</artifactId>
+                </jarResource>
+              </jarResources>
+            </jnlpFile>
+
+            <jnlpFile>
+              <templateFilename>test.jnlp.vm</templateFilename>
+              <outputFilename>test.jnlp</outputFilename>
+              <jarResources>
+                <jarResource>
+    <groupId>org.jbundle.util.biorhythm</groupId>
+    <version>0.7.7-SNAPSHOT</version>
+  <artifactId>org.jbundle.util.biorhythm</artifactId>
+                  <mainClass>org.jbundle.util.biorhythm.Biorhythm</mainClass>
+                </jarResource>
+              </jarResources>
+            </jnlpFile>
+
           </jnlpFiles>
           <pack200>true</pack200>
           <gzip>true</gzip>

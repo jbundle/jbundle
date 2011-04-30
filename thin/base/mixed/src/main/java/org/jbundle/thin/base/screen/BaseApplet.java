@@ -666,7 +666,7 @@ public class BaseApplet extends JApplet
             return null;    // A null will tell a JButton not to load an image
         if (strFilename.indexOf('.') == -1)
             strFilename += ".gif";
-        strFilename = Util.getFullFilename(strFilename, strSubDirectory, Constants.IMAGE_LOCATION);
+        strFilename = Util.getFullFilename(strFilename, strSubDirectory, Constants.IMAGE_LOCATION, true);
         return strFilename;
     }
     /**

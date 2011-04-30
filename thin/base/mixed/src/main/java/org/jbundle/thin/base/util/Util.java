@@ -867,19 +867,31 @@ public class Util extends Object
    public static final String PROPERTIES = ".properties";
    /**
     * Get this image's full filename.
-    * @param filename The filename of this image (if no path, assumes images/buttons; if not ext assumes .gif).
-    * @param strSubDirectory The sub-directory.
+ * @param strSubDirectory The sub-directory.
+ * @param fixRelativePaths TODO
+ * @param filename The filename of this image (if no path, assumes images/buttons; if not ext assumes .gif).
     * @return The full (relative) filename for this image.
     */
-   public static String getFullFilename(String strFilename, String strSubDirectory, String fileLocation)
+   public static String getFullFilename(String strFilename, String strSubDirectory, String fileLocation, boolean fixRelativePaths)
    {
-   	String localLocation = fileLocation.substring(fileLocation.lastIndexOf('/') + 1);
+	   String localLocation = fileLocation.substring(fileLocation.lastIndexOf('/') + 1);
        if (((strFilename.indexOf(File.separator) == -1) && (strFilename.indexOf('/') == -1)) && (strSubDirectory != null))
            strFilename = fileLocation + File.separator + strSubDirectory + File.separator + strFilename;
        else if ((strFilename.indexOf(localLocation + File.separator) == -1) && (strFilename.indexOf(localLocation + "/") == -1))
            strFilename = fileLocation + File.separator + strFilename;
        else if ((strFilename.indexOf(localLocation + File.separator) == 0) || (strFilename.indexOf(localLocation + "/") == 0))
            strFilename = fileLocation + strFilename.substring(localLocation.length());
+	   if (fixRelativePaths)
+	   {	// Remove '/../'
+		   while (strFilename.indexOf("/..") != -1)
+		   {
+			   int startPath = strFilename.indexOf("/..");
+			   int startPrev = strFilename.lastIndexOf("/", startPath - 1);
+			   if (startPrev == -1)
+				   break;
+			   strFilename = strFilename.substring(0, startPrev) + strFilename.substring(startPath + 3);
+		   }
+	   }
        return strFilename;
    }
    /**

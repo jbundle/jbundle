@@ -19,6 +19,7 @@ import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.Version;
 
 /**
  * ClassServiceImpl - Find bundles (and classes) in the obr repository.
@@ -339,7 +340,7 @@ public class ObrClassFinderImpl extends BaseClassFinder
         {
             if (resource != null)
             {
-                if ((bundle.getSymbolicName().equals(resource.getSymbolicName())) && (bundle.getVersion().equals(resource.getVersion())))
+                if ((bundle.getSymbolicName().equals(resource.getSymbolicName())) && (compareVersion(bundle, resource)))
                     return bundle;               
             }
             else if (packageName != null)
@@ -396,4 +397,16 @@ public class ObrClassFinderImpl extends BaseClassFinder
         
         return bestBundle;
     }
+    public boolean compareVersion(Bundle bundle, Resource resource)
+    {
+    	if (bundle.getVersion().equals(resource.getVersion()))
+    		return true;
+    	Version bundleVersion = bundle.getVersion();
+    	Version resourceVersion = resource.getVersion();
+    	if (bundleVersion.getMajor() == resourceVersion.getMajor())
+        	if (bundleVersion.getMinor() == resourceVersion.getMinor())
+        		return true;
+    	return false;
+    }
 }
+

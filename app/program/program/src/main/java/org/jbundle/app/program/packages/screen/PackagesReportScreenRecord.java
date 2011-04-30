@@ -69,7 +69,7 @@ public class PackagesReportScreenRecord extends ReportScreenRecord
         if (iFieldSeq == kJnlpFileID)
             field = new JnlpFileField(this, "JnlpFileID", Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == ktemplate)
-            field = new StringField(this, "template", 120, null, "templatebuild");
+            field = new StringField(this, "template", 120, null, "docs/styles/xsl/cocoon/program/templatebuild.xsl");
         if (iFieldSeq == kfileout)
             field = new StringField(this, "fileout", 256, null, null);
         if (iFieldSeq == kPackagesTree)
