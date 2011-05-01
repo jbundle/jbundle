@@ -15,7 +15,6 @@
 
   <modules>
     <module>util</module>
-    <module>osgi</module>
     <module>base64</module>
   </modules>
 </project>

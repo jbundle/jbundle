@@ -73,9 +73,9 @@
     </dependency>
     
     <dependency>
-      <groupId>org.jbundle.thin.base</groupId>
+      <groupId>org.jbundle.util.osgi</groupId>
       <version>0.7.7-SNAPSHOT</version>
-      <artifactId>org.jbundle.thin.base.util.osgi</artifactId>
+      <artifactId>org.jbundle.util.osgi</artifactId>
     </dependency>
 
   </dependencies>
