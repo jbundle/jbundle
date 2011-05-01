@@ -56,7 +56,7 @@
             <Import-Package>
             	*;resolution:=optional,
                 org.osgi.framework;resolution:=optional, <!-- I Don't explicitly reference this, but I need to check to see if this exists to enable OSGi -->
-			    org.jbundle.thin.base.util.osgi.*;resolution:=optional, <!-- This allows me to start it once I deploy it -->
+			    org.jbundle.util.osgi.*;resolution:=optional, <!-- This allows me to start it once I deploy it -->
             </Import-Package>
 						<!-- This is the context root of this application -->
 						<Web-ContextPath>/${project.artifactId}</Web-ContextPath>

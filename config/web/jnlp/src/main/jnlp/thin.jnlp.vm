@@ -83,7 +83,7 @@
 <package name="org.jbundle.thin.base.screen.jcalendarbutton.*" part="org.jbundle.util.jcalendarbutton" recursive="true"/>
 <package name="org.jbundle.util.jcalendarbutton.*" part="org.jbundle.util.jcalendarbutton" recursive="true"/>
 <jar href="lib/org.jbundle.util.muffinmanager-${jbundle-util-muffinmanagerVersion}.jar" part="org.jbundle.util.muffinmanager" download="lazy"/>
-<package name="org.jbundle.thin.base.util.muffinmanager.*" part="org.jbundle.util.muffinmanager" recursive="true"/>
+<package name="org.jbundle.util.muffinmanager.*" part="org.jbundle.util.muffinmanager" recursive="true"/>
 </resources>
 <component-desc/>
 </jnlp>
