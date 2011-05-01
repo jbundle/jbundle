@@ -79,6 +79,7 @@
 <package name="org.jbundle.thin.opt.location.*" part="org.jbundle.thin.opt.location" recursive="true"/>
 <jar href="lib/org.jbundle.util.calendarpanel-${jbundle-calendarpanelVersion}.jar" part="org.jbundle.util.calendarpanel" download="lazy"/>
 <package name="org.jbundle.thin.base.screen.calendar.*" part="org.jbundle.util.calendarpanel" recursive="true"/>
+<package name="org.jbundle.util.calendarpanel.*" part="org.jbundle.util.calendarpanel" recursive="true"/>
 <jar href="lib/org.jbundle.util.jcalendarbutton-${jbundle-jcalendarbuttonVersion}.jar" part="org.jbundle.util.jcalendarbutton" download="lazy"/>
 <package name="org.jbundle.thin.base.screen.jcalendarbutton.*" part="org.jbundle.util.jcalendarbutton" recursive="true"/>
 <package name="org.jbundle.util.jcalendarbutton.*" part="org.jbundle.util.jcalendarbutton" recursive="true"/>
