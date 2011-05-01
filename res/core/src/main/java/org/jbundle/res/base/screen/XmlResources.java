@@ -2,8 +2,8 @@ package org.jbundle.res.base.screen;
 /**
  * @(#)XmlResources.java  0.00 1-Jan-10 Don Corley
  *
- * Copyright © 2010 jbundle.org. All Rights Reserved.
- *   don@tourgeek.com
+ * Copyright © 2010 tourgeek.com. All Rights Reserved.
+ *   don@donandann.com
  */
 import java.util.*;
 
