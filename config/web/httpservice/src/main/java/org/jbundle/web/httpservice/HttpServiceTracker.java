@@ -133,7 +133,7 @@ public class HttpServiceTracker extends ServiceTracker{
             if (XML.equalsIgnoreCase(path))
             {
 	            servlet = new org.jbundle.base.screen.control.servlet.xml.XMLServlet();
-//	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since stylesheets are in resources
+//x	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since stylesheets are in resources
 	            dictionary.put("remotehost", "localhost");
 	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
@@ -141,7 +141,7 @@ public class HttpServiceTracker extends ServiceTracker{
             	|| (XHTML.equalsIgnoreCase(path)))
             {
 	            servlet = new org.jbundle.base.screen.control.xslservlet.XSLServlet();
-//	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since stylesheets are in resources
+//x	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since stylesheets are in resources
 	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
             if (JNLP_DOWNLOAD.equalsIgnoreCase(path))
@@ -156,7 +156,7 @@ public class HttpServiceTracker extends ServiceTracker{
             {
             	servlet = new org.jbundle.base.remote.proxy.AjaxServlet();
             	dictionary.put("remotehost", "localhost");
-//	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since stylesheets are in resources
+	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since webkit still can't handle import
             	httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
             if ((ROOT.equalsIgnoreCase(path)) 

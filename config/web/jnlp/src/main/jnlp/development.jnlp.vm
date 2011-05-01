@@ -1,34 +1,34 @@
-<!DOCTYPE jnlp PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<jnlp codebase="$$context" spec="1.0+">
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="$$context">
 <information>
 <title>Development app</title>
 <vendor>tourapp.com</vendor>
-<homepage href="index.html"></homepage>
+<homepage href="index.html"/>
 <description kind="one-line">Development App</description>
 <description kind="short">Development application</description>
-<icon href="images/tour/icons/Tour.gif"></icon>
-<offline-allowed></offline-allowed>
+<icon href="images/tour/icons/Tour.gif"/>
+<offline-allowed/>
 <keywords>tour</keywords>
 </information>
-<security></security>
+<security/>
 <resources>
-<java max-heap-size="512m" initial-heap-size="128m" version="1.6+"></java>
-<property value="true" name="jnlp.packEnabled"></property>
-<jar href="lib/jbundle-app-program-${project.version}.jar" part="jbundle-app-program"></jar>
-<package name="org.jbundle.app.program.manual.*" part="jbundle-app-program" recursive="true"></package>
-<package name="org.jbundle.app.program.screen.*" part="jbundle-app-program" recursive="true"></package>
-<package name="org.jbundle.app.program.resource.*" part="jbundle-app-program" recursive="true"></package>
-<package name="org.jbundle.app.program.project.*" part="jbundle-app-program" recursive="true"></package>
-<package name="org.jbundle.app.program.issue.*" part="jbundle-app-program" recursive="true"></package>
-<package name="org.jbundle.app.program.db.*" part="jbundle-app-program" recursive="true"></package>
-<package name="org.jbundle.app.program.packages.*" part="jbundle-app-program" recursive="true"></package>
-<package name="org.jbundle.app.program.access.*" part="jbundle-app-program" recursive="true"></package>
-<package name="org.jbundle.app.program.script.*" part="jbundle-app-program" recursive="true"></package>
-<package name="org.jbundle.app.program.demo.*" part="jbundle-app-program" recursive="true"></package>
-<jar href="lib/jbundle-res-app-program-${project.version}.jar" part="jbundle-res-app-program"></jar>
-<package name="org.jbundle.res.app.program.*" part="jbundle-res-app-program" recursive="true"></package>
-<jar href="lib/jbundle-thin-app-program-${project.version}.jar" part="jbundle-thin-app-program"></jar>
-<package name="org.jbundle.thin.app.program.*" part="jbundle-thin-app-program" recursive="true"></package>
+<java version="1.6+" initial-heap-size="128m" max-heap-size="512m"/>
+<property name="jnlp.packEnabled" value="true"/>
+<jar href="lib/org.jbundle.app.program-${project.version}.jar" part="org.jbundle.app.program"/>
+<package name="org.jbundle.app.program.manual.*" part="org.jbundle.app.program" recursive="true"/>
+<package name="org.jbundle.app.program.screen.*" part="org.jbundle.app.program" recursive="true"/>
+<package name="org.jbundle.app.program.resource.*" part="org.jbundle.app.program" recursive="true"/>
+<package name="org.jbundle.app.program.project.*" part="org.jbundle.app.program" recursive="true"/>
+<package name="org.jbundle.app.program.issue.*" part="org.jbundle.app.program" recursive="true"/>
+<package name="org.jbundle.app.program.db.*" part="org.jbundle.app.program" recursive="true"/>
+<package name="org.jbundle.app.program.packages.*" part="org.jbundle.app.program" recursive="true"/>
+<package name="org.jbundle.app.program.access.*" part="org.jbundle.app.program" recursive="true"/>
+<package name="org.jbundle.app.program.script.*" part="org.jbundle.app.program" recursive="true"/>
+<package name="org.jbundle.app.program.demo.*" part="org.jbundle.app.program" recursive="true"/>
+<jar href="lib/org.jbundle.res.app.program-${project.version}.jar" part="org.jbundle.res.app.program"/>
+<package name="org.jbundle.res.app.program.*" part="org.jbundle.res.app.program" recursive="true"/>
+<jar href="lib/org.jbundle.thin.app.program-${project.version}.jar" part="org.jbundle.thin.app.program"/>
+<package name="org.jbundle.thin.app.program.*" part="org.jbundle.thin.app.program" recursive="true"/>
 </resources>
-<component-desc></component-desc>
+<component-desc/>
 </jnlp>

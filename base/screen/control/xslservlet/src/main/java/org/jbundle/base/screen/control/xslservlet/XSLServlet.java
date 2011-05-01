@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -119,6 +120,7 @@ public class XSLServlet extends XMLServlet
             URIResolver resolver = new MyURIResolver(servletTask, stylesheet);
             tFact.setURIResolver(resolver);
             Transformer transformer = tFact.newTransformer(stylesheetSource);
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             // TODO - Create a task to feed the writer to the (transformer) input stream.
 			servletTask.doProcessOutput(this, req, null, writer, screen);
 

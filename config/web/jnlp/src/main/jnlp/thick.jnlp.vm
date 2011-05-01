@@ -1,79 +1,82 @@
-<!DOCTYPE jnlp PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<jnlp codebase="$$context" spec="1.0+">
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="$$context">
 <information>
 <title>Thick Application Resources</title>
 <vendor>tourapp.com</vendor>
-<homepage href="index.html"></homepage>
+<homepage href="index.html"/>
 <description kind="one-line">Thick Base Application Resources</description>
 <description kind="short">Thick Application Resources</description>
-<icon href="images/tour/icons/Tour.gif"></icon>
-<offline-allowed></offline-allowed>
+<icon href="images/tour/icons/Tour.gif"/>
+<offline-allowed/>
 <keywords>tour</keywords>
 </information>
-<security></security>
+<security/>
 <resources>
-<java max-heap-size="512m" initial-heap-size="128m" version="1.6+"></java>
-<property value="true" name="jnlp.packEnabled"></property>
-<jar href="lib/jbundle-base-db-client-${project.version}.jar" part="jbundle-base-db-client"></jar>
-<package name="org.jbundle.base.db.client.*" part="jbundle-base-db-client" recursive="true"></package>
-<jar href="lib/jbundle-base-db-core-${project.version}.jar" part="jbundle-base-db-core" download="eager"></jar>
-<package name="org.jbundle.base.db.*" part="jbundle-base-db-core"></package>
-<package name="org.jbundle.base.db.event.*" part="jbundle-base-db-core" recursive="true"></package>
-<package name="org.jbundle.base.db.filter.*" part="jbundle-base-db-core" recursive="true"></package>
-<package name="org.jbundle.base.db.util.*" part="jbundle-base-db-core" recursive="true"></package>
-<package name="org.jbundle.base.db.grid.*" part="jbundle-base-db-core" recursive="true"></package>
-<package name="org.jbundle.base.db.lock.*" part="jbundle-base-db-core" recursive="true"></package>
-<package name="org.jbundle.base.db.shared.*" part="jbundle-base-db-core" recursive="true"></package>
-<package name="org.jbundle.base.field.*" part="jbundle-base-db-core" recursive="true"></package>
-<package name="org.jbundle.base.db.netutil.*" part="jbundle-base-db-core" recursive="true"></package>
-<package name="org.jbundle.base.db.xmlutil.*" part="jbundle-base-db-core" recursive="true"></package>
-<jar href="lib/jbundle-base-db-mapped-${project.version}.jar" part="jbundle-base-db-mapped" download="lazy"></jar>
-<package name="org.jbundle.base.db.Mapped.*" part="jbundle-base-db-mapped" recursive="true"></package>
-<jar href="lib/jbundle-base-db-memory-${project.version}.jar" part="jbundle-base-db-memory"></jar>
-<package name="org.jbundle.base.db.Memory.*" part="jbundle-base-db-memory" recursive="true"></package>
-<jar href="lib/jbundle-base-db-net-${project.version}.jar" part="jbundle-base-db-net"></jar>
-<package name="org.jbundle.base.db.Net.*" part="jbundle-base-db-net" recursive="true"></package>
-<jar href="lib/jbundle-base-db-physical-${project.version}.jar" part="jbundle-base-db-physical"></jar>
-<package name="org.jbundle.base.db.Physical.*" part="jbundle-base-db-physical" recursive="true"></package>
-<jar href="lib/jbundle-base-db-proxy-${project.version}.jar" part="jbundle-base-db-proxy"></jar>
-<package name="org.jbundle.base.db.Proxy.*" part="jbundle-base-db-proxy" recursive="true"></package>
-<jar href="lib/jbundle-base-db-serial-${project.version}.jar" part="jbundle-base-db-serial" download="lazy"></jar>
-<package name="org.jbundle.base.db.Serial.*" part="jbundle-base-db-serial" recursive="true"></package>
-<jar href="lib/jbundle-base-db-xml-${project.version}.jar" part="jbundle-base-db-xml" download="lazy"></jar>
-<package name="org.jbundle.base.db.Xml.*" part="jbundle-base-db-xml" recursive="true"></package>
-<jar href="lib/jbundle-base-other-${project.version}.jar" part="jbundle-base-other" download="eager"></jar>
-<package name="org.jbundle.base.util.*" part="jbundle-base-other" recursive="true"></package>
-<package name="org.jbundle.base.message.*" part="jbundle-base-other" recursive="true"></package>
-<package name="org.jbundle.base.thread.*" part="jbundle-base-other" recursive="true"></package>
-<package name="org.jbundle.base.remote.*" part="jbundle-base-other" recursive="true"></package>
-<package name="org.jbundle.base.services.*" part="jbundle-base-other" recursive="true"></package>
-<jar href="lib/jbundle-base-screen-misc-${project.version}.jar" part="jbundle-base-screen-misc" download="eager"></jar>
-<package name="org.jbundle.*" part="jbundle-base-screen-misc"></package>
-<package name="org.jbundle.base.screen.model.*" part="jbundle-base-screen-misc" recursive="true"></package>
-<package name="org.jbundle.base.screen.view.*" part="jbundle-base-screen-misc"></package>
-<package name="org.jbundle.base.screen.view.data.*" part="jbundle-base-screen-misc" recursive="true"></package>
-<package name="org.jbundle.base.screen.view.zml.*" part="jbundle-base-screen-misc" recursive="true"></package>
-<jar href="lib/jbundle-base-screen-view-swing-${project.version}.jar" part="jbundle-base-screen-view-swing"></jar>
-<package name="org.jbundle.base.screen.view.swing.*" part="jbundle-base-screen-view-swing"></package>
-<package name="org.jbundle.base.screen.view.swing.calendar.*" part="jbundle-base-screen-view-swing" recursive="true"></package>
-<package name="org.jbundle.base.screen.view.swing.grid.*" part="jbundle-base-screen-view-swing" recursive="true"></package>
-<package name="org.jbundle.base.screen.view.swing.opt.*" part="jbundle-base-screen-view-swing"></package>
-<package name="org.jbundle.base.screen.view.swing.report.*" part="jbundle-base-screen-view-swing" recursive="true"></package>
-<package name="org.jbundle.base.screen.view.swing.menu.*" part="jbundle-base-screen-view-swing" recursive="true"></package>
-<package name="org.jbundle.base.screen.control.swing.*" part="jbundle-base-screen-view-swing" recursive="true"></package>
-<jar href="lib/jbundle-base-screen-view-swing-jaxe-${project.version}.jar" part="jbundle-base-screen-view-swing-jaxe" download="lazy"></jar>
-<package name="org.jbundle.base.screen.view.swing.opt.jaxe.*" part="jbundle-base-screen-view-swing-jaxe" recursive="true"></package>
-<jar href="lib/jbundle-main-calendar-${project.version}.jar" part="jbundle-main-calendar" download="lazy"></jar>
-<package name="org.jbundle.main.calendar.*" part="jbundle-main-calendar" recursive="true"></package>
-<jar href="lib/jbundle-main-db-${project.version}.jar" part="jbundle-main-db" download="lazy"></jar>
-<package name="org.jbundle.main.db.*" part="jbundle-main-db" recursive="true"></package>
-<package name="org.jbundle.main.user.db.*" part="jbundle-main-db" recursive="true"></package>
-<jar href="lib/jbundle-main-misc-${project.version}.jar" part="jbundle-main-misc" download="lazy"></jar>
-<package name="org.jbundle.main.screen.*" part="jbundle-main-misc" recursive="true"></package>
-<package name="org.jbundle.main.properties.*" part="jbundle-main-misc" recursive="true"></package>
-<package name="org.jbundle.main.user.screen.*" part="jbundle-main-misc" recursive="true"></package>
-<jar href="lib/jbundle-main-msg-${project.version}.jar" part="jbundle-main-msg" download="lazy"></jar>
-<package name="org.jbundle.main.msg.*" part="jbundle-main-msg" recursive="true"></package>
+<java version="1.6+" initial-heap-size="128m" max-heap-size="512m"/>
+<property name="jnlp.packEnabled" value="true"/>
+<jar href="lib/org.jbundle.base.db-${project.version}.jar" part="org.jbundle.base.db" download="eager"/>
+<package name="org.jbundle.base.db.*" part="org.jbundle.base.db"/>
+<package name="org.jbundle.base.db.event.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.db.filter.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.db.util.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.db.grid.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.db.lock.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.db.shared.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.field.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.db.netutil.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.db.xmlutil.*" part="org.jbundle.base.db" recursive="true"/>
+<jar href="lib/org.jbundle.base.db.client-${project.version}.jar" part="org.jbundle.base.db.client"/>
+<package name="org.jbundle.base.db.Client.*" part="org.jbundle.base.db.client" recursive="true"/>
+<jar href="lib/org.jbundle.base.db.mapped-${project.version}.jar" part="org.jbundle.base.db.mapped" download="lazy"/>
+<package name="org.jbundle.base.db.Mapped.*" part="org.jbundle.base.db.mapped" recursive="true"/>
+<jar href="lib/org.jbundle.base.db.memory-${project.version}.jar" part="org.jbundle.base.db.memory"/>
+<package name="org.jbundle.base.db.Memory.*" part="org.jbundle.base.db.memory" recursive="true"/>
+<jar href="lib/org.jbundle.base.db.net-${project.version}.jar" part="org.jbundle.base.db.net"/>
+<package name="org.jbundle.base.db.Net.*" part="org.jbundle.base.db.net" recursive="true"/>
+<jar href="lib/org.jbundle.base.db.physical-${project.version}.jar" part="org.jbundle.base.db.physical"/>
+<package name="org.jbundle.base.db.Physical.*" part="org.jbundle.base.db.physical" recursive="true"/>
+<jar href="lib/org.jbundle.base.db.proxy-${project.version}.jar" part="org.jbundle.base.db.proxy"/>
+<package name="org.jbundle.base.db.Proxy.*" part="org.jbundle.base.db.proxy" recursive="true"/>
+<jar href="lib/org.jbundle.base.db.serial-${project.version}.jar" part="org.jbundle.base.db.serial" download="lazy"/>
+<package name="org.jbundle.base.db.Serial.*" part="org.jbundle.base.db.serial" recursive="true"/>
+<jar href="lib/org.jbundle.base.db.xml-${project.version}.jar" part="org.jbundle.base.db.xml" download="lazy"/>
+<package name="org.jbundle.base.db.Xml.*" part="org.jbundle.base.db.xml" recursive="true"/>
+<jar href="lib/org.jbundle.base.message-${project.version}.jar" part="org.jbundle.base.message" download="lazy"/>
+<package name="org.jbundle.base.message.*" part="org.jbundle.base.message" recursive="true"/>
+<jar href="lib/org.jbundle.base.other-${project.version}.jar" part="org.jbundle.base.other" download="eager"/>
+<package name="org.jbundle.base.thread.*" part="org.jbundle.base.other" recursive="true"/>
+<package name="org.jbundle.base.services.*" part="org.jbundle.base.other" recursive="true"/>
+<jar href="lib/org.jbundle.base.remote-${project.version}.jar" part="org.jbundle.base.remote" download="lazy"/>
+<package name="org.jbundle.base.remote.*" part="org.jbundle.base.remote" recursive="true"/>
+<jar href="lib/org.jbundle.base.screen.misc-${project.version}.jar" part="org.jbundle.base.screen.misc" download="eager"/>
+<package name="org.jbundle.*" part="org.jbundle.base.screen.misc"/>
+<package name="org.jbundle.base.screen.model.*" part="org.jbundle.base.screen.misc" recursive="true"/>
+<package name="org.jbundle.base.screen.view.*" part="org.jbundle.base.screen.misc"/>
+<package name="org.jbundle.base.screen.view.data.*" part="org.jbundle.base.screen.misc" recursive="true"/>
+<package name="org.jbundle.base.screen.view.zml.*" part="org.jbundle.base.screen.misc" recursive="true"/>
+<jar href="lib/org.jbundle.base.screen.view.swing-${project.version}.jar" part="org.jbundle.base.screen.view.swing"/>
+<package name="org.jbundle.base.screen.view.swing.*" part="org.jbundle.base.screen.view.swing"/>
+<package name="org.jbundle.base.screen.view.swing.calendar.*" part="org.jbundle.base.screen.view.swing" recursive="true"/>
+<package name="org.jbundle.base.screen.view.swing.grid.*" part="org.jbundle.base.screen.view.swing" recursive="true"/>
+<package name="org.jbundle.base.screen.view.swing.opt.*" part="org.jbundle.base.screen.view.swing"/>
+<package name="org.jbundle.base.screen.view.swing.report.*" part="org.jbundle.base.screen.view.swing" recursive="true"/>
+<package name="org.jbundle.base.screen.view.swing.menu.*" part="org.jbundle.base.screen.view.swing" recursive="true"/>
+<package name="org.jbundle.base.screen.control.swing.*" part="org.jbundle.base.screen.view.swing" recursive="true"/>
+<jar href="lib/org.jbundle.base.screen.view.swing.jaxe-${project.version}.jar" part="org.jbundle.base.screen.view.swing.jaxe" download="lazy"/>
+<package name="org.jbundle.base.screen.view.swing.opt.jaxe.*" part="org.jbundle.base.screen.view.swing.jaxe" recursive="true"/>
+<jar href="lib/org.jbundle.base.util-${project.version}.jar" part="org.jbundle.base.util" download="lazy"/>
+<package name="org.jbundle.base.util.*" part="org.jbundle.base.util" recursive="true"/>
+<jar href="lib/org.jbundle.main.calendar-${project.version}.jar" part="org.jbundle.main.calendar" download="lazy"/>
+<package name="org.jbundle.main.calendar.*" part="org.jbundle.main.calendar" recursive="true"/>
+<jar href="lib/org.jbundle.main.db-${project.version}.jar" part="org.jbundle.main.db" download="lazy"/>
+<package name="org.jbundle.main.db.*" part="org.jbundle.main.db" recursive="true"/>
+<package name="org.jbundle.main.user.db.*" part="org.jbundle.main.db" recursive="true"/>
+<jar href="lib/org.jbundle.main.misc-${project.version}.jar" part="org.jbundle.main.misc" download="lazy"/>
+<package name="org.jbundle.main.screen.*" part="org.jbundle.main.misc" recursive="true"/>
+<package name="org.jbundle.main.properties.*" part="org.jbundle.main.misc" recursive="true"/>
+<package name="org.jbundle.main.user.screen.*" part="org.jbundle.main.misc" recursive="true"/>
+<jar href="lib/org.jbundle.main.msg-${project.version}.jar" part="org.jbundle.main.msg" download="lazy"/>
+<package name="org.jbundle.main.msg.*" part="org.jbundle.main.msg" recursive="true"/>
 </resources>
-<component-desc></component-desc>
+<component-desc/>
 </jnlp>
