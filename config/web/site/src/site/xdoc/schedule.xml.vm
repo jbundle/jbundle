@@ -14,27 +14,8 @@
       Fix it all!
       
       1. jbundle deploy
-         1. Fix packages
-            1. Fix thin.jnlp.vm (in database)
-         2. Split util-web-schema project off
-         3. OSGify JiBX project
-            2. Move to test dir.
-            3. Compile, test
-            4. Compile opentravel schema
-            5. Simple Schema test - Call it the jibx schema project org.ow2.jibx.org.opentravel._2010b.Xxxx
-            	1. Create currency convert project (See jaxb project)
-            	2. -- Keep archetype in mind --
-            6. EMail to Dennis/Chameleon
-            	1. Look at sample project
-            	2. What package name (jibx?) (schema?) org.ow2.jibx
-            7. Sample opentravel project
-            8. -- keep traveltech article in mind
          4. OSGify JBundle project
-            1. Get rid of JAXB schemas
-            2. Fix package paths on doc and images
-            3. Add IPOJO plugins and manifests
-            4. OSGify other servlets in util-webapp.xxx
-            5. Fix MessageReceivingServlet in xx-webbundle module
+            1. Fix MessageReceivingServlet in xx-webbundle module
          	3. Find and fix all non-OSGi dependencies
          		1. JSON
          		2. javax.mail
