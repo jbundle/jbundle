@@ -36,7 +36,7 @@ import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.thread.TaskScheduler;
-import org.jbundle.thin.base.util.muffinmanager.MuffinManager;
+import org.jbundle.util.muffinmanager.MuffinManager;
 
 /**
  * A Application contains all of a single user's apps.
