@@ -3,8 +3,8 @@ package org.jbundle.base.util;
 import java.util.Map;
 
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.osgi.bundle.BaseBundleService;
-import org.jbundle.thin.base.util.osgi.bundle.BundleService;
+import org.jbundle.util.osgi.bundle.BaseBundleService;
+import org.jbundle.util.osgi.bundle.BundleService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
 

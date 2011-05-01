@@ -621,13 +621,13 @@ public class Util extends Object
     * @return
     */
    public static boolean classServiceAvailable = true;
-   public static org.jbundle.thin.base.util.osgi.finder.ClassFinder getClassFinder()
+   public static org.jbundle.util.osgi.finder.ClassFinder getClassFinder()
    {
 	   if (!classServiceAvailable)
 		   return null;
 	   try {
 		   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-		   return (org.jbundle.thin.base.util.osgi.finder.ClassFinder)org.jbundle.thin.base.util.osgi.finder.ClassFinderUtility.getClassFinder(null, true);
+		   return (org.jbundle.util.osgi.finder.ClassFinder)org.jbundle.util.osgi.finder.ClassFinderUtility.getClassFinder(null, true);
        } catch (Exception ex) {
 		   classServiceAvailable = false;
     	   return null;	// Osgi is not installed

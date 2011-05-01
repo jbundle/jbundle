@@ -18,8 +18,8 @@ import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.remote.ApplicationServer;
 import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.thin.base.util.osgi.bundle.BaseBundleService;
-import org.jbundle.thin.base.util.osgi.bundle.BundleService;
+import org.jbundle.util.osgi.bundle.BaseBundleService;
+import org.jbundle.util.osgi.bundle.BundleService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
 
