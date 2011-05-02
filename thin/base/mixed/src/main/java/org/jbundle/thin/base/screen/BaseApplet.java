@@ -247,7 +247,7 @@ public class BaseApplet extends JApplet
     	m_recordOwnerCollection = null;
         boolean bEmptyTaskList = true;
         if (m_application != null)
-        	m_application.removeTask(this);  // Remove this session from the list
+        	bEmptyTaskList = m_application.removeTask(this);  // Remove this session from the list
         if (bEmptyTaskList)
             this.quit();
         if (Application.getRootApplet() == this)
