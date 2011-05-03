@@ -199,6 +199,8 @@ public abstract class Application extends Object
 								e.printStackTrace();
 							}
                         }
+                        this.removeTask(task);	// Make sure this doesn't free me (if all tasks are freed, app will be freed)
+                        task.setApplication(null);
                         task.stopTask();
                     }
                     else

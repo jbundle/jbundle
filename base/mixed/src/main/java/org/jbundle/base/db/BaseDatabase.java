@@ -618,6 +618,7 @@ public class BaseDatabase extends Object
             Map<String,Object> properties = new HashMap<String,Object>();
             properties.putAll(this.getProperties());
             properties.remove(BASE_DATABASE);
+            properties.remove(SQLParams.JDBC_DRIVER_PARAM);
             properties.put(DBConstants.DB_USER_PREFIX, DBConstants.BLANK);
             properties.put(DBConstants.SUB_SYSTEM_LN_SUFFIX, DBConstants.BLANK);
             m_databaseBase = m_databaseOwner.getDatabase(this.getProperty(BASE_DATABASE), this.getDatabaseType() & DBConstants.TABLE_MASK, properties);

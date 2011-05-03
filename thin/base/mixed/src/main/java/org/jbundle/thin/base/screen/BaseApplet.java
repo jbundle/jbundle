@@ -270,7 +270,7 @@ public class BaseApplet extends JApplet
      */
     public void quit()
     {
-        m_application.free();   // No more frames -> Quit java!
+        m_application.free();   // No more frames -> Quit application!
         //if (gbStandAlone)
         //	System.exit(0);
     }

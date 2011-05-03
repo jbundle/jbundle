@@ -138,7 +138,7 @@ public class XSLServlet extends XMLServlet
         } catch (ServletException ex) {
         } // Never
     	
-    	super.service(req, res);
+    	//x Don't call super.service(req, res);
     }
 	public StreamSource getStylesheetSource(ServletTask servletTask, String stylesheet) throws MalformedURLException
 	{
