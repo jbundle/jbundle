@@ -66,7 +66,8 @@ public class ReceiveQueueHolder extends BaseSessionHolder
         if (RECEIVE_REMOTE_MESSAGE.equals(strCommand))
         {
             BaseMessage message = ((RemoteReceiveQueue)m_remoteObject).receiveRemoteMessage();
-            this.setReturnObject(out, message);
+            if (message != null)	// If the client quits, this is freed and I get a null message (which I don't need to return)
+            	this.setReturnObject(out, message);
         }
         else if (ADD_REMOTE_MESSAGE_FILTER.equals(strCommand))
         {
