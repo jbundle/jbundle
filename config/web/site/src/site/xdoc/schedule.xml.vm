@@ -20,11 +20,11 @@
          		1. JSON
          		2. javax.mail
          		3. DOJO
-         		4. Test vs Glassfish
+         		4. Test vs Jetty
          5. Finish JBundle code.
          	1. XSL Servlet (dump cocoon)
          	2. Finish Contact test app in workspace-xxx, 
-         	3. Contact webdeploy test vs glassfish/new felix/OSGi
+         	3. Contact webdeploy test vs jetty/OSGi
          	4. Finish docs
          	5. Translate plugin
          	6. Add open source headers to source code (see plugin)
@@ -55,7 +55,7 @@
       	1. Status box on applet window
       5. Market
       	1. Letter to Dave Herbert
-      	2. 
+      	2. Letter to Cal Native
       
 ]]>
       
