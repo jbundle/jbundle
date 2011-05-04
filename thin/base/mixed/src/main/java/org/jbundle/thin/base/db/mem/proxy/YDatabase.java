@@ -17,10 +17,10 @@ import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.Params;
-import org.jbundle.thin.base.db.ThinPhysicalDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.mem.net.NDatabase;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
 

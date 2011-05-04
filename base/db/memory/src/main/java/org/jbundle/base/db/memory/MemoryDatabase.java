@@ -17,10 +17,10 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.DatabaseOwner;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.ThinPhysicalDatabase;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.mem.memory.MDatabase;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
 
 
 /**

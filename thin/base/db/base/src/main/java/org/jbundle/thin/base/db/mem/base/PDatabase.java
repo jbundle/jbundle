@@ -14,9 +14,9 @@ import java.util.Set;
 
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
-import org.jbundle.thin.base.db.ThinPhysicalDatabase;
-import org.jbundle.thin.base.db.ThinPhysicalDatabaseOwner;
 import org.jbundle.thin.base.db.mem.GridMemoryFieldTable;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseOwner;
 
 
 /**

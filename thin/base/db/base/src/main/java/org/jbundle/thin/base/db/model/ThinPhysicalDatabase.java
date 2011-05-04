@@ -1,4 +1,6 @@
-package org.jbundle.thin.base.db;
+package org.jbundle.thin.base.db.model;
+
+import org.jbundle.thin.base.db.FieldList;
 
 /**
  * 

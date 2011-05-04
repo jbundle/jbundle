@@ -11,9 +11,9 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.db.memory.MemoryDatabase;
 import org.jbundle.base.db.physical.PhysicalTable;
 import org.jbundle.base.util.DatabaseOwner;
-import org.jbundle.thin.base.db.ThinPhysicalDatabase;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
 
 
 /**

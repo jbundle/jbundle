@@ -9,10 +9,10 @@ package org.jbundle.thin.base.db.mem.memory;
  */
 
 import org.jbundle.thin.base.db.FieldList;
-import org.jbundle.thin.base.db.ThinPhysicalDatabase;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
 
 /**
  * Implement the Vector database.

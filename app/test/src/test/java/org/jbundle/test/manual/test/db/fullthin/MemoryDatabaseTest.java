@@ -5,12 +5,12 @@ package org.jbundle.test.manual.test.db.fullthin;
 //******************************************************************************
 import org.jbundle.thin.app.test.test.db.TestTableNoAuto;
 import org.jbundle.thin.base.db.FieldTable;
-import org.jbundle.thin.base.db.ThinPhysicalDatabase;
 import org.jbundle.thin.base.db.mem.GridMemoryFieldTable;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.mem.memory.MDatabase;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

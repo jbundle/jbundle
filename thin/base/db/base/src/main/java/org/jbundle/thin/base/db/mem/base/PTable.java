@@ -18,9 +18,9 @@ import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.KeyAreaInfo;
-import org.jbundle.thin.base.db.ThinPhysicalTable;
-import org.jbundle.thin.base.db.ThinPhysicalTableOwner;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
+import org.jbundle.thin.base.db.model.ThinPhysicalTable;
+import org.jbundle.thin.base.db.model.ThinPhysicalTableOwner;
 
 
 /**

@@ -16,11 +16,11 @@ import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.db.netutil.NetUtility;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBParams;
-import org.jbundle.thin.base.db.ThinPhysicalDatabaseOwner;
-import org.jbundle.thin.base.db.ThinPhysicalTableOwner;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.net.NDatabase;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseOwner;
+import org.jbundle.thin.base.db.model.ThinPhysicalTableOwner;
 
 
 /**

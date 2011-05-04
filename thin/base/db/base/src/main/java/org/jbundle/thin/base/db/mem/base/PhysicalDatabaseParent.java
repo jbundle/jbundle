@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jbundle.model.Freeable;
-import org.jbundle.thin.base.db.ThinPhysicalDatabaseParent;
-import org.jbundle.thin.base.db.ThinPhysicalTableOwner;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
+import org.jbundle.thin.base.db.model.ThinPhysicalTableOwner;
 
 
 /**

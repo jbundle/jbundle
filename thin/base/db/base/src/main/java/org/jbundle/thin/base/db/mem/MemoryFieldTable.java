@@ -4,13 +4,13 @@ import org.jbundle.model.DBException;
 import org.jbundle.model.Rec;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
-import org.jbundle.thin.base.db.ThinPhysicalDatabase;
-import org.jbundle.thin.base.db.ThinPhysicalDatabaseOwner;
-import org.jbundle.thin.base.db.ThinPhysicalTableOwner;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseOwner;
+import org.jbundle.thin.base.db.model.ThinPhysicalTableOwner;
 
 /**
  * An MemoryFieldTable is a link to a memory-based raw data (PTable) table.

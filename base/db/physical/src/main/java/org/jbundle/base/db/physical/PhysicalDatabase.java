@@ -18,11 +18,11 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.util.DatabaseOwner;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.db.ThinPhysicalDatabase;
-import org.jbundle.thin.base.db.ThinPhysicalDatabaseOwner;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.mem.net.NDatabase;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseOwner;
 
 
 /**

@@ -16,10 +16,10 @@ import org.jbundle.model.DBException;
 import org.jbundle.model.Field;
 import org.jbundle.model.Rec;
 import org.jbundle.thin.base.db.FieldInfo;
-import org.jbundle.thin.base.db.ThinPhysicalTableOwner;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
 import org.jbundle.thin.base.db.mem.base.PTable;
+import org.jbundle.thin.base.db.model.ThinPhysicalTableOwner;
 
 
 /**
