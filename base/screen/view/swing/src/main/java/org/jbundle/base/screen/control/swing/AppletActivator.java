@@ -21,7 +21,12 @@ public class AppletActivator extends BaseBundleService
 {
 	protected BaseAppletReference applet = null;
 	
-    String[] args = {"linux-laptop:8080/"};	// TODO(don) Fix this
+    String[] args = {
+//    		"menu=dev.tourapp.com",
+//    		"background=backgrounds/worldmapalpha.gif",
+//    		"backgroundcolor=#EEEEFF",
+//    		"mainSharedDBName=main_base",
+    		};	// TODO(don) Fix this
 
 	/*
 	 * (non-Javadoc)

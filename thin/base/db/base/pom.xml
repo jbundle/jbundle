@@ -13,6 +13,28 @@
   <name>jbundle-thin-base-db-core - Thin db base</name>
   <packaging>bundle</packaging>
   
+  <build>
+    <plugins>
+      <plugin>
+        <inherited>true</inherited>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Import-Package>
+            	*;resolution:=optional,
+            org.jbundle.thin.base.db.mem.proxy;resolution:=optional,
+            org.jbundle.thin.base.db.mem.memory;resolution:=optional,
+            org.jbundle.thin.base.db.mem.serial;resolution:=optional,
+            org.jbundle.thin.base.db.mem.net;resolution:=optional,
+            org.jbundle.thin.base.db.client;resolution:=optional,
+            </Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>org.jbundle</groupId>
