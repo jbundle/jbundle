@@ -81,7 +81,7 @@ public class SwitchDatabaseMenuScreen extends MenuScreen
                 Map<String,Object> appProps = app.getProperties();
                 if ((appProps != null) && (properties != null))
                 { // Merge starting properties
-                    String[] propNames = {"codebase", "remotehost", "user", "userid"};
+                    String[] propNames = {"connectionType", "codebase", "remotehost", "user", "userid"};
                     Iterator<String> i = appProps.keySet().iterator();
                     while (i.hasNext())
                     {

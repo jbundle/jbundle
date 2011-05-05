@@ -290,14 +290,14 @@ public class ProxyTask extends BaseHttpTask
     public RemoteTask getNewRemoteTask(Application app, Map<String,Object> properties)
     {
         try   {
-            Map<String,Object> propApp = this.getApplicationProperties(properties);
+            // Map<String,Object> propApp = this.getApplicationProperties(properties);
 
-            Map<String,Object> propInitial = ProxyTask.getInitialProperties(this.getBasicServlet(), SERVLET_TYPE.PROXY);
-            if (propInitial != null)
-            	propApp.putAll(propInitial);
+            // Map<String,Object> propInitial = ProxyTask.getInitialProperties(this.getBasicServlet(), SERVLET_TYPE.PROXY);
+            // if (propInitial != null)
+            //	propApp.putAll(propInitial);
             
             if (app == null)
-                app = new MainApplication(((BaseApplication)m_application).getEnvironment(), propApp, null);
+                app = new MainApplication(((BaseApplication)m_application).getEnvironment(), properties, null);	// propApp, null);
             RemoteTask remoteServer = new TaskSession(app);
             ((TaskSession)remoteServer).setProperties(properties);
             return remoteServer;
