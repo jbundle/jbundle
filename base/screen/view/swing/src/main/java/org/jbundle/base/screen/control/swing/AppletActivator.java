@@ -22,10 +22,13 @@ public class AppletActivator extends BaseBundleService
 	protected BaseAppletReference applet = null;
 	
     String[] args = {
-//    		"menu=dev.tourapp.com",
-//    		"background=backgrounds/worldmapalpha.gif",
-//    		"backgroundcolor=#EEEEFF",
-//    		"mainSharedDBName=main_base",
+//x    		"menu=dev.tourapp.com",
+//x    		"background=backgrounds/worldmapalpha.gif",
+//x    		"backgroundcolor=#EEEEFF",
+//x    		"mainSharedDBName=main_base",
+//x    		"local=Jdbc",
+//x    		"remote=Jdbc",
+//x    		"table=Jdbc",
     		};	// TODO(don) Fix this
 
 	/*

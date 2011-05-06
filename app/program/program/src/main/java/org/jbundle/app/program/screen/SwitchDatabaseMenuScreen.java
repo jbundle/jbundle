@@ -78,10 +78,10 @@ public class SwitchDatabaseMenuScreen extends MenuScreen
                 app.removeTask(task);
                 task.setApplication(null); 
                 Environment env = app.getEnvironment();
-                Map<String,Object> appProps = app.getProperties();
+                Map<String,Object> appProps = env.getDefaultApplication().getProperties();
                 if ((appProps != null) && (properties != null))
                 { // Merge starting properties
-                    String[] propNames = {"connectionType", "codebase", "remotehost", "user", "userid"};
+                    String[] propNames = {DBParams.CONNECTION_TYPE, DBParams.CODEBASE, DBParams.REMOTE_HOST, DBParams.USER_NAME, DBParams.USER_ID, DBParams.LOCAL, DBParams.REMOTE, DBParams.TABLE};
                     Iterator<String> i = appProps.keySet().iterator();
                     while (i.hasNext())
                     {

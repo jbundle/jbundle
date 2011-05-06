@@ -21,6 +21,7 @@ public interface Params
      * RMI Server name and port number (if not the RMI port 1099).
      */
     public static final String REMOTE_HOST = "remotehost";
+    public static final String CONNECTION_TYPE = "connectionType";
     /**
      * Constant none.
      */
