@@ -140,6 +140,9 @@ public class ProxyTask extends BaseHttpTask
             String strCommand = (String)propRequest.get(REMOTE_COMMAND);
             if (CREATE_REMOTE_TASK.equals(strCommand))
             {
+            	Map<String, Object> taskProperties = this.getProperties();
+                if (taskProperties != null)
+                    propRequest.putAll(taskProperties);
                 Map<String,Object> properties = this.getNextPropertiesParam(in, PROPERTIES, propRequest);
                 if (properties != null)
                     propRequest.putAll(properties);
