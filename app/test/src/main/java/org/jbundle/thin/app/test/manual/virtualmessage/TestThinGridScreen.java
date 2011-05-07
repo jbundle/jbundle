@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
-import org.jbundle.thin.base.message.BaseMessageManager;
+import org.jbundle.thin.base.message.ThinMessageManager;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.screen.BaseApplet;
@@ -58,14 +58,14 @@ public class TestThinGridScreen extends JGridScreen
     {
         super.init(parent, record);
         
-        BaseMessageManager.createGridScreenMessageListener(this.getFieldList(), this);
+        ThinMessageManager.createGridScreenMessageListener(this.getFieldList(), this);
     }
     /**
      * 
      */
     public void free()
     {
-        BaseMessageManager.freeScreenMessageListeners(this);
+        ThinMessageManager.freeScreenMessageListeners(this);
         
         super.free();
     }

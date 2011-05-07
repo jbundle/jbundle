@@ -10,7 +10,7 @@ package org.jbundle.thin.app.test.manual.message;
 
 import org.jbundle.thin.app.test.test.db.TestTable;
 import org.jbundle.thin.base.db.FieldList;
-import org.jbundle.thin.base.message.BaseMessageManager;
+import org.jbundle.thin.base.message.ThinMessageManager;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.screen.grid.JGridScreen;
 import org.jbundle.thin.base.screen.grid.ThinTableModel;
@@ -51,14 +51,14 @@ public class TestThinGridScreen extends JGridScreen
     {
         super.init(parent, record);
         
-        BaseMessageManager.createGridScreenMessageListener(this.getFieldList(), this);
+        ThinMessageManager.createGridScreenMessageListener(this.getFieldList(), this);
     }
     /**
      * Cleanup.
      */
     public void free()
     {
-        BaseMessageManager.freeScreenMessageListeners(this);
+        ThinMessageManager.freeScreenMessageListeners(this);
         
         super.free();
     }

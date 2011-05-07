@@ -16,7 +16,7 @@ import javax.swing.text.JTextComponent;
 import org.jbundle.thin.app.test.test.db.TestTable;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
-import org.jbundle.thin.base.message.BaseMessageManager;
+import org.jbundle.thin.base.message.ThinMessageManager;
 import org.jbundle.thin.base.screen.JScreen;
 import org.jbundle.thin.base.screen.JScreenToolbar;
 
@@ -62,14 +62,14 @@ public class TestThinScreen extends JScreen
         super.init(parent, obj);
 
         
-        BaseMessageManager.createScreenMessageListener(this.getFieldList(), this);
+        ThinMessageManager.createScreenMessageListener(this.getFieldList(), this);
     }
     /**
      * Cleanup.
      */
     public void free()
     {
-        BaseMessageManager.freeScreenMessageListeners(this);
+        ThinMessageManager.freeScreenMessageListeners(this);
         
         super.free();
     }

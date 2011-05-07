@@ -3,16 +3,16 @@ package org.jbundle.base.message.core;
 import org.jbundle.base.message.core.local.LocalMessageQueue;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBParams;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.message.ThinMessageManager;
 import org.jbundle.thin.base.util.Application;
 
 
 /**
  * The MessageManager organizes the message queues.
  */
-public class ThickMessageManager extends BaseMessageManager
+public class ThickMessageManager extends ThinMessageManager
 {
     /**
      * Constuctor.

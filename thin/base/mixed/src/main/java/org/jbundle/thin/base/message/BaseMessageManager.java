@@ -1,23 +1,14 @@
 package org.jbundle.thin.base.message;
 
 import java.util.Hashtable;
-import java.util.Properties;
 
+import org.jbundle.model.App;
 import org.jbundle.model.message.MessageFilter;
 import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.message.MessageQueue;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.model.message.MessageSender;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.FieldList;
-import org.jbundle.thin.base.db.FieldTable;
-import org.jbundle.thin.base.message.event.FieldListMessageHandler;
-import org.jbundle.thin.base.message.event.ModelMessageHandler;
-import org.jbundle.thin.base.message.session.ClientSessionMessageFilter;
-import org.jbundle.thin.base.remote.RemoteSession;
-import org.jbundle.thin.base.screen.JBaseScreen;
-import org.jbundle.thin.base.screen.grid.JGridScreen;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -30,7 +21,7 @@ public class BaseMessageManager extends Object
     /**
      * My parent application.
      */
-    protected Application m_app = null;
+    protected App m_app = null;
     /**
      * My Message queues.
      */
@@ -47,7 +38,7 @@ public class BaseMessageManager extends Object
      * Constuctor.
      * @param app My parent application.
      */
-    public BaseMessageManager(Application app)
+    public BaseMessageManager(App app)
     {
         this();
         this.init(app);
@@ -56,7 +47,7 @@ public class BaseMessageManager extends Object
      * Constuctor.
      * @param app My parent application.
      */
-    public void init(Application app)
+    public void init(App app)
     {
         m_app = app;
         m_messageMap = new Hashtable<String,BaseMessageQueue>();
@@ -158,7 +149,7 @@ public class BaseMessageManager extends Object
      * Get the application for this task.
      * @return My parent application.
      */
-    public Application getApplication()
+    public App getApplication()
     {
         return m_app;
     }
@@ -191,59 +182,5 @@ public class BaseMessageManager extends Object
         else
             return Constants.ERROR_RETURN;  // Queue doesn't exist
         return Constants.NORMAL_RETURN;
-    }
-    /**
-     * Create a screen message listener for this screen.
-     */
-    public static JMessageListener createScreenMessageListener(FieldList record, JBaseScreen screen)
-    {
-        return BaseMessageManager.createMessageListener(record, screen);
-    }
-    /**
-     * Create a screen message listener for this screen.
-     */
-    public static JMessageListener createGridScreenMessageListener(FieldList record, JGridScreen screen)
-    {
-        return BaseMessageManager.createMessageListener(record, screen);
-    }
-    /**
-     * Create a screen message listener for this screen.
-     */
-    public static JMessageListener createMessageListener(FieldList record, JBaseScreen screen)
-    {
-        // Now add listeners to update screen when data changes
-        FieldTable table = record.getTable();
-        RemoteSession remoteSession = ((org.jbundle.thin.base.db.client.RemoteFieldTable) table).getRemoteTableType(java.rmi.server.RemoteStub.class);
-
-        BaseMessageManager messageManager = screen.getBaseApplet().getApplication().getMessageManager();
-        MessageReceiver handler = messageManager.getMessageQueue(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE).getMessageReceiver();
-
-        JMessageListener listenerForSession = null;
-        Properties properties = new Properties();
-        if (screen instanceof JGridScreen)
-        {
-            listenerForSession = new ModelMessageHandler(null, ((JGridScreen)screen).getGridModel());
-            properties.setProperty(MessageConstants.CLASS_NAME, MessageConstants.GRID_FILTER);
-        }
-        else
-        {
-            listenerForSession = new FieldListMessageHandler(record);
-            properties.setProperty(MessageConstants.CLASS_NAME, MessageConstants.RECORD_FILTER);
-        }
-
-        BaseMessageFilter filterForSession = new ClientSessionMessageFilter(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE, screen, remoteSession, properties);
-        filterForSession.addMessageListener(listenerForSession);
-        handler.addMessageFilter(filterForSession);
-        
-        return listenerForSession;
-    }
-    /**
-     * Cleanup.
-     */
-    public static void freeScreenMessageListeners(JBaseScreen screen)
-    {
-        BaseMessageManager messageManager = screen.getBaseApplet().getApplication().getMessageManager();
-        messageManager.freeListenersWithSource(screen);
-        messageManager.freeFiltersWithSource(screen);
     }
 }

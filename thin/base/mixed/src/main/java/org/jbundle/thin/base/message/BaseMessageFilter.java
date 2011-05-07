@@ -387,7 +387,7 @@ public class BaseMessageFilter extends BaseMessageHeader
     }
     /**
      * Try to figure out the remote session that this filter belongs to.
-     * Override this as this implemention is empty!
+     * Override this as this implementation is empty!
      * @return The remote session.
      */
     public RemoteSession getRemoteSession()

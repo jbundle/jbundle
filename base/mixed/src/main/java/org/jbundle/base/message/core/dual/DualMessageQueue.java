@@ -9,6 +9,7 @@ import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.BaseMessageSender;
 import org.jbundle.thin.base.message.remote.RemoteMessageQueue;
 import org.jbundle.thin.base.remote.RemoteTask;
+import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -64,7 +65,7 @@ public class DualMessageQueue extends RemoteMessageQueue
      */
     public BaseMessageSender createMessageSender()
     {
-        RemoteTask server = (RemoteTask)this.getMessageManager().getApplication().getRemoteTask(null);
+        RemoteTask server = (RemoteTask)((Application)this.getMessageManager().getApplication()).getRemoteTask(null);
         try   {
             return new DualMessageSender(server, this);
         } catch (RemoteException ex)    {
@@ -77,7 +78,7 @@ public class DualMessageQueue extends RemoteMessageQueue
      */
     public BaseMessageReceiver createMessageReceiver()
     {
-        RemoteTask server = (RemoteTask)this.getMessageManager().getApplication().getRemoteTask(null);
+        RemoteTask server = (RemoteTask)((Application)this.getMessageManager().getApplication()).getRemoteTask(null);
         try   {
             return new DualMessageReceiver(server, this);
         } catch (RemoteException ex)    {
