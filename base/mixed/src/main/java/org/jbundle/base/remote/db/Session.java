@@ -16,7 +16,7 @@ import org.jbundle.base.message.record.GridRecordMessageFilter;
 import org.jbundle.base.message.record.RecordMessageFilter;
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.util.Utility;
-import org.jbundle.model.MessageReceiver;
+import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.MessageConstants;

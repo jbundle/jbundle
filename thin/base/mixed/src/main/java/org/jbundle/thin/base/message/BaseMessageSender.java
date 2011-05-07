@@ -1,7 +1,7 @@
 package org.jbundle.thin.base.message;
 
-import org.jbundle.model.Message;
-import org.jbundle.model.MessageSender;
+import org.jbundle.model.message.Message;
+import org.jbundle.model.message.MessageSender;
 
 /**
  * BaseMessageSender.java

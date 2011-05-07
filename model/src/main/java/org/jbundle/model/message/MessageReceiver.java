@@ -1,4 +1,4 @@
-package org.jbundle.model;
+package org.jbundle.model.message;
 
 
 

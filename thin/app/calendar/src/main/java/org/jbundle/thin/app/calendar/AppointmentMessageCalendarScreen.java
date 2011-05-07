@@ -9,7 +9,7 @@ package org.jbundle.thin.app.calendar;
  */
 import java.util.Properties;
 
-import org.jbundle.model.MessageReceiver;
+import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.client.RemoteFieldTable;
 import org.jbundle.thin.base.message.BaseMessageFilter;

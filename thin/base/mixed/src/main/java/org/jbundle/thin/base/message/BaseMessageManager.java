@@ -3,11 +3,11 @@ package org.jbundle.thin.base.message;
 import java.util.Hashtable;
 import java.util.Properties;
 
-import org.jbundle.model.MessageFilter;
-import org.jbundle.model.MessageManager;
-import org.jbundle.model.MessageQueue;
-import org.jbundle.model.MessageReceiver;
-import org.jbundle.model.MessageSender;
+import org.jbundle.model.message.MessageFilter;
+import org.jbundle.model.message.MessageManager;
+import org.jbundle.model.message.MessageQueue;
+import org.jbundle.model.message.MessageReceiver;
+import org.jbundle.model.message.MessageSender;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;

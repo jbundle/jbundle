@@ -1,5 +1,7 @@
 package org.jbundle.model;
 
+import org.jbundle.model.message.MessageManager;
+
 
 /**
  * The environment is a singleton that contains the system properties and all the running apps.

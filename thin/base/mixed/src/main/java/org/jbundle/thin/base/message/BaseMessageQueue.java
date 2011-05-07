@@ -1,6 +1,6 @@
 package org.jbundle.thin.base.message;
 
-import org.jbundle.model.MessageQueue;
+import org.jbundle.model.message.MessageQueue;
 
 
 /**

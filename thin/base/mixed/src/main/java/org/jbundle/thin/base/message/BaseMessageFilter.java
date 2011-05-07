@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import org.jbundle.model.MessageFilter;
+import org.jbundle.model.message.MessageFilter;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.util.Util;
 

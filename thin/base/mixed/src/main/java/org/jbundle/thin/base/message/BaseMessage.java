@@ -9,7 +9,7 @@ package org.jbundle.thin.base.message;
 import java.io.Serializable;
 import java.util.Iterator;
 
-import org.jbundle.model.Message;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.util.Util;
 import org.w3c.dom.Document;

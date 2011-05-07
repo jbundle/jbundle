@@ -1,4 +1,6 @@
-package org.jbundle.model;
+package org.jbundle.model.message;
+
+import org.jbundle.model.Freeable;
 
 
 /**
