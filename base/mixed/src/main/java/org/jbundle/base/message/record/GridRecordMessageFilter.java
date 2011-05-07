@@ -14,7 +14,6 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
-import org.jbundle.thin.base.remote.RemoteSession;
 
 
 /** 
@@ -209,7 +208,7 @@ public class GridRecordMessageFilter extends BaseRecordMessageFilter
      * In this case, the source cannot be passed to the remote session because it is the
      * record, so the record must be re-linked to this (remote) session.
      */
-    public BaseMessageFilter linkRemoteSession(RemoteSession remoteSession)
+    public BaseMessageFilter linkRemoteSession(Object remoteSession)
     {
         if (remoteSession instanceof org.jbundle.base.remote.db.Session)
             if (m_source == null)

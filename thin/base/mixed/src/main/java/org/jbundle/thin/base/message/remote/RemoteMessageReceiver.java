@@ -107,7 +107,7 @@ public class RemoteMessageReceiver extends BaseMessageReceiver
             // If at all possible, pass the queue's current session, so the filter is in the proper environment
             if (messageFilter.isCreateRemoteFilter())   // Almost always true
             {       // Create the remote version of this filter.
-                RemoteSession remoteSession = messageFilter.getRemoteSession();
+                RemoteSession remoteSession = (RemoteSession)messageFilter.getRemoteSession();
                 BaseMessageFilter remoteFilter = m_receiveQueue.addRemoteMessageFilter(messageFilter, remoteSession);
                 messageFilter.setRemoteFilterInfo(remoteFilter.getQueueName(), remoteFilter.getQueueType(), remoteFilter.getFilterID(), remoteFilter.getRegistryID());
             }

@@ -149,9 +149,9 @@ public class BaseRecordMessageFilter extends BaseMessageFilter
      * In this case, the remotesession should be the RecordOwner.
      * @return The remote session that belongs to this filter.
      */
-    public RemoteSession getRemoteSession()
+    public Object getRemoteSession()
     {
-        RemoteSession remoteSession = super.getRemoteSession();
+        Object remoteSession = super.getRemoteSession();
         if (remoteSession == null)
             if (this.getMessageSource() instanceof Record)
         {
@@ -170,7 +170,7 @@ public class BaseRecordMessageFilter extends BaseMessageFilter
      * In this case, the source cannot be passed to the remote session because it is the
      * record, so the record must be re-linked to this (remote) session.
      */
-    public BaseMessageFilter linkRemoteSession(RemoteSession remoteSession)
+    public BaseMessageFilter linkRemoteSession(Object remoteSession)
     {
         if (remoteSession instanceof org.jbundle.base.remote.db.Session)
             if (m_source == null)

@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.jbundle.model.message.MessageFilter;
-import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.util.Util;
 
 
@@ -390,7 +389,7 @@ public class BaseMessageFilter extends BaseMessageHeader
      * Override this as this implementation is empty!
      * @return The remote session.
      */
-    public RemoteSession getRemoteSession()
+    public Object getRemoteSession()
     {
         return null;
     }
@@ -401,7 +400,7 @@ public class BaseMessageFilter extends BaseMessageHeader
      * Or if the server version of this filter is different, you have a chance to change the filter.
      * @param remoteSession The remote session to link/set.
      */
-    public BaseMessageFilter linkRemoteSession(RemoteSession remoteSession)
+    public BaseMessageFilter linkRemoteSession(Object remoteSession)
     {
         return this;    // Don't change the filter.
     }

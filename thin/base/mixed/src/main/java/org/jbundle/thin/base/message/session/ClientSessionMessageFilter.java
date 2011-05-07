@@ -140,7 +140,7 @@ public class ClientSessionMessageFilter extends BaseMessageFilter
      * Try to figure out the remote session that this filter belongs to.
      * @return The remote session.
      */
-    public RemoteSession getRemoteSession()
+    public Object getRemoteSession()
     {
         return m_session;
     }
@@ -162,7 +162,7 @@ public class ClientSessionMessageFilter extends BaseMessageFilter
      * Or if the server version of this filter is different, you have a chance to change the filter.
      * @param remoteSession The remote session to link/set.
      */
-    public BaseMessageFilter linkRemoteSession(RemoteSession remoteSession)
+    public BaseMessageFilter linkRemoteSession(Object remoteSession)
     {
         return new ServerSessionMessageFilter(this.getQueueName(), this.getQueueType(), null, remoteSession, m_bPrivate, true); // This is hooked to a thin filter
     }
