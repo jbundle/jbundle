@@ -9,7 +9,7 @@ import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.KeyAreaInfo;
 import org.jbundle.thin.base.remote.RemoteTable;
-import org.jbundle.thin.base.util.Util;
+import org.jbundle.thin.base.util.ThinUtil;
 
 
 /**
@@ -365,7 +365,7 @@ public class RemoteFieldTable extends VectorFieldTable
      */
     public RemoteTable getRemoteTableType(Class<?> classType)
     {
-        return Util.getRemoteTableType(m_tableRemote, classType);
+        return ThinUtil.getRemoteTableType(m_tableRemote, classType);
     }
     /**
      * This is just a convenience method to get the server for this APPLICATION, so I can synchronize the remote access.

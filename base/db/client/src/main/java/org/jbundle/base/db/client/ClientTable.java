@@ -26,7 +26,7 @@ import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
 import org.jbundle.thin.base.db.client.CachedRemoteTable;
 import org.jbundle.thin.base.remote.RemoteTable;
-import org.jbundle.thin.base.util.Util;
+import org.jbundle.thin.base.util.ThinUtil;
 
 
 /**
@@ -575,7 +575,7 @@ public class ClientTable extends BaseTable
      */
     public RemoteTable getRemoteTableType(Class<?> classType)
     {
-        return Util.getRemoteTableType(m_tableRemote, classType);
+        return ThinUtil.getRemoteTableType(m_tableRemote, classType);
     }
     /**
      * Set the remotetable reference.
@@ -634,7 +634,7 @@ public class ClientTable extends BaseTable
      */
     public Object getSyncObject()
     {
-        return Util.getRemoteTableType(m_tableRemote, java.rmi.server.RemoteStub.class);
+        return ThinUtil.getRemoteTableType(m_tableRemote, java.rmi.server.RemoteStub.class);
     }
     /**
      * Return this table drive type for the getObjectSource call. (Override this method)

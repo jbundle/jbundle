@@ -6,7 +6,7 @@ import java.util.Map;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.remote.RemoteDatabase;
 import org.jbundle.thin.base.remote.RemoteTable;
-import org.jbundle.thin.base.util.Util;
+import org.jbundle.thin.base.util.ThinUtil;
 
 
 /**
@@ -303,7 +303,7 @@ public class SyncRemoteTable extends Object
      */
     public RemoteTable getRemoteTableType(Class<?> classType)
     {
-        return Util.getRemoteTableType(m_tableRemote, classType);
+        return ThinUtil.getRemoteTableType(m_tableRemote, classType);
     }
     /**
      * Get/Make this remote database session for this table session.

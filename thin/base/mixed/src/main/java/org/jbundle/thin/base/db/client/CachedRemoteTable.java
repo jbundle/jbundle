@@ -11,7 +11,7 @@ import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.util.ArrayCache;
 import org.jbundle.thin.base.remote.RemoteDatabase;
 import org.jbundle.thin.base.remote.RemoteTable;
-import org.jbundle.thin.base.util.Util;
+import org.jbundle.thin.base.util.ThinUtil;
 
 
 /**
@@ -143,7 +143,7 @@ public class CachedRemoteTable extends Object
      */
     public RemoteTable getRemoteTableType(Class<?> classType)
     {
-        return Util.getRemoteTableType(m_tableRemote, classType);
+        return ThinUtil.getRemoteTableType(m_tableRemote, classType);
     }
     /**
      * Set my remote session.

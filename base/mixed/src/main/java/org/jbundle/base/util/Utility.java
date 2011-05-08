@@ -41,14 +41,14 @@ import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.Util;
+import org.jbundle.thin.base.util.ThinUtil;
 import org.w3c.dom.Node;
 
 
 /**
  * Static utility methods.
  */
-public class Utility extends Util
+public class Utility extends ThinUtil
 {
     /**
      * SaveProductParam Method.

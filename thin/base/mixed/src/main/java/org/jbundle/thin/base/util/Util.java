@@ -16,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.rmi.RemoteException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -47,7 +46,6 @@ import org.jbundle.model.Service;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
-import org.jbundle.thin.base.remote.RemoteTable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
@@ -448,32 +446,6 @@ public class Util extends Object
                string = string.substring(0, i) + "." + string.substring(i + 1);
        }
        return string;
-   }
-   /**
-    * Get the remote table reference.
-    * If you want the remote table session, call this method with java.rmi.server.RemoteStub.class.
-    * @classType The base class I'm looking for (If null, return the next table on the chain) 
-    * @return The remote table reference.
-    */
-   public static RemoteTable getRemoteTableType(RemoteTable tableRemote, Class<?> classType)
-   {
-       if ((classType == null) || (tableRemote == null) || (classType.isAssignableFrom(tableRemote.getClass())))
-           return tableRemote;
-       RemoteTable remoteTable = null;
-       if (!(tableRemote instanceof java.rmi.server.RemoteStub)) // No need to actually do the remote call
-           if (!(tableRemote instanceof java.rmi.server.UnicastRemoteObject))
-               if (!(tableRemote instanceof java.lang.reflect.Proxy)) // No need to actually do the remote call
-       {
-           try {
-               remoteTable = tableRemote.getRemoteTableType(classType);
-           } catch (RemoteException ex)    {
-               // Never.
-           }
-       }
-       if (classType == java.rmi.server.RemoteStub.class)  // Yeah I know this has already been done, but it is possible the EJB server may be forcing me to use a proxy
-           if (remoteTable == null)
-               return tableRemote;    // If you're asking for the last in the chain, that's me
-       return remoteTable;
    }
    /**
     * Fake disable a control.
