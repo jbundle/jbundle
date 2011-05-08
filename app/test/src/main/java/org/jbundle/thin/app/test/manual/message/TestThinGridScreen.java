@@ -10,10 +10,10 @@ package org.jbundle.thin.app.test.manual.message;
 
 import org.jbundle.thin.app.test.test.db.TestTable;
 import org.jbundle.thin.base.db.FieldList;
-import org.jbundle.thin.base.message.ThinMessageManager;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.screen.grid.JGridScreen;
 import org.jbundle.thin.base.screen.grid.ThinTableModel;
+import org.jbundle.thin.base.util.ThinMessageManager;
 
 
 /**

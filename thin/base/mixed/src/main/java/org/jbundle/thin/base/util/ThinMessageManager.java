@@ -1,17 +1,20 @@
-package org.jbundle.thin.base.message;
+package org.jbundle.thin.base.util;
 
 import java.util.Properties;
 
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
+import org.jbundle.thin.base.message.BaseMessageFilter;
+import org.jbundle.thin.base.message.BaseMessageManager;
+import org.jbundle.thin.base.message.JMessageListener;
+import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.message.event.FieldListMessageHandler;
 import org.jbundle.thin.base.message.event.ModelMessageHandler;
 import org.jbundle.thin.base.message.session.ClientSessionMessageFilter;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.screen.JBaseScreen;
 import org.jbundle.thin.base.screen.grid.JGridScreen;
-import org.jbundle.thin.base.util.Application;
 
 
 /**

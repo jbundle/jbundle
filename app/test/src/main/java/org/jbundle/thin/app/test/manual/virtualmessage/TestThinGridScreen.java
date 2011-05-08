@@ -13,12 +13,12 @@ import java.rmi.RemoteException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
-import org.jbundle.thin.base.message.ThinMessageManager;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.grid.JGridScreen;
 import org.jbundle.thin.base.screen.grid.ThinTableModel;
+import org.jbundle.thin.base.util.ThinMessageManager;
 
 
 /**
