@@ -28,14 +28,14 @@ public class BaseMessageManager extends Object
     protected Hashtable<String,BaseMessageQueue> m_messageMap = null;
 
     /**
-     * Constuctor.
+     * Constructor.
      */
     public BaseMessageManager()
     {
         super();
     }
     /**
-     * Constuctor.
+     * Constructor.
      * @param app My parent application.
      */
     public BaseMessageManager(App app)
