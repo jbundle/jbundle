@@ -7,9 +7,9 @@
 package org.jbundle.thin.base.message;
 
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.util.Constant;
 
 /**
  * This is the base message for sending and receiving requests.

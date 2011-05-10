@@ -1,7 +1,7 @@
 package org.jbundle.thin.base.message;
 
 import org.jbundle.model.Freeable;
-import org.jbundle.thin.base.db.Constant;
+import org.jbundle.model.util.Constant;
 
 /**
  * A BaseMessageListener is an abstract class for handling incoming messages.

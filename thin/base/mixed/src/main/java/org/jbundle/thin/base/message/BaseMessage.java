@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 import org.jbundle.model.message.Message;
-import org.jbundle.thin.base.db.Constant;
+import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

@@ -12,7 +12,7 @@ import java.util.Map;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Rec;
-import org.jbundle.thin.base.db.Constant;
+import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.util.Util;
 

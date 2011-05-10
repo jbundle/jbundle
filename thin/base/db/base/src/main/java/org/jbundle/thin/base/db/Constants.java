@@ -11,6 +11,8 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Insets;
 
+import org.jbundle.model.util.Constant;
+
 /**
  * Constants.
  */

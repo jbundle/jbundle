@@ -8,7 +8,7 @@ import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.message.MessageQueue;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.model.message.MessageSender;
-import org.jbundle.thin.base.db.Constant;
+import org.jbundle.model.util.Constant;
 
 
 /**

@@ -10,8 +10,8 @@ import java.io.Serializable;
 import java.util.Map;
 
 import org.jbundle.model.PropertyOwner;
-import org.jbundle.thin.base.db.Constant;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.util.Constant;
 
 
 /**
