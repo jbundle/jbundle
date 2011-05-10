@@ -15,8 +15,8 @@ import org.jbundle.app.program.db.ScreenIn;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.screen.BaseApplet;
-import org.jbundle.thin.base.util.Util;
 
 
 // Creates the DAO DBEngine use the license

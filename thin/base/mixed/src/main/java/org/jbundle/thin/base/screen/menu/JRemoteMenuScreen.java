@@ -10,13 +10,13 @@ package org.jbundle.thin.base.screen.menu;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.thread.TaskScheduler;
-import org.jbundle.thin.base.util.Util;
 
 /**
  * A Basic menu that is linked to a remote record.

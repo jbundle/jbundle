@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.jbundle.model.util.Constant;
-import org.jbundle.thin.base.util.Util;
+import org.jbundle.model.util.Util;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 

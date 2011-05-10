@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.model.Freeable;
-import org.jbundle.thin.base.util.Util;
+import org.jbundle.model.util.Util;
 
 
 /** 

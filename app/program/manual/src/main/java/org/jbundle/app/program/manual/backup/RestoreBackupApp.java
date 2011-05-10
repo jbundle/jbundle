@@ -16,8 +16,8 @@ import org.jbundle.base.db.util.log.BackupConstants;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.thread.AutoTask;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

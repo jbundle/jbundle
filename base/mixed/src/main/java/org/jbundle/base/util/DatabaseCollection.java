@@ -13,7 +13,7 @@ import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.util.Util;
+import org.jbundle.model.util.Util;
 
 
 /**

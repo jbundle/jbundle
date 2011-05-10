@@ -13,10 +13,10 @@ import java.util.Map;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.MessageConstants;
-import org.jbundle.thin.base.util.Util;
 
 
 /** 

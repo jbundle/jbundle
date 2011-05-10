@@ -35,6 +35,7 @@ import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Service;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
@@ -59,7 +60,6 @@ import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.RecordOwnerCollection;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 import org.jbundle.thin.base.util.ThinUtil;
-import org.jbundle.thin.base.util.Util;
 import org.jbundle.thin.base.util.base64.Base64;
 
 /**

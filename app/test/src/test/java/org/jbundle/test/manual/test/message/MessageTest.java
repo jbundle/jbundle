@@ -13,10 +13,10 @@ import org.jbundle.app.test.vet.db.Vet;
 import org.jbundle.base.thread.ProcessRunnerTask;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.TreeMessage;
 import org.jbundle.thin.base.screen.BaseApplet;
-import org.jbundle.thin.base.util.Util;
 
 
 // SimpleForm is the data entry form for the sample

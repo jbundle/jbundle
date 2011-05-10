@@ -16,7 +16,7 @@ import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.thin.base.util.Util;
+import org.jbundle.model.util.Util;
 
 
 /**

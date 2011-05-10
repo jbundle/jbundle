@@ -27,6 +27,7 @@ import javax.swing.Timer;
 
 import org.jbundle.base.db.util.log.BackupConstants;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
@@ -35,7 +36,6 @@ import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.remote.RemoteMessageManager;
 import org.jbundle.thin.base.screen.ThinApplication;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

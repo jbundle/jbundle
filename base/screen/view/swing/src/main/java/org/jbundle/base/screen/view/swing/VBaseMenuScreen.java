@@ -32,8 +32,8 @@ import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

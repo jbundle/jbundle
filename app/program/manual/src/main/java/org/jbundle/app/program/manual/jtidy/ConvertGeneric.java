@@ -19,8 +19,8 @@ import org.jbundle.app.program.db.ClassInfo;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.screen.BaseApplet;
-import org.jbundle.thin.base.util.Util;
 import org.w3c.tidy.Tidy;
 
 

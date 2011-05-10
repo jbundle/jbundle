@@ -7,8 +7,8 @@ import java.util.Map;
 import org.jbundle.model.message.MessageFilter;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.model.util.Constant;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

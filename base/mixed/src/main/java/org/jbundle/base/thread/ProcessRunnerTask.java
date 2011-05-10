@@ -13,9 +13,9 @@ import java.util.Map;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.Service;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.thread.AutoTask;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

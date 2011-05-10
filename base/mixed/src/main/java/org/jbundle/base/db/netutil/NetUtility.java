@@ -14,6 +14,7 @@ import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
@@ -23,7 +24,6 @@ import org.jbundle.thin.base.db.mem.memory.MDatabase;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseOwner;
 import org.jbundle.thin.base.db.model.ThinPhysicalTableOwner;
-import org.jbundle.thin.base.util.Util;
 
 /**
  * Read a net table into a stream.

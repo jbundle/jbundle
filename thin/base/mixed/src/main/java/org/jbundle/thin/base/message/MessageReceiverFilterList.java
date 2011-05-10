@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.jbundle.model.Freeable;
-import org.jbundle.thin.base.util.Util;
+import org.jbundle.model.util.Util;
 
 
 /**

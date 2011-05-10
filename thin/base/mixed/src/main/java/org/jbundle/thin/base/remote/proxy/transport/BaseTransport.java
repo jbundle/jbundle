@@ -15,10 +15,10 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

@@ -11,8 +11,8 @@ import java.util.Map;
 
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

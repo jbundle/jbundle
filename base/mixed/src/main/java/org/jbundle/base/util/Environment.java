@@ -19,12 +19,12 @@ import org.jbundle.main.msg.app.MessageInfoApplication;
 import org.jbundle.model.Service;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Service;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

@@ -12,8 +12,8 @@ import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.model.Service;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

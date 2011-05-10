@@ -8,13 +8,13 @@ import javax.swing.JApplet;
 
 import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.Freeable;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
-import org.jbundle.thin.base.util.Util;
 
 public class ThinApplication extends Application {
     /**

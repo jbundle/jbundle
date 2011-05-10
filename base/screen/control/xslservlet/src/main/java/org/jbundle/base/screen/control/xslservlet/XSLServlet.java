@@ -37,9 +37,9 @@ import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.util.DBParams;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

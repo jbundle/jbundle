@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.swing.JApplet;
 
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
@@ -20,7 +21,6 @@ import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.screen.ThinApplication;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

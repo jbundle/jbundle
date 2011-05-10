@@ -37,12 +37,12 @@ import org.jbundle.main.user.db.UserLogosField;
 import org.jbundle.main.user.db.UserMenubarField;
 import org.jbundle.main.user.db.UserNavMenusField;
 import org.jbundle.model.DBException;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.screen.print.ScreenPrinter;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

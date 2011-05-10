@@ -12,8 +12,8 @@ import java.util.Map;
 
 import netscape.javascript.JSObject;
 
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.util.Util;
 
 
 /** 

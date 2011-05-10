@@ -26,10 +26,10 @@ import javax.swing.plaf.metal.MetalTheme;
 import javax.swing.plaf.metal.OceanTheme;
 
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.landf.theme.CustomTheme;
-import org.jbundle.thin.base.util.Util;
 
 
 

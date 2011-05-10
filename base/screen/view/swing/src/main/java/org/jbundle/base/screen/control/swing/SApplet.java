@@ -24,12 +24,12 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.model.Service;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Service;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.comp.JTiledImage;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

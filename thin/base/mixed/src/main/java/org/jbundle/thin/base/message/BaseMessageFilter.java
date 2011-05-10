@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.jbundle.model.message.MessageFilter;
-import org.jbundle.thin.base.util.Util;
+import org.jbundle.model.util.Util;
 
 
 /** 

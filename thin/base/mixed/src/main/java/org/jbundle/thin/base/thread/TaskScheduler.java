@@ -16,9 +16,9 @@ import java.util.Vector;
 import org.jbundle.model.Service;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.JBaseFrame;
-import org.jbundle.thin.base.util.Util;
 
 /**
  * Schedules jobs to run in the background (under different tasks).

@@ -18,10 +18,10 @@ import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Util;
 import org.jbundle.test.manual.TestAll;
 import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.Util;
 
 
 /**

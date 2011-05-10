@@ -27,9 +27,9 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.remote.ApplicationServer;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.Util;
 
 import org.jbundle.model.Service;
+import org.jbundle.model.util.Util;
 
 /** 
  * RmiSessionServer - The remote server.
