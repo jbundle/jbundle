@@ -9,7 +9,7 @@ package org.jbundle.thin.base.message;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.model.db.Rec;
 
 /**
  * This is the base message for sending and receiving requests.
@@ -32,7 +32,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
     public static final String CHANGE_RECORD = "Change";
     public static final String DELETE_RECORD = "Delete";
 
-    protected FieldList m_recTargetFieldList = null;
+    protected Rec m_recTargetFieldList = null;
 
     /**
      * Creates a new instance of HotelRateRequestOut
@@ -64,16 +64,16 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * If this method is used, is must be overidden to move the correct fields.
      * @param record The record to get the data from.
      */
-    public int handlePutRawRecordData(FieldList record)
+    public int handlePutRawRecordData(Rec record)
     {
         int iErrorCode = Constant.NORMAL_RETURN;
         int iRecordCount = this.getRecordCount(record);
         
-        FieldList recTargetRecord = this.setDataIndex(RESET_INDEX, record);   // Reset index if multiple
+        Rec recTargetRecord = this.setDataIndex(RESET_INDEX, record);   // Reset index if multiple
         
         for (int index = 1; index <= iRecordCount; index++)
         {
-            FieldList recNext = this.setDataIndex(index, recTargetRecord);
+            Rec recNext = this.setDataIndex(index, recTargetRecord);
             if (recNext == null)
                 break;
             
@@ -90,7 +90,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * @param record
      * @return
      */
-    public int getRecordCount(FieldList record)
+    public int getRecordCount(Rec record)
     {
         int iRecordCount = 1;
         if ((this.getNodeType() == MessageRecordDesc.NON_UNIQUE_NODE)
@@ -104,7 +104,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * @param record The record I am moving data to. If this is null, don't position/setup the data.
      * @return An error code.
      */
-    public FieldList setDataIndex(int iNodeIndex, FieldList record)
+    public Rec setDataIndex(int iNodeIndex, Rec record)
     {
         if (record != null)
         {
@@ -135,7 +135,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
                         {
                             if (record.getTable().hasNext())
                             {
-                                record = (FieldList)record.getTable().next();
+                                record = (Rec)record.getTable().next();
                                 if (record != null)
                                     if (m_recTargetFieldList != null)
                                         if (record.getTableNames(false).equalsIgnoreCase(m_recTargetFieldList.getTableNames(false)))
@@ -163,7 +163,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * Am I using the current record as the data record?
      * @return true if I am
      */
-    public boolean isCurrentDataRecord(FieldList record)
+    public boolean isCurrentDataRecord(Rec record)
     {
         return (m_recTargetFieldList == record);
     }
@@ -172,7 +172,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * @param record
      * @return
      */
-    public FieldList createSubDataRecord(FieldList record)
+    public Rec createSubDataRecord(Rec record)
     {
         return record;  // Override this to actually create a new record.
     }
@@ -181,7 +181,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * @param record
      * @return The record (or null if error)
      */
-    public FieldList updateRecord(FieldList record, boolean bRefresh)
+    public Rec updateRecord(Rec record, boolean bRefresh)
     {
         try {
             Object bookmark = null;
@@ -217,7 +217,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * @param record The record to move the data to.
      * @return The error code.
      */
-    public int handleGetRawRecordData(FieldList record)
+    public int handleGetRawRecordData(Rec record)
     {
         int iErrorCode = Constant.NORMAL_RETURN;
         record = this.setNodeIndex(RESET_INDEX, record);   // Being careful
@@ -244,7 +244,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * @param record The record I am moving data to. If this is null, don't position/setup the data.
      * @return An error code.
      */
-    public FieldList setNodeIndex(int iNodeIndex, FieldList record)
+    public Rec setNodeIndex(int iNodeIndex, Rec record)
     {
         record = super.setNodeIndex(iNodeIndex, record);
         
@@ -281,7 +281,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * @param record
      * @return
      */
-    public FieldList createSubNodeRecord(FieldList record)
+    public Rec createSubNodeRecord(Rec record)
     {
         return this.createSubDataRecord(record);    // By default these are the same
     }
@@ -289,7 +289,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * Am I using the current record as the data record?
      * @return true if I am
      */
-    public boolean isCurrentNodeRecord(FieldList record)
+    public boolean isCurrentNodeRecord(Rec record)
     {
         return this.isCurrentDataRecord(record);
     }
@@ -298,7 +298,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * @param record
      * @return
      */
-    public boolean freeSubNodeRecord(FieldList record)
+    public boolean freeSubNodeRecord(Rec record)
     {
         m_recTargetFieldList = null;
         if (record != null)
@@ -313,7 +313,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      * @param record
      * @return null if error, otherwise return the record
      */
-    public FieldList readCurrentRecord(FieldList record)
+    public Rec readCurrentRecord(Rec record)
     {
         return record;  // Override this to do something
     }

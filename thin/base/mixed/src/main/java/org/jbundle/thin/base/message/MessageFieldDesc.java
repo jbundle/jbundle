@@ -10,10 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.db.Field;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.db.FieldInfo;
-import org.jbundle.thin.base.db.FieldList;
 
 /**
  * This is the base message for sending and receiving requests.
@@ -276,7 +277,7 @@ public class MessageFieldDesc extends MessageDataDesc
      * If this method is used, is must be overidden to move the correct fields.
      * @param record The record to get the data from.
      */
-    public int putRawRecordData(FieldList record)
+    public int putRawRecordData(Rec record)
     {
         return this.putRawFieldData(record.getField(this.getKey()));
     }
@@ -284,7 +285,7 @@ public class MessageFieldDesc extends MessageDataDesc
      * This utility sets this param to the field's raw data.
      * @return TODO
      */
-    public int putRawFieldData(Converter field)
+    public int putRawFieldData(Convert field)
     {
         if (field != null)
         {
@@ -299,9 +300,9 @@ public class MessageFieldDesc extends MessageDataDesc
      * Move the correct fields from this record to the map.
      * If this method is used, is must be overidden to move the correct fields.
      */
-    public int getRawRecordData(FieldList record)
+    public int getRawRecordData(Rec record)
     {
-        FieldInfo fieldInfo = record.getField(this.getKey());
+        Field fieldInfo = record.getField(this.getKey());
         if (fieldInfo != null)
             return this.getRawFieldData(fieldInfo);
         else
@@ -310,7 +311,7 @@ public class MessageFieldDesc extends MessageDataDesc
     /**
      * This utility sets this field to the param's raw data.
      */
-    public int getRawFieldData(Converter field)
+    public int getRawFieldData(Convert field)
     {
         if (this.getKey() == null)
             this.setKey(field.getFieldName());
@@ -334,12 +335,12 @@ public class MessageFieldDesc extends MessageDataDesc
      * @param record The record to initialize
      * @return An error code if there were any problems.
      */
-    public int initForMessage(FieldList record)
+    public int initForMessage(Rec record)
     {
         int iErrorCode = Constant.NORMAL_RETURN;
         if ((this.getKeyInformation() & DONT_INIT) != 0)
             return iErrorCode;  // Don't clear this field
-        FieldInfo field = record.getField(this.getKey());
+        Field field = record.getField(this.getKey());
         if (field != null)
             return field.initField(true);
         return iErrorCode;
@@ -350,7 +351,7 @@ public class MessageFieldDesc extends MessageDataDesc
      * The calling program will change the status if required.
      * @return DATA_REQUIRED if all the data is not present, DATA_VALID if the data is OKAY.
      */
-    public int checkRequestParams(FieldList record)
+    public int checkRequestParams(Rec record)
     {
         int iMessageStatus = DATA_VALID;
 //        FieldInfo field = record.getFieldInfo(this.getKey());

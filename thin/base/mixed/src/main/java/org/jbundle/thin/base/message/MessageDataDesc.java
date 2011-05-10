@@ -11,7 +11,7 @@ import java.util.Map;
 
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.thin.base.db.Constant;
-import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.model.db.Rec;
 
 
 /**
@@ -158,7 +158,7 @@ public class MessageDataDesc extends Object
      * @param record The record to get the data from.
      * @return Error code
      */
-    public int handlePutRawRecordData(FieldList record)
+    public int handlePutRawRecordData(Rec record)
     {
         return this.putRawRecordData(record);
     }
@@ -168,7 +168,7 @@ public class MessageDataDesc extends Object
      * @param record The record to get the data from.
      * @return Error code
      */
-    public int putRawRecordData(FieldList record)
+    public int putRawRecordData(Rec record)
     {
     	return Constant.NORMAL_RETURN;		// Override this
     }
@@ -176,7 +176,7 @@ public class MessageDataDesc extends Object
      * Move the correct fields from this record to the map.
      * If this method is used, is must be overidden to move the correct fields.
      */
-    public int handleGetRawRecordData(FieldList record)
+    public int handleGetRawRecordData(Rec record)
     {
         return this.getRawRecordData(record);
     }
@@ -184,7 +184,7 @@ public class MessageDataDesc extends Object
      * Move the correct fields from this record to the map.
      * If this method is used, is must be overidden to move the correct fields.
      */
-    public int getRawRecordData(FieldList record)
+    public int getRawRecordData(Rec record)
     {
         int iMessageStatus = Constant.NORMAL_RETURN;        // Override this
         return iMessageStatus;
@@ -202,7 +202,7 @@ public class MessageDataDesc extends Object
      * @param record The record to initialize
      * @return An error code if there were any problems.
      */
-    public int initForMessage(FieldList record)
+    public int initForMessage(Rec record)
     {
         int iErrorCode = Constant.NORMAL_RETURN;   // Override this
         return iErrorCode;
@@ -213,7 +213,7 @@ public class MessageDataDesc extends Object
      * The calling program will change the status if required.
      * @return DATA_REQUIRED if all the data is not present, DATA_VALID if the data is OKAY.
      */
-    public int checkRequestParams(FieldList record)
+    public int checkRequestParams(Rec record)
     {
         int iMessageStatus = DATA_VALID;    // Override this
         return iMessageStatus;

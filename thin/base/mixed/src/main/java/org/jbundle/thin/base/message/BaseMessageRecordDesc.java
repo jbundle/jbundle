@@ -10,9 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.util.Util;
 
 
@@ -186,7 +187,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
     /**
      * Does this message only include a single booking detail item?.
      */
-    public boolean isSingleDetail(FieldList record)
+    public boolean isSingleDetail(Rec record)
     {
         boolean bSingleDetail = true;
         
@@ -201,7 +202,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      * If this method is used, is must be overidden to move the correct fields.
      * @param record The record to get the data from.
      */
-    public int handlePutRawRecordData(FieldList record)
+    public int handlePutRawRecordData(Rec record)
     {
         int iErrorCode = Constant.NORMAL_RETURN;
             
@@ -227,7 +228,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      * If this method is used, is must be overidden to move the correct fields.
      * @param record The record to get the data from.
      */
-    public int putRawRecordData(FieldList record)
+    public int putRawRecordData(Rec record)
     {
         if (this.getNodeType() == BaseMessageRecordDesc.NON_UNIQUE_NODE)
             this.getMessage().createNewNode(this.getFullKey(null));
@@ -237,7 +238,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      * This utility sets this param to the field's raw data.
      * @param record The record to get the data from.
      */
-    public int putRawFieldData(Converter field)
+    public int putRawFieldData(Convert field)
     {
         String strKey = this.getFullKey(field.getFieldName());
         Class<?> classData = String.class;
@@ -257,7 +258,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      * @param record The record to move the data to.
      * @return The error code.
      */
-    public int handleGetRawRecordData(FieldList record)
+    public int handleGetRawRecordData(Rec record)
     {
         int iErrorCode = Constant.NORMAL_RETURN;
             
@@ -283,14 +284,14 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      * @param record The record to move the data to.
      * @return The error code.
      */
-    public int getRawRecordData(FieldList record)
+    public int getRawRecordData(Rec record)
     {
         return super.getRawRecordData(record);    // Override this
     }
     /**
      * This utility sets this field to the param's raw data.
      */
-    public int getRawFieldData(Converter field)
+    public int getRawFieldData(Convert field)
     {
         String strKey = this.getFullKey(field.getFieldName());
         Class<?> classData = field.getField().getDataClass();
@@ -308,7 +309,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      * @param record The record I am moving data to. If this is null, don't position/setup the data.
      * @return An error code.
      */
-    public FieldList setNodeIndex(int iNodeIndex, FieldList record)
+    public Rec setNodeIndex(int iNodeIndex, Rec record)
     {
         if (END_OF_NODES == iNodeIndex)
             iNodeIndex = 0;
@@ -321,7 +322,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      * @param record The record I am moving data to. If this is null, don't position/setup the data.
      * @return An error code.
      */
-    public FieldList setDataIndex(int iNodeIndex, FieldList record)
+    public Rec setDataIndex(int iNodeIndex, Rec record)
     {
         if (END_OF_NODES == iNodeIndex)
             iNodeIndex = 0;
@@ -401,7 +402,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      * @param record The record to initialize
      * @return An error code if there were any problems.
      */
-    public int initForMessage(FieldList record)
+    public int initForMessage(Rec record)
     {
         int iErrorCode = Constant.NORMAL_RETURN;
         if (m_messageDataDescChildren != null)
@@ -422,7 +423,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      * The calling program will change the status if required.
      * @return DATA_REQUIRED if all the data is not present, DATA_VALID if the data is OKAY.
      */
-    public int checkRequestParams(FieldList record)
+    public int checkRequestParams(Rec record)
     {
         int iMessageStatus = DATA_VALID;
         if (m_messageDataDescChildren != null)
