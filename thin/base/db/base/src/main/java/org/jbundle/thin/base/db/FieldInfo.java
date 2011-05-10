@@ -17,11 +17,11 @@ import java.util.Vector;
 
 import javax.swing.text.JTextComponent;
 
-import org.jbundle.model.Convert;
-import org.jbundle.model.Field;
-import org.jbundle.model.FieldComponent;
-import org.jbundle.model.Rec;
-import org.jbundle.model.ScreenComponent;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.db.Field;
+import org.jbundle.model.db.FieldComponent;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.db.ScreenComponent;
 
 
 
@@ -285,7 +285,7 @@ public class FieldInfo extends Converter
      * Display this field.
      * Go through the sFieldList and setText for JTextComponents and setControlValue for
      * FieldComponents.
-     * @see org.jbundle.model.FieldComponent
+     * @see org.jbundle.model.db.FieldComponent
      */
     public void displayField()                  // init this field override for other value
     {

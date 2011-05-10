@@ -18,8 +18,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.jbundle.model.FieldComponent;
 import org.jbundle.model.Freeable;
+import org.jbundle.model.db.FieldComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.BaseApplet;

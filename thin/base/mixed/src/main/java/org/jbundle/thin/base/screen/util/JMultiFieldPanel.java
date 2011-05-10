@@ -15,10 +15,10 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 
-import org.jbundle.model.Convert;
-import org.jbundle.model.FieldComponent;
 import org.jbundle.model.Freeable;
-import org.jbundle.model.ScreenComponent;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.db.FieldComponent;
+import org.jbundle.model.db.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.JBasePanel;

@@ -8,7 +8,7 @@ package org.jbundle.base.db;
  *
  */
 import org.jbundle.base.util.DBConstants;
-import org.jbundle.model.Field;
+import org.jbundle.model.db.Field;
 
 /**
  * EmptyKey - Definition of an empty index.

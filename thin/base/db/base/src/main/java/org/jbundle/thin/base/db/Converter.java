@@ -15,8 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import org.jbundle.model.Convert;
-import org.jbundle.model.ScreenComponent;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.db.ScreenComponent;
 
 
 

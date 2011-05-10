@@ -10,7 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import org.jbundle.model.FieldComponent;
+import org.jbundle.model.db.FieldComponent;
 import org.jbundle.thin.base.db.Converter;
 
 

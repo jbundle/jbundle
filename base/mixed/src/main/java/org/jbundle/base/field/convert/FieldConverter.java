@@ -12,7 +12,7 @@ import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.SEditText;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.model.Convert;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.util.LinkedConverter;
 

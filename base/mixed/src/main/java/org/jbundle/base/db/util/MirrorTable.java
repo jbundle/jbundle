@@ -12,8 +12,8 @@ import org.jbundle.base.db.PassThruTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.DBException;
-import org.jbundle.model.Field;
-import org.jbundle.model.Rec;
+import org.jbundle.model.db.Field;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 

@@ -21,8 +21,8 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.text.JTextComponent;
 
-import org.jbundle.model.FieldComponent;
-import org.jbundle.model.ScreenComponent;
+import org.jbundle.model.db.FieldComponent;
+import org.jbundle.model.db.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;

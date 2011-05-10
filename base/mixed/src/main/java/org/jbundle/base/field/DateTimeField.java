@@ -32,7 +32,7 @@ import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBSQLTypes;
 import org.jbundle.base.util.ScreenConstants;
-import org.jbundle.model.Field;
+import org.jbundle.model.db.Field;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.util.jcalendarbutton.JCalendarPopup;

@@ -7,8 +7,8 @@ package org.jbundle.thin.base.screen.util;
  *      don@tourgeek.com
  */
 
-import org.jbundle.model.Convert;
-import org.jbundle.model.ScreenComponent;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.db.ScreenComponent;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 

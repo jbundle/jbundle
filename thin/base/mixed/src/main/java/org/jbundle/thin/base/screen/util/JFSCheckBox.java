@@ -8,7 +8,7 @@ package org.jbundle.thin.base.screen.util;
 
 import javax.swing.JCheckBox;
 
-import org.jbundle.model.FieldComponent;
+import org.jbundle.model.db.FieldComponent;
 import org.jbundle.thin.base.db.Converter;
 
 

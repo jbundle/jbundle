@@ -17,7 +17,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import org.jbundle.model.FieldComponent;
+import org.jbundle.model.db.FieldComponent;
 import org.jbundle.thin.base.db.Converter;
 
 

@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.util.Vector;
 
 import org.jbundle.model.DBException;
-import org.jbundle.model.Rec;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.KeyAreaInfo;

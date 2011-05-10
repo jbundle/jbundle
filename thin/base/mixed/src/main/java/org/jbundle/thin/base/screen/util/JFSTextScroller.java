@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
-import org.jbundle.model.FieldComponent;
+import org.jbundle.model.db.FieldComponent;
 import org.jbundle.thin.base.db.Converter;
 
 

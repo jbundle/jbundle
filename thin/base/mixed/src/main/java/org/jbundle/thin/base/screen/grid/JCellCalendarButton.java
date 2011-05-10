@@ -18,8 +18,8 @@ import javax.swing.event.EventListenerList;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import org.jbundle.model.FieldComponent;
 import org.jbundle.model.Freeable;
+import org.jbundle.model.db.FieldComponent;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.screen.JScreen;

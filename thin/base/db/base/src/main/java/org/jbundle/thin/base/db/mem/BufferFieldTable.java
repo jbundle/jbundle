@@ -1,8 +1,8 @@
 package org.jbundle.thin.base.db.mem;
 
 import org.jbundle.model.DBException;
-import org.jbundle.model.Field;
-import org.jbundle.model.Rec;
+import org.jbundle.model.db.Field;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;

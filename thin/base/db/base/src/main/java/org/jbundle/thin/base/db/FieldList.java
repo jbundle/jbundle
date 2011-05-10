@@ -12,12 +12,12 @@ import java.util.ResourceBundle;
 import java.util.Vector;
 
 import org.jbundle.model.DBException;
-import org.jbundle.model.Field;
-import org.jbundle.model.Key;
-import org.jbundle.model.Rec;
 import org.jbundle.model.RecordOwnerParent;
-import org.jbundle.model.Table;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Field;
+import org.jbundle.model.db.Key;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.db.Table;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
 

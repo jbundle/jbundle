@@ -17,7 +17,7 @@ import javax.swing.JMenuItem;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.model.DBException;
-import org.jbundle.model.FieldComponent;
+import org.jbundle.model.db.FieldComponent;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.util.Application;
 
