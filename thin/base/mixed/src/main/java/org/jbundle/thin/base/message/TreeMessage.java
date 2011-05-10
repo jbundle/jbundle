@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -274,9 +274,9 @@ public class TreeMessage extends BaseMessage
             if (bReturnTextNode)
             {
                 if (createMode != CreateMode.CREATE_CDATA_NODE)
-                    node.appendChild(((Document)m_data).createTextNode(Constants.BLANK));
+                    node.appendChild(((Document)m_data).createTextNode(Constant.BLANK));
                 else
-                    node.appendChild(((Document)m_data).createCDATASection(Constants.BLANK));
+                    node.appendChild(((Document)m_data).createCDATASection(Constant.BLANK));
             }
             nodeStart.appendChild(node);
         }

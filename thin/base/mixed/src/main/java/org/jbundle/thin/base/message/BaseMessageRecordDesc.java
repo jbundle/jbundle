@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.model.PropertyOwner;
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.util.Util;
@@ -203,18 +203,18 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      */
     public int handlePutRawRecordData(FieldList record)
     {
-        int iErrorCode = Constants.NORMAL_RETURN;
+        int iErrorCode = Constant.NORMAL_RETURN;
             
         iErrorCode = super.handlePutRawRecordData(record);
         
-        if (iErrorCode == Constants.NORMAL_RETURN)
+        if (iErrorCode == Constant.NORMAL_RETURN)
         {
             if (m_messageDataDescChildren != null)
             {
                 for (String strKey : m_messageDataDescChildren.keySet())
                 {
                     iErrorCode = m_messageDataDescChildren.get(strKey).handlePutRawRecordData(record);
-                    if (iErrorCode != Constants.NORMAL_RETURN)
+                    if (iErrorCode != Constant.NORMAL_RETURN)
                         break;
                 }
             }
@@ -250,7 +250,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
             objValue = null;
         }
         this.getMessage().putNative(strKey, objValue);
-        return Constants.NORMAL_RETURN;
+        return Constant.NORMAL_RETURN;
     }
     /**
      * Move the map values to the correct record fields.
@@ -259,18 +259,18 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      */
     public int handleGetRawRecordData(FieldList record)
     {
-        int iErrorCode = Constants.NORMAL_RETURN;
+        int iErrorCode = Constant.NORMAL_RETURN;
             
         iErrorCode = super.handleGetRawRecordData(record);
         
-        if (iErrorCode == Constants.NORMAL_RETURN)
+        if (iErrorCode == Constant.NORMAL_RETURN)
         {
             if (m_messageDataDescChildren != null)
             {
                 for (String strKey : m_messageDataDescChildren.keySet())
                 {
                     iErrorCode = m_messageDataDescChildren.get(strKey).handleGetRawRecordData(record);
-                    if (iErrorCode != Constants.NORMAL_RETURN)
+                    if (iErrorCode != Constant.NORMAL_RETURN)
                         break;
                 }
             }
@@ -403,14 +403,14 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      */
     public int initForMessage(FieldList record)
     {
-        int iErrorCode = Constants.NORMAL_RETURN;
+        int iErrorCode = Constant.NORMAL_RETURN;
         if (m_messageDataDescChildren != null)
         {
             for (String strKey : m_messageDataDescChildren.keySet())
             {
                 MessageDataDesc messageDataDesc = m_messageDataDescChildren.get(strKey);
                 iErrorCode = messageDataDesc.initForMessage(record);
-                if (iErrorCode != Constants.NORMAL_RETURN)
+                if (iErrorCode != Constant.NORMAL_RETURN)
                     break;
             }
         }

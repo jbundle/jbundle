@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.util.Util;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -181,7 +181,7 @@ public class MapMessage extends BaseMessage
             short sNodeType = node.getNodeType();
             if (sNodeType == Node.ELEMENT_NODE)
             {
-                String strValue = Constants.BLANK;
+                String strValue = Constant.BLANK;
                 if (node.getChildNodes() == null)
                     strValue = null;
                 else if (node.getChildNodes().getLength() == 0)
@@ -190,7 +190,7 @@ public class MapMessage extends BaseMessage
                     strValue =  node.getChildNodes().item(0).getNodeValue();
                 else if (bProcessChildren)
                 	MapMessage.convertDOMtoMap(node, map, bProcessChildren);
-                if ((strValue != Constants.BLANK) && (strValue != null))
+                if ((strValue != Constant.BLANK) && (strValue != null))
                     map.put(strKey, strValue);
                 //?else
                 //?    Util.getLogger().warning("--------Error - Create Non-text map node? ------");

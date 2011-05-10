@@ -14,7 +14,7 @@ import java.awt.Insets;
 /**
  * Constants.
  */
-public interface Constants
+public interface Constants extends Constant
 {
     public static final boolean DEBUG = true;
     public static final String RETURN = "\n";
@@ -119,20 +119,13 @@ public interface Constants
     public static final int TABLE_DATA_TYPE_MASK = 16;    // And to get table data type
     public static final int TABLE_MASK = TABLE_TYPE_MASK | TABLE_DATA_TYPE_MASK;        // And to get table and data type
 
-    public static final String BLANK = "";  // Blank String
-    public static final String EQUALS = "=";
     public static String CLASS_DIR = "classes";
     public static String FILE_ROOT = "";        // "../";       // Prefix for image files, etc.
-    public static final String ROOT_PACKAGE = "org.jbundle.";  // Package prefix
     public static final String IMAGE_LOCATION = "org/jbundle/res/images";
     public static final String DOC_LOCATION = "org/jbundle/res/docs";
-    public static final String THIN_SUBPACKAGE = "thin.";   // All thin are in this package
-    public static final String RES_SUBPACKAGE = "res.";     // All resources are in this package
     public static final String SEEK_CURRENT_RECORD = "*"; // Package prefix
     public static final String PRIMARY_KEY = "PrimaryKey";
     public static final String TIP = "Tip";     // Suffix on field tips
-    public static final int NORMAL_RETURN = 0;
-    public static final int ERROR_RETURN = -1;
     public static final int NO_PARAMS_FOUND = -2;
     public static final int ACCESS_DENIED = 101;
     public static final int LOGIN_REQUIRED = 102;
@@ -217,11 +210,6 @@ public interface Constants
 
     public static final int READ_ACCESS = 1;
     public static final int WRITE_ACCESS = 2;
-    /**
-     * Default URL Encoding.
-     */
-    public final static String URL_ENCODING = "UTF-8";
-    public final static String STRING_ENCODING = "UTF8";
     /**
      * The default servlet.
      */

@@ -7,6 +7,7 @@
 package org.jbundle.thin.base.message;
 
 import org.jbundle.model.DBException;
+import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 
@@ -65,7 +66,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      */
     public int handlePutRawRecordData(FieldList record)
     {
-        int iErrorCode = Constants.NORMAL_RETURN;
+        int iErrorCode = Constant.NORMAL_RETURN;
         int iRecordCount = this.getRecordCount(record);
         
         FieldList recTargetRecord = this.setDataIndex(RESET_INDEX, record);   // Reset index if multiple
@@ -78,7 +79,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
             
             iErrorCode = super.handlePutRawRecordData(recNext);
 
-            if (iErrorCode != Constants.NORMAL_RETURN)
+            if (iErrorCode != Constant.NORMAL_RETURN)
                 break;
         }
         this.setDataIndex(END_OF_NODES, recTargetRecord);
@@ -218,7 +219,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
      */
     public int handleGetRawRecordData(FieldList record)
     {
-        int iErrorCode = Constants.NORMAL_RETURN;
+        int iErrorCode = Constant.NORMAL_RETURN;
         record = this.setNodeIndex(RESET_INDEX, record);   // Being careful
         int iNodeCount = 1;
         if (this.getNodeType() == MessageRecordDesc.NON_UNIQUE_NODE)
@@ -230,7 +231,7 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
             
             iErrorCode = super.handleGetRawRecordData(record);
             
-            if (iErrorCode != Constants.NORMAL_RETURN)
+            if (iErrorCode != Constant.NORMAL_RETURN)
                 break;
         }
         if (this.getNodeType() == MessageRecordDesc.NON_UNIQUE_NODE)

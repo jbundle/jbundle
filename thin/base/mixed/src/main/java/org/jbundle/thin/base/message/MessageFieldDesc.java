@@ -10,11 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.model.PropertyOwner;
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
-
 
 /**
  * This is the base message for sending and receiving requests.
@@ -292,9 +291,9 @@ public class MessageFieldDesc extends MessageDataDesc
             if (this.getKey() == null)
                 this.setKey(field.getFieldName());
             this.put(field.getData());
-            return Constants.NORMAL_RETURN;
+            return Constant.NORMAL_RETURN;
         }
-        return Constants.NORMAL_RETURN;	// For now, ignore field not found
+        return Constant.NORMAL_RETURN;	// For now, ignore field not found
     }
     /**
      * Move the correct fields from this record to the map.
@@ -306,7 +305,7 @@ public class MessageFieldDesc extends MessageDataDesc
         if (fieldInfo != null)
             return this.getRawFieldData(fieldInfo);
         else
-            return Constants.NORMAL_RETURN;
+            return Constant.NORMAL_RETURN;
     }
     /**
      * This utility sets this field to the param's raw data.
@@ -337,7 +336,7 @@ public class MessageFieldDesc extends MessageDataDesc
      */
     public int initForMessage(FieldList record)
     {
-        int iErrorCode = Constants.NORMAL_RETURN;
+        int iErrorCode = Constant.NORMAL_RETURN;
         if ((this.getKeyInformation() & DONT_INIT) != 0)
             return iErrorCode;  // Don't clear this field
         FieldInfo field = record.getField(this.getKey());

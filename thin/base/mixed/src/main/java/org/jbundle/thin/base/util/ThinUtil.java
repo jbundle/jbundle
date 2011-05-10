@@ -2,6 +2,9 @@ package org.jbundle.thin.base.util;
 
 import java.rmi.RemoteException;
 
+import org.jbundle.model.PropertyOwner;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.remote.RemoteTable;
 
 
@@ -10,6 +13,44 @@ import org.jbundle.thin.base.remote.RemoteTable;
  */
 public class ThinUtil extends Util
 {
+	   /**
+	    * Get this URL minus the nav bars
+	    * @param strURL
+	    * @param bHelp Add help param
+	    * @param bNoNav Add no nav bars params
+	    * @param bLanguage Add language param
+	    * @return
+	    */
+	   public static String fixDisplayURL(String strURL, boolean bHelp, boolean bNoNav, boolean bLanguage, PropertyOwner propertyOwner)
+	   {
+	       if ((strURL == null) || (strURL.length() == 0))
+	    	   return strURL;
+	       if ((strURL != null)
+	               && (strURL.length() > 0)
+	               && (strURL.charAt(0) != '?'))
+	    	   strURL = '?' + strURL;
+	       if (bHelp)
+	    	   strURL = Util.addURLParam(strURL, Params.HELP, Constants.BLANK);
+	       if (bNoNav)
+	       {
+	           strURL = Util.addURLParam(strURL, Params.MENUBARS, "No");
+	           strURL = Util.addURLParam(strURL, Params.NAVMENUS, "No");
+	           strURL = Util.addURLParam(strURL, Params.LOGOS, "No");
+	           strURL = Util.addURLParam(strURL, Params.TRAILERS, "No");  // Don't need outside frame stuff in a window
+	       }
+	       if (bLanguage)
+	       {
+	    	   String strLanguage = null;
+	    	   if (propertyOwner != null)
+	    		   strLanguage = propertyOwner.getProperty("helplanguage");
+	    	   if ((strLanguage == null) || (strLanguage.length() == 0))
+	    		   if (propertyOwner != null)
+	    			   strLanguage = propertyOwner.getProperty(Params.LANGUAGE);
+	    	   if ((strLanguage != null) && (strLanguage.length() > 0))
+	    		   strURL = Util.addURLParam(strURL, Params.LANGUAGE, strLanguage);
+	       }
+	       return strURL;
+	   }
 	   /**
 	    * Get the remote table reference.
 	    * If you want the remote table session, call this method with java.rmi.server.RemoteStub.class.

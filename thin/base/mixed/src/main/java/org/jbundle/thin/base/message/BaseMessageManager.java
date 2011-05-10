@@ -8,7 +8,7 @@ import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.message.MessageQueue;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.model.message.MessageSender;
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Constant;
 
 
 /**
@@ -163,7 +163,7 @@ public class BaseMessageManager extends Object
     {
         MessageReceiver receiver = this.getMessageQueue(messageFilter.getQueueName(), messageFilter.getQueueType()).getMessageReceiver();
         receiver.addMessageFilter(messageFilter);
-        return Constants.NORMAL_RETURN;
+        return Constant.NORMAL_RETURN;
     }
     /**
      * Send this message to the appropriate queue.
@@ -180,7 +180,7 @@ public class BaseMessageManager extends Object
         if (sender != null)
             sender.sendMessage(message);
         else
-            return Constants.ERROR_RETURN;  // Queue doesn't exist
-        return Constants.NORMAL_RETURN;
+            return Constant.ERROR_RETURN;  // Queue doesn't exist
+        return Constant.NORMAL_RETURN;
     }
 }

@@ -41,11 +41,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.jbundle.model.PropertyOwner;
-import org.jbundle.model.Service;
 import org.jbundle.model.Task;
-import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Params;
+import org.jbundle.thin.base.db.Constant;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
@@ -109,10 +106,10 @@ public class Util extends Object
         {
             if (!bAddIfNull)
                 return strOldURL; // Don't add a null param.
-            strData = Constants.BLANK;
+            strData = Constant.BLANK;
         }
         try {
-            strURL += URLEncoder.encode(strParam, Constants.URL_ENCODING) + '=' + URLEncoder.encode(strData, Constants.URL_ENCODING);
+            strURL += URLEncoder.encode(strParam, Constant.URL_ENCODING) + '=' + URLEncoder.encode(strData, Constant.URL_ENCODING);
         } catch (java.io.UnsupportedEncodingException ex) {
             ex.printStackTrace();
         }
@@ -167,8 +164,8 @@ public class Util extends Object
             if (bDecodeString)
             {
                 try {
-                    strParam = URLDecoder.decode(strParam, Constants.URL_ENCODING);
-                    strValue = URLDecoder.decode(strValue, Constants.URL_ENCODING);
+                    strParam = URLDecoder.decode(strParam, Constant.URL_ENCODING);
+                    strValue = URLDecoder.decode(strValue, Constant.URL_ENCODING);
                 } catch (java.io.UnsupportedEncodingException ex) {
                     ex.printStackTrace();
                 }
@@ -404,7 +401,7 @@ public class Util extends Object
        }
        else
        {
-           String strValue = Constants.BLANK;
+           String strValue = Constant.BLANK;
            if (objValue != null)
                strValue = objValue.toString();
            if (Util.isCData(strValue))
@@ -502,44 +499,6 @@ public class Util extends Object
        }
        return streamIn;
    }
-   /**
-    * Get this URL minus the nav bars
-    * @param strURL
-    * @param bHelp Add help param
-    * @param bNoNav Add no nav bars params
-    * @param bLanguage Add language param
-    * @return
-    */
-   public static String fixDisplayURL(String strURL, boolean bHelp, boolean bNoNav, boolean bLanguage, PropertyOwner propertyOwner)
-   {
-       if ((strURL == null) || (strURL.length() == 0))
-    	   return strURL;
-       if ((strURL != null)
-               && (strURL.length() > 0)
-               && (strURL.charAt(0) != '?'))
-    	   strURL = '?' + strURL;
-       if (bHelp)
-    	   strURL = Util.addURLParam(strURL, Params.HELP, Constants.BLANK);
-       if (bNoNav)
-       {
-           strURL = Util.addURLParam(strURL, Params.MENUBARS, "No");
-           strURL = Util.addURLParam(strURL, Params.NAVMENUS, "No");
-           strURL = Util.addURLParam(strURL, Params.LOGOS, "No");
-           strURL = Util.addURLParam(strURL, Params.TRAILERS, "No");  // Don't need outside frame stuff in a window
-       }
-       if (bLanguage)
-       {
-    	   String strLanguage = null;
-    	   if (propertyOwner != null)
-    		   strLanguage = propertyOwner.getProperty("helplanguage");
-    	   if ((strLanguage == null) || (strLanguage.length() == 0))
-    		   if (propertyOwner != null)
-    			   strLanguage = propertyOwner.getProperty(Params.LANGUAGE);
-    	   if ((strLanguage != null) && (strLanguage.length() > 0))
-    		   strURL = Util.addURLParam(strURL, Params.LANGUAGE, strLanguage);
-       }
-       return strURL;
-   }
 
    public static final Border GRAY_BORDER = new LineBorder(Color.LIGHT_GRAY);
    public static final Border BLACK_BORDER = new LineBorder(Color.BLACK);
@@ -565,7 +524,7 @@ public class Util extends Object
                     if (strPackage != null)
                         strClass = strPackage + strClass;
                 if (strClass.charAt(0) == '.')
-                    strClass = Constants.ROOT_PACKAGE + strClass.substring(1);
+                    strClass = Constant.ROOT_PACKAGE + strClass.substring(1);
             }
         return strClass;
     }
@@ -582,8 +541,8 @@ public class Util extends Object
        if (iStartSeq != -1)
     	   iStartSeq = className.indexOf('.', iStartSeq + 1);
        int domainSeq = iStartSeq;
-       if (className.indexOf(Constants.THIN_SUBPACKAGE, iStartSeq) == iStartSeq + 1)
-           iStartSeq = iStartSeq + Constants.THIN_SUBPACKAGE.length();
+       if (className.indexOf(Constant.THIN_SUBPACKAGE, iStartSeq) == iStartSeq + 1)
+           iStartSeq = iStartSeq + Constant.THIN_SUBPACKAGE.length();
        className = className.substring(0, domainSeq + 1) + stringToInsert + className.substring(iStartSeq + 1);
        return className;
    }
@@ -874,7 +833,7 @@ public class Util extends Object
    {
        if (m_logger == null)
        {
-           m_logger = Logger.getLogger(Constants.ROOT_PACKAGE.substring(0, Constants.ROOT_PACKAGE.length() - 1));
+           m_logger = Logger.getLogger(Constant.ROOT_PACKAGE.substring(0, Constant.ROOT_PACKAGE.length() - 1));
            try {
                LogManager logManager = LogManager.getLogManager();
                logManager.reset();//removeAllGlobalHandlers();

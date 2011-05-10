@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 import org.jbundle.model.message.Message;
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -387,7 +387,7 @@ public abstract class BaseMessage extends Object
         if (messageDataDesc instanceof MessageFieldDesc)
         {
             if (m_messageDataDesc == null)
-                m_messageDataDesc = new MessageRecordDesc(this, Constants.BLANK);
+                m_messageDataDesc = new MessageRecordDesc(this, Constant.BLANK);
             m_messageDataDesc.addMessageDataDesc(messageDataDesc);
         }
         else

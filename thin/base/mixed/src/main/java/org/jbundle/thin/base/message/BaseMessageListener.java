@@ -1,7 +1,7 @@
 package org.jbundle.thin.base.message;
 
 import org.jbundle.model.Freeable;
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Constant;
 
 /**
  * A BaseMessageListener is an abstract class for handling incoming messages.
@@ -78,7 +78,7 @@ public class BaseMessageListener extends Object
      */
     public int handleMessage(BaseMessage message)
     {
-        return Constants.NORMAL_RETURN; // Override this to process change
+        return Constant.NORMAL_RETURN; // Override this to process change
     }
     /**
      * Add this message filter to my list.

@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import org.jbundle.model.PropertyOwner;
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.db.FieldList;
 
 
@@ -85,7 +85,7 @@ public class MessageDataDesc extends Object
     {
         String strReturnKey = strSubKey;
         if (strReturnKey == null)
-            strReturnKey = Constants.BLANK;
+            strReturnKey = Constant.BLANK;
         if (this.getMessageDataParent() instanceof MessageDataDesc)
         {    // Don't add for top level or above
             if (strReturnKey.length() > 0)
@@ -170,7 +170,7 @@ public class MessageDataDesc extends Object
      */
     public int putRawRecordData(FieldList record)
     {
-    	return Constants.NORMAL_RETURN;		// Override this
+    	return Constant.NORMAL_RETURN;		// Override this
     }
     /**
      * Move the correct fields from this record to the map.
@@ -186,7 +186,7 @@ public class MessageDataDesc extends Object
      */
     public int getRawRecordData(FieldList record)
     {
-        int iMessageStatus = Constants.NORMAL_RETURN;        // Override this
+        int iMessageStatus = Constant.NORMAL_RETURN;        // Override this
         return iMessageStatus;
     }
     /**
@@ -204,7 +204,7 @@ public class MessageDataDesc extends Object
      */
     public int initForMessage(FieldList record)
     {
-        int iErrorCode = Constants.NORMAL_RETURN;   // Override this
+        int iErrorCode = Constant.NORMAL_RETURN;   // Override this
         return iErrorCode;
     }
     /**

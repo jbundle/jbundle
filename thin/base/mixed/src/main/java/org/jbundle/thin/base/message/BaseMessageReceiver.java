@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.jbundle.model.message.MessageFilter;
 import org.jbundle.model.message.MessageReceiver;
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Constant;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.util.Util;
 
@@ -222,7 +222,7 @@ public abstract class BaseMessageReceiver extends Thread
         m_thread = this;
         while (m_thread != null)
         {
-            int iErrorCode = Constants.NORMAL_RETURN;
+            int iErrorCode = Constant.NORMAL_RETURN;
             BaseMessage message = this.receiveMessage();        // Hang until a message comes through
             if ((message == null) || (m_thread == null))
                 return;      // End of processing, stop this thread.
@@ -258,7 +258,7 @@ public abstract class BaseMessageReceiver extends Thread
                                 messageToSend.getMessageHeader().setRegistryIDMatch(filter.getRegistryID());    // Typically used for remote filters to match filter ID.
                             }
                             iErrorCode = listener.handleMessage(messageToSend);
-                            if (iErrorCode != Constants.NORMAL_RETURN)
+                            if (iErrorCode != Constant.NORMAL_RETURN)
                                 break;
                             message.setConsumed(messageToSend.isConsumed());
                             if (message.isConsumed())

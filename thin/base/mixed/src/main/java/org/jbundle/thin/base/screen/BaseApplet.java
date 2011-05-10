@@ -29,11 +29,11 @@ import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
 import javax.swing.SwingUtilities;
 
-import org.jbundle.model.Service;
 import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.Service;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
@@ -58,6 +58,7 @@ import org.jbundle.thin.base.thread.SyncPage;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.RecordOwnerCollection;
 import org.jbundle.thin.base.util.ThinMenuConstants;
+import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.thin.base.util.Util;
 import org.jbundle.thin.base.util.base64.Base64;
 
@@ -1217,7 +1218,7 @@ public class BaseApplet extends JApplet
         if (m_vHistory == null)
             m_vHistory = new Vector<String>();
         m_vHistory.addElement(strHistory);
-        String strHelpURL = Util.fixDisplayURL(strHistory, true, true, true, this);
+        String strHelpURL = ThinUtil.fixDisplayURL(strHistory, true, true, true, this);
     	this.getApplication().showTheDocument(strHelpURL, this, ThinMenuConstants.HELP_WINDOW_CHANGE);
         if (bPushToBrowser)
 			if (this.getBrowserManager() != null)
