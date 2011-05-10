@@ -26,6 +26,10 @@ public interface Constant
      */
     public final static String URL_ENCODING = "UTF-8";
     public final static String STRING_ENCODING = "UTF8";
+    /**
+     * The byte to char and back encoding that I use.
+     */
+    public static final String OBJECT_ENCODING = "ISO-8859-1";
 
     public static final String ROOT_PACKAGE = "org.jbundle.";  // Package prefix
     public static final String THIN_SUBPACKAGE = "thin.";   // All thin are in this package

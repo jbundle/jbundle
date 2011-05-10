@@ -17,6 +17,7 @@ import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.thread.TaskScheduler;
+import org.jbundle.thin.base.util.OsgiUtil;
 
 /**
  * A Basic menu that is linked to a remote record.
@@ -120,7 +121,7 @@ public class JRemoteMenuScreen extends JBaseMenuScreen
      */
     public FieldList buildFieldList()
     {
-        FieldList record = (FieldList)Util.makeObjectFromClassName(Constants.ROOT_PACKAGE + "thin.main.db.Menus");
+        FieldList record = (FieldList)OsgiUtil.makeObjectFromClassName(Constants.ROOT_PACKAGE + "thin.main.db.Menus");
         if (record != null)
             record.init(this);
         else

@@ -24,12 +24,11 @@ import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.remote.ApplicationServer;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
-
-import org.jbundle.model.Service;
-import org.jbundle.model.util.Util;
+import org.jbundle.thin.base.util.ThinUtil;
 
 /** 
  * RmiSessionServer - The remote server.
@@ -248,7 +247,7 @@ public class RemoteSessionServer extends UnicastRemoteObject
         if (m_app != null)
         	m_app.free();
         m_app = null;
-        Util.shutdownService(this);
+        ThinUtil.shutdownService(this);
         if (env != null)
         	env.freeIfDone();
 //x        System.exit(0);

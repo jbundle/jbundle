@@ -4,21 +4,19 @@ package org.jbundle.thin.base.remote.proxy.transport;
  *  ApplicationServer - The interface to server objects.
  *  Copyright (c) 2005 jbundle.org. All rights reserved.
  */
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 
-import org.jbundle.model.util.Util;
+import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
+import org.jbundle.thin.base.util.OsgiUtil;
 
 
 /**
@@ -153,7 +151,7 @@ public abstract class BaseTransport extends Object
             outStream.writeObject(obj);
             outStream.flush();
             writer.flush();
-            String string = writer.toString(Util.OBJECT_ENCODING);//Constants.STRING_ENCODING);
+            String string = writer.toString(Constant.OBJECT_ENCODING);//Constants.STRING_ENCODING);
             writer.close();
             outStream.close();
             return string;
@@ -170,7 +168,7 @@ public abstract class BaseTransport extends Object
      */
     public static Object convertStringToObject(String string)
     {
-        return Util.convertStringToObject(string, null, true);
+        return OsgiUtil.convertStringToObject(string, null, true);
     }
     /**
      * Convert the return value to an object (override if this doesn't just to string to object).

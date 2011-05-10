@@ -20,9 +20,9 @@ import javax.naming.ServiceUnavailableException;
 import javax.rmi.PortableRemoteObject;
 import javax.swing.JApplet;
 
-import org.jbundle.model.Service;
 import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.Service;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
@@ -453,8 +453,8 @@ public abstract class Application extends Object
                 }
                 if (iConnectionType == LOCAL_SERVICE)
                 {   // Use local OSGi service instead of RMI
-                	if (Util.getClassFinder() != null)
-                		appServer = (ApplicationServer)Util.getClassFinder().getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator");
+                	if (OsgiUtil.getClassFinder() != null)
+                		appServer = (ApplicationServer)OsgiUtil.getClassFinder().getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator");
                 }
                 remoteTask = appServer.createRemoteTask(properties);
                 m_mainRemoteTask = remoteTask;
@@ -523,7 +523,7 @@ public abstract class Application extends Object
         if (urlCodeBase == null)
             urlCodeBase = this.getCodeBase(task);
         // Create icons
-        URL url = Util.getResourceFromPathName(filepath, this.getMainTask(), false, urlCodeBase, classLoader);
+        URL url = OsgiUtil.getResourceFromPathName(filepath, this.getMainTask(), false, urlCodeBase, classLoader);
         return url;
     }
     /**
@@ -622,7 +622,7 @@ public abstract class Application extends Object
                 if (strResourceName.equals(m_resources.getClass().getName()))
                     return m_resources;
             Task task = null;	// TODO ?? this.getMainTask() ??
-            resources = Util.getResourceBundle(strResourceName, currentLocale, task, false, this.getClass().getClassLoader());
+            resources = OsgiUtil.getResourceBundle(strResourceName, currentLocale, task, false, this.getClass().getClassLoader());
         } catch (MissingResourceException ex) {
         	Util.getLogger().warning("Missing resource " + strResourceName + " locale: " + this.getLocale());
             resources = null;

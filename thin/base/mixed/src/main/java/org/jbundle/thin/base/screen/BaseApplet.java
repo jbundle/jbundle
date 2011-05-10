@@ -57,6 +57,7 @@ import org.jbundle.thin.base.screen.util.html.JHelpPane;
 import org.jbundle.thin.base.screen.util.html.JHtmlEditor;
 import org.jbundle.thin.base.thread.SyncPage;
 import org.jbundle.thin.base.util.Application;
+import org.jbundle.thin.base.util.OsgiUtil;
 import org.jbundle.thin.base.util.RecordOwnerCollection;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 import org.jbundle.thin.base.util.ThinUtil;
@@ -313,7 +314,7 @@ public class BaseApplet extends JApplet
         if (parent == null)
             parent = m_parent;
         String strScreen = this.getProperty(Params.SCREEN);
-        JBasePanel baseScreen = (JBasePanel)Util.makeObjectFromClassName(strScreen);
+        JBasePanel baseScreen = (JBasePanel)OsgiUtil.makeObjectFromClassName(strScreen);
         if (baseScreen != null)
         {
             FieldList record = null;

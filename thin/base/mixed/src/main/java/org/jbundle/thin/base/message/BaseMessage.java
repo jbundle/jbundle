@@ -12,6 +12,7 @@ import java.util.Iterator;
 import org.jbundle.model.message.Message;
 import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.Util;
+import org.jbundle.thin.base.util.OsgiUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -446,7 +447,7 @@ public abstract class BaseMessage extends Object
        if ((strMessageClassName != null) && (strMessageClassName.length() > 0))
        {
            strMessageClassName = Util.getFullClassName(strMessageClassName);
-           Object obj = Util.makeObjectFromClassName(strMessageClassName);
+           Object obj = OsgiUtil.makeObjectFromClassName(strMessageClassName);
            if (obj instanceof BaseMessage)
            {
                message = (BaseMessage)obj;
@@ -471,7 +472,7 @@ public abstract class BaseMessage extends Object
              if (this.getMessageHeader() != null)
                  strMessageDataClassName = (String)this.getMessageHeader().get(BaseMessageHeader.INTERNAL_MESSAGE_CLASS);
          }
-         MessageRecordDesc messageRecordDesc = (MessageRecordDesc)Util.makeObjectFromClassName(strMessageDataClassName);
+         MessageRecordDesc messageRecordDesc = (MessageRecordDesc)OsgiUtil.makeObjectFromClassName(strMessageDataClassName);
          if (messageRecordDesc != null)
                  messageRecordDesc.init(this, null);
      }
