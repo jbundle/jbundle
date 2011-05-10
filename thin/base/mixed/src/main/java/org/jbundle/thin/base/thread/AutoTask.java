@@ -14,7 +14,7 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-import org.jbundle.model.App;
+import org.jbundle.model.Service;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
@@ -74,7 +74,7 @@ public class AutoTask extends Object
      * @param application The parent application.
      * @param strParams The task properties.
      */
-    public AutoTask(App application, String strParams, Map<String, Object> properties)
+    public AutoTask(Service application, String strParams, Map<String, Object> properties)
     {
         this();
         this.init(application, strParams, properties);
@@ -84,7 +84,7 @@ public class AutoTask extends Object
      * @param application The parent application.
      * @param strParams The task properties.
      */
-    public void init(App application, String strParams, Map<String, Object> properties)
+    public void init(Service application, String strParams, Map<String, Object> properties)
     {
         m_application = (Application)application;
         if (m_application != null)
@@ -176,7 +176,7 @@ public class AutoTask extends Object
      * This is task's parent application.
      * @param application The parent application.
      */
-    public void setApplication(App application)
+    public void setApplication(Service application)
     {
         m_application = (Application)application;
     }
@@ -233,7 +233,7 @@ public class AutoTask extends Object
      * @param application The parent application.
      * @param strParams The task properties.
      */
-    public void initTask(App application, Map<String, Object> properties)
+    public void initTask(Service application, Map<String, Object> properties)
     {
         if (m_application != null)
             return;     // Never

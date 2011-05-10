@@ -11,7 +11,7 @@ import org.jbundle.base.thread.ProcessRunnerTask;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.MainApplication;
-import org.jbundle.model.App;
+import org.jbundle.model.Service;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.Util;
 
@@ -35,7 +35,7 @@ public class MessageReceivingPopClient extends ProcessRunnerTask
      * @param recordMain Optional main record.
      * @param properties Optional properties object (note you can add properties later).
      */
-    public MessageReceivingPopClient(App application, String strParams, Map<String,Object> properties)
+    public MessageReceivingPopClient(Service application, String strParams, Map<String,Object> properties)
     {
         this();
         this.init(application, strParams, properties);
@@ -46,7 +46,7 @@ public class MessageReceivingPopClient extends ProcessRunnerTask
      * @param recordMain Optional main record.
      * @param properties Optional properties object (note you can add properties later).
      */
-    public void init(App application, String strParams, Map<String, Object> properties)
+    public void init(Service application, String strParams, Map<String, Object> properties)
     {
         super.init(application, strParams, properties);
     }

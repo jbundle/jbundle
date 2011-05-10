@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
 
-import org.jbundle.model.App;
+import org.jbundle.model.Service;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Params;
@@ -29,7 +29,7 @@ public class TaskScheduler extends Object
     /**
      * The task's Parent application.
      */
-    protected App m_application = null;
+    protected Service m_application = null;
     /**
      * FIFO list of jobs to run.
      */
@@ -55,7 +55,7 @@ public class TaskScheduler extends Object
      * @param application The parent application.
      * @param iMaxThreads The maximum number of threads to run (-1 = default).
      */
-    public TaskScheduler(App application, int iMaxThreads)
+    public TaskScheduler(Service application, int iMaxThreads)
     {
         this();
         this.init(application, iMaxThreads);
@@ -65,7 +65,7 @@ public class TaskScheduler extends Object
      * @param application The parent application.
      * @param iMaxThreads The maximum number of threads to run (-1 = default).
      */
-    public void init(App application, int iMaxThreads)
+    public void init(Service application, int iMaxThreads)
     {
         m_application = application;
         if (iMaxThreads > 0)
@@ -205,7 +205,7 @@ public class TaskScheduler extends Object
      * Get the application object.
      * @return The application object.
      */
-    public App getApplication()
+    public Service getApplication()
     {
         return m_application;
     }

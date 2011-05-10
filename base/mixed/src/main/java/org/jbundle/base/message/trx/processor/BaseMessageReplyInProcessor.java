@@ -11,7 +11,7 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Environment;
 import org.jbundle.main.msg.db.MessageLog;
 import org.jbundle.main.msg.db.MessageStatus;
-import org.jbundle.model.App;
+import org.jbundle.model.Service;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.message.BaseMessage;
@@ -86,7 +86,7 @@ public class BaseMessageReplyInProcessor extends BaseExternalMessageProcessor
                 env = ((BaseApplication)this.getTask().getApplication()).getEnvironment();
         if (env == null)
             env = Environment.getEnvironment(null);
-        App app = null;
+        Service app = null;
         if (this.getTask() != null)
         	app = this.getTask().getApplication();
         BaseMessageManager msgManager = env.getMessageManager(app, true);

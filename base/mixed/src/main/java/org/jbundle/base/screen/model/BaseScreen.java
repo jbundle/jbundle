@@ -34,7 +34,7 @@ import org.jbundle.main.msg.db.ContactType;
 import org.jbundle.main.user.screen.UserLoginScreen;
 import org.jbundle.main.user.screen.UserPasswordChange;
 import org.jbundle.main.user.screen.UserPreferenceScreen;
-import org.jbundle.model.App;
+import org.jbundle.model.Service;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
@@ -238,7 +238,7 @@ public class BaseScreen extends BasePanel
     {
         if ((this.getClass().getName().startsWith(BASE_CLASS)) && (this.getMainRecord() != null))
         {
-            App application = null;
+            Service application = null;
             if (this.getTask() != null)
                 application = this.getTask().getApplication();
             int iErrorCode = DBConstants.NORMAL_RETURN; 
@@ -687,7 +687,7 @@ public class BaseScreen extends BasePanel
         if (strUserName == null)
             return false;
         
-        App application = this.getTask().getApplication();
+        Service application = this.getTask().getApplication();
         int iErrorCode = application.login(this.getTask(), strUserName, strPassword, this.getProperty(DBParams.DOMAIN));
         
         if (iErrorCode == DBConstants.NORMAL_RETURN)
@@ -744,7 +744,7 @@ public class BaseScreen extends BasePanel
      */
     public boolean onLogout()
     {
-        App application = this.getTask().getApplication();
+        Service application = this.getTask().getApplication();
         int iErrorCode = application.login(this.getTask(), null, null, this.getProperty(DBParams.DOMAIN));
         if (iErrorCode != DBConstants.NORMAL_RETURN)
             return false;

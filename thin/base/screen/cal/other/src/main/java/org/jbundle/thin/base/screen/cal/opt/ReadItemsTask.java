@@ -1,6 +1,6 @@
 package org.jbundle.thin.base.screen.cal.opt;
 
-import org.jbundle.model.App;
+import org.jbundle.model.Service;
 import org.jbundle.util.calendarpanel.event.MyListSelectionListener;
 import org.jbundle.util.calendarpanel.model.CachedCalendarModel;
 import org.jbundle.util.calendarpanel.model.CalendarModel;
@@ -25,7 +25,7 @@ public class ReadItemsTask extends AutoTask
     /**
      * Constructor.
      */
-    public ReadItemsTask(App application,String strParams,CachedCalendarModel model, Object order)
+    public ReadItemsTask(Service application,String strParams,CachedCalendarModel model, Object order)
     {
         this();
         this.init(application, strParams, model, order);
@@ -33,7 +33,7 @@ public class ReadItemsTask extends AutoTask
     /**
      * Constructor.
      */
-    public void init(App application, String strParams, CachedCalendarModel model, Object order)
+    public void init(Service application, String strParams, CachedCalendarModel model, Object order)
     {
         super.init(application, strParams, null);
         m_model = model;

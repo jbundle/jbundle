@@ -2,7 +2,7 @@ package org.jbundle.thin.base.message;
 
 import java.util.Hashtable;
 
-import org.jbundle.model.App;
+import org.jbundle.model.Service;
 import org.jbundle.model.message.MessageFilter;
 import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.message.MessageQueue;
@@ -21,7 +21,7 @@ public class BaseMessageManager extends Object
     /**
      * My parent application.
      */
-    protected App m_app = null;
+    protected Service m_app = null;
     /**
      * My Message queues.
      */
@@ -38,7 +38,7 @@ public class BaseMessageManager extends Object
      * Constructor.
      * @param app My parent application.
      */
-    public BaseMessageManager(App app)
+    public BaseMessageManager(Service app)
     {
         this();
         this.init(app);
@@ -47,7 +47,7 @@ public class BaseMessageManager extends Object
      * Constuctor.
      * @param app My parent application.
      */
-    public void init(App app)
+    public void init(Service app)
     {
         m_app = app;
         m_messageMap = new Hashtable<String,BaseMessageQueue>();
@@ -149,7 +149,7 @@ public class BaseMessageManager extends Object
      * Get the application for this task.
      * @return My parent application.
      */
-    public App getApplication()
+    public Service getApplication()
     {
         return m_app;
     }

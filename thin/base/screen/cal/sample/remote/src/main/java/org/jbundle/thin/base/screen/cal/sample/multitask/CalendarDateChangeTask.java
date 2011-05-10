@@ -2,7 +2,7 @@ package org.jbundle.thin.base.screen.cal.sample.multitask;
 
 import java.util.Date;
 
-import org.jbundle.model.App;
+import org.jbundle.model.Service;
 import org.jbundle.thin.base.screen.cal.opt.CachedItem;
 import org.jbundle.thin.base.screen.cal.opt.DateChangeTask;
 
@@ -20,7 +20,7 @@ public class CalendarDateChangeTask extends DateChangeTask
     /**
      * Constructor.
      */
-    public CalendarDateChangeTask(App application, String strParams, CachedItem productItem, Date dateStart, Date dateEnd)
+    public CalendarDateChangeTask(Service application, String strParams, CachedItem productItem, Date dateStart, Date dateEnd)
     {
         this();
         this.init(application, strParams, productItem, dateStart, dateEnd);
@@ -28,7 +28,7 @@ public class CalendarDateChangeTask extends DateChangeTask
     /**
      * Constructor.
      */
-    public void init(App application, String strParams, CachedItem productItem, Date dateStart, Date dateEnd)
+    public void init(Service application, String strParams, CachedItem productItem, Date dateStart, Date dateEnd)
     {
         super.init(application, strParams, productItem, dateStart, dateEnd);
     }

@@ -20,7 +20,7 @@ import javax.naming.ServiceUnavailableException;
 import javax.rmi.PortableRemoteObject;
 import javax.swing.JApplet;
 
-import org.jbundle.model.App;
+import org.jbundle.model.Service;
 import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
@@ -56,7 +56,7 @@ import org.jbundle.util.muffinmanager.MuffinManager;
  * </pre>
  */
 public abstract class Application extends Object
-    implements App, PropertyOwner
+    implements Service, PropertyOwner
 {
     /**
      * The initial unique instance of this Applet/application.

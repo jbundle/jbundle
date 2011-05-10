@@ -28,7 +28,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.model.App;
+import org.jbundle.model.Service;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
@@ -344,7 +344,7 @@ public class ExternalTrxMessage extends Object
                 BaseApplet applet = null;
                 if (task instanceof BaseApplet)
                     applet = (BaseApplet)task;
-                App app = null;
+                Service app = null;
                 if (task != null)
                     app = task.getApplication();
                 URL url = null;

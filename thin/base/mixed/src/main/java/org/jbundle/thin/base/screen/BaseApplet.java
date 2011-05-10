@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
 import javax.swing.SwingUtilities;
 
-import org.jbundle.model.App;
+import org.jbundle.model.Service;
 import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.PropertyOwner;
@@ -1015,7 +1015,7 @@ public class BaseApplet extends JApplet
      * This is task's parent application.
      * @param application This task's application.
      */
-    public void setApplication(App application)
+    public void setApplication(Service application)
     {
         m_application = (Application)application;
     }
@@ -1170,7 +1170,7 @@ public class BaseApplet extends JApplet
      * Typically, you init a Task object and pass it to the job scheduler. The job scheduler
      * will check to see if this task is owned by an application... if not, initTask() is called.
      */
-    public void initTask(App application, Map<String, Object> properties)
+    public void initTask(Service application, Map<String, Object> properties)
     {
         if (m_application != null)
             return;     // No, already inited!
