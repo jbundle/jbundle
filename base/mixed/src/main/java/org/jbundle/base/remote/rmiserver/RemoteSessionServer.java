@@ -42,7 +42,7 @@ import org.jbundle.model.Service;
  * @version 1.0.0
  */
 public class RemoteSessionServer extends UnicastRemoteObject
-    implements ApplicationServer, Service
+    implements ApplicationServer
 {
     private static final long serialVersionUID = 1L;
 

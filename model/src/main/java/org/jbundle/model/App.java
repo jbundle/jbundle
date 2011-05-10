@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
  * will be an Application class for each client.
  */
 public interface App
-    extends Freeable
+    extends Freeable, PropertyOwner, Service
 {
     /**
      * Get the current language.

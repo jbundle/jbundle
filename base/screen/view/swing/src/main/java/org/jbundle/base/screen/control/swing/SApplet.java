@@ -36,7 +36,6 @@ import org.jbundle.thin.base.util.Util;
  * SApplet Class.
  */
 public class SApplet extends BaseApplet
-	implements Service
 {
 	private static final long serialVersionUID = 1L;
 

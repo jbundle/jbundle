@@ -652,7 +652,7 @@ public class Util extends Object
     * Shutdown the bundle for this service.
     * @param service The service object
     */
-   public static void shutdownService(Service service)
+   public static void shutdownService(Object service)
    {
 	   if (Util.getClassFinder() != null)
 		   Util.getClassFinder().shutdownService(service);	// Shutdown the bundle for this service
