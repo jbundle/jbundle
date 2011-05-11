@@ -31,10 +31,10 @@ import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.message.MessageConstants;
-import org.jbundle.thin.base.message.remote.RemoteMessageManager;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JBasePanel;
 import org.jbundle.thin.base.screen.JBaseToolbar;
+import org.jbundle.thin.base.util.RemoteMessageManager;
 
 
 /**

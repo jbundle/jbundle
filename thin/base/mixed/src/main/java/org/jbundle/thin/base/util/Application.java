@@ -31,7 +31,6 @@ import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.MapMessage;
-import org.jbundle.thin.base.message.remote.RemoteMessageManager;
 import org.jbundle.thin.base.remote.ApplicationServer;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;

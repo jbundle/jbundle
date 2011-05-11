@@ -34,8 +34,8 @@ import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageListener;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
-import org.jbundle.thin.base.message.remote.RemoteMessageManager;
 import org.jbundle.thin.base.screen.ThinApplication;
+import org.jbundle.thin.base.util.RemoteMessageManager;
 
 
 /**
