@@ -18,7 +18,6 @@ import org.jbundle.model.Freeable;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Params;
-import org.jbundle.thin.base.screen.JBaseFrame;
 import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 /**
@@ -156,7 +155,9 @@ public class TaskScheduler extends Object
             }
             else if (job instanceof Applet)
             { // An applet
-                new JBaseFrame("Applet", (Applet)job);
+//?                new JBaseFrame("Applet", (Applet)job);
+                ((Task)job).initTask(this.getApplication(), properties);
+                ((Task)job).run();
             }
             else if (job instanceof Runnable)
             { // A thread (Is this okay?? I already have my own thread)

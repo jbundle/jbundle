@@ -32,7 +32,7 @@ import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.MessageListenerFilterList;
-import org.jbundle.thin.base.util.RecordOwnerCollection;
+import org.jbundle.thin.base.thread.RecordOwnerCollection;
 
 
 /**

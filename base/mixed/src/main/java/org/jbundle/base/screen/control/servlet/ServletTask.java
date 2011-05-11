@@ -22,7 +22,7 @@ import org.jbundle.base.util.Debug;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
-import org.jbundle.thin.base.util.RecordOwnerCollection;
+import org.jbundle.thin.base.thread.RecordOwnerCollection;
 
 
 /**

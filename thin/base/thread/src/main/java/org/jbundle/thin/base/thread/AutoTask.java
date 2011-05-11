@@ -20,7 +20,6 @@ import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.util.RecordOwnerCollection;
 
 
 /**

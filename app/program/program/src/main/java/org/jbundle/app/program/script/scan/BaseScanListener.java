@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.*;
 
 import org.jbundle.base.db.*;
+import org.jbundle.thin.base.thread.RecordOwnerCollection;
 import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 import org.jbundle.base.db.event.*;
