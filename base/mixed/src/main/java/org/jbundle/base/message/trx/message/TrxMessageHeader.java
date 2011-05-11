@@ -423,10 +423,10 @@ public class TrxMessageHeader extends BaseMessageHeader
     {
         if (sbXML == null)
             sbXML = new StringBuffer();
-        Util.addStartTag(sbXML, BaseMessage.HEADER_TAG).append(Util.NEW_LINE);
+        Util.addStartTag(sbXML, BaseMessage.HEADER_TAG).append(DBConstants.RETURN);
         Map<String,Object> map = this.getProperties();
         Util.addXMLMap(sbXML, map);
-        Util.addEndTag(sbXML, BaseMessage.HEADER_TAG).append(Util.NEW_LINE);
+        Util.addEndTag(sbXML, BaseMessage.HEADER_TAG).append(DBConstants.RETURN);
         return sbXML;
     }
     /**

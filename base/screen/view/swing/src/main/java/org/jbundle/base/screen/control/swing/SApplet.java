@@ -22,7 +22,7 @@ import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.PropertyOwner;
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
@@ -332,7 +332,7 @@ public class SApplet extends BaseApplet
      * Typically, you init a Task object and pass it to the job scheduler. The job scheduler
      * will check to see if this task is owned by an application... if not, initTask() is called.
      */
-    public void initTask(Service application, Map<String, Object> properties)
+    public void initTask(App application, Map<String, Object> properties)
     {
         if (m_application != null)
             return;     // No, already inited!

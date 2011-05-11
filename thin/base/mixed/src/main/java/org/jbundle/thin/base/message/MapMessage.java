@@ -114,7 +114,7 @@ public class MapMessage extends BaseMessage
     {
         if (m_data == null)
             m_data = new HashMap<String,Object>();
-        return (Map)m_data;
+        return (Map<String, Object>)m_data;
     }
     /**
      * Get a Iterator of the keys in this message.
@@ -135,7 +135,7 @@ public class MapMessage extends BaseMessage
         if (this.getMessageDataDesc(null) != null)
         	if (this.getMessageDataDesc(null).getKey() != null)
         		rootTag = this.getMessageDataDesc(null).getKey();
-        Util.addStartTag(sbXML, rootTag).append(Util.NEW_LINE);
+        Util.addStartTag(sbXML, rootTag).append(Constant.RETURN);
         Util.addXMLMap(sbXML, this.getMap());
         if (bIncludeHeader)
             if (this.getMessageHeader() != null)

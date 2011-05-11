@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.util.ResourceConstants;
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Converter;
 
@@ -89,7 +89,7 @@ public class FieldLengthConverter extends FieldConverter
             if (strValue.length() < m_iMinimumLength)
         {
             Task task = field.getRecord().getRecordOwner().getTask();
-            Service application = task.getApplication();
+            App application = task.getApplication();
             return task.setLastError(MessageFormat.format(application.getResources(ResourceConstants.ERROR_RESOURCE, true).getString("Too Short"), m_iMinimumLength));
         }
         return super.setString(strValue, bDisplayOption, iMoveMode);

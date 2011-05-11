@@ -22,7 +22,7 @@ import javax.swing.JApplet;
 
 import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.PropertyOwner;
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
@@ -58,7 +58,7 @@ import org.jbundle.util.osgi.ClassService;
  * </pre>
  */
 public abstract class Application extends Object
-    implements Service, PropertyOwner
+    implements App, PropertyOwner
 {
     /**
      * The initial unique instance of this Applet/application.

@@ -7,9 +7,6 @@ package org.jbundle.model.util;
  *      don@tourgeek.com
  *
  */
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Insets;
 
 /**
  * Constants.
@@ -18,6 +15,10 @@ public interface Constant
 {
     public static final String BLANK = "";  // Blank String
     public static final String EQUALS = "=";
+    /**
+     * A new line.
+     */
+    public static final String RETURN = "\n";
 
     public static final int NORMAL_RETURN = 0;
     public static final int ERROR_RETURN = -1;

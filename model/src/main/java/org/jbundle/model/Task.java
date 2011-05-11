@@ -14,12 +14,12 @@ public interface Task
      * Get this task's parent application object.
      * @return this task's application parent.
      */
-    public Service getApplication();
+    public App getApplication();
     /**
      * This is task's parent application.
      * @param application This task's application.
      */
-    public void setApplication(Service application);
+    public void setApplication(App application);
     /**
      * This is a special method that runs some code when this screen is opened as a task.
      */
@@ -45,7 +45,7 @@ public interface Task
      * @param application This task's application.
      * @param properties This task's initial properties.
      */
-    public void initTask(Service application, Map<String, Object> properties);
+    public void initTask(App application, Map<String, Object> properties);
     /**
      * Get the last error code for this task.
      * @param iErrorCode It must match the iErrorCode, or pass a 0 to get the last error.

@@ -12,7 +12,7 @@ import java.util.Map;
 import org.jbundle.base.message.trx.processor.BaseMessageProcessor;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.thread.ProcessRunnerTask;
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.util.Application;
 
@@ -39,7 +39,7 @@ public class MessageProcessRunnerTask extends ProcessRunnerTask
     /**
      * Constructor.
      */
-    public MessageProcessRunnerTask(Service application, String strParams, Map<String,Object> properties)
+    public MessageProcessRunnerTask(App application, String strParams, Map<String,Object> properties)
     {
         this();
         this.init(application, strParams, properties);
@@ -47,7 +47,7 @@ public class MessageProcessRunnerTask extends ProcessRunnerTask
     /**
      * Constructor.
      */
-    public void init(Service application, String strParams, Map<String, Object> properties)
+    public void init(App application, String strParams, Map<String, Object> properties)
     {
         super.init(application, strParams, properties);
     }

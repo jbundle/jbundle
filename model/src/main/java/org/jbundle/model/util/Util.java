@@ -35,7 +35,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
@@ -47,12 +47,7 @@ import org.xml.sax.SAXParseException;
  * Basic utilities.
  */
 public class Util extends Object
-{
-    /**
-     * A new line.
-     */
-    public static final char NEW_LINE = '\n';
-
+{	
     /**
      * Add this param and data to this URL.
      * @param strOldURL The original URL to add this param to.
@@ -387,7 +382,7 @@ public class Util extends Object
                strValue = CDATA_START + strValue + CDATA_END;
            sbXML.append(strValue);
        }
-       return Util.addEndTag(sbXML, strParam).append(NEW_LINE);
+       return Util.addEndTag(sbXML, strParam).append(Constant.RETURN);
    }
    public static final String CDATA_START = "![CDATA[";
    public static final String CDATA_END = "]]";
@@ -449,7 +444,7 @@ public class Util extends Object
     * @param strFilename The filename or url to open as an Input Stream.
     * @return The imput stream (or null if there was an error).
     */
-   public static InputStream getInputStream(String strFilename, Service app)
+   public static InputStream getInputStream(String strFilename, App app)
    {
        InputStream streamIn = null;
        if ((strFilename != null) && (strFilename.length() > 0))

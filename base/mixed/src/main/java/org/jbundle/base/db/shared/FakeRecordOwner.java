@@ -15,7 +15,7 @@ import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.thread.BaseRecordOwner;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DatabaseOwner;
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.FieldList;
@@ -206,7 +206,7 @@ public class FakeRecordOwner extends BaseRecordOwner
          * @param application The parent application.
          * @param strParams The task properties.
          */
-        public FakeTask(Service application, String strParams, Map<String,Object> properties)
+        public FakeTask(App application, String strParams, Map<String,Object> properties)
         {
             this();
             this.init(application, strParams, properties);
@@ -216,7 +216,7 @@ public class FakeRecordOwner extends BaseRecordOwner
          * @param application The parent application.
          * @param strParams The task properties.
          */
-        public void init(Service application, String strParams, Map<String, Object> properties)
+        public void init(App application, String strParams, Map<String, Object> properties)
         {
             super.init(application, strParams, properties);
         }

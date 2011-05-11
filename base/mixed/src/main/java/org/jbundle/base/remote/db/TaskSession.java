@@ -27,7 +27,7 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.main.user.db.UserInfo;
 import org.jbundle.main.user.screen.SetupNewUserHandler;
 import org.jbundle.model.DBException;
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
@@ -79,7 +79,7 @@ public class TaskSession extends BaseTaskSession
      * Build a new remote task session.
      * @param application Parent application.
      */
-    public TaskSession(Service application) throws RemoteException
+    public TaskSession(App application) throws RemoteException
     {
         this();
         m_application = (Application)application;    // Don't pass down, because init matched standard session init.

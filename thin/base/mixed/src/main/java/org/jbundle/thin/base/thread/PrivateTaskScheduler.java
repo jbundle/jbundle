@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
 
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 
 
 /**
@@ -53,7 +53,7 @@ public class PrivateTaskScheduler extends TaskScheduler
      * @param iMaxThreads The maximum number of threads to run (-1 = default).
      * @param bKeepAlive Keep the task alive after execution.
      */
-    public PrivateTaskScheduler(Service application, int iMaxThreads, boolean bKeepAlive)
+    public PrivateTaskScheduler(App application, int iMaxThreads, boolean bKeepAlive)
     {
         this();
         this.init(application, iMaxThreads, bKeepAlive);
@@ -64,7 +64,7 @@ public class PrivateTaskScheduler extends TaskScheduler
      * @param iMaxThreads The maximum number of threads to run (-1 = default).
      * @param bKeepAlive Keep the task alive after execution.
      */
-    public void init(Service application, int iMaxThreads, boolean bKeepAlive)
+    public void init(App application, int iMaxThreads, boolean bKeepAlive)
     {
         iMaxThreads = 0;
         super.init(application, iMaxThreads);

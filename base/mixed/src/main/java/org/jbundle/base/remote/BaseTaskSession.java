@@ -19,7 +19,7 @@ import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.UserProperties;
 import org.jbundle.base.util.Utility;
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
@@ -76,7 +76,7 @@ public class BaseTaskSession extends BaseSession
      * Build a new task session.
      * @param application Parent application (optional - usually take default [null]).
      */
-    public BaseTaskSession(Service application) throws RemoteException
+    public BaseTaskSession(App application) throws RemoteException
     {
         this();
         m_application = (Application)application;    // Don't pass down, because init matched standard session init.
@@ -137,7 +137,7 @@ public class BaseTaskSession extends BaseSession
     /**
      * This is task's parent application.
      */
-    public void setApplication(Service application)
+    public void setApplication(App application)
     {
         m_application = (Application)application;
     }
@@ -281,7 +281,7 @@ public class BaseTaskSession extends BaseSession
      * If this task object was created from a class name, call init(xxx) for the task.
      * (This is an error for a TaskSession).
      */
-    public void initTask(Service application, Map<String, Object> properties)
+    public void initTask(App application, Map<String, Object> properties)
     {
         Utility.getLogger().warning("error: initTask() can never be called for a Task Session");
         new Exception().printStackTrace();

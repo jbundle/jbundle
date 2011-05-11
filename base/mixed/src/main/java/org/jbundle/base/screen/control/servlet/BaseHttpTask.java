@@ -35,7 +35,7 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
@@ -380,7 +380,7 @@ public class BaseHttpTask extends Object
     /**
      * This is task's parent application.
      */
-    public void setApplication(Service application)
+    public void setApplication(App application)
     {
         m_application = (Application)application;
     }
@@ -478,7 +478,7 @@ public class BaseHttpTask extends Object
      * Typically, you init a Task object and pass it to the job scheduler. The job scheduler
      * will check to see if this task is owned by an application... if not, initTask() is called.
      */
-    public void initTask(Service application, Map<String, Object> properties)
+    public void initTask(App application, Map<String, Object> properties)
     {
         Utility.getLogger().warning("error: initTask() can never be called for a Servlet");
         new Exception().printStackTrace();

@@ -19,7 +19,6 @@ import org.jbundle.model.util.Constant;
 public interface Constants extends Constant
 {
     public static final boolean DEBUG = true;
-    public static final String RETURN = "\n";
 
     public static final int SCREEN_MOVE = 0;
     public static final int INIT_MOVE = 1;

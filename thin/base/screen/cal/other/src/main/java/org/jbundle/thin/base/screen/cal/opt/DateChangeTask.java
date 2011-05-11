@@ -2,7 +2,7 @@ package org.jbundle.thin.base.screen.cal.opt;
 
 import java.util.Date;
 
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 import org.jbundle.thin.base.thread.AutoTask;
 
 
@@ -22,7 +22,7 @@ public class DateChangeTask extends AutoTask
     /**
      * Constructor.
      */
-    public DateChangeTask(Service application, String strParams, CachedItem productItem, Date dateStart, Date dateEnd)
+    public DateChangeTask(App application, String strParams, CachedItem productItem, Date dateStart, Date dateEnd)
     {
         this();
         this.init(application, strParams, productItem, dateStart, dateEnd);
@@ -30,7 +30,7 @@ public class DateChangeTask extends AutoTask
     /**
      * Constructor.
      */
-    public void init(Service application, String strParams, CachedItem productItem, Date dateStart, Date dateEnd)
+    public void init(App application, String strParams, CachedItem productItem, Date dateStart, Date dateEnd)
     {
         m_productItem = productItem;
         m_dateStart = dateStart;

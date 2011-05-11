@@ -36,7 +36,7 @@ import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.UserProperties;
 import org.jbundle.base.util.Utility;
 import org.jbundle.main.user.screen.UserEntryScreen;
-import org.jbundle.model.Service;
+import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
@@ -185,7 +185,7 @@ public class BasePanel extends ScreenField
      */
     public int checkSecurity()
     {
-        Service application = null;
+        App application = null;
         if (this.getTask() != null)
             application = this.getTask().getApplication();
         int iErrorCode = DBConstants.NORMAL_RETURN; 
@@ -715,7 +715,7 @@ public class BasePanel extends ScreenField
      * <br/>NOTE: This method returns the AppletScreen NOT the FrameScreen,
      * because the AppletScreen is where you add your controls!
      */
-    public static BasePanel makeWindow(Service application)
+    public static BasePanel makeWindow(App application)
     {
         FrameScreen frameScreen = new FrameScreen(null, null, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
         AppletScreen appletScreen = new AppletScreen(null, frameScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
