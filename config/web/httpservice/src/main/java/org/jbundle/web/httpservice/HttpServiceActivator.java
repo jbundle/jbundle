@@ -1,7 +1,7 @@
 package org.jbundle.web.httpservice;
 
 import org.jbundle.base.util.EnvironmentActivator;
-import org.jbundle.model.osgi.BundleService;
+import org.jbundle.util.osgi.BundleService;
 import org.jbundle.util.osgi.bundle.BaseBundleService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;

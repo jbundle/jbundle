@@ -24,7 +24,6 @@ import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Service;
 import org.jbundle.model.Task;
-import org.jbundle.model.osgi.ClassService;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
@@ -39,6 +38,7 @@ import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.thread.TaskScheduler;
 import org.jbundle.util.muffinmanager.MuffinManager;
+import org.jbundle.util.osgi.ClassService;
 
 /**
  * A Application contains all of a single user's apps.
