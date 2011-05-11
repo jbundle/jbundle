@@ -4,25 +4,32 @@
  */
 package org.jbundle.app.program.script.db;
 
-import java.awt.*;
-import java.util.*;
+import java.util.Map;
+import java.util.Properties;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.main.db.*;
-import org.jbundle.app.program.script.screen.*;
-import org.jbundle.app.program.script.data.importfix.base.*;
-import org.jbundle.app.program.db.*;
+import org.jbundle.app.program.db.ClassInfo;
+import org.jbundle.app.program.script.data.importfix.base.RunScriptProcess;
+import org.jbundle.app.program.script.screen.ScriptGridScreen;
+import org.jbundle.app.program.script.screen.ScriptScreen;
+import org.jbundle.base.db.EmptyKey;
+import org.jbundle.base.db.KeyArea;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.RecordOwner;
+import org.jbundle.base.db.filter.SubFileFilter;
+import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.EmptyField;
+import org.jbundle.base.field.PropertiesField;
+import org.jbundle.base.field.StringField;
+import org.jbundle.base.screen.model.BasePanel;
+import org.jbundle.base.screen.model.BaseScreen;
+import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.base.util.Utility;
+import org.jbundle.main.db.Folder;
+import org.jbundle.model.DBException;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 /**
  *  Script - Script maintenance.
@@ -271,7 +278,7 @@ public class Script extends Folder
             }
             if (strRecordName.indexOf('.') != -1)
             {
-               record = (Record)Utility.getClassService().makeObjectFromClassName(strRecordName);
+               record = (Record)ClassServiceImpl.getClassService().makeObjectFromClassName(strRecordName);
                 if (record != null)
                     record.init(Utility.getRecordOwner(this));
             }

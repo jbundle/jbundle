@@ -4,26 +4,23 @@
  */
 package org.jbundle.app.program.script.scan;
 
-import java.awt.*;
-import java.util.*;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.base.thread.*;
-import java.io.*;
-import org.jbundle.main.db.*;
-import org.jbundle.app.program.manual.convert.*;
-import org.jbundle.base.db.xmlutil.*;
+import org.jbundle.app.program.manual.convert.ConvertCode;
+import org.jbundle.base.db.BaseDatabase;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.RecordOwner;
+import org.jbundle.base.db.xmlutil.XmlInOut;
+import org.jbundle.base.thread.ProcessRunnerTask;
+import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.util.DBParams;
+import org.jbundle.base.util.Environment;
+import org.jbundle.base.util.MainApplication;
+import org.jbundle.main.db.DatabaseInfo;
+import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 /**
  *  ImportXMLScanListener - ImportXMLScanListener - Import XML from directories to new tables..
@@ -115,7 +112,7 @@ public class ImportXMLScanListener extends BaseScanListener
         {
             while (!classFound)
             {
-               record = (Record)Utility.getClassService().makeObjectFromClassName(className);
+               record = (Record)ClassServiceImpl.getClassService().makeObjectFromClassName(className);
                if (record != null)
                {
                     record.init(this.m_parent);

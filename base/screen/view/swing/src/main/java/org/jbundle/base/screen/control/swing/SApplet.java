@@ -21,15 +21,15 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.App;
+import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.comp.JTiledImage;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
-import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 
 /**
@@ -186,7 +186,7 @@ public class SApplet extends BaseApplet
             m_screenField = null;
         }
         super.free();
-        ThinUtil.getClassService().shutdownService(this);	// Careful of circular calls
+        ClassServiceImpl.getClassService().shutdownService(this);	// Careful of circular calls
     }
     /**
      * This application is done, stop the application.

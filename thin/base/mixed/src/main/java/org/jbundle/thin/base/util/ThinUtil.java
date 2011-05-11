@@ -8,6 +8,7 @@ import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.util.osgi.ClassService;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 
 /**
@@ -15,13 +16,6 @@ import org.jbundle.util.osgi.ClassService;
  */
 public class ThinUtil extends Util
 {
-	static ClassService classService = null;
-	public static ClassService getClassService()
-	{
-		if (classService == null)
-			classService = new ClassServiceImpl();
-		return classService;
-	}
    /**
     * Get this URL minus the nav bars
     * @param strURL

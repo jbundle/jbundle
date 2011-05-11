@@ -28,7 +28,7 @@ import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.remote.RemoteBaseSession;
-import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 
 /**
@@ -136,7 +136,7 @@ public class BaseSession extends RemoteRecordOwner
             if (strSessionClassName.indexOf('.') == 0)
                 strSessionClassName = Constants.ROOT_PACKAGE + strSessionClassName.substring(1);
             Utility.getLogger().info("Make remote session. Remote class: " + strSessionClassName);
-        	session = (BaseSession)ThinUtil.getClassService().makeObjectFromClassName(strSessionClassName);
+        	session = (BaseSession)ClassServiceImpl.getClassService().makeObjectFromClassName(strSessionClassName);
             session.init(this, null, null);
         } catch (Exception ex)  {
             ex.printStackTrace();

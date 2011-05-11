@@ -12,10 +12,10 @@ import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.convert.BaseConvertToMessage;
 import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 
 /**
@@ -78,8 +78,8 @@ public class BaseXmlTrxMessageIn extends ExternalTrxMessageIn
             BaseMessageHeader trxMessageHeader = this.getMessage().getMessageHeader();
             String strMessageClass = (String)trxMessageHeader.get(TrxMessageHeader.MESSAGE_MARSHALLER_CLASS);
             String strPackage = (String)trxMessageHeader.get(TrxMessageHeader.BASE_PACKAGE);
-            strMessageClass = Utility.getFullClassName(strPackage, strMessageClass);
-            m_convertToMessage = (BaseConvertToMessage)ThinUtil.getClassService().makeObjectFromClassName(strMessageClass);
+            strMessageClass = ClassServiceImpl.getFullClassName(strPackage, strMessageClass);
+            m_convertToMessage = (BaseConvertToMessage)ClassServiceImpl.getClassService().makeObjectFromClassName(strMessageClass);
             if (m_convertToMessage != null)
             	m_convertToMessage.init(this);
         }

@@ -20,9 +20,9 @@ import javax.naming.ServiceUnavailableException;
 import javax.rmi.PortableRemoteObject;
 import javax.swing.JApplet;
 
+import org.jbundle.model.App;
 import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.PropertyOwner;
-import org.jbundle.model.App;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
@@ -39,6 +39,7 @@ import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.thread.TaskScheduler;
 import org.jbundle.util.muffinmanager.MuffinManager;
 import org.jbundle.util.osgi.ClassService;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 /**
  * A Application contains all of a single user's apps.
@@ -454,8 +455,8 @@ public abstract class Application extends Object
                 }
                 if (iConnectionType == LOCAL_SERVICE)
                 {   // Use local OSGi service instead of RMI
-                	if (ThinUtil.getClassService().getClassFinder() != null)
-                		appServer = (ApplicationServer)ThinUtil.getClassService().getClassFinder().getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator");
+                	if (ClassServiceImpl.getClassService().getClassFinder() != null)
+                		appServer = (ApplicationServer)ClassServiceImpl.getClassService().getClassFinder().getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator");
                 }
                 remoteTask = appServer.createRemoteTask(properties);
                 m_mainRemoteTask = remoteTask;
@@ -524,7 +525,7 @@ public abstract class Application extends Object
         if (urlCodeBase == null)
             urlCodeBase = this.getCodeBase(task);
         // Create icons
-        URL url = ThinUtil.getClassService().getResourceFromPathName(filepath, this.getMainTask(), false, urlCodeBase, classLoader);
+        URL url = ClassServiceImpl.getClassService().getResourceFromPathName(filepath, this.getMainTask(), false, urlCodeBase, classLoader);
         return url;
     }
     /**
@@ -623,7 +624,7 @@ public abstract class Application extends Object
                 if (strResourceName.equals(m_resources.getClass().getName()))
                     return m_resources;
             Task task = null;	// TODO ?? this.getMainTask() ??
-            resources = ThinUtil.getClassService().getResourceBundle(strResourceName, currentLocale, task, false, this.getClass().getClassLoader());
+            resources = ClassServiceImpl.getClassService().getResourceBundle(strResourceName, currentLocale, task, false, this.getClass().getClassLoader());
         } catch (MissingResourceException ex) {
         	Util.getLogger().warning("Missing resource " + strResourceName + " locale: " + this.getLocale());
             resources = null;
@@ -1162,12 +1163,4 @@ public abstract class Application extends Object
     {
     	gbaseApplet = baseApplet;	// The one and only
     }
-    /**
-     * Get the OSGi class service.
-     * @return the class service
-     */
-	public ClassService getClassService()
-	{
-		return ThinUtil.getClassService();
-	}
 }

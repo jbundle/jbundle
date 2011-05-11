@@ -48,7 +48,7 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.main.db.DatabaseInfo;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 /**
  * JDBCDatabase - Implement the JDBC database.
  * <p />JDBCDatabases require a few parameters to use non-default behavior:<br />
@@ -236,7 +236,7 @@ public class JdbcDatabase extends BaseDatabase
             if (m_datasourceFactory == null)
             {
                 String strClassName = this.getProperty(SQLParams.DATASOURCE_FACTORY);
-            	strClassName = Utility.getFullClassName(strClassName);
+            	strClassName = ClassServiceImpl.getFullClassName(strClassName);
                 try {
              	    Class<?> c = Class.forName(strClassName);
              	    m_datasourceFactory = (DatasourceFactory)c.newInstance();
@@ -314,7 +314,7 @@ public class JdbcDatabase extends BaseDatabase
             return;
 
         if (m_classDB == null)
-        	m_classDB = ThinUtil.getClassService().makeObjectFromClassName(strJdbcDriver);
+        	m_classDB = ClassServiceImpl.getClassService().makeObjectFromClassName(strJdbcDriver);
         Utility.getLogger().info("Driver found: " + (m_classDB != null));
         m_JDBCConnection = this.getJDBCConnection();    // Setup the initial connection
     }

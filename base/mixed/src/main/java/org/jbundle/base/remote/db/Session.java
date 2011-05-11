@@ -24,7 +24,7 @@ import org.jbundle.thin.base.message.session.ClientSessionMessageFilter;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 
 /**
@@ -197,7 +197,7 @@ public class Session extends BaseSession
                 }
                 else
                 {
-                    BaseMessageFilter newMessageFilter = (BaseMessageFilter)ThinUtil.getClassService().makeObjectFromClassName(strClassName);
+                    BaseMessageFilter newMessageFilter = (BaseMessageFilter)ClassServiceImpl.getClassService().makeObjectFromClassName(strClassName);
                     if (newMessageFilter != null)
                         newMessageFilter.init(messageFilter.getQueueName(), messageFilter.getQueueType(), null, null);
                     if (newMessageFilter != null)

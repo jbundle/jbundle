@@ -14,7 +14,7 @@ import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.MapMessage;
-import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 /**
  *  PingRequestMessageInProcessor - .
@@ -62,7 +62,7 @@ public class RunRemoteProcessMessageInProcessor extends BaseMessageInProcessor
         Task task = this.getTask();
         Map<String,Object> properties = new HashMap<String,Object>();
         MapMessage.convertDOMtoMap(internalMessage.getDOM(), properties, true);
-        process = (BaseProcess)ThinUtil.getClassService().makeObjectFromClassName(processClassName);
+        process = (BaseProcess)ClassServiceImpl.getClassService().makeObjectFromClassName(processClassName);
         if (process == null)
         	return null;
         process.init(task, null, properties);

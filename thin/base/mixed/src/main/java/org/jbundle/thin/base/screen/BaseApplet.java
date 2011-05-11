@@ -29,11 +29,11 @@ import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
 import javax.swing.SwingUtilities;
 
+import org.jbundle.model.App;
 import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
-import org.jbundle.model.App;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
@@ -61,6 +61,7 @@ import org.jbundle.thin.base.util.RecordOwnerCollection;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.thin.base.util.base64.Base64;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 /**
  * The base class for all Applets and stand alone (applet) tasks.
@@ -313,7 +314,7 @@ public class BaseApplet extends JApplet
         if (parent == null)
             parent = m_parent;
         String strScreen = this.getProperty(Params.SCREEN);
-        JBasePanel baseScreen = (JBasePanel)ThinUtil.getClassService().makeObjectFromClassName(strScreen);
+        JBasePanel baseScreen = (JBasePanel)ClassServiceImpl.getClassService().makeObjectFromClassName(strScreen);
         if (baseScreen != null)
         {
             FieldList record = null;

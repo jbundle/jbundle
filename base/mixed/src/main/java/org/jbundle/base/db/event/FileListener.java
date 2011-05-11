@@ -18,7 +18,7 @@ import org.jbundle.base.field.BaseListener;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
-import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 
 /**
@@ -422,7 +422,7 @@ public class FileListener extends BaseListener
         Object objData = daIn.readObject();
         if (fldCurrent == null) if (strFieldName.length() > 0)
         {
-        	fldCurrent = (BaseField)ThinUtil.getClassService().makeObjectFromClassName(strFieldName);
+        	fldCurrent = (BaseField)ClassServiceImpl.getClassService().makeObjectFromClassName(strFieldName);
         	if (fldCurrent != null)
         	{
                 fldCurrent.init(null, null, DBConstants.DEFAULT_FIELD_LENGTH, null, null);

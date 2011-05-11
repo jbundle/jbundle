@@ -16,7 +16,7 @@ import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
-import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 
 /**
@@ -168,7 +168,7 @@ public abstract class BaseTransport extends Object
      */
     public static Object convertStringToObject(String string)
     {
-        return ThinUtil.getClassService().convertStringToObject(string, null, true);
+        return ClassServiceImpl.getClassService().convertStringToObject(string, null, true);
     }
     /**
      * Convert the return value to an object (override if this doesn't just to string to object).

@@ -4,24 +4,35 @@
  */
 package org.jbundle.main.msg.db;
 
-import java.awt.*;
-import java.util.*;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.base.message.trx.message.*;
-import org.jbundle.thin.base.message.*;
-import org.jbundle.main.msg.screen.*;
+import org.jbundle.base.db.EmptyKey;
+import org.jbundle.base.db.KeyArea;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.RecordOwner;
+import org.jbundle.base.db.VirtualRecord;
+import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.EmptyField;
+import org.jbundle.base.field.PropertiesField;
+import org.jbundle.base.field.ReferenceField;
+import org.jbundle.base.field.StringField;
+import org.jbundle.base.field.convert.PropertiesConverter;
+import org.jbundle.base.field.event.CopyConvertersHandler;
+import org.jbundle.base.field.event.FieldListener;
+import org.jbundle.base.field.event.InitOnceFieldHandler;
+import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.screen.model.BasePanel;
+import org.jbundle.base.screen.model.BaseScreen;
+import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.main.msg.screen.MessageInfoGridScreen;
+import org.jbundle.main.msg.screen.MessageInfoScreen;
+import org.jbundle.main.msg.screen.MessageProcessInfoGridScreen;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.thin.base.message.MessageRecordDesc;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 /**
  *  MessageInfo - Message information.
@@ -254,7 +265,7 @@ public class MessageInfo extends VirtualRecord
     {
         MessageRecordDesc messageData = null;
         String strClassName = this.getField(MessageInfo.kMessageClass).toString();
-        messageData = (MessageRecordDesc)Utility.getClassService().makeObjectFromClassName(strClassName);
+        messageData = (MessageRecordDesc)ClassServiceImpl.getClassService().makeObjectFromClassName(strClassName);
         if (messageData != null)
                messageData.init(message, strKey);
         return messageData;

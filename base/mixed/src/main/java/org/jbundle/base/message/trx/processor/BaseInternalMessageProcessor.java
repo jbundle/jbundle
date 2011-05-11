@@ -13,7 +13,7 @@ import org.jbundle.main.msg.db.MessageTransport;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 
 /**
@@ -97,7 +97,7 @@ public abstract class BaseInternalMessageProcessor extends BaseMessageProcessor
                 strClassName = strBasePackage + '.' + strMessageType.toLowerCase();
                 strClassName = strClassName + '.' + strMessageType + "MessageTransport";
             }
-            transport = (BaseMessageTransport)ThinUtil.getClassService().makeObjectFromClassName(strClassName);
+            transport = (BaseMessageTransport)ClassServiceImpl.getClassService().makeObjectFromClassName(strClassName);
         }
         if (transport == null)
         {

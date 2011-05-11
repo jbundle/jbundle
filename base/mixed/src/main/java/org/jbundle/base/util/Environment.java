@@ -16,15 +16,15 @@ import java.util.Vector;
 import org.jbundle.base.db.lock.ClientLockManager;
 import org.jbundle.base.message.core.MessageApplication;
 import org.jbundle.main.msg.app.MessageInfoApplication;
-import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.App;
+import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 
 /**
@@ -143,7 +143,7 @@ public class Environment extends Object
         if (gEnv == this)
         	gEnv = null;
         
-        ThinUtil.getClassService().shutdownService(this);	// Careful of circular calls
+        ClassServiceImpl.getClassService().shutdownService(this);	// Careful of circular calls
     }
     /**
      * Free this environment if you don't have any more user applications.

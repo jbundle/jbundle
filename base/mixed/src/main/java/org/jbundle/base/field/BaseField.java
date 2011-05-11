@@ -47,8 +47,8 @@ import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
-import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.thin.base.util.ThinMenuConstants;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 
 /**
@@ -241,7 +241,7 @@ public class BaseField extends FieldInfo
     {
         BaseField field = null;
         String strClassName = fieldToClone.getClass().getName();
-        field = (BaseField)ThinUtil.getClassService().makeObjectFromClassName(strClassName);
+        field = (BaseField)ClassServiceImpl.getClassService().makeObjectFromClassName(strClassName);
         if (field != null)
         {
             field.init(null, fieldToClone.getFieldName(), fieldToClone.getMaxLength(), fieldToClone.getFieldDesc(), fieldToClone.getDefault());

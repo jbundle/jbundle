@@ -477,31 +477,6 @@ public class Util extends Object
    public static final Border GRAY_BORDER = new LineBorder(Color.LIGHT_GRAY);
    public static final Border BLACK_BORDER = new LineBorder(Color.BLACK);
 
-    /**
-     *
-     */
-    public static String getFullClassName(String strClassName) {
-        return Util.getFullClassName(null, strClassName);
-    }
-    /**
-     *
-     */
-    public static String getFullClassName(String strPackage, String strClass) {
-        if (strPackage != null)
-            if (strPackage.length() > 0) {
-                if (strPackage.charAt(strPackage.length() - 1) != '.')
-                    strPackage = strPackage + '.';
-            }
-        if (strClass != null)
-            if (strClass.length() > 0) {
-                if (strClass.indexOf('.') == -1)
-                    if (strPackage != null)
-                        strClass = strPackage + strClass;
-                if (strClass.charAt(0) == '.')
-                    strClass = Constant.ROOT_PACKAGE + strClass.substring(1);
-            }
-        return strClass;
-    }
    /**
     * Convert this class name by inserting this package after the domain.
     * ie., com.xyz.abc.ClassName -> com.xyz.newpackage.abc.ClassName.

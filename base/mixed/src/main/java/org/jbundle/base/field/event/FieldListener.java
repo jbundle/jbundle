@@ -12,7 +12,7 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.BaseListener;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.util.DBConstants;
-import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 /**
  * BaseField definitions.
@@ -94,7 +94,7 @@ public class FieldListener extends BaseListener
      */
     public Object clone(BaseField field) throws CloneNotSupportedException
     {
-        FieldListener listener = (FieldListener)ThinUtil.getClassService().makeObjectFromClassName(this.getClass().getName());
+        FieldListener listener = (FieldListener)ClassServiceImpl.getClassService().makeObjectFromClassName(this.getClass().getName());
         boolean bInitCalled = this.syncClonedListener(field, listener, false);
         if (!bInitCalled)
             listener.init(null);
