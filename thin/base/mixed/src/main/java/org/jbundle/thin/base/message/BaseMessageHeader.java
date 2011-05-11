@@ -12,7 +12,7 @@ import java.util.Map;
 
 import org.jbundle.model.Freeable;
 import org.jbundle.model.util.Util;
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.model.util.Constant;
 import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 
@@ -337,15 +337,15 @@ public class BaseMessageHeader extends Object
      */
     public StringBuffer addXML(StringBuffer sbXML)
     {
-        Util.addStartTag(sbXML, BaseMessage.HEADER_TAG).append(Constants.RETURN);
+        Util.addStartTag(sbXML, BaseMessage.HEADER_TAG).append(Constant.RETURN);
         for (String strKey : this.getProperties().keySet())
         {
             Object data = this.get(strKey);
             Util.addStartTag(sbXML, strKey);
             sbXML.append(data);
-            Util.addEndTag(sbXML, strKey).append(Constants.RETURN);
+            Util.addEndTag(sbXML, strKey).append(Constant.RETURN);
         }
-        Util.addEndTag(sbXML, BaseMessage.HEADER_TAG).append(Constants.RETURN);
+        Util.addEndTag(sbXML, BaseMessage.HEADER_TAG).append(Constant.RETURN);
         return sbXML;
     }
     /**

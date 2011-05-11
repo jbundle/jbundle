@@ -22,6 +22,13 @@ public interface Constant
 
     public static final int NORMAL_RETURN = 0;
     public static final int ERROR_RETURN = -1;
+
+    // setEditMode()
+    public static final int EDIT_NONE = 0;      // Unknown status
+    public static final int EDIT_ADD = 1;   // Record is new
+    public static final int EDIT_IN_PROGRESS = 2; // Record is locked
+    public static final int EDIT_CURRENT = 3; // Record has been read but not locked
+
     /**
      * Default URL Encoding.
      */

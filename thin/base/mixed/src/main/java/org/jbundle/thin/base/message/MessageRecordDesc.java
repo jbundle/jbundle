@@ -185,13 +185,13 @@ public class MessageRecordDesc extends BaseMessageRecordDesc
     {
         try {
             Object bookmark = null;
-            if (record.getEditMode() == Constants.EDIT_IN_PROGRESS)
+            if (record.getEditMode() == Constant.EDIT_IN_PROGRESS)
             {
                 if (bRefresh)
                     bookmark = record.getTable().getHandle(0);
                 record.getTable().set(record);
             }
-            else if ((record.getEditMode() == Constants.EDIT_ADD) && (record.isModified()))
+            else if ((record.getEditMode() == Constant.EDIT_ADD) && (record.isModified()))
             {
                 record.getTable().add(record);
                 if (bRefresh)

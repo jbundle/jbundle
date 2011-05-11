@@ -8,7 +8,6 @@ import org.jbundle.model.message.MessageFilter;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.Util;
-import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 
 
 /**
@@ -244,7 +243,7 @@ public abstract class BaseMessageReceiver extends Thread
                             if (filter.isThinTarget())
                                 if (listener.isThinListener())
                                     messageToSend = message.convertToThinMessage(); // If you are sending a thick message to a thin client, convert it first. Note: don't worry about calling this with a thin message... no conversion will be done there.
-                            if (listener instanceof RemoteReceiveQueue)
+                            if (listener instanceof java.rmi.Remote)
                                 if (filter.getRegistryID() != null)
                                     if (messageToSend.getMessageHeader() != null)
                                         if (messageToSend.getMessageHeader().getRegistryIDMatch() == null)

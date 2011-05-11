@@ -83,11 +83,6 @@ public interface Constants extends Constant
     public static final int OPEN_REFRESH_TO_CURRENT = 524288;
     //---------------------------------------------------------------
 
-        // setEditMode()
-    public static final int EDIT_NONE = 0;      // Unknown status
-    public static final int EDIT_ADD = 1;   // Record is new
-    public static final int EDIT_IN_PROGRESS = 2; // Record is locked
-    public static final int EDIT_CURRENT = 3; // Record has been read but not locked
     public static final int EDIT_MASK = 7;      // Only look at 3 lsb
         // Record change types
     public static final int CACHE_UPDATE_TYPE = 1;  // This is a special type only used for thin
