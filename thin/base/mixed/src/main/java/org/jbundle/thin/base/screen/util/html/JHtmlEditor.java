@@ -17,9 +17,9 @@ import org.jbundle.model.Freeable;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
+import org.jbundle.thin.base.screen.print.thread.SwingSyncPageWorker;
+import org.jbundle.thin.base.screen.print.thread.SyncPage;
 import org.jbundle.thin.base.thread.PrivateTaskScheduler;
-import org.jbundle.thin.base.thread.SwingSyncPageWorker;
-import org.jbundle.thin.base.thread.SyncPage;
 import org.jbundle.thin.base.thread.TaskScheduler;
 
 

@@ -20,7 +20,6 @@ import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.RecordOwnerCollection;
 
 
@@ -36,7 +35,7 @@ public class AutoTask extends Object
     /**
      * The parent application.
      */
-    protected Application m_application = null;
+    protected App m_application = null;
     /**
      * The task properties.
      */
@@ -86,7 +85,7 @@ public class AutoTask extends Object
      */
     public void init(App application, String strParams, Map<String, Object> properties)
     {
-        m_application = (Application)application;
+        m_application = (App)application;
         if (m_application != null)
             m_application.addTask(this, null);                    // Add this task to the list
         if (properties != null)
@@ -138,7 +137,7 @@ public class AutoTask extends Object
     /**
      * Get my parent application.
      */
-    public Application getApplication()
+    public App getApplication()
     {
         return m_application;
     }
@@ -178,7 +177,7 @@ public class AutoTask extends Object
      */
     public void setApplication(App application)
     {
-        m_application = (Application)application;
+        m_application = application;
     }
     /**
      * Set the properties.
@@ -237,7 +236,7 @@ public class AutoTask extends Object
     {
         if (m_application != null)
             return;     // Never
-        this.init((Application)application, null, properties);
+        this.init(application, null, properties);
     }
     /**
      * Get the last error code.

@@ -251,7 +251,7 @@ public abstract class Application extends Object
      * @param objSession Session to remove.
      * @return Number of remaining sessions still active.
      */
-    public int addTask(Task task, RemoteTask remoteTask)
+    public int addTask(Task task, Object remoteTask)
     {
         if (m_taskMain == null)
         {
@@ -259,7 +259,7 @@ public abstract class Application extends Object
                 if (task.isMainTaskCandidate())
                     m_taskMain = task;
         }
-        m_mapTasks.put(task, remoteTask);
+        m_mapTasks.put(task, (RemoteTask)remoteTask);
         return m_mapTasks.size();
     }
     /**

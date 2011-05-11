@@ -23,8 +23,8 @@ import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MessageConstants;
-import org.jbundle.thin.base.thread.SwingSyncPageWorker;
-import org.jbundle.thin.base.thread.SyncPage;
+import org.jbundle.thin.base.screen.print.thread.SwingSyncPageWorker;
+import org.jbundle.thin.base.screen.print.thread.SyncPage;
 import org.jbundle.thin.base.util.Application;
 
 

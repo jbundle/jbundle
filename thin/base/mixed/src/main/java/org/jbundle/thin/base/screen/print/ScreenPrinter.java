@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.RepaintManager;
 import javax.swing.SwingUtilities;
 
-import org.jbundle.thin.base.thread.SyncPageWorker;
+import org.jbundle.thin.base.screen.print.thread.SyncPageWorker;
 
 
 /**

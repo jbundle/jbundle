@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.jbundle.thin.base.thread;
+package org.jbundle.thin.base.screen.print.thread;
 
 /**
  * @author don

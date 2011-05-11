@@ -225,7 +225,7 @@ public class FakeRecordOwner extends BaseRecordOwner
          */
         public void free()
         {
-            Application application = this.getApplication();
+            App application = this.getApplication();
             super.free();
             application.free();
         }

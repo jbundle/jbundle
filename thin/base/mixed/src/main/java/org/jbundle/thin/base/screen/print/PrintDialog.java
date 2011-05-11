@@ -10,7 +10,7 @@ import java.awt.Graphics;
 
 import javax.swing.JOptionPane;
 
-import org.jbundle.thin.base.thread.SyncPage;
+import org.jbundle.thin.base.screen.print.thread.SyncPage;
 
 
 /**

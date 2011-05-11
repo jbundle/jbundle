@@ -89,4 +89,16 @@ public interface App
       * @return The server object (application defined).
       */
      public Object getRemoteTask(Task localTaskOwner);
+     /**
+      * Add this session, screen, or task that belongs to this application.
+      * @param objSession Session to remove.
+      * @return Number of remaining sessions still active.
+      */
+     public int addTask(Task task, Object remoteTask);
+     /**
+      * Remove this session, screen, or task that belongs to this application.
+      * @param objSession Session to remove.
+      * @return True if all the potential main tasks have been removed.
+      */
+     public boolean removeTask(Task task);
 }
