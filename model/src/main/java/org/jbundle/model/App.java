@@ -83,4 +83,10 @@ public interface App
       * @return
       */
      public String addUserParamsToURL(String strURL);
+     /**
+      * Get a connection to the server for this applet.
+      * @param localTaskOwner The task that will own this remote task (or application) server) [If null, get the app server].
+      * @return The server object (application defined).
+      */
+     public Object getRemoteTask(Task localTaskOwner);
 }

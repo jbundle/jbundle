@@ -2,14 +2,13 @@ package org.jbundle.thin.base.message.remote;
 
 import java.rmi.RemoteException;
 
+import org.jbundle.model.App;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.BaseMessageSender;
 import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.thin.base.util.Application;
-
 
 /**
  * A MessageQueue manages the message connections for this message queue.
@@ -62,7 +61,7 @@ public class RemoteMessageQueue extends BaseMessageQueue
      */
     public BaseMessageSender createMessageSender()
     {
-        RemoteTask server = (RemoteTask)((Application)this.getMessageManager().getApplication()).getRemoteTask(null);
+        RemoteTask server = (RemoteTask)((App)this.getMessageManager().getApplication()).getRemoteTask(null);
         try   {
             return new RemoteMessageSender(server, this);
         } catch (RemoteException ex)    {
@@ -76,7 +75,7 @@ public class RemoteMessageQueue extends BaseMessageQueue
      */
     public BaseMessageReceiver createMessageReceiver()
     {
-        RemoteTask server = (RemoteTask)((Application)this.getMessageManager().getApplication()).getRemoteTask(null);
+        RemoteTask server = (RemoteTask)((App)this.getMessageManager().getApplication()).getRemoteTask(null);
         try   {
             return new RemoteMessageReceiver(server, this);
         } catch (RemoteException ex)    {
