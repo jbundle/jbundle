@@ -46,6 +46,11 @@
       <artifactId>org.jbundle.thin.base.screen.cal.grid</artifactId>
       <version>0.7.7-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>org.jbundle.thin.base</groupId>
+      <artifactId>org.jbundle.thin.base.message</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
 </project>

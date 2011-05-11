@@ -24,6 +24,9 @@
           <instructions>
             <Export-Package>
             org.jbundle.thin.base.remote.*;version=${project.version},
+            org.jbundle.thin.base.message.event.*;version=${project.version},
+            org.jbundle.thin.base.message.remote.*;version=${project.version},
+            org.jbundle.thin.base.message.session.*;version=${project.version},
             </Export-Package>
           </instructions>
         </configuration>
