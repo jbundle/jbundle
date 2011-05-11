@@ -44,21 +44,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * A Application encompasses all of a single user's apps.
- * For client apps, there is only one Application class, for server apps there
- * will be an Application class for each client.
- * For example, a standalone app, an applet, an ongoing or stateless HTML Application,
- * a user's server Application, or a user's EJB app server Application.
- * <p/>
- * Some of the params that an Application uses are:
- * <pre>
- * user=nameOrID
- * remoteapp=tourapp (don't set this)
- * server=www.tourapp.com (You will need to do this for standalone apps).
- * codebase=classes (shouldn't need this)
- * resource=MyResources
- * lanugage=es
- * </pre>
+ * Basic utilities.
  */
 public class Util extends Object
 {
