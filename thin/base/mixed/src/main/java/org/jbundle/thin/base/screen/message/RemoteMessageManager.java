@@ -1,8 +1,9 @@
-package org.jbundle.thin.base.util;
+package org.jbundle.thin.base.screen.message;
 
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.remote.RemoteMessageQueue;
+import org.jbundle.thin.base.util.Application;
 
 /**
  * A thin implementation of the message manager to access the remote message queue.

@@ -14,28 +14,6 @@
   <name>jbundle-thin-base-util</name>
   <packaging>bundle</packaging>
 
-  <build>
-    <plugins>
-      <plugin>
-        <inherited>true</inherited>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <configuration>
-          <instructions>
-            <Export-Package>
-                ${jbundlePackage};version=${project.version},	<!-- This explicitly ONLY copies ..util, not sub-packages -->
-            </Export-Package>
-            <Import-Package>
-            	*;resolution:=optional,
-                org.osgi.framework;resolution:=optional, <!-- I Don't explicitly reference this, but I need to check to see if this exists to enable OSGi -->
-			    org.jbundle.util.osgi.*;resolution:=optional, <!-- This allows me to start it once I deploy it -->
-            </Import-Package>
-          </instructions>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
   <dependencies>
     <dependency>
       <groupId>org.jbundle</groupId>
@@ -44,10 +22,15 @@
     </dependency>
 
     <dependency>
+      <groupId>org.jbundle.util</groupId>
+      <artifactId>org.jbundle.util.muffinmanager</artifactId>
+      <version>${jbundle-util-muffinmanagerVersion}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.jbundle.thin.base</groupId>
-      <artifactId>org.jbundle.thin.base.mixed</artifactId>
+      <artifactId>org.jbundle.thin.base.thread</artifactId>
       <version>0.7.7-SNAPSHOT</version>
-      <scope>provided</scope>
     </dependency>
     
     <dependency>

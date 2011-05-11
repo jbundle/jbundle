@@ -13,7 +13,7 @@ import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.screen.grid.JGridScreen;
 import org.jbundle.thin.base.screen.grid.ThinTableModel;
-import org.jbundle.thin.base.util.ThinMessageManager;
+import org.jbundle.thin.base.screen.message.ThinMessageManager;
 
 
 /**

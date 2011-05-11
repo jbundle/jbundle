@@ -37,7 +37,6 @@ import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.thread.TaskScheduler;
 import org.jbundle.util.muffinmanager.MuffinManager;
-import org.jbundle.util.osgi.ClassService;
 import org.jbundle.util.osgi.finder.ClassServiceImpl;
 
 /**
@@ -1114,7 +1113,7 @@ public abstract class Application extends Object
         Map<String,Object> properties = new HashMap<String,Object>();
         properties.put("removeListener", Boolean.TRUE);
         BaseMessage message = new MapMessage(new BaseMessageHeader(strQueueName, strQueueType, this, properties), properties);
-        RemoteMessageManager.getMessageManager(this).sendMessage(message);  // Make sure there is no listener that will start this server up.
+        this.getMessageManager().sendMessage(message);  // Make sure there is no listener that will start this server up.
         return Constants.NORMAL_RETURN;
     }
     /**
@@ -1131,7 +1130,7 @@ public abstract class Application extends Object
      */
     public BaseMessageManager getMessageManager(boolean bCreateIfNone)
     {
-        return RemoteMessageManager.getMessageManager(this, bCreateIfNone);
+        return null;	// Override this (in ThinMessageApplication)
     }
     /**
      * Add this user's params to the URL, so when I submit this to the server it can authenticate me.

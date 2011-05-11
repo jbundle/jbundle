@@ -12,6 +12,8 @@ import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
+import org.jbundle.thin.base.message.BaseMessageManager;
+import org.jbundle.thin.base.screen.message.RemoteMessageManager;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 import org.jbundle.util.osgi.finder.ClassServiceImpl;
@@ -193,5 +195,14 @@ public class ThinApplication extends Application {
         new JBaseFrame(this.getString(Constants.HELP), appletHTML);
         if (applet != null)
         	((BaseApplet)applet).setHelpView(appletHTML.getHelpView());    	
+    }
+    /**
+     * Get this Message Queue (or create one if this name doesn't exist).
+     * @param bCreateIfNone
+     * NOTE: This is overridden for anything but thin.
+     */
+    public BaseMessageManager getMessageManager(boolean bCreateIfNone)
+    {
+        return RemoteMessageManager.getMessageManager(this, bCreateIfNone);
     }
 }

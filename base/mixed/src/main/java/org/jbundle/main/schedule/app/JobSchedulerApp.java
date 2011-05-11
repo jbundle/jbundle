@@ -20,6 +20,8 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import javax.swing.*;
+
+import org.jbundle.thin.base.screen.message.RemoteMessageManager;
 import org.jbundle.thin.base.thread.*;
 import org.jbundle.base.thread.*;
 import org.jbundle.thin.base.message.*;

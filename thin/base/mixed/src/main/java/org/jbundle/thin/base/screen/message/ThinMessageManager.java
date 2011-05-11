@@ -1,4 +1,4 @@
-package org.jbundle.thin.base.util;
+package org.jbundle.thin.base.screen.message;
 
 import java.util.Properties;
 
@@ -15,6 +15,7 @@ import org.jbundle.thin.base.message.session.ClientSessionMessageFilter;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.screen.JBaseScreen;
 import org.jbundle.thin.base.screen.grid.JGridScreen;
+import org.jbundle.thin.base.util.Application;
 
 
 /**

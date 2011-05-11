@@ -35,7 +35,7 @@ import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JBasePanel;
 import org.jbundle.thin.base.screen.JBaseToolbar;
-import org.jbundle.thin.base.util.RemoteMessageManager;
+import org.jbundle.thin.base.screen.message.RemoteMessageManager;
 
 
 /**

@@ -15,7 +15,7 @@ import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.MapMessage;
-import org.jbundle.thin.base.util.RemoteMessageManager;
+import org.jbundle.thin.base.screen.message.RemoteMessageManager;
 
 
 /**
