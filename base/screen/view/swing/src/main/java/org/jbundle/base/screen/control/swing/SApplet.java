@@ -186,7 +186,7 @@ public class SApplet extends BaseApplet
             m_screenField = null;
         }
         super.free();
-        ThinUtil.shutdownService(this);	// Careful of circular calls
+        ThinUtil.getClassService().shutdownService(this);	// Careful of circular calls
     }
     /**
      * This application is done, stop the application.

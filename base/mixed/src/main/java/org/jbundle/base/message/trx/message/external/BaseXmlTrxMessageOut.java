@@ -13,6 +13,7 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
+import org.jbundle.thin.base.util.ThinUtil;
 import org.w3c.dom.Node;
 
 
@@ -77,7 +78,7 @@ public class BaseXmlTrxMessageOut extends ExternalTrxMessageOut
             String strMessageClass = (String)trxMessageHeader.get(TrxMessageHeader.MESSAGE_MARSHALLER_CLASS);
             String strPackage = (String)trxMessageHeader.get(TrxMessageHeader.BASE_PACKAGE);
             strMessageClass = Utility.getFullClassName(strPackage, strMessageClass);
-            m_convertToNative = (BaseConvertToNative)Utility.makeObjectFromClassName(strMessageClass);
+            m_convertToNative = (BaseConvertToNative)ThinUtil.getClassService().makeObjectFromClassName(strMessageClass);
             if (m_convertToNative != null)
             	m_convertToNative.init(this);
         }

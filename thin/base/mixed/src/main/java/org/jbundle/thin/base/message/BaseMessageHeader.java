@@ -12,7 +12,7 @@ import java.util.Map;
 
 import org.jbundle.model.Freeable;
 import org.jbundle.model.util.Util;
-import org.jbundle.thin.base.util.OsgiUtil;
+import org.jbundle.thin.base.util.ThinUtil;
 
 
 /** 
@@ -353,7 +353,7 @@ public class BaseMessageHeader extends Object
      */
     public static BaseMessageHeader createMessageHeader(String strMessageHeaderClassName, String strQueueName, String strQueueType, Object source, Map<String,Object> properties)
     {
-        BaseMessageHeader messageHeader = (BaseMessageHeader)OsgiUtil.makeObjectFromClassName(strMessageHeaderClassName);
+        BaseMessageHeader messageHeader = (BaseMessageHeader)ThinUtil.getClassService().makeObjectFromClassName(strMessageHeaderClassName);
         if (messageHeader != null)
         	messageHeader.init(strQueueName, strQueueType, source, properties);
         return messageHeader;

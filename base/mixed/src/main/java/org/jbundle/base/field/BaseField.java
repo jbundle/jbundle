@@ -42,12 +42,12 @@ import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Debug;
 import org.jbundle.base.util.ScreenConstants;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
+import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 
 
@@ -241,7 +241,7 @@ public class BaseField extends FieldInfo
     {
         BaseField field = null;
         String strClassName = fieldToClone.getClass().getName();
-        field = (BaseField)Utility.makeObjectFromClassName(strClassName);
+        field = (BaseField)ThinUtil.getClassService().makeObjectFromClassName(strClassName);
         if (field != null)
         {
             field.init(null, fieldToClone.getFieldName(), fieldToClone.getMaxLength(), fieldToClone.getFieldDesc(), fieldToClone.getDefault());

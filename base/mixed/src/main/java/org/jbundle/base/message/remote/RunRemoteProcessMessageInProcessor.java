@@ -10,11 +10,11 @@ import java.util.Map;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.message.trx.processor.BaseMessageInProcessor;
 import org.jbundle.base.thread.BaseProcess;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.MapMessage;
+import org.jbundle.thin.base.util.ThinUtil;
 
 /**
  *  PingRequestMessageInProcessor - .
@@ -62,7 +62,7 @@ public class RunRemoteProcessMessageInProcessor extends BaseMessageInProcessor
         Task task = this.getTask();
         Map<String,Object> properties = new HashMap<String,Object>();
         MapMessage.convertDOMtoMap(internalMessage.getDOM(), properties, true);
-        process = (BaseProcess)Utility.makeObjectFromClassName(processClassName);
+        process = (BaseProcess)ThinUtil.getClassService().makeObjectFromClassName(processClassName);
         if (process == null)
         	return null;
         process.init(task, null, properties);

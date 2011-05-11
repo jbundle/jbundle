@@ -21,7 +21,6 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
 import org.jbundle.main.msg.app.MessageInfoApplication;
 import org.jbundle.main.msg.db.MessageProcessInfo;
-import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
@@ -29,6 +28,7 @@ import org.jbundle.thin.base.message.BaseMessageListener;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.util.Application;
+import org.jbundle.thin.base.util.ThinUtil;
 
 
 /**
@@ -167,7 +167,7 @@ public class TrxMessageListener extends BaseMessageListener
             else if (m_properties.get(ServletTask.APPLICATION) != null)
             {
                 String strApplicationClass = (String)m_properties.get(ServletTask.APPLICATION);
-                Application app  = (Application)Utility.makeObjectFromClassName(strApplicationClass);
+                Application app  = (Application)ThinUtil.getClassService().makeObjectFromClassName(strApplicationClass);
                 if (app != null)
                 {
                     Environment env = ((BaseApplication)m_application).getEnvironment();

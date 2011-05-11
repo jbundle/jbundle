@@ -247,7 +247,7 @@ public class RemoteSessionServer extends UnicastRemoteObject
         if (m_app != null)
         	m_app.free();
         m_app = null;
-        ThinUtil.shutdownService(this);
+        ThinUtil.getClassService().shutdownService(this);
         if (env != null)
         	env.freeIfDone();
 //x        System.exit(0);

@@ -19,7 +19,7 @@ import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.JBaseFrame;
-import org.jbundle.thin.base.util.OsgiUtil;
+import org.jbundle.thin.base.util.ThinUtil;
 
 /**
  * Schedules jobs to run in the background (under different tasks).
@@ -148,7 +148,7 @@ public class TaskScheduler extends Object
             String strClass = (String)properties.get(Params.TASK);
             if (strClass == null)
                 strClass = (String)properties.get(Params.APPLET); // Applets are also run as tasks
-            Object job = OsgiUtil.makeObjectFromClassName(strClass);
+            Object job = ThinUtil.getClassService().makeObjectFromClassName(strClass);
             if (job instanceof Task)
             {
                 ((Task)job).initTask(this.getApplication(), properties);

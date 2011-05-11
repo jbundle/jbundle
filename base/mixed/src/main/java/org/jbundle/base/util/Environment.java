@@ -143,7 +143,7 @@ public class Environment extends Object
         if (gEnv == this)
         	gEnv = null;
         
-        ThinUtil.shutdownService(this);	// Careful of circular calls
+        ThinUtil.getClassService().shutdownService(this);	// Careful of circular calls
     }
     /**
      * Free this environment if you don't have any more user applications.

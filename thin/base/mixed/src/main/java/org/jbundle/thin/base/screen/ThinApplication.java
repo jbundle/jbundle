@@ -13,7 +13,7 @@ import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.OsgiUtil;
+import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 
 public class ThinApplication extends Application {
@@ -82,7 +82,7 @@ public class ThinApplication extends Application {
             if (map.get(PhysicalDatabaseParent.APP) == null)
                 map.put(PhysicalDatabaseParent.APP, this); // Access to the server, etc.
             
-            m_PhysicalDatabaseParent = (ThinPhysicalDatabaseParent)OsgiUtil.makeObjectFromClassName(Constants.ROOT_PACKAGE + "thin.base.db.mem.base.PhysicalDatabaseParent");
+            m_PhysicalDatabaseParent = (ThinPhysicalDatabaseParent)ThinUtil.getClassService().makeObjectFromClassName(Constants.ROOT_PACKAGE + "thin.base.db.mem.base.PhysicalDatabaseParent");
             if (m_PhysicalDatabaseParent != null)
             	m_PhysicalDatabaseParent.init(map);  // Init
         }

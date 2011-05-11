@@ -19,7 +19,6 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.screen.*;
 import org.jbundle.app.program.db.*;
 import org.jbundle.main.db.*;
@@ -64,7 +63,7 @@ public class ExportRecordsToXmlProcess extends BaseProcessRecords
         if (args != null)
         {
             properties = new Hashtable<String,Object>();
-            Util.parseArgs(properties, args);
+            Utility.parseArgs(properties, args);
         }
         Application app = new MainApplication(null, properties, null);
         String strProcess = Utility.addURLParam(null, DBParams.PROCESS, ExportRecordsToXmlProcess.class.getName());

@@ -8,13 +8,12 @@ import org.jbundle.base.field.PropertiesField;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.base.message.trx.transport.soap.SOAPMessageTransport;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.main.msg.db.MessageTransport;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
-import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.thin.base.util.ThinUtil;
 
 
 /**
@@ -98,7 +97,7 @@ public abstract class BaseInternalMessageProcessor extends BaseMessageProcessor
                 strClassName = strBasePackage + '.' + strMessageType.toLowerCase();
                 strClassName = strClassName + '.' + strMessageType + "MessageTransport";
             }
-            transport = (BaseMessageTransport)Utility.makeObjectFromClassName(strClassName);
+            transport = (BaseMessageTransport)ThinUtil.getClassService().makeObjectFromClassName(strClassName);
         }
         if (transport == null)
         {

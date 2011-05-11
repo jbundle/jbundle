@@ -48,6 +48,7 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.main.db.DatabaseInfo;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Converter;
+import org.jbundle.thin.base.util.ThinUtil;
 /**
  * JDBCDatabase - Implement the JDBC database.
  * <p />JDBCDatabases require a few parameters to use non-default behavior:<br />
@@ -313,7 +314,7 @@ public class JdbcDatabase extends BaseDatabase
             return;
 
         if (m_classDB == null)
-        	m_classDB = Utility.makeObjectFromClassName(strJdbcDriver);
+        	m_classDB = ThinUtil.getClassService().makeObjectFromClassName(strJdbcDriver);
         Utility.getLogger().info("Driver found: " + (m_classDB != null));
         m_JDBCConnection = this.getJDBCConnection();    // Setup the initial connection
     }
@@ -747,7 +748,7 @@ public class JdbcDatabase extends BaseDatabase
                 String strClassName = DBProperties_mysql.class.getName();
                 strDatabaseProductName = strClassName.substring(0, strClassName.length() - "mysql".length()) + strDatabaseProductName;
             }
-//            dbProperties = (ListResourceBundle)Utility.makeObjectFromClassName(Object.class.getName(), strDatabaseProductName);
+//            dbProperties = (ListResourceBundle)ThinUtil.getClassService().makeObjectFromClassName(Object.class.getName(), strDatabaseProductName);
 
             
             

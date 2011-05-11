@@ -29,10 +29,7 @@ import org.jbundle.model.PropertyOwner;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.landf.theme.CustomTheme;
-import org.jbundle.thin.base.util.OsgiUtil;
-
-
-
+import org.jbundle.thin.base.util.ThinUtil;
 
 /**
  *
@@ -104,7 +101,7 @@ public class ScreenUtil
             if ((themeClassName == null) || (themeClassName.equalsIgnoreCase(ScreenUtil.DEFAULT)))
                 theme = null;   //? createDefaultTheme();
             else
-            	theme = (MetalTheme)OsgiUtil.makeObjectFromClassName(themeClassName);
+            	theme = (MetalTheme)ThinUtil.getClassService().makeObjectFromClassName(themeClassName);
         }
         
         if (MetalLookAndFeel.class.getName().equals(lookAndFeelClassName))

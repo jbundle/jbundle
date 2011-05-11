@@ -43,6 +43,7 @@ import org.jbundle.thin.base.message.event.ModelMessageHandler;
 import org.jbundle.thin.base.remote.RemoteDatabase;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.util.Application;
+import org.jbundle.thin.base.util.ThinUtil;
 
 
 /**
@@ -231,7 +232,7 @@ public class TableSession extends Session
                         }
                         if (listener == null)
                         {
-                        	listener = (FileListener)Utility.makeObjectFromClassName(strBehaviorName);
+                        	listener = (FileListener)ThinUtil.getClassService().makeObjectFromClassName(strBehaviorName);
                         }
                         else
                         {

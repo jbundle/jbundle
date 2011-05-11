@@ -34,9 +34,9 @@ import org.jbundle.main.msg.db.ContactType;
 import org.jbundle.main.user.screen.UserLoginScreen;
 import org.jbundle.main.user.screen.UserPasswordChange;
 import org.jbundle.main.user.screen.UserPreferenceScreen;
-import org.jbundle.model.Service;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.Service;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
@@ -45,6 +45,7 @@ import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.MessageListenerFilterList;
 import org.jbundle.thin.base.screen.BaseApplet;
+import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 
 
@@ -871,7 +872,7 @@ public class BaseScreen extends BasePanel
      */
     public static BaseScreen makeNewScreen(String strScreenClass, ScreenLocation itsLocation, BasePanel screenParent, int iDisplayFieldDesc, Map<String, Object> properties, boolean initScreen)
     {
-        BaseScreen screen = (BaseScreen)Utility.makeObjectFromClassName(strScreenClass);
+        BaseScreen screen = (BaseScreen)ThinUtil.getClassService().makeObjectFromClassName(strScreenClass);
         if (screen != null)
         {
             BaseApplet applet = null;

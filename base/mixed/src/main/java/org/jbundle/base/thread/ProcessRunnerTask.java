@@ -16,6 +16,7 @@ import org.jbundle.model.Service;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.thread.AutoTask;
+import org.jbundle.thin.base.util.ThinUtil;
 
 
 /**
@@ -104,7 +105,7 @@ public class ProcessRunnerTask extends AutoTask
     public void runTask()
     {
         String strProcess = this.getProperty(DBParams.PROCESS);
-        BaseProcess job = (BaseProcess)Utility.makeObjectFromClassName(strProcess);
+        BaseProcess job = (BaseProcess)ThinUtil.getClassService().makeObjectFromClassName(strProcess);
         if (job != null)
         {
             this.runProcess(job, m_properties);

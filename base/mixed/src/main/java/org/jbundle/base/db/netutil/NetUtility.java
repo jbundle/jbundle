@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.util.Hashtable;
 import java.util.Map;
 
+import javax.servlet.ServletException;
+
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
@@ -24,6 +26,7 @@ import org.jbundle.thin.base.db.mem.memory.MDatabase;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseOwner;
 import org.jbundle.thin.base.db.model.ThinPhysicalTableOwner;
+import org.jbundle.thin.base.util.ThinUtil;
 
 /**
  * Read a net table into a stream.
@@ -140,7 +143,7 @@ public class NetUtility {
      */
     public static FieldList makeThinRecordFromClassname(String strClassName)
     {
-        FieldList record = (FieldList)Utility.makeObjectFromClassName(strClassName);
+        FieldList record = (FieldList)ThinUtil.getClassService().makeObjectFromClassName(strClassName);
         if (record != null)
         	record.init(null);
         return record;

@@ -11,6 +11,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.jbundle.model.Task;
+import org.jbundle.model.osgi.ClassService;
 import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.Util;
 
@@ -18,7 +19,8 @@ import org.jbundle.model.util.Util;
 /**
  * Thin specific static utility methods.
  */
-public class OsgiUtil extends Util
+public class ClassServiceImpl
+	implements ClassService
 {
    /**
     * Get the Osgi class service.
@@ -26,13 +28,13 @@ public class OsgiUtil extends Util
     * @return
     */
    public static boolean classServiceAvailable = true;
-   public static org.jbundle.util.osgi.finder.ClassFinder getClassFinder()
+   public org.jbundle.model.osgi.ClassFinder getClassFinder()
    {
 	   if (!classServiceAvailable)
 		   return null;
 	   try {
 		   Class.forName("org.osgi.framework.BundleActivator");	// This tests to see if osgi exists
-		   return (org.jbundle.util.osgi.finder.ClassFinder)org.jbundle.util.osgi.finder.ClassFinderUtility.getClassFinder(null, true);
+		   return (org.jbundle.model.osgi.ClassFinder)org.jbundle.util.osgi.finder.ClassFinderUtility.getClassFinder(null, true);
        } catch (Exception ex) {
 		   classServiceAvailable = false;
     	   return null;	// Osgi is not installed
@@ -43,16 +45,16 @@ public class OsgiUtil extends Util
  * @param className
     * @return
     */
-   public static Object makeObjectFromClassName(String className)
+   public Object makeObjectFromClassName(String className)
    {
-	   return OsgiUtil.makeObjectFromClassName(className, null, true);
+	   return this.makeObjectFromClassName(className, null, true);
    }
    /**
     * Create this object given the class name.
     * @param className
     * @return
     */
-   public static Object makeObjectFromClassName(String className, Task task, boolean bErrorIfNotFound)
+   public Object makeObjectFromClassName(String className, Task task, boolean bErrorIfNotFound)
    {
 	   if (className == null)
 		   return null;
@@ -62,10 +64,10 @@ public class OsgiUtil extends Util
        try {
 			clazz = Class.forName(className);
        } catch (ClassNotFoundException e) {
-		   if (OsgiUtil.getClassFinder() != null)
-			   clazz = OsgiUtil.getClassFinder().findClassBundle(className);	// Try to find this class in the obr repos
+		   if (this.getClassFinder() != null)
+			   clazz = this.getClassFinder().findClassBundle(className);	// Try to find this class in the obr repos
     	   if (clazz == null)
-    	       OsgiUtil.handleClassException(e, className, task, bErrorIfNotFound);
+    		   this.handleClassException(e, className, task, bErrorIfNotFound);
        }
        
 	   Object object = null;
@@ -73,11 +75,11 @@ public class OsgiUtil extends Util
     	   if (clazz != null)
     		   object = clazz.newInstance();
 	   } catch (InstantiationException e)   {
-	       OsgiUtil.handleClassException(e, className, task, bErrorIfNotFound);
+		   this.handleClassException(e, className, task, bErrorIfNotFound);
 	   } catch (IllegalAccessException e)   {
-	       OsgiUtil.handleClassException(e, className, task, bErrorIfNotFound);
+		   this.handleClassException(e, className, task, bErrorIfNotFound);
 	   } catch (Exception e) {
-	       OsgiUtil.handleClassException(e, className, task, bErrorIfNotFound);
+		   this.handleClassException(e, className, task, bErrorIfNotFound);
        }
        return object;
    }
@@ -85,17 +87,17 @@ public class OsgiUtil extends Util
     * Shutdown the bundle for this service.
     * @param service The service object
     */
-   public static void shutdownService(Object service)
+   public void shutdownService(Object service)
    {
-	   if (OsgiUtil.getClassFinder() != null)
-		   OsgiUtil.getClassFinder().shutdownService(service);	// Shutdown the bundle for this service
+	   if (this.getClassFinder() != null)
+		   this.getClassFinder().shutdownService(service);	// Shutdown the bundle for this service
    }
    /**
     * Create this object given the class name.
     * @param filepath
     * @return
     */
-   public static URL getResourceFromPathName(String filepath, Task task, boolean bErrorIfNotFound, URL urlCodeBase, ClassLoader classLoader)
+   public URL getResourceFromPathName(String filepath, Task task, boolean bErrorIfNotFound, URL urlCodeBase, ClassLoader classLoader)
    {
 	   if (filepath == null)
 		   return null;
@@ -109,10 +111,10 @@ public class OsgiUtil extends Util
 
        if (url == null)
        {
-		   if (OsgiUtil.getClassFinder() != null)
-			   url = OsgiUtil.getClassFinder().findBundleResource(filepath);	// Try to find this class in the obr repos
+		   if (this.getClassFinder() != null)
+			   url = this.getClassFinder().findBundleResource(filepath);	// Try to find this class in the obr repos
 		   if (url == null)
-		       OsgiUtil.handleClassException(null, filepath, task, bErrorIfNotFound);
+			   this.handleClassException(null, filepath, task, bErrorIfNotFound);
        }
 
        if (url == null)
@@ -137,7 +139,7 @@ public class OsgiUtil extends Util
     * @exception MissingResourceException if no resource bundle for the specified base name can be found
     * @return a resource bundle for the given base name and locale
     */
-   public static final ResourceBundle getResourceBundle(String className, Locale locale, Task task, boolean bErrorIfNotFound, ClassLoader classLoader)
+   public final ResourceBundle getResourceBundle(String className, Locale locale, Task task, boolean bErrorIfNotFound, ClassLoader classLoader)
    {
 	   MissingResourceException ex = null;
 	   ResourceBundle resourceBundle = null;
@@ -150,13 +152,13 @@ public class OsgiUtil extends Util
 	   if (resourceBundle == null)
        {
 		   try {
-			   if (OsgiUtil.getClassFinder() != null)
-				   resourceBundle = OsgiUtil.getClassFinder().findResourceBundle(className, locale);	// Try to find this class in the obr repos
+			   if (this.getClassFinder() != null)
+				   resourceBundle = this.getClassFinder().findResourceBundle(className, locale);	// Try to find this class in the obr repos
 		   } catch (MissingResourceException e) {
 			   ex = e;
 		   }
 		   if (resourceBundle == null)
-		       OsgiUtil.handleClassException(null, className, task, bErrorIfNotFound);	// May throw MissingResourceException
+			   this.handleClassException(null, className, task, bErrorIfNotFound);	// May throw MissingResourceException
        }
 	   
 	   if (resourceBundle == null)
@@ -171,26 +173,26 @@ public class OsgiUtil extends Util
     * @param string The string to convert.
     * @return The java object.
     */
-   public static Object convertStringToObject(String string, Task task, boolean bErrorIfNotFound)
+   public Object convertStringToObject(String string, Task task, boolean bErrorIfNotFound)
    {
 	   if (string == null)
 		   return null;
       
 	   Object object  = null;
        try {
-    	   object = OsgiUtil.convertStringToObject(string);
+    	   object = this.convertStringToObject(string);
        } catch (ClassNotFoundException e) {
-		   if (OsgiUtil.getClassFinder() != null)
+		   if (this.getClassFinder() != null)
 		   {
 			   String className = null;
 			   int startClass = e.getMessage().indexOf('\'') + 1;
 			   int endClass = e.getMessage().indexOf('\'', startClass);
 			   if (endClass != -1)
 				   className = e.getMessage().substring(startClass, endClass);
-			   object = OsgiUtil.getClassFinder().findResourceConvertStringToObject(className, string);	// Try to find this class in the obr repos
+			   object = this.getClassFinder().findResourceConvertStringToObject(className, string);	// Try to find this class in the obr repos
 		   }
     	   if (object == null)
-    	       OsgiUtil.handleClassException(e, null, task, bErrorIfNotFound);
+    		   this.handleClassException(e, null, task, bErrorIfNotFound);
        }
        
        return object;
@@ -202,7 +204,7 @@ public class OsgiUtil extends Util
     * @return The java object.
     * @throws ClassNotFoundException 
     */
-   public static Object convertStringToObject(String string)
+   public Object convertStringToObject(String string)
    		throws ClassNotFoundException
    {
        if ((string == null) || (string.length() == 0))
@@ -226,7 +228,7 @@ public class OsgiUtil extends Util
     * @param task
     * @param bErrorIfNotFound
     */
-   public static void handleClassException(Exception ex, String className, Task task, boolean bErrorIfNotFound)
+   public void handleClassException(Exception ex, String className, Task task, boolean bErrorIfNotFound)
    {
        if (bErrorIfNotFound)
        {

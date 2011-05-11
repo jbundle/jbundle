@@ -60,6 +60,7 @@ import org.jbundle.thin.base.message.JMessageListener;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.Application;
+import org.jbundle.thin.base.util.ThinUtil;
 
 /**
  * Record - Pure public recordset object.
@@ -2476,7 +2477,7 @@ public class Record extends FieldList
      */
     public static Record makeRecordFromClassName(String strClassName, RecordOwner recordOwner, boolean bInitRecord, boolean bErrorIfNotFound)
     {
-        Record record = (Record)Utility.makeObjectFromClassName(strClassName, (recordOwner == null) ? null : recordOwner.getTask(), bErrorIfNotFound);
+        Record record = (Record)ThinUtil.getClassService().makeObjectFromClassName(strClassName, (recordOwner == null) ? null : recordOwner.getTask(), bErrorIfNotFound);
         if (bInitRecord)
             if (record != null)
                 record.init(recordOwner);

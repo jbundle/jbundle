@@ -23,6 +23,7 @@ import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.screen.BaseApplet;
+import org.jbundle.thin.base.util.ThinUtil;
 
 /**
 import java.test.*;
@@ -240,7 +241,7 @@ public class ConvertCode extends ConvertBase
     		String strClassName = this.getProperty(LISTENER_CLASS);
     		if (strClassName == null)
     			strClassName = ReplaceScanListener.class.getName();
-			m_listener = (ScanListener)Utility.makeObjectFromClassName(strClassName);
+			m_listener = (ScanListener)ThinUtil.getClassService().makeObjectFromClassName(strClassName);
 			if (m_listener != null)
 				((BaseScanListener)m_listener).init(this, null);
 			else

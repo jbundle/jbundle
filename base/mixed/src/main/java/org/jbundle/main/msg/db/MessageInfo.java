@@ -254,7 +254,7 @@ public class MessageInfo extends VirtualRecord
     {
         MessageRecordDesc messageData = null;
         String strClassName = this.getField(MessageInfo.kMessageClass).toString();
-        messageData = (MessageRecordDesc)Utility.makeObjectFromClassName(strClassName);
+        messageData = (MessageRecordDesc)Utility.getClassService().makeObjectFromClassName(strClassName);
         if (messageData != null)
                messageData.init(message, strKey);
         return messageData;

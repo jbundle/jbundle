@@ -3,9 +3,9 @@ package org.jbundle.base.db.jdbc.service;
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.jdbc.JdbcDatabase;
 import org.jbundle.base.util.DBParams;
+import org.jbundle.model.osgi.BundleService;
 import org.jbundle.model.util.Util;
 import org.jbundle.util.osgi.bundle.BaseBundleService;
-import org.jbundle.util.osgi.bundle.BundleService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 

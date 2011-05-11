@@ -14,7 +14,7 @@ import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.util.OsgiUtil;
+import org.jbundle.thin.base.util.ThinUtil;
 
 
 /**
@@ -391,7 +391,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      */
     public static BaseMessageRecordDesc createMessageRecordDesc(String strMessageDataClassName, MessageDataParent messageDataParent, String strKey)
     {
-        BaseMessageRecordDesc messageData = (BaseMessageRecordDesc)OsgiUtil.makeObjectFromClassName(strMessageDataClassName);
+        BaseMessageRecordDesc messageData = (BaseMessageRecordDesc)ThinUtil.getClassService().makeObjectFromClassName(strMessageDataClassName);
         if (messageData != null)
         	messageData.init(messageDataParent, strKey);
         return messageData;

@@ -21,6 +21,7 @@ import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.thin.base.util.ThinUtil;
 
 
 /**
@@ -111,7 +112,7 @@ public abstract class BaseMessageProcessor extends BaseProcess
         if (externalTrxMessage != null)
             strPackage = (String)((TrxMessageHeader)externalTrxMessage.getMessageHeader()).get(TrxMessageHeader.BASE_PACKAGE);
         strClass = Utility.getFullClassName(strPackage, strClass);
-        messageProcessor = (BaseMessageProcessor)Utility.makeObjectFromClassName(strClass);
+        messageProcessor = (BaseMessageProcessor)ThinUtil.getClassService().makeObjectFromClassName(strClass);
         if (messageProcessor != null)
         	messageProcessor.init(taskParent, null, null);
         return messageProcessor;

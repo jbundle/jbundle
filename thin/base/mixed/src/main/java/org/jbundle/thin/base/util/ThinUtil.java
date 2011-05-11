@@ -3,6 +3,7 @@ package org.jbundle.thin.base.util;
 import java.rmi.RemoteException;
 
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.osgi.ClassService;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
@@ -12,8 +13,15 @@ import org.jbundle.thin.base.remote.RemoteTable;
 /**
  * Thin specific static utility methods.
  */
-public class ThinUtil extends OsgiUtil
+public class ThinUtil extends Util
 {
+	static ClassService classService = null;
+	public static ClassService getClassService()
+	{
+		if (classService == null)
+			classService = new ClassServiceImpl();
+		return classService;
+	}
    /**
     * Get this URL minus the nav bars
     * @param strURL
