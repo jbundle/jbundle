@@ -8,7 +8,6 @@ import java.awt.*;
 import java.util.*;
 
 import org.jbundle.base.db.*;
-import org.jbundle.thin.base.thread.RecordOwnerCollection;
 import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 import org.jbundle.base.db.event.*;
@@ -23,6 +22,7 @@ import org.jbundle.model.*;
 import java.io.*;
 import org.jbundle.app.program.manual.*;
 import org.jbundle.thin.base.screen.*;
+import org.jbundle.thin.base.thread.*;
 
 /**
  *  BaseScanListener - .

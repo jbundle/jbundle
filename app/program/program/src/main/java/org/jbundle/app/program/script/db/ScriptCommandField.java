@@ -23,6 +23,7 @@ import org.jbundle.main.db.*;
 import org.jbundle.app.program.script.screen.*;
 import org.jbundle.app.program.script.data.importfix.base.*;
 import org.jbundle.app.program.db.*;
+import org.jbundle.util.osgi.finder.*;
 
 /**
  *  ScriptCommandField - .

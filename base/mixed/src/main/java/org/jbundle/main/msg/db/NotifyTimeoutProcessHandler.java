@@ -20,7 +20,7 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.thin.base.message.*;
-import org.jbundle.thin.base.message.remote.*;
+import org.jbundle.thin.base.screen.message.*;
 import org.jbundle.thin.base.thread.*;
 import org.jbundle.main.msg.process.*;
 import org.jbundle.base.thread.*;
