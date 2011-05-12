@@ -68,14 +68,6 @@ public interface DBParams extends Params
      */
     public static final String SERVLET = "servlet";
     /**
-     * The type of message filter to create (Tree or regular [sequential]).
-     */
-    public static final String MESSAGE_FILTER = "messageFilter";
-    /**
-     * A remote type file contains live data that should always be read from the source.
-     */
-    public static final String TREE_FILTER = "tree";
-    /**
      * The default RMI resource name of the lock server.
      */
     public static final String DEFAULT_REMOTE_LOCK = "lockapp";

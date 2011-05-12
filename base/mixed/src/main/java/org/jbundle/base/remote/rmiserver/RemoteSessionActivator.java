@@ -16,6 +16,7 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
+import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.remote.ApplicationServer;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.util.osgi.BundleService;
@@ -44,8 +45,8 @@ public class RemoteSessionActivator extends BaseBundleService
         	this.setProperty(DBParams.REMOTE, DBParams.JDBC);
         if (this.getProperty(DBParams.TABLE) == null)
         	this.setProperty(DBParams.TABLE, DBParams.JDBC);
-        if (this.getProperty(DBParams.MESSAGE_FILTER) == null)
-        	this.setProperty(DBParams.MESSAGE_FILTER, DBParams.TREE_FILTER);  // Default for a server
+        if (this.getProperty(MessageConstants.MESSAGE_FILTER) == null)
+        	this.setProperty(MessageConstants.MESSAGE_FILTER, MessageConstants.TREE_FILTER);  // Default for a server
 		
 		super.start(context);
 	}

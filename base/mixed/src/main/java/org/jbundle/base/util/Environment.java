@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.jbundle.base.db.lock.ClientLockManager;
-import org.jbundle.base.message.core.MessageApplication;
+import org.jbundle.base.message.app.MessageApplication;
 import org.jbundle.main.msg.app.MessageInfoApplication;
 import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;

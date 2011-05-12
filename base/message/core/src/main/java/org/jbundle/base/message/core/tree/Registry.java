@@ -8,11 +8,9 @@ package org.jbundle.base.message.core.tree;
 
 import java.util.Iterator;
 
-import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.MessageConstants;
-
 
 /** 
  *
@@ -81,7 +79,7 @@ public class Registry extends NameValue
         NameValue value = this.getNameValueLeaf(filter, false);
         if (value == null)
         {
-            Utility.getLogger().warning("Registry/80 - Error Leaf not found");
+            System.out.println("Registry/80 - Error Leaf not found");
             return false;   // Error
         }
         boolean bSuccess = value.removeThisMessageFilter(filter);
@@ -103,7 +101,7 @@ public class Registry extends NameValue
             // It is empty, remove it from the parent node and free it.
             NameValue nodeParent = rgNodes[i - 1];
             if (!nodeParent.removeNameValueNode(node))
-                Utility.getLogger().warning("Error: tree node not removed");
+                System.out.println("Error: tree node not removed");
             node.free();
         }
     }

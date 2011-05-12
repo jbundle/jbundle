@@ -1,21 +1,23 @@
-package org.jbundle.base.message.core.local;
+package org.jbundle.base.message.core.dual;
+
+import java.rmi.RemoteException;
 
 import org.jbundle.base.message.core.stack.MessageStack;
 import org.jbundle.base.message.core.stack.MessageStackOwner;
 import org.jbundle.thin.base.message.BaseMessageManager;
-import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.BaseMessageSender;
-import org.jbundle.thin.base.message.MessageConstants;
-
+import org.jbundle.thin.base.message.remote.RemoteMessageQueue;
+import org.jbundle.thin.base.remote.RemoteTask;
+import org.jbundle.thin.base.util.Application;
 
 /**
  * A MessageQueue manages the JMS connections for this message queue.
- * A Local Message Queue distributes messages locally within the same JVM.
- * A send message is pressed onto a stack. The stack is poped (in FIFO) as
- * messageReceive is called (from BaseMessageReceiver).
+ * A Dual Message Queue distributes messages locally within the same JVM.
+ * It also sends a copy to the remote server to be distributed. When a message
+ * is received from the remote server, it is added to the local queue.
  */
-public class LocalMessageQueue extends BaseMessageQueue
+public class DualMessageQueue extends RemoteMessageQueue
     implements MessageStackOwner
 {
     /**
@@ -26,26 +28,26 @@ public class LocalMessageQueue extends BaseMessageQueue
     /**
      * Default constructor.
      */
-    public LocalMessageQueue()
+    public DualMessageQueue()
     {
         super();
     }
     /**
      * Default constructor.
      */
-    public LocalMessageQueue(BaseMessageManager manager, String strQueueName)
+    public DualMessageQueue(BaseMessageManager manager, String strQueueName, String strQueueType)
     {
         this();
-        this.init(manager, strQueueName); // The one and only
+        this.init(manager, strQueueName, strQueueType); // The one and only
     }
     /**
      * Initializes the BaseApplication.
      * Usually you pass the object that wants to use this sesssion.
      * For example, the applet or BaseApplication.
      */
-    public void init(BaseMessageManager manager, String strQueueName)
+    public void init(BaseMessageManager manager, String strQueueName, String strQueueType)
     {
-        super.init(manager, strQueueName, MessageConstants.INTRANET_QUEUE);
+        super.init(manager, strQueueName, strQueueType);
     }
     /**
      * Free all the resources belonging to this applet. If all applet screens are closed, shut down the applet.
@@ -62,14 +64,26 @@ public class LocalMessageQueue extends BaseMessageQueue
      */
     public BaseMessageSender createMessageSender()
     {
-        return new LocalMessageSender(this);
+        RemoteTask server = (RemoteTask)((Application)this.getMessageManager().getApplication()).getRemoteTask(null);
+        try   {
+            return new DualMessageSender(server, this);
+        } catch (RemoteException ex)    {
+            ex.printStackTrace();
+        }
+        return null;
     }
     /**
      * Get the message sender.
      */
     public BaseMessageReceiver createMessageReceiver()
     {
-        return new LocalMessageReceiver(this);
+        RemoteTask server = (RemoteTask)((Application)this.getMessageManager().getApplication()).getRemoteTask(null);
+        try   {
+            return new DualMessageReceiver(server, this);
+        } catch (RemoteException ex)    {
+            ex.printStackTrace();
+        }
+        return null;
     }
     /**
      * Get the message stack.

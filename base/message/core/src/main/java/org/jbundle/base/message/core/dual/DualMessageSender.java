@@ -7,7 +7,6 @@ import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.remote.RemoteMessageSender;
 import org.jbundle.thin.base.remote.RemoteTask;
 
-
 /**
  * A Local Message Sender pushes sent messages onto a local (FIFO) stack.
  */

@@ -1,4 +1,4 @@
-package org.jbundle.base.message.core;
+package org.jbundle.base.message.app;
 
 import java.util.Map;
 

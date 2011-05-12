@@ -25,6 +25,7 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.util.Util;
+import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.remote.ApplicationServer;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
@@ -184,8 +185,8 @@ public class RemoteSessionServer extends UnicastRemoteObject
             propertiesTemp.put(DBParams.REMOTE, DBParams.JDBC);
         if (propertiesTemp.get(DBParams.TABLE) == null)
             propertiesTemp.put(DBParams.TABLE, DBParams.JDBC);
-        if (propertiesTemp.get(DBParams.MESSAGE_FILTER) == null)
-            propertiesTemp.put(DBParams.MESSAGE_FILTER, DBParams.TREE_FILTER);  // Default for a server
+        if (propertiesTemp.get(MessageConstants.MESSAGE_FILTER) == null)
+            propertiesTemp.put(MessageConstants.MESSAGE_FILTER, MessageConstants.TREE_FILTER);  // Default for a server
 
         RemoteSessionServer remoteServer = RemoteSessionServer.startupServer(propertiesTemp);
 

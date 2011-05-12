@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.message.core.MessageApplication;
+import org.jbundle.base.message.app.MessageApplication;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;

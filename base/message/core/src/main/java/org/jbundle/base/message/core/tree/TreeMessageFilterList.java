@@ -7,7 +7,6 @@ import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MessageReceiverFilterList;
 
-
 /**
  * A TreeMessageFilterList files filters in a tree for quick access.
  */
@@ -76,7 +75,7 @@ public class TreeMessageFilterList extends MessageReceiverFilterList
             return false;   // It is possible for a client to try to remove it's remote filter that was removed as a duplicate filter.
         boolean bRemoved = this.getRegistry().removeMessageFilter(messageFilter);
         if (!bRemoved)
-            org.jbundle.base.util.Utility.getLogger().warning("Filter not found on remove");
+            System.out.println("Filter not found on remove");
         bRemoved = super.removeMessageFilter(intFilterID, bFreeFilter);
         return bRemoved;    // Success.
     }

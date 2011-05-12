@@ -148,6 +148,12 @@
       <artifactId>org.osgi.core</artifactId>
       <scope>provided</scope> <!-- This better be provided -->
     </dependency>
+    
+    <dependency>
+      <groupId>org.jbundle.base.message</groupId>
+      <artifactId>org.jbundle.base.message.core</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
 
   </dependencies>
 

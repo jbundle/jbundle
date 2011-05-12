@@ -39,4 +39,12 @@ public interface MessageConstants
     
     public static final String GRID_FILTER = "GridRecordMessageFilter";
     public static final String RECORD_FILTER = "RecordMessageFilter";
+    /**
+     * The type of message filter to create (Tree or regular [sequential]).
+     */
+    public static final String MESSAGE_FILTER = "messageFilter";
+    /**
+     * A remote type file contains live data that should always be read from the source.
+     */
+    public static final String TREE_FILTER = "tree";
 }

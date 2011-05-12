@@ -1,15 +1,13 @@
 package org.jbundle.base.message.core.local;
 
 import org.jbundle.base.message.core.tree.TreeMessageFilterList;
-import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBParams;
+import org.jbundle.model.App;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MapMessage;
+import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.message.MessageReceiverFilterList;
-import org.jbundle.thin.base.util.Application;
-
 
 /**
  * A Local Message Receiver pops messages off a local message (FIFO) stack.
@@ -74,10 +72,10 @@ public class LocalMessageReceiver extends BaseMessageReceiver
         if (m_filterList == null)
         {
             String strFilterType = null;
-            Application app = (Application)this.getMessageQueue().getMessageManager().getApplication();
-            if (app instanceof BaseApplication)
-                strFilterType = ((BaseApplication)app).getEnvironment().getProperty(DBParams.MESSAGE_FILTER);
-            if (DBParams.TREE_FILTER.equals(strFilterType))
+            App app = this.getMessageQueue().getMessageManager().getApplication();
+            if (app != null)
+                strFilterType = app.getProperty(MessageConstants.MESSAGE_FILTER);
+            if (MessageConstants.TREE_FILTER.equals(strFilterType))
                 m_filterList = new TreeMessageFilterList(this);
         }
         return super.getMessageFilterList();

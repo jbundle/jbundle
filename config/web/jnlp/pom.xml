@@ -209,7 +209,7 @@
 			    </jarResource>
 			    <jarResource>
 			      <groupId>org.jbundle.base.message</groupId>
-			      <artifactId>org.jbundle.base.message</artifactId>
+			      <artifactId>org.jbundle.base.message.misc</artifactId>
                   <version>${project.version}</version>
 			    </jarResource>
                 

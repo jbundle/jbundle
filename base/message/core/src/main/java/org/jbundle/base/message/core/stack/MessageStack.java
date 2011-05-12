@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import org.jbundle.thin.base.message.BaseMessage;
 
-
 /**
  * A MessageQueue manages the JMS connections for this message queue.
  * NOTE: The getMessageQueue call in Environment is not finished yet.

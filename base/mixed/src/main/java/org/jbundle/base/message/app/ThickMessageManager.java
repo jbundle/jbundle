@@ -1,4 +1,4 @@
-package org.jbundle.base.message.core;
+package org.jbundle.base.message.app;
 
 import org.jbundle.base.message.core.local.LocalMessageQueue;
 import org.jbundle.base.util.BaseApplication;

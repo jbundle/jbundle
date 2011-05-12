@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.base.message</groupId>
+    <artifactId>jbundle-base-message-reactor</artifactId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <!-- This project is temporary until the circular dependencies have been resolved -->
+  <artifactId>org.jbundle.base.message.misc</artifactId>
+  <name>jbundle-base-message</name>
+  <packaging>bundle</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <inherited>true</inherited>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Export-Package>
+            org.jbundle.base.message.app.*;version=${project.version},
+            org.jbundle.base.message.opt.*;version=${project.version},
+            org.jbundle.base.message.record.*;version=${project.version},
+            org.jbundle.base.message.remote.*;version=${project.version},
+            org.jbundle.base.message.trx.*;version=${project.version},
+            </Export-Package>
+            <Import-Package>
+            	*;resolution:=optional,
+            </Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle.base</groupId>
+      <artifactId>org.jbundle.base.mixed</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>
