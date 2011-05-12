@@ -40,6 +40,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.jbundle.base.message</groupId>
+      <artifactId>org.jbundle.base.message.core</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.base.mixed</artifactId>
       <version>0.7.7-SNAPSHOT</version>
