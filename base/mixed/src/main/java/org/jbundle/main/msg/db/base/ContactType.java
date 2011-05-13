@@ -2,7 +2,7 @@
  *  @(#)ContactType.
  *  Copyright © 2010 tourapp.com. All rights reserved.
  */
-package org.jbundle.main.msg.db;
+package org.jbundle.main.msg.db.base;
 
 import java.awt.*;
 import java.util.*;

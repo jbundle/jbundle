@@ -24,6 +24,7 @@ import java.io.*;
 import org.jbundle.main.msg.db.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.thin.base.message.*;
+import org.jbundle.main.msg.db.base.*;
 
 /**
  *  GetWSDL - .

@@ -30,7 +30,7 @@ import org.jbundle.base.util.DatabaseOwner;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.ContactType;
+import org.jbundle.main.msg.db.base.ContactType;
 import org.jbundle.main.user.screen.UserLoginScreen;
 import org.jbundle.main.user.screen.UserPasswordChange;
 import org.jbundle.main.user.screen.UserPreferenceScreen;

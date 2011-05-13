@@ -22,7 +22,7 @@ import org.jbundle.model.*;
 import org.jbundle.thin.base.screen.*;
 import org.jbundle.main.db.*;
 import org.jbundle.main.user.screen.*;
-import org.jbundle.main.msg.db.*;
+import org.jbundle.main.msg.db.base.*;
 
 /**
  *  UserInfo - User Information.

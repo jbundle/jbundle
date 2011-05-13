@@ -26,6 +26,7 @@ import org.jbundle.base.message.trx.transport.local.*;
 import java.net.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.base.message.trx.message.internal.*;
+import org.jbundle.main.msg.db.base.*;
 
 /**
  *  MessageProcessInfo - Message process information.

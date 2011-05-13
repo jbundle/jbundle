@@ -22,6 +22,7 @@ import org.jbundle.model.*;
 import org.jbundle.main.db.*;
 import org.jbundle.main.msg.screen.*;
 import org.jbundle.base.message.trx.message.*;
+import org.jbundle.main.msg.db.base.*;
 
 /**
  *  MessageDetail - Message detail.

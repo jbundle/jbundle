@@ -22,6 +22,7 @@ import org.jbundle.model.*;
 import org.jbundle.main.screen.*;
 import org.jbundle.main.db.*;
 import org.jbundle.main.msg.db.*;
+import org.jbundle.main.msg.db.base.*;
 
 /**
  *  MessageDetailGridScreen - Message detail.

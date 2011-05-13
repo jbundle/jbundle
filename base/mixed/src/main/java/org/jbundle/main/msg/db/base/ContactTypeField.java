@@ -1,8 +1,8 @@
 /**
- *  @(#)ContactTypeLevelOneField.
+ *  @(#)ContactTypeField.
  *  Copyright © 2010 tourapp.com. All rights reserved.
  */
-package org.jbundle.main.msg.db;
+package org.jbundle.main.msg.db.base;
 
 import java.awt.*;
 import java.util.*;
@@ -22,14 +22,14 @@ import org.jbundle.model.*;
 import org.jbundle.main.db.*;
 
 /**
- *  ContactTypeLevelOneField - Level one field display.
+ *  ContactTypeField - Contact type.
  */
-public class ContactTypeLevelOneField extends ContactTypeField
+public class ContactTypeField extends ReferenceField
 {
     /**
      * Default constructor.
      */
-    public ContactTypeLevelOneField()
+    public ContactTypeField()
     {
         super();
     }
@@ -41,7 +41,7 @@ public class ContactTypeLevelOneField extends ContactTypeField
      * @param strDesc The string description (usually pass null, to use the resource file desc).
      * @param strDefault The default value (if object, this value is the default value, if string, the string is the default).
      */
-    public ContactTypeLevelOneField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
+    public ContactTypeField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
     {
         this();
         this.init(record, strName, iDataLength, strDesc, strDefault);
@@ -58,9 +58,7 @@ public class ContactTypeLevelOneField extends ContactTypeField
      */
     public Record makeReferenceRecord(RecordOwner recordOwner)
     {
-        Record record = super.makeReferenceRecord(recordOwner);
-        record.addListener(new CompareFileFilter(ContactType.kLevel, "1", DBConstants.EQUALS, null, true));
-        return record;
+        return new ContactType(recordOwner);
     }
 
 }
