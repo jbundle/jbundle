@@ -2,7 +2,7 @@ package org.jbundle.base.message.core.local;
 
 import org.jbundle.base.message.core.tree.TreeMessageFilterList;
 import org.jbundle.model.App;
-import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MapMessage;
@@ -58,7 +58,7 @@ public class LocalMessageReceiver extends BaseMessageReceiver
      * Process the receive message call.
      * pend(don) NOTE: This will not work as an EJB, because the receiveMessage call blocks.
      */
-    public BaseMessage receiveMessage()
+    public Message receiveMessage()
     {
         return ((LocalMessageQueue)this.getMessageQueue()).getMessageStack().receiveMessage();
     }

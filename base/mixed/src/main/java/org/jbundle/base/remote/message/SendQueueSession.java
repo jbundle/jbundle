@@ -14,6 +14,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageSender;
 import org.jbundle.thin.base.remote.RemoteSendQueue;
@@ -89,11 +90,11 @@ public class SendQueueSession extends BaseSession
      * @param strCommand Command to perform remotely.
      * @return boolean success.
      */
-    public void sendMessage(BaseMessage message) throws RemoteException
+    public void sendMessage(Message message) throws RemoteException
     {
         Utility.getLogger().info("EJB sendMessage: " + message);
-        if (message.isProcessedByClient())
-            message.setProcessedByClientSession(this.getParentSession());
+        if (((BaseMessage)message).isProcessedByClient())
+            ((BaseMessage)message).setProcessedByClientSession(this.getParentSession());
         m_messageSender.sendMessage(message);
     }
 }

@@ -4,6 +4,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.jbundle.model.message.Message;
 import org.jbundle.model.message.MessageFilter;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.model.util.Constant;
@@ -222,7 +223,7 @@ public abstract class BaseMessageReceiver extends Thread
         while (m_thread != null)
         {
             int iErrorCode = Constant.NORMAL_RETURN;
-            BaseMessage message = this.receiveMessage();        // Hang until a message comes through
+            BaseMessage message = (BaseMessage)this.receiveMessage();        // Hang until a message comes through
             if ((message == null) || (m_thread == null))
                 return;      // End of processing, stop this thread.
             Iterator<BaseMessageFilter> iterator = this.getFilterList(message.getMessageHeader());
@@ -284,5 +285,5 @@ public abstract class BaseMessageReceiver extends Thread
      * You must override this abstract method.
      * @return The next message.
      */
-    public abstract BaseMessage receiveMessage();
+    public abstract Message receiveMessage();
 }

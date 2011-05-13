@@ -19,6 +19,7 @@ import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageManager;
@@ -115,10 +116,10 @@ public class ReceiveQueueSession extends BaseSession
      * pend(don) NOTE: This will not work as an EJB, because the receiveMessage call blocks.
      * pend(don) Where is an RMI timeout handled? here?
      */
-    public BaseMessage receiveRemoteMessage() throws RemoteException
+    public Message receiveRemoteMessage() throws RemoteException
     {
         Utility.getLogger().info("EJB receiveMessage (waiting)");
-        BaseMessage message = this.getMessageStack().receiveMessage();
+        Message message = this.getMessageStack().receiveMessage();
         Utility.getLogger().info("EJB receiveMessage (returning) " + message);
         return message;
     }

@@ -2,6 +2,7 @@ package org.jbundle.base.message.core.dual;
 
 import java.rmi.RemoteException;
 
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.remote.RemoteMessageSender;
@@ -50,11 +51,11 @@ public class DualMessageSender extends RemoteMessageSender
      * @param strCommand Command to perform remotely.
      * @return boolean success.
      */
-    public void sendMessage(BaseMessage message)
+    public void sendMessage(Message message)
     {
         ((DualMessageQueue)this.getMessageQueue()).getMessageStack().sendMessage(message);
         
-        message.setProcessedByClient(true);     // Make sure any server doesn't send this back up.
+        ((BaseMessage)message).setProcessedByClient(true);     // Make sure any server doesn't send this back up.
 
         super.sendMessage(message);
     }

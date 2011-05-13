@@ -8,6 +8,7 @@ package org.jbundle.thin.base.message.remote;
 
 import java.rmi.RemoteException;
 
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.BaseMessageSender;
@@ -77,16 +78,16 @@ public class RemoteMessageSender extends BaseMessageSender
      * Send this message to the remote send queue (who will pass it on).
      * @param message The message to send.
      */
-    public void sendMessage(BaseMessage message)
+    public void sendMessage(Message message)
     {
         try   {
-            if (((RemoteMessageQueue)this.getMessageQueue()).isSendRemoteMessage(message) == false)
+            if (((RemoteMessageQueue)this.getMessageQueue()).isSendRemoteMessage((BaseMessage)message) == false)
                 return;
-            if (message.isProcessedByServer())
+            if (((BaseMessage)message).isProcessedByServer())
                 return;     // Don't send back down (the server already processed it).
-            if (message.isConsumed())
+            if (((BaseMessage)message).isConsumed())
                 return;     // Don't send if already handled.
-            if (MessageConstants.LOCAL_QUEUE.equalsIgnoreCase(message.getMessageHeader().getQueueType()))
+            if (MessageConstants.LOCAL_QUEUE.equalsIgnoreCase(((BaseMessage)message).getMessageHeader().getQueueType()))
                 return;     // Local queue only
             synchronized (m_sendQueue)
             {   // In case this is called from another task

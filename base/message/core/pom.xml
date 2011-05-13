@@ -11,7 +11,7 @@
 
   <!-- This project is temporary until the circular dependencies have been resolved -->
   <artifactId>org.jbundle.base.message.core</artifactId>
-  <name>jbundle-base-message</name>
+  <name>jbundle-base-message-core</name>
   <packaging>bundle</packaging>
 
   <dependencies>

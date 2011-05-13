@@ -1,6 +1,6 @@
 package org.jbundle.base.message.core.local;
 
-import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.BaseMessageSender;
 
@@ -45,7 +45,7 @@ public class LocalMessageSender extends BaseMessageSender
      * @param strCommand Command to perform remotely.
      * @return boolean success.
      */
-    public void sendMessage(BaseMessage message)
+    public void sendMessage(Message message)
     {
         ((LocalMessageQueue)this.getMessageQueue()).getMessageStack().sendMessage(message);
     }

@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.base.util.Utility;
-import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.remote.RemoteSession;
@@ -65,7 +65,7 @@ public class ReceiveQueueHolder extends BaseSessionHolder
         String strCommand = this.getProperty(REMOTE_COMMAND, properties);
         if (RECEIVE_REMOTE_MESSAGE.equals(strCommand))
         {
-            BaseMessage message = ((RemoteReceiveQueue)m_remoteObject).receiveRemoteMessage();
+            Message message = ((RemoteReceiveQueue)m_remoteObject).receiveRemoteMessage();
             if (message != null)	// If the client quits, this is freed and I get a null message (which I don't need to return)
             	this.setReturnObject(out, message);
         }

@@ -9,7 +9,7 @@ package org.jbundle.thin.base.remote;
  */
 import java.rmi.RemoteException;
 
-import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.model.message.Message;
 
 
 /**
@@ -24,5 +24,5 @@ public interface RemoteSendQueue extends RemoteBaseSession
      * Send a remote message.
      * @param message The message to send.
      */
-    public void sendMessage(BaseMessage message) throws RemoteException;
+    public void sendMessage(Message message) throws RemoteException;
 }

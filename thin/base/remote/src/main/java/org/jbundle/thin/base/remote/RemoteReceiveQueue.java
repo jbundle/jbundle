@@ -10,7 +10,7 @@ package org.jbundle.thin.base.remote;
 import java.rmi.RemoteException;
 import java.util.Map;
 
-import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 
 /**
@@ -27,7 +27,7 @@ public interface RemoteReceiveQueue extends RemoteBaseSession
      * @param strCommand Command to perform remotely.
      * @return boolean success.
      */
-    public BaseMessage receiveRemoteMessage() throws RemoteException;
+    public Message receiveRemoteMessage() throws RemoteException;
     /**
      * Add a message filter to this remote receive queue.
      * @param messageFilter The message filter to add.

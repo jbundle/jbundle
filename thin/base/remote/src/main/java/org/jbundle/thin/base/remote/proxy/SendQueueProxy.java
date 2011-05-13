@@ -6,7 +6,7 @@ package org.jbundle.thin.base.remote.proxy;
  */
 import java.rmi.RemoteException;
 
-import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.remote.RemoteSendQueue;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
@@ -54,7 +54,7 @@ public class SendQueueProxy extends BaseSessionProxy
      * Send a remote message.
      * @param message The message to send.
      */
-    public void sendMessage(BaseMessage message) throws RemoteException
+    public void sendMessage(Message message) throws RemoteException
     {
         BaseTransport transport = this.createProxyTransport(SEND_MESSAGE);
         transport.addParam(MESSAGE, message);   // Don't use COMMAND

@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 
 import org.jbundle.base.message.core.tree.TreeMessageFilterList;
 import org.jbundle.model.App;
+import org.jbundle.model.message.Message;
+import org.jbundle.model.message.MessageFilter;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageQueue;
@@ -73,7 +75,7 @@ public class DualMessageReceiver extends RemoteMessageReceiver
      * The worker thread handle remote receives and adds them to the local queue.
      * @return The next message on the queue (hangs until one is available).
      */
-    public BaseMessage receiveMessage()
+    public Message receiveMessage()
     {
         DualMessageQueue baseMessageQueue = (DualMessageQueue)this.getMessageQueue();
         if (baseMessageQueue == null)
@@ -104,12 +106,12 @@ public class DualMessageReceiver extends RemoteMessageReceiver
      * @param The message filter to add.
      * @return The message filter passed in.
      */
-    public void addMessageFilter(BaseMessageFilter messageFilter)
+    public void addMessageFilter(MessageFilter messageFilter)
     {
-        boolean bThinTarget = messageFilter.isThinTarget();
-        messageFilter.setThinTarget(false);  // If this is replicated to a server, the server needs to know that I am thick.
+        boolean bThinTarget = ((BaseMessageFilter)messageFilter).isThinTarget();
+        ((BaseMessageFilter)messageFilter).setThinTarget(false);  // If this is replicated to a server, the server needs to know that I am thick.
         super.addMessageFilter(messageFilter);
-        messageFilter.setThinTarget(bThinTarget);
+        ((BaseMessageFilter)messageFilter).setThinTarget(bThinTarget);
     }
     /**
      * This is a special worker thread that pulls messages off the remote server and sticks them on the local queue.
@@ -131,7 +133,7 @@ public class DualMessageReceiver extends RemoteMessageReceiver
         {
             while (m_receiveQueueThread != null)
             {
-                BaseMessage message = this.receiveMessage();        // Hang until a message comes through
+                Message message = this.receiveMessage();        // Hang until a message comes through
                 if ((m_receiveQueueThread == null) || (message == null))
                     return;      // End of processing, stop this thread.
                 getMessageQueue().getMessageSender().sendMessage(message);  // Add to the queue to process
@@ -142,9 +144,9 @@ public class DualMessageReceiver extends RemoteMessageReceiver
          * Hangs on the remote receive message call.
          * @return The next message.
          */
-        public BaseMessage receiveMessage()
+        public Message receiveMessage()
         {
-            BaseMessage message = null;
+            Message message = null;
             try   {
                 message = m_receiveQueue.receiveRemoteMessage();   // Hang until a message comes through
             } catch (RemoteException ex)    {
@@ -152,7 +154,7 @@ public class DualMessageReceiver extends RemoteMessageReceiver
                 return null;    // Remote exception = I'm done
             }
             if (message != null)
-                message.setProcessedByServer(true);     // Don't send the message back down.
+                ((BaseMessage)message).setProcessedByServer(true);     // Don't send the message back down.
             return message;
         }
     }

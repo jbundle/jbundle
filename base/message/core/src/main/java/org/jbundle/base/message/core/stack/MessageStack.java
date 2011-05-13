@@ -2,7 +2,7 @@ package org.jbundle.base.message.core.stack;
 
 import java.util.Vector;
 
-import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.model.message.Message;
 
 /**
  * A MessageQueue manages the JMS connections for this message queue.
@@ -13,7 +13,7 @@ public class MessageStack extends Object
     /**
      * FIFO Stack of messages.
      */
-    protected Vector<BaseMessage> m_stack = new Vector<BaseMessage>();
+    protected Vector<Message> m_stack = new Vector<Message>();
     /**
      * The thread to synchronize on (this is the receive thread).
      */
@@ -82,7 +82,7 @@ public class MessageStack extends Object
      * @param strCommand Command to perform remotely.
      * @return boolean success.
      */
-    public void sendMessage(BaseMessage message)
+    public void sendMessage(Message message)
     {
         if (message == null)
             return;     // Don't allow a null message to be sent.
@@ -101,7 +101,7 @@ public class MessageStack extends Object
      * Note: Be careful, this call blocks until the message is ready to be received.
      * @return The next message (when it becomes available).
      */
-    public BaseMessage receiveMessage()
+    public Message receiveMessage()
     {
         while ((m_stack != null) && (m_stack.isEmpty()))
         {
@@ -121,10 +121,10 @@ public class MessageStack extends Object
                 m_bWaiting = false;     // Notified
             }
         }
-        BaseMessage message = null;
+        Message message = null;
         if (m_stack != null)
             if (!m_stack.isEmpty())
-                message = (BaseMessage)m_stack.remove(0);
+                message = m_stack.remove(0);
         return message;
     }
 }

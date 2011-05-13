@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.jbundle.model.message.Message;
+import org.jbundle.model.message.MessageFilter;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
@@ -81,17 +83,17 @@ public class RemoteMessageReceiver extends BaseMessageReceiver
      * Hangs on the remote receive message call.
      * @return The next message.
      */
-    public BaseMessage receiveMessage()
+    public Message receiveMessage()
     {
-        BaseMessage message = null;
+        Message message = null;
         try   {
             message = m_receiveQueue.receiveRemoteMessage();   // Hang until a message comes through
         } catch (RemoteException ex)    {
             ex.printStackTrace();
             return null;    // Remote exception = I'm done!
         }
-        if (message != null)
-            message.setProcessedByServer(true);     // Don't send the message back down.
+        if (message instanceof BaseMessage)
+            ((BaseMessage)message).setProcessedByServer(true);     // Don't send the message back down.
         return message;
     }
     /**
@@ -100,16 +102,16 @@ public class RemoteMessageReceiver extends BaseMessageReceiver
      * @param The message filter to add.
      * @return The message filter passed in.
      */
-    public void addMessageFilter(BaseMessageFilter messageFilter)
+    public void addMessageFilter(MessageFilter messageFilter)
     {
         super.addMessageFilter(messageFilter);
         try   {
             // If at all possible, pass the queue's current session, so the filter is in the proper environment
-            if (messageFilter.isCreateRemoteFilter())   // Almost always true
+            if (((BaseMessageFilter)messageFilter).isCreateRemoteFilter())   // Almost always true
             {       // Create the remote version of this filter.
-                RemoteSession remoteSession = (RemoteSession)messageFilter.getRemoteSession();
-                BaseMessageFilter remoteFilter = m_receiveQueue.addRemoteMessageFilter(messageFilter, remoteSession);
-                messageFilter.setRemoteFilterInfo(remoteFilter.getQueueName(), remoteFilter.getQueueType(), remoteFilter.getFilterID(), remoteFilter.getRegistryID());
+                RemoteSession remoteSession = (RemoteSession)((BaseMessageFilter)messageFilter).getRemoteSession();
+                BaseMessageFilter remoteFilter = m_receiveQueue.addRemoteMessageFilter((BaseMessageFilter)messageFilter, remoteSession);
+                ((BaseMessageFilter)messageFilter).setRemoteFilterInfo(remoteFilter.getQueueName(), remoteFilter.getQueueType(), remoteFilter.getFilterID(), remoteFilter.getRegistryID());
             }
         } catch (RemoteException ex)    {
             ex.printStackTrace();
@@ -122,14 +124,14 @@ public class RemoteMessageReceiver extends BaseMessageReceiver
      * @param bFreeFilter If true, free this filter.
      * @return True if successful.
      */
-    public boolean removeMessageFilter(BaseMessageFilter messageFilter, boolean bFreeFilter)
+    public boolean removeMessageFilter(MessageFilter messageFilter, boolean bFreeFilter)
     {
         boolean bSuccess = false;
         try   {
-            if (messageFilter.getRemoteFilterID() == null)
+            if (((BaseMessageFilter)messageFilter).getRemoteFilterID() == null)
                 bSuccess = true;    // No remote filter to remove
             else
-                bSuccess = m_receiveQueue.removeRemoteMessageFilter(messageFilter, bFreeFilter);
+                bSuccess = m_receiveQueue.removeRemoteMessageFilter((BaseMessageFilter)messageFilter, bFreeFilter);
         } catch (RemoteException ex)    {
             ex.printStackTrace();
         }
