@@ -85,6 +85,8 @@
 <package name="org.jbundle.util.jcalendarbutton.*" part="org.jbundle.util.jcalendarbutton" recursive="true"/>
 <jar href="lib/org.jbundle.util.muffinmanager-${jbundle-util-muffinmanagerVersion}.jar" part="org.jbundle.util.muffinmanager" download="lazy"/>
 <package name="org.jbundle.util.muffinmanager.*" part="org.jbundle.util.muffinmanager" recursive="true"/>
+<jar href="lib/org.jbundle.util.osgi-${project.version}.jar" part="org.jbundle.util.osgi" download="lazy"/>
+<package name="org.jbundle.util.osgi.*" part="org.jbundle.util.osgi" recursive="true"/>
 </resources>
 <component-desc/>
 </jnlp>

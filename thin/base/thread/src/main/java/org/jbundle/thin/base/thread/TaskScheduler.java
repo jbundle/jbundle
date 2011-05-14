@@ -155,9 +155,8 @@ public class TaskScheduler extends Object
             }
             else if (job instanceof Applet)
             { // An applet
-//?                new JBaseFrame("Applet", (Applet)job);
-                ((Task)job).initTask(this.getApplication(), properties);
-                ((Task)job).run();
+                //new JBaseFrame("Applet", (Applet)job);
+            	System.out.println("********** Applet task type needs to be fixed *********");
             }
             else if (job instanceof Runnable)
             { // A thread (Is this okay?? I already have my own thread)
