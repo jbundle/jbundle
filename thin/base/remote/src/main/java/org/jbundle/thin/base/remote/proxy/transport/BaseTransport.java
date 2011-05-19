@@ -168,7 +168,7 @@ public abstract class BaseTransport extends Object
      */
     public static Object convertStringToObject(String string)
     {
-        return ClassServiceUtility.getClassService().convertStringToObject(string, null, true);
+        return ClassServiceUtility.getClassService().convertStringToObject(string, true);
     }
     /**
      * Convert the return value to an object (override if this doesn't just to string to object).

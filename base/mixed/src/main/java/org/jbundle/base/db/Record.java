@@ -2477,10 +2477,15 @@ public class Record extends FieldList
      */
     public static Record makeRecordFromClassName(String strClassName, RecordOwner recordOwner, boolean bInitRecord, boolean bErrorIfNotFound)
     {
-        Record record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(strClassName, (recordOwner == null) ? null : recordOwner.getTask(), bErrorIfNotFound);
-        if (bInitRecord)
-            if (record != null)
-                record.init(recordOwner);
+        Record record = null;
+        try {
+            record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(strClassName, bErrorIfNotFound);
+            if (bInitRecord)
+                if (record != null)
+                    record.init(recordOwner);
+        } catch (RuntimeException ex) {
+            recordOwner.getTask().setLastError(ex.getMessage());
+        }
         return record;
     }
     /**

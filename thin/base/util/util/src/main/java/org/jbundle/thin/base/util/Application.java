@@ -523,7 +523,12 @@ public abstract class Application extends Object
         if (urlCodeBase == null)
             urlCodeBase = this.getCodeBase(task);
         // Create icons
-        URL url = ClassServiceUtility.getClassService().getResourceFromPathName(filepath, this.getMainTask(), false, urlCodeBase, classLoader);
+        URL url = null;
+        try {
+            url = ClassServiceUtility.getClassService().getResourceURL(filepath, urlCodeBase, classLoader);
+        } catch (RuntimeException e) {
+            e.printStackTrace();    // ???
+        }
         return url;
     }
     /**
@@ -621,8 +626,7 @@ public abstract class Application extends Object
             if (m_resources != null)
                 if (strResourceName.equals(m_resources.getClass().getName()))
                     return m_resources;
-            Task task = null;	// TODO ?? this.getMainTask() ??
-            resources = ClassServiceUtility.getClassService().getResourceBundle(strResourceName, currentLocale, task, false, this.getClass().getClassLoader());
+            resources = ClassServiceUtility.getClassService().getResourceBundle(strResourceName, currentLocale, this.getClass().getClassLoader());
         } catch (MissingResourceException ex) {
         	Util.getLogger().warning("Missing resource " + strResourceName + " locale: " + this.getLocale());
             resources = null;
