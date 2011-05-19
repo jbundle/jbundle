@@ -24,7 +24,7 @@ import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -143,7 +143,7 @@ public class Environment extends Object
         if (gEnv == this)
         	gEnv = null;
         
-        ClassServiceImpl.getClassService().shutdownService(this);	// Careful of circular calls
+        ClassServiceUtility.getClassService().shutdownService(this);	// Careful of circular calls
     }
     /**
      * Free this environment if you don't have any more user applications.

@@ -37,7 +37,7 @@ import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.thread.TaskScheduler;
 import org.jbundle.util.muffinmanager.MuffinManager;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**
  * A Application contains all of a single user's apps.
@@ -453,8 +453,8 @@ public abstract class Application extends Object
                 }
                 if (iConnectionType == LOCAL_SERVICE)
                 {   // Use local OSGi service instead of RMI
-                	if (ClassServiceImpl.getClassService().getClassFinder() != null)
-                		appServer = (ApplicationServer)ClassServiceImpl.getClassService().getClassFinder().getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator");
+                	if (ClassServiceUtility.getClassService().getClassFinder(null, true) != null)
+                		appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null, true).getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator");
                 }
                 remoteTask = appServer.createRemoteTask(properties);
                 m_mainRemoteTask = remoteTask;
@@ -523,7 +523,7 @@ public abstract class Application extends Object
         if (urlCodeBase == null)
             urlCodeBase = this.getCodeBase(task);
         // Create icons
-        URL url = ClassServiceImpl.getClassService().getResourceFromPathName(filepath, this.getMainTask(), false, urlCodeBase, classLoader);
+        URL url = ClassServiceUtility.getClassService().getResourceFromPathName(filepath, this.getMainTask(), false, urlCodeBase, classLoader);
         return url;
     }
     /**
@@ -622,7 +622,7 @@ public abstract class Application extends Object
                 if (strResourceName.equals(m_resources.getClass().getName()))
                     return m_resources;
             Task task = null;	// TODO ?? this.getMainTask() ??
-            resources = ClassServiceImpl.getClassService().getResourceBundle(strResourceName, currentLocale, task, false, this.getClass().getClassLoader());
+            resources = ClassServiceUtility.getClassService().getResourceBundle(strResourceName, currentLocale, task, false, this.getClass().getClassLoader());
         } catch (MissingResourceException ex) {
         	Util.getLogger().warning("Missing resource " + strResourceName + " locale: " + this.getLocale());
             resources = null;

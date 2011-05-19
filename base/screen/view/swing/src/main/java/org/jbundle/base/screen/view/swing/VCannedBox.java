@@ -32,7 +32,7 @@ import org.jbundle.main.properties.db.PropertiesInput;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.util.jcalendarbutton.JCalendarPopup;
 import org.jbundle.util.jcalendarbutton.JTimePopup;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**
  * Implements a button to carry out some standard functions.
@@ -291,7 +291,7 @@ public class VCannedBox extends VButtonBox
         if (this.getScreenField().getConverter().getField() instanceof XmlField)
             schema = ((XmlField)this.getScreenField().getConverter().getField()).getSchema();
         String strScreenClass = JaxeReference.JAXE_EDITOR_CLASS;
-        Editor screen = (Editor)ClassServiceImpl.getClassService().makeObjectFromClassName(strScreenClass);
+        Editor screen = (Editor)ClassServiceUtility.getClassService().makeObjectFromClassName(strScreenClass);
         if (screen != null)
         	return screen.startEditor(this, string, schema);
         return true;    // Success

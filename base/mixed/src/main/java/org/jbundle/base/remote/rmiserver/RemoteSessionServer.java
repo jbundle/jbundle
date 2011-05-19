@@ -29,7 +29,7 @@ import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.remote.ApplicationServer;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /** 
  * RmiSessionServer - The remote server.
@@ -248,7 +248,7 @@ public class RemoteSessionServer extends UnicastRemoteObject
         if (m_app != null)
         	m_app.free();
         m_app = null;
-        ClassServiceImpl.getClassService().shutdownService(this);
+        ClassServiceUtility.getClassService().shutdownService(this);
         if (env != null)
         	env.freeIfDone();
 //x        System.exit(0);

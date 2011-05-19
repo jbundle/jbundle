@@ -42,7 +42,7 @@ import org.jbundle.thin.base.remote.RemoteSendQueue;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -164,7 +164,7 @@ public class TaskSession extends BaseTaskSession
      */
     public RemoteTable makeRemoteTable(String strRecordClassName, String strTableSessionClassName, Map<String, Object> properties, Map<String, Object> propDatabase) throws RemoteException
     {
-        Record record = (Record)ClassServiceImpl.getClassService().makeObjectFromClassName(strRecordClassName);
+        Record record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(strRecordClassName);
         if (record == null)
             return null;
         if (strTableSessionClassName == null)
@@ -208,7 +208,7 @@ public class TaskSession extends BaseTaskSession
         this.setMasterSlave(-1);    //Back to default
         RemoteTable remoteTable = null;
         if (strTableSessionClassName != null)
-        	remoteTable = (TableSession)ClassServiceImpl.getClassService().makeObjectFromClassName(strTableSessionClassName);
+        	remoteTable = (TableSession)ClassServiceUtility.getClassService().makeObjectFromClassName(strTableSessionClassName);
         try   {
             if (remoteTable == null)
                 remoteTable = new TableSession();

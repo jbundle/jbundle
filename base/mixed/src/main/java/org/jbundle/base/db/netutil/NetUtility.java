@@ -26,7 +26,7 @@ import org.jbundle.thin.base.db.mem.memory.MDatabase;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseOwner;
 import org.jbundle.thin.base.db.model.ThinPhysicalTableOwner;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**
  * Read a net table into a stream.
@@ -143,7 +143,7 @@ public class NetUtility {
      */
     public static FieldList makeThinRecordFromClassname(String strClassName)
     {
-        FieldList record = (FieldList)ClassServiceImpl.getClassService().makeObjectFromClassName(strClassName);
+        FieldList record = (FieldList)ClassServiceUtility.getClassService().makeObjectFromClassName(strClassName);
         if (record != null)
         	record.init(null);
         return record;

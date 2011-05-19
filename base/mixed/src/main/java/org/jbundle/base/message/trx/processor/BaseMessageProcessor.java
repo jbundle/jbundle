@@ -22,7 +22,7 @@ import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.util.ThinUtil;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -112,8 +112,8 @@ public abstract class BaseMessageProcessor extends BaseProcess
         String strPackage = null;
         if (externalTrxMessage != null)
             strPackage = (String)((TrxMessageHeader)externalTrxMessage.getMessageHeader()).get(TrxMessageHeader.BASE_PACKAGE);
-        strClass = ClassServiceImpl.getFullClassName(strPackage, strClass);
-        messageProcessor = (BaseMessageProcessor)ClassServiceImpl.getClassService().makeObjectFromClassName(strClass);
+        strClass = ClassServiceUtility.getFullClassName(strPackage, strClass);
+        messageProcessor = (BaseMessageProcessor)ClassServiceUtility.getClassService().makeObjectFromClassName(strClass);
         if (messageProcessor != null)
         	messageProcessor.init(taskParent, null, null);
         return messageProcessor;

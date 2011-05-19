@@ -12,7 +12,7 @@ import java.util.Iterator;
 import org.jbundle.model.message.Message;
 import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.Util;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -446,8 +446,8 @@ public abstract class BaseMessage extends Object
        }
        if ((strMessageClassName != null) && (strMessageClassName.length() > 0))
        {
-           strMessageClassName = ClassServiceImpl.getFullClassName(strMessageClassName);
-           Object obj = ClassServiceImpl.getClassService().makeObjectFromClassName(strMessageClassName);
+           strMessageClassName = ClassServiceUtility.getFullClassName(strMessageClassName);
+           Object obj = ClassServiceUtility.getClassService().makeObjectFromClassName(strMessageClassName);
            if (obj instanceof BaseMessage)
            {
                message = (BaseMessage)obj;
@@ -472,7 +472,7 @@ public abstract class BaseMessage extends Object
              if (this.getMessageHeader() != null)
                  strMessageDataClassName = (String)this.getMessageHeader().get(BaseMessageHeader.INTERNAL_MESSAGE_CLASS);
          }
-         MessageRecordDesc messageRecordDesc = (MessageRecordDesc)ClassServiceImpl.getClassService().makeObjectFromClassName(strMessageDataClassName);
+         MessageRecordDesc messageRecordDesc = (MessageRecordDesc)ClassServiceUtility.getClassService().makeObjectFromClassName(strMessageDataClassName);
          if (messageRecordDesc != null)
                  messageRecordDesc.init(this, null);
      }

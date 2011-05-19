@@ -14,7 +14,7 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.util.ThinUtil;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.w3c.dom.Node;
 
 
@@ -78,8 +78,8 @@ public class BaseXmlTrxMessageOut extends ExternalTrxMessageOut
             BaseMessageHeader trxMessageHeader = this.getMessage().getMessageHeader();
             String strMessageClass = (String)trxMessageHeader.get(TrxMessageHeader.MESSAGE_MARSHALLER_CLASS);
             String strPackage = (String)trxMessageHeader.get(TrxMessageHeader.BASE_PACKAGE);
-            strMessageClass = ClassServiceImpl.getFullClassName(strPackage, strMessageClass);
-            m_convertToNative = (BaseConvertToNative)ClassServiceImpl.getClassService().makeObjectFromClassName(strMessageClass);
+            strMessageClass = ClassServiceUtility.getFullClassName(strPackage, strMessageClass);
+            m_convertToNative = (BaseConvertToNative)ClassServiceUtility.getClassService().makeObjectFromClassName(strMessageClass);
             if (m_convertToNative != null)
             	m_convertToNative.init(this);
         }

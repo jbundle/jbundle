@@ -11,7 +11,7 @@ import java.util.Properties;
 
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -128,7 +128,7 @@ public class ViewFactory extends Object
                 strViewClassName = this.getViewClassNameFromModelClassName(strModelClassName);
             if (strViewClassName != null)
             {   // Great, found the class name. Try to instantiate the class.
-            	ScreenFieldView view = (ScreenFieldView)ClassServiceImpl.getClassService().makeObjectFromClassName(strViewClassName, null, false);	// Ignore class not found
+            	ScreenFieldView view = (ScreenFieldView)ClassServiceUtility.getClassService().makeObjectFromClassName(strViewClassName, null, false);	// Ignore class not found
                 if (view != null)
                 {
                     if (ENABLE_CACHE)

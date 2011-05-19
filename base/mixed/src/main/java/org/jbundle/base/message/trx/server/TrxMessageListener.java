@@ -28,7 +28,7 @@ import org.jbundle.thin.base.message.BaseMessageListener;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -167,7 +167,7 @@ public class TrxMessageListener extends BaseMessageListener
             else if (m_properties.get(ServletTask.APPLICATION) != null)
             {
                 String strApplicationClass = (String)m_properties.get(ServletTask.APPLICATION);
-                Application app  = (Application)ClassServiceImpl.getClassService().makeObjectFromClassName(strApplicationClass);
+                Application app  = (Application)ClassServiceUtility.getClassService().makeObjectFromClassName(strApplicationClass);
                 if (app != null)
                 {
                     Environment env = ((BaseApplication)m_application).getEnvironment();

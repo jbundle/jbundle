@@ -61,7 +61,7 @@ import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.thin.base.util.base64.Base64;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**
  * The base class for all Applets and stand alone (applet) tasks.
@@ -314,7 +314,7 @@ public class BaseApplet extends JApplet
         if (parent == null)
             parent = m_parent;
         String strScreen = this.getProperty(Params.SCREEN);
-        JBasePanel baseScreen = (JBasePanel)ClassServiceImpl.getClassService().makeObjectFromClassName(strScreen);
+        JBasePanel baseScreen = (JBasePanel)ClassServiceUtility.getClassService().makeObjectFromClassName(strScreen);
         if (baseScreen != null)
         {
             FieldList record = null;

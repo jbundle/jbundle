@@ -13,7 +13,7 @@ import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.model.DBException;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -177,7 +177,7 @@ public class DatabaseCollection extends Object
 
         if (strDbPrefix != null) if (strDbPrefix.indexOf('.') == -1)
             strDbPrefix = DBConstants.ROOT_PACKAGE + "base.db." + strDbPrefix.toLowerCase() + "." + strDbPrefix + "Database";
-        database = (BaseDatabase)ClassServiceImpl.getClassService().makeObjectFromClassName(strDbPrefix);
+        database = (BaseDatabase)ClassServiceUtility.getClassService().makeObjectFromClassName(strDbPrefix);
         if (database == null)
             database = new BaseDatabase();  // default
         return database;

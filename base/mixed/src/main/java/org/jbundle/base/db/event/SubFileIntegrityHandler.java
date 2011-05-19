@@ -16,7 +16,7 @@ import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.FieldInfo;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -200,7 +200,7 @@ public class SubFileIntegrityHandler extends FreeOnFreeHandler
      */
     public Record createSubRecord()
     {
-        Record record = (Record)ClassServiceImpl.getClassService().makeObjectFromClassName(m_strSubFile);
+        Record record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(m_strSubFile);
         if (record != null)
         {
             RecordOwner recordOwner = Utility.getRecordOwner(this.getOwner());

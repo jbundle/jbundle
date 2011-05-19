@@ -38,7 +38,7 @@ import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
 import org.jbundle.thin.base.message.MessageRecordDesc;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -402,7 +402,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
     {
         String strMessageClass = this.getProperty(trxMessageHeader, TrxMessageHeader.EXTERNAL_MESSAGE_CLASS);
         String strPackage = (String)trxMessageHeader.get(TrxMessageHeader.BASE_PACKAGE);
-        strMessageClass = ClassServiceImpl.getFullClassName(strPackage, strMessageClass);
+        strMessageClass = ClassServiceUtility.getFullClassName(strPackage, strMessageClass);
         return strMessageClass;
     }
     /**
@@ -438,7 +438,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
         String strMessageClass = null;
         if (trxMessageHeader != null)
             strMessageClass = this.getMessageClassName(trxMessageHeader);
-        externalTrxMessage = (ExternalTrxMessage)ClassServiceImpl.getClassService().makeObjectFromClassName(strMessageClass);
+        externalTrxMessage = (ExternalTrxMessage)ClassServiceUtility.getClassService().makeObjectFromClassName(strMessageClass);
         if (externalTrxMessage != null)
         	externalTrxMessage.init(message, rawData);
         // Note: A null externalTrxMessageOut is never returned, because the concrete transport class supplies the default class.

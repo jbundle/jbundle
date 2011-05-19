@@ -46,7 +46,7 @@ import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.MessageListenerFilterList;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.ThinMenuConstants;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -872,7 +872,7 @@ public class BaseScreen extends BasePanel
      */
     public static BaseScreen makeNewScreen(String strScreenClass, ScreenLocation itsLocation, BasePanel screenParent, int iDisplayFieldDesc, Map<String, Object> properties, boolean initScreen)
     {
-        BaseScreen screen = (BaseScreen)ClassServiceImpl.getClassService().makeObjectFromClassName(strScreenClass);
+        BaseScreen screen = (BaseScreen)ClassServiceUtility.getClassService().makeObjectFromClassName(strScreenClass);
         if (screen != null)
         {
             BaseApplet applet = null;

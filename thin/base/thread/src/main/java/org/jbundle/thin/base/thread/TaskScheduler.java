@@ -18,7 +18,7 @@ import org.jbundle.model.Freeable;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Params;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**
  * Schedules jobs to run in the background (under different tasks).
@@ -147,7 +147,7 @@ public class TaskScheduler extends Object
             String strClass = (String)properties.get(Params.TASK);
             if (strClass == null)
                 strClass = (String)properties.get(Params.APPLET); // Applets are also run as tasks
-            Object job = ClassServiceImpl.getClassService().makeObjectFromClassName(strClass);
+            Object job = ClassServiceUtility.getClassService().makeObjectFromClassName(strClass);
             if (job instanceof Task)
             {
                 ((Task)job).initTask(this.getApplication(), properties);

@@ -29,7 +29,7 @@ import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.comp.JTiledImage;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -186,7 +186,7 @@ public class SApplet extends BaseApplet
             m_screenField = null;
         }
         super.free();
-        ClassServiceImpl.getClassService().shutdownService(this);	// Careful of circular calls
+        ClassServiceUtility.getClassService().shutdownService(this);	// Careful of circular calls
     }
     /**
      * This application is done, stop the application.

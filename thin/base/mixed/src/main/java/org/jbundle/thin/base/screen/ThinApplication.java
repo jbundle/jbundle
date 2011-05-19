@@ -16,7 +16,7 @@ import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.screen.message.RemoteMessageManager;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 public class ThinApplication extends Application {
     /**
@@ -84,7 +84,7 @@ public class ThinApplication extends Application {
             if (map.get(PhysicalDatabaseParent.APP) == null)
                 map.put(PhysicalDatabaseParent.APP, this); // Access to the server, etc.
             
-            m_PhysicalDatabaseParent = (ThinPhysicalDatabaseParent)ClassServiceImpl.getClassService().makeObjectFromClassName(Constants.ROOT_PACKAGE + "thin.base.db.mem.base.PhysicalDatabaseParent");
+            m_PhysicalDatabaseParent = (ThinPhysicalDatabaseParent)ClassServiceUtility.getClassService().makeObjectFromClassName(Constants.ROOT_PACKAGE + "thin.base.db.mem.base.PhysicalDatabaseParent");
             if (m_PhysicalDatabaseParent != null)
             	m_PhysicalDatabaseParent.init(map);  // Init
         }

@@ -11,7 +11,7 @@ import org.jbundle.base.services.ClassInfoService;
 import org.jbundle.base.services.Services;
 import org.jbundle.main.screen.DetailGridScreen;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.util.osgi.finder.ClassServiceImpl;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 public class ClassFactory {
 	private ClassFactory() {
@@ -55,7 +55,7 @@ public class ClassFactory {
 	public static String fixClassName(String className, RecordOwner recordOwner)
 	{
 		if (className.startsWith("."))
-			ClassServiceImpl.getFullClassName(className);
+			ClassServiceUtility.getFullClassName(className);
 		if (className.contains("."))
 			return className;
     	ClassInfoService classInfo = Services.getClassInfo(recordOwner, className, true);
