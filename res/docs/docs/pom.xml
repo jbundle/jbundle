@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.res</groupId>
+    <artifactId>jbundle-res-docs-reactor</artifactId>
+    <version>0.7.7-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>org.jbundle.res.docs</artifactId>
+  <name>jbundle-res-docs</name>
+  <packaging>bundle</packaging>
+
+  <properties>
+    <resourceLocation>src/main/resources/org/jbundle/res</resourceLocation>
+  </properties>  
+
+  <build>
+    <resources>
+      <resource>
+       <directory>${basedir}/target/flat</directory>
+         <includes>
+           <include>**/**</include>
+         </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>docs/jnlp/**</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>${resourceLocation}/docs/jnlp/**</exclude>
+          <exclude>${resourceLocation}/docs/styles/xsl/ajax/base/**</exclude>   <!-- These are set up in the ant script -->
+          <exclude>${resourceLocation}/docs/styles/xsl/cocoon/all/**</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <classesDirectory>${resourceLocation}</classesDirectory>
+          <classifier>root</classifier>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jbundle.app.program</groupId>
+        <artifactId>org.jbundle.app.program.plugin</artifactId>
+        <version>0.7.7-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <id>execution1</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>run-script</goal>
+            </goals>
+            <configuration>
+              <properties>
+                <process>org.jbundle.app.program.manual.convert.ConvertCode</process>
+                <listenerClass>org.jbundle.app.program.manual.scan.XslImportScanListener</listenerClass>
+                <converterPath>${resourceLocation}/docs/styles/xsl/program/</converterPath>
+                <sourcePrefix>${resourceLocation}/docs/styles/xsl</sourcePrefix>
+                <sourceDir>/com/tourgeek</sourceDir>
+                <destDir>/flat/base</destDir>
+                <extension>.xsl</extension>
+                <filter>.*-ajax.*</filter>
+              </properties>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>run-script</goal>
+            </goals>
+            <configuration>
+              <properties>
+                <process>org.jbundle.app.program.manual.convert.ConvertCode</process>
+                <listenerClass>org.jbundle.app.program.manual.scan.XslImportScanListener</listenerClass>
+                <converterPath>${resourceLocation}/docs/styles/xsl/program/</converterPath>
+                <sourcePrefix>${resourceLocation}/docs/styles/xsl</sourcePrefix>
+                <sourceDir>/ajax/base</sourceDir>
+                <destDir>/flat/base</destDir>
+                <extension>xsl</extension>
+              </properties>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-resources</id>
+            <phase>prepare-package</phase>
+            <configuration>
+              <tasks>
+                <property name="resourceLocation" value="${resourceLocation}" />
+                <property name="project.version" value="${project.version}" />
+                <property name="project.artifactId" value="${project.artifactId}" />
+                <property name="dev.home" value="${dev.home}" />
+                <property name="resourceLocation" value="${resourceLocation}" />
+
+                <ant antfile="${basedir}/build.xml">
+                  <target name="flatten" />
+                </ant>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

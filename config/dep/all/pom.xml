@@ -116,6 +116,11 @@
       <artifactId>org.jbundle.res.images</artifactId>
       <version>0.7.7-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res.images.misc</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
 </project>

@@ -1,40 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
 
+  <modelVersion>4.0.0</modelVersion>
+  
   <parent>
-    <artifactId>jbundle-res-reactor</artifactId>
     <groupId>org.jbundle.res</groupId>
+    <artifactId>jbundle-res-reactor</artifactId>
     <version>0.7.7-SNAPSHOT</version>
   </parent>
+  
+  <groupId>org.jbundle.res</groupId>
+  <artifactId>jbundle-res-images-reactor</artifactId>
+  
+  <packaging>pom</packaging>
+  <name>jbundle-res-images-reactor - Images parent</name>
 
-  <artifactId>org.jbundle.res.images</artifactId>
-  <name>jbundle-res-images</name>
-  <packaging>bundle</packaging>
-
-  <properties>
-    <resourceLocation>src/main/resources/org/jbundle/res</resourceLocation>
-  </properties>  
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <classesDirectory>${resourceLocation}</classesDirectory>
-          <classifier>root</classifier>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
+  <modules>
+  	<module>buttons</module>
+  	<module>misc</module>
+  </modules>
+  
 </project>

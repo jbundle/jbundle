@@ -13,7 +13,7 @@
   <artifactId>jbundle-res-reactor</artifactId>
   
   <packaging>pom</packaging>
-  <name>jbundle-res--reactor - Resources parent</name>
+  <name>jbundle-res-reactor - Resources parent</name>
 
   <modules>
   	<module>docs</module>
