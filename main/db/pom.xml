@@ -25,6 +25,11 @@
             org.jbundle.main.db.*;version=${project.version},
             org.jbundle.main.user.db.*;version=${project.version},
             </Export-Package>
+            <Import-Package>
+		      *;resolution:=optional,
+      		  org.jbundle.res.images.buttons;resolution:=optional,
+      		  org.jbundle.res.images.icons;resolution:=optional,
+            </Import-Package>
           </instructions>
         </configuration>
       </plugin>
@@ -43,6 +48,12 @@
 	    <artifactId>jbundle-config-dep-thin-base</artifactId>
 	    <version>0.7.7-SNAPSHOT</version>
 	    <type>pom</type>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res.images</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

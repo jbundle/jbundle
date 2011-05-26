@@ -11,7 +11,7 @@
 
   <groupId>org.jbundle.thin.base.screen</groupId>
   <artifactId>jbundle-thin-base-screen-reactor</artifactId>
-  <name>jbundle-thin-base-screen</name>
+  <name>jbundle-thin-base-screen-reactor</name>
   <packaging>pom</packaging>
 
   <modules>

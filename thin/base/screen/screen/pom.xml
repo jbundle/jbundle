@@ -30,6 +30,10 @@
             org.jbundle.thin.base.screen.*;version=${project.version},
             org.jbundle.thin.base.message.event.*;version=${project.version},
             </Export-Package>
+            <Import-Package>
+            *;resolution:=optional,
+            org.jbundle.res.thin.base.screen;resolution:=optional,
+            </Import-Package>
           </instructions>
         </configuration>
       </plugin>
@@ -40,6 +44,12 @@
     <dependency>
       <groupId>org.jbundle</groupId>
       <artifactId>org.jbundle.model</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res</artifactId>
       <version>0.7.7-SNAPSHOT</version>
     </dependency>
 

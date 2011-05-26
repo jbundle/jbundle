@@ -17,6 +17,7 @@
     <jbundlePackageExport>
       org.jbundle.base.screen.control.swing.*;version=${project.version},
       org.jbundle.base.screen.view.swing.*;version=${project.version},
+      org.jbundle;version=${project.version},
     </jbundlePackageExport>	<!-- Bundle package to export - Ignore Main -->
   </properties>
   

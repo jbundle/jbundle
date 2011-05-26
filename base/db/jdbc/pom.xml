@@ -55,16 +55,16 @@
 	  <type>pom</type>
     </dependency>
     
-	<dependency>
-	  <groupId>c3p0</groupId>
-	  <artifactId>c3p0</artifactId>
-	  <version>0.9.1.2</version>
-	</dependency>
-
     <dependency>     <!-- **** NOTE: This should be a 'runtime' dependency! Fix your code ***** -->
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
     </dependency>
+
+	<dependency>
+      <groupId>org.jbundle.util.wrapped</groupId>
+      <artifactId>org.jbundle.util.wrapped.c3p0</artifactId>
+      <version>0.9.1.2</version>
+	</dependency>
 
     <dependency>
       <groupId>org.osgi</groupId>
@@ -77,7 +77,14 @@
       <version>0.7.7-SNAPSHOT</version>
       <artifactId>org.jbundle.util.osgi</artifactId>
     </dependency>
-
   </dependencies>
+
+<licenses>
+  <license>
+    <name>GNU Library or Lesser General Public License (LGPL)</name>
+    <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+    <comments>This bundle copies the c2p0 jar and adds an OSGi manifest.</comments>
+  </license>
+</licenses>
 
 </project>
