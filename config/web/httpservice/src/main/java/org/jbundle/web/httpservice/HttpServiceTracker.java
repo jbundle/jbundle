@@ -65,7 +65,6 @@ public class HttpServiceTracker extends ServiceTracker{
     String WS = "/ws";
     String XMLWS = "/xmlws";
     String[] paths = {
-    		ROOT,
     		IMAGES,
     		LIB,
     		DOCS,
@@ -85,6 +84,7 @@ public class HttpServiceTracker extends ServiceTracker{
     	    MESSAGE,
 //    	    WS,
     	    XMLWS,
+            ROOT,
     };
     /**
      * Http Service is up, add my servlets.
