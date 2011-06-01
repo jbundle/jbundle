@@ -68,12 +68,15 @@ public class BaseHolder extends Object
         if ((m_mapChildHolders != null) && (m_mapChildHolders.size() > 0))
         {
             Utility.getLogger().warning("Not all child sessions freed");
-            for (String strID : m_mapChildHolders.keySet())
+            synchronized (this)
             {
-                BaseHolder baseHolder = (BaseHolder)m_mapChildHolders.get(strID);
-                baseHolder.free();  // Should be removed from collection.                
+                for (String strID : m_mapChildHolders.keySet())
+                {
+                    BaseHolder baseHolder = (BaseHolder)m_mapChildHolders.get(strID);
+                    baseHolder.free();  // Should be removed from collection.
+                }
+                m_mapChildHolders.clear();
             }
-            m_mapChildHolders.clear();
         }
         m_mapChildHolders = null;
         if (m_parentHolder != null)
