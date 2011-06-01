@@ -34,6 +34,7 @@
             *;resolution:=optional,
             org.jbundle.res.thin.base.screen;resolution:=optional,
             </Import-Package>
+            <Bundle-Activator>org.jbundle.thin.base.screen.ThinActivator</Bundle-Activator>
           </instructions>
         </configuration>
       </plugin>
