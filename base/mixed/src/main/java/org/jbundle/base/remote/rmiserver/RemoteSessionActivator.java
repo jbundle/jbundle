@@ -82,7 +82,7 @@ public class RemoteSessionActivator extends BaseBundleService
      * Override this to do all the startup.
      * @return true if successful.
      */
-    public boolean startupThisService(BundleService bundleService)
+    public boolean startupThisService(BundleService bundleService, BundleContext context)
     {
         Map<String,Object> props = Utility.propertiesToMap(this.getProperties());
         server = RemoteSessionServer.startupServer(props);	// Doesn't create environment

@@ -38,7 +38,7 @@ public class HttpServiceActivator extends BaseBundleService
      * Override this to do all the startup.
      * @return true if successful.
      */
-    public boolean startupThisService(BundleService bundleService)
+    public boolean startupThisService(BundleService bundleService, BundleContext context)
     {
         //EnvironmentActivator environmentActivator = (EnvironmentActivator)bundleService;
         //Environment env = environmentActivator.getEnvironment();

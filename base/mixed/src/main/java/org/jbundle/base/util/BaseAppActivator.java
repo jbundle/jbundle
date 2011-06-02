@@ -51,7 +51,7 @@ public class BaseAppActivator extends BaseBundleService
      * Override this to do all the startup.
      * @return true if successful.
      */
-    public boolean startupThisService(BundleService bundleService)
+    public boolean startupThisService(BundleService bundleService, BundleContext context)
     {
         System.out.println("Starting Message Server");
 
