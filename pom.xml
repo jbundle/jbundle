@@ -17,6 +17,12 @@
   <description>Parent project for the jbundle framework</description>
   <url>http://www.jbundle.org</url>
  
+  <scm>
+    <url>https://github.com/jbundle/jbundle</url>
+    <connection>scm:git:git://github.com/jbundle/jbundle.git</connection>
+    <developerConnection>scm:git:git@github.com:jbundle/jbundle.git</developerConnection>
+  </scm>
+
   <modules>
     <module>res</module>
     <module>thin</module>
