@@ -11,9 +11,13 @@
   <groupId>org.jbundle.base</groupId>
   <artifactId>jbundle-base-reactor</artifactId>
   <packaging>pom</packaging>
+
   <name>jbundle-base - Project parent</name>
   <description>Parent project for the jbundle framework</description>
-  <url>http://www.jbundle.org</url>
+
+  <properties>
+    <baseMixedDir>../mixed</baseMixedDir>	<!-- Usual location of mixed directory -->
+  </properties>
 
   <modules>
     <module>mixed</module>

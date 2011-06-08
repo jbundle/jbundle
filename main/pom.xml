@@ -14,6 +14,10 @@
   <name>jbundle-main</name>
   <packaging>pom</packaging>
   
+  <properties>
+    <baseMixedDir>../../base/mixed</baseMixedDir>	<!-- Usual location of mixed directory -->
+  </properties>
+
   <modules>
     <module>calendar</module>
     <module>db</module>

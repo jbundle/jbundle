@@ -32,6 +32,53 @@
     </plugins>
   </build>
 
+  <profiles>
+    <profile> 
+      <id>sonatype-oss-release</id>
+      <build>
+      <!-- ***CAREFUL*** This logic moves the source code to the current project, then
+      does NOT compile it. This way, the api and source are in the repo. -->
+	    <plugins>
+	      <plugin>
+	        <artifactId>maven-resources-plugin</artifactId>
+	        <executions>
+          <execution>
+            <id>copy-jibx-bind</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/src/main/java</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>${baseMixedDir}/src/main/java</directory>
+                  <filtering>false</filtering>
+                  <includes>
+                    <include>org/jbundle/main/screen/**/*.java</include>
+                    <include>org/jbundle/main/properties/**/*.java</include>
+                    <include>org/jbundle/main/user/screen/**/*.java</include>
+                  </includes>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+	        </executions>
+	      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+	    </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
   <dependencies>
     <dependency>
       <groupId>org.jbundle.base</groupId>
