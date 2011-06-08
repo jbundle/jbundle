@@ -18,9 +18,6 @@
        org.jbundle.base.screen.control.servlet.*;version=${project.version},
        org.jbundle.servlet;version=${project.version},  <!-- org.jbundle.servlet.Servlet -->
     </jbundlePackageExport>	<!-- Bundle packages to export -->
-  </properties>  
-
-  <properties>
     <baseMixedDir>../../../mixed</baseMixedDir>	<!-- Usual location of mixed directory -->
   </properties>
 
