@@ -4,7 +4,7 @@
   <parent>
     <artifactId>jbundle-thin-base-screen-cal-sample-reactor</artifactId>
     <groupId>org.jbundle.thin.base.screen</groupId>
-    <version>0.7.8-SNAPSHOT</version>
+    <version>0.7.7-SNAPSHOT</version>
   </parent>
   
   <modelVersion>4.0.0</modelVersion>
@@ -15,34 +15,34 @@
     <dependency>
       <artifactId>org.jbundle.thin.base.screen.cal.sample.basic</artifactId>
       <groupId>org.jbundle.thin.base.screen</groupId>
-      <version>0.7.8-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency>
     <dependency>
       <artifactId>org.jbundle.thin.base.screen.cal.grid</artifactId>
       <groupId>org.jbundle.thin.base.screen</groupId>
-      <version>0.7.8-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.app</groupId>
       <artifactId>org.jbundle.thin.app.calendar</artifactId>
-      <version>0.7.8-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-thin-base</artifactId>
-      <version>0.7.8-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
 	  <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.db</groupId>
       <artifactId>org.jbundle.thin.base.db</artifactId>
-      <version>0.7.8-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.main</groupId>
       <artifactId>org.jbundle.thin.main</artifactId>
-      <version>0.7.8-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency>
 
   </dependencies>

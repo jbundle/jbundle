@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-base-db-reactor</artifactId>
     <groupId>org.jbundle.base.db</groupId>
-    <version>0.7.8-SNAPSHOT</version>
+    <version>0.7.7-SNAPSHOT</version>
   </parent>
 
   <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
@@ -38,7 +38,6 @@
                   <includes>
                     <include>org/jbundle/base/db/**/*.java</include>
                     <include>org/jbundle/base/field/**/*.java</include>
-                    <include>org/jbundle/*.java</include>
                   </includes>
                 </resource>
               </resources>              
@@ -46,6 +45,15 @@
           </execution>
 	        </executions>
 	      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
 	    </plugins>
       </build>
     </profile>
@@ -62,7 +70,6 @@
             <Export-Package>
             org.jbundle.base.db.*;version=${project.version},
             org.jbundle.base.field.*;version=${project.version},
-            org.jbundle;version=${project.version}
             </Export-Package>
           </instructions>
         </configuration>
@@ -74,13 +81,13 @@
     <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.base.mixed</artifactId>
-      <version>0.7.8-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
 	    <groupId>org.jbundle.config.dep</groupId>
 	    <artifactId>jbundle-config-dep-thin-base</artifactId>
-	    <version>0.7.8-SNAPSHOT</version>
+	    <version>0.7.7-SNAPSHOT</version>
 	    <type>pom</type>
     </dependency>
 

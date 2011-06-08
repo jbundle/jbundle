@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.app.program</groupId>
     <artifactId>jbundle-app-program-reactor</artifactId>
-    <version>0.7.8-SNAPSHOT</version>
+    <version>0.7.7-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.jbundle.app.program</artifactId>
@@ -21,12 +21,12 @@
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.app.program</artifactId> <!-- I should be able to eventually change this to jbundle-thinbase -->
-      <version>0.7.8-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-main</artifactId>
-      <version>0.7.8-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
 	  <type>pom</type>
     </dependency>
     <dependency>

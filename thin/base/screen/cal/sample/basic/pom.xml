@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbundle-thin-base-screen-cal-sample-reactor</artifactId>
     <groupId>org.jbundle.thin.base.screen</groupId>
-    <version>0.7.8-SNAPSHOT</version>
+    <version>0.7.7-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.jbundle.thin.base.screen.cal.sample.basic</artifactId>
@@ -22,7 +22,7 @@
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.cal.other</artifactId>
-      <version>0.7.8-SNAPSHOT</version>
+      <version>0.7.7-SNAPSHOT</version>
     </dependency>
     <!-- dependency>
       <artifactId>org.jbundle.res</artifactId>

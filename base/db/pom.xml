@@ -5,7 +5,7 @@
   <parent>
   	<artifactId>jbundle-base-reactor</artifactId>
   	<groupId>org.jbundle.base</groupId>
-  	<version>0.7.8-SNAPSHOT</version>
+  	<version>0.7.7-SNAPSHOT</version>
   </parent>
 
   <groupId>org.jbundle.base.db</groupId>
@@ -16,7 +16,7 @@
   <description>Parent project for the jbundle db framework</description>
 
   <properties>
-    <baseMixedDir>../mixed</baseMixedDir>	<!-- By default, mixed is a peer -->
+    <baseMixedDir>../../mixed</baseMixedDir>	<!-- Usual location of mixed directory -->
   </properties>
 
   <modules>
