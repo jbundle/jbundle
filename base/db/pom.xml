@@ -15,6 +15,10 @@
   <name>jbundle-base-db-reactor - database parent</name>
   <description>Parent project for the jbundle db framework</description>
 
+  <properties>
+    <baseMixedSourceDir>../mixed</baseMixedSourceDir>	<!-- By default, mixed is a peer -->
+  </properties>
+
   <modules>
     <module>client</module>
     <module>jdbc</module>
