@@ -110,7 +110,7 @@
 						<artifactItem>
 						  <groupId>org.jbundle.util.osgi.wrapped</groupId>
 						  <artifactId>org.jbundle.util.osgi.wrapped.uk.org.pajhome.crypt.sha1</artifactId>
-							<version>${project.version}</version>
+							<version>2.2.0</version>
 							<type>jar</type>
 							<outputDirectory>${project.build.directory}/sha</outputDirectory>
 						</artifactItem>

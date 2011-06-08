@@ -72,7 +72,7 @@
 	            <argument>-Xmx512m</argument>
 	        	<argument>-classpath</argument>
 	        	<classpath />
-	            <argument>${class}</argument>
+	            <argument>${mainClass}</argument>
 	            <argument>${arg1}</argument>
 	        </arguments>
         </configuration>

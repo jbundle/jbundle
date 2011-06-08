@@ -95,11 +95,6 @@
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.jbundle.util.wsdl</groupId>
-      <artifactId>org.jbundle.util.wsdl.wsdl20</artifactId>
-      <version>${jbundle-util-wsdlVersion}</version>
-    </dependency>
   </dependencies>
 
 </project>

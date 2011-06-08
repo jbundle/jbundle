@@ -74,11 +74,6 @@
       <artifactId>org.jbundle.app.program.manual</artifactId>
       <version>0.7.7-SNAPSHOT</version>
     </dependency>
-    <dependency>
-      <groupId>org.jbundle.app.test</groupId>
-      <artifactId>org.jbundle.app.test</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
-    </dependency>
 
     <!-- dependency>
       <groupId>org.jbundle.base.screen</groupId>
