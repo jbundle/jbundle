@@ -22,7 +22,6 @@
 	    <plugins>
 	      <plugin>
 	        <artifactId>maven-resources-plugin</artifactId>
-	        <version>2.4.3</version>
 	        <executions>
           <execution>
             <id>copy-jibx-bind</id>
@@ -34,7 +33,7 @@
               <outputDirectory>${basedir}/src/main/java</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>${baseMixedSourceDir}</directory>
+                  <directory>${baseMixedDir}/src/main/java</directory>
                   <filtering>false</filtering>
                   <includes>
                     <include>org/jbundle/base/db/**/*.java</include>
