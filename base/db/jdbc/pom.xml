@@ -61,8 +61,8 @@
     </dependency>
 
 	<dependency>
-      <groupId>org.jbundle.util.wrapped</groupId>
-      <artifactId>org.jbundle.util.wrapped.c3p0</artifactId>
+      <groupId>org.jbundle.util.osgi.wrapped</groupId>
+      <artifactId>org.jbundle.util.osgi.wrapped.c3p0</artifactId>
       <version>0.9.1.2</version>
 	</dependency>
 
