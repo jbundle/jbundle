@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.thin.base.screen</groupId>
     <artifactId>jbundle-thin-base-screen-reactor</artifactId>
-    <version>0.7.7-SNAPSHOT</version>
+    <version>0.7.7</version>
   </parent>
 
   <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
@@ -97,25 +97,25 @@
     <dependency>
       <groupId>org.jbundle</groupId>
       <artifactId>org.jbundle.model</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.util.base64</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.mixed</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
       <scope>provided</scope>
     </dependency>
     <dependency>	<!-- No No No -->

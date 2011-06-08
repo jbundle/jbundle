@@ -12,7 +12,7 @@
   
   <groupId>org.jbundle</groupId>
   <artifactId>org.jbundle.model</artifactId>
-  <version>0.7.7-SNAPSHOT</version>
+  <version>0.7.7</version>
 
   <packaging>bundle</packaging>
   <name>jbundle-model - Base Application model</name>

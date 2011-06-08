@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.base.db</groupId>
     <artifactId>jbundle-base-db-reactor</artifactId>
-    <version>0.7.7-SNAPSHOT</version>
+    <version>0.7.7</version>
   </parent>
 
   <artifactId>org.jbundle.base.db.xml</artifactId>
@@ -17,12 +17,12 @@
     <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.base.other</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.memory</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
 
   </dependencies>

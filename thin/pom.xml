@@ -12,7 +12,7 @@
   </parent>
   
   <artifactId>jbundle-thin-reactor</artifactId>
-  <version>0.7.7-SNAPSHOT</version>
+  <version>0.7.7</version>
   <packaging>pom</packaging>
   <name>jbundle-thin - Thin code parent</name>
 
