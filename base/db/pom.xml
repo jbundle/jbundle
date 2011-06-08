@@ -16,7 +16,7 @@
   <description>Parent project for the jbundle db framework</description>
 
   <properties>
-    <baseMixedSourceDir>../mixed</baseMixedDir>	<!-- By default, mixed is a peer -->
+    <baseMixedDir>../mixed</baseMixedDir>	<!-- By default, mixed is a peer -->
   </properties>
 
   <modules>
