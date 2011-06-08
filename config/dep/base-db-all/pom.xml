@@ -4,7 +4,7 @@
   <parent>
     <artifactId>jbundle-config-dep-reactor</artifactId>
     <groupId>org.jbundle.config.dep</groupId>
-    <version>0.7.7-SNAPSHOT</version>
+    <version>0.7.7</version>
   </parent>
   
   <artifactId>jbundle-config-dep-base-db-all</artifactId>
@@ -16,48 +16,48 @@
     <dependency>
         <groupId>org.jbundle.base.db</groupId>
         <artifactId>org.jbundle.base.db</artifactId>
-        <version>0.7.7-SNAPSHOT</version>
+        <version>0.7.7</version>
     </dependency>
     
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.client</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.jdbc</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.mapped</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.memory</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.net</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.proxy</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.serial</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.xml</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>0.7.7</version>
     </dependency>
 
   </dependencies>
