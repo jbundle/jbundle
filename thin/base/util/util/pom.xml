@@ -36,7 +36,6 @@
     <dependency>
       <groupId>org.jbundle.util.osgi</groupId>
       <artifactId>org.jbundle.util.osgi</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

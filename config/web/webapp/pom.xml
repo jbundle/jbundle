@@ -143,7 +143,6 @@
     <dependency>
       <groupId>org.jbundle.util.webapp</groupId>
       <artifactId>org.jbundle.util.webapp.redirect</artifactId>
-      <version>0.9.1-SNAPSHOT</version>
       <classifier>classes</classifier>
     </dependency>
     <dependency>

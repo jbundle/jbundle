@@ -24,7 +24,6 @@
     <dependency>
       <groupId>org.jbundle.util.osgi</groupId>
       <artifactId>org.jbundle.util.osgi</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
     </dependency>
     <dependency>	<!-- Get rid of this (Record data desc can be moved) -->
       <groupId>org.jbundle.thin.base.db</groupId>
