@@ -80,6 +80,11 @@
       <version>0.7.7-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <scope>provided</scope> <!-- This better be provided -->
+    </dependency>
   </dependencies>
 
 </project>
