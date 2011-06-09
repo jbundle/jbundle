@@ -87,13 +87,6 @@
               <type>zip</type>
               <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
             </artifactItem>
-            <!-- artifactItem>
-              <groupId>org.jbundle.config</groupId>
-              <artifactId>org.jbundle.config.web.cocoon</artifactId>
-              <version>${project.version}</version>
-              <type>war</type>
-              <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
-            </artifactItem -->
           </artifactItems>
       </configuration>
       </plugin>
