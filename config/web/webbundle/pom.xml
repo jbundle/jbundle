@@ -226,7 +226,6 @@
 		<dependency>
 			<groupId>org.jbundle.util.webapp</groupId>
 			<artifactId>org.jbundle.util.webapp.redirect</artifactId>
-			<classifier>classes</classifier>
 			<scope>provided</scope>	<!-- Hey this is OSGi -->
 		</dependency>
 		<dependency>
