@@ -13,6 +13,8 @@
 <![CDATA[
       Fix it all!
       
+      /jbundle/config/web/site/schedule.xml.vm
+      
       1. jbundle deploy
          4. OSGify JBundle project
             1. Fix MessageReceivingServlet in xx-webbundle module
@@ -56,6 +58,7 @@
       5. Market
       	1. Letter to Dave Herbert
       	2. Letter to Cal Native
+      	3. Contact Carms - European Travel
       
 ]]>
       
