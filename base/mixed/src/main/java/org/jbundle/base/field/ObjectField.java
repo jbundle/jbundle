@@ -29,6 +29,8 @@ import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
+import org.jbundle.util.osgi.ClassService;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -141,7 +143,7 @@ public class ObjectField extends BaseField
         else
         {
             try   {
-                // This is kind of wierd, but for some reason, the inStream will only accept read(byte[]), so I have to do this:
+                // This is kind of weird, but for some reason, the inStream will only accept read(byte[]), so I have to do this:
                 byte rgBytes[] = new byte[2048];
                 ByteArrayOutputStream baOut = new ByteArrayOutputStream();
                 while (true)
@@ -161,9 +163,11 @@ public class ObjectField extends BaseField
                 Object objData = null;
                 if (rgBytes.length > 0)
                 {
-                    ByteArrayInputStream ibyStream = new ByteArrayInputStream(rgBytes);
-                    ObjectInputStream iStream = new ObjectInputStream(ibyStream);
-                    objData = iStream.readObject();
+                    String string = new String(rgBytes, ClassService.OBJECT_ENCODING);
+                    objData = ClassServiceUtility.getClassService().convertStringToObject(string);
+//x                    ByteArrayInputStream ibyStream = new ByteArrayInputStream(rgBytes);
+//x                    ObjectInputStream iStream = new ObjectInputStream(ibyStream);
+//x                    objData = iStream.readObject();
                 }
                 this.setData(objData, false, DBConstants.READ_MOVE);
             } catch (IOException ex)    {

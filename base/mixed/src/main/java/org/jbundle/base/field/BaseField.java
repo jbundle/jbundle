@@ -822,8 +822,9 @@ public class BaseField extends FieldInfo
             }
             else
             {
-                ByteArrayInputStream ba = new ByteArrayInputStream(string.getBytes());
-                statement.setAsciiStream(iParamColumn, ba, string.length());
+                byte rgBytes[] = string.getBytes();
+                ByteArrayInputStream ba = new ByteArrayInputStream(rgBytes);
+                statement.setAsciiStream(iParamColumn, ba, rgBytes.length);
             }
         }
     }
