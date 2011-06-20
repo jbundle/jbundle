@@ -23,7 +23,7 @@ import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.thin.base.screen.util.JFSImage;
-
+import org.jbundle.thin.base.screen.util.SerializableImage;
 
 /**
  * Image display.
@@ -169,8 +169,12 @@ public class VImageView extends VScreenField
     {
         if (this.getScreenField().getConverter() == null)
             return DBConstants.NORMAL_RETURN;
+        if (objValue instanceof SerializableImage)
+            objValue = new ImageIcon(((SerializableImage)objValue).getImage())
         if (!(objValue instanceof ImageIcon))
             objValue = null;
+        if (objValue != null)
+            System.out.println("Error: .............Trying to set a imageicon...............");
         return this.getScreenField().getConverter().setData((ImageIcon)objValue, bDisplayOption, iMoveMode);
     }
     /**
@@ -181,7 +185,7 @@ public class VImageView extends VScreenField
     public Object getFieldState()
     {
         Object tempIcon = this.getScreenField().getConverter().getData();
-        if (!(tempIcon instanceof ImageIcon))
+        if (!(tempIcon instanceof ImageIcon) && !(tempIcon instanceof SerializableImage))
             tempIcon = null;
         return tempIcon;
     }
@@ -203,9 +207,10 @@ public class VImageView extends VScreenField
      */
     public void setComponentState(Component control, Object objValue)
     {
+        if (objValue instanceof SerializableImage)
+            objValue = new ImageIcon(((SerializableImage)objValue).getImage());
         if (!(objValue instanceof ImageIcon))
             objValue = null;
-//        ((JLabel)control).setIcon((ImageIcon)objValue);
         ((JFSImage)control).setControlValue((ImageIcon)objValue);
     }
     /**

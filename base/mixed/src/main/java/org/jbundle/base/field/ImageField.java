@@ -1,6 +1,8 @@
 package org.jbundle.base.field;
 
 
+import java.io.Serializable;
+
 import javax.swing.ImageIcon;
 
 import org.jbundle.base.db.Record;
@@ -12,6 +14,7 @@ import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.thin.base.db.Converter;
+import org.jbundle.thin.base.screen.util.SerializableImage;
 
 
 /**
@@ -90,21 +93,11 @@ public class ImageField extends ObjectField
     {
         if (this.isNull())
             return null;
-        return (ImageIcon)this.getData();
+        if (this.getData() instanceof ImageIcon)
+            return (ImageIcon)this.getData();   // Never (legacy)
+        else if (this.getData() instanceof SerializableImage)
+            return new ImageIcon(((SerializableImage)this.getData()).getImage());
+        else
+            return null;
     }
-    /**
-     * Set this image as an icon.
-     */
-    public int setImage(ImageIcon image)
-    {
-        return this.setImage(image, true, DBConstants.SCREEN_MOVE);
-    }
-    /**
-     * Set this image as an icon.
-     */
-    public int setImage(ImageIcon image, boolean bDisplayOption, int iMoveMode)
-    {
-        return this.setData(image, bDisplayOption, iMoveMode);
-    }
-
 } 

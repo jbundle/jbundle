@@ -14,6 +14,7 @@ import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.util.calendarpanel.model.CalendarItem;
+import org.jbundle.thin.base.screen.util.SerializableImage;
 
 
 /**
@@ -144,7 +145,13 @@ public class CalendarRecordItem extends Object
     {
         if (m_iIconField == -1)
             return null;
-        return (ImageIcon)this.getFieldData(m_iIconField);
+        Object data = this.getFieldData(m_iIconField);
+        if (data instanceof SerializableImage)
+            return new ImageIcon(((SerializableImage)data).getImage());     // Make sure you cache this
+        else if (data instanceof ImageIcon)
+            return (ImageIcon)this.getFieldData(m_iIconField);
+        else
+            return null;
     }
     /**
      * Highlight color (optional).

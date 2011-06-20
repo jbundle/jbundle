@@ -29,6 +29,7 @@ import javax.swing.table.TableModel;
 import javax.swing.text.JTextComponent;
 
 import org.jbundle.thin.base.screen.JBaseScreen;
+import org.jbundle.thin.base.screen.util.SerializableImage;
 
 
 /**
@@ -254,6 +255,10 @@ public class JAltGridScreen extends JBaseScreen implements TableModelListener
         if (aValue instanceof ImageIcon)
         {
             component = new JLabel((ImageIcon)aValue);
+        }
+        if (aValue instanceof SerializableImage)
+        {
+            component = new JLabel(new ImageIcon(((SerializableImage)aValue).getImage()));
         }
         else if (aValue != null)
         {

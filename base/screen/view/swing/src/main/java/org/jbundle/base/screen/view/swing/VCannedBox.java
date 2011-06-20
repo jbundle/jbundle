@@ -33,6 +33,7 @@ import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.util.jcalendarbutton.JCalendarPopup;
 import org.jbundle.util.jcalendarbutton.JTimePopup;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
+import org.jbundle.thin.base.screen.util.SerializableImage;
 
 /**
  * Implements a button to carry out some standard functions.
@@ -248,9 +249,10 @@ public class VCannedBox extends VButtonBox
         if(returnVal == JFileChooser.APPROVE_OPTION)
         {
             String strPath = chooser.getSelectedFile().getPath();
-            ImageIcon image = new ImageIcon(strPath);
+            ImageIcon imageIcon = new ImageIcon(strPath);
+            SerializableImage data = new SerializableImage(imageIcon.getImage());
             int i = 0;
-            while (image.getImageLoadStatus() != MediaTracker.COMPLETE)
+            while (imageIcon.getImageLoadStatus() != MediaTracker.COMPLETE)
             {
                 i++;
                 try   {
@@ -260,7 +262,7 @@ public class VCannedBox extends VButtonBox
                 if (i == 10)
                     return false; // ten sec - too long
             }
-            this.getScreenField().getConverter().setData(image, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
+            this.getScreenField().getConverter().setData(data, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
         }
         return true;    // Success
     }
@@ -310,4 +312,5 @@ public class VCannedBox extends VButtonBox
             this.getScreenField().getConverter().setString(string, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
         return true;    // Success
     }
+
 }

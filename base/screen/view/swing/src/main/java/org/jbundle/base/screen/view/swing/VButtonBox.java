@@ -17,6 +17,7 @@ import javax.swing.border.LineBorder;
 import org.jbundle.base.screen.model.SButtonBox;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.thin.base.screen.util.SerializableImage;
 
 
 /**
@@ -145,8 +146,10 @@ public class VButtonBox extends VBaseButton
         {
         	if ((this.getScreenField().getConverter() != null) && (this.getScreenField().getConverter().getBitmap() != null))
         		((JButton)control).setIcon(this.loadImageIcon(this.getScreenField().getConverter().getBitmap(), null));
-        	else if (objValue instanceof ImageIcon)
+            else if (objValue instanceof ImageIcon)
                 ((JButton)control).setIcon((ImageIcon)objValue);
+            else if (objValue instanceof SerializableImage)
+                ((JButton)control).setIcon(new ImageIcon(((SerializableImage)objValue).getImage()));
     	}
     }
     /**

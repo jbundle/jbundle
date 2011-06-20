@@ -22,7 +22,8 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ImageField;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.html.DataAccessScreen;
-
+import org.jbundle.thin.base.screen.util.SerializableImage;
+import java.awt.Image;
 
 /**
  * DObjectAccessScreen converts image data to JPG and sends it down the pipe.
@@ -81,7 +82,10 @@ public class DObjectAccessScreen extends DDataAccessScreen
         res.setContentType(GIF_TYPE.equalsIgnoreCase(dataType) ? "image/gif" : "image/jpeg");
         OutputStream out = res.getOutputStream();
         String strParamField = this.getProperty("field");   // Display record
-        ImageIcon image = null;
+        ImageIcon imageIcon = null;
+        Image image = null;
+        int scaledW = 0;
+        int scaledH = 0;
         if (strParamField != null)
         {
             Record record = ((DataAccessScreen)this.getScreenField()).getMainRecord();
@@ -89,19 +93,35 @@ public class DObjectAccessScreen extends DDataAccessScreen
             {
                 BaseField field = record.getField(strParamField);
                 if (field != null) if (!field.isNull())
+                {
                     if (field instanceof ImageField)
-                        image = (ImageIcon)field.getData();
+                    {
+                        if (field.getData() instanceof ImageIcon)
+                            imageIcon = (ImageIcon)field.getData();
+                        else if (field.getData() instanceof SerializableImage)
+                        {
+                            image = ((SerializableImage)field.getData()).getImage();
+                            scaledW = ((SerializableImage)field.getData()).getImageWidth();
+                            scaledH = ((SerializableImage)field.getData()).getImageHeight();
+                        }
+                    }
+                }                
             }
         }
-        if (image == null)
-            image = new ImageIcon("images/icons/Noimage.gif", "Next button");
-        
-        int scaledW = image.getIconWidth();
-        int scaledH = image.getIconHeight();
+        if ((imageIcon == null) && (image == null))
+            imageIcon = new ImageIcon("images/icons/Noimage.gif", "Next button");
+
+        if (imageIcon != null)
+        {
+            scaledW = imageIcon.getIconWidth();
+            scaledH = imageIcon.getIconHeight();
+            image = imageIcon.getImage();
+        }
+
         BufferedImage outImage = new BufferedImage(scaledW, scaledH, BufferedImage.TYPE_INT_RGB);
         // Paint image.
         Graphics2D g2d = outImage.createGraphics();
-        g2d.drawImage(image.getImage(), null, null);
+        g2d.drawImage(image, null, null);
         g2d.dispose();
 
         ImageIO.write(outImage, dataType, out);

@@ -13,7 +13,7 @@ import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.util.LinkedConverter;
-
+import org.jbundle.thin.base.screen.util.SerializableImage;
 
 /**
  * The base converter for fields.
@@ -87,6 +87,8 @@ public class ImageConverter extends LinkedConverter
         ImageIcon image = null;
         if (objValue instanceof ImageIcon)
             image = (ImageIcon)objValue;
+        else if (objValue instanceof SerializableImage)
+            image = new ImageIcon(((SerializableImage)objValue).getImage());
         else
         {
             String strImage = this.convertValueToImageName(objValue);
