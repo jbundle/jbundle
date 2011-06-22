@@ -7,7 +7,6 @@ package org.jbundle.base.thread;
  *      don@tourgeek.com
  */
 
-import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Enumeration;
@@ -41,7 +40,7 @@ import org.jbundle.thin.base.thread.RecordOwnerCollection;
  * NOTE: LAME CODE ALERT: BaseRecordOwner is exactly the same as RemoteRecordOwner
  * except BaseRecordOwner subclasses Object and RemoteRecordOwner subclasses UnicastRemoteObject.
  */
-public class RemoteRecordOwner extends Object
+public class RemoteRecordOwner extends UnicastRemoteObject
     implements RecordOwner
 {
     private static final long serialVersionUID = 1L;
