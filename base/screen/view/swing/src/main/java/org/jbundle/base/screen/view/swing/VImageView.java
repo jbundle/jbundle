@@ -170,7 +170,7 @@ public class VImageView extends VScreenField
         if (this.getScreenField().getConverter() == null)
             return DBConstants.NORMAL_RETURN;
         if (objValue instanceof SerializableImage)
-            objValue = new ImageIcon(((SerializableImage)objValue).getImage())
+            objValue = new ImageIcon(((SerializableImage)objValue).getImage());
         if (!(objValue instanceof ImageIcon))
             objValue = null;
         if (objValue != null)
