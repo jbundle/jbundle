@@ -100,4 +100,24 @@ public class ImageField extends ObjectField
         else
             return null;
     }
+    /**
+     * Move the physical binary data to this field.
+     * (Must be the same physical type... setText makes sure of that)
+     * This is a little tricky. First, I call the behaviors (doSetData)
+     * which actually moves the data. Then, I call the HandleFieldChange
+     * listener for each field, except on a read move, where the HandleFieldChange
+     * listener is called in the doValidRecord method because each field comes
+     * in one at a time, and if a listener modifies or accesses
+     * another field, the field may not have been moved from the db yet.
+     * @param data The raw data to move to this field.
+     * @param iDisplayOption If true, display the new field.
+     * @param iMoveMove The move mode.
+     * @return An error code (NORMAL_RETURN for success).
+     */
+    public int setData(Object data, boolean bDisplayOption, int iMoveMode)
+    {
+        if (data instanceof ImageIcon)
+            data = new SerializableImage(((ImageIcon)data).getImage());
+        return super.setData(data, bDisplayOption, iMoveMode);
+    }
 } 

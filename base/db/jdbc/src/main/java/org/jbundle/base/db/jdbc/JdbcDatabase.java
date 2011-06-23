@@ -201,7 +201,11 @@ public class JdbcDatabase extends BaseDatabase
                 if (!bDataSourceConnection)
                     bDataSourceConnection = this.setupDirectDataSourceConnection();
                 if (!bDataSourceConnection)
+                {
                     strJdbcDriver = this.getProperty(SQLParams.JDBC_DRIVER_PARAM);  // Default driver
+                    if (strJdbcDriver == null)
+                        strJdbcDriver = this.getProperty(BASE_DATABASE_JDBC_DRIVER);    // Special case - base database
+                }
             }
             if (strJdbcDriver != null)
                 this.setupJDBCConnection(strJdbcDriver);
@@ -842,12 +846,13 @@ public class JdbcDatabase extends BaseDatabase
             Map<String,Object> properties = new HashMap<String,Object>();
             properties.putAll(this.getProperties());
             properties.remove(BASE_DATABASE);
-            properties.remove(SQLParams.JDBC_DRIVER_PARAM);
+            properties.put(BASE_DATABASE_JDBC_DRIVER, properties.remove(SQLParams.JDBC_DRIVER_PARAM));
             properties.put(DBConstants.DB_USER_PREFIX, DBConstants.BLANK);
             properties.put(DBConstants.SUB_SYSTEM_LN_SUFFIX, DBConstants.BLANK);
             m_databaseBase = m_databaseOwner.getDatabase(this.getProperty(BASE_DATABASE), this.getDatabaseType() & DBConstants.TABLE_MASK, properties);
         }
     }
+    public static final String BASE_DATABASE_JDBC_DRIVER = "baseDatabaseJDBCDriver";
     /**
      * Add this database property.
      * @param strKey

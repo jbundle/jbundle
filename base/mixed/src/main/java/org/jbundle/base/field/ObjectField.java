@@ -205,8 +205,11 @@ public class ObjectField extends BaseField
 
             byte[] rgBytes = ostream.toByteArray();
             InputStream iStream = new ByteArrayInputStream(rgBytes);
-
-            statement.setBinaryStream(iParamColumn, iStream, rgBytes.length);
+            try {
+                statement.setBinaryStream(iParamColumn, iStream, rgBytes.length);
+            } catch (java.lang.ArrayIndexOutOfBoundsException ex) {
+                ex.printStackTrace();
+            }
         }
     }
     /**

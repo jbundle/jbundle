@@ -1554,7 +1554,8 @@ public abstract class BaseTable extends FieldTable
             if (this.getDatabase() != null)
             {
                 if (DBConstants.TRUE.equalsIgnoreCase(this.getDatabase().getProperty(DBConstants.LOAD_INITIAL_DATA)))
-                    loadInitialData = true;
+                    if ((this.getDatabase().getDatabaseOwner() == null) || (!DBConstants.FALSE.equalsIgnoreCase(this.getDatabase().getDatabaseOwner().getProperty(DBConstants.LOAD_INITIAL_DATA))))   // Global switch
+                        loadInitialData = true;
                 if (DBConstants.TRUE.equalsIgnoreCase(this.getDatabase().getProperty(SQLParams.RENAME_TABLE_SUPPORT)))
                     useTemporaryFilename = true;
             }
@@ -1586,6 +1587,7 @@ public abstract class BaseTable extends FieldTable
             boolean bSuccess = true;
             try {
                 if (useTemporaryFilename)
+                    if (loadInitialData)
                 {
                     tableName = this.getRecord().getTableNames(false);
                     this.getRecord().setTableNames(tableName + "_temp");
