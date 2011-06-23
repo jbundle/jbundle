@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><file>
 	<TestTable ID="1">
-		<LastChanged>2010-11-30T17:51:21</LastChanged>
+		<LastChanged>2011-05-26T15:18:46</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>TEST 1</TestName>
 		<TestMemo/>
 		<TestYesNo>Y</TestYesNo>
-		<TestLong>1,234,567</TestLong>
+		<TestLong>123,456</TestLong>
 		<TestShort>1,234</TestShort>
 		<TestDateTime>2010-11-30T17:51:15</TestDateTime>
 		<TestDate/>
@@ -27,17 +27,48 @@
 		<TestEncrypted/>
 	</TestTable>
 	<TestTable ID="2">
-		<LastChanged>2010-11-30T17:51:25</LastChanged>
+		<LastChanged>2011-06-17T05:31:45</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
-		<TestName>TEST 2</TestName>
+		<TestName>TEST 21</TestName>
 		<TestMemo/>
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime>2010-11-30T17:51:21</TestDateTime>
+		<TestDateTime/>
 		<TestDate/>
-		<TestTime>17:51:25</TestTime>
+		<TestTime/>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble/>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>12,345.67000000</TestReal>
+		<TestCurrency/>
+		<TestPassword/>
+		<TestVirtual/>
+		<TestKey/>
+		<TestImage/>
+		<TestHtml type="XML"><br/></TestHtml>
+		<TestXml/>
+		<TestProperties/>
+		<TestSecond/>
+		<TestEncrypted>#Field properties
+#Tue Apr 12 18:07:34 PDT 2011
+length=0
+value=
+</TestEncrypted>
+	</TestTable>
+	<TestTable ID="3">
+		<LastChanged>2011-05-12T17:06:35</LastChanged>
+		<Deleted>N</Deleted>
+		<TestCode/>
+		<TestName>TEST 32</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime/>
+		<TestDate/>
+		<TestTime/>
 		<TestFloat>12,345.70</TestFloat>
 		<TestDouble>123,456,789.01</TestDouble>
 		<TestPercent>0.3200</TestPercent>
@@ -51,6 +82,41 @@
 		<TestXml/>
 		<TestProperties/>
 		<TestSecond/>
-		<TestEncrypted/>
+		<TestEncrypted>#Field properties
+#Thu Mar 31 22:51:57 PDT 2011
+length=0
+value=
+</TestEncrypted>
+	</TestTable>
+	<TestTable ID="4">
+		<LastChanged>2011-05-12T17:08:01</LastChanged>
+		<Deleted>N</Deleted>
+		<TestCode/>
+		<TestName>TEST 41</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime/>
+		<TestDate/>
+		<TestTime/>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>12,345.67000000</TestReal>
+		<TestCurrency/>
+		<TestPassword/>
+		<TestVirtual/>
+		<TestKey/>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+		<TestProperties/>
+		<TestSecond/>
+		<TestEncrypted>#Field properties
+#Tue Apr 12 18:02:37 PDT 2011
+length=0
+value=
+</TestEncrypted>
 	</TestTable>
 </file>

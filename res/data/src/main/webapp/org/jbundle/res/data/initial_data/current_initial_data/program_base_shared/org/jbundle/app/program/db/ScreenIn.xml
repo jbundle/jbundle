@@ -175,9 +175,9 @@
 		<ScreenPhysicalNum>0</ScreenPhysicalNum>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[ScreenField pSScreenField = new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), this, this.getMainRecord().getField(ClassInfo.kClassHelp), SCannedBox.EDIT, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this.getMainRecord().getField(ClassInfo.kClassHelp));
+		<ScreenText>ScreenField pSScreenField = new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), this, this.getMainRecord().getField(ClassInfo.kClassHelp), SCannedBox.EDIT, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this.getMainRecord().getField(ClassInfo.kClassHelp));
 pSScreenField.setRequestFocusEnabled(false);
-this.getMainRecord().getField(ClassInfo.kClassHelp).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.FILL_REMAINDER), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+this.getMainRecord().getField(ClassInfo.kClassHelp).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.FILL_REMAINDER), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -231,9 +231,9 @@ this.getMainRecord().getField(ClassInfo.kClassHelp).setupDefaultView(this.getNex
 		<ScreenPhysicalNum>0</ScreenPhysicalNum>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kFieldDescription);
+		<ScreenText>Converter converter = this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kFieldDescription);
 converter = new FieldLengthConverter(converter, 50);
-converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -323,13 +323,13 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenPhysicalNum>0</ScreenPhysicalNum>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[ScreenLocation lastFieldPosition;
+		<ScreenText>ScreenLocation lastFieldPosition;
 Record query = this.getMainRecord();
-for (int fieldSeq = FieldData.kDependentFieldName; fieldSeq <= FieldData.kFieldFileName; fieldSeq++)
+for (int fieldSeq = FieldData.kDependentFieldName; fieldSeq &lt;= FieldData.kFieldFileName; fieldSeq++)
 {
 	lastFieldPosition = this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR);
 	query.getField(fieldSeq).setupDefaultView(lastFieldPosition, this, ScreenConstants.DISPLAY_DESC);	// Add this view to the list
-}]]></ScreenText>
+}</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -869,9 +869,9 @@ for (int fieldSeq = FieldData.kDependentFieldName; fieldSeq <= FieldData.kFieldF
 		<ScreenPhysicalNum>0</ScreenPhysicalNum>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[converter = this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kMethodReturns);
+		<ScreenText>converter = this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kMethodReturns);
 converter = new FieldLengthConverter(converter, 50);
-new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -889,12 +889,12 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum>0</ScreenPhysicalNum>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Record query = this.getMainRecord();
+		<ScreenText>Record query = this.getMainRecord();
 	
 BaseField field = query.getField(LogicFile.kMethodInterface);
 Converter converter2 = new FieldLengthConverter(field, 40);
 SEditText screenField = new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, converter2, ScreenConstants.DISPLAY_DESC);
-]]></ScreenText>
+</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -1830,8 +1830,8 @@ SEditText screenField = new SEditText(this.getNextLocation(ScreenConstants.NEXT_
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.kCode), 60);
-new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+		<ScreenText>converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.kCode), 60);
+new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -1849,8 +1849,8 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.kKeyValue), 60);
-new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+		<ScreenText>Converter converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.kKeyValue), 60);
+new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -2048,8 +2048,8 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = null;
-]]></ScreenText>
+		<ScreenText>Converter converter = null;
+</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -2877,9 +2877,9 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[super.setupSFields();
+		<ScreenText>super.setupSFields();
 //if (this.isPrintReport())
-//  return;   // Don't display params if entered]]></ScreenText>
+//  return;   // Don't display params if entered</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -3005,9 +3005,9 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = this.getRecord(Packages.kPackagesFile).getField(Packages.kParentFolderID);
+		<ScreenText>Converter converter = this.getRecord(Packages.kPackagesFile).getField(Packages.kParentFolderID);
 new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);
-]]></ScreenText>
+</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -3511,8 +3511,8 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = new FieldLengthConverter(this.getRecord(Resource.kResourceFile).getField(Resource.kCode), 30);
-new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+		<ScreenText>Converter converter = new FieldLengthConverter(this.getRecord(Resource.kResourceFile).getField(Resource.kCode), 30);
+new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -3530,8 +3530,8 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = new FieldLengthConverter(this.getMainRecord().getField(Resource.kCode), 60);
-new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+		<ScreenText>Converter converter = new FieldLengthConverter(this.getMainRecord().getField(Resource.kCode), 60);
+new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -3891,8 +3891,8 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = new FieldLengthConverter(this.getRecord(Issue.kIssueFile).getField(Issue.kDescription), 50);
-converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+		<ScreenText>Converter converter = new FieldLengthConverter(this.getRecord(Issue.kIssueFile).getField(Issue.kDescription), 50);
+converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -4036,8 +4036,8 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.kObjectValue), 60);
-new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+		<ScreenText>converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.kObjectValue), 60);
+new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -4091,8 +4091,8 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = new FieldLengthConverter(this.getRecord(ProjectTask.kProjectTaskFile).getField(ProjectTask.kName), 40);
-converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+		<ScreenText>Converter converter = new FieldLengthConverter(this.getRecord(ProjectTask.kProjectTaskFile).getField(ProjectTask.kName), 40);
+converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -4488,9 +4488,9 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = this.getRecord(PropertiesInput.kPropertiesInputFile).getField(PropertiesInput.kKey);
+		<ScreenText>Converter converter = this.getRecord(PropertiesInput.kPropertiesInputFile).getField(PropertiesInput.kKey);
 converter = new FieldLengthConverter(converter, 20);
-if (m_properties.size() > 0)
+if (m_properties.size() &gt; 0)
 {
     converter = new FieldConverter(converter)
     {
@@ -4519,7 +4519,7 @@ if (m_properties.size() > 0)
         }
     };
 }
-new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -4537,9 +4537,9 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[converter = this.getRecord(PropertiesInput.kPropertiesInputFile).getField(PropertiesInput.kValue);
+		<ScreenText>converter = this.getRecord(PropertiesInput.kPropertiesInputFile).getField(PropertiesInput.kValue);
 converter = new FieldLengthConverter(converter, 30);
-new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -4557,8 +4557,8 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter convDefaultTransport = new CheckConverter(this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kDefaultMessageTransportID), this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageTransportID), null, true);
-convDefaultTransport.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+		<ScreenText>Converter convDefaultTransport = new CheckConverter(this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kDefaultMessageTransportID), this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageTransportID), null, true);
+convDefaultTransport.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -4576,8 +4576,8 @@ convDefaultTransport.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter convDefaultTransport = new CheckConverter(this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kDefaultMessageTransportID), this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageTransportID), null, true);
-convDefaultTransport.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+		<ScreenText>Converter convDefaultTransport = new CheckConverter(this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kDefaultMessageTransportID), this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageTransportID), null, true);
+convDefaultTransport.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -4613,10 +4613,10 @@ convDefaultTransport.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = this.getRecord(ProjectTask.kProjectTaskFile).getField(ProjectTask.kName);
+		<ScreenText>Converter converter = this.getRecord(ProjectTask.kProjectTaskFile).getField(ProjectTask.kName);
 Converter convIndent = this.getScreenRecord().getField(ProjectTaskScreenRecord.kCurrentLevel);
 converter = new NameIndentConverter(converter, convIndent, +4);
-converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5156,9 +5156,9 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kpassword));
+		<ScreenText>Converter converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kpassword));
 converter = new FieldLengthConverter(converter, 20);
-converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5194,8 +5194,8 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter fieldConverter = this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kStatusLine);
-new SStaticText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, fieldConverter, ScreenConstants.DONT_DISPLAY_FIELD_DESC);]]></ScreenText>
+		<ScreenText>Converter fieldConverter = this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kStatusLine);
+new SStaticText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, fieldConverter, ScreenConstants.DONT_DISPLAY_FIELD_DESC);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5213,8 +5213,8 @@ new SStaticText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstan
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[SCannedBox loginButton = new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.LOGIN);
-loginButton.setRequestFocusEnabled(true);]]></ScreenText>
+		<ScreenText>SCannedBox loginButton = new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.LOGIN);
+loginButton.setRequestFocusEnabled(true);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5232,9 +5232,9 @@ loginButton.setRequestFocusEnabled(true);]]></ScreenText>
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kCurrentPassword));
+		<ScreenText>Converter converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kCurrentPassword));
 converter = new FieldLengthConverter(converter, 20);
-converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5252,9 +5252,9 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kNewPassword1));
+		<ScreenText>converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kNewPassword1));
 converter = new FieldLengthConverter(converter, 20, 6);
-converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5272,9 +5272,9 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kNewPassword2));
+		<ScreenText>converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kNewPassword2));
 converter = new FieldLengthConverter(converter, 20, 6);
-converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5310,8 +5310,8 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[SCannedBox submitButton = new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.SUBMIT);
-submitButton.setRequestFocusEnabled(true);]]></ScreenText>
+		<ScreenText>SCannedBox submitButton = new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.SUBMIT);
+submitButton.setRequestFocusEnabled(true);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5365,9 +5365,9 @@ submitButton.setRequestFocusEnabled(true);]]></ScreenText>
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kNewPassword1));
+		<ScreenText>Converter converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kNewPassword1));
 converter = new FieldLengthConverter(converter, 20, 6);
-converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5385,9 +5385,9 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kNewPassword2));
+		<ScreenText>converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kNewPassword2));
 converter = new FieldLengthConverter(converter, 20, 6);
-converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5405,11 +5405,11 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[String strSubmitText = MenuConstants.SUBMIT;
+		<ScreenText>String strSubmitText = MenuConstants.SUBMIT;
 if (this.getTask() != null)
     if (this.getTask().getApplication() != null)
         strSubmitText = this.getTask().getApplication().getResources(ResourceConstants.MAIN_RESOURCE, true).getString(strSubmitText);
-new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, strSubmitText, MenuConstants.SUBMIT, MenuConstants.SUBMIT, null);]]></ScreenText>
+new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, strSubmitText, MenuConstants.SUBMIT, MenuConstants.SUBMIT, null);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5427,11 +5427,11 @@ new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstant
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[BaseApplication application = (BaseApplication)this.getTask().getApplication();
+		<ScreenText>BaseApplication application = (BaseApplication)this.getTask().getApplication();
 String strDesc = application.getResources(ResourceConstants.MAIN_RESOURCE, true).getString(UserEntryScreen.CREATE_NEW_USER);
 String strCommand = Utility.addURLParam(null, DBParams.SCREEN, UserEntryScreen.class.getName());
 new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST_BUTTON_WITH_GAP, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, strDesc, MenuConstants.FORM, strCommand, MenuConstants.FORM + "Tip");
-this.setDefaultButton(loginButton);]]></ScreenText>
+this.setDefaultButton(loginButton);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5557,7 +5557,7 @@ this.setDefaultButton(loginButton);]]></ScreenText>
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.SUBMIT);
+		<ScreenText>new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.SUBMIT);
 String strDesc = UserPasswordChange.CHANGE_PASSWORD;
 String strCommand = Utility.addURLParam(null, DBParams.SCREEN, UserPasswordChange.class.getName());
 if (this.getProperty(DBParams.USER_NAME) == null)
@@ -5568,7 +5568,7 @@ if (this.getProperty(DBParams.USER_NAME) == null)
 if (this.getTask() != null)
     if (this.getTask().getApplication() != null)
         strDesc = this.getTask().getApplication().getResources(ResourceConstants.MAIN_RESOURCE, true).getString(strDesc);
-new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST_BUTTON_WITH_GAP, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, strDesc, MenuConstants.FORM, strCommand, MenuConstants.FORM + "Tip");]]></ScreenText>
+new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST_BUTTON_WITH_GAP, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, strDesc, MenuConstants.FORM, strCommand, MenuConstants.FORM + "Tip");</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -5658,10 +5658,10 @@ new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST_BUTTON_WITH_GA
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[//this.getRecord(UserInfo.kUserInfoFile).getField(UserInfo.kLogos).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+		<ScreenText>//this.getRecord(UserInfo.kUserInfoFile).getField(UserInfo.kLogos).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 //this.getRecord(UserInfo.kUserInfoFile).getField(UserInfo.kTrailers).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 //this.getRecord(UserInfo.kUserInfoFile).getField(UserInfo.kHome).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-//this.getRecord(UserInfo.kUserInfoFile).getField(UserInfo.kMenu).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></ScreenText>
+//this.getRecord(UserInfo.kUserInfoFile).getField(UserInfo.kMenu).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -6453,9 +6453,9 @@ new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST_BUTTON_WITH_GA
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[converter = this.getRecord(Packages.kPackagesFile).getField(Packages.kClassProjectID);
+		<ScreenText>converter = this.getRecord(Packages.kPackagesFile).getField(Packages.kClassProjectID);
 new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);
-]]></ScreenText>
+</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -6473,7 +6473,7 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Record packages = this.getMainRecord();
+		<ScreenText>Record packages = this.getMainRecord();
 StringField field = new StringField(packages, "Path", DBConstants.DEFAULT_FIELD_LENGTH, "Path", null);
 field.setVirtual(true);		// Being careful
 packages.addField(field);
@@ -6492,7 +6492,7 @@ converter = new FieldConverter(field)
 	}
 };
 new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);
-]]></ScreenText>
+</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -6636,7 +6636,7 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[this.addOtherSFields();	// Add other screen fields here]]></ScreenText>
+		<ScreenText>this.addOtherSFields();	// Add other screen fields here</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>

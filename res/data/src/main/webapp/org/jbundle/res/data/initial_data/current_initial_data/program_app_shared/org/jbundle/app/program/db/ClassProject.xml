@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><file>
 	<ClassProject ID="1">
-		<LastChanged>2010-06-07T03:37:20</LastChanged>
+		<LastChanged>2011-03-10T07:32:40</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app-dance</Name>
+		<Name>dance</Name>
 		<ParentFolderID>8</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -20,9 +20,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="3">
-		<LastChanged>2011-01-13T04:36:49</LastChanged>
+		<LastChanged>2011-03-10T10:08:27</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app-contact</Name>
+		<Name>contact</Name>
 		<ParentFolderID>7</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -30,19 +30,19 @@
 		<Description>Contact sample application</Description>
 		<SystemClasses/>
 		<PackageName>.app.contact</PackageName>
-		<ProjectPath/>
+		<ProjectPath>contact/contact</ProjectPath>
 		<ThinPackage>.app.contact</ThinPackage>
-		<ThinProjectPath>jbundle-thin-app-contact</ThinProjectPath>
+		<ThinProjectPath>contact/thin</ThinProjectPath>
 		<ResourcePackage>.app.contact</ResourcePackage>
-		<ResProjectPath>jbundle-res-app-contact</ResProjectPath>
+		<ResProjectPath>contact/res</ResProjectPath>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="4">
-		<LastChanged>2010-06-07T03:38:38</LastChanged>
+		<LastChanged>2011-03-10T07:32:49</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app-picture</Name>
+		<Name>picture</Name>
 		<ParentFolderID>6</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -80,10 +80,10 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="6">
-		<LastChanged>2010-06-09T17:50:46</LastChanged>
+		<LastChanged>2011-03-10T07:31:40</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app-picture-root</Name>
-		<ParentFolderID>16,777,257</ParentFolderID>
+		<Name>picture</Name>
+		<ParentFolderID>16,777,309</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
@@ -100,10 +100,10 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="7">
-		<LastChanged>2010-06-09T17:50:55</LastChanged>
+		<LastChanged>2011-03-10T07:31:43</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app-contact-root</Name>
-		<ParentFolderID>16,777,257</ParentFolderID>
+		<Name>contact</Name>
+		<ParentFolderID>16,777,309</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
@@ -120,10 +120,10 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="8">
-		<LastChanged>2010-06-09T17:51:03</LastChanged>
+		<LastChanged>2011-03-10T07:31:45</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app-dance-root</Name>
-		<ParentFolderID>16,777,257</ParentFolderID>
+		<Name>dance</Name>
+		<ParentFolderID>16,777,309</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>

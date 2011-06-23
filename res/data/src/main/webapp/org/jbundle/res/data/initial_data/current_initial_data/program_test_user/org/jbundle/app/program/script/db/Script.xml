@@ -7,7 +7,7 @@
 		<Sequence>10</Sequence>
 		<Comment/>
 		<Code/>
-		<Properties><![CDATA[#Field properties
+		<Properties>#Field properties
 #Sun Nov 22 12:25:08 PST 2009
 programSharedDBName=program_test
 mainUserDBName=main
@@ -16,7 +16,7 @@ archiveFolder=/home/don/temp/archive/test
 process=.program.util.ExportRecordsToXmlProcess
 mode=export
 project=Test
-]]></Properties>
+</Properties>
 		<Command>R</Command>
 		<Source/>
 		<Destination/>
@@ -29,7 +29,7 @@ project=Test
 		<Sequence>20</Sequence>
 		<Comment/>
 		<Code/>
-		<Properties><![CDATA[#Field properties
+		<Properties>#Field properties
 #Sun Nov 22 12:30:23 PST 2009
 programSharedDBName=program_test
 locale=es
@@ -39,7 +39,7 @@ archiveFolder=/home/don/temp/archive/test_es
 process=.program.util.ExportRecordsToXmlProcess
 mode=export
 project=Test
-]]></Properties>
+</Properties>
 		<Command>R</Command>
 		<Source/>
 		<Destination/>

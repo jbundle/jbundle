@@ -50,11 +50,11 @@
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>PictureGridScreen</MethodClassName>
-		<LogicSource><![CDATA[String strJob = null;
+		<LogicSource>String strJob = null;
 strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.ROOT_PACKAGE + "screen.thread.ProcessRunner");	// Screen class
 strJob = Utility.addURLParam(strJob, DBParams.PROCESS, DBConstants.ROOT_PACKAGE + "personal.manual.ScanImages");	// Screen class
 new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Scan");
-super;	// Next buttons will be "First!"]]></LogicSource>
+super;	// Next buttons will be "First!"</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -68,11 +68,11 @@ super;	// Next buttons will be "First!"]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>PictureGridScreen</MethodClassName>
-		<LogicSource><![CDATA[new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
+		<LogicSource>new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
 String strJob = null;
 strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.ROOT_PACKAGE + "screen.thread.ProcessRunner");	// Screen class
 strJob = Utility.addURLParam(strJob, DBParams.PROCESS, DBConstants.ROOT_PACKAGE + "personal.manual.ScanImages");	// Screen class
-new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Scan");]]></LogicSource>
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Scan");</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -86,10 +86,10 @@ new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenCo
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>PictureGridScreen</MethodClassName>
-		<LogicSource><![CDATA[if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
+		<LogicSource>if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
 	return (this.onForm(null, ScreenConstants.DETAIL_MODE, true, iCommandOptions, null) != null);
 else
-	return super;]]></LogicSource>
+	return super;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -117,14 +117,14 @@ else
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>Picture</MethodClassName>
-		<LogicSource><![CDATA[BaseScreen screen = null;
-if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
+		<LogicSource>BaseScreen screen = null;
+if ((iDocMode &amp; ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
 	screen = new PictureGridScreen(this, null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+else if ((iDocMode &amp; ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
 	screen = new PictureScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 else
 	screen = new PictureGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-return screen;]]></LogicSource>
+return screen;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -194,7 +194,7 @@ return screen;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ContactGridScreen</MethodClassName>
-		<LogicSource><![CDATA[super;
+		<LogicSource>super;
 Record recContact = this.getMainRecord();
 recContact.setKeyArea(Contact.kNameSortKey);
 SortOrderHandler keyBehavior = new SortOrderHandler(this);
@@ -213,7 +213,7 @@ recContact.addListener(new CompareFileFilter(Contact.kContactCategoryID, this.ge
 
 this.getScreenRecord().getField(ContactScreenRecord.kNameSort).addListener(new FieldReSelectHandler(this));
 this.getScreenRecord().getField(ContactScreenRecord.kPostalCodeSort).addListener(new FieldReSelectHandler(this));
-this.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).addListener(new FieldReSelectHandler(this));]]></LogicSource>
+this.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).addListener(new FieldReSelectHandler(this));</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -283,8 +283,8 @@ this.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).addListe
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>SyncPictures</MethodClassName>
-		<LogicSource><![CDATA[super;
-new PictureControl(this);]]></LogicSource>
+		<LogicSource>super;
+new PictureControl(this);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -312,7 +312,7 @@ new PictureControl(this);]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>SyncPictures</MethodClassName>
-		<LogicSource><![CDATA[boolean bFlag = false;
+		<LogicSource>boolean bFlag = false;
 
 if (strCommand.indexOf("ScanImages") != -1)
 {	// Don't run in a new thread, run it here
@@ -324,7 +324,7 @@ if (strCommand.indexOf("ScanImages") != -1)
 
 if (bFlag == false)
 	bFlag = super.doCommand(strCommand, sourceSField, iCommandOptions);	// This will send the command to my parent
-return bFlag;]]></LogicSource>
+return bFlag;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -352,8 +352,8 @@ return bFlag;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ProcessPictures</MethodClassName>
-		<LogicSource><![CDATA[super;
-new PictureControl(this);]]></LogicSource>
+		<LogicSource>super;
+new PictureControl(this);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -381,7 +381,7 @@ new PictureControl(this);]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ProcessPictures</MethodClassName>
-		<LogicSource><![CDATA[boolean bFlag = false;
+		<LogicSource>boolean bFlag = false;
 
 if (strCommand.indexOf("WritePicture") != -1)
 {	// Don't run this in a task
@@ -393,7 +393,7 @@ if (strCommand.indexOf("WritePicture") != -1)
 
 if (bFlag == false)
 	bFlag = super;	// This will send the command to my parent
-return bFlag;]]></LogicSource>
+return bFlag;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -421,12 +421,12 @@ return bFlag;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ExportPictures</MethodClassName>
-		<LogicSource><![CDATA[super;
+		<LogicSource>super;
 try	{
 	this.getRecord(PictureControl.kPictureControlFile).open();	// Get the control record
 } catch (DBException ex)	{
 	ex.printStackTrace();
-}]]></LogicSource>
+}</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -454,8 +454,8 @@ try	{
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ExportPictures</MethodClassName>
-		<LogicSource><![CDATA[super;
-new PictureControl(this);]]></LogicSource>
+		<LogicSource>super;
+new PictureControl(this);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -483,7 +483,7 @@ new PictureControl(this);]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ExportPictures</MethodClassName>
-		<LogicSource><![CDATA[boolean bFlag = false;
+		<LogicSource>boolean bFlag = false;
 
 if (strCommand.indexOf("ExportPictures") != -1)
 {
@@ -497,7 +497,7 @@ if (strCommand.indexOf("ExportPictures") != -1)
 	}
 	properties.setProperty("date", strDate);
 	String strRoot = recPictureControl.getField(PictureControl.kBaseDirectory).toString();
-	if (strRoot.length() > 0)
+	if (strRoot.length() &gt; 0)
 		if ((strRoot.charAt(strRoot.length() - 1) != '/')
 			|| (strRoot.charAt(strRoot.length() - 1) != '\\'))
 				strRoot += '/';
@@ -520,7 +520,7 @@ if (strCommand.indexOf("ExportPictures") != -1)
 
 if (bFlag == false)
 	bFlag = super;	// This will send the command to my parent
-return bFlag;]]></LogicSource>
+return bFlag;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -534,7 +534,7 @@ return bFlag;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>Contact</MethodClassName>
-		<LogicSource><![CDATA[super;
+		<LogicSource>super;
 
 CopyFieldHandler copyName = (CopyFieldHandler)this.getField(Contact.kName).getListener(CopyFieldHandler.class.getName());
 this.getField(Contact.kName).removeListener(copyName, true);
@@ -544,7 +544,7 @@ copyName = new CopyFieldHandler(Contact.kNameSort)
     {
         BaseField fldContact = getOwner().getRecord().getField(Contact.kContact);
         BaseField fldName = getOwner();
-        if ((fldName.isNull()) && (!fldContact.isNull()))
+        if ((fldName.isNull()) &amp;&amp; (!fldContact.isNull()))
         {
             return fldContact.handleFieldChanged(bDisplayOption, iMoveMode);
         }
@@ -563,7 +563,7 @@ CopyFieldHandler copyLast = new CopyLastHandler(Contact.kNameSort)
         return super.moveIt(bDisplayOption, iMoveMode);
     }
 };
-this.getField(Contact.kContact).addListener(copyLast);]]></LogicSource>
+this.getField(Contact.kContact).addListener(copyLast);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -633,16 +633,16 @@ this.getField(Contact.kContact).addListener(copyLast);]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>Dance</MethodClassName>
-		<LogicSource><![CDATA[BaseScreen screen = null;
-if ((iDocMode & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
+		<LogicSource>BaseScreen screen = null;
+if ((iDocMode &amp; ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
     screen = new DanceStepGridScreen(this, null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+else if ((iDocMode &amp; ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
     screen = new DanceScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
+else if ((iDocMode &amp; ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
     screen = new DanceGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 else
     screen = super;
-return screen;]]></LogicSource>
+return screen;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -698,9 +698,9 @@ return screen;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceGridScreen</MethodClassName>
-		<LogicSource><![CDATA[BaseApplication application = (BaseApplication)this.getTask().getApplication();
+		<LogicSource>BaseApplication application = (BaseApplication)this.getTask().getApplication();
 new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, application.getResources(ResourceConstants.MENU_RESOURCE, true).getString(MenuConstants.FORMDETAIL));
-super;  // Next buttons will be "First!"]]></LogicSource>
+super;  // Next buttons will be "First!"</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -714,9 +714,9 @@ super;  // Next buttons will be "First!"]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceGridScreen</MethodClassName>
-		<LogicSource><![CDATA[BaseApplication application = (BaseApplication)this.getTask().getApplication();
+		<LogicSource>BaseApplication application = (BaseApplication)this.getTask().getApplication();
 new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.MENU_RESOURCE, true).getString(MenuConstants.FORMDETAIL), MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
-super;]]></LogicSource>
+super;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -730,11 +730,11 @@ super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceHeaderScreen</MethodClassName>
-		<LogicSource><![CDATA[super;
+		<LogicSource>super;
 this.getScreenRecord().getField(DanceScreenRecord.kDanceID).setEnabled(true);
 this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn).setEnabled(true);
 this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID).setEnabled(true);
-this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).setEnabled(true);]]></LogicSource>
+this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).setEnabled(true);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -790,7 +790,7 @@ this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).setEnabled(true)
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepGridScreen</MethodClassName>
-		<LogicSource><![CDATA[super;
+		<LogicSource>super;
 this.getMainRecord().setKeyArea(DanceStep.kDateKey);
 this.getMainRecord().getKeyArea().setKeyOrder(DBConstants.DESCENDING);
     // Link the screen field to the passed in record
@@ -804,7 +804,7 @@ this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID).addListener
 this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceDirectionID, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID), DBConstants.EQUALS, null, true));
 
 this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).addListener(new FieldReSelectHandler(this));
-this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kMoveClassID, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID), DBConstants.EQUALS, null, true));]]></LogicSource>
+this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kMoveClassID, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID), DBConstants.EQUALS, null, true));</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -818,8 +818,8 @@ this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kMoveClassID, (
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepGridScreen</MethodClassName>
-		<LogicSource><![CDATA[this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
-this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));]]></LogicSource>
+		<LogicSource>this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
+this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -847,9 +847,9 @@ this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandl
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>Dance</MethodClassName>
-		<LogicSource><![CDATA[if (MenuConstants.FORMDETAIL.equalsIgnoreCase(strCommand))
+		<LogicSource>if (MenuConstants.FORMDETAIL.equalsIgnoreCase(strCommand))
     return ScreenConstants.DETAIL_MODE;
-return super;]]></LogicSource>
+return super;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -891,9 +891,9 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepScreen</MethodClassName>
-		<LogicSource><![CDATA[super;
+		<LogicSource>super;
     // Link the screen field to the passed in record
-((ReferenceField)this.getScreenRecord().getField(DanceScreenRecord.kDanceID)).syncReference(this.getHeaderRecord());]]></LogicSource>
+((ReferenceField)this.getScreenRecord().getField(DanceScreenRecord.kDanceID)).syncReference(this.getHeaderRecord());</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -921,8 +921,8 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepScreen</MethodClassName>
-		<LogicSource><![CDATA[this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
-this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));]]></LogicSource>
+		<LogicSource>this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
+this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -964,7 +964,7 @@ this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandl
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepGridScreen</MethodClassName>
-		<LogicSource><![CDATA[if ((strCommand.equalsIgnoreCase(MenuConstants.FORM)) || (strCommand.equalsIgnoreCase(MenuConstants.FORMLINK)))
+		<LogicSource>if ((strCommand.equalsIgnoreCase(MenuConstants.FORM)) || (strCommand.equalsIgnoreCase(MenuConstants.FORMLINK)))
 {   // Add the header field to this screen, so on return the same sub records will display
     BasePanel parentScreen = this.getParentScreen();
     if (parentScreen != null)
@@ -973,7 +973,7 @@ this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandl
         parentScreen.pushHistory(this.getScreenURL(), false);  // Push this screen onto history stack
     }
 }
-return super;]]></LogicSource>
+return super;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1141,11 +1141,11 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ContactScreenRecord</MethodClassName>
-		<LogicSource><![CDATA[super;
+		<LogicSource>super;
 FieldToUpperHandler upper = new FieldToUpperHandler(null);
 this.getField(ContactScreenRecord.kNameSort).addListener(upper);
 CheckForTheHandler the = new CheckForTheHandler(null);
-this.getField(ContactScreenRecord.kNameSort).addListener(the);]]></LogicSource>
+this.getField(ContactScreenRecord.kNameSort).addListener(the);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1201,10 +1201,10 @@ this.getField(ContactScreenRecord.kNameSort).addListener(the);]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ContactGridScreen</MethodClassName>
-		<LogicSource><![CDATA[new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
+		<LogicSource>new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
 toolScreen.getScreenRecord().getField(ContactScreenRecord.kNameSort).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
 toolScreen.getScreenRecord().getField(ContactScreenRecord.kPostalCodeSort).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
-toolScreen.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
+toolScreen.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1218,8 +1218,8 @@ toolScreen.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).se
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>PictureSession</MethodClassName>
-		<LogicSource><![CDATA[super;
-this.setupSubMenus(HtmlConstants.MAIN_MENU_KEY);]]></LogicSource>
+		<LogicSource>super;
+this.setupSubMenus(HtmlConstants.MAIN_MENU_KEY);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1233,13 +1233,13 @@ this.setupSubMenus(HtmlConstants.MAIN_MENU_KEY);]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>PictureSession</MethodClassName>
-		<LogicSource><![CDATA[String strCommandNoCommas = Utility.replace(strCommand, ",", null);   // Get any commas out
+		<LogicSource>String strCommandNoCommas = Utility.replace(strCommand, ",", null);   // Get any commas out
 if (Utility.isNumeric(strCommandNoCommas))
 {
     this.setupSubMenus(strCommandNoCommas);
     return Boolean.TRUE;
 }
-return super;]]></LogicSource>
+return super;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1267,7 +1267,7 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface>String strMenu</MethodInterface>
 		<MethodClassName>PictureSession</MethodClassName>
-		<LogicSource><![CDATA[Record recMenu = this.getMainRecord();
+		<LogicSource>Record recMenu = this.getMainRecord();
 try   {
     boolean bIsNumeric = Utility.isNumeric(strMenu);
     if (bIsNumeric)
@@ -1294,7 +1294,7 @@ if (listener != null)
     recMenu.removeListener(listener, true);
 }
 recMenu.setKeyArea(Picture.kParentFolderIDKey);
-recMenu.addListener(new StringSubFileFilter(strParentID, Picture.kParentFolderID, null, -1, null, -1));]]></LogicSource>
+recMenu.addListener(new StringSubFileFilter(strParentID, Picture.kParentFolderID, null, -1, null, -1));</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1322,9 +1322,9 @@ recMenu.addListener(new StringSubFileFilter(strParentID, Picture.kParentFolderID
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceScreen</MethodClassName>
-		<LogicSource><![CDATA[BaseApplication application = (BaseApplication)this.getTask().getApplication();
+		<LogicSource>BaseApplication application = (BaseApplication)this.getTask().getApplication();
 new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.MENU_RESOURCE, true).getString(MenuConstants.FORMDETAIL), MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
-super;]]></LogicSource>
+super;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1408,12 +1408,12 @@ super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceFootField</MethodClassName>
-		<LogicSource><![CDATA[String string[][] = {
+		<LogicSource>String string[][] = {
         {"", ""}, 
         {"L", "Left"},
         {"R", "Right"}
 };
-return string;]]></LogicSource>
+return string;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1441,11 +1441,11 @@ return string;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepScreen</MethodClassName>
-		<LogicSource><![CDATA[String strURL = super;
+		<LogicSource>String strURL = super;
 strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn));
 strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID));
 strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID));
-return strURL;]]></LogicSource>
+return strURL;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1459,10 +1459,10 @@ return strURL;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepScreen</MethodClassName>
-		<LogicSource><![CDATA[super;
+		<LogicSource>super;
 Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn));
 Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID));
-Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID));]]></LogicSource>
+Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID));</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>

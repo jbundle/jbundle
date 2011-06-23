@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><file>
 	<ClassProject ID="16777217">
-		<LastChanged>2010-04-09T19:40:27</LastChanged>
+		<LastChanged>2011-03-10T05:52:28</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-main</Name>
+		<Name>main</Name>
 		<ParentFolderID>16,777,227</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -10,19 +10,19 @@
 		<Description>Main support project (linked to base)</Description>
 		<SystemClasses/>
 		<PackageName>.main</PackageName>
-		<ProjectPath>jbundle-base/jbundle-base-mixed</ProjectPath>
+		<ProjectPath>base/mixed</ProjectPath>
 		<ThinPackage>.main</ThinPackage>
-		<ThinProjectPath>jbundle-thin/jbundle-thin-main</ThinProjectPath>
+		<ThinProjectPath>thin/main</ThinProjectPath>
 		<ResourcePackage>.main</ResourcePackage>
-		<ResProjectPath>jbundle-res/jbundle-res-core</ResProjectPath>
+		<ResProjectPath>res/core</ResProjectPath>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777221">
-		<LastChanged>2010-04-29T04:03:42</LastChanged>
+		<LastChanged>2011-03-10T05:25:34</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app-program-core</Name>
+		<Name>program</Name>
 		<ParentFolderID>16,777,296</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -30,19 +30,19 @@
 		<Description>Program Generator Project</Description>
 		<SystemClasses/>
 		<PackageName/>
-		<ProjectPath/>
+		<ProjectPath>program</ProjectPath>
 		<ThinPackage/>
-		<ThinProjectPath>../../jbundle-thin/jbundle-thin-app/jbundle-thin-app-program</ThinProjectPath>
+		<ThinProjectPath>../../thin/app/program</ThinProjectPath>
 		<ResourcePackage/>
-		<ResProjectPath>../../jbundle-res/jbundle-res-app/jbundle-res-app-program</ResProjectPath>
+		<ResProjectPath>../../res/app/program</ResProjectPath>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777227">
-		<LastChanged>2010-06-09T17:48:20</LastChanged>
+		<LastChanged>2011-03-09T18:39:08</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-root</Name>
+		<Name>jbundle</Name>
 		<ParentFolderID>16,777,257</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -60,9 +60,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777240">
-		<LastChanged>2010-04-09T11:17:59</LastChanged>
+		<LastChanged>2011-03-10T05:26:38</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-mixed</Name>
+		<Name>mixed</Name>
 		<ParentFolderID>16,777,256</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -72,17 +72,17 @@
 		<PackageName/>
 		<ProjectPath/>
 		<ThinPackage/>
-		<ThinProjectPath>../jbundle-thin/jbundle-thin-base</ThinProjectPath>
+		<ThinProjectPath>../thin/base</ThinProjectPath>
 		<ResourcePackage/>
-		<ResProjectPath>../jbundle-res/jbundle-res-core</ResProjectPath>
+		<ResProjectPath>../res/core</ResProjectPath>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777250">
-		<LastChanged>2010-02-17T14:56:42</LastChanged>
+		<LastChanged>2011-03-10T05:24:57</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin</Name>
+		<Name>thin</Name>
 		<ParentFolderID>16,777,227</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -100,9 +100,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777251">
-		<LastChanged>2010-02-17T14:56:48</LastChanged>
+		<LastChanged>2011-03-10T05:24:55</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-system</Name>
+		<Name>system</Name>
 		<ParentFolderID>16,777,227</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -120,9 +120,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777253">
-		<LastChanged>2010-04-10T00:46:01</LastChanged>
+		<LastChanged>2011-03-10T05:30:13</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-base-mixed</Name>
+		<Name>mixed</Name>
 		<ParentFolderID>16,777,258</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -140,9 +140,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777254">
-		<LastChanged>2010-02-20T16:14:14</LastChanged>
+		<LastChanged>2011-03-10T05:29:57</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-app</Name>
+		<Name>app</Name>
 		<ParentFolderID>16,777,250</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -180,9 +180,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777256">
-		<LastChanged>2010-02-25T13:18:16</LastChanged>
+		<LastChanged>2011-03-10T05:24:51</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base</Name>
+		<Name>base</Name>
 		<ParentFolderID>16,777,227</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -200,9 +200,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777257">
-		<LastChanged>2010-02-23T03:19:33</LastChanged>
+		<LastChanged>2011-03-10T05:19:20</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-workspace</Name>
+		<Name>jbundle</Name>
 		<ParentFolderID>16,777,278</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -210,19 +210,19 @@
 		<Description>JBundle parent</Description>
 		<SystemClasses/>
 		<PackageName/>
-		<ProjectPath/>
+		<ProjectPath>jbundle</ProjectPath>
 		<ThinPackage/>
-		<ThinProjectPath/>
+		<ThinProjectPath>jbundle</ThinProjectPath>
 		<ResourcePackage/>
-		<ResProjectPath/>
+		<ResProjectPath>jbundle</ResProjectPath>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777258">
-		<LastChanged>2010-02-25T13:16:37</LastChanged>
+		<LastChanged>2011-03-10T05:29:59</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-base</Name>
+		<Name>base</Name>
 		<ParentFolderID>16,777,250</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -240,9 +240,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777259">
-		<LastChanged>2010-03-20T02:49:46</LastChanged>
+		<LastChanged>2011-03-10T05:26:04</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-db</Name>
+		<Name>db</Name>
 		<ParentFolderID>16,777,256</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -260,9 +260,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777260">
-		<LastChanged>2010-03-20T02:49:41</LastChanged>
+		<LastChanged>2011-03-10T05:26:09</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-screen</Name>
+		<Name>screen</Name>
 		<ParentFolderID>16,777,256</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -280,9 +280,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777261">
-		<LastChanged>2010-02-25T13:20:18</LastChanged>
+		<LastChanged>2011-03-10T05:26:49</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-db-client</Name>
+		<Name>client</Name>
 		<ParentFolderID>16,777,259</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -300,9 +300,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777262">
-		<LastChanged>2010-02-25T13:20:35</LastChanged>
+		<LastChanged>2011-03-10T05:26:51</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-db-jdbc</Name>
+		<Name>jdbc</Name>
 		<ParentFolderID>16,777,259</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -320,9 +320,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777263">
-		<LastChanged>2010-02-25T13:20:39</LastChanged>
+		<LastChanged>2011-03-10T05:26:53</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-db-mapped</Name>
+		<Name>mapped</Name>
 		<ParentFolderID>16,777,259</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -340,9 +340,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777264">
-		<LastChanged>2010-02-25T13:20:44</LastChanged>
+		<LastChanged>2011-03-10T05:26:55</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-db-memory</Name>
+		<Name>memory</Name>
 		<ParentFolderID>16,777,259</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -360,9 +360,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777265">
-		<LastChanged>2010-02-25T13:20:49</LastChanged>
+		<LastChanged>2011-03-10T05:26:57</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-db-net</Name>
+		<Name>net</Name>
 		<ParentFolderID>16,777,259</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -380,9 +380,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777266">
-		<LastChanged>2010-02-25T13:20:55</LastChanged>
+		<LastChanged>2011-03-10T05:26:59</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-db-physical</Name>
+		<Name>physical</Name>
 		<ParentFolderID>16,777,259</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -400,9 +400,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777267">
-		<LastChanged>2010-02-25T13:21:01</LastChanged>
+		<LastChanged>2011-03-10T05:27:01</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-db-proxy</Name>
+		<Name>proxy</Name>
 		<ParentFolderID>16,777,259</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -420,9 +420,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777268">
-		<LastChanged>2010-02-25T13:21:07</LastChanged>
+		<LastChanged>2011-03-10T05:27:04</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-db-serial</Name>
+		<Name>serial</Name>
 		<ParentFolderID>16,777,259</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -440,9 +440,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777269">
-		<LastChanged>2010-02-25T13:21:12</LastChanged>
+		<LastChanged>2011-03-10T05:27:05</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-db-xml</Name>
+		<Name>xml</Name>
 		<ParentFolderID>16,777,259</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -460,9 +460,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777270">
-		<LastChanged>2010-02-25T13:22:29</LastChanged>
+		<LastChanged>2011-03-10T05:27:17</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-screen-view</Name>
+		<Name>view</Name>
 		<ParentFolderID>16,777,260</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -480,9 +480,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777271">
-		<LastChanged>2010-02-25T13:22:34</LastChanged>
+		<LastChanged>2011-03-10T05:27:18</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-screen-control</Name>
+		<Name>control</Name>
 		<ParentFolderID>16,777,260</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -500,9 +500,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777272">
-		<LastChanged>2010-02-25T13:24:10</LastChanged>
+		<LastChanged>2011-03-10T05:27:22</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-screen-view-xml</Name>
+		<Name>xml</Name>
 		<ParentFolderID>16,777,270</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -520,9 +520,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777273">
-		<LastChanged>2010-02-25T13:24:14</LastChanged>
+		<LastChanged>2011-03-10T05:27:24</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-screen-view-html</Name>
+		<Name>html</Name>
 		<ParentFolderID>16,777,270</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -540,9 +540,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777274">
-		<LastChanged>2010-02-25T13:24:18</LastChanged>
+		<LastChanged>2011-03-10T05:27:37</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-screen-view-swing</Name>
+		<Name>swing</Name>
 		<ParentFolderID>16,777,270</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -560,10 +560,10 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777275">
-		<LastChanged>2010-02-25T13:24:23</LastChanged>
+		<LastChanged>2011-03-10T05:28:36</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>jbundle-base-screen-view-swing-jaxe</Name>
-		<ParentFolderID>16,777,270</ParentFolderID>
+		<ParentFolderID>16,777,308</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
@@ -600,17 +600,17 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777277">
-		<LastChanged>2010-06-09T18:06:59</LastChanged>
+		<LastChanged>2011-03-10T05:21:43</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-util-root</Name>
-		<ParentFolderID>16,777,257</ParentFolderID>
+		<Name>util</Name>
+		<ParentFolderID>16,777,307</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
 		<Description>jbundle utilities</Description>
 		<SystemClasses/>
 		<PackageName>org.jbundle</PackageName>
-		<ProjectPath/>
+		<ProjectPath>util</ProjectPath>
 		<ThinPackage/>
 		<ThinProjectPath/>
 		<ResourcePackage/>
@@ -640,9 +640,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777279">
-		<LastChanged>2010-02-27T04:09:10</LastChanged>
+		<LastChanged>2011-03-10T06:10:06</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-util-muffinmanager</Name>
+		<Name>muffinmanager</Name>
 		<ParentFolderID>16,777,277</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -660,29 +660,29 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777280">
-		<LastChanged>2010-06-09T17:48:33</LastChanged>
+		<LastChanged>2011-03-10T05:58:43</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>jcalendarbutton</Name>
-		<ParentFolderID>16,777,257</ParentFolderID>
+		<ParentFolderID>16,777,307</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
 		<Description>jcalendar button (Not generated)</Description>
 		<SystemClasses>Y</SystemClasses>
-		<PackageName/>
+		<PackageName>.jcalendarbutton</PackageName>
 		<ProjectPath/>
-		<ThinPackage/>
+		<ThinPackage>.jcalendarbutton</ThinPackage>
 		<ThinProjectPath/>
-		<ResourcePackage/>
+		<ResourcePackage>.jcalendarbutton</ResourcePackage>
 		<ResProjectPath/>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777281">
-		<LastChanged>2010-03-02T11:09:46</LastChanged>
+		<LastChanged>2011-03-10T05:30:01</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-opt</Name>
+		<Name>opt</Name>
 		<ParentFolderID>16,777,250</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -700,9 +700,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777282">
-		<LastChanged>2010-03-02T11:08:51</LastChanged>
+		<LastChanged>2011-03-10T05:30:15</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-base-db</Name>
+		<Name>db</Name>
 		<ParentFolderID>16,777,258</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -719,30 +719,10 @@
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
-	<ClassProject ID="16777283">
-		<LastChanged>2010-05-15T20:30:07</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>jbundle-thin-opt-calendar-core</Name>
-		<ParentFolderID>16,777,297</ParentFolderID>
-		<Sequence/>
-		<Comment/>
-		<Code/>
-		<Description>Thin calendar code (not generated)</Description>
-		<SystemClasses>Y</SystemClasses>
-		<PackageName/>
-		<ProjectPath/>
-		<ThinPackage/>
-		<ThinProjectPath/>
-		<ResourcePackage/>
-		<ResProjectPath/>
-		<Properties/>
-		<ArtifactId/>
-		<GroupId/>
-	</ClassProject>
 	<ClassProject ID="16777284">
-		<LastChanged>2010-03-02T12:42:50</LastChanged>
+		<LastChanged>2011-03-10T05:30:05</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-opt-location</Name>
+		<Name>location</Name>
 		<ParentFolderID>16,777,281</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -760,9 +740,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777285">
-		<LastChanged>2010-03-02T12:42:53</LastChanged>
+		<LastChanged>2011-03-10T05:30:07</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-opt-chat</Name>
+		<Name>chat</Name>
 		<ParentFolderID>16,777,281</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -800,9 +780,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777287">
-		<LastChanged>2010-12-03T04:03:23</LastChanged>
+		<LastChanged>2011-03-10T05:26:12</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-message</Name>
+		<Name>message</Name>
 		<ParentFolderID>16,777,256</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -820,9 +800,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777288">
-		<LastChanged>2010-03-20T02:52:11</LastChanged>
+		<LastChanged>2011-03-10T05:29:07</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-message-jibx</Name>
+		<Name>jibx</Name>
 		<ParentFolderID>16,777,287</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -840,17 +820,17 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777289">
-		<LastChanged>2010-03-20T02:52:15</LastChanged>
+		<LastChanged>2011-03-13T11:38:03</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-message-jaxb</Name>
-		<ParentFolderID>16,777,287</ParentFolderID>
+		<Name>jaxb obsolete</Name>
+		<ParentFolderID>16,777,311</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
 		<Description>JAXB messaging (Not generated)</Description>
 		<SystemClasses>Y</SystemClasses>
-		<PackageName/>
-		<ProjectPath/>
+		<PackageName>.base.message.jibx</PackageName>
+		<ProjectPath>base/message/jibx</ProjectPath>
 		<ThinPackage/>
 		<ThinProjectPath/>
 		<ResourcePackage/>
@@ -860,17 +840,17 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777290">
-		<LastChanged>2010-03-20T02:52:20</LastChanged>
+		<LastChanged>2011-03-13T11:38:25</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-base-message-xmlbeans</Name>
-		<ParentFolderID>16,777,287</ParentFolderID>
+		<Name>xmlbeans obsolete</Name>
+		<ParentFolderID>16,777,311</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
 		<Description>xmlbeans messaging (Not generated)</Description>
 		<SystemClasses>Y</SystemClasses>
-		<PackageName/>
-		<ProjectPath/>
+		<PackageName>.base.message.xmlbeans</PackageName>
+		<ProjectPath>base/message/xmlbeans</ProjectPath>
 		<ThinPackage/>
 		<ThinProjectPath/>
 		<ResourcePackage/>
@@ -880,14 +860,14 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777291">
-		<LastChanged>2010-04-09T14:46:44</LastChanged>
+		<LastChanged>2011-03-10T10:02:37</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app</Name>
+		<Name>app</Name>
 		<ParentFolderID>16,777,227</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
-		<Description>Application parent</Description>
+		<Description>Program application</Description>
 		<SystemClasses/>
 		<PackageName>.app</PackageName>
 		<ProjectPath/>
@@ -900,9 +880,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777292">
-		<LastChanged>2010-04-17T05:28:56</LastChanged>
+		<LastChanged>2011-03-10T05:25:04</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-model</Name>
+		<Name>model</Name>
 		<ParentFolderID>16,777,227</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -920,9 +900,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777293">
-		<LastChanged>2010-06-06T22:11:28</LastChanged>
+		<LastChanged>2011-03-10T05:30:17</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-base-screen</Name>
+		<Name>screen</Name>
 		<ParentFolderID>16,777,258</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -940,9 +920,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777294">
-		<LastChanged>2010-04-17T21:47:00</LastChanged>
+		<LastChanged>2011-03-10T05:30:33</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-base-screen-splash</Name>
+		<Name>splash</Name>
 		<ParentFolderID>16,777,293</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -960,9 +940,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777295">
-		<LastChanged>2010-04-18T05:29:06</LastChanged>
+		<LastChanged>2011-03-10T05:30:27</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-base-db-core</Name>
+		<Name>core</Name>
 		<ParentFolderID>16,777,282</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -980,9 +960,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777296">
-		<LastChanged>2010-04-29T04:02:09</LastChanged>
+		<LastChanged>2011-03-10T04:45:59</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app-program</Name>
+		<Name>program</Name>
 		<ParentFolderID>16,777,291</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -1000,9 +980,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777297">
-		<LastChanged>2010-06-06T16:53:49</LastChanged>
+		<LastChanged>2011-01-16T06:05:44</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-base-screen-calendar-core</Name>
+		<Name>jbundle-calendarpanel-core</Name>
 		<ParentFolderID>16,777,303</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -1020,9 +1000,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777298">
-		<LastChanged>2010-05-27T12:48:10</LastChanged>
+		<LastChanged>2011-03-10T05:30:20</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-base-util</Name>
+		<Name>util</Name>
 		<ParentFolderID>16,777,258</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -1040,9 +1020,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777299">
-		<LastChanged>2010-05-27T12:48:56</LastChanged>
+		<LastChanged>2011-03-10T05:30:44</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-base-util-base64</Name>
+		<Name>base64</Name>
 		<ParentFolderID>16,777,298</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -1080,9 +1060,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777301">
-		<LastChanged>2010-06-05T18:05:25</LastChanged>
+		<LastChanged>2011-03-10T05:25:36</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app-program-plugin</Name>
+		<Name>plugin</Name>
 		<ParentFolderID>16,777,296</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -1100,9 +1080,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777302">
-		<LastChanged>2010-06-05T18:05:30</LastChanged>
+		<LastChanged>2011-03-10T05:25:39</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app-program-manual</Name>
+		<Name>manual</Name>
 		<ParentFolderID>16,777,296</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -1120,29 +1100,29 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777303">
-		<LastChanged>2010-06-09T21:10:19</LastChanged>
+		<LastChanged>2011-03-10T05:46:04</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-base-screen-calendar-root</Name>
-		<ParentFolderID>16,777,257</ParentFolderID>
+		<Name>calendarpanel</Name>
+		<ParentFolderID>16,777,307</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
-		<Description>Thin calendar component</Description>
+		<Description>Thin calendar component (Not generated)</Description>
 		<SystemClasses>Y</SystemClasses>
-		<PackageName>.thin.base.screen.calendar</PackageName>
+		<PackageName>.calendarpanel</PackageName>
 		<ProjectPath/>
-		<ThinPackage>.thin.base.screen.calendar</ThinPackage>
+		<ThinPackage/>
 		<ThinProjectPath/>
-		<ResourcePackage>.thin.base.screen.calendar</ResourcePackage>
+		<ResourcePackage/>
 		<ResProjectPath/>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777304">
-		<LastChanged>2010-06-06T22:10:31</LastChanged>
+		<LastChanged>2011-03-10T05:30:35</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-thin-base-screen-cal</Name>
+		<Name>cal</Name>
 		<ParentFolderID>16,777,293</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -1160,10 +1140,10 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777305">
-		<LastChanged>2010-10-19T16:20:29</LastChanged>
+		<LastChanged>2011-03-10T05:24:18</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>base64coder</Name>
-		<ParentFolderID>16,777,257</ParentFolderID>
+		<ParentFolderID>16,777,307</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
@@ -1180,9 +1160,9 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777306">
-		<LastChanged>2010-10-27T05:55:50</LastChanged>
+		<LastChanged>2011-03-10T05:39:07</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>jbundle-app-program-demo</Name>
+		<Name>demo</Name>
 		<ParentFolderID>16,777,296</ParentFolderID>
 		<Sequence/>
 		<Comment/>
@@ -1192,9 +1172,109 @@
 		<PackageName/>
 		<ProjectPath/>
 		<ThinPackage/>
-		<ThinProjectPath>../../jbundle-thin/jbundle-thin-app/jbundle-thin-app-program</ThinProjectPath>
+		<ThinProjectPath>../../thin/app/program</ThinProjectPath>
 		<ResourcePackage/>
-		<ResProjectPath>../../jbundle-res/jbundle-res-app/jbundle-res-app-program</ResProjectPath>
+		<ResProjectPath>../../res/app/program</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777307">
+		<LastChanged>2011-03-10T05:41:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>util</Name>
+		<ParentFolderID>16,777,257</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>jbundle utilities</Description>
+		<SystemClasses/>
+		<PackageName>.util</PackageName>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777308">
+		<LastChanged>2011-03-10T05:28:21</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>misc</Name>
+		<ParentFolderID>16,777,257</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description/>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777309">
+		<LastChanged>2011-03-10T10:03:43</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>app</Name>
+		<ParentFolderID>16,777,257</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>General applications</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777310">
+		<LastChanged>2011-03-13T11:29:42</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>obsolete</Name>
+		<ParentFolderID>16,777,278</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Obsolete code</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777311">
+		<LastChanged>2011-03-13T11:38:41</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jbundle obsolete</Name>
+		<ParentFolderID>16,777,310</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>jbundle obsolete code</Description>
+		<SystemClasses/>
+		<PackageName>org.jbundle</PackageName>
+		<ProjectPath>jbundle</ProjectPath>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>

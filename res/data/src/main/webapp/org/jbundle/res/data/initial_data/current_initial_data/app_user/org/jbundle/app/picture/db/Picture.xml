@@ -9582,8 +9582,8 @@
 		<Rotate/>
 		<Status>2</Status>
 		<ShortDesc/>
-		<PictureProperties><![CDATA[Hassan's parent were very nice.
-His brother Hoshim kept saying "Hi Dennis to me... I guess I looked like someone he knew.]]></PictureProperties>
+		<PictureProperties>Hassan's parent were very nice.
+His brother Hoshim kept saying "Hi Dennis to me... I guess I looked like someone he knew.</PictureProperties>
 	</Picture>
 	<Picture ID="1416">
 		<LastChanged>2008-06-19T03:27:02</LastChanged>
@@ -9628,9 +9628,9 @@ His brother Hoshim kept saying "Hi Dennis to me... I guess I looked like someone
 		<Rotate/>
 		<Status>2</Status>
 		<ShortDesc/>
-		<PictureProperties><![CDATA[The first flight was over 10 hours.
+		<PictureProperties>The first flight was over 10 hours.
 That's a long time to be sitting in the same place!
-Our flight from Frankfurt to Paris was only 45 minutes.]]></PictureProperties>
+Our flight from Frankfurt to Paris was only 45 minutes.</PictureProperties>
 	</Picture>
 	<Picture ID="1419">
 		<LastChanged>2008-06-19T03:27:02</LastChanged>
@@ -9645,9 +9645,9 @@ Our flight from Frankfurt to Paris was only 45 minutes.]]></PictureProperties>
 		<Rotate>90</Rotate>
 		<Status>2</Status>
 		<ShortDesc/>
-		<PictureProperties><![CDATA[This is the view from our room
+		<PictureProperties>This is the view from our room
 (we paid an extra $4.00 to get an Eiffel Tower View).
-We were exhausted!]]></PictureProperties>
+We were exhausted!</PictureProperties>
 	</Picture>
 	<Picture ID="1420">
 		<LastChanged>2008-06-19T03:27:02</LastChanged>
@@ -11965,8 +11965,8 @@ We were exhausted!]]></PictureProperties>
 		<Name>WhyDoesSheLookHappy</Name>
 		<ParentFolderID>1,566</ParentFolderID>
 		<Sequence>140</Sequence>
-		<Comment><![CDATA[Annie's eyes lit up when she realized the Medieval Town on the hil
-was filled with shops!]]></Comment>
+		<Comment>Annie's eyes lit up when she realized the Medieval Town on the hil
+was filled with shops!</Comment>
 		<Code>2000/day08/WhyDoesSheLookHappy</Code>
 		<Type>1</Type>
 		<Path/>
@@ -99786,7 +99786,7 @@ was filled with shops!]]></Comment>
 		<PictureProperties/>
 	</Picture>
 	<Picture ID="13306">
-		<LastChanged>2008-10-15T06:42:53</LastChanged>
+		<LastChanged>2008-10-26T08:56:09</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Vicki and Mike</Name>
 		<ParentFolderID>13,294</ParentFolderID>

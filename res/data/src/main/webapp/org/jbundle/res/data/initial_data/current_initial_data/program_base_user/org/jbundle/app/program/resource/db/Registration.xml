@@ -1657,7 +1657,7 @@
 		<Language/>
 		<Locale/>
 		<KeyValue>termsz</KeyValue>
-		<ObjectValue><![CDATA[Terms of Service  Welcome to the Tourgeek.com (the "Service"),
+		<ObjectValue>Terms of Service  Welcome to the Tourgeek.com (the "Service"),
 the web application of Don Corley (the "Proprietor"). Your use of
 the Service is subject to these Terms of Service ("TOS"). The
 Proprietor reserves the right to update and change the TOS from
@@ -1823,7 +1823,7 @@ intention, and the remaining provisions of this Agreement will remain in full fo
 You may not resell, assign, or transfer any of Your rights hereunder. Any such attempt may
 result in termination of this Agreement, without liability to the Proprietor Notwithstanding the
 foregoing, the Proprietor may assign this Agreement at any time without notice. The section
-titles in the TOS are for convenience only and have no legal or contractual effect.]]></ObjectValue>
+titles in the TOS are for convenience only and have no legal or contractual effect.</ObjectValue>
 	</Registration>
 	<Registration ID="397">
 		<LastChanged>2007-05-25T22:05:00</LastChanged>
@@ -1843,8 +1843,8 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlTableEndDefault</KeyValue>
-		<ObjectValue><![CDATA[</tr>
-</table>]]></ObjectValue>
+		<ObjectValue>&lt;/tr&gt;
+&lt;/table&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="458">
 		<LastChanged>2007-05-22T05:36:00</LastChanged>
@@ -1854,8 +1854,8 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlTableStartDefault</KeyValue>
-		<ObjectValue><![CDATA[<table border="0" width="100%" cellspacing="10">
-<tr>]]></ObjectValue>
+		<ObjectValue>&lt;table border="0" width="100%" cellspacing="10"&gt;
+&lt;tr&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="459">
 		<LastChanged>2007-06-01T04:36:00</LastChanged>
@@ -1865,13 +1865,13 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlCellDefault</KeyValue>
-		<ObjectValue><![CDATA[<td align="center" valign="top">
-    <a href="<link/>">
-        <img src="<icon/>" alt="<menutitle/>" width="24" height="24" />
-        <br/>
-        <menutitle/>
-    </a>
-</td>]]></ObjectValue>
+		<ObjectValue>&lt;td align="center" valign="top"&gt;
+    &lt;a href="&lt;link/&gt;"&gt;
+        &lt;img src="&lt;icon/&gt;" alt="&lt;menutitle/&gt;" width="24" height="24" /&gt;
+        &lt;br/&gt;
+        &lt;menutitle/&gt;
+    &lt;/a&gt;
+&lt;/td&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="460">
 		<LastChanged>2008-10-29T08:44:08</LastChanged>
@@ -1881,16 +1881,16 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlAppMenu</KeyValue>
-		<ObjectValue><![CDATA[<items columns="3">
- <td align="left" valign="top">
-     <hr/>
-     <a href="<link/>"><img src="<icon/>" alt="<menutitle/>" width="24" height="24" border="0"  align="center" /></a>
-     <a href="<link/>"><menutitle/></a>
- <br/>
-<javalogo><img src="images/buttons/Java.gif" width="16" height="16" border="0" />&#160;</javalogo>
-<span style="font-size: 10pt"><menudesc/></span>
- </td>
-</items>]]></ObjectValue>
+		<ObjectValue>&lt;items columns="3"&gt;
+ &lt;td align="left" valign="top"&gt;
+     &lt;hr/&gt;
+     &lt;a href="&lt;link/&gt;"&gt;&lt;img src="&lt;icon/&gt;" alt="&lt;menutitle/&gt;" width="24" height="24" border="0"  align="center" /&gt;&lt;/a&gt;
+     &lt;a href="&lt;link/&gt;"&gt;&lt;menutitle/&gt;&lt;/a&gt;
+ &lt;br/&gt;
+&lt;javalogo&gt;&lt;img src="images/buttons/Java.gif" width="16" height="16" border="0" /&gt;&amp;#160;&lt;/javalogo&gt;
+&lt;span style="font-size: 10pt"&gt;&lt;menudesc/&gt;&lt;/span&gt;
+ &lt;/td&gt;
+&lt;/items&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="461">
 		<LastChanged>2007-05-22T05:32:00</LastChanged>
@@ -1900,10 +1900,10 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlHeaderEndDefault</KeyValue>
-		<ObjectValue><![CDATA[<title><menutitle/></title>
-</head>
-<body>
-<h1><menutitle/></h1>]]></ObjectValue>
+		<ObjectValue>&lt;title&gt;&lt;menutitle/&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;&lt;menutitle/&gt;&lt;/h1&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="462">
 		<LastChanged>2009-09-30T03:41:15</LastChanged>
@@ -1913,19 +1913,19 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlMenubar</KeyValue>
-		<ObjectValue><![CDATA[<table class="top-menu" cellpadding="0" cellspacing="0">
-<tr>
-<td><span class="link"><a href="?menu=Main"><img class="button" src="images/buttons/Home.gif" width="16" height="16" alt="Site home page" /></a><span><a class="button" href="?menu=Main">{Home}</a></span></span>
-<span class="link"><a href="?menu="><img class="button" src="images/buttons/MyHome.gif" width="16" height="16" alt="Your home page" /></a><span><a class="button" href="?menu=">{My Home}</a></span></span></td>
-<td class="menu-title"><span class="spantitle"><menutitle/></span></td>
-<td class="help-button">
-<span class="spantitle"><user/></span>
-<span class="link"><a href="?user=&amp;menu="><img class="button" src="images/buttons/Logout.gif" width="16" height="16" alt="Sign out this user" /></a><a class="button" href="?user=&amp;menu=">{Logout}</a></span>
-<span class="link"><a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"><img class="button" src="images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /></a><a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no">{Settings}</a></span>
-<span class="link"><a href="tourappxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen"><img class="button" src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /></a><a class="button" href="tourappxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen">{Help}</a></span>
-</td>
-</tr><tr style="background-color: black"><td colspan="6" height="1" style="width: 100%;"></td></tr>
-</table>]]></ObjectValue>
+		<ObjectValue>&lt;table class="top-menu" cellpadding="0" cellspacing="0"&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="link"&gt;&lt;a href="?menu=Main"&gt;&lt;img class="button" src="images/buttons/Home.gif" width="16" height="16" alt="Site home page" /&gt;&lt;/a&gt;&lt;span&gt;&lt;a class="button" href="?menu=Main"&gt;{Home}&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="link"&gt;&lt;a href="?menu="&gt;&lt;img class="button" src="images/buttons/MyHome.gif" width="16" height="16" alt="Your home page" /&gt;&lt;/a&gt;&lt;span&gt;&lt;a class="button" href="?menu="&gt;{My Home}&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td class="menu-title"&gt;&lt;span class="spantitle"&gt;&lt;menutitle/&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td class="help-button"&gt;
+&lt;span class="spantitle"&gt;&lt;user/&gt;&lt;/span&gt;
+&lt;span class="link"&gt;&lt;a href="?user=&amp;amp;menu="&gt;&lt;img class="button" src="images/buttons/Logout.gif" width="16" height="16" alt="Sign out this user" /&gt;&lt;/a&gt;&lt;a class="button" href="?user=&amp;amp;menu="&gt;{Logout}&lt;/a&gt;&lt;/span&gt;
+&lt;span class="link"&gt;&lt;a href="?screen=.main.user.screen.UserPreferenceScreen&amp;amp;java=no"&gt;&lt;img class="button" src="images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /&gt;&lt;/a&gt;&lt;a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;amp;java=no"&gt;{Settings}&lt;/a&gt;&lt;/span&gt;
+&lt;span class="link"&gt;&lt;a href="tourappxhtml?help=&amp;amp;screen=.base.screen.model.MenuScreen&amp;amp;menu='&lt;url/&gt;'&amp;amp;class=.base.screen.model.report.HelpScreen"&gt;&lt;img class="button" src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /&gt;&lt;/a&gt;&lt;a class="button" href="tourappxhtml?help=&amp;amp;screen=.base.screen.model.MenuScreen&amp;amp;menu='&lt;url/&gt;'&amp;amp;class=.base.screen.model.report.HelpScreen"&gt;{Help}&lt;/a&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;&lt;tr style="background-color: black"&gt;&lt;td colspan="6" height="1" style="width: 100%;"&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="463">
 		<LastChanged>2009-03-15T08:27:24</LastChanged>
@@ -1935,12 +1935,12 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlNavMenuIconsOnly</KeyValue>
-		<ObjectValue><![CDATA[<a href="?menu=Home"><img src="images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/></a><br/>
-<a href="?menu="><img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/></a><br/>
-<a href="?screen=.main.user.screen.UserPreferenceScreen&java=no"><img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/></a><br/>
-<a href="?screen=.main.user.screen.UserLoginScreen&java=no"><img src="images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/></a><br/>
-<a href="?user=&amp;menu="><img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/></a><br/>
-<a href="?help=&class=.base.screen.model.report.HelpScreen"><img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/></a><br/>]]></ObjectValue>
+		<ObjectValue>&lt;a href="?menu=Home"&gt;&lt;img src="images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/&gt;&lt;/a&gt;&lt;br/&gt;
+&lt;a href="?menu="&gt;&lt;img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/&gt;&lt;/a&gt;&lt;br/&gt;
+&lt;a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"&gt;&lt;img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/&gt;&lt;/a&gt;&lt;br/&gt;
+&lt;a href="?screen=.main.user.screen.UserLoginScreen&amp;java=no"&gt;&lt;img src="images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/&gt;&lt;/a&gt;&lt;br/&gt;
+&lt;a href="?user=&amp;amp;menu="&gt;&lt;img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/&gt;&lt;/a&gt;&lt;br/&gt;
+&lt;a href="?help=&amp;class=.base.screen.model.report.HelpScreen"&gt;&lt;img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/&gt;&lt;/a&gt;&lt;br/&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="464">
 		<LastChanged>2009-02-15T01:37:27</LastChanged>
@@ -1950,37 +1950,37 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlHelp</KeyValue>
-		<ObjectValue><![CDATA[<table border="0" cellpadding="5" width="100%">
-<tr>
-<td align="center" colspan="2"><font size="+2" style="bold"><menutitle/></font></td>
-</tr>
-<tr>
-<td valign="top" align="right"><font style="bold" size="+1">Description:</font></td>
-<td valign="top" align="left" width="100%"><i><menudesc/></i></td>
-</tr>
-<tr>
-<td valign="top" align="right"><font style="bold" size="+1">Operation:</font></td>
-<td valign="top" align="left" width="100%"><help/></td>
-</tr>
-<optional field="SeeAlso">
-<tr>
-<td valign="top" align="right"><font style="bold" size="+1">See Also:</font></td>
-<td valign="top" align="left" width="100%">
-<seealso>
-<a href="<link/>&help="><menutitle/></a><br/>
-</seealso></td>
-</tr>
-</optional>
-<optional field="TechnicalInfo">
-<tr>
-<td valign="top" align="right"><font style="bold" size="+1">Technical:</font></td>
-<td valign="top" align="left" width="100%"><technical/><br>
-<a href="/html/help/programmer/app/com/tourapp/<PackageDir/>/<field name=ClassName/>.html">JavaDoc</a><br>
-<a href="/source/com/tourapp/<PackageDir/>/<field name=ClassName/>.java">Java Code</a><br>
-<techinfo/></td>
-</tr>
-</optional>
-</table>]]></ObjectValue>
+		<ObjectValue>&lt;table border="0" cellpadding="5" width="100%"&gt;
+&lt;tr&gt;
+&lt;td align="center" colspan="2"&gt;&lt;font size="+2" style="bold"&gt;&lt;menutitle/&gt;&lt;/font&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td valign="top" align="right"&gt;&lt;font style="bold" size="+1"&gt;Description:&lt;/font&gt;&lt;/td&gt;
+&lt;td valign="top" align="left" width="100%"&gt;&lt;i&gt;&lt;menudesc/&gt;&lt;/i&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td valign="top" align="right"&gt;&lt;font style="bold" size="+1"&gt;Operation:&lt;/font&gt;&lt;/td&gt;
+&lt;td valign="top" align="left" width="100%"&gt;&lt;help/&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;optional field="SeeAlso"&gt;
+&lt;tr&gt;
+&lt;td valign="top" align="right"&gt;&lt;font style="bold" size="+1"&gt;See Also:&lt;/font&gt;&lt;/td&gt;
+&lt;td valign="top" align="left" width="100%"&gt;
+&lt;seealso&gt;
+&lt;a href="&lt;link/&gt;&amp;help="&gt;&lt;menutitle/&gt;&lt;/a&gt;&lt;br/&gt;
+&lt;/seealso&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/optional&gt;
+&lt;optional field="TechnicalInfo"&gt;
+&lt;tr&gt;
+&lt;td valign="top" align="right"&gt;&lt;font style="bold" size="+1"&gt;Technical:&lt;/font&gt;&lt;/td&gt;
+&lt;td valign="top" align="left" width="100%"&gt;&lt;technical/&gt;&lt;br&gt;
+&lt;a href="/html/help/programmer/app/com/tourapp/&lt;PackageDir/&gt;/&lt;field name=ClassName/&gt;.html"&gt;JavaDoc&lt;/a&gt;&lt;br&gt;
+&lt;a href="/source/com/tourapp/&lt;PackageDir/&gt;/&lt;field name=ClassName/&gt;.java"&gt;Java Code&lt;/a&gt;&lt;br&gt;
+&lt;techinfo/&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/optional&gt;
+&lt;/table&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="465">
 		<LastChanged>2009-02-15T02:52:55</LastChanged>
@@ -1990,19 +1990,19 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlHelpMenubar</KeyValue>
-		<ObjectValue><![CDATA[<table bgcolor="#b0b0e0" width="100%" border="0" cellspacing="0" cellpadding="0">
- <tr>
- <td> <a href="?menu="><img src="images/nav/Home.gif" alt="Home" border="0" width="75" height="21" /></a></td>
- <td> <a href="?screen=<screen/>&record=<record/>&tech=&help="><img src="images/nav/Tech.gif" alt="Programmer's technical Information" border="0" width="75" height="21" /></a></td>
- <td> <a href="?screen=<screen/>&record=<record/>"><img src="images/nav/Run.gif" alt="Run this program" border="0" width="75" height="21" /></a></td>
- <td> <a href="?record=.main.Message&command=New&screenname=<screen/>&recordname=<record/>"><img src="images/nav/Bugs.gif" alt="Report a bug in this program" border="0" width="75" height="21" /></a></td>
- <td width="100%" align="center">     <font face="Arial, Helvetica, SanSerif" color="white"><strong>Help System</strong></font></td>
- <td align="right"> <a href="?help="><img src="images/nav/Help.gif" alt="Main Help Menu" border="0" width="75" height="21" /></a></td>
- </tr>
- <tr>
- <td bgcolor="black" background="" width="100%" height="1" colspan="5"><img src="images/graphics/1ptrans.gif" width="1" height="1" alt="" border="0" /></td>
- </tr>
-</table>]]></ObjectValue>
+		<ObjectValue>&lt;table bgcolor="#b0b0e0" width="100%" border="0" cellspacing="0" cellpadding="0"&gt;
+ &lt;tr&gt;
+ &lt;td&gt; &lt;a href="?menu="&gt;&lt;img src="images/nav/Home.gif" alt="Home" border="0" width="75" height="21" /&gt;&lt;/a&gt;&lt;/td&gt;
+ &lt;td&gt; &lt;a href="?screen=&lt;screen/&gt;&amp;record=&lt;record/&gt;&amp;tech=&amp;help="&gt;&lt;img src="images/nav/Tech.gif" alt="Programmer's technical Information" border="0" width="75" height="21" /&gt;&lt;/a&gt;&lt;/td&gt;
+ &lt;td&gt; &lt;a href="?screen=&lt;screen/&gt;&amp;record=&lt;record/&gt;"&gt;&lt;img src="images/nav/Run.gif" alt="Run this program" border="0" width="75" height="21" /&gt;&lt;/a&gt;&lt;/td&gt;
+ &lt;td&gt; &lt;a href="?record=.main.Message&amp;command=New&amp;screenname=&lt;screen/&gt;&amp;recordname=&lt;record/&gt;"&gt;&lt;img src="images/nav/Bugs.gif" alt="Report a bug in this program" border="0" width="75" height="21" /&gt;&lt;/a&gt;&lt;/td&gt;
+ &lt;td width="100%" align="center"&gt;     &lt;font face="Arial, Helvetica, SanSerif" color="white"&gt;&lt;strong&gt;Help System&lt;/strong&gt;&lt;/font&gt;&lt;/td&gt;
+ &lt;td align="right"&gt; &lt;a href="?help="&gt;&lt;img src="images/nav/Help.gif" alt="Main Help Menu" border="0" width="75" height="21" /&gt;&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td bgcolor="black" background="" width="100%" height="1" colspan="5"&gt;&lt;img src="images/graphics/1ptrans.gif" width="1" height="1" alt="" border="0" /&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+&lt;/table&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="466">
 		<LastChanged>2007-06-01T04:41:00</LastChanged>
@@ -2012,37 +2012,37 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlHelpDefault</KeyValue>
-		<ObjectValue><![CDATA[<table width="100%" border="0" cellpadding="5">
-<tr>
-<td colspan="2"><font size="+2" style="bold"><center>Basic Help Index</center></font></td>
-</tr><tr>
-<td align=center><a href="?help=Screen">Data Entry Forms</A></TD>
-<td align=center><a href="?help=GridScreen">Data Display Tables</A></TD>
-</tr><tr>
-<td align=center><a href="?help=ToolScreen">Toolbar Button Functions</A></TD>
-<td align=center><a href="?help=MenuScreen">Using Menus</A></P>
-</tr>
-</table>
+		<ObjectValue>&lt;table width="100%" border="0" cellpadding="5"&gt;
+&lt;tr&gt;
+&lt;td colspan="2"&gt;&lt;font size="+2" style="bold"&gt;&lt;center&gt;Basic Help Index&lt;/center&gt;&lt;/font&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;
+&lt;td align=center&gt;&lt;a href="?help=Screen"&gt;Data Entry Forms&lt;/A&gt;&lt;/TD&gt;
+&lt;td align=center&gt;&lt;a href="?help=GridScreen"&gt;Data Display Tables&lt;/A&gt;&lt;/TD&gt;
+&lt;/tr&gt;&lt;tr&gt;
+&lt;td align=center&gt;&lt;a href="?help=ToolScreen"&gt;Toolbar Button Functions&lt;/A&gt;&lt;/TD&gt;
+&lt;td align=center&gt;&lt;a href="?help=MenuScreen"&gt;Using Menus&lt;/A&gt;&lt;/P&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
 
-<hr/>
+&lt;hr/&gt;
 
-<table width="100%" border="0" cellpadding="5">
-<tr>
-<td colspan="3"><font size="+2" style="bold"><center>Application Systems</center></font></td>
-</tr><tr>
-<td><a href="?menu=assetdr&help=">Asset Debt System</a></td>
-<td><a href="?menu=agency&help=">Agency Maintenance System</a></td>
-<td><a href="?menu=acctpay&help=">Accounts Payable System</a></td>
-</tr><tr>
-<td><a href="?menu=acctrec&help=">Accounts Receivable System</a></td>
-<td><a href="?menu=booking&help=">Booking System</a></td>
-<td><a href="?menu=payroll&help=">Payroll System</a></td>
-</tr><tr>
-<td><a href="?menu=genled&help=">General Ledger System</a></td>
-<td><a href="?menu=ticket&help=">Ticketing System</a></td>
-<td><a href="?menu=market&help=">Marketing System</a></td>
-</tr>
-</table>]]></ObjectValue>
+&lt;table width="100%" border="0" cellpadding="5"&gt;
+&lt;tr&gt;
+&lt;td colspan="3"&gt;&lt;font size="+2" style="bold"&gt;&lt;center&gt;Application Systems&lt;/center&gt;&lt;/font&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;
+&lt;td&gt;&lt;a href="?menu=assetdr&amp;help="&gt;Asset Debt System&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="?menu=agency&amp;help="&gt;Agency Maintenance System&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="?menu=acctpay&amp;help="&gt;Accounts Payable System&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;
+&lt;td&gt;&lt;a href="?menu=acctrec&amp;help="&gt;Accounts Receivable System&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="?menu=booking&amp;help="&gt;Booking System&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="?menu=payroll&amp;help="&gt;Payroll System&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;
+&lt;td&gt;&lt;a href="?menu=genled&amp;help="&gt;General Ledger System&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="?menu=ticket&amp;help="&gt;Ticketing System&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="?menu=market&amp;help="&gt;Marketing System&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="467">
 		<LastChanged>2010-01-29T02:57:14</LastChanged>
@@ -2052,16 +2052,16 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlHelpMenu</KeyValue>
-		<ObjectValue><![CDATA[<center><h2><menutitle/></h2></center>
-<h3>Description:</h3>
-<p><menudesc/></p>
-<h3>Menu items:</h3>
-<items columns="1">
-<td><a href=<link/>><img src="<icon/>" width="24" height="24" alt="Run <menutitle/>" /></a></td>
-<td><a href="<link/>&help="><img src="images/icons/Help.gif" width="24" height="24" alt="Help for <menutitle/>" /></a></td>
-<td><a href="<link/>&help=">
-<menutitle/></a></td><td><menudesc/></td>
-</items>]]></ObjectValue>
+		<ObjectValue>&lt;center&gt;&lt;h2&gt;&lt;menutitle/&gt;&lt;/h2&gt;&lt;/center&gt;
+&lt;h3&gt;Description:&lt;/h3&gt;
+&lt;p&gt;&lt;menudesc/&gt;&lt;/p&gt;
+&lt;h3&gt;Menu items:&lt;/h3&gt;
+&lt;items columns="1"&gt;
+&lt;td&gt;&lt;a href=&lt;link/&gt;&gt;&lt;img src="&lt;icon/&gt;" width="24" height="24" alt="Run &lt;menutitle/&gt;" /&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="&lt;link/&gt;&amp;help="&gt;&lt;img src="images/icons/Help.gif" width="24" height="24" alt="Help for &lt;menutitle/&gt;" /&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="&lt;link/&gt;&amp;help="&gt;
+&lt;menutitle/&gt;&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;menudesc/&gt;&lt;/td&gt;
+&lt;/items&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="468">
 		<LastChanged>2007-06-01T04:36:00</LastChanged>
@@ -2071,11 +2071,11 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlBanner</KeyValue>
-		<ObjectValue><![CDATA[<table bgcolor="#B0B0E0" width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td><a href="/"><img src="images/banners/468x60.jpg" width="468" height="60" border="0" /></a></td>
-</tr>
-</table>]]></ObjectValue>
+		<ObjectValue>&lt;table bgcolor="#B0B0E0" width="100%" border="0" cellspacing="0" cellpadding="0"&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href="/"&gt;&lt;img src="images/banners/468x60.jpg" width="468" height="60" border="0" /&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="469">
 		<LastChanged>2007-07-15T02:17:00</LastChanged>
@@ -2085,14 +2085,14 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlNavStart</KeyValue>
-		<ObjectValue><![CDATA[<th id="navStart" class="navStart" style="background-image: url(images/graphics/NavBack.gif);">
-<!-- Start Nav Menu -->
-<div align="right">
-<a href="?menu=&amp;navmenus=IconsOnly&amp;preferences="><img src="images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /></a><a href="?menu=&amp;navmenus=No&amp;preferences="><img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" /></a>
-</div>
-<strong>Navigation menu</strong>
-<br/>
-<hr/>]]></ObjectValue>
+		<ObjectValue>&lt;th id="navStart" class="navStart" style="background-image: url(images/graphics/NavBack.gif);"&gt;
+&lt;!-- Start Nav Menu --&gt;
+&lt;div align="right"&gt;
+&lt;a href="?menu=&amp;amp;navmenus=IconsOnly&amp;amp;preferences="&gt;&lt;img src="images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /&gt;&lt;/a&gt;&lt;a href="?menu=&amp;amp;navmenus=No&amp;amp;preferences="&gt;&lt;img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" /&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;strong&gt;Navigation menu&lt;/strong&gt;
+&lt;br/&gt;
+&lt;hr/&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="470">
 		<LastChanged>2007-07-14T14:20:00</LastChanged>
@@ -2102,9 +2102,9 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlNavEnd</KeyValue>
-		<ObjectValue><![CDATA[<!-- End Nav menu -->
-</th>
-<th id="navStartShadow" class="navStartShadow" style="background-image: url(images/graphics/NavHShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
+		<ObjectValue>&lt;!-- End Nav menu --&gt;
+&lt;/th&gt;
+&lt;th id="navStartShadow" class="navStartShadow" style="background-image: url(images/graphics/NavHShadow.gif);"&gt;&lt;img src="images/graphics/1ptrans.gif" width="1" height="1" /&gt;&lt;/th&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="471">
 		<LastChanged>2009-03-15T08:26:47</LastChanged>
@@ -2114,12 +2114,12 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlNavMenu</KeyValue>
-		<ObjectValue><![CDATA[<a href="?menu=Home"><img src="images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/>&nbsp;Home</a><br/>
-<a href="?menu="><img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/>&nbsp;My home</a><br/>
-<a href="?screen=.main.user.screen.UserPreferenceScreen&java=no"><img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/>&nbsp;Settings</a><br/>
-<a href="?screen=.main.user.screen.UserLoginScreen&java=no"><img src="images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/>&nbsp;Sign in</a><br/>
-<a href="?user=&amp;menu="><img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/>&nbsp;Sign out</a><br/>
-<a href="?help=&class=.base.screen.model.report.HelpScreen"><img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/>&nbsp;Help</a><br/>]]></ObjectValue>
+		<ObjectValue>&lt;a href="?menu=Home"&gt;&lt;img src="images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/&gt;&amp;nbsp;Home&lt;/a&gt;&lt;br/&gt;
+&lt;a href="?menu="&gt;&lt;img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/&gt;&amp;nbsp;My home&lt;/a&gt;&lt;br/&gt;
+&lt;a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"&gt;&lt;img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/&gt;&amp;nbsp;Settings&lt;/a&gt;&lt;br/&gt;
+&lt;a href="?screen=.main.user.screen.UserLoginScreen&amp;java=no"&gt;&lt;img src="images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/&gt;&amp;nbsp;Sign in&lt;/a&gt;&lt;br/&gt;
+&lt;a href="?user=&amp;amp;menu="&gt;&lt;img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/&gt;&amp;nbsp;Sign out&lt;/a&gt;&lt;br/&gt;
+&lt;a href="?help=&amp;class=.base.screen.model.report.HelpScreen"&gt;&lt;img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/&gt;&amp;nbsp;Help&lt;/a&gt;&lt;br/&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="472">
 		<LastChanged>2007-07-15T03:42:00</LastChanged>
@@ -2129,11 +2129,11 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlNavIconsOnlyStart</KeyValue>
-		<ObjectValue><![CDATA[<th id="navStart" class="navIconsOnlyStart" style="background-image: url(images/graphics/NavBack.gif);">
- <!-- Start Nav Menu -->
- <div align="right">
-<a href="?menu=&amp;navmenus=&amp;preferences="><img src="images/buttons/Expand.gif" alt="Change the menu pane to full descriptions" border="0" width="16" height="16" /></a><a href="?menu=&amp;navmenus=No&amp;preferences="><img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" /></a></div>
- <hr/>]]></ObjectValue>
+		<ObjectValue>&lt;th id="navStart" class="navIconsOnlyStart" style="background-image: url(images/graphics/NavBack.gif);"&gt;
+ &lt;!-- Start Nav Menu --&gt;
+ &lt;div align="right"&gt;
+&lt;a href="?menu=&amp;amp;navmenus=&amp;amp;preferences="&gt;&lt;img src="images/buttons/Expand.gif" alt="Change the menu pane to full descriptions" border="0" width="16" height="16" /&gt;&lt;/a&gt;&lt;a href="?menu=&amp;amp;navmenus=No&amp;amp;preferences="&gt;&lt;img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" /&gt;&lt;/a&gt;&lt;/div&gt;
+ &lt;hr/&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="473">
 		<LastChanged>2007-07-14T14:50:00</LastChanged>
@@ -2143,10 +2143,10 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlNavAfterContent</KeyValue>
-		<ObjectValue><![CDATA[</tr>
-<tr id="navAfterContent" class="navAfterContent">
-<th id="navStartVShadow" class="navStart" style="background-image: url(images/graphics/NavVShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>
-<th id="navStartSECorner" class="navStartShadow" style="background-image: url(images/graphics/NavSECorner.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
+		<ObjectValue>&lt;/tr&gt;
+&lt;tr id="navAfterContent" class="navAfterContent"&gt;
+&lt;th id="navStartVShadow" class="navStart" style="background-image: url(images/graphics/NavVShadow.gif);"&gt;&lt;img src="images/graphics/1ptrans.gif" width="1" height="1" /&gt;&lt;/th&gt;
+&lt;th id="navStartSECorner" class="navStartShadow" style="background-image: url(images/graphics/NavSECorner.gif);"&gt;&lt;img src="images/graphics/1ptrans.gif" width="1" height="1" /&gt;&lt;/th&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="474">
 		<LastChanged>2008-10-29T08:38:26</LastChanged>
@@ -2156,63 +2156,63 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlLogo</KeyValue>
-		<ObjectValue><![CDATA[<table cellpadding="0" cellspacing="0" class="top-menu">
-<tr>
-<td>
-<a href="?menu=Main">
-<img src="{logopath}" width="70" height="60" border="0" />
-</a>
-</td>
-<td align="center" valign="bottom">
-<a href="?menu=Main">
-<img src="images/com/name.gif" border="0" /><br/>
-<span style="color: white; font-family: helvetica, arial, san-serif; font-weight: normal">&#160;&#160;{mission}</span></a></td>
-<td width="100%">&#160;</td>
-<td valign="top">
-<form action="?menu=&amp;preferences=" method="post">
-<table border="0" cellspacing="0" cellpadding="1">
- <tr>
-  <td align="right" valign="baseline">
-   <input type="hidden" name="menu" value="" /><span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif">&#160;{Email}:&#160;</span>
-  </td>
-  <td align="left" valign="baseline" colspan="3"><input type="text" size="20" name="user" value="<user/>" /></td>
-  <td align="right" valign="baseline">
-   <input type="hidden" name="menu" value="" /><span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif">&#160;{Password}:&#160;</span>
-  </td>
-  <td align="left" valign="baseline" colspan="2"><input type="password" size="20" name="password" value="" /></td>
- </tr>
- <tr>
- <td align="right" valign="baseline">
-   <span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif">&#160;Language:&#160;</span>
-  </td>
-  <td align="left" valign="baseline"><select
-   name="language" onChange="submit();">
-         <option selected="true" value="<language/>">(default)</option>
-         <option value="en">English</option>
-         <option value="es">Español</option>
-      </select>
-   </td>
-   <td align="left" valign="baseline">
-   <a href="?menu=&amp;language=en&amp;preferences="><img src="images/flags/english.gif" width="16" height="16" alt="{English}" border="0" /></a>
-   </td>
-   <td align="left" width="50%" valign="baseline">
-   <a href="?menu=&amp;language=es&amp;preferences="><img src="images/flags/espanol.gif" width="16" height="16" alt="{Espanol}" border="0" /></a>
-   <input type="hidden" name="preferences" value="" />
-  </td>
-  <td align="right" valign="baseline">
-   <span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif">&#160;{Save}:&#160;</span>
-  </td>
-  <td align="left" valign="baseline"><input type="checkbox" name="saveuser" value="Yes" checked="true" /></td>
-  <td align="right"><input type="submit" value="{Login}" /></td>
- </tr>
- </table>
-</form>
-</td>
-  <td valign="top">
-   <a href="?menu=&amp;logos=No&amp;preferences="><img src="images/buttons/Close.gif" alt="Close the header pane" border="0" width="16" height="16" /></a>
-  </td>
-</tr>
-</table>]]></ObjectValue>
+		<ObjectValue>&lt;table cellpadding="0" cellspacing="0" class="top-menu"&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;a href="?menu=Main"&gt;
+&lt;img src="{logopath}" width="70" height="60" border="0" /&gt;
+&lt;/a&gt;
+&lt;/td&gt;
+&lt;td align="center" valign="bottom"&gt;
+&lt;a href="?menu=Main"&gt;
+&lt;img src="images/com/name.gif" border="0" /&gt;&lt;br/&gt;
+&lt;span style="color: white; font-family: helvetica, arial, san-serif; font-weight: normal"&gt;&amp;#160;&amp;#160;{mission}&lt;/span&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td width="100%"&gt;&amp;#160;&lt;/td&gt;
+&lt;td valign="top"&gt;
+&lt;form action="?menu=&amp;amp;preferences=" method="post"&gt;
+&lt;table border="0" cellspacing="0" cellpadding="1"&gt;
+ &lt;tr&gt;
+  &lt;td align="right" valign="baseline"&gt;
+   &lt;input type="hidden" name="menu" value="" /&gt;&lt;span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif"&gt;&amp;#160;{Email}:&amp;#160;&lt;/span&gt;
+  &lt;/td&gt;
+  &lt;td align="left" valign="baseline" colspan="3"&gt;&lt;input type="text" size="20" name="user" value="&lt;user/&gt;" /&gt;&lt;/td&gt;
+  &lt;td align="right" valign="baseline"&gt;
+   &lt;input type="hidden" name="menu" value="" /&gt;&lt;span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif"&gt;&amp;#160;{Password}:&amp;#160;&lt;/span&gt;
+  &lt;/td&gt;
+  &lt;td align="left" valign="baseline" colspan="2"&gt;&lt;input type="password" size="20" name="password" value="" /&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td align="right" valign="baseline"&gt;
+   &lt;span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif"&gt;&amp;#160;Language:&amp;#160;&lt;/span&gt;
+  &lt;/td&gt;
+  &lt;td align="left" valign="baseline"&gt;&lt;select
+   name="language" onChange="submit();"&gt;
+         &lt;option selected="true" value="&lt;language/&gt;"&gt;(default)&lt;/option&gt;
+         &lt;option value="en"&gt;English&lt;/option&gt;
+         &lt;option value="es"&gt;Español&lt;/option&gt;
+      &lt;/select&gt;
+   &lt;/td&gt;
+   &lt;td align="left" valign="baseline"&gt;
+   &lt;a href="?menu=&amp;amp;language=en&amp;amp;preferences="&gt;&lt;img src="images/flags/english.gif" width="16" height="16" alt="{English}" border="0" /&gt;&lt;/a&gt;
+   &lt;/td&gt;
+   &lt;td align="left" width="50%" valign="baseline"&gt;
+   &lt;a href="?menu=&amp;amp;language=es&amp;amp;preferences="&gt;&lt;img src="images/flags/espanol.gif" width="16" height="16" alt="{Espanol}" border="0" /&gt;&lt;/a&gt;
+   &lt;input type="hidden" name="preferences" value="" /&gt;
+  &lt;/td&gt;
+  &lt;td align="right" valign="baseline"&gt;
+   &lt;span style="font-size: 10pt; color: white; font-family: helvetica, arial, san-serif"&gt;&amp;#160;{Save}:&amp;#160;&lt;/span&gt;
+  &lt;/td&gt;
+  &lt;td align="left" valign="baseline"&gt;&lt;input type="checkbox" name="saveuser" value="Yes" checked="true" /&gt;&lt;/td&gt;
+  &lt;td align="right"&gt;&lt;input type="submit" value="{Login}" /&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/table&gt;
+&lt;/form&gt;
+&lt;/td&gt;
+  &lt;td valign="top"&gt;
+   &lt;a href="?menu=&amp;amp;logos=No&amp;amp;preferences="&gt;&lt;img src="images/buttons/Close.gif" alt="Close the header pane" border="0" width="16" height="16" /&gt;&lt;/a&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="475">
 		<LastChanged>2010-05-07T04:57:22</LastChanged>
@@ -2222,18 +2222,18 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlTrailer</KeyValue>
-		<ObjectValue><![CDATA[<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr valign="center">
-<td align="left" valign="center">
-<a href="http://www.tourgeek.com"><img src="images/com/tourgeek/nameblack.gif" border="0" /></a><br />
-<span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif">© Copyright 2010 <a href="http://www.tourgeek.com">tourgeek<span style="color: red; font-weight: bold">.</span>com</a>. All rights reserved.&#160;&#160;&#160;&#160;</span><br />
-<span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif"><a href="mailto:webmaster@tourgeek.com"><img src="images/buttons/Mail.gif" width="16" height="16" border="0" />&#160;e-mail the webmaster.</a></span>
-<br /><span style="color: red; font-size: 8pt"><b>Note:</b> This a demo site. You can't really book tours here.<br /></span>
-</td>
-<td align="right"></td>
-<td align="right" valign="top"><a href="./?menu=&trailers=No&preferences="><img src="images/buttons/Close.gif" alt="Close the footer pane" border="0" width="16" height="16" /></a></td>
-</tr>
-</table>]]></ObjectValue>
+		<ObjectValue>&lt;table width="100%" border="0" cellspacing="0" cellpadding="0"&gt;
+&lt;tr valign="center"&gt;
+&lt;td align="left" valign="center"&gt;
+&lt;a href="http://www.tourgeek.com"&gt;&lt;img src="images/com/tourgeek/nameblack.gif" border="0" /&gt;&lt;/a&gt;&lt;br /&gt;
+&lt;span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif"&gt;© Copyright 2010 &lt;a href="http://www.tourgeek.com"&gt;tourgeek&lt;span style="color: red; font-weight: bold"&gt;.&lt;/span&gt;com&lt;/a&gt;. All rights reserved.&amp;#160;&amp;#160;&amp;#160;&amp;#160;&lt;/span&gt;&lt;br /&gt;
+&lt;span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif"&gt;&lt;a href="mailto:webmaster@tourgeek.com"&gt;&lt;img src="images/buttons/Mail.gif" width="16" height="16" border="0" /&gt;&amp;#160;e-mail the webmaster.&lt;/a&gt;&lt;/span&gt;
+&lt;br /&gt;&lt;span style="color: red; font-size: 8pt"&gt;&lt;b&gt;Note:&lt;/b&gt; This a demo site. You can't really book tours here.&lt;br /&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right" valign="top"&gt;&lt;a href="./?menu=&amp;trailers=No&amp;preferences="&gt;&lt;img src="images/buttons/Close.gif" alt="Close the footer pane" border="0" width="16" height="16" /&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="476">
 		<LastChanged>2009-03-15T10:10:35</LastChanged>
@@ -2243,16 +2243,16 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlNavMenuDon</KeyValue>
-		<ObjectValue><![CDATA[      <tr valign="top">
-        <td width="15%"  bgcolor="#b0b0e0">
-<div align=right><a href="?menu=&navmenus=Icons+Only&preferences="><img src="images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /></a><a href="?menu=&navmenus=No&preferences="><img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16"></a></div>
-        <strong>Don's personal menu</strong><br><hr>
-        <a href="tourapp?menu="><img src="images/buttons/Home.gif" align="center" alt="Home" border="0" width="16" height="16" />
-                Home</a><br/>
-        <a href="booking/entry"><img src="images/buttons/Mail.gif" align="center" alt="E-Mail" border="0" width="16" height="16" />
-                E-Mail Center</a><br/>
-         </td>
-<td>]]></ObjectValue>
+		<ObjectValue>      &lt;tr valign="top"&gt;
+        &lt;td width="15%"  bgcolor="#b0b0e0"&gt;
+&lt;div align=right&gt;&lt;a href="?menu=&amp;navmenus=Icons+Only&amp;preferences="&gt;&lt;img src="images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /&gt;&lt;/a&gt;&lt;a href="?menu=&amp;navmenus=No&amp;preferences="&gt;&lt;img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16"&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;strong&gt;Don's personal menu&lt;/strong&gt;&lt;br&gt;&lt;hr&gt;
+        &lt;a href="tourapp?menu="&gt;&lt;img src="images/buttons/Home.gif" align="center" alt="Home" border="0" width="16" height="16" /&gt;
+                Home&lt;/a&gt;&lt;br/&gt;
+        &lt;a href="booking/entry"&gt;&lt;img src="images/buttons/Mail.gif" align="center" alt="E-Mail" border="0" width="16" height="16" /&gt;
+                E-Mail Center&lt;/a&gt;&lt;br/&gt;
+         &lt;/td&gt;
+&lt;td&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="477">
 		<LastChanged>2007-05-22T05:30:00</LastChanged>
@@ -2262,8 +2262,8 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlContentEnd</KeyValue>
-		<ObjectValue><![CDATA[<!-- End Content Area -->
-</td>]]></ObjectValue>
+		<ObjectValue>&lt;!-- End Content Area --&gt;
+&lt;/td&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="478">
 		<LastChanged>2007-05-22T05:33:00</LastChanged>
@@ -2273,8 +2273,8 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlContentStart</KeyValue>
-		<ObjectValue><![CDATA[<td valign="top">
-<!-- Start Content Area -->]]></ObjectValue>
+		<ObjectValue>&lt;td valign="top"&gt;
+&lt;!-- Start Content Area --&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="479">
 		<LastChanged>2007-09-23T02:10:00</LastChanged>
@@ -2284,12 +2284,12 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlHeaderEnd</KeyValue>
-		<ObjectValue><![CDATA[<title><menutitle/></title>
-<meta name="Keywords" content="<keywords/>travel, tours, custom tours, air, hotel, sightseeing, transfer, cruise, car rental, airport transfer, flight, travel agent">
-<meta name="description" content="<menudesc/>">
-</head>
-<body marginwidth="0" marginheight="0">
-]]></ObjectValue>
+		<ObjectValue>&lt;title&gt;&lt;menutitle/&gt;&lt;/title&gt;
+&lt;meta name="Keywords" content="&lt;keywords/&gt;travel, tours, custom tours, air, hotel, sightseeing, transfer, cruise, car rental, airport transfer, flight, travel agent"&gt;
+&lt;meta name="description" content="&lt;menudesc/&gt;"&gt;
+&lt;/head&gt;
+&lt;body marginwidth="0" marginheight="0"&gt;
+</ObjectValue>
 	</Registration>
 	<Registration ID="480">
 		<LastChanged>2009-02-15T01:36:59</LastChanged>
@@ -2299,32 +2299,32 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlDefault</KeyValue>
-		<ObjectValue><![CDATA[<hr>
-<form action="tourapp" method="get">
-<pre>
-Record : <input type="text" length="50" name=record value="<record/>" />
-Screen : <input type="text" length="50" name=screen value="<screen/>" />
- Limit : <input type="text" maxlength="7" name=limit value="100" />
-</pre>
-<input type="submit" name="move" value="Submit" />
-</form>
-<hr/>
-<form action="tourapp" method="get">
-<pre>
-Menu : <input type="text" length="50" name="menu" />
-</pre>
-<input type="submit" name="move" value="Submit" />
-</form>
-<hr>
-<form action="tourapp" method="get">
-<input type="hidden" name="applet" value="" />
-<pre>
-Record : <input type="text" length="50" name=record value="<record/>" />
-Screen : <input type="text" length="50" name=screen value="<screen/>" />
-</pre>
-<input type="submit" name="move" value="Submit" />
-</form>
-<hr/>]]></ObjectValue>
+		<ObjectValue>&lt;hr&gt;
+&lt;form action="tourapp" method="get"&gt;
+&lt;pre&gt;
+Record : &lt;input type="text" length="50" name=record value="&lt;record/&gt;" /&gt;
+Screen : &lt;input type="text" length="50" name=screen value="&lt;screen/&gt;" /&gt;
+ Limit : &lt;input type="text" maxlength="7" name=limit value="100" /&gt;
+&lt;/pre&gt;
+&lt;input type="submit" name="move" value="Submit" /&gt;
+&lt;/form&gt;
+&lt;hr/&gt;
+&lt;form action="tourapp" method="get"&gt;
+&lt;pre&gt;
+Menu : &lt;input type="text" length="50" name="menu" /&gt;
+&lt;/pre&gt;
+&lt;input type="submit" name="move" value="Submit" /&gt;
+&lt;/form&gt;
+&lt;hr&gt;
+&lt;form action="tourapp" method="get"&gt;
+&lt;input type="hidden" name="applet" value="" /&gt;
+&lt;pre&gt;
+Record : &lt;input type="text" length="50" name=record value="&lt;record/&gt;" /&gt;
+Screen : &lt;input type="text" length="50" name=screen value="&lt;screen/&gt;" /&gt;
+&lt;/pre&gt;
+&lt;input type="submit" name="move" value="Submit" /&gt;
+&lt;/form&gt;
+&lt;hr/&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="481">
 		<LastChanged>2007-06-01T06:23:00</LastChanged>
@@ -2334,8 +2334,8 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlTableStart</KeyValue>
-		<ObjectValue><![CDATA[<table border="0" width="100%" height="50%" cellspacing="0" cellpadding="5">
-<tr valign="top">]]></ObjectValue>
+		<ObjectValue>&lt;table border="0" width="100%" height="50%" cellspacing="0" cellpadding="5"&gt;
+&lt;tr valign="top"&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="482">
 		<LastChanged>2007-05-22T04:24:00</LastChanged>
@@ -2465,19 +2465,19 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlMenubarAnon</KeyValue>
-		<ObjectValue><![CDATA[<table class="top-menu" cellpadding="0" cellspacing="0">
-<tr>
-<td><span class="link"><a href="?menu=Main"><img class="button" src="images/buttons/Home.gif" width="16" height="16" alt="Site home page" /></a><span><a class="button" href="?menu=Main">{Home}</a></span></span>
-<span class="link"><a href="?menu="><img class="button" src="images/buttons/MyHome.gif" width="16" height="16" alt="Your home page" /></a><span><a class="button" href="?menu=">{My Home}</a></span></span></td>
-<td class="menu-title"><span class="spantitle"><menutitle/></span></td>
-<td class="help-button">
-<span class="spantitle"><user/></span>
-<span class="link"><a href="?screen=.main.user.screen.UserLoginScreen&amp;java=no"><img class="button" src="images/buttons/Login.gif" width="16" height="16" alt="Sign in this user" /></a><a class="button" href="?screen=.main.user.screen.UserLoginScreen&amp;java=no">{Login}</a></span>
-<span class="link"><a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"><img class="button" src="images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /></a><a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no">{Settings}</a></span>
-<span class="link"><a href="tourappxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&class=.base.screen.model.report.HelpScreen"><img class="button" src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /></a><a class="button" href="tourappxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen">{Help}</a></span>
-</td>
-</tr><tr style="background-color: black"><td colspan="6" height="1" style="width: 100%;"></td></tr>
-</table>]]></ObjectValue>
+		<ObjectValue>&lt;table class="top-menu" cellpadding="0" cellspacing="0"&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="link"&gt;&lt;a href="?menu=Main"&gt;&lt;img class="button" src="images/buttons/Home.gif" width="16" height="16" alt="Site home page" /&gt;&lt;/a&gt;&lt;span&gt;&lt;a class="button" href="?menu=Main"&gt;{Home}&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="link"&gt;&lt;a href="?menu="&gt;&lt;img class="button" src="images/buttons/MyHome.gif" width="16" height="16" alt="Your home page" /&gt;&lt;/a&gt;&lt;span&gt;&lt;a class="button" href="?menu="&gt;{My Home}&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td class="menu-title"&gt;&lt;span class="spantitle"&gt;&lt;menutitle/&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td class="help-button"&gt;
+&lt;span class="spantitle"&gt;&lt;user/&gt;&lt;/span&gt;
+&lt;span class="link"&gt;&lt;a href="?screen=.main.user.screen.UserLoginScreen&amp;amp;java=no"&gt;&lt;img class="button" src="images/buttons/Login.gif" width="16" height="16" alt="Sign in this user" /&gt;&lt;/a&gt;&lt;a class="button" href="?screen=.main.user.screen.UserLoginScreen&amp;amp;java=no"&gt;{Login}&lt;/a&gt;&lt;/span&gt;
+&lt;span class="link"&gt;&lt;a href="?screen=.main.user.screen.UserPreferenceScreen&amp;amp;java=no"&gt;&lt;img class="button" src="images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /&gt;&lt;/a&gt;&lt;a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;amp;java=no"&gt;{Settings}&lt;/a&gt;&lt;/span&gt;
+&lt;span class="link"&gt;&lt;a href="tourappxhtml?help=&amp;amp;screen=.base.screen.model.MenuScreen&amp;amp;menu='&lt;url/&gt;'&amp;class=.base.screen.model.report.HelpScreen"&gt;&lt;img class="button" src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /&gt;&lt;/a&gt;&lt;a class="button" href="tourappxhtml?help=&amp;amp;screen=.base.screen.model.MenuScreen&amp;amp;menu='&lt;url/&gt;'&amp;amp;class=.base.screen.model.report.HelpScreen"&gt;{Help}&lt;/a&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;&lt;tr style="background-color: black"&gt;&lt;td colspan="6" height="1" style="width: 100%;"&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="495">
 		<LastChanged>2009-03-15T09:05:24</LastChanged>
@@ -2497,10 +2497,10 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlHeaderStart</KeyValue>
-		<ObjectValue><![CDATA[<html>
-<head>
-<link rel="stylesheet" type="text/css" href="docs/styles/css/style.css" title="basicstyle">
-<link rel="shortcut icon" href="images/com/favicon.ico" type="image/x-icon">]]></ObjectValue>
+		<ObjectValue>&lt;html&gt;
+&lt;head&gt;
+&lt;link rel="stylesheet" type="text/css" href="docs/styles/css/style.css" title="basicstyle"&gt;
+&lt;link rel="shortcut icon" href="images/com/favicon.ico" type="image/x-icon"&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="499">
 		<LastChanged>2007-08-22T12:03:00</LastChanged>
@@ -2510,41 +2510,41 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 		<Language/>
 		<Locale/>
 		<KeyValue>xmlHeader</KeyValue>
-		<ObjectValue><![CDATA[<top-menu>
-   <title>{title}</title>
-   <menu-item>
-       <name>{Home}</name>
-       <description>Home page</description>
-       <link>?menu=Main</link>
-       <image>Home</image>
-   </menu-item>
-   <menu-item>
-       <name>{My home}</name>
-       <description>My home</description>
-       <link>?menu=</link>
-       <image>MyHome</image>
-   </menu-item>
-   <help-item>
-       <menu-item>
-           <name>{loginDesc}</name>
-           <description>{loginDesc}</description>
-           <link>{loginLink}</link>
-           <image>{loginIcon}</image>
-       </menu-item>
-       <menu-item>
-           <name>{Settings}</name>
-           <description>View or change settings</description>
-           <link>?screen=.main.user.screen.UserPreferenceScreen&amp;java=no</link>
-           <image>Settings</image>
-       </menu-item>
-       <menu-item>
-           <name>{Help}</name>
-           <description>Help for the current screen</description>
-           <link>?help=&amp;{url}&amp;class={helpclass}</link>
-           <image>Help</image>
-       </menu-item>
-   </help-item>
-</top-menu>]]></ObjectValue>
+		<ObjectValue>&lt;top-menu&gt;
+   &lt;title&gt;{title}&lt;/title&gt;
+   &lt;menu-item&gt;
+       &lt;name&gt;{Home}&lt;/name&gt;
+       &lt;description&gt;Home page&lt;/description&gt;
+       &lt;link&gt;?menu=Main&lt;/link&gt;
+       &lt;image&gt;Home&lt;/image&gt;
+   &lt;/menu-item&gt;
+   &lt;menu-item&gt;
+       &lt;name&gt;{My home}&lt;/name&gt;
+       &lt;description&gt;My home&lt;/description&gt;
+       &lt;link&gt;?menu=&lt;/link&gt;
+       &lt;image&gt;MyHome&lt;/image&gt;
+   &lt;/menu-item&gt;
+   &lt;help-item&gt;
+       &lt;menu-item&gt;
+           &lt;name&gt;{loginDesc}&lt;/name&gt;
+           &lt;description&gt;{loginDesc}&lt;/description&gt;
+           &lt;link&gt;{loginLink}&lt;/link&gt;
+           &lt;image&gt;{loginIcon}&lt;/image&gt;
+       &lt;/menu-item&gt;
+       &lt;menu-item&gt;
+           &lt;name&gt;{Settings}&lt;/name&gt;
+           &lt;description&gt;View or change settings&lt;/description&gt;
+           &lt;link&gt;?screen=.main.user.screen.UserPreferenceScreen&amp;amp;java=no&lt;/link&gt;
+           &lt;image&gt;Settings&lt;/image&gt;
+       &lt;/menu-item&gt;
+       &lt;menu-item&gt;
+           &lt;name&gt;{Help}&lt;/name&gt;
+           &lt;description&gt;Help for the current screen&lt;/description&gt;
+           &lt;link&gt;?help=&amp;amp;{url}&amp;amp;class={helpclass}&lt;/link&gt;
+           &lt;image&gt;Help&lt;/image&gt;
+       &lt;/menu-item&gt;
+   &lt;/help-item&gt;
+&lt;/top-menu&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="500">
 		<LastChanged>2009-03-15T08:29:15</LastChanged>
@@ -2614,10 +2614,10 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlNavIconsOnlyAfterContent</KeyValue>
-		<ObjectValue><![CDATA[</tr>
-<tr id="navAfterContent" class="navAfterContent">
-<th id="navStartVShadow" class="navIconsOnlyStart" style="background-image: url(images/graphics/NavVShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>
-<th id="navStartSECorner" class="navStartShadow" style="background-image: url(images/graphics/NavSECorner.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
+		<ObjectValue>&lt;/tr&gt;
+&lt;tr id="navAfterContent" class="navAfterContent"&gt;
+&lt;th id="navStartVShadow" class="navIconsOnlyStart" style="background-image: url(images/graphics/NavVShadow.gif);"&gt;&lt;img src="images/graphics/1ptrans.gif" width="1" height="1" /&gt;&lt;/th&gt;
+&lt;th id="navStartSECorner" class="navStartShadow" style="background-image: url(images/graphics/NavSECorner.gif);"&gt;&lt;img src="images/graphics/1ptrans.gif" width="1" height="1" /&gt;&lt;/th&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="508">
 		<LastChanged>2007-07-16T06:13:00</LastChanged>
@@ -2647,46 +2647,46 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 		<Language/>
 		<Locale/>
 		<KeyValue>xmlNavMenu</KeyValue>
-		<ObjectValue><![CDATA[ <navigation-menu>
-   <navigation-item>
-       <name>Home</name>
-       <description>Home</description>
-       <link>?menu=Main</link>
-       <image>Home</image>
-   </navigation-item>
-   <navigation-item>
-       <name>My home</name>
-       <description>My home</description>
-       <link>?menu=</link>
-       <image>MyHome</image>
-   </navigation-item>
-   <navigation-item>
-       <name>Settings</name>
-       <description>View or change settings</description>
-       <link>?screen=.main.user.screen.UserPreferenceScreen&amp;java=no</link>
-     <image>Settings</image>
-   </navigation-item>
-   <navigation-item>
-       <name>Sign in</name>
-       <id>Login</id>
-       <description>Display sign in screen</description>
-       <link>?screen=.main.user.screen.UserLoginScreen&amp;java=no</link>
-       <image>Login</image>
-   </navigation-item>
-   <navigation-item>
-       <name>Sign out</name>
-       <id>Logout</id>
-       <description>Sign out</description>
-       <link>?user=</link>
-       <image>Logoff</image>
-   </navigation-item>
-   <navigation-item>
-       <name>Help</name>
-       <description>Help for the current screen</description>
-       <link>?help=&amp;class=.base.screen.model.report.HelpScreen</link>
-       <image>Help</image>
-   </navigation-item>
-</navigation-menu>]]></ObjectValue>
+		<ObjectValue> &lt;navigation-menu&gt;
+   &lt;navigation-item&gt;
+       &lt;name&gt;Home&lt;/name&gt;
+       &lt;description&gt;Home&lt;/description&gt;
+       &lt;link&gt;?menu=Main&lt;/link&gt;
+       &lt;image&gt;Home&lt;/image&gt;
+   &lt;/navigation-item&gt;
+   &lt;navigation-item&gt;
+       &lt;name&gt;My home&lt;/name&gt;
+       &lt;description&gt;My home&lt;/description&gt;
+       &lt;link&gt;?menu=&lt;/link&gt;
+       &lt;image&gt;MyHome&lt;/image&gt;
+   &lt;/navigation-item&gt;
+   &lt;navigation-item&gt;
+       &lt;name&gt;Settings&lt;/name&gt;
+       &lt;description&gt;View or change settings&lt;/description&gt;
+       &lt;link&gt;?screen=.main.user.screen.UserPreferenceScreen&amp;amp;java=no&lt;/link&gt;
+     &lt;image&gt;Settings&lt;/image&gt;
+   &lt;/navigation-item&gt;
+   &lt;navigation-item&gt;
+       &lt;name&gt;Sign in&lt;/name&gt;
+       &lt;id&gt;Login&lt;/id&gt;
+       &lt;description&gt;Display sign in screen&lt;/description&gt;
+       &lt;link&gt;?screen=.main.user.screen.UserLoginScreen&amp;amp;java=no&lt;/link&gt;
+       &lt;image&gt;Login&lt;/image&gt;
+   &lt;/navigation-item&gt;
+   &lt;navigation-item&gt;
+       &lt;name&gt;Sign out&lt;/name&gt;
+       &lt;id&gt;Logout&lt;/id&gt;
+       &lt;description&gt;Sign out&lt;/description&gt;
+       &lt;link&gt;?user=&lt;/link&gt;
+       &lt;image&gt;Logoff&lt;/image&gt;
+   &lt;/navigation-item&gt;
+   &lt;navigation-item&gt;
+       &lt;name&gt;Help&lt;/name&gt;
+       &lt;description&gt;Help for the current screen&lt;/description&gt;
+       &lt;link&gt;?help=&amp;amp;class=.base.screen.model.report.HelpScreen&lt;/link&gt;
+       &lt;image&gt;Help&lt;/image&gt;
+   &lt;/navigation-item&gt;
+&lt;/navigation-menu&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="512">
 		<LastChanged>2007-11-09T01:01:00</LastChanged>
@@ -2726,7 +2726,7 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 		<Language/>
 		<Locale/>
 		<KeyValue>newterms</KeyValue>
-		<ObjectValue><![CDATA[Google Apps Standard Edition Agreement
+		<ObjectValue>Google Apps Standard Edition Agreement
 
 This Google Apps Standard Edition Agreement (the "Agreement") is entered into by and between Google Inc., a Delaware corporation, with offices at 1600 Amphitheatre Parkway, Mountain View, California 94043 ("Google") and the entity agreeing to the terms herein ("Customer"). This Agreement will be effective as of the date you click the "I Accept" button below (the "Effective Date"). If you are accepting on behalf of your employer or another entity, you represent and warrant that: (i) you have full legal authority to bind your employer or such entity to these terms and conditions; (ii) that you have read and understand this Agreement; and (iii) that you agree, on behalf of the party that you represent, to this Agreement. If you don't have the legal authority to bind, please do not click the "I Accept" button below. This Agreement governs Customer's access to and use of the Service (as defined below).
 
@@ -2795,7 +2795,7 @@ This Google Apps Standard Edition Agreement (the "Agreement") is entered into by
 
 9. Ownership; Restricted Use. Google and its licensors shall own all right, title and interest, including without limitation all Intellectual Property Rights (as defined below) relating to the Service (and any derivative works or enhancements thereof), including but not limited to, all software, technology, information, content, materials, guidelines, and documentation. Customer shall not acquire any right, title, or interest therein, except for the limited use rights expressly set forth in the Agreement. Any rights not expressly granted herein are deemed withheld. "Intellectual Property Rights" means any and all rights existing from time to time under patent law, copyright law, semiconductor chip protection law, moral rights law, trade secret law, trademark law, unfair competition law, publicity rights law, privacy rights law, and any and all other proprietary rights, and any and all applications, renewals, extensions and restorations thereof, now or hereafter in force and effect worldwide. Google does not own third party content used as part of the Service, including the content of communications appearing on the Service. Title, ownership rights, and Intellectual Property Rights in and to the content accessed through the Service are the property of the applicable content owner and may be protected by applicable copyright or other law. Customer agrees not to, or to allow others to: (i) adapt, translate, or modify the Software; (ii) decipher, decompile, disassemble, reverse engineer, or otherwise attempt to discover the source or object code of the Software, except to the extent applicable laws specifically prohibit such restriction; (iii) copy the Software; (iv) use the Service for High Risk Activities as described in Section 13; or (v) sublicense, loan, sell, rent or lease the Service, or any component thereof. Any and all third party binary or source code included in each portion of the Service may be used only in conjunction with such portion of the Service, and such use shall be subject to all the terms and conditions of this Agreement. THE SERVICE OR ANY PORTION THEREOF MAY NOT BE USED, COPIED, TRANSFERRED, OR MODIFIED EXCEPT AS EXPRESSLY PERMITTED BY THIS AGREEMENT.
 
-10. Brand Features. As used in this Agreement, "Brand Features" shall mean the trade names, trademarks, service marks, logos, domain names, and other distinctive brand features of each party, respectively, as secured by such party from time to time. Except as expressly allowed by Google, any Brand Features, copyright, or other proprietary notices, legends, symbols, or labels appearing on or in the Service provided to Customer shall not be removed or altered. Subject to the terms and conditions of this Agreement, Customer grants to Google a limited, nonexclusive and nonsublicensable license during the term of this Agreement to display those Customer Brand Features expressly authorized for use in this Agreement, solely for the purposes expressly set forth herein. Notwithstanding anything to the contrary, Customer may revoke the license gran]]></ObjectValue>
+10. Brand Features. As used in this Agreement, "Brand Features" shall mean the trade names, trademarks, service marks, logos, domain names, and other distinctive brand features of each party, respectively, as secured by such party from time to time. Except as expressly allowed by Google, any Brand Features, copyright, or other proprietary notices, legends, symbols, or labels appearing on or in the Service provided to Customer shall not be removed or altered. Subject to the terms and conditions of this Agreement, Customer grants to Google a limited, nonexclusive and nonsublicensable license during the term of this Agreement to display those Customer Brand Features expressly authorized for use in this Agreement, solely for the purposes expressly set forth herein. Notwithstanding anything to the contrary, Customer may revoke the license gran</ObjectValue>
 	</Registration>
 	<Registration ID="522">
 		<LastChanged>2009-09-25T14:06:48</LastChanged>
@@ -2825,13 +2825,13 @@ This Google Apps Standard Edition Agreement (the "Agreement") is entered into by
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlHeaderEnd</KeyValue>
-		<ObjectValue><![CDATA[<title><menutitle/></title>
-<meta name="Keywords" content="<keywords/>travel, tours, custom tours, air, hotel, sightseeing, transfer, cruise, car rental, airport transfer, flight, travel agent" />
-<meta name="description" content="<menudesc/>" />
-</head>
-<body marginwidth="0" marginheight="0" class="tundra">
-<script type="text/javascript">dojo.back.init();</script>
-]]></ObjectValue>
+		<ObjectValue>&lt;title&gt;&lt;menutitle/&gt;&lt;/title&gt;
+&lt;meta name="Keywords" content="&lt;keywords/&gt;travel, tours, custom tours, air, hotel, sightseeing, transfer, cruise, car rental, airport transfer, flight, travel agent" /&gt;
+&lt;meta name="description" content="&lt;menudesc/&gt;" /&gt;
+&lt;/head&gt;
+&lt;body marginwidth="0" marginheight="0" class="tundra"&gt;
+&lt;script type="text/javascript"&gt;dojo.back.init();&lt;/script&gt;
+</ObjectValue>
 	</Registration>
 	<Registration ID="531">
 		<LastChanged>2009-10-11T05:16:59</LastChanged>
@@ -2841,26 +2841,26 @@ This Google Apps Standard Edition Agreement (the "Agreement") is entered into by
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlHeaderStart</KeyValue>
-		<ObjectValue><![CDATA[<html>
-<head>
-<script type="text/javascript">
+		<ObjectValue>&lt;html&gt;
+&lt;head&gt;
+&lt;script type="text/javascript"&gt;
 djConfig = {
 	isDebug: false,
 	preventBackButtonFix: false
 };
-</script><script djConfig="parseOnLoad: true" src="docs/styles/js/dojo/dojo.js" type="text/javascript"></script>
+&lt;/script&gt;&lt;script djConfig="parseOnLoad: true" src="docs/styles/js/dojo/dojo.js" type="text/javascript"&gt;&lt;/script&gt;
 
-<script type="text/javascript" src="docs/styles/js/tourapp/main.js"></script>
-<script type="text/javascript" src="docs/styles/js/tourapp/java.js"></script>
-<script type="text/javascript" src="docs/styles/js/tourapp/back.js"></script>
+&lt;script type="text/javascript" src="docs/styles/js/tourapp/main.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="docs/styles/js/tourapp/java.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="docs/styles/js/tourapp/back.js"&gt;&lt;/script&gt;
 
-<style type="text/css">
+&lt;style type="text/css"&gt;
         @import "docs/styles/js/dijit/themes/tundra/tundra.css";
-</style>
-<link title="basicstyle" href="docs/styles/css/style.css" type="text/css" rel="stylesheet">
-<link rel="shortcut icon" href="images/com/favicon.ico" type="image/x-icon">
+&lt;/style&gt;
+&lt;link title="basicstyle" href="docs/styles/css/style.css" type="text/css" rel="stylesheet"&gt;
+&lt;link rel="shortcut icon" href="images/com/favicon.ico" type="image/x-icon"&gt;
 
-<script type="text/javascript">
+&lt;script type="text/javascript"&gt;
 dojo.require("dijit.form.Button");
 dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.Textarea");
@@ -2868,8 +2868,8 @@ dojo.require("dijit.form.CheckBox");
 dojo.require("dijit.form.ComboBox");
 dojo.require("dojo.parser");
 dojo.require("dojo.back");
-</script>
-]]></ObjectValue>
+&lt;/script&gt;
+</ObjectValue>
 	</Registration>
 	<Registration ID="532">
 		<LastChanged>2009-09-22T15:28:30</LastChanged>
@@ -2899,35 +2899,35 @@ dojo.require("dojo.back");
 		<Language/>
 		<Locale/>
 		<KeyValue>webStartOld</KeyValue>
-		<ObjectValue><![CDATA[<script src="http://java.com/js/deployJava.js" type="text/javascript"></script>
-<script type="text/javascript">
+		<ObjectValue>&lt;script src="http://java.com/js/deployJava.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
 deployJava.runApplet({{code:"{applet}", 
 codebase:"{codebase}", width:"{width}", height:"{height}", name:"{name}"}},{{
 {other}
 jnlp_href:"{jnlpURL}"}},
 "1.6");
-</script>]]></ObjectValue>
+&lt;/script&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="535">
-		<LastChanged>2010-11-30T11:33:12</LastChanged>
+		<LastChanged>2011-05-01T00:26:35</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>18</ResourceID>
 		<Code>HtmlApplet</Code>
 		<Language/>
 		<Locale/>
 		<KeyValue>thick</KeyValue>
-		<ObjectValue><![CDATA[<script src="http://java.com/js/deployJava.js" type="text/javascript"></script>
-<script type="text/javascript">
+		<ObjectValue>&lt;script src="http://java.com/js/deployJava.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
 var attributes={{code:'{applet}',codebase:'{codebase}',width:'{width}',height:'{height}',name:'{name}'}} ;
 var parameters = {{ {other}
 jnlpextensions:'docs/jnlp/thin,docs/jnlp/thintest,docs/jnlp/thick,docs/jnlp/resource,docs/jnlp/thintour,docs/jnlp/tour,docs/jnlp/thicktest',
-jnlpjars:'lib/jbundle-base-screen-view-swing-${jbundle-version}',
+jnlpjars:'lib/org.jbundle.base.screen.view.swing-${jbundleVersion}',
 background: 'backgrounds/worldmapalpha.gif',
 backgroundcolor: '#eeeeff',
 jnlp_href: '{jnlpURL}'}} ; 
 deployJava.runApplet(attributes, parameters, '1.6'); 
-</script>
-]]></ObjectValue>
+&lt;/script&gt;
+</ObjectValue>
 	</Registration>
 	<Registration ID="536">
 		<LastChanged>2010-11-30T10:15:30</LastChanged>
@@ -2937,33 +2937,33 @@ deployJava.runApplet(attributes, parameters, '1.6');
 		<Language/>
 		<Locale/>
 		<KeyValue>webStart</KeyValue>
-		<ObjectValue><![CDATA[<script src="http://java.com/js/deployJava.js" type="text/javascript"></script>
-<script type="text/javascript">
+		<ObjectValue>&lt;script src="http://java.com/js/deployJava.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
 var attributes={{code:'{applet}',codebase:'{codebase}',width:'{width}',height:'{height}',name:'{name}'}} ;
 var parameters = {{{other}jnlp_href: '{jnlpURL}'}} ; 
 deployJava.runApplet(attributes, parameters, '1.6'); 
-</script>]]></ObjectValue>
+&lt;/script&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="537">
-		<LastChanged>2010-12-01T04:38:18</LastChanged>
+		<LastChanged>2011-05-01T00:28:16</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>18</ResourceID>
 		<Code>HtmlApplet</Code>
 		<Language/>
 		<Locale/>
 		<KeyValue>thin</KeyValue>
-		<ObjectValue><![CDATA[<script src="http://java.com/js/deployJava.js" type="text/javascript"></script>
-<script type="text/javascript">
+		<ObjectValue>&lt;script src="http://java.com/js/deployJava.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
 var attributes={{code:'{applet}',codebase:'{codebase}',width:'{width}',height:'{height}',name:'{name}'}} ;
 var parameters = {{ {other}
 jnlpextensions:'docs/jnlp/thin,docs/jnlp/thintest,docs/jnlp/thintour',
-jnlpjars:'lib/jbundle-thin-base-screen-core-${jbundle-version}',
+jnlpjars:'lib/jbundle.thin.base.screen-${jbundleVersion}',
 background: 'backgrounds/worldmapalpha.gif',
 backgroundcolor: '#eeeeff',
 jnlp_href: '{jnlpURL}'}} ; 
 deployJava.runApplet(attributes, parameters, '1.6'); 
-</script>
-]]></ObjectValue>
+&lt;/script&gt;
+</ObjectValue>
 	</Registration>
 	<Registration ID="538">
 		<LastChanged>2009-09-26T18:19:02</LastChanged>
@@ -2973,132 +2973,132 @@ deployJava.runApplet(attributes, parameters, '1.6');
 		<Language/>
 		<Locale/>
 		<KeyValue>default</KeyValue>
-		<ObjectValue><![CDATA[<?xml version="1.0" encoding="utf-8"?>
-<!-- JNLP File for Tour Application -->
-<jnlp spec="1.0+" codebase="{codebase}">
- <information>
-    <title>{title}</title>
-    <vendor>tourgeek.com</vendor>
-    <homepage href="docs/index.html" />
-    <description kind="one-line">{desc}</description>
-    <description kind="short">
+		<ObjectValue>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;!-- JNLP File for Tour Application --&gt;
+&lt;jnlp spec="1.0+" codebase="{codebase}"&gt;
+ &lt;information&gt;
+    &lt;title&gt;{title}&lt;/title&gt;
+    &lt;vendor&gt;tourgeek.com&lt;/vendor&gt;
+    &lt;homepage href="docs/index.html" /&gt;
+    &lt;description kind="one-line"&gt;{desc}&lt;/description&gt;
+    &lt;description kind="short"&gt;
       {desc}
-    </description>
-    <icon href="{icon}"/>
-    <shortcut online="true">
-      <desktop/>
-      <menu submenu="{desc}"/>
-    </shortcut>
-    <update check="timeout" />
-  </information>
+    &lt;/description&gt;
+    &lt;icon href="{icon}"/&gt;
+    &lt;shortcut online="true"&gt;
+      &lt;desktop/&gt;
+      &lt;menu submenu="{desc}"/&gt;
+    &lt;/shortcut&gt;
+    &lt;update check="timeout" /&gt;
+  &lt;/information&gt;
 
-  <security>
-  </security>
+  &lt;security&gt;
+  &lt;/security&gt;
 
-  <resources>
-    <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
-    <property name="jnlp.packEnabled" value="true"/>
+  &lt;resources&gt;
+    &lt;java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/&gt;
+    &lt;property name="jnlp.packEnabled" value="true"/&gt;
     {jnlpjars}
     {jnlpextensions}
-  </resources>
+  &lt;/resources&gt;
 
   {appStart}
-     main-class="{mainClass}">
+     main-class="{mainClass}"&gt;
      {args}
   {appEnd}
-</jnlp>]]></ObjectValue>
+&lt;/jnlp&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="539">
-		<LastChanged>2010-11-18T12:34:31</LastChanged>
+		<LastChanged>2011-05-01T00:31:47</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>19</ResourceID>
 		<Code>Jnlp</Code>
 		<Language/>
 		<Locale/>
 		<KeyValue>thin</KeyValue>
-		<ObjectValue><![CDATA[<?xml version="1.0" encoding="utf-8"?>
-<!-- JNLP File for Thin Application -->
-<jnlp spec="1.0+" codebase="{codebase}">
- <information>
-    <title>{title}</title>
-    <vendor>tourgeek.com</vendor>
-    <homepage href="docs/index.html" />
-    <description kind="one-line">{desc}</description>
-    <description kind="short">
+		<ObjectValue>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;!-- JNLP File for Thin Application --&gt;
+&lt;jnlp spec="1.0+" codebase="{codebase}"&gt;
+ &lt;information&gt;
+    &lt;title&gt;{title}&lt;/title&gt;
+    &lt;vendor&gt;tourgeek.com&lt;/vendor&gt;
+    &lt;homepage href="docs/index.html" /&gt;
+    &lt;description kind="one-line"&gt;{desc}&lt;/description&gt;
+    &lt;description kind="short"&gt;
       {desc}
-    </description>
-    <icon href="{icon}"/>
-    <shortcut online="true">
-      <desktop/>
-      <menu submenu="{desc}"/>
-    </shortcut>
-    <update check="timeout" />
-  </information>
-  <security>
-  </security>
-  <resources>
-    <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
-    <property name="jnlp.packEnabled" value="true"/>
-    <jar href="lib/jbundle-thin-base-screen-core-${jbundle-version}.jar" part="thinbase" />
-    <package name="org.jbundle.thin.base.screen.ThinApplet" part="thinbase" />
-    <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
-    <extension name="docs/jnlp/thintour" href="docs/jnlp/thintour.jnlp" />
-    <extension name="docs/jnlp/resource" href="docs/jnlp/resource.jnlp" />
-  </resources>
+    &lt;/description&gt;
+    &lt;icon href="{icon}"/&gt;
+    &lt;shortcut online="true"&gt;
+      &lt;desktop/&gt;
+      &lt;menu submenu="{desc}"/&gt;
+    &lt;/shortcut&gt;
+    &lt;update check="timeout" /&gt;
+  &lt;/information&gt;
+  &lt;security&gt;
+  &lt;/security&gt;
+  &lt;resources&gt;
+    &lt;java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/&gt;
+    &lt;property name="jnlp.packEnabled" value="true"/&gt;
+    &lt;jar href="lib/org.jbundle.thin.base.screen-${jbundleVersion}.jar" part="thinbase" /&gt;
+    &lt;package name="org.jbundle.thin.base.screen.ThinApplet" part="thinbase" /&gt;
+    &lt;extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/thintour" href="docs/jnlp/thintour.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/resource" href="docs/jnlp/resource.jnlp" /&gt;
+  &lt;/resources&gt;
   {appStart}
-     main-class="{mainClass}" name="{name}">
+     main-class="{mainClass}" name="{name}"&gt;
      {args}
-<param name="backgroundcolor" value="#eeeeff" />
-<param name="background" value="backgrounds/worldmapalpha.gif" />
+&lt;param name="backgroundcolor" value="#eeeeff" /&gt;
+&lt;param name="background" value="backgrounds/worldmapalpha.gif" /&gt;
   {appEnd}
-</jnlp>]]></ObjectValue>
+&lt;/jnlp&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="540">
-		<LastChanged>2010-06-10T01:28:37</LastChanged>
+		<LastChanged>2011-05-01T00:31:13</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>19</ResourceID>
 		<Code>Jnlp</Code>
 		<Language/>
 		<Locale/>
 		<KeyValue>thick</KeyValue>
-		<ObjectValue><![CDATA[<?xml version="1.0" encoding="utf-8"?>
-<!-- JNLP File for Thick Application -->
-<jnlp spec="1.0+" codebase="{codebase}">
- <information>
-    <title>{title}</title>
-    <vendor>tourgeek.com</vendor>
-    <homepage href="docs/index.html" />
-    <description kind="one-line">{desc}</description>
-    <description kind="short">
+		<ObjectValue>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;!-- JNLP File for Thick Application --&gt;
+&lt;jnlp spec="1.0+" codebase="{codebase}"&gt;
+ &lt;information&gt;
+    &lt;title&gt;{title}&lt;/title&gt;
+    &lt;vendor&gt;tourgeek.com&lt;/vendor&gt;
+    &lt;homepage href="docs/index.html" /&gt;
+    &lt;description kind="one-line"&gt;{desc}&lt;/description&gt;
+    &lt;description kind="short"&gt;
       {desc}
-    </description>
-    <icon href="{icon}"/>
-    <shortcut online="true">
-      <desktop/>
-      <menu submenu="{desc}"/>
-    </shortcut>
-    <update check="timeout" />
-  </information>
-  <security>
-  </security>
-  <resources>
-    <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
-    <property name="jnlp.packEnabled" value="true"/>
-    <jar href="lib/jbundle-base-screen-view-swing-${jbundle-version}.jar" part="thickscreen" />
-    <package name="org.jbundle.Main" part="thickscreen" />
-    <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
-    <extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" />
-    <extension name="docs/jnlp/resource" href="docs/jnlp/resource.jnlp" />
-    <extension name="docs/jnlp/thintour" href="docs/jnlp/thintour.jnlp" />
-    <extension name="docs/jnlp/tour" href="docs/jnlp/tour.jnlp" />
-  </resources>
+    &lt;/description&gt;
+    &lt;icon href="{icon}"/&gt;
+    &lt;shortcut online="true"&gt;
+      &lt;desktop/&gt;
+      &lt;menu submenu="{desc}"/&gt;
+    &lt;/shortcut&gt;
+    &lt;update check="timeout" /&gt;
+  &lt;/information&gt;
+  &lt;security&gt;
+  &lt;/security&gt;
+  &lt;resources&gt;
+    &lt;java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/&gt;
+    &lt;property name="jnlp.packEnabled" value="true"/&gt;
+    &lt;jar href="lib/org.jbundle.base.screen.view.swing-${jbundleVersion}.jar" part="thickscreen" /&gt;
+    &lt;package name="org.jbundle.Main" part="thickscreen" /&gt;
+    &lt;extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/resource" href="docs/jnlp/resource.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/thintour" href="docs/jnlp/thintour.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/tour" href="docs/jnlp/tour.jnlp" /&gt;
+  &lt;/resources&gt;
   {appStart}
-     main-class="{mainClass}" name="{name}">
+     main-class="{mainClass}" name="{name}"&gt;
      {args}
-<param name="backgroundcolor" value="#eeeeff" />
-<param name="background" value="backgrounds/worldmapalpha.gif" />
+&lt;param name="backgroundcolor" value="#eeeeff" /&gt;
+&lt;param name="background" value="backgrounds/worldmapalpha.gif" /&gt;
   {appEnd}
-</jnlp>]]></ObjectValue>
+&lt;/jnlp&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="541">
 		<LastChanged>2009-10-23T16:12:39</LastChanged>
@@ -3108,7 +3108,7 @@ deployJava.runApplet(attributes, parameters, '1.6');
 		<Language/>
 		<Locale/>
 		<KeyValue>terms</KeyValue>
-		<ObjectValue><![CDATA[<b>Terms of Service</b><br/>
+		<ObjectValue>&lt;b&gt;Terms of Service&lt;/b&gt;&lt;br/&gt;
 Welcome to the Tourgeek.com (the "Service"),
 the web application of Don Corley (the "Proprietor"). Your use of
 the Service is subject to these Terms of Service ("TOS"). The
@@ -3116,20 +3116,20 @@ Proprietor reserves the right to update and change the TOS from
 time to time without notice or acceptance by you. You can review
 the most current version of the TOS at any time at
 http://www.tourgeek.com/tos.html.
-<br/>
-<b>1. Introduction.</b><br/>
+&lt;br/&gt;
+&lt;b&gt;1. Introduction.&lt;/b&gt;&lt;br/&gt;
 This agreement ("Agreement") between You and the Proprietor consists
 of these Terms of Service. "You" means any person or entity who uses the
 Service and/or posts Content to the Service. By using the Service
 and/or posting Content you agree to be bound by the terms and
 condition of this Terms of Service.
-<br/>
-<b>2. Privacy Policy.</b><br/>
+&lt;br/&gt;
+&lt;b&gt;2. Privacy Policy.&lt;/b&gt;&lt;br/&gt;
 Certain other information about you is subject to the TourGeek.com
 Privacy Policy. For more information, see our full privacy policy at
 http://www.tourgeek.com/privacy.html.
-<br/>
-<b>3. User Conduct and Content.</b><br/>
+&lt;br/&gt;
+&lt;b&gt;3. User Conduct and Content.&lt;/b&gt;&lt;br/&gt;
 You understand that all information, data, text, comments, graphics,
 messages or other materials ("Content"), whether publicly posted or
 privately transmitted, are the sole responsibility of the person from
@@ -3181,8 +3181,8 @@ accuracy, completeness, or usefulness of such Content. In this regard,
 you acknowledge that you may not rely on any Content created by the
 Proprietor or submitted to the Service, including without limitation
 information in comments, and in all other parts of the Service.
-<br/>
-<b>4. Disclosure of Content and Personal Information.</b><br/>
+&lt;br/&gt;
+&lt;b&gt;4. Disclosure of Content and Personal Information.&lt;/b&gt;&lt;br/&gt;
 You acknowledge, consent and agree that the Proprietor may access,
 preserve, and disclose your Content and any personal information if
 required to do so by law or in a good faith belief that such access
@@ -3191,8 +3191,8 @@ legal process; (b) enforce the TOS; (c) respond to claims that any Content
 violates the rights of third-parties; (d) respond to your requests for
 customer service; or (e) protect the rights, property, or personal safety
 of the Proprietor, the users of the Service and the public.
-<br/>
-<b>5. No Control over Content.</b><br/>
+&lt;br/&gt;
+&lt;b&gt;5. No Control over Content.&lt;/b&gt;&lt;br/&gt;
 The Proprietor does not control the Content posted via the
 Service and, as such, does not guarantee the accuracy, integrity or quality
 of such Content. You understand that by using the Service, you may be
@@ -3202,8 +3202,8 @@ including, but not limited to, for any errors or omissions in any Content,
 or for any loss or damage of any kind incurred as a result of the use of any
 Content posted, emailed, transmitted or otherwise made available via the
 Service.
-<br/>
-<b>6. Information Rights.</b><br/>
+&lt;br/&gt;
+&lt;b&gt;6. Information Rights.&lt;/b&gt;&lt;br/&gt;
 The Proprietor does not claim ownership of Content you submit or make
  available for inclusion on the Service. However, with respect to Content you
  submit or make available for inclusion on the Service, including without
@@ -3212,16 +3212,16 @@ The Proprietor does not claim ownership of Content you submit or make
  to use, distribute, reproduce, modify, adapt, publish, translate, publicly perform
  and publicly display such Content (in whole or in part) and to incorporate such
  Content into other works in any format or medium now known or later developed.
-<br/>
-<b>7. Indemnity.</b><br/>
+&lt;br/&gt;
+&lt;b&gt;7. Indemnity.&lt;/b&gt;&lt;br/&gt;
 You agree to indemnify and hold the Proprietor, and its subsidiaries, affiliates,
  officers, agents, co-branders or other partners, and employees, harmless from
  any claim or demand, including reasonable attorneys' fees, made by any third
  party due to or arising out of Content you submit, post, transmit or make available
  through the Service, your use of the Service, your connection to the Service, your
  violation of the TOS, or your violation of any rights of another.
-<br/>
-<b>8. DISCLAIMER OF WARRANTIES.</b><br/>
+&lt;br/&gt;
+&lt;b&gt;8. DISCLAIMER OF WARRANTIES.&lt;/b&gt;&lt;br/&gt;
 YOU EXPRESSLY UNDERSTAND AND AGREE THAT:
 A. YOUR USE OF THE SERVICE IS AT YOUR SOLE RISK. THE SERVICE IS PROVIDED ON AN
 "AS IS" AND "AS AVAILABLE" BASIS. THE PROPRIETOR EXPRESSLY DISCLAIMS ALL WARRANTIES
@@ -3238,8 +3238,8 @@ BE CORRECTED.
 C. NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED BY YOU FROM
  THE PROPRIETOR OR THROUGH OR FROM THE SERVICE SHALL CREATE ANY WARRANTY
  NOT EXPRESSLY STATED IN THE TOS.
-<br/>
-<b>9. LIMITATION OF LIABILITY.</b><br/>
+&lt;br/&gt;
+&lt;b&gt;9. LIMITATION OF LIABILITY.&lt;/b&gt;&lt;br/&gt;
 YOU EXPRESSLY UNDERSTAND AND AGREE THAT THE PROPRIETOR SHALL NOT BE LIABLE TO
 YOU FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR EXEMPLARY
 DAMAGES, INCLUDING BUT NOT LIMITED TO, DAMAGES FOR LOSS OF PROFITS, GOODWILL,
@@ -3251,19 +3251,19 @@ OR OBTAINED OR MESSAGES RECEIVED OR TRANSACTIONS ENTERED INTO THROUGH OR
 FROM THE SERVICE; (iii) UNAUTHORIZED ACCESS TO OR ALTERATION OF YOUR TRANSMISSIONS
 OR DATA; (iv) STATEMENTS OR CONDUCT OF ANY THIRD PARTY ON THE SERVICE;
 OR (v) ANY OTHER MATTER RELATING TO THE SERVICE.
-<br/>
-<b>10. EXCLUSIONS AND LIMITATIONS.</b><br/>
+&lt;br/&gt;
+&lt;b&gt;10. EXCLUSIONS AND LIMITATIONS.&lt;/b&gt;&lt;br/&gt;
 SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF CERTAIN WARRANTIES OR THE
 LIMITATION OR EXCLUSION OF LIABILITY FOR INCIDENTAL OR CONSEQUENTIAL DAMAGES.
 ACCORDINGLY, SOME OF THE ABOVE LIMITATIONS OF SECTION 9 MAY NOT APPLY TO YOU.
-<br/>
-<b>11. Modifications to Service.</b><br/>
+&lt;br/&gt;
+&lt;b&gt;11. Modifications to Service.&lt;/b&gt;&lt;br/&gt;
 The Proprietor reserves the right at any time and from time to time to modify or discontinue,
 temporarily or permanently, the Service (or any part thereof) with or without notice. You
 agree that the Proprietor shall not be liable to you or to any third party for any modification,
 suspension or discontinuance of the Service.
-<br/>
-<b>12. Miscellaneous</b>.<br/>
+&lt;br/&gt;
+&lt;b&gt;12. Miscellaneous&lt;/b&gt;.&lt;br/&gt;
 This Agreement shall be governed by the laws of California except for its conflicts of laws
 principles. Any dispute or claim arising out of or in connection with this Agreement shall be
 adjudicated in Los Angleles County, California. This Agreement constitutes the entire
@@ -3277,7 +3277,7 @@ intention, and the remaining provisions of this Agreement will remain in full fo
 You may not resell, assign, or transfer any of Your rights hereunder. Any such attempt may
 result in termination of this Agreement, without liability to the Proprietor Notwithstanding the
 foregoing, the Proprietor may assign this Agreement at any time without notice. The section
-titles in the TOS are for convenience only and have no legal or contractual effect.]]></ObjectValue>
+titles in the TOS are for convenience only and have no legal or contractual effect.</ObjectValue>
 	</Registration>
 	<Registration ID="542">
 		<LastChanged>2009-11-24T13:45:47</LastChanged>
@@ -3290,115 +3290,115 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<ObjectValue>File</ObjectValue>
 	</Registration>
 	<Registration ID="543">
-		<LastChanged>2010-06-10T01:33:37</LastChanged>
+		<LastChanged>2011-05-01T00:30:59</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>19</ResourceID>
 		<Code>Jnlp</Code>
 		<Language/>
 		<Locale/>
 		<KeyValue>splash</KeyValue>
-		<ObjectValue><![CDATA[<?xml version="1.0" encoding="utf-8"?>
-<!-- JNLP File for Thick Application -->
-<jnlp spec="1.0+" codebase="{codebase}">
- <information>
-    <title>{title}</title>
-    <vendor>tourgeek.com</vendor>
-    <homepage href="docs/index.html" />
-    <description kind="one-line">{desc}</description>
-    <description kind="short">
+		<ObjectValue>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;!-- JNLP File for Thick Application --&gt;
+&lt;jnlp spec="1.0+" codebase="{codebase}"&gt;
+ &lt;information&gt;
+    &lt;title&gt;{title}&lt;/title&gt;
+    &lt;vendor&gt;tourgeek.com&lt;/vendor&gt;
+    &lt;homepage href="docs/index.html" /&gt;
+    &lt;description kind="one-line"&gt;{desc}&lt;/description&gt;
+    &lt;description kind="short"&gt;
       {desc}
-    </description>
-    <icon href="{icon}"/>
-    <shortcut online="true">
-      <desktop/>
-      <menu submenu="{desc}"/>
-    </shortcut>
-    <update check="timeout" />
-  </information>
-  <security>
-  </security>
-  <resources>
-    <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
-    <property name="jnlp.packEnabled" value="true"/>
-    <jar href="lib/jbundle-thin-base-screen-splash-${jbundle-version}.jar" part="splash" />
-    <package name="org.jbundle.thin.base.screen.splash.Splash" part="splash" />
-    <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
-    <extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" />
-    <extension name="docs/jnlp/resource" href="docs/jnlp/resource.jnlp" />
-    <extension name="docs/jnlp/thintour" href="docs/jnlp/thintour.jnlp" />
-    <extension name="docs/jnlp/tour" href="docs/jnlp/tour.jnlp" />
-  </resources>
+    &lt;/description&gt;
+    &lt;icon href="{icon}"/&gt;
+    &lt;shortcut online="true"&gt;
+      &lt;desktop/&gt;
+      &lt;menu submenu="{desc}"/&gt;
+    &lt;/shortcut&gt;
+    &lt;update check="timeout" /&gt;
+  &lt;/information&gt;
+  &lt;security&gt;
+  &lt;/security&gt;
+  &lt;resources&gt;
+    &lt;java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/&gt;
+    &lt;property name="jnlp.packEnabled" value="true"/&gt;
+    &lt;jar href="lib/org.jbundle.thin.base.screen.splash-${jbundleVersion}.jar" part="splash" /&gt;
+    &lt;package name="org.jbundle.thin.base.screen.splash.Splash" part="splash" /&gt;
+    &lt;extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/resource" href="docs/jnlp/resource.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/thintour" href="docs/jnlp/thintour.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/tour" href="docs/jnlp/tour.jnlp" /&gt;
+  &lt;/resources&gt;
   {appStart}
-     main-class="{mainClass}" name="{name}">
+     main-class="{mainClass}" name="{name}"&gt;
      {args}
-<param name="backgroundcolor" value="#eeeeff" />
-<param name="background" value="backgrounds/worldmapalpha.gif" />
+&lt;param name="backgroundcolor" value="#eeeeff" /&gt;
+&lt;param name="background" value="backgrounds/worldmapalpha.gif" /&gt;
   {appEnd}
-</jnlp>]]></ObjectValue>
+&lt;/jnlp&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="544">
-		<LastChanged>2010-07-07T02:43:44</LastChanged>
+		<LastChanged>2011-05-01T00:28:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>19</ResourceID>
 		<Code>Jnlp</Code>
 		<Language/>
 		<Locale/>
 		<KeyValue>app</KeyValue>
-		<ObjectValue><![CDATA[<?xml version="1.0" encoding="utf-8"?>
-<!-- JNLP File for Sample Application -->
-<jnlp spec="1.0+" codebase="{codebase}">
- <information>
-    <title>{title}</title>
-    <vendor>tourgeek.com</vendor>
-    <homepage href="docs/index.html" />
-    <description kind="one-line">{desc}</description>
-    <description kind="short">
+		<ObjectValue>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;!-- JNLP File for Sample Application --&gt;
+&lt;jnlp spec="1.0+" codebase="{codebase}"&gt;
+ &lt;information&gt;
+    &lt;title&gt;{title}&lt;/title&gt;
+    &lt;vendor&gt;tourgeek.com&lt;/vendor&gt;
+    &lt;homepage href="docs/index.html" /&gt;
+    &lt;description kind="one-line"&gt;{desc}&lt;/description&gt;
+    &lt;description kind="short"&gt;
       {desc}
-    </description>
-    <icon href="{icon}"/>
-    <shortcut online="true">
-      <desktop/>
-      <menu submenu="{desc}"/>
-    </shortcut>
-    <update check="timeout" />
-  </information>
-  <security>
-  </security>
-  <resources>
-    <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
-    <property name="jnlp.packEnabled" value="true"/>
-    <jar href="lib/jbundle-base-screen-view-swing-${jbundle-version}.jar" part="thickscreen" />
-    <package name="org.jbundle.Main" part="thickscreen" />
-    <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
-    <extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" />
-    <extension name="docs/jnlp/app" href="docs/jnlp/app.jnlp" />
-  </resources>
+    &lt;/description&gt;
+    &lt;icon href="{icon}"/&gt;
+    &lt;shortcut online="true"&gt;
+      &lt;desktop/&gt;
+      &lt;menu submenu="{desc}"/&gt;
+    &lt;/shortcut&gt;
+    &lt;update check="timeout" /&gt;
+  &lt;/information&gt;
+  &lt;security&gt;
+  &lt;/security&gt;
+  &lt;resources&gt;
+    &lt;java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/&gt;
+    &lt;property name="jnlp.packEnabled" value="true"/&gt;
+    &lt;jar href="lib/org.jbundle.base.screen.view.swing-${jbundleVersion}.jar" part="thickscreen" /&gt;
+    &lt;package name="org.jbundle.Main" part="thickscreen" /&gt;
+    &lt;extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" /&gt;
+    &lt;extension name="docs/jnlp/app" href="docs/jnlp/app.jnlp" /&gt;
+  &lt;/resources&gt;
   {appStart}
-     main-class="{mainClass}" name="{name}">
+     main-class="{mainClass}" name="{name}"&gt;
      {args}
-<param name="backgroundcolor" value="#eeeeff" />
-<param name="background" value="backgrounds/worldmapalpha.gif" />
+&lt;param name="backgroundcolor" value="#eeeeff" /&gt;
+&lt;param name="background" value="backgrounds/worldmapalpha.gif" /&gt;
   {appEnd}
-</jnlp>]]></ObjectValue>
+&lt;/jnlp&gt;</ObjectValue>
 	</Registration>
 	<Registration ID="545">
-		<LastChanged>2010-11-30T14:10:45</LastChanged>
+		<LastChanged>2011-05-01T00:04:26</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>18</ResourceID>
 		<Code>HtmlApplet</Code>
 		<Language/>
 		<Locale/>
 		<KeyValue>jbundleversion</KeyValue>
-		<ObjectValue>${jbundle-version}</ObjectValue>
+		<ObjectValue>${jbundleVersion}</ObjectValue>
 	</Registration>
 	<Registration ID="546">
-		<LastChanged>2010-11-30T14:11:04</LastChanged>
+		<LastChanged>2011-05-01T00:05:52</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>19</ResourceID>
 		<Code>Jnlp</Code>
 		<Language/>
 		<Locale/>
 		<KeyValue>jbundleversion</KeyValue>
-		<ObjectValue>${jbundle-version}</ObjectValue>
+		<ObjectValue>${jbundleVersion}</ObjectValue>
 	</Registration>
 </file>

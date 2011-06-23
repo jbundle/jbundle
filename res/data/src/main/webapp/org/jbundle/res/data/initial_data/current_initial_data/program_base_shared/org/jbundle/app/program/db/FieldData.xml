@@ -6578,7 +6578,7 @@
 		<Hidden/>
 	</FieldData>
 	<FieldData ID="16783942">
-		<LastChanged>2009-02-12T14:49:25</LastChanged>
+		<LastChanged>2011-04-29T19:13:41</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>template</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -6587,7 +6587,7 @@
 		<MinimumLength/>
 		<MaximumLength>120</MaximumLength>
 		<DefaultValue/>
-		<InitialValue>"templatebuild"</InitialValue>
+		<InitialValue>"docs/styles/xsl/cocoon/program/templatebuild.xsl"</InitialValue>
 		<FieldDescription>XML template</FieldDescription>
 		<FieldDescVertical/>
 		<FieldType/>
@@ -12581,7 +12581,7 @@
 		<Hidden/>
 	</FieldData>
 	<FieldData ID="16784698">
-		<LastChanged>2009-02-12T14:49:26</LastChanged>
+		<LastChanged>2009-02-29T02:13:53</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ContactTypeID</FieldName>
 		<FieldClass>ContactTypeLevelOneField</FieldClass>

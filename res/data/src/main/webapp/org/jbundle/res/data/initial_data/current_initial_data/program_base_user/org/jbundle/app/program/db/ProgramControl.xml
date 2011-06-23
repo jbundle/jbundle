@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><file>
 	<ProgramControl ID="1">
-		<LastChanged>2010-06-06T17:07:18</LastChanged>
+		<LastChanged>2011-03-10T04:52:33</LastChanged>
 		<Deleted>N</Deleted>
 		<ProjectName>jbundle</ProjectName>
-		<BaseDirectory>/home/don/</BaseDirectory>
+		<BaseDirectory>/home/don/workspace/</BaseDirectory>
 		<SourceDirectory>src/main/java/</SourceDirectory>
 		<ClassDirectory>target/classes/</ClassDirectory>
 		<ArchiveDirectory>archive/</ArchiveDirectory>

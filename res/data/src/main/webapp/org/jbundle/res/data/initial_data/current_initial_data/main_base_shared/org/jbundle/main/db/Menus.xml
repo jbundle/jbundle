@@ -643,7 +643,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1311">
-		<LastChanged>2010-02-20T06:18:53</LastChanged>
+		<LastChanged>2011-03-09T08:02:09</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Test XML messaging to retrieve a hotel rate.</Name>
 		<ParentFolderID>1,310</ParentFolderID>
@@ -652,7 +652,7 @@
 		<Code/>
 		<Type>screen</Type>
 		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.test.hotel.TestHotelRateScreen</Program>
+		<Program>com.tourapp.tour.util.test.hotel.TestHotelRateScreen</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -2670,7 +2670,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1867">
-		<LastChanged>2010-12-09T17:24:25</LastChanged>
+		<LastChanged>2011-03-10T13:38:47</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Tourapp jdbc</Name>
 		<ParentFolderID>1,859</ParentFolderID>
@@ -2688,7 +2688,8 @@
 <entry key="backgroundcolor">#EEEEFF</entry>
 <entry key="remote">Jdbc</entry>
 <entry key="menu">Development</entry>
-</properties></Params>
+</properties>
+</Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
@@ -2913,6 +2914,23 @@
 <entry key="menu">Thin</entry>
 </properties>
 </Params>
+		<IconResource/>
+		<Keywords/>
+		<XmlData/>
+		<MenusHelp/>
+	</Menus>
+	<Menus ID="1877">
+		<LastChanged>2011-03-10T13:41:45</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Applications</Name>
+		<ParentFolderID>1,185</ParentFolderID>
+		<Sequence>4,000</Sequence>
+		<Comment/>
+		<Code/>
+		<Type>menu</Type>
+		<AutoDesc>Y</AutoDesc>
+		<Program>app</Program>
+		<Params/>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>

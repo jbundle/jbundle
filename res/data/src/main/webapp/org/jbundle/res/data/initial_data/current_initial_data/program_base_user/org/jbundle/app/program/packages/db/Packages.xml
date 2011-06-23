@@ -880,7 +880,7 @@
 		<LastUpdated>2010-06-06T21:56:32</LastUpdated>
 	</Packages>
 	<Packages ID="1902">
-		<LastChanged>2010-05-27T12:50:52</LastChanged>
+		<LastChanged>2011-04-30T15:16:46</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>util</Name>
 		<ParentFolderID>1,847</ParentFolderID>
@@ -889,14 +889,14 @@
 		<Code/>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<CodeType>BASE</CodeType>
-		<PartID>15</PartID>
+		<PartID>105</PartID>
 		<Recursive>Y</Recursive>
 		<Exclude/>
 		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T21:56:11</LastUpdated>
+		<LastUpdated>2011-04-30T15:16:46</LastUpdated>
 	</Packages>
 	<Packages ID="1903">
-		<LastChanged>2010-06-06T21:56:18</LastChanged>
+		<LastChanged>2011-05-13T17:15:42</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>message</Name>
 		<ParentFolderID>1,847</ParentFolderID>
@@ -905,14 +905,14 @@
 		<Code/>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<CodeType>BASE</CodeType>
-		<PartID>15</PartID>
+		<PartID/>
 		<Recursive>Y</Recursive>
 		<Exclude/>
 		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T21:56:18</LastUpdated>
+		<LastUpdated>2011-05-13T17:15:42</LastUpdated>
 	</Packages>
 	<Packages ID="1904">
-		<LastChanged>2010-05-27T12:51:02</LastChanged>
+		<LastChanged>2011-05-13T17:16:36</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>record</Name>
 		<ParentFolderID>1,903</ParentFolderID>
@@ -921,14 +921,14 @@
 		<Code/>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<CodeType>BASE</CodeType>
-		<PartID/>
-		<Recursive>N</Recursive>
+		<PartID>104</PartID>
+		<Recursive>Y</Recursive>
 		<Exclude/>
 		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T21:56:27</LastUpdated>
+		<LastUpdated>2011-05-13T17:16:36</LastUpdated>
 	</Packages>
 	<Packages ID="1905">
-		<LastChanged>2010-05-27T12:51:03</LastChanged>
+		<LastChanged>2011-05-13T17:16:35</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>opt</Name>
 		<ParentFolderID>1,903</ParentFolderID>
@@ -937,14 +937,14 @@
 		<Code/>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<CodeType>BASE</CodeType>
-		<PartID/>
-		<Recursive>N</Recursive>
+		<PartID>104</PartID>
+		<Recursive>Y</Recursive>
 		<Exclude/>
 		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T21:56:27</LastUpdated>
+		<LastUpdated>2011-05-13T17:16:35</LastUpdated>
 	</Packages>
 	<Packages ID="1906">
-		<LastChanged>2010-06-06T21:56:18</LastChanged>
+		<LastChanged>2011-05-13T17:16:37</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>trx</Name>
 		<ParentFolderID>1,903</ParentFolderID>
@@ -953,11 +953,11 @@
 		<Code/>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<CodeType>BASE</CodeType>
-		<PartID/>
-		<Recursive>N</Recursive>
+		<PartID>104</PartID>
+		<Recursive>Y</Recursive>
 		<Exclude/>
 		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T21:56:18</LastUpdated>
+		<LastUpdated>2011-05-13T17:16:37</LastUpdated>
 	</Packages>
 	<Packages ID="1907">
 		<LastChanged>2010-05-27T12:51:00</LastChanged>
@@ -1136,7 +1136,7 @@
 		<LastUpdated>2010-06-06T21:56:20</LastUpdated>
 	</Packages>
 	<Packages ID="1918">
-		<LastChanged>2010-05-27T12:51:02</LastChanged>
+		<LastChanged>2011-05-13T17:16:30</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>core</Name>
 		<ParentFolderID>1,903</ParentFolderID>
@@ -1145,11 +1145,11 @@
 		<Code/>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<CodeType>BASE</CodeType>
-		<PartID/>
-		<Recursive>N</Recursive>
+		<PartID>106</PartID>
+		<Recursive>Y</Recursive>
 		<Exclude/>
 		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T21:56:24</LastUpdated>
+		<LastUpdated>2011-05-13T17:16:30</LastUpdated>
 	</Packages>
 	<Packages ID="1919">
 		<LastChanged>2010-05-27T12:51:02</LastChanged>
@@ -1232,7 +1232,7 @@
 		<LastUpdated>2010-06-06T21:56:31</LastUpdated>
 	</Packages>
 	<Packages ID="1924">
-		<LastChanged>2010-05-27T12:50:50</LastChanged>
+		<LastChanged>2011-04-30T15:16:49</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>remote</Name>
 		<ParentFolderID>1,847</ParentFolderID>
@@ -1241,11 +1241,11 @@
 		<Code/>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<CodeType>BASE</CodeType>
-		<PartID>15</PartID>
+		<PartID>103</PartID>
 		<Recursive>Y</Recursive>
 		<Exclude/>
 		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T21:56:08</LastUpdated>
+		<LastUpdated>2011-04-30T15:16:49</LastUpdated>
 	</Packages>
 	<Packages ID="1925">
 		<LastChanged>2010-05-27T12:50:51</LastChanged>
@@ -2574,102 +2574,6 @@
 		<Exclude/>
 		<Manual>N</Manual>
 		<LastUpdated>2010-06-06T21:55:27</LastUpdated>
-	</Packages>
-	<Packages ID="3500">
-		<LastChanged>2010-02-27T04:14:00</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>muffinmanager</Name>
-		<ParentFolderID>3,499</ParentFolderID>
-		<Sequence/>
-		<Comment/>
-		<Code/>
-		<ClassProjectID>16,777,279</ClassProjectID>
-		<CodeType>BASE</CodeType>
-		<PartID>68</PartID>
-		<Recursive>Y</Recursive>
-		<Exclude/>
-		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T17:07:14</LastUpdated>
-	</Packages>
-	<Packages ID="3501">
-		<LastChanged>2010-06-06T17:07:14</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>sourceforge</Name>
-		<ParentFolderID>1,505</ParentFolderID>
-		<Sequence/>
-		<Comment/>
-		<Code/>
-		<ClassProjectID>16,777,280</ClassProjectID>
-		<CodeType>RESOURCE_CODE</CodeType>
-		<PartID/>
-		<Recursive>N</Recursive>
-		<Exclude/>
-		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T17:07:16</LastUpdated>
-	</Packages>
-	<Packages ID="3502">
-		<LastChanged>2010-04-09T23:31:01</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>jcalendarbutton</Name>
-		<ParentFolderID>3,501</ParentFolderID>
-		<Sequence/>
-		<Comment/>
-		<Code/>
-		<ClassProjectID>16,777,280</ClassProjectID>
-		<CodeType>BASE</CodeType>
-		<PartID>67</PartID>
-		<Recursive>Y</Recursive>
-		<Exclude/>
-		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T17:07:16</LastUpdated>
-	</Packages>
-	<Packages ID="3503">
-		<LastChanged>2010-06-06T17:07:14</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>net</Name>
-		<ParentFolderID>0</ParentFolderID>
-		<Sequence/>
-		<Comment/>
-		<Code/>
-		<ClassProjectID>16,777,280</ClassProjectID>
-		<CodeType>RESOURCE_CODE</CodeType>
-		<PartID/>
-		<Recursive>N</Recursive>
-		<Exclude/>
-		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T17:07:16</LastUpdated>
-	</Packages>
-	<Packages ID="3504">
-		<LastChanged>2010-06-06T17:07:14</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>sourceforge</Name>
-		<ParentFolderID>3,503</ParentFolderID>
-		<Sequence/>
-		<Comment/>
-		<Code/>
-		<ClassProjectID>16,777,280</ClassProjectID>
-		<CodeType>RESOURCE_CODE</CodeType>
-		<PartID/>
-		<Recursive>N</Recursive>
-		<Exclude/>
-		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T17:07:16</LastUpdated>
-	</Packages>
-	<Packages ID="3505">
-		<LastChanged>2010-02-27T04:12:59</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>jcalendarbutton</Name>
-		<ParentFolderID>3,504</ParentFolderID>
-		<Sequence/>
-		<Comment/>
-		<Code/>
-		<ClassProjectID>16,777,280</ClassProjectID>
-		<CodeType>BASE</CodeType>
-		<PartID>67</PartID>
-		<Recursive>Y</Recursive>
-		<Exclude/>
-		<Manual>N</Manual>
-		<LastUpdated>2010-06-06T17:07:16</LastUpdated>
 	</Packages>
 	<Packages ID="3508">
 		<LastChanged>2010-06-06T21:56:02</LastChanged>
@@ -4718,5 +4622,101 @@
 		<Exclude/>
 		<Manual>N</Manual>
 		<LastUpdated>2010-06-07T00:54:31</LastUpdated>
+	</Packages>
+	<Packages ID="3637">
+		<LastChanged>2011-04-30T16:27:26</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>util</Name>
+		<ParentFolderID>1,506</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<ClassProjectID/>
+		<CodeType>BASE</CodeType>
+		<PartID/>
+		<Recursive>N</Recursive>
+		<Exclude/>
+		<Manual>N</Manual>
+		<LastUpdated>2011-04-30T16:27:26</LastUpdated>
+	</Packages>
+	<Packages ID="3638">
+		<LastChanged>2011-04-30T16:27:59</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>jcalendarbutton</Name>
+		<ParentFolderID>3,637</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<ClassProjectID/>
+		<CodeType>BASE</CodeType>
+		<PartID>67</PartID>
+		<Recursive>Y</Recursive>
+		<Exclude/>
+		<Manual>N</Manual>
+		<LastUpdated>2011-04-30T16:27:59</LastUpdated>
+	</Packages>
+	<Packages ID="3639">
+		<LastChanged>2011-05-01T13:26:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>muffinmanager</Name>
+		<ParentFolderID>3,637</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<ClassProjectID/>
+		<CodeType>BASE</CodeType>
+		<PartID>68</PartID>
+		<Recursive>Y</Recursive>
+		<Exclude/>
+		<Manual>N</Manual>
+		<LastUpdated>2011-05-01T13:26:06</LastUpdated>
+	</Packages>
+	<Packages ID="3640">
+		<LastChanged>2011-05-01T13:26:27</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>calendarpanel</Name>
+		<ParentFolderID>3,637</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<ClassProjectID/>
+		<CodeType>BASE</CodeType>
+		<PartID>9</PartID>
+		<Recursive>Y</Recursive>
+		<Exclude/>
+		<Manual>N</Manual>
+		<LastUpdated>2011-05-01T13:26:27</LastUpdated>
+	</Packages>
+	<Packages ID="3641">
+		<LastChanged>2011-05-13T17:16:21</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>app</Name>
+		<ParentFolderID>1,903</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<ClassProjectID/>
+		<CodeType>BASE</CodeType>
+		<PartID>104</PartID>
+		<Recursive>Y</Recursive>
+		<Exclude/>
+		<Manual>N</Manual>
+		<LastUpdated>2011-05-13T17:16:21</LastUpdated>
+	</Packages>
+	<Packages ID="3642">
+		<LastChanged>2011-05-13T17:52:27</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>osgi</Name>
+		<ParentFolderID>3,637</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<ClassProjectID/>
+		<CodeType>BASE</CodeType>
+		<PartID>107</PartID>
+		<Recursive>Y</Recursive>
+		<Exclude/>
+		<Manual>N</Manual>
+		<LastUpdated>2011-05-13T17:52:26</LastUpdated>
 	</Packages>
 </file>

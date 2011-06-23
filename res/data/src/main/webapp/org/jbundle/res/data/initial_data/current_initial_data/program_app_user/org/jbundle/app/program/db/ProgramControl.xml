@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><file>
 	<ProgramControl ID="1">
-		<LastChanged>2010-02-28T06:25:36</LastChanged>
+		<LastChanged>2011-03-10T08:37:00</LastChanged>
 		<Deleted>N</Deleted>
 		<ProjectName/>
-		<BaseDirectory>/home/don/</BaseDirectory>
+		<BaseDirectory>/home/don/workspace</BaseDirectory>
 		<SourceDirectory>src/main/java/</SourceDirectory>
 		<ClassDirectory>target/classes/</ClassDirectory>
 		<ArchiveDirectory>data/archive/</ArchiveDirectory>

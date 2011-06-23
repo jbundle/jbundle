@@ -2,7 +2,7 @@
 	<Part ID="1">
 		<LastChanged>2010-02-16T05:47:57</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-config-web-images</Description>
+		<Description>org.jbundle.res.images</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType>images</PartType>
@@ -12,7 +12,7 @@
 	<Part ID="2">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-screen-core</Description>
+		<Description>org.jbundle.thin.base.screen</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -22,7 +22,7 @@
 	<Part ID="4">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-screen-grid</Description>
+		<Description>org.jbundle.thin.base.screen.grid</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -32,7 +32,7 @@
 	<Part ID="7">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-remote</Description>
+		<Description>org.jbundle.thin.base.remote</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -40,19 +40,19 @@
 		<Path/>
 	</Part>
 	<Part ID="9">
-		<LastChanged>2009-02-12T14:51:14</LastChanged>
+		<LastChanged>2011-04-30T15:46:48</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-screen-calendar-core</Description>
+		<Description>org.jbundle.util.calendarpanel</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
 		<JnlpFileID>2</JnlpFileID>
-		<Path/>
+		<Path>lib/org.jbundle.util.calendarpanel-${jbundle-calendarpanelVersion}.jar</Path>
 	</Part>
 	<Part ID="10">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-screen-util-core</Description>
+		<Description>org.jbundle.thin.base.screen.util</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -62,7 +62,7 @@
 	<Part ID="11">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-main</Description>
+		<Description>org.jbundle.thin.main</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -72,7 +72,7 @@
 	<Part ID="12">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-res-core</Description>
+		<Description>org.jbundle.res.core</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -82,7 +82,7 @@
 	<Part ID="13">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-db-core</Description>
+		<Description>org.jbundle.base.db</Description>
 		<Sequence/>
 		<Kind>eager</Kind>
 		<PartType/>
@@ -92,7 +92,7 @@
 	<Part ID="14">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-screen-misc</Description>
+		<Description>org.jbundle.base.screen.misc</Description>
 		<Sequence/>
 		<Kind>eager</Kind>
 		<PartType/>
@@ -102,7 +102,7 @@
 	<Part ID="15">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-other</Description>
+		<Description>org.jbundle.base.other</Description>
 		<Sequence/>
 		<Kind>eager</Kind>
 		<PartType/>
@@ -112,7 +112,7 @@
 	<Part ID="16">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-main-db</Description>
+		<Description>org.jbundle.main.db</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -122,7 +122,7 @@
 	<Part ID="17">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-main-misc</Description>
+		<Description>org.jbundle.main.misc</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -132,7 +132,7 @@
 	<Part ID="23">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-opt-chat</Description>
+		<Description>org.jbundle.thin.opt.chat</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -142,7 +142,7 @@
 	<Part ID="24">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-main-msg</Description>
+		<Description>org.jbundle.main.msg</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -152,7 +152,7 @@
 	<Part ID="65">
 		<LastChanged>2009-11-25T04:37:55</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-main-calendar</Description>
+		<Description>org.jbundle.main.calendar</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -160,29 +160,29 @@
 		<Path/>
 	</Part>
 	<Part ID="67">
-		<LastChanged>2010-10-20T06:00:09</LastChanged>
+		<LastChanged>2011-04-30T15:45:46</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jcalendarbutton</Description>
+		<Description>org.jbundle.util.jcalendarbutton</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
 		<JnlpFileID>2</JnlpFileID>
-		<Path>lib/jcalendarbutton-${jcalendarbuttonversion}.jar</Path>
+		<Path>lib/org.jbundle.util.jcalendarbutton-${jbundle-jcalendarbuttonVersion}.jar</Path>
 	</Part>
 	<Part ID="68">
-		<LastChanged>2010-02-27T04:02:37</LastChanged>
+		<LastChanged>2011-04-30T15:44:33</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-util-muffinmanager</Description>
+		<Description>org.jbundle.util.muffinmanager</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
 		<JnlpFileID>2</JnlpFileID>
-		<Path/>
+		<Path>lib/org.jbundle.util.muffinmanager-${jbundle-util-muffinmanagerVersion}.jar</Path>
 	</Part>
 	<Part ID="69">
 		<LastChanged>2010-04-17T20:55:27</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-model</Description>
+		<Description>org.jbundle.model</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -192,7 +192,7 @@
 	<Part ID="70">
 		<LastChanged>2010-04-17T21:50:11</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-splash</Description>
+		<Description>org.jbundle.splash</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -202,7 +202,7 @@
 	<Part ID="71">
 		<LastChanged>2010-06-04T02:28:39</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-db-core</Description>
+		<Description>org.jbundle.thin.base.db</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -212,7 +212,7 @@
 	<Part ID="72">
 		<LastChanged>2010-06-06T00:31:35</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-opt-location</Description>
+		<Description>org.jbundle.thin.opt.location</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -222,7 +222,7 @@
 	<Part ID="73">
 		<LastChanged>2010-06-04T03:27:43</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-screen-util-misc</Description>
+		<Description>org.jbundle.thin.base.screen.util.misc</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -232,7 +232,7 @@
 	<Part ID="74">
 		<LastChanged>2010-06-04T03:48:32</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-message</Description>
+		<Description>org.jbundle.thin.base.message</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -242,7 +242,7 @@
 	<Part ID="75">
 		<LastChanged>2010-06-04T03:56:53</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-util-base64</Description>
+		<Description>org.jbundle.thin.base.util.base64</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -252,7 +252,7 @@
 	<Part ID="76">
 		<LastChanged>2010-06-04T04:10:29</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-db-misc</Description>
+		<Description>org.jbundle.thin.base.db.misc</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -262,7 +262,7 @@
 	<Part ID="77">
 		<LastChanged>2010-06-04T04:19:22</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-thread</Description>
+		<Description>org.jbundle.thin.base.thread</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -272,7 +272,7 @@
 	<Part ID="78">
 		<LastChanged>2010-06-04T04:25:32</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-util-core</Description>
+		<Description>org.jbundle.thin.base.util</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -280,9 +280,9 @@
 		<Path/>
 	</Part>
 	<Part ID="79">
-		<LastChanged>2010-06-04T23:44:52</LastChanged>
+		<LastChanged>2011-03-25T12:33:05</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-db-client</Description>
+		<Description>org.jbundle.base.db.client</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -292,7 +292,7 @@
 	<Part ID="80">
 		<LastChanged>2010-06-04T23:44:11</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-db-jdbc</Description>
+		<Description>org.jbundle.base.db.jdbc</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -302,7 +302,7 @@
 	<Part ID="81">
 		<LastChanged>2010-06-04T23:44:27</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-db-mapped</Description>
+		<Description>org.jbundle.base.db.mapped</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -312,7 +312,7 @@
 	<Part ID="82">
 		<LastChanged>2010-06-04T23:44:50</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-db-memory</Description>
+		<Description>org.jbundle.base.db.memory</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -322,7 +322,7 @@
 	<Part ID="83">
 		<LastChanged>2010-06-04T23:46:28</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-db-net</Description>
+		<Description>org.jbundle.base.db.net</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -332,7 +332,7 @@
 	<Part ID="84">
 		<LastChanged>2010-06-04T23:46:30</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-db-physical</Description>
+		<Description>org.jbundle.base.db.physical</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -342,7 +342,7 @@
 	<Part ID="85">
 		<LastChanged>2010-06-04T23:46:32</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-db-proxy</Description>
+		<Description>org.jbundle.base.db.proxy</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -352,7 +352,7 @@
 	<Part ID="86">
 		<LastChanged>2010-06-04T23:46:36</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-db-serial</Description>
+		<Description>org.jbundle.base.db.serial</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -362,7 +362,7 @@
 	<Part ID="87">
 		<LastChanged>2010-06-04T23:46:41</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-db-xml</Description>
+		<Description>org.jbundle.base.db.xml</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -372,7 +372,7 @@
 	<Part ID="89">
 		<LastChanged>2010-06-05T02:11:46</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-screen-view-swing</Description>
+		<Description>org.jbundle.base.screen.view.swing</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -382,7 +382,7 @@
 	<Part ID="90">
 		<LastChanged>2010-06-05T02:11:20</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-screen-view-xml</Description>
+		<Description>org.jbundle.base.screen.view.xml</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -392,7 +392,7 @@
 	<Part ID="91">
 		<LastChanged>2010-06-05T02:11:23</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-screen-view-html</Description>
+		<Description>org.jbundle.base.screen.view.html</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -402,7 +402,7 @@
 	<Part ID="92">
 		<LastChanged>2010-06-05T02:11:35</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-screen-view-swing-jaxe</Description>
+		<Description>org.jbundle.base.screen.view.swing.jaxe</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -412,7 +412,7 @@
 	<Part ID="93">
 		<LastChanged>2010-06-05T12:33:31</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-screen-control-servlet</Description>
+		<Description>org.jbundle.base.screen.control.servlet</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -422,7 +422,7 @@
 	<Part ID="94">
 		<LastChanged>2010-06-05T12:34:05</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-base-screen-control-cocoon</Description>
+		<Description>org.jbundle.base.screen.control.cocoon</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -432,7 +432,7 @@
 	<Part ID="95">
 		<LastChanged>2010-06-05T17:23:30</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-main-other</Description>
+		<Description>org.jbundle.main.other</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -442,7 +442,7 @@
 	<Part ID="96">
 		<LastChanged>2010-06-05T17:43:19</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-app-program</Description>
+		<Description>org.jbundle.app.program</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -452,7 +452,7 @@
 	<Part ID="97">
 		<LastChanged>2010-06-05T17:43:49</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-app-program</Description>
+		<Description>org.jbundle.thin.app.program</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -462,7 +462,7 @@
 	<Part ID="98">
 		<LastChanged>2010-06-05T17:43:31</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-res-app-program</Description>
+		<Description>org.jbundle.res.app.program</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -472,7 +472,7 @@
 	<Part ID="99">
 		<LastChanged>2010-06-06T00:33:59</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-app-program-plugin</Description>
+		<Description>org.jbundle.app.program.plugin</Description>
 		<Sequence/>
 		<Kind/>
 		<PartType/>
@@ -482,7 +482,7 @@
 	<Part ID="100">
 		<LastChanged>2010-06-06T00:38:24</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-screen-cal-other</Description>
+		<Description>org.jbundle.thin.base.screen.cal.other</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -492,7 +492,7 @@
 	<Part ID="101">
 		<LastChanged>2010-06-06T00:48:13</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>jbundle-thin-base-screen-cal-grid</Description>
+		<Description>org.jbundle.thin.base.screen.cal.grid</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -500,13 +500,63 @@
 		<Path/>
 	</Part>
 	<Part ID="102">
-		<LastChanged>2010-10-20T05:59:38</LastChanged>
+		<LastChanged>2011-04-30T15:49:27</LastChanged>
 		<Deleted>N</Deleted>
 		<Description>base64coder</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType>manual</PartType>
 		<JnlpFileID>2</JnlpFileID>
-		<Path>lib/base64coder-${base64coderversion}.jar</Path>
+		<Path>lib/base64coder-${base64coderVersion}.jar</Path>
+	</Part>
+	<Part ID="103">
+		<LastChanged>2011-04-30T15:16:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>org.jbundle.base.remote</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="104">
+		<LastChanged>2011-04-30T15:16:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>org.jbundle.base.message.misc</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="105">
+		<LastChanged>2011-04-30T15:16:07</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>org.jbundle.base.util</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="106">
+		<LastChanged>2011-05-13T17:14:15</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>org.jbundle.base.message.core</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="107">
+		<LastChanged>2011-05-13T17:51:42</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>org.jbundle.util.osgi</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>2</JnlpFileID>
+		<Path/>
 	</Part>
 </file>

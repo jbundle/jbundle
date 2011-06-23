@@ -463,10 +463,10 @@
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[String strJob = null;
+		<ScreenText>String strJob = null;
 strJob = Utility.addURLParam(strJob, DBParams.TASK, org.jbundle.base.thread.ProcessRunnerTask.class.getName());  // Processrunner class
 strJob = Utility.addURLParam(strJob, DBParams.PROCESS, org.jbundle.app.picture.manual.ScanImages.class.getName());    // Process class
-new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Sync now");]]></ScreenText>
+new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Sync now");</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -520,10 +520,10 @@ new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstant
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[String strJob = null;
+		<ScreenText>String strJob = null;
 strJob = Utility.addURLParam(strJob, DBParams.TASK, org.jbundle.base.thread.ProcessRunnerTask.class.getName());  // Processrunner class
 strJob = Utility.addURLParam(strJob, DBParams.PROCESS, org.jbundle.app.picture.manual.WritePicture.class.getName());  // Process class
-new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Process now");]]></ScreenText>
+new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Process now");</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -541,9 +541,9 @@ new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstant
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = this.getRecord(Picture.kPictureFile).getField(Picture.kPictureFile, Picture.kShortDesc);
+		<ScreenText>Converter converter = this.getRecord(Picture.kPictureFile).getField(Picture.kPictureFile, Picture.kShortDesc);
 converter = new FieldLengthConverter(converter, 30);
-this.addColumn(converter);]]></ScreenText>
+this.addColumn(converter);</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
@@ -705,10 +705,10 @@ this.addColumn(converter);]]></ScreenText>
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[String strJob = null;
+		<ScreenText>String strJob = null;
 strJob = org.jbundle.base.util.Utility.addURLParam(strJob, DBParams.TASK, DBConstants.ROOT_PACKAGE + "screen.thread.ProcessRunner");	// Processrunner class
 strJob = org.jbundle.base.util.Utility.addURLParam(strJob, DBParams.PROCESS, DBConstants.ROOT_PACKAGE + "personal.manual.ExportPictures");	// Process class
-new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Export now");]]></ScreenText>
+new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Export now");</ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>

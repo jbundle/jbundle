@@ -1178,14 +1178,14 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA[{
+		<ClassFieldInitialValue>{
     {DIRECT, "Direct"},
     {LOCAL, "Local"},
     {AUTO_RESPONSE, "Remote automated response"},
     {MANUAL_RESPONSE, "Remote manual response"},
     {MANUAL_COMMUNICATION, "Manual communication"},
     {THREAD, "Thread"},
-}]]></ClassFieldInitialValue>
+}</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -5169,10 +5169,10 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA[{
+		<ClassFieldInitialValue>{
 	{Integer.toString(DBConstants.LOGIN_USER), "Login"},
 	{Integer.toString(DBConstants.LOGIN_AUTHENTICATED), "Authenticated"}
-}]]></ClassFieldInitialValue>
+}</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -5188,10 +5188,10 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA[{
+		<ClassFieldInitialValue>{
     {Integer.toString(DBConstants.READ_ACCESS), "Read access"}, 
     {Integer.toString(DBConstants.WRITE_ACCESS), "Write access"},
-}]]></ClassFieldInitialValue>
+}</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -6967,10 +6967,10 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA[{
+		<ClassFieldInitialValue>{
    {MessageControl.BASE_NAMESPACE_URI, "Base namespace"},
    {MessageControl.WSDL_NAMESPACE_URI, "WSDL namespace"},
-}]]></ClassFieldInitialValue>
+}</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -7226,12 +7226,12 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA[{
+		<ClassFieldInitialValue>{
     BINDING_OPERATIONS,
     INTERFACE_OPERATIONS,
     TYPES_OPERATIONS,
     MESSAGE_OPERATIONS  // WSDL 1.1 only
-}]]></ClassFieldInitialValue>
+}</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -7791,7 +7791,7 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA[{
+		<ClassFieldInitialValue>{
     {MessageControl.WSDL_NAMESPACE_URI, "/wsdl"},
     {MessageControl.SERVICE_NAME, "openTravelService"},
     {MessageControl.INTERFACE_NAME, "openTravelInterface"},
@@ -7805,7 +7805,7 @@
     {MESSAGE_STYLE_URI, "http://www.w3.org/ns/wsdl/style/iri"},
     {SOAP_URI, "http://www.w3.org/2003/05/soap/bindings/HTTP/"},
     {SOAP_RESPONSE_URI, "http://www.w3.org/2003/05/soap/mep/soap-response"},
-}]]></ClassFieldInitialValue>
+}</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -7837,7 +7837,7 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA[{
+		<ClassFieldInitialValue>{
     {MessageControl.WSDL_NAMESPACE_URI, "/wsdl"},
     {MessageControl.SERVICE_NAME, "openTravelService"},
     {MessageControl.INTERFACE_NAME, "openTravelInterface"},
@@ -7851,7 +7851,7 @@
     {MESSAGE_STYLE_URI, "http://www.w3.org/ns/wsdl/style/iri"},
     {SOAP_URI, "http://schemas.xmlsoap.org/soap/http"},
     {SOAP_RESPONSE_URI, "http://www.w3.org/2003/05/soap/mep/soap-response"},
-}]]></ClassFieldInitialValue>
+}</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -7883,23 +7883,23 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA[    "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" +
-    "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\"  >" +
-    "<!-- This template copies the name and attributes and applies templates to child nodes -->" +
-    "<xsl:template match=\"*\">" +
-    "  <xsl:copy>" +
-    "    <xsl:for-each select=\"@*\">" +
+		<ClassFieldInitialValue>    "&lt;?xml version=\"1.0\" encoding=\"ISO-8859-1\"?&gt;" +
+    "&lt;xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\"  &gt;" +
+    "&lt;!-- This template copies the name and attributes and applies templates to child nodes --&gt;" +
+    "&lt;xsl:template match=\"*\"&gt;" +
+    "  &lt;xsl:copy&gt;" +
+    "    &lt;xsl:for-each select=\"@*\"&gt;" +
 // This is a lame hack to remove the 'part' attribute that is added in a JAXB bug
-"<xsl:if test=\"not((name()='parts') and (namespace-uri(..)='http://schemas.xmlsoap.org/wsdl/soap/') and (.=''))\">" +
-    "      <xsl:attribute name=\"{name()}\">" +
-    "        <xsl:value-of select=\".\"/>" +
-    "      </xsl:attribute>" +
-"</xsl:if>" +
-    "    </xsl:for-each> " +
-    "   <xsl:apply-templates />" +
-    "  </xsl:copy>" +
-    "</xsl:template>" +
-    "</xsl:stylesheet>"]]></ClassFieldInitialValue>
+"&lt;xsl:if test=\"not((name()='parts') and (namespace-uri(..)='http://schemas.xmlsoap.org/wsdl/soap/') and (.=''))\"&gt;" +
+    "      &lt;xsl:attribute name=\"{name()}\"&gt;" +
+    "        &lt;xsl:value-of select=\".\"/&gt;" +
+    "      &lt;/xsl:attribute&gt;" +
+"&lt;/xsl:if&gt;" +
+    "    &lt;/xsl:for-each&gt; " +
+    "   &lt;xsl:apply-templates /&gt;" +
+    "  &lt;/xsl:copy&gt;" +
+    "&lt;/xsl:template&gt;" +
+    "&lt;/xsl:stylesheet&gt;"</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -8267,10 +8267,10 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA[{
+		<ClassFieldInitialValue>{
     "AFB",  // Air force base
     "MIL",  // Military
-}]]></ClassFieldInitialValue>
+}</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -9246,30 +9246,30 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA["<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" +
-"<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\"  >" +
-//" <xsl:template match=\"\">" +
-//"  <xsl:copy-of select=\".\" />" +
-//" </xsl:template>" +
-"<!-- This template copies the name and attributes and applies templates to child nodes -->" +
-"<xsl:template match=\"*\">" +
-"  <xsl:copy>" +
-"    <xsl:for-each select=\"@*\">" +
-"      <xsl:attribute name=\"{name()}\">" +
-"        <xsl:value-of select=\".\"/>" +
-"      </xsl:attribute>" +
-"    </xsl:for-each> " +
-"  	<xsl:apply-templates />" +
-"  </xsl:copy>" +
-"</xsl:template>" +
+		<ClassFieldInitialValue>"&lt;?xml version=\"1.0\" encoding=\"ISO-8859-1\"?&gt;" +
+"&lt;xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\"  &gt;" +
+//" &lt;xsl:template match=\"\"&gt;" +
+//"  &lt;xsl:copy-of select=\".\" /&gt;" +
+//" &lt;/xsl:template&gt;" +
+"&lt;!-- This template copies the name and attributes and applies templates to child nodes --&gt;" +
+"&lt;xsl:template match=\"*\"&gt;" +
+"  &lt;xsl:copy&gt;" +
+"    &lt;xsl:for-each select=\"@*\"&gt;" +
+"      &lt;xsl:attribute name=\"{name()}\"&gt;" +
+"        &lt;xsl:value-of select=\".\"/&gt;" +
+"      &lt;/xsl:attribute&gt;" +
+"    &lt;/xsl:for-each&gt; " +
+"  	&lt;xsl:apply-templates /&gt;" +
+"  &lt;/xsl:copy&gt;" +
+"&lt;/xsl:template&gt;" +
 
-//"<xsl:template match=\"roomType\">" +
-//" <xsl:element name=\"ota:roomType\" namespace=\"http://www.ota.org/xyz\">" +
-//"  <xsl:apply-templates />" +
-//" </xsl:element>" +
-//"</xsl:template>" +
+//"&lt;xsl:template match=\"roomType\"&gt;" +
+//" &lt;xsl:element name=\"ota:roomType\" namespace=\"http://www.ota.org/xyz\"&gt;" +
+//"  &lt;xsl:apply-templates /&gt;" +
+//" &lt;/xsl:element&gt;" +
+//"&lt;/xsl:template&gt;" +
 
-"</xsl:stylesheet>";]]></ClassFieldInitialValue>
+"&lt;/xsl:stylesheet&gt;";</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -9413,7 +9413,7 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA[{
+		<ClassFieldInitialValue>{
 "01 - January",
 "02 - February",
 "03 - March",
@@ -9426,7 +9426,7 @@
 "10 - October",
 "11 - November",
 "12 - December"
-};]]></ClassFieldInitialValue>
+};</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -11144,7 +11144,7 @@
 		<ClassFieldsType>N</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16782404">
-		<LastChanged>2010-10-27T06:07:58</LastChanged>
+		<LastChanged>2011-01-15T15:22:51</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>BaseRegistrationScreen</ClassInfoClassName>
 		<ClassInfoID/>
@@ -11154,13 +11154,13 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue>"docs/data/test-data"</ClassFieldInitialValue>
+		<ClassFieldInitialValue>"org/jbundle/data/test_data"</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16782405">
-		<LastChanged>2010-10-27T06:08:06</LastChanged>
+		<LastChanged>2011-01-15T15:21:55</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>BaseRegistrationScreen</ClassInfoClassName>
 		<ClassInfoID/>
@@ -11170,7 +11170,7 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue>"current-test-data"</ClassFieldInitialValue>
+		<ClassFieldInitialValue>"current_test_data"</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -11426,14 +11426,14 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue><![CDATA[{
+		<ClassFieldInitialValue>{
 	    XSL_TEMPLATE_PATH,
 	    DOMAIN_NAME,
 	    SITE_NAME,
 	    SITE_TEMPLATE_MENU,
 	    SITE_HOME_MENU,
 	    SITE_PREFIX,
-}]]></ClassFieldInitialValue>
+}</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -11661,5 +11661,53 @@
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
+	</ClassFields>
+	<ClassFields ID="16782440">
+		<LastChanged>2011-05-11T18:10:53</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Script</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>org.jbundle.util.osgi.finder</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>P</ClassFieldsType>
+	</ClassFields>
+	<ClassFields ID="16782441">
+		<LastChanged>2011-05-11T18:12:53</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ImportXMLScanListener</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>org.jbundle.util.osgi.finder</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>P</ClassFieldsType>
+	</ClassFields>
+	<ClassFields ID="16782442">
+		<LastChanged>2011-05-11T18:13:27</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>MessageInfo</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>org.jbundle.util.osgi.finder</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>P</ClassFieldsType>
 	</ClassFields>
 </file>
