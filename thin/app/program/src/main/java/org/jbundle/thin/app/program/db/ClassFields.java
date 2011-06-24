@@ -85,7 +85,7 @@ public class ClassFields extends FieldList
         KeyAreaInfo keyArea = null;
         keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
         keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ClassInfoClassName");
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ClassInfoClassName");
         keyArea.addKeyField("ClassInfoClassName", Constants.ASCENDING);
         keyArea.addKeyField("ClassFieldSequence", Constants.ASCENDING);
         keyArea.addKeyField("ClassFieldName", Constants.ASCENDING);

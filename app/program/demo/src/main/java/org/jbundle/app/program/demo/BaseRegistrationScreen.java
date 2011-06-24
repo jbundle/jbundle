@@ -22,7 +22,6 @@ import org.jbundle.model.*;
 import org.jbundle.main.user.screen.*;
 import org.jbundle.main.db.*;
 import org.jbundle.main.user.db.*;
-import org.jbundle.main.msg.db.*;
 import org.jbundle.thin.base.db.buff.*;
 import org.jbundle.base.thread.*;
 import org.jbundle.thin.base.thread.*;
@@ -30,10 +29,11 @@ import java.net.*;
 import java.io.*;
 import org.jbundle.app.program.script.scan.*;
 import org.jbundle.app.program.manual.convert.*;
-import org.jbundle.thin.base.message.*;
-import org.jbundle.base.message.remote.*;
 import org.jbundle.app.program.demo.message.*;
 import java.text.*;
+import org.jbundle.thin.base.message.*;
+import org.jbundle.main.msg.db.*;
+import org.jbundle.base.message.remote.*;
 import org.jbundle.base.message.trx.message.*;
 
 /**
