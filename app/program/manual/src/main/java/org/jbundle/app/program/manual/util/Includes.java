@@ -42,7 +42,7 @@ public class Includes extends NameList
         try   {
             m_recClassInfo.getField(ClassInfo.kClassName).setString(strClassName);
             m_recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
-            if (m_recClassInfo.seek("="))
+            if ((m_recClassInfo.seek("=")) && (strClassName != null) && (strClassName.length() > 0))
             {   // If the based record class is in another file, include it!
                 String strPackage = m_recClassInfo.getPackageName();
                 this.addPackage(strPackage);
