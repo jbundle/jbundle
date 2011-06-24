@@ -179,7 +179,7 @@ public class ClassFields extends VirtualRecord
         }
         if (iKeyArea == kClassInfoClassNameKey)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ClassInfoClassName");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassInfoClassName");
             keyArea.addKeyField(kClassInfoClassName, DBConstants.ASCENDING);
             keyArea.addKeyField(kClassFieldSequence, DBConstants.ASCENDING);
             keyArea.addKeyField(kClassFieldName, DBConstants.ASCENDING);

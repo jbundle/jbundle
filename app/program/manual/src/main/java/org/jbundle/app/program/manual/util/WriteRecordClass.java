@@ -1288,7 +1288,7 @@ public class WriteRecordClass extends WriteSharedClass
             {
                 recClassInfo2.setKeyArea(ClassInfo.kClassNameKey);
                 recClassInfo2.getField(ClassInfo.kClassName).setString(strRecordClass);   // Class of this record
-                if (!recClassInfo2.seek("="))
+                if ((!recClassInfo2.seek("=")) || (strRecordClass == null) || (strRecordClass.length() == 0))
                 {
                     if (fieldStuff.strBaseFieldClass == null)
                         fieldStuff.strBaseFieldClass = recFieldData.getField(FieldData.kFieldClass).getString();   // Never
