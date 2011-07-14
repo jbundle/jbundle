@@ -14,8 +14,9 @@
       <item name="JCalendarButton" href="/jcalendarbutton"/>
       <item name="Calendar Panel" href="/calendarpanel"/>      
     </menu>
-  </body>
   
   <menu ref="reports"/>
+
+  </body>
 
 </project>
