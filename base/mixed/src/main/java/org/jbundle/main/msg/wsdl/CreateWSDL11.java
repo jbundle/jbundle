@@ -96,7 +96,7 @@ public class CreateWSDL11 extends CreateWSDL
      */
     public String getSOAPPackage()
     {
-        return "org.w3._2001.xmlschema:org.w3.wsdl11:org.xmlsoap.schemas.wsdl.soap";//(String)((TrxMessageHeader)this.getMessage().getMessageHeader()).get(SOAPMessageTransport.SOAP_PACKAGE);
+        return "org.xmlsoap.schemas.wsdl:org.xmlsoap.schemas.wsdl.soap:org.w3._2001.xmlschema";//(String)((TrxMessageHeader)this.getMessage().getMessageHeader()).get(SOAPMessageTransport.SOAP_PACKAGE);
     }
     /**
      * CreateMarshallableObject Method.

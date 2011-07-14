@@ -7,6 +7,10 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.jbundle.util.osgi.ClassFinder;
+import org.jbundle.util.osgi.ClassService;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
+
 public class JaxbContexts extends Hashtable<String,JaxbContexts.JAXBContextHolder> {
 
     public static JaxbContexts gJAXBContexts = null;
@@ -36,7 +40,31 @@ public class JaxbContexts extends Hashtable<String,JaxbContexts.JAXBContextHolde
             JAXBContextHolder jAXBContextHolder = super.get(soapPackage);
             if (jAXBContextHolder == null)
             {
-                JAXBContext jc = JAXBContext.newInstance(soapPackage);
+            	ClassService classService = ClassServiceUtility.getClassService();
+            	String className = soapPackage;
+            	if (className.indexOf(':') != -1)
+            		className = className.substring(0, className.indexOf(':'));
+            	className = className + ".ObjectFactory";
+            	
+            	Object object = classService.makeObjectFromClassName(className);
+            	/*
+            	ClassFinder classFinder = classService.getClassFinder(null);
+            	Object bundle = classFinder.findBundle(null, null, className, null);
+
+                if (bundle == null) {
+                    Object resource = classFinder.deployThisResource(className, true, false);
+                    if (resource != null)
+                    {
+                    	bundle = classFinder.findBundle(null, null, className, null);
+                    	if (bundle == null)
+                        	bundle = classFinder.findBundle(null, null, className, null);
+                    }
+                }
+*/            	
+            	ClassLoader classLoader = this.getClass().getClassLoader();
+            	if (object != null)
+            		classLoader = object.getClass().getClassLoader();
+                JAXBContext jc = JAXBContext.newInstance(soapPackage, classLoader);
                 jAXBContextHolder = new JAXBContextHolder(jc);
                 this.put(soapPackage, jAXBContextHolder);
             }

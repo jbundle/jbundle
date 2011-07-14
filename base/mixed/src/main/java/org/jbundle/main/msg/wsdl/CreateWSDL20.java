@@ -76,7 +76,7 @@ public class CreateWSDL20 extends CreateWSDL
      */
     public String getSOAPPackage()
     {
-        return "org.w3._2001.xmlschema:org.w3._2006._01.wsdl";//(String)((TrxMessageHeader)this.getMessage().getMessageHeader()).get(SOAPMessageTransport.SOAP_PACKAGE);
+        return "org.w3._2006._01.wsdl";//org.w3._2001.xmlschema: (String)((TrxMessageHeader)this.getMessage().getMessageHeader()).get(SOAPMessageTransport.SOAP_PACKAGE);
     }
     /**
      * CreateMarshallableObject Method.

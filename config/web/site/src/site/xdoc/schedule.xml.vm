@@ -63,39 +63,7 @@
 ]]>
       
       </p>
-      <p>
-      	Now that your code is compiled, you need to place it into a web server<br></br>
-      	I use glassfish for this demonstration, because it contains a web server, an OSGi server,
-      	and a database in a single install.<br></br>
-      	You can download the latest glassfish (v3) from <a href="http://glassfish.dev.java.net">glassfish.dev.java.net</a>.
-      	Run the glassfish install, then startup glassfish and tweek some of the settings:<br></br>
-      	<code>
-      	glassfish-3.0.1-unix.sh <em>(install glassfish)</em><br/>
-      	cd [glassfish home]<br/>
-      	bin/asadmin start-domain<br/>
-      	bin/asadmin delete-jvm-options "-XX\:PermSize=256m"<br/>
-      	bin/asadmin create-jvm-options "-XX\:PermSize=256m"<br/>
-      	bin/asadmin delete-jvm-options "-XX\:MaxPermSize=512m"<br/>
-      	bin/asadmin create-jvm-options "-XX\:MaxPermSize=512m"<br/>
-      	bin/asadmin delete-jvm-options -- -Xmx512m<br/>
-      	bin/asadmin create-jvm-options -- -Xmx1024m<br/>
-      	bin/asadmin delete-jvm-options -- -Xms512m <em>(ignore any warnings)</em><br/>
-      	bin/asadmin create-jvm-options -- -Xms512m<br/>
-      	<br/>
-      	bin/asadmin create-jdbc-resource --connectionpoolid DerbyPool jdbc/app_user<br/>
-      	bin/asadmin create-jdbc-resource --connectionpoolid DerbyPool jdbc/app_shared<br/>
-      	bin/asadmin create-jdbc-resource --connectionpoolid DerbyPool jdbc/main_user<br/>
-      	bin/asadmin create-jdbc-resource --connectionpoolid DerbyPool jdbc/main_shared<br/>
-      	<br/>
-      	bin/asadmin restart-domain<br/>
-      	<br/>
-      	bin/asadmin deploy --name contact --contextroot /contact --upload false [project name]/jbundle-app-contact-root/jbundle-app-contact-webapp/target/jbundle-app-contact-webapp-${project.version}/<br/>
-      	<br/>
-      	bin/asadmin start-database<br/>
-      	</code> 
-      </p>
-      <p>
-      
+      <p>      
       
       Karaf setup:
 
@@ -126,7 +94,7 @@ features:install war obr jndi webconsole
 #      repos add file:/home/don/.m2/repository/repository.xml
 x obr:addurl file:/home/don/.m2/repository/repository.xml
 
-obr:addurl file:snapshot-repository.xml
+obr:addurl file:../snapshot-repository.xml
 obr:addurl http://www.jibx.org/repository.xml
 # obr:addurl http://www.jbundle.org/repository.xml
 obr:addurl http://chameleon.ow2.org/repository/chameleon-releases.xml
@@ -136,10 +104,14 @@ install mvn:joda-time/joda-time/1.6.2
 install mvn:biz.source_code/base64coder/2010-12-19
 install mvn:mysql/mysql-connector-java/5.1.14
 
-obr:deploy 'jbundle-util-osgi-obr - obr bundle retrieval'
-obr:deploy 'jbundle-util-osgi-jnlp - osgi to web start web bundle'
+install mvn:org.jbundle.util.wsdl/org.jbundle.util.wsdl.wsdl11/0.7.8-SNAPSHOT
+install mvn:org.jbundle.util.wsdl/org.jbundle.util.wsdl.wsdl20/0.7.8-SNAPSHOT
+install mvn:org.jbundle.util.wsdl/org.jbundle.util.wsdl.xmlschema/0.7.8-SNAPSHOT
+
+obr:start 'jbundle-util-osgi-obr - obr bundle retrieval'
+obr:start 'jbundle-util-osgi-jnlp - osgi to web start web bundle'
 obr:deploy 'jbundle-base-remote - Remote server'
-obr:deploy 'jbundle-web-httpweb - Hybrid osgi webapp'
+# obr:deploy 'jbundle-web-httpweb - Hybrid osgi webapp'
 obr:deploy 'tourapp-web-httpweb - Hybrid osgi webapp'
      
 x install mvn:org.jbundle.util.osgi.wrapped/org.jbundle.util.osgi.wrapped.c3p0/0.9.1.2
