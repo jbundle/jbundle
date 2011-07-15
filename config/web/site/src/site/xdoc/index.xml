@@ -11,6 +11,11 @@
       <p>
         JBundle is a collection of open-source tools for writing applications for the Internet.
       </p>
+      <subsection name="OSGi Web Servlet Project">
+        <p>
+        An <a href="/osgi-webstart">OSGi to Web Start servlet</a>. Use this servlet to deploy your OSGi apps to a web client.
+        </p>
+      </subsection>
       <subsection name="Simple Web Servlets Project">
         <p>
         A collection of <a href="/simpleservlets">simple web servlets</a>. Use these templates to setup your basic servlets.
