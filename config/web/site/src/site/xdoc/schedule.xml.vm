@@ -72,7 +72,7 @@
 rm -fr apache-karaf-full-3.0.0-SNAPSHOT/
 tar zxvf ~/workspace-karaf/karaf/assemblies/apache-karaf-full/target/apache-karaf-full-3.0.0-SNAPSHOT-bin.tar.gz
 
-cd karaf/etc/
+cd apache-karaf-full-3.0.0-SNAPSHOT/etc/
 cp ~/workspace/workspace/bin/tourapp/policy/policy.all all.policy
 echo -e '\norg.osgi.framework.security=osgi\n' >> custom.properties
 echo -e '\njava.security.policy=${karaf.base}/etc/all.policy\n' >> system.properties
@@ -94,19 +94,19 @@ features:install war obr jndi webconsole
 #      repos add file:/home/don/.m2/repository/repository.xml
 x obr:addurl file:/home/don/.m2/repository/repository.xml
 
-obr:addurl file:../snapshot-repository.xml
+obr:addurl file:/home/don/.m2/full-repository.xml
 obr:addurl http://www.jibx.org/repository.xml
 # obr:addurl http://www.jbundle.org/repository.xml
 obr:addurl http://chameleon.ow2.org/repository/chameleon-releases.xml
 obr:addurl http://chameleon.ow2.org/repository/chameleon-commons.xml
 
-install mvn:joda-time/joda-time/1.6.2
-install mvn:biz.source_code/base64coder/2010-12-19
-install mvn:mysql/mysql-connector-java/5.1.14
+# install mvn:joda-time/joda-time/1.6.2
+# install mvn:biz.source_code/base64coder/2010-12-19
+# install mvn:mysql/mysql-connector-java/5.1.17
 
-install mvn:org.jbundle.util.wsdl/org.jbundle.util.wsdl.wsdl11/0.7.8-SNAPSHOT
-install mvn:org.jbundle.util.wsdl/org.jbundle.util.wsdl.wsdl20/0.7.8-SNAPSHOT
-install mvn:org.jbundle.util.wsdl/org.jbundle.util.wsdl.xmlschema/0.7.8-SNAPSHOT
+# install mvn:org.jbundle.util.wsdl/org.jbundle.util.wsdl.wsdl11/0.7.8-SNAPSHOT
+# install mvn:org.jbundle.util.wsdl/org.jbundle.util.wsdl.wsdl20/0.7.8-SNAPSHOT
+# install mvn:org.jbundle.util.wsdl/org.jbundle.util.wsdl.xmlschema/0.7.8-SNAPSHOT
 
 obr:start 'jbundle-util-osgi-obr - obr bundle retrieval'
 obr:start 'jbundle-util-osgi-jnlp - osgi to web start web bundle'
