@@ -8,7 +8,6 @@ package org.jbundle.base.thread;
  */
 
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ import org.jbundle.thin.base.thread.RecordOwnerCollection;
  * NOTE: LAME CODE ALERT: BaseRecordOwner is exactly the same as RemoteRecordOwner
  * except BaseRecordOwner subclasses Object and RemoteRecordOwner subclasses UnicastRemoteObject.
  */
-public class RemoteRecordOwner extends UnicastRemoteObject
+public class RemoteRecordOwner extends Object // UnicastRemoteObject - RMI is no longer used!
     implements RecordOwner
 {
     private static final long serialVersionUID = 1L;

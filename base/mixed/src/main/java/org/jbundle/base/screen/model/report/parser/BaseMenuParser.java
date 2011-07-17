@@ -190,9 +190,9 @@ public class BaseMenuParser extends XMLParser
         String strCellFormat = strData;
         if ((strCellFormat == null) || (strCellFormat.length() == 0))
             strCellFormat = "<td><a href=\"<link/>\"><img src=\"" +
-                "<icon/>\" width=24 height=24 alt=\"Run this program\"></a></td>" +
+                "<icon/>\" width=\"24\" height=\"24\" alt=\"Run this program\"></a></td>" +
                 "<td><a href=\"<link/>&help=\"><img src=\"" + HtmlConstants.HELP_ICON +
-                "\" width=24 height=24></a></td><td><a href=\"<link/>&help=\">" +
+                "\" width=\"24\" height=\"24\"></a></td><td><a href=\"<link/>&help=\">" +
                 HtmlConstants.TITLE_TAG + "</a></td><td>" + HtmlConstants.MENU_DESC_TAG + "</td>";
         this.preSetupGrid(null);
         
