@@ -1,6 +1,7 @@
 package org.jbundle.base.db.xmlutil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -265,68 +266,68 @@ public class XmlInOut extends BaseProcess
      */
     public void importThisArchive(File file)
     {
-        String strFileName = file.getName();
-        int iIndex = strFileName.lastIndexOf('.');
+        String filename = file.getName();
+        int iIndex = filename.lastIndexOf('.');
         if ((iIndex == -1)
-            || (!strFileName.substring(iIndex).equalsIgnoreCase(".XML")))
+            || (!filename.substring(iIndex).equalsIgnoreCase(".XML")))
                 return;   // This is not an XML file
-        strFileName = strFileName.substring(0, iIndex);
+        filename = filename.substring(0, iIndex);
         Record record = null;
-        String strClassName = file.getPath();
-        strClassName = strClassName.substring(0, strClassName.lastIndexOf('.'));
-        int iStartClass = strClassName.toUpperCase().indexOf(archiveRoot.toUpperCase()) + archiveRoot.length() + 1;
-        strClassName = strClassName.substring(iStartClass);
+        String className = file.getPath();
+        className = className.substring(0, className.lastIndexOf('.'));
+        int iStartClass = className.toUpperCase().indexOf(archiveRoot.toUpperCase()) + archiveRoot.length() + 1;
+        className = className.substring(iStartClass);
         char chFileSeparator = System.getProperty("file.separator").charAt(0);
-        strClassName = strClassName.replace(chFileSeparator, '.');
-        String strDatabaseName = strClassName.substring(0, strClassName.indexOf('.'));
-        strClassName = strClassName.substring(strClassName.indexOf('.') + 1);
+        className = className.replace(chFileSeparator, '.');
+        String databaseName = className.substring(0, className.indexOf('.'));
+        className = className.substring(className.indexOf('.') + 1);
         //x strClassName = Constants.ROOT_PACKAGE + strClassName;
-        String strRecordClassName = strClassName.substring(strClassName.lastIndexOf('.') + 1);
+        String strRecordClassName = className.substring(className.lastIndexOf('.') + 1);
         int iDatabaseType = DBConstants.SHARED_DATA;
-        if ((strDatabaseName != null) && (strDatabaseName.length() > 0))
+        if ((databaseName != null) && (databaseName.length() > 0))
         {
-            if (strDatabaseName.endsWith(BaseDatabase.USER_SUFFIX))
+            if (databaseName.endsWith(BaseDatabase.USER_SUFFIX))
             {
-                strDatabaseName = strDatabaseName.substring(0, strDatabaseName.length() - BaseDatabase.USER_SUFFIX.length());
+                databaseName = databaseName.substring(0, databaseName.length() - BaseDatabase.USER_SUFFIX.length());
                 iDatabaseType = DBConstants.USER_DATA;
             }
-            else if (strDatabaseName.endsWith(BaseDatabase.SHARED_SUFFIX))
-                strDatabaseName = strDatabaseName.substring(0, strDatabaseName.length() - BaseDatabase.SHARED_SUFFIX.length());
+            else if (databaseName.endsWith(BaseDatabase.SHARED_SUFFIX))
+                databaseName = databaseName.substring(0, databaseName.length() - BaseDatabase.SHARED_SUFFIX.length());
         }
         if (!"DatabaseInfo".equalsIgnoreCase(strRecordClassName))
         {
         	BaseDatabase database = null;
-            if ((strDatabaseName != null) && (strDatabaseName.length() > 0))
-            	if (strDatabaseName.contains("_"))	// Alternate database name
-            		database = ((BaseApplication)this.getTask().getApplication()).getDatabase(strDatabaseName, iDatabaseType, null);
+            if ((databaseName != null) && (databaseName.length() > 0))
+            	if (databaseName.contains("_"))	// Alternate database name
+            		database = ((BaseApplication)this.getTask().getApplication()).getDatabase(databaseName, iDatabaseType, null);
             if (database == null)
-            	record = Record.makeRecordFromClassName(strClassName, this);
+            	record = Record.makeRecordFromClassName(className, this);
             else
             {
-                record = Record.makeRecordFromClassName(strClassName, this, false, false);
+                record = Record.makeRecordFromClassName(className, this, false, false);
                 BaseTable table = database.makeTable(record);	// Force a table from this alternate database
                 record.init(this);
             }
         }
         else
         {
-            strClassName = DatabaseInfo.class.getName();
-            record = Record.makeRecordFromClassName(strClassName, this, false, true);
-            ((DatabaseInfo)record).setDatabaseName(strDatabaseName);
+            className = DatabaseInfo.class.getName();
+            record = Record.makeRecordFromClassName(className, this, false, true);
+            ((DatabaseInfo)record).setDatabaseName(databaseName);
             record.init(this);
         } 
         if (record == null)
         {
             record = new XmlRecord();
-            ((XmlRecord)record).setTableName(strFileName);
-            ((XmlRecord)record).setDatabaseName(strDatabaseName);
+            ((XmlRecord)record).setTableName(filename);
+            ((XmlRecord)record).setDatabaseName(databaseName);
             ((XmlRecord)record).setDatabaseType(DBConstants.REMOTE);
             record.init(this);
         }
 //if (record.getDatabaseType() != DBConstants.TABLE)
 //    return;
-        strDatabaseName = record.getDatabaseName();
-        Utility.getLogger().info("Record: " + strFileName + "  Database: " + strDatabaseName);// + "  Path: " + fileDir.getPath());
+        databaseName = record.getDatabaseName();
+        Utility.getLogger().info("Record: " + filename + "  Database: " + databaseName);// + "  Path: " + fileDir.getPath());
         if (!this.importXML(record, file.getPath(), null))
             System.exit(1);
         record.free();
@@ -334,9 +335,9 @@ public class XmlInOut extends BaseProcess
     /**
      * Parses this XML text and place it in new records.
      * @param record The record to place this parsed XML into (If this is null, the file name is supplied in the XML).
-     * @param strFileName The XML file to parse.
+     * @param filename The XML file to parse.
      */
-    public boolean importXML(Record record, String strFileName, InputStream inStream)
+    public boolean importXML(Record record, String filename, InputStream inStream)
     {
         XmlInOut.enableAllBehaviors(record, false, false);
         DocumentBuilder db = Utility.getDocumentBuilder();
@@ -349,31 +350,34 @@ public class XmlInOut extends BaseProcess
                 if (inStream != null)
                     doc = db.parse(inStream);
                 else
-                    doc = db.parse(new File(strFileName));
+                    doc = db.parse(new File(filename));
             }
-        } catch (SAXException se) {
-            Debug.print(se);
+        } catch (FileNotFoundException e) {
+            System.out.println("Table input file not found: " + filename);
             return false;   // Error
-        } catch (IOException ioe) {
-            Debug.print(ioe);
+        } catch (SAXException e) {
+            Debug.print(e);
             return false;   // Error
-        } catch (Exception ioe) {
-            Debug.print(ioe);
+        } catch (IOException e) {
+            Debug.print(e);
+            return false;   // Error
+        } catch (Exception e) {
+            Debug.print(e);
             return false;   // Error
         }
 
         try {
-            String strDatabase = null;
-            int iEndDB = strFileName.lastIndexOf(System.getProperty("file.separator", "/"));
+            String databaseName = null;
+            int iEndDB = filename.lastIndexOf(System.getProperty("file.separator", "/"));
             if (iEndDB == -1)
-                iEndDB = strFileName.lastIndexOf('/');
+                iEndDB = filename.lastIndexOf('/');
             if (iEndDB != -1)
             {
-                int iStartDB = strFileName.lastIndexOf(System.getProperty("file.separator", "/"), iEndDB - 1);
+                int iStartDB = filename.lastIndexOf(System.getProperty("file.separator", "/"), iEndDB - 1);
                 if (iStartDB == -1)
-                    iStartDB = strFileName.lastIndexOf('/', iEndDB - 1);
+                    iStartDB = filename.lastIndexOf('/', iEndDB - 1);
                 iStartDB++;     // Start
-                strDatabase = strFileName.substring(iStartDB, iEndDB);
+                databaseName = filename.substring(iStartDB, iEndDB);
             }
 
             if (record == null)
@@ -385,7 +389,7 @@ public class XmlInOut extends BaseProcess
             {
                 Node elChild = parser.getChildNode();
                 String strName = parser.getName();
-                this.parseRecord(stringdb, (Element)elChild, strName, strDatabase, record, null, false);
+                this.parseRecord(stringdb, (Element)elChild, strName, databaseName, record, null, false);
             }
         } catch (Throwable t) {
             t.printStackTrace();

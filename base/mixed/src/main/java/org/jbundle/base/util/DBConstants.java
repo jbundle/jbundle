@@ -137,7 +137,7 @@ public interface DBConstants extends Constants
     /**
      * Load initial data on table create.
      */
-    public static final String DEFAULT_ARCHIVE_FOLDER = "docs/data/initial-data/current-initial-data";
+    public static final String DEFAULT_ARCHIVE_FOLDER = "{domain}res/data/initial_data/current_initial_data";
     /**
      * Base table access only - don't use hierarchical, etc (For export, import). Set to true.
      */

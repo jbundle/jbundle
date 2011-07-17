@@ -3177,6 +3177,13 @@ public class Record extends FieldList
             strArchiveFolder = this.getTable().getDatabase().getProperty(DBConstants.ARCHIVE_FOLDER);
         if ((strArchiveFolder == null) || (strArchiveFolder.length() == 0))
             strArchiveFolder = DBConstants.DEFAULT_ARCHIVE_FOLDER;
+        String tableDomain = this.getClass().getName();
+        if ((tableDomain.indexOf('.') != -1)
+        	&& (tableDomain.substring(tableDomain.indexOf('.') + 1).indexOf('.') != -1))
+        		tableDomain = tableDomain.substring(0, tableDomain.indexOf('.') + tableDomain.substring(tableDomain.indexOf('.') + 1).indexOf('.') + 2);	// Include trailing .
+    		else
+    			tableDomain = DBConstants.BLANK;
+        strArchiveFolder = Utility.replace(strArchiveFolder, "{domain}", tableDomain.replace('.', chFileSeparator));
         String strPackage = this.getClass().getName();
         if (strPackage.endsWith("DatabaseInfo"))
             strPackage = "DatabaseInfo";
