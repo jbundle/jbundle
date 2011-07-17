@@ -3,9 +3,11 @@ package org.jbundle.web.httpservice;
 import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.util.osgi.BundleService;
 import org.jbundle.util.osgi.bundle.BaseBundleService;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.util.tracker.ServiceTracker;
+import org.osgi.service.log.LogService;
 
 /**
  * Start up the web service listener.
@@ -19,7 +21,7 @@ public class HttpServiceActivator extends BaseBundleService
     public void serviceChanged(ServiceEvent event) {
         if (event.getType() == ServiceEvent.REGISTERED)
         { // Osgi Service is up, Okay to start the server
-            System.out.println("Starting Http Service tracker");
+            ClassServiceUtility.log(context, LogService.LOG_INFO, "Starting Http Service tracker");
     		if (httpServiceTracker == null)
     		{
     			BundleContext context = event.getServiceReference().getBundle().getBundleContext();
@@ -28,7 +30,7 @@ public class HttpServiceActivator extends BaseBundleService
         }
         if (event.getType() == ServiceEvent.UNREGISTERING)
         {
-            System.out.println("Stopping http service tracker");
+            ClassServiceUtility.log(context, LogService.LOG_INFO, "Stopping http service tracker");
             httpServiceTracker.close();
             httpServiceTracker = null;
         }        
