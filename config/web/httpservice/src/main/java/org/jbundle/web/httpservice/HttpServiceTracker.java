@@ -121,6 +121,7 @@ public class HttpServiceTracker extends ServiceTracker{
             if ((TABLE.equalsIgnoreCase(path)) 
             		|| (IMAGE.equalsIgnoreCase(path))
             		|| (JNLP.equalsIgnoreCase(path))
+            		|| (WSDL.equalsIgnoreCase(path))
     	    		|| (TOURAPP_WSDL.equalsIgnoreCase(path))
     	    		|| (HTML.equalsIgnoreCase(path))
     	    		|| (TOURAPP_JNLP.equalsIgnoreCase(path))
