@@ -21,8 +21,8 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.main.screen.*;
 import org.jbundle.main.db.*;
-import org.jbundle.main.msg.db.*;
 import org.jbundle.main.msg.db.base.*;
+import org.jbundle.main.msg.db.*;
 import org.jbundle.main.user.db.*;
 
 /**
