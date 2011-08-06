@@ -272,7 +272,7 @@ public class CreateWSDL extends BaseProcess
                     strBaseURI = strBaseURI.substring(0, strBaseURI.length() - 1);
         }
         if (strBaseURI != null)
-            if (strValue.indexOf("http://") != 0)
+            if (strBaseURI.indexOf("http://") != 0)
                 strBaseURI = "http://" + strBaseURI;
         if (strBaseURI != null)
         {
