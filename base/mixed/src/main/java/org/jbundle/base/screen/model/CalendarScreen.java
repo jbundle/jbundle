@@ -13,8 +13,8 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.model.calendar.CalendarRecordItem;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.util.calendarpanel.model.CalendarItem;
 import org.jbundle.util.calendarpanel.model.CalendarModel;
 
@@ -108,7 +108,7 @@ public class CalendarScreen extends BaseGridTableScreen
     /**
      * Get the model.
      */
-    public CalendarItem getCalendarItem(FieldList fieldList)
+    public CalendarItem getCalendarItem(Rec fieldList)
     {
         return new CalendarRecordItem(this);
     }

@@ -23,6 +23,7 @@ import org.jbundle.app.program.project.db.*;
 import org.jbundle.base.screen.model.calendar.*;
 import javax.swing.*;
 import org.jbundle.util.calendarpanel.model.*;
+import org.jbundle.model.db.*;
 
 /**
  *  ProjectTaskCalendar - .
@@ -131,7 +132,7 @@ public class ProjectTaskCalendar extends CalendarScreen
     /**
      * Get the CalendarItem for this record.
      */
-    public CalendarItem getCalendarItem(FieldList fieldList)
+    public CalendarItem getCalendarItem(Rec fieldList)
     {
         return new CalendarRecordItem(this, -1, 0, 1, 2, -1)
         {

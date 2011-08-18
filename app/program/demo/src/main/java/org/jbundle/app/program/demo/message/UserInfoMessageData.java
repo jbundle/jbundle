@@ -21,6 +21,7 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.thin.base.message.*;
 import org.jbundle.main.user.db.*;
+import org.jbundle.model.db.*;
 
 /**
  *  UserInfoMessageData - .
@@ -65,7 +66,7 @@ public class UserInfoMessageData extends MessageRecordDesc
      * Move the map values to the correct record fields.
      * If this method is used, is must be overidden to move the correct fields.
      */
-    public int getRawRecordData(FieldList record)
+    public int getRawRecordData(Rec record)
     {
         int iErrorCode = super.getRawRecordData(record);
         this.getRawFieldData(record.getField(UserInfo.USER_NAME));
@@ -77,7 +78,7 @@ public class UserInfoMessageData extends MessageRecordDesc
      * If this method is used, is must be overidden to move the correct fields.
      * @param record The record to get the data from.
      */
-    public int putRawRecordData(FieldList record)
+    public int putRawRecordData(Rec record)
     {
         int iErrorCode = super.putRawRecordData(record);
         this.putRawFieldData(record.getField(UserInfo.USER_NAME));

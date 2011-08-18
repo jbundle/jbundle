@@ -15,6 +15,7 @@ import org.jbundle.model.db.Rec;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
+import org.jbundle.model.db.Rec;
 
 
 /**

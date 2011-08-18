@@ -8,6 +8,7 @@ import org.jbundle.app.test.vet.db.Cat;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.MessageDataParent;
 import org.jbundle.thin.base.message.MessageRecordDesc;
+import org.jbundle.model.db.*;
 
 
 /**
@@ -50,7 +51,7 @@ public class CatMessageRecordDesc extends MessageRecordDesc
      * If this method is used, is must be overidden to move the correct fields.
      * @param record The record to get the data from.
      */
-    public int putRawRecordData(FieldList record)
+    public int putRawRecordData(Rec record)
     {
         int iErrorCode = super.putRawRecordData(record);
         for (int iFieldSeq = Cat.kName; iFieldSeq <= Cat.kWeight; iFieldSeq++)
@@ -63,7 +64,7 @@ public class CatMessageRecordDesc extends MessageRecordDesc
      * Move the correct fields from this record to the map.
      * If this method is used, is must be overidden to move the correct fields.
      */
-    public int getRawRecordData(FieldList record)
+    public int getRawRecordData(Rec record)
     {
         for (int iFieldSeq = Cat.kName; iFieldSeq <= Cat.kWeight; iFieldSeq++)
         {

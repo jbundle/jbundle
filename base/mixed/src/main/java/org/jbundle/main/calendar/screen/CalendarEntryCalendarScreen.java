@@ -22,6 +22,7 @@ import org.jbundle.model.*;
 import org.jbundle.main.calendar.db.*;
 import org.jbundle.util.calendarpanel.model.*;
 import org.jbundle.base.screen.model.calendar.*;
+import org.jbundle.model.db.*;
 import javax.swing.*;
 
 /**
@@ -99,7 +100,7 @@ public class CalendarEntryCalendarScreen extends CalendarScreen
     /**
      * Get the CalendarItem for this record.
      */
-    public CalendarItem getCalendarItem(FieldList fieldList)
+    public CalendarItem getCalendarItem(Rec fieldList)
     {
         return new CalendarEntryItem(this, -1, 0, 1, 2, -1);
     }
