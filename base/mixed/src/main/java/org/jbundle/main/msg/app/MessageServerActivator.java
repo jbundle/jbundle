@@ -10,6 +10,8 @@ import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.base.util.BaseAppActivator;
+import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.thin.base.remote.RemoteTask;
@@ -25,6 +27,9 @@ public class MessageServerActivator extends BaseAppActivator
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
+
+		this.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
+
 		super.start(context);
 	}
 	
