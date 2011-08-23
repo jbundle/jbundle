@@ -78,6 +78,11 @@
 			<artifactId>org.jbundle.base.screen.control.xslservlet</artifactId>
 			<version>0.7.8-SNAPSHOT</version>
 		</dependency>
+        <dependency>		
+          <groupId>org.jbundle.base.message</groupId>
+          <artifactId>org.jbundle.base.message.jaxm</artifactId>
+          <version>0.7.8-SNAPSHOT</version>
+        </dependency>
 
 	    <dependency>
 	      <groupId>org.jbundle.util.osgi</groupId>

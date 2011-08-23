@@ -21,21 +21,6 @@
     </jbundlePackageExport>	<!-- Bundle package to export - Ignore Main -->
   </properties>
   
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Bundle-Activator>org.jbundle.base.screen.control.swing.AppletActivator</Bundle-Activator>
-          </instructions>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
   <dependencies>
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>

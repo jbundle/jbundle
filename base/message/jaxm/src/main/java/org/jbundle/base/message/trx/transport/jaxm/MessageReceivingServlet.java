@@ -1,8 +1,9 @@
+package org.jbundle.base.message.trx.transport.jaxm;
 /*
  * MessageReceivingServlet.
  */
 
-package org.jbundle.base.message.trx.transport.soap;
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,9 +21,10 @@ import javax.xml.soap.SOAPMessage;
 
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.SoapTrxMessageIn;
+import org.jbundle.base.message.trx.transport.soap.SOAPMessageTransport;
+import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
 import org.jbundle.base.screen.control.servlet.ServletTask;
-import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
 import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBConstants;
@@ -74,6 +76,16 @@ public class MessageReceivingServlet extends JAXMServlet
     {
         super.destroy();
         ServletTask.destroyServlet();
+    }
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) 
+            throws ServletException, IOException
+    {
+        super.doGet(req, resp);
+    }
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) 
+            throws ServletException, IOException
+    {
+        super.doPost(req, resp);
     }
     /*
     * This is the application code for handling the message.. Once the

@@ -4,11 +4,12 @@
  * Created on January 10, 2000, 4:47 PM
  */
  
-package org.jbundle.base.screen.control.swing;
+package org.jbundle.base.screen.control.swing.activator;
 
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.jbundle.base.screen.control.swing.*;
 import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;

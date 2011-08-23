@@ -68,6 +68,8 @@ public class HttpServiceTracker extends ServiceTracker{
     		IMAGES,
     		LIB,
     		DOCS,
+    	    WS,
+    	    WSDL,
     		PROXY,
     		TABLE,
     	    IMAGE,
@@ -82,9 +84,8 @@ public class HttpServiceTracker extends ServiceTracker{
     	    XHTML,
     	    JNLP_DOWNLOAD,
     	    MESSAGE,
-//    	    WS,
     	    XMLWS,
-            ROOT,
+//            ROOT,
     };
     /**
      * Http Service is up, add my servlets.
@@ -182,9 +183,9 @@ public class HttpServiceTracker extends ServiceTracker{
             }
             if (WS.equalsIgnoreCase(path))
             {
-	//+            servlet = new org.jbundle.base.message.trx.transport.soap.MessageReceivingServlet();
-	//+            dictionary.put("remotehost", "localhost");
-	//+            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
+	            servlet = new org.jbundle.base.message.trx.transport.jaxm.MessageReceivingServlet();
+	            dictionary.put("remotehost", "localhost");
+	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
             if (XMLWS.equalsIgnoreCase(path))
             {
