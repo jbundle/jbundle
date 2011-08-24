@@ -85,7 +85,7 @@ public class HttpServiceTracker extends ServiceTracker{
     	    JNLP_DOWNLOAD,
     	    MESSAGE,
     	    XMLWS,
-//            ROOT,
+            ROOT,
     };
     /**
      * Http Service is up, add my servlets.

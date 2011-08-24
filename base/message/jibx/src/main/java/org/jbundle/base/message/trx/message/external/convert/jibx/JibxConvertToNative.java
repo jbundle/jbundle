@@ -78,14 +78,14 @@ public class JibxConvertToNative extends BaseXmlConvertToNative
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 String packageName = (String)((TrxMessageHeader)this.getMessage().getMessageHeader()).get(SOAPMessageTransport.JIBX_PACKAGE_NAME);
                 String bindingName = (String)((TrxMessageHeader)this.getMessage().getMessageHeader()).get(SOAPMessageTransport.JIBX_BINDING_NAME);
-                if (bindingName == null)
+                if (packageName == null)
                 {
                 	packageName = root.getClass().getName();
                 	packageName = packageName.substring(0, packageName.lastIndexOf('.'));
                 	((TrxMessageHeader)this.getMessage().getMessageHeader()).put(SOAPMessageTransport.JIBX_PACKAGE_NAME, packageName);
                 }
     
-                IMarshallingContext m = JibxContexts.getJAXBContexts().getMarshaller(packageName, bindingName);
+                IMarshallingContext m = JibxContexts.getJIBXContexts().getMarshaller(packageName, bindingName);
                 if (m == null)
                     return null;
                 synchronized(m)
@@ -127,7 +127,7 @@ public class JibxConvertToNative extends BaseXmlConvertToNative
 //            DocumentBuilder db = Util.getDocumentBuilder();
             Document doc = null;            
             
-            IMarshallingContext mctx = JibxContexts.getJAXBContexts().getMarshaller(packageName, bindingName);
+            IMarshallingContext mctx = JibxContexts.getJIBXContexts().getMarshaller(packageName, bindingName);
             if (mctx == null)
                 return null;
             synchronized(mctx)
@@ -138,7 +138,7 @@ public class JibxConvertToNative extends BaseXmlConvertToNative
 //?                IBindingFactory bfact = BindingDirectory.getFactory(clazz);
 //?                IMarshallingContext mctx = bfact.createMarshallingContext();
                 
-            	String[] namespaces = JibxContexts.getJAXBContexts().get(packageName, bindingName).getFactory().getNamespaces();
+            	String[] namespaces = JibxContexts.getJIBXContexts().get(packageName, bindingName).getFactory().getNamespaces();
                 JDOMWriter jdomWriter = new JDOMWriter(namespaces);
                 mctx.setXmlWriter(jdomWriter);
                 mctx.marshalDocument(root);

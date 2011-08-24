@@ -72,7 +72,7 @@ public class JibxConvertToMessage extends BaseXmlConvertToMessage
             if (packageName != null)
             {
                 Object obj = null;
-                IUnmarshallingContext u = JibxContexts.getJAXBContexts().getUnmarshaller(packageName, bindingName);
+                IUnmarshallingContext u = JibxContexts.getJIBXContexts().getUnmarshaller(packageName, bindingName);
                 if (u == null)
                     return null;
                 synchronized(u)

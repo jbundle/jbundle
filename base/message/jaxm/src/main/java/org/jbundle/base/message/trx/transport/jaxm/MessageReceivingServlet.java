@@ -77,16 +77,6 @@ public class MessageReceivingServlet extends JAXMServlet
         super.destroy();
         ServletTask.destroyServlet();
     }
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) 
-            throws ServletException, IOException
-    {
-        super.doGet(req, resp);
-    }
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) 
-            throws ServletException, IOException
-    {
-        super.doPost(req, resp);
-    }
     /*
     * This is the application code for handling the message.. Once the
     * message is received the application can retrieve the soap part, the
