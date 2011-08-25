@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.xmlutil.XmlUtilities;
 import org.jbundle.base.screen.control.servlet.ServletTask;
+import org.jbundle.base.screen.control.servlet.html.BaseServlet;
 import org.jbundle.base.screen.model.BaseGridScreen;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
@@ -116,17 +117,15 @@ public class XBasePanel extends XScreenField
      */
     public String getStylesheetPath()
     {
-        String strStylesheetName = this.getStylesheetName();
-        if (strStylesheetName != null)
+        String stylesheetName = this.getStylesheetName();
+        if (stylesheetName != null)
         {
-        	String strStylesheetPath = null;
         	if (this.getProperty(DBParams.HELP) == null)	// Not the help stylesheet
-        		strStylesheetPath = this.getProperty("stylesheet-path");
-            if (strStylesheetPath == null)
-                strStylesheetPath = "docs/styles/xsl/ajax/base/";
-            strStylesheetName = strStylesheetPath + strStylesheetName + "-ajax.xsl";
+        		if (this.getProperty("stylesheet-path") != null)
+        			stylesheetName = this.getProperty("stylesheet-path") + stylesheetName;
+        	stylesheetName = BaseServlet.fixStylesheetPath(stylesheetName, this.getTask());
         }
-        return strStylesheetName;
+        return stylesheetName;
     }
     /**
      * Get the name of the stylesheet.

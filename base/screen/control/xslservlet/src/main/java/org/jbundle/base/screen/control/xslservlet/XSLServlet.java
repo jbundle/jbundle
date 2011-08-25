@@ -34,9 +34,11 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.ServletTask;
+import org.jbundle.base.screen.control.servlet.html.BaseServlet;
 import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.util.DBParams;
+import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.util.Application;
@@ -109,12 +111,9 @@ public class XSLServlet extends XMLServlet
 			if (stylesheet == null)
 				stylesheet = req.getParameter("stylesheet");
 			if (stylesheet == null)
-				stylesheet = "styles/xsl/flat/base/menus-ajax.xsl";
+				stylesheet = "docs/styles/xsl/flat/base/menus";
 
-			if ((stylesheet.indexOf('/') == -1) && (stylesheet.indexOf(File.pathSeparator) == -1))
-				stylesheet = "styles/xsl/cocoon/all/" + stylesheet;
-			if (!stylesheet.contains("."))
-				stylesheet = stylesheet + ".xsl";
+			stylesheet = BaseServlet.fixStylesheetPath(stylesheet, screen);
 			
 			StreamSource stylesheetSource = this.getStylesheetSource(servletTask, stylesheet);
 			
@@ -146,6 +145,7 @@ public class XSLServlet extends XMLServlet
     	
     	//x Don't call super.service(req, res);
     }
+
 	public StreamSource getStylesheetSource(ServletTask servletTask, String stylesheet) throws MalformedURLException
 	{
 		URL stylesheetURL = null;

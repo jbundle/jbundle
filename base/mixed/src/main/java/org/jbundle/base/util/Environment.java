@@ -176,8 +176,8 @@ public class Environment extends Object
     {
         if (gEnv == null)
             gEnv = new Environment(properties); // Create the Environment (using defalt database(s))
-        else
-        	Utility.getLogger().warning("getEnvironmentCalled");
+        //+else
+        //+	Utility.getLogger().warning("getEnvironmentCalled");
         return gEnv;
     }
     /**

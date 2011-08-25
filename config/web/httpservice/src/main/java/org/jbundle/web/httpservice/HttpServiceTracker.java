@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 import javax.servlet.Servlet;
 
+import org.jbundle.base.screen.control.servlet.html.BaseServlet;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpContext;
@@ -21,7 +22,6 @@ public class HttpServiceTracker extends ServiceTracker{
 
 	// Set this param to change root URL
 	public static final String WEB_CONTEXT = "org.jbundle.web.webcontext";
-	
 	String webContextPath = null;
 	
 	/**
@@ -42,50 +42,29 @@ public class HttpServiceTracker extends ServiceTracker{
         
         return httpService;
     }
-    String ROOT = "/";
-    String INDEX = "/index.html";
-    String IMAGES = "/images";
-    String LIB = "/lib";
-    String DOCS = "/docs";
-    String PROXY = "/proxy";
-    String TOURAPP = "/tourapp";
-    String TABLE = TOURAPP + "/table";
-    String IMAGE = TOURAPP + "/image";
-    String JNLP = TOURAPP + "/jnlp";
-    String TOURAPP_WSDL = TOURAPP + "/wsdl";
-    String WSDL = "/wsdl";
-    String HTML = "/HTMLServlet";
-    String TOURAPP_JNLP = TOURAPP + ".jnlp";
-    String XML = TOURAPP + "xml";
-    String XSL = TOURAPP + "xsl";
-    String XHTML = TOURAPP + "xhtml";
-    String JNLP_DOWNLOAD = "/docs/jnlp";	// "*.jnlp";
-    String AJAX = "/ajax";
-    String MESSAGE = "/message";
-    String WS = "/ws";
-    String XMLWS = "/xmlws";
     String[] paths = {
-    		IMAGES,
-    		LIB,
-    		DOCS,
-    	    WS,
-    	    WSDL,
-    		PROXY,
-    		TABLE,
-    	    IMAGE,
-    	    JNLP,
-    	    TOURAPP_WSDL,
-    	    HTML,
-    	    AJAX,
-    	    TOURAPP_JNLP,
-    	    TOURAPP,
-    	    XML,
-    	    XSL,
-    	    XHTML,
-    	    JNLP_DOWNLOAD,
-    	    MESSAGE,
-    	    XMLWS,
-            ROOT,
+    		BaseServlet.IMAGES,
+    		BaseServlet.LIB,
+    		BaseServlet.DOCS,
+    		BaseServlet.WS,
+    		BaseServlet.WSDL,
+    		BaseServlet.PROXY,
+    		BaseServlet.TABLE,
+    		BaseServlet.IMAGE,
+    		BaseServlet.JNLP,
+    		BaseServlet.TOURAPP_WSDL,
+    		BaseServlet.HTML,
+    		BaseServlet.HTML2,
+    		BaseServlet.AJAX,
+    		BaseServlet.TOURAPP_JNLP,
+    		BaseServlet.TOURAPP,
+    		BaseServlet.XML,
+    		BaseServlet.XSL,
+    		BaseServlet.XHTML,
+    		BaseServlet.JNLP_DOWNLOAD,
+    		BaseServlet.MESSAGE,
+    		BaseServlet.XMLWS,
+    		BaseServlet.ROOT,
     };
     /**
      * Http Service is up, add my servlets.
@@ -103,50 +82,52 @@ public class HttpServiceTracker extends ServiceTracker{
         try {
             Servlet servlet = null;
             Dictionary<String,String> dictionary = new Hashtable<String,String>();
+            dictionary.put(BaseServlet.PATH, path);
         	HttpContext httpContext = null;	// new MyHttpContext(context.getBundle());
         	webContextPath = context.getProperty(WEB_CONTEXT);
             String fullPath = addURLPath(webContextPath, path);
 
-            if ((IMAGES.equalsIgnoreCase(path)) 
-            	|| (LIB.equalsIgnoreCase(path))
-                || (DOCS.equalsIgnoreCase(path)))
+            if ((BaseServlet.IMAGES.equalsIgnoreCase(path)) 
+            	|| (BaseServlet.LIB.equalsIgnoreCase(path))
+                || (BaseServlet.DOCS.equalsIgnoreCase(path)))
             {
             	httpService.registerResources(fullPath, path, httpContext);
             }
-            if (PROXY.equalsIgnoreCase(path))
+            if (BaseServlet.PROXY.equalsIgnoreCase(path))
             {
 	            servlet = new org.jbundle.base.remote.proxy.ProxyServlet();
 	            dictionary.put("remotehost", "localhost");	// Default value
 	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
-            if ((TABLE.equalsIgnoreCase(path)) 
-            		|| (IMAGE.equalsIgnoreCase(path))
-            		|| (JNLP.equalsIgnoreCase(path))
-            		|| (WSDL.equalsIgnoreCase(path))
-    	    		|| (TOURAPP_WSDL.equalsIgnoreCase(path))
-    	    		|| (HTML.equalsIgnoreCase(path))
-    	    		|| (TOURAPP_JNLP.equalsIgnoreCase(path))
-            		|| (TOURAPP.equalsIgnoreCase(path)))
+            if ((BaseServlet.TABLE.equalsIgnoreCase(path)) 
+            		|| (BaseServlet.IMAGE.equalsIgnoreCase(path))
+            		|| (BaseServlet.JNLP.equalsIgnoreCase(path))
+            		|| (BaseServlet.WSDL.equalsIgnoreCase(path))
+    	    		|| (BaseServlet.TOURAPP_WSDL.equalsIgnoreCase(path))
+    	    		|| (BaseServlet.HTML.equalsIgnoreCase(path))
+    	    		|| (BaseServlet.HTML2.equalsIgnoreCase(path))
+    	    		|| (BaseServlet.TOURAPP_JNLP.equalsIgnoreCase(path))
+            		|| (BaseServlet.TOURAPP.equalsIgnoreCase(path)))
             {
             	servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
                 dictionary.put("remotehost", "localhost");	// Default value
             	httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
-            if (XML.equalsIgnoreCase(path))
+            if (BaseServlet.XML.equalsIgnoreCase(path))
             {
 	            servlet = new org.jbundle.base.screen.control.servlet.xml.XMLServlet();
 //x	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since stylesheets are in resources
 	            dictionary.put("remotehost", "localhost");
 	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
-            if ((XSL.equalsIgnoreCase(path)) 
-            	|| (XHTML.equalsIgnoreCase(path)))
+            if ((BaseServlet.XSL.equalsIgnoreCase(path)) 
+            	|| (BaseServlet.XHTML.equalsIgnoreCase(path)))
             {
 	            servlet = new org.jbundle.base.screen.control.xslservlet.XSLServlet();
 //x	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since stylesheets are in resources
 	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
-            if (JNLP_DOWNLOAD.equalsIgnoreCase(path))
+            if (BaseServlet.JNLP_DOWNLOAD.equalsIgnoreCase(path))
             {
 	          servlet = new org.jbundle.util.webapp.jnlpservlet.JnlpServlet();
 //	          servlet = new jnlp.sample.servlet.JnlpDownloadServlet();
@@ -154,15 +135,15 @@ public class HttpServiceTracker extends ServiceTracker{
 //	          httpService.registerServlet(addURLPath(webContextPath, "*.jnlp"), servlet, dictionary, httpContext);
 	          httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
-            if (AJAX.equalsIgnoreCase(path))
+            if (BaseServlet.AJAX.equalsIgnoreCase(path))
             {
             	servlet = new org.jbundle.base.remote.proxy.AjaxServlet();
             	dictionary.put("remotehost", "localhost");
 	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since webkit still can't handle import
             	httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
-            if ((ROOT.equalsIgnoreCase(path)) 
-                	|| (INDEX.equalsIgnoreCase(path)))
+            if ((BaseServlet.ROOT.equalsIgnoreCase(path)) 
+                	|| (BaseServlet.INDEX.equalsIgnoreCase(path)))
             {
 	            dictionary.put("regex", "www.+.tourgeek.com");
 	            dictionary.put("regexTarget", "demo/index.html");
@@ -175,19 +156,19 @@ public class HttpServiceTracker extends ServiceTracker{
 	            servlet = new org.jbundle.util.webapp.redirect.RegexRedirectServlet();
 	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
-            if (MESSAGE.equalsIgnoreCase(path))
+            if (BaseServlet.MESSAGE.equalsIgnoreCase(path))
             {
 	            servlet = new org.jbundle.base.message.trx.transport.html.MessageServlet();
 	            dictionary.put("remotehost", "localhost");
 	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
-            if (WS.equalsIgnoreCase(path))
+            if (BaseServlet.WS.equalsIgnoreCase(path))
             {
 	            servlet = new org.jbundle.base.message.trx.transport.jaxm.MessageReceivingServlet();
 	            dictionary.put("remotehost", "localhost");
 	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
-            if (XMLWS.equalsIgnoreCase(path))
+            if (BaseServlet.XMLWS.equalsIgnoreCase(path))
             {
 	            servlet = new org.jbundle.base.message.trx.transport.xml.XMLMessageReceivingServlet();
 	            dictionary.put("remotehost", "localhost");

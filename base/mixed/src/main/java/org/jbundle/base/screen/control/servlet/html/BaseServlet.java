@@ -7,10 +7,15 @@ package org.jbundle.base.screen.control.servlet.html;
  *      don@tourgeek.com
  */
 
+import java.io.File;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+
+import org.jbundle.base.util.DBParams;
+import org.jbundle.model.PropertyOwner;
 
 /**
  * RedirectServlet
@@ -54,7 +59,7 @@ public class BaseServlet extends HttpServlet
         return OTHER;
     }
     /**
-     * Get the browser type.
+     * Get the operating system type.
      */
     public String getOS(HttpServletRequest req)
     {
@@ -70,8 +75,49 @@ public class BaseServlet extends HttpServlet
         return OTHER;
     }
 
+    public static String fixStylesheetPath(String stylesheet, PropertyOwner propertyOwner)
+    {
+    	if ((stylesheet == null) || (propertyOwner == null))
+    		return null;
+		String browser = propertyOwner.getProperty(DBParams.BROWSER);
+    	boolean ajax = false;
+		if (BaseServlet.AJAX.equals(propertyOwner.getProperty(BaseServlet.PATH)))
+			ajax = true;
+		if (BaseServlet.XSL.equals(propertyOwner.getProperty(BaseServlet.PATH)))
+			ajax = true;
+		if (BaseServlet.XML.equals(propertyOwner.getProperty(BaseServlet.PATH)))
+			ajax = true;
+		if (BaseServlet.JAVA.equals(browser))
+			ajax = false;
+		if ((stylesheet.indexOf('/') == -1) && (stylesheet.indexOf(File.pathSeparator) == -1))
+		{
+			if (ajax)
+			{
+				if ((!BaseServlet.WEBKIT.equals(browser)) && (browser != null))
+					stylesheet = "docs/styles/xsl/ajax/base/" + stylesheet;
+				else
+					stylesheet = "docs/styles/xsl/flat/base/" + stylesheet;	// Webkit bug
+			}
+			else
+				stylesheet = "docs/styles/xsl/cocoon/base/" + stylesheet;
+		}
+		if (!stylesheet.contains("."))
+		{
+			if (ajax)
+				stylesheet = stylesheet + "-ajax";					
+			if (BaseServlet.IE.equals(browser))
+				stylesheet = stylesheet + "-ie";
+			else if (BaseServlet.JAVA.equals(browser))
+				stylesheet = stylesheet + "-java";
+			stylesheet = stylesheet + ".xsl";
+		}
+		return stylesheet;
+	}
+
     public static final String IE = "ie";
     public static final String FIREFOX = "firefox";
+    public static final String WEBKIT = "webkit";
+    public static final String JAVA = "java";
     public static final String OTHER = "other";
     
     public static final String WINDOWS = "WINDOWS";
@@ -86,12 +132,39 @@ public class BaseServlet extends HttpServlet
 
     public static String[][] BROWSER = {
         {IE, "MSIE"},
-        {"chrome", "CHROME"},
-        {"safari", "SAFARI"},
-        {"opera", "OPERA"},
-        {"java", "JAVA"},
+        {WEBKIT, "CHROME"},
+        {WEBKIT, "SAFARI"},
+        {WEBKIT, "OPERA"},
+        {JAVA, "JAVA"},
         {FIREFOX, "MOZILLA/5"},
-        {"webkit", "webkit"},
+        {WEBKIT, "webkit"},
         {OTHER, ""}
     };
+    
+    // Typical deploy paths
+	public static final String PATH = "path";	
+
+	public static final String ROOT = "/";
+	public static final String INDEX = "/index.html";
+	public static final String IMAGES = "/images";
+	public static final String LIB = "/lib";
+	public static final String DOCS = "/docs";
+	public static final String PROXY = "/proxy";
+	public static final String TOURAPP = "/tourapp";
+	public static final String TABLE = TOURAPP + "/table";
+	public static final String IMAGE = TOURAPP + "/image";
+	public static final String JNLP = TOURAPP + "/jnlp";
+	public static final String TOURAPP_WSDL = TOURAPP + "/wsdl";
+	public static final String WSDL = "/wsdl";
+	public static final String HTML = "/HTMLServlet";
+	public static final String HTML2 = TOURAPP + "html";
+	public static final String TOURAPP_JNLP = TOURAPP + ".jnlp";
+	public static final String XML = TOURAPP + "xml";
+	public static final String XSL = TOURAPP + "xsl";
+	public static final String XHTML = TOURAPP + "xhtml";
+	public static final String JNLP_DOWNLOAD = "/docs/jnlp";	// "*.jnlp";
+	public static final String AJAX = "/ajax";
+	public static final String MESSAGE = "/message";
+	public static final String WS = "/ws";
+	public static final String XMLWS = "/xmlws";
 }
