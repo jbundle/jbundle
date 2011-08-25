@@ -10,8 +10,6 @@
     <target name="flatten" >
 		<copy flatten="yes" todir="${target}/org/jbundle/res/docs/styles/xsl/cocoon/all" overwrite="true">
 			<fileset dir="${resourceLocation}/docs/styles/xsl/cocoon">
-				<exclude name="base/**">
-				</exclude>
 				<exclude name="system/**">
 				</exclude>
 				<exclude name="all/**">

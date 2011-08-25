@@ -99,7 +99,7 @@ public class BaseServlet extends HttpServlet
 					stylesheet = "docs/styles/xsl/flat/base/" + stylesheet;	// Webkit bug
 			}
 			else
-				stylesheet = "docs/styles/xsl/cocoon/base/" + stylesheet;
+				stylesheet = "docs/styles/xsl/cocoon/all/" + stylesheet;	// They should have specified the directory
 		}
 		if (!stylesheet.contains("."))
 		{
