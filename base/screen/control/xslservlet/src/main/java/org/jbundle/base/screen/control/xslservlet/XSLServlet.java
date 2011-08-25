@@ -109,7 +109,13 @@ public class XSLServlet extends XMLServlet
 			if (stylesheet == null)
 				stylesheet = req.getParameter("stylesheet");
 			if (stylesheet == null)
-				stylesheet = "docs/styles/xsl/flat/base/menus-ajax.xsl";
+				stylesheet = "styles/xsl/flat/base/menus-ajax.xsl";
+
+			if ((stylesheet.indexOf('/') == -1) && (stylesheet.indexOf(File.pathSeparator) == -1))
+				stylesheet = "styles/xsl/cocoon/all/" + stylesheet;
+			if (!stylesheet.contains("."))
+				stylesheet = stylesheet + ".xsl";
+			
 			StreamSource stylesheetSource = this.getStylesheetSource(servletTask, stylesheet);
 			
 	    	ServletOutputStream outStream = res.getOutputStream();
@@ -142,18 +148,20 @@ public class XSLServlet extends XMLServlet
     }
 	public StreamSource getStylesheetSource(ServletTask servletTask, String stylesheet) throws MalformedURLException
 	{
-		stylesheet = Util.getFullFilename(stylesheet, null, Constants.DOC_LOCATION, true);
 		URL stylesheetURL = null;
 		Application app = servletTask.getApplication();
+
+		String stylesheetPath = Util.getFullFilename(stylesheet, null, Constants.DOC_LOCATION, true);
 		if (app != null)
-		    stylesheetURL = app.getResourceURL(stylesheet, null);
+		    stylesheetURL = app.getResourceURL(stylesheetPath, null);
 		else
-		    stylesheetURL = this.getClass().getClassLoader().getResource(stylesheet);
+		    stylesheetURL = this.getClass().getClassLoader().getResource(stylesheetPath);
+		
 		if (stylesheetURL == null)
 		{
-			if (stylesheet.indexOf(':') == -1)
-				stylesheet = "file:" + stylesheet;
-			stylesheetURL = new URL(stylesheet);
+			if (stylesheetPath.indexOf(':') == -1)
+				stylesheetPath = "file:" + stylesheetPath;
+			stylesheetURL = new URL(stylesheetPath);
 		}
 		
 		if (stylesheetURL != null)

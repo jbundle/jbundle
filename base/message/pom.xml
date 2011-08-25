@@ -19,5 +19,6 @@
     <module>core</module>
     <module>misc</module>
     <module>jibx</module>
+    <module>jaxm</module>
   </modules>
 </project>

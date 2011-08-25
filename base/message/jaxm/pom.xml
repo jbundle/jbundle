@@ -85,6 +85,7 @@
       <!-- NOTE: This is not provided, because it is not in the glassfish dist (it is, but it isn't on the classpath) -->
       <!-- scope>system</scope -->
       <!-- systemPath>/usr/local/java/web/glassfish/mq/lib/jaxm-api.jar</systemPath -->
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
