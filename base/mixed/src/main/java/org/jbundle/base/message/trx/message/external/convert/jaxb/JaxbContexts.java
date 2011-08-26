@@ -7,7 +7,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.jbundle.util.osgi.ClassFinder;
 import org.jbundle.util.osgi.ClassService;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 

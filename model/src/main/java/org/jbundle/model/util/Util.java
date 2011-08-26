@@ -7,9 +7,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -472,6 +477,50 @@ public class Util extends Object
            }
        }
        return streamIn;
+   }
+   /**
+    * Transfer the data stream from in stream to out stream.
+    * Note: This does not close the out stream.
+    * @param in Stream in
+    * @param out Stream out
+    */
+   public static void transferStream(InputStream in, OutputStream out)
+   {
+       try {
+    	   byte[] cbuf = new byte[1000];
+           int iLen = 0;
+           while ((iLen = in.read(cbuf, 0, cbuf.length)) > 0)
+           {   // Write the entire file to the output buffer
+               out.write(cbuf, 0, iLen);
+           }
+           in.close();
+       } catch (MalformedURLException ex)  {
+           ex.printStackTrace();
+       } catch (IOException ex) {
+           ex.printStackTrace();
+       }
+   }
+   /**
+    * Transfer the data stream from in stream to out stream.
+    * Note: This does not close the out stream.
+    * @param in Stream in
+    * @param out Stream out
+    */
+   public static void transferStream(Reader in, Writer out)
+   {
+       try {
+           char[] cbuf = new char[1000];
+           int iLen = 0;
+           while ((iLen = in.read(cbuf, 0, cbuf.length)) > 0)
+           {   // Write the entire file to the output buffer
+               out.write(cbuf, 0, iLen);
+           }
+           in.close();
+       } catch (MalformedURLException ex)  {
+           ex.printStackTrace();
+       } catch (IOException ex) {
+           ex.printStackTrace();
+       }
    }
 
    public static final Border GRAY_BORDER = new LineBorder(Color.LIGHT_GRAY);

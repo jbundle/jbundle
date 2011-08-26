@@ -39,6 +39,7 @@ import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.Params;
@@ -893,24 +894,27 @@ public class BaseHttpTask extends Object
     }
     /**
      * A utility method to get an Input stream from a filename or URL string.
-     * @param strFilename The filename or url to open as an Input Stream.
+     * @param filename The filename or url to open as an Input Stream.
      * @return The imput stream (or null if there was an error).
      */
-    public InputStream getInputStream(String strFilename)
+    public InputStream getInputStream(String filename)
     {
         InputStream streamIn = null;
-        if (strFilename.indexOf(':') == -1)
+        if (filename.indexOf(':') == -1)
         {
-            strFilename = ((BaseHttpTask)this.getTask()).getRealPath(this.getServletRequest(), strFilename);
-            File file = new File(strFilename);
-            try   {
-                streamIn = new FileInputStream(file);
-            } catch (FileNotFoundException ex)  {
-                streamIn = null;
+            String filepath = ((BaseHttpTask)this.getTask()).getRealPath(this.getServletRequest(), filename);
+            if (filepath != null)
+            {
+	            File file = new File(filepath);
+	            try   {
+	                streamIn = new FileInputStream(file);
+	            } catch (FileNotFoundException ex)  {
+	                streamIn = null;
+	            }
             }
         }
         if (streamIn == null)
-            streamIn = Utility.getInputStream(strFilename, this.getApplication());
+            streamIn = Utility.getInputStream(filename, this.getApplication());
         return streamIn;
     }
     /**

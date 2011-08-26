@@ -117,8 +117,9 @@ public interface Constants extends Constant
 
     public static String CLASS_DIR = "classes";
     public static String FILE_ROOT = "";        // "../";       // Prefix for image files, etc.
-    public static final String IMAGE_LOCATION = "org/jbundle/res/images";
-    public static final String DOC_LOCATION = "org/jbundle/res/docs";
+    public static final String RES_LOCATION = "org/jbundle/res";
+    public static final String IMAGE_LOCATION = RES_LOCATION + "/images";
+    public static final String DOC_LOCATION = RES_LOCATION + "/docs";
     public static final String SEEK_CURRENT_RECORD = "*"; // Package prefix
     public static final String PRIMARY_KEY = "PrimaryKey";
     public static final String TIP = "Tip";     // Suffix on field tips

@@ -8,19 +8,27 @@ package org.jbundle.base.screen.control.servlet.html;
  */
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.util.Util;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.util.Application;
 
 /**
  * RedirectServlet
  * 
- * This servlet is the redirect servlet.
+ * This is the base servlet.
  */
 public class BaseServlet extends HttpServlet
 {
@@ -75,7 +83,41 @@ public class BaseServlet extends HttpServlet
         return OTHER;
     }
 
-    public static String fixStylesheetPath(String stylesheet, PropertyOwner propertyOwner)
+	public InputStream getFileStream(ServletTask servletTask, String filename, String filepath) throws MalformedURLException
+	{
+		URL fileURL = null;
+		Application app = null;
+		if (servletTask != null)
+			app = servletTask.getApplication();
+
+		if (filepath == null)
+			filepath = Constants.RES_LOCATION;
+		String fullFilepath = Util.getFullFilename(filename, null, filepath, true);
+		if (app != null)
+		    fileURL = app.getResourceURL(fullFilepath, null);
+		else
+		    fileURL = this.getClass().getClassLoader().getResource(fullFilepath);
+		
+		if (fileURL == null)
+		{
+			if (fullFilepath.indexOf(':') == -1)
+				fullFilepath = "file:" + fullFilepath;
+			fileURL = new URL(fullFilepath);
+		}
+		
+		if (fileURL != null)
+		{
+		    try {
+		        InputStream is = fileURL.openStream();
+		        return is;
+		    } catch (IOException ex)    {
+		    	// return null;
+		    }
+		}
+		return null;
+	}
+
+	public static String fixStylesheetPath(String stylesheet, PropertyOwner propertyOwner)
     {
     	if ((stylesheet == null) || (propertyOwner == null))
     		return null;
@@ -149,6 +191,8 @@ public class BaseServlet extends HttpServlet
 	public static final String IMAGES = "/images";
 	public static final String LIB = "/lib";
 	public static final String DOCS = "/docs";
+	public static final String JBUNDLE_RESOURCES = "/org/jbundle/res";
+	public static final String TOURAPP_RESOURCES = "/com/tourapp/res";
 	public static final String PROXY = "/proxy";
 	public static final String TOURAPP = "/tourapp";
 	public static final String TABLE = TOURAPP + "/table";

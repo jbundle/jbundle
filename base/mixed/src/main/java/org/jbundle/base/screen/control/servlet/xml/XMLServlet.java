@@ -9,7 +9,6 @@ package org.jbundle.base.screen.control.servlet.xml;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.jbundle.base.screen.control.servlet.BasicServlet;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.html.HTMLServlet;
 import org.jbundle.base.screen.model.TopScreen;
@@ -35,7 +34,6 @@ import org.jbundle.thin.base.db.FieldList;
  * </pre>
  */
 public class XMLServlet extends HTMLServlet
-    implements BasicServlet
 {
 	private static final long serialVersionUID = 1L;
 

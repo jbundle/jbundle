@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import javax.servlet.Servlet;
 
 import org.jbundle.base.screen.control.servlet.html.BaseServlet;
+import org.jbundle.util.webapp.osgi.OSGiFileServlet;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpContext;
@@ -46,6 +47,8 @@ public class HttpServiceTracker extends ServiceTracker{
     		BaseServlet.IMAGES,
     		BaseServlet.LIB,
     		BaseServlet.DOCS,
+    		BaseServlet.JBUNDLE_RESOURCES,
+    		BaseServlet.TOURAPP_RESOURCES,
     		BaseServlet.WS,
     		BaseServlet.WSDL,
     		BaseServlet.PROXY,
@@ -92,6 +95,24 @@ public class HttpServiceTracker extends ServiceTracker{
                 || (BaseServlet.DOCS.equalsIgnoreCase(path)))
             {
             	httpService.registerResources(fullPath, path, httpContext);
+            }
+            if ((BaseServlet.JBUNDLE_RESOURCES.equalsIgnoreCase(path)) 
+                || (BaseServlet.TOURAPP_RESOURCES.equalsIgnoreCase(path)))
+            {
+            	servlet = new OSGiFileServlet();
+/*            	try {
+            	servlet = new org.apache.catalina.servlets.DefaultServlet();
+            	} catch (Exception ex) {
+            		System.out.println("------------------------------");
+            		ex.printStackTrace();
+            		System.out.println("------------------------------");
+            	}
+            	if (servlet == null)
+            		servlet = new org.mortbay.jetty.servlet.DefaultServlet();
+//x            	servlet = new org.jbundle.base.screen.control.servlet.html.BaseServlet();
+ */
+            	httpContext = new org.jbundle.util.webapp.files.FileHttpContext(context.getBundle());
+	            httpService.registerServlet(fullPath, servlet, dictionary, httpContext);
             }
             if (BaseServlet.PROXY.equalsIgnoreCase(path))
             {

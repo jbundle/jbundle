@@ -9,12 +9,10 @@ package org.jbundle.base.screen.control.xslservlet;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -38,10 +36,6 @@ import org.jbundle.base.screen.control.servlet.html.BaseServlet;
 import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.util.DBParams;
-import org.jbundle.model.PropertyOwner;
-import org.jbundle.model.util.Util;
-import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -115,7 +109,7 @@ public class XSLServlet extends XMLServlet
 
 			stylesheet = BaseServlet.fixStylesheetPath(stylesheet, screen);
 			
-			StreamSource stylesheetSource = this.getStylesheetSource(servletTask, stylesheet);
+			StreamSource stylesheetSource = new StreamSource(this.getFileStream(servletTask, stylesheet, null));
 			
 	    	ServletOutputStream outStream = res.getOutputStream();
             Result result = new StreamResult(outStream);
@@ -146,35 +140,6 @@ public class XSLServlet extends XMLServlet
     	//x Don't call super.service(req, res);
     }
 
-	public StreamSource getStylesheetSource(ServletTask servletTask, String stylesheet) throws MalformedURLException
-	{
-		URL stylesheetURL = null;
-		Application app = servletTask.getApplication();
-
-		String stylesheetPath = Util.getFullFilename(stylesheet, null, Constants.DOC_LOCATION, true);
-		if (app != null)
-		    stylesheetURL = app.getResourceURL(stylesheetPath, null);
-		else
-		    stylesheetURL = this.getClass().getClassLoader().getResource(stylesheetPath);
-		
-		if (stylesheetURL == null)
-		{
-			if (stylesheetPath.indexOf(':') == -1)
-				stylesheetPath = "file:" + stylesheetPath;
-			stylesheetURL = new URL(stylesheetPath);
-		}
-		
-		if (stylesheetURL != null)
-		{
-		    try {
-		        InputStream is = stylesheetURL.openStream();
-		        return new StreamSource(is);
-		    } catch (IOException ex)    {
-		    	// return null;
-		    }
-		}
-		return null;
-	}
     /**
      * Class to return base path of imports and includes.
      * @author don
@@ -199,7 +164,6 @@ public class XSLServlet extends XMLServlet
 		@Override
 		public Source resolve(String href, String base)
 				throws TransformerException {
-			Source source = null;
 			int lastSlash = mainStylesheet.lastIndexOf('/');
 			if (lastSlash == -1)
 				lastSlash = mainStylesheet.lastIndexOf(File.separatorChar);
@@ -210,7 +174,7 @@ public class XSLServlet extends XMLServlet
 			String sourceStylesheet = mainStylesheet.substring(0, lastSlash + 1) + href;
 			
 			try {
-				return getStylesheetSource(servletTask, sourceStylesheet);
+				return new StreamSource(getFileStream(servletTask, sourceStylesheet, null));
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 				return null;

@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -340,12 +342,7 @@ public class Utility extends ThinUtil
                 else
                     outTemp = new FileWriter(strFilename);
             }
-            char[] cbuf = new char[1000];
-            int iLen = 0;
-            while ((iLen = in.read(cbuf, 0, cbuf.length)) > 0)
-            {   // Write the entire file to the output buffer
-                outTemp.write(cbuf, 0, iLen);
-            }
+            Utility.transferStream(in, outTemp);
             if (out == null)
             {
                 outTemp.flush();

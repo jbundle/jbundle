@@ -76,15 +76,15 @@ public class XBaseMenuScreen extends XBaseScreen
      */
     public boolean printControl(PrintWriter out, int iPrintOptions)
     {
-        boolean bFieldsFound = true;    // This will keep screen from printing (non-existant sub-fields)
+        boolean bFieldsFound = true;    // This will keep screen from printing (non-existent sub-fields)
         Menus recMenus = (Menus)((BaseMenuScreen)this.getScreenField()).getMainRecord();
         
         if ((recMenus.getField(Menus.kXmlData).isNull()) || (recMenus.getField(Menus.kXmlData).toString().startsWith("<HTML>")) || (recMenus.getField(Menus.kXmlData).toString().startsWith("<html>")))
         {
-            String strFilename = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperty(DBParams.XML);
-            if ((strFilename != null) && (strFilename.length() > 0))
+            String filename = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperty(DBParams.XML);
+            if ((filename != null) && (filename.length() > 0))
             {
-                InputStream streamIn = this.getTask().getInputStream(strFilename);
+                InputStream streamIn = this.getTask().getInputStream(filename);
                 String str = Utility.transferURLStream(null, null, new InputStreamReader(streamIn));
                 recMenus.getField(Menus.kXmlData).setString(str);
             }
