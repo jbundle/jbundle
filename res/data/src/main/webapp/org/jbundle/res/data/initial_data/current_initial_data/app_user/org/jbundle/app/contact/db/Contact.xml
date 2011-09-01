@@ -91,8 +91,8 @@
 		<Deleted>N</Deleted>
 		<Code/>
 		<Name>Innovative Systems Group</Name>
-		<AddressLine1>18710 South Wilmington Ave
-Suite 108</AddressLine1>
+		<AddressLine1><![CDATA[18710 South Wilmington Ave
+Suite 108]]></AddressLine1>
 		<AddressLine2/>
 		<CityOrTown/>
 		<StateOrRegion/>
@@ -105,12 +105,12 @@ Suite 108</AddressLine1>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-07-01</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Brian &amp; Steve &amp; James
+		<Comments><![CDATA[Brian & Steve & James
 Take 710S to 91W Off at Wilmington sales 714-847-0598, serv 800-540-4782, Fax 714-847-4128,
 16371 Gothard Street, Suite H
 Huntington Beach, CA  92647 
 Raul @ personal cell: 714-307-5427
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>INNOVA</NameSort>
@@ -139,7 +139,7 @@ Raul @ personal cell: 714-307-5427
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-08-26</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Gianna, Gregory, and Mathew
+		<Comments><![CDATA[Gianna, Gregory, and Mathew
 Mara's brothers are:
 John and ?
 Jack's
@@ -147,7 +147,7 @@ Dad: Frank
 Mom: ?
 Sister:
 Matthew cell (310) 433-1753
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>BOMMAR</NameSort>
@@ -205,8 +205,8 @@ Matthew cell (310) 433-1753
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2000-04-02</DateChanged>
 		<ChangedID>2,167</ChangedID>
-		<Comments>Kesang, Nicole
-</Comments>
+		<Comments><![CDATA[Kesang, Nicole
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>BALL</NameSort>
@@ -235,11 +235,11 @@ Matthew cell (310) 433-1753
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-10-01</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Robert, Chris, Matt, Sam 
+		<Comments><![CDATA[Robert, Chris, Matt, Sam 
 1-818-834-3523
 
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>CISNER</NameSort>
@@ -297,7 +297,7 @@ Matthew cell (310) 433-1753
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2007-06-05</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Kim, Karly, and Cameron
+		<Comments><![CDATA[Kim, Karly, and Cameron
 
 I-15 North
 
@@ -313,7 +313,7 @@ Go up a short hill and take the first left on Cedarhurst
 
 Take the first right on Breezeway
 
-We?re at the bottom of the cul-de-sac on the right </Comments>
+We?re at the bottom of the cul-de-sac on the right ]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>IMAIZU</NameSort>
@@ -342,9 +342,9 @@ We?re at the bottom of the cul-de-sac on the right </Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2003-10-27</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>http://www.atstours.com/
+		<Comments><![CDATA[http://www.atstours.com/
 http://www.islandsinthesun.com/
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>AUSTRA</NameSort>
@@ -402,7 +402,7 @@ http://www.islandsinthesun.com/
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-10-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>To access the qualityX website, visit http://www.myfamily.com and enter the
+		<Comments><![CDATA[To access the qualityX website, visit http://www.myfamily.com and enter the
 following login information:
 
 
@@ -418,7 +418,7 @@ sportfishing
 
 Karen Fukutaki
 701 Glencoe
-Denver, CO 80220</Comments>
+Denver, CO 80220]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>KOBO E</NameSort>
@@ -476,8 +476,8 @@ Denver, CO 80220</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2007-03-11</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Tom's work number (323) 223-9039
-Mommy &amp; Daddy baby
+		<Comments><![CDATA[Tom's work number (323) 223-9039
+Mommy & Daddy baby
 Tom's Beeper 213-919-4693
 Lupe at work: 584-1043 (Becky, Theresa, Lisa)
 Tom's Fax 323-223-4618
@@ -490,7 +490,7 @@ Richard Espinosa + Wife
 Benny Padilla + Wife
 Eddy and Magena (Wife) (Dance friends)
 323-899-7648 (Tom's new cell)
-Lupe (new cell) 323-348-9897</Comments>
+Lupe (new cell) 323-348-9897]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>ARAUJO</NameSort>
@@ -519,12 +519,12 @@ Lupe (new cell) 323-348-9897</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>Harry Honda, Richard, Andy, Francis
+		<Comments><![CDATA[Harry Honda, Richard, Andy, Francis
 60 off on garfield/wilcox (east) to Potero Grande to Atlas, First Stop
 Andy now at Gardena Valley News
 (310) 329-6351
 Martha @ Home
-(310) 538-1302</Comments>
+(310) 538-1302]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>PACIFI</NameSort>
@@ -582,7 +582,7 @@ Martha @ Home
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2007-12-26</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Garvar, Staci, Arron, Dayon
+		<Comments><![CDATA[Garvar, Staci, Arron, Dayon
 Russ, Ethan
 
 Take 5, off at Lions, (L) Newhall Ave, (R) 14th St., (R) Chestnut
@@ -598,7 +598,7 @@ Dayon Schwartz
 Space 301
 Las Vegas, NV  89115
 (702) 437-1517
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>SCHWAR</NameSort>
@@ -656,7 +656,7 @@ Las Vegas, NV  89115
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-10-22</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>(702) 480-1343 (Mike Cellular)
+		<Comments><![CDATA[(702) 480-1343 (Mike Cellular)
 (702) 338-8266 (Vicki's Cell)
 (661) 252-1215 (Vicki's Mom - Pat Vignaroli)
 Vicki Viggy05@cs.com
@@ -672,7 +672,7 @@ sgluckma@us.ibm.com
 Jessica Walters
 jesswalt@us.ibm.com
 792-853-4806 (work)
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>D'AMIC</NameSort>
@@ -701,7 +701,7 @@ jesswalt@us.ibm.com
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-08-19</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>New New Cell Phone: 702-205-5120
+		<Comments><![CDATA[New New Cell Phone: 702-205-5120
 New Cell Kaffers: 702-860-2053
 other? Phone: 702-656-7047
 martinwyand.com pics
@@ -724,7 +724,7 @@ Greg Vasquez
 9395 W. Verde Way
 Greg's Cell 702-401-9361
 Bubs Phone no: 702-423-2790
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>DEBRUN</NameSort>
@@ -811,12 +811,12 @@ Bubs Phone no: 702-423-2790
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-10-14</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Jane's number: 1-253-631-3105
+		<Comments><![CDATA[Jane's number: 1-253-631-3105
 Geri's Number 310-455-2475
 http://www.geocities.com/CapeCanaveral/9348/
 Jane's address:
 25956 158th Ct SE
-Covington, WA  98042</Comments>
+Covington, WA  98042]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MCGRAT</NameSort>
@@ -845,7 +845,7 @@ Covington, WA  98042</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-12-25</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>395N
+		<Comments><![CDATA[395N
 don't get on fwy, turns into S Virginia
 (L) on McCarron West (Exit 10) 4 streets
 (R) on Mayberry (1 mile)
@@ -865,7 +865,7 @@ N6749919
 
 
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>FARRIN</NameSort>
@@ -894,9 +894,9 @@ N6749919
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-11-25</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Cell: 949-525-3940
+		<Comments><![CDATA[Cell: 949-525-3940
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>FARRIN</NameSort>
@@ -925,9 +925,9 @@ N6749919
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2007-07-06</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Cellular 626-664-6020
+		<Comments><![CDATA[Cellular 626-664-6020
 714-329-5124
-Pat DeRose 213-283-6681</Comments>
+Pat DeRose 213-283-6681]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>FUKUTA</NameSort>
@@ -956,11 +956,11 @@ Pat DeRose 213-283-6681</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-03-28</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Nogales, rt to Colima
+		<Comments><![CDATA[Nogales, rt to Colima
 Mobil phone: 626-695-1688
 Fax: 626-913-8882
 Pager: 626-588-0524
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>CALWAY</NameSort>
@@ -989,9 +989,9 @@ Pager: 626-588-0524
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-04-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Uncle John, Varia, Alex
+		<Comments><![CDATA[Uncle John, Varia, Alex
 818-292-5204 (Varia's cell phone)
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>SIERRA</NameSort>
@@ -1036,8 +1036,8 @@ Pager: 626-588-0524
 		<Deleted>N</Deleted>
 		<Code/>
 		<Name/>
-		<AddressLine1>429 Edgewood Ave
-Elkhorn Wisconsin</AddressLine1>
+		<AddressLine1><![CDATA[429 Edgewood Ave
+Elkhorn Wisconsin]]></AddressLine1>
 		<AddressLine2/>
 		<CityOrTown>Elkhorn</CityOrTown>
 		<StateOrRegion>WI</StateOrRegion>
@@ -1050,10 +1050,10 @@ Elkhorn Wisconsin</AddressLine1>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-10-27</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Uncle Bird
+		<Comments><![CDATA[Uncle Bird
 rleibsle@townsquare.com
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>L</NameSort>
@@ -1111,7 +1111,7 @@ rleibsle@townsquare.com
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>Home:
+		<Comments><![CDATA[Home:
 11811 Washington Pl #211
 Los Angeles, CA  90066-4651
 Directions:
@@ -1120,7 +1120,7 @@ Directions:
 (right) on Washington Place
 1700 Main Street POBox 2138
 Santa Monica, CA  90407-2138
-Development Office</Comments>
+Development Office]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>RAND C</NameSort>
@@ -1149,7 +1149,7 @@ Development Office</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-08-09</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>626-644-0863 cell
+		<Comments><![CDATA[626-644-0863 cell
 626-644-0836 frank cell
 fponnet@holyfamily.org
 403-6116
@@ -1158,7 +1158,7 @@ Jolinda
 Donna 602-830-2617
 Shiela 445-8635
 Stacey Cell: 626-644-1681
-Luke Cell: 626-644-0834</Comments>
+Luke Cell: 626-644-0834]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>PONNET</NameSort>
@@ -1187,13 +1187,13 @@ Luke Cell: 626-644-0834</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2007-06-22</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Uncle sal 698-0811 605-&gt;Washington E to 12401 Washington blvd Lambert
+		<Comments><![CDATA[Uncle sal 698-0811 605->Washington E to 12401 Washington blvd Lambert
 Caesar J. Wood
 620 E. Route 66, Suite 214
 Glendora, CA 91740
 626-335-3230
 www.residencemortgageco.com
-909-845-3649</Comments>
+909-845-3649]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MANCIL</NameSort>
@@ -1222,11 +1222,11 @@ www.residencemortgageco.com
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2006-04-20</DateChanged>
 		<ChangedID>-1</ChangedID>
-		<Comments>Dennis, Irma, Marco, and Sandra----Miaka (Mike-a) coxia@excite.de
+		<Comments><![CDATA[Dennis, Irma, Marco, and Sandra----Miaka (Mike-a) coxia@excite.de
 Irma: Hauptstrabe 35
 55595 Gutenberg
 (011) 49 67 06 14 21
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>COX</NameSort>
@@ -1342,9 +1342,9 @@ Irma: Hauptstrabe 35
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Jane and Charlie
+		<Comments><![CDATA[Jane and Charlie
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>STOCKA</NameSort>
@@ -1373,10 +1373,10 @@ Irma: Hauptstrabe 35
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-07-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Voice Mail 1-800-321-2213 x5503
+		<Comments><![CDATA[Voice Mail 1-800-321-2213 x5503
 Cust Svc 1-800-322-4966
 Cell Phone 1-805-704-8045
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>OLSON</NameSort>
@@ -1434,14 +1434,14 @@ Cell Phone 1-805-704-8045
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-08-14</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>David Schoenbaum
+		<Comments><![CDATA[David Schoenbaum
 101 off on Victoria (lt) to Harbor(rt) to Costa de Oro(rt) to 4574 Gates Head Bay(lt)
 OXNARD CA 93035-3706
 (805) 231-7189 (Cell)
 
 
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>OLSON</NameSort>
@@ -1470,7 +1470,7 @@ OXNARD CA 93035-3706
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-07-30</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Billy, Briana, &amp; Brandon
+		<Comments><![CDATA[Billy, Briana, & Brandon
 Amy, Shana, Billy, Briana, Brandon
 Billy: 909-698-9215
 Trisha new cell: 1-951-757-4599
@@ -1482,7 +1482,7 @@ From L.A.
 (lt) onto General Cherney
 (lt) onto Campos Verdes
 (rt) onto Cervantes
-(lt) onto a small street (Odessa Dr)</Comments>
+(lt) onto a small street (Odessa Dr)]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>BOWERS</NameSort>
@@ -1511,11 +1511,11 @@ From L.A.
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2007-02-02</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Owen x260
+		<Comments><![CDATA[Owen x260
 Encino Home: 134 Off @Van Nuys: South almost to Mulholland; left on Coy; Left on Glorietta St, Left on 3467 Glorietta Place 1-818-784-3590
 Cell Phone 858-349-1466 
 old email:ttanaka@san.rr.com
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>TANAKA</NameSort>
@@ -1544,7 +1544,7 @@ old email:ttanaka@san.rr.com
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-11-25</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Peggy Mikuni &amp; Gary
+		<Comments><![CDATA[Peggy Mikuni & Gary
 Noreen Tanamachi-Liu
 Kenji, Grace, and Scott
 Sandy
@@ -1574,7 +1574,7 @@ Home 626-288-7721
 Cell 626-592-2174
 Scott Home 626-308-0549
 Scott Cell: 626-718-7941
-scott: sakamoto.scott@gmail.com</Comments>
+scott: sakamoto.scott@gmail.com]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>YAMATO</NameSort>
@@ -1648,8 +1648,8 @@ scott: sakamoto.scott@gmail.com</Comments>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Name>Pacific Best Tours</Name>
-		<AddressLine1>Best Tours Building
-228 River Vale Road</AddressLine1>
+		<AddressLine1><![CDATA[Best Tours Building
+228 River Vale Road]]></AddressLine1>
 		<AddressLine2/>
 		<CityOrTown>RiverVale</CityOrTown>
 		<StateOrRegion>NJ</StateOrRegion>
@@ -1662,8 +1662,8 @@ scott: sakamoto.scott@gmail.com</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>12/14/93 demo
-Robert - D.P. Person</Comments>
+		<Comments><![CDATA[12/14/93 demo
+Robert - D.P. Person]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>PACIFI</NameSort>
@@ -1721,9 +1721,9 @@ Robert - D.P. Person</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-02-03</DateChanged>
 		<ChangedID>439</ChangedID>
-		<Comments>David Herbert
+		<Comments><![CDATA[David Herbert
 Bob - Source of Venture Capital
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>AFRICA</NameSort>
@@ -1752,9 +1752,9 @@ Bob - Source of Venture Capital
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-12-16</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>395N past Minden, rt on Stephanie, lt on Vicki, rt on Porter
+		<Comments><![CDATA[395N past Minden, rt on Stephanie, lt on Vicki, rt on Porter
 His Dad 805-252-7792
-Jerry (Works on cars here) 805-268-0349</Comments>
+Jerry (Works on cars here) 805-268-0349]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>DAVIS</NameSort>
@@ -1783,11 +1783,11 @@ Jerry (Works on cars here) 805-268-0349</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>1-800-637-4735
+		<Comments><![CDATA[1-800-637-4735
 Nancy - New Financial Rep
 Cust# 840360
 S/W Licensing 800-227-1312
-John Raymond Direct 310-615-3080 x3073</Comments>
+John Raymond Direct 310-615-3080 x3073]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MERISE</NameSort>
@@ -1816,8 +1816,8 @@ John Raymond Direct 310-615-3080 x3073</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>Customer Service 800-462-5241
-My customer ID:134415 Don Corley Pass: Donwpp</Comments>
+		<Comments><![CDATA[Customer Service 800-462-5241
+My customer ID:134415 Don Corley Pass: Donwpp]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MICROS</NameSort>
@@ -1846,9 +1846,9 @@ My customer ID:134415 Don Corley Pass: Donwpp</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-07-31</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Parents: Tony and Haru Yamasaki 323-262-0322
+		<Comments><![CDATA[Parents: Tony and Haru Yamasaki 323-262-0322
 Brother: Dale and Michelle
-Palm Springs 760-321-1220</Comments>
+Palm Springs 760-321-1220]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>ADAMS</NameSort>
@@ -1877,9 +1877,9 @@ Palm Springs 760-321-1220</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-09-16</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>
+		<Comments><![CDATA[
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>HENDER</NameSort>
@@ -1908,7 +1908,7 @@ Palm Springs 760-321-1220</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2005-12-26</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Grandparents: Armando and Lorraine Navaro: 760-244-0637
+		<Comments><![CDATA[Grandparents: Armando and Lorraine Navaro: 760-244-0637
 Main to Peach(rt) to (Davenport?)(lt) to Arcadia(rt) to Yuma(lt).
 Lorraine and Armondo
 18504 Yuba Street
@@ -1917,7 +1917,7 @@ Cell: 760-964-8521
 Liz Cell: 760-408-0178
 Relatives:
 Arron, Amanda, Alaura, and Dresden 
-Tommy's cell (work) 760-686-4424</Comments>
+Tommy's cell (work) 760-686-4424]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>ARAUJO</NameSort>
@@ -1975,10 +1975,10 @@ Tommy's cell (work) 760-686-4424</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-10-26</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Carphone 818-404-4379 
+		<Comments><![CDATA[Carphone 818-404-4379 
 Susie's Cell 626-487-1383
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>STILLW</NameSort>
@@ -2036,7 +2036,7 @@ Susie's Cell 626-487-1383
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-07-29</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Luke's cell number: (619) 892-3859
+		<Comments><![CDATA[Luke's cell number: (619) 892-3859
 Direct to xfer - 282-3455 brent 7111 luke 7110
 282-6516, 282-4174 WAW, 282-5472?, 282-5690 Credit Card, 282-4164 JOA Fax, 282-2763 NT Server,
 282-2754 DG Fax, 282-4379 ?, 282-0402 DataGeneral, 282-2763 PC Modem, 282-9486 Internet line, 282-6379 PC MS at Work Fax, ISDN 516-7015/6
@@ -2053,7 +2053,7 @@ Luke email: lbeamer5321@cox.net
 
 
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>JAPAN </NameSort>
@@ -2111,9 +2111,9 @@ Luke email: lbeamer5321@cox.net
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-06-06</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>P.O. Box 613232
+		<Comments><![CDATA[P.O. Box 613232
 96152
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>CORLEY</NameSort>
@@ -2229,10 +2229,10 @@ Luke email: lbeamer5321@cox.net
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-07-29</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>
+		<Comments><![CDATA[
 
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>BRUMME</NameSort>
@@ -2290,8 +2290,8 @@ Luke email: lbeamer5321@cox.net
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2001-09-04</DateChanged>
 		<ChangedID>26</ChangedID>
-		<Comments>Operations person for Africa Travel (Robert Torme say would be good contact for selling software)
-Sells XIQ for use with Tech-7 systems</Comments>
+		<Comments><![CDATA[Operations person for Africa Travel (Robert Torme say would be good contact for selling software)
+Sells XIQ for use with Tech-7 systems]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>STAPLE</NameSort>
@@ -2394,9 +2394,9 @@ Sells XIQ for use with Tech-7 systems</Comments>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Name/>
-		<AddressLine1>03322-036
+		<AddressLine1><![CDATA[03322-036
 FPC/FCC
-P.O. Box 5000</AddressLine1>
+P.O. Box 5000]]></AddressLine1>
 		<AddressLine2/>
 		<CityOrTown>Florence</CityOrTown>
 		<StateOrRegion>CO</StateOrRegion>
@@ -2438,12 +2438,12 @@ P.O. Box 5000</AddressLine1>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>DonCorley
+		<Comments><![CDATA[DonCorley
 TomAraujo
 Password: Donwpp
 Password: tomasa
 Dad:DonaldCorley
-Pass: Donald</Comments>
+Pass: Donald]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>RECYCL</NameSort>
@@ -2559,9 +2559,9 @@ Pass: Donald</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2004-08-11</DateChanged>
 		<ChangedID>4</ChangedID>
-		<Comments>Larry's Home# 462-0825
+		<Comments><![CDATA[Larry's Home# 462-0825
 Cell Phone: 260-8711
-(These could be reversed)</Comments>
+(These could be reversed)]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>DIPEPP</NameSort>
@@ -2590,9 +2590,9 @@ Cell Phone: 260-8711
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>Knows about ISDN
+		<Comments><![CDATA[Knows about ISDN
 Pac Bell - Order ISDN 800-4PB-ISDN
-Check ISDN Avail. 800-995-0346</Comments>
+Check ISDN Avail. 800-995-0346]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>PACIFI</NameSort>
@@ -2608,8 +2608,8 @@ Check ISDN Avail. 800-995-0346</Comments>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Name>Travelinfo</Name>
-		<AddressLine1>7910 Ivanhoe Ave
-Suite 306</AddressLine1>
+		<AddressLine1><![CDATA[7910 Ivanhoe Ave
+Suite 306]]></AddressLine1>
 		<AddressLine2/>
 		<CityOrTown>La Jolla</CityOrTown>
 		<StateOrRegion>CA</StateOrRegion>
@@ -2709,9 +2709,9 @@ Suite 306</AddressLine1>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>Name: Don_Corley
+		<Comments><![CDATA[Name: Don_Corley
 Password: DonWizard
-Access Number: 1-213-620-8910</Comments>
+Access Number: 1-213-620-8910]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MICROS</NameSort>
@@ -2740,7 +2740,7 @@ Access Number: 1-213-620-8910</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>User: 102314,1142
+		<Comments><![CDATA[User: 102314,1142
 Password: GOTTEN+TWILL
 User name: AnnC
 EMail Password: sci2rode
@@ -2751,7 +2751,7 @@ DNS Servers 149.174.211.5 and 149.174.213.5
 news.compuserve.com 
 cancellation number 32452678
 new deactivation number 41874681
-payment reversal number 4187466 for XLN amount.</Comments>
+payment reversal number 4187466 for XLN amount.]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>COMPUS</NameSort>
@@ -2838,9 +2838,9 @@ payment reversal number 4187466 for XLN amount.</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2005-10-26</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Whittier Blvd past Whitwood Mall
+		<Comments><![CDATA[Whittier Blvd past Whitwood Mall
 Left on Russell
-Right and Randall</Comments>
+Right and Randall]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>CHAMBE</NameSort>
@@ -2898,9 +2898,9 @@ Right and Randall</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>Online banking 1-800-
+		<Comments><![CDATA[Online banking 1-800-
 www.welsfargo.com
-password: 366977 (Donwpp on the phone)</Comments>
+password: 366977 (Donwpp on the phone)]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>WELLS </NameSort>
@@ -2929,12 +2929,12 @@ password: 366977 (Donwpp on the phone)</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2009-01-23</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Cust# 1032704
+		<Comments><![CDATA[Cust# 1032704
 Online: 12144
 Password: donwpp88
 
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>TECH D</NameSort>
@@ -3008,8 +3008,8 @@ Password: donwpp88
 		<Deleted>N</Deleted>
 		<Code/>
 		<Name>Taos Mountain Software</Name>
-		<AddressLine1>1804 Embarcadero
-Suite 200</AddressLine1>
+		<AddressLine1><![CDATA[1804 Embarcadero
+Suite 200]]></AddressLine1>
 		<AddressLine2/>
 		<CityOrTown>Palo Alto</CityOrTown>
 		<StateOrRegion>CA</StateOrRegion>
@@ -3022,10 +3022,10 @@ Suite 200</AddressLine1>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2002-12-23</DateChanged>
 		<ChangedID/>
-		<Comments>Home:  133 Cook Street, Apt 1
+		<Comments><![CDATA[Home:  133 Cook Street, Apt 1
    San Francisco, CA 94118
 415-933-4950Voicemail
-btanaka@corp.sgi.com</Comments>
+btanaka@corp.sgi.com]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>TAOS M</NameSort>
@@ -3054,7 +3054,7 @@ btanaka@corp.sgi.com</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-11-19</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Recycler: DonaldCorley
+		<Comments><![CDATA[Recycler: DonaldCorley
 Password Donald
 Scanjet 5300C
 Pavillion 524g
@@ -3063,7 +3063,7 @@ Pavillion 524g
 
 
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>CORLEY</NameSort>
@@ -3208,8 +3208,8 @@ Pavillion 524g
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2003-03-02</DateChanged>
 		<ChangedID>279</ChangedID>
-		<Comments>member ID: DonCorley
-Password: Donwpp</Comments>
+		<Comments><![CDATA[member ID: DonCorley
+Password: Donwpp]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>SUN CO</NameSort>
@@ -3296,9 +3296,9 @@ Password: Donwpp</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>President of Peru
+		<Comments><![CDATA[President of Peru
 (Challenge Phrase)
-Private key name: PrivateKey</Comments>
+Private key name: PrivateKey]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>VERISI</NameSort>
@@ -3327,8 +3327,8 @@ Private key name: PrivateKey</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>Carms, Samantha
-Altadena Country Club 626-794-7163</Comments>
+		<Comments><![CDATA[Carms, Samantha
+Altadena Country Club 626-794-7163]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>TOURIS</NameSort>
@@ -3344,8 +3344,8 @@ Altadena Country Club 626-794-7163</Comments>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Name>DeWitt Stern of California</Name>
-		<AddressLine1>4605 Lankershim Blvd.
-Suite 600</AddressLine1>
+		<AddressLine1><![CDATA[4605 Lankershim Blvd.
+Suite 600]]></AddressLine1>
 		<AddressLine2/>
 		<CityOrTown>North Hollywood</CityOrTown>
 		<StateOrRegion>CA</StateOrRegion>
@@ -3358,8 +3358,8 @@ Suite 600</AddressLine1>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>Motorcycle Insurance
-http://www.vansa.com</Comments>
+		<Comments><![CDATA[Motorcycle Insurance
+http://www.vansa.com]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>DEWITT</NameSort>
@@ -3388,8 +3388,8 @@ http://www.vansa.com</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged/>
 		<ChangedID/>
-		<Comments>Westlake Blvd to 2404 Townsgate Blvd (lt)
-Ed Bascam</Comments>
+		<Comments><![CDATA[Westlake Blvd to 2404 Townsgate Blvd (lt)
+Ed Bascam]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>PLEASA</NameSort>
@@ -3418,11 +3418,11 @@ Ed Bascam</Comments>
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2008-08-16</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>14Fwy, Exit Ave S, 20 th 25 East Left on 30th East, press #298 at gate Glamour shots 805-253-0558 Denise pager 224-4622
+		<Comments><![CDATA[14Fwy, Exit Ave S, 20 th 25 East Left on 30th East, press #298 at gate Glamour shots 805-253-0558 Denise pager 224-4622
 Brian, Hannah, Hailey
 Denise's Cell: 661-406-7044
 Brian Cell: 661-492-8890
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MONSOU</NameSort>
@@ -3451,7 +3451,7 @@ Brian Cell: 661-492-8890
 		<DateEntered>2005-07-04</DateEntered>
 		<DateChanged>2006-07-05</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>chris_westbrook@hotmail.com
+		<Comments><![CDATA[chris_westbrook@hotmail.com
 Christopher and Katie
 Caroline
 www.tri-des.com
@@ -3459,7 +3459,7 @@ Cheryl
 
 
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>CORLEY</NameSort>
@@ -3575,11 +3575,11 @@ Cheryl
 		<DateEntered>2000-06-20</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Pizza 445-0544
+		<Comments><![CDATA[Pizza 445-0544
 626-260-8711 (Larry's Cell)
 
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>DEPEPP</NameSort>
@@ -3608,12 +3608,12 @@ Cheryl
 		<DateEntered>2000-08-04</DateEntered>
 		<DateChanged>2007-07-03</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Ann's cell phone 626-221-1306
+		<Comments><![CDATA[Ann's cell phone 626-221-1306
 845579 
 MyMemoryStore NDZR0 
 eFax: (240) 384-4874 Pin 9725
 sumi1439 
-microsoft web site (tourloco.com) tw0step</Comments>
+microsoft web site (tourloco.com) tw0step]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>CORLEY</NameSort>
@@ -3642,13 +3642,13 @@ microsoft web site (tourloco.com) tw0step</Comments>
 		<DateEntered>2000-08-25</DateEntered>
 		<DateChanged>2008-11-14</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Howard Leight
+		<Comments><![CDATA[Howard Leight
 7828 Waterville Road
 San Diego, CA  92154
 (619) 661-8383
 Fax: (619) 661-1051
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>JOSE O</NameSort>
@@ -3677,10 +3677,10 @@ Fax: (619) 661-1051
 		<DateEntered>2000-11-24</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>5</ChangedID>
-		<Comments>
+		<Comments><![CDATA[
 
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>CORLEY</NameSort>
@@ -3709,8 +3709,8 @@ Fax: (619) 661-1051
 		<DateEntered>2000-11-24</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>2,299</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>GARCIA</NameSort>
@@ -3739,8 +3739,8 @@ Fax: (619) 661-1051
 		<DateEntered>2000-11-24</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>2,299</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>HOON</NameSort>
@@ -3769,10 +3769,10 @@ Fax: (619) 661-1051
 		<DateEntered>2001-02-06</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>164</ChangedID>
-		<Comments>Pentium Dell Dimension XPS P133c 
+		<Comments><![CDATA[Pentium Dell Dimension XPS P133c 
 yaboyu007@hotmail.com
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>GOTT</NameSort>
@@ -3801,7 +3801,7 @@ yaboyu007@hotmail.com
 		<DateEntered>2001-04-25</DateEntered>
 		<DateChanged>2008-07-29</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Mom's Aunt 
+		<Comments><![CDATA[Mom's Aunt 
 Burt Miller
 (San Francisco)
 415-290-7230
@@ -3809,7 +3809,7 @@ millerbl@mac.com
 415-221-2807 (Home)
 Leibsle's from Reistat (neer Stutgard)
 Power shovel was a Nothern 
-Journey's end drive (Daddy's Carl's house)</Comments>
+Journey's end drive (Daddy's Carl's house)]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MILLER</NameSort>
@@ -3867,8 +3867,8 @@ Journey's end drive (Daddy's Carl's house)</Comments>
 		<DateEntered>2002-03-05</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>2</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>WINDMU</NameSort>
@@ -3897,8 +3897,8 @@ Journey's end drive (Daddy's Carl's house)</Comments>
 		<DateEntered>2002-04-01</DateEntered>
 		<DateChanged>2002-04-01</DateChanged>
 		<ChangedID>234</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>NAMALE</NameSort>
@@ -3927,9 +3927,9 @@ Journey's end drive (Daddy's Carl's house)</Comments>
 		<DateEntered>2002-10-03</DateEntered>
 		<DateChanged>2006-03-15</DateChanged>
 		<ChangedID>-1</ChangedID>
-		<Comments>asiantur@loxinfo.co.th
+		<Comments><![CDATA[asiantur@loxinfo.co.th
 Andre, Chalita, Penn, Sam
-Chalita's email: csittitrai@yahoo.com</Comments>
+Chalita's email: csittitrai@yahoo.com]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>ASIAN </NameSort>
@@ -3958,13 +3958,13 @@ Chalita's email: csittitrai@yahoo.com</Comments>
 		<DateEntered>2003-02-19</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Work: 818-238-1313
+		<Comments><![CDATA[Work: 818-238-1313
 Andrea (Sister) 626-841-3668
 Norman P. Lau
 NASCAR Administration
 Wells Fargo Bank, NA
 (626) 573-6056
-nlau@wellsfargo.com</Comments>
+nlau@wellsfargo.com]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>WONG</NameSort>
@@ -3993,9 +3993,9 @@ nlau@wellsfargo.com</Comments>
 		<DateEntered>2003-02-21</DateEntered>
 		<DateChanged>2004-02-12</DateChanged>
 		<ChangedID>3</ChangedID>
-		<Comments>Dave
+		<Comments><![CDATA[Dave
 Letty
-888-680-0700</Comments>
+888-680-0700]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>PRESCO</NameSort>
@@ -4024,8 +4024,8 @@ Letty
 		<DateEntered>2003-02-23</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>-1</ChangedID>
-		<Comments>Cell: (951) 757-1693
-</Comments>
+		<Comments><![CDATA[Cell: (951) 757-1693
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>SHIELD</NameSort>
@@ -4054,10 +4054,10 @@ Letty
 		<DateEntered>2003-04-06</DateEntered>
 		<DateChanged>2008-04-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Nursing Home
+		<Comments><![CDATA[Nursing Home
 615 W. Duarte Rd.
 Monrovia, CA
-626-358-4547</Comments>
+626-358-4547]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>GATTON</NameSort>
@@ -4086,7 +4086,7 @@ Monrovia, CA
 		<DateEntered>2003-06-25</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>We are at the 
+		<Comments><![CDATA[We are at the 
 intersection of Mission Gorge Road and Magnolia (the main intersection about two 
 unbroken blocks away )  and directly acros the street from the lawn and 
 trees and huge yard of Edgemoor Hospital.  Our Condo complex is called  RIDERWOOD MEADOWS  and on 
@@ -4096,7 +4096,7 @@ are the first bldg. to the left of the swimming pool and it is a 4-unit
 Condo.  We are C which is upstairs and downstairs.  (2 of these and 2 
 one-floor in each bldg.)
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>PETERS</NameSort>
@@ -4125,10 +4125,10 @@ one-floor in each bldg.)
 		<DateEntered>2003-07-10</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>(Dance friends)
+		<Comments><![CDATA[(Dance friends)
 3 Kids:
 Felicia,
-2 boys</Comments>
+2 boys]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>BEEMAN</NameSort>
@@ -4157,7 +4157,7 @@ Felicia,
 		<DateEntered>2003-07-16</DateEntered>
 		<DateChanged>2008-03-05</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>use:
+		<Comments><![CDATA[use:
 http://www.cheap-domainregistration.com/
 
 https://www.secureserver.net/account/default.asp?prog_id=domains
@@ -4180,7 +4180,7 @@ The Domain Host Information section is used for registering name servers.
 Go to the following link:
 Account Management and Login.
 
-Once logged in click the drop down menu at the top right of your screen and select </Comments>
+Once logged in click the drop down menu at the top right of your screen and select ]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>DOMAIN</NameSort>
@@ -4209,11 +4209,11 @@ Once logged in click the drop down menu at the top right of your screen and sele
 		<DateEntered>2003-08-19</DateEntered>
 		<DateChanged>2003-08-19</DateChanged>
 		<ChangedID>-1</ChangedID>
-		<Comments>La Princessita: (Tortillas): Down Evergreen to Ceasar Chavez,
+		<Comments><![CDATA[La Princessita: (Tortillas): Down Evergreen to Ceasar Chavez,
 Near corner of Alma or Hicks.
 El Centro Meat Market: (Order the Ranchera meat [carne asada])
 750 S. Kern Ave #A, Los Angeles, CA  90022
-(323-269-6533</Comments>
+(323-269-6533]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MEXICA</NameSort>
@@ -4242,9 +4242,9 @@ El Centro Meat Market: (Order the Ranchera meat [carne asada])
 		<DateEntered>2003-10-25</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Dancing
+		<Comments><![CDATA[Dancing
 Tom's cell = 626-673-3745
-Susan's cell = 626-673-3746</Comments>
+Susan's cell = 626-673-3746]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>SUSAN</NameSort>
@@ -4273,7 +4273,7 @@ Susan's cell = 626-673-3746</Comments>
 		<DateEntered>2003-12-17</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Penn of Asian Tours
+		<Comments><![CDATA[Penn of Asian Tours
 Brother Mike's address:
 18423 Sandringham Ct
 Northridge, CA
@@ -4284,7 +4284,7 @@ Other (Penn cell?): 213-392-8100
 Good Thai Restaurant:
 Sunshine Thai
 13212 Sherman Way
-North Hollywood, CA  91605</Comments>
+North Hollywood, CA  91605]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MATHAN</NameSort>
@@ -4313,8 +4313,8 @@ North Hollywood, CA  91605</Comments>
 		<DateEntered>2003-12-26</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>6</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>BODMER</NameSort>
@@ -4343,10 +4343,10 @@ North Hollywood, CA  91605</Comments>
 		<DateEntered>2004-02-03</DateEntered>
 		<DateChanged>2008-07-08</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>License:
+		<Comments><![CDATA[License:
 B300275-1B332886
 Not: JL10000014-BC52D42E
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MONEYD</NameSort>
@@ -4404,8 +4404,8 @@ Not: JL10000014-BC52D42E
 		<DateEntered>2004-03-24</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>LLAMAS</NameSort>
@@ -4463,13 +4463,13 @@ Not: JL10000014-BC52D42E
 		<DateEntered>2004-03-28</DateEntered>
 		<DateChanged>2008-09-19</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Business Address:
+		<Comments><![CDATA[Business Address:
 174 W. Foothill Blvd #321
 Web page:
 http://www.monroviacc.com/member/login
 http://www.monroviacc.com/member?1412
 Swingncountry
-John&amp;Katie</Comments>
+John&Katie]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>WATSON</NameSort>
@@ -4585,8 +4585,8 @@ John&amp;Katie</Comments>
 		<DateEntered>2004-06-03</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>KOMATS</NameSort>
@@ -4673,12 +4673,12 @@ John&amp;Katie</Comments>
 		<DateEntered>2004-06-28</DateEntered>
 		<DateChanged>2008-01-15</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Dancer
+		<Comments><![CDATA[Dancer
 (626) 299-4299 Ext. 6348
 So. Cal. Edison
 sce: 626-302-3268/PAX 23268
 ramona.montoya@sce.com
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MONTOY</NameSort>
@@ -4736,9 +4736,9 @@ ramona.montoya@sce.com
 		<DateEntered>2004-07-29</DateEntered>
 		<DateChanged>2004-08-20</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Dancer
+		<Comments><![CDATA[Dancer
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>COCKRO</NameSort>
@@ -4767,9 +4767,9 @@ ramona.montoya@sce.com
 		<DateEntered>2004-08-28</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>(858) 576-0798, my cell phone is
+		<Comments><![CDATA[(858) 576-0798, my cell phone is
 (619) 316-3645.
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>SCHMIE</NameSort>
@@ -4827,8 +4827,8 @@ ramona.montoya@sce.com
 		<DateEntered>2004-09-28</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>HAWKIN</NameSort>
@@ -4857,7 +4857,7 @@ ramona.montoya@sce.com
 		<DateEntered>2004-09-28</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Dancer
+		<Comments><![CDATA[Dancer
 210 Fwy East to Myrtle
 Exit Myrtle and go North (Left)
 Go to Foothill Blvd and Make a Right on Foothill.
@@ -4866,7 +4866,7 @@ Go to Canyon and make a left on Canyon
 Go to Prospect.
 Go to 4th street on the left to Beechworth to 372 Beechworth.  House is on right side of street.
  
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>BISHOP</NameSort>
@@ -4895,8 +4895,8 @@ Go to 4th street on the left to Beechworth to 372 Beechworth.  House is on right
 		<DateEntered>2004-10-07</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>GADNEY</NameSort>
@@ -4925,8 +4925,8 @@ Go to 4th street on the left to Beechworth to 372 Beechworth.  House is on right
 		<DateEntered>2004-10-07</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>-1</ChangedID>
-		<Comments>Dancer
-</Comments>
+		<Comments><![CDATA[Dancer
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>CHIN</NameSort>
@@ -4955,9 +4955,9 @@ Go to 4th street on the left to Beechworth to 372 Beechworth.  House is on right
 		<DateEntered>2004-10-10</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>
+		<Comments><![CDATA[
 
-</Comments>
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>LEE</NameSort>
@@ -4986,8 +4986,8 @@ Go to 4th street on the left to Beechworth to 372 Beechworth.  House is on right
 		<DateEntered>2004-10-11</DateEntered>
 		<DateChanged>2007-07-26</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>MIKUNI</NameSort>
@@ -5016,8 +5016,8 @@ Go to 4th street on the left to Beechworth to 372 Beechworth.  House is on right
 		<DateEntered>2004-10-11</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>FUKUTA</NameSort>
@@ -5046,8 +5046,8 @@ Go to 4th street on the left to Beechworth to 372 Beechworth.  House is on right
 		<DateEntered>2004-10-11</DateEntered>
 		<DateChanged>2006-04-11</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>FUKUTA</NameSort>
@@ -5105,8 +5105,8 @@ Go to 4th street on the left to Beechworth to 372 Beechworth.  House is on right
 		<DateEntered>2004-11-01</DateEntered>
 		<DateChanged>2004-11-01</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>
-</Comments>
+		<Comments><![CDATA[
+]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>IRN</NameSort>
@@ -5135,12 +5135,12 @@ Go to 4th street on the left to Beechworth to 372 Beechworth.  House is on right
 		<DateEntered>2005-05-31</DateEntered>
 		<DateChanged>2005-06-01</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Don Bowsher
+		<Comments><![CDATA[Don Bowsher
 702-851-4686
 Mobile: 702-525-5888
 dbowsher@us.ibm.com
 Sally
-Cell: 702-461-9785</Comments>
+Cell: 702-461-9785]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>IBM PE</NameSort>
@@ -5169,8 +5169,8 @@ Cell: 702-461-9785</Comments>
 		<DateEntered>2005-11-16</DateEntered>
 		<DateChanged>2005-11-16</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>E-366-447-669
-Same11</Comments>
+		<Comments><![CDATA[E-366-447-669
+Same11]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>TREASU</NameSort>
@@ -5373,9 +5373,9 @@ Same11</Comments>
 		<DateEntered>2007-04-05</DateEntered>
 		<DateChanged>2007-04-05</DateChanged>
 		<ChangedID>1</ChangedID>
-		<Comments>Dancer 
+		<Comments><![CDATA[Dancer 
 Sociologist
-Teacher @ calstate</Comments>
+Teacher @ calstate]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>SNODGR</NameSort>
@@ -5462,8 +5462,8 @@ Teacher @ calstate</Comments>
 		<DateEntered>2007-11-08</DateEntered>
 		<DateChanged>2008-04-12</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Tracey @home 626-574-7324
-Stu @cell 303-521-7120</Comments>
+		<Comments><![CDATA[Tracey @home 626-574-7324
+Stu @cell 303-521-7120]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>TRACEY</NameSort>
@@ -5492,9 +5492,9 @@ Stu @cell 303-521-7120</Comments>
 		<DateEntered>2008-02-29</DateEntered>
 		<DateChanged>2008-06-18</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Home: 626-791-1698
+		<Comments><![CDATA[Home: 626-791-1698
 Dancers 
-Jonathan cell: 626-590-1254</Comments>
+Jonathan cell: 626-590-1254]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>POLLOC</NameSort>
@@ -5552,8 +5552,8 @@ Jonathan cell: 626-590-1254</Comments>
 		<DateEntered>2008-04-23</DateEntered>
 		<DateChanged>2008-04-23</DateChanged>
 		<ChangedID>11</ChangedID>
-		<Comments>Manhole cover - Dimensions
-H 2", W 14". L 24" (actually 23.5 ")</Comments>
+		<Comments><![CDATA[Manhole cover - Dimensions
+H 2", W 14". L 24" (actually 23.5 ")]]></Comments>
 		<UserID/>
 		<Password/>
 		<NameSort>BEVIN </NameSort>

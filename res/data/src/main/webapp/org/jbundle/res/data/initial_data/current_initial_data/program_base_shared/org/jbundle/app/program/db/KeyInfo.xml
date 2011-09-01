@@ -85,7 +85,7 @@
 		<KeyType>U</KeyType>
 	</KeyInfo>
 	<KeyInfo ID="16777396">
-		<LastChanged>2009-02-12T14:49:21</LastChanged>
+		<LastChanged>2011-08-05T19:44:22</LastChanged>
 		<Deleted>N</Deleted>
 		<KeyFilename>ClassFields</KeyFilename>
 		<KeyNumber>2</KeyNumber>
@@ -99,7 +99,7 @@
 		<KeyField8/>
 		<KeyField9/>
 		<KeyName/>
-		<KeyType>U</KeyType>
+		<KeyType>N</KeyType>
 	</KeyInfo>
 	<KeyInfo ID="16777397">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>

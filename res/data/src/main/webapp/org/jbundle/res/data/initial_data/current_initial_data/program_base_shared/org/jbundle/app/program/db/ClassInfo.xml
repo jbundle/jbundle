@@ -1472,8 +1472,8 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<Deleted>N</Deleted>
 		<ClassName>ReComputeFieldHandler</ClassName>
 		<BaseClassName>FieldChangedHandler</BaseClassName>
-		<ClassDesc>This is a base class that recomputes the target field when this field changes.
-Just override the compute value method to re-calculate the target field's value.</ClassDesc>
+		<ClassDesc><![CDATA[This is a base class that recomputes the target field when this field changes.
+Just override the compute value method to re-calculate the target field's value.]]></ClassDesc>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<ClassPackage>.field</ClassPackage>
 		<ClassSourceFile>FieldB</ClassSourceFile>
@@ -2211,415 +2211,415 @@ Just override the compute value method to re-calculate the target field's value.
 		<ClassSourceFile>screen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
 		<ClassExplain>These are functions for typical toolbar buttons.</ClassExplain>
-		<ClassHelp>&lt;html&gt;
-&lt;table border="1"&gt;
-      &lt;tr&gt;
-        &lt;td&gt;&lt;b&gt;Icon&lt;/b&gt;&lt;/td&gt;
+		<ClassHelp><![CDATA[<html>
+<table border="1">
+      <tr>
+        <td><b>Icon</b></td>
 
-        &lt;td&gt;&lt;b&gt;Function&lt;/b&gt;&lt;/td&gt;
+        <td><b>Function</b></td>
 
-        &lt;td&gt;&lt;b&gt;Keyboard&lt;br /&gt;
-        Shortcut&lt;/b&gt;&lt;/td&gt;
+        <td><b>Keyboard<br />
+        Shortcut</b></td>
 
-        &lt;td&gt;&lt;b&gt;Menu&lt;br /&gt;
-        Function&lt;/b&gt;&lt;/td&gt;
+        <td><b>Menu<br />
+        Function</b></td>
 
-        &lt;td&gt;&lt;b&gt;Description&lt;/b&gt;&lt;/td&gt;
-      &lt;/tr&gt;
+        <td><b>Description</b></td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+      <tr>
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Next Field&lt;/td&gt;
+        <td>Next Field</td>
 
-        &lt;td&gt;Tab&lt;br /&gt;
-        Enter&lt;br /&gt;
-        Down Arrow&lt;/td&gt;
+        <td>Tab<br />
+        Enter<br />
+        Down Arrow</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Move the cursor to the next field&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Move the cursor to the next field</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+      <tr>
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Previous Field&lt;/td&gt;
+        <td>Previous Field</td>
 
-        &lt;td&gt;Shift+Tab&lt;br /&gt;
-        Up Arrow&lt;/td&gt;
+        <td>Shift+Tab<br />
+        Up Arrow</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Move the cursor to the previous field&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Move the cursor to the previous field</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;
-          &lt;p&gt;&lt;img src="images/buttons/Cut.gif" width="16"
-          height="15" /&gt;&lt;/p&gt;
-        &lt;/td&gt;
+      <tr>
+        <td>
+          <p><img src="images/buttons/Cut.gif" width="16"
+          height="15" /></p>
+        </td>
 
-        &lt;td&gt;Cut&lt;/td&gt;
+        <td>Cut</td>
 
-        &lt;td&gt;Ctrl+Delete&lt;br /&gt;
-        Ctrl+X&lt;/td&gt;
+        <td>Ctrl+Delete<br />
+        Ctrl+X</td>
 
-        &lt;td&gt;Edit&lt;br /&gt;
-        Cut&lt;/td&gt;
+        <td>Edit<br />
+        Cut</td>
 
-        &lt;td&gt;Delete the currently selected text and place it on the
-        clipboard.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Delete the currently selected text and place it on the
+        clipboard.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Copy.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Copy.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Copy&lt;/td&gt;
+        <td>Copy</td>
 
-        &lt;td&gt;Ctrl+C&lt;br /&gt;
-        Ctrl+Insert&lt;/td&gt;
+        <td>Ctrl+C<br />
+        Ctrl+Insert</td>
 
-        &lt;td&gt;Edit&lt;br /&gt;
-        Copy&lt;/td&gt;
+        <td>Edit<br />
+        Copy</td>
 
-        &lt;td&gt;Copy the currently selected text and place it on the
-        clipboard.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Copy the currently selected text and place it on the
+        clipboard.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Paste.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Paste.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Paste&lt;/td&gt;
+        <td>Paste</td>
 
-        &lt;td&gt;Shift+Insert&lt;br /&gt;
-        Ctrl+V&lt;/td&gt;
+        <td>Shift+Insert<br />
+        Ctrl+V</td>
 
-        &lt;td&gt;Edit&lt;br /&gt;
-        Paste&lt;/td&gt;
+        <td>Edit<br />
+        Paste</td>
 
-        &lt;td&gt;&amp;nbsp;Paste the text on the clipboard to the current
-        cursor location or selection.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>&nbsp;Paste the text on the clipboard to the current
+        cursor location or selection.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Lookup.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Lookup.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Lookup&lt;/td&gt;
+        <td>Lookup</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Change this form to lookup mode to search for a
-        record.&lt;br /&gt;
-         For Fields, bring up the lookup grid for this file.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Change this form to lookup mode to search for a
+        record.<br />
+         For Fields, bring up the lookup grid for this file.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Print.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Print.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Print&lt;/td&gt;
+        <td>Print</td>
 
-        &lt;td&gt;Ctrl+P&lt;/td&gt;
+        <td>Ctrl+P</td>
 
-        &lt;td&gt;File&lt;br /&gt;
-        Print&lt;/td&gt;
+        <td>File<br />
+        Print</td>
 
-        &lt;td&gt;Print this screen.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Print this screen.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/First.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/First.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;First Record&lt;/td&gt;
+        <td>First Record</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Record&lt;br /&gt;
-        First Record&lt;/td&gt;
+        <td>Record<br />
+        First Record</td>
 
-        &lt;td&gt;Display the first record.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Display the first record.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Next.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Next.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Next Record&lt;/td&gt;
+        <td>Next Record</td>
 
-        &lt;td&gt;Ctrl+Down Arrow&lt;/td&gt;
+        <td>Ctrl+Down Arrow</td>
 
-        &lt;td&gt;Record&lt;br /&gt;
-        Next Record&lt;/td&gt;
+        <td>Record<br />
+        Next Record</td>
 
-        &lt;td&gt;Display the next record.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Display the next record.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Prev.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Prev.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Previous Record&lt;/td&gt;
+        <td>Previous Record</td>
 
-        &lt;td&gt;Ctrl+Up Arrow&lt;/td&gt;
+        <td>Ctrl+Up Arrow</td>
 
-        &lt;td&gt;Record&lt;br /&gt;
-        Previous Record&lt;/td&gt;
+        <td>Record<br />
+        Previous Record</td>
 
-        &lt;td&gt;Display the previous record.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Display the previous record.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Last.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Last.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Last Record&lt;/td&gt;
+        <td>Last Record</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Record&lt;br /&gt;
-        Last Record&lt;/td&gt;
+        <td>Record<br />
+        Last Record</td>
 
-        &lt;td&gt;Display the last record.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Display the last record.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Submit.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Submit.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;New Record&lt;/td&gt;
+        <td>New Record</td>
 
-        &lt;td&gt;Ctrl+Enter&lt;br /&gt;
-        Ctrl+(+)&lt;/td&gt;
+        <td>Ctrl+Enter<br />
+        Ctrl+(+)</td>
 
-        &lt;td&gt;Record&lt;br /&gt;
-        New Record&lt;/td&gt;
+        <td>Record<br />
+        New Record</td>
 
-        &lt;td&gt;Display a new blank record.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Display a new blank record.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Reset.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Reset.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Reset Form&lt;/td&gt;
+        <td>Reset Form</td>
 
-        &lt;td&gt;Esc+Esc&lt;/td&gt;
+        <td>Esc+Esc</td>
 
-        &lt;td&gt;Record&lt;br /&gt;
-        Refresh Record&lt;/td&gt;
+        <td>Record<br />
+        Refresh Record</td>
 
-        &lt;td&gt;Undo all the changes on this record and redisplay the
-        old data.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Undo all the changes on this record and redisplay the
+        old data.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Delete.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Delete.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Delete Record&lt;/td&gt;
+        <td>Delete Record</td>
 
-        &lt;td&gt;Ctrl+Delete&lt;br /&gt;
-        Ctrl+(-)&lt;/td&gt;
+        <td>Ctrl+Delete<br />
+        Ctrl+(-)</td>
 
-        &lt;td&gt;Record&lt;br /&gt;
-        Delete Record&lt;/td&gt;
+        <td>Record<br />
+        Delete Record</td>
 
-        &lt;td&gt;Delete this record.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Delete this record.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Help.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Help.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Help&lt;/td&gt;
+        <td>Help</td>
 
-        &lt;td&gt;F1&lt;/td&gt;
+        <td>F1</td>
 
-        &lt;td&gt;Help&lt;br /&gt;
-        Help&lt;/td&gt;
+        <td>Help<br />
+        Help</td>
 
-        &lt;td&gt;Access the help information for this screen.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Access the help information for this screen.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Context.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Context.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Context Sensitive Help&lt;/td&gt;
+        <td>Context Sensitive Help</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Access the help information for this item.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Access the help information for this item.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/EMail.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/EMail.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;E-Mail&lt;/td&gt;
+        <td>E-Mail</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Bring up the e-mail screen with this address.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Bring up the e-mail screen with this address.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Fax.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Fax.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Fax&lt;/td&gt;
+        <td>Fax</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Bring up the fax screen with this fax address.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Bring up the fax screen with this fax address.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Form.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Form.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Form&lt;/td&gt;
+        <td>Form</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Bring up the data-entry form for this file.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Bring up the data-entry form for this file.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Grid.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Grid.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Grid&lt;/td&gt;
+        <td>Grid</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Bring up the data-display grid for this file.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Bring up the data-display grid for this file.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Home.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Home.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Home&lt;/td&gt;
+        <td>Home</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Go to the home page.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Go to the home page.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Mail.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Mail.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Mail&lt;/td&gt;
+        <td>Mail</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Bring up the mail screen for this address.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Bring up the mail screen for this address.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Phone.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Phone.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Phone&lt;/td&gt;
+        <td>Phone</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Dial this phone number (must have a JTAPI-enabled
-        computer).&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Dial this phone number (must have a JTAPI-enabled
+        computer).</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/Undo.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/Undo.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;Undo&lt;/td&gt;
+        <td>Undo</td>
 
-        &lt;td&gt;Ctrl+Z&lt;br /&gt;
-        Esc&lt;/td&gt;
+        <td>Ctrl+Z<br />
+        Esc</td>
 
-        &lt;td&gt;Edit&lt;br /&gt;
-        Undo&lt;/td&gt;
+        <td>Edit<br />
+        Undo</td>
 
-        &lt;td&gt;Undo the last editing operation.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Undo the last editing operation.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&lt;img src="images/buttons/URL.gif" width="16"
-        height="15" /&gt;&lt;/td&gt;
+      <tr>
+        <td><img src="images/buttons/URL.gif" width="16"
+        height="15" /></td>
 
-        &lt;td&gt;URL&lt;/td&gt;
+        <td>URL</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Bring up the browser and go to this URL.&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Bring up the browser and go to this URL.</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+      <tr>
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Hard Return&lt;/td&gt;
+        <td>Hard Return</td>
 
-        &lt;td&gt;Shift+Enter&lt;/td&gt;
+        <td>Shift+Enter</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Enter a carriage return in a text box&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Enter a carriage return in a text box</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+      <tr>
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Close Window&lt;/td&gt;
+        <td>Close Window</td>
 
-        &lt;td&gt;Ctrl+W&lt;/td&gt;
+        <td>Ctrl+W</td>
 
-        &lt;td&gt;File&lt;br /&gt;
-        Close&lt;/td&gt;
+        <td>File<br />
+        Close</td>
 
-        &lt;td&gt;Close the current window&lt;/td&gt;
-      &lt;/tr&gt;
+        <td>Close the current window</td>
+      </tr>
 
-      &lt;tr&gt;
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+      <tr>
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Preferences&lt;/td&gt;
+        <td>Preferences</td>
 
-        &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        <td>&nbsp;</td>
 
-        &lt;td&gt;Edit&lt;br /&gt;
-        Preferences&lt;/td&gt;
+        <td>Edit<br />
+        Preferences</td>
 
-        &lt;td&gt;Open the screen preferences window&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/table&gt;
-&lt;/html&gt;</ClassHelp>
+        <td>Open the screen preferences window</td>
+      </tr>
+    </table>
+</html>]]></ClassHelp>
 		<ClassImplements/>
 		<SeeAlso/>
 		<TechnicalInfo/>
@@ -3015,8 +3015,8 @@ This screen displays all the system users and their preferences.
 		<Deleted>N</Deleted>
 		<ClassName>Session</ClassName>
 		<BaseClassName>BaseSession</BaseClassName>
-		<ClassDesc>A base remote session peer for a thin ejb applet.
-(Implements RemoteSession)</ClassDesc>
+		<ClassDesc><![CDATA[A base remote session peer for a thin ejb applet.
+(Implements RemoteSession)]]></ClassDesc>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<ClassPackage>.remote.db</ClassPackage>
 		<ClassSourceFile>Session</ClassSourceFile>
@@ -3050,8 +3050,8 @@ This screen displays all the system users and their preferences.
 		<Deleted>N</Deleted>
 		<ClassName>BaseProcess</ClassName>
 		<BaseClassName>BaseRecordOwner</BaseClassName>
-		<ClassDesc>A class that handles a specific function to be run as a job or a task.
-To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.thread.YourProcess.</ClassDesc>
+		<ClassDesc><![CDATA[A class that handles a specific function to be run as a job or a task.
+To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.thread.YourProcess.]]></ClassDesc>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<ClassPackage>.thread</ClassPackage>
 		<ClassSourceFile>BaseProcess</ClassSourceFile>
@@ -3629,7 +3629,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<Deleted>N</Deleted>
 		<ClassName>BaseStatus</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
-		<ClassDesc>This is a base record class that contains the status for a value.
+		<ClassDesc><![CDATA[This is a base record class that contains the status for a value.
 The possible status values are: 
 0 - NULL_STATUS - Status field is null
 1 - NO_STATUS - Status is unknown
@@ -3637,7 +3637,7 @@ The possible status values are:
 3 - LOOKUP_SCHEDULED
 4 - VALID - Info valid
 5 - NOT_VALID
-The t</ClassDesc>
+The t]]></ClassDesc>
 		<ClassProjectID>16,777,217</ClassProjectID>
 		<ClassPackage>.msg.db.base</ClassPackage>
 		<ClassSourceFile>BaseStatus</ClassSourceFile>
@@ -4081,10 +4081,10 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<Deleted>N</Deleted>
 		<ClassName>BaseExternalMessageProcessor</ClassName>
 		<BaseClassName>BaseMessageProcessor</BaseClassName>
-		<ClassDesc>This is the base class to process an external message.
+		<ClassDesc><![CDATA[This is the base class to process an external message.
 This class handles two distinct but related functions:
-&lt;br&gt;- It converts a message to an external format and sends it, returing a reply.
-&lt;br&gt;- It converts an incomming external message and processes i</ClassDesc>
+<br>- It converts a message to an external format and sends it, returing a reply.
+<br>- It converts an incomming external message and processes i]]></ClassDesc>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<ClassPackage>.message.trx.processor</ClassPackage>
 		<ClassSourceFile>BaseMessageProcessor</ClassSourceFile>
@@ -4794,8 +4794,8 @@ To display the process detail, press the
 		<Deleted>N</Deleted>
 		<ClassName>PropertiesRecord</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
-		<ClassDesc>A Record with a property field that is moved to and from
-some virtual fields.</ClassDesc>
+		<ClassDesc><![CDATA[A Record with a property field that is moved to and from
+some virtual fields.]]></ClassDesc>
 		<ClassProjectID>16,777,217</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>PropertiesRecord</ClassSourceFile>
@@ -5072,8 +5072,8 @@ These codes specify the current status of a message as it is displayed in the
 		<Deleted>N</Deleted>
 		<ClassName>BaseMessageReplyOutProcessor</ClassName>
 		<BaseClassName>BaseInternalMessageProcessor</BaseClassName>
-		<ClassDesc>Convert the newly created message (from the in converter) to
-external and send it back.</ClassDesc>
+		<ClassDesc><![CDATA[Convert the newly created message (from the in converter) to
+external and send it back.]]></ClassDesc>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<ClassPackage>.message.trx.processor</ClassPackage>
 		<ClassSourceFile>BaseMessageReplyConverter</ClassSourceFile>
@@ -5209,8 +5209,8 @@ external and send it back.</ClassDesc>
 		<Deleted>N</Deleted>
 		<ClassName>LinkedConverter</ClassName>
 		<BaseClassName>Converter</BaseClassName>
-		<ClassDesc>The base converter for fields.
-The class maintains the converter chain.</ClassDesc>
+		<ClassDesc><![CDATA[The base converter for fields.
+The class maintains the converter chain.]]></ClassDesc>
 		<ClassProjectID>16,777,253</ClassProjectID>
 		<ClassPackage>.screen.util</ClassPackage>
 		<ClassSourceFile>LinkedConverter</ClassSourceFile>
@@ -6975,11 +6975,11 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<Deleted>N</Deleted>
 		<ClassName>ContactField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
-		<ClassDesc>Contact type
+		<ClassDesc><![CDATA[Contact type
 Either a Vendor or a Profile.
 Note: This class has a bunch of very specialized logic to take care of
 the fact that a contact can come from the Vendor or the Profile file
-depending on the contact type.</ClassDesc>
+depending on the contact type.]]></ClassDesc>
 		<ClassProjectID>16,777,217</ClassProjectID>
 		<ClassPackage>.msg.db.base</ClassPackage>
 		<ClassSourceFile>ContactType</ClassSourceFile>
@@ -7710,11 +7710,11 @@ depending on the contact type.</ClassDesc>
 		<Deleted>N</Deleted>
 		<ClassName>VirtualRecord</ClassName>
 		<BaseClassName>Record</BaseClassName>
-		<ClassDesc>A record with a last changed date and a "deleted" field.
+		<ClassDesc><![CDATA[A record with a last changed date and a "deleted" field.
 Can be used where soft deletes, snapshots, and incremental
 updates are needed.
 Remember.. this record does not specify the key; typically an
-extra key is needed which starts with the LastModified da</ClassDesc>
+extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>VirtualRecord</ClassSourceFile>
@@ -7761,7 +7761,7 @@ extra key is needed which starts with the LastModified da</ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779200">
-		<LastChanged>2010-02-05T11:19:58</LastChanged>
+		<LastChanged>2010-02-05T11:19:46</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassIssueGridScreen</ClassName>
 		<BaseClassName>IssueGridScreen</BaseClassName>
@@ -7918,8 +7918,8 @@ extra key is needed which starts with the LastModified da</ClassDesc>
 		<Deleted>N</Deleted>
 		<ClassName>MessageProcessInfoManualField</ClassName>
 		<BaseClassName>MessageProcessInfoField</BaseClassName>
-		<ClassDesc>Display only the manual messages on lookup.
-Override doCommand in your screen to intercept the LOOKUP_WITH_PARAMS command.</ClassDesc>
+		<ClassDesc><![CDATA[Display only the manual messages on lookup.
+Override doCommand in your screen to intercept the LOOKUP_WITH_PARAMS command.]]></ClassDesc>
 		<ClassProjectID>16,777,217</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageProcessInfoField</ClassSourceFile>
@@ -8074,10 +8074,10 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<Deleted>N</Deleted>
 		<ClassName>RunProcessInField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
-		<ClassDesc>Where to run this process:
+		<ClassDesc><![CDATA[Where to run this process:
 1 - Locally
 2 - Locally as a process
-3 - Remotely</ClassDesc>
+3 - Remotely]]></ClassDesc>
 		<ClassProjectID>16,777,217</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>RunProcessInField</ClassSourceFile>
@@ -8179,8 +8179,8 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<Deleted>N</Deleted>
 		<ClassName>JobSchedulerApp</ClassName>
 		<BaseClassName>BaseApplication</BaseClassName>
-		<ClassDesc>This application schedules jobs on the calendar queue for execution
-and executes them on the correct dates.</ClassDesc>
+		<ClassDesc><![CDATA[This application schedules jobs on the calendar queue for execution
+and executes them on the correct dates.]]></ClassDesc>
 		<ClassProjectID>16,777,217</ClassProjectID>
 		<ClassPackage>.schedule.app</ClassPackage>
 		<ClassSourceFile>JobSchedulerApp</ClassSourceFile>
@@ -8282,10 +8282,10 @@ and executes them on the correct dates.</ClassDesc>
 		<Deleted>N</Deleted>
 		<ClassName>MessageInfoApplication</ClassName>
 		<BaseClassName>MessageApplication</BaseClassName>
-		<ClassDesc>The application that handles messaging.
+		<ClassDesc><![CDATA[The application that handles messaging.
 NOTE: Typically there is only one of these.
 In demo deployments, there is one for each sub-domain, so the incoming message
-will be handled using the correct databases.</ClassDesc>
+will be handled using the correct databases.]]></ClassDesc>
 		<ClassProjectID>16,777,217</ClassProjectID>
 		<ClassPackage>.msg.app</ClassPackage>
 		<ClassSourceFile>MessageInfoApplication</ClassSourceFile>
@@ -10936,23 +10936,6 @@ There are several possible source transactions in the system:
 		<TechnicalInfo/>
 		<CopyDescFrom/>
 	</ClassInfo>
-	<ClassInfo ID="16779666">
-		<LastChanged>2010-04-09T12:14:10</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassName/>
-		<BaseClassName/>
-		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
-		<ClassPackage/>
-		<ClassSourceFile/>
-		<ClassType/>
-		<ClassExplain/>
-		<ClassHelp/>
-		<ClassImplements/>
-		<SeeAlso/>
-		<TechnicalInfo/>
-		<CopyDescFrom/>
-	</ClassInfo>
 	<ClassInfo ID="16779667">
 		<LastChanged>2010-04-10T15:48:18</LastChanged>
 		<Deleted>N</Deleted>
@@ -11044,12 +11027,12 @@ then display the menu.</ClassExplain>
 		<Deleted>N</Deleted>
 		<ClassName>DateOffsetScanListener</ClassName>
 		<BaseClassName>BaseScanListener</BaseClassName>
-		<ClassDesc>Offset dates in an XML file
+		<ClassDesc><![CDATA[Offset dates in an XML file
 dayOffset = days to offset 
 monthOffset = 
 yearOffset = 
 endOfMonthFields = comma delimited fields to set to end of month if
-previous date was oem</ClassDesc>
+previous date was oem]]></ClassDesc>
 		<ClassProjectID>16,777,221</ClassProjectID>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>DateOffsetScanListener</ClassSourceFile>
@@ -11147,8 +11130,7 @@ previous date was oem</ClassDesc>
 <link>?help&amp;xml=docs/help/user/basic/toolbarbuttons.xml</link>
 <image>Help</image>
 </help-link>
-</paragraph>
-</ClassHelp>
+</paragraph></ClassHelp>
 		<ClassImplements/>
 		<SeeAlso/>
 		<TechnicalInfo/>
@@ -11300,6 +11282,23 @@ previous date was oem</ClassDesc>
 		<ClassPackage>.remote</ClassPackage>
 		<ClassSourceFile>RunRemoteProcessMessageData</ClassSourceFile>
 		<ClassType>data</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779688">
+		<LastChanged>2011-08-15T09:45:22</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>Rec</ClassName>
+		<BaseClassName/>
+		<ClassDesc>Record</ClassDesc>
+		<ClassProjectID>16,777,292</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>Rec</ClassSourceFile>
+		<ClassType>Object</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
