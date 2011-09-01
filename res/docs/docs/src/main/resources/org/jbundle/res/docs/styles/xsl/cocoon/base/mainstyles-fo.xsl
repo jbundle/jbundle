@@ -190,7 +190,7 @@
   							</xsl:when>
  							<xsl:otherwise>
 								<xsl:attribute name="external-destination">
-									images/<xsl:value-of select="$type" />/<xsl:value-of select="$image" />.gif
+									org/jbundle/res/images/<xsl:value-of select="$type" />/<xsl:value-of select="$image" />.gif
 								</xsl:attribute>
 								<xsl:attribute name="width">
 									<xsl:choose>

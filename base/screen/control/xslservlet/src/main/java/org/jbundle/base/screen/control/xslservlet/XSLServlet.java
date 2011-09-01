@@ -9,6 +9,7 @@ package org.jbundle.base.screen.control.xslservlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -36,6 +37,7 @@ import org.jbundle.base.screen.control.servlet.html.BaseServlet;
 import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.util.DBParams;
+import org.jbundle.base.util.Utility;
 
 
 /**
@@ -109,7 +111,10 @@ public class XSLServlet extends XMLServlet
 
 			stylesheet = BaseServlet.fixStylesheetPath(stylesheet, screen);
 			
-			StreamSource stylesheetSource = new StreamSource(this.getFileStream(servletTask, stylesheet, null));
+			InputStream stylesheetStream = this.getFileStream(servletTask, stylesheet, null);
+            if (stylesheetStream == null)
+            	Utility.getLogger().warning("XmlFile not found " + stylesheet);
+			StreamSource stylesheetSource = new StreamSource(stylesheetStream);
 			
 	    	ServletOutputStream outStream = res.getOutputStream();
             Result result = new StreamResult(outStream);

@@ -85,6 +85,11 @@ public class XBaseMenuScreen extends XBaseScreen
             if ((filename != null) && (filename.length() > 0))
             {
                 InputStream streamIn = this.getTask().getInputStream(filename);
+                if (streamIn == null)
+                {
+                	Utility.getLogger().warning("XmlFile not found " + filename);
+                	return false;
+                }
                 String str = Utility.transferURLStream(null, null, new InputStreamReader(streamIn));
                 recMenus.getField(Menus.kXmlData).setString(str);
             }

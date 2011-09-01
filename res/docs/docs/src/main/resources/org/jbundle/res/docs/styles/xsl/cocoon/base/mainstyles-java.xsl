@@ -15,7 +15,7 @@
 					<xsl:value-of select="title"/>
 				</title>
 			</head>
-			<body marginwidth="0" marginheight="0" style="background-image: url(/images/backgrounds/worldmapalpha.gif);
+			<body marginwidth="0" marginheight="0" style="background-image: url(/org/jbundle/res/images/backgrounds/worldmapalpha.gif);
 					background-color: #eeeeff;">
 							<xsl:apply-templates select="content-area" />
 			</body>
