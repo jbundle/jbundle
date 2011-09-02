@@ -20,6 +20,7 @@ import org.jbundle.model.db.Rec;
 import org.jbundle.model.db.Table;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -490,16 +491,18 @@ public class FieldList extends Object
         {
             m_menuResourceBundle = new ResourceBundle[10];
             Class<?> classResource = this.getClass();
-            Locale currentLocale = Locale.getDefault();
+            Locale locale = Locale.getDefault();
             for (int i = 0; i < 10; i++)
             {
                 m_menuResourceBundle[i] = null;
                 if (classResource != null)
                 {   // First time only
-                    String strResourceClassName = classResource.getName();
-                    strResourceClassName = Converter.convertClassName(strResourceClassName, Constants.RES_SUBPACKAGE) + "Resources";
+                    String resourceClassName = classResource.getName();
+                    resourceClassName = Converter.convertClassName(resourceClassName, Constants.RES_SUBPACKAGE) + "Resources";
                     try   {
-                        m_menuResourceBundle[i] = ResourceBundle.getBundle(strResourceClassName, currentLocale);
+                    	ClassLoader classLoader = this.getClass().getClassLoader();
+                        m_menuResourceBundle[i] = ClassServiceUtility.getClassService().getResourceBundle(resourceClassName, locale, classLoader);
+                        		//xResourceBundle.getBundle(strResourceClassName, currentLocale);
                     } catch (MissingResourceException ex) {
                         m_menuResourceBundle[i] = null;
                     }

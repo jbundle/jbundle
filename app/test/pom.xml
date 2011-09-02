@@ -19,16 +19,39 @@
   </properties>
   
   <build>
-
-   <resources>
-     <resource>
-       <directory>${basedir}/src/main/java</directory>
-       <includes>
-       <include>**/*.properties</include>
-       </includes>
-       <filtering>false</filtering>
-     </resource>
-   </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+            <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+            <!-- Even though I shouldn't expose jdbc, I need to see it for my package lookup -->
+            <Export-Package>
+                ${project.artifactId}.*;version=${project.version},
+                org.jbundle.res.app.test.*;version=${project.version}
+                org.jbundle.thin.app.test.*;version=${project.version}
+            </Export-Package>
+            <Import-Package>
+                *;resolution:=optional,
+            </Import-Package>
+            <Bundle-Activator>org.jbundle.base.db.jdbc.service.JdbcBundleService</Bundle-Activator>
+            <Bundle-Version>${project.version}</Bundle-Version>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins> 
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/java</directory>
+        <includes>
+         <include>**/*.properties</include>
+        </includes>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
 
   </build>
 
