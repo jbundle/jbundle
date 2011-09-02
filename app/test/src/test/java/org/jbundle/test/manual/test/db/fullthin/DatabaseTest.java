@@ -43,7 +43,7 @@ public abstract class DatabaseTest extends BaseTest
         cat = Category.getInstance(DatabaseTest.class.getName());
 
         BaseApplet.main(null);
-        String[] args = {"local=Client", "remote=Client"};
+        String[] args = {"remote=Client", "local=Client", "table=Client"};
         args = TestAll.fixArgs(args);
         applet = new BaseApplet(args);
 

@@ -6,7 +6,9 @@ package org.jbundle.test.manual.test.db.fullthin;
 import java.util.Calendar;
 import java.util.Date;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.apache.log4j.Category;
 import org.jbundle.model.DBException;
@@ -32,6 +34,12 @@ Category cat = null;
     public BaseTest(String strTestName)
     {
         super(strTestName);
+    }
+    public static Test suite()
+    {
+        TestSuite suite= new TestSuite();     
+        // Hack - Get rid of mvn test error
+        return suite;
     }
     /**
      * Add the test table records.

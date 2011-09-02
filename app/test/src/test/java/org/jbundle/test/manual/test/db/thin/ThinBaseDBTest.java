@@ -34,7 +34,7 @@ public abstract class ThinBaseDBTest extends DBBaseTest
         cat = Category.getInstance(ThinBaseDBTest.class.getName());
 
         BaseApplet.main(null);
-        String[] args = {"local=Client", "remote=Client"};
+        String[] args = {"remote=Client", "local=Client", "table=Client", "connectionType=proxy"};
         args = TestAll.fixArgs(args);
         applet = new BaseApplet(args);
 

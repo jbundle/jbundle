@@ -19,6 +19,7 @@ import org.apache.log4j.SimpleLayout;
 
 /**
  * Run all the tests.
+ * TODO(don) --------- WARNING: I hard code the codebase to use localhost:8181 -----------
  * @author  don
  * @version 
  */
@@ -38,7 +39,7 @@ public class TestAll extends TestCase {
      */
     public static String[] fixArgs(String[] args)
     {
-    	String[] argsBase = {"dbSuffix=_test", "mainUserDBName=main", "programSharedDBName=program_test"};
+    	String[] argsBase = {/*"dbSuffix=_test", */"mainUserDBName=main", "programSharedDBName=program_test", "connectionType=proxy", /*"remotehost=linux-laptop", */"codebase=localhost:8181"};
     	String[] argsNew = new String[args.length + argsBase.length];
     	for (int i= 0; i < argsBase.length; i++)
     	{

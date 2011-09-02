@@ -10,7 +10,9 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 
 /**
@@ -27,6 +29,12 @@ public class BaseAnimalTest extends TestCase
     public BaseAnimalTest(String strTestName)
     {
         super(strTestName);
+    }
+    public static Test suite()
+    {
+        TestSuite suite= new TestSuite();     
+        // Hack - Get rid of mvn test error
+        return suite;
     }
     /**
      * Add animal test records.

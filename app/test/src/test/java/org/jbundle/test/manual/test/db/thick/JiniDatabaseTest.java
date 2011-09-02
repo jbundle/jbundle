@@ -54,7 +54,7 @@ public class JiniDatabaseTest extends DatabaseTest
     {
         if (testTable == null)
         {
-            String[] args = {"remote=Client", "local=Client"};
+            String[] args = {"remote=Client", "local=Client", "table=Client", "connectionType=proxy"};
             args = TestAll.fixArgs(args);
             Map<String,Object> properties = new Hashtable<String,Object>();
             Util.parseArgs(properties, args);

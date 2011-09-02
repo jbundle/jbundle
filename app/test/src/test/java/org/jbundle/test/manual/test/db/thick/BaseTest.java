@@ -6,7 +6,9 @@ package org.jbundle.test.manual.test.db.thick;
 import java.util.Calendar;
 import java.util.Date;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.apache.log4j.Category;
 import org.jbundle.app.test.test.db.TestTable;
@@ -15,6 +17,7 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.DateTimeField;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.test.manual.test.message.MessageTest;
 
 
 /**
@@ -30,6 +33,13 @@ public class BaseTest extends TestCase {
     public BaseTest(String strTestName) {
         super(strTestName);
     }
+    public static Test suite()
+    {
+        TestSuite suite= new TestSuite();     
+        // Hack - Get rid of mvn test error
+        return suite;
+    }
+
     Date date = null;
     /**
      * Add the test table records.

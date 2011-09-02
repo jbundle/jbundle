@@ -7,13 +7,16 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.jbundle.app.test.vet.db.Vet;
 import org.jbundle.base.thread.ProcessRunnerTask;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.model.util.Util;
+import org.jbundle.test.manual.test.db.thick.JdbcDatabaseTest;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.TreeMessage;
 import org.jbundle.thin.base.screen.BaseApplet;
@@ -41,6 +44,13 @@ public class MessageTest extends TestCase
     {
     }
     
+    public static Test suite()
+    {
+        TestSuite suite= new TestSuite();     
+        suite.addTest(new MessageTest("runTest"));
+        return suite;
+    }
+
     public static final void main(String[] args)
     {
         BaseApplet.main(args);      // This says I'm stand-alone

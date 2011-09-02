@@ -56,7 +56,7 @@ public class JdbcObjectTest extends ObjectTest
     {
         if (vet == null)
         {
-            String[] args = {"remote=Jdbc", "local=Jdbc"};
+            String[] args = {"remote=Jdbc", "local=Jdbc", "table=Jdbc"};
             args = TestAll.fixArgs(args);
             Map<String,Object> properties = new Hashtable<String,Object>();
             Util.parseArgs(properties, args);
