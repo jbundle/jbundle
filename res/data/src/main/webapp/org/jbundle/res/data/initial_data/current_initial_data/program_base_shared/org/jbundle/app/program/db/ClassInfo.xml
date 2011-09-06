@@ -7761,7 +7761,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779200">
-		<LastChanged>2010-02-05T11:19:46</LastChanged>
+		<LastChanged>2010-02-05T11:19:58</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassIssueGridScreen</ClassName>
 		<BaseClassName>IssueGridScreen</BaseClassName>

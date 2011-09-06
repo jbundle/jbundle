@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><file>
 	<Menus ID="131">
-		<LastChanged>2010-10-17T07:30:27</LastChanged>
+		<LastChanged>2010-10-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Control File</Name>
 		<ParentFolderID>430</ParentFolderID>
@@ -238,7 +238,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="286">
-		<LastChanged>2010-10-17T04:30:27</LastChanged>
+		<LastChanged>2010-10-17T07:30:27</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Billing cycle</Name>
 		<ParentFolderID>434</ParentFolderID>
@@ -2965,7 +2965,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1183">
-		<LastChanged>2011-08-31T17:21:25</LastChanged>
+		<LastChanged>2011-09-05T23:40:20</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Free Software</Name>
 		<ParentFolderID>789</ParentFolderID>
@@ -2983,15 +2983,15 @@
 <items columns="3">
 <td align="left" valign="top">
     <hr/>
-    <a href="<link/>">
-        <img src="<icon/>" alt="<menutitle/>" width="24" height="24" border="0"  align="center"/>
-    </A>
-    <a href="<link/>">
-        <menutitle/>
+    <a href="${link}">
+        <img src="${icon}" alt="${menutitle}" width="24" height="24" border="0"  align="center"/>
     </a>
-<br/><javalogo><img src="images/buttons/java.gif" width="16" height="15" border="0">&nbsp;</javalogo><span style="font-size: 10pt"><menudesc/></span>
+    <a href="${link}">
+        ${menutitle}
+    </a>
+<br/>${javalogo}<img src="images/buttons/java.gif" width="16" height="15" border="0">&nbsp;</javalogo><span style="font-size: 10pt">${menudesc}</span>
 </td>
-</items>
+${items}
 Thanks for visiting!]]></XmlData>
 		<MenusHelp/>
 	</Menus>
@@ -3017,7 +3017,7 @@ Thanks for visiting!]]></XmlData>
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1185">
-		<LastChanged>2010-10-17T07:30:09</LastChanged>
+		<LastChanged>2010-10-17T07:30:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Development menu</Name>
 		<ParentFolderID>789</ParentFolderID>
@@ -3109,7 +3109,7 @@ Thanks for visiting!]]></XmlData>
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1190">
-		<LastChanged>2010-11-22T15:31:09</LastChanged>
+		<LastChanged>2010-11-18T12:31:35</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Resources</Name>
 		<ParentFolderID>1,185</ParentFolderID>
@@ -3987,7 +3987,7 @@ Thanks for visiting!]]></XmlData>
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1262">
-		<LastChanged>2010-06-22T15:26:44</LastChanged>
+		<LastChanged>2010-10-17T07:30:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Favorites</Name>
 		<ParentFolderID>1,225</ParentFolderID>

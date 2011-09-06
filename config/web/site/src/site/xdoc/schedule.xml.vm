@@ -16,49 +16,36 @@
       /jbundle/config/web/site/schedule.xml.vm
       
       1. jbundle deploy
-         4. OSGify JBundle project
-            1. Fix MessageReceivingServlet in xx-webbundle module
-         	3. Find and fix all non-OSGi dependencies
-         		1. JSON
-         		2. javax.mail
-         		3. DOJO
-         		4. Test vs Jetty
-         5. Finish JBundle code.
-         	1. XSL Servlet (dump cocoon)
-         	2. Finish Contact test app in workspace-xxx, 
-         	3. Contact webdeploy test vs jetty/OSGi
-         	4. Finish docs
-         	5. Translate plugin
-         	6. Add open source headers to source code (see plugin)
-         	7. Deploy to maven (@jbundle.org)
-         	8. Finish new jbundle-site
-         	9. Add sf/ow2/xx project
-         6. DW article schema vs cfx? vs currency converter
-      2. Tourapp finish
-      	1. Payment Screen (paypal)
-      		1. Thick
-      		2. Thin
-      		3. Batch//server
+        1. Complete test of ALL modules
+        2. Fix broken modules
+      2. Deploy
+        1. Maven deploy new code
+        2. Nexus deploy code
+        3. Deploy new code to my servers
       3. Deploy sites
-      	1. http
-      	2. google sites
-      	3. mslive
-      	4. open source
-      	5. blog
-      	6. brocure request/newsletter
-      	7. skype/facebook/twitter
-      4. Upload to u/g
-      	1. Brochures
-      	2. Menus
-      	3. release web xml
-      	4. TestSecond
-      	5. ArControl
-      5. Other
-      	1. Status box on applet window
-      5. Market
-      	1. Letter to Dave Herbert
-      	2. Letter to Cal Native
-      	3. Contact Carms - European Travel
+        1. http
+        2. google sites
+        3. mslive
+        4. open source
+        5. blog
+        6. brocure request/newsletter
+        7. skype/facebook/twitter
+      4. Market
+        1. Letter to Dave Herbert
+        2. Letter to Cal Native
+        3. Contact Carms - European Travel
+      5. TODO
+        1. Payment Screen (paypal)
+            1. Thick
+            2. Thin
+            3. Batch//server
+        2. Status box on applet window
+        3. Translate plugin
+        4. Convert messaging to jms
+        5. Convert soa to servicemix
+        6. Add open source headers to source code (see plugin)
+      6. Side projects
+        1. DW article schema vs cfx? vs currency converter
       
 ]]>
       

@@ -1010,7 +1010,7 @@ screen.screen=com.tourapp.tour.booking.message.hotel.screen.HotelAvailResponseSc
 		<InitialMessageStatusID/>
 	</MessageProcessInfo>
 	<MessageProcessInfo ID="65">
-		<LastChanged>2010-04-02T16:00:57</LastChanged>
+		<LastChanged>2011-08-05T15:59:48</LastChanged>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Description>Item Pricing Inbound Response</Description>
