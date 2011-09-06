@@ -226,6 +226,9 @@ public class Utility extends ThinUtil
             if (iEndBrace == -1)
                 break;
             String strKey = sb.substring(iStartBrace + 1, iEndBrace);
+            if (iStartBrace > 0)
+            	if (sb.charAt(iStartBrace - 1) == '$')
+            		iStartBrace--;
             String string = null;
             if (map != null)
             	if (map.get(strKey) != null)

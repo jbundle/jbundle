@@ -93,46 +93,78 @@ public class XMLParser extends Object
     {
         int iCurrentParsePos = 0;
         int iCurrentOutputPos = 0;
-        int iStartTag;
-        while ((iStartTag = str.indexOf('<', iCurrentParsePos)) != -1)
+        int iStartTag, iStartVelocity;
+        while (true)
         { // Done
-            iCurrentParsePos = iStartTag + 1;
-            if (iCurrentParsePos == str.length())
-                break;
-            if (str.charAt(iStartTag + 1) == '/') // Don't process end tags
-                continue;
-            int iEndTag = str.indexOf(' ', iStartTag);
-            int iEndParam = str.indexOf('>', iStartTag);
-            if (iEndParam == -1)
-                break;      // poorly formed XML
-            int iNextParam = str.indexOf('<', iCurrentParsePos);
-            if (iNextParam != -1) if (iNextParam < iEndParam)
-                continue;   // This handles the case: <IMG=<image/>>   (used internally)
-            int iEndCloseTag = iEndParam;
-            if (str.charAt(iEndParam - 1) == '/')
-                iEndParam = iEndParam - 1;
-            if ((iEndTag == -1) || (iEndTag > iEndParam))
-                iEndTag = iEndParam;
-            String strTag = str.substring(iStartTag + 1, iEndTag);
-            String strParams = null;
-            if (iEndTag != iEndParam)
-                strParams = str.substring(iEndTag + 1, iEndParam);
-            String strData = null;
-            int iStartCloseTag = -1;
-            
-            if (iCurrentOutputPos != iStartTag)
-                out.print(str.substring(iCurrentOutputPos, iStartTag));     // Print everything up to the start of the tag.
-            iCurrentOutputPos = iStartTag;
-            
-            if (str.charAt(iEndCloseTag) != '/')
-            {   // Find the end tag (if start tag doesn't end in '/')
-                iStartCloseTag = str.indexOf("</" + strTag + '>', iEndTag);
-                if (iStartCloseTag > iEndTag)
-                {
-                    iEndCloseTag = iStartCloseTag + strTag.length() + 2;
-                    strData = str.substring(iEndParam + 1, iStartCloseTag);
-                }
-            }
+        	iStartTag = str.indexOf('<', iCurrentParsePos);
+        	iStartVelocity = str.indexOf("${", iCurrentParsePos);
+        	if ((iStartTag == -1) && (iStartVelocity == -1))
+    			break;	// Done
+        	String strTag, strParams, strData;
+        	int iNextParam, iEndCloseTag;
+    		if ((iStartVelocity == -1) || (iStartVelocity > iStartTag))
+    		{	// xml format param
+	            iCurrentParsePos = iStartTag + 1;
+	            if (iCurrentParsePos == str.length())
+	                break;
+	            if (str.charAt(iStartTag + 1) == '/') // Don't process end tags
+	                continue;
+	            int iEndTag = str.indexOf(' ', iStartTag);
+	            int iEndParam = str.indexOf('>', iStartTag);
+	            if (iEndParam == -1)
+	                break;      // poorly formed XML
+	            int iNextVelocity = str.indexOf("${", iCurrentParsePos);
+	            if (iNextVelocity != -1) if (iNextVelocity < iEndParam)
+	                continue;   // This handles the case: <IMG=${image}>   (used internally)
+	            iNextParam = str.indexOf('<', iCurrentParsePos);
+	            if (iNextParam != -1) if (iNextParam < iEndParam)
+	                continue;   // This handles the case: <IMG=<image/>>   (used internally)
+	            if (iNextVelocity != -1) if (iNextVelocity < iNextParam)
+	            	iNextParam = iNextVelocity;
+	            iEndCloseTag = iEndParam;
+	            if (str.charAt(iEndParam - 1) == '/')
+	                iEndParam = iEndParam - 1;
+	            if ((iEndTag == -1) || (iEndTag > iEndParam))
+	                iEndTag = iEndParam;
+	            strTag = str.substring(iStartTag + 1, iEndTag);
+	            strParams = null;
+	            if (iEndTag != iEndParam)
+	                strParams = str.substring(iEndTag + 1, iEndParam);
+	            strData = null;
+	            int iStartCloseTag = -1;
+	            
+	            if (iCurrentOutputPos != iStartTag)
+	                out.print(str.substring(iCurrentOutputPos, iStartTag));     // Print everything up to the start of the tag.
+	            iCurrentOutputPos = iStartTag;
+	            
+	            if (str.charAt(iEndCloseTag) != '/')
+	            {   // Find the end tag (if start tag doesn't end in '/')
+	                iStartCloseTag = str.indexOf("</" + strTag + '>', iEndTag);
+	                if (iStartCloseTag > iEndTag)
+	                {
+	                    iEndCloseTag = iStartCloseTag + strTag.length() + 2;
+	                    strData = str.substring(iEndParam + 1, iStartCloseTag);
+	                }
+	            }
+        	}
+    		else
+    		{	// Velocity format param
+    			strParams = null;
+    			strData = null;
+    			
+	            iCurrentParsePos = iStartTag + 2;	// ${
+	            if (iCurrentParsePos == str.length())
+	                break;
+	            iEndCloseTag = str.indexOf('}', iStartTag);
+	            if (iEndCloseTag == -1)
+	                break;      // poorly formed Velocity tag
+    			strTag = str.substring(iStartTag + 2, iEndCloseTag);
+
+	            int iNextVelocity = str.indexOf("${", iCurrentParsePos);
+	            iNextParam = str.indexOf('<', iCurrentParsePos);
+	            if (iNextVelocity != -1) if (iNextVelocity < iNextParam)
+	            	iNextParam = iNextVelocity;
+    		}
 
             // Now, I have the tag, params, and data for this tag
             boolean bProcessed = this.parseHtmlTag(out, strTag, strParams, strData);
