@@ -60,6 +60,7 @@ import org.jbundle.thin.base.message.JMessageListener;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.Application;
+import org.jbundle.util.osgi.ClassService;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**
@@ -2470,22 +2471,42 @@ public class Record extends FieldList
     }
     /**
      * Create and initialize the record that has this class name.
-     * @param strClassName Full class name.
+     * @param className Full class name.
      * @param recordOwner The recordowner to add this record to.
      * @param bErrorIfNotFound Display an error if not found.
      * @return The new record.
      */
-    public static Record makeRecordFromClassName(String strClassName, RecordOwner recordOwner, boolean bInitRecord, boolean bErrorIfNotFound)
+    public static Record makeRecordFromClassName(String className, RecordOwner recordOwner, boolean bInitRecord, boolean bErrorIfNotFound)
     {
         Record record = null;
         try {
-            record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(strClassName, bErrorIfNotFound);
-            if (bInitRecord)
-                if (record != null)
-                    record.init(recordOwner);
+            record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(className, bErrorIfNotFound);
         } catch (RuntimeException ex) {
-            recordOwner.getTask().setLastError(ex.getMessage());
+        	if (className.startsWith("."))
+        		if (recordOwner != null)
+        			if (!recordOwner.getClass().getName().startsWith(ClassService.ROOT_PACKAGE))
+			{
+				String packageName = Utility.getPackageName(recordOwner.getClass().getName());
+				int domainEnd = packageName.indexOf(".");
+				if (domainEnd != -1)
+					domainEnd = packageName.indexOf(".", domainEnd + 1);
+				if (domainEnd != -1)
+				{
+					className = ClassServiceUtility.getFullClassName(packageName.substring(0, domainEnd), null, className);
+					ex = null;
+					try {
+						record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(className, bErrorIfNotFound);
+			        } catch (RuntimeException e) {
+			        	ex = e;
+			        }
+				}
+				if (ex != null)
+					recordOwner.getTask().setLastError(ex.getMessage());
+			}
         }
+        if (bInitRecord)
+            if (record != null)
+                record.init(recordOwner);
         return record;
     }
     /**

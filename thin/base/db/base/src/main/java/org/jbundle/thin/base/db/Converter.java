@@ -648,22 +648,4 @@ public abstract class Converter extends Object
             objData = Constants.BLANK;
         return (String)objData;
     }
-    /**
-     * Convert this class name by inserting this package after the domain.
-     * ie., com.xyz.abc.ClassName -> com.xyz.newpackage.abc.ClassName.
-     * @param className
-     * @param stringToInsert
-     * @return Converted string
-     */
-    public static String convertClassName(String className, String stringToInsert)
-    {
-        int iStartSeq = className.indexOf('.');	// Constants.ROOT_PACKAGE.length();
-        if (iStartSeq != -1)
-     	   iStartSeq = className.indexOf('.', iStartSeq + 1);
-        int domainSeq = iStartSeq;
-        if (className.indexOf(Constants.THIN_SUBPACKAGE, iStartSeq) == iStartSeq + 1)
-            iStartSeq = iStartSeq + Constants.THIN_SUBPACKAGE.length();
-        className = className.substring(0, domainSeq + 1) + stringToInsert + className.substring(iStartSeq + 1);
-        return className;
-    }
 }

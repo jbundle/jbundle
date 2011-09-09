@@ -18,6 +18,7 @@ import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Key;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.db.Table;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
@@ -498,7 +499,7 @@ public class FieldList extends Object
                 if (classResource != null)
                 {   // First time only
                     String resourceClassName = classResource.getName();
-                    resourceClassName = Converter.convertClassName(resourceClassName, Constants.RES_SUBPACKAGE) + "Resources";
+                    resourceClassName = Util.convertClassName(resourceClassName, Constants.RES_SUBPACKAGE) + "Resources";
                     try   {
                     	ClassLoader classLoader = this.getClass().getClassLoader();
                         m_menuResourceBundle[i] = ClassServiceUtility.getClassService().getResourceBundle(resourceClassName, locale, classLoader);
