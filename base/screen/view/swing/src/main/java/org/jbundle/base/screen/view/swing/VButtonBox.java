@@ -160,7 +160,8 @@ public class VButtonBox extends VBaseButton
     public Object getFieldState()
     {
     	if (this.getScreenField().getConverter() != null)
-    		if (this.getScreenField().getConverter().getData() instanceof ImageIcon)
+    		if ((this.getScreenField().getConverter().getData() instanceof ImageIcon)
+    				|| (this.getScreenField().getConverter().getData() instanceof SerializableImage))
     			return this.getScreenField().getConverter().getData();
         Object state = super.getFieldState();
         if (state == null)
