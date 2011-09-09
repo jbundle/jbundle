@@ -82,7 +82,16 @@ public class DateOffsetScanListener extends BaseScanListener
                 if (endTag > startTag)
             {
                 String tag = string.substring(startTag + 1, endTag);
-                if (tag.toUpperCase().contains("DATE"))
+                boolean bDateField = tag.toUpperCase().contains("DATE");
+                if (eomFields != null)
+                {
+                    for (String token : eomFields)
+                    {
+                        if (tag.equals(token))
+                            bDateField = true;
+                    }
+                }
+                if (bDateField)
                 {
                     int endData = string.indexOf('<', endTag);
                     if (endData != -1)
