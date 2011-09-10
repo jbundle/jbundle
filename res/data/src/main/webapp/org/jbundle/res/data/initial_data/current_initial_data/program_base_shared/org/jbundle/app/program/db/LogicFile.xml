@@ -28877,7 +28877,7 @@ if (this.getProperty("endOfMonthFields") != null)
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16785076">
-		<LastChanged>2010-05-27T16:38:13</LastChanged>
+		<LastChanged>2011-09-09T15:14:13</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>convertString</MethodName>
@@ -28893,7 +28893,16 @@ if (this.getProperty("endOfMonthFields") != null)
         if (endTag > startTag)
     {
         String tag = string.substring(startTag + 1, endTag);
-        if (tag.toUpperCase().contains("DATE"))
+        boolean bDateField = tag.toUpperCase().contains("DATE");
+        if (eomFields != null)
+        {
+        	for (String token : eomFields)
+        	{
+                if (tag.equals(token))
+                	bDateField = true;
+        	}
+        }
+        if (bDateField)
         {
             int endData = string.indexOf('<', endTag);
             if (endData != -1)
