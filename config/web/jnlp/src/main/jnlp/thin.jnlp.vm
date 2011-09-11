@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="$$context">
+<?xml version="1.0" encoding="UTF-8"?><jnlp codebase="$$context" spec="1.0+">
 <information>
 <title>Thin Application Resources</title>
 <vendor>tourapp.com</vendor>
@@ -12,8 +11,8 @@
 </information>
 <security/>
 <resources>
-<java version="1.6+" initial-heap-size="128m" max-heap-size="512m"/>
-<property name="jnlp.packEnabled" value="true"/>
+<java max-heap-size="512m" initial-heap-size="128m" version="1.6+"/>
+<property value="true" name="jnlp.packEnabled"/>
 <jar href="lib/base64coder-${base64coderVersion}.jar" part="base64coder" download="lazy"/>
 <package name="biz.source_code.base64Coder.*" part="base64coder" recursive="true"/>
 <jar href="lib/org.jbundle.model-${project.version}.jar" part="org.jbundle.model"/>
