@@ -139,6 +139,11 @@
                   <artifactId>org.jbundle.util.jcalendarbutton</artifactId>
                   <version>${jbundle-jcalendarbuttonVersion}</version>
                 </jarResource>
+                <jarResource>
+                  <groupId>org.jbundle.util.osgi</groupId>
+                  <artifactId>org.jbundle.util.osgi</artifactId>
+                  <version>${jbundleOsgiVersion}</version>
+                </jarResource>
               </jarResources>
             </jnlpFile>
             
