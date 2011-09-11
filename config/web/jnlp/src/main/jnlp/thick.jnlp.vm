@@ -81,6 +81,8 @@
 <package name="org.jbundle.main.user.screen.*" part="org.jbundle.main.misc" recursive="true"/>
 <jar href="lib/org.jbundle.main.msg-${project.version}.jar" part="org.jbundle.main.msg" download="lazy"/>
 <package name="org.jbundle.main.msg.*" part="org.jbundle.main.msg" recursive="true"/>
+<jar href="lib/org.jbundle.res.data-${project.version}.jar" part="org.jbundle.res.data" download="lazy"/>
+<package name="org.jbundle.res.data.*" part="org.jbundle.res.data" recursive="true"/>
 </resources>
 <component-desc/>
 </jnlp>

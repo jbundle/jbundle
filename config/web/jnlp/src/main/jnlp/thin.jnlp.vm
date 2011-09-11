@@ -21,9 +21,10 @@
 <package name="org.jbundle.res.base.*" part="org.jbundle.res.core" recursive="true"/>
 <package name="org.jbundle.res.thin.*" part="org.jbundle.res.core" recursive="true"/>
 <package name="org.jbundle.res.main.*" part="org.jbundle.res.core" recursive="true"/>
+<jar href="lib/org.jbundle.res.docs-${project.version}.jar" part="org.jbundle.res.docs" download="lazy"/>
+<package name="org.jbundle.res.docs.*" part="org.jbundle.res.docs" recursive="true"/>
 <jar href="lib/org.jbundle.res.images-${project.version}.jar" part="org.jbundle.res.images"/>
-<package name="images.buttons.*" part="org.jbundle.res.images"/>
-<package name="images.icons.*" part="org.jbundle.res.images"/>
+<package name="org.jbundle.res.images.*" part="org.jbundle.res.images" recursive="true"/>
 <jar href="lib/org.jbundle.thin.base.db-${project.version}.jar" part="org.jbundle.thin.base.db"/>
 <package name="org.jbundle.thin.base.db.*" part="org.jbundle.thin.base.db"/>
 <package name="org.jbundle.thin.base.db.mem.*" part="org.jbundle.thin.base.db"/>
