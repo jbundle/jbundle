@@ -1,9 +1,10 @@
-/**
+/*
  * RemoteComboBox.java
  *
  * Created on October 29, 2000, 4:46 AM
- */
  
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.base.screen.util;
 
 import javax.swing.JComboBox;

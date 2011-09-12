@@ -1,6 +1,6 @@
-/**
+/*
  *  @(#)TestScreenRecord.
- * Copyright (c) 2009 tourapp.com. All Rights Reserved.
+ * Copyright © 2011 jbundle.org. All rights reserved.
  */
 package org.jbundle.thin.app.test.manual.screentest;
 

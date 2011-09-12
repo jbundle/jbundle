@@ -1,6 +1,6 @@
-/**
+/*
  *  @(#)CalcBalanceHandler.
- *  Copyright � 1998 jbundle.org. All rights reserved.
+ * Copyright © 2011 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.field.event;
 

@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.base.screen.cal.sample.message;
 
 import org.jbundle.thin.base.message.BaseMessage;

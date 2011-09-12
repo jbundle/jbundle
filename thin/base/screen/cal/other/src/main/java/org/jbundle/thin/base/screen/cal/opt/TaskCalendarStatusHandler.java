@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.base.screen.cal.opt;
 
 import org.jbundle.model.Task;

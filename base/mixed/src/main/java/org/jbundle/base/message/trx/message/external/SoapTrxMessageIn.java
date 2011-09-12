@@ -2,8 +2,9 @@
  * BaseTrxMessage.java
  *
  * Created on October 12, 2001, 3:32 AM
- */
 
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.base.message.trx.message.external;
 
 import java.util.Iterator;

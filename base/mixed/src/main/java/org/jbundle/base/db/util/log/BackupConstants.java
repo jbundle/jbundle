@@ -2,8 +2,9 @@
  * ChatConstants.java
  *
  * Created on September 18, 2001, 5:35 AM
- */
 
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.base.db.util.log;
 
 import org.jbundle.thin.base.message.MessageConstants;

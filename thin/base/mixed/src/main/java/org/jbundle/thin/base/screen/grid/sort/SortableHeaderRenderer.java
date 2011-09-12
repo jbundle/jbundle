@@ -2,8 +2,9 @@
  * SortableHeaderRenderer.java
  *
  * Created on March 26, 2006, 10:06 PM
- */
 
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.base.screen.grid.sort;
 
 import java.awt.Component;

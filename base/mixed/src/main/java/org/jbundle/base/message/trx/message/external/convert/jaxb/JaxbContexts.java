@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.base.message.trx.message.external.convert.jaxb;
 
 import java.util.Hashtable;

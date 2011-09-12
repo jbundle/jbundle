@@ -2,8 +2,9 @@
  * LockServer.java
  *
  * Created on March 25, 2002, 12:57 AM
- */
 
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.base.db.lock;
 
 import java.rmi.RemoteException;

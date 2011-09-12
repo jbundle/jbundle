@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.base.message.app;
 
 import org.jbundle.base.message.core.local.LocalMessageQueue;

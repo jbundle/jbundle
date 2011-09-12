@@ -1,9 +1,10 @@
-/**
+/*
  * RmiSessionServer.java
  *
  * Created on January 10, 2000, 4:47 PM
- */
  
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.main.msg.app;
 
 import java.rmi.RemoteException;

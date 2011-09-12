@@ -1,6 +1,7 @@
 /**
- *  @(#)ProjectTaskPredecessor.
- *  Copyright © 2010 tourapp.com. All rights reserved.
+ * @(#)ProjectTaskPredecessor.
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ * GPL3 Open Source Software License.
  */
 package org.jbundle.thin.app.program.project.db;
 

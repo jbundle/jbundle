@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.web.httpservice;
 
 import org.jbundle.base.util.EnvironmentActivator;

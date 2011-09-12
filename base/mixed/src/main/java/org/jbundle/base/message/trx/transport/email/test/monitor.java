@@ -2,8 +2,9 @@
  * monitor.java
  *
  * Created on October 23, 2001, 5:42 AM
- */
 
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.base.message.trx.transport.email.test;
 
 import java.util.Properties;

@@ -1,6 +1,7 @@
 /**
- *  @(#)Appointment.
- *  Copyright © 2010 tourapp.com. All rights reserved.
+ * @(#)Appointment.
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ * GPL3 Open Source Software License.
  */
 package org.jbundle.thin.main.calendar.db;
 

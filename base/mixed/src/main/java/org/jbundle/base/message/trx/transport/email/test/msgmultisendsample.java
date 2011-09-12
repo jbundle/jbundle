@@ -2,8 +2,9 @@
  * msgmultisendsample.java
  *
  * Created on October 22, 2001, 11:45 PM
- */
 
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.base.message.trx.transport.email.test;
 
 import java.util.Date;

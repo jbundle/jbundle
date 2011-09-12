@@ -1,9 +1,10 @@
-/**
+/*
  * NameValue.java
  *
  * Created on July 9, 2000, 5:00 AM
- */
  
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.base.message.core.tree;
 
 import java.util.Hashtable;

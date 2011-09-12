@@ -1,9 +1,10 @@
-/**
+/*
  * JBlinkLabel.java
  *
  * Created on June 17, 2000, 6:47 AM
- */
  
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.base.screen.util;
 
 import java.awt.Rectangle;

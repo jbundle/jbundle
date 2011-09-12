@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.opt.location;
 /**
  * @(#)SampleTree.java  1.17 99/04/23

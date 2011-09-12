@@ -1,9 +1,10 @@
-/**
+/*
  * BaseMessageSender.java
  *
  * Created on June 13, 2000, 3:29 AM
- */
  
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.base.message.remote;
 
 import java.rmi.RemoteException;

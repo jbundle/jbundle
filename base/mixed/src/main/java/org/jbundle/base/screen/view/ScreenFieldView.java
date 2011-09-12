@@ -1,9 +1,10 @@
-/**
+/*
  * ScreenModel.java
  *
  * Created on April 27, 2000, 2:31 AM
- */
  
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.base.screen.view;
 
 import java.awt.Component;

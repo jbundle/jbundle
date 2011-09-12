@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.base.db.jdbc.service;
 
 import org.jbundle.base.db.BaseDatabase;

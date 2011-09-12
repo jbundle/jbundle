@@ -1,9 +1,10 @@
-/**
+/*
  * JFSTextField.java
  *
  * Created on February 23, 2000, 5:31 AM
- */
  
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.base.screen.util;
 
 import javax.swing.JTextField;

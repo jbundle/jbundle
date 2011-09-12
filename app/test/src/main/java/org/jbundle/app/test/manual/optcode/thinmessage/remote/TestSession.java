@@ -1,6 +1,6 @@
-/**
+/*
  *  @(#)RequestSession.
- *  Copyright � 2000 jbundle.org. All rights reserved.
+ * Copyright © 2011 jbundle.org. All rights reserved.
  */
 package org.jbundle.app.test.manual.optcode.thinmessage.remote;
 

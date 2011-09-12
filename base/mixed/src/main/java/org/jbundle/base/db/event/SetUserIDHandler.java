@@ -1,8 +1,8 @@
-/**
+/*
  * @(#)SetUserIDHandler.java    0.00 12-Feb-97 Don Corley
  *
- * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
+ * Copyright © 2011 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.db.event;
 

@@ -1,9 +1,10 @@
-/**
+/*
  * Params.java
  *
  * Created on March 6, 2000, 11:43 PM
- */
  
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.base.screen.util;
 
 import java.awt.event.ActionEvent;

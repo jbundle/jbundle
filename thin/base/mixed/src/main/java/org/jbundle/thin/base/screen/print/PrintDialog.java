@@ -2,8 +2,9 @@
  * PrintDialog.java
  *
  * Created on August 22, 2005, 3:32 AM
- */
 
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.base.screen.print;
 
 import java.awt.Graphics;

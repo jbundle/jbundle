@@ -2,8 +2,9 @@
  * LockServer.java
  *
  * Created on March 25, 2002, 1:00 AM
- */
 
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.base.db.lock;
 
 import org.jbundle.model.DBException;

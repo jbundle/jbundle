@@ -1,6 +1,6 @@
-/**
+/*
  *  @(#)TestSoftGridScreen.
- *  Copyright © 2010 tourapp.com. All rights reserved.
+ * Copyright © 2011 jbundle.org. All rights reserved.
  */
 package org.jbundle.app.test.test.screen.softdelete;
 

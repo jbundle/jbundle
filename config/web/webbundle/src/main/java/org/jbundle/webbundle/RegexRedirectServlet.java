@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.webbundle;
 
 public class RegexRedirectServlet extends org.jbundle.util.webapp.redirect.RegexRedirectServlet {

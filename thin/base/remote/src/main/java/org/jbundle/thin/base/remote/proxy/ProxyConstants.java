@@ -2,8 +2,9 @@
  * ProxyConstants.java
  *
  * Created on November 16, 2002, 1:45 AM
- */
 
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.base.remote.proxy;
 
 /**

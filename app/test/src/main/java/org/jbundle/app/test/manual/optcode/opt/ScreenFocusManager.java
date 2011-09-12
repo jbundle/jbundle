@@ -1,6 +1,7 @@
-/**
+/*
  * @(#)ScreenFocusManager.java  1.6 98/01/30
  * 
+ * Copyright © 2011 jbundle.org. All rights reserved.
  */
 package org.jbundle.app.test.manual.optcode.opt;
 

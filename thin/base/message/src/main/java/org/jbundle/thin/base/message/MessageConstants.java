@@ -1,9 +1,10 @@
-/**
+/*
  * MessageConstants.java
  *
  * Created on June 29, 2000, 3:44 AM
- */
  
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.base.message;
 
 /** 

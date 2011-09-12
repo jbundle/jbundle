@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.thin.opt.location;
 /**
  * @(#)SampleData.java  1.3 99/04/23

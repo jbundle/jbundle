@@ -1,7 +1,9 @@
 /**
-* @(#)ClassInfo.
-* Copyright © 2011 tourapp.com. All rights reserved.
-*/package org.jbundle.app.program.db;
+ * @(#)ClassInfo.
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ * GPL3 Open Source Software License.
+ */
+package org.jbundle.app.program.db;
 
 import java.awt.*;
 import java.util.*;

@@ -1,6 +1,7 @@
-//******************************************************************************
+/*
 // Test the basic object processing functions.
-//******************************************************************************
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.test.manual.test.db.shared;
 
 import org.jbundle.app.test.vet.db.Vet;

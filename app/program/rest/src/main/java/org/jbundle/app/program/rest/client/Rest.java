@@ -1,3 +1,6 @@
+/*
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.app.program.rest.client;
 
 import javax.ws.rs.core.MultivaluedMap;

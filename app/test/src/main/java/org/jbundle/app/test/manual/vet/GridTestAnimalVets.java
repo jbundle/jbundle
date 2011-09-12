@@ -1,6 +1,7 @@
-//******************************************************************************
+/*
 // Throw up a grid screen for a object table.
-//******************************************************************************
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ */
 package org.jbundle.app.test.manual.vet;
 
 import java.util.Map;
