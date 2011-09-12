@@ -1,23 +1,36 @@
 /**
-* @(#)SourceHeaderScanListener.
-* Copyright © 2011 tourapp.com. All rights reserved.
-*/
-
+ * @(#)SourceHeaderScanListener.
+ * Copyright © 2011 jbundle.org. All rights reserved.
+ * GPL3 Open Source Software License.
+ */
 package org.jbundle.app.program.script.scan;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.LineNumberReader;
-import java.io.PrintWriter;
+import java.awt.*;
+import java.util.*;
 
-import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.base.db.*;
+import org.jbundle.thin.base.util.*;
+import org.jbundle.thin.base.db.*;
+import org.jbundle.base.db.event.*;
+import org.jbundle.base.db.filter.*;
+import org.jbundle.base.field.*;
+import org.jbundle.base.field.convert.*;
+import org.jbundle.base.field.event.*;
+import org.jbundle.base.screen.model.*;
+import org.jbundle.base.screen.model.util.*;
+import org.jbundle.base.util.*;
+import org.jbundle.model.*;
+import java.io.*;
 
 /**
- *  SourceHeaderScanListener - .
+ *  SourceHeaderScanListener - Add source header to all java files.
  */
 public class SourceHeaderScanListener extends BaseScanListener
 {
+    protected String beforePackage;
+    protected boolean foundComment;
+    protected boolean foundPackage;
+    protected String lineSeparator;
     /**
      * Default constructor.
      */
@@ -38,6 +51,10 @@ public class SourceHeaderScanListener extends BaseScanListener
      */
     public void init(RecordOwnerParent parent, String strSourcePrefix)
     {
+        beforePackage = "";
+        foundComment = false;
+        foundPackage = false;
+        lineSeparator = (String) java.security.AccessController.doPrivileged(new sun.security.action.GetPropertyAction("line.separator"));;
         super.init(parent, strSourcePrefix);
     }
     /**
@@ -51,21 +68,6 @@ public class SourceHeaderScanListener extends BaseScanListener
         return super.filterFile(file);
     }
     /**
-     * Do whatever processing that needs to be done on this file.
-     */
-    public void moveThisFile(File fileSource, File fileDestDir, String strDestName)
-    {
-    	foundComment = false;
-    	foundPackage = false;
-    	beforePackage = "";
-    	super.moveThisFile(fileSource, fileDestDir, strDestName);
-    }
-    boolean foundComment = false;
-    boolean foundPackage = false;
-    String beforePackage = "";
-	String lineSeparator = (String) java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("line.separator"));
-    /**
      * MoveSourceToDest Method.
      */
     public void moveSourceToDest(LineNumberReader reader, PrintWriter dataOut)
@@ -74,50 +76,44 @@ public class SourceHeaderScanListener extends BaseScanListener
             String string;
             while ((string = reader.readLine()) != null)
             {
-            	if (string.indexOf("/*") != -1)
-            		foundComment = true;
-            	if (!foundPackage)
-            	{
-            		if (string.indexOf("package") == -1)
-	            	{
-            			if (string.indexOf("/*") != -1)
-            				continue;
-            			if (string.indexOf("*/") != -1)
-            				continue;
-            			if (string.indexOf("opyright") != -1)
-            				continue;
-	            		beforePackage = beforePackage + this.convertString(string) + lineSeparator;
-	            		continue;
-	            	}
-            		else
-	            	{
-	            		foundPackage = true;
-	                    dataOut.write("/*" + lineSeparator);
-	            		dataOut.write(beforePackage);
-	                    dataOut.write(" * Copyright © 2011 jbundle.org. All rights reserved." + lineSeparator);
-	                    dataOut.write(" */" + lineSeparator);
-	            	}
-            	}
+                if (string.indexOf("/*") != -1)
+                    foundComment = true;
+                if (!foundPackage)
+                {
+                    if (string.indexOf("package") == -1)
+                    {
+                        if (string.indexOf("/*") != -1)
+                            continue;
+                        if (string.indexOf("*/") != -1)
+                            continue;
+                        if (string.indexOf("opyright") != -1)
+                            continue;
+                        beforePackage = beforePackage + this.convertString(string) + lineSeparator;
+                        continue;
+                    }
+                    else
+                    {
+                        foundPackage = true;
+                        dataOut.write("/*" + lineSeparator);
+                        dataOut.write(beforePackage);
+                        dataOut.write(" * Copyright © 2011 jbundle.org. All rights reserved." + lineSeparator);
+                        dataOut.write(" */" + lineSeparator);
+                    }
+                }
                 string = this.convertString(string);
                 if (string != null)
                 {
                     dataOut.write(string + lineSeparator);
-//x                    dataOut.println();
                 }
             }
-        	if (!foundPackage)
-        		dataOut.write(beforePackage);
+            if (!foundPackage)
+                dataOut.write(beforePackage);
         } catch (FileNotFoundException ex)  {
             ex.printStackTrace();
         } catch (IOException ex)    {
             ex.printStackTrace();
         }
+
     }
-    /**
-     * Do any string conversion on the file text.
-     */
-    public String convertString(String string)
-    {
-        return string;
-    }
+
 }
