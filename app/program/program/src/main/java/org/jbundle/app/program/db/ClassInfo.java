@@ -24,7 +24,7 @@ import java.io.*;
 import org.jbundle.base.db.xmlutil.*;
 
 /**
- *  ClassInfo - .
+ *  ClassInfo - Class information.
  */
 public class ClassInfo extends VirtualRecord
      implements ClassInfoService
