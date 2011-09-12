@@ -543,6 +543,19 @@ public class Util extends Object
        return className;
    }
    /**
+    * Get the domain name from this package or class name
+    * @param className
+    * @return
+    */
+   public static String getDomainName(String className)
+   {
+	   int i = className.indexOf('.');
+	   i = className.indexOf('.', i + 1);
+	   if (i == -1)
+		   return null;
+	   return className.substring(0, i);
+   }
+   /**
     * Get the package name of this class name
     * @param className
     * @return

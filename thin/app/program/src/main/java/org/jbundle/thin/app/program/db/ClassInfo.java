@@ -1,8 +1,7 @@
 /**
- *  @(#)ClassInfo.
- *  Copyright © 2010 tourapp.com. All rights reserved.
- */
-package org.jbundle.thin.app.program.db;
+* @(#)ClassInfo.
+* Copyright © 2011 tourapp.com. All rights reserved.
+*/package org.jbundle.thin.app.program.db;
 
 import java.util.*;
 import org.jbundle.thin.base.util.*;

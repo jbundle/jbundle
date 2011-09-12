@@ -1,8 +1,7 @@
 /**
- *  @(#)ClassInfoField.
- *  Copyright © 2010 tourapp.com. All rights reserved.
- */
-package org.jbundle.app.program.db;
+* @(#)ClassInfoField.
+* Copyright © 2011 tourapp.com. All rights reserved.
+*/package org.jbundle.app.program.db;
 
 import java.awt.*;
 import java.util.*;

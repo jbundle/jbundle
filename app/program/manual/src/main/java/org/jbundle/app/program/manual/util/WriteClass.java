@@ -2,8 +2,21 @@ package org.jbundle.app.program.manual.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
+import org.jbundle.app.program.db.ClassFields;
+import org.jbundle.app.program.db.ClassFieldsTypeField;
+import org.jbundle.app.program.db.ClassInfo;
+import org.jbundle.app.program.db.ClassProject;
+import org.jbundle.app.program.db.ClassProject.CodeType;
+import org.jbundle.app.program.db.FieldData;
+import org.jbundle.app.program.db.LogicFile;
+import org.jbundle.app.program.db.ProgramControl;
+import org.jbundle.app.program.db.ScreenIn;
+import org.jbundle.app.program.manual.util.data.NameList;
+import org.jbundle.app.program.manual.util.data.StreamOut;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.base.db.filter.SubFileFilter;
@@ -12,20 +25,11 @@ import org.jbundle.base.field.NumberField;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.util.DBConstants;
-import org.jbundle.app.program.db.ClassFields;
-import org.jbundle.app.program.db.ClassFieldsTypeField;
-import org.jbundle.app.program.db.ClassInfo;
-import org.jbundle.app.program.db.ClassProject;
-import org.jbundle.app.program.db.FieldData;
-import org.jbundle.app.program.db.LogicFile;
-import org.jbundle.app.program.db.ProgramControl;
-import org.jbundle.app.program.db.ScreenIn;
-import org.jbundle.app.program.db.ClassProject.CodeType;
-import org.jbundle.app.program.manual.util.data.NameList;
-import org.jbundle.app.program.manual.util.data.StreamOut;
+import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.thin.base.db.Constants;
 
 
 /**
@@ -215,19 +219,36 @@ public class WriteClass extends BaseProcess
             ex.printStackTrace();
         }
 
-    // Write the first few lines of the method file
+        String header = null;
+        String resourceName = Utility.getDomainName(strPackage);
+        if (resourceName == null)
+        	resourceName = Constants.ROOT_PACKAGE.substring(0, Constants.ROOT_PACKAGE.length() - 1);
         if (strFileName.endsWith(".java"))
+        	resourceName = resourceName + ".java";
+        resourceName = resourceName + ".header";
+        ResourceBundle resourceBundle = this.getTask().getApplication().getResources(Constants.ROOT_PACKAGE + "res.app.program.program.Program", false);
+        if (resourceBundle != null)
+        	header = resourceBundle.getString(resourceName);
+        if (header == null)
         {
-	        m_MethodsOut.writeit("/**\n");
-	        m_MethodsOut.writeit(" *\t@(#)" + strClassName + ".\n");
-	        m_MethodsOut.writeit(" *\tCopyright © 2010 tourapp.com. All rights reserved.\n");
-	        m_MethodsOut.writeit(" */\n");
+	        if (strFileName.endsWith(".java"))
+	        {
+		        header = "/**\n" +
+		        		" * @(#)${className}.\n" +
+		        		" * Copyright © 2011 tourapp.com. All rights reserved.\n" +
+		        		" */";
+	        }
+	        else
+	        {
+		        header = "# ${className}.\n" +
+		        	"# Copyright © 2011 tourapp.com. All rights reserved.";
+	        }
         }
-        else
-        {
-	        m_MethodsOut.writeit("# " + strClassName + ".\n");
-	        m_MethodsOut.writeit("# Copyright © 2010 tourapp.com. All rights reserved.\n");
-        }
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("className", strClassName);
+        header = Utility.replaceResources(header, null, map, this);
+    // Write the first few lines of the method file
+        m_MethodsOut.writeit(header + "\n");
     }
     /**
      * Get the file name.
