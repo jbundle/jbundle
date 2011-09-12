@@ -141,16 +141,16 @@ public class BaseApplication extends ThinApplication
     /**
      * Given a class name in the program package, get this resource's class name in the res package.
      * @param strBasePackage A class name in the same program directory as the res class.
-     * @param strResourceClass The base resource class name.
+     * @param resourceName The base resource class name.
      * @return The full resource class name.
      */
-    public String getResourceClassName(String strBasePackage, String strResourceClass)
+    public String getResourceClassName(String strBasePackage, String resourceName)
     {
-        if (strResourceClass == null)
-            strResourceClass = strBasePackage.substring(strBasePackage.lastIndexOf('.') + 1);
-        strBasePackage = strBasePackage.substring(Constants.ROOT_PACKAGE.length());
+    	if (resourceName == null)
+            resourceName = strBasePackage.substring(strBasePackage.lastIndexOf('.') + 1);
         strBasePackage = strBasePackage.substring(0, strBasePackage.lastIndexOf('.') + 1);
-        strBasePackage = Constants.ROOT_PACKAGE + Constants.RES_SUBPACKAGE + strBasePackage + strResourceClass;
+    	resourceName = Utility.getFullClassName(null, strBasePackage, resourceName);
+    	resourceName = Utility.convertClassName(resourceName, Constants.RES_SUBPACKAGE);
         return strBasePackage;
     }
     /**
@@ -166,6 +166,8 @@ public class BaseApplication extends ThinApplication
     {
         if (strResourceName != null)
         {
+        	if (strResourceName.startsWith("."))
+            	strResourceName = Utility.getFullClassName(null, null, strResourceName);
             if (m_resources instanceof Resources)   // Always
                 if (strResourceName.equals(((Resources)m_resources).getResourceName()))
                 {

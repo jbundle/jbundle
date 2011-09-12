@@ -7,9 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -553,6 +551,37 @@ public class Util extends Object
    {
 	   return Util.getPackageName(className, false);
    }
+   /**
+    * If class name starts with '.' append base package.
+    * Note: This code is the same exact code as osgi ClassService. I just can't get to there
+    * from here.
+    */
+   public static String getFullClassName(String domainName, String packageName, String className) {
+       if (packageName != null)
+           if (packageName.length() > 0) {
+               if (packageName.charAt(packageName.length() - 1) != '.')
+                   packageName = packageName + '.';
+           }
+       if (className != null)
+           if (className.length() > 0) {
+               if (className.indexOf('.') == -1)
+                   if (packageName != null)
+                       className = packageName + className;
+               if (className.charAt(0) == '.')
+               {
+               	if (domainName != null)
+               	{
+               		if (domainName.endsWith("."))
+               			className = domainName + className.substring(1);
+               		else
+               			className = domainName + className;
+               	}
+               	else
+                       className = Constant.ROOT_PACKAGE + className.substring(1);
+               }
+           }
+       return className;
+   }	
    /**
     * Get the package name of this class name
     * @param className

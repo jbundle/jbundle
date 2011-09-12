@@ -17,10 +17,10 @@
 <package name="biz.source_code.base64Coder.*" part="base64coder" recursive="true"/>
 <jar href="lib/org.jbundle.model-${project.version}.jar" part="org.jbundle.model"/>
 <package name="org.jbundle.model.*" part="org.jbundle.model"/>
-<jar href="lib/org.jbundle.res.core-${project.version}.jar" part="org.jbundle.res.core" download="lazy"/>
-<package name="org.jbundle.res.base.*" part="org.jbundle.res.core" recursive="true"/>
-<package name="org.jbundle.res.thin.*" part="org.jbundle.res.core" recursive="true"/>
-<package name="org.jbundle.res.main.*" part="org.jbundle.res.core" recursive="true"/>
+<jar href="lib/org.jbundle.res-${project.version}.jar" part="org.jbundle.res" download="lazy"/>
+<package name="org.jbundle.res.base.*" part="org.jbundle.res" recursive="true"/>
+<package name="org.jbundle.res.thin.*" part="org.jbundle.res" recursive="true"/>
+<package name="org.jbundle.res.main.*" part="org.jbundle.res" recursive="true"/>
 <jar href="lib/org.jbundle.res.docs-${project.version}.jar" part="org.jbundle.res.docs" download="lazy"/>
 <package name="org.jbundle.res.docs.*" part="org.jbundle.res.docs" recursive="true"/>
 <jar href="lib/org.jbundle.res.images-${project.version}.jar" part="org.jbundle.res.images"/>
