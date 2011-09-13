@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.base.db</groupId>
     <artifactId>jbundle-base-db-reactor</artifactId>
-    <version>0.7.8</version>
+    <version>0.7.9-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.jbundle.base.db.jdbc</artifactId>
@@ -51,7 +51,7 @@
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-main</artifactId>
-      <version>0.7.8</version>
+      <version>0.7.9-SNAPSHOT</version>
 	  <type>pom</type>
     </dependency>
     

@@ -4,13 +4,13 @@
   <parent>
     <artifactId>jbundle-base-screen-control-reactor</artifactId>
     <groupId>org.jbundle.base.screen</groupId>
-    <version>0.7.8</version>
+    <version>0.7.9-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>org.jbundle.base.screen.control.xslservlet</artifactId>
-  <version>0.7.8</version>
+  <version>0.7.9-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>jbundle-base-screen-control-xslservlet</name>
 
@@ -18,7 +18,7 @@
     <dependency>
 	  <groupId>org.jbundle.config.dep</groupId>
 	  <artifactId>jbundle-config-dep-base</artifactId>
-	  <version>0.7.8</version>
+	  <version>0.7.9-SNAPSHOT</version>
 	  <type>pom</type>
     </dependency>
     
