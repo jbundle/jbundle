@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>jbundle-config-web-reactor</artifactId>
 		<groupId>org.jbundle.config.web</groupId>
-		<version>0.7.8-SNAPSHOT</version>
+		<version>0.7.8</version>
 	</parent>
 
 	<artifactId>jbundle-config-web-webbundle</artifactId>
@@ -219,7 +219,7 @@
 		<dependency>
 			<groupId>org.jbundle.config.dep</groupId>
 			<artifactId>jbundle-config-dep-all</artifactId>
-			<version>0.7.8-SNAPSHOT</version>
+			<version>0.7.8</version>
 			<type>pom</type>
 			<scope>provided</scope>	<!-- Hey this is OSGi -->
 		</dependency>

@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbundle-base-screen-view-reactor</artifactId>
     <groupId>org.jbundle.base.screen</groupId>
-    <version>0.7.8-SNAPSHOT</version>
+    <version>0.7.8</version>
   </parent>
 
   <artifactId>org.jbundle.base.screen.view.html</artifactId>
@@ -17,7 +17,7 @@
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-main</artifactId>
-      <version>0.7.8-SNAPSHOT</version>
+      <version>0.7.8</version>
 	  <type>pom</type>
     </dependency>
     
