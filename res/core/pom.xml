@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbundle-res-reactor</artifactId>
     <groupId>org.jbundle.res</groupId>
-    <version>0.7.9-SNAPSHOT</version>
+    <version>0.7.9</version>
   </parent>
 
   <artifactId>org.jbundle.res</artifactId>

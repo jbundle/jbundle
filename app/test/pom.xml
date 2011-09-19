@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.app.program</groupId>
     <artifactId>jbundle-app-mixed-reactor</artifactId>
-    <version>0.7.9-SNAPSHOT</version>
+    <version>0.7.9</version>
   </parent>
 
   <groupId>org.jbundle.app.test</groupId>
@@ -68,7 +68,7 @@
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-main</artifactId>
-      <version>0.7.9-SNAPSHOT</version>
+      <version>0.7.9</version>
 	  <type>pom</type>
     </dependency>
     <dependency>
@@ -79,12 +79,12 @@
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.cal.other</artifactId>
-      <version>0.7.9-SNAPSHOT</version>
+      <version>0.7.9</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.cal.grid</artifactId>
-      <version>0.7.9-SNAPSHOT</version>
+      <version>0.7.9</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.util.wsdl</groupId>
@@ -104,7 +104,7 @@
     <dependency>
       <groupId>org.jbundle.thin.main</groupId>
       <artifactId>org.jbundle.thin.main</artifactId>
-      <version>0.7.9-SNAPSHOT</version>
+      <version>0.7.9</version>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>

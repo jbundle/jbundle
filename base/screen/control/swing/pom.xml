@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.base.screen</groupId>
     <artifactId>jbundle-base-screen-control-reactor</artifactId>
-    <version>0.7.9-SNAPSHOT</version>
+    <version>0.7.9</version>
   </parent>
 
   <artifactId>org.jbundle.base.screen.control.swing</artifactId>
@@ -38,7 +38,7 @@
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.view.swing</artifactId>
-      <version>0.7.9-SNAPSHOT</version>
+      <version>0.7.9</version>
     </dependency>
 
     <dependency>

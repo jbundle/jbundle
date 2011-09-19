@@ -7,12 +7,12 @@
   <parent>
     <artifactId>jbundle-parent</artifactId>
     <groupId>org.jbundle.config</groupId>
-    <version>1.0.9-SNAPSHOT</version>
+    <version>1.0.9</version>
     <relativePath>../../jbundle-parent</relativePath>
   </parent>
   
   <artifactId>jbundle-thin-reactor</artifactId>
-  <version>0.7.9-SNAPSHOT</version>
+  <version>0.7.9</version>
   <packaging>pom</packaging>
   <name>jbundle-thin - Thin code parent</name>
 
