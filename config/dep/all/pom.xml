@@ -4,7 +4,7 @@
   <parent>
     <artifactId>jbundle-config-dep-reactor</artifactId>
     <groupId>org.jbundle.config.dep</groupId>
-    <version>0.7.10-SNAPSHOT</version>
+    <version>0.8.0-SNAPSHOT</version>
   </parent>
   
   <artifactId>jbundle-config-dep-all</artifactId>
@@ -15,64 +15,64 @@
     <dependency>
       <groupId>org.jbundle.thin.app</groupId>
       <artifactId>org.jbundle.thin.app.calendar</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.app</groupId>
       <artifactId>org.jbundle.thin.app.program</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
       <artifactId>org.jbundle.app.test</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.app.program</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.data</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-base-db-all</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-main</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
     
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
       <artifactId>org.jbundle.app.program</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
       <artifactId>org.jbundle.app.program.demo</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
       <artifactId>org.jbundle.app.program.manual</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
 
     <!-- dependency>
@@ -83,17 +83,17 @@
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.view.xml</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.view.html</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.view.swing</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <!-- dependency>
       <groupId>org.jbundle.base.screen</groupId>
@@ -104,17 +104,17 @@
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.docs</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.images</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.images.misc</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

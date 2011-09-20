@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-main-reactor</artifactId>
     <groupId>org.jbundle.main</groupId>
-    <version>0.7.10-SNAPSHOT</version>
+    <version>0.8.0-SNAPSHOT</version>
   </parent>
 
   <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
@@ -83,13 +83,13 @@
     <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.base.mixed</artifactId>
-      <version>0.7.10-SNAPSHOT</version>
+      <version>0.8.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
 	    <groupId>org.jbundle.config.dep</groupId>
 	    <artifactId>jbundle-config-dep-thin-base</artifactId>
-	    <version>0.7.10-SNAPSHOT</version>
+	    <version>0.8.0-SNAPSHOT</version>
 	    <type>pom</type>
     </dependency>
     <dependency>
