@@ -79,8 +79,7 @@
     </dependency>
     <dependency>
       <groupId>javax.mail</groupId>
-      <artifactId>mail</artifactId>    <!-- This is in the java.net repository -->
-      <!-- scope>provided</scope - removed from glassfish in 3.1-->
+      <artifactId>mail</artifactId>
     </dependency>
 
     <dependency>
