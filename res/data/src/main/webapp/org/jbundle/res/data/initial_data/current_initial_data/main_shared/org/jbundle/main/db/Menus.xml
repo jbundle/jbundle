@@ -1176,7 +1176,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="705">
-		<LastChanged>2010-10-17T07:30:28</LastChanged>
+		<LastChanged>2010-02-12T05:00:56</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Bank Transactions</Name>
 		<ParentFolderID>426</ParentFolderID>
@@ -12347,6 +12347,31 @@ please click the following link:<br/>
 		<AutoDesc>Y</AutoDesc>
 		<Program>org.jbundle.app.contact.db.Contact</Program>
 		<Params/>
+		<IconResource/>
+		<Keywords/>
+		<XmlData/>
+		<MenusHelp/>
+	</Menus>
+	<Menus ID="1925">
+		<LastChanged>2011-09-16T15:09:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Don's Demo site</Name>
+		<ParentFolderID>1,757</ParentFolderID>
+		<Sequence>100</Sequence>
+		<Comment>Demo test site</Comment>
+		<Code>don.demo.tourgeek.com</Code>
+		<Type>menu</Type>
+		<AutoDesc>Y</AutoDesc>
+		<Program>demosite</Program>
+		<Params type="XML"><properties>
+<comment>Field properties</comment>
+<entry key="loadInitialData">true</entry>
+<entry key="dbPrefix">don_</entry>
+<entry key="archiveFolder">com/tourapp/data/test_data/current_test_data</entry>
+<entry key="xslTemplate">org/jbundle/res/docs/styles/xsl/program/fixdemotemplate.xsl</entry>
+<entry key="mainUser">don@fred.com</entry>
+</properties>
+</Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>

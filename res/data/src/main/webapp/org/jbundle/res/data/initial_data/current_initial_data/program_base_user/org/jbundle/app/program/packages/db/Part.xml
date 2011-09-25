@@ -72,7 +72,7 @@
 	<Part ID="12">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
 		<Deleted>N</Deleted>
-		<Description>org.jbundle.res.core</Description>
+		<Description>org.jbundle.res</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
@@ -550,9 +550,29 @@
 		<Path/>
 	</Part>
 	<Part ID="107">
-		<LastChanged>2011-05-13T17:51:42</LastChanged>
+		<LastChanged>2011-09-11T00:14:29</LastChanged>
 		<Deleted>N</Deleted>
 		<Description>org.jbundle.util.osgi</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>2</JnlpFileID>
+		<Path>lib/org.jbundle.util.osgi-${jbundleOsgiVersion}.jar</Path>
+	</Part>
+	<Part ID="108">
+		<LastChanged>2011-09-11T00:20:28</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>org.jbundle.res.data</Description>
+		<Sequence/>
+		<Kind>lazy</Kind>
+		<PartType/>
+		<JnlpFileID>1</JnlpFileID>
+		<Path/>
+	</Part>
+	<Part ID="110">
+		<LastChanged>2011-09-11T00:21:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>org.jbundle.res.docs</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>

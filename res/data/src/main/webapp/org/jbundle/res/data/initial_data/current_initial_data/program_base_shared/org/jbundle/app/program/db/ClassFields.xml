@@ -11064,7 +11064,7 @@
 		<ClassFieldsType>N</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16782392">
-		<LastChanged>2010-10-21T13:04:40</LastChanged>
+		<LastChanged>2010-03-10T16:53:01</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>BaseSetupSiteProcess</ClassInfoClassName>
 		<ClassInfoID/>
@@ -11789,5 +11789,85 @@
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+	</ClassFields>
+	<ClassFields ID="16782448">
+		<LastChanged>2011-09-12T14:05:47</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SourceHeaderScanListener</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>boolean</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName>foundComment</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial>false</ClassFieldInitial>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>N</ClassFieldsType>
+	</ClassFields>
+	<ClassFields ID="16782449">
+		<LastChanged>2011-09-12T14:06:01</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SourceHeaderScanListener</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>boolean</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName>foundPackage</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial>false</ClassFieldInitial>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>N</ClassFieldsType>
+	</ClassFields>
+	<ClassFields ID="16782450">
+		<LastChanged>2011-09-12T14:06:17</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SourceHeaderScanListener</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName>beforePackage</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial>""</ClassFieldInitial>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>N</ClassFieldsType>
+	</ClassFields>
+	<ClassFields ID="16782451">
+		<LastChanged>2011-09-12T14:06:49</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SourceHeaderScanListener</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName>lineSeparator</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial>(String) java.security.AccessController.doPrivileged(new sun.security.action.GetPropertyAction("line.separator"));</ClassFieldInitial>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>N</ClassFieldsType>
+	</ClassFields>
+	<ClassFields ID="16782452">
+		<LastChanged>2011-09-12T14:09:21</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SourceHeaderScanListener</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>java.io</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>P</ClassFieldsType>
 	</ClassFields>
 </file>

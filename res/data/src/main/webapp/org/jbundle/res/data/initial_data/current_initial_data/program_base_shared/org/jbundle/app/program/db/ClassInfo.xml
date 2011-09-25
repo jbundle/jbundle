@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><file>
 	<ClassInfo ID="16777217">
-		<LastChanged>2010-02-06T13:09:57</LastChanged>
+		<LastChanged>2011-09-12T11:52:35</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassInfo</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
-		<ClassDesc/>
+		<ClassDesc>Class information</ClassDesc>
 		<ClassProjectID>16,777,221</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ClassInfo</ClassSourceFile>
@@ -3856,7 +3856,7 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778262">
-		<LastChanged>2010-02-05T11:18:06</LastChanged>
+		<LastChanged>2011-08-05T14:59:47</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BooleanThreeStateField</ClassName>
 		<BaseClassName>BooleanField</BaseClassName>
@@ -11299,6 +11299,23 @@ previous date was oem]]></ClassDesc>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>Rec</ClassSourceFile>
 		<ClassType>Object</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779689">
+		<LastChanged>2011-09-12T14:10:05</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>SourceHeaderScanListener</ClassName>
+		<BaseClassName>BaseScanListener</BaseClassName>
+		<ClassDesc>Add source header to all java files</ClassDesc>
+		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassPackage>.script.scan</ClassPackage>
+		<ClassSourceFile>SourceHeaderScanListener</ClassSourceFile>
+		<ClassType/>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>

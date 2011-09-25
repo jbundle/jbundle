@@ -30012,4 +30012,76 @@ new SStaticString(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenCons
 		<Protection/>
 		<CopyFrom/>
 	</LogicFile>
+	<LogicFile ID="16785116">
+		<LastChanged>2011-09-12T11:44:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>filterFile</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SourceHeaderScanListener</MethodClassName>
+		<LogicSource><![CDATA[String strName = file.getName();
+if (!strName.endsWith(".java"))
+    return false;
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
+	<LogicFile ID="16785117">
+		<LastChanged>2011-09-12T14:07:36</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>moveSourceToDest</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SourceHeaderScanListener</MethodClassName>
+		<LogicSource><![CDATA[try {
+    String string;
+    while ((string = reader.readLine()) != null)
+    {
+    	if (string.indexOf("/*") != -1)
+    		foundComment = true;
+    	if (!foundPackage)
+    	{
+    		if (string.indexOf("package") == -1)
+        	{
+    			if (string.indexOf("/*") != -1)
+    				continue;
+    			if (string.indexOf("*/") != -1)
+    				continue;
+    			if (string.indexOf("opyright") != -1)
+    				continue;
+        		beforePackage = beforePackage + this.convertString(string) + lineSeparator;
+        		continue;
+        	}
+    		else
+        	{
+        		foundPackage = true;
+                dataOut.write("/*" + lineSeparator);
+        		dataOut.write(beforePackage);
+                dataOut.write(" * Copyright © 2011 jbundle.org. All rights reserved." + lineSeparator);
+                dataOut.write(" */" + lineSeparator);
+        	}
+    	}
+        string = this.convertString(string);
+        if (string != null)
+        {
+            dataOut.write(string + lineSeparator);
+        }
+    }
+	if (!foundPackage)
+		dataOut.write(beforePackage);
+} catch (FileNotFoundException ex)  {
+    ex.printStackTrace();
+} catch (IOException ex)    {
+    ex.printStackTrace();
+}
+]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+	</LogicFile>
 </file>
