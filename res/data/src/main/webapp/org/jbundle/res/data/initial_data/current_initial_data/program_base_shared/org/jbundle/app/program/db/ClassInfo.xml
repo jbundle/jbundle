@@ -3856,7 +3856,7 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778262">
-		<LastChanged>2011-08-05T14:59:47</LastChanged>
+		<LastChanged>2010-02-05T11:18:06</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BooleanThreeStateField</ClassName>
 		<BaseClassName>BooleanField</BaseClassName>

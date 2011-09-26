@@ -2378,7 +2378,7 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenControlType/>
 	</ScreenIn>
 	<ScreenIn ID="16780333">
-		<LastChanged>2009-02-12T14:49:57</LastChanged>
+		<LastChanged>2009-02-12T14:49:23</LastChanged>
 		<Deleted>N</Deleted>
 		<ScreenInProgName>ClassFieldsScreen</ScreenInProgName>
 		<ScreenOutNumber/>
