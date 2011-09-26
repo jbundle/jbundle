@@ -1693,7 +1693,7 @@ delete pBrocByBundle;]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16778493">
-		<LastChanged>2009-02-12T14:49:28</LastChanged>
+		<LastChanged>2009-02-12T14:49:50</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>1,000</Sequence>
 		<MethodName>writeCount</MethodName>
@@ -6239,7 +6239,7 @@ This is more usefull in the queryrecord.
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16781146">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2009-02-26T08:56:15</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>getPrintOptions</MethodName>
