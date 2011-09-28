@@ -1339,7 +1339,7 @@
 		<ObjectID>110</ObjectID>
 		<ClassName>QueueName</ClassName>
 		<DatabaseName>main</DatabaseName>
-		<InitTime>2009-06-04T09:12:04</InitTime>
+		<InitTime>2008-02-12T05:00:27</InitTime>
 		<FreeTime>2008-02-12T05:00:27</FreeTime>
 		<RecordOwner>BookingHeaderScreen</RecordOwner>
 		<StackTrace><![CDATA[java.lang.Exception
@@ -8132,7 +8132,7 @@
 		<ClassName>ContactType</ClassName>
 		<DatabaseName>main</DatabaseName>
 		<InitTime>2008-02-12T05:00:43</InitTime>
-		<FreeTime>2009-06-04T10:12:04</FreeTime>
+		<FreeTime>2008-02-12T05:00:44</FreeTime>
 		<RecordOwner>BaseProcess</RecordOwner>
 		<StackTrace><![CDATA[java.lang.Exception
 	at com.tourstudio.base.util.Debug.getStackTrace(Debug.java:236)
@@ -13099,7 +13099,7 @@
 ]]></StackTrace>
 	</AnalysisLog>
 	<AnalysisLog ID="16777647">
-		<LastChanged>2009-02-12T14:49:26</LastChanged>
+		<LastChanged>2009-06-04T10:12:03</LastChanged>
 		<Deleted>N</Deleted>
 		<SystemID>350,001,518</SystemID>
 		<ObjectID>311</ObjectID>
@@ -15604,7 +15604,7 @@
 ]]></StackTrace>
 	</AnalysisLog>
 	<AnalysisLog ID="16777701">
-		<LastChanged>2009-02-12T14:49:26</LastChanged>
+		<LastChanged>2009-02-12T14:49:04</LastChanged>
 		<Deleted>N</Deleted>
 		<SystemID>350,001,518</SystemID>
 		<ObjectID>351</ObjectID>
@@ -18744,7 +18744,7 @@
 		<ObjectID>202</ObjectID>
 		<ClassName>MessageInfoType</ClassName>
 		<DatabaseName>main</DatabaseName>
-		<InitTime>2008-02-12T05:00:55</InitTime>
+		<InitTime>2009-06-04T10:12:04</InitTime>
 		<FreeTime>2008-02-12T05:00:59</FreeTime>
 		<RecordOwner>LocalMessageTransport</RecordOwner>
 		<StackTrace><![CDATA[java.lang.Exception
@@ -21131,7 +21131,7 @@
 ]]></StackTrace>
 	</AnalysisLog>
 	<AnalysisLog ID="16777835">
-		<LastChanged>2009-02-12T14:49:26</LastChanged>
+		<LastChanged>2009-06-04T09:12:04</LastChanged>
 		<Deleted>N</Deleted>
 		<SystemID>350,001,518</SystemID>
 		<ObjectID>428</ObjectID>
@@ -21255,7 +21255,7 @@
 ]]></StackTrace>
 	</AnalysisLog>
 	<AnalysisLog ID="16777839">
-		<LastChanged>2009-02-12T14:49:26</LastChanged>
+		<LastChanged>2009-02-12T14:49:04</LastChanged>
 		<Deleted>N</Deleted>
 		<SystemID>350,001,518</SystemID>
 		<ObjectID>429</ObjectID>
@@ -24211,7 +24211,7 @@
 		<ClassName>MessageProcessInfo</ClassName>
 		<DatabaseName>main</DatabaseName>
 		<InitTime>2008-02-12T05:00:59</InitTime>
-		<FreeTime>2008-02-12T05:00:59</FreeTime>
+		<FreeTime>2008-02-04T10:12:04</FreeTime>
 		<RecordOwner>DatabaseSession</RecordOwner>
 		<StackTrace><![CDATA[java.lang.Exception
 	at com.tourstudio.base.util.Debug.getStackTrace(Debug.java:236)
@@ -26528,7 +26528,7 @@
 		<ObjectID>339</ObjectID>
 		<ClassName>MessageInfo</ClassName>
 		<DatabaseName>main</DatabaseName>
-		<InitTime>2008-02-12T05:00:35</InitTime>
+		<InitTime>2008-02-12T05:01:00</InitTime>
 		<FreeTime>2008-02-12T05:01:00</FreeTime>
 		<RecordOwner>DatabaseSession</RecordOwner>
 		<StackTrace><![CDATA[java.lang.Exception
@@ -27009,7 +27009,7 @@
 		<ObjectID>490</ObjectID>
 		<ClassName>ContactType</ClassName>
 		<DatabaseName>main</DatabaseName>
-		<InitTime>2008-02-12T05:00:15</InitTime>
+		<InitTime>2008-02-12T05:01:00</InitTime>
 		<FreeTime>2008-02-12T05:01:00</FreeTime>
 		<RecordOwner>BaseProcess</RecordOwner>
 		<StackTrace><![CDATA[java.lang.Exception

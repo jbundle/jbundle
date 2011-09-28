@@ -4968,7 +4968,7 @@ transportID=11
 		<Description>Currency Conversion Request</Description>
 		<MessageTime>2011-03-11T08:00:04</MessageTime>
 		<TimeoutSeconds>300</TimeoutSeconds>
-		<TimeoutTime>2011-03-11T08:03:44</TimeoutTime>
+		<TimeoutTime>2009-02-12T14:49:27</TimeoutTime>
 		<UserID>11</UserID>
 		<ReferenceType/>
 		<ReferenceID/>
