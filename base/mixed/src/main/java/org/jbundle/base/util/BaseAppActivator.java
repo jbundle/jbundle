@@ -21,6 +21,14 @@ public class BaseAppActivator extends BaseBundleService
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
+		
+		if (this.getProperty(DBParams.LOCAL) == null)
+			this.setProperty(DBParams.LOCAL, DBParams.JDBC); // OSGi Server apps usually use Jdbc
+		if (this.getProperty(DBParams.REMOTE) == null)
+			this.setProperty(DBParams.REMOTE, DBParams.JDBC);
+		if (this.getProperty(DBParams.TABLE) == null)
+			this.setProperty(DBParams.TABLE, DBParams.JDBC);
+
 		super.start(context);
 	}
 	
@@ -56,7 +64,7 @@ public class BaseAppActivator extends BaseBundleService
      */
     public boolean startupThisService(BundleService bundleService, BundleContext context)
     {
-        System.out.println("Starting Message Server");
+//    	Utility.getLogger().info("Starting App Server");
 
         Map<String,Object> props = Utility.propertiesToMap(this.getProperties());
 
