@@ -37,7 +37,7 @@ public class EnvironmentActivator extends BaseBundleService
     public void serviceChanged(ServiceEvent event) {
         if (event.getType() == ServiceEvent.REGISTERED)
         { // Osgi Service is up, Okay to start the server
-            System.out.println("Starting Environment");
+        	Utility.getLogger().info("Starting Environment");
 
             Map<String,Object> props = Utility.propertiesToMap(this.getProperties());
     	    environment = Environment.getEnvironment(props);	// There is no need to check if it is already up (only 1 can run)

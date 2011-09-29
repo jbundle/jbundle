@@ -25,7 +25,7 @@ public class JdbcBundleService extends BaseBundleService
      * Bundle starting up.
      */
     public void start(BundleContext context) throws Exception {
-        System.out.println("Starting Jdbc bundle");
+    	Util.getLogger().info("Starting Jdbc bundle");
         
         this.setProperty(BundleService.PACKAGE_NAME, Util.getPackageName(JdbcDatabase.class.getName()));
         //x this.setProperty(BundleService.INTERFACE, BaseDatabase.class.getName());
@@ -37,7 +37,7 @@ public class JdbcBundleService extends BaseBundleService
      * Bundle stopping.
      */
     public void stop(BundleContext context) throws Exception {
-        System.out.println("Stopping Jdbc bundle");
+    	Util.getLogger().info("Stopping Jdbc bundle");
 //        Automatically unregistered.
         super.stop(context);
     }

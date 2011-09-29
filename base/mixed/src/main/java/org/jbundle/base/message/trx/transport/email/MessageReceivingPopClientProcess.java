@@ -242,7 +242,7 @@ public class MessageReceivingPopClientProcess extends BaseProcess
     {
         String strContent = this.getContentString(message);
 
-        System.out.println("Processing an incoming email message");
+        Utility.getLogger().info("Processing an incoming email message");
         try {
             EmailMessageTransport msgTransport = new EmailMessageTransport(this.getTask());
 

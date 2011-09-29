@@ -64,7 +64,7 @@ public class RemoteSessionActivator extends BaseBundleService
     public void serviceChanged(ServiceEvent event) {
         if (event.getType() == ServiceEvent.REGISTERED)
         { // Osgi Service is up, Okay to start the server
-            System.out.println("Starting Server");
+        	Utility.getLogger().info("Starting Server");
     		if (server == null)
     		{
     			BundleContext context = event.getServiceReference().getBundle().getBundleContext();
