@@ -144,7 +144,7 @@ public class ServletTask extends BaseHttpTask
         	if (this.getProperty(DBParams.DATATYPE) == null)
         		screen = parentScreen.checkSecurity(screen, parentScreen);  // Screen specified
         if (((strUserID == null) && (m_application.getProperty(DBParams.USER_ID) != null))
-            || (!strUserID.equals(m_application.getProperty(DBParams.USER_ID))))
+            || ((strUserID != null) && (!strUserID.equals(m_application.getProperty(DBParams.USER_ID)))))
         {   // Special case, the screen changed the user.
             m_application = this.changeCookie((ServletApplication)m_application, req, res);
         }
