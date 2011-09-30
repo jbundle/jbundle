@@ -245,8 +245,9 @@ public class JdbcDatabase extends BaseDatabase
                 String strClassName = this.getProperty(SQLParams.DATASOURCE_FACTORY);
             	strClassName = ClassServiceUtility.getFullClassName(strClassName);
                 try {
-             	    Class<?> c = Class.forName(strClassName);
-             	    m_datasourceFactory = (DatasourceFactory)c.newInstance();
+                	m_datasourceFactory = (DatasourceFactory)ClassServiceUtility.getClassService().makeObjectFromClassName(strClassName);
+             	    //xClass<?> c = Class.forName(strClassName);
+             	    //xm_datasourceFactory = (DatasourceFactory)c.newInstance();
                 } catch (Exception e) {
             		Utility.getLogger().warning("Error on create class: " + strClassName);
             		e.printStackTrace();
