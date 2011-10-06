@@ -177,7 +177,7 @@ public class Environment extends Object
      */
       public static Environment getEnvironment(Map<String,Object> properties)
     {
-        if (gEnv == null)
+        if (gEnv == null)	// TODO(don) Possible concurrency issue
             gEnv = new Environment(properties); // Create the Environment (using defalt database(s))
         //+else
         //+	Utility.getLogger().warning("getEnvironmentCalled");

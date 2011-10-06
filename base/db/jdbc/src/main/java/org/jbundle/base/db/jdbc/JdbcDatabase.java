@@ -14,6 +14,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.ListResourceBundle;
@@ -312,6 +313,7 @@ public class JdbcDatabase extends BaseDatabase
         else
             return false;   // Not supported
     }
+    private static Date firstTime = null;
     /**
      * Open the physical database.
      * @exception DBException On open errors.
@@ -321,8 +323,16 @@ public class JdbcDatabase extends BaseDatabase
         if (m_JDBCConnection != null)
             return;
 
-        if (m_classDB == null)
-        	m_classDB = ClassServiceUtility.getClassService().makeObjectFromClassName(strJdbcDriver);
+        if (firstTime == null)
+        	firstTime = new Date();
+    	if (m_classDB == null)
+    	{
+	        synchronized (firstTime)
+	        {
+	        	if (m_classDB == null)
+	        		m_classDB = ClassServiceUtility.getClassService().makeObjectFromClassName(strJdbcDriver);
+	        }
+    	}
         Utility.getLogger().info("Driver found: " + (m_classDB != null));
         m_JDBCConnection = this.getJDBCConnection();    // Setup the initial connection
     }
