@@ -164,6 +164,12 @@ public class DatabaseException extends DBException
             strError = "Can't update append only file";break;
         case DBConstants.RECORD_LOCKED:
             strError = "Record locked";break;
+        case DBConstants.BROKEN_PIPE:
+            strError = "Broken Pipe";break;
+        case DBConstants.DUPLICATE_COUNTER:
+            strError = "Duplicate counter";break;
+        case DBConstants.DB_NOT_FOUND:
+            strError = "Database not found";break;
         case DBConstants.NEXT_ERROR_CODE:
         case DBConstants.ERROR_RETURN:
         case DBConstants.ERROR_STRING:

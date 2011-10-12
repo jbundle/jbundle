@@ -114,7 +114,7 @@ public class TestCreateWSDL extends BaseProcess
 
         JAXBElement<DescriptionType> root = null;
         // create an empty wsdl object
-        String targetNamespace = "http://www.tourloco.com:8080/tour/receiver/wsdl";  // Location of this document
+        String targetNamespace = "http://www.tourloco.com:8181/tour/receiver/wsdl";  // Location of this document
         org.w3._2006._01.wsdl.ObjectFactory wsdlFactory = new org.w3._2006._01.wsdl.ObjectFactory();
         org.w3._2001.xmlschema.ObjectFactory schemaFactory = new org.w3._2001.xmlschema.ObjectFactory();
         DescriptionType descriptionType = wsdlFactory.createDescriptionType();

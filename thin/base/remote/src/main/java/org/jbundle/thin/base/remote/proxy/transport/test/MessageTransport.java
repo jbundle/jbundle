@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.remote.proxy.transport.ServletMessage;
@@ -53,10 +54,15 @@ public class MessageTransport extends PropertiesTransport
     public Object sendMessageAndGetReply()
     {
         try {
-            URL url = this.getProxyURL();
+            URL url = new URL("http://www.tourgeek.com:8181/xmlws");//this.getProxyURL();
             ServletMessage servlet = new ServletMessage(url);
+
+            this.m_properties = new Properties();
+    		this.m_properties.put("key", "value");
+
             InputStream in = servlet.sendMessage(m_properties);
-            InputStreamReader reader = new InputStreamReader(in);
+    		
+    		InputStreamReader reader = new InputStreamReader(in);
             BufferedReader buffReader = new BufferedReader(reader);
             String string = "";
             while (true)
@@ -77,4 +83,11 @@ System.out.println("ProxyTransport.sendandreceive() reply: " + string);
         }
         return null;
     }
+
+
+	public static final void main(String[] args)
+	{
+		MessageTransport transport = new MessageTransport();
+		transport.sendMessageAndGetReply();
+	}
 }

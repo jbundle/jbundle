@@ -75,7 +75,7 @@ public class RecordReferenceField extends IntegerField
         {
             RecordOwner recordOwner = null;
             if (this.getRecord() != null)
-                recordOwner = this.getRecord().getRecordOwner();
+                recordOwner = Utility.getRecordOwner(this.getRecord());
             if (recordOwner != null)
                 recordOwner.addRecord(recordReference, false);
             if (this.getRecord() != null)

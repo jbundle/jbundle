@@ -6,6 +6,8 @@
 package org.jbundle.base.message.trx.transport.xml;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URLDecoder;
 import java.util.Enumeration;
@@ -20,9 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.XmlTrxMessageIn;
 import org.jbundle.base.screen.control.servlet.BaseHttpTask;
+import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
 import org.jbundle.base.screen.control.servlet.ServletTask;
-import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBConstants;
@@ -106,7 +108,8 @@ public class XMLMessageReceivingServlet extends XMLServlet
             servletTask.setApplication(app);
 
             xmlMessageTransport = new XMLMessageTransport(servletTask);
-            Reader in = req.getReader();
+            InputStream inStream = req.getInputStream();	// .getReader();
+            Reader in = new InputStreamReader(inStream);
             String message = Utility.transferURLStream(null, null, in, null);
             try   {
                 message = URLDecoder.decode(message, DBConstants.URL_ENCODING);

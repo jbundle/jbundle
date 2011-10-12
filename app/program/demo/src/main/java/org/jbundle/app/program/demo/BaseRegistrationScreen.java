@@ -47,7 +47,7 @@ public class BaseRegistrationScreen extends UserEntryScreen
     public static final String MAIN_USER_PARAM = "mainUser";
     public static final String DEFAULT_DOMAIN = "tourgeek.com";
     public static final String SITE_TEMPLATE_CODE = "template." + DEFAULT_DOMAIN;
-    public static final String DEFAULT_ARCHIVE_FOLDER = "org/jbundle/data/test_data";
+    public static final String DEFAULT_ARCHIVE_FOLDER = "org/jbundle/res/data/test_data";
     public static final String CURRENT_TEST_DATA_DIR = "current_test_data";
     public static final String HOME_MENU_CODE = "demostart";
     public static final String DEFAULT_SITE_HOME_CODE = "demoSite";
@@ -270,7 +270,7 @@ public class BaseRegistrationScreen extends UserEntryScreen
         
         String destination = this.getProperty(TrxMessageHeader.DESTINATION_PARAM);
         if (destination == null)
-            destination = "http://www.tourgeek.com:8080/xmlws";
+            destination = "http://www.tourgeek.com:8181/xmlws";
         properties.put(TrxMessageHeader.DESTINATION_PARAM, destination);        
         
         String userHomeMenu = this.getProperty(ADMIN_HOME_MENU_CODE);

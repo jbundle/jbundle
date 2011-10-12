@@ -12,7 +12,7 @@ public class TestClient extends Object {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String urlAddress = "http://www.tourgeek.com:8080/test/TestServlet";
+	private String urlAddress = "http://www.tourgeek.com:8181/test/TestServlet";
 	
 	public static final void main(String[] args)
 	{

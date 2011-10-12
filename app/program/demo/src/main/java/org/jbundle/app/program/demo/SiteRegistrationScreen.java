@@ -85,7 +85,7 @@ public class SiteRegistrationScreen extends BaseRegistrationScreen
         properties.put(BaseRegistrationScreen.SITE_NAME_TEMPLATE_PARAM, "{0} Site");
         properties.put(MenusMessageData.SITE_TEMPLATE_MENU, "site");
         properties.put(MenusMessageData.SITE_HOME_MENU, "siteStart");
-        properties.put(TrxMessageHeader.DESTINATION_PARAM, "http://tour-0020.tourgeek.com:8080/xmlws");
+        properties.put(TrxMessageHeader.DESTINATION_PARAM, "http://tour-0020.tourgeek.com:8181/xmlws");
         
         return properties;
     }

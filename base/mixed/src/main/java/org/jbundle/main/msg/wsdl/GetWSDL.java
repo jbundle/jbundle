@@ -114,7 +114,7 @@ public class GetWSDL extends BaseProcess
             String strSite = messageDetailTarget.getProperty(TrxMessageHeader.DESTINATION_PARAM);
             String strWSDLPath = messageDetailTarget.getProperty(TrxMessageHeader.WSDL_PATH);
             strWSDLPath = this.getFullPath(strSite, strWSDLPath);
-            //x strWSDLPath = "http://www.tourloco.com:8080/tour/tourapphtml?datatype=wsdl&version=b2007";
+            //x strWSDLPath = "http://www.tourloco.com:8181/tour/tourapphtml?datatype=wsdl&version=b2007";
             Utility.transferURLStream(strWSDLPath, null, null, out);
             out.flush();
             out.close();

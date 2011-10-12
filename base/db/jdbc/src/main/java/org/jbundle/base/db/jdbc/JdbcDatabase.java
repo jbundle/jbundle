@@ -410,7 +410,7 @@ public class JdbcDatabase extends BaseDatabase
                     m_strBrokenPipeErrorText = m_strBrokenPipeErrorText.toLowerCase();
                 m_strBrokenPipeErrorCode = (String)this.getProperties().get(SQLParams.BROKEN_PIPE_ERROR_CODE);
             }
-                // Yeah, I know this is slow, but at least exceptions are not that common.
+                // Yeah, I know this is slow, but exceptions are not that common.
             if (this.checkForError(ex, DBConstants.FILE_NOT_FOUND, m_strFileNotFoundErrorText, m_strFileNotFoundErrorCode))
                 iError = DBConstants.FILE_NOT_FOUND;
             if (this.checkForError(ex, DBConstants.DB_NOT_FOUND, m_strDBNotFoundErrorText, m_strDBNotFoundErrorCode))

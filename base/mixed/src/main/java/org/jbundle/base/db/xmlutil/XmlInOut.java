@@ -89,6 +89,9 @@ public class XmlInOut extends BaseProcess
     /**
      * This stand-alone method is to be used only when the bootstrap (menu) files need to be imported.
      * You probably want to comment out the check security line in Application. (= NORMAL_RETURN)
+     * Typical usage:
+     * java org.jbundle.base.db.xmlutil.XmlInOut allFiles=true loadInitialData=false \
+     *  archiveDir=/home/don/workspace/workspace/tourapp/res/data/data/src/main/webapp/com/tourapp/res/data/initial_data/current_initial_data/
      */
     public static void main(String[] args)
     {
@@ -321,6 +324,11 @@ public class XmlInOut extends BaseProcess
         } 
         if (record == null)
         {
+        	if (Boolean.TRUE.toString().equalsIgnoreCase(this.getProperty("SkipIfNoRecord")))
+        	{
+        		System.out.println("Skipping record " + filename);
+        		return;
+        	}
             record = new XmlRecord();
             ((XmlRecord)record).setTableName(filename);
             ((XmlRecord)record).setDatabaseName(databaseName);

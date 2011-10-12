@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -344,7 +345,13 @@ public class Utility extends ThinUtil
                 if ((strFilename == null) || (strFilename.length() == 0))
                     outTemp = new StringWriter();
                 else
+                {
+                	File file = new File(strFilename);
+                	file = file.getParentFile();
+                	if (!file.exists())
+                		file.mkdirs();
                     outTemp = new FileWriter(strFilename);
+                }
             }
             Utility.transferStream(in, outTemp);
             if (out == null)

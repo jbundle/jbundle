@@ -5,34 +5,48 @@
  */
 package org.jbundle.app.program.demo;
 
-import java.awt.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.base.message.remote.*;
-import org.jbundle.main.db.*;
-import org.jbundle.main.user.db.*;
-import org.jbundle.thin.base.db.buff.*;
-import org.jbundle.thin.base.thread.*;
-import java.net.*;
-import java.io.*;
-import org.jbundle.app.program.script.scan.*;
-import org.jbundle.app.program.manual.convert.*;
-import java.text.*;
-import org.jbundle.app.program.demo.message.*;
-import org.jbundle.thin.base.message.*;
-import org.jbundle.base.thread.*;
+import org.jbundle.app.program.demo.message.CreateSiteMessageData;
+import org.jbundle.app.program.demo.message.MenusMessageData;
+import org.jbundle.app.program.manual.convert.ConvertCode;
+import org.jbundle.app.program.script.scan.BaseScanListener;
+import org.jbundle.app.program.script.scan.DeleteScanListener;
+import org.jbundle.app.program.script.scan.XMLScanListener;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.field.DateField;
+import org.jbundle.base.field.PropertiesField;
+import org.jbundle.base.message.remote.BaseMessageProcess;
+import org.jbundle.base.message.remote.RunRemoteProcessMessageData;
+import org.jbundle.base.message.remote.StandardMessageResponseData;
+import org.jbundle.base.thread.BaseProcess;
+import org.jbundle.base.util.BaseApplication;
+import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.util.DBParams;
+import org.jbundle.base.util.Utility;
+import org.jbundle.main.db.Menus;
+import org.jbundle.main.user.db.UserGroup;
+import org.jbundle.main.user.db.UserInfo;
+import org.jbundle.model.DBException;
+import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.Task;
+import org.jbundle.thin.base.db.buff.BaseBuffer;
+import org.jbundle.thin.base.db.buff.VectorBuffer;
+import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.thin.base.message.MessageRecordDesc;
+import org.jbundle.thin.base.message.TreeMessage;
+import org.jbundle.thin.base.thread.AutoTask;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
+import org.jbundle.util.osgi.jnlp.OsgiJnlpServlet;
+import org.osgi.framework.Bundle;
 
 /**
  *  BaseSetupSiteProcess - .
@@ -299,10 +313,45 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
     /**
      * PopulateSourceDir Method.
      */
-    public boolean populateSourceDir(String templateDir, String srcDir)
+    /*
+    public Bundle getBundle(String className)
+    {
+    	Bundle bundle = null;
+    	
+        Object resource = ClassServiceUtility.getClassService().getClassFinder(null).deployThisResource(className, true, true);
+        
+        if (resource != null)
+        	bundle = this.findBundle(resource, bundleContext, ClassFinderActivator.getPackageName(className, true), null);
+
+        resource.
+        url = this.getResourceFromBundle(resource, className);
+
+        
+        URL url = ClassServiceUtility.getClassService().getClassFinder(null).getResourceFromBundle(null, path);
+
+        if (url == null) {
+            Object resource = this.deployThisResource(className, true, true);
+            if (resource != null)
+            	url = this.getResourceFromBundle(resource, className);
+        }
+		Bundle bundle = ClassServiceUtility.getClassService().getClassFinder(null).findBundle(objResource, context, packageName, version);
+		
+    	return bundle;
+    }
+*/    public boolean populateSourceDir(String templateDir, String srcDir)
     {
         URL fromDirUrl = this.getTask().getApplication().getResourceURL(templateDir, null);
-        if (!"file".equalsIgnoreCase(fromDirUrl.getProtocol()))
+        if ("http".equalsIgnoreCase(fromDirUrl.getProtocol()))
+        {
+        	String packageName = templateDir + "/main_user/org/jbundle/main/user/db";
+        	packageName = packageName.replace('/', '.');
+    	    Bundle bundle = ClassServiceUtility.getClassService().getClassFinder(null).findBundle(packageName, null);
+    	    
+    	    if (bundle == null)
+    	    	return false;	// Couldn't file files
+    	    OsgiJnlpServlet.transferBundleFiles(bundle, templateDir, srcDir);
+        }
+        else if (!"file".equalsIgnoreCase(fromDirUrl.getProtocol()))
             return false;
         String fromDir = fromDirUrl.getFile();
         File fromDirFile = new File(fromDir);

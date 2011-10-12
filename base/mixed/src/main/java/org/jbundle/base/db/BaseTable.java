@@ -1138,13 +1138,20 @@ public abstract class BaseTable extends FieldTable
     public boolean loadInitialData() throws DBException
     {
         Record record = this.getRecord();
+        while (((record.getDatabaseType() & DBConstants.SHARED_TABLE) != 0) && ((record.getDatabaseType() & DBConstants.BASE_TABLE_CLASS) == 0))
+        {
+        	String tableName = record.getTableNames(false);
+        	Class<?> className = record.getClass().getSuperclass();
+        	record = Record.makeRecordFromClassName(className.getName(), record.getRecordOwner());
+        	record.setTableNames(tableName);
+        }
         int iOpenMode = record.getOpenMode();
         record.setOpenMode(DBConstants.OPEN_NORMAL);	// Possible read-only
         String strFilename = record.getArchiveFilename(false);
         InputStream inputStream = null;
-        if (Utility.getRecordOwner(this.getRecord()) != null)
-            if (Utility.getRecordOwner(this.getRecord()).getTask() != null)
-                inputStream = Utility.getRecordOwner(this.getRecord()).getTask().getInputStream(strFilename);
+        if (Utility.getRecordOwner(record) != null)
+            if (Utility.getRecordOwner(record).getTask() != null)
+                inputStream = Utility.getRecordOwner(record).getTask().getInputStream(strFilename);
         org.jbundle.base.db.xmlutil.XmlInOut xml = new org.jbundle.base.db.xmlutil.XmlInOut(null, null, null);
         
         int iCount = record.getFieldCount();
@@ -1172,6 +1179,8 @@ public abstract class BaseTable extends FieldTable
             record.getField(i).setSelected(brgCurrentSelection[i]);
         }
         record.setOpenMode(iOpenMode);
+        if (record != this.getRecord())
+        	record.free();	// If this was a base record.
         return bSuccess;    // Success
     }
     /**
