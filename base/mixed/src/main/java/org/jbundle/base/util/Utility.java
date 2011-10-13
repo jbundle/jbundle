@@ -660,14 +660,27 @@ public class Utility extends ThinUtil
             if (record.getTable() != null)
                 if (record.getTable().getDatabase() != null)
                     if (record.getTable().getDatabase().getDatabaseOwner() instanceof Application)
-                    {
-                        Application app = (Application)record.getTable().getDatabase().getDatabaseOwner();
-                        if (app.getSystemRecordOwner() == null) // This should be okay... get the system recordowner.
-                            app = record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication();
-                        if (app != null)
-                            if (app.getSystemRecordOwner() instanceof RecordOwner)
-                                recordOwner = (RecordOwner)app.getSystemRecordOwner();
-                    }
+        {
+            Application app = (Application)record.getTable().getDatabase().getDatabaseOwner();
+            if (app.getSystemRecordOwner() == null) // This should be okay... get the system recordowner.
+                app = record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication();
+            if (app != null)
+            {
+                if (app.getSystemRecordOwner() instanceof RecordOwner)
+                    recordOwner = (RecordOwner)app.getSystemRecordOwner();
+                else
+                {
+                	Environment env = record.getTable().getDatabase().getDatabaseOwner().getEnvironment();
+                	for (int i = env.getApplicationCount() - 1; i >= 0; i--)
+                	{
+                		app = env.getApplication(i);
+                		if (app instanceof MainApplication)
+                			if (app.getSystemRecordOwner() instanceof RecordOwner)
+                				recordOwner = (RecordOwner)app.getSystemRecordOwner();
+                	}
+                }
+            }
+        }
         return recordOwner;
     }
     /**
