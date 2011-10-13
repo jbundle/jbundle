@@ -137,6 +137,8 @@ public interface DBConstants extends Constants
      * Load initial data on table create.
      */
     public static final String ARCHIVE_FOLDER = "archiveFolder";
+    public static final String USER_ARCHIVE_FOLDER = "userArchiveFolder";
+    public static final String SHARED_ARCHIVE_FOLDER = "sharedArchiveFolder";
     /**
      * Load initial data on table create.
      */

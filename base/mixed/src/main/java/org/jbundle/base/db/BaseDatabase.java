@@ -535,6 +535,8 @@ public class BaseDatabase extends Object
         BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.SUB_SYSTEM_LN_SUFFIX);
         BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.LOAD_INITIAL_DATA);
         BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.ARCHIVE_FOLDER);
+        BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.USER_ARCHIVE_FOLDER);
+        BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.SHARED_ARCHIVE_FOLDER);
         BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.BASE_TABLE_ONLY);
         BaseDatabase.addDBProperty(properties, propertyOwner, SQLParams.AUTO_COMMIT_PARAM);
         for (String strKey : propertyOwner.getProperties().keySet())

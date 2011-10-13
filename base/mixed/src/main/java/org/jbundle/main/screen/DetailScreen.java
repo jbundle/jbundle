@@ -93,7 +93,7 @@ public class DetailScreen extends Screen
     {
         if (m_recHeader != null)
             return m_recHeader;
-    	Utility.getLogger().severe("Forgot to override getHeaderRecord()");
+        Utility.getLogger().severe("Forgot to override getHeaderRecord()");
         return super.getHeaderRecord();   // Remember to override this!
     }
     /**
@@ -113,7 +113,7 @@ public class DetailScreen extends Screen
      */
     public Record openHeaderRecord()
     {
-    	Utility.getLogger().warning("Override openHeaderRecord");
+        Utility.getLogger().warning("Override openHeaderRecord");
         return null;
     }
     /**

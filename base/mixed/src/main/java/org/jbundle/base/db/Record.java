@@ -3200,7 +3200,14 @@ public class Record extends FieldList
             chFileSeparator = strFileSeparator.charAt(0);
         String strArchiveFolder = null;
         if (this.getTable().getDatabase() != null)
-            strArchiveFolder = this.getTable().getDatabase().getProperty(DBConstants.ARCHIVE_FOLDER);
+        {
+        	if ((this.getDatabaseType() & DBConstants.USER_DATA) != 0)
+    			strArchiveFolder = this.getTable().getDatabase().getProperty(DBConstants.USER_ARCHIVE_FOLDER);
+        	else
+    			strArchiveFolder = this.getTable().getDatabase().getProperty(DBConstants.SHARED_ARCHIVE_FOLDER);
+    		if (strArchiveFolder == null)
+    			strArchiveFolder = this.getTable().getDatabase().getProperty(DBConstants.ARCHIVE_FOLDER);
+        }
         if ((strArchiveFolder == null) || (strArchiveFolder.length() == 0))
             strArchiveFolder = DBConstants.DEFAULT_ARCHIVE_FOLDER;
         String tableDomain = this.getClass().getName();

@@ -332,7 +332,7 @@ public class BaseRegistrationScreen extends UserEntryScreen
             String siteName = MessageFormat.format(siteNameTemplate, sitePrefix.toUpperCase().substring(0,1) + sitePrefix.substring(1));
             recMenus.getField(Menus.kName).setString(siteName);
             ((PropertiesField)recMenus.getField(Menus.kParams)).setProperty(MAIN_USER_PARAM, recUser.getField(UserInfo.kUserName).toString());
-            String templateArchivePath = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperty(DBConstants.ARCHIVE_FOLDER);
+            String templateArchivePath = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperty(DBConstants.USER_ARCHIVE_FOLDER);
             if ((templateArchivePath == null) || (templateArchivePath.length() == 0))
                 templateArchivePath = Utility.addToPath(DEFAULT_ARCHIVE_FOLDER, CURRENT_TEST_DATA_DIR);
             
