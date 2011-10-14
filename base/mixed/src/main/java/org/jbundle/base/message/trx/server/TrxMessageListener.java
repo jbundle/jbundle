@@ -102,6 +102,29 @@ public class TrxMessageListener extends BaseMessageListener
         Application application = m_application;
         if (message.getProcessedByClientSession() instanceof TaskSession)
             application = ((TaskSession)message.getProcessedByClientSession()).getApplication();    // If I have the task session, run this task under the same app
+        /* Don't need to do this since the message client was created by the calling client (with correct db params)
+        Map<String, Object> messageDBProperties = BaseDatabase.addDBProperties(null, application, message.getMessageHeader().getProperties());
+        boolean dbChanged = false;
+    	for (String key : messageDBProperties.keySet())
+    	{	// Merged set of application and message db properties
+    		if ((message.getMessageHeader().get(key) == null)
+    			|| (!message.getMessageHeader().get(key).equals(application.getProperty(key))))
+    					dbChanged = true;
+        }
+		if (dbChanged)
+			if (application instanceof BaseApplication)	// Always
+		{	// If the db properties are different, need a new app (ouch)
+		    	if (application.getProperties() != null)
+		    	{
+			    	for (String key : application.getProperties().keySet())
+			    	{	// Merged set of application and message db properties
+			    		if (!application.getProperty(key).equals(message.getMessageHeader().get(key)))
+			    			messageDBProperties.put(key, application.getProperty(key));
+			        }
+		    	}
+		    	application = new MessageInfoApplication(((BaseApplication)application).getEnvironment(), messageDBProperties, null);
+		}
+		*/
         MessageProcessRunnerTask task = new MessageProcessRunnerTask(application, strParams, null);
         task.setMessage(message);
         m_application.getTaskScheduler().addTask(task);

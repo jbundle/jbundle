@@ -397,12 +397,16 @@ Utility.getLogger().info("removeApp: " + application);
         if (bCreateIfNotFound)
     		if (messageApplication == null)
         {
+			MessageApplication defaultMessageApplication = this.getMessageApplication(null, null);
             synchronized (this)
             {
             	messageApplication = this.getMessageApplication(strDBPrefix, strSubSystem);
         		if (messageApplication != null)
         			return messageApplication;
             	Map<String,Object> propTemp = new HashMap<String,Object>();
+    			if (defaultMessageApplication != null)
+    				if (defaultMessageApplication.getProperties() != null)
+    					propTemp.putAll(defaultMessageApplication.getProperties());
         		if (properties != null)
 					propTemp.putAll(properties);
     			if (propDomain != null)

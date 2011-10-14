@@ -20,8 +20,11 @@ import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.DatabaseOwner;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.Task;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
@@ -525,34 +528,64 @@ public class BaseDatabase extends Object
      * Since only the DB properties are passed down to the server,
      * make sure any global properties that pertain to databases are passed down also.
      * @param properties The properties object to add these properties to.
+     * @param propertyOwner Look here for db properties
+     * @param otherProperties to look for db properties in
      */
-    public static Map<String,Object> addDBProperties(Map<String,Object> properties, PropertyOwner propertyOwner)
+    public static Map<String,Object> addDBProperties(Map<String,Object> properties, PropertyOwner propertyOwner, Map<String,Object> otherProperties)
     {
         if (properties == null)
             properties = new Hashtable<String,Object>();
-        BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.CREATE_DB_IF_NOT_FOUND);
-        BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.DB_USER_PREFIX);
-        BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.SUB_SYSTEM_LN_SUFFIX);
-        BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.LOAD_INITIAL_DATA);
-        BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.ARCHIVE_FOLDER);
-        BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.USER_ARCHIVE_FOLDER);
-        BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.SHARED_ARCHIVE_FOLDER);
-        BaseDatabase.addDBProperty(properties, propertyOwner, DBConstants.BASE_TABLE_ONLY);
-        BaseDatabase.addDBProperty(properties, propertyOwner, SQLParams.AUTO_COMMIT_PARAM);
-        for (String strKey : propertyOwner.getProperties().keySet())
+        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.CREATE_DB_IF_NOT_FOUND);
+        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.DB_USER_PREFIX);
+        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.SUB_SYSTEM_LN_SUFFIX);
+        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.LOAD_INITIAL_DATA);
+        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.ARCHIVE_FOLDER);
+        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.USER_ARCHIVE_FOLDER);
+        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.SHARED_ARCHIVE_FOLDER);
+        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.BASE_TABLE_ONLY);
+        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, SQLParams.AUTO_COMMIT_PARAM);
+        if (propertyOwner != null)
         {
-        	if ((strKey.endsWith(DBSHARED_PARAM_SUFFIX)) || (strKey.endsWith(DBUSER_PARAM_SUFFIX)))
-                BaseDatabase.addDBProperty(properties, propertyOwner, strKey);
+        	BaseDatabase.addOtherDBProperties(properties, propertyOwner.getProperties());
+        	if (propertyOwner instanceof RecordOwnerParent)
+        	{
+        		Task task = ((RecordOwnerParent)propertyOwner).getTask();
+        		if (task != null)
+    			{
+        			BaseDatabase.addOtherDBProperties(properties, task.getProperties());
+        			App app = task.getApplication();
+    				if (app != null)
+    				{
+    					BaseDatabase.addOtherDBProperties(properties, app.getProperties());
+    					// Note: db properties should not be in the environment.. so don't go farther
+    				}
+    			}
+        	}
         }
+        if (otherProperties != null)
+        	BaseDatabase.addOtherDBProperties(properties, otherProperties);        	
         return properties;
+    }
+    public static void addOtherDBProperties(Map<String,Object> properties, Map<String,Object> otherProperties)
+    {
+    	if (otherProperties != null)
+		    for (String strKey : otherProperties.keySet())
+		    {
+		    	if ((strKey.endsWith(DBSHARED_PARAM_SUFFIX)) || (strKey.endsWith(DBUSER_PARAM_SUFFIX)))
+		            BaseDatabase.addDBProperty(properties, null, otherProperties, strKey);
+		    }
     }
     /**
      * 
      */
-    public static void addDBProperty(Map<String,Object> properties, PropertyOwner propertyOwner, String strProperty)
+    public static void addDBProperty(Map<String,Object> properties, PropertyOwner propertyOwner, Map<String,Object> otherProperties, String strProperty)
     {
-        if (propertyOwner.getProperty(strProperty) != null)
-            properties.put(strProperty, propertyOwner.getProperty(strProperty));
+    	if (propertyOwner != null)
+    		if (propertyOwner.getProperty(strProperty) != null)
+    			properties.put(strProperty, propertyOwner.getProperty(strProperty));
+    	if (otherProperties != null)
+    		if (otherProperties.get(strProperty) != null)
+    			properties.put(strProperty, otherProperties.get(strProperty));
     }
     /**
      * Get the starting ID for this table.

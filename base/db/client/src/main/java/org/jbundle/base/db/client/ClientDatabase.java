@@ -173,7 +173,7 @@ public class ClientDatabase extends BaseDatabase
                 synchronized (this.getSyncObject(server))
                 {   // In case this is called from another task
                     Map<String,Object> properties = table.getProperties();
-                    Map<String,Object> propDatabase = BaseDatabase.addDBProperties(this.getProperties(), this); 
+                    Map<String,Object> propDatabase = BaseDatabase.addDBProperties(this.getProperties(), this, null); 
                     tableRemote = server.makeRemoteTable(strTableClassName, null, properties, propDatabase);  // NOTE: I DO Send the table properties down.
                     ((ClientTable)table).setRemoteTable(tableRemote);
                 }
@@ -208,9 +208,9 @@ public class ClientDatabase extends BaseDatabase
                 synchronized (this.getSyncObject(tableRemote))
                 {   // In case this is called from another task
                     // Move these properties up in case they are in the environment properties.
-                    Map<String,Object> propDatabase = BaseDatabase.addDBProperties(this.getProperties(), this);
-                    BaseDatabase.addDBProperty(propDatabase, this, this.getDatabaseName(false) + BaseDatabase.DBSHARED_PARAM_SUFFIX);
-                    BaseDatabase.addDBProperty(propDatabase, this, this.getDatabaseName(false) + BaseDatabase.DBUSER_PARAM_SUFFIX);
+                    Map<String,Object> propDatabase = BaseDatabase.addDBProperties(this.getProperties(), this, null);
+                    BaseDatabase.addDBProperty(propDatabase, this, null, this.getDatabaseName(false) + BaseDatabase.DBSHARED_PARAM_SUFFIX);
+                    BaseDatabase.addDBProperty(propDatabase, this, null, this.getDatabaseName(false) + BaseDatabase.DBUSER_PARAM_SUFFIX);
                     m_remoteDatabase = tableRemote.getRemoteDatabase(propDatabase);
                 }
             }

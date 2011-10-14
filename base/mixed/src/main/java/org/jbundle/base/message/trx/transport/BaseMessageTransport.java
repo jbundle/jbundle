@@ -153,6 +153,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
             String strMessageDescription = this.getTask().getLastError(iErrorCode);
             if ((strMessageDescription == null) || (strMessageDescription.length() == 0))
                 strMessageDescription = "Error converting to external format";
+            iErrorCode = this.getTask().setLastError(strMessageDescription);
             messageReplyIn = BaseMessageProcessor.processErrorMessage(this, messageOut, strMessageDescription);
         }
         else
@@ -206,6 +207,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
             strMessageDescription = this.getTask().getLastError(iErrorCode);
             if ((strMessageDescription == null) || (strMessageDescription.length() == 0))
                 strMessageDescription = "Error converting to external format";
+            iErrorCode = this.getTask().setLastError(strMessageDescription);
             strMessageStatus = MessageStatus.ERROR;
         }
         this.logMessage(strTrxID, messageOut, strMessageInfoType, strMessageProcessType, strMessageStatus, strMessageDescription, null); // Log it with the external info

@@ -105,7 +105,7 @@ public class BaseApplication extends ThinApplication
     public Map<String,Object> getServerProperties()
     {
         Map<String,Object> properties = super.getServerProperties();
-        return BaseDatabase.addDBProperties(properties, this);
+        return BaseDatabase.addDBProperties(properties, this, null);
     }
     /**
      * Get the User ID.

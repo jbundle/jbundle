@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.model.Task;
@@ -441,6 +442,6 @@ public class TrxMessageHeader extends BaseMessageHeader
     	if (task == null)
     		return;
         this.put(TrxMessageHeader.USER_ID, task.getProperty(DBParams.USER_ID));
-//?        BaseDatabase.addDBProperties(m_mapMessageHeader, task);	// Note: m_mapMessageHeader is guaranteed not null by previous call.
+//?         BaseDatabase.addDBProperties(m_mapMessageHeader, task, null);	// Note: m_mapMessageHeader is guaranteed not null by previous call.
     }
 }

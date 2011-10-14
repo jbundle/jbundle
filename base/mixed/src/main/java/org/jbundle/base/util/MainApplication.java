@@ -168,7 +168,7 @@ public class MainApplication extends BaseApplication
 	                    Map<String,Object> oldProperties = m_systemRecordOwner.getProperties();
 	                    m_systemRecordOwner.setProperties(properties);
 	                    // All I want are the db (global) properties.
-	                    properties = BaseDatabase.addDBProperties(null, m_systemRecordOwner);
+	                    properties = BaseDatabase.addDBProperties(null, m_systemRecordOwner, null);
 	                    m_systemRecordOwner.setProperties(oldProperties);
 	                    if (mapDomainProperties == null)
 	                        mapDomainProperties = properties;

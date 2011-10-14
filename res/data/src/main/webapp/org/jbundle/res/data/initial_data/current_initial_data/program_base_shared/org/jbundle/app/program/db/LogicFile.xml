@@ -20393,7 +20393,7 @@ try {
     String strSite = messageDetailTarget.getProperty(TrxMessageHeader.DESTINATION_PARAM);
     String strWSDLPath = messageDetailTarget.getProperty(TrxMessageHeader.WSDL_PATH);
     strWSDLPath = this.getFullPath(strSite, strWSDLPath);
-    //x strWSDLPath = "http://www.tourloco.com:8080/tour/tourapphtml?datatype=wsdl&version=b2007";
+    //x strWSDLPath = "http://www.tourloco.com:8181/tour/tourapphtml?datatype=wsdl&version=b2007";
     Utility.transferURLStream(strWSDLPath, null, null, out);
     out.flush();
     out.close();
@@ -29626,7 +29626,7 @@ properties.put(RunRemoteProcessMessageData.PROCESS_CLASS_NAME, processClassName)
 
 String destination = this.getProperty(TrxMessageHeader.DESTINATION_PARAM);
 if (destination == null)
-	destination = "http://www.tourgeek.com:8080/xmlws";
+	destination = "http://www.tourgeek.com:8181/xmlws";
 properties.put(TrxMessageHeader.DESTINATION_PARAM, destination);        
 
 String userHomeMenu = this.getProperty(ADMIN_HOME_MENU_CODE);
@@ -29678,7 +29678,7 @@ properties.put(BaseRegistrationScreen.SITE_TEMPLATE_CODE_PARAM, DEFAULT_SITE_TEM
 properties.put(BaseRegistrationScreen.SITE_NAME_TEMPLATE_PARAM, "{0} Site");
 properties.put(MenusMessageData.SITE_TEMPLATE_MENU, "site");
 properties.put(MenusMessageData.SITE_HOME_MENU, "siteStart");
-properties.put(TrxMessageHeader.DESTINATION_PARAM, "http://tour-0020.tourgeek.com:8080/xmlws");
+properties.put(TrxMessageHeader.DESTINATION_PARAM, "http://tour-0020.tourgeek.com:8181/xmlws");
 
 return properties;]]></LogicSource>
 		<LogicThrows/>

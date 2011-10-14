@@ -51,7 +51,7 @@
               <argument>background=backgrounds/worldmapalpha.gif</argument>
               <argument>backgroundcolor=#FFFFCC</argument>
               <argument>remotehost=linux-laptop</argument>
-              <argument>codebase=linux-laptop:8080/</argument>
+              <argument>codebase=linux-laptop:8181/</argument>
                -->
               <argument>-agentlib:jdwp=transport=dt_socket,address=8001,server=y,suspend=y</argument>
               <argument>-classpath</argument>
