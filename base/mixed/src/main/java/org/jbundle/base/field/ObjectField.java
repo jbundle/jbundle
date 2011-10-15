@@ -167,7 +167,7 @@ public class ObjectField extends BaseField
                 if (rgBytes.length > 0)
                 {
                     String string = new String(rgBytes, ClassService.OBJECT_ENCODING);
-                    objData = ClassServiceUtility.getClassService().convertStringToObject(string);
+                    objData = ClassServiceUtility.getClassService().convertStringToObject(string, null);
 //x                    ByteArrayInputStream ibyStream = new ByteArrayInputStream(rgBytes);
 //x                    ObjectInputStream iStream = new ObjectInputStream(ibyStream);
 //x                    objData = iStream.readObject();

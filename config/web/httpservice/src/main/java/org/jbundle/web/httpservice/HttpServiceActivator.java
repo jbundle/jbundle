@@ -28,7 +28,7 @@ public class HttpServiceActivator extends BaseBundleService
     		if (httpServiceTracker == null)
     		{
     			BundleContext context = event.getServiceReference().getBundle().getBundleContext();
-    	        this.checkDependentServicesAndStartup(context, EnvironmentActivator.class.getName());
+    	        this.checkDependentServicesAndStartup(context, EnvironmentActivator.class.getName(), null);
     		}
         }
         if (event.getType() == ServiceEvent.UNREGISTERING)

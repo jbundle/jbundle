@@ -172,7 +172,7 @@ public abstract class BaseTransport extends Object
     public static Object convertStringToObject(String string)
     {
         try {
-            return ClassServiceUtility.getClassService().convertStringToObject(string);
+            return ClassServiceUtility.getClassService().convertStringToObject(string, null);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e.getMessage());
         }

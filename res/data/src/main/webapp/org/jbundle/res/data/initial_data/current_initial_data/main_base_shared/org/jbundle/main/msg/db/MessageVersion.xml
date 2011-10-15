@@ -10,7 +10,7 @@
 		<VersionID>OTA2001A</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:16:12 PDT 2008
-JAXBPackage=org.opentravel.ota2001a
+jaxb.packageName=org.opentravel.ota2001a
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="2">
@@ -24,7 +24,7 @@ JAXBPackage=org.opentravel.ota2001a
 		<VersionID>OTA2001B</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:16:27 PDT 2008
-JAXBPackage=org.opentravel.ota2001b
+jaxb.packageName=org.opentravel.ota2001b
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="3">
@@ -38,7 +38,7 @@ JAXBPackage=org.opentravel.ota2001b
 		<VersionID>OTA2001C</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:16:51 PDT 2008
-JAXBPackage=org.opentravel.ota2004b
+jaxb.packageName=org.opentravel.ota2004b
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="4">
@@ -52,7 +52,7 @@ JAXBPackage=org.opentravel.ota2004b
 		<VersionID>OTA2002A</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:17:04 PDT 2008
-JAXBPackage=org.opentravel.ota2002a
+jaxb.packageName=org.opentravel.ota2002a
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="5">
@@ -66,7 +66,7 @@ JAXBPackage=org.opentravel.ota2002a
 		<VersionID>OTA2002B</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:17:14 PDT 2008
-JAXBPackage=org.opentravel.ota2002b
+jaxb.packageName=org.opentravel.ota2002b
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="6">
@@ -80,7 +80,7 @@ JAXBPackage=org.opentravel.ota2002b
 		<VersionID>OTA2003A</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:17:25 PDT 2008
-JAXBPackage=org.opentravel.ota2003a
+jaxb.packageName=org.opentravel.ota2003a
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="7">
@@ -94,7 +94,7 @@ JAXBPackage=org.opentravel.ota2003a
 		<VersionID>OTA2003B</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:17:37 PDT 2008
-JAXBPackage=org.opentravel.ota2003b
+jaxb.packageName=org.opentravel.ota2003b
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="8">
@@ -108,7 +108,7 @@ JAXBPackage=org.opentravel.ota2003b
 		<VersionID>OTA2004A</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:17:50 PDT 2008
-JAXBPackage=org.opentravel.ota2004a
+jaxb.packageName=org.opentravel.ota2004a
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="9">
@@ -122,7 +122,7 @@ JAXBPackage=org.opentravel.ota2004a
 		<VersionID>OTA2004B</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:15:48 PDT 2008
-JAXBPackage=org.opentravel.ota2004b
+jaxb.packageName=org.opentravel.ota2004b
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="10">
@@ -136,7 +136,7 @@ JAXBPackage=org.opentravel.ota2004b
 		<VersionID>OTA2005A</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:18:02 PDT 2008
-JAXBPackage=org.opentravel.ota2005a
+jaxb.packageName=org.opentravel.ota2005a
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="11">
@@ -150,7 +150,7 @@ JAXBPackage=org.opentravel.ota2005a
 		<VersionID>OTA2005B</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:18:12 PDT 2008
-JAXBPackage=org.opentravel.ota2005b
+jaxb.packageName=org.opentravel.ota2005b
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="12">
@@ -164,7 +164,7 @@ JAXBPackage=org.opentravel.ota2005b
 		<VersionID>OTA2006A</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:18:38 PDT 2008
-JAXBPackage=org.opentravel.ota2006a
+jaxb.packageName=org.opentravel.ota2006a
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="13">
@@ -178,7 +178,7 @@ JAXBPackage=org.opentravel.ota2006a
 		<VersionID>OTA2006B</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:19:05 PDT 2008
-JAXBPackage=org.opentravel.ota2006b
+jaxb.packageName=org.opentravel.ota2006b
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="14">
@@ -192,7 +192,7 @@ JAXBPackage=org.opentravel.ota2006b
 		<VersionID>OTA2007A</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:19:16 PDT 2008
-JAXBPackage=org.opentravel.ota2007a
+jaxb.packageName=org.opentravel.ota2007a
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="15">
@@ -206,7 +206,7 @@ JAXBPackage=org.opentravel.ota2007a
 		<VersionID>OTA2007B</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:19:28 PDT 2008
-JAXBPackage=org.opentravel.ota2007b
+jaxb.packageName=org.opentravel.ota2007b
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="16">
@@ -220,7 +220,7 @@ JAXBPackage=org.opentravel.ota2007b
 		<VersionID>OTA2008A</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:19:44 PDT 2008
-JAXBPackage=org.opentravel.ota2008a
+jaxb.packageName=org.opentravel.ota2008a
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="17">
@@ -234,7 +234,7 @@ JAXBPackage=org.opentravel.ota2008a
 		<VersionID>OTA2008B</VersionID>
 		<Properties>#Field properties
 #Wed Oct 08 00:20:15 PDT 2008
-JAXBPackage=org.opentravel.ota2008b
+jaxb.packageName=org.opentravel.ota2008b
 </Properties>
 	</MessageVersion>
 	<MessageVersion ID="18">
@@ -248,7 +248,51 @@ JAXBPackage=org.opentravel.ota2008b
 		<VersionID>OTA2009A</VersionID>
 		<Properties>#Field properties
 #Fri Jun 19 11:40:30 PDT 2009
-JAXBPackage=org.opentravel.ota2009a
+jaxb.packageName=org.opentravel.ota2009a
+</Properties>
+	</MessageVersion>
+	<MessageVersion ID="19">
+		<LastChanged>2009-06-19T11:40:35</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>2010A</Description>
+		<Code>2010A</Code>
+		<Namespace/>
+		<SchemaLocation/>
+		<NumericVersion/>
+		<VersionID>OTA2010A</VersionID>
+		<Properties>#Field properties
+#Fri Jun 19 11:40:30 PDT 2009
+jaxb.packageName=org.opentravel.ota2010a
+</Properties>
+	</MessageVersion>
+	<MessageVersion ID="20">
+		<LastChanged>2009-06-19T11:40:35</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>2010B</Description>
+		<Code>2010B</Code>
+		<Namespace/>
+		<SchemaLocation/>
+		<NumericVersion/>
+		<VersionID>OTA2010B</VersionID>
+		<Properties>#Field properties
+#Fri Jun 19 11:40:30 PDT 2009
+jaxb.packageName=org.opentravel.ota2010b
+jibx.packageName=org.jibx.schema.org.opentravel._2010B
+</Properties>
+	</MessageVersion>
+	<MessageVersion ID="21">
+		<LastChanged>2009-06-19T11:40:35</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>2011A</Description>
+		<Code>2011A</Code>
+		<Namespace/>
+		<SchemaLocation/>
+		<NumericVersion/>
+		<VersionID>OTA2011A</VersionID>
+		<Properties>#Field properties
+#Fri Jun 19 11:40:30 PDT 2009
+jaxb.packageName=org.opentravel.ota2011a
+jibx.packageName=org.jibx.schema.org.opentravel._2011A
 </Properties>
 	</MessageVersion>
 </file>

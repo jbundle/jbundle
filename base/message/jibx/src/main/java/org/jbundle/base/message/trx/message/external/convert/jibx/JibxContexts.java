@@ -38,6 +38,7 @@ public class JibxContexts extends Hashtable<String,JibxContexts.JIBXContextHolde
      */
     public JIBXContextHolder get(String packageName, String bindingName) throws JiBXException
     {
+    	String version = null;	// Eventually add this to calling method params
         synchronized(this)
         {
             JIBXContextHolder jAXBContextHolder = super.get(packageName);
@@ -47,7 +48,7 @@ public class JibxContexts extends Hashtable<String,JibxContexts.JIBXContextHolde
             		bindingName = DEFAULT_BINDING_NAME;
             	ClassLoader classLoader = null;
             	try {
-					classLoader = ClassServiceUtility.getClassService().getBundleClassLoader(packageName);
+					classLoader = ClassServiceUtility.getClassService().getBundleClassLoader(packageName, version);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

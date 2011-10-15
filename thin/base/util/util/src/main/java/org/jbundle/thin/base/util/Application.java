@@ -457,7 +457,7 @@ public abstract class Application extends Object
                 if (iConnectionType == LOCAL_SERVICE)
                 {   // Use local OSGi service instead of RMI
                 	if (ClassServiceUtility.getClassService().getClassFinder(null) != null)
-                		appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator");
+                		appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator", null);
                 }
                 remoteTask = appServer.createRemoteTask(properties);
                 m_mainRemoteTask = remoteTask;
@@ -528,7 +528,7 @@ public abstract class Application extends Object
         // Create icons
         URL url = null;
         try {
-            url = ClassServiceUtility.getClassService().getResourceURL(filepath, urlCodeBase, classLoader);
+            url = ClassServiceUtility.getClassService().getResourceURL(filepath, urlCodeBase, null, classLoader);
         } catch (RuntimeException e) {
             e.printStackTrace();    // ???
         }
@@ -629,7 +629,7 @@ public abstract class Application extends Object
             if (m_resources != null)
                 if (strResourceName.equals(m_resources.getClass().getName()))
                     return m_resources;
-            resources = ClassServiceUtility.getClassService().getResourceBundle(strResourceName, currentLocale, this.getClass().getClassLoader());
+            resources = ClassServiceUtility.getClassService().getResourceBundle(strResourceName, currentLocale, null, this.getClass().getClassLoader());
         } catch (MissingResourceException ex) {
         	Util.getLogger().warning("Missing resource " + strResourceName + " locale: " + this.getLocale());
             resources = null;

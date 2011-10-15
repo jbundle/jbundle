@@ -47,7 +47,7 @@ public class BaseAppActivator extends BaseBundleService
     		if (application == null)
     		{
     			BundleContext context = event.getServiceReference().getBundle().getBundleContext();
-    	        this.checkDependentServicesAndStartup(context, EnvironmentActivator.class.getName());
+    	        this.checkDependentServicesAndStartup(context, EnvironmentActivator.class.getName(), null);
     		}
         }
         if (event.getType() == ServiceEvent.UNREGISTERING)

@@ -2483,7 +2483,7 @@ public class Record extends FieldList
     {
         Record record = null;
         try {
-            record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(className, bErrorIfNotFound);
+            record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(className, null, bErrorIfNotFound);
         } catch (RuntimeException ex) {
         	if (className.startsWith("."))
         		if (recordOwner != null)
@@ -2498,7 +2498,7 @@ public class Record extends FieldList
 					className = ClassServiceUtility.getFullClassName(packageName.substring(0, domainEnd), null, className);
 					ex = null;
 					try {
-						record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(className, bErrorIfNotFound);
+						record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(className, null, bErrorIfNotFound);
 			        } catch (RuntimeException e) {
 			        	ex = e;
 			        }

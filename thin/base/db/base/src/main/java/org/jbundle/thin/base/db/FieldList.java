@@ -505,7 +505,7 @@ public class FieldList extends Object
                     resourceClassName = Util.convertClassName(resourceClassName, Constants.RES_SUBPACKAGE) + "Resources";
                     try   {
                     	ClassLoader classLoader = this.getClass().getClassLoader();
-                        m_menuResourceBundle[i] = ClassServiceUtility.getClassService().getResourceBundle(resourceClassName, locale, classLoader);
+                        m_menuResourceBundle[i] = ClassServiceUtility.getClassService().getResourceBundle(resourceClassName, locale, null, classLoader);
                         		//xResourceBundle.getBundle(strResourceClassName, currentLocale);
                     } catch (MissingResourceException ex) {
                         m_menuResourceBundle[i] = null;
