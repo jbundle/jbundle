@@ -5293,7 +5293,7 @@
 		<ClassFieldsType>I</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16781471">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2011-03-10T14:06:15</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>UserInfo</ClassInfoClassName>
 		<ClassInfoID/>
@@ -11144,7 +11144,7 @@
 		<ClassFieldsType>N</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16782404">
-		<LastChanged>2011-01-15T15:22:51</LastChanged>
+		<LastChanged>2011-10-12T16:16:20</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>BaseRegistrationScreen</ClassInfoClassName>
 		<ClassInfoID/>
@@ -11154,7 +11154,7 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue>"org/jbundle/data/test_data"</ClassFieldInitialValue>
+		<ClassFieldInitialValue>"org/jbundle/res/data/test_data"</ClassFieldInitialValue>
 		<ThinInclude/>
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -11860,6 +11860,54 @@
 		<ClassInfoClassName>SourceHeaderScanListener</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>java.io</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>P</ClassFieldsType>
+	</ClassFields>
+	<ClassFields ID="16782453">
+		<LastChanged>2011-10-12T16:44:09</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>BaseSetupSiteProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>org.osgi.framework</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>P</ClassFieldsType>
+	</ClassFields>
+	<ClassFields ID="16782454">
+		<LastChanged>2011-10-12T16:44:19</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>BaseSetupSiteProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>org.jbundle.util.osgi.jnlp</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>P</ClassFieldsType>
+	</ClassFields>
+	<ClassFields ID="16782455">
+		<LastChanged>2011-10-12T16:45:14</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>BaseSetupSiteProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>org.jbundle.util.osgi.finder</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>

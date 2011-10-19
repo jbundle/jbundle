@@ -6432,7 +6432,7 @@ if (this.getMainRecord().getKeyArea().getField(DBConstants.MAIN_KEY_FIELD).isNul
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16781531">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2011-10-12T16:52:22</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>25</Sequence>
 		<MethodName>getHeaderRecord</MethodName>
@@ -6442,7 +6442,7 @@ if (this.getMainRecord().getKeyArea().getField(DBConstants.MAIN_KEY_FIELD).isNul
 		<MethodClassName>DetailScreen</MethodClassName>
 		<LogicSource><![CDATA[if (m_recHeader != null)
     return m_recHeader;
-System.out.println("Forgot to override getHeaderRecord()");
+Utility.getLogger().severe("Forgot to override getHeaderRecord()");
 return super;	// Remember to override this!]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -6549,7 +6549,7 @@ else
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16781538">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2011-10-12T16:52:15</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>35</Sequence>
 		<MethodName>openHeaderRecord</MethodName>
@@ -6558,7 +6558,7 @@ else
 		<MethodReturns>Record</MethodReturns>
 		<MethodInterface/>
 		<MethodClassName>DetailScreen</MethodClassName>
-		<LogicSource><![CDATA[System.out.println("Override openHeaderRecord");
+		<LogicSource><![CDATA[Utility.getLogger().warning("Override openHeaderRecord");
 return null;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -20378,7 +20378,7 @@ recMessageTransport = recMessageTransport.getMessageTransport(MessageTransport.S
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16784418">
-		<LastChanged>2010-03-02T05:27:11</LastChanged>
+		<LastChanged>2011-10-12T16:49:46</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>run</MethodName>
@@ -29142,7 +29142,7 @@ return screen;    // By default, don't do anything]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16785085">
-		<LastChanged>2010-11-05T08:52:24</LastChanged>
+		<LastChanged>2011-10-13T00:02:19</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>800</Sequence>
 		<MethodName>setupUserProperties</MethodName>
@@ -29197,7 +29197,7 @@ return screen;    // By default, don't do anything]]></LogicSource>
     String siteName = MessageFormat.format(siteNameTemplate, sitePrefix.toUpperCase().substring(0,1) + sitePrefix.substring(1));
     recMenus.getField(Menus.kName).setString(siteName);
     ((PropertiesField)recMenus.getField(Menus.kParams)).setProperty(MAIN_USER_PARAM, recUser.getField(UserInfo.kUserName).toString());
-    String templateArchivePath = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperty(DBConstants.ARCHIVE_FOLDER);
+    String templateArchivePath = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperty(DBConstants.USER_ARCHIVE_FOLDER);
     if ((templateArchivePath == null) || (templateArchivePath.length() == 0))
         templateArchivePath = Utility.addToPath(DEFAULT_ARCHIVE_FOLDER, CURRENT_TEST_DATA_DIR);
     
@@ -29305,7 +29305,7 @@ new Menus(this);]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16785090">
-		<LastChanged>2011-01-15T17:12:35</LastChanged>
+		<LastChanged>2011-10-13T00:06:05</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>600</Sequence>
 		<MethodName>setupUserInfo</MethodName>
@@ -29384,7 +29384,7 @@ try {
         destArchivePath = destArchivePath.substring(destArchivePath.lastIndexOf(File.separator) + 1); // Dest archive dir
     destArchivePath  = Utility.addToPath(homeDir, fullSitePrefix + File.separator + destArchivePath);
 
-    ((PropertiesField)recMenus.getField(Menus.kParams)).setProperty(DBConstants.ARCHIVE_FOLDER, destArchivePath);
+    ((PropertiesField)recMenus.getField(Menus.kParams)).setProperty(DBConstants.USER_ARCHIVE_FOLDER, destArchivePath);
     ((PropertiesField)recMenus.getField(Menus.kParams)).setProperty(DBConstants.DB_USER_PREFIX, fullSitePrefix + "_");
 
     String templateFilename = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperty(MenusMessageData.XSL_TEMPLATE_PATH);
@@ -29409,7 +29409,7 @@ try {
         properties.putAll(app.getProperties());
     properties.put(DBConstants.DB_USER_PREFIX, fullSitePrefix + "_");
     properties.put(DBConstants.LOAD_INITIAL_DATA, DBConstants.TRUE);
-    properties.put(DBConstants.ARCHIVE_FOLDER, destArchivePath);
+    properties.put(DBConstants.USER_ARCHIVE_FOLDER, destArchivePath);
     BaseApplication appTemp = new BaseApplication(app.getEnvironment(), properties, null);
     Task task = new AutoTask(appTemp, null, null);
     BaseProcess recordOwner = new BaseProcess(task, null, null);
@@ -29523,7 +29523,7 @@ if (out != null)
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16785092">
-		<LastChanged>2010-10-20T13:33:06</LastChanged>
+		<LastChanged>2011-10-12T16:43:18</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>900</Sequence>
 		<MethodName>populateSourceDir</MethodName>
@@ -29532,7 +29532,17 @@ if (out != null)
 		<MethodInterface>String templateDir, String srcDir</MethodInterface>
 		<MethodClassName>BaseSetupSiteProcess</MethodClassName>
 		<LogicSource><![CDATA[URL fromDirUrl = this.getTask().getApplication().getResourceURL(templateDir, null);
-if (!"file".equalsIgnoreCase(fromDirUrl.getProtocol()))
+if ("http".equalsIgnoreCase(fromDirUrl.getProtocol()))
+{
+    String packageName = templateDir + "/main_user/org/jbundle/main/user/db";
+    packageName = packageName.replace('/', '.');
+    Bundle bundle = ClassServiceUtility.getClassService().getClassFinder(null).findBundle(packageName, null);
+
+    if (bundle == null)
+        return false;   // Couldn't file files
+    OsgiJnlpServlet.transferBundleFiles(bundle, templateDir, srcDir);
+}
+else if (!"file".equalsIgnoreCase(fromDirUrl.getProtocol()))
     return false;
 String fromDir = fromDirUrl.getFile();
 File fromDirFile = new File(fromDir);
@@ -29581,7 +29591,7 @@ return true;]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16785094">
-		<LastChanged>2010-11-10T11:43:34</LastChanged>
+		<LastChanged>2011-10-12T16:19:16</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>700</Sequence>
 		<MethodName>getSiteProperties</MethodName>
@@ -29664,7 +29674,7 @@ return properties;]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16785096">
-		<LastChanged>2010-11-09T17:42:22</LastChanged>
+		<LastChanged>2011-10-12T16:48:36</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>getSiteProperties</MethodName>

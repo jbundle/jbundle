@@ -706,7 +706,7 @@
 		<Code/>
 		<Type>mail</Type>
 		<AutoDesc>Y</AutoDesc>
-		<Program>Don_Corley@msn.com</Program>
+		<Program>com.tourapp.tour.Don_Corley@msn.com</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -4481,7 +4481,7 @@ Thanks for visiting!]]></XmlData>
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1332">
-		<LastChanged>2010-10-17T07:30:28</LastChanged>
+		<LastChanged>2008-02-17T07:30:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Asia 2002 Travel log</Name>
 		<ParentFolderID>1,331</ParentFolderID>
@@ -4501,7 +4501,7 @@ June 2002 trip to South East Asia.
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1333">
-		<LastChanged>2010-10-17T07:30:28</LastChanged>
+		<LastChanged>2008-02-17T07:30:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Asia 2002 picture gallery</Name>
 		<ParentFolderID>1,331</ParentFolderID>
@@ -4522,7 +4522,7 @@ For slower connections, <a href="pictures/docs/pics/smallpics/pictures/donandann
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1335">
-		<LastChanged>2010-10-17T07:30:28</LastChanged>
+		<LastChanged>2008-02-17T07:30:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Don</Name>
 		<ParentFolderID>1,331</ParentFolderID>
@@ -11154,7 +11154,7 @@ System highlights and the full user's manual.
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1838">
-		<LastChanged>2011-08-31T21:56:55</LastChanged>
+		<LastChanged>2011-10-13T00:52:43</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Demo site template</Name>
 		<ParentFolderID>1,757</ParentFolderID>
@@ -11167,8 +11167,8 @@ System highlights and the full user's manual.
 		<Params type="XML"><properties>
    <comment>Field properties</comment>
    <entry key="loadInitialData">true</entry>
-   <entry key="dbPrefix">don_</entry>
    <entry key="userArchiveFolder">com/tourapp/res/data/test_data/current_test_data</entry>
+   <entry key="dbPrefix">don_</entry>
    <entry key="xslTemplate">org/jbundle/res/docs/styles/xsl/program/fixdemotemplate.xsl</entry>
    <entry key="mainUser">don@donandann.com</entry>
 </properties></Params>
@@ -11578,7 +11578,7 @@ Note: This video has an audio narration.
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1883">
-		<LastChanged>2011-08-31T22:43:58</LastChanged>
+		<LastChanged>2011-10-13T00:54:04</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Site template</Name>
 		<ParentFolderID>1,877</ParentFolderID>
@@ -11591,8 +11591,8 @@ Note: This video has an audio narration.
 		<Params type="XML"><properties>
    <comment>Field properties</comment>
    <entry key="loadInitialData">true</entry>
+   <entry key="userArchiveFolder">com/tourapp/res/data/site_data/current_site_data</entry>
    <entry key="dbPrefix">don_</entry>
-   <entry key="archiveFolder">com/tourapp/res/data/site_data/current_site_data</entry>
    <entry key="xslTemplate">org/jbundle/res/docs/styles/xsl/program/fixsitetemplate.xsl</entry>
    <entry key="mainUser">don@donandann.com</entry>
 </properties></Params>
@@ -12353,23 +12353,23 @@ please click the following link:<br/>
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1925">
-		<LastChanged>2011-09-16T15:09:11</LastChanged>
+		<LastChanged>2011-10-18T21:57:17</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>Don's Demo site</Name>
+		<Name>Fred's Demo site</Name>
 		<ParentFolderID>1,757</ParentFolderID>
 		<Sequence>100</Sequence>
 		<Comment>Demo test site</Comment>
-		<Code>don.demo.tourgeek.com</Code>
+		<Code>fred.demo.tourgeek.com</Code>
 		<Type>menu</Type>
 		<AutoDesc>Y</AutoDesc>
 		<Program>demosite</Program>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
 <entry key="loadInitialData">true</entry>
-<entry key="dbPrefix">don_</entry>
-<entry key="userArchiveFolder">com/tourapp/res/data/test_data/current_test_data</entry>
+<entry key="userArchiveFolder">/home/don/.tourapp/fred/current_test_data</entry>
+<entry key="dbPrefix">fred_</entry>
 <entry key="xslTemplate">org/jbundle/res/docs/styles/xsl/program/fixdemotemplate.xsl</entry>
-<entry key="mainUser">don@fred.com</entry>
+<entry key="mainUser">fred@tourgeek.com</entry>
 </properties>
 </Params>
 		<IconResource/>
