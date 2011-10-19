@@ -23190,7 +23190,7 @@ field.setString(string);]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16784705">
-		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<LastChanged>2009-02-12T15:48:55</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>800</Sequence>
 		<MethodName>fixCapitalization*2</MethodName>

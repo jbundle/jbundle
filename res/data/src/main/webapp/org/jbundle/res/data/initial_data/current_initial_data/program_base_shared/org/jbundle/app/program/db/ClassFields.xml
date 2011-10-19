@@ -5293,7 +5293,7 @@
 		<ClassFieldsType>I</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16781471">
-		<LastChanged>2011-03-10T14:06:15</LastChanged>
+		<LastChanged>2009-02-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>UserInfo</ClassInfoClassName>
 		<ClassInfoID/>
@@ -8145,7 +8145,7 @@
 		<ClassFieldsType>N</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16781978">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2009-02-12T14:59:54</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>MessageVersion</ClassInfoClassName>
 		<ClassInfoID/>
