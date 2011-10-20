@@ -2570,8 +2570,7 @@
 <entry key="background"/>
 <entry key="backgroundcolor">#CCFFFF</entry>
 <entry key="menu">Development</entry>
-</properties>
-</Params>
+</properties></Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
@@ -2688,8 +2687,7 @@
 <entry key="backgroundcolor">#EEEEFF</entry>
 <entry key="remote">Jdbc</entry>
 <entry key="menu">Development</entry>
-</properties>
-</Params>
+</properties></Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
@@ -2912,8 +2910,7 @@
 <entry key="background">backgrounds/worldmapalpha.gif</entry>
 <entry key="backgroundcolor">#EEEEFF</entry>
 <entry key="menu">Thin</entry>
-</properties>
-</Params>
+</properties></Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
