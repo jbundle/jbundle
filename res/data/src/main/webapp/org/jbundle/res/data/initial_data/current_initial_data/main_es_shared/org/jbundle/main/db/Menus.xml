@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<Menus ID="1183">
+		<LastChanged>2011-09-05T23:18:34</LastChanged>
+		<Deleted/>
+		<Name/>
+		<ParentFolderID/>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Type/>
+		<AutoDesc/>
+		<Program/>
+		<Params/>
+		<IconResource/>
+		<Keywords/>
+		<XmlData><![CDATA[<center><h2>Welcome to tourbean.com's download center</h2></center>
+<center>Where you can get some free Java software and an (optional) e-nuggie.<br/><hr/></center>
+<items columns="3">
+<td align="left" valign="top">
+    <hr/>
+    <a href="${link}">
+        <img src="${icon}" alt="${menutitle}" width="24" height="24" border="0"  align="center"/>
+    </A>
+    <a href="${link}">
+        ${menutitle}
+    </a>
+<br/><javalogo><img src="images/buttons/java.gif" width="16" height="15" border="0">&nbsp;</javalogo><span style="font-size: 10pt">${menudesc}</span>
+</td>
+${items}
+Thanks for visiting!]]></XmlData>
+		<MenusHelp/>
+	</Menus>
+</file>
