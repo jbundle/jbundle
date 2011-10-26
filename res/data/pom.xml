@@ -16,6 +16,8 @@
 
   <modules>
   	<module>data</module>
+  	<module>app</module>
+  	<module>test</module>
   </modules>
   
 </project>
