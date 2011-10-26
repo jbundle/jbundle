@@ -1,6 +1,7 @@
-/*
- *  @(#)Reptile.
+/**
+ * @(#)Reptile.
  * Copyright © 2011 jbundle.org. All rights reserved.
+ * GPL3 Open Source Software License.
  */
 package org.jbundle.thin.app.test.vet.shared.db;
 

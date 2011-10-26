@@ -1,6 +1,7 @@
-/*
- *  @(#)TestUpdateProcess.
+/**
+ * @(#)TestUpdateProcess.
  * Copyright © 2011 jbundle.org. All rights reserved.
+ * GPL3 Open Source Software License.
  */
 package org.jbundle.app.test.test.screen.lock;
 
