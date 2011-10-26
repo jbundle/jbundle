@@ -11918,4 +11918,20 @@
 		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>P</ClassFieldsType>
 	</ClassFields>
+	<ClassFields ID="16782456">
+		<LastChanged>2011-10-26T04:07:33</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>UserInfoMessageData</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>Rec</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ThinInclude/>
+		<ThickInclude>Y</ThickInclude>
+		<ClassFieldsType>I</ClassFieldsType>
+	</ClassFields>
 </file>

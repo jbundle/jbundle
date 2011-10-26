@@ -25584,7 +25584,7 @@ return false;]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16784934">
-		<LastChanged>2010-06-04T21:46:11</LastChanged>
+		<LastChanged>2011-10-26T03:52:33</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>processThisRecord</MethodName>
@@ -25612,39 +25612,33 @@ if (bExport)
             record.hasNext();
             record.close();
         } catch (DBException e) {
-            return; // Record doesn't exist
+            return false; // Record doesn't exist
         }
         if (this.getProperty("locale") != null)
         {
             if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty("locale").toString()))
-                return;     // If locale is set, only do locale tables
+                return false;     // If locale is set, only do locale tables
         }
     }
 }
 else
 { // Import must have file.
     if (!(new File(strFilename).exists()))
-        return;
+        return false;
         if (this.getProperty("locale") != null)
         {
             if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty("locale").toString()))
-                return;     // If locale is set, only do locale tables
+                return false;     // If locale is set, only do locale tables
         }
 }
-if (record != null)
-{
-    XmlInOut xml = new XmlInOut(this, null, null);    //0 v
-    boolean bSuccess = false;
-    if (bExport)
-        bSuccess = xml.exportXML(record, strFilename);
-    else
-        bSuccess = xml.importXML(record, strFilename, null);
-    xml.free();
-    if (!bSuccess)
-    {
-        // Ignore (for now)
-    }
-}]]></LogicSource>
+XmlInOut xml = new XmlInOut(this, null, null);    //0 v
+boolean bSuccess = false;
+if (bExport)
+    bSuccess = xml.exportXML(record, strFilename);
+else
+    bSuccess = xml.importXML(record, strFilename, null);
+xml.free();
+return bSuccess;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -25863,21 +25857,21 @@ this.getTask().getApplication().setProperty(DBConstants.BASE_TABLE_ONLY, oldBase
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16784947">
-		<LastChanged>2009-12-04T03:34:20</LastChanged>
+		<LastChanged>2011-10-26T03:43:53</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>70</Sequence>
 		<MethodName>processThisRecord</MethodName>
 		<LogicDescription>Process this record</LogicDescription>
-		<MethodReturns/>
+		<MethodReturns>boolean</MethodReturns>
 		<MethodInterface>Record record</MethodInterface>
 		<MethodClassName>BaseProcessRecords</MethodClassName>
-		<LogicSource>// Override this!</LogicSource>
+		<LogicSource><![CDATA[return false;	// Override this!]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16784948">
-		<LastChanged>2010-04-23T14:18:02</LastChanged>
+		<LastChanged>2011-10-26T03:48:50</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>processAllRecords</MethodName>
@@ -25908,9 +25902,17 @@ try   {
         {                    
             String strClassPackage = this.getFullPackageName(recClassInfo.getField(ClassInfo.kClassProjectID).toString(), recClassInfo.getField(ClassInfo.kClassPackage).toString());
             if (this.includeRecord(recFileHdr, recClassInfo, strPackage))
-                this.processThisRecord(this.getThisRecord(strRecord, strClassPackage, null));
-
-            mapDatabaseList.put(recFileHdr.getField(FileHdr.kDatabaseName).toString(), strClassPackage);
+                    {
+                       Record record = this.getThisRecord(strRecord, strClassPackage, null);
+                        boolean success = this.processThisRecord(record);                        
+                        if (success)
+                        {
+                               String databaseName = record.getTable().getDatabase().getDatabaseName(true);
+                               if (databaseName.lastIndexOf('_') != -1)        // always
+                                       databaseName = databaseName.substring(0, databaseName.lastIndexOf('_'));
+                               mapDatabaseList.put(databaseName, strClassPackage);
+                        }
+                    }
         }
     }
     // Now export any control records
@@ -25941,6 +25943,9 @@ try   {
                         continue;
             if (!"DatabaseInfo".equalsIgnoreCase(strRecord))
                 continue;   // Hack
+            if ("USER_DATA".equalsIgnoreCase(this.getProperty("type")))
+               continue;       // User data doesn't have database info
+            String databaseName = this.getProperty("database");
             strRecord = strClassPackage + "." + strRecord;
             for (String strDBName : mapDatabaseList.keySet())
             {
@@ -25949,7 +25954,12 @@ try   {
                 {
                     Record record = this.getThisRecord(strRecord, strClassPkg, strDBName);
                     if (record != null)
-                        this.processThisRecord(record);
+                    {
+                        if (databaseName != null)
+                               if (!strDBName.startsWith(databaseName))
+                                       continue;
+                         this.processThisRecord(record);
+                    }
                 }
             }
         }
@@ -25963,7 +25973,7 @@ return;]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16784949">
-		<LastChanged>2010-10-19T14:07:53</LastChanged>
+		<LastChanged>2011-10-26T03:49:26</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>90</Sequence>
 		<MethodName>getThisRecord</MethodName>
@@ -25984,9 +25994,9 @@ if (strMode != null) if (strMode.equalsIgnoreCase("export"))
 if (bExport)
     record.setOpenMode(record.getOpenMode() | DBConstants.OPEN_DONT_CREATE);
 
-if (this.getProperty("locale") != null)
-    if (this.getRecord(FileHdr.kFileHdrFile).getEditMode() == DBConstants.EDIT_CURRENT)
-        strDBName = this.getRecord(FileHdr.kFileHdrFile).getField(FileHdr.kDatabaseName).toString() + '_' + this.getProperty("locale");
+//if (this.getProperty("locale") != null)
+//    if (this.getRecord(FileHdr.kFileHdrFile).getEditMode() == DBConstants.EDIT_CURRENT)
+//        strDBName = this.getRecord(FileHdr.kFileHdrFile).getField(FileHdr.kDatabaseName).toString() + '_' + this.getProperty("locale");
 if (strDBName != null)
     if (strPackage != null)
         if (!strRecordClass.matches(strPackage))
@@ -26003,7 +26013,7 @@ return record;]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16784951">
-		<LastChanged>2009-12-04T03:40:33</LastChanged>
+		<LastChanged>2011-10-26T03:58:20</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>processThisRecord</MethodName>
@@ -26027,7 +26037,8 @@ return record;]]></LogicSource>
 	} catch (DBException e) {
 		e.printStackTrace();
 	}
-}]]></LogicSource>
+}
+return true;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -28349,7 +28360,7 @@ return string;]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16785049">
-		<LastChanged>2010-10-19T14:08:39</LastChanged>
+		<LastChanged>2011-10-26T03:51:09</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>includeRecord</MethodName>
@@ -28363,6 +28374,7 @@ String[] classLists = null;
 String classList = this.getProperty("classList");
 if (classList != null)
 	classLists = classList.split(",");
+String database = this.getProperty("database");
 
 if (recClassInfo.getField(ClassInfo.kBaseClassName).toString().equalsIgnoreCase("QueryRecord"))
     return false;
@@ -28400,6 +28412,11 @@ if (strClassProject == null)
     return false;   // Never
 if (strProject != null)
     return strClassProject.matches(this.patternToRegex(strProject));   // Does the project name pattern match?
+
+if (database != null)
+   if (!database.equalsIgnoreCase(recFileHdr.getField(FileHdr.kDatabaseName).toString()))
+       return false;
+
 return true;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
