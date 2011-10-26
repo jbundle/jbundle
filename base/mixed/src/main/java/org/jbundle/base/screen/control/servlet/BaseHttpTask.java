@@ -627,6 +627,11 @@ public class BaseHttpTask extends Object
             properties.remove(Params.USER_ID);	// Being careful
             properties.put(Params.USER_NAME, strUserNameOrID);
             application = new ServletApplication(null, properties, null);    // Read/Create the new user ID/Name
+            if (this.getApplication() == null)
+            {
+            	application.addTask(this, null);
+            	this.setApplication(application);
+            }
             int iLoginError = DBConstants.NORMAL_RETURN;
             if ((strUserNameOrID.length() > 0)
                 && (!strUserNameOrID.equalsIgnoreCase(application.getProperty(DBParams.USER_ID)))
