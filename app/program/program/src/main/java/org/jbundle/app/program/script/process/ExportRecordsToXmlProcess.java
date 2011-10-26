@@ -5,28 +5,21 @@
  */
 package org.jbundle.app.program.script.process;
 
-import java.awt.*;
-import java.util.*;
+import java.io.File;
+import java.util.Hashtable;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.thin.base.screen.*;
-import org.jbundle.app.program.db.*;
-import org.jbundle.main.db.*;
-import java.io.*;
-import org.jbundle.base.thread.*;
-import org.jbundle.app.program.manual.convert.*;
-import org.jbundle.base.db.xmlutil.*;
+import org.jbundle.app.program.manual.convert.ConvertCode;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.xmlutil.XmlInOut;
+import org.jbundle.base.thread.ProcessRunnerTask;
+import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.util.DBParams;
+import org.jbundle.base.util.MainApplication;
+import org.jbundle.base.util.Utility;
+import org.jbundle.model.DBException;
+import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.thin.base.util.Application;
 
 /**
  *  ExportRecordsToXmlProcess - .
@@ -72,8 +65,9 @@ public class ExportRecordsToXmlProcess extends BaseProcessRecords
     }
     /**
      * Process this record.
+     * @return true if success
      */
-    public void processThisRecord(Record record)
+    public boolean processThisRecord(Record record)
     {
         boolean bPhysicalName = true;
         if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty("useDatabaseName")))
@@ -95,39 +89,33 @@ public class ExportRecordsToXmlProcess extends BaseProcessRecords
                     record.hasNext();
                     record.close();
                 } catch (DBException e) {
-                    return; // Record doesn't exist
+                    return false; // Record doesn't exist
                 }
                 if (this.getProperty("locale") != null)
                 {
                     if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty("locale").toString()))
-                        return;     // If locale is set, only do locale tables
+                        return false;     // If locale is set, only do locale tables
                 }
             }
         }
         else
         { // Import must have file.
             if (!(new File(strFilename).exists()))
-                return;
+                return false;
                 if (this.getProperty("locale") != null)
                 {
                     if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty("locale").toString()))
-                        return;     // If locale is set, only do locale tables
+                        return false;     // If locale is set, only do locale tables
                 }
         }
-        if (record != null)
-        {
-            XmlInOut xml = new XmlInOut(this, null, null);    //0 v
-            boolean bSuccess = false;
-            if (bExport)
-                bSuccess = xml.exportXML(record, strFilename);
-            else
-                bSuccess = xml.importXML(record, strFilename, null);
-            xml.free();
-            if (!bSuccess)
-            {
-                // Ignore (for now)
-            }
-        }
+        XmlInOut xml = new XmlInOut(this, null, null);    //0 v
+        boolean bSuccess = false;
+        if (bExport)
+            bSuccess = xml.exportXML(record, strFilename);
+        else
+            bSuccess = xml.importXML(record, strFilename, null);
+        xml.free();
+        return bSuccess;
     }
 
 }

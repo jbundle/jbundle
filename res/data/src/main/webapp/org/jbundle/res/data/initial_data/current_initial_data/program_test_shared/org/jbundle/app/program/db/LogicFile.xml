@@ -8,9 +8,9 @@
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>Animal</MethodClassName>
-		<LogicSource>this.addTable(new Cat(recordOwner));
+		<LogicSource><![CDATA[this.addTable(new Cat(recordOwner));
 this.addTable(new Dog(recordOwner));
-</LogicSource>
+]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -24,9 +24,9 @@ this.addTable(new Dog(recordOwner));
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>AnimalVets</MethodClassName>
-		<LogicSource>//?	this.addTable(new Animal(recordOwner));
+		<LogicSource><![CDATA[//?	this.addTable(new Animal(recordOwner));
 this.addTable(new Dog(recordOwner));
-this.addTable(new Vet(recordOwner));</LogicSource>
+this.addTable(new Vet(recordOwner));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -40,7 +40,7 @@ this.addTable(new Vet(recordOwner));</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>AnimalVets</MethodClassName>
-		<LogicSource>this.setSelected(false);	// de-select all
+		<LogicSource><![CDATA[this.setSelected(false);	// de-select all
 super;
 
 //?this.getField(Animal.kAnimalFile, Animal.kID).setSelected(true);
@@ -53,7 +53,7 @@ this.getField(Dog.kDogFile, Animal.kName).setSelected(true);
 this.getField(Dog.kDogFile, Animal.kColor).setSelected(true);
 this.getField(Dog.kDogFile, Animal.kWeight).setSelected(true);
 
-this.getField(Vet.kVetFile, Vet.kName).setSelected(true);</LogicSource>
+this.getField(Vet.kVetFile, Vet.kName).setSelected(true);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -67,8 +67,8 @@ this.getField(Vet.kVetFile, Vet.kName).setSelected(true);</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>AnimalVets</MethodClassName>
-		<LogicSource>//?this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Animal.kAnimalFile), this.getRecord(Vet.kVetFile), Animal.kVet, Vet.kID);
-this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Dog.kDogFile), this.getRecord(Vet.kVetFile), Animal.kVet, Vet.kID);</LogicSource>
+		<LogicSource><![CDATA[//?this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Animal.kAnimalFile), this.getRecord(Vet.kVetFile), Animal.kVet, Vet.kID);
+this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Dog.kDogFile), this.getRecord(Vet.kVetFile), Animal.kVet, Vet.kID);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -138,11 +138,11 @@ this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Dog.kDogFile), this.
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestReport</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 this.getMainRecord().setKeyArea(Animal.kNameKey);
 this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Animal.kVet), this.getScreenRecord().getField(TestReportScreenRecord.kVetID), "="));
 		
-this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), false, true));</LogicSource>
+this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), false, true));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -268,8 +268,8 @@ this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getF
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>VetPopupField</MethodClassName>
-		<LogicSource>		return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), Vet.kNameKey, Vet.kName, true, true);
-//		return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), -1, Vet.kName, true, true);</LogicSource>
+		<LogicSource><![CDATA[		return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), Vet.kNameKey, Vet.kName, true, true);
+//		return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), -1, Vet.kName, true, true);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -325,7 +325,7 @@ this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getF
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestDetailReport</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 this.getMainRecord().setKeyArea(Vet.kNameKey);
 this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Vet.kID), this.getScreenRecord().getField(TestReportScreenRecord.kVetID), "="));
 		
@@ -333,7 +333,7 @@ this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getF
 
 Record recCat = this.getRecord(Cat.kCatFile);
 recCat.setKeyArea(Cat.kVetKey);
-recCat.addListener(new SubFileFilter(this.getMainRecord().getField(Vet.kID), Cat.kVet, null, -1, null, -1));</LogicSource>
+recCat.addListener(new SubFileFilter(this.getMainRecord().getField(Vet.kID), Cat.kVet, null, -1, null, -1));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -403,8 +403,8 @@ recCat.addListener(new SubFileFilter(this.getMainRecord().getField(Vet.kID), Cat
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestDetailReport</MethodClassName>
-		<LogicSource>super;
-new Cat(this);</LogicSource>
+		<LogicSource><![CDATA[super;
+new Cat(this);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -558,14 +558,14 @@ new Cat(this);</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>CatVetGridScreen</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 	// Link the screen field to the passed in record
 ((ReferenceField)this.getScreenRecord().getField(TestReportScreenRecord.kVetID)).syncReference(this.getRecord(Vet.kVetFile));
 	// The detail file is the sub-file to to passed-in header record.
 this.getMainRecord().setKeyArea(Cat.kVetKey);
 this.getMainRecord().addListener(new SubFileFilter(this.getHeaderRecord()));
 	// Any change to the bundle file triggers a re-select (note: SPopup read-thru will not respond)
-this.getRecord(Vet.kVetFile).getField(Vet.kID).addListener(new FieldReSelectHandler(this));</LogicSource>
+this.getRecord(Vet.kVetFile).getField(Vet.kID).addListener(new FieldReSelectHandler(this));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -593,9 +593,9 @@ this.getRecord(Vet.kVetFile).getField(Vet.kID).addListener(new FieldReSelectHand
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>VetGridScreen</MethodClassName>
-		<LogicSource>if ((m_iDisplayFieldDesc &amp; ScreenConstants.SELECT_MODE) != ScreenConstants.SELECT_MODE)
+		<LogicSource><![CDATA[if ((m_iDisplayFieldDesc & ScreenConstants.SELECT_MODE) != ScreenConstants.SELECT_MODE)
 	new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
-super;	// Next buttons will be "First!"</LogicSource>
+super;	// Next buttons will be "First!"]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -623,10 +623,10 @@ super;	// Next buttons will be "First!"</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>VetGridScreen</MethodClassName>
-		<LogicSource>if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
+		<LogicSource><![CDATA[if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
 	return (this.onForm(null, Vet.CAT_VET_GRID_SCREEN, true, iCommandOptions, null) != null);
 else
-	return super;</LogicSource>
+	return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -640,10 +640,10 @@ else
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>VetScreen</MethodClassName>
-		<LogicSource>if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
+		<LogicSource><![CDATA[if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
 	return (this.onForm(null, Vet.CAT_VET_GRID_SCREEN, true, iCommandOptions, null) != null);
 else
-	return super;</LogicSource>
+	return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -671,14 +671,14 @@ else
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>Vet</MethodClassName>
-		<LogicSource>BaseScreen screen = null;
-if ((iDocMode &amp; ScreenConstants.DOC_MODE_MASK) == Vet.CAT_VET_GRID_SCREEN)
+		<LogicSource><![CDATA[BaseScreen screen = null;
+if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == Vet.CAT_VET_GRID_SCREEN)
 	screen = new CatVetGridScreen(this, null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-else if ((iDocMode &amp; ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
 	screen = new VetScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 else
 	screen = new VetGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-return screen;</LogicSource>
+return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -734,8 +734,8 @@ return screen;</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>CatVetHeaderScreen</MethodClassName>
-		<LogicSource>super;
-this.getScreenRecord().getField(TestReportScreenRecord.kVetID).setEnabled(true);</LogicSource>
+		<LogicSource><![CDATA[super;
+this.getScreenRecord().getField(TestReportScreenRecord.kVetID).setEnabled(true);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -763,9 +763,9 @@ this.getScreenRecord().getField(TestReportScreenRecord.kVetID).setEnabled(true);
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestGridScreen</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 this.getRecord(TestTable.kTestTableFile).addListener(new CompareFileFilter(TestTable.kTestKey, this.getScreenRecord().getField(TestScreenRecord.kNameSort), "=", null, true));
-this.getScreenRecord().getField(TestScreenRecord.kNameSort).addListener(new FieldReSelectHandler(this));</LogicSource>
+this.getScreenRecord().getField(TestScreenRecord.kNameSort).addListener(new FieldReSelectHandler(this));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -849,13 +849,13 @@ this.getScreenRecord().getField(TestScreenRecord.kNameSort).addListener(new Fiel
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestScreen</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 this.addMainKeyBehavior();
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDouble).addListener(new CheckRangeHandler(5, 10));
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName).addListener(new FieldToUpperHandler(null));
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey).addListener(new RegisterValueHandler(null));
 
-this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).addListener(new ChangeFocusOnChangeHandler(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong)));</LogicSource>
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).addListener(new ChangeFocusOnChangeHandler(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong)));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -897,8 +897,8 @@ this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).addListen
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestScreenLock</MethodClassName>
-		<LogicSource>super;
-this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() &amp; ~DBConstants.LOCK_STRATEGY_MASK) | DBConstants.OPEN_LOCK_ON_EDIT_STRATEGY);</LogicSource>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() & ~DBConstants.LOCK_STRATEGY_MASK) | DBConstants.OPEN_LOCK_ON_EDIT_STRATEGY);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -912,8 +912,8 @@ this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() &amp; ~DBCo
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestScreenWaitLock</MethodClassName>
-		<LogicSource>super;
-this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() &amp; ~(DBConstants.LOCK_TYPE_MASK | DBConstants.LOCK_STRATEGY_MASK)) | DBConstants.OPEN_WAIT_FOR_LOCK_STRATEGY | DBConstants.OPEN_EXCEPTION_ON_LOCK_TYPE);</LogicSource>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() & ~(DBConstants.LOCK_TYPE_MASK | DBConstants.LOCK_STRATEGY_MASK)) | DBConstants.OPEN_WAIT_FOR_LOCK_STRATEGY | DBConstants.OPEN_EXCEPTION_ON_LOCK_TYPE);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -997,8 +997,8 @@ this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() &amp; ~(DBC
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestBreakReport</MethodClassName>
-		<LogicSource>super;
-new Vet(this);</LogicSource>
+		<LogicSource><![CDATA[super;
+new Vet(this);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1012,14 +1012,14 @@ new Vet(this);</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestBreakReport</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 this.getMainRecord().setKeyArea(Cat.kVetKey);
 
 Record recVet = this.getRecord(Vet.kVetFile);
 this.getMainRecord().getField(Cat.kVet).addListener(new ReadSecondaryHandler(recVet));
 
 this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), -1, true, true, true));
-this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportTotal), Cat.kWeight, true, true, true));</LogicSource>
+this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportTotal), Cat.kWeight, true, true, true));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1145,13 +1145,13 @@ this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getF
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestTableAnalysis</MethodClassName>
-		<LogicSource>this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestCode).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode));
+		<LogicSource><![CDATA[this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestCode).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode));
 this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestKey).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey));
 this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestCount).setValue(1);
 this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestShort).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort));
 this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestDouble).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDouble));
 
-super;</LogicSource>
+super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1179,8 +1179,8 @@ super;</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>CatVetScreen</MethodClassName>
-		<LogicSource>super;
-this.getMainRecord().getField(Cat.kVet).addListener(new InitOnceFieldHandler(false));</LogicSource>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().getField(Cat.kVet).addListener(new InitOnceFieldHandler(false));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1250,8 +1250,8 @@ this.getMainRecord().getField(Cat.kVet).addListener(new InitOnceFieldHandler(fal
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>Reptile</MethodClassName>
-		<LogicSource>BaseScreen screen = null;
-if ((iDocMode &amp; ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+		<LogicSource><![CDATA[BaseScreen screen = null;
+if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
 {
     Object objObjectID = null;
     try {
@@ -1267,9 +1267,9 @@ if ((iDocMode &amp; ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
     else //if (this.getField(Reptile.kReptileTypeID).getValue() == ReptileTypeField.LIZARD)
         screen = new LizardScreen(null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 }
-else //if ((iDocMode &amp; ScreenConstants.DISPLAY_MODE) != 0)
+else //if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
     screen = new ReptileGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-return screen;</LogicSource>
+return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1339,7 +1339,7 @@ return screen;</LogicSource>
 		<MethodReturns>Record</MethodReturns>
 		<MethodInterface>Object objKey, RecordOwner recordOwner</MethodInterface>
 		<MethodClassName>Reptile</MethodClassName>
-		<LogicSource>if (objKey instanceof Integer)
+		<LogicSource><![CDATA[if (objKey instanceof Integer)
 {
     int iReptileType = ((Integer)objKey).intValue();
     if (iReptileType == ReptileTypeField.LIZARD)
@@ -1347,7 +1347,7 @@ return screen;</LogicSource>
     if (iReptileType == ReptileTypeField.SNAKE)
         return new Snake(recordOwner);
 }
-return null;</LogicSource>
+return null;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1361,9 +1361,9 @@ return null;</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ReptileGridScreen</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 
-this.getMainRecord().setKeyArea(Reptile.kNameKey);</LogicSource>
+this.getMainRecord().setKeyArea(Reptile.kNameKey);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1405,12 +1405,12 @@ this.getMainRecord().setKeyArea(Reptile.kNameKey);</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ReptileGridScreen</MethodClassName>
-		<LogicSource>Record record = this.getMainRecord();
+		<LogicSource><![CDATA[Record record = this.getMainRecord();
 this.addColumn(new MultipleTableFieldConverter(record, Reptile.kName));
 this.addColumn(new MultipleTableFieldConverter(record, Reptile.kVetID));
 this.addColumn(new MultipleTableFieldConverter(record, Reptile.kWeight));
 
-this.addColumn(new MultipleTableFieldConverter(record, Reptile.kReptileTypeID));</LogicSource>
+this.addColumn(new MultipleTableFieldConverter(record, Reptile.kReptileTypeID));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1438,11 +1438,11 @@ this.addColumn(new MultipleTableFieldConverter(record, Reptile.kReptileTypeID));
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestDetailXMLReport</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 this.getMainRecord().setKeyArea(Animal.kNameKey);
 this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Animal.kVet), this.getScreenRecord().getField(TestReportScreenRecord.kVetID), "="));
 
-this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), false, true));</LogicSource>
+this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), false, true));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1568,11 +1568,11 @@ this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getF
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestReptileReport</MethodClassName>
-		<LogicSource>this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kName));
+		<LogicSource><![CDATA[this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kName));
 this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kWeight));
 this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kVetID));
 
-new TestReptileBreak(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC | HtmlConstants.FOOTING_SCREEN, null);</LogicSource>
+new TestReptileBreak(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC | HtmlConstants.FOOTING_SCREEN, null);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1586,8 +1586,8 @@ new TestReptileBreak(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestReptileReport</MethodClassName>
-		<LogicSource>super;
-new Vet(this);</LogicSource>
+		<LogicSource><![CDATA[super;
+new Vet(this);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1601,13 +1601,13 @@ new Vet(this);</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestReptileReport</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 
 this.getMainRecord().setKeyArea(Reptile.kVetIDKey);
 Record recVet = this.getRecord(Vet.kVetFile); //((ReferenceField)this.getMainRecord().getField(Reptile.kVetID)).getReferenceRecord();
 this.getMainRecord().getField(Reptile.kVetID).addListener(new ReadSecondaryHandler(recVet));
 //?this.getRecord(Cat.kCatFile).getField(Animal.kVet).addListener(new ReadSecondaryHandler(recVet));
-//?this.getRecord(Dog.kDogFile).getField(Animal.kVet).addListener(new ReadSecondaryHandler(recVet));</LogicSource>
+//?this.getRecord(Dog.kDogFile).getField(Animal.kVet).addListener(new ReadSecondaryHandler(recVet));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1627,7 +1627,7 @@ this.getMainRecord().getField(Reptile.kVetID).addListener(new ReadSecondaryHandl
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="5153">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2009-10-17T07:30:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>10</Sequence>
 		<MethodName>openMainRecord</MethodName>
@@ -1663,10 +1663,10 @@ this.getMainRecord().getField(Reptile.kVetID).addListener(new ReadSecondaryHandl
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestReptileXmlReport</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 
 Record recVet = ((ReferenceField)this.getMainRecord().getField(Reptile.kVetID)).getReferenceRecord();
-this.getMainRecord().getField(Reptile.kVetID).addListener(new ReadSecondaryHandler(recVet));</LogicSource>
+this.getMainRecord().getField(Reptile.kVetID).addListener(new ReadSecondaryHandler(recVet));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1680,10 +1680,10 @@ this.getMainRecord().getField(Reptile.kVetID).addListener(new ReadSecondaryHandl
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestReptileXmlReport</MethodClassName>
-		<LogicSource>this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kName));
+		<LogicSource><![CDATA[this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kName));
 this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kWeight));
 this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kVetID, Vet.kName));
-//?new TestReptileXmlRecordDetail(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC | HtmlConstants.FOOTING_SCREEN);</LogicSource>
+//?new TestReptileXmlRecordDetail(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC | HtmlConstants.FOOTING_SCREEN);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1697,8 +1697,8 @@ this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFi
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestReptileXmlRecordDetail</MethodClassName>
-		<LogicSource>this.getRecord(Reptile.kReptileFile).getField(Reptile.kVetID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-this.getRecord(Vet.kVetFile).getField(Vet.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</LogicSource>
+		<LogicSource><![CDATA[this.getRecord(Reptile.kReptileFile).getField(Reptile.kVetID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+this.getRecord(Vet.kVetFile).getField(Vet.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1754,10 +1754,10 @@ this.getRecord(Vet.kVetFile).getField(Vet.kName).setupDefaultView(this.getNextLo
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestReptileXmlToolbar</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 //if (this.isPrintReport())
 //  return;   // Don't display params if entered
-this.getRecord(TestReportScreenRecord.kTestReportScreenRecordFile).getField(TestReportScreenRecord.ktemplate).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</LogicSource>
+this.getRecord(TestReportScreenRecord.kTestReportScreenRecordFile).getField(TestReportScreenRecord.ktemplate).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1771,14 +1771,14 @@ this.getRecord(TestReportScreenRecord.kTestReportScreenRecordFile).getField(Test
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestBasicScreen</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 this.addMainKeyBehavior();
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDouble).addListener(new CheckRangeHandler(5, 10));
 this.getRecord(TestTable.kTestTableFile).addListener(new ValidateFieldHandler(TestTable.kTestFloat, "21.00", false));
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName).addListener(new FieldToUpperHandler(null));
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey).addListener(new RegisterValueHandler(null));
 
-this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).addListener(new ChangeFocusOnChangeHandler(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong)));</LogicSource>
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).addListener(new ChangeFocusOnChangeHandler(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong)));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1806,7 +1806,7 @@ this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).addListen
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestBasicScreen</MethodClassName>
-		<LogicSource>this.getRecord(TestTable.kTestTableFile).getField(TestTable.kID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+		<LogicSource><![CDATA[this.getRecord(TestTable.kTestTableFile).getField(TestTable.kID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
@@ -1844,7 +1844,7 @@ new SStaticText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstan
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestMemo).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestHtml).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestXml).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestImage).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</LogicSource>
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestImage).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1872,8 +1872,8 @@ this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestImage).setupDef
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestBasicGridScreen</MethodClassName>
-		<LogicSource>super;
-this.getScreenRecord().getField(TestScreenRecord.kSortKey).addListener(new SortOrderHandler(this));</LogicSource>
+		<LogicSource><![CDATA[super;
+this.getScreenRecord().getField(TestScreenRecord.kSortKey).addListener(new SortOrderHandler(this));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1887,8 +1887,8 @@ this.getScreenRecord().getField(TestScreenRecord.kSortKey).addListener(new SortO
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestBasicGridScreen</MethodClassName>
-		<LogicSource>new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.DELETE, MenuConstants.DELETE, null);
-super;</LogicSource>
+		<LogicSource><![CDATA[new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.DELETE, MenuConstants.DELETE, null);
+super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1916,7 +1916,7 @@ super;</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestBasicGridScreen</MethodClassName>
-		<LogicSource>this.getRecord(TestTable.kTestTableFile).getField(TestTable.kID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+		<LogicSource><![CDATA[this.getRecord(TestTable.kTestTableFile).getField(TestTable.kID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDate).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
@@ -1925,7 +1925,7 @@ new SPopupBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 new SStaticText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName), ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</LogicSource>
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1939,8 +1939,8 @@ this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort).setupDef
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestInputGridScreen</MethodClassName>
-		<LogicSource>super;
-this.setEditing(true);</LogicSource>
+		<LogicSource><![CDATA[super;
+this.setEditing(true);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1954,14 +1954,14 @@ this.setEditing(true);</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestInputGridScreen</MethodClassName>
-		<LogicSource>//      this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+		<LogicSource><![CDATA[//      this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 //      new SPopupBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestYesNo), ScreenConstants.DEFAULT_DISPLAY);
 //      new SStaticText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName), ScreenConstants.DEFAULT_DISPLAY);
 //      this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</LogicSource>
+this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1975,8 +1975,8 @@ this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort).setupDef
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestSoftScreen</MethodClassName>
-		<LogicSource>super;
-this.getMainRecord().addListener(new SoftDeleteHandler(this.getMainRecord().getField(TestTable.kTestYesNo)));</LogicSource>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().addListener(new SoftDeleteHandler(this.getMainRecord().getField(TestTable.kTestYesNo)));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -1990,8 +1990,8 @@ this.getMainRecord().addListener(new SoftDeleteHandler(this.getMainRecord().getF
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestSoftGridScreen</MethodClassName>
-		<LogicSource>super;
-this.getMainRecord().addListener(new SoftDeleteHandler(this.getMainRecord().getField(TestTable.kTestYesNo)));</LogicSource>
+		<LogicSource><![CDATA[super;
+this.getMainRecord().addListener(new SoftDeleteHandler(this.getMainRecord().getField(TestTable.kTestYesNo)));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2047,11 +2047,11 @@ this.getMainRecord().addListener(new SoftDeleteHandler(this.getMainRecord().getF
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>CatSession</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 Vet recVet = (Vet)this.getRecord(Vet.kVetFile);
 
 this.getMainRecord().setKeyArea(Cat.kVetKey);
-this.getMainRecord().addListener(new SubFileFilter(recVet));</LogicSource>
+this.getMainRecord().addListener(new SubFileFilter(recVet));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2079,7 +2079,7 @@ this.getMainRecord().addListener(new SubFileFilter(recVet));</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>VetSession</MethodClassName>
-		<LogicSource>if (DBConstants.RESET.equalsIgnoreCase(strCommand))
+		<LogicSource><![CDATA[if (DBConstants.RESET.equalsIgnoreCase(strCommand))
 {
     Vet recVet = (Vet)this.getMainRecord();
     try {
@@ -2088,7 +2088,7 @@ this.getMainRecord().addListener(new SubFileFilter(recVet));</LogicSource>
         ex.printStackTrace();
     }
 }
-return super;</LogicSource>
+return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2102,9 +2102,9 @@ return super;</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>Lizard</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 
-this.addListener(new SharedFileHandler(Reptile.kReptileTypeID, ReptileTypeField.LIZARD));</LogicSource>
+this.addListener(new SharedFileHandler(Reptile.kReptileTypeID, ReptileTypeField.LIZARD));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2118,9 +2118,9 @@ this.addListener(new SharedFileHandler(Reptile.kReptileTypeID, ReptileTypeField.
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>Snake</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 
-this.addListener(new SharedFileHandler(Reptile.kReptileTypeID, ReptileTypeField.SNAKE));</LogicSource>
+this.addListener(new SharedFileHandler(Reptile.kReptileTypeID, ReptileTypeField.SNAKE));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2162,12 +2162,12 @@ this.addListener(new SharedFileHandler(Reptile.kReptileTypeID, ReptileTypeField.
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestSecondField</MethodClassName>
-		<LogicSource>Record record = this.makeReferenceRecord();
+		<LogicSource><![CDATA[Record record = this.makeReferenceRecord();
 int iQueryKeySeq = TestSecond.kCodeKey;
 Converter fldDisplayFieldDesc = record.getField(TestSecond.kDescription);
 boolean bIncludeBlankOption = true;
 boolean bIncludeFormButton = true;
-return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, iQueryKeySeq, fldDisplayFieldDesc, bIncludeBlankOption, bIncludeFormButton);</LogicSource>
+return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, iQueryKeySeq, fldDisplayFieldDesc, bIncludeBlankOption, bIncludeFormButton);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2209,13 +2209,13 @@ return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayField
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestControlGridScreen</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 this.getScreenRecord().getField(TestScreenRecord.kSortKey).addListener(new SortOrderHandler(this));        
 
 BaseField fldTargetValue = this.getMainRecord().getField(TestTable.kTestFloat);
 BaseField fldValue1 = this.getMainRecord().getField(TestTable.kTestLong);
 BaseField fldValue2 = this.getMainRecord().getField(TestTable.kTestShort);
-this.getMainRecord().getField(TestTable.kTestShort).addListener(new CalcBalanceHandler(fldTargetValue, fldValue1, fldValue2, CalcBalanceHandler.MULTIPLY, false));</LogicSource>
+this.getMainRecord().getField(TestTable.kTestShort).addListener(new CalcBalanceHandler(fldTargetValue, fldValue1, fldValue2, CalcBalanceHandler.MULTIPLY, false));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2229,8 +2229,8 @@ this.getMainRecord().getField(TestTable.kTestShort).addListener(new CalcBalanceH
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestControlGridScreen</MethodClassName>
-		<LogicSource>new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.DELETE, MenuConstants.DELETE, null);
-super;</LogicSource>
+		<LogicSource><![CDATA[new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.DELETE, MenuConstants.DELETE, null);
+super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2258,8 +2258,8 @@ super;</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestScreenLockStorm</MethodClassName>
-		<LogicSource>super;
-//? this.getMainRecord().setOpenMode(this.getMainRecord().getOpenMode() | DBConstants.OPEN_LOCK_ON_EDIT);</LogicSource>
+		<LogicSource><![CDATA[super;
+//? this.getMainRecord().setOpenMode(this.getMainRecord().getOpenMode() | DBConstants.OPEN_LOCK_ON_EDIT);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2273,12 +2273,12 @@ super;</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestScreenLockStorm</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestProperties).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Start storm");
 new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Stop storm"); 
 new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Auto storm"); 
-this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);</LogicSource>
+this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2292,13 +2292,13 @@ this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).setupDefaul
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestScreenLockStorm</MethodClassName>
-		<LogicSource>if ("Start storm".equalsIgnoreCase(strCommand))
+		<LogicSource><![CDATA[if ("Start storm".equalsIgnoreCase(strCommand))
     return this.startStorm();
 if ("Stop storm".equalsIgnoreCase(strCommand))
     return this.stopStorm();
 if ("Auto storm".equalsIgnoreCase(strCommand))
     return this.autoStorm();
-return super;</LogicSource>
+return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2312,7 +2312,7 @@ return super;</LogicSource>
 		<MethodReturns>boolean</MethodReturns>
 		<MethodInterface/>
 		<MethodClassName>TestScreenLockStorm</MethodClassName>
-		<LogicSource>Map&lt;String,Object&gt; properties = new HashMap&lt;String,Object&gt;();
+		<LogicSource><![CDATA[Map<String,Object> properties = new HashMap<String,Object>();
 properties.put(DBParams.PROCESS, MessageStormProcess.class.getName());
 Application app = (Application)this.getTask().getApplication();
 String strQueueName = MessageConstants.TRX_SEND_QUEUE;
@@ -2333,7 +2333,7 @@ else // LOCAL
     new ProcessRunnerTask(app, strProcess, null).run();
 }
 
-return true;</LogicSource>
+return true;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2375,8 +2375,8 @@ return true;</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>MessageStormProcess</MethodClassName>
-		<LogicSource>int MULTIPLIER = (int)(0.250 * TestScreenLockStorm.WAIT_MULTIPLIER);
-for (int i = TestScreenLockStorm.COUNT; i &gt; 0; i--)
+		<LogicSource><![CDATA[int MULTIPLIER = (int)(0.250 * TestScreenLockStorm.WAIT_MULTIPLIER);
+for (int i = TestScreenLockStorm.COUNT; i > 0; i--)
 {
     this.startProcess(TestUpdateProcess.class.getName(), RunProcessInField.LOCAL_PROCESS, Integer.toString(i));
     synchronized(this)
@@ -2387,7 +2387,7 @@ for (int i = TestScreenLockStorm.COUNT; i &gt; 0; i--)
             e.printStackTrace();
         }
     }
-}</LogicSource>
+}]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2401,7 +2401,7 @@ for (int i = TestScreenLockStorm.COUNT; i &gt; 0; i--)
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestUpdateProcess</MethodClassName>
-		<LogicSource>int iWaitTime;
+		<LogicSource><![CDATA[int iWaitTime;
 
 Record recTestTable = this.getMainRecord();
 try {
@@ -2435,13 +2435,13 @@ try {
         System.out.println("---------------- Error: record not found"); //Never
 } catch (DBException ex) {
     ex.printStackTrace();
-}</LogicSource>
+}]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="7130">
-		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<LastChanged>2009-09-09T15:49:03</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>10</Sequence>
 		<MethodName>openMainRecord</MethodName>
@@ -2463,7 +2463,7 @@ try {
 		<MethodReturns/>
 		<MethodInterface>String strProcessName, String strProcessType, String strProcessCount</MethodInterface>
 		<MethodClassName>MessageStormProcess</MethodClassName>
-		<LogicSource>Map&lt;String,Object&gt; properties = new HashMap&lt;String,Object&gt;();
+		<LogicSource><![CDATA[Map<String,Object> properties = new HashMap<String,Object>();
 properties.put(DBParams.PROCESS, strProcessName);
 properties.put("count", strProcessCount);
 Application app = (Application)this.getTask().getApplication();
@@ -2483,7 +2483,7 @@ else if (RunProcessInField.LOCAL_PROCESS.equalsIgnoreCase(strProcessType))
 else // LOCAL
 {
     new ProcessRunnerTask(app, strProcess, null).run();
-}</LogicSource>
+}]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2497,9 +2497,9 @@ else // LOCAL
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>TestUpdateProcess</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 // Use default lock strategy for now.
-//x this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() &amp; ~DBConstants.LOCK_MASK) | DBConstants.OPEN_MERGE_ON_LOCK);</LogicSource>
+//x this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() & ~DBConstants.LOCK_MASK) | DBConstants.OPEN_MERGE_ON_LOCK);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2513,7 +2513,7 @@ else // LOCAL
 		<MethodReturns>boolean</MethodReturns>
 		<MethodInterface/>
 		<MethodClassName>TestScreenLockStorm</MethodClassName>
-		<LogicSource>Record record = this.getMainRecord();
+		<LogicSource><![CDATA[Record record = this.getMainRecord();
 try {
     record.addNew();
     record.getCounterField().setString("1");
@@ -2528,7 +2528,7 @@ try {
         
         this.startStorm();
 
-        SwingWorker&lt;String,Object&gt; worker = new SwingWorker&lt;String,Object&gt;()
+        SwingWorker<String,Object> worker = new SwingWorker<String,Object>()
         {
             
             protected String doInBackground() throws Exception
@@ -2545,12 +2545,12 @@ try {
             }
             /**
              * Called on the event dispatching thread (not on the worker thread)
-             * after the &lt;code&gt;construct&lt;/code&gt; method has returned.
+             * after the <code>construct</code> method has returned.
              */
             public void done()
             {
                 Record record = getMainRecord();
-                for (int i = 1; i &lt;=COUNT; i++)
+                for (int i = 1; i <=COUNT; i++)
                 {
                     if (((PropertiesField)record.getField(TestTable.kTestProperties)).getProperty(Integer.toString(i)) == null)
                         return;
@@ -2565,7 +2565,7 @@ try {
     e.printStackTrace();
 }        
 
-return true;  </LogicSource>
+return true;  ]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2593,9 +2593,9 @@ return true;  </LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>AnimalGridScreen</MethodClassName>
-		<LogicSource>super;
+		<LogicSource><![CDATA[super;
 this.getMainRecord().setKeyArea(Animal.kNameKey);
-this.setEditing(true);</LogicSource>
+this.setEditing(true);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2623,8 +2623,8 @@ this.setEditing(true);</LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>AnimalGridScreen</MethodClassName>
-		<LogicSource>Record record = this.getMainRecord();
-this.addColumn(new MultipleTableFieldConverter(record, Animal.kName));</LogicSource>
+		<LogicSource><![CDATA[Record record = this.getMainRecord();
+this.addColumn(new MultipleTableFieldConverter(record, Animal.kName));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2638,10 +2638,10 @@ this.addColumn(new MultipleTableFieldConverter(record, Animal.kName));</LogicSou
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>AnimalField</MethodClassName>
-		<LogicSource>// Add code here to setup the popup or lookup button
+		<LogicSource><![CDATA[// Add code here to setup the popup or lookup button
 Record record = this.getReferenceRecord();  // Get/make the record that describes the referenced class.
 ScreenField screenField = this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, record.getDefaultScreenKeyArea(), this.getDefaultDisplayFieldSeq(), true, false); 
-return screenField;</LogicSource>
+return screenField;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>

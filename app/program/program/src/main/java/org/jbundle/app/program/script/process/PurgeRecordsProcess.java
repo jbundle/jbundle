@@ -52,7 +52,7 @@ public class PurgeRecordsProcess extends BaseProcessRecords
     /**
      * Process this record.
      */
-    public void processThisRecord(Record record)
+    public boolean processThisRecord(Record record)
     {
         if (record != null)
         {   // Delete all the records
@@ -71,6 +71,7 @@ public class PurgeRecordsProcess extends BaseProcessRecords
                 e.printStackTrace();
             }
         }
+        return true;
     }
     /**
      * InitSharedRecord Method.

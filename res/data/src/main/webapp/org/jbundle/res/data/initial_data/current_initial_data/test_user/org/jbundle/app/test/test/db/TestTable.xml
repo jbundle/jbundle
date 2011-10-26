@@ -1,24 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?><file>
 	<TestTable ID="1">
-		<LastChanged>2011-05-26T15:18:46</LastChanged>
+		<LastChanged>2011-09-08T23:09:07</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
-		<TestName>TEST 1</TestName>
+		<TestName>A - Excellent Agent</TestName>
+		<TestMemo><![CDATA[This is a very long line
+This is the second line.]]></TestMemo>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>15,000,000</TestLong>
+		<TestShort>14,000</TestShort>
+		<TestDateTime>2011-09-02T12:38:13</TestDateTime>
+		<TestDate>2011-09-02</TestDate>
+		<TestTime>17:15:00</TestTime>
+		<TestFloat>1,234.56</TestFloat>
+		<TestDouble>1,234,567.89</TestDouble>
+		<TestPercent>34.5600</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
+		<TestPassword/>
+		<TestVirtual/>
+		<TestKey>A</TestKey>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+		<TestProperties/>
+		<TestSecond>2</TestSecond>
+		<TestEncrypted/>
+	</TestTable>
+	<TestTable ID="2">
+		<LastChanged>2011-09-02T12:38:15</LastChanged>
+		<Deleted>N</Deleted>
+		<TestCode/>
+		<TestName>B - Pretty Good Agent</TestName>
 		<TestMemo/>
 		<TestYesNo>Y</TestYesNo>
-		<TestLong>123,456</TestLong>
+		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime>2010-11-30T17:51:15</TestDateTime>
+		<TestDateTime>2011-09-02T12:38:13</TestDateTime>
 		<TestDate/>
-		<TestTime>17:51:21</TestTime>
+		<TestTime>12:38:13</TestTime>
 		<TestFloat>12,345.70</TestFloat>
 		<TestDouble>123,456,789.01</TestDouble>
 		<TestPercent>0.3200</TestPercent>
-		<TestReal>12,345.67000000</TestReal>
-		<TestCurrency/>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
-		<TestKey/>
+		<TestKey>B</TestKey>
 		<TestImage/>
 		<TestHtml/>
 		<TestXml/>
@@ -26,80 +54,126 @@
 		<TestSecond/>
 		<TestEncrypted/>
 	</TestTable>
-	<TestTable ID="2">
-		<LastChanged>2011-06-17T05:31:45</LastChanged>
-		<Deleted>N</Deleted>
-		<TestCode/>
-		<TestName>TEST 21</TestName>
-		<TestMemo/>
-		<TestYesNo>Y</TestYesNo>
-		<TestLong>1,234,567</TestLong>
-		<TestShort>1,234</TestShort>
-		<TestDateTime/>
-		<TestDate/>
-		<TestTime/>
-		<TestFloat>12,345.70</TestFloat>
-		<TestDouble/>
-		<TestPercent>0.3200</TestPercent>
-		<TestReal>12,345.67000000</TestReal>
-		<TestCurrency/>
-		<TestPassword/>
-		<TestVirtual/>
-		<TestKey/>
-		<TestImage/>
-		<TestHtml type="XML"><br/></TestHtml>
-		<TestXml/>
-		<TestProperties/>
-		<TestSecond/>
-		<TestEncrypted>#Field properties
-#Tue Apr 12 18:07:34 PDT 2011
-length=0
-value=
-</TestEncrypted>
-	</TestTable>
-	<TestTable ID="3">
-		<LastChanged>2011-05-12T17:06:35</LastChanged>
-		<Deleted>N</Deleted>
-		<TestCode/>
-		<TestName>TEST 32</TestName>
-		<TestMemo/>
-		<TestYesNo>Y</TestYesNo>
-		<TestLong>1,234,567</TestLong>
-		<TestShort>1,234</TestShort>
-		<TestDateTime/>
-		<TestDate/>
-		<TestTime/>
-		<TestFloat>12,345.70</TestFloat>
-		<TestDouble>123,456,789.01</TestDouble>
-		<TestPercent>0.3200</TestPercent>
-		<TestReal>12,345.67000000</TestReal>
-		<TestCurrency/>
-		<TestPassword/>
-		<TestVirtual/>
-		<TestKey/>
-		<TestImage/>
-		<TestHtml/>
-		<TestXml/>
-		<TestProperties/>
-		<TestSecond/>
-		<TestEncrypted>#Field properties
-#Thu Mar 31 22:51:57 PDT 2011
-length=0
-value=
-</TestEncrypted>
-	</TestTable>
 	<TestTable ID="4">
-		<LastChanged>2011-05-12T17:08:01</LastChanged>
+		<LastChanged>2011-09-02T12:38:14</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
-		<TestName>TEST 41</TestName>
+		<TestName>F - Fam Trip Agent</TestName>
 		<TestMemo/>
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2011-09-02T12:38:13</TestDateTime>
 		<TestDate/>
-		<TestTime/>
+		<TestTime>12:38:13</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
+		<TestPassword/>
+		<TestVirtual/>
+		<TestKey>B</TestKey>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+		<TestProperties/>
+		<TestSecond/>
+		<TestEncrypted/>
+	</TestTable>
+	<TestTable ID="5">
+		<LastChanged>2011-09-02T12:38:14</LastChanged>
+		<Deleted>N</Deleted>
+		<TestCode/>
+		<TestName>T - Tour Operator</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>2011-09-02T00:54:53</TestDateTime>
+		<TestDate/>
+		<TestTime>12:38:13</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
+		<TestPassword/>
+		<TestVirtual/>
+		<TestKey>B</TestKey>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+		<TestProperties/>
+		<TestSecond/>
+		<TestEncrypted/>
+	</TestTable>
+	<TestTable ID="6">
+		<LastChanged>2011-09-02T12:38:14</LastChanged>
+		<Deleted>N</Deleted>
+		<TestCode/>
+		<TestName>Q - Q Agency</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>2011-09-02T12:38:13</TestDateTime>
+		<TestDate/>
+		<TestTime>12:38:13</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
+		<TestPassword/>
+		<TestVirtual/>
+		<TestKey>Q</TestKey>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+		<TestProperties/>
+		<TestSecond/>
+		<TestEncrypted/>
+	</TestTable>
+	<TestTable ID="7">
+		<LastChanged>2011-09-02T12:38:14</LastChanged>
+		<Deleted>N</Deleted>
+		<TestCode/>
+		<TestName>F - Fam Trip Agent</TestName>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>2011-09-02T12:38:13</TestDateTime>
+		<TestDate/>
+		<TestTime>12:38:13</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
+		<TestPassword/>
+		<TestVirtual/>
+		<TestKey>X</TestKey>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+		<TestProperties/>
+		<TestSecond/>
+		<TestEncrypted/>
+	</TestTable>
+	<TestTable ID="8">
+		<LastChanged>2011-09-09T01:17:13</LastChanged>
+		<Deleted>N</Deleted>
+		<TestCode/>
+		<TestName/>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>2011-09-09T01:13:37</TestDateTime>
+		<TestDate/>
+		<TestTime>01:13:37</TestTime>
 		<TestFloat>12,345.70</TestFloat>
 		<TestDouble>123,456,789.01</TestDouble>
 		<TestPercent>0.3200</TestPercent>
@@ -112,11 +186,61 @@ value=
 		<TestHtml/>
 		<TestXml/>
 		<TestProperties/>
-		<TestSecond/>
-		<TestEncrypted>#Field properties
-#Tue Apr 12 18:02:37 PDT 2011
-length=0
-value=
-</TestEncrypted>
+		<TestSecond>1</TestSecond>
+		<TestEncrypted/>
+	</TestTable>
+	<TestTable ID="9">
+		<LastChanged>2011-09-09T01:22:24</LastChanged>
+		<Deleted>N</Deleted>
+		<TestCode/>
+		<TestName/>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>2011-09-09T01:22:02</TestDateTime>
+		<TestDate/>
+		<TestTime>01:22:02</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>12,345.67000000</TestReal>
+		<TestCurrency/>
+		<TestPassword/>
+		<TestVirtual/>
+		<TestKey/>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+		<TestProperties/>
+		<TestSecond>2</TestSecond>
+		<TestEncrypted/>
+	</TestTable>
+	<TestTable ID="10">
+		<LastChanged>2011-09-09T02:08:23</LastChanged>
+		<Deleted>N</Deleted>
+		<TestCode/>
+		<TestName/>
+		<TestMemo/>
+		<TestYesNo>Y</TestYesNo>
+		<TestLong>1,234,567</TestLong>
+		<TestShort>1,234</TestShort>
+		<TestDateTime>2011-09-09T01:47:13</TestDateTime>
+		<TestDate/>
+		<TestTime>01:47:13</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>12,345.67000000</TestReal>
+		<TestCurrency/>
+		<TestPassword/>
+		<TestVirtual/>
+		<TestKey/>
+		<TestImage/>
+		<TestHtml/>
+		<TestXml/>
+		<TestProperties/>
+		<TestSecond>1</TestSecond>
+		<TestEncrypted/>
 	</TestTable>
 </file>

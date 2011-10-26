@@ -93,7 +93,7 @@ wMAAwMDAAMDAwADAwMAAwMDAdwgAAAAQAAAAEHEAfgAEeA==
 		<RecordClass>com.tourapp.tour.acctpay.db.ApControl</RecordClass>
 	</ContactType>
 	<ContactType ID="4">
-		<LastChanged>2009-02-26T01:44:31</LastChanged>
+		<LastChanged>2008-02-12T05:00:56</LastChanged>
 		<Deleted>N</Deleted>
 		<Description>Profile Control</Description>
 		<Code>ProfileControl</Code>

@@ -1840,7 +1840,7 @@
 		<Hidden/>
 	</FieldData>
 	<FieldData ID="7231">
-		<LastChanged>2009-02-12T14:49:25</LastChanged>
+		<LastChanged>2010-10-17T14:49:25</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>TestProperties</FieldName>
 		<FieldClass>PropertiesField</FieldClass>

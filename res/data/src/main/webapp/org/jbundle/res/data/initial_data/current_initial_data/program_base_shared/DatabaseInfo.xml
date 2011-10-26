@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><file>
+	<DatabaseInfo_program_base ID="1">
+		<LastChanged>2011-10-21T14:14:15</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>program_base</Name>
+		<Description/>
+		<Version>1.0.0</Version>
+		<StartID>16,777,217</StartID>
+		<EndID/>
+		<BaseDatabase/>
+		<Properties/>
+	</DatabaseInfo_program_base>
+</file>

@@ -1,2 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?><file>
+	<Cat ID="1">
+		<LastChanged>2011-09-02T12:38:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Tabby</Name>
+		<Color>Black and White</Color>
+		<Weight>2.00</Weight>
+		<Vet>1</Vet>
+	</Cat>
+	<Cat ID="2">
+		<LastChanged>2011-09-02T12:38:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Manx</Name>
+		<Color>Grey</Color>
+		<Weight>2.50</Weight>
+		<Vet>1</Vet>
+	</Cat>
+	<Cat ID="3">
+		<LastChanged>2011-09-02T12:38:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Siamese</Name>
+		<Color>Cream</Color>
+		<Weight>1.50</Weight>
+		<Vet>2</Vet>
+	</Cat>
+	<Cat ID="4">
+		<LastChanged>2011-09-02T12:38:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Persian</Name>
+		<Color>Grey</Color>
+		<Weight>3.00</Weight>
+		<Vet>2</Vet>
+	</Cat>
 </file>
