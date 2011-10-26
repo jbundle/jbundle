@@ -42,7 +42,6 @@ import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
-import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.Params;
@@ -271,7 +270,7 @@ public class BaseHttpTask extends Object
         return BaseHttpTask.getParam(req, strParam, Constants.BLANK);
     }
     /**
-     * Get the first occurence of this parameter.
+     * Get the first occurrence of this parameter.
      */
     public static String getParam(HttpServletRequest req, String strParam, String strDefault)
     {
