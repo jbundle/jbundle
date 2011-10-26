@@ -5,22 +5,26 @@
  */
 package org.jbundle.app.program.script.process;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.awt.*;
+import java.util.*;
 
-import org.jbundle.app.program.db.ClassInfo;
-import org.jbundle.app.program.db.ClassProject;
-import org.jbundle.app.program.db.FileHdr;
-import org.jbundle.app.program.manual.convert.ConvertCode;
-import org.jbundle.base.db.BaseDatabase;
-import org.jbundle.base.db.Record;
-import org.jbundle.base.thread.BaseProcess;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.main.db.DatabaseInfo;
-import org.jbundle.model.DBException;
-import org.jbundle.model.RecordOwnerParent;
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.base.db.*;
+import org.jbundle.thin.base.util.*;
+import org.jbundle.thin.base.db.*;
+import org.jbundle.base.db.event.*;
+import org.jbundle.base.db.filter.*;
+import org.jbundle.base.field.*;
+import org.jbundle.base.field.convert.*;
+import org.jbundle.base.field.event.*;
+import org.jbundle.base.screen.model.*;
+import org.jbundle.base.screen.model.util.*;
+import org.jbundle.base.util.*;
+import org.jbundle.model.*;
+import org.jbundle.base.thread.*;
+import org.jbundle.thin.base.screen.*;
+import org.jbundle.app.program.db.*;
+import org.jbundle.app.program.manual.convert.*;
+import org.jbundle.main.db.*;
 
 /**
  *  BaseProcessRecords - .
@@ -162,11 +166,10 @@ public class BaseProcessRecords extends BaseProcess
     }
     /**
      * Process this record.
-     * @return true if success
      */
     public boolean processThisRecord(Record record)
     {
-        return false;	// Override this!
+        return false; // Override this!
     }
     /**
      * Export/import/process the records in this record class.
@@ -196,18 +199,17 @@ public class BaseProcessRecords extends BaseProcess
                 {                    
                     String strClassPackage = this.getFullPackageName(recClassInfo.getField(ClassInfo.kClassProjectID).toString(), recClassInfo.getField(ClassInfo.kClassPackage).toString());
                     if (this.includeRecord(recFileHdr, recClassInfo, strPackage))
-                    {
-                    	Record record = this.getThisRecord(strRecord, strClassPackage, null);
-                        boolean success = this.processThisRecord(record);
-                        
-                        if (success)
-                        {
-	                        String databaseName = record.getTable().getDatabase().getDatabaseName(true);
-	                        if (databaseName.lastIndexOf('_') != -1)	// always
-	                        	databaseName = databaseName.substring(0, databaseName.lastIndexOf('_'));
-	                        mapDatabaseList.put(databaseName, strClassPackage);
-                        }
-                    }
+                            {
+                               Record record = this.getThisRecord(strRecord, strClassPackage, null);
+                                boolean success = this.processThisRecord(record);                        
+                                if (success)
+                                {
+                                       String databaseName = record.getTable().getDatabase().getDatabaseName(true);
+                                       if (databaseName.lastIndexOf('_') != -1)        // always
+                                               databaseName = databaseName.substring(0, databaseName.lastIndexOf('_'));
+                                       mapDatabaseList.put(databaseName, strClassPackage);
+                                }
+                            }
                 }
             }
             // Now export any control records
@@ -239,7 +241,7 @@ public class BaseProcessRecords extends BaseProcess
                     if (!"DatabaseInfo".equalsIgnoreCase(strRecord))
                         continue;   // Hack
                     if ("USER_DATA".equalsIgnoreCase(this.getProperty("type")))
-                    	continue;	// User data doesn't have database info
+                       continue;       // User data doesn't have database info
                     String databaseName = this.getProperty("database");
                     strRecord = strClassPackage + "." + strRecord;
                     for (String strDBName : mapDatabaseList.keySet())
@@ -251,9 +253,9 @@ public class BaseProcessRecords extends BaseProcess
                             if (record != null)
                             {
                                 if (databaseName != null)
-                                	if (!strDBName.startsWith(databaseName))
-                                		continue;
-                                this.processThisRecord(record);
+                                       if (!strDBName.startsWith(databaseName))
+                                               continue;
+                                 this.processThisRecord(record);
                             }
                         }
                     }
@@ -348,8 +350,8 @@ public class BaseProcessRecords extends BaseProcess
             return strClassProject.matches(this.patternToRegex(strProject));   // Does the project name pattern match?
         
         if (database != null)
-        	if (!database.equalsIgnoreCase(recFileHdr.getField(FileHdr.kDatabaseName).toString()))
-        		return false;
+           if (!database.equalsIgnoreCase(recFileHdr.getField(FileHdr.kDatabaseName).toString()))
+               return false;
         
         return true;
     }

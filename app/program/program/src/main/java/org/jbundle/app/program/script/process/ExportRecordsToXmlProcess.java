@@ -5,21 +5,28 @@
  */
 package org.jbundle.app.program.script.process;
 
-import java.io.File;
-import java.util.Hashtable;
-import java.util.Map;
+import java.awt.*;
+import java.util.*;
 
-import org.jbundle.app.program.manual.convert.ConvertCode;
-import org.jbundle.base.db.Record;
-import org.jbundle.base.db.xmlutil.XmlInOut;
-import org.jbundle.base.thread.ProcessRunnerTask;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.MainApplication;
-import org.jbundle.base.util.Utility;
-import org.jbundle.model.DBException;
-import org.jbundle.model.RecordOwnerParent;
-import org.jbundle.thin.base.util.Application;
+import org.jbundle.base.db.*;
+import org.jbundle.thin.base.util.*;
+import org.jbundle.thin.base.db.*;
+import org.jbundle.base.db.event.*;
+import org.jbundle.base.db.filter.*;
+import org.jbundle.base.field.*;
+import org.jbundle.base.field.convert.*;
+import org.jbundle.base.field.event.*;
+import org.jbundle.base.screen.model.*;
+import org.jbundle.base.screen.model.util.*;
+import org.jbundle.base.util.*;
+import org.jbundle.model.*;
+import org.jbundle.thin.base.screen.*;
+import org.jbundle.app.program.db.*;
+import org.jbundle.main.db.*;
+import java.io.*;
+import org.jbundle.base.thread.*;
+import org.jbundle.app.program.manual.convert.*;
+import org.jbundle.base.db.xmlutil.*;
 
 /**
  *  ExportRecordsToXmlProcess - .
@@ -65,7 +72,6 @@ public class ExportRecordsToXmlProcess extends BaseProcessRecords
     }
     /**
      * Process this record.
-     * @return true if success
      */
     public boolean processThisRecord(Record record)
     {
