@@ -27311,7 +27311,7 @@ return containsFiles;]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="16785005">
-		<LastChanged>2010-02-13T07:08:09</LastChanged>
+		<LastChanged>2010-02-05T15:59:49</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>300</Sequence>
 		<MethodName>scanAllPackages</MethodName>

@@ -640,7 +640,7 @@
 		<ClassFieldsType>I</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16778091">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2009-02-12T15:59:48</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>MenusSession</ClassInfoClassName>
 		<ClassInfoID/>
@@ -2583,7 +2583,7 @@
 		<ClassFieldsType>N</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16780156">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2011-08-05T15:59:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>MessageType</ClassInfoClassName>
 		<ClassInfoID/>
@@ -2839,7 +2839,7 @@
 		<ClassFieldsType>N</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16780190">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2011-08-05T15:59:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>RequestType</ClassInfoClassName>
 		<ClassInfoID/>
@@ -5229,7 +5229,7 @@
 		<ClassFieldsType>I</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16781467">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2009-02-12T14:49:25</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>UserPasswordChange</ClassInfoClassName>
 		<ClassInfoID/>
@@ -7301,7 +7301,7 @@
 		<ClassFieldsType>N</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16781769">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2011-08-05T15:59:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>MessageInfo</ClassInfoClassName>
 		<ClassInfoID/>
@@ -7477,7 +7477,7 @@
 		<ClassFieldsType>I</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16781912">
-		<LastChanged>2010-02-03T01:39:04</LastChanged>
+		<LastChanged>2011-08-05T15:59:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>CreateWSDL20</ClassInfoClassName>
 		<ClassInfoID/>
@@ -8388,7 +8388,7 @@
 		<ClassFieldsType>I</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16782135">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2009-02-12T15:59:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>MergeHtml</ClassInfoClassName>
 		<ClassInfoID/>
@@ -11631,7 +11631,7 @@
 		<ClassFieldsType>I</ClassFieldsType>
 	</ClassFields>
 	<ClassFields ID="16782438">
-		<LastChanged>2010-11-10T11:37:07</LastChanged>
+		<LastChanged>2010-11-05T15:59:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>BaseRegistrationScreen</ClassInfoClassName>
 		<ClassInfoID/>

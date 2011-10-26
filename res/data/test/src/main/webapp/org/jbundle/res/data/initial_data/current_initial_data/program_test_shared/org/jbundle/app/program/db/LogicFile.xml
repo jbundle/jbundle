@@ -438,7 +438,7 @@ new Cat(this);]]></LogicSource>
 		<CopyFrom/>
 	</LogicFile>
 	<LogicFile ID="2250">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2008-02-12T05:01:01</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>setupSFields</MethodName>

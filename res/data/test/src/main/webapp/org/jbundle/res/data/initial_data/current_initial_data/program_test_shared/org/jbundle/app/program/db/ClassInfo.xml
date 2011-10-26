@@ -155,7 +155,7 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="885">
-		<LastChanged>2010-02-11T12:07:05</LastChanged>
+		<LastChanged>2010-02-12T14:49:26</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>TestReportToolbar</ClassName>
 		<BaseClassName>ReportToolbar</BaseClassName>
