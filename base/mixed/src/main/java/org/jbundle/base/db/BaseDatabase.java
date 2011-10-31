@@ -377,10 +377,16 @@ public class BaseDatabase extends Object
                 {	// Must create the locale database manually
                 	Object strOldCreate = this.getProperties().get(DBConstants.CREATE_DB_IF_NOT_FOUND);
                 	if (this.getProperty("createLocaleDatabase") == null)
-                		this.getProperties().put(DBConstants.CREATE_DB_IF_NOT_FOUND, DBConstants.FALSE);
+                	{
+                		if ((strLanguage.length() == 2) || (strLanguage.length() == 5))		// Don't create database for locales (es or en_EN) only for special locales
+                			this.getProperties().put(DBConstants.CREATE_DB_IF_NOT_FOUND, DBConstants.FALSE);
+                	}
                     databaseLocale = m_databaseOwner.getDatabase(strLocaleDBName, record.getDatabaseType() & DBConstants.TABLE_MASK, this.getProperties());
                     if (databaseLocale != null)
+                    {
                     	databaseLocale.setProperty(DBParams.LANGUAGE, strLanguage);
+                    	databaseLocale.setProperty(SQLParams.NO_NULL_FIELD_SUPPORT, DBConstants.TRUE);	// Since null means use data from main record
+                    }
                     if (strOldCreate == null)
                     	this.getProperties().remove(DBConstants.CREATE_DB_IF_NOT_FOUND);
                     else

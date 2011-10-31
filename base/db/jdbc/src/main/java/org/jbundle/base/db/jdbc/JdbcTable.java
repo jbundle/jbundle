@@ -24,7 +24,6 @@ import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.KeyArea;
 import org.jbundle.base.db.KeyField;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.CounterField;
@@ -1181,7 +1180,8 @@ public class JdbcTable extends BaseTable
                     if (DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_NULL_KEY_SUPPORT)))
                         this.checkNullableKey(field, strAltSecondaryIndex != null); // Set the key to not nullable for create.
                     if (!field.isNullable())
-                        strType += " NOT NULL";
+                    	if (!DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_NULL_FIELD_SUPPORT)))	// Rare (or for locale dbs)
+                    		strType += " NOT NULL";
                     if (strAltSecondaryIndex != null)
                         if (this.checkIndexField(field))
                             strType += ' ' + strAltSecondaryIndex;
@@ -1231,8 +1231,10 @@ public class JdbcTable extends BaseTable
                             BaseField field = keyField.getField(DBConstants.FILE_KEY_AREA);
                             if (field.isNullable())
                             	indexCanBeUnique = false;
-                        }                    	
+                        }
                     }
+                	if (DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_NULL_FIELD_SUPPORT)))	// Rare (or for locale dbs)
+                    	indexCanBeUnique = false;
                     
                     if ((keyArea.getUniqueKeyCode() == DBConstants.UNIQUE) && (indexCanBeUnique))
                         sql = Utility.replace(sql, "{unique}", "UNIQUE");

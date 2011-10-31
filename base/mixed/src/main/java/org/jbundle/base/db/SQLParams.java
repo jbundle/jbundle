@@ -140,6 +140,11 @@ public interface SQLParams
      */
     public static final String NO_NULL_KEY_SUPPORT = "NO_NULL_KEY_SUPPORT";
     /**
+     * Fields are not allowed to be (SQL) not null.
+     * This is rare, but is used when creating locale tables, since most of the fields can be null to indicate use of the main field data.
+     */
+    public static final String NO_NULL_FIELD_SUPPORT = "NO_NULL_FIELD_SUPPORT";
+    /**
      * True if a null value in a unique key will produce an duplicate key error.
      * Got that, unique key with just a code in the key will produce and error if there are two null codes.
      * So, if this is true, I will make the key not-unique. Remember to always check the code key on write!
