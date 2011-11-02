@@ -503,4 +503,52 @@
 		<Message>Login</Message>
 		<UserLogTypeID>1</UserLogTypeID>
 	</UserLog>
+	<UserLog ID="64">
+		<LastChanged>2011-10-26T11:53:29</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2011-10-26T11:53:29</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="65">
+		<LastChanged>2011-10-26T11:53:29</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2011-10-26T15:49:03</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="66">
+		<LastChanged>2011-11-01T23:08:12</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2011-11-01T23:08:12</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="67">
+		<LastChanged>2011-11-01T23:08:12</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2011-11-01T23:08:12</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="68">
+		<LastChanged>2011-11-01T23:17:48</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2011-11-01T23:17:48</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="69">
+		<LastChanged>2011-11-01T23:17:48</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2011-11-01T23:17:48</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
 </file>

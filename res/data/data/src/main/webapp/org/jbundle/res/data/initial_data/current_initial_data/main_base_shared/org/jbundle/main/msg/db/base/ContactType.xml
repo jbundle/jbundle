@@ -310,7 +310,7 @@ wMAAwMDAAMDAwADAwMAAwMDAdwgAAAAQAAAAEHEAfgAEeA==
 		<RecordClass>.tour.product.car.db.Car</RecordClass>
 	</ContactType>
 	<ContactType ID="11">
-		<LastChanged>2009-02-26T01:47:16</LastChanged>
+		<LastChanged>2009-02-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
 		<Description>Tour Package</Description>
 		<Code>TourHeader</Code>
