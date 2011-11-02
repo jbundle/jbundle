@@ -25,6 +25,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.CounterField;
@@ -100,7 +101,7 @@ public class XmlUtilities extends Object
      * @record The record to export.
      * @strFileName The distination filename (deleted the old copy if this file exists).
      */
-    public static Document exportFileToDoc(Record record)
+    public static Document exportFileToDoc(BaseTable table)
     {
         DocumentBuilder db = Utility.getDocumentBuilder();
         DocumentBuilder stringdb = Utility.getDocumentBuilder();
@@ -112,7 +113,7 @@ public class XmlUtilities extends Object
             Element elRoot = (Element)doc.createElement(XMLTags.FILE);
             doc.appendChild(elRoot);
         
-            exportFileToDOM(stringdb, record, doc, elRoot);
+            exportFileToDOM(stringdb, table, doc, elRoot);
         }
 
         return doc;
@@ -122,13 +123,14 @@ public class XmlUtilities extends Object
      * @record The record to export.
      * @strFileName The distination filename (deleted the old copy if this file exists).
      */
-    public static void exportFileToDOM(DocumentBuilder stringdb, Record record, Document doc, Element elRoot)
+    public static void exportFileToDOM(DocumentBuilder stringdb, BaseTable table, Document doc, Element elRoot)
     {
         try   {
-            record.close();
-            while (record.hasNext())
+            table.close();
+            while (table.hasNext())
             {
-                record.next();
+            	table.next();
+            	Record record = table.getRecord();
                 XmlUtilities.createXMLRecord(stringdb, record, doc, elRoot);
             }
             elRoot.appendChild(doc.createTextNode(NEWLINE));

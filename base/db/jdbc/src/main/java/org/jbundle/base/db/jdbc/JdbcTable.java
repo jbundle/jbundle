@@ -1233,8 +1233,9 @@ public class JdbcTable extends BaseTable
                             	indexCanBeUnique = false;
                         }
                     }
-                	if (DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_NULL_FIELD_SUPPORT)))	// Rare (or for locale dbs)
-                    	indexCanBeUnique = false;
+                    if (iIndex > 0)
+                    	if (DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_NULL_FIELD_SUPPORT)))	// Rare (or for locale dbs)
+                    		indexCanBeUnique = false;
                     
                     if ((keyArea.getUniqueKeyCode() == DBConstants.UNIQUE) && (indexCanBeUnique))
                         sql = Utility.replace(sql, "{unique}", "UNIQUE");

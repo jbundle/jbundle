@@ -51,7 +51,7 @@ public class Export extends Object
     {
         String strFileName = this.getXMLFileName(record);
         XmlInOut inOut = new XmlInOut(null, null, null);
-        boolean bSuccess = inOut.exportXML(record, strFileName);
+        boolean bSuccess = inOut.exportXML(record.getTable(), strFileName);
         inOut.free();
         return bSuccess;
     }
@@ -63,7 +63,7 @@ public class Export extends Object
     {
         String strFileName = this.getXMLFileName(record);
         XmlInOut inOut = new XmlInOut(null, null, null);
-        boolean bSuccess = inOut.importXML(record, strFileName, null);
+        boolean bSuccess = inOut.importXML(record.getTable(), strFileName, null);
         inOut.free();
         return bSuccess;
     }

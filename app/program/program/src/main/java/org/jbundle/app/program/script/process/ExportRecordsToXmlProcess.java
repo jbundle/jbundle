@@ -117,9 +117,9 @@ public class ExportRecordsToXmlProcess extends BaseProcessRecords
         XmlInOut xml = new XmlInOut(this, null, null);    //0 v
         boolean bSuccess = false;
         if (bExport)
-            bSuccess = xml.exportXML(record, strFilename);
+            bSuccess = xml.exportXML(record.getTable(), strFilename);
         else
-            bSuccess = xml.importXML(record, strFilename, null);
+            bSuccess = xml.importXML(record.getTable(), strFilename, null);
         xml.free();
         return bSuccess;
     }

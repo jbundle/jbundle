@@ -132,7 +132,7 @@ public class XmlInOut extends BaseProcess
             String archiveFile = "/main_user/org/jbundle/main/user/db/UserGroup.xml";
             if (properties.get("archiveFile") != null)
             	archiveFile = properties.get("archiveFile").toString();
-            if (!test.importXML(record, archiveRoot + archiveFile, null))     // Import the menu file.
+            if (!test.importXML(record.getTable(), archiveRoot + archiveFile, null))     // Import the menu file.
                 System.exit(1);
 //            Record record = new org.jbundle.main.db.Menus(recordOwner);
 //            test.importXML(record, "archive/main/db/Menus.xml");     // Import the menu file.
@@ -197,9 +197,9 @@ public class XmlInOut extends BaseProcess
                 m_bOverwriteDups = true;
         boolean bSuccess = false;
         if (strImport != null)
-            bSuccess = this.importXML(record, strFileName, null);
+            bSuccess = this.importXML(record.getTable(), strFileName, null);
         else
-            bSuccess = this.exportXML(record, strFileName);
+            bSuccess = this.exportXML(record.getTable(), strFileName);
         if (!bSuccess)
             System.exit(1);
     }
@@ -208,8 +208,9 @@ public class XmlInOut extends BaseProcess
      * @record The record to export.
      * @strFileName The destination filename (deleted the old copy if this file exists).
      */
-    public boolean exportXML(Record record, String strFileName)
+    public boolean exportXML(BaseTable table, String strFileName)
     {
+    	Record record = table.getRecord();
         boolean bSuccess = true;
         File file = new File(strFileName);
         if (file.exists())
@@ -223,7 +224,7 @@ public class XmlInOut extends BaseProcess
 
         XmlInOut.enableAllBehaviors(record, false, true); // Disable file behaviors
 
-        Document doc = XmlUtilities.exportFileToDoc(record);
+        Document doc = XmlUtilities.exportFileToDoc(table);
         
         try   {
             OutputStream fileout = new FileOutputStream(strFileName);
@@ -311,7 +312,7 @@ public class XmlInOut extends BaseProcess
             else
             {
                 record = Record.makeRecordFromClassName(className, this, false, false);
-                BaseTable table = database.makeTable(record);	// Force a table from this alternate database
+                /*BaseTable table =*/ database.makeTable(record);	// Force a table from this alternate database
                 record.init(this);
             }
         }
@@ -339,7 +340,7 @@ public class XmlInOut extends BaseProcess
 //    return;
         databaseName = record.getDatabaseName();
         Utility.getLogger().info("Record: " + filename + "  Database: " + databaseName);// + "  Path: " + fileDir.getPath());
-        if (!this.importXML(record, file.getPath(), null))
+        if (!this.importXML(record.getTable(), file.getPath(), null))
             System.exit(1);
         record.free();
     }
@@ -348,8 +349,9 @@ public class XmlInOut extends BaseProcess
      * @param record The record to place this parsed XML into (If this is null, the file name is supplied in the XML).
      * @param filename The XML file to parse.
      */
-    public boolean importXML(Record record, String filename, InputStream inStream)
+    public boolean importXML(BaseTable table, String filename, InputStream inStream)
     {
+    	Record record = table.getRecord();
         XmlInOut.enableAllBehaviors(record, false, false);
         DocumentBuilder db = Utility.getDocumentBuilder();
         DocumentBuilder stringdb = Utility.getDocumentBuilder();
@@ -394,13 +396,13 @@ public class XmlInOut extends BaseProcess
             if (record == null)
                 this.parseXSL();    // Parse the XSL/DTD and create the tables and structures
 
-            Element   elParent = doc.getDocumentElement();
+            Element elParent = doc.getDocumentElement();
             RecordParser parser = new RecordParser(elParent);
             while (parser.next(stringdb) != null)
             {
                 Node elChild = parser.getChildNode();
                 String strName = parser.getName();
-                this.parseRecord(stringdb, (Element)elChild, strName, databaseName, record, null, false);
+                this.parseRecord(stringdb, (Element)elChild, strName, databaseName, table, null, false);
             }
         } catch (Throwable t) {
             t.printStackTrace();
@@ -421,30 +423,39 @@ public class XmlInOut extends BaseProcess
      * @param bIsMainHasReferenceField The main record doesn't have a reference to my main field.
      * @return This new record.
      */
-    public Record parseRecord(DocumentBuilder stringdb, Element elParent, String strTagName, String strDatabase, Record record, Record recMain, boolean bIsMainHasReferenceField)
+    public Record parseRecord(DocumentBuilder stringdb, Element elParent, String strTagName, String strDatabase, BaseTable table, BaseTable tableMain, boolean bIsMainHasReferenceField)
     {
+    	Record record = null;
+    	if (table != null)
+    		record = table.getRecord();
         if (record == null)
+        {
             record = this.getRecord(strTagName);
-        if (record == null)
-        {   // Not found, create it!
-            record = new XmlRecord();
-            ((XmlRecord)record).setTableName(strTagName);
-            if (strDatabase != null)
-                ((XmlRecord)record).setDatabaseName(strDatabase);
-            ((XmlRecord)record).setDatabaseType(DBConstants.REMOTE);
-            record.init(this);
-            if (recMain != null)    // If this is a sub-record
-                if (!bIsMainHasReferenceField)  // And the main record doesn't have a reference to my key
-            {
-                ReferenceField fld = new ReferenceField(record, recMain.getTableNames(false) + "ID", DBConstants.DEFAULT_FIELD_LENGTH, null, null);
-                KeyArea keyArea = record.makeIndex(DBConstants.NOT_UNIQUE, recMain.getTableNames(false) + "ID");
-                keyArea.addKeyField(fld, DBConstants.ASCENDING);
-            }
-            RecordParser parser = new RecordParser(elParent);
-            while (parser.next(stringdb) != null)
-            {   // First, add the fields to the record
-                parser.findField(record, true);     // This will create if not found
-            }
+	        if (record == null)
+	        {   // Not found, create it!
+	            record = new XmlRecord();
+	            ((XmlRecord)record).setTableName(strTagName);
+	            if (strDatabase != null)
+	                ((XmlRecord)record).setDatabaseName(strDatabase);
+	            ((XmlRecord)record).setDatabaseType(DBConstants.REMOTE);
+	            record.init(this);
+	            Record recMain = null;
+	            if (tableMain != null)
+	            	recMain = tableMain.getRecord();
+	            if (recMain != null)    // If this is a sub-record
+	                if (!bIsMainHasReferenceField)  // And the main record doesn't have a reference to my key
+	            {
+	                ReferenceField fld = new ReferenceField(record, recMain.getTableNames(false) + "ID", DBConstants.DEFAULT_FIELD_LENGTH, null, null);
+	                KeyArea keyArea = record.makeIndex(DBConstants.NOT_UNIQUE, recMain.getTableNames(false) + "ID");
+	                keyArea.addKeyField(fld, DBConstants.ASCENDING);
+	            }
+	            RecordParser parser = new RecordParser(elParent);
+	            while (parser.next(stringdb) != null)
+	            {   // First, add the fields to the record
+	                parser.findField(record, true);     // This will create if not found
+	            }
+	        }
+	        table = record.getTable();
         }
         // Now its time to move the data to the fields and write the record.
         RecordParser parser = new RecordParser(elParent);
@@ -459,7 +470,10 @@ public class XmlInOut extends BaseProcess
             {   // First time thru
                 bFirstTime = false;
                 try   {
-                    record.addNew();
+                    table.addNew();
+    	            Record recMain = null;
+    	            if (tableMain != null)
+    	            	recMain = tableMain.getRecord();
                     if (recMain != null)
                     {   // If this is a sub-file, be sure to update the reference field.
                         BaseField field = record.getField(recMain.getTableNames(false) + "ID");
@@ -469,8 +483,8 @@ public class XmlInOut extends BaseProcess
                         {   // If the main record has to get me, but doesn't have my key, save it's key
                             if (recMain.getEditMode() == DBConstants.EDIT_ADD)
                             {   // Main record not added yet, add it now
-                                recMain = this.updateRecord(recMain, true);   // And return the record written
-                                recMain.edit();
+                                recMain = this.updateRecord(tableMain, true);   // And return the record written
+                                tableMain.edit();
                             }
                             ((ReferenceField)field).setReference(recMain);  // Reference the main record.
                         }
@@ -483,7 +497,7 @@ public class XmlInOut extends BaseProcess
             if (bIsRecord)
             {   // If this field directly references a record, you have to write the sub-record first.
                 boolean bIsReferenceField = (parser.getReferenceName() != null);
-                Record recNew = this.parseRecord(stringdb, (Element)elChild, strName, strDatabase, null, record, bIsReferenceField);
+                Record recNew = this.parseRecord(stringdb, (Element)elChild, strName, strDatabase, null, table, bIsReferenceField);
                 if (bIsReferenceField) if (recNew != null)
                 {
                     ((ReferenceField)field).setReference(recNew);
@@ -500,41 +514,8 @@ public class XmlInOut extends BaseProcess
                     field.setString(strValue);
             }
         }
-/* This was special logic to replace the XML fields (delete this)
-String strX[] = new String[4];
-strX[0] = null;
-strX[1] = null;
-strX[2] = null;
-strX[3] = null;
-int iCurrXML = 0;
-for (int i = 0; i < record.getFieldCount(); i++)
-{
-    BaseField field = record.getField(i);
-    if (field instanceof XmlField)
-        strX[iCurrXML++] = field.toString();
-}
-if (iCurrXML > 0)
-{
-    try {
-        if (record.seek(null))
-        {
-            record.edit();
-            iCurrXML = 0;
-            for (int i = 0; i < record.getFieldCount(); i++)
-            {   
-                BaseField field = record.getField(i);
-                if (field instanceof XmlField)
-                    field.setString(strX[iCurrXML++]);
-            }
-        }
-        if (record.isModified())
-            record = this.updateRecord(record, bIsMainHasReferenceField);
-    } catch (DBException ex)    {
-        ex.printStackTrace();
-    }
-}
-*/
-        record = this.updateRecord(record, bIsMainHasReferenceField);
+
+        record = this.updateRecord(table, bIsMainHasReferenceField);
         return record;
     }
     /**
@@ -544,8 +525,9 @@ if (iCurrXML > 0)
      * @param bIsMainHasReferenceField The main record doesn't have a reference to my main field.
      * @return The updated record (re-reads the record).
      */
-    public Record updateRecord(Record record, boolean bIsMainHasReferenceField)
+    public Record updateRecord(BaseTable table, boolean bIsMainHasReferenceField)
     {
+    	Record record = table.getRecord();
         Object objCounterData = null;
         if (record != null)
         {   // Field updating done, write the record to disk
@@ -560,7 +542,7 @@ if (iCurrXML > 0)
                         objCounterData = record.getCounterField().getData();
                     }
                     try   {
-                        record.add();
+                        table.add(record);
                     } catch (DBException ex)    {
                         if ((ex.getErrorCode() == DBConstants.DUPLICATE_KEY)
                             && (m_bOverwriteDups)
@@ -569,12 +551,12 @@ if (iCurrXML > 0)
                             BaseBuffer buff = new VectorBuffer(new Vector<Object>()); // pend(don) ouch, serious performance hit.
                             buff.fieldsToBuffer(record);
                             record.setKeyArea(DBConstants.MAIN_KEY_AREA);
-                            if (record.seek("="))
+                            if (table.seek("="))
                             {   // Always
-                                record.remove();
-                                record.addNew();
+                            	table.remove();
+                            	table.addNew();
                                 buff.bufferToFields(record, DBConstants.DONT_DISPLAY, DBConstants.READ_MOVE);
-                                record.add();
+                                table.add(record);
                             }
                             buff.free();
                         }
@@ -583,12 +565,12 @@ if (iCurrXML > 0)
                     }
                     if (bIsMainHasReferenceField) if (bAutoSeqEnabled)
                     {   // Need to return the new record
-                        record.setHandle(record.getLastModified(DBConstants.DATA_SOURCE_HANDLE), DBConstants.DATA_SOURCE_HANDLE); // Get this record, so I can get the bookmark
+                        table.setHandle(table.getLastModified(DBConstants.DATA_SOURCE_HANDLE), DBConstants.DATA_SOURCE_HANDLE); // Get this record, so I can get the bookmark
                         bIsMainHasReferenceField = false; // So seek won't be done at end
                     }
                 }
                 else
-                    record.set();
+                	table.set(record);
             } catch (DBException ex)    {
                 if (!bIsMainHasReferenceField)
                     ex.printStackTrace();
@@ -602,7 +584,7 @@ if (iCurrXML > 0)
             try   {
                 if (objCounterData != null)
                     record.getCounterField().setData(objCounterData);
-                record.seek("="); // Get this record, so I can get the bookmark
+                table.seek("="); // Get this record, so I can get the bookmark
             } catch (DBException ex)    {
                 ex.printStackTrace();
             }

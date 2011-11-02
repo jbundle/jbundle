@@ -140,7 +140,7 @@ public class ImportXMLScanListener extends BaseScanListener
         
         String recordDBName = record.getDatabaseName();
         System.out.println("Process import: " + className + " (" + databaseName + ") to " + record.getRecordName() + " (" + recordDBName + ")");
-        if (!inout.importXML(record, fileSource.getPath(), null))
+        if (!inout.importXML(record.getTable(), fileSource.getPath(), null))
             System.exit(1);
         
         this.restoreOldProperties(oldProperties, record);

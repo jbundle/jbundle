@@ -80,7 +80,7 @@ public class XTable extends MTable
                 if (file.exists())
                 {
                     XmlInOut inOut = new XmlInOut(null, null, null);
-                    boolean bSuccess = inOut.importXML((Record)record, strFilePathName, null);
+                    boolean bSuccess = inOut.importXML(((Record)record).getTable(), strFilePathName, null);
                     inOut.free();
                     if (!bSuccess)
                     {
@@ -121,7 +121,7 @@ public class XTable extends MTable
             {
                 // Read the XML records
                 XmlInOut inOut = new XmlInOut(null, null, null);
-                inOut.exportXML((Record)record, strFilename);
+                inOut.exportXML(((Record)record).getTable(), strFilename);
                 inOut.free();
             }
         }

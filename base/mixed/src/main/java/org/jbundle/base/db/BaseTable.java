@@ -11,6 +11,7 @@ package org.jbundle.base.db;
  */
 import java.io.InputStream;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -1137,14 +1138,18 @@ public abstract class BaseTable extends FieldTable
      */
     public boolean loadInitialData() throws DBException
     {
-        Record record = this.getRecord();
+    	BaseTable table = this;
+        Record record = table.getRecord();
         while (((record.getDatabaseType() & DBConstants.SHARED_TABLE) != 0) && ((record.getDatabaseType() & DBConstants.BASE_TABLE_CLASS) == 0))
         {
         	String tableName = record.getTableNames(false);
         	Class<?> className = record.getClass().getSuperclass();
         	record = Record.makeRecordFromClassName(className.getName(), record.getRecordOwner());
         	record.setTableNames(tableName);
+        	table = record.getTable();
         }
+        if (record.getTable() instanceof PassThruTable)
+        	table = this.getPhysicalTable((PassThruTable)record.getTable(), record);
         int iOpenMode = record.getOpenMode();
         record.setOpenMode(DBConstants.OPEN_NORMAL);	// Possible read-only
         String strFilename = record.getArchiveFilename(false);
@@ -1165,7 +1170,7 @@ public abstract class BaseTable extends FieldTable
         buffer.fieldsToBuffer(record);
         boolean bSuccess = false;
         try {
-        	bSuccess = xml.importXML(record, strFilename, inputStream);
+        	bSuccess = xml.importXML(table, strFilename, inputStream);
         } catch (Exception ex) {
         	Utility.getLogger().warning("Could not load initial data - " + record.getRecordName());
         } finally {
@@ -1182,6 +1187,43 @@ public abstract class BaseTable extends FieldTable
         if (record != this.getRecord())
         	record.free();	// If this was a base record.
         return bSuccess;    // Success
+    }
+    /**
+     * Dig down and get the physical table for this record.
+     * @param table
+     * @param record
+     * @return
+     */
+    private BaseTable getPhysicalTable(PassThruTable table, Record record)
+    {
+    	BaseTable altTable = table.getNextTable();
+		if (altTable instanceof PassThruTable)
+		{
+			BaseTable physicalTable = getPhysicalTable((PassThruTable)altTable, record);
+			if (physicalTable != null)
+				if (physicalTable != altTable)
+					return physicalTable;
+		}
+		else
+			if (altTable.getDatabase().getDatabaseName(true).equals(record.getTable().getDatabase().getDatabaseName(true)))
+				return altTable;
+    	
+    	Iterator<BaseTable> tables = table.getTables();
+    	while (tables.hasNext())
+    	{
+    		altTable = tables.next();
+    		if (altTable instanceof PassThruTable)
+    		{
+    			BaseTable physicalTable = getPhysicalTable((PassThruTable)altTable, record);
+    			if (physicalTable != null)
+    				if (physicalTable != altTable)
+    					return physicalTable;
+    		}
+    		else 
+    			if (altTable.getDatabase().getDatabaseName(true).equals(record.getTable().getDatabase().getDatabaseName(true)))
+    				return altTable;
+    	}
+    	return table;
     }
     /**
      * User defined hint to find the last modified record.
