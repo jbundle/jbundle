@@ -9,6 +9,7 @@ import java.util.Hashtable;
 import javax.servlet.Servlet;
 
 import org.jbundle.base.screen.control.servlet.html.BaseServlet;
+import org.jbundle.base.util.Utility;
 import org.jbundle.util.webapp.osgi.OSGiFileServlet;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -91,7 +92,7 @@ public class HttpServiceTracker extends ServiceTracker{
             dictionary.put(BaseServlet.PATH, path);
         	HttpContext httpContext = null;	// new MyHttpContext(context.getBundle());
         	webContextPath = context.getProperty(WEB_CONTEXT);
-            String fullPath = addURLPath(webContextPath, path);
+            String fullPath = Utility.addURLPath(webContextPath, path);
 
             if ((BaseServlet.IMAGES.equalsIgnoreCase(path)) 
             	|| (BaseServlet.LIB.equalsIgnoreCase(path))
@@ -211,30 +212,9 @@ public class HttpServiceTracker extends ServiceTracker{
         HttpService httpService = (HttpService) service;
     	for (String path : paths)
     	{
-            String fullPath = addURLPath(webContextPath, path);
+            String fullPath = Utility.addURLPath(webContextPath, path);
             httpService.unregister(fullPath);
     	}
         super.removedService(reference, service);
-    }
-    
-    /**
-     * Add to http path (**Move this to Util**)
-     * @param basePath
-     * @param path
-     * @return
-     */
-    public static String addURLPath(String basePath, String path)
-    {
-    	if (basePath == null)
-    		basePath = "";
-    	if ((!basePath.endsWith("/")) && (!path.startsWith("/")))
-    		path = "/" + path;
-    	if (basePath.length() > 0)
-    		path = basePath + path;
-     	if (path.length() == 0)
-    		path = "/";
-     	else if ((path.length() > 1) && (path.endsWith("/")))
-     		path = path.substring(0, path.length() -1);
-    	return path;
     }
 }

@@ -812,4 +812,24 @@ public class Utility extends ThinUtil
         }
         return rgobjEnable;
     }
+    /**
+     * Add the base path to get an http path (**Move this to Util**)
+     * @param basePath
+     * @param path
+     * @return
+     */
+    public static String addURLPath(String basePath, String path)
+    {
+    	if (basePath == null)
+    		basePath = "";
+    	if ((!basePath.endsWith("/")) && (!path.startsWith("/")))
+    		path = "/" + path;
+    	if (basePath.length() > 0)
+    		path = basePath + path;
+     	if (path.length() == 0)
+    		path = "/";
+     	else if ((path.length() > 1) && (path.endsWith("/")))
+     		path = path.substring(0, path.length() -1);
+    	return path;
+    }
 }
