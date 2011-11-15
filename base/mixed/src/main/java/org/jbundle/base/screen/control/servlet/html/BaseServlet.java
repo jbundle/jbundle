@@ -194,6 +194,8 @@ public class BaseServlet extends HttpServlet
 	public static final String IMAGES = "/images";
 	public static final String LIB = "/lib";
 	public static final String DOCS = "/docs";
+	public static final String COM = "/com";
+	public static final String ORG = "/org";
 	public static final String JBUNDLE_RESOURCES = "/org/jbundle/res";
 	public static final String TOURAPP_RESOURCES = "/com/tourapp/res";
 	public static final String PROXY = "/proxy";

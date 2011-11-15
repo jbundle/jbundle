@@ -72,6 +72,11 @@
 			<scope>provided</scope> <!-- Hey this is OSGi -->
 		</dependency>
 		<dependency>
+			<groupId>org.jbundle.util.webapp</groupId>
+			<artifactId>org.jbundle.util.webapp.osgi</artifactId>
+			<scope>provided</scope> <!-- Hey this is OSGi -->
+		</dependency>
+		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>catalina</artifactId>
 			<scope>provided</scope>   <!-- This is usually included in distributions. If you do include this, the 
