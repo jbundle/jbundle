@@ -4,7 +4,6 @@
 package org.jbundle.web.httpservice;
 
 import java.util.Dictionary;
-import java.util.Hashtable;
 
 import javax.servlet.Servlet;
 
@@ -13,8 +12,8 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.util.webapp.osgi.BaseOsgiServlet;
 import org.jbundle.util.webapp.osgi.OSGiFileServlet;
 import org.osgi.framework.BundleContext;
-import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.HttpService;
+import org.osgi.service.http.NamespaceException;
 
 /**
  * HttpServiceTracker - Wait for the http service to come up to add servlets.
@@ -64,34 +63,49 @@ public class HttpServiceTracker extends org.jbundle.util.webapp.osgi.HttpService
      * Get all the web paths to add.
      * @return
      */
-    public String[] getServletNames()
+    public String[] getServletNames(Dictionary<String, String> dictionary)
     {
     	return paths;
     }
     /**
      * Http Service is up, add my servlet.
      */
-    public Servlet addService(String name, HttpService httpService) {
+    public Servlet addService(String name, Dictionary<String, String> dictionary, HttpService httpService)
+    {
+        if ((BaseServlet.IMAGES.equalsIgnoreCase(name)) 
+                || (BaseServlet.LIB.equalsIgnoreCase(name))
+//+             || (BaseServlet.COM.equalsIgnoreCase(path))
+//+             || (BaseServlet.ORG.equalsIgnoreCase(path))
+                || (BaseServlet.DOCS.equalsIgnoreCase(name)))
+        {
+            String alias = this.getAliasFromName(name, dictionary);
+            try {
+                httpService.registerResources(alias, name, httpContext);
+            } catch (NamespaceException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        else
+            return super.addService(name, dictionary, httpService);
+    }
+    /**
+     * Create the servlet.
+     * The SERVLET_CLASS property must be supplied.
+     * @param dictionary
+     * @return
+     */
+    public Servlet makeServlet(Dictionary<String, String> dictionary)
+    {
         Servlet servlet = null;
         try {
-            Dictionary<String,String> dictionary = this.getDictionary();
-            dictionary.put(BaseServlet.PATH, name);
-        	HttpContext httpContext = this.httpContext;
-            String alias = this.getPathFromName(name);
         	String servicePid = DBConstants.BLANK;
 
-            if ((BaseServlet.IMAGES.equalsIgnoreCase(name)) 
-            	|| (BaseServlet.LIB.equalsIgnoreCase(name))
-//+            	|| (BaseServlet.COM.equalsIgnoreCase(path))
-//+            	|| (BaseServlet.ORG.equalsIgnoreCase(path))
-                || (BaseServlet.DOCS.equalsIgnoreCase(name)))
-            {
-            	httpService.registerResources(alias, name, httpContext);
-            }
             if ((BaseServlet.JBUNDLE_RESOURCES.equalsIgnoreCase(name)) 
                 || (BaseServlet.TOURAPP_RESOURCES.equalsIgnoreCase(name)))
             {
             	servlet = new OSGiFileServlet();
+                String alias = this.getAliasFromName(name, dictionary);
             	dictionary.put(OSGiFileServlet.BASE_PATH, alias.substring(1) + '/');	// Prepend this to the path
                 ((BaseOsgiServlet)servlet).init(context, servicePid, dictionary);
             	httpContext = new org.jbundle.util.webapp.files.FileHttpContext(context.getBundle());
@@ -165,11 +179,6 @@ public class HttpServiceTracker extends org.jbundle.util.webapp.osgi.HttpService
 	            servlet = new org.jbundle.base.message.trx.transport.xml.XMLMessageReceivingServlet();
 	            dictionary.put("remotehost", "localhost");
             }
-            if (servlet instanceof BaseOsgiServlet)
-                ((BaseOsgiServlet) servlet).init(context, servicePid, dictionary);
-            if (servlet != null)
-                httpService.registerServlet(alias, servlet, dictionary, httpContext);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
