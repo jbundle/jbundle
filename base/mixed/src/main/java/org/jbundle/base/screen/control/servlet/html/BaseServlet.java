@@ -18,8 +18,6 @@ import java.net.URL;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.util.DBParams;
@@ -27,13 +25,14 @@ import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.util.Application;
+import org.jbundle.util.webapp.osgi.BaseOsgiServlet;
 
 /**
  * RedirectServlet
  * 
  * This is the base servlet.
  */
-public class BaseServlet extends HttpServlet
+public class BaseServlet extends BaseOsgiServlet
 {
 	private static final long serialVersionUID = 1L;
 
@@ -53,40 +52,8 @@ public class BaseServlet extends HttpServlet
     {
         super.destroy();
     }
-    /**
-     * Get the browser type.
-     */
-    public String getBrowser(HttpServletRequest req)
-    {
-        String strAgent = req.getHeader("user-agent");
-        if (strAgent == null)
-            return OTHER;
-        strAgent = strAgent.toUpperCase();
-        for (int i = 0; i < BROWSER.length; i++)
-        {
-            if (strAgent.indexOf(BROWSER[i][1]) != -1)
-                return BROWSER[i][0];
-        }
-        return OTHER;
-    }
-    /**
-     * Get the operating system type.
-     */
-    public String getOS(HttpServletRequest req)
-    {
-        String strAgent = req.getHeader("user-agent");
-        if (strAgent == null)
-            return OTHER;
-        strAgent = strAgent.toUpperCase();
-        for (int i = 0; i < OS.length; i++)
-        {
-            if (strAgent.indexOf(OS[i][1]) != -1)
-                return OS[i][0];
-        }
-        return OTHER;
-    }
 
-	public InputStream getFileStream(ServletTask servletTask, String filename, String filepath) throws MalformedURLException
+    public InputStream getFileStream(ServletTask servletTask, String filename, String filepath) throws MalformedURLException
 	{
 		URL fileURL = null;
 		Application app = null;
@@ -126,11 +93,11 @@ public class BaseServlet extends HttpServlet
     		return null;
 		String browser = propertyOwner.getProperty(DBParams.BROWSER);
     	boolean ajax = false;
-		if (BaseServlet.AJAX.equals(propertyOwner.getProperty(BaseServlet.PATH)))
+		if (BaseServlet.AJAX.equals(propertyOwner.getProperty(BaseServlet.WEB_ALIAS)))
 			ajax = true;
-		if (BaseServlet.XSL.equals(propertyOwner.getProperty(BaseServlet.PATH)))
+		if (BaseServlet.XSL.equals(propertyOwner.getProperty(BaseServlet.WEB_ALIAS)))
 			ajax = true;
-		if (BaseServlet.XML.equals(propertyOwner.getProperty(BaseServlet.PATH)))
+		if (BaseServlet.XML.equals(propertyOwner.getProperty(BaseServlet.WEB_ALIAS)))
 			ajax = true;
 		if (BaseServlet.JAVA.equals(browser))
 			ajax = false;
@@ -159,36 +126,7 @@ public class BaseServlet extends HttpServlet
 		return stylesheet;
 	}
 
-    public static final String IE = "ie";
-    public static final String FIREFOX = "firefox";
-    public static final String WEBKIT = "webkit";
-    public static final String JAVA = "java";
-    public static final String OTHER = "other";
-    
-    public static final String WINDOWS = "WINDOWS";
-    public static final String LINUX = "LINUX";
-    public static final String MAC = "MAC";
-    
-    public static String[][] OS = {
-        {WINDOWS, WINDOWS},
-        {LINUX, LINUX},
-        {MAC, MAC},
-    };
-
-    public static String[][] BROWSER = {
-        {IE, "MSIE"},
-        {WEBKIT, "CHROME"},
-        {WEBKIT, "SAFARI"},
-        {WEBKIT, "OPERA"},
-        {JAVA, "JAVA"},
-        {FIREFOX, "MOZILLA/5"},
-        {WEBKIT, "webkit"},
-        {OTHER, ""}
-    };
-    
     // Typical deploy paths
-	public static final String PATH = "path";	
-
 	public static final String ROOT = "/";
 	public static final String INDEX = "/index.html";
 	public static final String IMAGES = "/images";

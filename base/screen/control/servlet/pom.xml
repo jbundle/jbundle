@@ -85,6 +85,11 @@
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>org.jbundle.util.webapp.osgi</artifactId>
+      <version>${jbundle-util-webappVersion}</version>
+    </dependency>
   </dependencies>
 
 </project>
