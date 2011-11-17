@@ -63,31 +63,31 @@ public class HttpServiceTracker extends org.jbundle.util.webapp.osgi.HttpService
      * Get all the web paths to add.
      * @return
      */
-    public String[] getServletNames(Dictionary<String, String> dictionary)
+    public String[] getServletAliases(Dictionary<String, String> dictionary)
     {
     	return paths;
     }
     /**
      * Http Service is up, add my servlet.
      */
-    public Servlet addService(String name, Dictionary<String, String> dictionary, HttpService httpService)
+    public Servlet addService(String alias, Dictionary<String, String> dictionary, HttpService httpService)
     {
-        if ((BaseServlet.IMAGES.equalsIgnoreCase(name)) 
-                || (BaseServlet.LIB.equalsIgnoreCase(name))
+        if ((BaseServlet.IMAGES.equalsIgnoreCase(alias)) 
+                || (BaseServlet.LIB.equalsIgnoreCase(alias))
 //+             || (BaseServlet.COM.equalsIgnoreCase(path))
 //+             || (BaseServlet.ORG.equalsIgnoreCase(path))
-                || (BaseServlet.DOCS.equalsIgnoreCase(name)))
+                || (BaseServlet.DOCS.equalsIgnoreCase(alias)))
         {
-            String alias = this.getAliasFromName(name, dictionary);
+            alias = this.fixAlias(alias);
             try {
-                httpService.registerResources(alias, name, httpContext);
+                httpService.registerResources(alias, alias, httpContext);
             } catch (NamespaceException e) {
                 e.printStackTrace();
             }
             return null;
         }
         else
-            return super.addService(name, dictionary, httpService);
+            return super.addService(alias, dictionary, httpService);
     }
     /**
      * Create the servlet.
@@ -95,64 +95,65 @@ public class HttpServiceTracker extends org.jbundle.util.webapp.osgi.HttpService
      * @param dictionary
      * @return
      */
-    public Servlet makeServlet(Dictionary<String, String> dictionary)
+    public Servlet makeServlet(String alias, Dictionary<String, String> dictionary)
     {
         Servlet servlet = null;
         try {
         	String servicePid = DBConstants.BLANK;
 
-            if ((BaseServlet.JBUNDLE_RESOURCES.equalsIgnoreCase(name)) 
-                || (BaseServlet.TOURAPP_RESOURCES.equalsIgnoreCase(name)))
+            if ((BaseServlet.JBUNDLE_RESOURCES.equalsIgnoreCase(alias)) 
+                || (BaseServlet.TOURAPP_RESOURCES.equalsIgnoreCase(alias)))
             {
             	servlet = new OSGiFileServlet();
-                String alias = this.getAliasFromName(name, dictionary);
+                alias = this.fixAlias(alias);
             	dictionary.put(OSGiFileServlet.BASE_PATH, alias.substring(1) + '/');	// Prepend this to the path
                 ((BaseOsgiServlet)servlet).init(context, servicePid, dictionary);
             	httpContext = new org.jbundle.util.webapp.files.FileHttpContext(context.getBundle());
             }
-            if (BaseServlet.PROXY.equalsIgnoreCase(name))
+            if (BaseServlet.PROXY.equalsIgnoreCase(alias))
             {
 	            servlet = new org.jbundle.base.remote.proxy.ProxyServlet();
 	            dictionary.put("remotehost", "localhost");	// Default value
             }
-            if ((BaseServlet.TABLE.equalsIgnoreCase(name)) 
-            		|| (BaseServlet.IMAGE.equalsIgnoreCase(name))
-            		|| (BaseServlet.JNLP.equalsIgnoreCase(name))
-            		|| (BaseServlet.WSDL.equalsIgnoreCase(name))
-    	    		|| (BaseServlet.TOURAPP_WSDL.equalsIgnoreCase(name))
-    	    		|| (BaseServlet.HTML.equalsIgnoreCase(name))
-    	    		|| (BaseServlet.HTML2.equalsIgnoreCase(name))
-    	    		|| (BaseServlet.TOURAPP_JNLP.equalsIgnoreCase(name))
-            		|| (BaseServlet.TOURAPP.equalsIgnoreCase(name)))
+            if ((BaseServlet.TABLE.equalsIgnoreCase(alias)) 
+            		|| (BaseServlet.IMAGE.equalsIgnoreCase(alias))
+            		|| (BaseServlet.JNLP.equalsIgnoreCase(alias))
+            		|| (BaseServlet.WSDL.equalsIgnoreCase(alias))
+    	    		|| (BaseServlet.TOURAPP_WSDL.equalsIgnoreCase(alias))
+    	    		|| (BaseServlet.HTML.equalsIgnoreCase(alias))
+    	    		|| (BaseServlet.HTML2.equalsIgnoreCase(alias))
+    	    		|| (BaseServlet.TOURAPP_JNLP.equalsIgnoreCase(alias))
+            		|| (BaseServlet.TOURAPP.equalsIgnoreCase(alias)))
             {
             	servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
                 dictionary.put("remotehost", "localhost");	// Default value
             }
-            if (BaseServlet.XML.equalsIgnoreCase(name))
+            if (BaseServlet.XML.equalsIgnoreCase(alias))
             {
 	            servlet = new org.jbundle.base.screen.control.servlet.xml.XMLServlet();
 //x	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since stylesheets are in resources
 	            dictionary.put("remotehost", "localhost");
             }
-            if ((BaseServlet.XSL.equalsIgnoreCase(name)) 
-            	|| (BaseServlet.XHTML.equalsIgnoreCase(name)))
+            if ((BaseServlet.XSL.equalsIgnoreCase(alias)) 
+            	|| (BaseServlet.XHTML.equalsIgnoreCase(alias)))
             {
 	            servlet = new org.jbundle.base.screen.control.xslservlet.XSLServlet();
+                dictionary.put("remotehost", "localhost");
             }
-            if (BaseServlet.JNLP_DOWNLOAD.equalsIgnoreCase(name))
+            if (BaseServlet.JNLP_DOWNLOAD.equalsIgnoreCase(alias))
             {
 	          servlet = new org.jbundle.util.webapp.jnlpservlet.JnlpServlet();
 //	          servlet = new jnlp.sample.servlet.JnlpDownloadServlet();
 	          httpContext = new JnlpHttpContext(context.getBundle());
             }
-            if (BaseServlet.AJAX.equalsIgnoreCase(name))
+            if (BaseServlet.AJAX.equalsIgnoreCase(alias))
             {
             	servlet = new org.jbundle.base.remote.proxy.AjaxServlet();
             	dictionary.put("remotehost", "localhost");
 	            dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");	// Since webkit still can't handle import
             }
-            if ((BaseServlet.ROOT.equalsIgnoreCase(name)) 
-                	|| (BaseServlet.INDEX.equalsIgnoreCase(name)))
+            if ((BaseServlet.ROOT.equalsIgnoreCase(alias)) 
+                	|| (BaseServlet.INDEX.equalsIgnoreCase(alias)))
             {
 	            dictionary.put("regex", "www.+.tourgeek.com");
 	            dictionary.put("regexTarget", "demo/index.html");
@@ -164,17 +165,17 @@ public class HttpServiceTracker extends org.jbundle.util.webapp.osgi.HttpService
 	            dictionary.put("java", "tourappxhtml");
 	            servlet = new org.jbundle.util.webapp.redirect.RegexRedirectServlet();
             }
-            if (BaseServlet.MESSAGE.equalsIgnoreCase(name))
+            if (BaseServlet.MESSAGE.equalsIgnoreCase(alias))
             {
 	            servlet = new org.jbundle.base.message.trx.transport.html.MessageServlet();
 	            dictionary.put("remotehost", "localhost");
             }
-            if (BaseServlet.WS.equalsIgnoreCase(name))
+            if (BaseServlet.WS.equalsIgnoreCase(alias))
             {
 	            servlet = new org.jbundle.base.message.trx.transport.jaxm.MessageReceivingServlet();
 	            dictionary.put("remotehost", "localhost");
             }
-            if (BaseServlet.XMLWS.equalsIgnoreCase(name))
+            if (BaseServlet.XMLWS.equalsIgnoreCase(alias))
             {
 	            servlet = new org.jbundle.base.message.trx.transport.xml.XMLMessageReceivingServlet();
 	            dictionary.put("remotehost", "localhost");
