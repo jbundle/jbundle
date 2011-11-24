@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.web.httpservice;
+package org.jbundle.config.web.httpservice;
 
 import java.io.IOException;
 import java.net.URL;

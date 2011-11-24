@@ -22,7 +22,7 @@
         <configuration>
           <instructions>
             <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-            <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <!-- Even though I shouldn't expose jdbc, I need to see it for my package lookup -->
             <Export-Package>
             	org.jbundle.base.db.jdbc;version=${project.version},
