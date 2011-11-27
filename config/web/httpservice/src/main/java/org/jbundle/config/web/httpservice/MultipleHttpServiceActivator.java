@@ -83,7 +83,7 @@ public class MultipleHttpServiceActivator extends org.jbundle.util.webapp.osgi.H
     {
         for (String alias : getAliases())
         {
-            HttpServiceTracker serviceTracker = getServiceTracker(context, HttpServiceTracker.WEB_ALIAS, alias);
+            HttpServiceTracker serviceTracker = getServiceTracker(context, BaseOsgiServlet.ALIAS, alias);
             if (serviceTracker != null)
                 serviceTracker.close();
         }

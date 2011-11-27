@@ -76,7 +76,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
 
 //?        dictionary.put(HttpServiceTracker.SERVICE_PID, getServicePid(context));
 //?        dictionary.put(HttpServiceTracker.SERVLET_CLASS, getServletClass(context));
-        properties.put(HttpServiceTracker.WEB_ALIAS, alias); 
+        properties.put(BaseOsgiServlet.ALIAS, alias); 
         
         Servlet servlet = null;
         HttpContext httpContext = null;

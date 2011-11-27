@@ -93,11 +93,11 @@ public class BaseServlet extends BaseOsgiServlet
     		return null;
 		String browser = propertyOwner.getProperty(DBParams.BROWSER);
     	boolean ajax = false;
-		if (BaseServlet.AJAX.equals(propertyOwner.getProperty(BaseServlet.WEB_ALIAS)))
+		if (BaseServlet.AJAX.equals(propertyOwner.getProperty(BaseServlet.ALIAS)))
 			ajax = true;
-		if (BaseServlet.XSL.equals(propertyOwner.getProperty(BaseServlet.WEB_ALIAS)))
+		if (BaseServlet.XSL.equals(propertyOwner.getProperty(BaseServlet.ALIAS)))
 			ajax = true;
-		if (BaseServlet.XML.equals(propertyOwner.getProperty(BaseServlet.WEB_ALIAS)))
+		if (BaseServlet.XML.equals(propertyOwner.getProperty(BaseServlet.ALIAS)))
 			ajax = true;
 		if (BaseServlet.JAVA.equals(browser))
 			ajax = false;
