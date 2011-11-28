@@ -132,8 +132,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             }
             if (BaseServlet.JNLP_DOWNLOAD.equalsIgnoreCase(alias))
             {
-              servlet = new org.jbundle.util.webapp.jnlpservlet.JnlpServlet();
-//            servlet = new jnlp.sample.servlet.JnlpDownloadServlet();
+              servlet = new jnlp.sample.servlet.JnlpDownloadServlet();
               httpContext = new JnlpHttpContext(context.getBundle());
             }
             if (BaseServlet.AJAX.equalsIgnoreCase(alias))
