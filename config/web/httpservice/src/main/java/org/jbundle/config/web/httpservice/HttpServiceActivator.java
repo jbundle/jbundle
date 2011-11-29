@@ -13,10 +13,10 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.util.osgi.BundleService;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
-import org.jbundle.util.webapp.osgi.BaseOsgiServlet;
-import org.jbundle.util.webapp.osgi.HttpServiceTracker;
-import org.jbundle.util.webapp.osgi.OSGiFileServlet;
-import org.jbundle.util.webapp.osgi.ResourceHttpServiceTracker;
+import org.jbundle.util.webapp.base.BaseWebappServlet;
+import org.jbundle.util.webapp.base.HttpServiceTracker;
+import org.jbundle.util.webapp.base.BaseOsgiServlet;
+import org.jbundle.util.webapp.base.ResourceHttpServiceTracker;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.service.http.HttpContext;
@@ -76,7 +76,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
 
 //?        dictionary.put(HttpServiceTracker.SERVICE_PID, getServicePid(context));
 //?        dictionary.put(HttpServiceTracker.SERVLET_CLASS, getServletClass(context));
-        properties.put(BaseOsgiServlet.ALIAS, alias); 
+        properties.put(BaseWebappServlet.ALIAS, alias); 
         
         Servlet servlet = null;
         HttpContext httpContext = null;
@@ -95,9 +95,9 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             if ((BaseServlet.JBUNDLE_RESOURCES.equalsIgnoreCase(alias)) 
                 || (BaseServlet.TOURAPP_RESOURCES.equalsIgnoreCase(alias)))
             {
-                servlet = new OSGiFileServlet();
-                properties.put(OSGiFileServlet.BASE_PATH, alias.substring(1) + '/');    // Prepend this to the path
-                ((BaseOsgiServlet)servlet).init(context, servicePid, properties);
+                servlet = new BaseOsgiServlet();
+                properties.put(BaseOsgiServlet.BASE_PATH, alias.substring(1) + '/');    // Prepend this to the path
+                ((BaseWebappServlet)servlet).init(context, servicePid, properties);
                 httpContext = new org.jbundle.util.webapp.files.FileHttpContext(context.getBundle());
             }
             if (BaseServlet.PROXY.equalsIgnoreCase(alias))

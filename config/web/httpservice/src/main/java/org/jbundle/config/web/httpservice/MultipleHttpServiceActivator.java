@@ -13,10 +13,10 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.util.osgi.BundleService;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
-import org.jbundle.util.webapp.osgi.BaseOsgiServlet;
-import org.jbundle.util.webapp.osgi.HttpServiceTracker;
-import org.jbundle.util.webapp.osgi.OSGiFileServlet;
-import org.jbundle.util.webapp.osgi.ResourceHttpServiceTracker;
+import org.jbundle.util.webapp.base.BaseWebappServlet;
+import org.jbundle.util.webapp.base.HttpServiceTracker;
+import org.jbundle.util.webapp.base.BaseOsgiServlet;
+import org.jbundle.util.webapp.base.ResourceHttpServiceTracker;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.service.http.HttpContext;
@@ -27,7 +27,7 @@ import org.osgi.util.tracker.ServiceTracker;
  * Start up the web service listener.
  * @author don
  */
-public class MultipleHttpServiceActivator extends org.jbundle.util.webapp.osgi.HttpServiceActivator
+public class MultipleHttpServiceActivator extends org.jbundle.util.webapp.base.HttpServiceActivator
 {
     
     @Override
@@ -83,7 +83,7 @@ public class MultipleHttpServiceActivator extends org.jbundle.util.webapp.osgi.H
     {
         for (String alias : getAliases())
         {
-            HttpServiceTracker serviceTracker = getServiceTracker(context, BaseOsgiServlet.ALIAS, alias);
+            HttpServiceTracker serviceTracker = getServiceTracker(context, BaseWebappServlet.ALIAS, alias);
             if (serviceTracker != null)
                 serviceTracker.close();
         }

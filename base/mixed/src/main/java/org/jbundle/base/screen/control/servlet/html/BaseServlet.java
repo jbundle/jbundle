@@ -25,14 +25,14 @@ import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.util.webapp.osgi.BaseOsgiServlet;
+import org.jbundle.util.webapp.base.BaseWebappServlet;
 
 /**
  * RedirectServlet
  * 
  * This is the base servlet.
  */
-public class BaseServlet extends BaseOsgiServlet
+public class BaseServlet extends BaseWebappServlet
 {
 	private static final long serialVersionUID = 1L;
 
