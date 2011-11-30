@@ -34,7 +34,7 @@ import org.jbundle.app.program.demo.message.*;
 import org.jbundle.thin.base.message.*;
 import org.jbundle.base.thread.*;
 import org.osgi.framework.*;
-import org.jbundle.util.osgi.jnlp.*;
+import org.jbundle.util.osgi.webstart.*;
 import org.jbundle.util.osgi.finder.*;
 
 /**
