@@ -18,7 +18,7 @@
       </subsection>
       <subsection name="Simple Web Servlets Project">
         <p>
-        A collection of <a href="simpleservlets">simple web servlets</a>. Use these templates to setup your basic servlets.
+        A collection of <a href="webapp">OSGi web servlets</a>. Install basic servlets in your OSGi web server.
         </p>
       </subsection>
       <subsection name="JCalendarButton Project">

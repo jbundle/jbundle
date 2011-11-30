@@ -4,18 +4,17 @@
 package org.jbundle.config.web.httpservice;
 
 import java.util.Dictionary;
-import java.util.Hashtable;
 
 import javax.servlet.Servlet;
 
 import org.jbundle.base.screen.control.servlet.html.BaseServlet;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.EnvironmentActivator;
-import org.jbundle.util.osgi.BundleService;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
+import org.jbundle.util.webapp.base.BaseOsgiServlet;
 import org.jbundle.util.webapp.base.BaseWebappServlet;
 import org.jbundle.util.webapp.base.HttpServiceTracker;
-import org.jbundle.util.webapp.base.BaseOsgiServlet;
+import org.jbundle.util.webapp.base.MultipleHttpServiceActivator;
 import org.jbundle.util.webapp.base.ResourceHttpServiceTracker;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
@@ -58,6 +57,26 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             BaseServlet.XMLWS,
             BaseServlet.ROOT,
     };
+
+    /**
+     * Called when the http service tracker come up or is shut down.
+     * Start or stop the bundle on start/stop.
+     * @param event The service event.
+     */
+    @Override
+    public void serviceChanged(ServiceEvent event) {
+        if (event.getType() == ServiceEvent.REGISTERED)
+        { // Osgi Service is up, Okay to start the server
+            ClassServiceUtility.log(context, LogService.LOG_INFO, "Starting Http Service tracker");
+            if (httpServiceTracker == null)
+            {
+                BundleContext context = event.getServiceReference().getBundle().getBundleContext();
+                this.checkDependentServicesAndStartup(context, EnvironmentActivator.class.getName(), null);
+            }
+        }
+        if (event.getType() == ServiceEvent.UNREGISTERING)
+            super.serviceChanged(event);    // httpService.close();
+    }
 
     /**
      * Get all the web aliases to add http services for.
