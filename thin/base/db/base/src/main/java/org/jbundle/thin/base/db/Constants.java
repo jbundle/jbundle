@@ -10,10 +10,6 @@ package org.jbundle.thin.base.db;
  *      don@tourgeek.com
  *
  */
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Insets;
-
 import org.jbundle.model.util.Constant;
 
 /**
@@ -185,15 +181,9 @@ public interface Constants extends Constant
     public static final int DATE_ONLY = 3;          // Same as DATE_ONLY_FORMAT in thick
     public static final int TIME_ONLY = 4;          // Same as TIME_ONLY_FORMAT in thick
 
-    public final static Dimension PREFERRED_SCREEN_SIZE = new Dimension(950, 750);
-    public final static Dimension MIN_SCREEN_SIZE = new Dimension(100, 70);
-    public final static Dimension ICON_SIZE = new Dimension(20, 20);
-
-    public final static Insets NO_INSETS = new Insets(0, 0, 0, 0);
-
     public static final int DEBUG_INFO = 1;
     public static final int INFORMATION = 2;
-    public static final int WAIT = Cursor.WAIT_CURSOR;  // 3 (Am I lucky or what?)
+    public static final int WAIT = 3; // Cursor.WAIT_CURSOR;  // 3 (Am I lucky or what?)
     public static final int WARNING = 4;
     public static final int ERROR = 5;     // These are copied from log4j
     // Command options

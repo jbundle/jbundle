@@ -11,8 +11,6 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import org.jbundle.thin.base.db.Constants;
-
 
 /**
  * This frame class acts as a top-level window in which the applet appears
@@ -61,9 +59,9 @@ public class JBaseFrame extends JFrame
         this.pack();
         Dimension size = this.getSize();
         if (size.getHeight() < 200)
-            size.setSize(size.width, Constants.PREFERRED_SCREEN_SIZE.height);
+            size.setSize(size.width, JScreenConstants.PREFERRED_SCREEN_SIZE.height);
         if (size.getWidth() < 200)
-            size.setSize(Constants.PREFERRED_SCREEN_SIZE.width, size.height);
+            size.setSize(JScreenConstants.PREFERRED_SCREEN_SIZE.width, size.height);
         this.setSize(size);
         this.setVisible(true);
     }

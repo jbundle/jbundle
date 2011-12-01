@@ -24,6 +24,7 @@ import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JScreen;
+import org.jbundle.thin.base.screen.JScreenConstants;
 
 /**
  * A base menu screen for displaying menu items in a grid.
@@ -63,7 +64,7 @@ public class JBaseMenuScreen extends JScreen
     public void init(Object parent, Object record)
     {
         super.init(parent, record);
-        this.setBounds(0, 0, Constants.PREFERRED_SCREEN_SIZE.width, Constants.PREFERRED_SCREEN_SIZE.height);
+        this.setBounds(0, 0, JScreenConstants.PREFERRED_SCREEN_SIZE.width, JScreenConstants.PREFERRED_SCREEN_SIZE.height);
     }
     /**
      * Get standard GridBagConstraints.

@@ -149,7 +149,7 @@ public class VFrameScreen extends VBasePanel
             System.exit(0);
         }
         Dimension dimFrame = this.getFrameSize(frame);
-        if ((bFirstTime) || ((frame.getWidth() < Constants.MIN_SCREEN_SIZE.width) && (frame.getHeight() < Constants.MIN_SCREEN_SIZE.height)))
+        if ((bFirstTime) || ((frame.getWidth() < ScreenConstants.MIN_SCREEN_SIZE.width) && (frame.getHeight() < ScreenConstants.MIN_SCREEN_SIZE.height)))
         {
             frame.setSize(dimFrame);
             if (m_rectExtent == null)   // Always
@@ -168,7 +168,7 @@ public class VFrameScreen extends VBasePanel
      */
     public Dimension getFrameSize(JFrame frame)
     {
-        Dimension dimFrame = new Dimension(Constants.PREFERRED_SCREEN_SIZE.width, Constants.PREFERRED_SCREEN_SIZE.height);  // Default
+        Dimension dimFrame = new Dimension(ScreenConstants.PREFERRED_SCREEN_SIZE.width, ScreenConstants.PREFERRED_SCREEN_SIZE.height);  // Default
         
         Dimension dimScreen = null;
         Toolkit toolkit = frame.getToolkit();

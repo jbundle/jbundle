@@ -100,7 +100,7 @@ public class VAppletScreen extends VBasePanel
         m_ScreenInfo.setControl((BaseApplet)this.getControl());
         if (this.getScreenField().getParentScreen() == null)
         {
-            this.setControlExtent(new Rectangle(new Point(0, 0), DBConstants.PREFERRED_SCREEN_SIZE));
+            this.setControlExtent(new Rectangle(new Point(0, 0), ScreenConstants.PREFERRED_SCREEN_SIZE));
         }
     }
     /**

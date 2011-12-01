@@ -14,9 +14,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import org.jbundle.model.db.FieldComponent;
-import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.BaseApplet;
+import org.jbundle.thin.base.screen.JScreenConstants;
 
 
 /** 
@@ -76,7 +76,7 @@ public class JThreeStateCheckBox extends JButton
         }
         this.setIcon(m_iconOff);
         this.setBorder(null);
-        this.setMargin(Constants.NO_INSETS);
+        this.setMargin(JScreenConstants.NO_INSETS);
         this.setOpaque(false);
         
         this.addActionListener(this);

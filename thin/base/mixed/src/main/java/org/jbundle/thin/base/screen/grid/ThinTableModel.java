@@ -35,6 +35,7 @@ import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
+import org.jbundle.thin.base.screen.JScreenConstants;
 import org.jbundle.thin.base.screen.grid.sort.SortableHeaderRenderer;
 
 
@@ -659,7 +660,7 @@ public class ThinTableModel extends AbstractTableModel
                 for (int iIndex = 0; iIndex < this.getColumnCount(); iIndex++)
                 {
                     Converter field = this.getFieldInfo(iIndex);
-                    int iWidth = Constants.ICON_SIZE.width;
+                    int iWidth = JScreenConstants.ICON_SIZE.width;
                     if (field != null)
                         iWidth = field.getMaxLength() * iCharWidth;
                     TableColumn tableColumn = columnModel.getColumn(iIndex);

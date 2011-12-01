@@ -480,14 +480,14 @@ public class JBasePanel extends JPanel
     {
         Dimension dimension = screen.getPreferredSize();
         if ((dimension.height == 0) && (dimension.width == 0))
-            dimension = Constants.PREFERRED_SCREEN_SIZE;
+            dimension = JScreenConstants.PREFERRED_SCREEN_SIZE;
         else if ((screen.getBounds().width != 0) && (screen.getBounds().height != 0))
         {
             dimension.width = screen.getBounds().width;
             dimension.height = screen.getBounds().height;
         }
-        dimension.width = Math.max(Constants.MIN_SCREEN_SIZE.width, Math.min(dimension.width + 20, Constants.PREFERRED_SCREEN_SIZE.width));
-        dimension.height = Math.max(Constants.MIN_SCREEN_SIZE.height, Math.min(dimension.height + 20, Constants.PREFERRED_SCREEN_SIZE.height));
+        dimension.width = Math.max(JScreenConstants.MIN_SCREEN_SIZE.width, Math.min(dimension.width + 20, JScreenConstants.PREFERRED_SCREEN_SIZE.width));
+        dimension.height = Math.max(JScreenConstants.MIN_SCREEN_SIZE.height, Math.min(dimension.height + 20, JScreenConstants.PREFERRED_SCREEN_SIZE.height));
         JScrollPane scrollpane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         if (dimension != null)
             scrollpane.setPreferredSize(dimension);

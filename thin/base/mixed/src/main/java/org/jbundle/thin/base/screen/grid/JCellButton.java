@@ -17,8 +17,8 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.screen.JScreen;
+import org.jbundle.thin.base.screen.JScreenConstants;
 
 
 /** 
@@ -83,7 +83,7 @@ public class JCellButton extends JButton
     {
         this.setText(text);
         this.setIcon(icon);
-        this.setMargin(Constants.NO_INSETS);
+        this.setMargin(JScreenConstants.NO_INSETS);
     }
     /**
      * Get the renderer for this location in the table.
