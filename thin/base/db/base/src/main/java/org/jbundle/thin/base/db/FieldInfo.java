@@ -10,15 +10,13 @@ package org.jbundle.thin.base.db;
  *      don@tourgeek.com
  */
 
-import java.awt.Component;
+//import java.awt.Component;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
-
-import javax.swing.text.JTextComponent;
 
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Field;
@@ -296,19 +294,20 @@ public class FieldInfo extends Converter
             return;
         for (int i = 0; i < m_vScreenField.size(); i++)
         {
-            Component component = (Component)m_vScreenField.elementAt(i);
+            Object component = m_vScreenField.elementAt(i);
             Convert converter = null;
             if (component instanceof ScreenComponent)
                 converter = ((ScreenComponent)component).getConverter();
             if (converter == null)
                 converter = this;
-            if ((component.getName() == this.getFieldName())
-                || (converter.getField() == this))
+            if (/*(component.getName() == this.getFieldName())
+                ||*/ (converter.getField() == this))
             {
                 if (component instanceof FieldComponent)
                     ((FieldComponent)component).setControlValue(converter.getData());
-                else if (component instanceof JTextComponent)
-                    ((JTextComponent)component).setText(converter.getString());
+// TODO
+//                else if (component instanceof JTextComponent)
+//                    ((JTextComponent)component).setText(converter.getString());
             }
         }
     }
