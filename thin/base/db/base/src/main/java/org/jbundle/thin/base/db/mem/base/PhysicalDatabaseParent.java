@@ -10,8 +10,6 @@ package org.jbundle.thin.base.db.mem.base;
  *      don@tourgeek.com
  *
  */
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -30,7 +28,7 @@ import org.jbundle.thin.base.db.model.ThinPhysicalTableOwner;
  * @author    Don Corley
  */
 public class PhysicalDatabaseParent extends Object
-    implements ActionListener, Freeable, ThinPhysicalDatabaseParent, ThinPhysicalTableOwner
+    implements /*ActionListener,*/ Freeable, ThinPhysicalDatabaseParent, ThinPhysicalTableOwner
 {
     /**
      * List of all the raw data databases.
@@ -39,7 +37,7 @@ public class PhysicalDatabaseParent extends Object
     /**
      * Turn this on to cache all the tables for this database.
      */
-    protected javax.swing.Timer m_timerCache = null;
+//    protected javax.swing.Timer m_timerCache = null;
     /**
      * The cache time in minutes.
      */
@@ -194,7 +192,7 @@ public class PhysicalDatabaseParent extends Object
             iMinutes = DEFAULT_CACHED_MINUTES;      // Default cache time.
         m_iCacheMinutes = iMinutes;
         if (iMinutes == 0)
-        {
+/*        {
             if (m_timerCache != null)
             {
                 m_timerCache.stop();
@@ -215,7 +213,7 @@ public class PhysicalDatabaseParent extends Object
                 m_timerCache.start();
             }
         }
-    }
+*/    }
     /**
      * Get the cache time in minutes.
      * @return The cache time in minutes.
@@ -227,14 +225,14 @@ public class PhysicalDatabaseParent extends Object
     /**
      * Called from the timer.
      */
-    public void actionPerformed(ActionEvent e)
+/*    public void actionPerformed(ActionEvent e)
     {
         if (e.getSource() == m_timerCache)
         { // Always
             this.checkCache();
         }
     }
-    /**
+  */  /**
      * Get the value of this property (passed in on initialization).
      * @param key The parameter key value.
      * @return The key's value.
