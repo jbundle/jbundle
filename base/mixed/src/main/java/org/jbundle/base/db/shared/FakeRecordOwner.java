@@ -11,8 +11,6 @@ package org.jbundle.base.db.shared;
 import java.util.Hashtable;
 import java.util.Map;
 
-import javax.swing.JApplet;
-
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.thread.BaseRecordOwner;
@@ -24,7 +22,6 @@ import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.ThinApplication;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -172,7 +169,7 @@ public class FakeRecordOwner extends BaseRecordOwner
          * @param args The application parameters as an initial arg list.
          * @param applet The application parameters coming from an applet.
          */
-        public FakeApplication(Object env, Map<String,Object> properties, JApplet applet)
+        public FakeApplication(Object env, Map<String,Object> properties, Object applet)
         {
             this();
             this.init(env, properties, applet); // The one and only
@@ -184,7 +181,7 @@ public class FakeRecordOwner extends BaseRecordOwner
          * @param args The application parameters as an initial arg list.
          * @param applet The application parameters coming from an applet.
          */
-        public void init(Object env, Map<String,Object> properties, JApplet applet)
+        public void init(Object env, Map<String,Object> properties, Object applet)
         {
             if (properties == null)
                 properties = new Hashtable<String,Object>();

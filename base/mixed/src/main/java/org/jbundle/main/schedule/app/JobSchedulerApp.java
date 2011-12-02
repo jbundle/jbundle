@@ -5,26 +5,19 @@
  */
 package org.jbundle.main.schedule.app;
 
-import java.awt.*;
-import java.util.*;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import javax.swing.*;
-import org.jbundle.thin.base.thread.*;
-import org.jbundle.base.thread.*;
-import org.jbundle.thin.base.message.*;
-import org.jbundle.thin.base.screen.message.*;
+import org.jbundle.base.thread.ProcessRunnerTask;
+import org.jbundle.base.util.BaseApplication;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.thin.base.message.BaseMessageListener;
+import org.jbundle.thin.base.message.BaseMessageManager;
+import org.jbundle.thin.base.message.BaseMessageReceiver;
+import org.jbundle.thin.base.message.MapMessage;
+import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.screen.message.RemoteMessageManager;
+import org.jbundle.thin.base.thread.PrivateTaskScheduler;
 
 /**
  *  JobSchedulerApp - This application schedules jobs on the calendar queue for execution
@@ -42,7 +35,7 @@ public class JobSchedulerApp extends BaseApplication
     /**
      * JobSchedulerApp Method.
      */
-    public JobSchedulerApp(Object env, Map<String,Object> properties, JApplet applet)
+    public JobSchedulerApp(Object env, Map<String,Object> properties, Object applet)
     {
         this();
         this.init(env, properties, applet);
@@ -50,7 +43,7 @@ public class JobSchedulerApp extends BaseApplication
     /**
      * Init Method.
      */
-    public void init(Object env, Map<String,Object> properties, JApplet applet)
+    public void init(Object env, Map<String,Object> properties, Object applet)
     {
         super.init(env, properties, applet);
         if (this.registerUniqueApplication(null, null) != Constants.NORMAL_RETURN)

@@ -6,8 +6,6 @@ package org.jbundle.base.util;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import javax.swing.JApplet;
-
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.screen.model.util.Resources;
 import org.jbundle.thin.base.db.Constants;
@@ -47,7 +45,7 @@ public class BaseApplication extends ThinApplication
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public BaseApplication(Object env, Map<String,Object> properties, JApplet applet)
+    public BaseApplication(Object env, Map<String,Object> properties, Object applet)
     {
         this();
         m_resources = null;
@@ -62,7 +60,7 @@ public class BaseApplication extends ThinApplication
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public void init(Object env, Map<String,Object> properties, JApplet applet)
+    public void init(Object env, Map<String,Object> properties, Object applet)
     {
         m_resources = null;
         super.init(env, properties, applet);

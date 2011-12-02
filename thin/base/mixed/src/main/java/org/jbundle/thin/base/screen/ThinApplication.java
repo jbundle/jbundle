@@ -7,8 +7,6 @@ import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
 
-import javax.swing.JApplet;
-
 import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.Freeable;
 import org.jbundle.thin.base.db.Constants;
@@ -43,7 +41,7 @@ public class ThinApplication extends Application {
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public ThinApplication(Object env, Map<String,Object> properties, JApplet applet)
+    public ThinApplication(Object env, Map<String,Object> properties, Object applet)
     {
         this();
         this.init(env, properties, applet); // The one and only
@@ -55,7 +53,7 @@ public class ThinApplication extends Application {
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public void init(Object env, Map<String,Object> properties, JApplet applet)
+    public void init(Object env, Map<String,Object> properties, Object applet)
     {
     	super.init(env, properties, applet);
     }

@@ -13,7 +13,6 @@ package org.jbundle.thin.app.test.manual.chat;
 import java.util.Hashtable;
 import java.util.Map;
 
-import javax.swing.JApplet;
 
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
@@ -81,7 +80,7 @@ public class ChatServer extends ThinApplication
      * @param parent Typically, you pass the BaseApplet as the parent.
      * @param @record and the record or GridTableModel as the parent.
      */
-    public void init(Object env, Map<String,Object> properties, JApplet applet)
+    public void init(Object env, Map<String,Object> properties, Object applet)
     {
         super.init(env, properties, applet);
         if (this.registerUniqueApplication(CHAT_QUEUE_NAME, CHAT_QUEUE_TYPE) != Constants.NORMAL_RETURN)

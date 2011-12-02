@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
-import javax.swing.JApplet;
 
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
@@ -35,7 +34,7 @@ public class ServletApplication extends MainApplication
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public ServletApplication(Object env, Map<String,Object> properties, JApplet applet)
+    public ServletApplication(Object env, Map<String,Object> properties, Object applet)
     {
         this();
         this.init(env, properties, applet);
@@ -49,7 +48,7 @@ public class ServletApplication extends MainApplication
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public void init(Object env, Map<String,Object> properties, JApplet applet)
+    public void init(Object env, Map<String,Object> properties, Object applet)
     {
         super.init(env, properties, applet);
     }

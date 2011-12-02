@@ -25,7 +25,6 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.swing.JApplet;
 import javax.swing.Timer;
 
 import org.jbundle.base.db.util.log.BackupConstants;
@@ -93,7 +92,7 @@ public class BackupServerApp extends ThinApplication
      * @param parent Typically, you pass the BaseApplet as the parent.
      * @param @record and the record or GridTableModel as the parent.
      */
-    public void init(Object env, Map<String,Object> properties, JApplet applet)
+    public void init(Object env, Map<String,Object> properties, Object applet)
     {
         super.init(env, properties, applet);
         if (this.registerUniqueApplication(BACKUP_QUEUE_NAME, BACKUP_QUEUE_TYPE) != Constants.NORMAL_RETURN)

@@ -21,7 +21,6 @@ import javax.naming.InitialContext;
 import javax.naming.NameNotFoundException;
 import javax.naming.ServiceUnavailableException;
 import javax.rmi.PortableRemoteObject;
-import javax.swing.JApplet;
 
 import org.jbundle.model.App;
 import org.jbundle.model.BaseAppletReference;
@@ -93,7 +92,7 @@ public abstract class Application extends Object
     /**
      * If application was started from the initial applet, allows me to call getProperty().
      */
-    private JApplet m_sApplet = null;
+    private Object m_sApplet = null;
     /**
      * The muffin manager for JNLP environments.
      */
@@ -126,7 +125,7 @@ public abstract class Application extends Object
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public Application(Object env, Map<String,Object> properties, JApplet applet)
+    public Application(Object env, Map<String,Object> properties, Object applet)
     {
         this();
         this.init(env, properties, applet); // The one and only
@@ -138,7 +137,7 @@ public abstract class Application extends Object
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public void init(Object env, Map<String,Object> properties, JApplet applet)
+    public void init(Object env, Map<String,Object> properties, Object applet)
     {
         if (properties == null)
             properties = new Hashtable<String,Object>();
@@ -803,8 +802,29 @@ public abstract class Application extends Object
                 strValue = m_properties.get(strProperty).toString();
         if (strValue == null)
         	if (m_sApplet != null)	// Try applet properties if an Applet
-            strValue = m_sApplet.getParameter(strProperty);   // Passed in as an applet param?
+            strValue = this.getParameterByReflection(m_sApplet, strProperty);   // Passed in as an applet param?
         return strValue;
+    }
+    /**
+     * Lame method, since android doesn't have awt/applet support.
+     * @param obj
+     * @param text
+     */
+    public String getParameterByReflection(Object obj, String param)
+    {
+        Object value = null;
+        try {
+            java.lang.reflect.Method method = obj.getClass().getMethod("getParameter", String.class);
+            
+            if (method != null)
+                value = method.invoke(obj, param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (value == null)
+            return null;
+        else
+            return value.toString();
     }
     /**
      * Set this property.

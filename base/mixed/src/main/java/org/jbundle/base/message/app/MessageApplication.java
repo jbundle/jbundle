@@ -5,8 +5,6 @@ package org.jbundle.base.message.app;
 
 import java.util.Map;
 
-import javax.swing.JApplet;
-
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.util.Application;
@@ -44,7 +42,7 @@ public class MessageApplication extends BaseApplication
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public MessageApplication(Object env, Map<String,Object> properties, JApplet applet)
+    public MessageApplication(Object env, Map<String,Object> properties, Object applet)
     {
         this();
         this.init(env, properties, applet);
@@ -59,7 +57,7 @@ public class MessageApplication extends BaseApplication
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public void init(Object env, Map<String,Object> properties, JApplet applet)
+    public void init(Object env, Map<String,Object> properties, Object applet)
     {
         super.init(env, properties, applet);
     }

@@ -13,7 +13,6 @@ package org.jbundle.app.program.manual.backup;
 import java.util.Hashtable;
 import java.util.Map;
 
-import javax.swing.JApplet;
 
 import org.jbundle.base.db.util.log.BackupConstants;
 import org.jbundle.base.thread.BaseProcess;
@@ -62,7 +61,7 @@ public class RestoreBackupApp extends BaseApplication
      * @param parent Typically, you pass the BaseApplet as the parent.
      * @param @record and the record or GridTableModel as the parent.
      */
-    public void init(Object env, Map<String,Object> properties, JApplet applet)
+    public void init(Object env, Map<String,Object> properties, Object applet)
     {
         super.init(env, properties, applet);
     }

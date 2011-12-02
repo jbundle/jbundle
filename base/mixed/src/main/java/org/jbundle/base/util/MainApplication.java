@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
-import javax.swing.JApplet;
-
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.RecordOwner;
@@ -61,7 +59,7 @@ public class MainApplication extends BaseApplication
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public MainApplication(Object env, Map<String,Object> properties, JApplet applet)
+    public MainApplication(Object env, Map<String,Object> properties, Object applet)
     {
         this();
         this.init(env, properties, applet);
@@ -75,7 +73,7 @@ public class MainApplication extends BaseApplication
      * @param args The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
-    public void init(Object env, Map<String,Object> properties, JApplet applet)
+    public void init(Object env, Map<String,Object> properties, Object applet)
     {
         super.init(env, properties, applet);
 
