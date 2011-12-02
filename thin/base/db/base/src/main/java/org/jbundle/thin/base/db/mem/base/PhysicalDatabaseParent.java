@@ -191,8 +191,8 @@ public class PhysicalDatabaseParent extends Object
         if (iMinutes == -1)
             iMinutes = DEFAULT_CACHED_MINUTES;      // Default cache time.
         m_iCacheMinutes = iMinutes;
-        if (iMinutes == 0)
-/*        {
+        /*        if (iMinutes == 0)
+        {
             if (m_timerCache != null)
             {
                 m_timerCache.stop();

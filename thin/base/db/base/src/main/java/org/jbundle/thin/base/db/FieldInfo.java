@@ -300,16 +300,54 @@ public class FieldInfo extends Converter
                 converter = ((ScreenComponent)component).getConverter();
             if (converter == null)
                 converter = this;
-            if (/*(component.getName() == this.getFieldName())
-                ||*/ (converter.getField() == this))
+            if ((this.getFieldName().equals(this.getNameByReflection(component)))
+                || (converter.getField() == this))
             {
                 if (component instanceof FieldComponent)
                     ((FieldComponent)component).setControlValue(converter.getData());
-// TODO
+                else
+                    this.setTextByReflection(component, converter.getString());
 //                else if (component instanceof JTextComponent)
 //                    ((JTextComponent)component).setText(converter.getString());
             }
         }
+    }
+    /**
+     * Lame method, since awt, swing, and android components all have setText methods.
+     * @param obj
+     * @param text
+     */
+    public void setTextByReflection(Object obj, String text)
+    {
+        try {
+            java.lang.reflect.Method method = obj.getClass().getMethod("setText", String.class);
+            
+            if (method != null)
+                method.invoke(obj, text);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Lame method, since awt, swing, and android components all have setText methods.
+     * @param obj
+     * @param text
+     */
+    public String getNameByReflection(Object obj)
+    {
+        Object name = null;
+        try {
+            java.lang.reflect.Method method = obj.getClass().getMethod("getName");
+            
+            if (method != null)
+                name = method.invoke(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (name == null)
+            return null;
+        else
+            return name.toString();
     }
     /**
      * Return the end field in the converter chain (This is the end!).
