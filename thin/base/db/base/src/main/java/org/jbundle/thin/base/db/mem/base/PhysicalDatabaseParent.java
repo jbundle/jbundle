@@ -37,11 +37,15 @@ public class PhysicalDatabaseParent extends Object
     /**
      * Turn this on to cache all the tables for this database.
      */
-//    protected javax.swing.Timer m_timerCache = null;
+    protected java.util.Timer timerCache = null;
+    /**
+     * The task the notifies me.
+     */
+    protected DBTimerTask timerTask = null;
     /**
      * The cache time in minutes.
      */
-    protected int m_iCacheMinutes = 0;
+    protected int cacheMinutes = 0;
     /**
      * 10 Minutes of non-use to release cache.
      */
@@ -190,37 +194,47 @@ public class PhysicalDatabaseParent extends Object
     {
         if (iMinutes == -1)
             iMinutes = DEFAULT_CACHED_MINUTES;      // Default cache time.
-        m_iCacheMinutes = iMinutes;
-        /*        if (iMinutes == 0)
+        cacheMinutes = iMinutes;
+        if (iMinutes == 0)
         {
-            if (m_timerCache != null)
+            if (timerCache != null)
             {
-                m_timerCache.stop();
-                m_timerCache = null;
+                timerCache.cancel();
+                timerCache = null;
                 this.stopCache();
             }
         }
         else
         {
-            int iMilliseconds = iMinutes * 60 * 1000;
-            if (m_timerCache != null)
-                m_timerCache.setDelay(iMilliseconds);
-            else
-            { // Set up the timer for the first time.
-                this.startCache();
-                m_timerCache = new javax.swing.Timer(iMilliseconds, this);
-                m_timerCache.setRepeats(true);
-                m_timerCache.start();
+            if (timerCache != null)
+            {
+                timerCache.cancel();   //m_timerCache.setDelay(iMilliseconds);
             }
+          // Set up the timer for the first time.
+            this.startCache();
+            timerTask = new DBTimerTask();
+            timerCache = new java.util.Timer();
+            timerCache.schedule(timerTask, cacheMinutes * 60 * 1000);
         }
-*/    }
+    }
     /**
      * Get the cache time in minutes.
      * @return The cache time in minutes.
      */
     public int getCacheMinutes()
     {
-        return m_iCacheMinutes;
+        return cacheMinutes;
+    }
+    public class DBTimerTask extends java.util.TimerTask
+    {
+
+        @Override
+        public void run() {
+            checkCache();
+            if (timerCache != null)   // Schedule the next one
+                timerCache.schedule(timerTask, cacheMinutes * 60 * 1000);
+        }
+        
     }
     /**
      * Called from the timer.
@@ -260,7 +274,7 @@ public class PhysicalDatabaseParent extends Object
      */
     public void addTableToCache(PTable pTable)
     {
-        if (m_iCacheMinutes != 0)
+        if (cacheMinutes != 0)
         {
             pTable.addPTableOwner(this);
             m_setTableCacheList.add(pTable);
