@@ -10,7 +10,6 @@ package org.jbundle.base.db.client;
  *      don@tourgeek.com
  *
  */
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
@@ -25,6 +24,7 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.remote.RemoteDatabase;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
 

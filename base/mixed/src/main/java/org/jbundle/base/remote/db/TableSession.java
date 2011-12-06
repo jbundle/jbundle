@@ -10,7 +10,6 @@ package org.jbundle.base.remote.db;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.Vector;
 
@@ -44,6 +43,7 @@ import org.jbundle.thin.base.db.buff.VectorBuffer;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.event.ModelMessageHandler;
 import org.jbundle.thin.base.remote.RemoteDatabase;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
@@ -124,7 +124,6 @@ public class TableSession extends Session
      * @param objEndKey The end key (as a raw data object or a BaseBuffer).
      * @param byBehaviorData A steam describing the behaviors to add and the initialization data.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public void open(String strKeyArea, int iOpenMode, boolean bDirection, String strFields, Object objInitialKey, Object objEndKey, byte[] byBehaviorData) throws DBException, RemoteException
     {
@@ -277,7 +276,6 @@ public class TableSession extends Session
      * Add add this data to the file.
      * @param data A vector object containing the raw data for the record.
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object add(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -326,7 +324,6 @@ public class TableSession extends Session
      * @return true if successful, false is lock failed.
      * @exception DBException FILE_NOT_OPEN
      * @exception DBException INVALID_RECORD - Record not current.
-     * @exception RemoteException RMI exception.
      */
     public int edit(int iOpenMode) throws DBException, RemoteException
     {
@@ -353,7 +350,6 @@ public class TableSession extends Session
      * This method has some wierd code to emulate the way behaviors are called on a write.
      * @param The data to update.
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public void set(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -389,7 +385,6 @@ public class TableSession extends Session
      * Delete the current record.
      * @param data This is a dummy param, because this call conflicts with a call in EJBHome.
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public void remove(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -424,7 +419,6 @@ public class TableSession extends Session
      * @return If I read several records, this is a vector of the returned records.
      * @return If at EOF, or error, returns the error code as a Integer.
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object doMove(int iRelPosition, int iRecordCount) throws DBException, RemoteException
     {
@@ -517,7 +511,6 @@ public class TableSession extends Session
      * @param objKeyData The data for the seek (The raw data if a single field, a BaseBuffer if multiple).
      * @returns The record (as a vector) if successful, The return code (as an Boolean) if not.
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object seek(String strSeekSign, int iOpenMode, String strKeyArea, String strFields, Object objKeyData) throws DBException, RemoteException
     {
@@ -663,7 +656,6 @@ public class TableSession extends Session
      * @param iRowIndex The row to retrieve.
      * @return The record or an error code as an Integer.
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object get(int iRowIndex, int iRecordCount) throws DBException, RemoteException
     {

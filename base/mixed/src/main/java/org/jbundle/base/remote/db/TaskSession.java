@@ -5,8 +5,6 @@ package org.jbundle.base.remote.db;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.rmi.RemoteException;
-import java.rmi.server.Unreferenced;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,10 +38,12 @@ import org.jbundle.thin.base.db.model.ThinPhysicalTableOwner;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.BaseMessageSender;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.remote.RemoteSendQueue;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
+import org.jbundle.thin.base.remote.Unreferenced;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
@@ -324,7 +324,7 @@ public class TaskSession extends BaseTaskSession
      * @param strCommand Command to perform remotely.
      * @return boolean success.
      */
-    public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws RemoteException, DBException
+    public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws DBException, RemoteException
     {
         if ((MenuConstants.CHANGE_PASSWORD.equalsIgnoreCase(strCommand)) && (properties != null))
         {

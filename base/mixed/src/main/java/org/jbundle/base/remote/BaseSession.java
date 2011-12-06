@@ -10,7 +10,6 @@ package org.jbundle.base.remote;
  *      don@tourgeek.com
  */
 
-import java.rmi.RemoteException;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
@@ -31,6 +30,7 @@ import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.remote.RemoteBaseSession;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
@@ -45,7 +45,6 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
 public class BaseSession extends RemoteRecordOwner
     implements RemoteBaseSession
 {
-    private static final long serialVersionUID = 1L;
 
     /**
      * List of all the DBObjects spawned by this object (so you can clean up on EndOfSession).
@@ -153,7 +152,7 @@ public class BaseSession extends RemoteRecordOwner
      * @param properties Properties for this command (optional).
      * @return boolean success.
      */
-    public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws RemoteException, DBException
+    public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws DBException, RemoteException
     {
         synchronized (this.getTask())
         {   // Just being careful (in case the user decides to do some data access)
@@ -253,6 +252,7 @@ public class BaseSession extends RemoteRecordOwner
      * Ususally used to Enable/Disable autosequence for this table.
      * @param strProperty The property key.
      * @param strValue The value to set.
+     * @throws RemoteException TODO
      */
     public void setRemoteProperty(String strProperty, String strValue) throws RemoteException
     {

@@ -4,7 +4,6 @@
  */
 package org.jbundle.app.test.manual.optcode.thinmessage.virtual;
 
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.app.test.test.db.TestTable;
@@ -13,6 +12,7 @@ import org.jbundle.base.remote.db.Session;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.thin.base.remote.RemoteException;
 
 
 /**

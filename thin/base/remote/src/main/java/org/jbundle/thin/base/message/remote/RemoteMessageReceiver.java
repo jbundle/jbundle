@@ -3,7 +3,6 @@
  */
 package org.jbundle.thin.base.message.remote;
 
-import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -14,6 +13,7 @@ import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTask;

@@ -3,8 +3,6 @@
  */
 package org.jbundle.base.message.core.dual;
 
-import java.rmi.RemoteException;
-
 import org.jbundle.base.message.core.tree.TreeMessageFilterList;
 import org.jbundle.model.App;
 import org.jbundle.model.message.Message;
@@ -15,6 +13,7 @@ import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.message.MessageReceiverFilterList;
 import org.jbundle.thin.base.message.remote.RemoteMessageReceiver;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
 

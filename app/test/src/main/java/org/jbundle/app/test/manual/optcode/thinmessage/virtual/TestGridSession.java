@@ -4,7 +4,6 @@
  */
 package org.jbundle.app.test.manual.optcode.thinmessage.virtual;
 
-import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.Properties;
 
@@ -24,6 +23,7 @@ import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.util.Application;
 
 

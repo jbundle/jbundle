@@ -10,7 +10,6 @@ package org.jbundle.thin.base.remote;
  *      don@tourgeek.com
  *
  */
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.model.DBException;
@@ -27,26 +26,31 @@ public interface RemoteDatabase extends RemoteBaseSession
 
     /**
      * Close the physical database (usually overridden)
+     * @throws RemoteException TODO
      */
     public void close() throws RemoteException;
     /**
      * Commit the transactions since the last commit.
      * Override this for SQL implementations.
      * @exception DBException An exception.
+     * @throws RemoteException TODO
      */
-    public void commit() throws RemoteException, DBException;
+    public void commit() throws DBException, RemoteException;
     /**
      * Rollback the transactions since the last commit.
      * Override this for SQL implementations.
      * @exception DBException An exception.
+     * @throws RemoteException TODO
      */
-    public void rollback() throws RemoteException, DBException;
+    public void rollback() throws DBException, RemoteException;
     /**
      * Get the database properties (opt).
+     * @throws RemoteException TODO
      */
-    public Map<String, Object> getDBProperties() throws RemoteException, DBException;
+    public Map<String, Object> getDBProperties() throws DBException, RemoteException;
     /**
      * Set the database properties (opt).
+     * @throws RemoteException TODO
      */
-    public void setDBProperties(Map<String, Object> properties) throws RemoteException, DBException;
+    public void setDBProperties(Map<String, Object> properties) throws DBException, RemoteException;
 }

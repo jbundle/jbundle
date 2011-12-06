@@ -7,13 +7,12 @@
  */
 package org.jbundle.thin.base.message.remote;
 
-import java.rmi.RemoteException;
-
 import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.BaseMessageSender;
 import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSendQueue;
 import org.jbundle.thin.base.remote.RemoteTask;
 

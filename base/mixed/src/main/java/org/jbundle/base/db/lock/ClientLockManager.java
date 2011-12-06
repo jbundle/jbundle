@@ -7,7 +7,6 @@
  */
 package org.jbundle.base.db.lock;
 
-import java.rmi.RemoteException;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
@@ -17,6 +16,7 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
 

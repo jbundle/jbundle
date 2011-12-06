@@ -7,70 +7,55 @@
  */
 package org.jbundle.main.msg.app;
 
-import java.rmi.RemoteException;
 import java.util.Map;
 
-import org.jbundle.base.util.BaseAppActivator;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.remote.rmiserver.BaseRemoteSessionActivator;
+import org.jbundle.base.remote.rmiserver.RemoteSessionServer;
+import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.EnvironmentActivator;
+import org.jbundle.base.util.Utility;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.thin.base.util.Application;
+import org.jbundle.util.osgi.BundleService;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceEvent;
 
-public class MessageServerActivator extends BaseAppActivator
+public class MessageServerActivator extends BaseRemoteSessionActivator
 {
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
+    /**
+     * Setup the application properties.
+     */
+    public void setupProperties()
+    {
+        if (this.getProperty(DBParams.REMOTEAPP) == null)
+            this.setProperty(DBParams.REMOTEAPP, "msgapp");
 
-		this.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
-
-		super.start(context);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
-	}
-
-    @Override
-    public void serviceChanged(ServiceEvent event) {
-        if (event.getType() == ServiceEvent.REGISTERED)
-        { // Osgi Service is up, Okay to start the server
-    		if (application == null)
-    		{
-    			BundleContext context = event.getServiceReference().getBundle().getBundleContext();
-    	        this.checkDependentServicesAndStartup(context, EnvironmentActivator.class.getName(), null);
-    		}
-        }
-        if (event.getType() == ServiceEvent.UNREGISTERING)
-        {
-            if (application != null)
-            	application.free();
-            application = null;
-        }        
+        super.setupProperties();
     }
+	
     /**
      * Start this service.
      * Override this to do all the startup.
      * @return true if successful.
      */
-    public Application startupThisApp(Environment env, Map<String, Object> props)
+    public boolean startupThisService(BundleService bundleService, BundleContext context)
     {
-    	Application application = new MessageInfoApplication(env, props, null);
+        Map<String,Object> props = Utility.propertiesToMap(this.getProperties());
+        server = RemoteSessionServer.startupServer(props);  // Doesn't create environment
+
+        EnvironmentActivator environmentActivator = (EnvironmentActivator)bundleService;
+        Environment env = environmentActivator.getEnvironment();
+        // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
+        BaseApplication app = new MessageInfoApplication();
+        server.setApp(app);
+        app.init(env, props, null); // Default application (with params).
+//        app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
+//        app.getMessageManager(true);
         if (env.getDefaultApplication() != null)
-            if (env.getDefaultApplication() != application)
+            if (env.getDefaultApplication() != app)
         {
-            RemoteTask server = (RemoteTask)application.getRemoteTask(null);
+            RemoteTask server = (RemoteTask)app.getRemoteTask(null);
             RemoteTask appServer = (RemoteTask)env.getDefaultApplication().getRemoteTask(null, null, false);
             if ((server != null) && (appServer != null))
             {
@@ -84,6 +69,6 @@ public class MessageServerActivator extends BaseAppActivator
                 }
             }
         }
-        return application;
+        return true;
     }
 }

@@ -5,28 +5,30 @@
  */
 package org.jbundle.main.remote;
 
-import java.awt.*;
-import java.util.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.ResourceBundle;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.base.remote.db.*;
-import org.jbundle.base.remote.*;
-import org.jbundle.base.db.xmlutil.*;
-import java.rmi.*;
-import java.io.*;
-import org.jbundle.base.screen.control.servlet.xml.*;
-import org.jbundle.thin.base.screen.*;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.xmlutil.XmlUtilities;
+import org.jbundle.base.remote.BaseSession;
+import org.jbundle.base.remote.db.Session;
+import org.jbundle.base.screen.control.servlet.xml.XmlScreen;
+import org.jbundle.base.screen.model.BaseScreen;
+import org.jbundle.base.screen.model.TopScreen;
+import org.jbundle.base.util.BaseApplication;
+import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.util.DBParams;
+import org.jbundle.base.util.HtmlConstants;
+import org.jbundle.base.util.Utility;
+import org.jbundle.base.util.XMLTags;
+import org.jbundle.model.DBException;
+import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.thin.base.remote.RemoteException;
 
 /**
  *  AjaxScreenSession - Main session for Ajax remote screens.

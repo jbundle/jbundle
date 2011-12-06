@@ -8,7 +8,6 @@ package org.jbundle.base.db;
  *      don@tourgeek.com
  */
 import java.awt.Cursor;
-import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.ListResourceBundle;
@@ -60,6 +59,7 @@ import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.JMessageListener;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.Application;

@@ -1,16 +1,25 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.util;
+package org.jbundle.main.schedule.app;
 
 import java.util.Map;
 
+import org.jbundle.base.util.DBParams;
+import org.jbundle.base.util.Environment;
+import org.jbundle.base.util.EnvironmentActivator;
+import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.osgi.BundleService;
 import org.jbundle.util.osgi.bundle.BaseBundleService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
 
+/**
+ * 
+ * @author don
+ *
+ */
 public class BaseAppActivator extends BaseBundleService
 {
 	

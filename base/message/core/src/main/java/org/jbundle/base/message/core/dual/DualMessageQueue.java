@@ -3,14 +3,13 @@
  */
 package org.jbundle.base.message.core.dual;
 
-import java.rmi.RemoteException;
-
 import org.jbundle.base.message.core.stack.MessageStack;
 import org.jbundle.base.message.core.stack.MessageStackOwner;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.BaseMessageSender;
 import org.jbundle.thin.base.message.remote.RemoteMessageQueue;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
 

@@ -9,7 +9,6 @@ package org.jbundle.base.db.client;
  */
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
-import java.rmi.RemoteException;
 import java.util.Vector;
 
 import org.jbundle.base.db.BaseDatabase;
@@ -28,6 +27,7 @@ import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
 import org.jbundle.thin.base.db.client.CachedRemoteTable;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.util.ThinUtil;
 

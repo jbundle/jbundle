@@ -7,11 +7,11 @@ package org.jbundle.thin.base.remote.proxy;
  *  ApplicationServer - The interface to server objects.
  *  Copyright (c) 2005 jbundle.org. All rights reserved.
  */
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.remote.RemoteBaseSession;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
 
@@ -79,7 +79,7 @@ public class BaseSessionProxy extends BaseProxy
      * @param strCommand Command to perform remotely.
      * @return boolean success.
      */
-    public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws RemoteException, DBException
+    public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws DBException, RemoteException
     {
         BaseTransport transport = this.createProxyTransport(DO_REMOTE_ACTION);
         transport.addParam(NAME, strCommand);   // Don't use COMMAND

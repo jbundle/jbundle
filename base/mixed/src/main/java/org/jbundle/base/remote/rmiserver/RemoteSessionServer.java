@@ -7,16 +7,8 @@
  */
 package org.jbundle.base.remote.rmiserver;
 
-import java.net.InetAddress;
-import java.rmi.RMISecurityManager;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
 import java.util.Map;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.util.BaseApplication;
@@ -28,6 +20,8 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.remote.ApplicationServer;
+import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.thin.base.remote.RemoteObject;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
@@ -42,7 +36,7 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
  * @author  Administrator
  * @version 1.0.0
  */
-public class RemoteSessionServer extends UnicastRemoteObject
+public class RemoteSessionServer extends RemoteObject
     implements ApplicationServer
 {
     private static final long serialVersionUID = 1L;
@@ -76,44 +70,26 @@ public class RemoteSessionServer extends UnicastRemoteObject
     }
     /**
      * Start up the remote server.
-     * Params:
-     * <br/>local=[(Client)|Jdbc|Net|Memory]  // Type of db to use for local tables
-     * <br/>remote=[(Client)|Jdbc|Net|Memory] // Type of db to use for remote tables
-     * <br/>table=[Client|Jdbc|(Net)|Memory]  // Type of db to use for table tables
-     * <br/>freeifdone=[(true)|false]         // When there are no apps, shut down?
-     * <br/>messagefilter=[(sequential)|tree] // Type of message filter
-     * <br/>provider=[serverurl][:serverport] // remote RMI Server to hook to (defaults to localhost:1099)
-     * <br/>providerapp=[appname]             // remote RMI app server name (defaults to appserver) (msgapp for the messageapp)
-     * <br/>lockprovider=[appname]            // remote RMI lock server name (defaults to lockserver)
-     * <br/>remoteapp=[appname]               // My RMI app name (clients contact me with this app name)
-     * <br/>jmsserver=[true|(false)]          // Am I the XML web server?
-     */
-    public static void main(String[] args)
-    {
-    	RemoteSessionServer.startup(args);
-    }
-    /**
-     * Start up the remote server.
      * @param properties The properties to use on setup.
      */
     public static RemoteSessionServer startupServer(Map<String,Object> properties)
     {
     	RemoteSessionServer remoteServer = null;
-        Utility.getLogger().info("Starting rmi server");
+        Utility.getLogger().info("Starting RemoteSession server");
 
         // create a registry if one is not running already. (GET RID OF THIS!)
-        try {
+/*        try {
             String strServer = (String)properties.get(DBParams.PROVIDER);
-            int iRmiPort = java.rmi.registry.Registry.REGISTRY_PORT;  //(1099);
+            int iRmiPort = Registry.REGISTRY_PORT;  //(1099);
             try {
                 if (strServer != null)
                     if (strServer.indexOf(':') != -1)
                         iRmiPort = Integer.parseInt(strServer.substring(strServer.indexOf(':') + 1));
             } catch (NumberFormatException ex)   {
             }
-            java.rmi.registry.LocateRegistry.createRegistry(iRmiPort);
+            LocateRegistry.createRegistry(iRmiPort);
             Utility.getLogger().info("Starting rmi registry server");
-        } catch (java.rmi.server.ExportException ee) {
+        } catch (ExportException ee) {
             // registry already exists, we'll just use it.
         } catch (RemoteException re) {
             System.err.println(re.getMessage());
@@ -125,14 +101,14 @@ public class RemoteSessionServer extends UnicastRemoteObject
         {
             System.setSecurityManager(new RMISecurityManager());
         }
-
+*/
         try {
             remoteServer = new RemoteSessionServer(null);
 
             String strAppName = (String)properties.get(DBParams.PROVIDER_APP);
             if ((strAppName == null) || (strAppName.length() == 0))
                 strAppName = DBParams.DEFAULT_REMOTE_APP;
-            String strServer = (String)properties.get(DBParams.PROVIDER);
+/*            String strServer = (String)properties.get(DBParams.PROVIDER);
             if ((strServer == null) || (strServer.length() == 0))
             {
                 try   {
@@ -156,7 +132,10 @@ public class RemoteSessionServer extends UnicastRemoteObject
             //x ex.printStackTrace();
             //x System.out.println("RemoteSessionServer could not start as an rmi server, starting as a standalone service");
             Utility.getLogger().info("RemoteSessionServer could not start as an rmi server, starting as a standalone service");
+*/        } catch (RemoteException ex)    {
+    ex.printStackTrace();
         }
+        
         return remoteServer;
     }
 
@@ -174,7 +153,7 @@ public class RemoteSessionServer extends UnicastRemoteObject
      * <br/>remoteapp=[appname]               // My RMI app name (clients contact me with this app name)
      * <br/>jmsserver=[true|(false)]          // Am I the XML web server?
      */
-    public static RemoteSessionServer startup(String[] args)
+    public static void main(String[] args)
     {
         Map<String,Object> propertiesTemp = new Hashtable<String,Object>();
         Util.parseArgs(propertiesTemp, args);
@@ -202,8 +181,6 @@ public class RemoteSessionServer extends UnicastRemoteObject
             Util.parseArgs(properties, args);
         }
         app.init(env, properties, null); // Default application (with params).
-
-        return remoteServer;
     }
     /**
      * 

@@ -7,13 +7,13 @@ package org.jbundle.thin.base.remote.proxy;
  *  ApplicationServer - The interface to server objects.
  *  Copyright (c) 2005 jbundle.org. All rights reserved.
  */
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.remote.RemoteDatabase;
 import org.jbundle.thin.base.remote.RemoteTable;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
 
@@ -60,7 +60,6 @@ public class TableProxy extends SessionProxy
     /**
      * Open - Receive to this server and send the response.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public void open(String strKeyArea, int iOpenMode, boolean bDirection, String strFields, Object objInitialKey, Object objEndKey, byte[] byBehaviorData) throws DBException, RemoteException
     {
@@ -81,7 +80,6 @@ public class TableProxy extends SessionProxy
      * @param data A vector object containing the raw data for the record.
      * @return A bookmark if there is no penalty (otherwise returns null).
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object add(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -104,7 +102,6 @@ public class TableProxy extends SessionProxy
      * @return true if successful, false is lock failed.
      * @exception DBException FILE_NOT_OPEN
      * @exception DBException INVALID_RECORD - Record not current.
-     * @exception RemoteException RMI exception.
      */
     public int edit(int iOpenMode) throws DBException, RemoteException
     {
@@ -121,7 +118,6 @@ public class TableProxy extends SessionProxy
      * Update the current record.
      * @param The data to update.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public void set(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -136,7 +132,6 @@ public class TableProxy extends SessionProxy
      * Delete the current record.
      * @param - This is a dummy param, because this call conflicts with a call in EJBHome.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public void remove(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -155,7 +150,6 @@ public class TableProxy extends SessionProxy
      * @return If I read several records, this is a vector of the returned records.
      * @return If at EOF, or error, returns the error code as a Integer.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object doMove(int iRelPosition, int iRecordCount) throws DBException, RemoteException
     {
@@ -173,7 +167,6 @@ public class TableProxy extends SessionProxy
      * @param objKeyData The data for the seek (The raw data if a single field, a BaseBuffer if multiple).
      * @returns The record (as a vector) if successful, The return code (as an Boolean) if not.
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object seek(String strSeekSign, int iOpenMode, String strKeyArea, String strFields, Object objKeyData) throws DBException, RemoteException
     {
@@ -229,7 +222,6 @@ public class TableProxy extends SessionProxy
      * @param iRowCount The number of rows to retrieve (Used only by CachedRemoteTable).
      * @return The record(s) or an error code as an Integer.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object get(int iRowIndex, int iRowCount) throws DBException, RemoteException
     {

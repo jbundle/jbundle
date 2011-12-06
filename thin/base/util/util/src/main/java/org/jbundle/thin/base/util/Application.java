@@ -6,7 +6,6 @@ package org.jbundle.thin.base.util;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Locale;
@@ -34,6 +33,7 @@ import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.remote.ApplicationServer;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.thread.AutoTask;
@@ -108,7 +108,7 @@ public abstract class Application extends Object
     public static final int PROXY = 2;
     public static final int LOCAL_SERVICE = 3;	// OSGi service
     public static final int REMOTE_SERVICE = 4;	// OSGi service
-    public static final int DEFAULT_CONNECTION_TYPE = RMI;
+    public static final int DEFAULT_CONNECTION_TYPE = LOCAL_SERVICE;
 
     /**
      * Default constructor.
@@ -378,9 +378,12 @@ public abstract class Application extends Object
             if (strPassword == null)
                 strPassword = this.getProperty(Params.PASSWORD);
             server = this.createRemoteTask(strServer, strRemoteApp, strUserID, strPassword);
-            if (localTaskOwner == null)
-            	localTaskOwner = new AutoTask(this, null, null);	// Default task = server task
-            this.addTask(localTaskOwner, server);	// NOTE: IF autotask was just created, I re-add this with a remote pointer
+            if (server != null)
+            {
+                if (localTaskOwner == null)
+                	localTaskOwner = new AutoTask(this, null, null);	// Default task = server task
+                this.addTask(localTaskOwner, server);	// NOTE: IF autotask was just created, I re-add this with a remote pointer
+            }
         }
         return server;
     }
@@ -455,9 +458,14 @@ public abstract class Application extends Object
                 }
                 if (iConnectionType == LOCAL_SERVICE)
                 {   // Use local OSGi service instead of RMI
+                    String className = "org.jbundle.base.remote.rmiserver.RemoteSessionActivator";
+                    if ("msgapp".equals(strRemoteApp))
+                        className = "org.jbundle.main.msg.app.MessageServerActivator";
                 	if (ClassServiceUtility.getClassService().getClassFinder(null) != null)
-                		appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, "org.jbundle.base.remote.rmiserver.RemoteSessionActivator", null);
+                		appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, className, null);
                 }
+                if (appServer == null)
+                    return null;
                 remoteTask = appServer.createRemoteTask(properties);
                 m_mainRemoteTask = remoteTask;
             }

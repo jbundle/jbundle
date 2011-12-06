@@ -9,7 +9,6 @@ package org.jbundle.main.schedule.app;
 
 import java.util.Map;
 
-import org.jbundle.base.util.BaseAppActivator;
 import org.jbundle.base.util.Environment;
 import org.jbundle.thin.base.util.Application;
 

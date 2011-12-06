@@ -6,19 +6,19 @@ package org.jbundle.test.manual.test.db.thin;
 //******************************************************************************
 // Test the basic table functions (add, remove, move, etc.)
 //******************************************************************************
-import java.rmi.RemoteException;
 import java.util.Map;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.jbundle.thin.app.test.test.db.TestTableNoAuto;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.client.CachedRemoteTable;
 import org.jbundle.thin.base.db.client.RemoteFieldTable;
 import org.jbundle.thin.base.db.client.VectorFieldTable;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 
 // SimpleForm is the data entry form for the sample

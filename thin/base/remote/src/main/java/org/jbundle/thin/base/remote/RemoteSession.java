@@ -10,7 +10,6 @@ package org.jbundle.thin.base.remote;
  *      don@tourgeek.com
  *
  */
-import java.rmi.RemoteException;
 
 /**
  * A Remote session.
@@ -23,6 +22,7 @@ public interface RemoteSession extends RemoteBaseSession
     /**
      * Get this table for this session.
      * @param strRecordName Table Name or Class Name of the record to find
+     * @throws RemoteException TODO
      */
     public RemoteTable getRemoteTable(String strRecordName) throws RemoteException;
     /**
@@ -31,6 +31,7 @@ public interface RemoteSession extends RemoteBaseSession
      * even though it is in the same JVM. What you need to do in your implementation is lookup the message filter
      * and call messageFilter.linkRemoteSession(this); See RemoteSession Object for the Only implementation.
      * @param messageFilter A serialized copy of the messageFilter to link this session to.
+     * @throws RemoteException TODO
      */
     public org.jbundle.thin.base.message.BaseMessageFilter setupRemoteSessionFilter(org.jbundle.thin.base.message.BaseMessageFilter messageFilter) throws RemoteException;
 }

@@ -7,13 +7,12 @@ package org.jbundle.base.remote.opt;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.rmi.RemoteException;
-
 import org.jbundle.base.db.GridTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.remote.db.TableSession;
 import org.jbundle.thin.base.message.BaseMessageFilter;
+import org.jbundle.thin.base.remote.RemoteException;
 
 
 /**

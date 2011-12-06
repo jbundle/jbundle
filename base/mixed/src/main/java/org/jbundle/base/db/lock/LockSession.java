@@ -7,8 +7,6 @@
  */
 package org.jbundle.base.db.lock;
 
-import java.rmi.RemoteException;
-import java.rmi.server.Unreferenced;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,6 +20,8 @@ import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
+import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.thin.base.remote.Unreferenced;
 
 
 /** 

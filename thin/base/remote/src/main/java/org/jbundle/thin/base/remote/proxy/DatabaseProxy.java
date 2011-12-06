@@ -7,13 +7,11 @@ package org.jbundle.thin.base.remote.proxy;
  *  ApplicationServer - The interface to server objects.
  *  Copyright (c) 2005 jbundle.org. All rights reserved.
  */
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.remote.RemoteDatabase;
-import org.jbundle.thin.base.remote.RemoteTable;
-import org.jbundle.thin.base.remote.RemoteTask;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
 
@@ -70,7 +68,7 @@ public class DatabaseProxy extends BaseSessionProxy
      * Override this for SQL implementations.
      * @exception DBException An exception.
      */
-    public void commit() throws RemoteException, DBException
+    public void commit() throws DBException, RemoteException
     {
         BaseTransport transport = this.createProxyTransport(COMMIT);
         Object strReturn = transport.sendMessageAndGetReply();
@@ -83,7 +81,7 @@ public class DatabaseProxy extends BaseSessionProxy
      * @exception DBException An exception.
      */
     public void rollback()
-        throws RemoteException, DBException
+        throws DBException, RemoteException
     {
         BaseTransport transport = this.createProxyTransport(ROLLBACK);
         Object strReturn = transport.sendMessageAndGetReply();
@@ -93,7 +91,7 @@ public class DatabaseProxy extends BaseSessionProxy
     /**
      * Get the database properties (opt).
      */
-    public Map<String, Object> getDBProperties() throws RemoteException, DBException
+    public Map<String, Object> getDBProperties() throws DBException, RemoteException
     {
         BaseTransport transport = this.createProxyTransport(GET_DB_PROPERTIES);
         Object strReturn = transport.sendMessageAndGetReply();
@@ -104,7 +102,7 @@ public class DatabaseProxy extends BaseSessionProxy
      * Get the database properties.
      * @return The database properties object (Always non-null).
      */
-    public void setDBProperties(Map<String, Object> properties) throws RemoteException, DBException
+    public void setDBProperties(Map<String, Object> properties) throws DBException, RemoteException
     {
         BaseTransport transport = this.createProxyTransport(SET_DB_PROPERTIES);
         transport.addParam(PROPERTIES, properties);

@@ -7,11 +7,11 @@ package org.jbundle.thin.base.remote.proxy;
  *  ApplicationServer - The interface to server objects.
  *  Copyright (c) 2005 jbundle.org. All rights reserved.
  */
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.thin.base.remote.ApplicationServer;
 import org.jbundle.thin.base.remote.RemoteTask;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 import org.jbundle.thin.base.remote.proxy.transport.EncodedTransport;
 

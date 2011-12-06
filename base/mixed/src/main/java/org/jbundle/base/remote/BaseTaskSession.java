@@ -11,8 +11,6 @@ package org.jbundle.base.remote;
  */
 
 import java.io.InputStream;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -28,6 +26,7 @@ import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.util.Application;
 
 
@@ -39,9 +38,8 @@ import org.jbundle.thin.base.util.Application;
  * For general-purpose tasks, use the RemoteTaskSessionObject.
  */
 public class BaseTaskSession extends BaseSession
-    implements Task, Remote
+    implements Task
 {
-    private static final long serialVersionUID = 1L;
 
     /**
      * The parent application.

@@ -10,7 +10,6 @@ package org.jbundle.base.thread;
  *      don@tourgeek.com
  */
 
-import java.rmi.RemoteException;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -33,6 +32,8 @@ import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.MessageListenerFilterList;
+import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.thin.base.remote.RemoteObject;
 import org.jbundle.thin.base.thread.RecordOwnerCollection;
 
 
@@ -42,7 +43,7 @@ import org.jbundle.thin.base.thread.RecordOwnerCollection;
  * NOTE: LAME CODE ALERT: BaseRecordOwner is exactly the same as RemoteRecordOwner
  * except BaseRecordOwner subclasses Object and RemoteRecordOwner subclasses UnicastRemoteObject.
  */
-public class RemoteRecordOwner extends Object // UnicastRemoteObject - RMI is no longer used!
+public class RemoteRecordOwner extends RemoteObject
     implements RecordOwner
 {
     private static final long serialVersionUID = 1L;

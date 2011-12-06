@@ -13,7 +13,6 @@ package org.jbundle.base.remote.proxy.transport;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -21,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jbundle.base.screen.control.servlet.BasicServlet;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.util.base64.Base64;
 
 

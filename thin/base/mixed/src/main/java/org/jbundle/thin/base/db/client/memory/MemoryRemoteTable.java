@@ -3,7 +3,6 @@
  */
 package org.jbundle.thin.base.db.client.memory;
 
-import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -16,6 +15,7 @@ import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.remote.RemoteDatabase;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 
 
@@ -101,7 +101,6 @@ public class MemoryRemoteTable extends Object
      * @param objEndKey The end key (as a raw data object or a BaseBuffer).
      * @param byBehaviorData A steam describing the behaviors to add and the initialization data.
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public void open(String strKeyArea, int iOpenMode, boolean bDirection, String strFields, Object objInitialKey, Object objEndKey, byte[] byBehaviorData) throws DBException, RemoteException
     {
@@ -113,7 +112,6 @@ public class MemoryRemoteTable extends Object
      * Add add this data to the file.
      * @param data A vector object containing the raw data for the record.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object add(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -158,7 +156,6 @@ public class MemoryRemoteTable extends Object
      * Update the current record.
      * @param The data to update.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public void set(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -174,7 +171,6 @@ public class MemoryRemoteTable extends Object
      * Delete the current record.
      * @param - This is a dummy param, because this call conflicts with a call in EJBHome.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public void remove(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -193,7 +189,6 @@ public class MemoryRemoteTable extends Object
      * @return If I read several records, this is a vector of the returned records.
      * @return If at EOF, or error, returns the error code as a Integer.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object doMove(int iRelPosition, int iRecordCount) throws DBException, RemoteException
     {
@@ -210,7 +205,6 @@ public class MemoryRemoteTable extends Object
      * @param objKeyData The data for the seek (The raw data if a single field, a BaseBuffer if multiple).
      * @returns The record (as a vector) if successful, The return code (as an Boolean) if not.
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object seek(String strSeekSign, int iOpenMode, String strKeyArea, String strFields, Object objKeyData) throws DBException, RemoteException
     {
@@ -255,7 +249,6 @@ public class MemoryRemoteTable extends Object
      * @param iRowCount The number of rows to retrieve (Used only by EjbCachedTable).
      * @return The record(s) or an error code as an Integer.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object get(int iRowIndex, int iRowCount) throws DBException, RemoteException
     {
@@ -308,7 +301,7 @@ public class MemoryRemoteTable extends Object
      * @param properties Properties for this command (optional).
      * @return boolean success.
      */
-    public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws RemoteException, DBException
+    public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws DBException, RemoteException
     {
         return null;    // Not supported
     }

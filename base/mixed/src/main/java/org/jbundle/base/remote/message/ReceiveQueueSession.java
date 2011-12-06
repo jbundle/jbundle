@@ -10,9 +10,6 @@ package org.jbundle.base.remote.message;
  *      don@tourgeek.com
  *
  */
-import java.rmi.RemoteException;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.Unreferenced;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
@@ -28,8 +25,11 @@ import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.JMessageListener;
+import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.thin.base.remote.RemoteObject;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.remote.RemoteSession;
+import org.jbundle.thin.base.remote.Unreferenced;
 import org.jbundle.thin.base.util.Application;
 
 

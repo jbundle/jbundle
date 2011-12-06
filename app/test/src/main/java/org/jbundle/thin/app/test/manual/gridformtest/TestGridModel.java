@@ -10,7 +10,6 @@ package org.jbundle.thin.app.test.manual.gridformtest;
  *  @author Don Corley don@tourgeek.com
  *  @version 1.0.0.
  */
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
@@ -21,6 +20,7 @@ import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;

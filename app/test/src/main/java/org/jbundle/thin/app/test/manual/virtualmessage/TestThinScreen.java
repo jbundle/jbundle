@@ -12,7 +12,6 @@ package org.jbundle.thin.app.test.manual.virtualmessage;
  */
 import java.awt.Component;
 import java.awt.event.FocusEvent;
-import java.rmi.RemoteException;
 
 import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
@@ -22,6 +21,7 @@ import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.client.RemoteFieldTable;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.screen.BaseApplet;

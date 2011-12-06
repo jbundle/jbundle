@@ -13,7 +13,6 @@ package org.jbundle.base.remote.proxy.transport;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.rmi.RemoteException;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -33,6 +32,7 @@ import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.db.Params;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
 import org.jbundle.thin.base.util.Application;

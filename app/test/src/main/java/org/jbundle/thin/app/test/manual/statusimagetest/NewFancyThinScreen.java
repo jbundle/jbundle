@@ -14,7 +14,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.event.FocusEvent;
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
@@ -33,6 +32,7 @@ import org.jbundle.thin.base.db.converter.SecondaryRecordConverter;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;

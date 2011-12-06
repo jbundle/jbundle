@@ -10,7 +10,6 @@ package org.jbundle.thin.base.remote;
  *      don@tourgeek.com
  *
  */
-import java.rmi.RemoteException;
 
 import org.jbundle.model.message.Message;
 
@@ -26,6 +25,7 @@ public interface RemoteSendQueue extends RemoteBaseSession
     /**
      * Send a remote message.
      * @param message The message to send.
+     * @throws RemoteException TODO
      */
     public void sendMessage(Message message) throws RemoteException;
 }

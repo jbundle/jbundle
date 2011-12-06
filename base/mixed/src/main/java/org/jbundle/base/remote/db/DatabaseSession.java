@@ -10,7 +10,6 @@ package org.jbundle.base.remote.db;
  *      don@tourgeek.com
  *
  */
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
@@ -20,6 +19,7 @@ import org.jbundle.base.remote.BaseTaskSession;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.remote.RemoteDatabase;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.util.Application;
 
 
@@ -121,7 +121,7 @@ public class DatabaseSession extends BaseTaskSession
      * Commit the transactions since the last commit.
      * @exception Exception An exception.
      */
-    public void commit() throws RemoteException, DBException
+    public void commit() throws DBException, RemoteException
     {
         m_database.commit();
     }
@@ -129,7 +129,7 @@ public class DatabaseSession extends BaseTaskSession
      * Rollback the transactions since the last commit.
      * @exception Exception An exception.
      */
-    public void rollback() throws RemoteException, DBException
+    public void rollback() throws DBException, RemoteException
     {
         m_database.rollback();
     }
@@ -137,7 +137,7 @@ public class DatabaseSession extends BaseTaskSession
      * Get the database properties.
      * @return The database properties object (Always non-null).
      */
-    synchronized public Map<String, Object> getDBProperties() throws RemoteException, DBException
+    synchronized public Map<String, Object> getDBProperties() throws DBException, RemoteException
     {
         return m_database.getProperties();
     }
@@ -145,7 +145,7 @@ public class DatabaseSession extends BaseTaskSession
      * Get the database properties.
      * @return The database properties object (Always non-null).
      */
-    synchronized public void setDBProperties(Map<String, Object> properties) throws RemoteException, DBException
+    synchronized public void setDBProperties(Map<String, Object> properties) throws DBException, RemoteException
     {
         m_database.setProperties(properties);
     }

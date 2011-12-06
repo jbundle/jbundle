@@ -9,11 +9,11 @@ package org.jbundle.base.remote.proxy;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.thin.base.remote.RemoteBaseSession;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 

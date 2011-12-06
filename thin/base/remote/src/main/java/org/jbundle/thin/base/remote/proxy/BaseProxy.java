@@ -3,16 +3,17 @@
  */
 package org.jbundle.thin.base.remote.proxy;
 
+import java.util.HashMap;
+
+import org.jbundle.model.DBException;
+import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
+
 /**
  *  ApplicationServer - The interface to server objects.
  *  Copyright  *  Copyright (c) 2005 jbundle.org. All rights reserved.
 � 1997 jbundle.org. All rights reserved.
  */
-import java.rmi.RemoteException;
-import java.util.HashMap;
-
-import org.jbundle.model.DBException;
-import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
 
 /**
@@ -139,10 +140,10 @@ public class BaseProxy extends Object
      * @param strKeyArea The name of the key area to seek on.
      * @param objKeyData The data for the seek (The raw data if a single field, a BaseBuffer if multiple).
      * @returns The record (as a vector) if successful, The return code (as an Boolean) if not.
+     * @throws RemoteException TODO
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
-    public Object checkRemoteException(Object objData) throws RemoteException
+    public Object checkRemoteException(Object objData) throws org.jbundle.thin.base.remote.RemoteException
     {
         if (objData instanceof RemoteException)
             throw (RemoteException)objData;

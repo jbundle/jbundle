@@ -3,7 +3,6 @@
  */
 package org.jbundle.thin.base.db.client;
 
-import java.rmi.RemoteException;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
@@ -13,6 +12,7 @@ import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.util.ArrayCache;
 import org.jbundle.thin.base.remote.RemoteDatabase;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.util.ThinUtil;
 
@@ -144,7 +144,7 @@ public class CachedRemoteTable extends Object
      * @classType The base class I'm looking for (If null, return the next table on the chain) 
      * @return The remote table reference.
      */
-    public RemoteTable getRemoteTableType(Class<?> classType)
+    public RemoteTable getRemoteTableType(Class<?> classType) throws RemoteException
     {
         return ThinUtil.getRemoteTableType(m_tableRemote, classType);
     }
@@ -163,7 +163,6 @@ public class CachedRemoteTable extends Object
      * @param objEndKey The end key (as a raw data object or a BaseBuffer).
      * @param byBehaviorData A steam describing the behaviors to add and the initialization data.
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public void open(String strKeyArea, int iOpenMode, boolean bDirection, String strFields, Object objInitialKey, Object objEndKey, byte[] byBehaviorData) throws DBException, RemoteException
     {
@@ -182,7 +181,6 @@ public class CachedRemoteTable extends Object
      * Add - add this data to the file.
      * @param data A vector object containing the raw data for the record.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object add(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -224,7 +222,6 @@ public class CachedRemoteTable extends Object
      * Update the current record.
      * @param The data to update.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public void set(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -254,7 +251,6 @@ public class CachedRemoteTable extends Object
      * Delete the current record.
      * @param - This is a dummy param, because this call conflicts with a call in EJBHome.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public void remove(Object data, int iOpenMode) throws DBException, RemoteException
     {
@@ -280,7 +276,6 @@ public class CachedRemoteTable extends Object
      * @return If I read several records, this is a vector of the returned records.
      * @return If at EOF, or error, returns the error code as a Integer.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object doMove(int iRelPosition, int iRecordCount) throws DBException, RemoteException
     {
@@ -411,7 +406,6 @@ public class CachedRemoteTable extends Object
      * @param objKeyData The data for the seek (The raw data if a single field, a BaseBuffer if multiple).
      * @returns The record (as a vector) if successful, The return code (as an Boolean) if not.
      * @exception DBException File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object seek(String strSeekSign, int iOpenMode, String strKeyArea, String strFields, Object objKeyData) throws DBException, RemoteException
     {
@@ -503,7 +497,6 @@ public class CachedRemoteTable extends Object
      * @param iRowCount The number of rows to retrieve (Used only by EjbCachedTable).
      * @return The record(s) or an error code as an Integer.
      * @exception Exception File exception.
-     * @exception RemoteException RMI exception.
      */
     public Object get(int iRowIndex, int iRowCount) throws DBException, RemoteException
     {
@@ -644,7 +637,7 @@ public class CachedRemoteTable extends Object
      * @param properties Properties for this command (optional).
      * @return boolean success.
      */
-    public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws RemoteException, DBException
+    public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws DBException, RemoteException
     {
         return m_tableRemote.doRemoteAction(strCommand, properties);
     }

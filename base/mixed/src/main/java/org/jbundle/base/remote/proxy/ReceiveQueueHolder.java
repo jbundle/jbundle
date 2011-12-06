@@ -9,12 +9,12 @@ package org.jbundle.base.remote.proxy;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessageFilter;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.remote.RemoteSession;
 

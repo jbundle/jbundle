@@ -9,7 +9,6 @@ package org.jbundle.base.remote.proxy;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.base.remote.db.TaskSession;
@@ -17,6 +16,7 @@ import org.jbundle.base.remote.proxy.transport.ProxyTask;
 import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.remote.RemoteSendQueue;
 import org.jbundle.thin.base.remote.RemoteTable;

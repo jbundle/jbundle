@@ -10,7 +10,6 @@ package org.jbundle.base.remote.db;
  *      don@tourgeek.com
  *
  */
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
@@ -24,6 +23,7 @@ import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.message.session.ClientSessionMessageFilter;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.util.Application;
@@ -44,7 +44,6 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
 public class Session extends BaseSession
     implements RemoteSession
 {
-    private static final long serialVersionUID = 1L;
 
     /**
      * Constructor
@@ -94,7 +93,7 @@ public class Session extends BaseSession
      * @param strRecordName Table Name or Class Name of the record to find
      * Note: This method is used when the SessionObject is used as an application's remote peer.
      */
-    public RemoteTable getRemoteTable(String strRecordName)
+    public RemoteTable getRemoteTable(String strRecordName) throws RemoteException
     {
         if ((strRecordName == null) || (strRecordName.length() == 0))
             strRecordName = this.getMainRecord().getTableNames(false);  // Main Record

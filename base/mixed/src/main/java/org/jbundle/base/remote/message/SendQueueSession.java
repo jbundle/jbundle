@@ -10,9 +10,8 @@ package org.jbundle.base.remote.message;
  *      don@tourgeek.com
  *
  */
-import java.rmi.RemoteException;
-import java.rmi.server.Unreferenced;
-
+ 
+import org.jbundle.thin.base.remote.Unreferenced;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.remote.db.TaskSession;
@@ -20,6 +19,7 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageSender;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSendQueue;
 
 
@@ -32,7 +32,6 @@ import org.jbundle.thin.base.remote.RemoteSendQueue;
 public class SendQueueSession extends BaseSession
     implements RemoteSendQueue, Unreferenced
 {
-    private static final long serialVersionUID = 1L;
 
     /**
      * The server's message queue for this session.

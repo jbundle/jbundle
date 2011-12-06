@@ -3,14 +3,13 @@
  */
 package org.jbundle.thin.base.util;
 
-import java.rmi.RemoteException;
-
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
-
+import org.jbundle.thin.base.remote.RemoteObject;
 
 /**
  * Thin specific static utility methods.
@@ -67,7 +66,7 @@ public class ThinUtil extends Util
            return tableRemote;
        RemoteTable remoteTable = null;
        if (!(tableRemote instanceof java.rmi.server.RemoteStub)) // No need to actually do the remote call
-           if (!(tableRemote instanceof java.rmi.server.UnicastRemoteObject))
+           if (!(tableRemote instanceof RemoteObject))
                if (!(tableRemote instanceof java.lang.reflect.Proxy)) // No need to actually do the remote call
        {
            try {

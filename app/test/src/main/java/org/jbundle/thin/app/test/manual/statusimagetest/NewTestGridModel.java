@@ -10,7 +10,6 @@ package org.jbundle.thin.app.test.manual.statusimagetest;
  *  @author Don Corley don@tourgeek.com
  *  @version 1.0.0.
  */
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
@@ -28,6 +27,7 @@ import org.jbundle.thin.base.db.converter.SecondaryRecordConverter;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
