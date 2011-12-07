@@ -9,8 +9,8 @@ package org.jbundle.main.msg.app;
 
 import java.util.Map;
 
-import org.jbundle.base.remote.rmiserver.BaseRemoteSessionActivator;
-import org.jbundle.base.remote.rmiserver.RemoteSessionServer;
+import org.jbundle.base.remote.server.BaseRemoteSessionActivator;
+import org.jbundle.base.remote.server.RemoteSessionServer;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Environment;
@@ -28,8 +28,8 @@ public class MessageServerActivator extends BaseRemoteSessionActivator
      */
     public void setupProperties()
     {
-        if (this.getProperty(DBParams.REMOTEAPP) == null)
-            this.setProperty(DBParams.REMOTEAPP, "msgapp");
+        if (this.getProperty(DBParams.APP_NAME) == null)
+            this.setProperty(DBParams.APP_NAME, this.getClass().getName());
 
         super.setupProperties();
     }

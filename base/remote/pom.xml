@@ -36,7 +36,7 @@
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Export-Package>${jbundlePackageExport}</Export-Package>
             <Import-Package>${jbundlePackageImport}</Import-Package>
-            <Bundle-Activator>org.jbundle.base.remote.rmiserver.RemoteSessionActivator</Bundle-Activator>
+            <Bundle-Activator>org.jbundle.base.remote.server.RemoteSessionActivator</Bundle-Activator>
           </instructions>
         </configuration>
       </plugin>

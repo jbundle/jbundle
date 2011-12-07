@@ -62,7 +62,7 @@
               <argument>-Djava.security.policy=/home/don/workspace/jbundleold/bin/policy/policy.all</argument>
               <argument>org.jbundle.server.Server</argument>
               <argument>jmsserver=true</argument>
-              <argument>remoteapp=msgapp</argument>
+              <argument>appname=org.jbundle.main.msg.app.MessageServerActivator</argument>
               <argument>provider=linux-laptop</argument>
              </arguments>
         </configuration>

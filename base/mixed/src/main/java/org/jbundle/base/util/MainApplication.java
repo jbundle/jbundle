@@ -12,7 +12,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.PropertiesField;
 import org.jbundle.base.field.ReferenceField;
-import org.jbundle.base.remote.rmiserver.RemoteSessionServer;
+import org.jbundle.base.remote.server.RemoteSessionServer;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.main.db.Menus;
 import org.jbundle.main.user.db.UserControl;

@@ -5,7 +5,7 @@
  
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.remote.rmiserver;
+package org.jbundle.base.remote.server;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -105,7 +105,7 @@ public class RemoteSessionServer extends RemoteObject
         try {
             remoteServer = new RemoteSessionServer(null);
 
-            String strAppName = (String)properties.get(DBParams.PROVIDER_APP);
+            String strAppName = (String)properties.get(DBParams.REMOTE_APP_NAME);
             if ((strAppName == null) || (strAppName.length() == 0))
                 strAppName = DBParams.DEFAULT_REMOTE_APP;
 /*            String strServer = (String)properties.get(DBParams.PROVIDER);
@@ -148,9 +148,9 @@ public class RemoteSessionServer extends RemoteObject
      * <br/>freeifdone=[(true)|false]         // When there are no apps, shut down?
      * <br/>messagefilter=[(sequential)|tree] // Type of message filter
      * <br/>provider=[serverurl][:serverport] // remote RMI Server to hook to (defaults to localhost:1099)
-     * <br/>providerapp=[appname]             // remote RMI app server name (defaults to appserver) (msgapp for the messageapp)
+     * <br/>remoteappname=[appname]             // remote RMI app server name (defaults to appserver) (msgapp for the messageapp)
      * <br/>lockprovider=[appname]            // remote RMI lock server name (defaults to lockserver)
-     * <br/>remoteapp=[appname]               // My RMI app name (clients contact me with this app name)
+     * <br/>appname=[appname]                 // My RMI app name (clients contact me with this app name)
      * <br/>jmsserver=[true|(false)]          // Am I the XML web server?
      */
     public static void main(String[] args)

@@ -15,12 +15,6 @@ import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NameNotFoundException;
-import javax.naming.ServiceUnavailableException;
-import javax.rmi.PortableRemoteObject;
-
 import org.jbundle.model.App;
 import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.PropertyOwner;
@@ -104,7 +98,7 @@ public abstract class Application extends Object
     /**
      * Remote connection types.
      */
-    public static final int RMI = 1;
+//x    public static final int RMI = 1;
     public static final int PROXY = 2;
     public static final int LOCAL_SERVICE = 3;	// OSGi service
     public static final int REMOTE_SERVICE = 4;	// OSGi service
@@ -370,7 +364,7 @@ public abstract class Application extends Object
             if (bCreateIfNotFound)
         {
             String strServer = this.getAppServerName();
-            String strRemoteApp = this.getProperty(Params.REMOTEAPP);
+            String strRemoteApp = this.getProperty(Params.REMOTE_APP_NAME);
             if ((strRemoteApp == null) || (strRemoteApp.length() == 0))
                 strRemoteApp = Params.DEFAULT_REMOTE_APP;
             if (strUserID == null)
@@ -423,12 +417,14 @@ public abstract class Application extends Object
                 {
                 	if ("proxy".equalsIgnoreCase(strConnectionType))
                 		iConnectionType = PROXY;
-                	if ("rmi".equalsIgnoreCase(strConnectionType))
-                		iConnectionType = RMI;
+//x                	if ("rmi".equalsIgnoreCase(strConnectionType))
+//x                		iConnectionType = RMI;
                 	if (Util.isNumeric(strConnectionType))
                 		iConnectionType = Integer.parseInt(strConnectionType);
                 }
-                if (iConnectionType == RMI)
+                if (ClassServiceUtility.getClassService().getClassFinder(null) == null)
+                    iConnectionType = PROXY;    // No OSGi
+/*                if (iConnectionType == RMI)
                 {
                     try {
                         Hashtable<String,String> env = new Hashtable<String,String>();
@@ -450,7 +446,7 @@ public abstract class Application extends Object
                         // Try tunneling through http
                         iConnectionType = PROXY;
                     }
-                }
+                } */
                 if (iConnectionType == PROXY)
                 {   // Use HTTP proxy instead of RMI
                     String strBaseServletPath = this.getBaseServletPath();
@@ -458,11 +454,12 @@ public abstract class Application extends Object
                 }
                 if (iConnectionType == LOCAL_SERVICE)
                 {   // Use local OSGi service instead of RMI
-                    String className = "org.jbundle.base.remote.rmiserver.RemoteSessionActivator";
-                    if ("msgapp".equals(strRemoteApp))
-                        className = "org.jbundle.main.msg.app.MessageServerActivator";
+                    if ((strRemoteApp == null) || (strRemoteApp.indexOf('.') == -1))
+                        strRemoteApp = Params.DEFAULT_REMOTE_APP;
                 	if (ClassServiceUtility.getClassService().getClassFinder(null) != null)
-                		appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, className, null);
+                		appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, strRemoteApp, null);
+                	if (appServer == null)
+                	    appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).deployThisResource(strRemoteApp.substring(strRemoteApp.lastIndexOf('.')), null, true);
                 }
                 if (appServer == null)
                     return null;

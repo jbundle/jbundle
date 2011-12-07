@@ -5,7 +5,7 @@
  
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.remote.rmiserver;
+package org.jbundle.base.remote.server;
 
 import java.util.Map;
 
@@ -52,10 +52,10 @@ public class BaseRemoteSessionActivator extends BaseBundleService
         	this.setProperty(DBParams.REMOTE, DBParams.JDBC);
         if (this.getProperty(DBParams.TABLE) == null)
         	this.setProperty(DBParams.TABLE, DBParams.JDBC);
-        if (this.getProperty(DBParams.REMOTEAPP) == null)
-            this.setProperty(DBParams.REMOTEAPP, Params.DEFAULT_REMOTE_APP);
+        if (this.getProperty(DBParams.APP_NAME) == null)
+            this.setProperty(DBParams.APP_NAME, Params.DEFAULT_REMOTE_APP);
         this.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
-        this.setProperty(DBParams.PROVIDER, "linux-laptop");    // TODO No No No
+        //this.setProperty(DBParams.REMOTE_HOST, "linux-laptop");    // TODO No No No
         if (this.getProperty(DBParams.FREEIFDONE) == null)
             this.setProperty(DBParams.FREEIFDONE, DBConstants.FALSE);   // Don't free when only the last app is running.
         if (this.getProperty(MessageConstants.MESSAGE_FILTER) == null)

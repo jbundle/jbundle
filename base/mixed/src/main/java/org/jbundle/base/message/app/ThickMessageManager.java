@@ -59,7 +59,7 @@ public class ThickMessageManager extends ThinMessageManager
         Object server = null;
         boolean bCreateIfNotFound = false;
         if ((this.getApplication().getProperty(DBParams.REMOTE_HOST) != null)
-            || (this.getApplication().getProperty(DBParams.REMOTEAPP) != null))
+            || (this.getApplication().getProperty(DBParams.REMOTE_APP_NAME) != null))
                 bCreateIfNotFound = true;   // If you explicitly specify a remote server, create the server if new.
         if (((BaseApplication)this.getApplication()).getEnvironment().getDefaultApplication() != null)
             if (!MessageConstants.LOCAL_QUEUE.equalsIgnoreCase(strQueueType))

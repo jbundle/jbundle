@@ -5,27 +5,14 @@
  */
 package org.jbundle.main.msg.app;
 
-import java.awt.*;
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.base.message.app.*;
-import org.jbundle.main.msg.db.*;
-import org.jbundle.thin.base.message.*;
-import javax.swing.*;
-import org.jbundle.base.message.trx.server.*;
-import org.jbundle.base.thread.*;
+import org.jbundle.base.message.app.MessageApplication;
+import org.jbundle.base.thread.ProcessRunnerTask;
+import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.util.DBParams;
+import org.jbundle.model.Task;
 
 /**
  *  MessageInfoApplication - The application that handles messaging.
@@ -68,6 +55,10 @@ public class MessageInfoApplication extends MessageApplication
             propProcess.put(DBParams.PROCESS, MessageInitialProcess.class.getName());
             Task task = new ProcessRunnerTask(this, null, propProcess);
             task.run(); // Don't run this async (for now).
+        }
+        else
+        {
+            this.setProperty(DBParams.REMOTE_APP_NAME, DBParams.REMOTE_MESSAGE_APP);
         }
     }
 

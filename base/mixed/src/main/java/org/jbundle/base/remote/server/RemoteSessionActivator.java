@@ -5,7 +5,7 @@
  
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.remote.rmiserver;
+package org.jbundle.base.remote.server;
 
 
 public class RemoteSessionActivator extends BaseRemoteSessionActivator

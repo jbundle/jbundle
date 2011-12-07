@@ -18,14 +18,6 @@ import org.jbundle.thin.base.db.Params;
 public interface DBParams extends Params
 {
     /**
-     * My server name (for a remote server)  This is the URL remote processes should use to contact me.
-     */
-    public static final String PROVIDER = "provider";
-    /**
-     * This the the application name I should register with the RMI server as.
-     */
-    public static final String PROVIDER_APP = "providerapp";
-    /**
      * Set this to "true" to make the application service the incoming external JMS requests.
      */
     public static final String JMSSERVER = "jmsserver";

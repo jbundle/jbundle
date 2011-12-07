@@ -21,11 +21,6 @@ public interface Params
      */
     public static final String ID = "ID";
     /**
-     * RMI Server name and port number (if not the RMI port 1099).
-     */
-    public static final String REMOTE_HOST = "remotehost";
-    public static final String CONNECTION_TYPE = "connectionType";
-    /**
      * Constant none.
      */
     public static final String NONE = "none";
@@ -36,11 +31,24 @@ public interface Params
     /**
      * The RMI resource name (for name lookup).
      */
-    public static final String REMOTEAPP = "remoteapp";
+    public static final String APP_NAME = "appname";
+    /**
+     * RMI Server name and port number (if not the RMI port 1099).
+     */
+    public static final String REMOTE_HOST = "remotehost";
+    public static final String CONNECTION_TYPE = "connectionType";
+    /**
+     * This the the application name I should register with the RMI server as.
+     */
+    public static final String REMOTE_APP_NAME = "remoteappname";
     /**
      * The default RMI resource name.
      */
-    public static final String DEFAULT_REMOTE_APP = "appserver";
+    public static final String DEFAULT_REMOTE_APP = "org.jbundle.base.remote.server.RemoteSessionActivator";
+    /**
+     * The default RMI resource name.
+     */
+    public static final String REMOTE_MESSAGE_APP = "org.jbundle.main.msg.app.MessageServerActivator";
     /**
      * Background image.
      */
