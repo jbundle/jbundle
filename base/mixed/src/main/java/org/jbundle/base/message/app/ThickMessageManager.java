@@ -3,14 +3,16 @@
  */
 package org.jbundle.base.message.app;
 
+import java.util.Map;
+
 import org.jbundle.base.message.core.local.LocalMessageQueue;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
+import org.jbundle.model.App;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.screen.message.ThinMessageManager;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -26,19 +28,23 @@ public class ThickMessageManager extends ThinMessageManager
         super();
     }
     /**
-     * Constuctor.
+     * Constructor.
+     * @param application The parent application.
+     * @param strParams The task properties.
      */
-    public ThickMessageManager(Application app)
+    public ThickMessageManager(App application, String strParams, Map<String, Object> properties)
     {
         this();
-        this.init(app);
+        this.init(application, strParams, properties);
     }
     /**
-     * Constuctor.
+     * Constructor.
+     * @param application The parent application.
+     * @param strParams The task properties.
      */
-    public void init(Application app)
+    public void init(App application, String strParams, Map<String, Object> properties)
     {
-        super.init(app);
+        super.init(application, strParams, properties);
     }
     /**
      * Free.

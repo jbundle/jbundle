@@ -78,7 +78,7 @@ public class MessageApplication extends BaseApplication
     public BaseMessageManager getThickMessageManager()
     {
         if (m_messageManager == null)
-            m_messageManager = new ThickMessageManager(this);
+            m_messageManager = new ThickMessageManager(this, null, null);
         return m_messageManager;
     }
     /**

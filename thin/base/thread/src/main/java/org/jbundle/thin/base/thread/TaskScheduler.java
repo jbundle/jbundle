@@ -19,8 +19,8 @@ import java.util.Vector;
 import org.jbundle.model.App;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Param;
 import org.jbundle.model.util.Util;
-import org.jbundle.thin.base.db.Params;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**
@@ -147,9 +147,9 @@ public class TaskScheduler extends Object
             }
             if (objJobDef instanceof Properties)
                 properties = (Map)objJobDef;
-            String strClass = (String)properties.get(Params.TASK);
+            String strClass = (String)properties.get(Param.TASK);
             if (strClass == null)
-                strClass = (String)properties.get(Params.APPLET); // Applets are also run as tasks
+                strClass = (String)properties.get(Param.APPLET); // Applets are also run as tasks
             Object job = ClassServiceUtility.getClassService().makeObjectFromClassName(strClass);
             if (job instanceof Task)
             {

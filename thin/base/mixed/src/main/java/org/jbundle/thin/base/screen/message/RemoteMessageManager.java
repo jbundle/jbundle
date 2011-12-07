@@ -3,6 +3,9 @@
  */
 package org.jbundle.thin.base.screen.message;
 
+import java.util.Map;
+
+import org.jbundle.model.App;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.remote.RemoteMessageQueue;
@@ -14,28 +17,30 @@ import org.jbundle.thin.base.util.Application;
 public class RemoteMessageManager extends ThinMessageManager
 {
     /**
-     * Constuctor.
+     * Constructor.
      */
     public RemoteMessageManager()
     {
         super();
     }
     /**
-     * Constuctor.
-     * @param app My parent application.
+     * Constructor.
+     * @param application The parent application.
+     * @param strParams The task properties.
      */
-    public RemoteMessageManager(Application app)
+    public RemoteMessageManager(App application, String strParams, Map<String, Object> properties)
     {
         this();
-        this.init(app);
+        this.init(application, strParams, properties);
     }
     /**
-     * Constuctor.
-     * @param app My parent application.
+     * Constructor.
+     * @param application The parent application.
+     * @param strParams The task properties.
      */
-    public void init(Application app)
+    public void init(App application, String strParams, Map<String, Object> properties)
     {
-        super.init(app);
+        super.init(application, strParams, properties);
     }
     /**
      * Free this message manager.
@@ -80,7 +85,7 @@ public class RemoteMessageManager extends ThinMessageManager
         {
             synchronized (app)
             {
-                m_messageManager = new RemoteMessageManager(app);
+                m_messageManager = new RemoteMessageManager(app, null, null);
             }
         }
         return m_messageManager;

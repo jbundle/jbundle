@@ -21,8 +21,8 @@ import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.Util;
-import org.jbundle.thin.base.db.Constants;
 
 
 /**
@@ -45,7 +45,7 @@ public class AutoTask extends Object
     /**
      * The last error string set for this task.
      */
-    protected String m_strLastError = Constants.BLANK;  // Last Error message
+    protected String m_strLastError = Constant.BLANK;  // Last Error message
     /**
      * The error code that goes with the last error string.
      */
@@ -57,7 +57,7 @@ public class AutoTask extends Object
     /**
      * Last display level.
      */
-    protected int m_iCurrentWarningLevel = Constants.INFORMATION;
+    protected int m_iCurrentWarningLevel = Constant.INFORMATION;
     /**
      * Children record owners.
      */
@@ -249,7 +249,7 @@ public class AutoTask extends Object
     public String getLastError(int iErrorCode)
     {
         if ((m_strLastError == null) || ((iErrorCode != 0) && (iErrorCode != m_iLastErrorCode)))
-            return Constants.BLANK;
+            return Constant.BLANK;
         String string = m_strLastError;
         m_strLastError = null;
         return string;
@@ -282,7 +282,7 @@ public class AutoTask extends Object
     public void setStatusText(String strStatus, int iWarningLevel)
     {
         if (strStatus == null)
-            strStatus = Constants.BLANK;
+            strStatus = Constant.BLANK;
         m_strCurrentStatus = strStatus;
         m_iCurrentWarningLevel = iWarningLevel;
     }
@@ -353,11 +353,11 @@ public class AutoTask extends Object
      */
     public int getDefaultLockType(int iDatabaseType)
     {
-        if ((iDatabaseType & Constants.REMOTE) != 0)
-            return Constants.OPEN_LAST_MOD_LOCK_TYPE;
-        if ((iDatabaseType & Constants.LOCAL) != 0)
-            return Constants.OPEN_NO_LOCK_TYPE;
-        return Constants.OPEN_NO_LOCK_TYPE;
+        if ((iDatabaseType & Constant.REMOTE) != 0)
+            return Constant.OPEN_LAST_MOD_LOCK_TYPE;
+        if ((iDatabaseType & Constant.LOCAL) != 0)
+            return Constant.OPEN_NO_LOCK_TYPE;
+        return Constant.OPEN_NO_LOCK_TYPE;
     }
     /**
      * Add this record owner to my list.

@@ -4,6 +4,7 @@
 package org.jbundle.thin.base.message;
 
 import java.util.Hashtable;
+import java.util.Map;
 
 import org.jbundle.model.App;
 import org.jbundle.model.message.MessageFilter;
@@ -12,19 +13,16 @@ import org.jbundle.model.message.MessageQueue;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.model.message.MessageSender;
 import org.jbundle.model.util.Constant;
+import org.jbundle.thin.base.thread.AutoTask;
 
 
 /**
  * The MessageManager organizes the message queues.
- * NOTE: This should probably implement the Task interface (Note: app is already passed in).
+ * NOTE: This implements the Task interface (Note: app is already passed in).
  */
-public class BaseMessageManager extends Object
+public class BaseMessageManager extends AutoTask
 	implements MessageManager
 {
-    /**
-     * My parent application.
-     */
-    protected App m_app = null;
     /**
      * My Message queues.
      */
@@ -39,20 +37,22 @@ public class BaseMessageManager extends Object
     }
     /**
      * Constructor.
-     * @param app My parent application.
+     * @param application The parent application.
+     * @param strParams The task properties.
      */
-    public BaseMessageManager(App app)
+    public BaseMessageManager(App application, String strParams, Map<String, Object> properties)
     {
         this();
-        this.init(app);
+        this.init(application, strParams, properties);
     }
     /**
-     * Constuctor.
-     * @param app My parent application.
+     * Constructor.
+     * @param application The parent application.
+     * @param strParams The task properties.
      */
-    public void init(App app)
+    public void init(App application, String strParams, Map<String, Object> properties)
     {
-        m_app = app;
+        super.init(application, strParams, properties);
         m_messageMap = new Hashtable<String,BaseMessageQueue>();
     }
     /**
@@ -72,7 +72,7 @@ public class BaseMessageManager extends Object
             }
         }
         m_messageMap = null;
-        m_app = null;
+        super.free();
     }
     /**
      * Remove all the filters that have this as a listener.
@@ -147,14 +147,6 @@ public class BaseMessageManager extends Object
     public void removeMessageQueue(BaseMessageQueue messageQueue)
     {
         m_messageMap.remove(messageQueue.getQueueName());
-    }
-    /**
-     * Get the application for this task.
-     * @return My parent application.
-     */
-    public App getApplication()
-    {
-        return m_app;
     }
     /**
      * Add this message filter to the appropriate queue.

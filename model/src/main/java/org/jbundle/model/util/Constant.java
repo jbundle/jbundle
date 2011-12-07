@@ -26,12 +26,30 @@ public interface Constant
     public static final int NORMAL_RETURN = 0;
     public static final int ERROR_RETURN = -1;
 
+    public static final int LOCAL = 0;              // Local user or shared data (typically shared)
+    public static final int REMOTE = 1;             // Remote user data (always user data)
+
+    /**
+     * No lock type.
+     */
+    public static final int OPEN_NO_LOCK_TYPE = 0;    
+    /**
+     * Don't lock, just always write with lastChangedDate=current, if different, refresh, merge and re-write.
+     */
+    public static final int OPEN_LAST_MOD_LOCK_TYPE = 16384;
+    
     // setEditMode()
     public static final int EDIT_NONE = 0;      // Unknown status
     public static final int EDIT_ADD = 1;   // Record is new
     public static final int EDIT_IN_PROGRESS = 2; // Record is locked
     public static final int EDIT_CURRENT = 3; // Record has been read but not locked
 
+    // Log levels
+    public static final int DEBUG_INFO = 1;
+    public static final int INFORMATION = 2;
+    public static final int WAIT = 3; // Cursor.WAIT_CURSOR;  // 3 (Am I lucky or what?)
+    public static final int WARNING = 4;
+    public static final int ERROR = 5;     // These are copied from log4j
     /**
      * Default URL Encoding.
      */

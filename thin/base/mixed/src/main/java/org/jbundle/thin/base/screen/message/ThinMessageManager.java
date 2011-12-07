@@ -3,8 +3,10 @@
  */
 package org.jbundle.thin.base.screen.message;
 
+import java.util.Map;
 import java.util.Properties;
 
+import org.jbundle.model.App;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
@@ -18,7 +20,6 @@ import org.jbundle.thin.base.message.session.ClientSessionMessageFilter;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.screen.JBaseScreen;
 import org.jbundle.thin.base.screen.grid.JGridScreen;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -36,21 +37,23 @@ public class ThinMessageManager extends BaseMessageManager
         super();
     }
     /**
-     * Constuctor.
-     * @param app My parent application.
+     * Constructor.
+     * @param application The parent application.
+     * @param strParams The task properties.
      */
-    public ThinMessageManager(Application app)
+    public ThinMessageManager(App application, String strParams, Map<String, Object> properties)
     {
         this();
-        this.init(app);
+        this.init(application, strParams, properties);
     }
     /**
-     * Constuctor.
-     * @param app My parent application.
+     * Constructor.
+     * @param application The parent application.
+     * @param strParams The task properties.
      */
-    public void init(Application app)
+    public void init(App application, String strParams, Map<String, Object> properties)
     {
-        super.init(app);
+        super.init(application, strParams, properties);
     }
     /**
      * Free this message manager.

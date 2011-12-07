@@ -3,6 +3,8 @@
  */
 package org.jbundle.thin.base.db;
 
+import org.jbundle.model.util.Param;
+
 /**
  * @(#)Params.java  1.16 95/12/14 Don Corley
  *
@@ -14,7 +16,7 @@ package org.jbundle.thin.base.db;
 /**
  * Parameter keys to set for an application or applet.
  */
-public interface Params
+public interface Params extends Param
 {
     /**
      * The fieldname for most primary keys in the system.
@@ -115,18 +117,6 @@ public interface Params
      *
      */
     public static final String CONTACT_ID = "contactID";
-    /**
-     *
-     */
-    public static final String TASK = "task";
-    /**
-     * Applet page
-     */
-    public static final String APPLET = "applet";
-    /**
-     * The current language.
-     */
-    public static final String LANGUAGE = "language";
     /**
      * Pass a screen class.
      */

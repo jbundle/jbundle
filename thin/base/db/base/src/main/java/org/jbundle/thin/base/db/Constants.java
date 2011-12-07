@@ -51,10 +51,8 @@ public interface Constants extends Constant
      * Don't physically lock the record on edit, listen for record changes.
      */
     public static final int OPEN_NO_LOCK_STRATEGY = 0;
-    /**
-     * No lock type.
-     */
-    public static final int OPEN_NO_LOCK_TYPE = 0;    
+    //v Moved down to Constants
+    //vpublic static final int OPEN_NO_LOCK_TYPE = 0;    
     /**
      * When you lock, fail if already locked (ie., return false from the edit() method).
      * <br/>Note: If you want to see the user that is locking the record, then also add OPEN_EXCEPTION_ON_LOCK.
@@ -71,7 +69,8 @@ public interface Constants extends Constant
     /**
      * Don't lock, just always write with lastChangedDate=current, if different, refresh, merge and re-write.
      */
-    public static final int OPEN_LAST_MOD_LOCK_TYPE = 16384;
+    //v Moved down to Constants
+    //v public static final int OPEN_LAST_MOD_LOCK_TYPE = 16384;
     /**
      * Read is normal, except the LastChanged value is not updated (so a subsequent write will error and cause a merge)
      */
@@ -92,9 +91,9 @@ public interface Constants extends Constant
         // Table types
     public static final int USER_DATA = 16;         // Domain User specific data
     public static final int SHARED_DATA = 0;        // Data shared between all users
-
-    public static final int LOCAL = 0;              // Local user or shared data (typically shared)
-    public static final int REMOTE = 1;             // Remote user data (always user data)
+    //v Moved down to Constants
+    //vpublic static final int LOCAL = 0;              // Local user or shared data (typically shared)
+    //vpublic static final int REMOTE = 1;             // Remote user data (always user data)
     public static final int TABLE = 2;              // Static Data table (always shared)
     public static final int SCREEN = 3;
     public static final int MEMORY = 4;             // Vector database where same records share one table
@@ -181,11 +180,6 @@ public interface Constants extends Constant
     public static final int DATE_ONLY = 3;          // Same as DATE_ONLY_FORMAT in thick
     public static final int TIME_ONLY = 4;          // Same as TIME_ONLY_FORMAT in thick
 
-    public static final int DEBUG_INFO = 1;
-    public static final int INFORMATION = 2;
-    public static final int WAIT = 3; // Cursor.WAIT_CURSOR;  // 3 (Am I lucky or what?)
-    public static final int WARNING = 4;
-    public static final int ERROR = 5;     // These are copied from log4j
     // Command options
 	public static final int USE_SAME_WINDOW = 0;
 	public static final int USE_NEW_WINDOW = 1 << 29;	// 2^ 29
