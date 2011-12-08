@@ -22,9 +22,9 @@ import org.jbundle.thin.app.test.test.db.TestTable;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.client.RemoteFieldTable;
 import org.jbundle.thin.base.db.client.memory.MemoryRemoteTable;
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JBaseFrame;
-import org.jbundle.thin.base.screen.grid.ThinTableModel;
 import org.jbundle.thin.base.screen.util.JBlinkLabel;
 
 
@@ -76,7 +76,7 @@ public class TestThinGridScreen extends BaseApplet
         DBBaseTest test = new DBBaseTest(null);
         test.initTable(testTable);
 
-        ThinTableModel model = new TestGridModel(record.getTable());
+        AbstractThinTableModel model = new TestGridModel(record.getTable());
         JTable thinscreen = new JTable(model);
 TableColumnModel columnModel = thinscreen.getColumnModel();
 TableColumn tableColumn = columnModel.getColumn(1);

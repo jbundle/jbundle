@@ -38,7 +38,7 @@ import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
-import org.jbundle.thin.base.screen.grid.ThinTableModel;
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 
 
 /**
@@ -375,11 +375,11 @@ public class VGridScreen extends VBaseGridTableScreen
     {
         JTable table = (JTable)this.getControl();
         TableModel model = table.getModel();
-        if (model instanceof ThinTableModel)
+        if (model instanceof AbstractThinTableModel)
         {   // Always
             JTableHeader tableHeader = table.getTableHeader();
-            iColumn = ((ThinTableModel)model).columnToViewColumn(iColumn);  // Convert to view column
-            ((ThinTableModel)model).setSortedByColumn(tableHeader, iColumn, bOrder);
+            iColumn = ((AbstractThinTableModel)model).columnToViewColumn(iColumn);  // Convert to view column
+            ((AbstractThinTableModel)model).setSortedByColumn(tableHeader, iColumn, bOrder);
         }
     }
 }

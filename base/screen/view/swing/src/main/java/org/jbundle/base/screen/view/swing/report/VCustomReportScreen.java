@@ -26,6 +26,7 @@ import org.jbundle.base.db.GridTable;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.CustomReportScreen;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.grid.ThinTableModel;
 import org.jbundle.thin.base.screen.print.ScreenPrinter;
 import org.jbundle.thin.base.util.ThinMenuConstants;
@@ -162,7 +163,7 @@ public class VCustomReportScreen extends VBaseReportScreen
             
             MyJTable table = (MyJTable)this.getControl();
             GridTable gridTable = (GridTable)((CustomReportScreen)this.getScreenField()).getMainRecord().getTable();
-            ThinTableModel model = new ThinTableModel(gridTable);
+            AbstractThinTableModel model = new ThinTableModel(gridTable);
             model.setAppending(false);
             table.setModel(model);
             

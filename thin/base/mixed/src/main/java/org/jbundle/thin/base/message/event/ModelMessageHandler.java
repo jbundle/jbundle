@@ -18,7 +18,7 @@ import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageListener;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MessageConstants;
-import org.jbundle.thin.base.screen.grid.ThinTableModel;
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 
 
 /**
@@ -134,11 +134,11 @@ public class ModelMessageHandler extends BaseMessageListener
     public void updateModel(int iMessageType, int iStartIndex, int iEndIndex)
     {
         FieldTable table = null;
-        if (m_model instanceof ThinTableModel)
+        if (m_model instanceof AbstractThinTableModel)
         {
-            if (((ThinTableModel)m_model).getCurrentRow() == iStartIndex)
-                ((ThinTableModel)m_model).makeRowCurrent(-1, false);    // Invalidate the current row (and any changes)
-            table = ((ThinTableModel)m_model).getFieldTable();
+            if (((AbstractThinTableModel)m_model).getCurrentRow() == iStartIndex)
+                ((AbstractThinTableModel)m_model).makeRowCurrent(-1, false);    // Invalidate the current row (and any changes)
+            table = ((AbstractThinTableModel)m_model).getFieldTable();
             if (table instanceof RemoteFieldTable)
             {
                 CachedRemoteTable remoteTable = (CachedRemoteTable)((RemoteFieldTable)table).getRemoteTableType(CachedRemoteTable.class);
@@ -154,8 +154,8 @@ public class ModelMessageHandler extends BaseMessageListener
             }
             if (Constants.AFTER_ADD_TYPE == iMessageType)
             {
-                if (((ThinTableModel)m_model).getRowCount() == iStartIndex) // It is possible for this to be called twice (timing issue since in swing thread)
-                    ((ThinTableModel)m_model).bumpTableSize(+1, false); // I call row inserted in a few lines
+                if (((AbstractThinTableModel)m_model).getRowCount() == iStartIndex) // It is possible for this to be called twice (timing issue since in swing thread)
+                    ((AbstractThinTableModel)m_model).bumpTableSize(+1, false); // I call row inserted in a few lines
                 else
                     iMessageType = Constants.AFTER_UPDATE_TYPE;
             }

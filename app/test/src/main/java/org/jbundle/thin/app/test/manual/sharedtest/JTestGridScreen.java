@@ -12,9 +12,9 @@ package org.jbundle.thin.app.test.manual.sharedtest;
  */
 import org.jbundle.thin.app.test.vet.shared.db.Reptile;
 import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.JBaseScreen;
 import org.jbundle.thin.base.screen.grid.JGridScreen;
-import org.jbundle.thin.base.screen.grid.ThinTableModel;
 
 
 /**
@@ -66,7 +66,7 @@ public class JTestGridScreen extends JGridScreen
      * Override this to create a new record.
      * @return The fieldlist for this screen.
      */
-    public ThinTableModel createGridModel(FieldList record)
+    public AbstractThinTableModel createGridModel(FieldList record)
     {
         return new TestGridModel(record.getTable());
     }

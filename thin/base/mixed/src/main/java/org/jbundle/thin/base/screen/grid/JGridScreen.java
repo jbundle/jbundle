@@ -33,6 +33,7 @@ import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JBaseScreen;
 import org.jbundle.thin.base.screen.action.ActionManager;
@@ -51,7 +52,7 @@ public class JGridScreen extends JBaseScreen
 	/**
      * The model for the table.
      */
-    protected ThinTableModel m_thinTableModel = null;
+    protected AbstractThinTableModel m_thinTableModel = null;
     /**
      * The model's JTable screen.
      */
@@ -102,7 +103,7 @@ public class JGridScreen extends JBaseScreen
      * Get the grid model for this screen's JTable.
      * @return This screen's table model.
      */
-    public ThinTableModel getGridModel()
+    public AbstractThinTableModel getGridModel()
     {
         return m_thinTableModel;
     }
@@ -122,7 +123,7 @@ public class JGridScreen extends JBaseScreen
      * return new TestGridModel(record.getFieldTable());
      * </pre>
      */
-    public ThinTableModel createGridModel(FieldList record)
+    public AbstractThinTableModel createGridModel(FieldList record)
     {
         return null;
     }

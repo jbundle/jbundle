@@ -21,9 +21,9 @@ import javax.swing.JTable;
 
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.JBasePanel;
 import org.jbundle.thin.base.screen.JBaseScreen;
-import org.jbundle.thin.base.screen.grid.ThinTableModel;
 
 
 /**
@@ -108,7 +108,7 @@ public class JMainScreen extends JBaseScreen
         if (Constants.FORM.equalsIgnoreCase(strAction))
         {
             JTable table = (JTable)JBasePanel.getSubScreen(this, JTable.class);
-            ThinTableModel model = this.getModel(table);
+            AbstractThinTableModel model = this.getModel(table);
             if (model != null)
             {
                 int iSelectedRow = model.getSelectedRow();
@@ -170,11 +170,11 @@ public class JMainScreen extends JBaseScreen
      * @param table
      * @return
      */
-    public ThinTableModel getModel(JTable table)
+    public AbstractThinTableModel getModel(JTable table)
     {
-        ThinTableModel model = null;
+        AbstractThinTableModel model = null;
         if (table != null)
-            model = (ThinTableModel)table.getModel();
+            model = (AbstractThinTableModel)table.getModel();
         return model;
     }
     /**

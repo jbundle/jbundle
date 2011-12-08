@@ -23,10 +23,10 @@ import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.remote.RemoteSession;
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JScreen;
 import org.jbundle.thin.base.screen.grid.JGridScreen;
-import org.jbundle.thin.base.screen.grid.ThinTableModel;
 
 
 /**
@@ -127,7 +127,7 @@ public class TestThinVetScreen extends JScreen
                     
 //&                    m_remoteSession.doRemoteAction(Constants.RESET, null);
                     JGridScreen gridScreen = (JGridScreen)this.getComponentByName(Constants.GRID);
-                    ThinTableModel model = gridScreen.getGridModel();
+                    AbstractThinTableModel model = gridScreen.getGridModel();
                     FieldTable table = model.getFieldTable();
                     table.close();
                     model.resetTheModel();
@@ -144,7 +144,7 @@ public class TestThinVetScreen extends JScreen
             {
                 m_remoteSession.doRemoteAction(strAction, null);    // Tell the remote session that I'm done with this booking
                     JGridScreen gridScreen = (JGridScreen)this.getComponentByName(Constants.GRID);
-                    ThinTableModel model = gridScreen.getGridModel();
+                    AbstractThinTableModel model = gridScreen.getGridModel();
                     FieldTable table = model.getFieldTable();
                     table.close();
                     model.resetTheModel();

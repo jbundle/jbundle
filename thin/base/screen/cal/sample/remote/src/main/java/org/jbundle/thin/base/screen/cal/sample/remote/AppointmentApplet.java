@@ -16,10 +16,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JBaseFrame;
 import org.jbundle.thin.base.screen.cal.grid.CalendarThinTableModel;
-import org.jbundle.thin.base.screen.grid.ThinTableModel;
 import org.jbundle.thin.main.calendar.db.CalendarEntry;
 
 /**
@@ -67,7 +67,7 @@ public class AppointmentApplet extends BaseApplet
 
         CalendarEntry record = new CalendarEntry(this);
         this.linkNewRemoteTable(record);
-        ThinTableModel model = new CalendarThinTableModel(record.getTable(), "StartDateTime", "EndDateTime", "Description", null);
+        AbstractThinTableModel model = new CalendarThinTableModel(record.getTable(), "StartDateTime", "EndDateTime", "Description", null);
 
         
         JTable thinscreen = new JTable(model);

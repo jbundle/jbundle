@@ -20,7 +20,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -35,8 +34,10 @@ import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.JScreenConstants;
 import org.jbundle.thin.base.screen.grid.sort.SortableHeaderRenderer;
+
 
 
 /**
@@ -51,11 +52,9 @@ import org.jbundle.thin.base.screen.grid.sort.SortableHeaderRenderer;
  * m_thinTableModel.setGridScreen(m_jTableScreen, true);
  * </pre>
  */
-public class ThinTableModel extends AbstractTableModel
+public class ThinTableModel extends AbstractThinTableModel
 {
 	private static final long serialVersionUID = 1L;
-
-    private Set<ThinTableModelListener> m_modelListeners = null;
 
     /**
      * Increasing this will increase the granularity of the jumps in row value.
@@ -69,10 +68,6 @@ public class ThinTableModel extends AbstractTableModel
      * This constant means the record number is unknown.
      */
     public final static int RECORD_UNKNOWN = -2;
-    /**
-     * The table for this model.
-     */
-    protected FieldTable m_table = null;
     /**
      * Theoretical EOF value for table scroller (Actual when known).
      */
@@ -101,10 +96,8 @@ public class ThinTableModel extends AbstractTableModel
      * Always start here.
      */
     protected int m_iSelectedRow = -1;
-    /**
-     * Allow appending.
-     */
-    protected boolean m_bIsAppending = true;
+
+    private Set<ThinTableModelListener> m_modelListeners = null;
 
     /**
      * ThinTableModel constructor.
@@ -128,7 +121,7 @@ public class ThinTableModel extends AbstractTableModel
      */
     public void init(FieldTable table)
     {
-        m_table = table;
+        super.init(table);
 
         m_iRowCount = START_ROWS;       // Theoretical EOF value for table scroller (Actual when known).
     }
@@ -150,28 +143,7 @@ public class ThinTableModel extends AbstractTableModel
             }
             m_modelListeners = null;
         }
-        m_table = null;
-    }
-    /**
-     * Get the column count.
-     * @return The field count of this model's record.
-     */
-    public int getColumnCount()
-    {
-        return m_table.getRecord().size();
-    }
-    /**
-     * Returns the field at columnIndex.
-     * This should be overidden if don't want to just return the corresponding field in the record.
-     * @param iColumn The column to get the field from.
-     * @return The field in this column.
-     */
-    public Converter getFieldInfo(int iColumnIndex)
-    {
-        Converter converter = m_table.getRecord().getField(iColumnIndex);
-        if (converter != null)
-            converter = converter.getFieldConverter();  // Make sure you have the front converter.
-        return converter;
+        super.free();
     }
     /**
      * Get the number of rows in the physical table.
@@ -431,22 +403,6 @@ public class ThinTableModel extends AbstractTableModel
             return;     // No need to recalc if less than the estimated EOF
         int iRoot = (int)(Math.pow(iCurrentRow, 1.0 / POWER)) + 1;
         this.setRowCount((int)(Math.pow(iRoot, POWER)) + 1);    // New estimated EOF
-    }
-    /**
-     * Add one extra blank record for appending?
-     * @return true if I should add a record at the end for insertion.
-     */
-    public void setAppending(boolean bIsAppending)
-    {
-        m_bIsAppending = bIsAppending;
-    }
-    /**
-     * Add one extra blank record for appending?
-     * @return true if I should add a record at the end for insertion.
-     */
-    public boolean isAppending()
-    {
-        return m_bIsAppending;
     }
     /**
      * The underlying query changed, reset the model.
@@ -842,14 +798,6 @@ public class ThinTableModel extends AbstractTableModel
         return m_iCurrentLockedRowIndex;
     }
     /**
-     * Get the fieldtable this is based on.
-     * @return The record.
-     */
-    public FieldTable getFieldTable()
-    {
-        return m_table;
-    }
-    /**
      * The underlying table has increased in size, change the model to access these extra record(s).
      * Note: This is not implemented correctly.
      * @param iNewSize The new table size.
@@ -920,14 +868,14 @@ public class ThinTableModel extends AbstractTableModel
         /**
          * The model for this listener.
          */
-        protected ThinTableModel m_model = null;
+        protected AbstractThinTableModel m_model = null;
 
         /**
          * Constructor.
          * @param table The table for this listener.
          * @param model The model for this listener.
          */
-        public ThinTableModelListener(JTable table, ThinTableModel model)
+        public ThinTableModelListener(JTable table, AbstractThinTableModel model)
         {
             super();
             m_table = table;

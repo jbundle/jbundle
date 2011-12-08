@@ -31,6 +31,7 @@ import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
+import org.jbundle.thin.base.screen.grid.ThinTableModel;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.ThinApplication;
 import org.jbundle.thin.base.screen.grid.JCellButton;
@@ -39,7 +40,6 @@ import org.jbundle.thin.base.screen.grid.JCellCheckBox;
 import org.jbundle.thin.base.screen.grid.JCellImage;
 import org.jbundle.thin.base.screen.grid.JCellRemoteComboBox;
 import org.jbundle.thin.base.screen.grid.JCellThreeStateCheckBox;
-import org.jbundle.thin.base.screen.grid.ThinTableModel;
 import org.jbundle.thin.base.util.Application;
 
 

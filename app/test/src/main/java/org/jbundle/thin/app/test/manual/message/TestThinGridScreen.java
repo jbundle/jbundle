@@ -14,6 +14,7 @@ package org.jbundle.thin.app.test.manual.message;
 import org.jbundle.thin.app.test.test.db.TestTable;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.remote.RemoteSession;
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.grid.JGridScreen;
 import org.jbundle.thin.base.screen.grid.ThinTableModel;
 import org.jbundle.thin.base.screen.message.ThinMessageManager;
@@ -82,7 +83,7 @@ public class TestThinGridScreen extends JGridScreen
      * Override this to create a new record.
      * @return The fieldlist for this screen.
      */
-    public ThinTableModel createGridModel(FieldList record)
+    public AbstractThinTableModel createGridModel(FieldList record)
     {
 //        return new TestGridModel(record.getFieldTable());
         return new ThinTableModel(record.getTable());

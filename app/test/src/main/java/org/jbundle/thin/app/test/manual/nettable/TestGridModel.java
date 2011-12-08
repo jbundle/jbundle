@@ -16,8 +16,8 @@ import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
-import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.grid.ThinTableModel;
+import org.jbundle.thin.base.screen.BaseApplet;
 
 
 /**

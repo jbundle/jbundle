@@ -18,6 +18,7 @@ import javax.swing.JTable;
 
 import org.jbundle.thin.app.test.test.db.TestTable;
 import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JBaseFrame;
 import org.jbundle.thin.base.screen.grid.ThinTableModel;
@@ -66,7 +67,7 @@ public class TestThinGridApplet extends BaseApplet
 //      FieldList record = screen.getFieldList();
         this.linkNewRemoteTable(record, true);
 
-        ThinTableModel model = new ThinTableModel(record.getTable());
+        AbstractThinTableModel model = new ThinTableModel(record.getTable());
 //      ThinTableModel model = new CalendarThinTableModel(record.getFieldTable());
         JTable thinscreen = new JTable(model);
         model.setGridScreen(thinscreen, false);
