@@ -176,45 +176,6 @@ public class ThinTableModel extends AbstractThinTableModel
         return m_iRowCount;
     }
     /**
-     * Returns the name of the column at columnIndex.
-     * @param The column to get the name of.
-     * @return The column's field description.
-     */
-    public String getColumnName(int iColumnIndex)
-    {
-        Converter fieldInfo = this.getFieldInfo(iColumnIndex);
-        if (fieldInfo != null)
-            return fieldInfo.getFieldDesc();
-        return Constants.BLANK;
-    }
-    /**
-     * Get the column class.
-     * @param The column to get the class of.
-     * @return String by default, override to supply a different class.
-     */
-    public Class<?> getColumnClass(int iColumnIndex)
-    {
-        return String.class;
-    }
-    /**
-     * Get the cell editor for this column.
-     * @param The column to get the cell editor for.
-     * @return The cell editor or null to use the default.
-     */
-    public TableCellEditor createColumnCellEditor(int iColumnIndex)
-    {
-        return null;
-    }
-    /**
-     * Get the cell renderer for this column.
-     * @param The column to get the cell renderer for.
-     * @return The cell renderer or null to use the default.
-     */
-    public TableCellRenderer createColumnCellRenderer(int iColumnIndex)
-    {
-        return null;
-    }
-    /**
      * Is this cell editable.
      * @return true unless this is a deleted record.
      */

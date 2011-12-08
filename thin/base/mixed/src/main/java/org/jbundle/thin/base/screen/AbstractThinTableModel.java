@@ -7,8 +7,11 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 import org.jbundle.model.DBException;
+import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
@@ -214,4 +217,62 @@ public abstract class AbstractThinTableModel extends AbstractTableModel
      * @return true if successful.
      */
     public abstract boolean sortByColumn(int iColumn, boolean bOrder);
+    /**
+     * Returns the name of the column at columnIndex.
+     * @param The column to get the name of.
+     * @return The column's field description.
+     */
+    public String getColumnName(int iColumnIndex)
+    {
+        Converter fieldInfo = this.getFieldInfo(iColumnIndex);
+        if (fieldInfo != null)
+            return fieldInfo.getFieldDesc();
+        return Constants.BLANK;
+    }
+    /**
+     * Get the column class.
+     * @param The column to get the class of.
+     * @return String by default, override to supply a different class.
+     */
+    public Class<?> getColumnClass(int iColumnIndex)
+    {
+        return String.class;
+    }
+    /**
+     * Get the cell editor for this column.
+     * @param The column to get the cell editor for.
+     * @return The cell editor or null to use the default.
+     */
+    public TableCellEditor createColumnCellEditor(int iColumnIndex)
+    {
+        return null;
+    }
+    /**
+     * Get the cell renderer for this column.
+     * @param The column to get the cell renderer for.
+     * @return The cell renderer or null to use the default.
+     */
+    public TableCellRenderer createColumnCellRenderer(int iColumnIndex)
+    {
+        return null;
+    }
+    /**
+     * Is this cell editable.
+     * @return true unless this is a deleted record.
+     */
+    public abstract boolean isCellEditable(int iRowIndex, int iColumnIndex);
+    /**
+     * Set the value at this location.
+     * @param aValue The raw-data value to set.
+     * @param iRowIndex The row.
+     * @param iColumnIndex The column.
+     */
+    public abstract void setValueAt(Object aValue, int iRowIndex, int iColumnIndex);
+    /**
+     * Get the value of the field at the column.
+     * This is NOT a TableModel override, this is my method.
+     * @param iColumnIndex The column.
+     * @return The string at this location.
+     */
+    public abstract Object getColumnValue(int iColumnIndex, int iEditMode);
 }
