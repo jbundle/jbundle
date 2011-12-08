@@ -19,7 +19,6 @@
   </properties>
 
   <modules>
-    <module>mixed</module>
     <module>db</module>
     <module>screen</module>
     <module>util</module>
