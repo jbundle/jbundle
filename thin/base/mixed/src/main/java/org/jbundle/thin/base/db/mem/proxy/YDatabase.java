@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.db.FieldList;
@@ -25,7 +26,6 @@ import org.jbundle.thin.base.db.mem.net.NDatabase;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -78,14 +78,14 @@ public class YDatabase extends NDatabase
                     if (((RecordOwnerParent)record.getOwner()).getTask().getApplication() != null)
                         if (((RecordOwnerParent)record.getOwner()).getTask().getApplication().getLanguage(true) != null)
                         	properties.put(Params.LANGUAGE, ((RecordOwnerParent)record.getOwner()).getTask().getApplication().getLanguage(true));
-            Application app = null;
+            App app = null;
             if (this.getPDatabaseParent() != null)
-                app = (Application)this.getPDatabaseParent().getProperty(PhysicalDatabaseParent.APP);
+                app = (App)this.getPDatabaseParent().getProperty(PhysicalDatabaseParent.APP);
             RemoteTask remoteTask = null;
             if (app == null)
                 return super.openSerialStream(record, strLookupKey);	// Never
             else
-            	remoteTask = app.getRemoteTask(null);
+            	remoteTask = (RemoteTask)app.getRemoteTask(null);
             Object data = remoteTask.doRemoteAction(strCommand, properties);
             ByteArrayInputStream istream = new ByteArrayInputStream((byte[])data);
             return istream;

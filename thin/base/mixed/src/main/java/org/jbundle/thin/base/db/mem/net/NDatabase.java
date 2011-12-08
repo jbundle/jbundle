@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.jbundle.model.App;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
@@ -24,7 +25,6 @@ import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.mem.serial.SDatabase;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -78,9 +78,9 @@ public class NDatabase extends SDatabase
                     if (((RecordOwnerParent)record.getOwner()).getTask().getApplication() != null)
                         if (((RecordOwnerParent)record.getOwner()).getTask().getApplication().getLanguage(true) != null)
                             strFilePathName = Util.addURLParam(strFilePathName, Params.LANGUAGE, ((RecordOwnerParent)record.getOwner()).getTask().getApplication().getLanguage(true));
-            Application app = null;
+            App app = null;
             if (this.getPDatabaseParent() != null)
-                app = (Application)this.getPDatabaseParent().getProperty(PhysicalDatabaseParent.APP);
+                app = (App)this.getPDatabaseParent().getProperty(PhysicalDatabaseParent.APP);
             URL url = null;
             if (app == null)
             {
