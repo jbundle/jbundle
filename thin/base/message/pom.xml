@@ -21,11 +21,6 @@
       <version>0.8.0-SNAPSHOT</version>
     </dependency>
 
-    <dependency>    <!-- Get rid of this (Record data desc can be moved) -->
-      <groupId>org.jbundle.thin.base.db</groupId>
-      <artifactId>org.jbundle.thin.base.db</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-    </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.thread</artifactId>
