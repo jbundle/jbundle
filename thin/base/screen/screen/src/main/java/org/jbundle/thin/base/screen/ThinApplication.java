@@ -165,15 +165,15 @@ public class ThinApplication extends Application {
                 if (!bSuccess)
                 {
                     Map<String,Object> properties = new Hashtable<String,Object>();
-                    properties.put(Params.SCREEN, org.jbundle.thin.base.screen.util.html.JHelpView.class.getName());
+                    properties.put(Params.SCREEN, "org.jbundle.thin.base.screen.util.html.JHelpView");
                     if (url != null)
                         strProtocol = url.getProtocol();
                     if (MAIL_TO.equalsIgnoreCase(strProtocol))
-                        properties.put(Params.SCREEN, org.jbundle.thin.base.screen.util.mail.JMailView.class.getName());
+                        properties.put(Params.SCREEN, "org.jbundle.thin.base.screen.util.mail.JMailView");
                     else if (Params.FAX.equalsIgnoreCase(strProtocol))
-                        properties.put(Params.SCREEN, org.jbundle.thin.base.screen.util.mail.JFaxView.class.getName());
+                        properties.put(Params.SCREEN, "org.jbundle.thin.base.screen.util.mail.JFaxView");
                     else if (Params.PHONE.equalsIgnoreCase(strProtocol))
-                        properties.put(Params.SCREEN, org.jbundle.thin.base.screen.util.mail.JPhoneView.class.getName());
+                        properties.put(Params.SCREEN, "org.jbundle.thin.base.screen.util.mail.JPhoneView");
                     if (url != null)
                         properties.put(Params.URL, url.toString());
                     else

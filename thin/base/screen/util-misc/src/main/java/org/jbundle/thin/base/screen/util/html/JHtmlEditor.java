@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.net.URL;
 
-import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
@@ -18,6 +17,7 @@ import org.jbundle.model.Freeable;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
+import org.jbundle.thin.base.screen.html.base.JBaseHtmlEditor;
 import org.jbundle.thin.base.screen.print.thread.SwingSyncPageWorker;
 import org.jbundle.thin.base.screen.print.thread.SyncPage;
 import org.jbundle.thin.base.thread.PrivateTaskScheduler;
@@ -27,7 +27,7 @@ import org.jbundle.thin.base.thread.TaskScheduler;
 /**
  * Html View
  */
-public class JHtmlEditor extends JEditorPane
+public class JHtmlEditor extends JBaseHtmlEditor
     implements SyncPage, Freeable
 {
 	private static final long serialVersionUID = 1L;

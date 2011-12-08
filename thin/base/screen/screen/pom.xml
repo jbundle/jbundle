@@ -9,7 +9,6 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
   <artifactId>org.jbundle.thin.base.screen</artifactId>
   <name>jbundle-thin-base-screen</name>
   <packaging>bundle</packaging>
@@ -28,6 +27,7 @@
             !org.jbundle.thin.base.screen.util.*;version=${project.version},
             !org.jbundle.thin.base.screen.jcalendarbutton.*;version=${project.version},
             org.jbundle.thin.base.screen.*;version=${project.version},
+            org.jbundle.thin.base.screen.html.base.*;version=${project.version},
             org.jbundle.thin.base.message.event.*;version=${project.version},
             </Export-Package>
             <Import-Package>

@@ -54,11 +54,11 @@ import org.jbundle.thin.base.screen.comp.ChangePasswordDialog;
 import org.jbundle.thin.base.screen.comp.JStatusbar;
 import org.jbundle.thin.base.screen.comp.JTiledImage;
 import org.jbundle.thin.base.screen.comp.LoginDialog;
+import org.jbundle.thin.base.screen.html.base.JBaseHelpPane;
+import org.jbundle.thin.base.screen.html.base.JBaseHtmlEditor;
 import org.jbundle.thin.base.screen.landf.ScreenDialog;
 import org.jbundle.thin.base.screen.landf.ScreenUtil;
 import org.jbundle.thin.base.screen.print.thread.SyncPage;
-import org.jbundle.thin.base.screen.util.html.JHelpPane;
-import org.jbundle.thin.base.screen.util.html.JHtmlEditor;
 import org.jbundle.thin.base.thread.RecordOwnerCollection;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
@@ -107,7 +107,7 @@ public class BaseApplet extends JApplet
     /**
      * Help pane.
      */
-    protected JHtmlEditor m_helpEditor = null;
+    protected JBaseHtmlEditor m_helpEditor = null;
     /**
      * Last Error message.
      */
@@ -731,7 +731,8 @@ public class BaseApplet extends JApplet
         if (this.getApplet() == null)
         	if (m_bAddStatusbar)
         		panelContainer.add(m_statusbar = new JStatusbar(null), BorderLayout.SOUTH);
-        JHelpPane helpPane = new JHelpPane(null, null);
+        JBaseHelpPane helpPane = (JBaseHelpPane)ClassServiceUtility.getClassService().makeObjectFromClassName("org.jbundle.thin.base.screen.util.html.JHelpPane");
+        helpPane.init(null, null);
         panelContainer.add(helpPane, BorderLayout.EAST);
         this.setHelpView(helpPane.getHelpView().getHtmlEditor());
         helpPane.setVisible(false);
@@ -746,7 +747,7 @@ public class BaseApplet extends JApplet
      * Get the help pane.
      * @return the help pane.
      */
-    public JHtmlEditor getHelpView()
+    public JBaseHtmlEditor getHelpView()
     {
     	return m_helpEditor;
     }
@@ -754,7 +755,7 @@ public class BaseApplet extends JApplet
      * Set the help pane.
      * @return the help pane.
      */
-    public void setHelpView(JHtmlEditor helpEditor)
+    public void setHelpView(JBaseHtmlEditor helpEditor)
     {
     	if (m_helpEditor != null)
     		m_helpEditor.setCallingApplet(null);

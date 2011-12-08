@@ -23,14 +23,14 @@ import javax.swing.border.LineBorder;
 
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.screen.BaseApplet;
-import org.jbundle.thin.base.screen.JBasePanel;
 import org.jbundle.thin.base.screen.JBaseToolbar;
+import org.jbundle.thin.base.screen.html.base.JBaseHelpPane;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 
 /**
  * Status bar for displaying status in standalone windows.
  */
-public class JHelpPane extends JBasePanel
+public class JHelpPane extends JBaseHelpPane
 {
 	private static final long serialVersionUID = 1L;
 

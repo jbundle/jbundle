@@ -18,15 +18,15 @@ import javax.swing.JViewport;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
-import org.jbundle.thin.base.screen.JBasePanel;
 import org.jbundle.thin.base.screen.JBaseToolbar;
+import org.jbundle.thin.base.screen.html.base.JBaseHtmlView;
 import org.jbundle.thin.base.util.Application;
 
 
 /**
  * Html View
  */
-public class JHtmlView extends JBasePanel
+public class JHtmlView extends JBaseHtmlView
 {
 	private static final long serialVersionUID = 1L;
 
