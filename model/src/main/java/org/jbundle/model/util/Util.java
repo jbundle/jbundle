@@ -372,6 +372,7 @@ public class Util extends Object
     * @param objValue The raw data value.
     * @return The XML string for this value.
     */
+   @SuppressWarnings({ "rawtypes", "unchecked" })
    public static StringBuffer getXML(StringBuffer sbXML, String strParam, Object objValue)
    {
        Util.addStartTag(sbXML, strParam);

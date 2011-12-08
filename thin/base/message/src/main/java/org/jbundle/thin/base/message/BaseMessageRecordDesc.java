@@ -14,9 +14,8 @@ import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.util.Constant;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.util.DataConverters;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
-import org.jbundle.model.db.Rec;
 
 
 /**
@@ -248,7 +247,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
             classData = this.getMessage().getNativeClassType(field.getField().getDataClass());
         Object objValue = field.getData();
         try {
-            objValue = Converter.convertObjectToDatatype(objValue, classData, null);  // I do this just to be careful.
+            objValue = DataConverters.convertObjectToDatatype(objValue, classData, null);  // I do this just to be careful.
         } catch (Exception ex) {
             objValue = null;
         }
@@ -299,7 +298,7 @@ public class BaseMessageRecordDesc extends MessageDataDesc
         Class<?> classData = field.getField().getDataClass();
         Object objValue = this.getMessage().getNative(strKey);
         try {
-            objValue = Converter.convertObjectToDatatype(objValue, classData, null);  // I do this just to be careful.
+            objValue = DataConverters.convertObjectToDatatype(objValue, classData, null);  // I do this just to be careful.
         } catch (Exception ex) {
             objValue = null;
         }

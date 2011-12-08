@@ -12,9 +12,6 @@ package org.jbundle.thin.base.db;
 
 //import java.awt.Component;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
 
@@ -23,8 +20,6 @@ import org.jbundle.model.db.Field;
 import org.jbundle.model.db.FieldComponent;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.db.ScreenComponent;
-
-
 
 /**
  * FieldInfo - This is the base class for all fields.
@@ -216,6 +211,7 @@ public class FieldInfo extends Converter
      * Compare field to this and return < > or = (-,+,0).
      * @return compare value.
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public int compareTo(Object dataCompare)
     { // Override this
         Object data = this.getData();
@@ -715,84 +711,6 @@ public class FieldInfo extends Converter
         m_bModified = flag;
     }
     /**
-     * Convert this string to a Short.
-     * @param strString string to convert.
-     * @return Short value.
-     * @throws Exception NumberFormatException.
-     */
-    public static Short stringToShort(String strString) throws Exception
-    {
-        Number objData;
-        initGlobals();      // Make sure you have the utilities
-        if ((strString == null) || (strString.equals(Constants.BLANK)))
-            return null;
-        strString = FieldInfo.stripNonNumber(strString);
-        try   {
-            synchronized (gIntegerFormat)
-            {
-                objData = gIntegerFormat.parse(strString);
-            }
-            if (!(objData instanceof Short))
-            {
-                if (objData instanceof Number)
-                    objData = new Short(objData.shortValue());
-                else
-                    objData = null;
-            }
-        } catch (ParseException ex)   {
-            objData = null;
-        }
-        if (objData == null)
-        {
-            try   {
-                objData = new Short(strString);
-            } catch (NumberFormatException ex)  {
-                throw ex;
-            }
-        }
-        return (Short)objData;
-    }
-    /**
-     * Convert this string to a Integer.
-     * @param strString string to convert.
-     * @return Integer value.
-     * @throws Exception NumberFormatException.
-     */
-    public static Integer stringToInteger(String strString) throws Exception
-    {
-        Number objData;
-        initGlobals();      // Make sure you have the utilities
-        if ((strString == null) || (strString.equals(Constants.BLANK)))
-            return null;
-        strString = FieldInfo.stripNonNumber(strString);
-        try   {
-            synchronized (gIntegerFormat)
-            {
-                objData = gIntegerFormat.parse(strString);
-            }
-            if (!(objData instanceof Integer))
-            {
-                if (objData instanceof Number)
-                    objData = new Integer(objData.intValue());
-                else
-                    objData = null;
-            }
-        } catch (ParseException ex)   {
-            objData = null;
-        }
-        if (objData == null)
-            if (strString != null)
-            if (strString.length() > 0)
-        {
-            try   {
-                objData = new Integer(strString);
-            } catch (NumberFormatException ex)  {
-                throw ex;
-            }
-        }
-        return (Integer)objData;
-    }
-    /**
      * Convert this string to a Float.
      * @param strString string to convert.
      * @return Float value.
@@ -801,46 +719,6 @@ public class FieldInfo extends Converter
     public Float stringToFloat(String strString) throws Exception
     {
         return FieldInfo.stringToFloat(strString, m_ibScale);
-    }
-    /**
-     * Convert this string to a Float.
-     * @param strString string to convert.
-     * @return Float value.
-     * @throws Exception NumberFormatException.
-     */
-    public static Float stringToFloat(String strString, int ibScale) throws Exception
-    {
-        Number objData;
-        initGlobals();      // Make sure you have the utilities
-        if ((strString == null) || (strString.equals(Constants.BLANK)))
-            return null;
-        strString = FieldInfo.stripNonNumber(strString);
-        try   {
-            synchronized (gNumberFormat)
-            {
-                objData = gNumberFormat.parse(strString);
-            }
-            if (!(objData instanceof Float))
-            {
-                if (objData instanceof Number)
-                    objData = new Float(objData.floatValue());
-                else
-                    objData = null;
-            }
-        } catch (ParseException ex)   {
-            objData = null;
-        }
-        if (objData == null)
-        {
-            try   {
-                objData = new Float(strString);
-            } catch (NumberFormatException ex)  {
-                throw ex;
-            }
-        }
-        if (ibScale != -1)
-            objData = new Float(Math.floor(((Float)objData).floatValue() * Math.pow(10, ibScale) + 0.5) / Math.pow(10, ibScale));
-        return (Float)objData;
     }
     /**
      * Convert this string to a Double.
@@ -853,46 +731,6 @@ public class FieldInfo extends Converter
         return FieldInfo.stringToDouble(strString, m_ibScale);
     }
     /**
-     * Convert this string to a Double.
-     * @param strString string to convert.
-     * @return Double value.
-     * @throws Exception NumberFormatException.
-     */
-    public static Double stringToDouble(String strString, int ibScale) throws Exception
-    {
-        Number objData;
-        initGlobals();      // Make sure you have the utilities
-        if ((strString == null) || (strString.equals(Constants.BLANK)))
-            return null;
-        strString = FieldInfo.stripNonNumber(strString);
-        try   {
-            synchronized (gNumberFormat)
-            {
-                objData = gNumberFormat.parse(strString);
-            }
-            if (!(objData instanceof Double))
-            {
-                if (objData instanceof Number)
-                    objData = new Double(objData.doubleValue());
-                else
-                    objData = null;
-            }
-        } catch (ParseException ex)   {
-            objData = null;
-        }
-        if (objData == null)
-        {
-            try   {
-                objData = new Double(strString);
-            } catch (NumberFormatException ex)  {
-                throw ex;
-            }
-        }
-        if (ibScale != -1)
-            objData = new Double(Math.floor(((Double)objData).doubleValue() * Math.pow(10, ibScale) + 0.5) / Math.pow(10, ibScale));
-        return (Double)objData;
-    }
-    /**
      * Convert this string to a Date.
      * Runs sequentually through the following formats: DateTime, DateShortTime,
      * Date, DateShort, Time.
@@ -903,73 +741,5 @@ public class FieldInfo extends Converter
     public Date stringToDate(String strString) throws Exception
     {
         return FieldInfo.stringToDate(strString, m_ibScale);
-    }
-    /**
-     * Convert this string to a Date.
-     * Runs sequentually through the following formats: DateTime, DateShortTime,
-     * Date, DateShort, Time.
-     * @param strString string to convert.
-     * @return Date value.
-     * @throws Exception NumberFormatException.
-     */
-    public static Date stringToDate(String strString, int ibScale) throws Exception
-    {
-        Date objData;
-        Exception except = null;
-        initGlobals();      // Make sure you have the utilities
-        if ((strString == null) || (strString.equals(Constants.BLANK)))
-            return null;
-        for (int i = 1; i <= 6; i++)
-        {
-            DateFormat df = null;
-            switch (i)
-            {
-            case 1:
-                df = gDateTimeFormat;break;
-            case 2:
-                df = gDateShortTimeFormat;break;
-            case 3:
-                df = gDateFormat;break;
-            case 4:
-                df = gDateShortFormat;break;
-            case 5:
-            default:
-                df = gTimeFormat;break;
-            case 6:
-                df= gGMTDateTimeFormat;break;
-            }
-            try   {
-                synchronized (gCalendar)
-                {
-                    objData = df.parse(strString);
-                    if (ibScale != -1)
-                    {
-                        Converter.gCalendar.setTime(objData);
-                        if (ibScale == Constants.DATE_ONLY)
-                        {
-                            Converter.gCalendar.set(Calendar.HOUR_OF_DAY, 0);
-                            Converter.gCalendar.set(Calendar.MINUTE, 0);
-                            Converter.gCalendar.set(Calendar.SECOND, 0);
-                            Converter.gCalendar.set(Calendar.MILLISECOND, 0);
-                        }
-                        if (ibScale == Constants.TIME_ONLY)
-                        {
-                            Converter.gCalendar.set(Calendar.YEAR, Constants.FIRST_YEAR);
-                            Converter.gCalendar.set(Calendar.MONTH, Calendar.JANUARY);
-                            Converter.gCalendar.set(Calendar.DATE, 1);
-                        }
-                        Converter.gCalendar.set(Calendar.MILLISECOND, 0);
-                        objData = Converter.gCalendar.getTime();
-                    }
-                }
-                return objData;
-            } catch (ParseException ex)   {
-                except = ex;
-                // continue with the next parse
-            }
-        }
-        if (except != null)
-            throw except;
-        return null;
     }
 }

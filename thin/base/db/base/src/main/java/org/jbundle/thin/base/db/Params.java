@@ -31,18 +31,10 @@ public interface Params extends Param
      */
     public static final String CODEBASE = "codebase";
     /**
-     * The RMI resource name (for name lookup).
-     */
-    public static final String APP_NAME = "appname";
-    /**
      * RMI Server name and port number (if not the RMI port 1099).
      */
     public static final String REMOTE_HOST = "remotehost";
     public static final String CONNECTION_TYPE = "connectionType";
-    /**
-     * This the the application name I should register with the RMI server as.
-     */
-    public static final String REMOTE_APP_NAME = "remoteappname";
     /**
      * The default RMI resource name.
      */

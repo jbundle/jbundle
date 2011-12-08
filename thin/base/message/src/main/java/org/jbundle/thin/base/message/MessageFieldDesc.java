@@ -15,7 +15,7 @@ import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.util.Constant;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.util.DataConverters;
 
 /**
  * This is the base message for sending and receiving requests.
@@ -216,7 +216,7 @@ public class MessageFieldDesc extends MessageDataDesc
     {
         Class<?> classData = this.getNativeClassType();
         try {
-            objValue = Converter.convertObjectToDatatype(objValue, classData, null);  // I do this just to be careful.
+            objValue = DataConverters.convertObjectToDatatype(objValue, classData, null);  // I do this just to be careful.
         } catch (Exception ex) {
             objValue = null;
         }
@@ -232,7 +232,7 @@ public class MessageFieldDesc extends MessageDataDesc
         Class<?> classData = this.getNativeClassType();
         Object objValue = null;
         try {
-            objValue = Converter.convertObjectToDatatype(strValue, classData, null);
+            objValue = DataConverters.convertObjectToDatatype(strValue, classData, null);
         } catch (Exception ex) {
             objValue = null;
         }
@@ -250,7 +250,7 @@ public class MessageFieldDesc extends MessageDataDesc
         if (this.getMessage() != null)
             data = this.getMessage().getNative(this.getFullKey(null));
         try {
-            data = Converter.convertObjectToDatatype(data, this.getRawClassType(), this.getDefault());
+            data = DataConverters.convertObjectToDatatype(data, this.getRawClassType(), this.getDefault());
         } catch (Exception ex) {
             data = null;
         }
@@ -268,7 +268,7 @@ public class MessageFieldDesc extends MessageDataDesc
             objValue = this.getMessage().getNative(this.getFullKey(null));
         Class<?> classData = this.getRawClassType();
         try {
-            return Converter.formatObjectToString(objValue, classData, this.getDefault());
+            return DataConverters.formatObjectToString(objValue, classData, this.getDefault());
         } catch (Exception ex) {
             return null;
         }

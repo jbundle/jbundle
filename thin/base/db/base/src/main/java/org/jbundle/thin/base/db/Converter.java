@@ -9,17 +9,9 @@ package org.jbundle.thin.base.db;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.ScreenComponent;
+import org.jbundle.model.util.DataConverters;
 
 
 
@@ -29,27 +21,10 @@ import org.jbundle.model.db.ScreenComponent;
  * @version 1.0.0
  * @author    Don Corley
  */
-public abstract class Converter extends Object
+public abstract class Converter extends DataConverters
     implements Convert
 {
-    public static DateFormat gDateFormat = null;
-    public static DateFormat gTimeFormat = null;
-    public static DateFormat gLongTimeFormat = null;
-    public static DateFormat gDateTimeFormat = null;
-    public static DateFormat gLongDateTimeFormat = null;
-    public static DateFormat gDateShortFormat = null;
-    public static DateFormat gDateShortTimeFormat = null;
-    public static DateFormat gDateSqlFormat = null;
-    public static DateFormat gTimeSqlFormat = null;
-    public static DateFormat gDateTimeSqlFormat = null;
-    public static DateFormat gGMTDateTimeFormat = null; // Use this format to pass dates as strings.
-    public static Calendar gCalendar = null;
-    public static NumberFormat gIntegerFormat = null;
-    public static NumberFormat gCurrencyFormat = null;
-    public static NumberFormat gNumberFormat = null;
-    public static NumberFormat gPercentFormat = null;
-    public static char gchDot = '.';        // Decimal separator
-    public static char gchMinus = '-';      // Minus sign
+
     /**
      * Constructor.
      */
@@ -78,47 +53,6 @@ public abstract class Converter extends Object
      */
     public void free()
     {
-    }
-    /**
-     * Initialize the global text format classes.
-     */
-    public static void initGlobals()
-    {
-        if (gDateFormat == null)
-        {   // NOTE: You MUST synchronize before using any of these
-            // For dates and times, synchronize on the gCalendar
-            gCalendar = Calendar.getInstance();
-
-            gDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
-            gTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
-            gLongTimeFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM);
-            gDateTimeFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
-            gLongDateTimeFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
-            gDateShortFormat = DateFormat.getDateInstance(DateFormat.SHORT);
-            gDateShortTimeFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-            gGMTDateTimeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
-
-            gDateSqlFormat = gDateShortFormat;  // By default use these formats - Change if different
-            gTimeSqlFormat = gTimeFormat;
-            gDateTimeSqlFormat = gDateShortTimeFormat;
-            // For all of these, synchronize on the object you are using
-            gIntegerFormat = NumberFormat.getInstance();
-            gIntegerFormat.setParseIntegerOnly(true);
-
-            gCurrencyFormat = NumberFormat.getCurrencyInstance();
-            
-            gNumberFormat = NumberFormat.getInstance();
-            gNumberFormat.setParseIntegerOnly(false);
-            gNumberFormat.setMinimumFractionDigits(2);
-            gNumberFormat.setMaximumFractionDigits(2);
-            if (gNumberFormat instanceof DecimalFormat)
-            {
-                gchDot = ((DecimalFormat)gNumberFormat).getDecimalFormatSymbols().getDecimalSeparator();
-                gchMinus = ((DecimalFormat)gNumberFormat).getDecimalFormatSymbols().getMinusSign();
-            }
-
-            gPercentFormat = NumberFormat.getPercentInstance();
-        }
     }
     /**
      * This screen component is displaying this field.
@@ -436,219 +370,5 @@ public abstract class Converter extends Object
     public String stripNonNumeric(String string)
     {
         return Converter.stripNonNumber(string);
-    }
-    /**
-     * Utility to strip all the non-numeric characters from this string.
-     * @param string input string.
-     * @return The result string.
-     */
-    public static String stripNonNumber(String string)
-    {
-    	if (string == null)
-    		return null;
-        for (int i = 0; i < string.length(); i++)
-        {
-            char ch = string.charAt(i);
-            if (!(Character.isDigit(ch)))
-                if (ch != gchDot)
-                if (ch != gchMinus)
-                {
-                    string = string.substring(0, i) + string.substring(i + 1);
-                    i--;
-                }
-        }
-        return string;
-    }
-    /**
-     * Convert this time to a date (ie., Hour, min, sec = 0).
-     * @param time
-     * @return
-     */
-    public static Date convertTimeToDate(Date time)
-    {
-        if (time != null)
-        {
-            Converter.initGlobals();
-            Calendar calendar = Converter.gCalendar;
-            calendar.setTime(time);
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-            time = calendar.getTime();
-        }       
-        return time;
-    }
-    /**
-     * Get this property from the map and convert it to the target class.
-     * @param properties The map object to get the property from.
-     * @param strKey The key of the property.
-     * @param classData The target class to convert the property to.
-     * @param objDefault The default value.
-     * @return The data in the correct class.
-     */
-    public static Object convertObjectToDatatype(Object objData, Class<?> classData, Object objDefault)
-        throws Exception
-    {
-        return Converter.convertObjectToDatatype(objData, classData, objDefault, -1);
-    }   
-    /**
-     * Get this property from the map and convert it to the target class.
-     * @param properties The map object to get the property from.
-     * @param strKey The key of the property.
-     * @param classData The target class to convert the property to.
-     * @param objDefault The default value.
-     * @return The data in the correct class.
-     */
-    public static Object convertObjectToDatatype(Object objData, Class<?> classData, Object objDefault, int iScale)
-        throws Exception
-    {
-        if (objData == null)
-            return objDefault;
-        if (objData.getClass() == classData)
-            return objData;
-        objData = objData.toString();   // Make sure it can be converted.
-        Converter.initGlobals();
-        if (objData instanceof String)
-        {   // Convert to local format
-            try {
-                if (classData == Short.class)
-                    objData = FieldInfo.stringToShort((String)objData);
-                else if (classData == Integer.class)
-                    objData = FieldInfo.stringToInteger((String)objData);
-                else if (classData == Float.class)
-                    objData = FieldInfo.stringToFloat((String)objData, iScale);
-                else if (classData == Double.class)
-                    objData = FieldInfo.stringToDouble((String)objData, iScale);
-                else if (classData == Long.class)
-                {
-                    objData = FieldInfo.stringToDouble((String)objData, iScale);
-                    objData = new Long(((Double)objData).longValue());
-                }
-                else if (classData == Date.class)
-                {
-                    Date objDate = null;
-                    try {
-                        objDate = FieldInfo.stringToDate((String)objData, iScale); // Try them all
-                    } catch (ParseException ex)   {
-                        objDate = null;
-                    }
-                    if (objDate == null)
-                    {
-                        try {
-                            synchronized (Converter.gCalendar)
-                            {
-                                objDate = Converter.gGMTDateTimeFormat.parse((String)objData);
-                            }
-                        } catch (ParseException ex)   {
-                            objDate = null;
-                        }
-                    }
-                    objData = objDate;
-                }
-                else if (classData == Boolean.class)
-                    objData = new Boolean((String)objData);
-                else
-                    objData = (String)objData;
-            } catch (Exception ex)  {
-                throw ex;
-            }
-        }
-        if (objData == null)
-            if (objDefault != null)
-                return Converter.convertObjectToDatatype(objDefault, classData, null, iScale);    // No chance of infinite recursion
-        return objData;
-    }
-    /**
-     * Convert this object to an formatted string.
-     * @param properties The map object to get the property from.
-     * @param strKey The key of the property.
-     * @param classData The target class to convert the property to.
-     * @param objDefault The default value.
-     * @return The data formatted as a string (note - this will never be null - since it is a string).
-     */
-    public static String formatObjectToString(Object objData, Class<?> classData, Object objDefault)
-        throws Exception
-    {
-        objData = Converter.convertObjectToDatatype(objData, classData, objDefault);
-        if (objData == null)
-            return Constants.BLANK;
-        if (objData.getClass() != classData)
-            return objData.toString();
-        Converter.initGlobals();
-        if ((classData != Object.class) && (classData != String.class)
-            && (classData == objData.getClass()))
-        {
-            try {
-                if (classData == Short.class)
-                    synchronized (Converter.gIntegerFormat)
-                    {
-                        return Converter.gIntegerFormat.format(((Short)objData).shortValue());
-                    }
-                else if (classData == Integer.class)
-                    synchronized (Converter.gIntegerFormat)
-                    {
-                        return Converter.gIntegerFormat.format(((Integer)objData).intValue());
-                    }
-                else if (classData == Float.class)
-                    synchronized (Converter.gNumberFormat)
-                    {
-                        return Converter.gNumberFormat.format(((Float)objData).floatValue());
-                    }
-                else if (classData == Double.class)
-                    synchronized (Converter.gNumberFormat)
-                    {
-                        return Converter.gNumberFormat.format(((Double)objData).doubleValue());
-                    }
-                else if (classData == java.util.Date.class)
-                {
-                    synchronized (Converter.gCalendar)
-                    {
-                        Converter.gCalendar.setTime((Date)objData);
-                        boolean bTime = true;
-                        boolean bDate = true;
-                        if ((Converter.gCalendar.get(Calendar.HOUR_OF_DAY) == 0)
-                            && (Converter.gCalendar.get(Calendar.MINUTE) == 0)
-                            && (Converter.gCalendar.get(Calendar.SECOND) == 0)
-                            && (Converter.gCalendar.get(Calendar.MILLISECOND) == 0))
-                                bTime = false;
-                        if ((Converter.gCalendar.get(Calendar.MONTH) == Calendar.JANUARY)
-                            && (Converter.gCalendar.get(Calendar.DATE) == 1)
-                            && (Converter.gCalendar.get(Calendar.YEAR) == Constants.FIRST_YEAR))
-                                bDate = false;
-                        if (((Date)objData).getTime() == 0)
-                            {bDate = bTime = false;}
-                        if (bTime && bDate)
-                            return Converter.gDateTimeFormat.format((Date)objData);
-                        else if (bDate)
-                            return Converter.gDateFormat.format((Date)objData);
-                        else if (bTime)
-                            return Converter.gTimeFormat.format((Date)objData);
-                        else
-                            return Constants.BLANK;
-                    }
-                }
-                else if (classData == Boolean.class)
-                {
-                    if (((Boolean)objData).booleanValue())
-                        return Constants.TRUE;
-                    else
-                        return Constants.FALSE;
-                }
-                else
-                    objData = objData.toString();
-            } catch (Exception ex)  {
-                ex.printStackTrace();
-                objData = null;
-            }
-        }
-        else
-            objData = objData.toString();
-        if (objData == null)
-            if (objDefault != null)
-                objData = objDefault.toString();
-        if (objData == null)
-            objData = Constants.BLANK;
-        return (String)objData;
     }
 }

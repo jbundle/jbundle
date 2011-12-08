@@ -63,4 +63,13 @@ public interface Constant
     public static final String ROOT_PACKAGE = "org.jbundle.";  // Package prefix
     public static final String THIN_SUBPACKAGE = "thin.";   // All thin are in this package
     public static final String RES_SUBPACKAGE = "res.";     // All resources are in this package
+
+    public static final int FIRST_YEAR = 1970;  // 1970
+    public static final long KMS_IN_A_DAY = 24 * 60 * 60 * 1000;    // Milliseconds in a day
+
+    public final static String FALSE = "false";     // If not supported (any other = true)
+    public final static String TRUE = "true";   // If not supported (any other = true)
+
+    public static final int DATE_ONLY = 3;          // Same as DATE_ONLY_FORMAT in thick
+    public static final int TIME_ONLY = 4;          // Same as TIME_ONLY_FORMAT in thick
 }

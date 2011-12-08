@@ -28,4 +28,12 @@ public interface Param
      * The current language.
      */
     public static final String LANGUAGE = "language";
+    /**
+     * The Application name (for name lookup).
+     */
+    public static final String APP_NAME = "appname";
+    /**
+     * The remote application name I should connect to.
+     */
+    public static final String REMOTE_APP_NAME = "remoteappname";
 }

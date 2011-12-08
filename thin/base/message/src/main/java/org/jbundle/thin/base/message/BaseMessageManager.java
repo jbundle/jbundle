@@ -13,7 +13,7 @@ import org.jbundle.model.message.MessageQueue;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.model.message.MessageSender;
 import org.jbundle.model.util.Constant;
-import org.jbundle.thin.base.db.Params;
+import org.jbundle.model.util.Param;
 import org.jbundle.thin.base.thread.AutoTask;
 
 
@@ -54,8 +54,8 @@ public class BaseMessageManager extends AutoTask
     public void init(App application, String strParams, Map<String, Object> properties)
     {
         super.init(application, strParams, properties);
-        if (this.getProperty(Params.REMOTE_APP_NAME) == null)
-            this.setProperty(Params.REMOTE_APP_NAME, Params.REMOTE_MESSAGE_APP);
+        if (this.getProperty(Param.REMOTE_APP_NAME) == null)
+            this.setProperty(Param.REMOTE_APP_NAME, "org.jbundle.main.msg.app.MessageServerActivator"/*Param.REMOTE_MESSAGE_APP*/);
         m_messageMap = new Hashtable<String,BaseMessageQueue>();
     }
     /**
