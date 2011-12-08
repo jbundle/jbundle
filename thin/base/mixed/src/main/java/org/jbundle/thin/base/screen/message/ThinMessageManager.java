@@ -18,8 +18,8 @@ import org.jbundle.thin.base.message.event.FieldListMessageHandler;
 import org.jbundle.thin.base.message.event.ModelMessageHandler;
 import org.jbundle.thin.base.message.session.ClientSessionMessageFilter;
 import org.jbundle.thin.base.remote.RemoteSession;
+import org.jbundle.thin.base.screen.JBaseGridScreen;
 import org.jbundle.thin.base.screen.JBaseScreen;
-import org.jbundle.thin.base.screen.grid.JGridScreen;
 
 
 /**
@@ -72,7 +72,7 @@ public class ThinMessageManager extends BaseMessageManager
     /**
      * Create a screen message listener for this screen.
      */
-    public static JMessageListener createGridScreenMessageListener(FieldList record, JGridScreen screen)
+    public static JMessageListener createGridScreenMessageListener(FieldList record, JBaseGridScreen screen)
     {
         return ThinMessageManager.createMessageListener(record, screen);
     }
@@ -90,9 +90,9 @@ public class ThinMessageManager extends BaseMessageManager
 
         JMessageListener listenerForSession = null;
         Properties properties = new Properties();
-        if (screen instanceof JGridScreen)
+        if (screen instanceof JBaseGridScreen)
         {
-            listenerForSession = new ModelMessageHandler(null, ((JGridScreen)screen).getGridModel());
+            listenerForSession = new ModelMessageHandler(null, ((JBaseGridScreen)screen).getGridModel());
             properties.setProperty(MessageConstants.CLASS_NAME, MessageConstants.GRID_FILTER);
         }
         else

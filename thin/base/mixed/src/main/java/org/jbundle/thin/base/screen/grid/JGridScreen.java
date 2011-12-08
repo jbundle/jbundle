@@ -35,6 +35,7 @@ import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.BaseApplet;
+import org.jbundle.thin.base.screen.JBaseGridScreen;
 import org.jbundle.thin.base.screen.JBaseScreen;
 import org.jbundle.thin.base.screen.action.ActionManager;
 
@@ -44,7 +45,7 @@ import org.jbundle.thin.base.screen.action.ActionManager;
  * This screen is made of a panel with a GridBagLayout. Labels in the first column, aligned right.
  * Data fields in the second column aligned left.
  */
-public class JGridScreen extends JBaseScreen
+public class JGridScreen extends JBaseGridScreen
     implements TableColumnModelListener
 {
 	private static final long serialVersionUID = 1L;
