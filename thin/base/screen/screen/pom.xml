@@ -29,7 +29,6 @@
             !org.jbundle.thin.base.screen.jcalendarbutton.*;version=${project.version},
             org.jbundle.thin.base.screen.*;version=${project.version},
             org.jbundle.thin.base.message.event.*;version=${project.version},
-            org.jbundle.thin.base.db.converter.*;version=${project.version},
             </Export-Package>
             <Import-Package>
             *;resolution:=optional,
