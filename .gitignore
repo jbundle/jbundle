@@ -21,7 +21,6 @@ release.properties
 /main/msg/src
 /main/remote/src
 /main/schedule/src
-/thin/base/db/misc/src
 /thin/base/screen/grid/src
 /thin/base/screen/util-misc/src
 /thin/base/screen/screen/src
