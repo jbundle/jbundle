@@ -52,6 +52,10 @@ public interface Params extends Param
      */
     public static final String REMOTE_MESSAGE_APP = "org.jbundle.main.msg.app.MessageServerActivator";
     /**
+     * Set this to "true" to make the application service the incoming external JMS requests.
+     */
+    public static final String JMSSERVER = "jmsserver";
+    /**
      * Background image.
      */
     public static final String BACKGROUND = "background";

@@ -17,10 +17,6 @@ import org.jbundle.thin.base.db.Params;
  */
 public interface DBParams extends Params
 {
-    /**
-     * Set this to "true" to make the application service the incoming external JMS requests.
-     */
-    public static final String JMSSERVER = "jmsserver";
 
     /**
      * This tells the Environment to free if the only apps left are system apps.

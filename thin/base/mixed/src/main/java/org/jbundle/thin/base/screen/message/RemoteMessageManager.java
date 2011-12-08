@@ -6,6 +6,8 @@ package org.jbundle.thin.base.screen.message;
 import java.util.Map;
 
 import org.jbundle.model.App;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.remote.RemoteMessageQueue;
@@ -76,16 +78,19 @@ public class RemoteMessageManager extends ThinMessageManager
      */
     public static BaseMessageManager getMessageManager(Application app)
     {
-        return RemoteMessageManager.getMessageManager(app, true);
+        return RemoteMessageManager.getMessageManager(app, null, null, true);
     }
-    public static BaseMessageManager getMessageManager(Application app, boolean bCreateIfNone)
+    public static BaseMessageManager getMessageManager(Application app, String strParams, Map<String, Object> properties, boolean bCreateIfNone)
     {
         if (m_messageManager == null)
             if (bCreateIfNone)
         {
             synchronized (app)
             {
-                m_messageManager = new RemoteMessageManager(app, null, null);
+                if ((app == null) || (!Constants.TRUE.equalsIgnoreCase(app.getProperty(Params.JMSSERVER))))
+                    m_messageManager = new RemoteMessageManager(app, strParams, properties);
+                else
+                    m_messageManager = new ThinMessageManager(app, strParams, properties);
             }
         }
         return m_messageManager;

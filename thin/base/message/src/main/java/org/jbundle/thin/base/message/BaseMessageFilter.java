@@ -374,7 +374,7 @@ public class BaseMessageFilter extends BaseMessageHeader
     {
         if ((messageReceiver != null) || (intID != null))
             if ((m_intID != null) || (m_messageReceiver != null))
-                Util.getLogger().warning("BaseMessageFilter/285----Error - Filter added twice.");
+                Util.getLogger().warning("BaseMessageFilter/setMessageReceiver()----Error - Filter added twice.");
         m_messageReceiver = messageReceiver;
         m_intID = intID;
     }

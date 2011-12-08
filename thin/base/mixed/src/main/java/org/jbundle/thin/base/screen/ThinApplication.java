@@ -204,6 +204,6 @@ public class ThinApplication extends Application {
      */
     public BaseMessageManager getMessageManager(boolean bCreateIfNone)
     {
-        return RemoteMessageManager.getMessageManager(this, bCreateIfNone);
+        return RemoteMessageManager.getMessageManager(this, null, null, bCreateIfNone);
     }
 }

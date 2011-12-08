@@ -364,7 +364,11 @@ public abstract class Application extends Object
             if (bCreateIfNotFound)
         {
             String strServer = this.getAppServerName();
-            String strRemoteApp = this.getProperty(Params.REMOTE_APP_NAME);
+            String strRemoteApp = null;
+            if (localTaskOwner != null)
+                strRemoteApp = localTaskOwner.getProperty(Params.REMOTE_APP_NAME);
+            if ((strRemoteApp == null) || (strRemoteApp.length() == 0))
+                strRemoteApp = this.getProperty(Params.REMOTE_APP_NAME);
             if ((strRemoteApp == null) || (strRemoteApp.length() == 0))
                 strRemoteApp = Params.DEFAULT_REMOTE_APP;
             if (strUserID == null)
@@ -456,10 +460,10 @@ public abstract class Application extends Object
                 {   // Use local OSGi service instead of RMI
                     if ((strRemoteApp == null) || (strRemoteApp.indexOf('.') == -1))
                         strRemoteApp = Params.DEFAULT_REMOTE_APP;
-                	if (ClassServiceUtility.getClassService().getClassFinder(null) != null)
-                		appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, strRemoteApp, null);
+                	appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, strRemoteApp, null);
                 	if (appServer == null)
-                	    appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).deployThisResource(strRemoteApp.substring(strRemoteApp.lastIndexOf('.')), null, true);
+                	    if (ClassServiceUtility.getClassService().getClassFinder(null).deployThisResource(strRemoteApp.substring(0, strRemoteApp.lastIndexOf('.')), null, true) != null)
+                	        appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, strRemoteApp, null);
                 }
                 if (appServer == null)
                     return null;

@@ -77,7 +77,7 @@ public class RemoteMessageQueue extends BaseMessageQueue
      */
     public BaseMessageReceiver createMessageReceiver()
     {
-        RemoteTask server = (RemoteTask)((App)this.getMessageManager().getApplication()).getRemoteTask(null);
+        RemoteTask server = (RemoteTask)((App)this.getMessageManager().getApplication()).getRemoteTask(this.getMessageManager());
         try   {
             return new RemoteMessageReceiver(server, this);
         } catch (RemoteException ex)    {

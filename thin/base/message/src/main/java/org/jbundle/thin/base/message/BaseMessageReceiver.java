@@ -196,10 +196,9 @@ public abstract class BaseMessageReceiver extends Thread
     /**
      * Create a message filter that will send all messages to this listener.
      * @param listener The listener to create a filter for.
-     * @param bAddToReceiver Add this filter to this receiver (usually true).
      * @return The new filter for this listener.
      */
-    public BaseMessageFilter createDefaultFilter(JMessageListener listener, boolean bAddToReceiver)
+    public BaseMessageFilter createDefaultFilter(JMessageListener listener)
     {
         BaseMessageFilter messageFilter = null;
         String strQueueName = MessageConstants.RECORD_QUEUE_NAME; // Default queue name=
@@ -211,8 +210,8 @@ public abstract class BaseMessageReceiver extends Thread
         }
         messageFilter = new BaseMessageFilter(strQueueName, strQueueType, null, null);    // Take all messages
         messageFilter.addMessageListener(listener);
-        if (bAddToReceiver)
-            this.addMessageFilter(messageFilter);
+        //xif (bAddToReceiver)  // Already added at previous line.
+        //x    this.addMessageFilter(messageFilter);
         return messageFilter;
     }
     /**

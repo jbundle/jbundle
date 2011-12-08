@@ -55,7 +55,7 @@ public class BaseMessageListener extends Object
         {
             if (messageReceiver != null)
             {
-                messageFilter = messageReceiver.createDefaultFilter(this, true);    // Add filter to handler
+                messageFilter = messageReceiver.createDefaultFilter(this);    // Add filter to handler
                 return; // All done. (createDefaultFilter adds the message listener to the new filter)
             }
         }
