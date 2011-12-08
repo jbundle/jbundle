@@ -230,7 +230,7 @@ public class ClientTable extends BaseTable
             else if ((bCurrentlyCached) && (!boolShouldBeCached.booleanValue()))
             {   // Remove the cache
                 Utility.getLogger().info("Cache OFF: " + this.getRecord().getTableNames(false));
-//                RemoteTable tableRemote = this.getRemoteTableType(java.rmi.server.RemoteStub.class);
+//                RemoteTable tableRemote = this.getRemoteTableType(org.jbundle.model.Remote.class);
                 RemoteTable tableRemote = this.getRemoteTableType(CachedRemoteTable.class).getRemoteTableType(null);
                 ((CachedRemoteTable)m_tableRemote).setRemoteTable(null);
                 ((CachedRemoteTable)m_tableRemote).free();
@@ -572,7 +572,7 @@ public class ClientTable extends BaseTable
     }
     /**
      * Get the remote table reference.
-     * If you want the remote table session, call this method with java.rmi.server.RemoteStub.class.
+     * If you want the remote table session, call this method with Remote.class.
      * @classType The base class I'm looking for (If null, return the next table on the chain) 
      * @return The remote table reference.
      */
@@ -637,7 +637,7 @@ public class ClientTable extends BaseTable
      */
     public Object getSyncObject()
     {
-        return ThinUtil.getRemoteTableType(m_tableRemote, java.rmi.server.RemoteStub.class);
+        return ThinUtil.getRemoteTableType(m_tableRemote, org.jbundle.model.Remote.class);
     }
     /**
      * Return this table drive type for the getObjectSource call. (Override this method)

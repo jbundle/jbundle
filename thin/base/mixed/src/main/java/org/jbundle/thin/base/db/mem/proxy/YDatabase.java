@@ -11,7 +11,6 @@ package org.jbundle.thin.base.db.mem.proxy;
  *
  */
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +23,7 @@ import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.mem.net.NDatabase;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
 
@@ -91,7 +91,7 @@ public class YDatabase extends NDatabase
             return istream;
         } catch (DBException ex) {
             ex.printStackTrace();
-        } catch (IOException ex) {
+        } catch (RemoteException ex) {
             ex.printStackTrace();
         }
         return null;

@@ -3,7 +3,7 @@ package org.jbundle.thin.base.remote;
 import java.io.Serializable;
 
 public class RemoteObject extends Object
-    implements Serializable
+    implements Serializable, org.jbundle.model.Remote
 {
 
     /**

@@ -103,7 +103,7 @@ public class LockSession extends BaseSession
      * @return null if successful, the name of the user locking if not.
      */
     public int lockThisRecord(String strDatabaseName, String strRecordName, Object bookmark, SessionInfo sessionInfo, int iLockMode)
-        throws DBException, java.rmi.RemoteException
+        throws DBException, RemoteException
     {
         sessionInfo.m_iRemoteSessionID = this.getSessionID();
         LockTable lockTable = this.getLockTable(strDatabaseName, strRecordName);
@@ -142,7 +142,8 @@ public class LockSession extends BaseSession
      * @param iLockType The type of lock (wait or error lock).
      * @return True if successful.
      */
-    public boolean unlockThisRecord(String strDatabaseName, String strRecordName, Object bookmark, SessionInfo sessionInfo) throws DBException, java.rmi.RemoteException
+    public boolean unlockThisRecord(String strDatabaseName, String strRecordName, Object bookmark, SessionInfo sessionInfo)
+            throws DBException, RemoteException
     {
         sessionInfo.m_iRemoteSessionID = this.getSessionID();
         LockTable lockTable = this.getLockTable(strDatabaseName, strRecordName);

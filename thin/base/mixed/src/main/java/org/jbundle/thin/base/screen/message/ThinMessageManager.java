@@ -83,7 +83,7 @@ public class ThinMessageManager extends BaseMessageManager
     {
         // Now add listeners to update screen when data changes
         FieldTable table = record.getTable();
-        RemoteSession remoteSession = ((org.jbundle.thin.base.db.client.RemoteFieldTable) table).getRemoteTableType(java.rmi.server.RemoteStub.class);
+        RemoteSession remoteSession = ((org.jbundle.thin.base.db.client.RemoteFieldTable) table).getRemoteTableType(org.jbundle.model.Remote.class);
 
         BaseMessageManager messageManager = screen.getBaseApplet().getApplication().getMessageManager();
         MessageReceiver handler = messageManager.getMessageQueue(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE).getMessageReceiver();

@@ -8,11 +8,11 @@
 package org.jbundle.thin.base.message;
 
 import java.io.Serializable;
-import java.rmi.server.RemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.jbundle.model.Remote;
 import org.jbundle.model.message.MessageFilter;
 import org.jbundle.model.util.Util;
 
@@ -423,7 +423,7 @@ public class BaseMessageFilter extends BaseMessageHeader
     {
         for (int i = 0; (this.getMessageListener(i) != null); i++)
         {
-            if (this.getMessageListener(i) instanceof RemoteObject)
+            if (this.getMessageListener(i) instanceof Remote)
                 return true;
         }
         return false;

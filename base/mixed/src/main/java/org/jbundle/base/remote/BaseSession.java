@@ -45,7 +45,7 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
 public class BaseSession extends RemoteRecordOwner
     implements RemoteBaseSession
 {
-
+    private static final long serialVersionUID = 1L;
     /**
      * List of all the DBObjects spawned by this object (so you can clean up on EndOfSession).
      */

@@ -8,6 +8,7 @@
 package org.jbundle.base.db.lock;
 
 import org.jbundle.model.DBException;
+import org.jbundle.thin.base.remote.RemoteException;
 
 /**
  *
@@ -25,7 +26,7 @@ public interface RemoteLockSession extends org.jbundle.thin.base.remote.RemoteBa
      * @return null if successful, the name of the user locking if not.
      */
     public int lockThisRecord(String strDatabaseName, String strRecordName, Object bookmark, SessionInfo sessionInfo, int iLockType)
-        throws DBException, java.rmi.RemoteException;
+        throws DBException, RemoteException;
     /**
      * Unlock this bookmark in this record for this session.
      * @param strRecordName The record to unlock in.
@@ -35,5 +36,5 @@ public interface RemoteLockSession extends org.jbundle.thin.base.remote.RemoteBa
      * @return True if successful.
      */
     public boolean unlockThisRecord(String strDatabaseName, String strRecordName, Object bookmark, SessionInfo sessionInfo)
-        throws DBException, java.rmi.RemoteException;
+        throws DBException, RemoteException;
 }

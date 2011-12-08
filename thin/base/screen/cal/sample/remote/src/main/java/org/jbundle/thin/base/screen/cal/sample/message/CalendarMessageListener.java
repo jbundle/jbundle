@@ -59,7 +59,7 @@ public class CalendarMessageListener extends BaseMessageListener
             return;
         try   {
             double dPrive = ((TourLineItem)lineItem).getPrice();
-        } catch (java.rmi.RemoteException ex) {
+        } catch (RemoteException ex) {
             ex.printStackTrace();
         }
 */
@@ -93,7 +93,7 @@ public class CalendarMessageListener extends BaseMessageListener
             return;
         try   {
             double dPrive = ((TourLineItem)lineItem).getPrice();
-        } catch (java.rmi.RemoteException ex) {
+        } catch (RemoteException ex) {
             ex.printStackTrace();
         }
 */

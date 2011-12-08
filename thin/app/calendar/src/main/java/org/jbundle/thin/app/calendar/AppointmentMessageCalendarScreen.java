@@ -61,7 +61,7 @@ public class AppointmentMessageCalendarScreen extends AppointmentCalendarScreen
         
         JMessageListener listenerForSession = new ModelMessageHandler(null, (CalendarThinTableModel)this.getCalendarModel(null));
 
-        RemoteSession remoteSession = ((RemoteFieldTable)this.getFieldList().getTable()).getRemoteTableType(java.rmi.server.RemoteStub.class);
+        RemoteSession remoteSession = ((RemoteFieldTable)this.getFieldList().getTable()).getRemoteTableType(org.jbundle.model.Remote.class);
 
         BaseMessageManager messageManager = this.getBaseApplet().getApplication().getMessageManager();
         MessageReceiver handler = messageManager.getMessageQueue(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE).getMessageReceiver();

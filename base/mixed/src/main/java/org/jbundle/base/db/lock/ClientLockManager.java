@@ -74,7 +74,7 @@ public class ClientLockManager extends Object
         SessionInfo sessionInfo = this.getLockSessionInfo(objSession, strUserName);
         try {
             return this.getRemoteLockSession(sessionInfo).lockThisRecord(strDatabaseName, strRecordName, bookmark, sessionInfo, iLockType);
-        } catch (java.rmi.RemoteException ex)   {
+        } catch (RemoteException ex)   {
             throw DatabaseException.toDatabaseException(ex);
         }
     }
@@ -95,7 +95,7 @@ public class ClientLockManager extends Object
 //?            if (bookmark == null)
 //?                this.removeLockSessionInfo(objSession);    // For close all, remove the session
             return bSuccess;
-        } catch (java.rmi.RemoteException ex)   {
+        } catch (RemoteException ex)   {
             throw DatabaseException.toDatabaseException(ex);
         }
     }

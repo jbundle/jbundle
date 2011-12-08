@@ -109,7 +109,7 @@ public class TestThinScreen extends JScreen
     {
         if (strAction == Constants.RESET)
         {
-            RemoteSession remoteSession = ((RemoteFieldTable)this.getFieldList().getTable()).getRemoteTableType(java.rmi.server.RemoteStub.class);
+            RemoteSession remoteSession = ((RemoteFieldTable)this.getFieldList().getTable()).getRemoteTableType(org.jbundle.model.Remote.class);
             try {
                 remoteSession.doRemoteAction(strAction, null);
             } catch (Exception ex) {

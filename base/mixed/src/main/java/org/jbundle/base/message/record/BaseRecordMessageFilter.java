@@ -161,7 +161,7 @@ public class BaseRecordMessageFilter extends BaseMessageFilter
             Record record = (Record)this.getMessageSource();
             BaseTable table = record.getTable().getCurrentTable();
             if (DBParams.CLIENT.equals(table.getSourceType()))
-                remoteSession = (RemoteSession)table.getRemoteTableType(java.rmi.server.RemoteStub.class);
+                remoteSession = (RemoteSession)table.getRemoteTableType(org.jbundle.model.Remote.class);
             // Only pass the remoteSession if remoteSession is the client part of the remote session!
         }
         return remoteSession;

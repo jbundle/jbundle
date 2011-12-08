@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 /**
  * Remote exception such as connection and transfer problems.
- * Modeled after java.rmi.RemoteException (which isn't allow in android).
+ * Modeled after rmi's RemoteException (which isn't allow in android).
  * @author don
  *
  */
-public class RemoteException extends java.rmi.RemoteException
+public class RemoteException extends Exception
     implements Serializable
 {
 

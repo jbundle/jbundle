@@ -945,7 +945,7 @@ public class TableSession extends Session
     }
     /**
      * Get the remote table reference.
-     * If you want the remote table session, call this method with java.rmi.server.RemoteStub.class.
+     * If you want the remote table session, call this method with Remote.class.
      * @classType The base class I'm looking for (If null, return the next table on the chain) 
      * @return The remote table reference.
      */

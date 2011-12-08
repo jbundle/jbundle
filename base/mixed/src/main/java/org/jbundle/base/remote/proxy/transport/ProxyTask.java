@@ -163,7 +163,11 @@ public class ProxyTask extends BaseHttpTask
                 else
                 	Utility.getLogger().warning("Session not found, command: " + propRequest.get(REMOTE_COMMAND));
             } catch (RemoteException ex) {
-                this.setErrorReturn(out, ex);
+                try {
+                    this.setErrorReturn(out, ex);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

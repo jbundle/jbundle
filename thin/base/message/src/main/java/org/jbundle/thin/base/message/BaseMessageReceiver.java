@@ -246,7 +246,7 @@ public abstract class BaseMessageReceiver extends Thread
                             if (filter.isThinTarget())
                                 if (listener.isThinListener())
                                     messageToSend = message.convertToThinMessage(); // If you are sending a thick message to a thin client, convert it first. Note: don't worry about calling this with a thin message... no conversion will be done there.
-                            if (listener instanceof java.rmi.Remote)
+                            if (listener instanceof org.jbundle.model.Remote)
                                 if (filter.getRegistryID() != null)
                                     if (messageToSend.getMessageHeader() != null)
                                         if (messageToSend.getMessageHeader().getRegistryIDMatch() == null)

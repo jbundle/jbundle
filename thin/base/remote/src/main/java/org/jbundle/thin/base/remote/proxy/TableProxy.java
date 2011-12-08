@@ -261,13 +261,13 @@ public class TableProxy extends SessionProxy
     }
     /**
      * Get the remote table reference.
-     * If you want the remote table session, call this method with java.rmi.server.RemoteStub.class.
+     * If you want the remote table session, call this method with Remote.class.
      * @classType The base class I'm looking for (If null, return the next table on the chain) 
      * @return The remote table reference.
      */
     public RemoteTable getRemoteTableType(Class<?> classType) throws RemoteException
     {
-        if ("java.rmi.server.RemoteStub".equals(classType.getName()))
+        if (org.jbundle.model.Remote.class.getName().equals(classType.getName()))
             return this;    // For this purpose I am the remote object.
         return null;    // This method is never called remotely
     }

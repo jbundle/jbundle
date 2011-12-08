@@ -3254,7 +3254,7 @@ public class Record extends FieldList
     public Object handleRemoteCommand(String strCommand, Map<String, Object> properties, boolean bWriteAndRefresh, boolean bDontCallIfLocal, boolean bCloneServerRecord)
     	throws DBException, RemoteException
     {
-    	RemoteTable remoteTask = (RemoteTable)this.getTable().getRemoteTableType(java.rmi.server.RemoteStub.class);
+    	RemoteTable remoteTask = (RemoteTable)this.getTable().getRemoteTableType(org.jbundle.model.Remote.class);
     	if (bWriteAndRefresh)
     		this.writeAndRefresh();
     	if (remoteTask == null)
