@@ -29,6 +29,7 @@
             !org.jbundle.thin.base.screen.jcalendarbutton.*;version=${project.version},
             org.jbundle.thin.base.screen.*;version=${project.version},
             org.jbundle.thin.base.message.event.*;version=${project.version},
+            org.jbundle.thin.base.db.converter.*;version=${project.version},
             </Export-Package>
             <Import-Package>
             *;resolution:=optional,
@@ -67,6 +68,7 @@
                     <include>org/jbundle/thin/base/*.java</include>
                     <include>org/jbundle/thin/base/screen/**/*.java</include>
                     <include>org/jbundle/thin/base/message/**/*.java</include>
+                    <include>org/jbundle/thin/base/db/converter/**/*.java</include>
                   </includes>
                   <excludes>
                     <exclude>org/jbundle/thin/base/screen/grid/**/*.java</exclude>

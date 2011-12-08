@@ -28,7 +28,6 @@
             org.jbundle.thin.base.db.mem.serial.*;version=${project.version},
             org.jbundle.thin.base.db.mem.net.*;version=${project.version},
             org.jbundle.thin.base.db.client.*;version=${project.version},
-            org.jbundle.thin.base.db.converter.*;version=${project.version},
             </Export-Package>
           </instructions>
         </configuration>
@@ -64,7 +63,6 @@
                     <include>org/jbundle/thin/base/db/mem/serial/**/*.java</include>
                     <include>org/jbundle/thin/base/db/mem/net/**/*.java</include>
                     <include>org/jbundle/thin/base/db/client/**/*.java</include>
-                    <include>org/jbundle/thin/base/db/converter/**/*.java</include>
                   </includes>
                 </resource>
               </resources>              
