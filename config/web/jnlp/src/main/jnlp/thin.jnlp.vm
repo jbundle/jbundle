@@ -37,7 +37,6 @@
 <package name="org.jbundle.thin.base.db.mem.serial.*" part="org.jbundle.thin.base.db.misc" recursive="true"/>
 <package name="org.jbundle.thin.base.db.mem.net.*" part="org.jbundle.thin.base.db.misc" recursive="true"/>
 <package name="org.jbundle.thin.base.db.client.*" part="org.jbundle.thin.base.db.misc" recursive="true"/>
-<package name="org.jbundle.thin.base.db.converter.*" part="org.jbundle.thin.base.db.misc" recursive="true"/>
 <jar href="lib/org.jbundle.thin.base.message-${project.version}.jar" part="org.jbundle.thin.base.message"/>
 <package name="org.jbundle.thin.base.message.*" part="org.jbundle.thin.base.message" recursive="true"/>
 <jar href="lib/org.jbundle.thin.base.remote-${project.version}.jar" part="org.jbundle.thin.base.remote" download="lazy"/>
@@ -50,6 +49,7 @@
 <package name="org.jbundle.thin.base.screen.action.*" part="org.jbundle.thin.base.screen" recursive="true"/>
 <package name="org.jbundle.thin.base.screen.menu.*" part="org.jbundle.thin.base.screen" recursive="true"/>
 <package name="org.jbundle.thin.base.screen.landf.*" part="org.jbundle.thin.base.screen" recursive="true"/>
+<package name="org.jbundle.thin.base.screen.util.html.base.*" part="org.jbundle.thin.base.screen"/>
 <jar href="lib/org.jbundle.thin.base.screen.cal.grid-${project.version}.jar" part="org.jbundle.thin.base.screen.cal.grid" download="lazy"/>
 <package name="org.jbundle.thin.base.screen.cal.grid.*" part="org.jbundle.thin.base.screen.cal.grid"/>
 <jar href="lib/org.jbundle.thin.base.screen.cal.other-${project.version}.jar" part="org.jbundle.thin.base.screen.cal.other" download="lazy"/>
@@ -60,8 +60,9 @@
 <jar href="lib/org.jbundle.thin.base.screen.util-${project.version}.jar" part="org.jbundle.thin.base.screen.util" download="lazy"/>
 <package name="org.jbundle.thin.base.screen.util.*" part="org.jbundle.thin.base.screen.util"/>
 <package name="org.jbundle.thin.base.screen.util.cal.*" part="org.jbundle.thin.base.screen.util" recursive="true"/>
+<package name="org.jbundle.thin.base.screen.db.converter.*" part="org.jbundle.thin.base.screen.util"/>
 <jar href="lib/org.jbundle.thin.base.screen.util.misc-${project.version}.jar" part="org.jbundle.thin.base.screen.util.misc"/>
-<package name="org.jbundle.thin.base.screen.util.html.*" part="org.jbundle.thin.base.screen.util.misc" recursive="true"/>
+<package name="org.jbundle.thin.base.screen.util.html.*" part="org.jbundle.thin.base.screen.util.misc"/>
 <package name="org.jbundle.thin.base.screen.util.mail.*" part="org.jbundle.thin.base.screen.util.misc" recursive="true"/>
 <jar href="lib/org.jbundle.thin.base.thread-${project.version}.jar" part="org.jbundle.thin.base.thread"/>
 <package name="org.jbundle.thin.base.thread.*" part="org.jbundle.thin.base.thread" recursive="true"/>
