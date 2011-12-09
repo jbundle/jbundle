@@ -17,11 +17,14 @@ import java.util.StringTokenizer;
 
 import org.jbundle.model.App;
 import org.jbundle.model.BaseAppletReference;
+import org.jbundle.model.Freeable;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
+import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
+import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.BaseMessageManager;
@@ -52,7 +55,7 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
  * lanugage=es
  * </pre>
  */
-public abstract class Application extends Object
+public class Application extends Object
     implements App, PropertyOwner
 {
     /**
@@ -91,6 +94,11 @@ public abstract class Application extends Object
      * The muffin manager for JNLP environments.
      */
     protected MuffinManager m_muffinManager = null;
+    /**
+     * The (optional) DatabaseOwner (see PDatabaseManager).
+     * Note: This is only used in thin, in the thick model, pDatabaseOwner is in Environment.
+     */
+    protected ThinPhysicalDatabaseParent m_PhysicalDatabaseParent = null;
     /**
      * The mailto protocol.
      */
@@ -215,6 +223,11 @@ public abstract class Application extends Object
             }
         }
         m_mapTasks = null;
+        if (m_PhysicalDatabaseParent instanceof Freeable)
+        {
+            ((Freeable)m_PhysicalDatabaseParent).free();
+            m_PhysicalDatabaseParent = null;
+        }
     }
     /**
     * Get the system record owner.
@@ -618,7 +631,10 @@ public abstract class Application extends Object
      * @param The applet (optional).
      * @return True if successfully displayed.
      */
-    public abstract boolean showTheDocument(String strURL, BaseAppletReference applet, int iOptions);
+    public boolean showTheDocument(String strURL, BaseAppletReference applet, int iOptions)
+    {
+        return false;    // Override this
+    }
     /**
      * Get this standard resource.
      * This is a utility method for loading and caching resources.
@@ -854,6 +870,7 @@ public abstract class Application extends Object
      * @param strUser
      * @return normal_return if successful
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public int login(Task task, String strUserName, String strPassword, String strDomain)
     {
         boolean bCreateServer = false;
@@ -1196,5 +1213,34 @@ public abstract class Application extends Object
     public static void setRootApplet(BaseAppletReference baseApplet)
     {
     	gbaseApplet = baseApplet;	// The one and only
+    }
+    /**
+     * Get the (optional) raw data database manager.
+     * Note: This is only used in thin, in the thick model, pDatabaseOwner is in Environment.
+     * @return The pDatabaseOwner (returns an object, so this package isn't dependent on PDatabaseOwner).
+     */
+    public ThinPhysicalDatabaseParent getPDatabaseParent(Map<String,Object> properties, boolean bCreateIfNew)
+    {
+        if (m_PhysicalDatabaseParent == null)
+            if (bCreateIfNew)
+        {
+            Map<String,Object> map = new Hashtable<String,Object>();
+            if (properties != null)
+                map.putAll(properties);
+            if (map.get(PhysicalDatabaseParent.APP) == null)
+                map.put(PhysicalDatabaseParent.APP, this); // Access to the server, etc.
+            
+            m_PhysicalDatabaseParent = (ThinPhysicalDatabaseParent)ClassServiceUtility.getClassService().makeObjectFromClassName(Constants.ROOT_PACKAGE + "thin.base.db.mem.base.PhysicalDatabaseParent");
+            if (m_PhysicalDatabaseParent != null)
+                m_PhysicalDatabaseParent.init(map);  // Init
+        }
+        if (properties != null)
+        {
+            for (String strKey : properties.keySet())
+            {
+                m_PhysicalDatabaseParent.setProperty(strKey, properties.get(strKey));
+            }
+        }
+        return m_PhysicalDatabaseParent;
     }
 }

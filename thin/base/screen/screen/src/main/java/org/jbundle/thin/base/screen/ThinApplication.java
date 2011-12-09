@@ -8,23 +8,14 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.jbundle.model.BaseAppletReference;
-import org.jbundle.model.Freeable;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
-import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
-import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.screen.message.RemoteMessageManager;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
-import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 public class ThinApplication extends Application {
-    /**
-     * The (optional) DatabaseOwner (see PDatabaseManager).
-     * Note: This is only used in thin, in the thick model, pDatabaseOwner is in Environment.
-     */
-    protected ThinPhysicalDatabaseParent m_PhysicalDatabaseParent = null;
 
     /**
      * Default constructor.
@@ -63,40 +54,6 @@ public class ThinApplication extends Application {
     public void free()
     {
     	super.free();
-        if (m_PhysicalDatabaseParent instanceof Freeable)
-        {
-            ((Freeable)m_PhysicalDatabaseParent).free();
-            m_PhysicalDatabaseParent = null;
-        }
-    }
-    /**
-     * Get the (optional) raw data database manager.
-     * Note: This is only used in thin, in the thick model, pDatabaseOwner is in Environment.
-     * @return The pDatabaseOwner (returns an object, so this package isn't dependent on PDatabaseOwner).
-     */
-    public ThinPhysicalDatabaseParent getPDatabaseParent(Map<String,Object> properties, boolean bCreateIfNew)
-    {
-        if (m_PhysicalDatabaseParent == null)
-            if (bCreateIfNew)
-        {
-            Map<String,Object> map = new Hashtable<String,Object>();
-            if (properties != null)
-                map.putAll(properties);
-            if (map.get(PhysicalDatabaseParent.APP) == null)
-                map.put(PhysicalDatabaseParent.APP, this); // Access to the server, etc.
-            
-            m_PhysicalDatabaseParent = (ThinPhysicalDatabaseParent)ClassServiceUtility.getClassService().makeObjectFromClassName(Constants.ROOT_PACKAGE + "thin.base.db.mem.base.PhysicalDatabaseParent");
-            if (m_PhysicalDatabaseParent != null)
-            	m_PhysicalDatabaseParent.init(map);  // Init
-        }
-        if (properties != null)
-        {
-            for (String strKey : properties.keySet())
-            {
-                m_PhysicalDatabaseParent.setProperty(strKey, properties.get(strKey));
-            }
-        }
-        return m_PhysicalDatabaseParent;
     }
     /**
      * Display this URL in a web browser.

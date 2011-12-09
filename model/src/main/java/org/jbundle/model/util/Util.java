@@ -3,8 +3,6 @@
  */
 package org.jbundle.model.util;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,11 +24,6 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -425,27 +418,7 @@ public class Util extends Object
        }
        return string;
    }
-   /**
-    * Fake disable a control.
-    */
-   public static void setEnabled(Component component, boolean bEnabled)
-   {
-       if (component instanceof JPanel)
-       {
-           for (int i = 0; i < ((JPanel)component).getComponentCount(); i++)
-           {
-               JComponent componentSub = (JComponent)((JPanel)component).getComponent(i);
-               Util.setEnabled(componentSub, bEnabled);
-           }
-       }
-       else if (component instanceof JScrollPane)
-       {
-           JComponent componentSub = (JComponent)((JScrollPane)component).getViewport().getView();
-           Util.setEnabled(componentSub, bEnabled);
-       }
-       else
-           component.setEnabled(bEnabled);
-   }
+
    /**
     * A utility method to get an Input stream from a filename or URL string.
     * @param strFilename The filename or url to open as an Input Stream.
@@ -524,9 +497,6 @@ public class Util extends Object
            ex.printStackTrace();
        }
    }
-
-   public static final Border GRAY_BORDER = new LineBorder(Color.LIGHT_GRAY);
-   public static final Border BLACK_BORDER = new LineBorder(Color.BLACK);
 
    /**
     * Convert this class name by inserting this package after the domain.

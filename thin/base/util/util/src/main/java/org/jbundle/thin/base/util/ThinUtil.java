@@ -3,13 +3,22 @@
  */
 package org.jbundle.thin.base.util;
 
+import java.awt.Color;
+import java.awt.Component;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.remote.RemoteException;
-import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteObject;
+import org.jbundle.thin.base.remote.RemoteTable;
 
 /**
  * Thin specific static utility methods.
@@ -80,4 +89,27 @@ public class ThinUtil extends Util
                return tableRemote;    // If you're asking for the last in the chain, that's me
        return remoteTable;
    }
+   /**
+    * Fake disable a control.
+    */
+   public static void setEnabled(Component component, boolean bEnabled)
+   {
+       if (component instanceof JPanel)
+       {
+           for (int i = 0; i < ((JPanel)component).getComponentCount(); i++)
+           {
+               JComponent componentSub = (JComponent)((JPanel)component).getComponent(i);
+               ThinUtil.setEnabled(componentSub, bEnabled);
+           }
+       }
+       else if (component instanceof JScrollPane)
+       {
+           JComponent componentSub = (JComponent)((JScrollPane)component).getViewport().getView();
+           ThinUtil.setEnabled(componentSub, bEnabled);
+       }
+       else
+           component.setEnabled(bEnabled);
+   }
+   public static final Border GRAY_BORDER = new LineBorder(Color.LIGHT_GRAY);
+   public static final Border BLACK_BORDER = new LineBorder(Color.BLACK);
 }
