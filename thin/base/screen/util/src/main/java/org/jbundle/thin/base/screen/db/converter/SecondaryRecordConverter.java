@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.thin.base.db.converter;
+package org.jbundle.thin.base.screen.db.converter;
 
 /**
  * OrderEntry.java:   Applet

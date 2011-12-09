@@ -23,9 +23,6 @@
           <instructions>
             <Export-Package>
             org.jbundle.thin;version=${project.version},
-            !org.jbundle.thin.base.screen.grid.*;version=${project.version},
-            !org.jbundle.thin.base.screen.util.*;version=${project.version},
-            !org.jbundle.thin.base.screen.jcalendarbutton.*;version=${project.version},
             org.jbundle.thin.base.screen.*;version=${project.version},
             org.jbundle.thin.base.screen.html.base.*;version=${project.version},
             org.jbundle.thin.base.message.event.*;version=${project.version},
