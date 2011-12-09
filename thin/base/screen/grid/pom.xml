@@ -9,7 +9,6 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
   <artifactId>org.jbundle.thin.base.screen.grid</artifactId>
   <name>jbundle-thin-base-screen-grid</name>
   <packaging>bundle</packaging>
