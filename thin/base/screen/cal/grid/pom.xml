@@ -17,7 +17,6 @@
     <dependency>
       <groupId>org.jbundle.util.calendarpanel</groupId>
       <artifactId>org.jbundle.util.calendarpanel</artifactId>
-      <version>${jbundle-calendarpanelVersion}</version>
     </dependency>
     
     <dependency>

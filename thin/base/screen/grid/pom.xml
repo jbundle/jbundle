@@ -44,7 +44,6 @@
     <dependency>	<!-- No No No -->
       <groupId>org.jbundle.util.jcalendarbutton</groupId>
       <artifactId>org.jbundle.util.jcalendarbutton</artifactId>
-      <version>${jbundle-jcalendarbuttonVersion}</version>
     </dependency>
   </dependencies>
 

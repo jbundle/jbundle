@@ -36,7 +36,6 @@
     <dependency>
       <groupId>org.jbundle.util</groupId>
       <artifactId>org.jbundle.util.muffinmanager</artifactId>
-      <version>${jbundle-util-muffinmanagerVersion}</version>
     </dependency>
 
     <dependency>

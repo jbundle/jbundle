@@ -88,7 +88,7 @@
     <dependency>
       <groupId>org.jbundle.util.webapp</groupId>
       <artifactId>org.jbundle.util.webapp.base</artifactId>
-      <version>${jbundle-util-webappVersion}</version>
+      <version>${jbundleUtilWebappVersionRange}</version>
     </dependency>
   </dependencies>
 

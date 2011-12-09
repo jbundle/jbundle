@@ -23,7 +23,7 @@
 		<dependency>
 		    <groupId>org.jbundle.util.osgi</groupId>
   			<artifactId>org.jbundle.util.osgi.webstart</artifactId>
-    		<version>${jbundleOsgiWebStartVersion}</version>
+			<version>${jbundleOsgiWebStartVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

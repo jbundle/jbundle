@@ -460,10 +460,10 @@ public abstract class Application extends Object
                 {   // Use local OSGi service instead of RMI
                     if ((strRemoteApp == null) || (strRemoteApp.indexOf('.') == -1))
                         strRemoteApp = Params.DEFAULT_REMOTE_APP;
-                	appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, strRemoteApp, null);
+                	appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(strRemoteApp, null, null);
                 	if (appServer == null)
                 	    if (ClassServiceUtility.getClassService().getClassFinder(null).deployThisResource(strRemoteApp.substring(0, strRemoteApp.lastIndexOf('.')), null, true) != null)
-                	        appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, strRemoteApp, null);
+                	        appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(strRemoteApp, null, null);
                 }
                 if (appServer == null)
                     return null;
