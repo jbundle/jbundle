@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, memActivity!</string>
+    <string name="app_name">org.jbundle.android.test.db.mem</string>
+    <string name="buttontext">Press me once wait then press me again</string>
+
+</resources>

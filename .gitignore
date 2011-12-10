@@ -21,4 +21,6 @@ release.properties
 /main/msg/src
 /main/remote/src
 /main/schedule/src
+android/test/org.jbundle.android.test.db.mem/gen
+android/test/org.jbundle.android.test.db.mem/bin
 
