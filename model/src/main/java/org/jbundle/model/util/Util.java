@@ -93,19 +93,20 @@ public class Util extends Object
      * @properties The properties object to add the params to.
      * @args The arguments to parse (each formatted as key=value).
      */
-    public static void parseArgs(Map<String,Object> properties, String[] args)
+    public static Map<String,Object> parseArgs(Map<String,Object> properties, String[] args)
     {
         if (args == null)
-            return;
+            return properties;
         for (int i = 0; i < args.length; i++)
             Util.addParam(properties, args[i], false);
+        return properties;
     }
     /**
      * Parse this URL formatted string into properties.
      * @properties The properties object to add the params to.
      * @args The URL to parse (formatted as: XYZ?key1=value1&key2=value2).
      */
-    public static void parseArgs(Map<String,Object> properties, String strURL)
+    public static Map<String,Object> parseArgs(Map<String,Object> properties, String strURL)
     {
         int iIndex = 0;
         int iStartIndex = strURL.indexOf('?') + 1;  // Start of first param (0 if no ?)
@@ -119,6 +120,7 @@ public class Util extends Object
             iStartIndex = iEndIndex + 1;
             iIndex++;
         }
+        return properties;
     }
     /**
      * Parse the param line and add it to this properties object.

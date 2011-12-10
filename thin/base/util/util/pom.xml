@@ -15,6 +15,21 @@
   <packaging>bundle</packaging>
 
   <build>
+    <plugins>
+      <plugin>
+        <inherited>true</inherited>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Export-Package>
+            !org.jbundle.thin.base.util.base64,
+            org.jbundle.thin.base.util.*;version=${project.version},
+            </Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
    <resources>
      <resource>
        <directory>${basedir}/src/main/resources</directory>
