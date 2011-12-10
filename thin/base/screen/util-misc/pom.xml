@@ -9,6 +9,25 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
+  <build>
+    <plugins>
+      <plugin>
+        <inherited>true</inherited>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Export-Package>
+            org.jbundle.thin.base.screen.util.html;version=${project.version},
+            org.jbundle.thin.base.screen.util.mail;version=${project.version},
+            </Export-Package>
+            <Bundle-Activator>org.jbundle.thin.base.screen.ThinActivator</Bundle-Activator>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <artifactId>org.jbundle.thin.base.screen.util.misc</artifactId>
   <name>jbundle-thin-base-screen-util-misc</name>
   <packaging>bundle</packaging>

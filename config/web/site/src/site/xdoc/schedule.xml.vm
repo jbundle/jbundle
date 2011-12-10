@@ -11,10 +11,31 @@
       <p>
       
 <![CDATA[
-      Fix it all!
       
       /jbundle/config/web/site/schedule.xml.vm
       
+      Written Business Plan
+      - Open Source
+      - Free Tour/Planning
+      - Sell Services
+      - Deadlines
+      
+      Free Time
+      - Eval Travel Software
+      - SOA to jbundle message
+      - Android Apps
+        - Eval Travel Software
+        - Create framework
+        
+      To Do
+      - Business Cards
+      - Test tourgeek.com site
+      
+      Current
+      1. No style converter
+      2. Set ?sample deploy app for tourbundle
+      
+      Schedule
       1. jbundle deploy
         1. Complete test of ALL modules
         2. Fix broken modules

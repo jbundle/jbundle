@@ -732,13 +732,15 @@ public class BaseApplet extends JApplet
         	if (m_bAddStatusbar)
         		panelContainer.add(m_statusbar = new JStatusbar(null), BorderLayout.SOUTH);
         JBaseHelpPane helpPane = (JBaseHelpPane)ClassServiceUtility.getClassService().makeObjectFromClassName("org.jbundle.thin.base.screen.util.html.JHelpPane");
-        helpPane.init(null, null);
-        panelContainer.add(helpPane, BorderLayout.EAST);
-        this.setHelpView(helpPane.getHelpView().getHtmlEditor());
-        helpPane.setVisible(false);
-        if (this.getProperty("displayInitialHelp") != null)
-        	this.getHelpView().getHelpPane().setVisible(true);	// Hack - this is a weird place for this, but it works
-
+        if (helpPane != null)
+        {   // Always
+            helpPane.init(null, null);
+            panelContainer.add(helpPane, BorderLayout.EAST);
+            this.setHelpView(helpPane.getHelpView().getHtmlEditor());
+            helpPane.setVisible(false);
+            if (this.getProperty("displayInitialHelp") != null)
+            	this.getHelpView().getHelpPane().setVisible(true);	// Hack - this is a weird place for this, but it works
+        }
         panelContainer = panelMain;
         
         return panelContainer;
