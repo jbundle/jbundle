@@ -17,6 +17,7 @@ import java.util.Properties;
 
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
@@ -189,8 +190,9 @@ public abstract class BaseTransport extends Object
     /**
      * Send this message to the server and return the reply.
      * @return The message.
+     * @throws RemoteException TODO
      */
-    public abstract Object sendMessageAndGetReply();
+    public abstract Object sendMessageAndGetReply() throws RemoteException;
     /**
      * Get the http proxy URL.
      * @return The message.

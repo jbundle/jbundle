@@ -115,7 +115,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
                 || (BaseServlet.TOURAPP_RESOURCES.equalsIgnoreCase(alias)))
             {
                 servlet = new BaseOsgiServlet();
-                properties.put(BaseOsgiServlet.BASE_PATH, alias.substring(1) + '/');    // Prepend this to the path
+                properties.put(BaseOsgiServlet.BASE_PATH, alias + '/');    // Prepend this to the path
                 ((BaseWebappServlet)servlet).init(context, servicePid, properties);
                 httpContext = new org.jbundle.util.webapp.files.FileHttpContext(context.getBundle());
             }
@@ -165,12 +165,13 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             {
                 properties.put("regex", "www.+.tourgeek.com");
                 properties.put("regexTarget", "demo/index.html");
-                properties.put("ie", "tourappxsl");
-                properties.put("firefox", "tourappxsl");
-                properties.put("chrome", "tourappxsl");
-                properties.put("safari", "tourappxsl");
-                properties.put("webkit", "tourappxsl");
-                properties.put("java", "tourappxhtml");
+                properties.put(BaseWebappServlet.IE, BaseServlet.XSL);
+                properties.put(BaseWebappServlet.FIREFOX, BaseServlet.XSL);
+                //properties.put("chrome", "tourappxsl");
+                //properties.put("safari", "tourappxsl");
+                properties.put(BaseWebappServlet.WEBKIT, BaseServlet.XSL);
+                properties.put(BaseWebappServlet.MOBILE, BaseServlet.XSL); // For now
+                properties.put(BaseWebappServlet.JAVA, BaseServlet.XHTML);
                 servlet = new org.jbundle.util.webapp.redirect.RegexRedirectServlet();
             }
             if (BaseServlet.MESSAGE.equalsIgnoreCase(alias))

@@ -324,6 +324,8 @@ public class BaseApplet extends JApplet
             baseScreen.init(this, record);  // test
             return this.changeSubScreen(parent, baseScreen, null);   // You must manually push the history command
         }
+        else
+            Util.getLogger().warning("Screen class not found " + strScreen);
         return false;	// Nothing happened
     }
     /**

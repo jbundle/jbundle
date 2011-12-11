@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
@@ -92,7 +93,7 @@ public class HttpTransport extends BaseTransport
      * Send this message to the server and return the reply.
      * @return The message.
      */
-    public Object sendMessageAndGetReply()
+    public Object sendMessageAndGetReply() throws RemoteException
     {
         try {
             this.getObjectStream();    // If there are no params in this message.

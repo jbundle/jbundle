@@ -128,30 +128,30 @@ public class BaseServlet extends BaseWebappServlet
 
     // Typical deploy paths
 	public static final String ROOT = "/";
-	public static final String INDEX = "/index.html";
-	public static final String IMAGES = "/images";
-	public static final String LIB = "/lib";
-	public static final String DOCS = "/docs";
-	public static final String COM = "/com";
-	public static final String ORG = "/org";
-	public static final String JBUNDLE_RESOURCES = "/org/jbundle/res";
-	public static final String TOURAPP_RESOURCES = "/com/tourapp/res";
-	public static final String PROXY = "/proxy";
-	public static final String TOURAPP = "/tourapp";
+	public static final String INDEX = "index.html";
+	public static final String IMAGES = "images";
+	public static final String LIB = "lib";
+	public static final String DOCS = "docs";
+	public static final String COM = "com";
+	public static final String ORG = "org";
+	public static final String JBUNDLE_RESOURCES = "org/jbundle/res";
+	public static final String TOURAPP_RESOURCES = "com/tourapp/res";
+	public static final String PROXY = "proxy";
+	public static final String TOURAPP = "tourapp";
 	public static final String TABLE = TOURAPP + "/table";
 	public static final String IMAGE = TOURAPP + "/image";
 	public static final String JNLP = TOURAPP + "/jnlp";
 	public static final String TOURAPP_WSDL = TOURAPP + "/wsdl";
-	public static final String WSDL = "/wsdl";
-	public static final String HTML = "/HTMLServlet";
+	public static final String WSDL = "wsdl";
+	public static final String HTML = "HTMLServlet";
 	public static final String HTML2 = TOURAPP + "html";
 	public static final String TOURAPP_JNLP = TOURAPP + ".jnlp";
 	public static final String XML = TOURAPP + "xml";
 	public static final String XSL = TOURAPP + "xsl";
 	public static final String XHTML = TOURAPP + "xhtml";
-	public static final String JNLP_DOWNLOAD = "/docs/jnlp";	// "*.jnlp";
-	public static final String AJAX = "/ajax";
-	public static final String MESSAGE = "/message";
-	public static final String WS = "/ws";
-	public static final String XMLWS = "/xmlws";
+	public static final String JNLP_DOWNLOAD = "docs/jnlp";	// "*.jnlp";
+	public static final String AJAX = "ajax";
+	public static final String MESSAGE = "message";
+	public static final String WS = "ws";
+	public static final String XMLWS = "xmlws";
 }

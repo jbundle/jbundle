@@ -41,8 +41,9 @@ public class TaskProxy extends BaseSessionProxy
     /**
      * Constructor.
      * This constructor auto-sends the task proxy construction info.
+     * @throws RemoteException TODO
      */
-    public TaskProxy(ApplicationProxy parentProxy, Map<String,Object> properties)
+    public TaskProxy(ApplicationProxy parentProxy, Map<String,Object> properties) throws RemoteException
     {
         this();
         BaseTransport transport = parentProxy.createProxyTransport(CREATE_REMOTE_TASK); // Don't use my method yet, since I don't have the returned ID
@@ -171,6 +172,7 @@ public class TaskProxy extends BaseSessionProxy
      * @exception Throw an exception if logon is not successful.
      * @return The security map for this user
      */
+    @SuppressWarnings("unchecked")
     public Map<String,Object> login(String strUserName, String strPassword, String strDomain) throws RemoteException
     {
         BaseTransport transport = this.createProxyTransport(LOGIN);

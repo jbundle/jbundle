@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 
 
@@ -85,10 +86,11 @@ public class EncodedTransport extends Base64Transport
      * Send this message to the server and return the reply.
      * @return The message.
      */
-    public Object sendMessageAndGetReply()
+    public Object sendMessageAndGetReply() throws RemoteException
     {
+        URL url = null;
         try {
-            URL url = this.getProxyURL();
+            url = this.getProxyURL();
             ServletMessage servlet = new ServletMessage(url);
             InputStream in = servlet.sendMessage(m_properties);
             InputStreamReader reader = new InputStreamReader(in);
@@ -107,7 +109,7 @@ public class EncodedTransport extends Base64Transport
         } catch (MalformedURLException ex)  {
             ex.printStackTrace();
         } catch (IOException ex)  {
-            ex.printStackTrace();
+            throw new RemoteException(ex.getMessage() + ' ' + url, ex.getCause());
         }
         return null;
     }

@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.remote.proxy.transport.ServletMessage;
 
@@ -51,7 +52,7 @@ public class MessageTransport extends PropertiesTransport
      * Send this message to the server and return the reply.
      * @return The message.
      */
-    public Object sendMessageAndGetReply()
+    public Object sendMessageAndGetReply() throws RemoteException
     {
         try {
             URL url = new URL("http://www.tourgeek.com:8181/xmlws");//this.getProxyURL();
@@ -87,7 +88,11 @@ System.out.println("ProxyTransport.sendandreceive() reply: " + string);
 
 	public static final void main(String[] args)
 	{
-		MessageTransport transport = new MessageTransport();
-		transport.sendMessageAndGetReply();
+		try {
+            MessageTransport transport = new MessageTransport();
+            transport.sendMessageAndGetReply();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 	}
 }

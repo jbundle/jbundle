@@ -7,11 +7,13 @@ package org.jbundle.thin.base.remote.proxy;
  *  ApplicationServer - The interface to server objects.
  *  Copyright (c) 2005 jbundle.org. All rights reserved.
  */
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 import org.jbundle.thin.base.remote.ApplicationServer;
-import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 import org.jbundle.thin.base.remote.proxy.transport.EncodedTransport;
 
@@ -90,6 +92,32 @@ public class ApplicationProxy extends BaseProxy
      */
     public RemoteTask createRemoteTask(Map<String, Object> properties) throws RemoteException
     {
-        return new TaskProxy(this, properties);
+        try {
+            return new TaskProxy(this, properties);
+        } catch (RemoteException e) {
+            if ((m_strBaseServletPath != null) && (m_strBaseServletPath.length() > 0))
+            {
+                try {
+                    URL url = new URL(m_strBaseServletPath);
+                    String path = url.getPath();
+                    if (path.length() > 0)
+                        if (m_strBaseServletPath.endsWith(path))
+                    {
+                        m_strBaseServletPath = m_strBaseServletPath.substring(0, m_strBaseServletPath.length() - path.length());
+                        return new TaskProxy(this, properties);
+                    }
+                } catch (MalformedURLException e1) {
+                    // Throw original error if bad URL
+                }
+            }
+            throw e;
+        }
+    }
+    /**
+     * 
+     */
+    public String toString()
+    {
+        return m_strServer + ' ' + m_strBaseServletPath + ' ' + m_strRemoteApp;
     }
 }

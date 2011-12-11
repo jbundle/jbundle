@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.util.base64.Base64;
 
@@ -72,7 +73,7 @@ public abstract class Base64Transport extends BaseTransport
      * Send this message to the server and return the reply.
      * @return The message.
      */
-    public Object sendMessageAndGetReply()
+    public Object sendMessageAndGetReply() throws RemoteException
     {
         try {
             URL url = this.getProxyURL();

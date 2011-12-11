@@ -106,6 +106,7 @@ public class Application extends Object
     /**
      * Remote connection types.
      */
+    public static final String CONNECTION_TYPE = "connectionType";
 //x    public static final int RMI = 1;
     public static final int PROXY = 2;
     public static final int LOCAL_SERVICE = 3;	// OSGi service
@@ -425,45 +426,7 @@ public class Application extends Object
             if (m_mainRemoteTask == null)
             {
                 ApplicationServer appServer = null;
-                int iConnectionType = DEFAULT_CONNECTION_TYPE;
-                if (this.getMuffinManager() != null)
-                    if (this.getMuffinManager().isServiceAvailable())
-                        iConnectionType = PROXY;    // HACK - Webstart gives a warning when using RMI
-                String strConnectionType = this.getProperty("connectionType");
-                if (strConnectionType != null)
-                {
-                	if ("proxy".equalsIgnoreCase(strConnectionType))
-                		iConnectionType = PROXY;
-//x                	if ("rmi".equalsIgnoreCase(strConnectionType))
-//x                		iConnectionType = RMI;
-                	if (Util.isNumeric(strConnectionType))
-                		iConnectionType = Integer.parseInt(strConnectionType);
-                }
-                if (ClassServiceUtility.getClassService().getClassFinder(null) == null)
-                    iConnectionType = PROXY;    // No OSGi
-/*                if (iConnectionType == RMI)
-                {
-                    try {
-                        Hashtable<String,String> env = new Hashtable<String,String>();
-                        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.rmi.registry.RegistryContextFactory");
-                        env.put(Context.PROVIDER_URL, "rmi://" + strServer);    // + ":1099");  // The RMI server port
-                        Context initial = new InitialContext(env);
-                        Object objref = initial.lookup(strRemoteApp);
-                        if (objref == null)
-                            return null;    // Ahhhhh, The app is not registered.
-            
-                        appServer = (ApplicationServer)PortableRemoteObject.narrow(objref, org.jbundle.thin.base.remote.ApplicationServer.class);
-                    } catch (NameNotFoundException ex) {
-                        return null;    // Error - not found
-                    } catch (ServiceUnavailableException ex) {
-                        return null;    // Error - not found
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-            //        } catch (java.net.ConnectException ex) {
-                        // Try tunneling through http
-                        iConnectionType = PROXY;
-                    }
-                } */
+                int iConnectionType = getConnectionType();
                 if (iConnectionType == PROXY)
                 {   // Use HTTP proxy instead of RMI
                     String strBaseServletPath = this.getBaseServletPath();
@@ -491,6 +454,53 @@ public class Application extends Object
             ex.printStackTrace();
         }
         return remoteTask;
+    }
+    /**
+     * Get the connection type.
+     * @return
+     */
+    public int getConnectionType()
+    {
+        int iConnectionType = DEFAULT_CONNECTION_TYPE;
+        if (this.getMuffinManager() != null)
+            if (this.getMuffinManager().isServiceAvailable())
+                iConnectionType = PROXY;    // HACK - Webstart gives a warning when using RMI
+        String strConnectionType = this.getProperty(CONNECTION_TYPE);
+        if (strConnectionType != null)
+        {
+            if ("proxy".equalsIgnoreCase(strConnectionType))
+                iConnectionType = PROXY;
+//x                 if ("rmi".equalsIgnoreCase(strConnectionType))
+//x                     iConnectionType = RMI;
+            if (Util.isNumeric(strConnectionType))
+                iConnectionType = Integer.parseInt(strConnectionType);
+        }
+        if (ClassServiceUtility.getClassService().getClassFinder(null) == null)
+            iConnectionType = PROXY;    // No OSGi
+        /*                if (iConnectionType == RMI)
+        {
+            try {
+                Hashtable<String,String> env = new Hashtable<String,String>();
+                env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.rmi.registry.RegistryContextFactory");
+                env.put(Context.PROVIDER_URL, "rmi://" + strServer);    // + ":1099");  // The RMI server port
+                Context initial = new InitialContext(env);
+                Object objref = initial.lookup(strRemoteApp);
+                if (objref == null)
+                    return null;    // Ahhhhh, The app is not registered.
+    
+                appServer = (ApplicationServer)PortableRemoteObject.narrow(objref, org.jbundle.thin.base.remote.ApplicationServer.class);
+            } catch (NameNotFoundException ex) {
+                return null;    // Error - not found
+            } catch (ServiceUnavailableException ex) {
+                return null;    // Error - not found
+            } catch (Exception ex) {
+                ex.printStackTrace();
+    //        } catch (java.net.ConnectException ex) {
+                // Try tunneling through http
+                iConnectionType = PROXY;
+            }
+        } */
+        return iConnectionType;
     }
     /**
      * Get the path to the base servlet.
@@ -593,9 +603,25 @@ public class Application extends Object
                 if (this.getMuffinManager().isServiceAvailable())
                     urlCodeBase = this.getMuffinManager().getCodeBase();
         }
+        String strCodeBase = this.getProperty(Params.CODEBASE);
+        if ((strCodeBase != null) && (strCodeBase.length() > 0))
+        {   // If they explicitly specify a codebase, use it.
+            try {
+                URL newUrlCodeBase = new URL(strCodeBase);
+                urlCodeBase = newUrlCodeBase;
+            } catch (MalformedURLException e) {
+                if (urlCodeBase != null)
+                {   // Always. Use codebase with new path
+                    try {
+                        urlCodeBase = new URL(urlCodeBase.getProtocol(), urlCodeBase.getHost(), urlCodeBase.getPort(), strCodeBase);
+                    } catch (MalformedURLException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        }
         if (urlCodeBase == null)
         {
-            String strCodeBase = this.getProperty(Params.CODEBASE);
             if ((strCodeBase == null) || (strCodeBase.length() == 0))
             {   // Now we're really guessing - Try the server for a codebase, then try the localhost
                 strCodeBase = this.getProperty(Params.REMOTE_HOST);
@@ -610,11 +636,16 @@ public class Application extends Object
             }
             if (strCodeBase != null)
             {
-                if ((strCodeBase.startsWith("/")) || (strCodeBase.startsWith(System.getProperty("file.separator"))))
-                    strCodeBase = "file:" + strCodeBase;
-                else if (!strCodeBase.startsWith("http://"))
-                    strCodeBase = "http://" + strCodeBase;
                 try   {
+                    int protocolEnd = strCodeBase.indexOf(':');
+                    if ((protocolEnd == -1) || (protocolEnd > 6))
+                    {
+                        if ((getConnectionType() != PROXY)
+                            && ((strCodeBase.startsWith("/")) || (strCodeBase.startsWith(System.getProperty("file.separator")))))
+                                strCodeBase = "file:" + strCodeBase;
+                        else
+                            strCodeBase = "http://" + strCodeBase;
+                    }
                     urlCodeBase = new URL(strCodeBase);
                 } catch (MalformedURLException ex)  {
                     ex.printStackTrace();
