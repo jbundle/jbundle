@@ -170,7 +170,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
                 //properties.put("chrome", "tourappxsl");
                 //properties.put("safari", "tourappxsl");
                 properties.put(BaseWebappServlet.WEBKIT, BaseServlet.XSL);
-                properties.put(BaseWebappServlet.MOBILE, BaseServlet.XSL); // For now
+                properties.put(BaseWebappServlet.MOBILE, BaseServlet.XHTML);
                 properties.put(BaseWebappServlet.JAVA, BaseServlet.XHTML);
                 servlet = new org.jbundle.util.webapp.redirect.RegexRedirectServlet();
             }
