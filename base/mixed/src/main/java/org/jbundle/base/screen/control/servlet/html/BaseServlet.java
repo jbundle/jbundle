@@ -119,8 +119,10 @@ public class BaseServlet extends BaseWebappServlet
 				stylesheet = stylesheet + "-ajax";					
 			if (BaseServlet.IE.equals(browser))
 				stylesheet = stylesheet + "-ie";
-			else if (BaseServlet.JAVA.equals(browser))
-				stylesheet = stylesheet + "-java";
+            else if (BaseServlet.JAVA.equals(browser))
+                stylesheet = stylesheet + "-java";
+            else if (BaseServlet.MOBILE.equals(browser))
+                stylesheet = stylesheet + "-mobile";
 			stylesheet = stylesheet + ".xsl";
 		}
 		return stylesheet;
