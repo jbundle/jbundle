@@ -11,11 +11,11 @@
       <p>
         JBundle is a real-time client-server application framework written in java.<br/>You're looking at it here:
       </p>
-  <p>
-    <iframe src ="/webstart/docs/applet.html?appletClass=org.jbundle.util.calendarpanel.sample.site.CalendarTestApplet" width="100%" height="40%">
+</p>
+    <iframe src ="/webstart/docs/applet.html?appletClass=org.jbundle.util.calendarpanel.sample.rich.CalendarTestApplet" width="100%" height="350">
       <p>Your browser does not support iframes.</p>
     </iframe>
-  </p>
+<p>
       <p>
         It looks like a regular web page, right. Except the information on the screen keeps changing.
       </p>
@@ -31,7 +31,7 @@
         stay within your computer's security constraints.
       </p>
 <p>
-jbundle is already configured as an <a href="http://www.osgi.org">OSGi</a> bundle.
+JBundle is already configured as an <a href="http://www.osgi.org">OSGi</a> bundle.
 To use it in your OSGi project, just include JCalendarButton in the
 manifest of the bundles that will be using JCalendarButton.
 Remember to install the JCalendarButton jar in your OSGi environment.
