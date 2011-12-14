@@ -99,6 +99,7 @@ public class XSLServlet extends XMLServlet
         PrintWriter writer = new PrintWriter(stringWriter);
         try   {
             servletTask = new ServletTask(this, SERVLET_TYPE.COCOON);
+            this.addBrowserProperties(req, servletTask);
 			BaseScreen screen = servletTask.doProcessInput(this, req, null);
 			
 			if (stylesheet == null)

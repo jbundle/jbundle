@@ -18,11 +18,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
 import org.jbundle.base.screen.control.servlet.ServletTask;
-import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
 import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.base.util.DBParams;
+import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.db.FieldList;
 
@@ -132,12 +133,21 @@ public class HTMLServlet extends BaseServlet
         throws ServletException, IOException
     {
         ServletTask servletTask = new ServletTask(this, SERVLET_TYPE.HTML);
+        this.addBrowserProperties(req, servletTask);
+        servletTask.doProcess(this, req, res, null);
+        servletTask.free();
+    }
+    /**
+     * Add the browser properties to this servlet task.
+     * @param req
+     * @param servletTask
+     */
+    public void addBrowserProperties(HttpServletRequest req, PropertyOwner servletTask)
+    {
         String strBrowser = this.getBrowser(req);
         String strOS = this.getOS(req);
         servletTask.setProperty(DBParams.BROWSER, strBrowser);
         servletTask.setProperty(DBParams.OS, strOS);
-        servletTask.doProcess(this, req, res, null);
-        servletTask.free();
     }
     /**
      * Do any of the initial servlet stuff.
