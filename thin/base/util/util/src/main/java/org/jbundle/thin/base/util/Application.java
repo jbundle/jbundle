@@ -14,6 +14,7 @@ import java.util.MissingResourceException;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 
 import org.jbundle.model.App;
 import org.jbundle.model.BaseAppletReference;
@@ -401,6 +402,7 @@ public class Application extends Object
     }
     /**
      * Connect to the remote server and get the remote server object.
+     * WARNING: This may take a while, so don't run this in your main thread.
      * @param strServer The (rmi) server.
      * @param The remote application name in jndi index.
      * @return The remote server object.
@@ -436,13 +438,14 @@ public class Application extends Object
                 {   // Use local OSGi service instead of RMI
                     if ((strRemoteApp == null) || (strRemoteApp.indexOf('.') == -1))
                         strRemoteApp = Params.DEFAULT_REMOTE_APP;
-                	appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(strRemoteApp, null, null);
-                	if (appServer == null)
-                	    if (ClassServiceUtility.getClassService().getClassFinder(null).deployThisResource(strRemoteApp.substring(0, strRemoteApp.lastIndexOf('.')), null, true) != null)
-                	        appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(strRemoteApp, null, null);
+                    // WARNING: This may take a while, so don't run this in your main thread.
+                	appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(strRemoteApp, null, null, -1);
                 }
                 if (appServer == null)
+                {
+                    Util.getLogger().log(Level.SEVERE, "Remote server " + strRemoteApp + " did not come up");
                     return null;
+                }
                 remoteTask = appServer.createRemoteTask(properties);
                 m_mainRemoteTask = remoteTask;
             }

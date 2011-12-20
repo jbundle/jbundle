@@ -7,10 +7,7 @@
  */
 package org.jbundle.main.msg.app;
 
-import java.util.Map;
-
 import org.jbundle.base.remote.server.BaseRemoteSessionActivator;
-import org.jbundle.base.remote.server.RemoteSessionServer;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Environment;
@@ -18,7 +15,8 @@ import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.util.osgi.BundleService;
+import org.jbundle.util.osgi.finder.BaseClassFinderService;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.osgi.framework.BundleContext;
 
 public class MessageServerActivator extends BaseRemoteSessionActivator
@@ -39,17 +37,16 @@ public class MessageServerActivator extends BaseRemoteSessionActivator
      * Override this to do all the startup.
      * @return true if successful.
      */
-    public boolean startupThisService(BundleService bundleService, BundleContext context)
+    public boolean startupThisService(BundleContext bundleContext)
     {
-        Map<String,Object> props = Utility.propertiesToMap(this.getProperties());
-        server = RemoteSessionServer.startupServer(props);  // Doesn't create environment
+        boolean success = super.startupThisService(bundleContext);
 
-        EnvironmentActivator environmentActivator = (EnvironmentActivator)bundleService;
+        EnvironmentActivator environmentActivator = (EnvironmentActivator)ClassServiceUtility.getClassService().getClassFinder(bundleContext).getClassBundleService(EnvironmentActivator.class.getName(), null, null, -1);
         Environment env = environmentActivator.getEnvironment();
         // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
         BaseApplication app = new MessageInfoApplication();
         server.setApp(app);
-        app.init(env, props, null); // Default application (with params).
+        app.init(env, Utility.propertiesToMap(this.getProperties()), null); // Default application (with params).
 //        app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
 //        app.getMessageManager(true);
         if (env.getDefaultApplication() != null)
@@ -69,6 +66,6 @@ public class MessageServerActivator extends BaseRemoteSessionActivator
                 }
             }
         }
-        return true;
+        return success;
     }
 }

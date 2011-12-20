@@ -200,4 +200,7 @@ public interface Constants extends Constant
      * For now the sub-system/demo system is the dbPrefix (I may want to change this later).
      */
     public static final String SUB_SYSTEM_LN_SUFFIX = "dbSuffix";
+    // Time to wait for new services to come up (30 seconds in 3 second intervals)
+    public static final int WAIT_INTERVALS = 10;
+    public static final int WAIT_INTERVAL_TIME_MS = 3000;
 }

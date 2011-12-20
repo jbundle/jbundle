@@ -10,8 +10,9 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.util.osgi.BundleService;
 import org.jbundle.util.osgi.bundle.BaseBundleService;
+import org.jbundle.util.osgi.finder.BaseClassFinderService;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
 
@@ -71,13 +72,13 @@ public class BaseAppActivator extends BaseBundleService
      * Override this to do all the startup.
      * @return true if successful.
      */
-    public boolean startupThisService(BundleService bundleService, BundleContext context)
+    public boolean startupThisService(BundleContext bundleContext)
     {
 //    	Utility.getLogger().info("Starting App Server");
 
         Map<String,Object> props = Utility.propertiesToMap(this.getProperties());
 
-        EnvironmentActivator environmentActivator = (EnvironmentActivator)bundleService;
+        EnvironmentActivator environmentActivator = (EnvironmentActivator)ClassServiceUtility.getClassService().getClassFinder(bundleContext).getClassBundleService(EnvironmentActivator.class.getName(), null, null, -1);
         Environment env = environmentActivator.getEnvironment();
 	    
 	        // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization

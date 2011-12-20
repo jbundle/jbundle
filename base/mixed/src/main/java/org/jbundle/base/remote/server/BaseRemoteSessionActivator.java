@@ -9,19 +9,15 @@ package org.jbundle.base.remote.server;
 
 import java.util.Map;
 
-import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.EnvironmentActivator;
-import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.remote.ApplicationServer;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.util.osgi.BundleService;
 import org.jbundle.util.osgi.bundle.BaseBundleService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
@@ -93,19 +89,11 @@ public class BaseRemoteSessionActivator extends BaseBundleService
      * Override this to do all the startup.
      * @return true if successful.
      */
-    public boolean startupThisService(BundleService bundleService, BundleContext context)
+    public boolean startupThisService(BundleContext bundleContext)
     {
         Map<String,Object> props = Utility.propertiesToMap(this.getProperties());
         server = RemoteSessionServer.startupServer(props);	// Doesn't create environment
 
-        EnvironmentActivator environmentActivator = (EnvironmentActivator)bundleService;
-        Environment env = environmentActivator.getEnvironment();
-        // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
-        BaseApplication app = new MainApplication();
-        server.setApp(app);
-        app.init(env, props, null); // Default application (with params).
-//        app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
-//        app.getMessageManager(true);
     	return true;
     }
 

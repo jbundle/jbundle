@@ -11,11 +11,11 @@
       <p>
         JBundle is a real-time client-server application framework written in java.<br/>You're looking at it here:
       </p>
-</p>
+<p>
     <iframe src ="/webstart/docs/applet.html?appletClass=org.jbundle.util.calendarpanel.sample.rich.CalendarTestApplet" width="100%" height="350">
       <p>Your browser does not support iframes.</p>
     </iframe>
-<p>
+</p>
       <p>
         It looks like a regular web page, right. Except the information on the screen keeps changing.
       </p>
