@@ -9,7 +9,7 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.jbundle.thin.app.test</artifactId>
+  <artifactId>org.jbundle.thin.app.test.manual</artifactId>
   <packaging>bundle</packaging>
   <name>jbundle-thin-app-test - Test code</name>
 
@@ -24,11 +24,11 @@
             <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Export-Package>
-		${project.artifactId}.*;version=${project.version}
+                ${project.artifactId}.*;version=${project.version}
+                org.jbundle.thin.app.test.hotel.*;version=${project.version}
             </Export-Package>
             <Import-Package>
                 *;resolution:=optional,
-                org.jbundle.res.app.test.*;version=${project.version}
             </Import-Package>
             <Bundle-Version>${project.version}</Bundle-Version>
           </instructions>
@@ -40,7 +40,7 @@
   <dependencies>
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
-      <artifactId>org.jbundle.res.app.test</artifactId>
+      <artifactId>org.jbundle.thin.app.test</artifactId>
       <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>

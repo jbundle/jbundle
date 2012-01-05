@@ -17,6 +17,7 @@
   <modules>
     <module>res</module>
     <module>thin</module>
+    <module>thin.manual</module>
     <module>test</module>
     <module>manual</module>
   </modules>
