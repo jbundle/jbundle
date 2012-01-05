@@ -113,11 +113,16 @@ public class XSLServlet extends XMLServlet
 			if (stylesheet == null)
 				stylesheet = "docs/styles/xsl/flat/base/menus";
 
-			stylesheet = BaseServlet.fixStylesheetPath(stylesheet, screen);
+			String stylesheetFixed = BaseServlet.fixStylesheetPath(stylesheet, screen, true);
 			
-			InputStream stylesheetStream = this.getFileStream(servletTask, stylesheet, null);
+			InputStream stylesheetStream = this.getFileStream(servletTask, stylesheetFixed, null);
             if (stylesheetStream == null)
-            	Utility.getLogger().warning("XmlFile not found " + stylesheet);
+            {
+                stylesheetFixed = BaseServlet.fixStylesheetPath(stylesheet, screen, false);  // Try it without browser mod
+                stylesheetStream = this.getFileStream(servletTask, stylesheetFixed, null);
+            }
+            if (stylesheetStream == null)
+            	Utility.getLogger().warning("XmlFile not found " + stylesheetFixed);   // TODO - Display an error here
 			StreamSource stylesheetSource = new StreamSource(stylesheetStream);
 			
 	    	ServletOutputStream outStream = res.getOutputStream();
@@ -125,7 +130,7 @@ public class XSLServlet extends XMLServlet
 
             // TODO - Cache transformers
             TransformerFactory tFact = TransformerFactory.newInstance();
-            URIResolver resolver = new MyURIResolver(servletTask, stylesheet);
+            URIResolver resolver = new MyURIResolver(servletTask, stylesheetFixed);
             tFact.setURIResolver(resolver);
             Transformer transformer = tFact.newTransformer(stylesheetSource);
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");

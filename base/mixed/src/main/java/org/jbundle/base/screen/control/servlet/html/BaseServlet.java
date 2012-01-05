@@ -87,7 +87,7 @@ public class BaseServlet extends BaseWebappServlet
 		return null;
 	}
 
-	public static String fixStylesheetPath(String stylesheet, PropertyOwner propertyOwner)
+	public static String fixStylesheetPath(String stylesheet, PropertyOwner propertyOwner, boolean addBrowserType)
     {
     	if ((stylesheet == null) || (propertyOwner == null))
     		return null;
@@ -113,16 +113,19 @@ public class BaseServlet extends BaseWebappServlet
 			else
 				stylesheet = "docs/styles/xsl/cocoon/all/" + stylesheet;	// They should have specified the directory
 		}
-		if (!stylesheet.contains("."))
+	    if (!stylesheet.contains("."))
 		{
-			if (ajax)
-				stylesheet = stylesheet + "-ajax";					
-			if (BaseServlet.IE.equals(browser))
-				stylesheet = stylesheet + "-ie";
-            else if (BaseServlet.JAVA.equals(browser))
-                stylesheet = stylesheet + "-java";
-            else if (BaseServlet.MOBILE.equals(browser))
-                stylesheet = stylesheet + "-mobile";
+	        if (addBrowserType)
+	        {
+    			if (ajax)
+    				stylesheet = stylesheet + "-ajax";					
+    			if (BaseServlet.IE.equals(browser))
+    				stylesheet = stylesheet + "-ie";
+                else if (BaseServlet.JAVA.equals(browser))
+                    stylesheet = stylesheet + "-java";
+                else if (BaseServlet.MOBILE.equals(browser))
+                    stylesheet = stylesheet + "-mobile";
+	        }
 			stylesheet = stylesheet + ".xsl";
 		}
 		return stylesheet;

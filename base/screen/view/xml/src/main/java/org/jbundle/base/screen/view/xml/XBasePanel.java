@@ -126,7 +126,7 @@ public class XBasePanel extends XScreenField
         	if (this.getProperty(DBParams.HELP) == null)	// Not the help stylesheet
         		if (this.getProperty("stylesheet-path") != null)
         			stylesheetName = this.getProperty("stylesheet-path") + stylesheetName;
-        	stylesheetName = BaseServlet.fixStylesheetPath(stylesheetName, this.getTask());
+        	stylesheetName = BaseServlet.fixStylesheetPath(stylesheetName, this.getTask(), true);
         }
         return stylesheetName;
     }
