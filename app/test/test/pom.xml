@@ -4,15 +4,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.jbundle.app.program</groupId>
+    <groupId>org.jbundle.app.test</groupId>
     <artifactId>jbundle-app-test-reactor</artifactId>
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.jbundle.app.test</groupId>
-  <artifactId>org.jbundle.app.test</artifactId>
+  <artifactId>org.jbundle.app.test.test</artifactId>
   <packaging>bundle</packaging>
-  <name>jbundle-app-test - Test code</name>
+  <name>jbundle-app-test-test - Test code</name>
 
   <properties>
     <maven.test.skip>true</maven.test.skip> <!-- TODO Need to add a profile that will run this on the build server (ie if jdbc.url exists) -->
@@ -30,6 +29,7 @@
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Export-Package>
                 ${project.artifactId}.*;version=${project.version},
+		org.jbundle.app.test.vet.*;version=${project.version},
             </Export-Package>
             <Import-Package>
                 *;resolution:=optional,

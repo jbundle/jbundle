@@ -9,7 +9,7 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.jbundle.app.program</groupId>
+  <groupId>org.jbundle.app.test</groupId>
   <artifactId>jbundle-app-test-reactor</artifactId>
   <name>jbundle-app-test-reactor - test framework</name>
   <packaging>pom</packaging>
@@ -18,6 +18,7 @@
     <module>res</module>
     <module>thin</module>
     <module>test</module>
+    <module>manual</module>
   </modules>
 
 </project>
