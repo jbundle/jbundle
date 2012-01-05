@@ -301,7 +301,7 @@ public class FieldInfo extends Converter
             {
                 if (component instanceof FieldComponent)
                     ((FieldComponent)component).setControlValue(converter.getData());
-                else
+              else if (component.getClass().getName().contains("ext"))  // JTextComponent/JTextArea - TODO FIX This lame code!
                     this.setTextByReflection(component, converter.getString());
 //                else if (component instanceof JTextComponent)
 //                    ((JTextComponent)component).setText(converter.getString());

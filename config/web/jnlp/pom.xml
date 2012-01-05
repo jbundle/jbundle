@@ -307,7 +307,7 @@
               <jarResources>
                 <jarResource>
                   <groupId>org.jbundle.app.test</groupId>
-                  <artifactId>org.jbundle.thin.app.test</artifactId>
+                  <artifactId>org.jbundle.thin.app.test.manual</artifactId>
                   <version>${project.version}</version>
                   <mainClass>org.jbundle.thin.app.test.manual.screentest.ThinTestApplet</mainClass>
                 </jarResource>
