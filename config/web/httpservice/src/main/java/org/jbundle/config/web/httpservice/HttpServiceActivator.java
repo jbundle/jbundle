@@ -163,8 +163,10 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             if ((BaseServlet.ROOT.equalsIgnoreCase(alias)) 
                     || (BaseServlet.INDEX.equalsIgnoreCase(alias)))
             {
+                // This redirects a www request to /demo/index.html
                 properties.put("regex", "www.+.tourgeek.com");
                 properties.put("regexTarget", "demo/index.html");
+                // This redirects non-matching requests to the proper servlet
                 properties.put(BaseWebappServlet.IE, BaseServlet.XSL);
                 properties.put(BaseWebappServlet.FIREFOX, BaseServlet.XSL);
                 //properties.put("chrome", "tourappxsl");
