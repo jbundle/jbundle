@@ -9,112 +9,15 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.jbundle.app.test</groupId>
-  <artifactId>org.jbundle.app.test</artifactId>
-  <packaging>bundle</packaging>
-  <name>jbundle-app-test - Test code</name>
+  <groupId>org.jbundle.app.program</groupId>
+  <artifactId>jbundle-app-test-reactor</artifactId>
+  <name>jbundle-app-test-reactor - test framework</name>
+  <packaging>pom</packaging>
 
-  <properties>
-    <maven.test.skip>true</maven.test.skip> <!-- TODO Need to add a profile that will run this on the build server (ie if jdbc.url exists) -->
-  </properties>
-  
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Export-Package>
-                ${project.artifactId}.*;version=${project.version},
-                org.jbundle.res.app.test.*;version=${project.version}
-                org.jbundle.thin.app.test.*;version=${project.version}
-            </Export-Package>
-            <Import-Package>
-                *;resolution:=optional,
-            </Import-Package>
-            <Bundle-Version>${project.version}</Bundle-Version>
-          </instructions>
-        </configuration>
-      </plugin>
-    </plugins> 
-    <resources>
-      <resource>
-        <directory>${basedir}/src/main/java</directory>
-        <includes>
-         <include>**/*.properties</include>
-        </includes>
-        <filtering>false</filtering>
-      </resource>
-    </resources>
-
-  </build>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-	<dependency>
-	  <groupId>log4j</groupId>
-	  <artifactId>log4j</artifactId>
-      <scope>test</scope>
-	</dependency>
-
-    <dependency>
-      <groupId>org.jbundle.config.dep</groupId>
-      <artifactId>jbundle-config-dep-main</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-	  <type>pom</type>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.util.calendarpanel</groupId>
-      <artifactId>org.jbundle.util.calendarpanel</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.thin.base.screen</groupId>
-      <artifactId>org.jbundle.thin.base.screen.cal.other</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.thin.base.screen</groupId>
-      <artifactId>org.jbundle.thin.base.screen.cal.grid</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.util.wsdl</groupId>
-      <artifactId>org.jbundle.util.wsdl.xmlschema</artifactId>
-      <version>${jbundleUtilWsdlVersionRange}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.util.wsdl</groupId>
-      <artifactId>org.jbundle.util.wsdl.wsdl11</artifactId>
-      <version>${jbundleUtilWsdlVersionRange}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.util.wsdl</groupId>
-      <artifactId>org.jbundle.util.wsdl.wsdl20</artifactId>
-      <version>${jbundleUtilWsdlVersionRange}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.thin.main</groupId>
-      <artifactId>org.jbundle.thin.main</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
+  <modules>
+    <module>res</module>
+    <module>thin</module>
+    <module>test</module>
+  </modules>
 
 </project>
