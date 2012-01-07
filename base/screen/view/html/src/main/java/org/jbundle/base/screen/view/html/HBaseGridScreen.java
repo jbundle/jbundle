@@ -11,7 +11,6 @@ package org.jbundle.base.screen.view.html;
  */
 import java.io.PrintWriter;
 
-import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.model.BaseGridScreen;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.ToolScreen;
@@ -21,6 +20,7 @@ import org.jbundle.base.screen.model.util.MenuToolbar;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constants;
 
 
@@ -209,7 +209,7 @@ public class HBaseGridScreen extends HBaseScreen
      * @param out The http output stream.
      * @exception DBException File exception.
      */
-    public void printStartRecordData(Record record, PrintWriter out, int iPrintOptions)
+    public void printStartRecordData(Rec record, PrintWriter out, int iPrintOptions)
     {
     }
     /**
@@ -218,7 +218,7 @@ public class HBaseGridScreen extends HBaseScreen
      * @param out The http output stream.
      * @exception DBException File exception.
      */
-    public void printEndRecordData(Record record, PrintWriter out, int iPrintOptions)
+    public void printEndRecordData(Rec record, PrintWriter out, int iPrintOptions)
     {
     }
     /**

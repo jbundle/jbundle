@@ -88,7 +88,7 @@ public class VCalendarScreen extends VBaseGridTableScreen
      */
     public Component setupControl(boolean bEditableControl)   // Must o/r
     {
-        Record gridRecord = this.getScreenField().getMainRecord();
+        Record gridRecord = (Record)this.getScreenField().getMainRecord();
         BaseTable gridTable = gridRecord.getTable();
         if (!(gridTable instanceof GridTable))
             gridTable = new GridTable(null, gridRecord);

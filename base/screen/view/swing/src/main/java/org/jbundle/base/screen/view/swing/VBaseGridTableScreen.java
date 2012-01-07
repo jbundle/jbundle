@@ -34,9 +34,9 @@ import org.jbundle.base.util.MenuConstants;
 import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -365,14 +365,14 @@ public class VBaseGridTableScreen extends VBaseGridScreen
      * @param message The message to handle.
      * @return The error code.
      */
-    public int handleMessage(BaseMessage message)
+    public int handleMessage(Message message)
     {
-        Record record = this.getScreenField().getMainRecord(); // Record changed
+        Record record = (Record)this.getScreenField().getMainRecord(); // Record changed
         if (record.getTable() instanceof GridTable)     // Always except HTML
-            if (message.getMessageHeader() != null)
-                if (message.getMessageHeader() instanceof RecordMessageHeader)
+            if (((BaseMessage)message).getMessageHeader() != null)
+                if (((BaseMessage)message).getMessageHeader() instanceof RecordMessageHeader)
         {
-            SwingUtilities.invokeLater(new HandleBaseGridTableScreenUpdate(this, message));
+            SwingUtilities.invokeLater(new HandleBaseGridTableScreenUpdate(this, (BaseMessage)message));
         }
         return DBConstants.NORMAL_RETURN;
     }

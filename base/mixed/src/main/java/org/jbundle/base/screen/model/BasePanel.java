@@ -9,7 +9,6 @@ package org.jbundle.base.screen.model;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.awt.Point;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -44,6 +43,10 @@ import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Field;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.util.Constant;
+import org.jbundle.model.util.Param;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
@@ -154,7 +157,7 @@ public class BasePanel extends ScreenField
         m_bIsFocusTarget = false; // Generally, can't tab to a panel
 
         int iErrorCode = this.checkSecurity();
-        if ((iErrorCode != DBConstants.NORMAL_RETURN) && (iErrorCode != Constants.READ_ACCESS))
+        if ((iErrorCode != Constant.NORMAL_RETURN) && (iErrorCode != Constants.READ_ACCESS))
         {
             this.displaySecurityWarning(this.checkSecurity());
             return;
@@ -177,7 +180,7 @@ public class BasePanel extends ScreenField
     public ScreenFieldView setupScreenFieldView(boolean bEditableControl)
     {
         int iErrorCode = this.checkSecurity();
-        if ((iErrorCode == DBConstants.NORMAL_RETURN) || (iErrorCode == Constants.READ_ACCESS))
+        if ((iErrorCode == Constant.NORMAL_RETURN) || (iErrorCode == Constants.READ_ACCESS))
             return super.setupScreenFieldView(bEditableControl);
         else
             return this.getViewFactory().setupScreenFieldView(this, Screen.class, bEditableControl);
@@ -191,7 +194,7 @@ public class BasePanel extends ScreenField
         App application = null;
         if (this.getTask() != null)
             application = this.getTask().getApplication();
-        int iErrorCode = DBConstants.NORMAL_RETURN; 
+        int iErrorCode = Constant.NORMAL_RETURN; 
         if (application != null)
             iErrorCode = application.checkSecurity(this.getClass().getName());
         return iErrorCode;
@@ -203,38 +206,38 @@ public class BasePanel extends ScreenField
     public void displaySecurityWarning(int iErrorCode)
     {
         String strDisplay = this.getTask().getApplication().getSecurityErrorText(iErrorCode);
-        if (iErrorCode == DBConstants.ACCESS_DENIED)
+        if (iErrorCode == Constants.ACCESS_DENIED)
         {
             m_iDisplayFieldDesc = ScreenConstants.SECURITY_MODE;    // Make sure this screen is not cached in TopScreen
             this.getScreenFieldView().addScreenLayout();            // Set up the screen layout
 
-            BaseApplication application = (BaseApplication)this.getTask().getApplication();
+            App application = this.getTask().getApplication();
             String strMessage = application.getResources(ResourceConstants.ERROR_RESOURCE, true).getString(strDisplay);
             new SStaticString(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, strMessage);
             new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.BACK);
             new MenuToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
             this.resizeToContent(strDisplay);
         }
-        if ((iErrorCode == DBConstants.LOGIN_REQUIRED) || (iErrorCode == DBConstants.AUTHENTICATION_REQUIRED))
+        if ((iErrorCode == Constants.LOGIN_REQUIRED) || (iErrorCode == Constants.AUTHENTICATION_REQUIRED))
         {
             m_iDisplayFieldDesc = ScreenConstants.SECURITY_MODE;    // Make sure this screen is not cached in TopScreen
             this.getScreenFieldView().addScreenLayout();            // Set up the screen layout
 
-            BaseApplication application = (BaseApplication)this.getTask().getApplication();
+            App application = this.getTask().getApplication();
             String strMessage = application.getResources(ResourceConstants.ERROR_RESOURCE, true).getString(strDisplay);
             new SStaticString(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, strMessage);
             
             Record record = null;
-            String strName = DBParams.USER_NAME;
-            int iDataLength =  DBConstants.DEFAULT_FIELD_LENGTH;
-            String strDesc = application.getResources(ResourceConstants.MAIN_RESOURCE, true).getString(DBParams.USER_NAME);
-            Object strDefault = application.getUserName();
+            String strName = Params.USER_NAME;
+            int iDataLength =  Constant.DEFAULT_FIELD_LENGTH;
+            String strDesc = application.getResources(ResourceConstants.MAIN_RESOURCE, true).getString(Params.USER_NAME);
+            Object strDefault = ((BaseApplication)application).getUserName();
             Converter converter = new StringField(record, strName, iDataLength, strDesc, strDefault);
             converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), this, ScreenConstants.DISPLAY_DESC);
 
-            strName = DBParams.PASSWORD;
-            iDataLength =  DBConstants.DEFAULT_FIELD_LENGTH;
-            strDesc = application.getResources(ResourceConstants.MAIN_RESOURCE, true).getString(DBParams.PASSWORD);
+            strName = Params.PASSWORD;
+            iDataLength =  Constant.DEFAULT_FIELD_LENGTH;
+            strDesc = application.getResources(ResourceConstants.MAIN_RESOURCE, true).getString(Params.PASSWORD);
             strDefault = null;
             iDataLength = 80;
             converter = new PasswordField(record, strName, iDataLength, strDesc, strDefault);
@@ -244,7 +247,7 @@ public class BasePanel extends ScreenField
             SCannedBox loginBox = new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.LOGIN);
             loginBox.setRequestFocusEnabled(true);
             strDesc = application.getResources(ResourceConstants.MAIN_RESOURCE, true).getString("Create new account");
-            String strCommand = Utility.addURLParam(null, DBParams.SCREEN, UserEntryScreen.class.getName());
+            String strCommand = Utility.addURLParam(null, Params.SCREEN, UserEntryScreen.class.getName());
             new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST_BUTTON_WITH_GAP, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, strDesc, MenuConstants.FORM, strCommand, MenuConstants.FORM + DBConstants.TIP);
             this.setDefaultButton(loginBox);
             ((BaseField)converter.getField()).addListener(new FieldListener(null)
@@ -311,7 +314,7 @@ public class BasePanel extends ScreenField
      */
     public int controlToField()
     {
-        return DBConstants.NORMAL_RETURN;
+        return Constant.NORMAL_RETURN;
     }
     /**
      * Move the field's value to the control.
@@ -433,7 +436,7 @@ public class BasePanel extends ScreenField
         if (iIndex != -1)
         	if (this instanceof BaseScreen)
         {   // only BaseScreens send commands
-            if ((strCommand.indexOf(DBParams.TASK + '=') != -1) || (strCommand.indexOf(DBParams.APPLET + '=') != -1))
+            if ((strCommand.indexOf(Param.TASK + '=') != -1) || (strCommand.indexOf(Params.APPLET + '=') != -1))
             { // Asking to start a job
                 Task task = this.getTask();
                 if (task == null)
@@ -478,13 +481,13 @@ public class BasePanel extends ScreenField
             this.selectField(null, DBConstants.SELECT_FIRST_FIELD);   // Validate current field
                 // Commands after this line do validate the current field
         if (strCommand.equalsIgnoreCase(MenuConstants.FIRST))
-            bFlag = this.onMove(DBConstants.FIRST_RECORD);
+            bFlag = this.onMove(Constants.FIRST_RECORD);
         if (strCommand.equalsIgnoreCase(MenuConstants.PREVIOUS))
-            bFlag = this.onMove(DBConstants.PREVIOUS_RECORD);
+            bFlag = this.onMove(Constants.PREVIOUS_RECORD);
         if (strCommand.equalsIgnoreCase(MenuConstants.NEXT))
-            bFlag = this.onMove(DBConstants.NEXT_RECORD);
+            bFlag = this.onMove(Constants.NEXT_RECORD);
         if (strCommand.equalsIgnoreCase(MenuConstants.LAST))
-            bFlag = this.onMove(DBConstants.LAST_RECORD);
+            bFlag = this.onMove(Constants.LAST_RECORD);
         if (strCommand.equalsIgnoreCase(MenuConstants.SUBMIT))
             bFlag = this.onAdd();
         if (strCommand.equalsIgnoreCase(MenuConstants.LOOKUP))
@@ -527,14 +530,14 @@ public class BasePanel extends ScreenField
      * This field changed, if this is the main record, lock it!
      * @param field The field that changed.
      */
-    public void fieldChanged(BaseField field)
+    public void fieldChanged(Field field)
     {
         Record record = this.getMainRecord();
         if (field != null)
             if (record != null)
             if (field.getRecord() == record)
         {
-            int iErrorCode= record.handleRecordChange(field, DBConstants.FIELD_CHANGED_TYPE, DBConstants.DONT_DISPLAY);   // Tell table that I'm getting changed (if not locked)
+            int iErrorCode= record.handleRecordChange((BaseField)field, DBConstants.FIELD_CHANGED_TYPE, DBConstants.DONT_DISPLAY);   // Tell table that I'm getting changed (if not locked)
             if (iErrorCode != DBConstants.NORMAL_RETURN)
                 this.displayError(iErrorCode);
         }
@@ -598,16 +601,6 @@ public class BasePanel extends ScreenField
     public ScreenLocation getNextLocation(int iColumn, int iRow, short setNewAnchor)
     {
         return new ScreenLocation(iRow, iColumn, setNewAnchor);
-    }
-    /**
-     * Setup a ScreenLocation object that contains this Row and Column.
-     * @param columnRow The position of the next location (row and column).
-     * @param setNewAnchor Set anchor?
-     * @return The new screen location constant.
-     */
-    public ScreenLocation getNextLocation(Point columnRow, short setNewAnchor)
-    {
-        return this.getNextLocation(columnRow.x + 1, columnRow.y + 1, setNewAnchor);
     }
     /**
      * Code this position and Anchor to add it to the LayoutManager.
@@ -859,12 +852,12 @@ public class BasePanel extends ScreenField
             {
                 try {
                     Object bookmark = null;
-                    if ((recordMain.getEditMode() == DBConstants.EDIT_CURRENT) || (recordMain.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
+                    if ((recordMain.getEditMode() == Constant.EDIT_CURRENT) || (recordMain.getEditMode() == Constant.EDIT_IN_PROGRESS))
                         bookmark = recordMain.getHandle(DBConstants.BOOKMARK_HANDLE);
                     this.finalizeThisScreen();  // Validate current control, update record, get ready to close screen.
                     if (bookmark == null)
                     {
-                        if ((recordMain.getEditMode() == DBConstants.EDIT_ADD) && (recordMain.isModified()))
+                        if ((recordMain.getEditMode() == Constant.EDIT_ADD) && (recordMain.isModified()))
                         {
                             recordMain.writeAndRefresh();
                             parentScreen.popHistory(1, false);
@@ -874,7 +867,7 @@ public class BasePanel extends ScreenField
                             recordMain.addNew();
                     }
                     else if ((!bookmark.equals(recordMain.getHandle(DBConstants.BOOKMARK_HANDLE)))
-                            || ((recordMain.getEditMode() == DBConstants.EDIT_NONE) || (recordMain.getEditMode() == DBConstants.EDIT_ADD)))
+                            || ((recordMain.getEditMode() == Constant.EDIT_NONE) || (recordMain.getEditMode() == Constant.EDIT_ADD)))
                         recordMain.setHandle(bookmark, DBConstants.BOOKMARK_HANDLE);
                 } catch (DBException e) {
                     e.printStackTrace();
@@ -904,10 +897,10 @@ public class BasePanel extends ScreenField
                 else if (record.getEditMode() == Constants.EDIT_ADD)
                     record.add();
             }
-            if ((nIDMoveCommand == DBConstants.NEXT_RECORD) && (!record.hasNext()))
+            if ((nIDMoveCommand == Constants.NEXT_RECORD) && (!record.hasNext()))
                 this.onAdd();   // Next record, enter "Add" mode
-            else if ((nIDMoveCommand == DBConstants.PREVIOUS_RECORD) && (!record.hasPrevious()))
-                this.onMove(DBConstants.FIRST_RECORD);      // Can't move before the first record
+            else if ((nIDMoveCommand == Constants.PREVIOUS_RECORD) && (!record.hasPrevious()))
+                this.onMove(Constants.FIRST_RECORD);      // Can't move before the first record
             else
                 record.move(nIDMoveCommand);
             record.isModified(false);
@@ -1023,7 +1016,7 @@ public class BasePanel extends ScreenField
      */
     public boolean onNewWindow()
     {
-        String strLastCommand = Utility.addURLParam(null, DBParams.MENU, DBConstants.BLANK);  //"?menu="; // Blank command = home
+        String strLastCommand = Utility.addURLParam(null, Params.MENU, Constant.BLANK);  //"?menu="; // Blank command = home
         this.handleCommand(strLastCommand, this, ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER);        // Process the last ?menu= command in a new window
         return true;    // Handled
     }
@@ -1045,7 +1038,7 @@ public class BasePanel extends ScreenField
 		count--;	// Want to move back to the first one
 		if (count > 0)
 			screenParent.popHistory(count, true);		// Dump all browser history
-        String strLastCommand = Utility.addURLParam(null, DBParams.MENU, DBConstants.BLANK);  //"?menu="; // Blank command = home
+        String strLastCommand = Utility.addURLParam(null, Params.MENU, Constant.BLANK);  //"?menu="; // Blank command = home
         this.handleCommand(strLastCommand, this, ScreenConstants.USE_SAME_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER);     // Process the last command in this window
         return true;    // Handled
     }
@@ -1205,10 +1198,10 @@ public class BasePanel extends ScreenField
      */
     public ScreenField getSField(int index)
     {       // If this screen cant accept a select BaseTable, find the one that can
-        if ((index-DBConstants.MAIN_FIELD >= m_SFieldList.size()) || (index < DBConstants.MAIN_FIELD))
+        if ((index-DBConstants.MAIN_FIELD >= m_SFieldList.size()) || (index < Constants.MAIN_FIELD))
             return null;
         try   {
-            return (ScreenField)m_SFieldList.elementAt(index-DBConstants.MAIN_FIELD);
+            return (ScreenField)m_SFieldList.elementAt(index-Constants.MAIN_FIELD);
         } catch (ArrayIndexOutOfBoundsException e)  {
         }
         return null;    // Not found
@@ -1326,7 +1319,7 @@ public class BasePanel extends ScreenField
      * @param bUpdateOnSelect Do I update the current record if a selection occurs.
      * @return True if successful.
      */
-    public boolean setSelectQuery(Record selectTable, boolean bUpdateOnSelect)
+    public boolean setSelectQuery(Rec selectTable, boolean bUpdateOnSelect)
     {       // If this screen can't accept a select BaseTable, find the one that can
         for (Enumeration<ScreenField> e = m_SFieldList.elements() ; e.hasMoreElements() ;)
         {   // This should only be called for Imaged GridScreens (Child windows would be deleted by now if Component)
@@ -1417,7 +1410,7 @@ public class BasePanel extends ScreenField
                 return null;
             if (!(parent instanceof TopScreen))
                 return parent.retrieveUserProperties();     // Register with the highest screen below the AppletScreen
-            String strKey = DBConstants.BLANK, strFileName = DBConstants.BLANK;
+            String strKey = Constant.BLANK, strFileName = Constant.BLANK;
             String strScreen = this.getClass().getName().toString();
             strKey += strScreen + MenuConstants.REGSEPARATOR; // Screen
             Record record = this.getMainRecord();
@@ -1444,7 +1437,7 @@ public class BasePanel extends ScreenField
     {
         if (bPrintReport)
             if (this.getScreenRecord() != null)   // This tells the RecordHtmlScreen to display the data
-                this.getScreenRecord().getField(DBConstants.MAIN_FIELD).setModified(true);  // Flag screen record, so toolbar knows
+                this.getScreenRecord().getField(Constants.MAIN_FIELD).setModified(true);  // Flag screen record, so toolbar knows
     }
     /**
      * Is this report in data entry mode or print report mode?
@@ -1482,7 +1475,7 @@ public class BasePanel extends ScreenField
             strServletName = Constants.DEFAULT_SERVLET;
 //?            if (this.getTask() instanceof RemoteRecordOwner)
 //?            	strServletName = strServletName + "xsl";	// Special case - if task is a session, servlet should be tourappxsl
-            if (DBParams.XHTMLSERVLET.equalsIgnoreCase(strServletParam))
+            if (Params.XHTMLSERVLET.equalsIgnoreCase(strServletParam))
                 strServletName = Constants.DEFAULT_XHTML_SERVLET;
         }
         return strServletName;
@@ -1517,13 +1510,13 @@ public class BasePanel extends ScreenField
      */
     public int setSFieldToProperty(String strSuffix, boolean bDisplayOption, int iMoveMode)
     {
-        int iErrorCode = DBConstants.NORMAL_RETURN;
+        int iErrorCode = Constant.NORMAL_RETURN;
 
         for (int iIndex = 0; iIndex < this.getSFieldCount(); iIndex++)
         {
             ScreenField sField = this.getSField(iIndex);
             int iErrorCode2 = sField.setSFieldToProperty(strSuffix, bDisplayOption, iMoveMode);
-            if (iErrorCode2 != DBConstants.NORMAL_RETURN)
+            if (iErrorCode2 != Constant.NORMAL_RETURN)
                 iErrorCode = iErrorCode2;
         }
         return iErrorCode;
@@ -1619,7 +1612,7 @@ public class BasePanel extends ScreenField
     public void clearStatusText()
     {
         if (this.getTask() != null)
-            this.getTask().setStatusText(DBConstants.BLANK);        
+            this.getTask().setStatusText(Constant.BLANK);        
     }
     /**
      * Display this screen's hidden params.

@@ -114,7 +114,7 @@ public class SwitchSubScreenHandler extends FieldListener
         BaseApplet applet = null;
         if (m_screenParent.getTask() instanceof BaseApplet)
         	applet = (BaseApplet)m_screenParent.getTask();
-        Cursor oldCursor = null;
+        Object oldCursor = null;
         if (applet != null)
         	oldCursor = applet.setStatus(Cursor.WAIT_CURSOR, applet, null);
 

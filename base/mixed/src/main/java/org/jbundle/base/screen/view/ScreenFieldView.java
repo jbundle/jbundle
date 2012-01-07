@@ -15,13 +15,12 @@ import java.util.ResourceBundle;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import org.jbundle.base.db.Record;
+import org.jbundle.model.db.Rec;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.FieldComponent;
-import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.util.Application;
-
+import org.jbundle.model.App;
+import org.jbundle.model.message.Message;
 
 /** 
  * The screen field view interface.
@@ -178,7 +177,7 @@ public interface ScreenFieldView extends FieldComponent
      * @param message The message to handle.
      * @return The error code.
      */
-    public int handleMessage(BaseMessage message);
+    public int handleMessage(Message message);
     /**
      * Resurvey the child control(s) and resize frame.
      * @param strTitle The new title for the screen (frame).
@@ -188,7 +187,7 @@ public interface ScreenFieldView extends FieldComponent
      * Setup a default task for this screen.
      * @param application The application to add the task to.
      */
-    public void setupDefaultTask(Application application);
+    public void setupDefaultTask(App application);
     /**
      * Enable or disable this control.
      * @param bEnable If true, enable this field.
@@ -365,14 +364,14 @@ public interface ScreenFieldView extends FieldComponent
      * @param out The http output stream.
      * @exception DBException File exception.
      */
-    public void printStartRecordData(Record record, PrintWriter out, int iPrintOptions);
+    public void printStartRecordData(Rec record, PrintWriter out, int iPrintOptions);
     /**
      * Display the end record in input format.
      * @return true if default params were found for this form.
      * @param out The http output stream.
      * @exception DBException File exception.
      */
-    public void printEndRecordData(Record record, PrintWriter out, int iPrintOptions);
+    public void printEndRecordData(Rec record, PrintWriter out, int iPrintOptions);
     /**
      * Display this screen in html input format.
      * @return true if default params were found for this form.

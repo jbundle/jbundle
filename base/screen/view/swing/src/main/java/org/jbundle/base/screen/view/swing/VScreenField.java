@@ -60,9 +60,9 @@ import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.base.util.ScreenConstants;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.screen.landf.ScreenUtil;
 
 
 /**
@@ -436,7 +436,7 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
     public void setEnabled(boolean bEnable)
     {
         if (this.getControl() != null)
-            Utility.setEnabled(this.getControl(), bEnable);
+            ScreenUtil.setEnabled(this.getControl(), bEnable);
     }
     /**
      * For the action listener (menu commands).

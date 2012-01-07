@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 import org.jbundle.base.screen.control.swing.util.ScreenLayout;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessage;
 
 
@@ -84,9 +85,9 @@ public class VBaseScreen extends VBasePanel
      * @param message The message to handle.
      * @return The error code.
      */
-    public int handleMessage(BaseMessage message)
+    public int handleMessage(Message message)
     {
-        SwingUtilities.invokeLater(new HandleBaseScreenUpdate(this, message));    // Update the fields on the screen (and be thread-safe).
+        SwingUtilities.invokeLater(new HandleBaseScreenUpdate(this, (BaseMessage)message));    // Update the fields on the screen (and be thread-safe).
         return DBConstants.NORMAL_RETURN;
     }
 }

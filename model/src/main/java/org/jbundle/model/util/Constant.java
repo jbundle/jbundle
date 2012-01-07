@@ -72,4 +72,12 @@ public interface Constant
 
     public static final int DATE_ONLY = 3;          // Same as DATE_ONLY_FORMAT in thick
     public static final int TIME_ONLY = 4;          // Same as TIME_ONLY_FORMAT in thick
+    // Screen constants
+    public static final int SCREEN_MOVE = 0;
+    public static final int INIT_MOVE = 1;
+    public static final int READ_MOVE = 2;      // BaseField listener move modes
+    public static final int DEFAULT_FIELD_LENGTH = -1;
+
+    public static final boolean DISPLAY = true;
+    public static final boolean DONT_DISPLAY = false;
 }

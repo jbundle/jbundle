@@ -11,6 +11,7 @@
  */
 package org.jbundle.thin.base.screen.landf;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dialog;
@@ -18,8 +19,13 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.util.Map;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
@@ -30,6 +36,7 @@ import org.jbundle.model.PropertyOwner;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.landf.theme.CustomTheme;
+import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**
@@ -241,4 +248,27 @@ public class ScreenUtil
         }
         return null;
     }
+    /**
+     * Fake disable a control.
+     */
+    public static void setEnabled(Component component, boolean bEnabled)
+    {
+        if (component instanceof JPanel)
+        {
+            for (int i = 0; i < ((JPanel)component).getComponentCount(); i++)
+            {
+                JComponent componentSub = (JComponent)((JPanel)component).getComponent(i);
+                ScreenUtil.setEnabled(componentSub, bEnabled);
+            }
+        }
+        else if (component instanceof JScrollPane)
+        {
+            JComponent componentSub = (JComponent)((JScrollPane)component).getViewport().getView();
+            ScreenUtil.setEnabled(componentSub, bEnabled);
+        }
+        else
+            component.setEnabled(bEnabled);
+    }
+    public static final Border GRAY_BORDER = new LineBorder(Color.LIGHT_GRAY);
+    public static final Border BLACK_BORDER = new LineBorder(Color.BLACK);
 }

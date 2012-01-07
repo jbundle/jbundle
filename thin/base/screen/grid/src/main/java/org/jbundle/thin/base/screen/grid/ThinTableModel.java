@@ -27,8 +27,9 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.db.Field;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
@@ -248,7 +249,7 @@ public class ThinTableModel extends AbstractThinTableModel
         m_buffCurrentLockedData.fieldsToBuffer(fieldList);
         for (int i = 0; i < iColumnCount; i++)
         {   // Cache the non-field data
-            FieldInfo field = null;
+            Field field = null;
             if (this.getFieldInfo(i) != null)
                 field = this.getFieldInfo(i).getField();
             if ((field != null) && (field.getRecord() != fieldList))
@@ -270,7 +271,7 @@ public class ThinTableModel extends AbstractThinTableModel
         int iColumnCount = this.getColumnCount();
         for (int i = 0; i < iColumnCount; i++)
         {   // Cache the non-field data
-            FieldInfo field = null;
+            Field field = null;
             if (this.getFieldInfo(i) != null)
                 field = this.getFieldInfo(i).getField();
             if ((field != null) && (field.getRecord() != fieldList))
@@ -288,7 +289,7 @@ public class ThinTableModel extends AbstractThinTableModel
      */
     public boolean setColumnValue(int iColumnIndex, Object value, boolean bDisplay, int iMoveMode)
     {
-        Converter fieldInfo = this.getFieldInfo(iColumnIndex);
+        Convert fieldInfo = this.getFieldInfo(iColumnIndex);
         if (fieldInfo != null)
         {
             Object dataBefore = fieldInfo.getData();
@@ -330,7 +331,7 @@ public class ThinTableModel extends AbstractThinTableModel
      */
     public Object getColumnValue(int iColumnIndex, int iEditMode)
     {
-        Converter fieldInfo = this.getFieldInfo(iColumnIndex);
+        Convert fieldInfo = this.getFieldInfo(iColumnIndex);
         if (fieldInfo != null)
             return fieldInfo.getString();
         return Constants.BLANK;
@@ -576,7 +577,7 @@ public class ThinTableModel extends AbstractThinTableModel
                 TableColumnModel columnModel = tableHeader.getColumnModel();
                 for (int iIndex = 0; iIndex < this.getColumnCount(); iIndex++)
                 {
-                    Converter field = this.getFieldInfo(iIndex);
+                    Convert field = this.getFieldInfo(iIndex);
                     int iWidth = JScreenConstants.ICON_SIZE.width;
                     if (field != null)
                         iWidth = field.getMaxLength() * iCharWidth;

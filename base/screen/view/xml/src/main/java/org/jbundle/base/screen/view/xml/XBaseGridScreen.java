@@ -21,6 +21,7 @@ import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.base.util.XMLTags;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Rec;
 
 
 /**
@@ -202,7 +203,7 @@ public class XBaseGridScreen extends XBaseScreen
      * @param out The http output stream.
      * @exception DBException File exception.
      */
-    public void printStartRecordData(Record record, PrintWriter out, int iPrintOptions)
+    public void printStartRecordData(Rec record, PrintWriter out, int iPrintOptions)
     {
         String strRecordName = record.getTableNames(false);
         if ((strRecordName == null) || (strRecordName.length() == 0))
@@ -218,7 +219,7 @@ public class XBaseGridScreen extends XBaseScreen
      * @param out The http output stream.
      * @exception DBException File exception.
      */
-    public void printEndRecordData(Record record, PrintWriter out, int iPrintOptions)
+    public void printEndRecordData(Rec record, PrintWriter out, int iPrintOptions)
     {
         String strRecordName = record.getTableNames(false);
         if ((strRecordName == null) || (strRecordName.length() == 0))

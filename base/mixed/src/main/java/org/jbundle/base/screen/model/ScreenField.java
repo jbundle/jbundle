@@ -5,21 +5,19 @@ package org.jbundle.base.screen.model;
 import java.io.PrintWriter;
 import java.util.ResourceBundle;
 
-import org.jbundle.base.db.Record;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.db.Field;
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.field.event.MainReadOnlyHandler;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.screen.view.ViewFactory;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.MenuConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.ScreenComponent;
-import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Converter;
-
+import org.jbundle.model.util.Constant;
+import org.jbundle.thin.base.db.Params;
 
 /**
  * ScreenField - This is the information which tells the system about a field on the
@@ -35,7 +33,7 @@ public abstract class ScreenField extends Object
     /**
      * Converter for this field.
      */
-    protected Converter m_converterField = null;
+    protected Convert m_converterField = null;
     /**
      * Parent screen.
      */
@@ -72,7 +70,7 @@ public abstract class ScreenField extends Object
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public ScreenField(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public ScreenField(ScreenLocation itsLocation, BasePanel parentScreen, Convert fieldConverter, int iDisplayFieldDesc)
     {
         this();
         this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
@@ -84,7 +82,7 @@ public abstract class ScreenField extends Object
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Convert fieldConverter, int iDisplayFieldDesc)
     {
         m_converterField = null;
         m_screenParent = null;
@@ -155,11 +153,11 @@ public abstract class ScreenField extends Object
      */
     public int controlToField()
     {
-        int iErrorCode = DBConstants.NORMAL_RETURN;
+        int iErrorCode = Constant.NORMAL_RETURN;
         if ((this.getScreenFieldView().getControl() != null) && (this.getConverter() != null))
         {
             Object objValue = this.getScreenFieldView().getComponentState(this.getScreenFieldView().getControl());
-            iErrorCode = this.getScreenFieldView().setFieldState(objValue, Constants.DISPLAY, Constants.SCREEN_MOVE);
+            iErrorCode = this.getScreenFieldView().setFieldState(objValue, Constant.DISPLAY, Constant.SCREEN_MOVE);
         }
         return iErrorCode;
     }
@@ -256,11 +254,11 @@ public abstract class ScreenField extends Object
      * This field changed, if this is the main record, lock it!
      * @param field The field that changed.
      */
-    public void fieldChanged(BaseField field)
+    public void fieldChanged(Field field)
     {
         BasePanel screenParent = this.getParentScreen();
         if (field == null) if (m_converterField != null) 
-            field = (BaseField)m_converterField.getField();   // This field changed
+            field = m_converterField.getField();   // This field changed
         if (screenParent != null)
             screenParent.fieldChanged(field);
     }
@@ -276,7 +274,7 @@ public abstract class ScreenField extends Object
      * Get the converter for this screen field.
      * @return The converter for this screen field.
      */
-    public Converter getConverter()
+    public Convert getConverter()
     {
         return m_converterField;
     }
@@ -292,7 +290,7 @@ public abstract class ScreenField extends Object
      * File to use for menu action.
      * @return The main record (override to do something).
      */
-    public Record getMainRecord()
+    public Rec getMainRecord()
     {
         return null;
     }
@@ -351,7 +349,7 @@ public abstract class ScreenField extends Object
      * Set the converter for this screen field.
      * @param fieldConverter The converter for this screen field.
      */
-    public void setConverter(Converter fieldConverter)
+    public void setConverter(Convert fieldConverter)
     {
         m_converterField = fieldConverter;
     }
@@ -382,7 +380,7 @@ public abstract class ScreenField extends Object
      * @param bUpdateOnSelect Do I update the current record if a selection occurs.
      * @return True if successful.
      */
-    public boolean setSelectQuery(Record selectTable, boolean bUpdateOnSelect)
+    public boolean setSelectQuery(Rec selectTable, boolean bUpdateOnSelect)
     {
         return false;
     }
@@ -475,8 +473,8 @@ public abstract class ScreenField extends Object
             BaseField field = (BaseField)this.getConverter().getField();
             if (field != null)
             {
-                if ((field.getListener(MainReadOnlyHandler.class) == null)   // Special case - If this is reading a secondary file there is a huge chance of name collision
-                	|| (field.getSFieldAt(0) == this))	// Only allow the first one to use this name
+                if ((field.getListener("org.jbundle.base.field.eventMainReadOnlyHandler") == null)   // Special case - If this is reading a secondary file there is a huge chance of name collision
+                	|| (field.getComponent(0) == this))	// Only allow the first one to use this name
                 {
                     strFieldName = field.getFieldName(false, true);	// Recordname.fieldname
                     int iCount = 0;
@@ -496,7 +494,7 @@ public abstract class ScreenField extends Object
                 }
             }
             else
-                strFieldName = DBParams.FIELD + strFieldDesc;
+                strFieldName = Params.FIELD + strFieldDesc;
         }
         if (strFieldName == null)
         {
@@ -543,14 +541,14 @@ public abstract class ScreenField extends Object
      */
     public String getSFieldValue(boolean bDisplayFormat, boolean bRawData)
     {
-        Converter converter = this.getConverter();
+        Convert converter = this.getConverter();
         if (converter == null)
-            return Constants.BLANK;
+            return Constant.BLANK;
         if (bRawData)
         {
             converter = converter.getField();
             if (converter == null)
-                return Constants.BLANK;
+                return Constant.BLANK;
         }
         return converter.getString();
     }
@@ -572,7 +570,7 @@ public abstract class ScreenField extends Object
         if (this.getConverter() != null)
             return this.getConverter().setString(strParamValue, bDisplayOption, iMoveMode);
         else
-            return DBConstants.NORMAL_RETURN;
+            return Constant.NORMAL_RETURN;
     }
     /**
      * Move the HTML input to the screen record fields.
@@ -582,7 +580,7 @@ public abstract class ScreenField extends Object
      */
     public int setSFieldToProperty(String strSuffix, boolean bDisplayOption, int iMoveMode)
     {
-        int iErrorCode = DBConstants.NORMAL_RETURN;
+        int iErrorCode = Constant.NORMAL_RETURN;
         if (this.isInputField())
         {
             String strFieldName = this.getSFieldParam(strSuffix);
@@ -826,7 +824,7 @@ public abstract class ScreenField extends Object
      * @param out The http output stream.
      * @exception DBException File exception.
      */
-    public void printStartRecordData(Record record, PrintWriter out, int iPrintOptions)
+    public void printStartRecordData(Rec record, PrintWriter out, int iPrintOptions)
     {
         this.getScreenFieldView().printStartRecordData(record, out, iPrintOptions);
     }
@@ -836,7 +834,7 @@ public abstract class ScreenField extends Object
      * @param out The http output stream.
      * @exception DBException File exception.
      */
-    public void printEndRecordData(Record record, PrintWriter out, int iPrintOptions)
+    public void printEndRecordData(Rec record, PrintWriter out, int iPrintOptions)
     {
         this.getScreenFieldView().printEndRecordData(record, out, iPrintOptions);
     }

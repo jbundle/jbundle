@@ -20,6 +20,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import org.jbundle.model.Freeable;
+import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.FieldComponent;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
@@ -49,7 +50,7 @@ public class JCellCalendarButton extends JCalendarButton
     /**
      * The field this component is tied to.
      */
-    protected Converter m_converter = null;   
+    protected Convert m_converter = null;   
     
     /**
      * Creates new CalendarButton.
@@ -62,7 +63,7 @@ public class JCellCalendarButton extends JCalendarButton
      * Creates new CalendarButton.
      * @param dateTarget The initial date for this button.
      */
-    public JCellCalendarButton(Converter converter)
+    public JCellCalendarButton(Convert converter)
     {
         super();
         this.init(converter);
@@ -73,7 +74,7 @@ public class JCellCalendarButton extends JCalendarButton
      * @param dateTarget The initial date for this button.
      * @param strLanguage The language to use.
      */
-    public void init(Converter converter)
+    public void init(Convert converter)
     {
         m_converter = converter;
         Date dateTarget = (Date)m_converter.getData();
@@ -312,7 +313,7 @@ public class JCellCalendarButton extends JCalendarButton
      * Get the converter for this screen field.
      * @return The converter for this screen field.
      */
-    public Converter getConverter()
+    public Convert getConverter()
     {
         return m_converter;
     }

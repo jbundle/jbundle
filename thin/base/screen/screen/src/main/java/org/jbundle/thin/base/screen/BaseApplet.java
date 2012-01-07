@@ -1501,7 +1501,7 @@ public class BaseApplet extends JApplet
      * Display the status text.
      * @param strMessage The message to display.
      */
-    public Cursor setStatus(int iStatus, Component comp, Cursor cursor)
+    public Object setStatus(int iStatus, Component comp, Object cursor)
     {
         Cursor oldCursor = null;
         if (comp != null)
@@ -1509,8 +1509,8 @@ public class BaseApplet extends JApplet
         {
             oldCursor = comp.getCursor();
             if (cursor == null)
-                cursor = Cursor.getPredefinedCursor(iStatus);
-            comp.setCursor(cursor);
+                cursor = (Cursor)Cursor.getPredefinedCursor(iStatus);
+            comp.setCursor((Cursor)cursor);
         }
         if (m_statusbar != null)
             m_statusbar.setStatus(iStatus);

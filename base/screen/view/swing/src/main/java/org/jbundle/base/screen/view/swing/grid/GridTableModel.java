@@ -19,6 +19,7 @@ import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.view.swing.VScreenField;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
@@ -142,7 +143,7 @@ public class GridTableModel extends ThinTableModel
      * @param iColumnIndex The column to set.
      * @return The converter at this location.
      */
-    public Converter getFieldInfo(int iColumnIndex)
+    public Convert getFieldInfo(int iColumnIndex)
     {
         return m_gridScreen.getSField(iColumnIndex).getConverter();
     }
@@ -311,7 +312,7 @@ public class GridTableModel extends ThinTableModel
             }
             if (m_gridScreen.getConverter() != null)
             {
-                Converter converter = m_gridScreen.getConverter();
+                Convert converter = m_gridScreen.getConverter();
                 if (iColumn > 0)
                 {
                     if (!bOrder)
@@ -329,11 +330,11 @@ public class GridTableModel extends ThinTableModel
      */
     public int columnToFieldColumn(int iViewColumn)
     {
-        Converter lastConverter = null;
+        Convert lastConverter = null;
         int iFieldColumn = 1;
         for (int iColumnIndex = 0; iColumnIndex < iViewColumn; iColumnIndex++)
         {
-            Converter converter = this.getFieldInfo(iColumnIndex);
+            Convert converter = this.getFieldInfo(iColumnIndex);
             if ((converter == null) || (converter == lastConverter))
                 continue;
             iFieldColumn++;
@@ -348,14 +349,14 @@ public class GridTableModel extends ThinTableModel
      */
     public int columnToViewColumn(int iFieldColumn)
     {   // Note: this is overidden in GridTable Model
-        Converter lastConverter = null;
+        Convert lastConverter = null;
         int iActualColumn = 0;
         int iToolscreens = 0;
         for (int iColumnIndex = 0; iColumnIndex < this.getColumnCount(); iColumnIndex++)
         {
             if (m_gridScreen.getSField(iColumnIndex) instanceof ToolScreen)
                 iToolscreens++;
-            Converter converter = this.getFieldInfo(iColumnIndex);
+            Convert converter = this.getFieldInfo(iColumnIndex);
             if ((converter == null) || (converter == lastConverter))
                 continue;
             iActualColumn++;

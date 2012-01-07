@@ -19,6 +19,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -122,7 +123,7 @@ public class STreeCtrl extends BaseScreen
      * @param iSelectIndex The field to return.
      * @return The converter at this location.
      */
-    public Converter getTreeField(int iSelectIndex)
+    public Convert getTreeField(int iSelectIndex)
     {
         return this.getSField(iSelectIndex).getConverter();
     }

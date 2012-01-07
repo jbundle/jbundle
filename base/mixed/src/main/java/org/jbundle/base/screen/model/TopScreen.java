@@ -9,7 +9,6 @@ package org.jbundle.base.screen.model;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.awt.Cursor;
 import java.io.IOException;
 import java.util.Map;
 
@@ -43,6 +42,7 @@ import org.jbundle.main.user.screen.UserLoginScreen;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldList;
@@ -305,9 +305,9 @@ public class TopScreen extends BasePanel
         BaseApplet applet = null;
         if (this.getTask() instanceof BaseApplet)
         	applet = (BaseApplet)this.getTask();
-        Cursor oldCursor = null;
+        Object oldCursor = null;
         if (applet != null)
-        	oldCursor = applet.setStatus(Cursor.WAIT_CURSOR, applet, null);
+        	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
         if (screen == null)
             if (strScreen.length() > 0)
                 screen = BaseScreen.makeNewScreen(strScreen, null, this, 0, null, true);

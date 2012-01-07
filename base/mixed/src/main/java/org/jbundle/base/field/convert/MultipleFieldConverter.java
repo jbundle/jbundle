@@ -13,6 +13,7 @@ package org.jbundle.base.field.convert;
 import java.util.Vector;
 
 import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.util.LinkedConverter;
 
@@ -296,7 +297,7 @@ public class MultipleFieldConverter extends FieldConverter
      */
     public boolean isConverterInPath(ScreenField sField)
     {
-        Converter converter = sField.getConverter();
+        Convert converter = sField.getConverter();
         while (converter != null)
         {
             if (converter == this)

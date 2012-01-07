@@ -18,6 +18,7 @@ import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -76,7 +77,7 @@ public class XPopupBox extends XScreenField
         m_vValues = new Vector<String>();
         String strField = null;
 
-        Converter converter = this.getScreenField().getConverter();
+        Convert converter = this.getScreenField().getConverter();
         Object data = converter.getData();
         BaseField field = (BaseField)converter.getField();
         boolean bModifiedState = false;
@@ -173,7 +174,7 @@ public class XPopupBox extends XScreenField
 
         String string = DBConstants.BLANK;
         int iIndex = 0;
-        Converter converter = this.getScreenField().getConverter();
+        Convert converter = this.getScreenField().getConverter();
         if (m_vDisplays == null)
         {
             String strField = null;
@@ -211,7 +212,7 @@ public class XPopupBox extends XScreenField
     {
         String strValue = super.getSFieldProperty(strFieldName);
         // Hack - For some weird reason DOJO returns the display value instead of the 'option' value. Need to look up the field value.
-        Converter converter = this.getScreenField().getConverter();
+        Convert converter = this.getScreenField().getConverter();
         String strConverter = converter.toString();
         if (((strValue != null) && (strValue.equals(strConverter)))
         	|| ((strValue == null) && (strConverter == null)))

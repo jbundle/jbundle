@@ -21,12 +21,13 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -294,7 +295,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * @param message The message to handle.
      * @return The error code.
      */
-    public int handleMessage(BaseMessage message)
+    public int handleMessage(Message message)
     {
         return DBConstants.NORMAL_RETURN;
     }
@@ -309,7 +310,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * Setup a default task for this screen.
      * @param application The application to add the task to.
      */
-    public void setupDefaultTask(Application application)
+    public void setupDefaultTask(App application)
     {
         // Override in VAppletScreen
     }
@@ -557,7 +558,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * @param out The http output stream.
      * @exception DBException File exception.
      */
-    public void printStartRecordData(Record record, PrintWriter out, int iPrintOptions)
+    public void printStartRecordData(Rec record, PrintWriter out, int iPrintOptions)
     {
     }
     /**
@@ -566,7 +567,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * @param out The http output stream.
      * @exception DBException File exception.
      */
-    public void printEndRecordData(Record record, PrintWriter out, int iPrintOptions)
+    public void printEndRecordData(Rec record, PrintWriter out, int iPrintOptions)
     {
     }
     /**
@@ -615,7 +616,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * interface, although this is not the screen component.
      * @return The converter for this screen field.
      */
-    public Converter getConverter()
+    public Convert getConverter()
     {
         return this.getScreenField().getConverter();    // Utility method
     }

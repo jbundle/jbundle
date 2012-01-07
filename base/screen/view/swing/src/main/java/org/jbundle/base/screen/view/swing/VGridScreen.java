@@ -35,8 +35,8 @@ import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.view.swing.grid.GridTableModel;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ResourceConstants;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.screen.AbstractThinTableModel;
 
@@ -265,7 +265,7 @@ public class VGridScreen extends VBaseGridTableScreen
             if (iColumn != -1)
             {
                 ScreenField sField = this.getSFieldAtColumn(iColumn);
-                Converter converter = sField.getConverter();
+                Convert converter = sField.getConverter();
                 org.jbundle.model.Task baseApplet = ((GridScreen)this.getScreenField()).getTask();
                 if (baseApplet != null)
                 {

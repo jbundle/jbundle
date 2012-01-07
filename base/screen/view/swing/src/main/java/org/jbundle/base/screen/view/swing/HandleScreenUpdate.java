@@ -64,7 +64,7 @@ class HandleScreenUpdate extends HandleBaseScreenUpdate
         String strTableName = (String)messageHeader.get(RecordMessageHeader.TABLE_NAME);
         if (this.getScreenFieldView().getScreenField() == null)
                 return; // Screen was probably freed before I got to it.
-        Record record = this.getScreenFieldView().getScreenField().getMainRecord(); // must be main record (for now)
+        Record record = (Record)this.getScreenFieldView().getScreenField().getMainRecord(); // must be main record (for now)
         if (strTableName != null)
         	if (this.getScreenFieldView().getScreenField() instanceof BaseScreen)
         		if (!strTableName.equals(record.getTableNames(false)))

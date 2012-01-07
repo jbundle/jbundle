@@ -45,6 +45,7 @@ import org.jbundle.base.util.MenuConstants;
 import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.UserProperties;
+import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
@@ -356,7 +357,7 @@ public class VAppletScreen extends VBasePanel
      * Setup a default task for this screen.
      * @param application The application to create the task under (if null, guesses).
      */
-    public void setupDefaultTask(Application application)
+    public void setupDefaultTask(App application)
     {
         SApplet applet = (SApplet)this.getControl();
         if (application == null)

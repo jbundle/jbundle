@@ -149,7 +149,7 @@ public class ProjectTaskCalendar extends CalendarScreen
                     field = (ImageField)recProjectControl.getField(fieldSeq);
                 if (field.isNull())
                     return super.getIcon(iIconType);
-                return field.getImage();
+                return new ImageIcon(field.getImage().getImage());
             }
             public Color getHighlightColor()
             {

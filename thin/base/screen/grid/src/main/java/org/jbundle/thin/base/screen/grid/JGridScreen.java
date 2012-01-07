@@ -28,8 +28,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
@@ -326,7 +326,7 @@ public class JGridScreen extends JBaseGridScreen
             if (iColumn != -1)
                 if (m_thinTableModel != null)   // In case this was freed before I got the message
             {
-                Converter converter = m_thinTableModel.getFieldInfo(iColumn);
+                Convert converter = m_thinTableModel.getFieldInfo(iColumn);
                 BaseApplet baseApplet = this.getBaseApplet();
                 if (baseApplet != null)
                 {

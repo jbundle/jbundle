@@ -11,6 +11,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldList;
@@ -104,7 +105,7 @@ public abstract class AbstractThinTableModel extends AbstractTableModel
      * @param iColumn The column to get the field from.
      * @return The field in this column.
      */
-    public Converter getFieldInfo(int iColumnIndex)
+    public Convert getFieldInfo(int iColumnIndex)
     {
         Converter converter = m_table.getRecord().getField(iColumnIndex);
         if (converter != null)
@@ -224,7 +225,7 @@ public abstract class AbstractThinTableModel extends AbstractTableModel
      */
     public String getColumnName(int iColumnIndex)
     {
-        Converter fieldInfo = this.getFieldInfo(iColumnIndex);
+        Convert fieldInfo = this.getFieldInfo(iColumnIndex);
         if (fieldInfo != null)
             return fieldInfo.getFieldDesc();
         return Constants.BLANK;

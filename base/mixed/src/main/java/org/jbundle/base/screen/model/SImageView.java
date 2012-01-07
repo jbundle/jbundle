@@ -10,7 +10,6 @@ package org.jbundle.base.screen.model;
  *      don@tourgeek.com
  */
 
-import java.awt.Dimension;
 
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.thin.base.db.Converter;
@@ -27,7 +26,8 @@ public class SImageView extends ScreenField
     /**
      * The image dimensions.
      */
-    protected Dimension m_dimImage = null;
+    protected int m_widthImage = 0;
+    protected int m_heightImage = 0;
     /**
      * If you want to use this as a button, set a command!
      */
@@ -71,18 +71,32 @@ public class SImageView extends ScreenField
         super.free();
     }
     /**
-     * Set the size of all images (If they are know and are the same).
+     * Set the size of all images (If they are known and are the same).
      */
-    public void setImageSize(Dimension dimImage)
+    public void setImageWidth(int dimImage)
     {
-        m_dimImage = dimImage;
+        m_widthImage = dimImage;
+    }
+    /**
+     * Set the size of all images (If they are known and are the same).
+     */
+    public void setImageHeight(int dimImage)
+    {
+        m_heightImage = dimImage;
     }
     /**
      * Set the size of all images (If they are know and are the same).
      */
-    public Dimension getImageSize()
+    public int getImageWidth()
     {
-        return m_dimImage;
+        return m_widthImage;
+    }
+    /**
+     * Set the size of all images (If they are know and are the same).
+     */
+    public int getImageHeight()
+    {
+        return m_heightImage;
     }
     /**
      * Set the size of all images (If they are know and are the same).

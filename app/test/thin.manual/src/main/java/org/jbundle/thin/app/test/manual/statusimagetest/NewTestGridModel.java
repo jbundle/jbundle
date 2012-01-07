@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.app.test.vet.db.Vet;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
@@ -29,17 +30,17 @@ import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.thin.base.screen.db.converter.ImageConverter;
-import org.jbundle.thin.base.screen.db.converter.SecondaryRecordConverter;
-import org.jbundle.thin.base.screen.grid.ThinTableModel;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.ThinApplication;
+import org.jbundle.thin.base.screen.db.converter.ImageConverter;
+import org.jbundle.thin.base.screen.db.converter.SecondaryRecordConverter;
 import org.jbundle.thin.base.screen.grid.JCellButton;
 import org.jbundle.thin.base.screen.grid.JCellCalendarButton;
 import org.jbundle.thin.base.screen.grid.JCellCheckBox;
 import org.jbundle.thin.base.screen.grid.JCellImage;
 import org.jbundle.thin.base.screen.grid.JCellRemoteComboBox;
 import org.jbundle.thin.base.screen.grid.JCellThreeStateCheckBox;
+import org.jbundle.thin.base.screen.grid.ThinTableModel;
 import org.jbundle.thin.base.util.Application;
 
 
@@ -101,7 +102,7 @@ public class NewTestGridModel extends ThinTableModel
      * Get this field (or return null if this field doesn't belong on the screen).
      * This is the method to use to filter the items to display on the screen.
      */
-    public Converter getFieldInfo(int iIndex)
+    public Convert getFieldInfo(int iIndex)
     {
         FieldList fieldList = m_table.getRecord();
         switch (iIndex)
@@ -228,7 +229,7 @@ public class NewTestGridModel extends ThinTableModel
         case THREESTATE:
             return new JCellThreeStateCheckBox(null);
         case PRICE:
-            Converter fieldInfo = this.getFieldInfo(iColumnIndex);
+            Convert fieldInfo = this.getFieldInfo(iColumnIndex);
             JCellImage component = (JCellImage)fieldInfo.getField().getComponent(0);
             return component;
 //            return new JCellImageTestNew(null);
@@ -306,7 +307,7 @@ public class NewTestGridModel extends ThinTableModel
         case THREESTATE:
             return new JCellThreeStateCheckBox(null);
         case PRICE:
-            Converter fieldInfo = this.getFieldInfo(iColumnIndex);
+            Convert fieldInfo = this.getFieldInfo(iColumnIndex);
             JCellImage component = (JCellImage)fieldInfo.getField().getComponent(0);
             return component;
 //            return new JCellImageTestNew(null);

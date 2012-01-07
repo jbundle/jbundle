@@ -24,6 +24,7 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.util.ThinMenuConstants;
@@ -253,7 +254,7 @@ public class Screen extends BaseScreen
      * @param bUpdateOnSelect Do I update the current record if a selection occurs.
      * @return True if successful.
      */
-    public boolean setSelectQuery(Record recMaint, boolean bUpdateOnSelect)
+    public boolean setSelectQuery(Rec recMaint, boolean bUpdateOnSelect)
     {
         if (recMaint == null)
         {
@@ -263,7 +264,7 @@ public class Screen extends BaseScreen
             if (this.getMainRecord() != recMaint)
                 if (this.getMainRecord().getBaseRecord().getTableNames(false).equals(recMaint.getTableNames(false)))
         {
-            this.getMainRecord().addListener(new SelectOnUpdateHandler(recMaint, bUpdateOnSelect));
+            this.getMainRecord().addListener(new SelectOnUpdateHandler((Record)recMaint, bUpdateOnSelect));
                 return true;    // BaseTable Set!
         }
         return false;

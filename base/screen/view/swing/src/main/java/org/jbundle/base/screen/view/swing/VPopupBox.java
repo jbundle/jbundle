@@ -29,6 +29,7 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 
@@ -124,7 +125,7 @@ public class VPopupBox extends VScreenField
     {
         JComboBox control = (JComboBox)this.getControl();
         control.removeAllItems();
-        Converter converter = this.getScreenField().getConverter();
+        Convert converter = this.getScreenField().getConverter();
 
         if (converter instanceof QueryConverter)
         {
@@ -172,7 +173,7 @@ public class VPopupBox extends VScreenField
      */
     public Rectangle calcBoxShape(Point ptLocation)
     {
-        Converter converter = this.getScreenField().getConverter();
+        Convert converter = this.getScreenField().getConverter();
         if (m_iMaxLength == -1)
         {
             Object data = converter.getData();
@@ -208,7 +209,7 @@ public class VPopupBox extends VScreenField
         boolean bEnable = (mxobjEnabled == null) ? false : true;
 
         BaseField field = null;
-        Converter converter = this.getScreenField().getConverter();
+        Convert converter = this.getScreenField().getConverter();
         if (converter != null)
             field = (BaseField)converter.getField();
         Record record = null;

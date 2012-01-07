@@ -18,7 +18,7 @@ import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.db.Convert;
 
 
 /**
@@ -80,7 +80,7 @@ public class HPopupBox extends HScreenField
         m_vValues = new Vector<String>();
         String strField = null;
 
-        Converter converter = this.getScreenField().getConverter();
+        Convert converter = this.getScreenField().getConverter();
         Object data = converter.getData();
         BaseField field = (BaseField)converter.getField();
         boolean bModifiedState = false;
@@ -146,7 +146,7 @@ public class HPopupBox extends HScreenField
      */
     public void printDisplayControl(PrintWriter out)
     {
-        Converter converter = this.getScreenField().getConverter();
+        Convert converter = this.getScreenField().getConverter();
         if (m_vDisplays == null)
         {
             String strField = null;

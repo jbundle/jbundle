@@ -23,7 +23,7 @@ import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.screen.view.swing.grid.GridTableModel;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 
@@ -77,7 +77,7 @@ class HandleBaseGridTableScreenUpdate extends HandleBaseScreenUpdate
         if ((this.getScreenFieldView().getScreenField() == null)
             || (this.getScreenFieldView().getScreenField().getMainRecord() == null))
                 return; // Screen was probably freed before I got to it.
-        Record record = this.getScreenFieldView().getScreenField().getMainRecord(); // Record changed
+        Record record = (Record)this.getScreenFieldView().getScreenField().getMainRecord(); // Record changed
         int iHandleType = DBConstants.BOOKMARK_HANDLE;  // OBJECT_ID_HANDLE;
         Object bookmark = ((RecordMessageHeader)m_message.getMessageHeader()).getBookmark(iHandleType);
         int iRecordMessageType = ((RecordMessageHeader)m_message.getMessageHeader()).getRecordMessageType();
@@ -225,7 +225,7 @@ class HandleBaseGridTableScreenUpdate extends HandleBaseScreenUpdate
             ScreenField sField = ((BaseGridTableScreen)this.getScreenFieldView().getScreenField()).getSField(iIndex);
             if (sField instanceof ToolScreen)
                 continue;
-            Converter converter = sField.getConverter();
+            Convert converter = sField.getConverter();
             if (converter == null)
                 continue;
             BaseField field = (BaseField)converter.getField();

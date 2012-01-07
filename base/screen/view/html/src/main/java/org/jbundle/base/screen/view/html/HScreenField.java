@@ -18,6 +18,7 @@ import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.db.Convert;
 
 
 /**
@@ -113,7 +114,7 @@ public abstract class HScreenField extends ZScreenField
         if ((iHtmlAttributes & HtmlConstants.HTML_INPUT) != 0)
         {   // Input field
             String strFieldName = this.getHtmlFieldParam();
-            Converter converter = this.getScreenField().getConverter();
+            Convert converter = this.getScreenField().getConverter();
             int iMaxSize = 10;  //?
             if (converter != null)
                 iMaxSize = converter.getMaxLength();
@@ -143,7 +144,7 @@ public abstract class HScreenField extends ZScreenField
         String strField = Utility.encodeXML(this.getScreenField().getSFieldValue(true, false));
         if ((strField == null) || (strField.length() == 0))
             strField = "&nbsp;";    //?"<br>";
-        String strHyperlink = this.getScreenField().getConverter().getHyperlink();
+        String strHyperlink = ((Converter)this.getScreenField().getConverter()).getHyperlink();
         if (strHyperlink != null) if (strHyperlink.length() > 0)
             strField = "<a href=\"" + strHyperlink + "\">" + strField + "<a>";
         String strAlignment = this.getControlAlignment();

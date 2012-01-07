@@ -39,7 +39,7 @@ public class SyncPageLoader extends Object
     /**
      * Cursor to restore to m_control when the work is over.
      */
-    protected Cursor m_oldCursor = null;
+    protected Object m_oldCursor = null;
 
     protected URL m_url = null;
     
@@ -100,7 +100,7 @@ public class SyncPageLoader extends Object
                 	{
                 		component = component.getParent();
                 	}
-                    component.setCursor(m_oldCursor);
+                    component.setCursor((Cursor)m_oldCursor);
                 }
                 Container parent = m_editorPane.getParent();
                 parent.repaint();

@@ -125,8 +125,8 @@ public class VImageView extends VScreenField
         {
             boolean bAddScrollPane = true;
             if (this.getScreenField() != null)  // See if the model is specifying a size
-                if (((SImageView)this.getScreenField()).getImageSize() != null)
-                    if (((SImageView)this.getScreenField()).getImageSize().getHeight() <= ScreenConstants.kMaxEditLineChars)
+                if (((SImageView)this.getScreenField()).getImageHeight() != 0)
+                    if (((SImageView)this.getScreenField()).getImageHeight() <= ScreenConstants.kMaxEditLineChars)
                         bAddScrollPane = false; // Image is small enough not to need a scroll bar.
             if (bAddScrollPane)
                 new JScrollPane(control, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -141,16 +141,22 @@ public class VImageView extends VScreenField
      */   
     public Rectangle calcBoxShape(Point ptLocation)
     {
-        Dimension itsSize = null;
+        int width = 0;
+        int height = 0;
         if (this.getScreenField() != null)  // See if the model is specifying a size
-            itsSize = ((SImageView)this.getScreenField()).getImageSize();
-        if (itsSize == null)
+        {
+            width = ((SImageView)this.getScreenField()).getImageWidth();
+            height = ((SImageView)this.getScreenField()).getImageHeight();
+        }
+        if (width == 0)
         {
             short boxChars, boxLines = ScreenConstants.kMaxDoubleLines;
             boxChars = ScreenConstants.kMaxSingleChars;
-            itsSize = this.getTextBoxSize(boxChars, ScreenConstants.NEXT_LOGICAL, boxLines);
+            Dimension itsSize = this.getTextBoxSize(boxChars, ScreenConstants.NEXT_LOGICAL, boxLines);
+            width = (int)itsSize.getWidth();
+            height = (int)itsSize.getHeight();
         }
-        return new Rectangle(ptLocation.x , ptLocation.y, itsSize.width, itsSize.height);
+        return new Rectangle(ptLocation.x , ptLocation.y, width, height);
     }
     /**
      * Get the class of this component's state.

@@ -233,7 +233,7 @@ public class PhysicalDatabaseParent extends Object
             checkCache();
             if (timerCache != null)   // Schedule the next one
             {
-                timerCache.cancel();
+                //x timerCache.cancel();
                 timerCache.schedule(timerTask, cacheMinutes * 60 * 1000);
             }
         }

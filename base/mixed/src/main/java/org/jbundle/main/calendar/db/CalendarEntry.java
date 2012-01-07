@@ -247,7 +247,7 @@ public class CalendarEntry extends VirtualRecord
         //        recCalendarCategory = ((ReferenceField)recAnnivMaster.getField(AnnivMaster.kCalendarCategoryID)).getReference();
         }
         if ((recCalendarCategory != null) && (recCalendarCategory.getEditMode() == DBConstants.EDIT_CURRENT))
-            iconStart = ((ImageField)recCalendarCategory.getField(CalendarCategory.kIcon)).getImage();
+            iconStart = (ImageIcon)new ImageIcon(((ImageField)recCalendarCategory.getField(CalendarCategory.kIcon)).getImage().getImage());
         if (iconStart == null)
         {
             if (this.getTask() instanceof BaseApplet)

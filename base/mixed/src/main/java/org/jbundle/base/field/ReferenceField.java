@@ -9,7 +9,6 @@ package org.jbundle.base.field;
  * NOTE: There is no automatic behaviors associated with this field. If you want the
  * secondary record to be read, you must add a listener to this field.
  */
-import javax.swing.ImageIcon;
 
 import org.jbundle.base.db.KeyArea;
 import org.jbundle.base.db.Record;
@@ -225,8 +224,6 @@ public class ReferenceField extends RecordReferenceField
         } 
         else
             this.setReference(record, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
-        if (recordKeyField == null)
-            return;
             // If the screen field is changed, make sure the passed in header record's key field is changed to match.
         MoveOnChangeHandler listener = (MoveOnChangeHandler)this.getListener(MoveOnChangeHandler.class.getName());
         if ((listener == null)
@@ -263,7 +260,7 @@ public class ReferenceField extends RecordReferenceField
         }
         return iID;
     }
-    public static ImageIcon NONE_BUTTON = null;
+    public static Object NONE_BUTTON = null;
     /**
      * Display NONE when the button is blank.
      */

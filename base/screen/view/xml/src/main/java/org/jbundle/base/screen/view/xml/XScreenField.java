@@ -22,7 +22,7 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.base.util.XMLTags;
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.db.Convert;
 
 
 /**
@@ -87,7 +87,7 @@ public abstract class XScreenField extends ZScreenField
         String strFieldType = this.getInputType(TopScreen.DOJO_TYPE);
         if ((this.getScreenField().isEnabled() == true) && (!this.getScreenField().getParentScreen().isPrintReport()))
         {   // Input field and not printing a report
-            Converter converter = this.getScreenField().getConverter();
+            Convert converter = this.getScreenField().getConverter();
             int iMaxSize = 10;
             if (converter != null)
                 iMaxSize = converter.getMaxLength();

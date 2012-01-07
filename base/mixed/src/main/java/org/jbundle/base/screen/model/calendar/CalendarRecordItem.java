@@ -14,10 +14,11 @@ import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.util.calendarpanel.model.CalendarItem;
 import org.jbundle.thin.base.screen.util.SerializableImage;
+import org.jbundle.util.calendarpanel.model.CalendarItem;
 
 
 /**
@@ -298,10 +299,10 @@ public class CalendarRecordItem extends Object
      */
     public int getRelativeSField(int iSFieldSeq)
     {
-        Converter lastField = null;
+        Convert lastField = null;
         for (int i = 0; i < m_gridScreen.getSFieldCount(); i++)
         {
-            Converter field = m_gridScreen.getSField(i).getConverter();
+            Convert field = m_gridScreen.getSField(i).getConverter();
             if (field != null)
                 field = field.getField();
             if (m_gridScreen.getSField(i) instanceof ToolScreen)

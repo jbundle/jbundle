@@ -19,10 +19,6 @@ public interface Constants extends Constant
 {
     public static final boolean DEBUG = true;
 
-    public static final int SCREEN_MOVE = 0;
-    public static final int INIT_MOVE = 1;
-    public static final int READ_MOVE = 2;      // BaseField listener move modes
-    public static final int DEFAULT_FIELD_LENGTH = -1;
 // setOpenMode()
     /**
      * Lock on edit, allow deletes and changes.
@@ -142,9 +138,6 @@ public interface Constants extends Constant
 
     public static final boolean ASCENDING = true;
     public static final boolean DESCENDING = false;
-
-    public static final boolean DISPLAY = true;
-    public static final boolean DONT_DISPLAY = false;
 
     public static final int MAIN_FIELD = 0;   // lower
     public static final int MAIN_KEY_AREA = MAIN_FIELD;

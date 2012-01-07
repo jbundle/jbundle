@@ -12,6 +12,7 @@ import org.jbundle.thin.base.db.*;
 
 public class TestTable extends FieldList
 {
+    public static final String TEST_CODE = "TestCode";
     public static final String TEST_NAME = "TestName";
     public static final String TEST_CURRENCY = "TestCurrency";
     public static final String TEST_VIRTUAL = "TestVirtual";

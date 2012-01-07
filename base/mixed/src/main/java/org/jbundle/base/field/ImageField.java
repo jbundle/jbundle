@@ -4,18 +4,14 @@
 package org.jbundle.base.field;
 
 
-import java.io.Serializable;
-
-import javax.swing.ImageIcon;
-
 import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.SCannedBox;
 import org.jbundle.base.screen.model.SImageView;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.util.SerializableImage;
 
@@ -92,14 +88,14 @@ public class ImageField extends ObjectField
     /**
      * Get this image as an icon.
      */
-    public ImageIcon getImage()
+    public SerializableImage getImage()
     {
         if (this.isNull())
             return null;
-        if (this.getData() instanceof ImageIcon)
+        /*if (this.getData() instanceof ImageIcon)
             return (ImageIcon)this.getData();   // Never (legacy)
-        else if (this.getData() instanceof SerializableImage)
-            return new ImageIcon(((SerializableImage)this.getData()).getImage());
+        else*/ if (this.getData() instanceof SerializableImage)
+            return (SerializableImage)this.getData();
         else
             return null;
     }
@@ -119,8 +115,12 @@ public class ImageField extends ObjectField
      */
     public int setData(Object data, boolean bDisplayOption, int iMoveMode)
     {
-        if (data instanceof ImageIcon)
-            data = new SerializableImage(((ImageIcon)data).getImage());
+        if (data == Constants.BLANK)
+            data = null;
+        //if (data instanceof ImageIcon)
+        //    data = new SerializableImage(((ImageIcon)data).getImage());
+        if ((data != null) && (!(data instanceof SerializableImage)))
+            System.out.println("Error - Incorrect image format, must be a SerializableImage");   // TODO - Get rid of this
         return super.setData(data, bDisplayOption, iMoveMode);
     }
 } 

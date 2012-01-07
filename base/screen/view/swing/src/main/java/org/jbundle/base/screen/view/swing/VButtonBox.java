@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 import org.jbundle.base.screen.model.SButtonBox;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.util.SerializableImage;
 
 
@@ -147,8 +148,8 @@ public class VButtonBox extends VBaseButton
     {
         if (control != null)
         {
-        	if ((this.getScreenField().getConverter() != null) && (this.getScreenField().getConverter().getBitmap() != null))
-        		((JButton)control).setIcon(this.loadImageIcon(this.getScreenField().getConverter().getBitmap(), null));
+        	if ((this.getScreenField().getConverter() != null) && (((Converter)this.getScreenField().getConverter()).getBitmap() != null))
+        		((JButton)control).setIcon(this.loadImageIcon(((Converter)this.getScreenField().getConverter()).getBitmap(), null));
             else if (objValue instanceof ImageIcon)
                 ((JButton)control).setIcon((ImageIcon)objValue);
             else if (objValue instanceof SerializableImage)

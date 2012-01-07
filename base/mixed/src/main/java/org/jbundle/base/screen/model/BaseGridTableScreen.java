@@ -23,6 +23,7 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 
@@ -160,7 +161,7 @@ public class BaseGridTableScreen extends BaseGridScreen
      * @param bUpdateOnSelect Do I update the current record if a selection occurs.
      * @return True if successful.
      */
-    public boolean setSelectQuery(Record recMaint, boolean bUpdateOnSelect)
+    public boolean setSelectQuery(Rec recMaint, boolean bUpdateOnSelect)
     {
         if (recMaint == null)
             return true;    // BaseTable Set!
@@ -168,7 +169,7 @@ public class BaseGridTableScreen extends BaseGridScreen
             if (this.getMainRecord() != recMaint)
                 if (this.getMainRecord().getBaseRecord().getTableNames(false).equals(recMaint.getTableNames(false)))
         {   // Only trigger when the grid table sends the selection message
-            this.getMainRecord().addListener(new OnSelectHandler(recMaint, bUpdateOnSelect, DBConstants.USER_DEFINED_TYPE));
+            this.getMainRecord().addListener(new OnSelectHandler((Record)recMaint, bUpdateOnSelect, DBConstants.USER_DEFINED_TYPE));
             return true;    // BaseTable Set!
         }
         return false;

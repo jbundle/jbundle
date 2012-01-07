@@ -12,11 +12,11 @@ package org.jbundle.base.screen.model;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.App;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldList;
-import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 
 
@@ -215,7 +215,7 @@ public class AppletScreen extends TopScreen
      * Setup a default task for this screen.
      * @param application The application for the new task.
      */
-    public void setupDefaultTask(Application application)
+    public void setupDefaultTask(App application)
     {
         this.getScreenFieldView().setupDefaultTask(application);
     }

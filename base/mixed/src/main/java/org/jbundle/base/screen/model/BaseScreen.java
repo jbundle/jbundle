@@ -9,7 +9,6 @@ package org.jbundle.base.screen.model;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.awt.Cursor;
 import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.Map;
@@ -41,6 +40,7 @@ import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldList;
@@ -883,9 +883,9 @@ public class BaseScreen extends BasePanel
             	applet = (BaseApplet)screenParent.getTask();
             if (initScreen)
             {
-                Cursor oldCursor = null;
+                Object oldCursor = null;
                 if (applet != null)
-                	oldCursor = applet.setStatus(Cursor.WAIT_CURSOR, applet, null);
+                	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
                 screen.init(null, itsLocation, screenParent, null, iDisplayFieldDesc, properties);
                 if (applet != null)
                     applet.setStatus(0, applet, oldCursor);
@@ -918,9 +918,9 @@ public class BaseScreen extends BasePanel
             BaseApplet applet = null;
             if (screenParent.getTask() instanceof BaseApplet)
             	applet = (BaseApplet)screenParent.getTask();
-            Cursor oldCursor = null;
+            Object oldCursor = null;
             if (applet != null)
-            	oldCursor = applet.setStatus(Cursor.WAIT_CURSOR, applet, null);
+            	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
             screen = record.makeScreen(itsLocation, screenParent, iDocMode, properties);
             if (applet != null)
                 applet.setStatus(0, applet, oldCursor);
@@ -950,9 +950,9 @@ public class BaseScreen extends BasePanel
             BaseApplet applet = null;
             if (screenParent.getTask() instanceof BaseApplet)
             	applet = (BaseApplet)screenParent.getTask();
-            Cursor oldCursor = null;
+            Object oldCursor = null;
             if (applet != null)
-            	oldCursor = applet.setStatus(Cursor.WAIT_CURSOR, applet, null);
+            	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
             screen = record.makeScreen(itsLocation, screenParent, iDocMode, properties);
             if (applet != null)
                 applet.setStatus(0, applet, oldCursor);

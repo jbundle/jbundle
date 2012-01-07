@@ -2168,9 +2168,9 @@ public class Record extends FieldList
         BaseApplet applet = null;
         if (parent.getTask() instanceof BaseApplet)
         	applet = (BaseApplet)parent.getTask();
-        Cursor oldCursor = null;
+        Object oldCursor = null;
         if (applet != null)
-        	oldCursor = applet.setStatus(Cursor.WAIT_CURSOR, applet, null);
+        	oldCursor = applet.setStatus(Constants.WAIT, applet, null);
         BaseScreen screenNew = recordNew.makeScreen(itsLocation, parent, iDocMode, properties);
         if (applet != null)
             applet.setStatus(0, applet, oldCursor);
