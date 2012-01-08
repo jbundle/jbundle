@@ -1007,27 +1007,28 @@ public class WriteClass extends BaseProcess
             strMethodName = strMethodName.substring(0, strMethodName.length() - 2);
         if (strMethodName.equals(strClassName))
         {
-//            if (!interfaceOnly)
+            if ((interfaceOnly & LogicFile.INCLUDE_THICK) != 0)
             {
                 this.writeMethodInterface(strProtection, strMethodName, "", methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, null);
                 this.writeDefaultMethodCode(strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, strClassName);
             }
         }
-  //      else
+        else
         {
             if (methodInfo.strMethodReturns.length() >= 7) if (methodInfo.strMethodReturns.substring(methodInfo.strMethodReturns.length() - 7, methodInfo.strMethodReturns.length()).equalsIgnoreCase("  "))
                 methodInfo.strMethodReturns = methodInfo.strMethodReturns.substring(0, methodInfo.strMethodReturns.length() - 6);
             String strCodeBody = null;
-      //      if ((interfaceOnly) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
+            if (((interfaceOnly & LogicFile.INCLUDE_INTERFACE) != 0) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
             {
-                if (recLogicFile.getField(LogicFile.kIncludeScope).getValue() != 0)
+                int scope = (int)recLogicFile.getField(LogicFile.kIncludeScope).getValue();
+                if ((interfaceOnly & scope) == 0)
                     return;
                 strCodeBody = ";";
             }
             this.writeMethodInterface(strProtection, strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, strCodeBody);
         }
-//        if ((interfaceOnly) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
-  //          return;
+        if (((interfaceOnly & LogicFile.INCLUDE_INTERFACE) != 0) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
+            return;
         if (!strMethodName.equals(strClassName))
         {
             if (recLogicFile.getField(LogicFile.kLogicSource).getString().length() != 0)
