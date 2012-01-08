@@ -80,10 +80,6 @@ public class FieldData extends FieldList
         field = new FieldInfo(this, "FieldNotNull", 1, null, null);
         field.setDataClass(Boolean.class);
         //field = new FieldInfo(this, "DataClass", 20, null, null);
-        field = new FieldInfo(this, "ThinInclude", 10, null, null);
-        field.setDataClass(Boolean.class);
-        field = new FieldInfo(this, "ThickInclude", 10, null, null);
-        field.setDataClass(Boolean.class);
         field = new FieldInfo(this, "Hidden", 10, null, null);
         field.setDataClass(Boolean.class);
         field = new FieldInfo(this, "IncludeScope", 10, null, new Integer(0x001));

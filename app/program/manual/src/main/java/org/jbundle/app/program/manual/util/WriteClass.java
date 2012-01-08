@@ -424,8 +424,9 @@ public class WriteClass extends BaseProcess
             while (recClassFields.hasNext())
             {
                 recClassFields.next();
+                int methodType = (int)(recClassFields.getField(ClassFields.kIncludeScope).getValue() + .001);
                 if (bThinOnly)
-                    if (recClassFields.getField(ClassFields.kThinInclude).getState() == false)
+                    if ((methodType & LogicFile.INCLUDE_THIN) == 0)
                         continue;
                 String strFieldName = recClassFields.getField(ClassFields.kClassFieldName).getString();
                 String strFieldClass = recClassFields.getField(ClassFields.kClassFieldClass).getString();
@@ -906,9 +907,9 @@ public class WriteClass extends BaseProcess
     }
     /**
      * Write the methods for this class.
-     * @param interfaceOnly Interface only
+     * @param targetMethodTypes Interface only
      */
-    public void writeClassMethods(int interfaceOnly)
+    public void writeClassMethods(int targetMethodTypes)
     {
         LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
         try   {
@@ -916,9 +917,9 @@ public class WriteClass extends BaseProcess
             while (recLogicFile.hasNext())
             {
                 recLogicFile.next();
-                int methodTypes = (int)recLogicFile.getField(LogicFile.kIncludeScope).getValue();
-                if (((interfaceOnly & methodTypes) != 0) || (interfaceOnly == LogicFile.INCLUDE_ALL) || (interfaceOnly == LogicFile.INCLUDE_THICK))
-                    this.writeThisMethod(interfaceOnly);
+                int methodType = (int)(recLogicFile.getField(LogicFile.kIncludeScope).getValue() + .001);
+                if ((targetMethodTypes & methodType) != 0)
+                    this.writeThisMethod(targetMethodTypes);
             }
             recLogicFile.close();
         } catch (DBException ex)   {
@@ -989,9 +990,9 @@ public class WriteClass extends BaseProcess
     }
     /**
      * WriteThisMethod - Write this method for this class.
-     * @param interfaceOnly Interface only
+     * @param targetMethodTypes Interface only
      */
-    public void writeThisMethod(int interfaceOnly)
+    public void writeThisMethod(int targetMethodTypes)
     {
         Record recClassInfo = this.getMainRecord();
         LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
@@ -1007,7 +1008,7 @@ public class WriteClass extends BaseProcess
             strMethodName = strMethodName.substring(0, strMethodName.length() - 2);
         if (strMethodName.equals(strClassName))
         {
-            if ((interfaceOnly & LogicFile.INCLUDE_THICK) != 0)
+            if ((targetMethodTypes & LogicFile.INCLUDE_THICK) != 0)
             {
                 this.writeMethodInterface(strProtection, strMethodName, "", methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, null);
                 this.writeDefaultMethodCode(strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, strClassName);
@@ -1018,16 +1019,16 @@ public class WriteClass extends BaseProcess
             if (methodInfo.strMethodReturns.length() >= 7) if (methodInfo.strMethodReturns.substring(methodInfo.strMethodReturns.length() - 7, methodInfo.strMethodReturns.length()).equalsIgnoreCase("  "))
                 methodInfo.strMethodReturns = methodInfo.strMethodReturns.substring(0, methodInfo.strMethodReturns.length() - 6);
             String strCodeBody = null;
-            if (((interfaceOnly & LogicFile.INCLUDE_INTERFACE) != 0) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
+            if (((targetMethodTypes & LogicFile.INCLUDE_INTERFACE) != 0) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
             {
-                int scope = (int)recLogicFile.getField(LogicFile.kIncludeScope).getValue();
-                if ((interfaceOnly & scope) == 0)
+                int methodType = (int)(recLogicFile.getField(LogicFile.kIncludeScope).getValue() + .001);
+                if ((LogicFile.INCLUDE_INTERFACE & methodType) == 0)
                     return;
                 strCodeBody = ";";
             }
             this.writeMethodInterface(strProtection, strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, strCodeBody);
         }
-        if (((interfaceOnly & LogicFile.INCLUDE_INTERFACE) != 0) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
+        if (((targetMethodTypes & LogicFile.INCLUDE_INTERFACE) != 0) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
             return;
         if (!strMethodName.equals(strClassName))
         {

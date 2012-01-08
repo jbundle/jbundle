@@ -39,9 +39,7 @@ public class ClassFields extends VirtualRecord
     public static final int kClassFieldProtect = kClassFieldDesc + 1;
     public static final int kClassFieldInitial = kClassFieldProtect + 1;
     public static final int kClassFieldInitialValue = kClassFieldInitial + 1;
-    public static final int kThinInclude = kClassFieldInitialValue + 1;
-    public static final int kThickInclude = kThinInclude + 1;
-    public static final int kClassFieldsType = kThickInclude + 1;
+    public static final int kClassFieldsType = kClassFieldInitialValue + 1;
     public static final int kIncludeScope = kClassFieldsType + 1;
     public static final int kClassFieldsLastField = kIncludeScope;
     public static final int kClassFieldsFields = kIncludeScope - DBConstants.MAIN_FIELD + 1;
@@ -151,10 +149,6 @@ public class ClassFields extends VirtualRecord
             field = new MemoField(this, "ClassFieldInitial", Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == kClassFieldInitialValue)
             field = new MemoField(this, "ClassFieldInitialValue", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kThinInclude)
-            field = new BooleanField(this, "ThinInclude", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kThickInclude)
-            field = new BooleanField(this, "ThickInclude", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
         if (iFieldSeq == kClassFieldsType)
         {
             field = new ClassFieldsTypeField(this, "ClassFieldsType", Constants.DEFAULT_FIELD_LENGTH, null, "ClassFieldsTypeField.NATIVE_FIELD");

@@ -12,11 +12,6 @@ import org.jbundle.thin.base.db.*;
 
 public class Anniversary extends org.jbundle.thin.main.calendar.db.CalendarEntry
 {
-    public static final String ID = "ID";
-    public static final String START_DATE_TIME = "StartDateTime";
-    public static final String END_DATE_TIME = "EndDateTime";
-    public static final String DESCRIPTION = "Description";
-    public static final String ANNIV_MASTER_ID = "AnnivMasterID";
 
     public Anniversary()
     {

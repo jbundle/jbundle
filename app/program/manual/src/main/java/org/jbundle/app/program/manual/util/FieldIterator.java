@@ -7,15 +7,17 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 
+import org.jbundle.app.program.db.ClassInfo;
+import org.jbundle.app.program.db.FieldData;
+import org.jbundle.app.program.db.FileHdr;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.app.program.db.ClassInfo;
-import org.jbundle.app.program.db.FieldData;
-import org.jbundle.app.program.db.FileHdr;
 import org.jbundle.model.DBException;
+import org.jbundle.thin.base.db.buff.BaseBuffer;
+import org.jbundle.thin.base.db.buff.VectorBuffer;
 
 
 /**
@@ -208,7 +210,13 @@ import org.jbundle.model.DBException;
             {
                 if (this.inBaseField(fieldSummary.m_strFieldFileName, m_rgstrClasses))
                 {   // This field is in a base record class, so fake the record to think it just overrides the field
+//                    BaseBuffer buffer = new VectorBuffer();
+//                    buffer.fieldsToBuffer(m_recFieldData);
+                    double scope = m_recFieldData.getField(FieldData.kIncludeScope).getValue();
                     m_recFieldData.addNew();
+//                    buffer.bufferToFields(m_recFieldData, true, DBConstants.READ_MOVE);
+                    m_recFieldData.getField(FieldData.kIncludeScope).setValue(scope);
+//                    m_recFieldData.getField(FieldData.kID).setData(null);
                     m_recFieldData.getField(FieldData.kBaseFieldName).setString(fieldSummary.m_strFieldName);
                     m_recFieldData.getField(FieldData.kFieldName).setString(fieldSummary.m_strFieldName);
                     m_recFieldData.getField(FieldData.kFieldFileName).setString(m_rgstrClasses[m_rgstrClasses.length-1]);

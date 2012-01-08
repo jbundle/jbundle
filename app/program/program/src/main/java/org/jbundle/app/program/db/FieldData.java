@@ -46,9 +46,7 @@ public class FieldData extends VirtualRecord
     public static final int kFieldSeqNo = kFieldFileName + 1;
     public static final int kFieldNotNull = kFieldSeqNo + 1;
     public static final int kDataClass = kFieldNotNull + 1;
-    public static final int kThinInclude = kDataClass + 1;
-    public static final int kThickInclude = kThinInclude + 1;
-    public static final int kHidden = kThickInclude + 1;
+    public static final int kHidden = kDataClass + 1;
     public static final int kIncludeScope = kHidden + 1;
     public static final int kFieldDataLastField = kIncludeScope;
     public static final int kFieldDataFields = kIncludeScope - DBConstants.MAIN_FIELD + 1;
@@ -173,10 +171,6 @@ public class FieldData extends VirtualRecord
             field = new StringField(this, "DataClass", 20, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kThinInclude)
-            field = new BooleanField(this, "ThinInclude", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kThickInclude)
-            field = new BooleanField(this, "ThickInclude", Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == kHidden)
             field = new BooleanField(this, "Hidden", Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == kIncludeScope)

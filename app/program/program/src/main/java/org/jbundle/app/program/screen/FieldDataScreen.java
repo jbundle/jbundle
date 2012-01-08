@@ -99,8 +99,7 @@ public class FieldDataScreen extends Screen
             query.getField(fieldSeq).setupDefaultView(lastFieldPosition, this, ScreenConstants.DISPLAY_DESC); // Add this view to the list
         }
         this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kFieldNotNull).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kThinInclude).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kThickInclude).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kIncludeScope).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kHidden).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 

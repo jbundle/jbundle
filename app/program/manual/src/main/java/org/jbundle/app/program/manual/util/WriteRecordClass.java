@@ -366,7 +366,8 @@ public class WriteRecordClass extends WriteSharedClass
         while (fieldIterator.hasNext())
         {
             fieldIterator.next();
-            if (recFieldData.getField(FieldData.kThinInclude).getState() == true)
+            int methodType = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + .001);
+            if ((methodType & LogicFile.INCLUDE_INTERFACE) != 0)
                 if (strClassName.equalsIgnoreCase(recFieldData.getField(FieldData.kFieldFileName).toString()))  // Only for concrete class
             {
                 String strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
@@ -391,6 +392,10 @@ public class WriteRecordClass extends WriteSharedClass
         if ((dBFileName != null) && (dBFileName.length() > 0))
         {
             m_StreamOut.writeit("public static final String " + this.convertNameToConstant(strClassName) + "_FILE = \"" + dBFileName + "\";\n");
+
+            m_StreamOut.writeit("public static final String THIN_CLASS = \"" + this.getPackage(CodeType.THIN) + "." + strClassName + "\";\n");
+            m_StreamOut.writeit("public static final String THICK_CLASS = \"" + this.getPackage(CodeType.BASE) + "." + strClassName + "\";\n");
+//            m_StreamOut.writeit("public static final String RESOURCE_CLASS = \"" + this.getPackage(CodeType.RESOURCE_CODE) + "." + strClassName + "\";\n");
         }
          
         if (m_MethodNameList.size() != 0)
@@ -461,8 +466,15 @@ public class WriteRecordClass extends WriteSharedClass
         while (fieldIterator.hasNext())
         {
             fieldIterator.next();
-            if (recFieldData.getField(FieldData.kThinInclude).getState() == true)
-                if (strClassName.equalsIgnoreCase(recFieldData.getField(FieldData.kFieldFileName).toString()))  // Only for concrete class
+            int methodType = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + .001);
+            boolean concreteClass = true;
+            if (recFieldData.getField(FieldData.kID).isNull())  // Only for concrete class
+                concreteClass = false;
+            if (!recFieldData.getField(FieldData.kBaseFieldName).isNull())
+                if (recFieldData.getField(FieldData.kBaseFieldName).toString().equalsIgnoreCase(recFieldData.getField(FieldData.kBaseFieldName).toString()))
+                    concreteClass = false;
+            if (concreteClass)
+                if ((methodType & LogicFile.INCLUDE_THIN) != 0)
             {
                 String strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
                 String strFieldConstant = this.convertNameToConstant(strFieldName);
@@ -822,7 +834,8 @@ public class WriteRecordClass extends WriteSharedClass
         while (fieldIterator.hasNext())
         {
             fieldIterator.next();
-            if (recFieldData.getField(FieldData.kThickInclude).getState() == true)
+            int methodType = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + .001);
+            if ((methodType & LogicFile.INCLUDE_THICK) != 0)
             {
                 strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
                 String strFieldConstant = this.convertNameToConstant(strFieldName);
@@ -1020,6 +1033,8 @@ public class WriteRecordClass extends WriteSharedClass
         {
             recFieldData = (Record)fieldIterator.next();
             String strPre = DBConstants.BLANK;
+            if (recFieldData.getField(FieldData.kID).isNull())
+                strPre = "//";
             if (recFieldData.getField(FieldData.kFieldName).getString().equals(recFieldData.getField(FieldData.kBaseFieldName).getString()))
             if (recFieldData.getField(FieldData.kFieldClass).getLength() == 0)
             if (recFieldData.getField(FieldData.kMaximumLength).getLength() == 0)

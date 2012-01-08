@@ -72,10 +72,6 @@ public class ClassFields extends FieldList
         field.setDataClass(Object.class);
         field = new FieldInfo(this, "ClassFieldInitialValue", 32000, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "ThinInclude", 10, null, null);
-        field.setDataClass(Boolean.class);
-        field = new FieldInfo(this, "ThickInclude", 10, null, new Boolean(true));
-        field.setDataClass(Boolean.class);
         field = new FieldInfo(this, "ClassFieldsType", Constants.DEFAULT_FIELD_LENGTH, null, null);
         field = new FieldInfo(this, "IncludeScope", 10, null, new Integer(0x001));
         field.setDataClass(Integer.class);

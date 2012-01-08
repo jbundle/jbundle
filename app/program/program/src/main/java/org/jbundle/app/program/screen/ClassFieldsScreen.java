@@ -95,8 +95,7 @@ public class ClassFieldsScreen extends Screen
         this.getRecord(ClassFields.kClassFieldsFile).getField(ClassFields.kClassFieldInitial).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(ClassFields.kClassFieldsFile).getField(ClassFields.kClassInfoClassName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(ClassFields.kClassFieldsFile).getField(ClassFields.kClassFieldInitialValue).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassFields.kClassFieldsFile).getField(ClassFields.kThinInclude).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassFields.kClassFieldsFile).getField(ClassFields.kThickInclude).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassFields.kClassFieldsFile).getField(ClassFields.kIncludeScope).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

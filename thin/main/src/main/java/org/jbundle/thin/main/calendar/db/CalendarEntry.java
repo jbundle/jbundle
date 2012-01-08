@@ -13,6 +13,7 @@ import org.jbundle.thin.base.db.*;
 public class CalendarEntry extends FieldList
 {
     public static final String CALENDAR_ENTRY_TYPE_ID = "CalendarEntryTypeID";
+    public static final String ANNIV_MASTER_ID = "AnnivMasterID";
     public static final int ANNIVERSARY_ID = 2;
     public static final int APPOINTMENT_ID = 1;
 
