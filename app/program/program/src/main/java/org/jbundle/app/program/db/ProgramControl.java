@@ -38,7 +38,8 @@ public class ProgramControl extends ControlRecord
     public static final int kResourceType = kArchiveDirectory + 1;
     public static final int kClassResourceType = kResourceType + 1;
     public static final int kPackageName = kClassResourceType + 1;
-    public static final int kThinPackage = kPackageName + 1;
+    public static final int kInterfacePackage = kPackageName + 1;
+    public static final int kThinPackage = kInterfacePackage + 1;
     public static final int kResourcePackage = kThinPackage + 1;
     public static final int kLastPackageUpdate = kResourcePackage + 1;
     public static final int kPackagesBasePath = kLastPackageUpdate + 1;
@@ -133,6 +134,11 @@ public class ProgramControl extends ControlRecord
             field = new ResourceTypeField(this, "ClassResourceType", Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == kPackageName)
             field = new StringField(this, "PackageName", 40, null, null);
+        if (iFieldSeq == kInterfacePackage)
+        {
+            field = new StringField(this, "InterfacePackage", Constants.DEFAULT_FIELD_LENGTH, null, ".rec");
+            field.addListener(new InitOnceFieldHandler(null));
+        }
         if (iFieldSeq == kThinPackage)
         {
             field = new StringField(this, "ThinPackage", 40, null, ".thin");

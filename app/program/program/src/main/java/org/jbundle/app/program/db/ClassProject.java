@@ -38,7 +38,9 @@ public class ClassProject extends Folder
     public static final int kSystemClasses = kDescription + 1;
     public static final int kPackageName = kSystemClasses + 1;
     public static final int kProjectPath = kPackageName + 1;
-    public static final int kThinPackage = kProjectPath + 1;
+    public static final int kInterfacePackage = kProjectPath + 1;
+    public static final int kInterfaceProjectPath = kInterfacePackage + 1;
+    public static final int kThinPackage = kInterfaceProjectPath + 1;
     public static final int kThinProjectPath = kThinPackage + 1;
     public static final int kResourcePackage = kThinProjectPath + 1;
     public static final int kResProjectPath = kResourcePackage + 1;
@@ -53,7 +55,7 @@ public class ClassProject extends Folder
     public static final int kNameKey = kParentFolderIDKey + 1;
     public static final int kClassProjectLastKey = kNameKey;
     public static final int kClassProjectKeys = kNameKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static enum CodeType {BASE, THIN, RESOURCE_PROPERTIES, RESOURCE_CODE};
+    public static enum CodeType {BASE, THIN, RESOURCE_PROPERTIES, RESOURCE_CODE, INTERFACE};
     public static final String CLASS_DETAIL_SCREEN = "ClassDetail";
     public static final int CLASS_DETAIL_MODE = ScreenConstants.LAST_MODE * 4;
     public static final String RESOURCE_DETAIL_SCREEN = "ResourceDetail";
@@ -151,6 +153,10 @@ public class ClassProject extends Folder
             field = new StringField(this, "PackageName", 30, null, null);
         if (iFieldSeq == kProjectPath)
             field = new StringField(this, "ProjectPath", 128, null, null);
+        if (iFieldSeq == kInterfacePackage)
+            field = new StringField(this, "InterfacePackage", 40, null, null);
+        if (iFieldSeq == kInterfaceProjectPath)
+            field = new StringField(this, "InterfaceProjectPath", 128, null, null);
         if (iFieldSeq == kThinPackage)
             field = new StringField(this, "ThinPackage", 40, null, null);
         if (iFieldSeq == kThinProjectPath)
@@ -326,6 +332,18 @@ public class ClassProject extends Folder
             else
                 startPackage = startPackage + ".res";
         }
+        if (codeType == CodeType.INTERFACE)
+        {
+            if (!programControl.getField(ProgramControl.kInterfacePackage).isNull())
+            {
+                if (programControl.getField(ProgramControl.kInterfacePackage).toString().startsWith("."))
+                    startPackage = startPackage + programControl.getField(ProgramControl.kInterfacePackage).toString();
+                else
+                    startPackage = programControl.getField(ProgramControl.kInterfacePackage).toString();
+            }
+            else
+                startPackage = startPackage + ".rec";
+        }
         
         String fullPackage = this.getPath(codeType, true);
         if (fullPackage == null)
@@ -375,6 +393,12 @@ public class ClassProject extends Folder
                 strSrcPath = this.getField(ClassProject.kResProjectPath).toString();
             if (bPackagePath) if (!this.getField(ClassProject.kResourcePackage).isNull())
                 strSrcPath = this.getField(ClassProject.kResourcePackage).toString();
+            break;
+        case INTERFACE:
+            if (!bPackagePath) if (!this.getField(ClassProject.kInterfaceProjectPath).isNull())
+                strSrcPath = this.getField(ClassProject.kInterfaceProjectPath).toString();
+            if (bPackagePath) if (!this.getField(ClassProject.kInterfacePackage).isNull())
+                strSrcPath = this.getField(ClassProject.kInterfacePackage).toString();
             break;
         }
         

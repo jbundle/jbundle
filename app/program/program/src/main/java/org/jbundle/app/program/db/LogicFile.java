@@ -40,14 +40,19 @@ public class LogicFile extends VirtualRecord
     public static final int kLogicThrows = kLogicSource + 1;
     public static final int kProtection = kLogicThrows + 1;
     public static final int kCopyFrom = kProtection + 1;
-    public static final int kLogicFileLastField = kCopyFrom;
-    public static final int kLogicFileFields = kCopyFrom - DBConstants.MAIN_FIELD + 1;
+    public static final int kIncludeScope = kCopyFrom + 1;
+    public static final int kLogicFileLastField = kIncludeScope;
+    public static final int kLogicFileFields = kIncludeScope - DBConstants.MAIN_FIELD + 1;
 
     public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
     public static final int kMethodClassNameKey = kIDKey + 1;
     public static final int kSequenceKey = kMethodClassNameKey + 1;
     public static final int kLogicFileLastKey = kSequenceKey;
     public static final int kLogicFileKeys = kSequenceKey - DBConstants.MAIN_KEY_FIELD + 1;
+    public static final int INCLUDE_THICK = 0x0001;
+    public static final int INCLUDE_THIN = 0x002;
+    public static final int INCLUDE_INTERFACE = 0x004;
+    public static final int INCLUDE_ALL = 0xFFF;
     /**
      * Default constructor.
      */
@@ -148,6 +153,11 @@ public class LogicFile extends VirtualRecord
             field = new StringField(this, "Protection", 60, null, null);
         if (iFieldSeq == kCopyFrom)
             field = new StringField(this, "CopyFrom", 40, null, null);
+        if (iFieldSeq == kIncludeScope)
+        {
+            field = new IncludeScopeField(this, "IncludeScope", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
+            field.addListener(new InitOnceFieldHandler(null));
+        }
         if (field == null)
         {
             field = super.setupField(iFieldSeq);

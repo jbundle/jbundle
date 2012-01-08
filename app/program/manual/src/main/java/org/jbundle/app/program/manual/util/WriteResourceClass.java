@@ -9,6 +9,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.app.program.db.ClassProject;
 import org.jbundle.app.program.db.ClassResource;
+import org.jbundle.app.program.db.LogicFile;
 import org.jbundle.app.program.db.ProgramControl;
 import org.jbundle.app.program.db.ClassProject.CodeType;
 import org.jbundle.app.program.resource.db.ResourceTypeField;
@@ -96,7 +97,7 @@ public class WriteResourceClass extends WriteClass
     	if (bResourceListBundle)
     	{
 	        this.writeIncludes();
-	        m_MethodsOut.writeit("import java.util.*;\n");
+	        m_StreamOut.writeit("import java.util.*;\n");
 	    
 	        if (m_MethodNameList.size() != 0)
 	            m_MethodNameList.removeAllElements();
@@ -107,9 +108,9 @@ public class WriteResourceClass extends WriteClass
 	
 	        this.writeResources(strClassName);
 	        this.writeMethodInterface(null, "getContents", "Object[][]", "", "", "Get the resource table", null);                   
-	        m_MethodsOut.writeit("\treturn contents;\n");
-	        m_MethodsOut.writeit("}\n");
-	        this.writeClassMethods();   // Write the remaining methods for this class
+	        m_StreamOut.writeit("\treturn contents;\n");
+	        m_StreamOut.writeit("}\n");
+	        this.writeClassMethods(LogicFile.INCLUDE_THICK);   // Write the remaining methods for this class
     	}
     	else
     	{
@@ -126,8 +127,8 @@ public class WriteResourceClass extends WriteClass
     	boolean bResourceListBundle = ResourceTypeField.LIST_RESOURCE_BUNDLE.equals(this.getRecord(ProgramControl.kProgramControlFile).getField(ProgramControl.kClassResourceType).toString());
 	   	if (bResourceListBundle)
 	   	{
-	        m_MethodsOut.writeit("protected Object[][] contents = {\n");
-	        m_MethodsOut.setTabs(+1);
+	        m_StreamOut.writeit("protected Object[][] contents = {\n");
+	        m_StreamOut.setTabs(+1);
 	   	}
         ClassResource recClassResource = new ClassResource(this);
         recClassResource.setKeyArea(ClassResource.kClassNameKey);
@@ -138,10 +139,10 @@ public class WriteResourceClass extends WriteClass
             {
                 recClassResource.next();
                	if (bResourceListBundle)
-               		m_MethodsOut.writeit("{\"" + recClassResource.getField(ClassResource.kKeyName).toString()
+               		m_StreamOut.writeit("{\"" + recClassResource.getField(ClassResource.kKeyName).toString()
                             + "\"," + WriteResources.fixPropertyValue(recClassResource.getField(ClassResource.kValueName).toString(), bResourceListBundle) + "},\n");
                	else
-                    m_MethodsOut.writeit(recClassResource.getField(ClassResource.kKeyName).toString()
+                    m_StreamOut.writeit(recClassResource.getField(ClassResource.kKeyName).toString()
                         + "=" + WriteResources.fixPropertyValue(recClassResource.getField(ClassResource.kValueName).toString(), bResourceListBundle) + "\n");
             }
         } catch (DBException ex)    {
@@ -150,8 +151,8 @@ public class WriteResourceClass extends WriteClass
         recClassResource.free();
        	if (bResourceListBundle)
        	{
-       		m_MethodsOut.setTabs(-1);
-       		m_MethodsOut.writeit("};\n");
+       		m_StreamOut.setTabs(-1);
+       		m_StreamOut.writeit("};\n");
        	}
     }
 }

@@ -103,6 +103,7 @@ public class LogicFileScreen extends Screen
         this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kLogicThrows).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kProtection).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kCopyFrom).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kIncludeScope).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

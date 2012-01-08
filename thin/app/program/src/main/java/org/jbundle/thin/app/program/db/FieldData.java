@@ -86,6 +86,8 @@ public class FieldData extends FieldList
         field.setDataClass(Boolean.class);
         field = new FieldInfo(this, "Hidden", 10, null, null);
         field.setDataClass(Boolean.class);
+        field = new FieldInfo(this, "IncludeScope", 10, null, new Integer(0x001));
+        field.setDataClass(Integer.class);
     }
     /**
     * Set up the key areas.

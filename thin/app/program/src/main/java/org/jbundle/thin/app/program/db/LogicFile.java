@@ -72,6 +72,8 @@ public class LogicFile extends FieldList
         field = new FieldInfo(this, "LogicThrows", 255, null, null);
         field = new FieldInfo(this, "Protection", 60, null, null);
         field = new FieldInfo(this, "CopyFrom", 40, null, null);
+        field = new FieldInfo(this, "IncludeScope", 10, null, new Integer(0x001));
+        field.setDataClass(Integer.class);
     }
     /**
     * Set up the key areas.

@@ -72,6 +72,8 @@ public class ClassProject extends org.jbundle.thin.main.db.Folder
         field.setDataClass(Boolean.class);
         field = new FieldInfo(this, "PackageName", 30, null, null);
         field = new FieldInfo(this, "ProjectPath", 128, null, null);
+        field = new FieldInfo(this, "InterfacePackage", 40, null, null);
+        field = new FieldInfo(this, "InterfaceProjectPath", 128, null, null);
         field = new FieldInfo(this, "ThinPackage", 40, null, null);
         field = new FieldInfo(this, "ThinProjectPath", 128, null, null);
         field = new FieldInfo(this, "ResourcePackage", 40, null, null);

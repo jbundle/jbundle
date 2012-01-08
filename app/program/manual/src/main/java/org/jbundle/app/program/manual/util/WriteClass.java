@@ -43,7 +43,7 @@ public class WriteClass extends BaseProcess
     /**
      * Method output file.
      */
-    protected StreamOut m_MethodsOut = null;
+    protected StreamOut m_StreamOut = null;
     /**
      * List of all included files.
      */
@@ -149,7 +149,7 @@ public class WriteClass extends BaseProcess
     }
     /**
      *  Create the Class for this field.
-     * @param codeType TODO
+     * @param codeType
      */
     public void writeClass(String strClassName, CodeType codeType)
     {
@@ -171,7 +171,7 @@ public class WriteClass extends BaseProcess
     
         this.writeProgramDesc(strClassName);
     
-        this.writeClassMethods();   // Write the remaining methods for this class
+        this.writeClassMethods(LogicFile.INCLUDE_THICK);   // Write the remaining methods for this class
         this.writeEndCode(true);
     }
     /**
@@ -191,7 +191,7 @@ public class WriteClass extends BaseProcess
     }
     /**
      * Get the package name for this class.
-     * @param codeType TODO
+     * @param codeType
      *
      */
     public String getPackage(CodeType codeType)
@@ -203,7 +203,7 @@ public class WriteClass extends BaseProcess
     }
     /**
      *  Write the starting source code for this file
-     * @param codeType TODO
+     * @param codeType
      */
     public void writeHeading(String strClassName, String strPackage, CodeType codeType)
     { // Write out the first few lines of the header
@@ -216,8 +216,8 @@ public class WriteClass extends BaseProcess
             String strPath = file.getParent();
             File fileDir = new File(strPath);
             fileDir.mkdirs();
-            m_MethodsOut = new StreamOut(strFileName);
-            m_IncludeNameList = new Includes(this, m_MethodsOut);
+            m_StreamOut = new StreamOut(strFileName);
+            m_IncludeNameList = new Includes(this, m_StreamOut);
         } catch (IOException ex)   {
             ex.printStackTrace();
         }
@@ -251,12 +251,12 @@ public class WriteClass extends BaseProcess
         map.put("className", strClassName);
         header = Utility.replaceResources(header, null, map, this);
     // Write the first few lines of the method file
-        m_MethodsOut.writeit(header + "\n");
+        m_StreamOut.writeit(header + "\n");
     }
     /**
      * Get the file name.
-     * @param codeType TODO
-     * @param recClassProject TODO
+     * @param codeType
+     * @param recClassProject
      */
     public String getFileName(String strFileName, String strPackage, CodeType codeType, ClassProject recClassProject)
     {
@@ -274,7 +274,7 @@ public class WriteClass extends BaseProcess
         String strClassInterface = recClassInfo.getField(ClassInfo.kClassImplements).getString();
         m_IncludeNameList.addInclude(strBaseClass);    // Make sure this is included
     
-        m_MethodsOut.writeit("\n/**\n *\t" + strClassName + " - " + strClassDesc + ".\n */\n");
+        m_StreamOut.writeit("\n/**\n *\t" + strClassName + " - " + strClassDesc + ".\n */\n");
         if ((strClassInterface == null) || (strClassInterface.length() == 0))
             strClassInterface = "";
         else
@@ -285,8 +285,8 @@ public class WriteClass extends BaseProcess
         String strExtends = " extends ";
         if (strBaseClass.length() == 0)
             strExtends = "";
-        m_MethodsOut.writeit("public " + strClassType + " " + strClassName + strExtends + strBaseClass + strClassInterface + "\n{\n");
-        m_MethodsOut.setTabs(+1);
+        m_StreamOut.writeit("public " + strClassType + " " + strClassName + strExtends + strBaseClass + strClassInterface + "\n{\n");
+        m_StreamOut.setTabs(+1);
     }
     /**
      *  Write the includes
@@ -298,10 +298,10 @@ public class WriteClass extends BaseProcess
         try   {
         	ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
             String strPackage = this.getPackage(CodeType.BASE);
-            m_MethodsOut.writeit("package " + strPackage + ";\n\n");
+            m_StreamOut.writeit("package " + strPackage + ";\n\n");
 
-            m_MethodsOut.writeit("import java.awt.*;\n"); //j Temp
-            m_MethodsOut.writeit("import java.util.*;\n\n");    //j Temp
+            m_StreamOut.writeit("import java.awt.*;\n"); //j Temp
+            m_StreamOut.writeit("import java.util.*;\n\n");    //j Temp
 
             m_IncludeNameList.addName(strPackage);     // Don't include this!!!
             m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.db");        // Don't include this!!!
@@ -396,7 +396,7 @@ public class WriteClass extends BaseProcess
                                 strReference = "0";
                         }
                         if (!strReference.equals("(none)"))
-                            m_MethodsOut.writeit(strFieldClass + " " + strFieldName + " = " + strReference + ";\n");
+                            m_StreamOut.writeit(strFieldClass + " " + strFieldName + " = " + strReference + ";\n");
                     }
                 }
                 recClassFields.close();
@@ -450,7 +450,7 @@ public class WriteClass extends BaseProcess
                         strAssignmentOperator = " ";
                     if (!recClassFields.getField(ClassFields.kClassFieldInitialValue).isNull())
                         strInitialValue = strAssignmentOperator + recClassFields.getField(ClassFields.kClassFieldInitialValue).toString();
-                    m_MethodsOut.writeit(strProtection + " " + strFieldClass + " " + strFieldName + strReference + strInitialValue + ";\n");
+                    m_StreamOut.writeit(strProtection + " " + strFieldClass + " " + strFieldName + strReference + strInitialValue + ";\n");
                 }
             }
             recClassFields.close();
@@ -473,20 +473,20 @@ public class WriteClass extends BaseProcess
 
         this.writeMethodInterface(null, strClassName, "", "", methodInfo.strMethodThrows, "Default constructor", null);
         this.writeDefaultMethodCode(strClassName, "", "", strClassName);
-        m_MethodsOut.writeit("}\n");
+        m_StreamOut.writeit("}\n");
     }
     /**
      *  Write the end of class code.
      */
     public void writeEndCode(boolean bJavaFile)
     {
-        m_MethodsOut.setTabs(-1);
+        m_StreamOut.setTabs(-1);
         if (bJavaFile)
-        	m_MethodsOut.writeit("\n}");
-        m_MethodsOut.writeit("\n");
+        	m_StreamOut.writeit("\n}");
+        m_StreamOut.writeit("\n");
 
-        m_MethodsOut.free();
-        m_MethodsOut = null;
+        m_StreamOut.free();
+        m_StreamOut = null;
         m_IncludeNameList.free();
         m_IncludeNameList = null;
     }
@@ -542,18 +542,18 @@ public class WriteClass extends BaseProcess
         strDesc = this.convertDescToJavaDoc(strDesc);
         if (strThrows.length() > 0)
             strThrows = " throws " + strThrows;
-        m_MethodsOut.writeit("/**\n" + strDesc + "\n */\n");
+        m_StreamOut.writeit("/**\n" + strDesc + "\n */\n");
         if (strParams.equalsIgnoreCase("void"))
             strParams = DBConstants.BLANK;
         if (strReturns.length() == 0)
         {
-            m_MethodsOut.writeit("public " + strMethodName + "(" + strParams + ")" + strThrows + "\n");
+            m_StreamOut.writeit("public " + strMethodName + "(" + strParams + ")" + strThrows + "\n");
             m_strParams = strParams;    // Also default params for Init() call!
         }
         else
-            m_MethodsOut.writeit(strProtection + " " + strReturns + " " + strMethodName + "(" + strParams + ")" + strThrows + strInterfaceEnd);
+            m_StreamOut.writeit(strProtection + " " + strReturns + " " + strMethodName + "(" + strParams + ")" + strThrows + strInterfaceEnd);
         if (strCodeBody != null)
-            m_MethodsOut.writeit(strCodeBody);
+            m_StreamOut.writeit(strCodeBody);
     }
     /**
      * No code supplied, write default code.
@@ -570,18 +570,18 @@ public class WriteClass extends BaseProcess
             if (strMethodVariables.equalsIgnoreCase("VOID"))
                 strMethodVariables = "";
             if (strMethodInterface.length() == 0)
-                m_MethodsOut.writeit("\tsuper();\n");
+                m_StreamOut.writeit("\tsuper();\n");
             else
             {
                 if ((strMethodReturns.length() == 0) || (strMethodReturns.equalsIgnoreCase("void")))
                     if (recLogicFile.getField(LogicFile.kLogicSource).getLength() > 0)
                         strMethodReturns =  strMethodVariables;   // Special case - if you have code, pass the default variables
                 if ((strMethodReturns.length() == 0) || (strMethodReturns.equalsIgnoreCase("void")))
-                    m_MethodsOut.writeit("\tthis();\n\tthis.init(" + strMethodVariables + ");\n");
+                    m_StreamOut.writeit("\tthis();\n\tthis.init(" + strMethodVariables + ");\n");
                 else
                 {   // Special Case - Different variables are passed in, must supply and init method w/the correct interface
-                    m_MethodsOut.writeit("\tthis();\n\tthis.init(" + strMethodVariables + ");\n");
-                    m_MethodsOut.writeit("}\n");
+                    m_StreamOut.writeit("\tthis();\n\tthis.init(" + strMethodVariables + ");\n");
+                    m_StreamOut.writeit("}\n");
                     m_strLastMethodInterface = strMethodInterface;
                     m_strLastMethod = strMethodName;
                     this.writeMethodInterface(null, "init", "void", strMethodInterface, "", "Initialize class fields", null);                   
@@ -591,13 +591,13 @@ public class WriteClass extends BaseProcess
                     boolean bSuperFound = false;
                     if (recLogicFile.getField(LogicFile.kLogicSource).getString().length() != 0)
                     {
-                        m_MethodsOut.setTabs(+1);
+                        m_StreamOut.setTabs(+1);
 //x                     bSuperFound = m_MethodsOut.writeit(recLogicFile.getField(LogicFile.kLogicSource).getString() + "\n");
                         bSuperFound = this.writeTextField(recLogicFile.getField(LogicFile.kLogicSource), strBaseClass, "init", strMethodReturns, strClassName);
-                        m_MethodsOut.setTabs(-1);
+                        m_StreamOut.setTabs(-1);
                     }
                     if (!bSuperFound)
-                        m_MethodsOut.writeit("\tsuper.init(" + strMethodReturns + ");\n");
+                        m_StreamOut.writeit("\tsuper.init(" + strMethodReturns + ");\n");
                 }
             }
         }
@@ -608,7 +608,7 @@ public class WriteClass extends BaseProcess
                 String beginString = "";
                 if (strMethodReturns.length() == 0)
                     beginString = "return ";
-                m_MethodsOut.writeit("\t" + beginString + "super." + strMethodName + "(" + strMethodVariables + ");\n");
+                m_StreamOut.writeit("\t" + beginString + "super." + strMethodName + "(" + strMethodVariables + ");\n");
             }
         else
             this.writeSetupSCode(strMethodName, strMethodReturns, strMethodInterface, strClassName);
@@ -624,9 +624,9 @@ public class WriteClass extends BaseProcess
         if ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString()))
             return;
         if (this.readThisMethod(strClassName))
-            this.writeThisMethod();
+            this.writeThisMethod(LogicFile.INCLUDE_THICK);
         else
-            this.writeThisMethod();
+            this.writeThisMethod(LogicFile.INCLUDE_THICK);
     }
     /**
      *  Initialize the class
@@ -666,7 +666,7 @@ public class WriteClass extends BaseProcess
                     }
                     if ((!strReference.equals("(none)"))
                         && (recClassFields.getField(ClassFields.kClassFieldInitialValue).isNull()))
-                            m_MethodsOut.writeit("\t" + strFieldName + " = " + strReference + ";\n");
+                            m_StreamOut.writeit("\t" + strFieldName + " = " + strReference + ";\n");
                 }
             }
             recClassFields.close();
@@ -689,7 +689,7 @@ public class WriteClass extends BaseProcess
             if ("interface".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString()))
                 return;
             if (this.readThisMethod("init"))
-                this.writeThisMethod();
+                this.writeThisMethod(LogicFile.INCLUDE_THICK);
             else
             {
                 strMethodName = "init";
@@ -717,8 +717,8 @@ public class WriteClass extends BaseProcess
                     this.writeMethodInterface(null, "init", "void", methodInfo.strMethodInterface, "", "Initialize class fields", null);
                     methodInfo.strMethodInterface = this.getMethodVariables(methodInfo.strMethodInterface);
                     this.writeClassInitialize(false);
-                    m_MethodsOut.writeit("\tsuper.init(" + methodInfo.strMethodInterface + ");\n");
-                    m_MethodsOut.writeit("}\n");
+                    m_StreamOut.writeit("\tsuper.init(" + methodInfo.strMethodInterface + ");\n");
+                    m_StreamOut.writeit("}\n");
                 }
             }
         } catch (DBException ex)   {
@@ -860,20 +860,20 @@ public class WriteClass extends BaseProcess
                         };
                     }
                     if (controlType.length() == 0)  // Default
-                        m_MethodsOut.writeit("\t" + fieldString + ".setupDefaultView(" + strScreenLocation + ", this, " + strScreenFieldDesc + ")" + strDisabledEnding + ";\n");
+                        m_StreamOut.writeit("\t" + fieldString + ".setupDefaultView(" + strScreenLocation + ", this, " + strScreenFieldDesc + ")" + strDisabledEnding + ";\n");
                     else
-                        m_MethodsOut.writeit("\tnew " + controlType + "(" + strScreenLocation + ", this, " + fieldString + ", " + strScreenFieldDesc + ")" + strDisabledEnding + ";\n");
+                        m_StreamOut.writeit("\tnew " + controlType + "(" + strScreenLocation + ", this, " + fieldString + ", " + strScreenFieldDesc + ")" + strDisabledEnding + ";\n");
                     oldRow = row;
                     oldCol = col;
                 }
                 if (recScreenIn.getField(ScreenIn.kScreenText).getString().length() != 0)
                 {
-                    m_MethodsOut.setTabs(+1);
+                    m_StreamOut.setTabs(+1);
                     String tempString = recScreenIn.getField(ScreenIn.kScreenText).getString();
-                    m_MethodsOut.writeit(tempString);
+                    m_StreamOut.writeit(tempString);
                     if (tempString.charAt(tempString.length() - 1) != '\n')
-                        m_MethodsOut.writeit("\n");
-                    m_MethodsOut.setTabs(-1);
+                        m_StreamOut.writeit("\n");
+                    m_StreamOut.setTabs(-1);
                 }
             }
             recScreenIn.close();
@@ -901,13 +901,14 @@ public class WriteClass extends BaseProcess
     public void writeGetTitleCode(String strClassDesc)
     {
         this.writeMethodInterface(null, "getTitle", "String", "", "", "Get the screen display title", null);
-        m_MethodsOut.writeit("\treturn \"" + strClassDesc + "\";\n");
-        m_MethodsOut.writeit("}\n");
+        m_StreamOut.writeit("\treturn \"" + strClassDesc + "\";\n");
+        m_StreamOut.writeit("}\n");
     }
     /**
      * Write the methods for this class.
+     * @param interfaceOnly Interface only
      */
-    public void writeClassMethods()
+    public void writeClassMethods(int interfaceOnly)
     {
         LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
         try   {
@@ -915,7 +916,9 @@ public class WriteClass extends BaseProcess
             while (recLogicFile.hasNext())
             {
                 recLogicFile.next();
-                this.writeThisMethod();
+                int methodTypes = (int)recLogicFile.getField(LogicFile.kIncludeScope).getValue();
+                if (((interfaceOnly & methodTypes) != 0) || (interfaceOnly == LogicFile.INCLUDE_ALL) || (interfaceOnly == LogicFile.INCLUDE_THICK))
+                    this.writeThisMethod(interfaceOnly);
             }
             recLogicFile.close();
         } catch (DBException ex)   {
@@ -941,8 +944,8 @@ public class WriteClass extends BaseProcess
             strMethodInterface = this.getMethodVariables(strMethodInterface);
             beforeMethodCode = beforeMethodCode.substring(0, inher) + strSuper + "(" + strMethodInterface + ");" + beforeMethodCode.substring(inher + 6, beforeMethodCode.length());
         }
-        m_MethodsOut.writeit(beforeMethodCode);
-        m_MethodsOut.writeit("\n");
+        m_StreamOut.writeit(beforeMethodCode);
+        m_StreamOut.writeit("\n");
         return (inher != -1);
     }
     /**
@@ -986,8 +989,9 @@ public class WriteClass extends BaseProcess
     }
     /**
      * WriteThisMethod - Write this method for this class.
+     * @param interfaceOnly Interface only
      */
-    public void writeThisMethod()
+    public void writeThisMethod(int interfaceOnly)
     {
         Record recClassInfo = this.getMainRecord();
         LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
@@ -1003,36 +1007,41 @@ public class WriteClass extends BaseProcess
             strMethodName = strMethodName.substring(0, strMethodName.length() - 2);
         if (strMethodName.equals(strClassName))
         {
-            this.writeMethodInterface(strProtection, strMethodName, "", methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, null);
-            this.writeDefaultMethodCode(strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, strClassName);
+//            if (!interfaceOnly)
+            {
+                this.writeMethodInterface(strProtection, strMethodName, "", methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, null);
+                this.writeDefaultMethodCode(strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, strClassName);
+            }
         }
-        else
+  //      else
         {
             if (methodInfo.strMethodReturns.length() >= 7) if (methodInfo.strMethodReturns.substring(methodInfo.strMethodReturns.length() - 7, methodInfo.strMethodReturns.length()).equalsIgnoreCase("  "))
-            {
                 methodInfo.strMethodReturns = methodInfo.strMethodReturns.substring(0, methodInfo.strMethodReturns.length() - 6);
+            String strCodeBody = null;
+      //      if ((interfaceOnly) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
+            {
+                if (recLogicFile.getField(LogicFile.kIncludeScope).getValue() != 0)
+                    return;
+                strCodeBody = ";";
             }
-	    String strCodeBody = null;
-            if ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString()))
-		strCodeBody = ";";
             this.writeMethodInterface(strProtection, strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, strCodeBody);
         }
-        if ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString()))
-            return;
+//        if ((interfaceOnly) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
+  //          return;
         if (!strMethodName.equals(strClassName))
         {
             if (recLogicFile.getField(LogicFile.kLogicSource).getString().length() != 0)
             {
                 String strBaseClass;
                 strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
-                m_MethodsOut.setTabs(+1);
+                m_StreamOut.setTabs(+1);
                 this.writeTextField(recLogicFile.getField(LogicFile.kLogicSource), strBaseClass, strMethodName, methodInfo.strMethodInterface, strClassName);
-                m_MethodsOut.setTabs(-1);
+                m_StreamOut.setTabs(-1);
             }
             else
                 this.writeDefaultMethodCode(strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, strClassName);
         }
-        m_MethodsOut.writeit("}\n");
+        m_StreamOut.writeit("}\n");
     }
     /**
      *  Take out the spaces in the name.

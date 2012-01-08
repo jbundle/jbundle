@@ -116,7 +116,7 @@ public class WriteFieldClass extends WriteSharedClass
     
         this.writeInitField();
     
-        this.writeClassMethods();   // Write the remaining methods for this class
+        this.writeClassMethods(LogicFile.INCLUDE_THICK);   // Write the remaining methods for this class
         this.writeEndCode(true);
     }
     /**
@@ -128,9 +128,9 @@ public class WriteFieldClass extends WriteSharedClass
         Record recClassInfo = this.getMainRecord();
         strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
         if (this.readThisMethod(strClassName))
-            this.writeThisMethod();
+            this.writeThisMethod(LogicFile.INCLUDE_THICK);
         else
-            this.writeThisMethod();
+            this.writeThisMethod(LogicFile.INCLUDE_THICK);
     }
     /**
      *  Write the field init code
@@ -144,7 +144,7 @@ public class WriteFieldClass extends WriteSharedClass
             FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
             strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
             if (this.readThisMethod("initField"))
-                this.writeThisMethod();
+                this.writeThisMethod(LogicFile.INCLUDE_THICK);
             else
             {
                 String strInitField = this.getInitField(recFieldData, false, false);
@@ -183,8 +183,8 @@ public class WriteFieldClass extends WriteSharedClass
                             setOp = ".setString";
                         }
                         if (strInitField != strClassName)
-                            m_MethodsOut.writeit("\treturn this" + setOp + "(" + strInitField + ", displayOption, DBConstants.INIT_MOVE);\n");
-                        m_MethodsOut.writeit("}\n");
+                            m_StreamOut.writeit("\treturn this" + setOp + "(" + strInitField + ", displayOption, DBConstants.INIT_MOVE);\n");
+                        m_StreamOut.writeit("}\n");
                     }
                 }
             }

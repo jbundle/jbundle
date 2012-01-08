@@ -89,6 +89,8 @@ public class ClassProjectScreen extends FolderScreen
         this.getRecord(ClassProject.kClassProjectFile).getField(ClassProject.kThinProjectPath).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(ClassProject.kClassProjectFile).getField(ClassProject.kResourcePackage).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(ClassProject.kClassProjectFile).getField(ClassProject.kResProjectPath).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassProject.kClassProjectFile).getField(ClassProject.kInterfacePackage).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassProject.kClassProjectFile).getField(ClassProject.kInterfaceProjectPath).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

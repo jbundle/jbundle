@@ -42,8 +42,9 @@ public class ClassFields extends VirtualRecord
     public static final int kThinInclude = kClassFieldInitialValue + 1;
     public static final int kThickInclude = kThinInclude + 1;
     public static final int kClassFieldsType = kThickInclude + 1;
-    public static final int kClassFieldsLastField = kClassFieldsType;
-    public static final int kClassFieldsFields = kClassFieldsType - DBConstants.MAIN_FIELD + 1;
+    public static final int kIncludeScope = kClassFieldsType + 1;
+    public static final int kClassFieldsLastField = kIncludeScope;
+    public static final int kClassFieldsFields = kIncludeScope - DBConstants.MAIN_FIELD + 1;
 
     public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
     public static final int kClassInfoClassNameKey = kIDKey + 1;
@@ -157,6 +158,11 @@ public class ClassFields extends VirtualRecord
         if (iFieldSeq == kClassFieldsType)
         {
             field = new ClassFieldsTypeField(this, "ClassFieldsType", Constants.DEFAULT_FIELD_LENGTH, null, "ClassFieldsTypeField.NATIVE_FIELD");
+            field.addListener(new InitOnceFieldHandler(null));
+        }
+        if (iFieldSeq == kIncludeScope)
+        {
+            field = new IntegerField(this, "IncludeScope", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (field == null)

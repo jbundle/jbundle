@@ -67,6 +67,7 @@ public class ProgramControl extends FieldList
         field = new FieldInfo(this, "ResourceType", Constants.DEFAULT_FIELD_LENGTH, null, null);
         field = new FieldInfo(this, "ClassResourceType", Constants.DEFAULT_FIELD_LENGTH, null, null);
         field = new FieldInfo(this, "PackageName", 40, null, null);
+        field = new FieldInfo(this, "InterfacePackage", Constants.DEFAULT_FIELD_LENGTH, null, null);
         field = new FieldInfo(this, "ThinPackage", 40, null, null);
         field = new FieldInfo(this, "ResourcePackage", 40, null, null);
         field = new FieldInfo(this, "LastPackageUpdate", 25, null, null);
