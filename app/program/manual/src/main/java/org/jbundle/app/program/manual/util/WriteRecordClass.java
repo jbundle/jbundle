@@ -133,6 +133,7 @@ public class WriteRecordClass extends WriteSharedClass
 
             this.writeThinRecord(strClassName);
 
+            if (false)
             this.writeRecordInterface(strClassName);  // Write the Record Class Interface
 
         // Now write out the BaseField classes
@@ -330,6 +331,8 @@ public class WriteRecordClass extends WriteSharedClass
         if (((recFileHdr.getEditMode() != DBConstants.EDIT_CURRENT) || (!strClassName.equals(recFileHdr.getField(FileHdr.kFileName).getString())))
             && (!"Record".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString())))
                 return;     // If this isn't a physical file, don't build it.
+        if ("ScreenRecord".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kBaseClassName).toString()))
+                return;
         if (RESOURCE_CLASS.equals(recClassInfo.getField(ClassInfo.kBaseClassName).toString()))
             return;     // Resource only class
         String strDBType = recFileHdr.getField(FileHdr.kType).getString(); // Is Remote file?
@@ -342,16 +345,16 @@ public class WriteRecordClass extends WriteSharedClass
         this.writeHeading(strClassName + "Model", strPackage, ClassProject.CodeType.INTERFACE);
         m_StreamOut.writeit("package " + strPackage + ";\n");
 
-        if (strBaseClass.equals("VirtualRecord"))
-            strBaseClass = "";
         if (!strBaseClass.equals(""))
         {
             this.readRecordClass(strBaseClass);     // Return the record to the original position
             ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.kClassProjectID)).getReference();
             String baseClassPackage = classProject.getFullPackage(CodeType.INTERFACE, recClassInfo.getField(ClassInfo.kClassPackage).toString());
+            if (baseClassPackage.equalsIgnoreCase("org.jbundle.model.db"))
+                strBaseClass = "";  // The only interface in the model package is 'Rec'.
             strBaseClass = baseClassPackage + "." + strBaseClass + "Model";
         }
-        else
+        if (strBaseClass.equals(""))
             strBaseClass = "org.jbundle.model.db.Rec";
         m_StreamOut.writeit("\n");
         
@@ -447,13 +450,13 @@ public class WriteRecordClass extends WriteSharedClass
             e.printStackTrace();
         }
 */
-        if (strBaseClass.equals("VirtualRecord"))
-            strBaseClass = "FieldList";
         if (!strBaseClass.equals("FieldList"))
         {
             this.readRecordClass(strBaseClass);     // Return the record to the original position
             ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.kClassProjectID)).getReference();
             String baseClassPackage = classProject.getFullPackage(CodeType.THIN, recClassInfo.getField(ClassInfo.kClassPackage).toString());
+            if (baseClassPackage.equalsIgnoreCase("org.jbundle.thin.base.db"))
+                strBaseClass = "FieldList"; // Only valid thin base field in this package
             strBaseClass = baseClassPackage + "." + strBaseClass;
         }
         
