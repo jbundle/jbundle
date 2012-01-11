@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class UserInfo extends FieldList
+public class UserInfo extends org.jbundle.thin.main.db.PropertiesRecord
 {
     public static final String USER_NAME = "UserName";
     public static final String PASSWORD = "Password";
