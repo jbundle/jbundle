@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class UserLogType extends FieldList
+public class UserLogType extends org.jbundle.thin.base.db.FieldList
 {
 
     public UserLogType()

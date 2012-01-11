@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.msg.db.base;
 
-public interface BaseStatusModel extends org.jbundle.model.db.Rec
+public interface BaseStatusModel extends org.jbundle.model.base.db.VirtualRecordModel
 {
 
     public static final String BASE_STATUS_FILE = "BaseStatus";

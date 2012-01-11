@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class ScreenIn extends FieldList
+public class ScreenIn extends org.jbundle.thin.base.db.FieldList
 {
 
     public ScreenIn()

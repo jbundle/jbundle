@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.calendar.db;
 
-public interface CalendarEntryModel extends org.jbundle.model.db.Rec
+public interface CalendarEntryModel extends org.jbundle.model.base.db.VirtualRecordModel
 {
     public static final String CALENDAR_ENTRY_TYPE_ID = "CalendarEntryTypeID";
     public static final String DESCRIPTION = "Description";

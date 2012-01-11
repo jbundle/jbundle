@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class ProcessType extends FieldList
+public class ProcessType extends org.jbundle.thin.base.db.FieldList
 {
 
     public ProcessType()

@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class FileHdr extends FieldList
+public class FileHdr extends org.jbundle.thin.base.db.FieldList
 {
 
     public FileHdr()

@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class IssuePriority extends FieldList
+public class IssuePriority extends org.jbundle.thin.base.db.FieldList
 {
 
     public IssuePriority()

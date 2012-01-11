@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class CalendarEntry extends FieldList
+public class CalendarEntry extends org.jbundle.thin.base.db.FieldList
 {
     public static final String CALENDAR_ENTRY_TYPE_ID = "CalendarEntryTypeID";
     public static final String DESCRIPTION = "Description";

@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class KeyInfo extends FieldList
+public class KeyInfo extends org.jbundle.thin.base.db.FieldList
 {
 
     public KeyInfo()

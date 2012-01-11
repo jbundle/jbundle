@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class RepeatInterval extends FieldList
+public class RepeatInterval extends org.jbundle.thin.base.db.FieldList
 {
 
     public RepeatInterval()

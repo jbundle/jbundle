@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class UserGroup extends FieldList
+public class UserGroup extends org.jbundle.thin.main.db.PropertiesRecord
 {
 
     public UserGroup()

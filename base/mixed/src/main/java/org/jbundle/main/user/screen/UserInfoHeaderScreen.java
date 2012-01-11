@@ -27,7 +27,6 @@ import org.jbundle.main.user.db.*;
  */
 public class UserInfoHeaderScreen extends HeaderScreen
 {
-    private static final long serialVersionUID = 1L;
     /**
      * Default constructor.
      */
@@ -54,8 +53,6 @@ public class UserInfoHeaderScreen extends HeaderScreen
     {
         super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
     }
-
-    public static final String kUserInfoHeaderScreenFile = null;    // Screen field
     /**
      * SetupSFields Method.
      */

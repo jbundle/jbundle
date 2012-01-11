@@ -33,7 +33,6 @@ import org.jbundle.base.db.xmlutil.*;
  */
 public class MenusField extends ReferenceField
 {
-    private static final long serialVersionUID = 1L;
     /**
      * Default constructor.
      */
@@ -61,8 +60,6 @@ public class MenusField extends ReferenceField
     {
         super.init(record, strName, iDataLength, strDesc, strDefault);
     }
-
-    public static final String kMenusFieldFile = null;  // Screen field
     /**
      * Get (or make) the current record for this reference.
      */

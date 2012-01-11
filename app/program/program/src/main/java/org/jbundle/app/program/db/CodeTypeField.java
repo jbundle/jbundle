@@ -26,7 +26,6 @@ import org.jbundle.model.*;
  */
 public class CodeTypeField extends StringPopupField
 {
-    private static final long serialVersionUID = 1L;
     /**
      * Default constructor.
      */
@@ -54,8 +53,6 @@ public class CodeTypeField extends StringPopupField
     {
         super.init(record, strName, iDataLength, strDesc, strDefault);
     }
-
-    public static final String kCodeTypeFieldFile = null; // Screen field
     /**
      * Get the conversion Map.
      */

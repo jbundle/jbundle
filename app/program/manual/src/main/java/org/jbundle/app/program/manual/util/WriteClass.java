@@ -529,7 +529,7 @@ public class WriteClass extends BaseProcess
         String strInterfaceEnd = "\n";
         if (strCodeBody == null)
             strCodeBody = "{\n";
-        if (";".equals(strCodeBody))
+        if (";\n".equals(strCodeBody))
         {
             strInterfaceEnd = strCodeBody;
             strCodeBody = null;

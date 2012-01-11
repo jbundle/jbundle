@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class IssueHistory extends FieldList
+public class IssueHistory extends org.jbundle.thin.base.db.FieldList
 {
 
     public IssueHistory()

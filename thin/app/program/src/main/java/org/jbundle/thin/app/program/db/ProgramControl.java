@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class ProgramControl extends FieldList
+public class ProgramControl extends org.jbundle.thin.base.db.FieldList
 {
 
     public ProgramControl()

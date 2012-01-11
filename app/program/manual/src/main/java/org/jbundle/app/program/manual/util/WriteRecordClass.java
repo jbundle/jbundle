@@ -133,7 +133,6 @@ public class WriteRecordClass extends WriteSharedClass
 
             this.writeThinRecord(strClassName);
 
-            if (false)
             this.writeRecordInterface(strClassName);  // Write the Record Class Interface
 
         // Now write out the BaseField classes
@@ -331,8 +330,10 @@ public class WriteRecordClass extends WriteSharedClass
         if (((recFileHdr.getEditMode() != DBConstants.EDIT_CURRENT) || (!strClassName.equals(recFileHdr.getField(FileHdr.kFileName).getString())))
             && (!"Record".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString())))
                 return;     // If this isn't a physical file, don't build it.
-        if ("ScreenRecord".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kBaseClassName).toString()))
+        if (recClassInfo.getField(ClassInfo.kBaseClassName).toString().contains("ScreenRecord"))
                 return;
+        if ("Interface".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString()))   // An interface doesn't have an interface
+            return;     // If this isn't a physical file, don't build it.
         if (RESOURCE_CLASS.equals(recClassInfo.getField(ClassInfo.kBaseClassName).toString()))
             return;     // Resource only class
         String strDBType = recFileHdr.getField(FileHdr.kType).getString(); // Is Remote file?
@@ -422,6 +423,10 @@ public class WriteRecordClass extends WriteSharedClass
         if (((recFileHdr.getEditMode() != DBConstants.EDIT_CURRENT) || (!strClassName.equals(recFileHdr.getField(FileHdr.kFileName).getString())))
                 && (!"Record".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString())))
                     return;     // If this isn't a physical file, don't build it.
+        if (recClassInfo.getField(ClassInfo.kBaseClassName).toString().contains("ScreenRecord"))
+            return;
+        if ("Interface".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString()))   // An interface doesn't have an interface
+            return;     // If this isn't a physical file, don't build it.
         if (RESOURCE_CLASS.equals(recClassInfo.getField(ClassInfo.kBaseClassName).toString()))
             return;     // Resource only class
         String strDatabaseName = recFileHdr.getField(FileHdr.kDatabaseName).getString();   // Database name

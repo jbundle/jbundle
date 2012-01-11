@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class DatabaseInfo extends FieldList
+public class DatabaseInfo extends org.jbundle.thin.base.db.FieldList
 {
 
     public DatabaseInfo()
@@ -35,7 +35,7 @@ public class DatabaseInfo extends FieldList
      */
     public String getDatabaseName()
     {
-        return "";
+        return "DatabaseInfo";
     }
     /**
      *  Is this a local (vs remote) file?.

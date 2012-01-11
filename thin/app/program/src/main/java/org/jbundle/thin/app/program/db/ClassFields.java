@@ -10,7 +10,7 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class ClassFields extends FieldList
+public class ClassFields extends org.jbundle.thin.base.db.FieldList
 {
 
     public ClassFields()
