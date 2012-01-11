@@ -1024,7 +1024,7 @@ public class WriteClass extends BaseProcess
                 int methodType = (int)(recLogicFile.getField(LogicFile.kIncludeScope).getValue() + .001);
                 if ((LogicFile.INCLUDE_INTERFACE & methodType) == 0)
                     return;
-                strCodeBody = ";";
+                strCodeBody = ";\n";
             }
             this.writeMethodInterface(strProtection, strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, strCodeBody);
         }

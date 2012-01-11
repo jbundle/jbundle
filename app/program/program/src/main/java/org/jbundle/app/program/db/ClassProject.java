@@ -342,7 +342,7 @@ public class ClassProject extends Folder
                     startPackage = programControl.getField(ProgramControl.kInterfacePackage).toString();
             }
             else
-                startPackage = startPackage + ".rec";
+                startPackage = startPackage + ".model";
         }
         
         String fullPackage = this.getPath(codeType, true);

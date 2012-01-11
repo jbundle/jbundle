@@ -133,7 +133,6 @@ public class WriteRecordClass extends WriteSharedClass
 
             this.writeThinRecord(strClassName);
 
-            if (false)
             this.writeRecordInterface(strClassName);  // Write the Record Class Interface
 
         // Now write out the BaseField classes
@@ -340,22 +339,21 @@ public class WriteRecordClass extends WriteSharedClass
         String strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
         if ((strBaseClass.equalsIgnoreCase("Record")) || (strBaseClass.equalsIgnoreCase("QueryRecord")))
             strBaseClass = "";  // .model.db.Rec
-        this.writeHeading(strClassName + "Rec", strPackage, ClassProject.CodeType.INTERFACE);
-        m_StreamOut.writeit("package " + strPackage + ";\n\n");
+        this.writeHeading(strClassName + "Model", strPackage, ClassProject.CodeType.INTERFACE);
+        m_StreamOut.writeit("package " + strPackage + ";\n");
 
         if (!strBaseClass.equals(""))
         {
             this.readRecordClass(strBaseClass);     // Return the record to the original position
             ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.kClassProjectID)).getReference();
             String baseClassPackage = classProject.getFullPackage(CodeType.INTERFACE, recClassInfo.getField(ClassInfo.kClassPackage).toString());
-            //strBaseClass = baseClassPackage + "." + strBaseClass;
-            m_StreamOut.writeit("include " + baseClassPackage + "." + strBaseClass + "Rec;\n");
+            strBaseClass = baseClassPackage + "." + strBaseClass + "Model";
         }
         else
-            m_StreamOut.writeit("include org.jbundle.model.db.Rec;\n");
+            strBaseClass = "org.jbundle.model.db.Rec";
         m_StreamOut.writeit("\n");
         
-        m_StreamOut.writeit("public interface " + strClassName + "Rec extends " + strBaseClass + "Rec\n");
+        m_StreamOut.writeit("public interface " + strClassName + "Model extends " + strBaseClass + "\n");
         m_StreamOut.writeit("{\n");
         m_StreamOut.setTabs(+1);
 
