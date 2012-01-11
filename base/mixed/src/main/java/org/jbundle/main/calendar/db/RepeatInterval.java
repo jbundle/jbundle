@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  RepeatInterval - Interval descriptions.
  */
 public class RepeatInterval extends VirtualRecord
+     implements org.jbundle.model.main.calendar.db.RepeatIntervalModel
 {
     private static final long serialVersionUID = 1L;
 

@@ -26,6 +26,7 @@ import org.jbundle.app.program.screen.*;
  *  ClassIncludes - .
  */
 public class ClassIncludes extends VirtualRecord
+     implements org.jbundle.model.app.program.db.ClassIncludesModel
 {
     private static final long serialVersionUID = 1L;
 

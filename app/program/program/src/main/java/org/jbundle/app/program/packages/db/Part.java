@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  Part - Parts.
  */
 public class Part extends VirtualRecord
+     implements org.jbundle.model.app.program.packages.db.PartModel
 {
     private static final long serialVersionUID = 1L;
 

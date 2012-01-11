@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  MainControl - .
  */
 public class MainControl extends ControlRecord
+     implements org.jbundle.model.main.db.MainControlModel
 {
     private static final long serialVersionUID = 1L;
 

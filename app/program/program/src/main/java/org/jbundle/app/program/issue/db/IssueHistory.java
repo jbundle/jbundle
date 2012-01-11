@@ -26,6 +26,7 @@ import org.jbundle.app.program.issue.screen.*;
  *  IssueHistory - .
  */
 public class IssueHistory extends VirtualRecord
+     implements org.jbundle.model.app.program.issue.db.IssueHistoryModel
 {
     private static final long serialVersionUID = 1L;
 

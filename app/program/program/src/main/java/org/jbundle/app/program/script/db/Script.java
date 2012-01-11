@@ -30,6 +30,7 @@ import org.jbundle.util.osgi.finder.*;
  *  Script - Script maintenance.
  */
 public class Script extends Folder
+     implements org.jbundle.model.app.program.script.db.ScriptModel
 {
     private static final long serialVersionUID = 1L;
 

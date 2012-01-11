@@ -27,6 +27,7 @@ import org.jbundle.app.program.db.*;
  *  Resource - .
  */
 public class Resource extends VirtualRecord
+     implements org.jbundle.model.app.program.resource.db.ResourceModel
 {
     private static final long serialVersionUID = 1L;
 

@@ -26,6 +26,7 @@ import org.jbundle.main.msg.db.*;
  *  UserLog - User log.
  */
 public class UserLog extends VirtualRecord
+     implements org.jbundle.model.main.user.db.UserLogModel
 {
     private static final long serialVersionUID = 1L;
 

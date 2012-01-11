@@ -30,6 +30,7 @@ import org.jbundle.main.msg.db.base.*;
  *  MessageInfo - Message information.
  */
 public class MessageInfo extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.MessageInfoModel
 {
     private static final long serialVersionUID = 1L;
 

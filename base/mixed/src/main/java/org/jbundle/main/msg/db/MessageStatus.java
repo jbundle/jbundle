@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  MessageStatus - Message status.
  */
 public class MessageStatus extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.MessageStatusModel
 {
     private static final long serialVersionUID = 1L;
 

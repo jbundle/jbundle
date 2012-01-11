@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  MessageControl - Message control information.
  */
 public class MessageControl extends ControlRecord
+     implements org.jbundle.model.main.msg.db.MessageControlModel
 {
     private static final long serialVersionUID = 1L;
 

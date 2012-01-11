@@ -26,6 +26,7 @@ import org.jbundle.app.program.screen.*;
  *  ClassResource - Resource detail for "Resource" class types..
  */
 public class ClassResource extends VirtualRecord
+     implements org.jbundle.model.app.program.db.ClassResourceModel
 {
     private static final long serialVersionUID = 1L;
 

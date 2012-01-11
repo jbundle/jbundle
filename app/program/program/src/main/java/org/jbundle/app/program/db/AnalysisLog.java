@@ -26,7 +26,7 @@ import org.jbundle.base.services.*;
  *  AnalysisLog - Analyze class create/delete.
  */
 public class AnalysisLog extends VirtualRecord
-     implements AnalysisLogService
+     implements org.jbundle.model.app.program.db.AnalysisLogModel, AnalysisLogService
 {
     private static final long serialVersionUID = 1L;
 

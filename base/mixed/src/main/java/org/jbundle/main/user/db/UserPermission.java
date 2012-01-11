@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  UserPermission - User permissions to resources.
  */
 public class UserPermission extends VirtualRecord
+     implements org.jbundle.model.main.user.db.UserPermissionModel
 {
     private static final long serialVersionUID = 1L;
 

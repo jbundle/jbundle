@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  ProcessType - Message process type.
  */
 public class ProcessType extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.ProcessTypeModel
 {
     private static final long serialVersionUID = 1L;
 

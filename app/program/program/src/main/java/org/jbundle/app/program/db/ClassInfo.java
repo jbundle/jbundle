@@ -29,7 +29,7 @@ import org.jbundle.base.db.xmlutil.*;
  *  ClassInfo - Class information.
  */
 public class ClassInfo extends VirtualRecord
-     implements ClassInfoService
+     implements org.jbundle.model.app.program.db.ClassInfoModel, ClassInfoService
 {
     private static final long serialVersionUID = 1L;
 
@@ -57,6 +57,7 @@ public class ClassInfo extends VirtualRecord
     public static final int kClassProjectIDKey = kBaseClassNameKey + 1;
     public static final int kClassInfoLastKey = kClassProjectIDKey;
     public static final int kClassInfoKeys = kClassProjectIDKey - DBConstants.MAIN_KEY_FIELD + 1;
+    public static final String RESOURCE_CLASS = "ListResourceBundle";
     /**
      * Default constructor.
      */
@@ -469,6 +470,43 @@ public class ClassInfo extends VirtualRecord
                     strClassXML +
                     strOptXML;
         out.println(strContentArea);
+    }
+    /**
+     * IsARecord Method.
+     */
+    public boolean isARecord()
+    {
+        Record recFileHdr = this.getRecordOwner().getRecord(FileHdr.kFileHdrFile);
+        if (recFileHdr == null)
+        {
+            recFileHdr = new FileHdr(this.getRecordOwner());
+            this.addListener(new FreeOnFreeHandler(recFileHdr));
+        }
+        if (!recFileHdr.getField(FileHdr.kFileName).equals(this.getField(ClassInfo.kClassName)))
+        {
+            try {
+                recFileHdr.addNew();
+                recFileHdr.getField(FileHdr.kFileName).moveFieldToThis(this.getField(ClassInfo.kClassName));
+                int oldKeyArea = recFileHdr.getDefaultOrder();
+                recFileHdr.setKeyArea(FileHdr.kFileNameKey);
+                if (!recFileHdr.seek(null))
+                    return false;
+                recFileHdr.setKeyArea(oldKeyArea);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
+        if (((recFileHdr.getEditMode() != DBConstants.EDIT_CURRENT) || (!this.getField(ClassInfo.kClassName).toString().equals(recFileHdr.getField(FileHdr.kFileName).getString())))
+            && (!"Record".equalsIgnoreCase(this.getField(ClassInfo.kClassType).toString())))
+                return false;     // If this isn't a physical file, don't build it.
+        if (this.getField(ClassInfo.kBaseClassName).toString().contains("ScreenRecord"))
+                return false;
+        if ("Interface".equalsIgnoreCase(this.getField(ClassInfo.kClassType).toString()))   // An interface doesn't have an interface
+            return false;     // If this isn't a physical file, don't build it.
+        if (RESOURCE_CLASS.equals(this.getField(ClassInfo.kBaseClassName).toString()))
+            return false;     // Resource only class
+        return true;
     }
 
 }

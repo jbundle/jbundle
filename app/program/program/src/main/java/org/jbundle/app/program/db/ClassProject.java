@@ -28,6 +28,7 @@ import org.jbundle.app.program.resource.screen.*;
  *  ClassProject - .
  */
 public class ClassProject extends Folder
+     implements org.jbundle.model.app.program.db.ClassProjectModel
 {
     private static final long serialVersionUID = 1L;
 

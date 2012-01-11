@@ -26,6 +26,7 @@ import org.jbundle.app.program.screen.*;
  *  ClassFields - Class Field Detail.
  */
 public class ClassFields extends VirtualRecord
+     implements org.jbundle.model.app.program.db.ClassFieldsModel
 {
     private static final long serialVersionUID = 1L;
 

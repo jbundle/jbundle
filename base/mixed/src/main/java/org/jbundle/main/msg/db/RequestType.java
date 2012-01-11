@@ -26,6 +26,7 @@ import org.jbundle.thin.base.message.*;
  *  RequestType - Message request type.
  */
 public class RequestType extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.RequestTypeModel
 {
     private static final long serialVersionUID = 1L;
 

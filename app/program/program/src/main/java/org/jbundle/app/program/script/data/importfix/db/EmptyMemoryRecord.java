@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  EmptyMemoryRecord - .
  */
 public class EmptyMemoryRecord extends Record
+     implements org.jbundle.model.app.program.script.data.importfix.db.EmptyMemoryRecordModel
 {
     private static final long serialVersionUID = 1L;
 

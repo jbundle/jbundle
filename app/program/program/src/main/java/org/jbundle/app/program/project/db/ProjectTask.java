@@ -29,6 +29,7 @@ import org.jbundle.main.user.db.*;
  *  ProjectTask - .
  */
 public class ProjectTask extends Folder
+     implements org.jbundle.model.app.program.project.db.ProjectTaskModel
 {
     private static final long serialVersionUID = 1L;
 

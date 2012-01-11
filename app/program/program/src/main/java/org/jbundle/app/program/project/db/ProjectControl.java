@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  ProjectControl - .
  */
 public class ProjectControl extends ControlRecord
+     implements org.jbundle.model.app.program.project.db.ProjectControlModel
 {
     private static final long serialVersionUID = 1L;
 

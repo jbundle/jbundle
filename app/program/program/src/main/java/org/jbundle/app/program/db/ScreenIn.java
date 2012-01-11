@@ -26,6 +26,7 @@ import org.jbundle.app.program.screen.*;
  *  ScreenIn - Screen In File.
  */
 public class ScreenIn extends VirtualRecord
+     implements org.jbundle.model.app.program.db.ScreenInModel
 {
     private static final long serialVersionUID = 1L;
 

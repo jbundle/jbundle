@@ -33,6 +33,7 @@ import org.jbundle.main.msg.db.base.*;
  *  MessageProcessInfo - Message process information.
  */
 public class MessageProcessInfo extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.MessageProcessInfoModel
 {
     private static final long serialVersionUID = 1L;
 

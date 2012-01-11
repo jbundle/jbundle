@@ -29,6 +29,7 @@ import org.jbundle.app.program.db.*;
  *  Issue - Bug or Issue record.
  */
 public class Issue extends VirtualRecord
+     implements org.jbundle.model.app.program.issue.db.IssueModel
 {
     private static final long serialVersionUID = 1L;
 

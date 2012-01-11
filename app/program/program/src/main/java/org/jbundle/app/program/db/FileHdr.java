@@ -26,6 +26,7 @@ import org.jbundle.app.program.screen.*;
  *  FileHdr - File Information Record.
  */
 public class FileHdr extends VirtualRecord
+     implements org.jbundle.model.app.program.db.FileHdrModel
 {
     private static final long serialVersionUID = 1L;
 

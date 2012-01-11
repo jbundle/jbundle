@@ -28,6 +28,7 @@ import org.jbundle.thin.base.message.*;
  *  CalendarEntry - Calendar.
  */
 public class CalendarEntry extends VirtualRecord
+     implements org.jbundle.model.main.calendar.db.CalendarEntryModel
 {
     private static final long serialVersionUID = 1L;
 

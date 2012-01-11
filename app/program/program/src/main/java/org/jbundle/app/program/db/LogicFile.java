@@ -26,6 +26,7 @@ import org.jbundle.app.program.screen.*;
  *  LogicFile - Method Descriptions.
  */
 public class LogicFile extends VirtualRecord
+     implements org.jbundle.model.app.program.db.LogicFileModel
 {
     private static final long serialVersionUID = 1L;
 

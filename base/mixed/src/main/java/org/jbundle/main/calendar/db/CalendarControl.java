@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  CalendarControl - Calendar control.
  */
 public class CalendarControl extends ControlRecord
+     implements org.jbundle.model.main.calendar.db.CalendarControlModel
 {
     private static final long serialVersionUID = 1L;
 

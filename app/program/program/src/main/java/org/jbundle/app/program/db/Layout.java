@@ -27,6 +27,7 @@ import org.jbundle.app.program.screen.*;
  *  Layout - Record layouts.
  */
 public class Layout extends Folder
+     implements org.jbundle.model.app.program.db.LayoutModel
 {
     private static final long serialVersionUID = 1L;
 

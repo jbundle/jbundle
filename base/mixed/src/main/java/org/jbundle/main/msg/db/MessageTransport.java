@@ -27,6 +27,7 @@ import org.jbundle.thin.base.message.*;
  *  MessageTransport - Message transports.
  */
 public class MessageTransport extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.MessageTransportModel
 {
     private static final long serialVersionUID = 1L;
 

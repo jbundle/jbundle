@@ -26,6 +26,7 @@ import org.jbundle.app.program.resource.screen.*;
  *  Registration - Temporary database to emulate a system key registry.
  */
 public class Registration extends VirtualRecord
+     implements org.jbundle.model.app.program.resource.db.RegistrationModel
 {
     private static final long serialVersionUID = 1L;
 

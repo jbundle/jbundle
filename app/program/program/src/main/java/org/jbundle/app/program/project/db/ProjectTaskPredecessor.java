@@ -26,6 +26,7 @@ import org.jbundle.app.program.project.screen.*;
  *  ProjectTaskPredecessor - .
  */
 public class ProjectTaskPredecessor extends VirtualRecord
+     implements org.jbundle.model.app.program.project.db.ProjectTaskPredecessorModel
 {
     private static final long serialVersionUID = 1L;
 

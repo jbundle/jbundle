@@ -26,6 +26,7 @@ import org.jbundle.main.user.screen.*;
  *  UserResource - System resource.
  */
 public class UserResource extends VirtualRecord
+     implements org.jbundle.model.main.user.db.UserResourceModel
 {
     private static final long serialVersionUID = 1L;
 

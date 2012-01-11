@@ -26,6 +26,7 @@ import org.jbundle.main.user.db.*;
  *  ProjectVersion - .
  */
 public class ProjectVersion extends VirtualRecord
+     implements org.jbundle.model.app.program.project.db.ProjectVersionModel
 {
     private static final long serialVersionUID = 1L;
 

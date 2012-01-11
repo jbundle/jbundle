@@ -26,6 +26,7 @@ import org.jbundle.app.program.packages.screen.*;
  *  JnlpFile - Jnlp header.
  */
 public class JnlpFile extends VirtualRecord
+     implements org.jbundle.model.app.program.packages.db.JnlpFileModel
 {
     private static final long serialVersionUID = 1L;
 

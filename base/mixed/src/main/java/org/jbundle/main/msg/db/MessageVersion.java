@@ -26,6 +26,7 @@ import org.jbundle.base.message.trx.message.*;
  *  MessageVersion - Message version.
  */
 public class MessageVersion extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.MessageVersionModel
 {
     private static final long serialVersionUID = 1L;
 

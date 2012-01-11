@@ -26,6 +26,7 @@ import org.jbundle.app.program.screen.*;
  *  FieldData - Field Information File Class.
  */
 public class FieldData extends VirtualRecord
+     implements org.jbundle.model.app.program.db.FieldDataModel
 {
     private static final long serialVersionUID = 1L;
 

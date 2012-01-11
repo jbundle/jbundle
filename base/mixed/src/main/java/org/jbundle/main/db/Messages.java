@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  Messages - Message or Bug report submitted from users.
  */
 public class Messages extends VirtualRecord
+     implements org.jbundle.model.main.db.MessagesModel
 {
     private static final long serialVersionUID = 1L;
 

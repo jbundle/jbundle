@@ -275,6 +275,17 @@ public class WriteClass extends BaseProcess
         m_IncludeNameList.addInclude(strBaseClass);    // Make sure this is included
     
         m_StreamOut.writeit("\n/**\n *\t" + strClassName + " - " + strClassDesc + ".\n */\n");
+
+        String implementsClass = null;
+        if (((ClassInfo)recClassInfo).isARecord())
+            implementsClass = this.getPackage(CodeType.INTERFACE) + '.' + strClassName + "Model";
+        if ((implementsClass != null) && (implementsClass.length() > 0))
+        {
+            if ((strClassInterface == null) || (strClassInterface.length() == 0))
+                strClassInterface = implementsClass;
+            else
+                strClassInterface = implementsClass + ", " + strClassInterface;
+        }
         if ((strClassInterface == null) || (strClassInterface.length() == 0))
             strClassInterface = "";
         else

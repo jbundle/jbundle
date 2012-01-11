@@ -29,6 +29,7 @@ import org.jbundle.main.msg.db.base.*;
  *  MessageDetail - Message detail.
  */
 public class MessageDetail extends PropertiesRecord
+     implements org.jbundle.model.main.msg.db.MessageDetailModel
 {
     private static final long serialVersionUID = 1L;
 

@@ -27,6 +27,7 @@ import org.jbundle.main.user.screen.*;
  *  UserGroup - User security group.
  */
 public class UserGroup extends PropertiesRecord
+     implements org.jbundle.model.main.user.db.UserGroupModel
 {
     private static final long serialVersionUID = 1L;
 

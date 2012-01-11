@@ -26,6 +26,7 @@ import org.jbundle.base.db.shared.*;
  *  Anniversary - Recurring appointments.
  */
 public class Anniversary extends CalendarEntry
+     implements org.jbundle.model.main.calendar.db.AnniversaryModel
 {
     private static final long serialVersionUID = 1L;
 

@@ -27,6 +27,7 @@ import org.jbundle.main.calendar.screen.*;
  *  Appointment - Calendar appointments.
  */
 public class Appointment extends CalendarEntry
+     implements org.jbundle.model.main.calendar.db.AppointmentModel
 {
     private static final long serialVersionUID = 1L;
 

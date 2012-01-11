@@ -26,6 +26,7 @@ import org.jbundle.app.program.project.db.*;
  *  IssueControl - .
  */
 public class IssueControl extends ControlRecord
+     implements org.jbundle.model.app.program.issue.db.IssueControlModel
 {
     private static final long serialVersionUID = 1L;
 

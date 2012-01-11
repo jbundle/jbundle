@@ -324,18 +324,11 @@ public class WriteRecordClass extends WriteSharedClass
      */
     public void writeRecordInterface(String strClassName)
     {
-        Record recClassInfo = this.getMainRecord();
+        ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
         Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
         FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
-        if (((recFileHdr.getEditMode() != DBConstants.EDIT_CURRENT) || (!strClassName.equals(recFileHdr.getField(FileHdr.kFileName).getString())))
-            && (!"Record".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString())))
-                return;     // If this isn't a physical file, don't build it.
-        if (recClassInfo.getField(ClassInfo.kBaseClassName).toString().contains("ScreenRecord"))
-                return;
-        if ("Interface".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString()))   // An interface doesn't have an interface
-            return;     // If this isn't a physical file, don't build it.
-        if (RESOURCE_CLASS.equals(recClassInfo.getField(ClassInfo.kBaseClassName).toString()))
-            return;     // Resource only class
+        if (!recClassInfo.isARecord())
+            return;
         String strDBType = recFileHdr.getField(FileHdr.kType).getString(); // Is Remote file?
         strDBType = this.fixDBType(strDBType, "Constants.");
         String strPackage = this.getPackage(CodeType.INTERFACE);
@@ -417,18 +410,11 @@ public class WriteRecordClass extends WriteSharedClass
      */
     public void writeThinRecord(String strClassName)
     {
-        Record recClassInfo = this.getMainRecord();
+        ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
+        if (!recClassInfo.isARecord())
+            return;
         Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
         FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
-        if (((recFileHdr.getEditMode() != DBConstants.EDIT_CURRENT) || (!strClassName.equals(recFileHdr.getField(FileHdr.kFileName).getString())))
-                && (!"Record".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString())))
-                    return;     // If this isn't a physical file, don't build it.
-        if (recClassInfo.getField(ClassInfo.kBaseClassName).toString().contains("ScreenRecord"))
-            return;
-        if ("Interface".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString()))   // An interface doesn't have an interface
-            return;     // If this isn't a physical file, don't build it.
-        if (RESOURCE_CLASS.equals(recClassInfo.getField(ClassInfo.kBaseClassName).toString()))
-            return;     // Resource only class
         String strDatabaseName = recFileHdr.getField(FileHdr.kDatabaseName).getString();   // Database name
         String strDBType = recFileHdr.getField(FileHdr.kType).getString(); // Is Remote file?
         strDBType = this.fixDBType(strDBType, "Constants.");

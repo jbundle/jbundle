@@ -26,6 +26,7 @@ import org.jbundle.main.screen.*;
  *  Folder - Folder.
  */
 public class Folder extends BaseFolder
+     implements org.jbundle.model.main.db.FolderModel
 {
     private static final long serialVersionUID = 1L;
 

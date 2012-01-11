@@ -33,6 +33,7 @@ import org.jbundle.app.program.db.*;
  *  Packages - Packages.
  */
 public class Packages extends Folder
+     implements org.jbundle.model.app.program.packages.db.PackagesModel
 {
     private static final long serialVersionUID = 1L;
 

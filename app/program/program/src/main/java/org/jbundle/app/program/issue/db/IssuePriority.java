@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  IssuePriority - .
  */
 public class IssuePriority extends VirtualRecord
+     implements org.jbundle.model.app.program.issue.db.IssuePriorityModel
 {
     private static final long serialVersionUID = 1L;
 

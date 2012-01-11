@@ -26,6 +26,7 @@ import org.jbundle.main.db.*;
  *  ContactType - Contact type.
  */
 public class ContactType extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.base.ContactTypeModel
 {
     private static final long serialVersionUID = 1L;
 

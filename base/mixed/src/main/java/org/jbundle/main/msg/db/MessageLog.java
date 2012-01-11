@@ -31,6 +31,7 @@ import org.jbundle.main.user.db.*;
  *  MessageLog - Message log display.
  */
 public class MessageLog extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.MessageLogModel
 {
     private static final long serialVersionUID = 1L;
 

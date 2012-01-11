@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  MessageInfoType - Message type.
  */
 public class MessageInfoType extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.MessageInfoTypeModel
 {
     private static final long serialVersionUID = 1L;
 

@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  CalendarCategory - Calendar category entry.
  */
 public class CalendarCategory extends VirtualRecord
+     implements org.jbundle.model.main.calendar.db.CalendarCategoryModel
 {
     private static final long serialVersionUID = 1L;
 

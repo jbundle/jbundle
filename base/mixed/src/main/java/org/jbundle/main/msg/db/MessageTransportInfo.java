@@ -27,6 +27,7 @@ import org.jbundle.base.message.trx.message.*;
  *  MessageTransportInfo - Message Process Transport Detail.
  */
 public class MessageTransportInfo extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.MessageTransportInfoModel
 {
     private static final long serialVersionUID = 1L;
 

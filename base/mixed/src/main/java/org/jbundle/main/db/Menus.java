@@ -32,6 +32,7 @@ import org.jbundle.base.db.xmlutil.*;
  *  Menus - Menu maintenance.
  */
 public class Menus extends Folder
+     implements org.jbundle.model.main.db.MenusModel
 {
     private static final long serialVersionUID = 1L;
 

@@ -26,6 +26,7 @@ import org.jbundle.main.properties.screen.*;
  *  PropertiesInput - Memory table for inputting properties.
  */
 public class PropertiesInput extends Record
+     implements org.jbundle.model.main.properties.db.PropertiesInputModel
 {
     private static final long serialVersionUID = 1L;
 

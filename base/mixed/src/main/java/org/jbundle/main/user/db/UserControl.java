@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  UserControl - User Control file.
  */
 public class UserControl extends ControlRecord
+     implements org.jbundle.model.main.user.db.UserControlModel
 {
     private static final long serialVersionUID = 1L;
 

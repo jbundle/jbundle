@@ -29,6 +29,7 @@ import org.jbundle.main.msg.db.base.*;
  *  UserInfo - User Information.
  */
 public class UserInfo extends PropertiesRecord
+     implements org.jbundle.model.main.user.db.UserInfoModel
 {
     private static final long serialVersionUID = 1L;
     public static final String USER_NAME = "UserName";

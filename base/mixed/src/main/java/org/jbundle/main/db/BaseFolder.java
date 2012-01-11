@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  BaseFolder - This is a base class for a record that represents a hierarchial folder.
  */
 public class BaseFolder extends VirtualRecord
+     implements org.jbundle.model.main.db.BaseFolderModel
 {
     private static final long serialVersionUID = 1L;
 

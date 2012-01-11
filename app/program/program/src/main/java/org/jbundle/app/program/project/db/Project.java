@@ -27,6 +27,7 @@ import org.jbundle.app.program.project.screen.*;
  *  Project - .
  */
 public class Project extends Folder
+     implements org.jbundle.model.app.program.project.db.ProjectModel
 {
     private static final long serialVersionUID = 1L;
 

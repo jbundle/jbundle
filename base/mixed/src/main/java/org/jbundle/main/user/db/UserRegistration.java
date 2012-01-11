@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  UserRegistration - User registration.
  */
 public class UserRegistration extends VirtualRecord
+     implements org.jbundle.model.main.user.db.UserRegistrationModel
 {
     private static final long serialVersionUID = 1L;
 

@@ -27,6 +27,7 @@ import org.jbundle.thin.base.message.*;
  *  AnnivMaster - Recurring appointments.
  */
 public class AnnivMaster extends VirtualRecord
+     implements org.jbundle.model.main.calendar.db.AnnivMasterModel
 {
     private static final long serialVersionUID = 1L;
 

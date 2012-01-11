@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  IssueType - .
  */
 public class IssueType extends VirtualRecord
+     implements org.jbundle.model.app.program.issue.db.IssueTypeModel
 {
     private static final long serialVersionUID = 1L;
 

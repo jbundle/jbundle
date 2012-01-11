@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  UserLogType - .
  */
 public class UserLogType extends VirtualRecord
+     implements org.jbundle.model.main.user.db.UserLogTypeModel
 {
     private static final long serialVersionUID = 1L;
 

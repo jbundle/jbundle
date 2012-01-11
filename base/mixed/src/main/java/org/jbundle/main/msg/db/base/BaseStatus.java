@@ -35,6 +35,7 @@ The possible status values are:
 The t.
  */
 public class BaseStatus extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.base.BaseStatusModel
 {
     private static final long serialVersionUID = 1L;
 

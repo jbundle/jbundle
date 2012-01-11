@@ -26,6 +26,7 @@ import org.jbundle.thin.base.message.*;
  *  QueueName - Message queues.
  */
 public class QueueName extends VirtualRecord
+     implements org.jbundle.model.main.msg.db.QueueNameModel
 {
     private static final long serialVersionUID = 1L;
 

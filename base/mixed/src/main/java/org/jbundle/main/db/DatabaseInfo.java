@@ -25,6 +25,7 @@ import org.jbundle.model.*;
  *  DatabaseInfo - Database information.
  */
 public class DatabaseInfo extends ControlRecord
+     implements org.jbundle.model.main.db.DatabaseInfoModel
 {
     private static final long serialVersionUID = 1L;
 
