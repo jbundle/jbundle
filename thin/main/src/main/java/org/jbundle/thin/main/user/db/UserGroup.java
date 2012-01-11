@@ -11,6 +11,7 @@ import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 
 public class UserGroup extends org.jbundle.thin.main.db.PropertiesRecord
+    implements org.jbundle.model.main.user.db.UserGroupModel
 {
 
     public UserGroup()

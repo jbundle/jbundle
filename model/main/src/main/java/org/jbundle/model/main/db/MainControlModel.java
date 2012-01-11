@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.db;
 
-public interface MainControlModel extends org.jbundle.model.base.db.ControlRecordModel
+public interface MainControlModel extends org.jbundle.model.db.Rec
 {
 
     public static final String MAIN_CONTROL_FILE = "MainControl";

@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.msg.db;
 
-public interface ProcessTypeModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface ProcessTypeModel extends org.jbundle.model.db.Rec
 {
 
     public static final String PROCESS_TYPE_FILE = "ProcessType";

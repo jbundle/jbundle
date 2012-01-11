@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.msg.db;
 
-public interface RequestTypeModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface RequestTypeModel extends org.jbundle.model.db.Rec
 {
 
     public static final String REQUEST_TYPE_FILE = "RequestType";

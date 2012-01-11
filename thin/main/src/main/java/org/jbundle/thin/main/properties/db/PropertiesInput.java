@@ -11,6 +11,7 @@ import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 
 public class PropertiesInput extends FieldList
+    implements org.jbundle.model.main.properties.db.PropertiesInputModel
 {
 
     public PropertiesInput()

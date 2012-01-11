@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.db;
 
-public interface DatabaseInfoModel extends org.jbundle.model.base.db.ControlRecordModel
+public interface DatabaseInfoModel extends org.jbundle.model.db.Rec
 {
 
     public static final String DATABASE_INFO_FILE = "DatabaseInfo";

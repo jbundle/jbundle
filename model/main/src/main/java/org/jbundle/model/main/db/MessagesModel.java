@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.db;
 
-public interface MessagesModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface MessagesModel extends org.jbundle.model.db.Rec
 {
     public static final String DESCRIPTION = "Description";
 

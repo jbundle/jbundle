@@ -11,6 +11,7 @@ import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 
 public class Script extends org.jbundle.thin.main.db.Folder
+    implements org.jbundle.model.app.program.script.db.ScriptModel
 {
 
     public Script()

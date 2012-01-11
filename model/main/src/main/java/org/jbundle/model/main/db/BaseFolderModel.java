@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.db;
 
-public interface BaseFolderModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface BaseFolderModel extends org.jbundle.model.db.Rec
 {
 
     public static final String BASE_FOLDER_FILE = "Folder";

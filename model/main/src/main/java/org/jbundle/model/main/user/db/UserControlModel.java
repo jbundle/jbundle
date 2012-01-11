@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.user.db;
 
-public interface UserControlModel extends org.jbundle.model.base.db.ControlRecordModel
+public interface UserControlModel extends org.jbundle.model.db.Rec
 {
 
     public static final String USER_CONTROL_FILE = "UserControl";

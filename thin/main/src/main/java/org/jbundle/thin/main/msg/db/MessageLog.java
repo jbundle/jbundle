@@ -11,6 +11,7 @@ import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 
 public class MessageLog extends org.jbundle.thin.base.db.FieldList
+    implements org.jbundle.model.main.msg.db.MessageLogModel
 {
 
     public MessageLog()

@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.user.db;
 
-public interface UserRegistrationModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface UserRegistrationModel extends org.jbundle.model.db.Rec
 {
 
     public static final String USER_REGISTRATION_FILE = "UserRegistration";

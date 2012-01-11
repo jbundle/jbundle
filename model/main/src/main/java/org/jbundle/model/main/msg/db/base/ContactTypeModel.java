@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.msg.db.base;
 
-public interface ContactTypeModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface ContactTypeModel extends org.jbundle.model.db.Rec
 {
 
     public static final String CONTACT_TYPE_FILE = "ContactType";

@@ -11,6 +11,7 @@ import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 
 public class EmptyMemoryRecord extends FieldList
+    implements org.jbundle.model.app.program.script.data.importfix.db.EmptyMemoryRecordModel
 {
 
     public EmptyMemoryRecord()

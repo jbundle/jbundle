@@ -11,6 +11,7 @@ import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 
 public class Folder extends org.jbundle.thin.main.db.BaseFolder
+    implements org.jbundle.model.main.db.FolderModel
 {
 
     public Folder()

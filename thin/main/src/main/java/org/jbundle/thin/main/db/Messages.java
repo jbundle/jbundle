@@ -11,8 +11,8 @@ import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 
 public class Messages extends org.jbundle.thin.base.db.FieldList
+    implements org.jbundle.model.main.db.MessagesModel
 {
-    public static final String DESCRIPTION = "Description";
 
     public Messages()
     {

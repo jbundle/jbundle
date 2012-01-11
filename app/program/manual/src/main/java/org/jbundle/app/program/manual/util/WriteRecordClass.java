@@ -351,11 +351,11 @@ public class WriteRecordClass extends WriteSharedClass
             this.readRecordClass(strBaseClass);     // Return the record to the original position
             ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.kClassProjectID)).getReference();
             String baseClassPackage = classProject.getFullPackage(CodeType.INTERFACE, recClassInfo.getField(ClassInfo.kClassPackage).toString());
-            if (baseClassPackage.equalsIgnoreCase("org.jbundle.model.db"))
+            if ((baseClassPackage.equalsIgnoreCase("org.jbundle.model.db")) || (baseClassPackage.equalsIgnoreCase("org.jbundle.model.base.db")))
                 strBaseClass = "";  // The only interface in the model package is 'Rec'.
             strBaseClass = baseClassPackage + "." + strBaseClass + "Model";
         }
-        if (strBaseClass.equals(""))
+        if ((strBaseClass.equals("")) || (strBaseClass.equals("org.jbundle.model.base.db.Model")))
             strBaseClass = "org.jbundle.model.db.Rec";
         m_StreamOut.writeit("\n");
         
@@ -433,6 +433,7 @@ public class WriteRecordClass extends WriteSharedClass
         String strDBType = recFileHdr.getField(FileHdr.kType).getString(); // Is Remote file?
         strDBType = this.fixDBType(strDBType, "Constants.");
         String strPackage = this.getPackage(CodeType.THIN);
+        String implementsClass = this.getPackage(CodeType.INTERFACE) + '.' + strClassName + "Model";
     // Now, write the field resources (descriptions)
         FieldStuff fieldStuff = new FieldStuff();
         String strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
@@ -466,6 +467,9 @@ public class WriteRecordClass extends WriteSharedClass
         }
         
         m_StreamOut.writeit("public class " + strClassName + " extends " + strBaseClass + "\n");
+        m_StreamOut.setTabs(+1);
+        m_StreamOut.writeit("implements " + implementsClass + "\n");
+        m_StreamOut.setTabs(-1);
         m_StreamOut.writeit("{\n");
         m_StreamOut.setTabs(+1);
 
@@ -486,7 +490,7 @@ public class WriteRecordClass extends WriteSharedClass
                 if (!recFieldData.getField(FieldData.kBaseFieldName).toString().equalsIgnoreCase(recFieldData.getField(FieldData.kBaseFieldName).toString()))
                     concreteClass = false;
             if (concreteClass)
-                if ((methodType & LogicFile.INCLUDE_THIN) != 0)
+                if (((methodType & LogicFile.INCLUDE_THIN) != 0) && ((methodType & LogicFile.INCLUDE_INTERFACE) == 0))
             {
                 String strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
                 String strFieldConstant = this.convertNameToConstant(strFieldName);

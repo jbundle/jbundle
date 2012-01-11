@@ -11,6 +11,7 @@ import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 
 public class Menus extends org.jbundle.thin.main.db.Folder
+    implements org.jbundle.model.main.db.MenusModel
 {
 
     public Menus()

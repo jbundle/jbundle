@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.db;
 
-public interface PropertiesRecordModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface PropertiesRecordModel extends org.jbundle.model.db.Rec
 {
 
     public static final String PROPERTIES_RECORD_FILE = "PropertiesRecord";

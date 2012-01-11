@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.msg.db;
 
-public interface MessageTransportInfoModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface MessageTransportInfoModel extends org.jbundle.model.db.Rec
 {
 
     public static final String MESSAGE_TRANSPORT_INFO_FILE = "MessageTransportInfo";

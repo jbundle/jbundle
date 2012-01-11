@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.msg.db;
 
-public interface MessageLogModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface MessageLogModel extends org.jbundle.model.db.Rec
 {
 
     public static final String MESSAGE_LOG_FILE = "MessageLog";

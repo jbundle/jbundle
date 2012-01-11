@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.calendar.db;
 
-public interface CalendarCategoryModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface CalendarCategoryModel extends org.jbundle.model.db.Rec
 {
 
     public static final String CALENDAR_CATEGORY_FILE = "CalendarCategory";

@@ -11,6 +11,7 @@ import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 
 public class UserResource extends org.jbundle.thin.base.db.FieldList
+    implements org.jbundle.model.main.user.db.UserResourceModel
 {
 
     public UserResource()

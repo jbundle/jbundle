@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.msg.db;
 
-public interface MessageInfoTypeModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface MessageInfoTypeModel extends org.jbundle.model.db.Rec
 {
 
     public static final String MESSAGE_INFO_TYPE_FILE = "MessageInfoType";

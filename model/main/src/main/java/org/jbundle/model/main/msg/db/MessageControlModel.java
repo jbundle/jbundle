@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.msg.db;
 
-public interface MessageControlModel extends org.jbundle.model.base.db.ControlRecordModel
+public interface MessageControlModel extends org.jbundle.model.db.Rec
 {
 
     public static final String MESSAGE_CONTROL_FILE = "MessageControl";

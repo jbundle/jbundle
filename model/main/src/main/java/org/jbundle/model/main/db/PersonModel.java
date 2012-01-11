@@ -5,7 +5,7 @@
  */
 package org.jbundle.model.main.db;
 
-public interface PersonModel extends org.jbundle.model.base.db.VirtualRecordModel
+public interface PersonModel extends org.jbundle.model.db.Rec
 {
 
     public static final String PERSON_FILE = "Person";

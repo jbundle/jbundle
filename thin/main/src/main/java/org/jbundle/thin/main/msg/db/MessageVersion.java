@@ -11,6 +11,7 @@ import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 
 public class MessageVersion extends org.jbundle.thin.base.db.FieldList
+    implements org.jbundle.model.main.msg.db.MessageVersionModel
 {
 
     public MessageVersion()

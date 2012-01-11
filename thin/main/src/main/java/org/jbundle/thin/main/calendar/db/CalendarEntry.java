@@ -11,9 +11,8 @@ import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
 
 public class CalendarEntry extends org.jbundle.thin.base.db.FieldList
+    implements org.jbundle.model.main.calendar.db.CalendarEntryModel
 {
-    public static final String CALENDAR_ENTRY_TYPE_ID = "CalendarEntryTypeID";
-    public static final String DESCRIPTION = "Description";
     public static final int ANNIVERSARY_ID = 2;
     public static final int APPOINTMENT_ID = 1;
 
