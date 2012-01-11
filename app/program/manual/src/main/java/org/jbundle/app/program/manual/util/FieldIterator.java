@@ -16,8 +16,6 @@ import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.db.buff.BaseBuffer;
-import org.jbundle.thin.base.db.buff.VectorBuffer;
 
 
 /**
@@ -205,23 +203,21 @@ import org.jbundle.thin.base.db.buff.VectorBuffer;
                 m_recFieldData.getField(FieldData.kFieldClass).setString(fieldSummary.m_strNewFieldClass);
                 m_recFieldData.getField(FieldData.kDefaultValue).setString(DBConstants.BLANK);
                 m_recFieldData.getField(FieldData.kInitialValue).setString(DBConstants.BLANK);
+                m_recFieldData.getField(FieldData.kIncludeScope).setValue(0);
             }
+            else if (this.inBaseField(fieldSummary.m_strFieldFileName, m_rgstrClasses))
+            {   // This field is in a base record class, so fake the record to think it just overrides the field
+                int scope = (int)(m_recFieldData.getField(FieldData.kIncludeScope).getValue() + 0.5);
+                m_recFieldData.addNew();
+                m_recFieldData.getField(FieldData.kIncludeScope).setValue(scope & ~fieldSummary.m_iIncludeScope);
+                m_recFieldData.getField(FieldData.kBaseFieldName).setString(fieldSummary.m_strFieldName);
+                m_recFieldData.getField(FieldData.kFieldName).setString(fieldSummary.m_strFieldName);
+                m_recFieldData.getField(FieldData.kFieldFileName).setString(m_rgstrClasses[m_rgstrClasses.length-1]);
+            }
+            else if ((fieldSummary.m_iFieldType == FieldSummary.EXTENDED_FIELD) && (!m_recClassInfo.getField(ClassInfo.kClassName).toString().equals(fieldSummary.m_strFieldFileName)))
+                m_recFieldData.getField(FieldData.kIncludeScope).setValue(0);   // Field name not included here
             else
-            {
-                if (this.inBaseField(fieldSummary.m_strFieldFileName, m_rgstrClasses))
-                {   // This field is in a base record class, so fake the record to think it just overrides the field
-//                    BaseBuffer buffer = new VectorBuffer();
-//                    buffer.fieldsToBuffer(m_recFieldData);
-                    double scope = m_recFieldData.getField(FieldData.kIncludeScope).getValue();
-                    m_recFieldData.addNew();
-//                    buffer.bufferToFields(m_recFieldData, true, DBConstants.READ_MOVE);
-                    m_recFieldData.getField(FieldData.kIncludeScope).setValue(scope);
-//                    m_recFieldData.getField(FieldData.kID).setData(null);
-                    m_recFieldData.getField(FieldData.kBaseFieldName).setString(fieldSummary.m_strFieldName);
-                    m_recFieldData.getField(FieldData.kFieldName).setString(fieldSummary.m_strFieldName);
-                    m_recFieldData.getField(FieldData.kFieldFileName).setString(m_rgstrClasses[m_rgstrClasses.length-1]);
-                }
-            }
+                m_recFieldData.getField(FieldData.kIncludeScope).setValue(fieldSummary.m_iIncludeScope);
 
             return m_recFieldData;  // This is the next field data record
             
@@ -292,7 +288,7 @@ import org.jbundle.thin.base.db.buff.VectorBuffer;
         }
         for (int i = 0; i < m_rgstrClasses.length; i++)
         {
-        	this.scanBaseFields(m_rgstrClasses[i]);
+        	this.scanBaseFields(m_rgstrClasses[i], (i == m_rgstrClasses.length - 1));
         	if (m_rgstrClasses[i].equals(strBaseSharedRecord))
         		break;
         }
@@ -359,7 +355,7 @@ import org.jbundle.thin.base.db.buff.VectorBuffer;
     /**
      * @param recClassInfo Must have the base class to scan.
      */
-    private void scanBaseFields(String strBaseClass)
+    private void scanBaseFields(String strBaseClass, boolean topLevel)
     {
         ClassInfo recClassInfo = new ClassInfo(Utility.getRecordOwner(m_recClassInfo));
         FieldData recFieldData = new FieldData(Utility.getRecordOwner(m_recFieldData));
@@ -384,11 +380,8 @@ import org.jbundle.thin.base.db.buff.VectorBuffer;
                 }
                 else
                 {   // If there is a base, replace it with this
-                    FieldSummary fieldSummaryNew = (FieldSummary)m_vFieldList.get(iIndex);
-                    if (strBaseClass.equals(fieldSummaryNew.m_strFieldFileName))
-                        fieldSummary.m_strNewBaseField = fieldSummary.m_strFieldName;   // Special case - New field in a shared override = override base shared field.
-                    fieldSummary.m_iFieldType = FieldSummary.RECORD_FIELD;
-                    m_vFieldList.set(iIndex, fieldSummary);  // Replace this
+                    FieldSummary fieldSummaryBase = (FieldSummary)m_vFieldList.get(iIndex);
+                    m_vFieldList.set(iIndex, fieldSummaryBase.mergeNewSummary(fieldSummary, topLevel, strBaseClass));  // Replace this
                 }
             }
         } catch (DBException ex)    {
@@ -443,11 +436,8 @@ import org.jbundle.thin.base.db.buff.VectorBuffer;
                 }
                 else
                 {   // If there is a base, replace it with this
-                    FieldSummary fieldSummaryNew = (FieldSummary)m_vFieldList.get(iIndex);
-                    if (strClassName.equals(fieldSummaryNew.m_strFieldFileName))
-                        fieldSummary.m_strNewBaseField = fieldSummary.m_strFieldName;   // Special case - New field in a shared override = override base shared field.
-                    fieldSummary.m_iFieldType = FieldSummary.RECORD_FIELD;
-                    m_vFieldList.set(iIndex, fieldSummary);  // Replace this
+                    FieldSummary fieldSummaryBase = (FieldSummary)m_vFieldList.get(iIndex);
+                    m_vFieldList.set(iIndex, fieldSummaryBase.mergeNewSummary(fieldSummary, (iClassIndex >= strClassNames.length - 1), strClassName));  // Replace this
                 }
             }
             
@@ -588,7 +578,34 @@ import org.jbundle.thin.base.db.buff.VectorBuffer;
             this.m_strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
             this.m_strBaseFieldName = recFieldData.getField(FieldData.kBaseFieldName).toString();
             this.m_strFieldFileName = recFieldData.getField(FieldData.kFieldFileName).toString();
+            this.m_iIncludeScope = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + 0.5);
+            this.m_iIncludeScopeCumulative = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + 0.5);
             this.m_iFieldType = iFieldType;
+        }
+        public FieldSummary mergeNewSummary(FieldSummary fieldSummary, boolean topLevel, String strClassName)
+        {
+            if (strClassName.equals(this.m_strFieldFileName))
+                fieldSummary.m_strNewBaseField = fieldSummary.m_strFieldName;   // Special case - New field in a shared override = override base shared field.
+            fieldSummary.m_iFieldType = FieldSummary.RECORD_FIELD;
+            if (this.m_iFieldType == FieldSummary.EXTENDED_FIELD)
+            {
+                fieldSummary.m_iIncludeScope = this.m_iIncludeScopeCumulative;
+                fieldSummary.m_iIncludeScopeCumulative = fieldSummary.m_iIncludeScopeCumulative | this.m_iIncludeScope;
+            }
+            else
+            {
+                if (!topLevel)
+                {
+                    fieldSummary.m_iIncludeScope = this.m_iIncludeScopeCumulative;
+                    fieldSummary.m_iIncludeScopeCumulative = fieldSummary.m_iIncludeScopeCumulative | this.m_iIncludeScope;
+                }
+                else
+                {
+                    fieldSummary.m_iIncludeScopeCumulative = fieldSummary.m_iIncludeScope & ~this.m_iIncludeScopeCumulative;    // Include if it hasn't been included so far
+                    fieldSummary.m_iIncludeScope = fieldSummary.m_iIncludeScopeCumulative;
+                }
+            }
+            return fieldSummary;
         }
         public Object m_objID = null;
         public String m_strFieldName = null;
@@ -598,6 +615,8 @@ import org.jbundle.thin.base.db.buff.VectorBuffer;
         public String m_strNewBaseField = null;
         public String m_strNewFieldClass = null;
         public int m_iFieldType = -1;
+        public int m_iIncludeScope = 0;
+        public int m_iIncludeScopeCumulative = 0;
         
         public static final int BASE_FIELD = 1;
         public static final int RECORD_FIELD = 2;

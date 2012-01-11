@@ -73,6 +73,10 @@ public class FieldList extends Object
      * The recordowner that owns this record.
      */
     protected Object m_recordOwner = null;
+    
+    public static final String ID = "ID";
+    public static final String LAST_CHANGED = "LastChanged";
+    public static final String DELETED = "Deleted";
 
     /**
      * Constructor.

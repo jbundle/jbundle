@@ -12,6 +12,7 @@ import org.jbundle.thin.base.db.*;
 
 public class Messages extends FieldList
 {
+    public static final String DESCRIPTION = "Description";
 
     public Messages()
     {

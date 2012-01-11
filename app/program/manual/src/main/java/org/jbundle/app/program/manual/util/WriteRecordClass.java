@@ -466,12 +466,14 @@ public class WriteRecordClass extends WriteSharedClass
         while (fieldIterator.hasNext())
         {
             fieldIterator.next();
-            int methodType = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + .001);
+            int methodType = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + 0.5);
             boolean concreteClass = true;
             if (recFieldData.getField(FieldData.kID).isNull())  // Only for concrete class
                 concreteClass = false;
+//          if (!recFieldData.getField(FieldData.kFieldFileName).equals(strClassName))
+  //            concreteClass = false;
             if (!recFieldData.getField(FieldData.kBaseFieldName).isNull())
-                if (recFieldData.getField(FieldData.kBaseFieldName).toString().equalsIgnoreCase(recFieldData.getField(FieldData.kBaseFieldName).toString()))
+                if (!recFieldData.getField(FieldData.kBaseFieldName).toString().equalsIgnoreCase(recFieldData.getField(FieldData.kBaseFieldName).toString()))
                     concreteClass = false;
             if (concreteClass)
                 if ((methodType & LogicFile.INCLUDE_THIN) != 0)

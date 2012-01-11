@@ -53,5 +53,42 @@ public class IncludeScopeField extends IntegerField
     {
         super.init(record, strName, iDataLength, strDesc, strDefault);
     }
+    /**
+     * Set up the default screen control for this field.
+     * @param itsLocation Location of this component on screen (ie., GridBagConstraint).
+     * @param targetScreen Where to place this component (ie., Parent screen or GridBagLayout).
+     * @param converter The converter to set the screenfield to.
+     * @param iDisplayFieldDesc Display the label? (optional).
+     * @return Return the component or ScreenField that is created for this field.
+     */
+    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)
+    {
+        ScreenField screenField = null;
+        
+        new SStaticString(itsLocation, targetScreen, DBConstants.BLANK);
+        String strDisplay = converter.getFieldDesc();
+        if ((strDisplay != null) && (strDisplay.length() > 0))
+        {
+            ScreenLocation descLocation = targetScreen.getNextLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
+            SStaticString staticString = new SStaticString(descLocation, targetScreen, strDisplay);
+        }
+        
+        Converter dayConverter = converter;
+        dayConverter = new FieldDescConverter(dayConverter, "Thick");
+        dayConverter = new BitConverter(dayConverter, 0, true, true);
+        itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST_CHECKBOX, ScreenConstants.DONT_SET_ANCHOR);
+        screenField = (ScreenField)dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
+        
+        dayConverter = new FieldDescConverter(dayConverter, "Thin");
+        dayConverter = new BitConverter(dayConverter, 1, true, true);
+        itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST_CHECKBOX, ScreenConstants.DONT_SET_ANCHOR);
+        screenField = (ScreenField)dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
+        
+        dayConverter = new FieldDescConverter(dayConverter, "Interface");
+        dayConverter = new BitConverter(dayConverter, 2, true, true);
+        itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST_CHECKBOX, ScreenConstants.DONT_SET_ANCHOR);
+        screenField = (ScreenField)dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
+        return screenField;
+    }
 
 }

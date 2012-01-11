@@ -12,6 +12,8 @@ import org.jbundle.thin.base.db.*;
 
 public class Appointment extends org.jbundle.thin.main.calendar.db.CalendarEntry
 {
+    public static final String START_DATE_TIME = "StartDateTime";
+    public static final String END_DATE_TIME = "EndDateTime";
 
     public Appointment()
     {
