@@ -12,8 +12,8 @@ import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Environment;
-import org.jbundle.main.msg.db.MessageLog;
-import org.jbundle.main.msg.db.MessageStatus;
+import org.jbundle.model.main.msg.db.MessageLogModel;
+import org.jbundle.model.main.msg.db.MessageStatusModel;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
@@ -106,12 +106,12 @@ public class BaseMessageReplyInProcessor extends BaseExternalMessageProcessor
         BaseMessage messageOrig = null;
         TrxMessageHeader trxMessageHeader = (TrxMessageHeader)messageResponseIn.getMessageHeader();
         String strOrigTrxID = (String)trxMessageHeader.get(TrxMessageHeader.ORIG_LOG_TRX_ID);
-        MessageLog recMessageLog = this.getMessageLog(strOrigTrxID);
+        MessageLogModel recMessageLog = this.getMessageLog(strOrigTrxID);
         if ((recMessageLog != null)
             && ((recMessageLog.getEditMode() == DBConstants.EDIT_CURRENT)
                 || (recMessageLog.getEditMode() == DBConstants.EDIT_IN_PROGRESS)))
         {
-            messageOrig = recMessageLog.createMessage(strOrigTrxID);
+            messageOrig = (BaseMessage)recMessageLog.createMessage(strOrigTrxID);
         }
         return messageOrig;
     }
@@ -125,7 +125,7 @@ public class BaseMessageReplyInProcessor extends BaseExternalMessageProcessor
         TrxMessageHeader trxMessageHeader = (TrxMessageHeader)messageResponseIn.getMessageHeader();
         String strOrigTrxID = (String)trxMessageHeader.get(TrxMessageHeader.ORIG_LOG_TRX_ID);
         String strMessageLogID = (String)trxMessageHeader.get(TrxMessageHeader.LOG_TRX_ID);
-        MessageLog recMessageLog = this.getMessageLog(strOrigTrxID);
+        Record recMessageLog = (Record)this.getMessageLog(strOrigTrxID);
         if ((recMessageLog != null)
             && ((recMessageLog.getEditMode() == DBConstants.EDIT_CURRENT)
                 || (recMessageLog.getEditMode() == DBConstants.EDIT_IN_PROGRESS)))
@@ -133,36 +133,36 @@ public class BaseMessageReplyInProcessor extends BaseExternalMessageProcessor
             try {
                 // First update the log of my sent message
                 recMessageLog.edit();
-                ReferenceField fldReference = (ReferenceField)recMessageLog.getField(MessageLog.kMessageStatusID);
-                if ((fldReference.isNull()) || (!MessageStatus.ERROR.equalsIgnoreCase(fldReference.getReference().getField(MessageStatus.kCode).toString())))
+                ReferenceField fldReference = (ReferenceField)recMessageLog.getField(MessageLogModel.MESSAGE_STATUS_ID);
+                if ((fldReference.isNull()) || (!MessageStatusModel.ERROR.equalsIgnoreCase(fldReference.getReference().getField(MessageStatusModel.CODE).toString())))
                 {   // Can't change error status to something else
-                    int iMessageStatusID = fldReference.getIDFromCode(MessageStatus.SENTOK);
+                    int iMessageStatusID = fldReference.getIDFromCode(MessageStatusModel.SENTOK);
                     if (!bSuccess)
-                        iMessageStatusID = fldReference.getIDFromCode(MessageStatus.IGNORED);
+                        iMessageStatusID = fldReference.getIDFromCode(MessageStatusModel.IGNORED);
                     fldReference.setValue(iMessageStatusID);  // Message status
                 }
-                recMessageLog.getField(MessageLog.kResponseMessageLogID).setString(strMessageLogID);
+                recMessageLog.getField(MessageLogModel.RESPONSE_MESSAGE_LOG_ID).setString(strMessageLogID);
                 recMessageLog.set();
                 // Now update the log of this message.
-                String strOrigContact = recMessageLog.getField(MessageLog.kContactID).toString();
-                String strOrigContactType = recMessageLog.getField(MessageLog.kContactTypeID).toString();
-                String strReferenceType = recMessageLog.getField(MessageLog.kReferenceType).toString();
-                String strReferenceID = recMessageLog.getField(MessageLog.kReferenceID).toString();
-                recMessageLog = this.getMessageLog(strMessageLogID);
+                String strOrigContact = recMessageLog.getField(MessageLogModel.CONTACT_ID).toString();
+                String strOrigContactType = recMessageLog.getField(MessageLogModel.CONTACT_ID).toString();
+                String strReferenceType = recMessageLog.getField(MessageLogModel.REFERENCE_TYPE).toString();
+                String strReferenceID = recMessageLog.getField(MessageLogModel.REFERENCE_ID).toString();
+                recMessageLog = (Record)this.getMessageLog(strMessageLogID);
                 if ((recMessageLog != null)
                         && ((recMessageLog.getEditMode() == DBConstants.EDIT_CURRENT)
                             || (recMessageLog.getEditMode() == DBConstants.EDIT_IN_PROGRESS)))
                 {
                     recMessageLog.edit();
-                    recMessageLog.getField(MessageLog.kResponseMessageLogID).setString(strOrigTrxID);
-                    if ((strOrigContact != null) && (recMessageLog.getField(MessageLog.kContactID).isNull()))
-                        recMessageLog.getField(MessageLog.kContactID).setString(strOrigContact);
-                    if ((strOrigContactType != null) && (recMessageLog.getField(MessageLog.kContactTypeID).isNull()))
-                        recMessageLog.getField(MessageLog.kContactTypeID).setString(strOrigContactType);
-                    if ((strReferenceType != null) && (recMessageLog.getField(MessageLog.kReferenceType).isNull()))
-                        recMessageLog.getField(MessageLog.kReferenceType).setString(strReferenceType);
-                    if ((strReferenceID != null) && (recMessageLog.getField(MessageLog.kReferenceID).isNull()))
-                        recMessageLog.getField(MessageLog.kReferenceID).setString(strReferenceID);
+                    recMessageLog.getField(MessageLogModel.RESPONSE_MESSAGE_LOG_ID).setString(strOrigTrxID);
+                    if ((strOrigContact != null) && (recMessageLog.getField(MessageLogModel.CONTACT_ID).isNull()))
+                        recMessageLog.getField(MessageLogModel.CONTACT_ID).setString(strOrigContact);
+                    if ((strOrigContactType != null) && (recMessageLog.getField(MessageLogModel.CONTACT_TYPE_ID).isNull()))
+                        recMessageLog.getField(MessageLogModel.CONTACT_TYPE_ID).setString(strOrigContactType);
+                    if ((strReferenceType != null) && (recMessageLog.getField(MessageLogModel.REFERENCE_TYPE).isNull()))
+                        recMessageLog.getField(MessageLogModel.REFERENCE_TYPE).setString(strReferenceType);
+                    if ((strReferenceID != null) && (recMessageLog.getField(MessageLogModel.REFERENCE_ID).isNull()))
+                        recMessageLog.getField(MessageLogModel.REFERENCE_ID).setString(strReferenceID);
                     recMessageLog.set();
                 }
             } catch (DBException ex) {

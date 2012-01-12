@@ -106,5 +106,19 @@ public class UserInfo extends org.jbundle.thin.main.db.PropertiesRecord
         keyArea = new KeyAreaInfo(this, Constants.SECONDARY_KEY, "UserName");
         keyArea.addKeyField("UserName", Constants.ASCENDING);
     }
+    /**
+     * GetUserInfo Method.
+     */
+    public boolean getUserInfo(String strUser, boolean bForceRead)
+    {
+        return false; // TODO - Finish thin impl
+    }
+    /**
+     * SetupNewUserHandler Method.
+     */
+    public void setupNewUserHandler()
+    {
+        // TODO Write thin impl
+    }
 
 }

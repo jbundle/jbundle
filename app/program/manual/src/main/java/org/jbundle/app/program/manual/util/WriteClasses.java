@@ -142,7 +142,7 @@ public class WriteClasses extends Screen
                     strRecordType = " ";
                 String strPackage =  classInfo.getField(ClassInfo.kClassPackage).getString();
                 String strFileName = classInfo.getField(ClassInfo.kClassSourceFile).getString();
-                ClassProject classProject = (ClassProject)((ReferenceField)classInfo.getField(ClassInfo.kClassProjectID)).getReference();
+                Record classProject = ((ReferenceField)classInfo.getField(ClassInfo.kClassProjectID)).getReference();
                 if (classProject != null)
                 	if ((classProject.getEditMode() == DBConstants.EDIT_IN_PROGRESS) || (classProject.getEditMode() == DBConstants.EDIT_CURRENT))
                 		if (classProject.getField(ClassProject.kSystemClasses).getState() == true)	// Special system classes, don't generate!

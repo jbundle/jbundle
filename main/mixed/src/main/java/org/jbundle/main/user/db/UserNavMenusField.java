@@ -1,5 +1,5 @@
 /**
- * @(#)UserMenubarField.
+ * @(#)UserNavMenusField.
  * Copyright © 2011 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -25,16 +25,14 @@ import org.jbundle.main.db.*;
 import org.jbundle.main.user.screen.*;
 
 /**
- *  UserMenubarField - .
+ *  UserNavMenusField - .
  */
-public class UserMenubarField extends StringPopupField
+public class UserNavMenusField extends StringPopupField
 {
-    public static final String YES = "";
-    public static final String NO = "No";
     /**
      * Default constructor.
      */
-    public UserMenubarField()
+    public UserNavMenusField()
     {
         super();
     }
@@ -46,7 +44,7 @@ public class UserMenubarField extends StringPopupField
      * @param strDesc The string description (usually pass null, to use the resource file desc).
      * @param strDefault The default value (if object, this value is the default value, if string, the string is the default).
      */
-    public UserMenubarField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
+    public UserNavMenusField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
     {
         this();
         this.init(record, strName, iDataLength, strDesc, strDefault);
@@ -64,8 +62,9 @@ public class UserMenubarField extends StringPopupField
     public String[][] getPopupMap()
     {
         String string[][] = {
-        {YES, "Yes"}, 
-        {NO, "No"}
+        {UserInfo.FULL_MENU, "Full nav-area"},
+        {UserInfo.NO_ICONS, "No left nav-area"}, 
+        {UserInfo.ICONS_ONLY, "Nav icons only"}
         };
         return string;
     }

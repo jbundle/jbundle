@@ -1,5 +1,5 @@
 /**
- * @(#)UserLanguageField.
+ * @(#)UserMenubarField.
  * Copyright © 2011 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -25,17 +25,14 @@ import org.jbundle.main.db.*;
 import org.jbundle.main.user.screen.*;
 
 /**
- *  UserLanguageField - .
+ *  UserMenubarField - .
  */
-public class UserLanguageField extends StringPopupField
+public class UserMenubarField extends StringPopupField
 {
-    public static final String DEFAULT = "";
-    public static final String ENGLISH = "en";
-    public static final String SPANISH = "es";
     /**
      * Default constructor.
      */
-    public UserLanguageField()
+    public UserMenubarField()
     {
         super();
     }
@@ -47,7 +44,7 @@ public class UserLanguageField extends StringPopupField
      * @param strDesc The string description (usually pass null, to use the resource file desc).
      * @param strDefault The default value (if object, this value is the default value, if string, the string is the default).
      */
-    public UserLanguageField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
+    public UserMenubarField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
     {
         this();
         this.init(record, strName, iDataLength, strDesc, strDefault);
@@ -65,9 +62,8 @@ public class UserLanguageField extends StringPopupField
     public String[][] getPopupMap()
     {
         String string[][] = {
-            {DEFAULT, "(default)"}, 
-            {ENGLISH, "English"}, 
-            {SPANISH, "Español"}
+        {UserInfo.YES_DEFAULT, "Yes"}, 
+        {UserInfo.NO, "No"}
         };
         return string;
     }

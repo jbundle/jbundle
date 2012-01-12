@@ -79,5 +79,10 @@ public class MessageControl extends org.jbundle.thin.base.db.FieldList
         keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
         keyArea.addKeyField("ID", Constants.ASCENDING);
     }
+    @Override
+    public String getVersionFromSchemaLocation(String schemaLocation) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

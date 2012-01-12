@@ -23,10 +23,10 @@ import org.jbundle.base.message.trx.message.internal.ManualMessage;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.MessageInfoType;
-import org.jbundle.main.msg.db.MessageStatus;
-import org.jbundle.main.msg.db.MessageTransport;
-import org.jbundle.main.msg.db.MessageType;
+import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
+import org.jbundle.model.main.msg.db.MessageStatusModel;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
+import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
@@ -95,7 +95,7 @@ public class EmailMessageTransport extends BaseMessageTransport
      */
     public String getMessageTransportType()
     {
-        return MessageTransport.EMAIL;
+        return MessageTransportModel.EMAIL;
     }
     /**
      * Get the external message container for this Internal message.
@@ -110,7 +110,7 @@ public class EmailMessageTransport extends BaseMessageTransport
         if (externalTrxMessage == null)
         {
             if ((message.getMessageHeader() != null)
-                    && (MessageType.MESSAGE_IN.equals((String)message.getMessageHeader().get(TrxMessageHeader.MESSAGE_PROCESS_TYPE))))
+                    && (MessageTypeModel.MESSAGE_IN.equals((String)message.getMessageHeader().get(TrxMessageHeader.MESSAGE_PROCESS_TYPE))))
                 externalTrxMessage = new EMailTrxMessageIn(message, (String)rawData);
             else
                 externalTrxMessage = new EMailTrxMessageOut(message, rawData);
@@ -127,7 +127,7 @@ public class EmailMessageTransport extends BaseMessageTransport
         String strSubject = (String)externalMessage.getMessageHeader().get(EmailMessageTransport.SUBJECT_PARAM);
         if (strSubject != null)
             if (strSubject.toUpperCase().startsWith("RE:"))
-                return MessageInfoType.REPLY;   // This is (most likely) a reply to my message.
+                return MessageInfoTypeModel.REPLY;   // This is (most likely) a reply to my message.
         return super.getMessageInfoType(externalMessage);
     }
     /**
@@ -140,7 +140,7 @@ public class EmailMessageTransport extends BaseMessageTransport
         String strSubject = (String)externalMessage.getMessageHeader().get(EmailMessageTransport.SUBJECT_PARAM);
         if (strSubject != null)
             if (strSubject.toUpperCase().startsWith("RE:"))
-                return MessageType.MESSAGE_IN;   // This is (most likely) a reply to my message.
+                return MessageTypeModel.MESSAGE_IN;   // This is (most likely) a reply to my message.
         return super.getMessageProcessType(externalMessage);
     }
     /**
@@ -230,7 +230,7 @@ public class EmailMessageTransport extends BaseMessageTransport
             //xaddress = msg.getAllRecipients(); //Don't do this - bug in javax.mail
             transport.sendMessage(msg, address);
             // send the message
-            this.logMessage(strTrxID, messageOut, MessageInfoType.REQUEST, MessageType.MESSAGE_OUT, MessageStatus.SENT, null, null, null, -1, -1, msg, strDest);
+            this.logMessage(strTrxID, messageOut, MessageInfoTypeModel.REQUEST, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.SENT, null, null, null, -1, -1, msg, strDest);
         } catch (MessagingException mex) {
             mex.printStackTrace();
             String strError = mex.getMessage();
@@ -240,7 +240,7 @@ public class EmailMessageTransport extends BaseMessageTransport
                 strError = strError + ", " + ex.getMessage();
                 ex.printStackTrace();
             }
-            this.logMessage(strTrxID, messageOut, MessageInfoType.REQUEST, MessageType.MESSAGE_OUT, MessageStatus.ERROR, null, null, strError, -1, -1, msg, strDest);
+            this.logMessage(strTrxID, messageOut, MessageInfoTypeModel.REQUEST, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.ERROR, null, null, strError, -1, -1, msg, strDest);
         } finally {
             try
             {

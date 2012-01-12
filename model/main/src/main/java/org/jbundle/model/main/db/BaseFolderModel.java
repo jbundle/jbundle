@@ -7,6 +7,8 @@ package org.jbundle.model.main.db;
 
 public interface BaseFolderModel extends org.jbundle.model.db.Rec
 {
+    public static final String NAME = "Name";
+    public static final String PARENT_FOLDER_ID = "ParentFolderID";
 
     public static final String BASE_FOLDER_FILE = "Folder";
     public static final String THIN_CLASS = "org.jbundle.thin.main.db.BaseFolder";

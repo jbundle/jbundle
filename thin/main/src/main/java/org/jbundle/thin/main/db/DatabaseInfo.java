@@ -82,5 +82,10 @@ public class DatabaseInfo extends org.jbundle.thin.base.db.FieldList
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Name");
         keyArea.addKeyField("Name", Constants.ASCENDING);
     }
+    @Override
+    public void setDatabaseName(String strDatabaseName) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

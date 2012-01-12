@@ -35,7 +35,6 @@ will be handled using the correct databases..
  */
 public class MessageInfoApplication extends MessageApplication
 {
-    public static final String AUTOSTART = "autostart";
     /**
      * Default constructor.
      */

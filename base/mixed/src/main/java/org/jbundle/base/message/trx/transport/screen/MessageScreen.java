@@ -18,10 +18,10 @@ import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.Debug;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.MessageInfoType;
-import org.jbundle.main.msg.db.MessageLog;
-import org.jbundle.main.msg.db.MessageProcessInfo;
-import org.jbundle.main.msg.db.MessageType;
+import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
+import org.jbundle.model.main.msg.db.MessageLogModel;
+import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
+import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.message.BaseMessage;
@@ -132,7 +132,7 @@ public class MessageScreen extends Screen
                 BaseMessage messageReply = this.createReplyMessage(messageIn);
                 this.moveScreenParamsToMessage(messageReply);
                 // Step 2 - Get the body part of the message
-                this.getTransport().setupReplyMessage(messageReply, messageIn, MessageInfoType.REPLY, MessageType.MESSAGE_IN);
+                this.getTransport().setupReplyMessage(messageReply, messageIn, MessageInfoTypeModel.REPLY, MessageTypeModel.MESSAGE_IN);
             
                 this.getTransport().processIncomingMessage(messageReply, null);
             }
@@ -149,7 +149,7 @@ public class MessageScreen extends Screen
     public BaseMessage createReplyMessage(BaseMessage messageIn)
     {
 //            ProductRequest productRequest = (ProductRequest)messageIn.getMessageDataDesc(null);
-        BaseMessage replyMessage = this.getMessageProcessInfo().createReplyMessage(messageIn);
+        BaseMessage replyMessage = (BaseMessage)this.getMessageProcessInfo().createReplyMessage(messageIn);
 
 //        BaseProductResponse responseMessage = (BaseProductResponse)replyMessage.getMessageDataDesc(null);
 //        responseMessage.moveRequestInfoToReply(productRequest);
@@ -162,11 +162,11 @@ public class MessageScreen extends Screen
     /**
      * GetMessageProcessInfo Method.
      */
-    public MessageProcessInfo getMessageProcessInfo()
+    public MessageProcessInfoModel getMessageProcessInfo()
     {
-        if (this.getRecord(MessageProcessInfo.kMessageProcessInfoFile) == null)
-            new MessageProcessInfo(this);
-        return (MessageProcessInfo)this.getRecord(MessageProcessInfo.kMessageProcessInfoFile);
+        if (this.getRecord(MessageProcessInfoModel.MESSAGE_PROCESS_INFO_FILE) == null)
+            Record.makeRecordFromClassName(MessageProcessInfoModel.MESSAGE_PROCESS_INFO_FILE, this);
+        return (MessageProcessInfoModel)this.getRecord(MessageProcessInfoModel.MESSAGE_PROCESS_INFO_FILE);
     }
     /**
      * Move to entered fields to the return message.
@@ -219,9 +219,9 @@ public class MessageScreen extends Screen
         m_message = null;
         if (strTrxID != null)
         {   // Good, they are referencing a transaction (access the transaction properties).
-            MessageLog recMessageLog = (MessageLog)this.getRecord(MessageLog.kMessageLogFile);
+            MessageLogModel recMessageLog = (MessageLogModel)this.getRecord(MessageLogModel.MESSAGE_LOG_FILE);
             if (recMessageLog == null)
-                recMessageLog = new MessageLog(this);
+                recMessageLog = (MessageLogModel)Record.makeRecordFromClassName(MessageLogModel.THICK_CLASS, this);
             if (recMessageLog != null)
                 m_message = (BaseMessage)recMessageLog.createMessage(strTrxID);
         }

@@ -12,7 +12,7 @@ import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.base.message.trx.transport.soap.SOAPMessageTransport;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.MessageTransport;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.message.BaseMessage;
@@ -68,20 +68,20 @@ public abstract class BaseInternalMessageProcessor extends BaseMessageProcessor
         TrxMessageHeader messageHeader = (TrxMessageHeader)internalTrxMessage.getMessageHeader();
         BaseMessageTransport transport = null;
         Map<String,Object> propMessageTransport = null;
-        String strMessageType = (String)messageHeader.get(MessageTransport.SEND_MESSAGE_BY_PARAM);
+        String strMessageType = (String)messageHeader.get(MessageTransportModel.SEND_MESSAGE_BY_PARAM);
         if (strMessageType != null)
         {
             String strClassName = null;
-            Record recMessageTransport = this.getRecord(MessageTransport.kMessageTransportFile);
+            Record recMessageTransport = this.getRecord(MessageTransportModel.MESSAGE_TRANSPORT_FILE);
             if (recMessageTransport == null)
-                recMessageTransport = new MessageTransport(this);
-            recMessageTransport.setKeyArea(MessageTransport.kCodeKey);
-            recMessageTransport.getField(MessageTransport.kCode).setString(strMessageType);
+                recMessageTransport = Record.makeRecordFromClassName(MessageTransportModel.THICK_CLASS, this);
+            recMessageTransport.setKeyArea(MessageTransportModel.CODE_KEY);
+            recMessageTransport.getField(MessageTransportModel.CODE).setString(strMessageType);
             try {
                 if (recMessageTransport.seek(null))
                 {
-                    PropertiesField fldProperty = (PropertiesField)recMessageTransport.getField(MessageTransport.kProperties);
-                    strClassName = fldProperty.getProperty(MessageTransport.TRANSPORT_CLASS_NAME_PARAM);
+                    PropertiesField fldProperty = (PropertiesField)recMessageTransport.getField(MessageTransportModel.PROPERTIES);
+                    strClassName = fldProperty.getProperty(MessageTransportModel.TRANSPORT_CLASS_NAME_PARAM);
                     Map<String,Object> mapToMerge = messageHeader.getMessageTransportMap();
                     propMessageTransport = fldProperty.loadProperties();
                     if (mapToMerge != null)

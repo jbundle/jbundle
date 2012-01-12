@@ -5,22 +5,33 @@
  */
 package org.jbundle.main.properties.db;
 
-import java.awt.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.main.properties.screen.*;
+import org.jbundle.base.db.EmptyKey;
+import org.jbundle.base.db.KeyArea;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.RecordOwner;
+import org.jbundle.base.db.event.FileListener;
+import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.CounterField;
+import org.jbundle.base.field.EmptyField;
+import org.jbundle.base.field.ListenerOwner;
+import org.jbundle.base.field.PropertiesField;
+import org.jbundle.base.field.StringField;
+import org.jbundle.base.screen.model.BasePanel;
+import org.jbundle.base.screen.model.BaseScreen;
+import org.jbundle.base.screen.model.GridScreen;
+import org.jbundle.base.screen.model.Screen;
+import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.base.util.BaseApplication;
+import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.main.properties.screen.PropertiesInputGridScreen;
+import org.jbundle.model.DBException;
+import org.jbundle.model.db.Field;
+import org.jbundle.model.db.ScreenComponent;
+import org.jbundle.thin.base.db.Constants;
 
 /**
  *  PropertiesInput - Memory table for inputting properties.
@@ -158,11 +169,11 @@ public class PropertiesInput extends Record
     /**
      * SetPropertiesField Method.
      */
-    public void setPropertiesField(PropertiesField fldProperties)
+    public void setPropertiesField(Field fldProperties)
     {
         if (fldProperties != null)
         {
-            m_fldProperties = fldProperties;
+            m_fldProperties = (PropertiesField)fldProperties;
             this.loadFieldProperties();
             this.addListener(new FileListener(null)
             {
@@ -186,7 +197,7 @@ public class PropertiesInput extends Record
     /**
      * LoadFieldProperties Method.
      */
-    public void loadFieldProperties(PropertiesField fldProperties)
+    public void loadFieldProperties(Field fldProperties)
     {
         if (fldProperties == null)
             return;
@@ -202,7 +213,7 @@ public class PropertiesInput extends Record
                 this.remove();
             }
             // Now, add the properties to the record
-            Map<String,Object> properties = fldProperties.getProperties();
+            Map<String,Object> properties = ((PropertiesField)fldProperties).getProperties();
             Iterator<String> iterator = properties.keySet().iterator();
             while (iterator.hasNext())
             {
@@ -271,15 +282,15 @@ public class PropertiesInput extends Record
     /**
      * StartEditor Method.
      */
-    public GridScreen startEditor(PropertiesField fldProperties, boolean bAllowAppending, Map<String,Object> mapKeyDescriptions)
+    public ScreenComponent startEditor(Field fldProperties, boolean bAllowAppending, Map<String,Object> mapKeyDescriptions)
     {
         this.setPropertiesField(fldProperties);
-        BaseApplication application = ((BaseApplication)fldProperties.getRecord().getRecordOwner().getTask().getApplication());
+        BaseApplication application = ((BaseApplication)((PropertiesField)fldProperties).getRecord().getRecordOwner().getTask().getApplication());
         BasePanel screenParent = Screen.makeWindow(application);
         GridScreen screen = (GridScreen)this.makeScreen(null, screenParent, ScreenConstants.DISPLAY_MODE, mapKeyDescriptions);
         screen.setAppending(bAllowAppending);
         
-        fldProperties.getRecord().addDependentScreen(screen);
+        ((PropertiesField)fldProperties).getRecord().addDependentScreen(screen);
         
         return screen;
     }

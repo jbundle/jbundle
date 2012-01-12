@@ -68,8 +68,11 @@ public class UserInfo extends PropertiesRecord
     public static final int kUserNameKey = kIDKey + 1;
     public static final int kUserInfoLastKey = kUserNameKey;
     public static final int kUserInfoKeys = kUserNameKey - DBConstants.MAIN_KEY_FIELD + 1;
+    public static final int ENTRY_SCREEN_MODE = ScreenConstants.MAINT_MODE;
     public static final int VERBOSE_MAINT_MODE = ScreenConstants.LAST_MODE * 2;
-    public static final String VERBOSE_MAINT_SCREEN = "Verbose maintenance";
+    public static final int LOGIN_SCREEN_MODE = VERBOSE_MAINT_MODE * 2;
+    public static final int PREFERENCES_SCREEN_MODE = LOGIN_SCREEN_MODE * 2;
+    public static final int PASSWORD_CHANGE_SCREEN_MODE = PREFERENCES_SCREEN_MODE * 2;
     /**
      * Default constructor.
      */
@@ -136,6 +139,12 @@ public class UserInfo extends PropertiesRecord
             screen = new UserInfoGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
         else if ((iDocMode & UserInfo.VERBOSE_MAINT_MODE) == UserInfo.VERBOSE_MAINT_MODE)
             screen = new UserInfoScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        else if ((iDocMode & UserInfo.LOGIN_SCREEN_MODE) == UserInfo.LOGIN_SCREEN_MODE)
+            screen = new UserLoginScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        else if ((iDocMode & UserInfo.PREFERENCES_SCREEN_MODE) == UserInfo.PREFERENCES_SCREEN_MODE)
+            screen = new UserPreferenceScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        else if ((iDocMode & UserInfo.PASSWORD_CHANGE_SCREEN_MODE) == UserInfo.PASSWORD_CHANGE_SCREEN_MODE)
+            screen = new UserPasswordChange(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
         else
             screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
@@ -324,6 +333,14 @@ public class UserInfo extends PropertiesRecord
     {
         if (UserInfo.VERBOSE_MAINT_SCREEN.equalsIgnoreCase(strCommand))
             return UserInfo.VERBOSE_MAINT_MODE;
+        if (UserInfo.LOGIN_SCREEN.equalsIgnoreCase(strCommand))
+            return UserInfo.LOGIN_SCREEN_MODE;
+        if (UserInfo.ENTRY_SCREEN.equalsIgnoreCase(strCommand))
+            return UserInfo.ENTRY_SCREEN_MODE;
+        if (UserInfo.PREFERENCES_SCREEN.equalsIgnoreCase(strCommand))
+            return UserInfo.PREFERENCES_SCREEN_MODE;
+        if (UserInfo.PASSWORD_CHANGE_SCREEN.equalsIgnoreCase(strCommand))
+            return UserInfo.PASSWORD_CHANGE_SCREEN_MODE;
         return super.commandToDocType(strCommand);
     }
     /**
@@ -432,6 +449,13 @@ public class UserInfo extends PropertiesRecord
         if (DBParams.LANGUAGE.equalsIgnoreCase(strProperty))
             return true;
         return false;
+    }
+    /**
+     * SetupNewUserHandler Method.
+     */
+    public void setupNewUserHandler()
+    {
+        this.addListener(new SetupNewUserHandler(null));
     }
 
 }

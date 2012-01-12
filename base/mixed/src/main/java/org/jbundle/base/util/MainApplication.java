@@ -14,13 +14,13 @@ import org.jbundle.base.field.PropertiesField;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.remote.server.RemoteSessionServer;
 import org.jbundle.base.thread.BaseProcess;
-import org.jbundle.main.db.Menus;
-import org.jbundle.main.user.db.UserControl;
-import org.jbundle.main.user.db.UserGroup;
-import org.jbundle.main.user.db.UserInfo;
-import org.jbundle.main.user.db.UserLog;
-import org.jbundle.main.user.db.UserLogType;
-import org.jbundle.main.user.db.UserRegistration;
+import org.jbundle.model.main.db.MenusModel;
+import org.jbundle.model.main.user.db.UserControlModel;
+import org.jbundle.model.main.user.db.UserGroupModel;
+import org.jbundle.model.main.user.db.UserInfoModel;
+import org.jbundle.model.main.user.db.UserLogModel;
+import org.jbundle.model.main.user.db.UserLogTypeModel;
+import org.jbundle.model.main.user.db.UserRegistrationModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
@@ -31,6 +31,12 @@ import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.util.base64.Base64;
+import org.jbundle.thin.main.db.Menus;
+import org.jbundle.thin.main.user.db.UserControl;
+import org.jbundle.thin.main.user.db.UserGroup;
+import org.jbundle.thin.main.user.db.UserInfo;
+import org.jbundle.thin.main.user.db.UserLog;
+import org.jbundle.thin.main.user.db.UserRegistration;
 
 
 /**
@@ -92,7 +98,7 @@ public class MainApplication extends BaseApplication
      */
     public void free()
     {
-        Record recUserRegistration = m_systemRecordOwner.getRecord(UserRegistration.kUserRegistrationFile);
+        Record recUserRegistration = m_systemRecordOwner.getRecord(UserRegistrationModel.USER_REGISTRATION_FILE);
         if (recUserRegistration != null)
         {
             for (UserProperties regKey : m_htRegistration.values())
@@ -103,7 +109,7 @@ public class MainApplication extends BaseApplication
             recUserRegistration = null;
         }
 
-        Record recUserInfo = this.getUserInfo();
+        Record recUserInfo = (Record)this.getUserInfo();
         if (recUserInfo != null)
         {
             if (recUserInfo.isModified(false))
@@ -146,19 +152,19 @@ public class MainApplication extends BaseApplication
         	if (mapDomainPropertyCache != null)
         		if (mapDomainPropertyCache.get(strDomain) != null)
         			return mapDomainPropertyCache.get(strDomain);
-	        Record recMenus = m_systemRecordOwner.getRecord(Menus.kMenusFile);
+	        Record recMenus = m_systemRecordOwner.getRecord(MenusModel.MENUS_FILE);
 	        if (recMenus == null)
-	            recMenus = new Menus(m_systemRecordOwner);
-	        recMenus.setKeyArea(Menus.kCodeKey);
+	            recMenus = Record.makeRecordFromClassName(MenusModel.THICK_CLASS, m_systemRecordOwner);
+	        recMenus.setKeyArea(MenusModel.CODE_KEY);
 	        
 	        try {
 	        	String strSubDomain = strDomain;
 	            while (strSubDomain.length() > 0)
 	            {
-	                recMenus.getField(Menus.kCode).setString(strSubDomain);
+	                recMenus.getField(Menus.CODE).setString(strSubDomain);
 	                if (recMenus.seek("="))
 	                {
-	                    Map<String,Object> properties = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperties();
+	                    Map<String,Object> properties = ((PropertiesField)recMenus.getField(Menus.PARAMS)).getProperties();
 	                    if (properties == null)
 	                    	properties = new HashMap<String,Object>();
 	                    if (properties.get(DBParams.HOME) == null)
@@ -216,13 +222,13 @@ public class MainApplication extends BaseApplication
             if ((this.getProperty(Params.USER_ID) == null) || (this.getProperty(Params.USER_ID).length() == 0))
                 if ((this.getProperty(Params.USER_NAME) == null) || (this.getProperty(Params.USER_NAME).length() == 0))
             {   // If user is not specified (either for no user, or logout), use the anonymous user
-                UserControl recUserControl = null;
+                Record recUserControl = null;
                 if (m_systemRecordOwner != null)
                 {   // Always
-                    recUserControl = (UserControl)m_systemRecordOwner.getRecord(UserControl.kUserControlFile);
+                    recUserControl = m_systemRecordOwner.getRecord(UserControlModel.USER_CONTROL_FILE);
                     if (recUserControl == null)
-                        recUserControl = new UserControl(m_systemRecordOwner);
-                    String strUserID = recUserControl.getField(UserControl.kAnonUserInfoID).getString();
+                        recUserControl = Record.makeRecordFromClassName(UserControlModel.THICK_CLASS, m_systemRecordOwner);
+                    String strUserID = recUserControl.getField(UserControlModel.ANON_USER_INFO_ID).getString();
                     if ((strUserID == null) || (strUserID.length() == 0))
                         strUserID = DBConstants.ANON_USER_ID;
                     this.setProperty(Params.USER_ID, strUserID);
@@ -230,13 +236,13 @@ public class MainApplication extends BaseApplication
             }
             if (this.readUserInfo(false, true) == true)
             {
-                UserInfo recUserInfo = this.getUserInfo();
+                UserInfoModel recUserInfo = this.getUserInfo();
                 if ((strPassword != null) && (strPassword.length() > 0))
                 {
                     while (strPassword.endsWith("%3D")) {
                         strPassword = strPassword.substring(0, strPassword.length() - 3) + "="; // Often converted when passing URLs
                     }
-                    if (!strPassword.equals(recUserInfo.getField(UserInfo.kPassword).toString()))
+                    if (!strPassword.equals(recUserInfo.getField(UserInfoModel.PASSWORD).toString()))
                     {
                         return task.setLastError(this.getString("User name and password do not match"));
                     }
@@ -248,20 +254,20 @@ public class MainApplication extends BaseApplication
                     this.setProperty(DBParams.AUTH_TOKEN, strPassword);    // NO NO NO                    
                 }
 
-                Record recUserGroup = ((ReferenceField)recUserInfo.getField(UserInfo.kUserGroupID)).getReference();
+                Record recUserGroup = ((ReferenceField)recUserInfo.getField(UserInfoModel.USER_GROUP_ID)).getReference();
                 String strSecurityMap = null;
-                Map<String,Object> mapUserProperties = ((PropertiesField)recUserInfo.getField(UserInfo.kProperties)).getProperties();
+                Map<String,Object> mapUserProperties = ((PropertiesField)recUserInfo.getField(UserInfoModel.PROPERTIES)).getProperties();
                 Map<String,Object> mapGroupProperties = null;
                 if (recUserGroup != null)
                 {
-                    strSecurityMap = recUserGroup.getField(UserGroup.kAccessMap).toString();
-                    mapGroupProperties = ((PropertiesField)recUserGroup.getField(UserGroup.kProperties)).getProperties();
+                    strSecurityMap = recUserGroup.getField(UserGroupModel.ACCESS_MAP).toString();
+                    mapGroupProperties = ((PropertiesField)recUserGroup.getField(UserGroupModel.PROPERTIES)).getProperties();
                 }
                 if (strSecurityMap == null)
                     strSecurityMap = DBConstants.BLANK;     // The signals the the user is signed on
                 this.setProperty(Params.SECURITY_MAP, strSecurityMap);
                 this.setProperty(Params.SECURITY_LEVEL, ((strPassword == null) || (strPassword.length() == 0)) ? Integer.toString(Constants.LOGIN_USER) : Integer.toString(Constants.LOGIN_AUTHENTICATED));
-                if ((DBConstants.ANON_USER_ID.equals(recUserInfo.getField(UserInfo.kID).toString()))
+                if ((DBConstants.ANON_USER_ID.equals(recUserInfo.getField(UserInfoModel.ID).toString()))
                         || (recUserInfo == null))
                     this.setProperty(Params.SECURITY_LEVEL, Integer.toString(Constants.LOGIN_USER));   // Special case - If user is anonymous, level is always anonymous
                 Map<String,Object> properties = new Hashtable<String,Object>();
@@ -273,26 +279,26 @@ public class MainApplication extends BaseApplication
                     properties.putAll(mapUserProperties);   // Merge the properties
                 if (recUserInfo != null)
                 {
-                    this.setProperty(DBParams.USER_ID, recUserInfo.getField(UserInfo.kID).toString());
-                    if (!recUserInfo.getField(UserInfo.kUserName).isNull())
-                        this.setProperty(DBParams.USER_NAME, recUserInfo.getField(UserInfo.kUserName).toString());
+                    this.setProperty(DBParams.USER_ID, recUserInfo.getField(UserInfoModel.ID).toString());
+                    if (!recUserInfo.getField(UserInfoModel.USER_NAME).isNull())
+                        this.setProperty(DBParams.USER_NAME, recUserInfo.getField(UserInfoModel.USER_NAME).toString());
                     if (properties != null)
                     {
-                        properties.put(DBParams.USER_ID, recUserInfo.getField(UserInfo.kID).toString());
-                        if (!recUserInfo.getField(UserInfo.kUserName).isNull())
-                            properties.put(DBParams.USER_NAME, recUserInfo.getField(UserInfo.kUserName).toString());
+                        properties.put(DBParams.USER_ID, recUserInfo.getField(UserInfo.ID).toString());
+                        if (!recUserInfo.getField(UserInfoModel.USER_NAME).isNull())
+                            properties.put(DBParams.USER_NAME, recUserInfo.getField(UserInfoModel.USER_NAME).toString());
                         if (this.getProperty(DBParams.AUTH_TOKEN) != null)
                             properties.put(DBParams.AUTH_TOKEN, this.getProperty(DBParams.AUTH_TOKEN));
                     }
                 }
                 m_systemRecordOwner.setProperties(properties);  // These are the user properties
 
-                UserLog recUserLog = null;
+                UserLogModel recUserLog = null;
                 if (m_systemRecordOwner != null)
                 {   // Always
-                    recUserLog = (UserLog)m_systemRecordOwner.getRecord(UserLog.kUserLogFile);
+                    recUserLog = (UserLogModel)m_systemRecordOwner.getRecord(UserLogModel.USER_LOG_FILE);
                     if (recUserLog == null)
-                        recUserLog = new UserLog(m_systemRecordOwner);
+                        recUserLog = (UserLogModel)Record.makeRecordFromClassName(UserLogModel.THICK_CLASS, m_systemRecordOwner);
                 }
                 if (recUserLog != null)
                     if (this.getProperty(DBParams.USER_ID) != null)
@@ -301,7 +307,7 @@ public class MainApplication extends BaseApplication
                 {
                     try {
                         int iUserID = Integer.parseInt(this.getProperty(DBParams.USER_ID));
-                        int iUserLogTypeID = UserLogType.LOGIN;
+                        int iUserLogTypeID = UserLogTypeModel.LOGIN;
                         String strMessage = "Login";
                         recUserLog.log(iUserID, iUserLogTypeID, strMessage);
                     } catch (NumberFormatException e) {
@@ -365,9 +371,9 @@ public class MainApplication extends BaseApplication
             strUserID = this.getProperty(DBParams.USER_NAME);
         if (strUserID == null)
             strUserID = Constants.BLANK;
-        UserInfo recUserInfo = this.getUserInfo();
+        Record recUserInfo = (Record)this.getUserInfo();
         if (recUserInfo == null)
-            recUserInfo = new UserInfo(m_systemRecordOwner);
+            recUserInfo = Record.makeRecordFromClassName(UserInfoModel.THICK_CLASS, m_systemRecordOwner);
         else
         {
             try {
@@ -383,7 +389,7 @@ public class MainApplication extends BaseApplication
                 ex.printStackTrace();
             }
         }
-        boolean bFound = recUserInfo.getUserInfo(strUserID, bForceRead);    // This will read using either the userID or the user name
+        boolean bFound = ((UserInfoModel)recUserInfo).getUserInfo(strUserID, bForceRead);    // This will read using either the userID or the user name
         if (!bFound)
         { // Not found, add new
             int iOpenMode = recUserInfo.getOpenMode();
@@ -395,7 +401,7 @@ public class MainApplication extends BaseApplication
                 recUserInfo.addNew(); // new user
                 if ((strUserID != null) && (strUserID.length() > 0))
                     if (!Utility.isNumeric(strUserID))    // Can't have a numeric userid.
-                        recUserInfo.getField(UserInfo.kUserName).setString(strUserID);
+                        recUserInfo.getField(UserInfoModel.USER_NAME).setString(strUserID);
             } catch (DBException ex)    {
                 bFound = false;
             } finally {
@@ -410,9 +416,9 @@ public class MainApplication extends BaseApplication
      */
     public String getUserID()
     {
-        Record recUserInfo = this.getUserInfo();
+        Record recUserInfo = (Record)this.getUserInfo();
         if (recUserInfo != null)
-            return Converter.stripNonNumber(recUserInfo.getField(UserInfo.kID).toString());
+            return Converter.stripNonNumber(recUserInfo.getField(UserInfoModel.ID).toString());
         else
             return super.getUserID();
     }
@@ -423,9 +429,9 @@ public class MainApplication extends BaseApplication
     public String getUserName()
     {
         String strUserName = null;
-        Record recUserInfo = this.getUserInfo();
+        Record recUserInfo = (Record)this.getUserInfo();
         if (recUserInfo != null)
-            strUserName = recUserInfo.getField(UserInfo.kUserName).toString();
+            strUserName = recUserInfo.getField(UserInfoModel.USER_NAME).toString();
         if ((strUserName == null) || (strUserName.length() == 0))
             strUserName = super.getUserName();
         return strUserName;
@@ -436,14 +442,14 @@ public class MainApplication extends BaseApplication
      */
     public void setLanguage(String strLanguage)
     {
-        Record recUserInfo = this.getUserInfo();
+        Record recUserInfo = (Record)this.getUserInfo();
         if (recUserInfo != null)
         {
-        	boolean flag = recUserInfo.getField(UserInfo.kProperties).isModified();
-        	boolean[] brgEnabled = recUserInfo.getField(UserInfo.kProperties).setEnableListeners(false);
-            ((PropertiesField)recUserInfo.getField(UserInfo.kProperties)).setProperty(DBParams.LANGUAGE, strLanguage);
-            recUserInfo.getField(UserInfo.kProperties).setModified(flag);
-            recUserInfo.getField(UserInfo.kProperties).setEnableListeners(brgEnabled);
+        	boolean flag = recUserInfo.getField(UserInfoModel.PROPERTIES).isModified();
+        	boolean[] brgEnabled = recUserInfo.getField(UserInfoModel.PROPERTIES).setEnableListeners(false);
+            ((PropertiesField)recUserInfo.getField(UserInfoModel.PROPERTIES)).setProperty(DBParams.LANGUAGE, strLanguage);
+            recUserInfo.getField(UserInfoModel.PROPERTIES).setModified(flag);
+            recUserInfo.getField(UserInfoModel.PROPERTIES).setEnableListeners(brgEnabled);
         }
         super.setLanguage(strLanguage);
     }
@@ -453,10 +459,10 @@ public class MainApplication extends BaseApplication
      */
     public String getLanguage(boolean bCheckLocaleAlso)
     {
-        Record recUserInfo = this.getUserInfo();
+        Record recUserInfo = (Record)this.getUserInfo();
         String strLanguage = null;
         if (recUserInfo != null)
-            strLanguage = ((PropertiesField)recUserInfo.getField(UserInfo.kProperties)).getProperty(DBParams.LANGUAGE);
+            strLanguage = ((PropertiesField)recUserInfo.getField(UserInfoModel.PROPERTIES)).getProperty(DBParams.LANGUAGE);
         if ((strLanguage == null) || (strLanguage.length() == 0))
             strLanguage = super.getLanguage(bCheckLocaleAlso);
         return strLanguage;
@@ -545,20 +551,20 @@ public class MainApplication extends BaseApplication
      */
     public Record getUserRegistration()
     {
-        Record recUserRegistration = m_systemRecordOwner.getRecord(UserRegistration.kUserRegistrationFile);
+        Record recUserRegistration = m_systemRecordOwner.getRecord(UserRegistrationModel.USER_REGISTRATION_FILE);
         if (recUserRegistration == null)
-            recUserRegistration = new UserRegistration(m_systemRecordOwner);
+            recUserRegistration = Record.makeRecordFromClassName(UserRegistrationModel.THICK_CLASS, m_systemRecordOwner);
         return recUserRegistration;
     }
     /**
      * Get the user information record.
      * @return The userinfo record.
      */
-    public UserInfo getUserInfo()
+    public UserInfoModel getUserInfo()
     {
-        UserInfo recUserInfo = null;
+        UserInfoModel recUserInfo = null;
         if (m_systemRecordOwner != null)
-            recUserInfo = (UserInfo)m_systemRecordOwner.getRecord(UserInfo.kUserInfoFile);
+            recUserInfo = (UserInfoModel)m_systemRecordOwner.getRecord(UserInfoModel.USER_INFO_FILE);
         return recUserInfo;
     }
     /**

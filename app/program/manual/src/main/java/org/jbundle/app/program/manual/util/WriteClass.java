@@ -163,7 +163,7 @@ public class WriteClass extends BaseProcess
     
         this.writeClassInterface();
     
-        this.writeClassFields(false);        // Write the C++ fields for this class
+        this.writeClassFields(LogicFile.INCLUDE_THICK);        // Write the C++ fields for this class
         this.writeDefaultConstructor(strClassName);
     
         this.writeClassInit();
@@ -427,18 +427,22 @@ public class WriteClass extends BaseProcess
      *  Write out all the data fields for this class (not file fields!)
      * Required: strClassName - Current Class
      */
-    public void writeClassFields(boolean bThinOnly)
+    public void writeClassFields(int targetMethodTypes)
     {
         try   {
+            ClassInfo classInfo = (ClassInfo)this.getRecord(ClassInfo.CLASS_INFO_FILE);
+            boolean isARecord = classInfo.isARecord();
             Record recClassFields = this.getRecord(ClassFields.kClassFieldsFile);
             recClassFields.close();
             while (recClassFields.hasNext())
             {
                 recClassFields.next();
                 int methodType = (int)(recClassFields.getField(ClassFields.kIncludeScope).getValue() + .001);
-                if (bThinOnly)
-                    if ((methodType & LogicFile.INCLUDE_THIN) == 0)
-                        continue;
+                if ((methodType & targetMethodTypes) == 0)
+                    continue;
+                if ((isARecord)
+                        && ((methodType & LogicFile.INCLUDE_INTERFACE) != 0) && ((targetMethodTypes & LogicFile.INCLUDE_INTERFACE) == 0))
+                    continue;   // If this has already been included in the interface, don't include it here
                 String strFieldName = recClassFields.getField(ClassFields.kClassFieldName).getString();
                 String strFieldClass = recClassFields.getField(ClassFields.kClassFieldClass).getString();
                 String strReference = "";

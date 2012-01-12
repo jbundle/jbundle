@@ -7,6 +7,11 @@ package org.jbundle.model.main.user.db;
 
 public interface UserRegistrationModel extends org.jbundle.model.db.Rec
 {
+    public static final String USER_ID = "UserID";
+    public static final String CODE = "Code";
+    public static final String PROPERTIES = "Properties";
+
+    public static final String USER_ID_KEY = "UserID";
 
     public static final String USER_REGISTRATION_FILE = "UserRegistration";
     public static final String THIN_CLASS = "org.jbundle.thin.main.user.db.UserRegistration";

@@ -14,10 +14,10 @@ import org.jbundle.base.message.trx.message.external.XmlTrxMessageIn;
 import org.jbundle.base.message.trx.message.external.XmlTrxMessageOut;
 import org.jbundle.base.message.trx.processor.BaseMessageProcessor;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
-import org.jbundle.main.msg.db.MessageInfoType;
-import org.jbundle.main.msg.db.MessageStatus;
-import org.jbundle.main.msg.db.MessageTransport;
-import org.jbundle.main.msg.db.MessageType;
+import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
+import org.jbundle.model.main.msg.db.MessageStatusModel;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
+import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
@@ -67,7 +67,7 @@ public class XMLMessageTransport extends BaseMessageTransport
      */
     public String getMessageTransportType()
     {
-        return MessageTransport.XML;
+        return MessageTransportModel.XML;
     }
     /**
      * Get the external message container for this Internal message.
@@ -81,7 +81,7 @@ public class XMLMessageTransport extends BaseMessageTransport
         ExternalMessage externalTrxMessageOut = super.createExternalMessage(message, rawData);
         if (externalTrxMessageOut == null)
         {
-            if (MessageType.MESSAGE_IN.equalsIgnoreCase((String)message.get(TrxMessageHeader.MESSAGE_PROCESS_TYPE)))
+            if (MessageTypeModel.MESSAGE_IN.equalsIgnoreCase((String)message.get(TrxMessageHeader.MESSAGE_PROCESS_TYPE)))
                 externalTrxMessageOut = new XmlTrxMessageIn(message, rawData);
             else
                 externalTrxMessageOut = new XmlTrxMessageOut(message, rawData);
@@ -119,7 +119,7 @@ public class XMLMessageTransport extends BaseMessageTransport
             ServletMessage servlet = new ServletMessage(url);
             InputStream in = servlet.sendMessage(properties);
 
-            this.logMessage(strTrxID, messageOut, MessageInfoType.REQUEST, MessageType.MESSAGE_OUT, MessageStatus.SENT, null, null);
+            this.logMessage(strTrxID, messageOut, MessageInfoTypeModel.REQUEST, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.SENT, null, null);
             
             InputStreamReader reader = new InputStreamReader(in);
             BufferedReader buffReader = new BufferedReader(reader);
@@ -144,7 +144,7 @@ public class XMLMessageTransport extends BaseMessageTransport
         } catch(Throwable ex) {
             ex.printStackTrace();
             String strErrorMessage = ex.getMessage();
-            this.logMessage(strTrxID, messageOut, MessageInfoType.REQUEST, MessageType.MESSAGE_OUT, MessageStatus.ERROR, strErrorMessage, null);
+            this.logMessage(strTrxID, messageOut, MessageInfoTypeModel.REQUEST, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.ERROR, strErrorMessage, null);
             return BaseMessageProcessor.processErrorMessage(this, messageOut, strErrorMessage);
         }            
 

@@ -83,5 +83,10 @@ public class ContactType extends org.jbundle.thin.base.db.FieldList
         keyArea = new KeyAreaInfo(this, Constants.SECONDARY_KEY, "Code");
         keyArea.addKeyField("Code", Constants.ASCENDING);
     }
+    @Override
+    public String getContactTypeFromID(String strContactTypeID) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

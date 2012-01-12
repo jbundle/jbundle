@@ -104,7 +104,7 @@ public class WriteResourceClass extends WriteClass
 	    
 	        this.writeClassInterface();
 	    
-	        this.writeClassFields(false);        // Write the C++ fields for this class
+	        this.writeClassFields(LogicFile.INCLUDE_THICK);        // Write the C++ fields for this class
 	
 	        this.writeResources(strClassName);
 	        this.writeMethodInterface(null, "getContents", "Object[][]", "", "", "Get the resource table", null);                   

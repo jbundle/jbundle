@@ -25,8 +25,7 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.MenuConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.user.db.UserInfo;
-import org.jbundle.main.user.screen.SetupNewUserHandler;
+import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Params;
@@ -45,6 +44,7 @@ import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.remote.Unreferenced;
 import org.jbundle.thin.base.util.Application;
+import org.jbundle.thin.main.user.db.UserInfo;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
@@ -328,7 +328,7 @@ public class TaskSession extends BaseTaskSession
     {
         if ((MenuConstants.CHANGE_PASSWORD.equalsIgnoreCase(strCommand)) && (properties != null))
         {
-            UserInfo recUserInfo = new UserInfo(this);
+            Record recUserInfo = Record.makeRecordFromClassName(UserInfoModel.USER_INFO_FILE, this);
             Object objErrorCode = null;
             try {
                 String strUserName = (String)properties.get(Params.USER_NAME);
@@ -336,14 +336,14 @@ public class TaskSession extends BaseTaskSession
                     strUserName = (String)properties.get(Params.USER_ID);
                 String strCurrentPassword = (String)properties.get(Params.PASSWORD);
                 String strNewPassword = (String)properties.get("newPassword");
-                if (recUserInfo.getUserInfo(strUserName, false) == false)
+                if (((UserInfoModel)recUserInfo).getUserInfo(strUserName, false) == false)
                     throw new RemoteException(this.getString("Error, user name is incorrect."));
-                if ((recUserInfo.getField(UserInfo.kPassword).isNull()) || (!recUserInfo.getField(UserInfo.kPassword).toString().equals(strCurrentPassword)))
+                if ((recUserInfo.getField(UserInfoModel.PASSWORD).isNull()) || (!recUserInfo.getField(UserInfo.PASSWORD).toString().equals(strCurrentPassword)))
                     throw new RemoteException(this.getString("Error, current password was incorrect."));
                 if ((strNewPassword == null) || (strNewPassword.length() == 0))
                     throw new RemoteException(this.getString("Error, new password can't be empty."));
                 recUserInfo.edit();
-                recUserInfo.getField(UserInfo.kPassword).setString(strNewPassword);
+                recUserInfo.getField(UserInfoModel.PASSWORD).setString(strNewPassword);
                 recUserInfo.set();
                 objErrorCode = new Integer(DBConstants.NORMAL_RETURN);  // Success!
             } catch (DBException ex) {
@@ -355,17 +355,17 @@ public class TaskSession extends BaseTaskSession
         }
         else if ((MenuConstants.CREATE_NEW_USER.equalsIgnoreCase(strCommand)) && (properties != null))
         {
-            UserInfo recUserInfo = new UserInfo(this);
-            recUserInfo.addListener(new SetupNewUserHandler(null));
+            Record recUserInfo = Record.makeRecordFromClassName(UserInfoModel.THICK_CLASS, this);
+            ((UserInfoModel)recUserInfo).setupNewUserHandler();
             Object objErrorCode = null;
             try {
                 String strUserName = (String)properties.get(Params.USER_NAME);
                 String strPassword = (String)properties.get(Params.PASSWORD);
-                if (recUserInfo.getUserInfo(strUserName, false) == true)
+                if (((UserInfoModel)recUserInfo).getUserInfo(strUserName, false) == true)
                     throw new RemoteException(this.getString("Error, user name already exists."));
                 recUserInfo.addNew();
-                recUserInfo.getField(UserInfo.kUserName).setString(strUserName);
-                recUserInfo.getField(UserInfo.kPassword).setString(strPassword);
+                recUserInfo.getField(UserInfoModel.USER_NAME).setString(strUserName);
+                recUserInfo.getField(UserInfoModel.PASSWORD).setString(strPassword);
                 recUserInfo.add();
                 objErrorCode = new Integer(DBConstants.NORMAL_RETURN);  // Success!
             } catch (DBException ex) {

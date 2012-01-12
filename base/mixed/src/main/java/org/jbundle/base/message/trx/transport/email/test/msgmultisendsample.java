@@ -19,13 +19,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-
-import org.jbundle.base.field.PasswordPropertiesField;
-import org.jbundle.base.message.trx.message.internal.ManualMessage;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.main.msg.db.MessageInfoType;
-import org.jbundle.main.msg.db.MessageStatus;
-import org.jbundle.main.msg.db.MessageType;
 /**
  * msgmultisendsample creates a simple multipart/mixed message and sends
  * it. Both body parts are text/plain.

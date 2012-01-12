@@ -29,10 +29,10 @@ import org.jbundle.base.message.trx.message.external.EMailTrxMessageIn;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.MessageInfoType;
-import org.jbundle.main.msg.db.MessageLog;
-import org.jbundle.main.msg.db.MessageTransport;
-import org.jbundle.main.msg.db.MessageType;
+import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
+import org.jbundle.model.main.msg.db.MessageLogModel;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
+import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.message.BaseMessage;
@@ -112,20 +112,20 @@ public class MessageReceivingPopClientProcess extends BaseProcess
      */
     public Folder getInboxFolder()
     {
-        String strMessageType = MessageTransport.EMAIL;
+        String strMessageType = MessageTransportModel.EMAIL;
         String strClassName = null;
         
-        Record recMessageTransport = this.getRecord(MessageTransport.kMessageTransportFile);
+        Record recMessageTransport = this.getRecord(MessageTransportModel.MESSAGE_TRANSPORT_FILE);
         if (recMessageTransport == null)
-            recMessageTransport = new MessageTransport(this);
-        recMessageTransport.setKeyArea(MessageTransport.kCodeKey);
-        recMessageTransport.getField(MessageTransport.kCode).setString(strMessageType);
+            recMessageTransport = Record.makeRecordFromClassName(MessageTransportModel.THICK_CLASS, this);
+        recMessageTransport.setKeyArea(MessageTransportModel.CODE_KEY);
+        recMessageTransport.getField(MessageTransportModel.CODE).setString(strMessageType);
         Map<String,Object> properties = null;
         try {
             if (recMessageTransport.seek(null))
             {
-                PropertiesField fldProperty = (PropertiesField)recMessageTransport.getField(MessageTransport.kProperties);
-                strClassName = fldProperty.getProperty(MessageTransport.TRANSPORT_CLASS_NAME_PARAM);
+                PropertiesField fldProperty = (PropertiesField)recMessageTransport.getField(MessageTransportModel.PROPERTIES);
+                strClassName = fldProperty.getProperty(MessageTransportModel.TRANSPORT_CLASS_NAME_PARAM);
                 properties = fldProperty.loadProperties();
                 this.setProperties(properties);
             }
@@ -262,11 +262,11 @@ public class MessageReceivingPopClientProcess extends BaseProcess
             String strTrxID = this.getTrxIDFromSubject(strSubject);
             if (strTrxID != null)
             {   // Good, they are referencing a transaction (access the transaction properties).
-                MessageLog recMessageLog = (MessageLog)this.getRecord(MessageLog.kMessageLogFile);
+                MessageLogModel recMessageLog = (MessageLogModel)this.getRecord(MessageLogModel.MESSAGE_LOG_FILE);
                 if (recMessageLog == null)
-                    recMessageLog = new MessageLog(this);
+                    recMessageLog = (MessageLogModel)Record.makeRecordFromClassName(MessageLogModel.THICK_CLASS, this);
                 BaseMessage messageIn = (BaseMessage)recMessageLog.createMessage(strTrxID);
-                msgTransport.setupReplyMessage(messageReply, messageIn, MessageInfoType.REPLY, MessageType.MESSAGE_IN);
+                msgTransport.setupReplyMessage(messageReply, messageIn, MessageInfoTypeModel.REPLY, MessageTypeModel.MESSAGE_IN);
             }
             else
             {   // Error or Incoming request by email?

@@ -4,6 +4,7 @@
 package org.jbundle.model;
 
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -14,6 +15,14 @@ import java.util.ResourceBundle;
 public interface App
     extends Service, Freeable, PropertyOwner
 {
+    /**
+     * Initialize the Application.
+     * @param env Environment is ignored in the thin context.
+     * @param strURL The application parameters as a URL.
+     * @param args The application parameters as an initial arg list.
+     * @param applet The application parameters coming from an applet.
+     */
+    public void init(Object env, Map<String,Object> properties, Object applet);
     /**
      * Get the current language.
      * @param bCheckLocaleAlso If true, and language has not been set, return the system's language

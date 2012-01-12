@@ -19,7 +19,6 @@ import org.jbundle.base.screen.view.data.DJnlpAccessScreen;
 import org.jbundle.base.screen.view.data.DObjectAccessScreen;
 import org.jbundle.base.screen.view.data.DTableAccessScreen;
 import org.jbundle.base.util.DBParams;
-import org.jbundle.main.msg.wsdl.DWsdlAccessScreen;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -101,9 +100,9 @@ public class DataAccessScreen extends BaseScreen
             return new DJnlpAccessScreen(this, bEditableControl);
         if (DBParams.WEBSTART_APPLET_PARAM.equalsIgnoreCase(strDatatype))
             return new DJnlpAccessScreen(this, bEditableControl);
-        if (DBParams.WSDL_PARAM.equalsIgnoreCase(strDatatype))
-            return new DWsdlAccessScreen(this, bEditableControl);
-        else //if (DBParams.IMAGE_PATH.equalsIgnoreCase(strDatatype))
+//        if (DBParams.WSDL_PARAM.equalsIgnoreCase(strDatatype))
+//            return new DWsdlAccessScreen(this, bEditableControl);
+//        else //if (DBParams.IMAGE_PATH.equalsIgnoreCase(strDatatype))
             return new DObjectAccessScreen(this, bEditableControl);
     }
 }

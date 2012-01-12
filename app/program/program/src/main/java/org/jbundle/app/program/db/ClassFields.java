@@ -157,7 +157,7 @@ public class ClassFields extends VirtualRecord
         }
         if (iFieldSeq == kIncludeScope)
         {
-            field = new IntegerField(this, "IncludeScope", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
+            field = new IncludeScopeField(this, "IncludeScope", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (field == null)

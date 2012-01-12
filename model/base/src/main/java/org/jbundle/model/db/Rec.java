@@ -18,6 +18,10 @@ import org.jbundle.model.Task;
 public interface Rec
     extends Freeable
 {
+    public static final String ID = "ID";
+    public static final String LAST_CHANGED = "LastChanged";
+    public static final String DELETED = "Deleted";
+
     /**
      * init.
      */

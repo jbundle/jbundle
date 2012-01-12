@@ -15,6 +15,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.html.DefaultHtmlScreen;
@@ -24,7 +25,7 @@ import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.db.Menus;
+import org.jbundle.model.main.db.MenusModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
@@ -121,22 +122,22 @@ public class XDefaultHtmlScreen extends XBaseScreen
 //x         TaskScheduler js = task.getApplication().getTaskScheduler();
             PrivateTaskScheduler js = new PrivateTaskScheduler(task.getApplication(), 0, true);
             strHTML = "<p>Multiple Job queue: " + strCommand + "</p>";
-            Menus recMenu = new Menus((DefaultHtmlScreen)this.getScreenField());
-            recMenu.setKeyArea(Menus.kCodeKey);
-            recMenu.getField(Menus.kCode).setString(strCommand);
+            Record recMenu = Record.makeRecordFromClassName(MenusModel.THICK_CLASS, ((DefaultHtmlScreen)this.getScreenField()));
+            recMenu.setKeyArea(MenusModel.CODE_KEY);
+            recMenu.getField(MenusModel.CODE).setString(strCommand);
             String strMenuObjectID = null;
             if (recMenu.seek("="))
-                strMenuObjectID = recMenu.getField(Menus.kID).toString();
+                strMenuObjectID = recMenu.getField(MenusModel.ID).toString();
             if ((strMenuObjectID != null) && (strMenuObjectID.length() > 0))
             {
                 recMenu.close();
-                recMenu.setKeyArea(Menus.kParentFolderIDKey);
-                StringSubFileFilter behMenu = new StringSubFileFilter(strMenuObjectID, Menus.kParentFolderID, null, -1, null, -1);
+                recMenu.setKeyArea(MenusModel.PARENT_FOLDER_ID_KEY);
+                StringSubFileFilter behMenu = new StringSubFileFilter(strMenuObjectID, recMenu.getField(MenusModel.PARENT_FOLDER_ID), null, null, null, null);
                 recMenu.addListener(behMenu);
                 while (recMenu.hasNext())
                 {
                     recMenu.next();
-                    String strLink = recMenu.getLink();
+                    String strLink = ((MenusModel)recMenu).getLink();
                     Map<String,Object> properties = new Hashtable<String,Object>();
                     Util.parseArgs(properties, strLink);
                     strCommand = (String)properties.get(DBParams.JOB);

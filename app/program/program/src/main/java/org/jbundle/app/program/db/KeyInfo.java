@@ -44,8 +44,9 @@ public class KeyInfo extends VirtualRecord
     public static final int kKeyField9 = kKeyField8 + 1;
     public static final int kKeyName = kKeyField9 + 1;
     public static final int kKeyType = kKeyName + 1;
-    public static final int kKeyInfoLastField = kKeyType;
-    public static final int kKeyInfoFields = kKeyType - DBConstants.MAIN_FIELD + 1;
+    public static final int kIncludeScope = kKeyType + 1;
+    public static final int kKeyInfoLastField = kIncludeScope;
+    public static final int kKeyInfoFields = kIncludeScope - DBConstants.MAIN_FIELD + 1;
 
     public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
     public static final int kKeyFilenameKey = kIDKey + 1;
@@ -154,6 +155,11 @@ public class KeyInfo extends VirtualRecord
             field = new StringField(this, "KeyName", 40, null, null);
         if (iFieldSeq == kKeyType)
             field = new StringField(this, "KeyType", 1, null, null);
+        if (iFieldSeq == kIncludeScope)
+        {
+            field = new IncludeScopeField(this, "IncludeScope", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
+            field.addListener(new InitOnceFieldHandler(null));
+        }
         if (field == null)
         {
             field = super.setupField(iFieldSeq);

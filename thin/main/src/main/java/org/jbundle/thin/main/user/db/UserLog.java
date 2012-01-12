@@ -80,5 +80,10 @@ public class UserLog extends org.jbundle.thin.base.db.FieldList
         keyArea.addKeyField("UserID", Constants.ASCENDING);
         keyArea.addKeyField("LogTime", Constants.ASCENDING);
     }
+    @Override
+    public void log(int iUserID, int iUserLogTypeID, String strMessage) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

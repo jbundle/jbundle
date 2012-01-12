@@ -131,7 +131,7 @@ public class MessageTimeoutProcess extends BaseInternalMessageProcessor
     public void processMessageTimeout(String strTrxID)
     {
         MessageLog recMessageLog = (MessageLog)this.getMainRecord();
-        BaseMessage message = recMessageLog.createMessage(strTrxID);
+        BaseMessage message = (BaseMessage)recMessageLog.createMessage(strTrxID);
         String strMessageError = "Message timeout";
         BaseMessage messageReply = BaseMessageProcessor.processErrorMessage(this, message, strMessageError);
         if (messageReply != null)    // No reply if null.

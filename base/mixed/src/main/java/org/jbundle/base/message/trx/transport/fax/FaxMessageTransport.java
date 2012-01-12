@@ -7,7 +7,7 @@ import javax.mail.Message;
 
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.transport.email.EmailMessageTransport;
-import org.jbundle.main.msg.db.MessageTransport;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
@@ -53,7 +53,7 @@ public class FaxMessageTransport extends EmailMessageTransport
      */
     public String getMessageTransportType()
     {
-        return MessageTransport.FAX;
+        return MessageTransportModel.FAX;
     }
     /**
      * Get the external message container for this Internal message.

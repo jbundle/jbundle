@@ -6,6 +6,9 @@
 package org.jbundle.thin.main.properties.db;
 
 import java.util.*;
+
+import org.jbundle.model.db.Field;
+import org.jbundle.model.db.ScreenComponent;
 import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
@@ -67,6 +70,22 @@ public class PropertiesInput extends FieldList
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "Key");
         keyArea.addKeyField("Key", Constants.ASCENDING);
+    }
+    @Override
+    public void setPropertiesField(Field fldProperties) {
+        // TODO Auto-generated method stub
+        
+    }
+    @Override
+    public void loadFieldProperties(Field fldProperties) {
+        // TODO Auto-generated method stub
+        
+    }
+    @Override
+    public ScreenComponent startEditor(Field fldProperties,
+            boolean bAllowAppending, Map<String, Object> mapKeyDescriptions) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -26,7 +26,7 @@ import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.db.Menus;
+import org.jbundle.model.main.db.MenusModel;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
@@ -149,47 +149,47 @@ public class MenuScreen extends BaseMenuScreen
             if ((strMenu == null) || (strMenu.length() == 0) || (strMenu == DEFAULT))
                 strMenu = HtmlConstants.MAIN_MENU_KEY;
         }
-        Menus recMenus = (Menus)this.getMainRecord();
+        Record recMenus = this.getMainRecord();
         m_strMenu = strMenu;
-        m_strMenuObjectID = recMenus.getField(Menus.kID).toString();
-        m_strMenuTitle = recMenus.getField(Menus.kName).toString();
+        m_strMenuObjectID = recMenus.getField(MenusModel.ID).toString();
+        m_strMenuTitle = recMenus.getField(MenusModel.NAME).toString();
         int oldKeyArea = recMenus.getDefaultOrder();
         try   {
             boolean bIsNumeric = Utility.isNumeric(strMenu, true);
             if (bIsNumeric)
             {
             	strMenu = Converter.stripNonNumber(strMenu);
-                recMenus.setKeyArea(Menus.kIDKey);
-                recMenus.getField(Menus.kID).setString(strMenu);
+                recMenus.setKeyArea(MenusModel.ID_KEY);
+                recMenus.getField(MenusModel.ID).setString(strMenu);
                 bIsNumeric = recMenus.seek("=");
             }
             if (!bIsNumeric)
             {
-                recMenus.setKeyArea(Menus.kCodeKey);
-                recMenus.getField(Menus.kCode).setString(strMenu);
+                recMenus.setKeyArea(MenusModel.CODE_KEY);
+                recMenus.getField(MenusModel.CODE).setString(strMenu);
                 if (recMenus.seek("="))
                 {
-                    if (!recMenus.getField(Menus.kProgram).isNull())
-                        if (!recMenus.getField(Menus.kProgram).equals(recMenus.getField(Menus.kCode)))
-                            if ("menu".equalsIgnoreCase(recMenus.getField(Menus.kType).toString()))
+                    if (!recMenus.getField(MenusModel.PROGRAM).isNull())
+                        if (!recMenus.getField(MenusModel.PROGRAM).equals(recMenus.getField(MenusModel.CODE)))
+                            if ("menu".equalsIgnoreCase(recMenus.getField(MenusModel.TYPE).toString()))
                     {   // Use a different menu
-                        Map<String,Object> map = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperties();
+                        Map<String,Object> map = ((PropertiesField)recMenus.getField(MenusModel.PARAMS)).getProperties();
                         int iOldKeyArea = recMenus.getDefaultOrder();
-                        recMenus.getField(Menus.kCode).moveFieldToThis(recMenus.getField(Menus.kProgram));
-                        recMenus.setKeyArea(Menus.kCodeKey);
+                        recMenus.getField(MenusModel.CODE).moveFieldToThis(recMenus.getField(MenusModel.PROGRAM));
+                        recMenus.setKeyArea(MenusModel.CODE_KEY);
                         int oldOpenMode = recMenus.getOpenMode();
                         recMenus.setOpenMode(oldOpenMode | DBConstants.OPEN_READ_ONLY);
                         if (recMenus.seek(null))
                         {
-                            strMenu = recMenus.getField(Menus.kID).toString();
+                            strMenu = recMenus.getField(MenusModel.ID).toString();
                             if (map != null)
                             {
 	                            Iterator<? extends Map.Entry<?, ?>> i = map.entrySet().iterator();
 	                            while (i.hasNext()) {
 	                                Map.Entry<?, ?> e = i.next();
-	                            	((PropertiesField)recMenus.getField(Menus.kParams)).setProperty((String)e.getKey(), (String)e.getValue());
+	                            	((PropertiesField)recMenus.getField(MenusModel.PARAMS)).setProperty((String)e.getKey(), (String)e.getValue());
 	                            }
-	                            recMenus.getField(Menus.kParams).setModified(false);	// Make sure this doesn't get written
+	                            recMenus.getField(MenusModel.PARAMS).setModified(false);	// Make sure this doesn't get written
 	                            recMenus.setOpenMode(oldOpenMode);
                             }
                         }
@@ -208,13 +208,13 @@ public class MenuScreen extends BaseMenuScreen
                 	else
                 	{	// Should never happen, the default menu doesn't exist
                 		recMenus.addNew();
-                		((CounterField)recMenus.getField(Menus.kID)).setValue(-1); // Don't read any detail
+                		((CounterField)recMenus.getField(MenusModel.ID)).setValue(-1); // Don't read any detail
                 	}
                 }
             }
-            m_strMenuObjectID = recMenus.getField(Menus.kID).toString();
-            m_strMenu = recMenus.getField(Menus.kCode).toString();
-            m_strMenuTitle = recMenus.getField(Menus.kName).toString();
+            m_strMenuObjectID = recMenus.getField(MenusModel.ID).toString();
+            m_strMenu = recMenus.getField(MenusModel.CODE).toString();
+            m_strMenuTitle = recMenus.getField(MenusModel.NAME).toString();
         } catch (DBException ex)    {
             ex.printStackTrace(); // Never
         }
@@ -230,11 +230,11 @@ public class MenuScreen extends BaseMenuScreen
         super.preSetupGrid(strMenu);
         if (m_strMenuObjectID == null)
             this.setMenuProperty(strMenu);
-        Menus menu = (Menus)this.getMainRecord();
-        menu.setKeyArea(Menus.kParentFolderIDKey);
+        Record menu = this.getMainRecord();
+        menu.setKeyArea(MenusModel.PARENT_FOLDER_ID_KEY);
         if (m_strMenuObjectID != null)
             strMenu = m_strMenuObjectID;
-        StringSubFileFilter behMenu = new StringSubFileFilter(strMenu, Menus.kParentFolderID, null, -1, null, -1);
+        StringSubFileFilter behMenu = new StringSubFileFilter(strMenu, menu.getField(MenusModel.PARENT_FOLDER_ID), null, null, null, null);
         menu.addListener(behMenu);
     }
     /**
@@ -242,7 +242,7 @@ public class MenuScreen extends BaseMenuScreen
      */
     public void postSetupGrid()
     {
-        Menus menu = (Menus)this.getMainRecord();
+        Record menu = this.getMainRecord();
         BaseListener behMenu = menu.getListener(StringSubFileFilter.class.getName());
         menu.removeListener(behMenu, true);
     }
@@ -258,15 +258,15 @@ public class MenuScreen extends BaseMenuScreen
         {   // Look to see if this URL has a menu associated with it.
             strMenu = Utility.getDomainFromURL(strMenu, null);
             // Now I have the domain name, try to lookup the menu name...
-            Menus recMenu = (Menus)this.getMainRecord();
-            recMenu.setKeyArea(Menus.kCodeKey);
+            Record recMenu = this.getMainRecord();
+            recMenu.setKeyArea(MenusModel.CODE_KEY);
             
             try {
                 while (strMenu.length() > 0)
                 {
-                    recMenu.getField(Menus.kCode).setString(strMenu);
+                    recMenu.getField(MenusModel.CODE).setString(strMenu);
                     if (recMenu.seek("="))
-                        return recMenu.getField(Menus.kCode).toString();
+                        return recMenu.getField(MenusModel.CODE).toString();
                     if (strMenu.indexOf('.') == strMenu.lastIndexOf('.'))
                         break;  // xyz.com = stop looking
                     strMenu = strMenu.substring(strMenu.indexOf('.') + 1);  // Remove the next top level domain (ie., www)
@@ -284,7 +284,7 @@ public class MenuScreen extends BaseMenuScreen
      */
     public String getMenuName(Record recMenu)
     {
-        return recMenu.getField(Menus.kName).getString();
+        return recMenu.getField(MenusModel.NAME).getString();
     }
     /**
      * Get menu type.
@@ -293,7 +293,7 @@ public class MenuScreen extends BaseMenuScreen
      */
     public String getMenuType(Record recMenu)
     {
-        return recMenu.getField(Menus.kType).getString();
+        return recMenu.getField(MenusModel.TYPE).getString();
     }
     /**
      * Get menu icon.
@@ -302,7 +302,7 @@ public class MenuScreen extends BaseMenuScreen
      */
     public String getMenuIcon(Record recMenu)
     {
-        return recMenu.getField(Menus.kIconResource).getString();
+        return recMenu.getField(MenusModel.ICON_RESOURCE).getString();
     }
     /**
      * Get menu desc.
@@ -311,7 +311,7 @@ public class MenuScreen extends BaseMenuScreen
      */
     public String getMenuDesc(Record recMenu)
     {
-        return recMenu.getField(Menus.kComment).toString();
+        return recMenu.getField(MenusModel.COMMENT).toString();
     }
     /**
      * Get menu link.
@@ -320,7 +320,7 @@ public class MenuScreen extends BaseMenuScreen
      */
     public String getMenuLink(Record recMenu)
     {
-        return ((Menus)recMenu).getLink();
+        return ((MenusModel)recMenu).getLink();
     }
     /**
      *  OpenMainFile Method.
@@ -328,7 +328,7 @@ public class MenuScreen extends BaseMenuScreen
      */
     public Record openMainRecord()
     {
-        Menus record = new Menus(this);
+        Record record = Record.makeRecordFromClassName(MenusModel.THICK_CLASS, this);
         record.setOpenMode(DBConstants.OPEN_READ_ONLY);   // This will optimize the cache when client is remote.
         return record;
     }

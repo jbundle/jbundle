@@ -16,8 +16,8 @@ import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.DualReportScreen;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
-import org.jbundle.main.user.db.UserNavMenusField;
 import org.jbundle.model.DBException;
+import org.jbundle.model.main.user.db.UserInfoModel;
 
 
 /**
@@ -75,7 +75,7 @@ public class HDualReportScreen extends HBaseReportScreen
     {
         String strForms = this.getProperty(HtmlConstants.FORMS);                // Html page
         if (strForms != null) if (strForms.equalsIgnoreCase(HtmlConstants.DISPLAY))
-            ((BasePanel)this.getScreenField()).setProperty(DBParams.NAVMENUS, UserNavMenusField.NO_ICONS);   // Don't display NAV menus
+            ((BasePanel)this.getScreenField()).setProperty(DBParams.NAVMENUS, UserInfoModel.NO_ICONS);   // Don't display NAV menus
 //x            return;   // Don't display NAV menus
         super.printHtmlNavMenu(out);
     }

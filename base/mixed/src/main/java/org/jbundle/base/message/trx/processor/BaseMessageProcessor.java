@@ -12,19 +12,20 @@ import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.MessageInfo;
-import org.jbundle.main.msg.db.MessageInfoType;
-import org.jbundle.main.msg.db.MessageLog;
-import org.jbundle.main.msg.db.MessageProcessInfo;
-import org.jbundle.main.msg.db.MessageType;
-import org.jbundle.main.msg.db.ProcessType;
-import org.jbundle.main.msg.db.RequestType;
-import org.jbundle.main.msg.db.base.ContactType;
+import org.jbundle.model.main.msg.db.MessageInfoModel;
+import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
+import org.jbundle.model.main.msg.db.MessageLogModel;
+import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
+import org.jbundle.model.main.msg.db.MessageTypeModel;
+import org.jbundle.model.main.msg.db.ProcessTypeModel;
+import org.jbundle.model.main.msg.db.RequestTypeModel;
+import org.jbundle.model.main.msg.db.base.ContactTypeModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.util.ThinUtil;
+import org.jbundle.thin.main.msg.db.MessageProcessInfo;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
@@ -152,16 +153,16 @@ public abstract class BaseMessageProcessor extends BaseProcess
      * @param objTrxID An optional transaction (objectID) ID.
      * @return The Message Log.
      */
-    public MessageLog getMessageLog(Object objTrxID)
+    public MessageLogModel getMessageLog(Object objTrxID)
     {
-        MessageLog recMessageLog = (MessageLog)this.getRecord(MessageLog.kMessageLogFile);
+        MessageLogModel recMessageLog = (MessageLogModel)this.getRecord(MessageLogModel.MESSAGE_LOG_FILE);
         if (recMessageLog == null)
-            recMessageLog = new MessageLog(this);
+            recMessageLog = (MessageLogModel)Record.makeRecordFromClassName(MessageLogModel.THICK_CLASS, this);
         if (recMessageLog != null)
             if (objTrxID != null)
         {
             try {
-                recMessageLog.setHandle(objTrxID, DBConstants.BOOKMARK_HANDLE);
+                ((Record)recMessageLog).setHandle(objTrxID, DBConstants.BOOKMARK_HANDLE);
             } catch (DBException ex)    {
                 ex.printStackTrace();
             }
@@ -181,9 +182,9 @@ public abstract class BaseMessageProcessor extends BaseProcess
             ((TrxMessageHeader)messageOut.getMessageHeader()).put(TrxMessageHeader.MESSAGE_ERROR, strMessageError); // Error Description
         // Get the error message processor for this message/message type
         String strDefaultProcessorClass = null;
-        MessageProcessInfo recMessageProcessInfo = (MessageProcessInfo)recordOwner.getRecord(MessageProcessInfo.kMessageProcessInfoFile);
+        MessageProcessInfoModel recMessageProcessInfo = (MessageProcessInfoModel)recordOwner.getRecord(MessageProcessInfoModel.MESSAGE_PROCESS_INFO_FILE);
         if (recMessageProcessInfo == null)
-            recMessageProcessInfo = new MessageProcessInfo(recordOwner);
+            recMessageProcessInfo = (MessageProcessInfoModel)Record.makeRecordFromClassName(MessageProcessInfo.THICK_CLASS, recordOwner);
         Object objResponseID = messageOut.getMessageHeader().get(TrxMessageHeader.MESSAGE_ERROR_PROCESSOR);
 
         if (objResponseID != null)
@@ -192,7 +193,7 @@ public abstract class BaseMessageProcessor extends BaseProcess
             {
                 recMessageProcessInfo = recMessageProcessInfo.getMessageProcessInfo(objResponseID.toString());
                 if (recMessageProcessInfo != null)
-                    strDefaultProcessorClass = recMessageProcessInfo.getField(MessageProcessInfo.kProcessorClass).toString();
+                    strDefaultProcessorClass = recMessageProcessInfo.getField(MessageProcessInfo.PROCESSOR_CLASS).toString();
             }
             else
                 strDefaultProcessorClass = objResponseID.toString();
@@ -203,19 +204,19 @@ public abstract class BaseMessageProcessor extends BaseProcess
             recMessageProcessInfo = recMessageProcessInfo.getMessageProcessInfo(strMessageProcessInfoID);
             if (recMessageProcessInfo != null)
             {
-                Record recMessageInfo = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kMessageInfoID)).getReference();
+                Record recMessageInfo = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfoModel.MESSAGE_INFO_ID)).getReference();
                 if (recMessageInfo != null)
                     if ((recMessageInfo.getEditMode() == DBConstants.EDIT_CURRENT) || (recMessageInfo.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
                 {
-                    String strMessageInfoType = ((ReferenceField)recMessageInfo.getField(MessageInfo.kMessageInfoTypeID)).getReference().getField(MessageInfoType.kCode).toString();
-                    String strContactType = ((ReferenceField)recMessageInfo.getField(MessageInfo.kContactTypeID)).getReference().getField(ContactType.kCode).toString();
-                    String strRequestType = RequestType.ERROR; 
-                    String strMessageProcessType = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kMessageTypeID)).getReference().getField(MessageType.kCode).toString();
-                    String strProcessType = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kProcessTypeID)).getReference().getField(ProcessType.kCode).toString();
+                    String strMessageInfoType = ((ReferenceField)recMessageInfo.getField(MessageInfoModel.MESSAGE_INFO_TYPE_ID)).getReference().getField(MessageInfoTypeModel.CODE).toString();
+                    String strContactType = ((ReferenceField)recMessageInfo.getField(MessageInfoModel.CONTACT_TYPE_ID)).getReference().getField(ContactTypeModel.CODE).toString();
+                    String strRequestType = RequestTypeModel.ERROR; 
+                    String strMessageProcessType = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfoModel.MESSAGE_TYPE_ID)).getReference().getField(MessageTypeModel.CODE).toString();
+                    String strProcessType = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfoModel.PROCESS_TYPE_ID)).getReference().getField(ProcessTypeModel.CODE).toString();
                     
                     recMessageProcessInfo = recMessageProcessInfo.getMessageProcessInfo(strMessageInfoType, strContactType, strRequestType, strMessageProcessType, strProcessType);
                     if (recMessageProcessInfo != null)
-                        strDefaultProcessorClass = recMessageProcessInfo.getField(MessageProcessInfo.kProcessorClass).toString();
+                        strDefaultProcessorClass = recMessageProcessInfo.getField(MessageProcessInfoModel.PROCESSOR_CLASS).toString();
                 }
             }
         }

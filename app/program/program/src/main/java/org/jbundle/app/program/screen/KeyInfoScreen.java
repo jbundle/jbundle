@@ -99,6 +99,7 @@ public class KeyInfoScreen extends Screen
         this.getRecord(KeyInfo.kKeyInfoFile).getField(KeyInfo.kKeyField7).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(KeyInfo.kKeyInfoFile).getField(KeyInfo.kKeyField8).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(KeyInfo.kKeyInfoFile).getField(KeyInfo.kKeyField9).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(KeyInfo.kKeyInfoFile).getField(KeyInfo.kIncludeScope).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

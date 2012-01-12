@@ -39,8 +39,8 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.user.db.UserJavaField;
 import org.jbundle.model.DBException;
+import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 
@@ -458,23 +458,23 @@ public abstract class ZScreenField extends ScreenFieldViewAdapter
                 { // This is what I'm looking for... the browser type
                     value = value.toUpperCase();
                     if (value.indexOf("MOZILLA/5") != -1)
-                        ch = UserJavaField.WEBSTART.charAt(0); // Browser 5.x... Use plug-in (yeah!)
+                        ch = UserInfoModel.WEBSTART.charAt(0); // Browser 5.x... Use plug-in (yeah!)
                     if (value.indexOf("MOZILLA/4") != -1)
-                        ch = UserJavaField.WEBSTART.charAt(0); // Browser 4.x... must use plug-in
+                        ch = UserInfoModel.WEBSTART.charAt(0); // Browser 4.x... must use plug-in
                     if (value.indexOf("MSIE") != -1)
-                        ch = UserJavaField.WEBSTART.charAt(0); // Microsoft... must use plug-in
+                        ch = UserInfoModel.WEBSTART.charAt(0); // Microsoft... must use plug-in
                     if (value.indexOf("WEBKIT") != -1)
-                        ch = UserJavaField.WEBSTART.charAt(0); // Chrome/Safari... must use plug-in
+                        ch = UserInfoModel.WEBSTART.charAt(0); // Chrome/Safari... must use plug-in
                     if (value.indexOf("CHROME") != -1)
-                        ch = UserJavaField.WEBSTART.charAt(0); // Chrome... must use plug-in
+                        ch = UserInfoModel.WEBSTART.charAt(0); // Chrome... must use plug-in
                     if (value.indexOf("SAFARI") != -1)
-                        ch = UserJavaField.WEBSTART.charAt(0); // Safari... must use plug-in
+                        ch = UserInfoModel.WEBSTART.charAt(0); // Safari... must use plug-in
                     break;
                 }
             }
         }
 
-        if (ch != UserJavaField.PLUG_IN.charAt(0))
+        if (ch != UserInfoModel.PLUG_IN.charAt(0))
         { // Not the plug-in, use jnlp applet tags
         	String strWebStartResourceName = this.getProperty("webStart");
         	if (strWebStartResourceName == null)

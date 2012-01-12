@@ -3,6 +3,7 @@
  */
 package org.jbundle.base.message.trx.transport.client;
 
+import org.jbundle.base.db.Record;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.ExternalMapTrxMessageIn;
 import org.jbundle.base.message.trx.message.external.ExternalMapTrxMessageOut;
@@ -11,9 +12,9 @@ import org.jbundle.base.message.trx.processor.BaseMessageInProcessor;
 import org.jbundle.base.message.trx.processor.BaseMessageProcessor;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.base.message.trx.transport.local.LocalMessageTransport;
-import org.jbundle.main.msg.db.MessageProcessInfo;
-import org.jbundle.main.msg.db.MessageTransport;
-import org.jbundle.main.msg.db.MessageType;
+import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
+import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
@@ -60,7 +61,7 @@ public class ClientMessageTransport extends BaseMessageTransport
      */
     public String getMessageTransportType()
     {
-        return MessageTransport.CLIENT;
+        return MessageTransportModel.CLIENT;
     }
     /**
      * Get the external message container for this Internal message.
@@ -75,7 +76,7 @@ public class ClientMessageTransport extends BaseMessageTransport
         if (externalTrxMessage == null)
         {
             if ((message.getMessageHeader() != null)
-                    && (MessageType.MESSAGE_IN.equals((String)message.getMessageHeader().get(TrxMessageHeader.MESSAGE_PROCESS_TYPE))))
+                    && (MessageTypeModel.MESSAGE_IN.equals((String)message.getMessageHeader().get(TrxMessageHeader.MESSAGE_PROCESS_TYPE))))
                 externalTrxMessage = new ExternalMapTrxMessageIn(message, rawData);
             else
                 externalTrxMessage = new ExternalMapTrxMessageOut(message, rawData);
@@ -98,9 +99,9 @@ public class ClientMessageTransport extends BaseMessageTransport
             trxMessageHeader.getMessageInfoMap().remove(TrxMessageHeader.MESSAGE_PROCESSOR_CLASS);
             trxMessageHeader.getMessageInfoMap().remove(TrxMessageHeader.BASE_PACKAGE);
         }
-        MessageProcessInfo recMessageProcessInfo = (MessageProcessInfo)this.getRecord(MessageProcessInfo.kMessageProcessInfoFile);
+        MessageProcessInfoModel recMessageProcessInfo = (MessageProcessInfoModel)this.getRecord(MessageProcessInfoModel.MESSAGE_PROCESS_INFO_FILE);
         if (recMessageProcessInfo == null)
-            recMessageProcessInfo = new MessageProcessInfo(this);
+            recMessageProcessInfo = (MessageProcessInfoModel)Record.makeRecordFromClassName(MessageProcessInfoModel.THICK_CLASS, this);
         messageOut.setMessageHeader(null);  // Since I am basically change this from out to in
         recMessageProcessInfo.setupMessageHeaderFromCode(messageOut.getMessage(), strMessageCode, null);
         recMessageProcessInfo.free();

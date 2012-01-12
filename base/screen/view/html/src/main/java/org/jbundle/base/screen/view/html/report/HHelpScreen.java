@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.Hashtable;
 import java.util.ResourceBundle;
 
+import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.HelpScreen;
 import org.jbundle.base.screen.model.report.parser.HelpParser;
@@ -24,9 +25,8 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.db.Menus;
-import org.jbundle.main.user.db.UserMenubarField;
-import org.jbundle.main.user.db.UserNavMenusField;
+import org.jbundle.model.main.db.MenusModel;
+import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.DBException;
 
 
@@ -80,7 +80,7 @@ public class HHelpScreen extends HBaseParserScreen
     public void printHtmlNavMenu(PrintWriter out)
         throws DBException
     {
-        if (HHelpScreen.getFirstToUpper(this.getProperty(DBParams.NAVMENUS)) != UserNavMenusField.NO_ICONS.charAt(0))
+        if (HHelpScreen.getFirstToUpper(this.getProperty(DBParams.NAVMENUS)) != UserInfoModel.NO_ICONS.charAt(0))
             super.printHtmlNavMenu(out);
         else
         { // Applets frequently turn off menu bars temporarly
@@ -95,9 +95,9 @@ public class HHelpScreen extends HBaseParserScreen
     public void printHtmlMenubar(PrintWriter out, ResourceBundle reg)
         throws DBException
     {
-        if (HHelpScreen.getFirstToUpper(this.getProperty(DBParams.MENUBARS)) != UserMenubarField.NO.charAt(0))
+        if (HHelpScreen.getFirstToUpper(this.getProperty(DBParams.MENUBARS)) != UserInfoModel.NO.charAt(0))
         {
-            if (HHelpScreen.getFirstToUpper(this.getProperty(DBParams.NAVMENUS)) != UserNavMenusField.NO_ICONS.charAt(0)) // Applets frequently turn off menu bars temporarly
+            if (HHelpScreen.getFirstToUpper(this.getProperty(DBParams.NAVMENUS)) != UserInfoModel.NO_ICONS.charAt(0)) // Applets frequently turn off menu bars temporarly
             {
                 String strHTML = reg.getString("htmlHelpMenubar");
                 Hashtable<String,String> ht = new Hashtable<String,String>();
@@ -140,11 +140,11 @@ public class HHelpScreen extends HBaseParserScreen
                     "<h3>Description:</h3>" +
                     "<p>" + HtmlConstants.MENU_DESC_TAG + "</p>" + 
                     "<h3>Menu items:</h3>";
-            Menus menu = new Menus(null);
-            menu.setKeyArea(Menus.kTypeKey);
-            menu.getField(Menus.kType).setString(DBParams.MENU);
+            Record menu = Record.makeRecordFromClassName(MenusModel.THICK_CLASS, null);
+            menu.setKeyArea(MenusModel.TYPE_KEY);
+            menu.getField(MenusModel.TYPE).setString(DBParams.MENU);
             String strParamMenu = this.getProperty(DBParams.MENU);      // Display record
-            menu.getField(Menus.kProgram).setString(strParamMenu);
+            menu.getField(MenusModel.PROGRAM).setString(strParamMenu);
             boolean bSuccess = menu.seek("=");
             if (!bSuccess)
                 ;   // Do something?

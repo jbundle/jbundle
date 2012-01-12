@@ -25,15 +25,15 @@ import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.MessageInfoType;
-import org.jbundle.main.msg.db.MessageLog;
-import org.jbundle.main.msg.db.MessageProcessInfo;
-import org.jbundle.main.msg.db.MessageStatus;
-import org.jbundle.main.msg.db.MessageTransport;
-import org.jbundle.main.msg.db.MessageType;
-import org.jbundle.main.msg.db.MessageVersion;
-import org.jbundle.main.msg.db.base.ContactType;
-import org.jbundle.main.user.db.UserInfo;
+import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
+import org.jbundle.model.main.msg.db.MessageLogModel;
+import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
+import org.jbundle.model.main.msg.db.MessageStatusModel;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
+import org.jbundle.model.main.msg.db.MessageTypeModel;
+import org.jbundle.model.main.msg.db.MessageVersionModel;
+import org.jbundle.model.main.msg.db.base.ContactTypeModel;
+import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
@@ -41,6 +41,7 @@ import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
 import org.jbundle.thin.base.message.MessageRecordDesc;
+import org.jbundle.thin.main.msg.db.MessageLog;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
@@ -109,14 +110,14 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
     public Map<String,Object> getTransportProperties()
     {
         Map<String,Object> propMessageTransport = null;
-        Record recMessageTransport = new MessageTransport(this);
-        recMessageTransport.setKeyArea(MessageTransport.kCodeKey);
+        Record recMessageTransport = Record.makeRecordFromClassName(MessageTransportModel.THICK_CLASS, this);
+        recMessageTransport.setKeyArea(MessageTransportModel.CODE_KEY);
         String strMessageType = this.getMessageTransportType();
-        recMessageTransport.getField(MessageTransport.kCode).setString(strMessageType);
+        recMessageTransport.getField(MessageTransportModel.CODE).setString(strMessageType);
         try {
             if (recMessageTransport.seek(null))
             {
-                PropertiesField fldProperty = (PropertiesField)recMessageTransport.getField(MessageTransport.kProperties);
+                PropertiesField fldProperty = (PropertiesField)recMessageTransport.getField(MessageTransportModel.PROPERTIES);
                 propMessageTransport = fldProperty.loadProperties();
             }
         } catch (DBException ex) {
@@ -164,7 +165,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
         }
         if (messageReplyIn != null)    // No reply if null.
         {
-            this.setupReplyMessage(messageReplyIn, messageOut, MessageInfoType.REPLY, MessageType.MESSAGE_IN);
+            this.setupReplyMessage(messageReplyIn, messageOut, MessageInfoTypeModel.REPLY, MessageTypeModel.MESSAGE_IN);
             Utility.getLogger().info("externalMessageReply: " + messageReplyIn);
             this.processIncomingMessage(messageReplyIn, messageOut);
         }
@@ -178,8 +179,8 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
      */
     public int convertToExternal(BaseMessage messageOut, BaseInternalMessageProcessor messageOutProcessor)
     {
-        String strMessageInfoType = MessageInfoType.REQUEST;
-        String strMessageProcessType = MessageType.MESSAGE_OUT;
+        String strMessageInfoType = MessageInfoTypeModel.REQUEST;
+        String strMessageProcessType = MessageTypeModel.MESSAGE_OUT;
         if (messageOut.getMessageHeader() != null)
         {
             strMessageInfoType = (String)messageOut.getMessageHeader().get(TrxMessageHeader.MESSAGE_INFO_TYPE);
@@ -187,12 +188,12 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
         }
         if (messageOutProcessor == null)
         {
-            String strDefaultProcessorClass = MessageType.MESSAGE_OUT.equals(strMessageProcessType) ? BaseMessageOutProcessor.class.getName() : BaseMessageReplyOutProcessor.class.getName();
+            String strDefaultProcessorClass = MessageTypeModel.MESSAGE_OUT.equals(strMessageProcessType) ? BaseMessageOutProcessor.class.getName() : BaseMessageReplyOutProcessor.class.getName();
             messageOutProcessor = (BaseInternalMessageProcessor)BaseMessageProcessor.getMessageProcessor(this.getTask(), messageOut, strDefaultProcessorClass);
         }
         messageOut.createMessageDataDesc();
         messageOutProcessor.processMessage(messageOut);
-        String strMessageStatus = MessageType.MESSAGE_OUT.equals(strMessageProcessType) ? MessageStatus.SENT : MessageStatus.SENTOK;   // Reply does not wait for a reply
+        String strMessageStatus = MessageTypeModel.MESSAGE_OUT.equals(strMessageProcessType) ? MessageStatusModel.SENT : MessageStatusModel.SENTOK;   // Reply does not wait for a reply
         ExternalMessage externalTrxMessage = this.createExternalMessage(messageOut, null);
         Utility.getLogger().info("sendMessage  externalTrxMessage = " + externalTrxMessage);
         String strTrxID = this.logMessage(null, messageOut, strMessageInfoType, strMessageProcessType, strMessageStatus, null, null);
@@ -208,7 +209,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
             if ((strMessageDescription == null) || (strMessageDescription.length() == 0))
                 strMessageDescription = "Error converting to external format";
             iErrorCode = this.getTask().setLastError(strMessageDescription);
-            strMessageStatus = MessageStatus.ERROR;
+            strMessageStatus = MessageStatusModel.ERROR;
         }
         this.logMessage(strTrxID, messageOut, strMessageInfoType, strMessageProcessType, strMessageStatus, strMessageDescription, null); // Log it with the external info
         return iErrorCode;
@@ -234,7 +235,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
         messageReplyIn = this.convertExternalReplyToInternal(messageReplyIn, messageOut);
 
         String strMessageInfoType = this.getMessageInfoType(messageReplyIn);
-        String strDefaultProcessorClass = MessageInfoType.REQUEST.equals(strMessageInfoType) ? BaseMessageInProcessor.class.getName() : BaseMessageReplyInProcessor.class.getName();
+        String strDefaultProcessorClass = MessageInfoTypeModel.REQUEST.equals(strMessageInfoType) ? BaseMessageInProcessor.class.getName() : BaseMessageReplyInProcessor.class.getName();
         BaseExternalMessageProcessor messageInProcessor = (BaseExternalMessageProcessor)BaseMessageProcessor.getMessageProcessor(this.getTask(), messageReplyIn, strDefaultProcessorClass);
         Utility.getLogger().info("processIncommingMessage - processor: " + messageInProcessor);
         BaseMessage messageReply = null;
@@ -276,23 +277,23 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
                 return messageReplyIn;   // Probably an error reply message
         String strMessageProcessType = this.getMessageProcessType(messageReplyIn);
         String strMessageInfoType = this.getMessageInfoType(messageReplyIn);
-        if (MessageType.MESSAGE_IN.equals(strMessageProcessType))
+        if (MessageTypeModel.MESSAGE_IN.equals(strMessageProcessType))
         {   // Process a normal message request.
             String strMessageCode = this.getMessageCode(messageReplyIn);
             String strMessageVersion = this.getMessageVersion(messageReplyIn);
             if (strMessageVersion == null)
                 strMessageVersion = this.getTask().getProperty("version");
-            MessageProcessInfo recMessageProcessInfo = (MessageProcessInfo)this.getRecord(MessageProcessInfo.kMessageProcessInfoFile);
+            Record recMessageProcessInfo = this.getRecord(MessageProcessInfoModel.MESSAGE_PROCESS_INFO_FILE);
             if (recMessageProcessInfo == null)
-                recMessageProcessInfo = new MessageProcessInfo(this);
+                recMessageProcessInfo = Record.makeRecordFromClassName(MessageProcessInfoModel.THICK_CLASS, this);
             this.addMessageTransportType(messageReplyIn);  // This will insure I get the transport properties
-            recMessageProcessInfo.setupMessageHeaderFromCode(messageReplyIn, strMessageCode, strMessageVersion);
+            ((MessageProcessInfoModel)recMessageProcessInfo).setupMessageHeaderFromCode(messageReplyIn, strMessageCode, strMessageVersion);
             messageReplyIn.createMessageDataDesc();
         }
 //x        this.createExternalMessage(messageReplyIn, messageReplyIn.getExternalMessage().getRawData());    // Convert the external format to the correct class (if necessary)
         // Step 3- Unmarshall the message into the standard form.
         int iErrorCode = messageReplyIn.getExternalMessage().convertExternalToInternal(this);
-        String strTrxID = this.logMessage(null, messageReplyIn, strMessageInfoType, strMessageProcessType, MessageStatus.RECEIVED, null, null);
+        String strTrxID = this.logMessage(null, messageReplyIn, strMessageInfoType, strMessageProcessType, MessageStatusModel.RECEIVED, null, null);
         Utility.getLogger().info("processIncommingMessage  type: in " + messageReplyIn);
         if (messageOut != null)
             if (messageReplyIn.getMessageDataDesc(null) instanceof MessageRecordDesc)  // Always
@@ -307,7 +308,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
                 if (messageReplyIn.getMessageHeader() instanceof TrxMessageHeader)
                     if (((TrxMessageHeader)messageReplyIn.getMessageHeader()).get(TrxMessageHeader.MESSAGE_ERROR) != null)
                         strMessageError = ((TrxMessageHeader)messageReplyIn.getMessageHeader()).get(TrxMessageHeader.MESSAGE_ERROR).toString();
-                this.logMessage(strTrxID, messageReplyIn, strMessageInfoType, strMessageProcessType, MessageStatus.ERROR, strMessageError, null);
+                this.logMessage(strTrxID, messageReplyIn, strMessageInfoType, strMessageProcessType, MessageStatusModel.ERROR, strMessageError, null);
                 return BaseMessageProcessor.processErrorMessage(this, messageReplyIn, strMessageError);
             }
         return messageReplyIn;
@@ -323,7 +324,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
             if (externalMessage.getMessageHeader() != null)
                 if (externalMessage.getMessageHeader().get(TrxMessageHeader.MESSAGE_INFO_TYPE) != null)
                     return (String)externalMessage.getMessageHeader().get(TrxMessageHeader.MESSAGE_INFO_TYPE);
-        return MessageInfoType.REQUEST;   // Override this to check for sure.
+        return MessageInfoTypeModel.REQUEST;   // Override this to check for sure.
     }
     /**
      * Is this message a reply (or a request).
@@ -335,7 +336,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
         if (externalMessage.getMessageHeader() != null)
             if (externalMessage.getMessageHeader().get(TrxMessageHeader.MESSAGE_PROCESS_TYPE) != null)
                 return (String)externalMessage.getMessageHeader().get(TrxMessageHeader.MESSAGE_PROCESS_TYPE);
-        return MessageType.MESSAGE_IN;   // Override this to check for sure.
+        return MessageTypeModel.MESSAGE_IN;   // Override this to check for sure.
     }
     /**
      * From this external message, figure out the message type.
@@ -357,7 +358,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
     {
         if (externalTrxMessage.getMessageHeader() == null)
             return null;
-        return (String)externalTrxMessage.getMessageHeader().get(MessageVersion.VERSION);
+        return (String)externalTrxMessage.getMessageHeader().get(MessageVersionModel.VERSION);
     }
     /**
      * Set up a message header for this reply using the message header for the original message.
@@ -384,11 +385,11 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
                     ((TrxMessageHeader)messageReply.getMessageHeader()).put(TrxMessageHeader.MESSAGE_PROCESS_TYPE, strMessageProcessType);   // Make sure this is seen as a reply
                 if (((TrxMessageHeader)messageReply.getMessageHeader()).getMessageInfoMap() != null)
                     ((TrxMessageHeader)messageReply.getMessageHeader()).getMessageInfoMap().remove(TrxMessageHeader.MESSAGE_PROCESSOR_CLASS);   // The reply never uses the message in's processor
-                MessageProcessInfo recMessageProcessInfo = (MessageProcessInfo)this.getRecord(MessageProcessInfo.kMessageProcessInfoFile);
+                Record recMessageProcessInfo = this.getRecord(MessageProcessInfoModel.MESSAGE_PROCESS_INFO_FILE);
                 if (recMessageProcessInfo == null)
-                    recMessageProcessInfo = new MessageProcessInfo(this);
+                    recMessageProcessInfo = Record.makeRecordFromClassName(MessageProcessInfoModel.THICK_CLASS, this);
                 this.addMessageTransportType(messageReply);  // This will insure I get the transport properties
-                recMessageProcessInfo.setupMessageHeaderFromCode(messageReply, null, null);
+                ((MessageProcessInfoModel)recMessageProcessInfo).setupMessageHeaderFromCode(messageReply, null, null);
             }
             if (strMessageInfoType != null)
                 ((TrxMessageHeader)messageReply.getMessageHeader()).put(TrxMessageHeader.MESSAGE_INFO_TYPE, strMessageInfoType);   // Make sure this is seen as a reply
@@ -456,12 +457,12 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
     public void addMessageTransportType(BaseMessage externalTrxMessage)
     {
         String strTransportType = this.getMessageTransportType();
-        MessageTransport recMessageTransport = (MessageTransport)this.getRecord(MessageTransport.kMessageTransportFile);
+        Record recMessageTransport = this.getRecord(MessageTransportModel.MESSAGE_TRANSPORT_FILE);
         if (recMessageTransport == null)
-            recMessageTransport = new MessageTransport(this);
+            recMessageTransport = Record.makeRecordFromClassName(MessageTransportModel.THICK_CLASS, this);
         try {
-            recMessageTransport.setKeyArea(MessageTransport.kCodeKey);
-            recMessageTransport.getField(MessageTransport.kCode).setString(strTransportType);
+            recMessageTransport.setKeyArea(MessageTransportModel.CODE_KEY);
+            recMessageTransport.getField(MessageTransportModel.CODE).setString(strTransportType);
             if (recMessageTransport.seek(DBConstants.EQUALS))
             {   // Always
                 TrxMessageHeader trxMessageHeader = (TrxMessageHeader)externalTrxMessage.getMessageHeader();
@@ -473,7 +474,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
                 Map<String,Object> mapTransport = trxMessageHeader.getMessageTransportMap();
                 if (mapTransport == null)
                     mapTransport = new HashMap<String,Object>();
-                mapTransport.put(MessageTransport.TRANSPORT_ID_PARAM, recMessageTransport.getCounterField().toString());
+                mapTransport.put(MessageTransportModel.TRANSPORT_ID_PARAM, recMessageTransport.getCounterField().toString());
                 trxMessageHeader.setMessageTransportMap(mapTransport);
             }
         } catch (DBException ex) {
@@ -496,14 +497,14 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
         int iMessageReferenceID = -1;
 
         Task taskParent = this.getTask();
-        MessageLog recMessageLog = (MessageLog)this.getRecord(MessageLog.kMessageLogFile);
+        Record recMessageLog = this.getRecord(MessageLog.MESSAGE_LOG_FILE);
         if (recMessageLog == null)
-            recMessageLog = new MessageLog(this);
+            recMessageLog = Record.makeRecordFromClassName(MessageLogModel.THICK_CLASS, this);
         try {
             if (strTrxID != null)
             {
-                recMessageLog.getField(MessageLog.kID).setString(strTrxID);
-                recMessageLog.setKeyArea(MessageLog.kID);
+                recMessageLog.getField(MessageLogModel.ID).setString(strTrxID);
+                recMessageLog.setKeyArea(MessageLogModel.ID);
                 if (recMessageLog.seek(null))
                 {
                     recMessageLog.edit();
@@ -513,33 +514,33 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
             }
             if (strTrxID == null)
                 recMessageLog.addNew();
-            ReferenceField fldReference = (ReferenceField)recMessageLog.getField(MessageLog.kMessageInfoTypeID);
+            ReferenceField fldReference = (ReferenceField)recMessageLog.getField(MessageLogModel.MESSAGE_INFO_TYPE_ID);
             int iMessageInfoTypeID = fldReference.getIDFromCode(strMessageInfoType);
             fldReference.setValue(iMessageInfoTypeID);  // Message type
-            fldReference = (ReferenceField)recMessageLog.getField(MessageLog.kMessageTypeID);
+            fldReference = (ReferenceField)recMessageLog.getField(MessageLogModel.MESSAGE_TYPE_ID);
             int iMessageProcessTypeID = fldReference.getIDFromCode(strMessageProcessType);
             fldReference.setValue(iMessageProcessTypeID);  // Message type
             
-            fldReference = (ReferenceField)recMessageLog.getField(MessageLog.kMessageStatusID);
+            fldReference = (ReferenceField)recMessageLog.getField(MessageLogModel.MESSAGE_STATUS_ID);
             String objNativeMessage = null;
             if (objNativeMessage == null)
                 if (trxMessage != null)
                     if (trxMessage.getExternalMessage() != null)
-                        if (!MessageStatus.ERROR.equals(strMessageStatus))
+                        if (!MessageStatusModel.ERROR.equals(strMessageStatus))
                             objNativeMessage = trxMessage.getExternalMessage().toString();
             if (objNativeMessage == null)
                 if (strMessageStatus == null)
-                    strMessageStatus = MessageStatus.TRX_ID_HOLD;
+                    strMessageStatus = MessageStatusModel.TRX_ID_HOLD;
             if (strMessageStatus == null)
-                strMessageStatus = MessageStatus.UNKNOWN;
+                strMessageStatus = MessageStatusModel.UNKNOWN;
             int iMessageTimeout = 0;
             if (trxMessage != null)
-                if (MessageStatus.SENT.equalsIgnoreCase(strMessageStatus))
+                if (MessageStatusModel.SENT.equalsIgnoreCase(strMessageStatus))
                 {
                     if ((trxMessage.getMessageHeader().get(TrxMessageHeader.MESSAGE_RESPONSE_ID) == null)
                         && (trxMessage.getMessageHeader().get(TrxMessageHeader.MESSAGE_RESPONSE_CODE) == null)
                         && (trxMessage.getMessageHeader().get(TrxMessageHeader.MESSAGE_RESPONSE_CLASS) == null))
-                            strMessageStatus = MessageStatus.SENTOK;    // If I'm not expecting a response, status is sent okay.
+                            strMessageStatus = MessageStatusModel.SENTOK;    // If I'm not expecting a response, status is sent okay.
                     else
                         if (trxMessage.getMessageHeader().get(TrxMessageHeader.MESSAGE_TIMEOUT) != null)
                         {
@@ -550,22 +551,22 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
                             }
                         }
                 }
-            recMessageLog.getField(MessageLog.kTimeoutSeconds).setValue(iMessageTimeout);
-            if ((fldReference.isNull()) || (!MessageStatus.ERROR.equalsIgnoreCase(fldReference.getReference().getField(MessageStatus.kCode).toString())))
+            recMessageLog.getField(MessageLogModel.TIMEOUT_SECONDS).setValue(iMessageTimeout);
+            if ((fldReference.isNull()) || (!MessageStatusModel.ERROR.equalsIgnoreCase(fldReference.getReference().getField(MessageStatusModel.CODE).toString())))
             {   // Can't change error status to something else
                 int iMessageStatusID = fldReference.getIDFromCode(strMessageStatus);
                 fldReference.setValue(iMessageStatusID);  // Message type
             }
             
             String strMessageTransport = this.getMessageTransportType();
-            fldReference = (ReferenceField)recMessageLog.getField(MessageLog.kMessageTransportID);
+            fldReference = (ReferenceField)recMessageLog.getField(MessageLogModel.MESSAGE_TRANSPORT_ID);
             int iMessageTransportID = fldReference.getIDFromCode(strMessageTransport);
             fldReference.setValue(iMessageTransportID);  // Message type
             
             String strReferenceType = null;
             int iMessageProcessInfoID = -1;
 
-            if (!MessageStatus.ERROR.equals(strMessageStatus))
+            if (!MessageStatusModel.ERROR.equals(strMessageStatus))
                 if ((trxMessage != null) && (trxMessage.getMessageHeader() != null))
             {
                 TrxMessageHeader trxMessageHeader = (TrxMessageHeader)trxMessage.getMessageHeader();
@@ -576,13 +577,13 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
                     if (strContactType.length() > 0)
                         if (!Utility.isNumeric(strContactType))
                 {       // Convert the contact type from the record name to the ID.
-                    ContactType recContactType = (ContactType)((ReferenceField)recMessageLog.getField(MessageLog.kContactTypeID)).getReferenceRecord();
-                    recContactType.setKeyArea(ContactType.kCodeKey);
-                    recContactType.getField(ContactType.kCode).setString(strContactType);
+                    Record recContactType = ((ReferenceField)recMessageLog.getField(MessageLogModel.CONTACT_TYPE_ID)).getReferenceRecord();
+                    recContactType.setKeyArea(ContactTypeModel.CODE_KEY);
+                    recContactType.getField(ContactTypeModel.CODE).setString(strContactType);
                     try {
                         if (recContactType.seek(null))
                         {   // Success
-                            strContactType = recContactType.getField(ContactType.kID).toString();
+                            strContactType = recContactType.getField(ContactTypeModel.ID).toString();
                         }
                     } catch (DBException ex)    {
                         ex.printStackTrace();
@@ -600,9 +601,9 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
                         iUserID = Integer.parseInt((String)objUserID);
                     else
                     {
-                        UserInfo recUserInfo = new UserInfo(this);
-                        if (recUserInfo.getUserInfo((String)objUserID, false))
-                            iUserID = (int)recUserInfo.getField(UserInfo.kID).getValue();
+                        Record recUserInfo = Record.makeRecordFromClassName(UserInfoModel.THICK_CLASS, this);
+                        if (((UserInfoModel)recUserInfo).getUserInfo((String)objUserID, false))
+                            iUserID = (int)recUserInfo.getField(UserInfoModel.ID).getValue();
                         recUserInfo.free();
                     }
                 }
@@ -634,57 +635,57 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
             }
 
             if (iUserID != -1)
-                recMessageLog.getField(MessageLog.kUserID).setValue(iUserID);
+                recMessageLog.getField(MessageLogModel.USER_ID).setValue(iUserID);
             else if (taskParent != null)
-                recMessageLog.getField(MessageLog.kUserID).setString(((BaseApplication)taskParent.getApplication()).getUserID());
+                recMessageLog.getField(MessageLogModel.USER_ID).setString(((BaseApplication)taskParent.getApplication()).getUserID());
 
             if (strContactType != null)
-                recMessageLog.getField(MessageLog.kContactTypeID).setString(strContactType);
+                recMessageLog.getField(MessageLogModel.CONTACT_TYPE_ID).setString(strContactType);
             if (strContact != null)
-                recMessageLog.getField(MessageLog.kContactID).setString(strContact);
+                recMessageLog.getField(MessageLogModel.CONTACT_ID).setString(strContact);
             if (strMessageDescription != null)
-                recMessageLog.getField(MessageLog.kDescription).setString(strMessageDescription);
-            recMessageLog.getField(MessageLog.kMessageTime).setValue(DateTimeField.currentTime());
+                recMessageLog.getField(MessageLogModel.DESCRIPTION).setString(strMessageDescription);
+            recMessageLog.getField(MessageLogModel.MESSAGE_TIME).setValue(DateTimeField.currentTime());
             if (iMessageProcessInfoID != -1)
-                recMessageLog.getField(MessageLog.kMessageProcessInfoID).setValue(iMessageProcessInfoID);
+                recMessageLog.getField(MessageLogModel.MESSAGE_PROCESS_INFO_ID).setValue(iMessageProcessInfoID);
             if (strReferenceType != null)
-            	recMessageLog.getField(MessageLog.kReferenceType).setString(strReferenceType);
+            	recMessageLog.getField(MessageLogModel.REFERENCE_TYPE).setString(strReferenceType);
             if (iMessageReferenceID != -1)
-                recMessageLog.getField(MessageLog.kReferenceID).setValue(iMessageReferenceID);
+                recMessageLog.getField(MessageLogModel.REFERENCE_ID).setValue(iMessageReferenceID);
             if (strMessageInfoType != null)
-                recMessageLog.getField(MessageLog.kMessageDataType).setString(strMessageInfoType);
+                recMessageLog.getField(MessageLogModel.MESSAGE_DATA_TYPE).setString(strMessageInfoType);
 
-            if (!MessageStatus.ERROR.equals(strMessageStatus))
+            if (!MessageStatusModel.ERROR.equals(strMessageStatus))
                 if (trxMessage != null)
             {
-                recMessageLog.getField(MessageLog.kMessageClassName).setString(trxMessage.getClass().getName());
+                recMessageLog.getField(MessageLogModel.MESSAGE_CLASS_NAME).setString(trxMessage.getClass().getName());
                 if (trxMessage.getMessageHeader() != null)
                 {
-                    recMessageLog.getField(MessageLog.kMessageHeaderClassName).setString(trxMessage.getMessageHeader().getClass().getName());
-                    recMessageLog.getField(MessageLog.kMessageQueueName).setString(trxMessage.getMessageHeader().getQueueName());
-                    recMessageLog.getField(MessageLog.kMessageQueueType).setString(trxMessage.getMessageHeader().getQueueType());
+                    recMessageLog.getField(MessageLogModel.MESSAGE_HEADER_CLASS_NAME).setString(trxMessage.getMessageHeader().getClass().getName());
+                    recMessageLog.getField(MessageLogModel.MESSAGE_QUEUE_NAME).setString(trxMessage.getMessageHeader().getQueueName());
+                    recMessageLog.getField(MessageLogModel.MESSAGE_QUEUE_TYPE).setString(trxMessage.getMessageHeader().getQueueType());
                     Map<String,Object> propHeaderInfo = ((TrxMessageHeader)trxMessage.getMessageHeader()).getMessageInfoMap();
                     if (propHeaderInfo != null)
-                        ((PropertiesField)recMessageLog.getField(MessageLog.kMessageInfoProperties)).setProperties(propHeaderInfo);
+                        ((PropertiesField)recMessageLog.getField(MessageLogModel.MESSAGE_INFO_PROPERTIES)).setProperties(propHeaderInfo);
                     Map<String,Object> propMessageHeader = ((TrxMessageHeader)trxMessage.getMessageHeader()).getMessageHeaderMap();
                     if (propMessageHeader != null)
-                        ((PropertiesField)recMessageLog.getField(MessageLog.kMessageHeaderProperties)).setProperties(propMessageHeader);
+                        ((PropertiesField)recMessageLog.getField(MessageLogModel.MESSAGE_HEADER_PROPERTIES)).setProperties(propMessageHeader);
                     Map<String,Object> propHeaderTransport = ((TrxMessageHeader)trxMessage.getMessageHeader()).getMessageTransportMap();
                     if (propHeaderTransport != null)
-                        ((PropertiesField)recMessageLog.getField(MessageLog.kMessageTransportProperties)).setProperties(propHeaderTransport);
+                        ((PropertiesField)recMessageLog.getField(MessageLogModel.MESSAGE_TRANSPORT_PROPERTIES)).setProperties(propHeaderTransport);
                 }
                 String strMessage = trxMessage.getXML(false);
-                recMessageLog.getField(MessageLog.kXMLMessageData).setString(strMessage);
+                recMessageLog.getField(MessageLogModel.XML_MESSAGE_DATA).setString(strMessage);
                 if (trxMessage.getMessageDataDesc(null) != null)
-                    recMessageLog.getField(MessageLog.kMessageDataClassName).setString(trxMessage.getMessageDataDesc(null).getClass().getName());
+                    recMessageLog.getField(MessageLogModel.MESSAGE_DATA_CLASS_NAME).setString(trxMessage.getMessageDataDesc(null).getClass().getName());
                 if (trxMessage.getExternalMessage() != null)
-                    recMessageLog.getField(MessageLog.kExternalMessageClassName).setString(trxMessage.getExternalMessage().getClass().getName());
+                    recMessageLog.getField(MessageLogModel.EXTERNAL_MESSAGE_CLASS_NAME).setString(trxMessage.getExternalMessage().getClass().getName());
             }
             if (objNativeMessage != null)
-                recMessageLog.getField(MessageLog.kMessageData).setString(objNativeMessage.toString());
+                recMessageLog.getField(MessageLogModel.MESSAGE_DATA).setString(objNativeMessage.toString());
 
-            if (MessageStatus.ERROR.equals(strMessageStatus))
-                recMessageLog.getField(MessageLog.kErrorText).setString(strMessageDescription);
+            if (MessageStatusModel.ERROR.equals(strMessageStatus))
+                recMessageLog.getField(MessageLogModel.ERROR_TEXT).setString(strMessageDescription);
 
             if (strTrxID == null)
             {
@@ -702,7 +703,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
             // recMessageLog.free();
         }
         
-        if ((MessageStatus.TRX_ID_HOLD.equals(strMessageStatus)) || (strTrxIDIn == null))
+        if ((MessageStatusModel.TRX_ID_HOLD.equals(strMessageStatus)) || (strTrxIDIn == null))
             if (trxMessage != null)
                 if (trxMessage.getMessageHeader() instanceof TrxMessageHeader)
                     ((TrxMessageHeader)trxMessage.getMessageHeader()).put(TrxMessageHeader.LOG_TRX_ID, strTrxID);

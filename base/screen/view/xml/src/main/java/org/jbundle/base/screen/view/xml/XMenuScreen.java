@@ -9,8 +9,9 @@ package org.jbundle.base.screen.view.xml;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.main.db.Menus;
+import org.jbundle.model.main.db.MenusModel;
 
 /**
  * ScreenField - This is the information which tells the system about a field on the
@@ -56,9 +57,9 @@ public class XMenuScreen extends XBaseMenuScreen
      */
     public String getHtmlKeywords()
     {
-        Menus recMenu = (Menus)this.getMainRecord();
-        if (recMenu.getField(Menus.kKeywords).getLength() > 0)
-            return recMenu.getField(Menus.kKeywords).toString();
+        Record recMenu = this.getMainRecord();
+        if (recMenu.getField(MenusModel.KEYWORDS).getLength() > 0)
+            return recMenu.getField(MenusModel.KEYWORDS).toString();
         else
             return super.getHtmlKeywords();
     }
@@ -67,9 +68,9 @@ public class XMenuScreen extends XBaseMenuScreen
      */
     public String getHtmlMenudesc()
     {
-        Menus recMenu = (Menus)this.getMainRecord();
-        if (recMenu.getField(Menus.kComment).getLength() > 0)
-            return recMenu.getField(Menus.kComment).toString();
+        Record recMenu = this.getMainRecord();
+        if (recMenu.getField(MenusModel.COMMENT).getLength() > 0)
+            return recMenu.getField(MenusModel.COMMENT).toString();
         else
             return super.getHtmlMenudesc();
     }

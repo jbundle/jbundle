@@ -64,24 +64,27 @@ public class DependentFileFilter extends FileFilter
     public DependentFileFilter(int iFieldSeq, int iFieldSeq2, int iFieldSeq3)
     {
         this();
-        this.init(null, iFieldSeq, iFieldSeq2, iFieldSeq3);
+        this.init(null, iFieldSeq, null, iFieldSeq2, null, iFieldSeq3, null);
     }
     /**
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      * @param iFieldSeq The First field sequence of the key.
+     * @param fldThisFile TODO
      * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
+     * @param fldThisFile2 TODO
      * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
+     * @param fldThisFile3 TODO
      */
-    public void init(Record record, int iFieldSeq, int iFieldSeq2, int iFieldSeq3)
+    public void init(Record record, int iFieldSeq, BaseField fldThisFile, int iFieldSeq2, BaseField fldThisFile2, int iFieldSeq3, BaseField fldThisFile3)
     {
         super.init(record);
         m_iThisFileFieldSeq = iFieldSeq;
-        m_fldThisFile = null;
+        m_fldThisFile = fldThisFile;
         m_iThisFileFieldSeq2 = iFieldSeq2;
-        m_fldThisFile2 = null;
+        m_fldThisFile2 = fldThisFile2;
         m_iThisFileFieldSeq3 = iFieldSeq3;
-        m_fldThisFile3 = null;
+        m_fldThisFile3 = fldThisFile3;
         m_bInitialKey = true;
         m_bEndKey = true;
     }
@@ -95,12 +98,15 @@ public class DependentFileFilter extends FileFilter
         super.setOwner(owner);
         if (owner == null)
             return;
-        if (m_iThisFileFieldSeq != -1)
-            m_fldThisFile = this.getOwner().getField(m_iThisFileFieldSeq);
-        if (m_iThisFileFieldSeq2 != -1)
-            m_fldThisFile2 = this.getOwner().getField(m_iThisFileFieldSeq2);
-        if (m_iThisFileFieldSeq3 != -1)
-            m_fldThisFile3 = this.getOwner().getField(m_iThisFileFieldSeq3);
+        if (m_fldThisFile == null)
+            if (m_iThisFileFieldSeq != -1)
+                m_fldThisFile = this.getOwner().getField(m_iThisFileFieldSeq);
+        if (m_fldThisFile2 == null)
+            if (m_iThisFileFieldSeq2 != -1)
+                m_fldThisFile2 = this.getOwner().getField(m_iThisFileFieldSeq2);
+        if (m_fldThisFile2 == null)
+            if (m_iThisFileFieldSeq3 != -1)
+                m_fldThisFile3 = this.getOwner().getField(m_iThisFileFieldSeq3);
 //?        if (m_fldThisFile != null)
 //?            m_fldThisFile.saveEnableListeners(false);     // Don't let behaviors mess with my values.
 //?        if (m_fldThisFile2 != null)

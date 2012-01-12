@@ -372,7 +372,7 @@ public class WriteRecordClass extends WriteSharedClass
                 m_StreamOut.writeit("public static final String " + strFieldConstant + " = \"" + strFieldName + "\";\n");
             }
         }
-        this.writeClassFields(true);    // Write the thin class fields.
+        this.writeClassFields(LogicFile.INCLUDE_INTERFACE);    // Write the thin class fields.
         
         m_StreamOut.writeit("\n");
 
@@ -421,7 +421,6 @@ public class WriteRecordClass extends WriteSharedClass
         String strPackage = this.getPackage(CodeType.THIN);
         String implementsClass = this.getPackage(CodeType.INTERFACE) + '.' + strClassName + "Model";
     // Now, write the field resources (descriptions)
-        FieldStuff fieldStuff = new FieldStuff();
         String strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
         if ((strBaseClass.equalsIgnoreCase("Record")) || (strBaseClass.equalsIgnoreCase("QueryRecord")))
             strBaseClass = "FieldList";
@@ -483,7 +482,7 @@ public class WriteRecordClass extends WriteSharedClass
                 m_StreamOut.writeit("public static final String " + strFieldConstant + " = \"" + strFieldName + "\";\n");
             }
         }
-        this.writeClassFields(true);    // Write the thin class fields.
+        this.writeClassFields(LogicFile.INCLUDE_THIN);    // Write the thin class fields.
         
         m_StreamOut.writeit("\n");
 
@@ -501,6 +500,20 @@ public class WriteRecordClass extends WriteSharedClass
         m_StreamOut.setTabs(-1);
         m_StreamOut.writeit("}\n");
 
+        if ((strDatabaseName != null) && (strDatabaseName.length() > 0))
+            this.writeFields(strClassName, strDatabaseName, strDBType, recClassInfo, recFileHdr, recFieldData, fieldIterator);
+        
+        this.writeClassMethods(LogicFile.INCLUDE_THIN);
+        
+        m_StreamOut.setTabs(-1);
+        this.writeEndCode(true);
+        recFieldData.close();
+
+        this.readRecordClass(strClassName);     // Return the record to the original position
+    }
+    public void writeFields(String strClassName, String strDatabaseName, String strDBType, ClassInfo recClassInfo, Record recFileHdr, FieldData recFieldData, ThinFieldIterator fieldIterator)
+    {
+        FieldStuff fieldStuff = new FieldStuff();
         String dBFileName = recFileHdr.getField(FileHdr.kFileMainFilename).getString();
         if (dBFileName.length() != 0)
         {
@@ -511,219 +524,217 @@ public class WriteRecordClass extends WriteSharedClass
         else if (recFileHdr.getField(FileHdr.kType).toString().indexOf("MAPPED") == -1)
             dBFileName = strClassName;  // Default file name (unless mapped)
 
-        if ((strDatabaseName != null) && (strDatabaseName.length() > 0))
+        if ((dBFileName != null) && (dBFileName.length() > 0))
         {
-            if ((dBFileName != null) && (dBFileName.length() > 0))
+            m_StreamOut.writeit("public static final String " + this.convertNameToConstant(strClassName) + "_FILE = \"" + dBFileName + "\";\n");
+            m_StreamOut.writeit("/**\n");
+            m_StreamOut.writeit(" *\tGet the table name.\n");
+            m_StreamOut.writeit(" */\n");
+            m_StreamOut.writeit("public String getTableNames(boolean bAddQuotes)\n");
+            m_StreamOut.writeit("{\n");
+            m_StreamOut.writeit("\treturn (m_tableName == null) ? " + strClassName + "." + this.convertNameToConstant(strClassName) + "_FILE : super.getTableNames(bAddQuotes);\n");
+            m_StreamOut.writeit("}\n");
+        }
+        m_StreamOut.writeit("/**\n");
+        m_StreamOut.writeit(" *\tGet the Database Name.\n");
+        m_StreamOut.writeit(" */\n");
+        m_StreamOut.writeit("public String getDatabaseName()\n");
+        m_StreamOut.writeit("{\n");
+        m_StreamOut.writeit("\treturn \"" + strDatabaseName + "\";\n");
+        m_StreamOut.writeit("}\n");
+        
+        m_StreamOut.writeit("/**\n");
+        m_StreamOut.writeit(" *\tIs this a local (vs remote) file?.\n");
+        m_StreamOut.writeit(" */\n");
+        m_StreamOut.writeit("public int getDatabaseType()\n");
+        m_StreamOut.writeit("{\n");
+        m_StreamOut.writeit("\treturn " + strDBType + ";\n");
+        m_StreamOut.writeit("}\n");
+
+        boolean bAutoCounterField = false;
+        m_StreamOut.writeit("/**\n");
+        m_StreamOut.writeit("* Set up the screen input fields.\n");
+        m_StreamOut.writeit("*/\n");
+        m_StreamOut.writeit("public void setupFields()\n");
+        m_StreamOut.writeit("{\n");
+        m_StreamOut.setTabs(+1);
+        m_StreamOut.writeit("FieldInfo field = null;\n");
+
+        try   {
+            fieldIterator.close();
+            while (fieldIterator.hasNext())
             {
-                m_StreamOut.writeit("public static final String " + this.convertNameToConstant(strClassName) + "_FILE = \"" + dBFileName + "\";\n");
-                m_StreamOut.writeit("/**\n");
-                m_StreamOut.writeit(" *\tGet the table name.\n");
-                m_StreamOut.writeit(" */\n");
-                m_StreamOut.writeit("public String getTableNames(boolean bAddQuotes)\n");
-                m_StreamOut.writeit("{\n");
-                m_StreamOut.writeit("\treturn (m_tableName == null) ? " + strClassName + "." + this.convertNameToConstant(strClassName) + "_FILE : super.getTableNames(bAddQuotes);\n");
-                m_StreamOut.writeit("}\n");
+                fieldIterator.next();
+                String strPre = DBConstants.BLANK;
+
+                this.getFieldData(fieldStuff, true);
+
+                if (("CounterField".equals(fieldStuff.strFieldClass + "\n"))
+                    || ("CounterField".equals(fieldStuff.strBaseFieldClass)))
+                        bAutoCounterField = true;
+
+                if (recFieldData.getField(FieldData.kFieldType).getString().equalsIgnoreCase(VIRTUAL_FIELD_TYPE))
+                    strPre = "//";  // Skip virtual fields (EJB is not expecting them to be sent to the server)
+                if (!fieldStuff.strFieldDesc.equals("null"))
+                    fieldStuff.strFieldDesc = "\"" + fieldStuff.strFieldDesc + "\"";
+                fieldStuff.strFieldClass = "FieldInfo";
+                fieldStuff.strFieldDesc = "null";   // Use the resource file!
+                if (fieldStuff.strFieldLength.length() > 10)
+                { // Default field length - translate to an actual field length
+                    if (fieldStuff.strBaseFieldClass != null)
+                    {
+                        if ("BooleanField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
+                            fieldStuff.strFieldLength = "10";
+                        if ("CurrencyField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
+                            fieldStuff.strFieldLength = Integer.toString(CurrencyField.DOUBLE_DEFAULT_LENGTH);
+                        if ("DoubleField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
+                            fieldStuff.strFieldLength = Integer.toString(DoubleField.DOUBLE_DEFAULT_LENGTH);
+                        if ("FloatField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
+                            fieldStuff.strFieldLength = Integer.toString(FloatField.FLOAT_DEFAULT_LENGTH);
+                        if ("RealField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
+                            fieldStuff.strFieldLength = Integer.toString(RealField.REAL_DEFAULT_LENGTH);
+                        if ("IntegerField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
+                            fieldStuff.strFieldLength = Integer.toString(IntegerField.INTEGER_DEFAULT_LENGTH);
+                        if ("ShortField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
+                            fieldStuff.strFieldLength = Integer.toString(ShortField.SHORT_DEFAULT_LENGTH);
+                        if ("MemoField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
+                            fieldStuff.strFieldLength = Integer.toString(MemoField.BIG_DEFAULT_LENGTH);
+                        if ("DateField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
+                            fieldStuff.strFieldLength = Integer.toString(DateField.DATE_DEFAULT_LENGTH);
+                        if ("DateTimeField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
+                            fieldStuff.strFieldLength = Integer.toString(DateTimeField.DATETIME_DEFAULT_LENGTH);
+                        if ("TimeField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
+                            fieldStuff.strFieldLength = Integer.toString(TimeField.TIME_DEFAULT_LENGTH);
+                    }
+                }
+                m_StreamOut.writeit(strPre + "field = new " + fieldStuff.strFieldClass + "(this, \"" + fieldStuff.strFileFieldName + "\", " + fieldStuff.strFieldLength + ", " + fieldStuff.strFieldDesc + ", " + fieldStuff.strDefaultField + ");\n");
+                if (fieldStuff.strDataClass.equals("Percent"))
+                    fieldStuff.strDataClass = "Float";
+                if ((fieldStuff.strDataClass.equals("Currency")) || (fieldStuff.strDataClass.equals("Real")))
+                    fieldStuff.strDataClass = "Double";
+                if ((fieldStuff.strDataClass == null) || (fieldStuff.strDataClass.length() == 0))
+                    fieldStuff.strDataClass = "Object";                     
+                if (fieldStuff.strDataClass.equals("String"))
+                    fieldStuff.strDataClass = null;
+                if ("ImageField".equals(fieldStuff.strBaseFieldClass))
+                    fieldStuff.strDataClass = "Object";   //"javax.swing.ImageIcon";
+                if ((fieldStuff.strDataClass != null) && (fieldStuff.strDataClass.length() > 0))
+                    m_StreamOut.writeit(strPre + "field.setDataClass(" + fieldStuff.strDataClass + ".class);\n");
+                if ("RealField".equals(fieldStuff.strBaseFieldClass))
+                    m_StreamOut.writeit(strPre + "field.setScale(-1);\n");
+                if ("DateField".equals(fieldStuff.strBaseFieldClass))
+                    m_StreamOut.writeit(strPre + "field.setScale(Constants.DATE_ONLY);\n");
+                if ("TimeField".equals(fieldStuff.strBaseFieldClass))
+                    m_StreamOut.writeit(strPre + "field.setScale(Constants.TIME_ONLY);\n");
+                if (fieldStuff.bHidden == true)
+                    m_StreamOut.writeit(strPre + "field.setHidden(true);\n");
             }
-            m_StreamOut.writeit("/**\n");
-            m_StreamOut.writeit(" *\tGet the Database Name.\n");
-            m_StreamOut.writeit(" */\n");
-            m_StreamOut.writeit("public String getDatabaseName()\n");
-            m_StreamOut.writeit("{\n");
-            m_StreamOut.writeit("\treturn \"" + strDatabaseName + "\";\n");
+
+            m_StreamOut.setTabs(-1);
             m_StreamOut.writeit("}\n");
+
+            this.writeClassKeys(strClassName, recClassInfo, recFieldData, bAutoCounterField);
             
-            m_StreamOut.writeit("/**\n");
-            m_StreamOut.writeit(" *\tIs this a local (vs remote) file?.\n");
-            m_StreamOut.writeit(" */\n");
-            m_StreamOut.writeit("public int getDatabaseType()\n");
-            m_StreamOut.writeit("{\n");
-            m_StreamOut.writeit("\treturn " + strDBType + ";\n");
-            m_StreamOut.writeit("}\n");
-    
-            boolean bAutoCounterField = false;
-            m_StreamOut.writeit("/**\n");
-            m_StreamOut.writeit("* Set up the screen input fields.\n");
-            m_StreamOut.writeit("*/\n");
-            m_StreamOut.writeit("public void setupFields()\n");
-            m_StreamOut.writeit("{\n");
-            m_StreamOut.setTabs(+1);
-            m_StreamOut.writeit("FieldInfo field = null;\n");
-    
-            try   {
-                fieldIterator.close();
-                while (fieldIterator.hasNext())
+        } catch (DBException ex)    {
+            ex.printStackTrace();
+        }
+    }
+
+    public void writeClassKeys(String strClassName, ClassInfo recClassInfo, FieldData recFieldData, boolean bAutoCounterField)
+        throws DBException
+    {
+        // Now write out the setupkey method.
+        this.readRecordClass(strClassName);     // Return the record to the original position
+        String strRecordClass = recClassInfo.getField(ClassInfo.kClassName).getString();
+        m_StreamOut.writeit("/**\n");
+        m_StreamOut.writeit("* Set up the key areas.\n");
+        m_StreamOut.writeit("*/\n");
+        m_StreamOut.writeit("public void setupKeys()\n");
+        m_StreamOut.writeit("{\n");
+        m_StreamOut.setTabs(+1);
+        m_StreamOut.writeit("KeyAreaInfo keyArea = null;\n");
+        int count = 0;
+        Record recKeyInfo = this.getRecord(KeyInfo.kKeyInfoFile);
+        
+        recKeyInfo.close();
+        while (recKeyInfo.hasNext())
+        {
+            recKeyInfo.next();
+            count++;
+            String strDaoKeyName = "";
+            String strKeyName = recKeyInfo.getField(KeyInfo.kKeyName).getString();
+            if (strKeyName.length() == 0)
+            {
+                strKeyName = recKeyInfo.getField(KeyInfo.kKeyField1).getString();
+                recFieldData.initRecord(false);
+                String strFieldName, strBaseFieldName;
+                strFieldName = strKeyName;
+                strBaseFieldName = "";
+                m_BasedFieldHelper.getBasedField(recFieldData, strRecordClass, strFieldName, strBaseFieldName);  // Get the field this is based on
+                strDaoKeyName = recFieldData.getField(FieldData.kFieldName).getString();
+                if (count == 1)
                 {
-                    fieldIterator.next();
-                    String strPre = DBConstants.BLANK;
-    
-                    this.getFieldData(fieldStuff, true);
-    
-                    if (("CounterField".equals(fieldStuff.strFieldClass + "\n"))
-                        || ("CounterField".equals(fieldStuff.strBaseFieldClass)))
-                            bAutoCounterField = true;
-    
-                    if (recFieldData.getField(FieldData.kFieldType).getString().equalsIgnoreCase(VIRTUAL_FIELD_TYPE))
-                        strPre = "//";  // Skip virtual fields (EJB is not expecting them to be sent to the server)
-                    if (!fieldStuff.strFieldDesc.equals("null"))
-                        fieldStuff.strFieldDesc = "\"" + fieldStuff.strFieldDesc + "\"";
-                    fieldStuff.strFieldClass = "FieldInfo";
-                    fieldStuff.strFieldDesc = "null";   // Use the resource file!
-                    if (fieldStuff.strFieldLength.length() > 10)
-                    { // Default field length - translate to an actual field length
-                        if (fieldStuff.strBaseFieldClass != null)
-                        {
-                            if ("BooleanField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
-                                fieldStuff.strFieldLength = "10";
-                            if ("CurrencyField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
-                                fieldStuff.strFieldLength = Integer.toString(CurrencyField.DOUBLE_DEFAULT_LENGTH);
-                            if ("DoubleField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
-                                fieldStuff.strFieldLength = Integer.toString(DoubleField.DOUBLE_DEFAULT_LENGTH);
-                            if ("FloatField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
-                                fieldStuff.strFieldLength = Integer.toString(FloatField.FLOAT_DEFAULT_LENGTH);
-                            if ("RealField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
-                                fieldStuff.strFieldLength = Integer.toString(RealField.REAL_DEFAULT_LENGTH);
-                            if ("IntegerField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
-                                fieldStuff.strFieldLength = Integer.toString(IntegerField.INTEGER_DEFAULT_LENGTH);
-                            if ("ShortField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
-                                fieldStuff.strFieldLength = Integer.toString(ShortField.SHORT_DEFAULT_LENGTH);
-                            if ("MemoField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
-                                fieldStuff.strFieldLength = Integer.toString(MemoField.BIG_DEFAULT_LENGTH);
-                            if ("DateField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
-                                fieldStuff.strFieldLength = Integer.toString(DateField.DATE_DEFAULT_LENGTH);
-                            if ("DateTimeField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
-                                fieldStuff.strFieldLength = Integer.toString(DateTimeField.DATETIME_DEFAULT_LENGTH);
-                            if ("TimeField".equalsIgnoreCase(fieldStuff.strBaseFieldClass))
-                                fieldStuff.strFieldLength = Integer.toString(TimeField.TIME_DEFAULT_LENGTH);
-                        }
-                    }
-                    m_StreamOut.writeit(strPre + "field = new " + fieldStuff.strFieldClass + "(this, \"" + fieldStuff.strFileFieldName + "\", " + fieldStuff.strFieldLength + ", " + fieldStuff.strFieldDesc + ", " + fieldStuff.strDefaultField + ");\n");
-                    if (fieldStuff.strDataClass.equals("Percent"))
-                        fieldStuff.strDataClass = "Float";
-                    if ((fieldStuff.strDataClass.equals("Currency")) || (fieldStuff.strDataClass.equals("Real")))
-                        fieldStuff.strDataClass = "Double";
-                    if ((fieldStuff.strDataClass == null) || (fieldStuff.strDataClass.length() == 0))
-                        fieldStuff.strDataClass = "Object";                     
-                    if (fieldStuff.strDataClass.equals("String"))
-                        fieldStuff.strDataClass = null;
-                    if ("ImageField".equals(fieldStuff.strBaseFieldClass))
-                        fieldStuff.strDataClass = "Object";   //"javax.swing.ImageIcon";
-                    if ((fieldStuff.strDataClass != null) && (fieldStuff.strDataClass.length() > 0))
-                        m_StreamOut.writeit(strPre + "field.setDataClass(" + fieldStuff.strDataClass + ".class);\n");
-                    if ("RealField".equals(fieldStuff.strBaseFieldClass))
-                        m_StreamOut.writeit(strPre + "field.setScale(-1);\n");
-                    if ("DateField".equals(fieldStuff.strBaseFieldClass))
-                        m_StreamOut.writeit(strPre + "field.setScale(Constants.DATE_ONLY);\n");
-                    if ("TimeField".equals(fieldStuff.strBaseFieldClass))
-                        m_StreamOut.writeit(strPre + "field.setScale(Constants.TIME_ONLY);\n");
-                    if (fieldStuff.bHidden == true)
-                        m_StreamOut.writeit(strPre + "field.setHidden(true);\n");
+                    strDaoKeyName = DBConstants.PRIMARY_KEY;
                 }
-    
-                m_StreamOut.setTabs(-1);
-                m_StreamOut.writeit("}\n");
-    
-                // Now write out the setupkey method.
-                this.readRecordClass(strClassName);     // Return the record to the original position
-                String strRecordClass = recClassInfo.getField(ClassInfo.kClassName).getString();
-                m_StreamOut.writeit("/**\n");
-                m_StreamOut.writeit("* Set up the key areas.\n");
-                m_StreamOut.writeit("*/\n");
-                m_StreamOut.writeit("public void setupKeys()\n");
-                m_StreamOut.writeit("{\n");
-                m_StreamOut.setTabs(+1);
-                m_StreamOut.writeit("KeyAreaInfo keyArea = null;\n");
-                int count = 0;
-                Record recKeyInfo = this.getRecord(KeyInfo.kKeyInfoFile);
-                
-                recKeyInfo.close();
-                while (recKeyInfo.hasNext())
-                {
-                    recKeyInfo.next();
-                    count++;
-                    String strDaoKeyName = "";
-                    String strKeyName = recKeyInfo.getField(KeyInfo.kKeyName).getString();
-                    if (strKeyName.length() == 0)
-                    {
-                        strKeyName = recKeyInfo.getField(KeyInfo.kKeyField1).getString();
-                        recFieldData.initRecord(false);
-                        String strFieldName, strBaseFieldName;
-                        strFieldName = strKeyName;
-                        strBaseFieldName = "";
-                        m_BasedFieldHelper.getBasedField(recFieldData, strRecordClass, strFieldName, strBaseFieldName);  // Get the field this is based on
-                        strDaoKeyName = recFieldData.getField(FieldData.kFieldName).getString();
-                        if (count == 1)
-                        {
-                            strDaoKeyName = DBConstants.PRIMARY_KEY;
-                        }
-                    }
-                    if (strDaoKeyName.length() == 0)
-                        strDaoKeyName = strKeyName;
-                    if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
-                        strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
-                    strKeyName = strKeyName + "Key";
-    
-                    String strKeyType, strKeyFieldName;
-                    strKeyType = recKeyInfo.getField(KeyInfo.kKeyType).getString();
-                    strDaoKeyName = this.fixSQLName(strDaoKeyName);
-                    String strUnique = "UNIQUE";
-                    if (strKeyType.equalsIgnoreCase("U"))
-                        strUnique = "UNIQUE";
-                    else if (strKeyType.equalsIgnoreCase("N"))
-                        strUnique = "NOT_UNIQUE";
-                    else if (strKeyType.equalsIgnoreCase("S"))
-                        strUnique = "SECONDARY_KEY";
-                    else
-                    {   // Not specified.
-                        if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
-                            strUnique = "UNIQUE";
-                        else
-                            strUnique = "NOT_UNIQUE";
-                    }
-                    m_StreamOut.writeit("keyArea = new KeyAreaInfo(this, Constants." + strUnique + ", \"" + strDaoKeyName + "\");\n");
-                    boolean bAscending = true;
-                    if (recKeyInfo.getField(KeyInfo.kKeyField9).getString().equalsIgnoreCase("D"))
-                        bAscending = false;     // *Fix this to allow Ascending/Descending on each key area!*
-                    for (int i = KeyInfo.kKeyField1; i <= KeyInfo.kKeyField9; i++)
-                    {
-                        strKeyFieldName = recKeyInfo.getField(i).getString();
-                        if (strKeyFieldName.length() == 0)
-                            break;
-                        String strAscending = "ASCENDING";
-                        if (!bAscending)
-                            strAscending = "DESCENDING";
-                        m_StreamOut.writeit("keyArea.addKeyField(\"" + strKeyFieldName + "\", Constants." + strAscending + ");\n");
-                    }
-                }
-                recKeyInfo.close();
-                
-                if (count == 0)
-                    m_StreamOut.writeit("super.setupKeys();\n");
-                
-                m_StreamOut.setTabs(-1);
-                m_StreamOut.writeit("}\n");
-                
-                if (!bAutoCounterField)
-                {
-                    m_StreamOut.writeit("/**\n");
-                    m_StreamOut.writeit("* This is not an auto-counter record.\n");
-                    m_StreamOut.writeit("*/\n");
-                    m_StreamOut.writeit("public boolean isAutoSequence()\n");
-                    m_StreamOut.writeit("{\n");
-                    m_StreamOut.setTabs(+1);
-                    m_StreamOut.writeit("return false;\n");
-                    m_StreamOut.setTabs(-1);
-                    m_StreamOut.writeit("}\n");
-                }       
-                
-            } catch (DBException ex)    {
-                ex.printStackTrace();
+            }
+            if (strDaoKeyName.length() == 0)
+                strDaoKeyName = strKeyName;
+            if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
+                strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
+            strKeyName = strKeyName + "Key";
+
+            String strKeyType, strKeyFieldName;
+            strKeyType = recKeyInfo.getField(KeyInfo.kKeyType).getString();
+            strDaoKeyName = this.fixSQLName(strDaoKeyName);
+            String strUnique = "UNIQUE";
+            if (strKeyType.equalsIgnoreCase("U"))
+                strUnique = "UNIQUE";
+            else if (strKeyType.equalsIgnoreCase("N"))
+                strUnique = "NOT_UNIQUE";
+            else if (strKeyType.equalsIgnoreCase("S"))
+                strUnique = "SECONDARY_KEY";
+            else
+            {   // Not specified.
+                if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
+                    strUnique = "UNIQUE";
+                else
+                    strUnique = "NOT_UNIQUE";
+            }
+            m_StreamOut.writeit("keyArea = new KeyAreaInfo(this, Constants." + strUnique + ", \"" + strDaoKeyName + "\");\n");
+            boolean bAscending = true;
+            if (recKeyInfo.getField(KeyInfo.kKeyField9).getString().equalsIgnoreCase("D"))
+                bAscending = false;     // *Fix this to allow Ascending/Descending on each key area!*
+            for (int i = KeyInfo.kKeyField1; i <= KeyInfo.kKeyField9; i++)
+            {
+                strKeyFieldName = recKeyInfo.getField(i).getString();
+                if (strKeyFieldName.length() == 0)
+                    break;
+                String strAscending = "ASCENDING";
+                if (!bAscending)
+                    strAscending = "DESCENDING";
+                m_StreamOut.writeit("keyArea.addKeyField(\"" + strKeyFieldName + "\", Constants." + strAscending + ");\n");
             }
         }
+        recKeyInfo.close();
+        
+        if (count == 0)
+            m_StreamOut.writeit("super.setupKeys();\n");
+        
         m_StreamOut.setTabs(-1);
-        this.writeEndCode(true);
-        recFieldData.close();
-
-        this.readRecordClass(strClassName);     // Return the record to the original position
+        m_StreamOut.writeit("}\n");
+        
+        if (!bAutoCounterField)
+        {
+            m_StreamOut.writeit("/**\n");
+            m_StreamOut.writeit("* This is not an auto-counter record.\n");
+            m_StreamOut.writeit("*/\n");
+            m_StreamOut.writeit("public boolean isAutoSequence()\n");
+            m_StreamOut.writeit("{\n");
+            m_StreamOut.setTabs(+1);
+            m_StreamOut.writeit("return false;\n");
+            m_StreamOut.setTabs(-1);
+            m_StreamOut.writeit("}\n");
+        }               
     }
     /**
      *  Create the Record Class for this Record.
@@ -742,7 +753,7 @@ public class WriteRecordClass extends WriteSharedClass
         	this.writeFieldOffsets(); // Write the BaseField offsets
             this.writeKeyOffsets();   // Write the Key offsets
         
-            this.writeClassFields(false);
+            this.writeClassFields(LogicFile.INCLUDE_THICK);
             this.writeDefaultConstructor(strRecordClass);
             
             this.writeRecordInit();

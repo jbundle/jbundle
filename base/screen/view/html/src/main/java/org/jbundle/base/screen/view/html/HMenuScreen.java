@@ -19,7 +19,7 @@ import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.db.Menus;
+import org.jbundle.model.main.db.MenusModel;
 import org.jbundle.model.DBException;
 
 
@@ -70,12 +70,12 @@ public class HMenuScreen extends HBaseMenuScreen
     public String getHtmlString(Record recMenus)
     {
         boolean bHTML = false;
-        String strXMLData = recMenus.getField(Menus.kXmlData).toString();    // Rare to supply HTML here
+        String strXMLData = recMenus.getField(MenusModel.XML_DATA).toString();    // Rare to supply HTML here
         if ((strXMLData == null) || (strXMLData.length() == 0))
         {
-            String strFilename = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperty("html");
+            String strFilename = ((PropertiesField)recMenus.getField(MenusModel.PARAMS)).getProperty("html");
             if (strFilename == null)
-                strFilename = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperty(DBParams.XML);
+                strFilename = ((PropertiesField)recMenus.getField(MenusModel.PARAMS)).getProperty(DBParams.XML);
             else
                 bHTML = true;   // This is the format file
             if (strFilename != null)
@@ -123,9 +123,9 @@ public class HMenuScreen extends HBaseMenuScreen
      */
     public String getHtmlKeywords()
     {
-        Menus recMenu = (Menus)this.getMainRecord();
-        if (recMenu.getField(Menus.kKeywords).getLength() > 0)
-            return recMenu.getField(Menus.kKeywords).toString();
+        Record recMenu = this.getMainRecord();
+        if (recMenu.getField(MenusModel.KEYWORDS).getLength() > 0)
+            return recMenu.getField(MenusModel.KEYWORDS).toString();
         else
             return super.getHtmlKeywords();
     }
@@ -135,9 +135,9 @@ public class HMenuScreen extends HBaseMenuScreen
      */
     public String getHtmlMenudesc()
     {
-        Menus recMenu = (Menus)this.getMainRecord();
-        if (recMenu.getField(Menus.kComment).getLength() > 0)
-            return recMenu.getField(Menus.kComment).toString();
+        Record recMenu = this.getMainRecord();
+        if (recMenu.getField(MenusModel.COMMENT).getLength() > 0)
+            return recMenu.getField(MenusModel.COMMENT).toString();
         else
             return super.getHtmlMenudesc();
     }

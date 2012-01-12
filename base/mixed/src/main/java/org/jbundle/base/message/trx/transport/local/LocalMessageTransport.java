@@ -10,10 +10,10 @@ import org.jbundle.base.message.trx.processor.BaseMessageProcessor;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.MessageInfoType;
-import org.jbundle.main.msg.db.MessageStatus;
-import org.jbundle.main.msg.db.MessageTransport;
-import org.jbundle.main.msg.db.MessageType;
+import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
+import org.jbundle.model.main.msg.db.MessageStatusModel;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
+import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
@@ -65,7 +65,7 @@ public class LocalMessageTransport extends BaseMessageTransport
      */
     public String getMessageTransportType()
     {
-        return MessageTransport.LOCAL;
+        return MessageTransportModel.LOCAL;
     }
     /**
      * Get the external message container for this Internal message.
@@ -80,7 +80,7 @@ public class LocalMessageTransport extends BaseMessageTransport
         if (externalTrxMessage == null)
         {
             if ((message.getMessageHeader() != null)
-                    && (MessageType.MESSAGE_IN.equals((String)message.getMessageHeader().get(TrxMessageHeader.MESSAGE_PROCESS_TYPE))))
+                    && (MessageTypeModel.MESSAGE_IN.equals((String)message.getMessageHeader().get(TrxMessageHeader.MESSAGE_PROCESS_TYPE))))
                 externalTrxMessage = new ExternalMapTrxMessageIn(message, rawData);
             else
                 externalTrxMessage = new ExternalMapTrxMessageOut(message, rawData);
@@ -106,9 +106,9 @@ public class LocalMessageTransport extends BaseMessageTransport
             new ExternalMapTrxMessageIn(messageIn, messageOut.getExternalMessage().getRawData());
             // And fake send it by calling this:
             BaseMessage messageReply = this.processIncomingMessage(messageIn, null);
-            this.logMessage(strTrxID, messageOut, MessageInfoType.REQUEST, MessageType.MESSAGE_OUT, MessageStatus.SENT, null, null);
+            this.logMessage(strTrxID, messageOut, MessageInfoTypeModel.REQUEST, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.SENT, null, null);
 
-            this.setupReplyMessage(messageReply, null, MessageInfoType.REPLY, MessageType.MESSAGE_OUT);
+            this.setupReplyMessage(messageReply, null, MessageInfoTypeModel.REPLY, MessageTypeModel.MESSAGE_OUT);
             int iErrorCode = this.convertToExternal(messageReply, null);
             if (iErrorCode != DBConstants.NORMAL_RETURN)
             {
@@ -123,7 +123,7 @@ public class LocalMessageTransport extends BaseMessageTransport
             ex.printStackTrace();
             String strError = "Error in processing or replying to a message";
             Utility.getLogger().warning(strError);
-            this.logMessage(strTrxID, null, MessageInfoType.REQUEST, MessageType.MESSAGE_OUT, MessageStatus.ERROR, strError, null);
+            this.logMessage(strTrxID, null, MessageInfoTypeModel.REQUEST, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.ERROR, strError, null);
             return BaseMessageProcessor.processErrorMessage(this, messageOut, strError);
         }
     }

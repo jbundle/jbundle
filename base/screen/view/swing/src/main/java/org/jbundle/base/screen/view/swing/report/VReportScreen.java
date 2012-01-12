@@ -35,10 +35,8 @@ import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.MenuConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.MessageTransport;
-import org.jbundle.main.user.db.UserLogosField;
-import org.jbundle.main.user.db.UserMenubarField;
-import org.jbundle.main.user.db.UserNavMenusField;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
+import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
@@ -166,7 +164,7 @@ public class VReportScreen extends VDualReportScreen
         Map<String,Object> properties = new Hashtable<String,Object>();
         Util.parseArgs(properties, strURL);
         String strFilename = (String)properties.get(DBParams.FILEOUT);
-        String strSendMessageBy = (String)properties.get(MessageTransport.SEND_MESSAGE_BY_PARAM);
+        String strSendMessageBy = (String)properties.get(MessageTransportModel.SEND_MESSAGE_BY_PARAM);
 
         String strMessage = Utility.transferURLStream(strURL, strFilename);
 
@@ -216,7 +214,7 @@ public class VReportScreen extends VDualReportScreen
             Map<String,Object> properties = new Hashtable<String,Object>();
             Util.parseArgs(properties, strURL);
             if (((properties.get(DBParams.FILEOUT) != null) && (((String)properties.get(DBParams.FILEOUT)).length() > 0))
-                || ((properties.get(MessageTransport.SEND_MESSAGE_BY_PARAM) != null) && (((String)properties.get(MessageTransport.SEND_MESSAGE_BY_PARAM)).length() > 0)))
+                || ((properties.get(MessageTransportModel.SEND_MESSAGE_BY_PARAM) != null) && (((String)properties.get(MessageTransportModel.SEND_MESSAGE_BY_PARAM)).length() > 0)))
                     return this.onWrite(strURL);  // Print to a file.
 
             PrinterJob job = PrinterJob.getPrinterJob();
@@ -248,10 +246,10 @@ public class VReportScreen extends VDualReportScreen
         String strURL = modelScreen.getScreenURL();
         strURL = Utility.addURLParam(strURL, HtmlConstants.FORMS, HtmlConstants.DISPLAY); // Don't need outside frame stuff in a window
         strURL = Utility.addURLParam(strURL, DBParams.COMMAND, DBConstants.SUBMIT);
-        strURL = Utility.addURLParam(strURL, DBParams.MENUBARS, UserMenubarField.NO);
-        strURL = Utility.addURLParam(strURL, DBParams.NAVMENUS, UserNavMenusField.NO_ICONS);
-        strURL = Utility.addURLParam(strURL, DBParams.LOGOS, UserLogosField.NO);
-        strURL = Utility.addURLParam(strURL, DBParams.TRAILERS, UserLogosField.NO);
+        strURL = Utility.addURLParam(strURL, DBParams.MENUBARS, UserInfoModel.NO);
+        strURL = Utility.addURLParam(strURL, DBParams.NAVMENUS, UserInfoModel.NO_ICONS);
+        strURL = Utility.addURLParam(strURL, DBParams.LOGOS, UserInfoModel.NO);
+        strURL = Utility.addURLParam(strURL, DBParams.TRAILERS, UserInfoModel.NO);
         strURL = ((ReportScreen)this.getScreenField()).addScreenParams(modelScreen, strURL);
 
         String strFilePrefix = "http://";

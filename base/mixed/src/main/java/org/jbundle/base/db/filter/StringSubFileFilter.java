@@ -10,6 +10,7 @@ package org.jbundle.base.db.filter;
  *      don@tourgeek.com
  */
 import org.jbundle.base.db.Record;
+import org.jbundle.base.field.BaseField;
 import org.jbundle.base.util.DBConstants;
 
 /**
@@ -53,7 +54,7 @@ public class StringSubFileFilter extends DependentFileFilter
     public StringSubFileFilter(String mainString, int iFieldSeq, String strSecond, int secondFilesField, String strThird, int thirdFilesField)
     {
         this();
-        this.init(null, mainString, iFieldSeq, strSecond, secondFilesField, strThird, thirdFilesField);
+        this.init(null, mainString, iFieldSeq, null, strSecond, secondFilesField, null, strThird, thirdFilesField, null);
     }
     /**
      * Constructor.
@@ -64,9 +65,26 @@ public class StringSubFileFilter extends DependentFileFilter
      * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
      * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
      */
-    public void init(Record record, String mainString, int iFieldSeq, String strSecond, int secondFilesField, String strThird, int thirdFilesField)
+    public StringSubFileFilter(String mainString, BaseField fldThisFile, String strSecond, BaseField fldThisFile2, String strThird, BaseField fldThisFile3)
     {
-        super.init(record, iFieldSeq, secondFilesField, thirdFilesField);
+        this();
+        this.init(null, mainString, -1, fldThisFile, strSecond, -1, fldThisFile2, strThird, -1, fldThisFile3);
+    }
+    /**
+     * Constructor.
+     * @param iFieldSeq The First field sequence of the key.
+     * @param fldThisFile TODO
+     * @param strSecond Second string in the key fields.
+     * @param fldThisFile2 TODO
+     * @param strThird Third string in the key fields.
+     * @param fldThisFile3 TODO
+     * @param strFirst First string in the key fields.
+     * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
+     * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
+     */
+    public void init(Record record, String mainString, int iFieldSeq, BaseField fldThisFile, String strSecond, int secondFilesField, BaseField fldThisFile2, String strThird, int thirdFilesField, BaseField fldThisFile3)
+    {
+        super.init(record, iFieldSeq, fldThisFile, secondFilesField, fldThisFile2, thirdFilesField, fldThisFile3);
         m_strFirst = mainString;
         m_strSecond = strSecond;
         m_strThird = strThird;

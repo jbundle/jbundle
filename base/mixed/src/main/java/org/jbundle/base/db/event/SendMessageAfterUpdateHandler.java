@@ -17,7 +17,7 @@ import org.jbundle.base.message.trx.server.TrxMessageListener;
 import org.jbundle.base.message.trx.transport.direct.DirectMessageTransport;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBConstants;
-import org.jbundle.main.msg.db.MessageTransport;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.message.BaseMessage;
@@ -33,7 +33,7 @@ import org.jbundle.thin.base.util.Application;
 
 /**
  * Send this message after this record updates.
- * NOTE: Since this is a one-time shot, this listener is REMOVED after it sends it payload!
+ * NOTE: Since this is a one-time shot, this listener is REMOVED after it sends its payload!
  *
  * @version 1.0.0
  * @author    Don Corley
@@ -115,7 +115,7 @@ public class SendMessageAfterUpdateHandler extends FileListener
                         messageReceiver.addMessageFilter(messageFilter);
                     }
                 }
-                if (MessageTransport.DIRECT.equalsIgnoreCase((String)messageHeader.get(MessageTransport.SEND_MESSAGE_BY_PARAM)))
+                if (MessageTransportModel.DIRECT.equalsIgnoreCase((String)messageHeader.get(MessageTransportModel.SEND_MESSAGE_BY_PARAM)))
                 {
                     if (this.getOwner().getTask() instanceof SyncPage)
                     {   // Since this may be time-consuming, display the hour glass (and lock the window, since I'm using your task).

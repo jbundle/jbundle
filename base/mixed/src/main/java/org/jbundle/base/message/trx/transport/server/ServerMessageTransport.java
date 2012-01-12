@@ -4,7 +4,7 @@
 package org.jbundle.base.message.trx.transport.server;
 
 import org.jbundle.base.message.trx.transport.client.ClientMessageTransport;
-import org.jbundle.main.msg.db.MessageTransport;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.Task;
 
 
@@ -49,6 +49,6 @@ public class ServerMessageTransport extends ClientMessageTransport
      */
     public String getMessageTransportType()
     {
-        return MessageTransport.SERVER;
+        return MessageTransportModel.SERVER;
     }
 }

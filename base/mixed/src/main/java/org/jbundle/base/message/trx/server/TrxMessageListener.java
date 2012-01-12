@@ -13,7 +13,9 @@ package org.jbundle.base.message.trx.server;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jbundle.base.db.Record;
 import org.jbundle.base.db.RecordOwner;
+import org.jbundle.base.message.app.MessageApplication;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.screen.control.servlet.ServletTask;
@@ -22,8 +24,7 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.app.MessageInfoApplication;
-import org.jbundle.main.msg.db.MessageProcessInfo;
+import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
@@ -148,7 +149,7 @@ public class TrxMessageListener extends BaseMessageListener
                 if (strMessageCode.length() > 0)
                     if (message instanceof BaseMessage)
             {
-                MessageProcessInfo recMessageProcessInfo = new MessageProcessInfo((RecordOwner)m_application.getSystemRecordOwner()); // todo(don) Not the most efficent sharing! Note: Remember the import
+                MessageProcessInfoModel recMessageProcessInfo = (MessageProcessInfoModel)Record.makeRecordFromClassName(MessageProcessInfoModel.THICK_CLASS, (RecordOwner)m_application.getSystemRecordOwner()); // todo(don) Not the most efficent sharing! Note: Remember the import
                 recMessageProcessInfo.setupMessageHeaderFromCode((BaseMessage)message, strMessageCode, null);
                 recMessageProcessInfo.free();
                 strClass = (String)message.getMessageHeader().get(TrxMessageHeader.MESSAGE_PROCESSOR_CLASS);
@@ -202,7 +203,7 @@ public class TrxMessageListener extends BaseMessageListener
                     if (m_properties.get(MessageConstants.QUEUE_TYPE) == null)
                         m_properties.put(MessageConstants.QUEUE_TYPE, message.getMessageHeader().getQueueType());
                     m_properties.remove(ServletTask.APPLICATION);
-                    m_properties.remove(MessageInfoApplication.AUTOSTART);
+                    m_properties.remove(MessageApplication.AUTOSTART);
                     app.init(env, m_properties, null);
                     
                     // Don't listen any more (Since application will be listening)!
@@ -222,7 +223,7 @@ public class TrxMessageListener extends BaseMessageListener
                                 properties.putAll(propMessage);
                         }
                         properties.remove(ServletTask.APPLICATION);
-                        properties.remove(MessageInfoApplication.AUTOSTART);
+                        properties.remove(MessageApplication.AUTOSTART);
                         properties.put(DBParams.PROCESS, strProcessClass);
                         BaseMessage messageInitial = new MapMessage(new BaseMessageHeader(message.getMessageHeader().getQueueName(), message.getMessageHeader().getQueueType(), this, null), properties);
                         env.getMessageManager(m_application, true).sendMessage(messageInitial);   // Resend it! (Don't consume it!)

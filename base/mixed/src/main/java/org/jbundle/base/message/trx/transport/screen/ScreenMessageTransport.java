@@ -4,7 +4,7 @@
 package org.jbundle.base.message.trx.transport.screen;
 
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
-import org.jbundle.main.msg.db.MessageTransport;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 
@@ -54,7 +54,7 @@ public class ScreenMessageTransport extends BaseMessageTransport
      */
     public String getMessageTransportType()
     {
-        return MessageTransport.SCREEN;
+        return MessageTransportModel.SCREEN;
     }
     /**
      * Send the message and (optionally) get the reply.

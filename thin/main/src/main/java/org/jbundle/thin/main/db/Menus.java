@@ -100,5 +100,15 @@ public class Menus extends org.jbundle.thin.main.db.Folder
         keyArea.addKeyField("Type", Constants.ASCENDING);
         keyArea.addKeyField("Program", Constants.ASCENDING);
     }
+    @Override
+    public String getLink() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    @Override
+    public String getSubMenuXML() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

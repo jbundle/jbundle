@@ -6,6 +6,9 @@
 package org.jbundle.thin.main.msg.db;
 
 import java.util.*;
+
+import org.jbundle.model.main.msg.db.MessageLogModel;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
@@ -127,6 +130,21 @@ public class MessageLog extends org.jbundle.thin.base.db.FieldList
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Timeout");
         keyArea.addKeyField("MessageStatusID", Constants.ASCENDING);
         keyArea.addKeyField("TimeoutTime", Constants.ASCENDING);
+    }
+    @Override
+    public Message createMessage(String strTrxID) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    @Override
+    public String getProperty(String strKey) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    @Override
+    public MessageLogModel getMessageLog(String strID) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

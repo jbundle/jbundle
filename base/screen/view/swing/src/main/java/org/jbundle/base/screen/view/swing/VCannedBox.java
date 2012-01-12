@@ -20,6 +20,7 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
 
+import org.jbundle.base.db.Record;
 import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.DateTimeField;
 import org.jbundle.base.field.PropertiesField;
@@ -31,7 +32,7 @@ import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.swing.grid.GridTableModel;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
-import org.jbundle.main.properties.db.PropertiesInput;
+import org.jbundle.model.main.properties.db.PropertiesInputModel;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.util.jcalendarbutton.JCalendarPopup;
 import org.jbundle.util.jcalendarbutton.JTimePopup;
@@ -290,8 +291,8 @@ public class VCannedBox extends VButtonBox
                     break;
                 }
             }
-        	PropertiesInput recProperties = new PropertiesInput(recordOwner);
-            return (recProperties.startEditor((PropertiesField)this.getScreenField().getConverter().getField(), true, null) != null);
+        	Record recProperties = Record.makeRecordFromClassName(PropertiesInputModel.THICK_CLASS, recordOwner);
+            return (((PropertiesInputModel)recProperties).startEditor((PropertiesField)this.getScreenField().getConverter().getField(), true, null) != null);
         }
         if (this.getScreenField().getConverter().getField() instanceof XmlField)
             schema = ((XmlField)this.getScreenField().getConverter().getField()).getSchema();

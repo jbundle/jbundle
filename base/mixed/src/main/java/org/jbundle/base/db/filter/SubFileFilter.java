@@ -159,7 +159,7 @@ public class SubFileFilter extends DependentFileFilter
      */
     public void init(Record record, Record recordMain, int iKeyOrder, BaseField fldMainFile, int iFieldSeq, BaseField fldMainFile2, int iFieldSeq2, BaseField fldMainFile3, int iFieldSeq3, boolean bSetFilterIfNull, boolean bRefreshLastIfNotCurrent, boolean bAddNewHeaderOnAdd)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
-        super.init(record, iFieldSeq, iFieldSeq2, iFieldSeq3);
+        super.init(record, iFieldSeq, null, iFieldSeq2, null, iFieldSeq3, null);
 
         m_recordMain = recordMain;
         

@@ -15,10 +15,11 @@
   <packaging>pom</packaging>
   
   <properties>
-    <baseMixedDir>../../base/mixed</baseMixedDir>	<!-- Usual location of mixed directory -->
+    <baseMixedDir>../../main/mixed</baseMixedDir>	<!-- Usual location of mixed directory -->
   </properties>
 
   <modules>
+    <module>mixed</module>
     <module>calendar</module>
     <module>db</module>
     <module>misc</module>

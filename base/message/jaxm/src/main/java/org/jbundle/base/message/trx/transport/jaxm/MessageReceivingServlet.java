@@ -34,9 +34,9 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.MessageInfoType;
-import org.jbundle.main.msg.db.MessageStatus;
-import org.jbundle.main.msg.db.MessageType;
+import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
+import org.jbundle.model.main.msg.db.MessageStatusModel;
+import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
@@ -135,7 +135,7 @@ public class MessageReceivingServlet extends JAXMServlet
 //?             Document doc = ((JAXBTrxMessageOut)msgReplyInternal.getExternalMessage()).getScratchDocument(); 
                 msg = soapMessageTransport.setSOAPBody(msg, msgReplyInternal);
                 String strTrxID = (String)msgReplyInternal.getMessageHeader().get(TrxMessageHeader.LOG_TRX_ID);
-                soapMessageTransport.logMessage(strTrxID, msgReplyInternal, MessageInfoType.REPLY, MessageType.MESSAGE_OUT, MessageStatus.SENTOK, null, null);    // Sent (no reply required)
+                soapMessageTransport.logMessage(strTrxID, msgReplyInternal, MessageInfoTypeModel.REPLY, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.SENTOK, null, null);    // Sent (no reply required)
             }
 
             return msg;
@@ -146,7 +146,7 @@ public class MessageReceivingServlet extends JAXMServlet
             if ((msgReplyInternal != null) && (soapMessageTransport != null))
             {
                 String strTrxID = (String)msgReplyInternal.getMessageHeader().get(TrxMessageHeader.LOG_TRX_ID);
-                soapMessageTransport.logMessage(strTrxID, msgReplyInternal, MessageInfoType.REPLY, MessageType.MESSAGE_OUT, MessageStatus.ERROR, strError, null);
+                soapMessageTransport.logMessage(strTrxID, msgReplyInternal, MessageInfoTypeModel.REPLY, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.ERROR, strError, null);
             }
             return null;
         } finally   {

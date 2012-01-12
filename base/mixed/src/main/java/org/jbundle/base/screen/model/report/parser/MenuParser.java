@@ -14,7 +14,7 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.db.Menus;
+import org.jbundle.model.main.db.MenusModel;
 
 
 /**
@@ -49,14 +49,14 @@ public class MenuParser extends BaseMenuParser
      */
     public void printHtmlTitle(PrintWriter out, String strTag, String strParams, String strData)
     {
-        out.print(m_recDetail.getField(Menus.kName).toString());
+        out.print(m_recDetail.getField(MenusModel.NAME).toString());
     }
     /**
      *  Output this screen using HTML.
      */
     public void printHtmlMenuDesc(PrintWriter out, String strTag, String strParams, String strData)
     {
-        String strText = m_recDetail.getField(Menus.kComment).toString();
+        String strText = m_recDetail.getField(MenusModel.COMMENT).toString();
         strText = MenuParser.stripHtmlOverhead(strText);
         out.print(strText);
     }
@@ -129,17 +129,17 @@ public class MenuParser extends BaseMenuParser
      */
     public void printHtmlType(PrintWriter out, String strTag, String strParams, String strData)
     {
-        out.print(m_recDetail.getField(Menus.kType).toString());
+        out.print(m_recDetail.getField(MenusModel.TYPE).toString());
     }
     /**
      *  Output this screen using HTML.
      */
     public void printHtmlIcon(PrintWriter out, String strTag, String strParams, String strData)
     {
-        String strIcon = m_recDetail.getField(Menus.kIconResource).toString();
+        String strIcon = m_recDetail.getField(MenusModel.ICON_RESOURCE).toString();
         if (strIcon.length() == 0)
         {
-            strIcon = m_recDetail.getField(Menus.kType).toString();
+            strIcon = m_recDetail.getField(MenusModel.TYPE).toString();
             if (strIcon.length() > 0)
                 strIcon = strIcon.substring(0, 1).toUpperCase() + strIcon.substring(1);
         }
@@ -154,7 +154,7 @@ public class MenuParser extends BaseMenuParser
      */
     public void printHtmlLink(PrintWriter out, String strTag, String strParams, String strData)
     {
-        String strLink = ((Menus)m_recDetail).getLink();
+        String strLink = ((MenusModel)m_recDetail).getLink();
 /*      
         String strParam = this.getRecordOwner().getProperty(DBParams.MENUBARS);
         if (strParam != null)
@@ -179,7 +179,7 @@ public class MenuParser extends BaseMenuParser
      */
     public void printHtmlJavaLogo(PrintWriter out, String strTag, String strParams, String strData)
     {
-        String strType = m_recDetail.getField(Menus.kType).toString();
+        String strType = m_recDetail.getField(MenusModel.TYPE).toString();
         String strJava = this.getRecordOwner().getProperty(DBParams.JAVA);
         if ((strJava == null) || (strJava.length() == 0))
             strJava = DBConstants.NO;
@@ -195,17 +195,17 @@ public class MenuParser extends BaseMenuParser
     public void preSetupGrid(String strMenu)
     {
         if (strMenu == null)    // Always
-            strMenu = m_recDetail.getField(Menus.kID).toString();
+            strMenu = m_recDetail.getField(MenusModel.ID).toString();
 
-        m_recDetail.setKeyArea(Menus.kParentFolderIDKey);
-        m_recDetail.addListener(new StringSubFileFilter(strMenu, Menus.kParentFolderID, null, -1, null, -1));
+        m_recDetail.setKeyArea(MenusModel.PARENT_FOLDER_ID_KEY);
+        m_recDetail.addListener(new StringSubFileFilter(strMenu, m_recDetail.getField(MenusModel.PARENT_FOLDER_ID), null, null, null, null));
     }
     /**
      * Code to display a Menu.
      */
     public void postSetupGrid()
     {
-        Menus menu = (Menus)m_recDetail;
+        Record menu = m_recDetail;
         BaseListener behMenu = menu.getListener(StringSubFileFilter.class.getName());
         menu.removeListener(behMenu, true);
     }

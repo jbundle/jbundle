@@ -17,7 +17,6 @@ import java.util.Vector;
 
 import org.jbundle.base.db.lock.ClientLockManager;
 import org.jbundle.base.message.app.MessageApplication;
-import org.jbundle.main.msg.app.MessageInfoApplication;
 import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.util.Util;
@@ -412,7 +411,10 @@ Utility.getLogger().info("removeApp: " + application);
     			if (propDomain != null)
 					propTemp.putAll(propDomain);
     			properties = propTemp;
-                messageApplication = new MessageInfoApplication(this, properties, null);
+    			String className = "org.jbundle.main.msg.app.MessageInfoApplication";
+    			messageApplication = (MessageApplication)ClassServiceUtility.getClassService().makeObjectFromClassName(className);
+    			messageApplication.init(this, properties, null);
+                //messageApplication = new MessageInfoApplication(this, properties, null);
                 if (this.getDefaultApplication() != null)
                     if (this.getDefaultApplication() != messageApplication)
                         if (!DBConstants.TRUE.equalsIgnoreCase(messageApplication.getProperty(DBParams.JMSSERVER))) // JMSServer has no server

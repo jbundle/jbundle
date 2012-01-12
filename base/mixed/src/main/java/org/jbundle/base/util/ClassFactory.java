@@ -12,7 +12,6 @@ import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.services.ClassInfoService;
 import org.jbundle.base.services.Services;
-import org.jbundle.main.screen.DetailGridScreen;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
@@ -39,14 +38,14 @@ public class ClassFactory {
     			recordOwner = (RecordOwner)recordOwner.getTask().getApplication().getSystemRecordOwner();
 		strScreenClass = ClassFactory.fixClassName(strScreenClass, recordOwner);
 		BaseScreen screen = BaseScreen.makeNewScreen(strScreenClass, itsLocation, parentScreen, iDisplayFieldDesc, properties, false);
-		if (screen instanceof DetailGridScreen)	// Always
-			((DetailGridScreen)screen).init(recHeader, record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
+/*		if (screen instanceof DetailGridScreen)	// Always
+			((DetailGridScreen)screen).init(recHeader, record, itsLocation, null, parentScreen, fieldConverter, null, iDisplayFieldDesc, properties, null);
 		else
 		{
 			screen.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
 			Utility.getLogger().warning("Attempt to create a detail screen for: " + strScreenClass);
 		}
-		return screen;
+	*/	return screen;
     }
     /**
      * FixClassName - Get the entire class path from the classname.

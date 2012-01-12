@@ -32,6 +32,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamResult;
 
+import org.jbundle.base.db.Record;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.BaseXmlTrxMessageOut;
 import org.jbundle.base.message.trx.message.external.SoapTrxMessageIn;
@@ -39,11 +40,11 @@ import org.jbundle.base.message.trx.message.external.SoapTrxMessageOut;
 import org.jbundle.base.message.trx.processor.BaseMessageProcessor;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.MessageControl;
-import org.jbundle.main.msg.db.MessageInfoType;
-import org.jbundle.main.msg.db.MessageStatus;
-import org.jbundle.main.msg.db.MessageTransport;
-import org.jbundle.main.msg.db.MessageType;
+import org.jbundle.model.main.msg.db.MessageControlModel;
+import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
+import org.jbundle.model.main.msg.db.MessageStatusModel;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
+import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
@@ -119,7 +120,7 @@ public class SOAPMessageTransport extends BaseMessageTransport
      */
     public String getMessageTransportType()
     {
-        return MessageTransport.SOAP;
+        return MessageTransportModel.SOAP;
     }
     /**
      * Get the external message container for this Internal message.
@@ -133,7 +134,7 @@ public class SOAPMessageTransport extends BaseMessageTransport
         ExternalMessage externalTrxMessageOut = super.createExternalMessage(message, rawData);
         if (externalTrxMessageOut == null)
         {
-            if (MessageType.MESSAGE_IN.equalsIgnoreCase((String)message.get(TrxMessageHeader.MESSAGE_PROCESS_TYPE)))
+            if (MessageTypeModel.MESSAGE_IN.equalsIgnoreCase((String)message.get(TrxMessageHeader.MESSAGE_PROCESS_TYPE)))
                 externalTrxMessageOut = new SoapTrxMessageIn(message, rawData);
             else
                 externalTrxMessageOut = new SoapTrxMessageOut(message, rawData);
@@ -190,7 +191,7 @@ public class SOAPMessageTransport extends BaseMessageTransport
         	//out.flush();
         	//Utility.getLogger().info(out.toString());
 
-            strTrxID = this.logMessage(strTrxID, messageOut, MessageInfoType.REQUEST, MessageType.MESSAGE_OUT, MessageStatus.SENT, null, null);
+            strTrxID = this.logMessage(strTrxID, messageOut, MessageInfoTypeModel.REQUEST, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.SENT, null, null);
 
             SOAPMessage reply = m_con.call(msg, urlEndpoint);
 // To test this locally, use the next two lines.
@@ -208,7 +209,7 @@ public class SOAPMessageTransport extends BaseMessageTransport
         } catch(Throwable ex) {
             ex.printStackTrace();
             String strErrorMessage = ex.getMessage();
-            this.logMessage(strTrxID, messageOut, MessageInfoType.REQUEST, MessageType.MESSAGE_OUT, MessageStatus.ERROR, strErrorMessage, null);
+            this.logMessage(strTrxID, messageOut, MessageInfoTypeModel.REQUEST, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.ERROR, strErrorMessage, null);
             return BaseMessageProcessor.processErrorMessage(this, messageOut, strErrorMessage);
         }            
 
@@ -318,10 +319,10 @@ public class SOAPMessageTransport extends BaseMessageTransport
                 String attribute = element.getAttributeValue(na);
                 if (attribute != null)
                 {
-                    MessageControl recMessageControl = (MessageControl)this.getRecord(MessageControl.kMessageControlFile);
+                    Record recMessageControl = this.getRecord(MessageControlModel.MESSAGE_CONTROL_FILE);
                     if (recMessageControl == null)
-                        recMessageControl = new MessageControl(this);
-                    version = recMessageControl.getVersionFromSchemaLocation(attribute);
+                        recMessageControl = Record.makeRecordFromClassName(MessageControlModel.THICK_CLASS, this);
+                    version = ((MessageControlModel)recMessageControl).getVersionFromSchemaLocation(attribute);
                 }
             }
         } catch(Throwable ex) {

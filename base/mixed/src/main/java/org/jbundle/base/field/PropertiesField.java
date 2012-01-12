@@ -19,6 +19,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 
+import org.jbundle.base.db.KeyArea;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.db.event.FileRemoveBOnCloseHandler;
@@ -35,9 +36,10 @@ import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.properties.db.PropertiesInput;
+import org.jbundle.model.main.properties.db.PropertiesInputModel;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
+import org.jbundle.thin.main.properties.db.PropertiesInput;
 
 
 /**
@@ -316,8 +318,8 @@ public class PropertiesField extends MemoField
         ScreenField screenField = null;
         if ("swing".equalsIgnoreCase(targetScreen.getViewFactory().getViewSubpackage()))
         {
-            PropertiesInput recPropertiesInput = new PropertiesInput(this.getRecord().getRecordOwner());
-            recPropertiesInput.setPropertiesField(this);
+            Record recPropertiesInput = Record.makeRecordFromClassName(PropertiesInput.THICK_CLASS, this.getRecord().getRecordOwner());
+            ((PropertiesInputModel)recPropertiesInput).setPropertiesField(this);
             screenField = (GridScreen)recPropertiesInput.makeScreen(itsLocation, targetScreen, iDisplayFieldDesc | ScreenConstants.DISPLAY_MODE, this.getMapKeyDescriptions());
             boolean bAllowAppending = this.getMapKeyDescriptions() == null;
             ((GridScreen)screenField).setAppending(bAllowAppending);            
@@ -398,9 +400,12 @@ public class PropertiesField extends MemoField
                 if (listener != null)
                     bOldState = listener.setEnabledListener(false);
                 
-                String strKey = this.getOwner().getField(PropertiesInput.kKey).toString();
-                String strValue = this.getOwner().getField(PropertiesInput.kValue).toString();
-                String strOldKey = this.getOwner().getKeyArea(PropertiesInput.kKeyKey).getKeyField(0).getField(DBConstants.TEMP_KEY_AREA).toString();
+                String strKey = this.getOwner().getField(PropertiesInputModel.KEY).toString();
+                String strValue = this.getOwner().getField(PropertiesInputModel.VALUE).toString();
+                int oldKeyArea = this.getOwner().getDefaultOrder();
+                KeyArea keyArea = this.getOwner().setKeyArea(PropertiesInputModel.KEY_KEY);
+                String strOldKey = keyArea.getKeyField(0).getField(DBConstants.TEMP_KEY_AREA).toString();
+                this.getOwner().setKeyArea(oldKeyArea);
                 if (iChangeType == DBConstants.ADD_TYPE)
                     m_recPropertiesField.setProperty(strKey, strValue);
                 if (iChangeType == DBConstants.UPDATE_TYPE)
@@ -424,7 +429,7 @@ public class PropertiesField extends MemoField
      */
     public class SyncFieldToPropertiesRecord extends FieldListener
     {
-        protected PropertiesInput m_recPropertiesInput = null;
+        protected Record m_recPropertiesInput = null;
         
         public SyncFieldToPropertiesRecord()
         {
@@ -434,7 +439,7 @@ public class PropertiesField extends MemoField
          * Constructor.
          * @param owner The basefield owner of this listener (usually null and set on setOwner()).
          */
-        public SyncFieldToPropertiesRecord(PropertiesInput recPropertiesInput)
+        public SyncFieldToPropertiesRecord(Record recPropertiesInput)
         {
             this();
             this.init(recPropertiesInput);
@@ -443,7 +448,7 @@ public class PropertiesField extends MemoField
          * Constructor.
          * @param owner The basefield owner of this listener (usually null and set on setOwner()).
          */
-        public void init(PropertiesInput recPropertiesInput)
+        public void init(Record recPropertiesInput)
         {
             super.init(null);
             m_recPropertiesInput = recPropertiesInput;
@@ -470,7 +475,7 @@ public class PropertiesField extends MemoField
          */
         public int fieldChanged(boolean bDisplayOption, int iMoveMode)
         {
-            m_recPropertiesInput.loadFieldProperties((PropertiesField)this.getOwner());
+            ((PropertiesInputModel)m_recPropertiesInput).loadFieldProperties((PropertiesField)this.getOwner());
             return super.fieldChanged(bDisplayOption, iMoveMode);
         }
 

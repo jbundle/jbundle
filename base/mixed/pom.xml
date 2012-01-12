@@ -15,7 +15,6 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.jbundle.base</groupId>
   <artifactId>org.jbundle.base.mixed</artifactId>
   <packaging>jar</packaging>	<!-- This is NOT an OSGi bundle -->
 
@@ -23,7 +22,6 @@
 
   <build>
     <plugins>
-
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -112,7 +110,6 @@
     <dependency>
       <groupId>org.jbundle.util</groupId>
       <artifactId>org.jbundle.util.jbackup</artifactId>
-      <version>${jbundleUtilVersionRange}</version>
     </dependency>
     
     <dependency>
@@ -153,7 +150,6 @@
     <dependency>
       <groupId>org.jbundle.util.webapp</groupId>
       <artifactId>org.jbundle.util.webapp.base</artifactId>
-      <version>${jbundleUtilWebappVersionRange}</version>
     </dependency>
   </dependencies>
 

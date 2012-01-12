@@ -5,29 +5,52 @@
  */
 package org.jbundle.main.msg.db;
 
-import java.awt.*;
-import java.util.*;
+import java.net.URL;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Vector;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.main.msg.screen.*;
-import org.jbundle.thin.base.message.*;
-import org.jbundle.base.message.trx.processor.*;
-import org.jbundle.base.message.trx.transport.local.*;
-import java.net.*;
-import org.jbundle.base.message.trx.message.*;
-import org.jbundle.base.message.trx.message.internal.*;
-import org.jbundle.main.msg.db.base.*;
+import org.jbundle.base.db.EmptyKey;
+import org.jbundle.base.db.KeyArea;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.RecordOwner;
+import org.jbundle.base.db.VirtualRecord;
+import org.jbundle.base.db.event.FreeOnFreeHandler;
+import org.jbundle.base.db.filter.SubFileFilter;
+import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.EmptyField;
+import org.jbundle.base.field.PropertiesField;
+import org.jbundle.base.field.ReferenceField;
+import org.jbundle.base.field.StringField;
+import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.trx.message.internal.ManualMessage;
+import org.jbundle.base.message.trx.processor.BaseMessageInProcessor;
+import org.jbundle.base.message.trx.processor.BaseMessageOutProcessor;
+import org.jbundle.base.message.trx.processor.BaseMessageReplyInProcessor;
+import org.jbundle.base.message.trx.processor.BaseMessageReplyOutProcessor;
+import org.jbundle.base.message.trx.transport.local.LocalMessageTransport;
+import org.jbundle.base.screen.model.BasePanel;
+import org.jbundle.base.screen.model.BaseScreen;
+import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.util.DBParams;
+import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.base.util.Utility;
+import org.jbundle.main.msg.db.base.BaseStatusSelect;
+import org.jbundle.main.msg.db.base.ContactType;
+import org.jbundle.main.msg.screen.MessageProcessInfoGridScreen;
+import org.jbundle.main.msg.screen.MessageProcessInfoScreen;
+import org.jbundle.main.msg.screen.MessageTransportInfoGridScreen;
+import org.jbundle.model.DBException;
+import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
+import org.jbundle.model.message.Message;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.thin.base.message.BaseMessageManager;
+import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.message.MessageRecordDesc;
+import org.jbundle.thin.base.message.TreeMessage;
+import org.jbundle.thin.base.util.Application;
 
 /**
  *  MessageProcessInfo - Message process information.
@@ -271,7 +294,7 @@ public class MessageProcessInfo extends VirtualRecord
     /**
      * GetMessageProcessInfo Method.
      */
-    public MessageProcessInfo getMessageProcessInfo(String strMessageKey)
+    public MessageProcessInfoModel getMessageProcessInfo(String strMessageKey)
     {
         int iOldKeyArea = this.getDefaultOrder();
         try {
@@ -315,7 +338,7 @@ public class MessageProcessInfo extends VirtualRecord
     /**
      * GetMessageProcessInfo Method.
      */
-    public MessageProcessInfo getMessageProcessInfo(String strMessageInfoType, String strContactType, String strRequestType, String strMessageProcessType, String strProcessType)
+    public MessageProcessInfoModel getMessageProcessInfo(String strMessageInfoType, String strContactType, String strRequestType, String strMessageProcessType, String strProcessType)
     {
         int iOldKeyArea = this.getDefaultOrder();
         try {
@@ -372,22 +395,22 @@ public class MessageProcessInfo extends VirtualRecord
     /**
      * SetupMessageHeaderFromCode Method.
      */
-    public boolean setupMessageHeaderFromCode(BaseMessage trxMessage, String strMessageCode, String strVersion)
+    public boolean setupMessageHeaderFromCode(Message trxMessage, String strMessageCode, String strVersion)
     {
-        TrxMessageHeader trxMessageHeader = (TrxMessageHeader)trxMessage.getMessageHeader();
+        TrxMessageHeader trxMessageHeader = (TrxMessageHeader)((BaseMessage)trxMessage).getMessageHeader();
         if ((trxMessageHeader == null) && (strMessageCode == null))
             return false;
         if (trxMessageHeader == null)
         {
             trxMessageHeader = new TrxMessageHeader(null, null);
-            trxMessage.setMessageHeader(trxMessageHeader);
+            ((BaseMessage)trxMessage).setMessageHeader(trxMessageHeader);
         }
         if (strMessageCode == null)
             strMessageCode = (String)trxMessageHeader.get(TrxMessageHeader.MESSAGE_CODE);
         Utility.getLogger().info("Message code: " + strMessageCode);
         if (strMessageCode == null)
             return false;   // Message not found
-        MessageProcessInfo recMessageProcessInfo = this.getMessageProcessInfo(strMessageCode);
+        MessageProcessInfo recMessageProcessInfo = (MessageProcessInfo)this.getMessageProcessInfo(strMessageCode);
         if (recMessageProcessInfo == null)
             return false;   // Message not found
         MessageInfo recMessageInfo = (MessageInfo)((ReferenceField)this.getField(MessageProcessInfo.kMessageInfoID)).getReference();
@@ -726,12 +749,12 @@ public class MessageProcessInfo extends VirtualRecord
      * Create the response message for this message.
      * @return the response message (or null if none).
      */
-    public BaseMessage createReplyMessage(BaseMessage message)
+    public Message createReplyMessage(Message message)
     {
-        Object objResponseID = message.getMessageHeader().get(TrxMessageHeader.MESSAGE_RESPONSE_ID);
+        Object objResponseID = ((BaseMessage)message).getMessageHeader().get(TrxMessageHeader.MESSAGE_RESPONSE_ID);
         if (objResponseID == null)
             return null;    // TODO (don) FIX this - return an error.
-        MessageProcessInfo recMessageProcessInfo = this.getMessageProcessInfo(objResponseID.toString());
+        MessageProcessInfo recMessageProcessInfo = (MessageProcessInfo)this.getMessageProcessInfo(objResponseID.toString());
         MessageInfo recMessageInfo = (MessageInfo)((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kMessageInfoID)).getReference();
         BaseMessage replyMessage = new TreeMessage(null, null);
         MessageRecordDesc messageRecordDesc = recMessageInfo.createNewMessage(replyMessage, null);
@@ -786,7 +809,7 @@ public class MessageProcessInfo extends VirtualRecord
                 String strRequestType = RequestType.MANUAL;
                 String strMessageProcessType = MessageType.MESSAGE_OUT;
                 String strProcessType = ProcessType.INFO;
-                recMessageProcessInfo = this.getMessageProcessInfo(strMessageInfoType, strContactType, strRequestType, strMessageProcessType, strProcessType);
+                recMessageProcessInfo = (MessageProcessInfo)this.getMessageProcessInfo(strMessageInfoType, strContactType, strRequestType, strMessageProcessType, strProcessType);
             }
             if (recMessageProcessInfo != null)
                 if (recMessageProcessInfo.getEditMode() == DBConstants.EDIT_CURRENT)

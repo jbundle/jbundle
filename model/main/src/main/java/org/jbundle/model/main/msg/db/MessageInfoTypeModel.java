@@ -7,6 +7,13 @@ package org.jbundle.model.main.msg.db;
 
 public interface MessageInfoTypeModel extends org.jbundle.model.db.Rec
 {
+    public static final String DESCRIPTION = "Description";
+    public static final String CODE = "Code";
+
+    public static final int REQUEST_ID = 1;
+    public static final int REPLY_ID = 2;
+    public static final String REQUEST = "REQUEST";
+    public static final String REPLY = "REPLY";
 
     public static final String MESSAGE_INFO_TYPE_FILE = "MessageInfoType";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.MessageInfoType";

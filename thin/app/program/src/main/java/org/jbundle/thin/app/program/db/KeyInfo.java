@@ -74,6 +74,8 @@ public class KeyInfo extends org.jbundle.thin.base.db.FieldList
         field = new FieldInfo(this, "KeyField9", 40, null, null);
         field = new FieldInfo(this, "KeyName", 40, null, null);
         field = new FieldInfo(this, "KeyType", 1, null, null);
+        field = new FieldInfo(this, "IncludeScope", 10, null, new Integer(0x001));
+        field.setDataClass(Integer.class);
     }
     /**
     * Set up the key areas.

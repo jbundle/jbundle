@@ -6,6 +6,9 @@
 package org.jbundle.thin.main.msg.db;
 
 import java.util.*;
+
+import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
+import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
@@ -98,6 +101,30 @@ public class MessageProcessInfo extends org.jbundle.thin.base.db.FieldList
         keyArea.addKeyField("Description", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Code");
         keyArea.addKeyField("Code", Constants.ASCENDING);
+    }
+    @Override
+    public MessageProcessInfoModel getMessageProcessInfo(String strMessageKey) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    @Override
+    public MessageProcessInfoModel getMessageProcessInfo(
+            String strMessageInfoType, String strContactType,
+            String strRequestType, String strMessageProcessType,
+            String strProcessType) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    @Override
+    public boolean setupMessageHeaderFromCode(Message trxMessage,
+            String strMessageCode, String strVersion) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    @Override
+    public Message createReplyMessage(Message message) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

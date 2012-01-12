@@ -32,14 +32,12 @@ import org.jbundle.base.util.DatabaseOwner;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.base.ContactType;
-import org.jbundle.main.user.screen.UserLoginScreen;
-import org.jbundle.main.user.screen.UserPasswordChange;
-import org.jbundle.main.user.screen.UserPreferenceScreen;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.main.msg.db.base.ContactTypeModel;
+import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
@@ -267,7 +265,7 @@ public class BaseScreen extends BasePanel
         
         if (Utility.isNumeric(strContactType))
         {
-            ContactType recContactType = new ContactType(this);
+            ContactTypeModel recContactType = (ContactTypeModel)Record.makeRecordFromClassName(ContactTypeModel.THICK_CLASS, this);
             strContactType = recContactType.getContactTypeFromID(strContactType);
             recContactType.free();
         }
@@ -730,16 +728,17 @@ public class BaseScreen extends BasePanel
      */
     public boolean onLogon()
     {
+        Record record = Record.makeRecordFromClassName(UserInfoModel.THICK_CLASS, this);
+        this.removeRecord(record);
         BasePanel parentScreen = this.getParentScreen();
         ScreenLocation itsLocation = this.getScreenLocation();
         parentScreen.popHistory(1, false);
         parentScreen.pushHistory(this.getScreenURL(), false);  // Update the history to my current state.
         this.finalizeThisScreen();  // Validate current control, update record, get ready to close screen.
-        Converter fieldConverter = null;
-        int iDisplayFieldDesc = 0;
         Map<String,Object> properties = null;
         this.free();
-        new UserLoginScreen(null, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
+        int docMode = record.commandToDocType(UserInfoModel.LOGIN_SCREEN);
+        record.makeScreen(itsLocation, parentScreen, docMode, properties);
         return true;
     }
     /**
@@ -784,11 +783,15 @@ public class BaseScreen extends BasePanel
      */
     public boolean onChangePassword()
     {
-        BasePanel screenParent = this.getParentScreen();
+        Record record = Record.makeRecordFromClassName(UserInfoModel.THICK_CLASS, this);
+        this.removeRecord(record);
+        BasePanel parentScreen = this.getParentScreen();
+        ScreenLocation itsLocation = this.getScreenLocation();
         this.finalizeThisScreen();  // Validate current control, update record, get ready to close screen.
         Map<String,Object> properties = null;
         this.free();
-        new UserPasswordChange(null, null, screenParent, null, ScreenConstants.MAINT_MODE, properties);
+        int docMode = record.commandToDocType(UserInfoModel.PASSWORD_CHANGE_SCREEN);
+        record.makeScreen(itsLocation, parentScreen, docMode, properties);
         return true;   // Should always be successful
     }
     /**
@@ -797,11 +800,15 @@ public class BaseScreen extends BasePanel
      */
     public boolean onChangeSettings()
     {
-        BasePanel screenParent = this.getParentScreen();
+        Record record = Record.makeRecordFromClassName(UserInfoModel.THICK_CLASS, this);
+        this.removeRecord(record);
+        BasePanel parentScreen = this.getParentScreen();
+        ScreenLocation itsLocation = this.getScreenLocation();
         this.finalizeThisScreen();  // Validate current control, update record, get ready to close screen.
         Map<String,Object> properties = null;
         this.free();
-        new UserPreferenceScreen(null, null, screenParent, null, ScreenConstants.MAINT_MODE, properties);
+        int docMode = record.commandToDocType(UserInfoModel.PREFERENCES_SCREEN);
+        record.makeScreen(itsLocation, parentScreen, docMode, properties);
         return true;   // Should always be successful
     }
     /**

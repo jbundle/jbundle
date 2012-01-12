@@ -31,9 +31,9 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.MessageInfoType;
-import org.jbundle.main.msg.db.MessageStatus;
-import org.jbundle.main.msg.db.MessageType;
+import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
+import org.jbundle.model.main.msg.db.MessageStatusModel;
+import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.TreeMessage;
 import org.jbundle.thin.base.util.Application;
@@ -160,7 +160,7 @@ public class XMLMessageReceivingServlet extends XMLServlet
 	                String strReply = msgReplyInternal.getExternalMessage().toString();
     	            res.getWriter().print(strReply);
         	        String strTrxID = (String)msgReplyInternal.getMessageHeader().get(TrxMessageHeader.LOG_TRX_ID);
-            	    xmlMessageTransport.logMessage(strTrxID, msgReplyInternal, MessageInfoType.REPLY, MessageType.MESSAGE_OUT, MessageStatus.SENTOK, null, null);    // Sent (no reply required)
+            	    xmlMessageTransport.logMessage(strTrxID, msgReplyInternal, MessageInfoTypeModel.REPLY, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.SENTOK, null, null);    // Sent (no reply required)
             	}
             }
         } catch (Throwable ex)  {
@@ -170,7 +170,7 @@ public class XMLMessageReceivingServlet extends XMLServlet
             if ((msgReplyInternal != null) && (xmlMessageTransport != null))
             {
                 String strTrxID = (String)msgReplyInternal.getMessageHeader().get(TrxMessageHeader.LOG_TRX_ID);
-                xmlMessageTransport.logMessage(strTrxID, msgReplyInternal, MessageInfoType.REPLY, MessageType.MESSAGE_OUT, MessageStatus.ERROR, strError, null);
+                xmlMessageTransport.logMessage(strTrxID, msgReplyInternal, MessageInfoTypeModel.REPLY, MessageTypeModel.MESSAGE_OUT, MessageStatusModel.ERROR, strError, null);
             }
             return; // Error
         } finally   {

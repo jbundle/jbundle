@@ -1,5 +1,5 @@
 /**
- * @(#)UserNavMenusField.
+ * @(#)UserLanguageField.
  * Copyright © 2011 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -25,17 +25,14 @@ import org.jbundle.main.db.*;
 import org.jbundle.main.user.screen.*;
 
 /**
- *  UserNavMenusField - .
+ *  UserLanguageField - .
  */
-public class UserNavMenusField extends StringPopupField
+public class UserLanguageField extends StringPopupField
 {
-    public static final String FULL_MENU = "";
-    public static final String ICONS_ONLY = "IconsOnly";
-    public static final String NO_ICONS = "No";
     /**
      * Default constructor.
      */
-    public UserNavMenusField()
+    public UserLanguageField()
     {
         super();
     }
@@ -47,7 +44,7 @@ public class UserNavMenusField extends StringPopupField
      * @param strDesc The string description (usually pass null, to use the resource file desc).
      * @param strDefault The default value (if object, this value is the default value, if string, the string is the default).
      */
-    public UserNavMenusField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
+    public UserLanguageField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
     {
         this();
         this.init(record, strName, iDataLength, strDesc, strDefault);
@@ -65,9 +62,9 @@ public class UserNavMenusField extends StringPopupField
     public String[][] getPopupMap()
     {
         String string[][] = {
-        {FULL_MENU, "Full nav-area"},
-        {NO_ICONS, "No left nav-area"}, 
-        {ICONS_ONLY, "Nav icons only"}
+            {UserInfo.DEFAULT, "(default)"}, 
+            {UserInfo.ENGLISH, "English"}, 
+            {UserInfo.SPANISH, "Español"}
         };
         return string;
     }

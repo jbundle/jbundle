@@ -37,7 +37,6 @@ import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.UserProperties;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.user.screen.UserEntryScreen;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
@@ -247,7 +246,7 @@ public class BasePanel extends ScreenField
             SCannedBox loginBox = new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.LOGIN);
             loginBox.setRequestFocusEnabled(true);
             strDesc = application.getResources(ResourceConstants.MAIN_RESOURCE, true).getString("Create new account");
-            String strCommand = Utility.addURLParam(null, Params.SCREEN, UserEntryScreen.class.getName());
+            String strCommand = Utility.addURLParam(null, Params.SCREEN, "org.jbundle.main.user.screen.UserEntryScreen");
             new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST_BUTTON_WITH_GAP, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, strDesc, MenuConstants.FORM, strCommand, MenuConstants.FORM + DBConstants.TIP);
             this.setDefaultButton(loginBox);
             ((BaseField)converter.getField()).addListener(new FieldListener(null)

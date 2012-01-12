@@ -28,7 +28,7 @@ import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.user.db.UserNavMenusField;
+import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
 
@@ -379,9 +379,9 @@ public class HBasePanel extends HScreenField
 
         strHTML = null;
         char ch = HBasePanel.getFirstToUpper(this.getProperty(DBParams.NAVMENUS), ' ');
-        if (ch != UserNavMenusField.NO_ICONS.charAt(0))
+        if (ch != UserInfoModel.NO_ICONS.charAt(0))
         {
-            if (ch == UserNavMenusField.ICONS_ONLY.charAt(0))  /** Icons only */
+            if (ch == UserInfoModel.ICONS_ONLY.charAt(0))  /** Icons only */
                 strHTML = reg.getString("htmlNavIconsOnlyAfterContent");
             if ((strHTML == null) || (strHTML.length() == 0))
                 strHTML = reg.getString("htmlNavAfterContent");
@@ -405,12 +405,12 @@ public class HBasePanel extends HScreenField
         ResourceBundle reg = ((BaseApplication)this.getTask().getApplication()).getResources(HtmlConstants.HTML_RESOURCE, false);
 
         char ch = HBasePanel.getFirstToUpper(this.getProperty(DBParams.NAVMENUS), ' ');
-        if (ch != UserNavMenusField.NO_ICONS.charAt(0))
+        if (ch != UserInfoModel.NO_ICONS.charAt(0))
         {
             String strMenu = this.getProperty(DBParams.MENU); // This user's nav menu
             if ((strMenu == null) || (strMenu.length() == 0))
                 strMenu = "NavMenu";
-            if (ch == UserNavMenusField.ICONS_ONLY.charAt(0))  /** Icons only */
+            if (ch == UserInfoModel.ICONS_ONLY.charAt(0))  /** Icons only */
             {
                 strStart = reg.getString("htmlNavIconsOnlyStart");
                 strHTML = reg.getString(strMenu + "IconsOnly");

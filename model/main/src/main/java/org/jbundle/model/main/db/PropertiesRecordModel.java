@@ -7,6 +7,7 @@ package org.jbundle.model.main.db;
 
 public interface PropertiesRecordModel extends org.jbundle.model.db.Rec
 {
+    public static final String PROPERTIES = "Properties";
 
     public static final String PROPERTIES_RECORD_FILE = "PropertiesRecord";
     public static final String THIN_CLASS = "org.jbundle.thin.main.db.PropertiesRecord";

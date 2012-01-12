@@ -25,7 +25,7 @@ import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.MenuConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.db.Menus;
+import org.jbundle.model.main.db.MenusModel;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
@@ -158,9 +158,9 @@ public class BaseMenuScreen extends BaseScreen
                 return this.getMenuDesc(this.getMainRecord());
             if ("link".equalsIgnoreCase(strProperty))
                 return this.getMenuLink(this.getMainRecord());
-            if (this.getMainRecord() instanceof Menus)
-            	if (((XMLPropertiesField)this.getMainRecord().getField(Menus.kParams)).getProperty(strProperty) != null)
-            		return ((XMLPropertiesField)this.getMainRecord().getField(Menus.kParams)).getProperty(strProperty);
+            if (this.getMainRecord() instanceof MenusModel)
+            	if (((XMLPropertiesField)this.getMainRecord().getField(MenusModel.PARAMS)).getProperty(strProperty) != null)
+            		return ((XMLPropertiesField)this.getMainRecord().getField(MenusModel.PARAMS)).getProperty(strProperty);
         }
         return super.getProperty(strProperty);
     }

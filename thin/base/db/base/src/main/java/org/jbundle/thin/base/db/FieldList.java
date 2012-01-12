@@ -74,10 +74,6 @@ public class FieldList extends Object
      */
     protected Object m_recordOwner = null;
     
-    public static final String ID = "ID";
-    public static final String LAST_CHANGED = "LastChanged";
-    public static final String DELETED = "Deleted";
-
     /**
      * Constructor.
      */

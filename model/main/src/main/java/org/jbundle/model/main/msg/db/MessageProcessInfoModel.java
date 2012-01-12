@@ -5,11 +5,36 @@
  */
 package org.jbundle.model.main.msg.db;
 
+import org.jbundle.model.message.Message;
+
 public interface MessageProcessInfoModel extends org.jbundle.model.db.Rec
 {
+    public static final String CODE = "Code";
+    public static final String DESCRIPTION = "Description";
+    public static final String MESSAGE_INFO_ID = "MessageInfoID";
+    public static final String MESSAGE_TYPE_ID = "MessageTypeID";
+    public static final String PROCESS_TYPE_ID = "ProcessTypeID";
+    public static final String PROCESSOR_CLASS = "ProcessorClass";
 
     public static final String MESSAGE_PROCESS_INFO_FILE = "MessageProcessInfo";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.MessageProcessInfo";
     public static final String THICK_CLASS = "org.jbundle.main.msg.db.MessageProcessInfo";
+    /**
+     * GetMessageProcessInfo Method.
+     */
+    public MessageProcessInfoModel getMessageProcessInfo(String strMessageKey);
+    /**
+     * GetMessageProcessInfo Method.
+     */
+    public MessageProcessInfoModel getMessageProcessInfo(String strMessageInfoType, String strContactType, String strRequestType, String strMessageProcessType, String strProcessType);
+    /**
+     * SetupMessageHeaderFromCode Method.
+     */
+    public boolean setupMessageHeaderFromCode(Message trxMessage, String strMessageCode, String strVersion);
+    /**
+     * Create the response message for this message.
+     * @return the response message (or null if none).
+     */
+    public Message createReplyMessage(Message message);
 
 }

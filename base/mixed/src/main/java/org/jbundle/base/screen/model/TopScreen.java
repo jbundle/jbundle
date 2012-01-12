@@ -32,16 +32,10 @@ import org.jbundle.base.util.MenuConstants;
 import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.user.db.UserJavaField;
-import org.jbundle.main.user.db.UserLanguageField;
-import org.jbundle.main.user.db.UserLogosField;
-import org.jbundle.main.user.db.UserMenubarField;
-import org.jbundle.main.user.db.UserNavMenusField;
-import org.jbundle.main.user.screen.UserEntryScreen;
-import org.jbundle.main.user.screen.UserLoginScreen;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
@@ -414,9 +408,21 @@ public class TopScreen extends BasePanel
             new SStaticText(screen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), screen, fldFake, ScreenConstants.DEFAULT_DISPLAY);
         }
         else if ((iErrorCode == DBConstants.LOGIN_REQUIRED) || (iErrorCode == DBConstants.AUTHENTICATION_REQUIRED))
-            screen = new UserLoginScreen(null, null, parentScreen, null, 0, null);
+        {
+            Record record = Record.makeRecordFromClassName(UserInfoModel.THICK_CLASS, null);
+            ScreenLocation itsLocation = this.getScreenLocation();
+            int docMode = record.commandToDocType(UserInfoModel.LOGIN_SCREEN);
+            Map<String,Object> properties = null;
+            screen = record.makeScreen(itsLocation, parentScreen, docMode, properties);
+        }
         else if (iErrorCode == DBConstants.CREATE_USER_REQUIRED)
-            screen = new UserEntryScreen(null, null, parentScreen, null, 0, null);
+        {
+            Record record = Record.makeRecordFromClassName(UserInfoModel.THICK_CLASS, null);
+            ScreenLocation itsLocation = this.getScreenLocation();
+            int docMode = record.commandToDocType(UserInfoModel.ENTRY_SCREEN);
+            Map<String,Object> properties = null;
+            screen = record.makeScreen(itsLocation, parentScreen, docMode, properties);
+        }
         return screen;
     }
     /**
@@ -445,21 +451,21 @@ public class TopScreen extends BasePanel
         string = this.getProperty(DBParams.MENUBARS);
         if (bSetDefault)
             if (string == null)
-                string = UserMenubarField.YES;
+                string = UserInfoModel.YES;
         if (string != null)
             application.setProperty(DBParams.MENUBARS, string);
 
         string = this.getProperty(DBParams.NAVMENUS);
         if (bSetDefault)
             if (string == null)
-                string = UserNavMenusField.NO_ICONS;
+                string = UserInfoModel.NO_ICONS;
         if (string != null)
             application.setProperty(DBParams.NAVMENUS, string);
 
         string = this.getProperty(DBParams.JAVA);
         if (bSetDefault)
             if (string == null)
-                string = UserJavaField.DEFAULT;        // Changing parameters
+                string = UserInfoModel.DEFAULT;        // Changing parameters
         if (string != null)
             application.setProperty(DBParams.JAVA, string);
 
@@ -473,14 +479,14 @@ public class TopScreen extends BasePanel
         string = this.getProperty(DBParams.LOGOS);
         if (bSetDefault)
             if (string == null)
-                string = UserLogosField.HOME_PAGE_ONLY;
+                string = UserInfoModel.HOME_PAGE_ONLY;
         if (string != null)
             application.setProperty(DBParams.LOGOS, string);
 
         string = this.getProperty(DBParams.TRAILERS);
         if (bSetDefault)
             if (string == null)
-                string = UserLogosField.HOME_PAGE_ONLY;
+                string = UserInfoModel.HOME_PAGE_ONLY;
         if (string != null)
             application.setProperty(DBParams.TRAILERS, string);
 
@@ -491,7 +497,7 @@ public class TopScreen extends BasePanel
         string = this.getProperty(DBParams.LANGUAGE);
         if (bSetDefault)
             if (string == null)
-                string = UserLanguageField.DEFAULT; /** en (english)*/;
+                string = UserInfoModel.DEFAULT; /** en (english)*/;
         if (string != null)
             application.setLanguage(string);
         

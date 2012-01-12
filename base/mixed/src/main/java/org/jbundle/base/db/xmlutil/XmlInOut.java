@@ -43,7 +43,7 @@ import org.jbundle.base.util.Debug;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.db.DatabaseInfo;
+import org.jbundle.model.main.db.DatabaseInfoModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
@@ -318,9 +318,9 @@ public class XmlInOut extends BaseProcess
         }
         else
         {
-            className = DatabaseInfo.class.getName();
+            className = DatabaseInfoModel.THICK_CLASS;
             record = Record.makeRecordFromClassName(className, this, false, true);
-            ((DatabaseInfo)record).setDatabaseName(databaseName);
+            ((DatabaseInfoModel)record).setDatabaseName(databaseName);
             record.init(this);
         } 
         if (record == null)

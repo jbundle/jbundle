@@ -7,6 +7,8 @@ package org.jbundle.model.main.msg.db;
 
 public interface ProcessTypeModel extends org.jbundle.model.db.Rec
 {
+    public static final String DESCRIPTION = "Description";
+    public static final String CODE = "Code";
 
     public static final String PROCESS_TYPE_FILE = "ProcessType";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.ProcessType";

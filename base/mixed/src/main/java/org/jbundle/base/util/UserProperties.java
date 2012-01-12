@@ -15,7 +15,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.PropertiesField;
 import org.jbundle.base.field.ReferenceField;
-import org.jbundle.main.user.db.UserRegistration;
+import org.jbundle.model.main.user.db.UserRegistrationModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.thin.base.db.Constants;
@@ -126,9 +126,9 @@ public class UserProperties extends Object
 
         if (((recUserRegistration.getEditMode() == Constants.EDIT_CURRENT) ||
             (recUserRegistration.getEditMode() == Constants.EDIT_IN_PROGRESS))
-            && ((m_app.getUserID() != null) && (!recUserRegistration.getField(UserRegistration.kUserID).isNull())
-                    && (m_app.getUserID().equals(recUserRegistration.getField(UserRegistration.kUserID).toString())) &&
-                (recUserRegistration.getField(UserRegistration.kCode).toString().equalsIgnoreCase(m_strKey))))
+            && ((m_app.getUserID() != null) && (!recUserRegistration.getField(UserRegistrationModel.USER_ID).isNull())
+                    && (m_app.getUserID().equals(recUserRegistration.getField(UserRegistrationModel.USER_ID).toString())) &&
+                (recUserRegistration.getField(UserRegistrationModel.CODE).toString().equalsIgnoreCase(m_strKey))))
         { // Key is current... no need to read
         }
         else
@@ -152,16 +152,16 @@ public class UserProperties extends Object
     
             if (m_strKey == null)
                 return null;
-            ((ReferenceField)recUserRegistration.getField(UserRegistration.kUserID)).setString(m_app.getUserID());
-            recUserRegistration.getField(UserRegistration.kCode).setString(m_strKey);
-            recUserRegistration.setKeyArea(UserRegistration.kUserIDKey);
+            ((ReferenceField)recUserRegistration.getField(UserRegistrationModel.USER_ID)).setString(m_app.getUserID());
+            recUserRegistration.getField(UserRegistrationModel.CODE).setString(m_strKey);
+            recUserRegistration.setKeyArea(UserRegistrationModel.USER_ID_KEY);
             try   {
                 boolean bFound = recUserRegistration.seek("=");
                 if (!bFound)
                 {   // Key not found, add a new one
                     recUserRegistration.addNew();
-                    ((ReferenceField)recUserRegistration.getField(UserRegistration.kUserID)).setString(m_app.getUserID());
-                    recUserRegistration.getField(UserRegistration.kCode).setString(m_strKey);
+                    ((ReferenceField)recUserRegistration.getField(UserRegistrationModel.USER_ID)).setString(m_app.getUserID());
+                    recUserRegistration.getField(UserRegistrationModel.CODE).setString(m_strKey);
                 }
             } catch (DBException ex)    {
                 ex.printStackTrace();
@@ -177,7 +177,7 @@ public class UserProperties extends Object
     public String getProperty(String strName)
     {
         Record recUserRegistration = this.getUserRegistration();
-        return ((PropertiesField)recUserRegistration.getField(UserRegistration.kProperties)).getProperty(strName);
+        return ((PropertiesField)recUserRegistration.getField(UserRegistrationModel.PROPERTIES)).getProperty(strName);
     }
     /**
      * Set this property.
@@ -187,7 +187,7 @@ public class UserProperties extends Object
     public void setProperty(String strName, String strData)
     {
         Record recUserRegistration = this.getUserRegistration();
-        ((PropertiesField)recUserRegistration.getField(UserRegistration.kProperties)).setProperty(strName, strData);
+        ((PropertiesField)recUserRegistration.getField(UserRegistrationModel.PROPERTIES)).setProperty(strName, strData);
     }
     /**
      * Set the properties.
@@ -196,7 +196,7 @@ public class UserProperties extends Object
     public void setProperties(Map<String, Object> properties)
     {
         Record recUserRegistration = this.getUserRegistration();
-        ((PropertiesField)recUserRegistration.getField(UserRegistration.kProperties)).setProperties(properties);
+        ((PropertiesField)recUserRegistration.getField(UserRegistrationModel.PROPERTIES)).setProperties(properties);
     }
     /**
      * Set the properties.
@@ -205,7 +205,7 @@ public class UserProperties extends Object
     public Map<String, Object> getProperties()
     {
         Record recUserRegistration = this.getUserRegistration();
-        return ((PropertiesField)recUserRegistration.getField(UserRegistration.kProperties)).getProperties();
+        return ((PropertiesField)recUserRegistration.getField(UserRegistrationModel.PROPERTIES)).getProperties();
     }
     /**
      * Retrieve/Create a user properties record with this lookup key.

@@ -4,7 +4,7 @@
 package org.jbundle.base.message.trx.transport.html;
 
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
-import org.jbundle.main.msg.db.MessageTransport;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 
@@ -50,7 +50,7 @@ public class HTMLMessageTransport extends BaseMessageTransport
      */
     public String getMessageTransportType()
     {
-        return MessageTransport.HTML;
+        return MessageTransportModel.HTML;
     }
     /**
      * Send the message and (optionally) get the reply.

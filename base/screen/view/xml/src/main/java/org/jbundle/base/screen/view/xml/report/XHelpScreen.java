@@ -24,7 +24,7 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.main.db.Messages;
+import org.jbundle.model.main.db.MessagesModel;
 
 
 /**
@@ -108,7 +108,7 @@ public class XHelpScreen extends XBaseParserScreen
                 "   </menu-item>" +
                 "   <menu-item>" +
                 "       <description>Report a bug in this program</description>" +
-                "       <link>" + HtmlConstants.SERVLET_LINK + "?record=" + Messages.class.getName() + "&amp;command=New&amp;url=" + URLEncoder.encode(strURL, DBConstants.URL_ENCODING) + "</link>" +
+                "       <link>" + HtmlConstants.SERVLET_LINK + "?record=" + MessagesModel.THICK_CLASS + "&amp;command=New&amp;url=" + URLEncoder.encode(strURL, DBConstants.URL_ENCODING) + "</link>" +
                 "       <image>Bugs</image>" +
                 "   </menu-item>" +
                 "   <help-item>" +

@@ -23,6 +23,8 @@ import org.jbundle.thin.base.util.Application;
  */
 public class MessageApplication extends BaseApplication
 {
+    public static final String AUTOSTART = "autostart";
+
     /**
      * The message manager for the application.
      */

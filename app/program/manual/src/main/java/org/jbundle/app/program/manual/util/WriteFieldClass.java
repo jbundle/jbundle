@@ -109,7 +109,7 @@ public class WriteFieldClass extends WriteSharedClass
     
         this.writeClassInterface();
     
-        this.writeClassFields(false);        // Write the C++ fields for this class
+        this.writeClassFields(LogicFile.INCLUDE_THICK);        // Write the C++ fields for this class
         this.writeDefaultConstructor(strFieldClass);
         this.writeFieldInit();
         this.writeInit();               // Special case... zero all class fields!

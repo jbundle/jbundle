@@ -11,5 +11,9 @@ public interface MessageControlModel extends org.jbundle.model.db.Rec
     public static final String MESSAGE_CONTROL_FILE = "MessageControl";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.MessageControl";
     public static final String THICK_CLASS = "org.jbundle.main.msg.db.MessageControl";
+    /**
+     * GetVersionFromSchemaLocation Method.
+     */
+    public String getVersionFromSchemaLocation(String schemaLocation);
 
 }

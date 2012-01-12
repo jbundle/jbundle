@@ -237,7 +237,10 @@ public class BaseHolder extends Object
     {
         if (m_mapChildHolders == null)
             m_mapChildHolders = new MapList();
-        return m_mapChildHolders.add(baseHolder);
+        synchronized (this)
+        {
+            return m_mapChildHolders.add(baseHolder);
+        }
     }
     /**
      * Remove this BaseHolder from my list.
@@ -247,7 +250,12 @@ public class BaseHolder extends Object
     public boolean remove(BaseHolder baseHolder)
     {
         if (m_mapChildHolders != null)
-            return m_mapChildHolders.remove(baseHolder);
+        {
+            synchronized (this)
+            {
+                return m_mapChildHolders.remove(baseHolder);
+            }
+        }
         return false;
     }
     /**
