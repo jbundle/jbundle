@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageStatus - Message status.
  */
 public class MessageStatus extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.MessageStatusModel
+     implements MessageStatusModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -41,13 +42,6 @@ public class MessageStatus extends VirtualRecord
     public static final int kCodeKey = kDescriptionKey + 1;
     public static final int kMessageStatusLastKey = kCodeKey;
     public static final int kMessageStatusKeys = kCodeKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final String UNKNOWN = "UNKNOWN";
-    public static final String TRX_ID_HOLD = "HOLD";
-    public static final String SENT = "SENT";
-    public static final String SENTOK = "SENTOK";
-    public static final String RECEIVED = "RECEIVED";
-    public static final String ERROR = "ERROR";
-    public static final String IGNORED = "IGNORED";
     /**
      * Default constructor.
      */

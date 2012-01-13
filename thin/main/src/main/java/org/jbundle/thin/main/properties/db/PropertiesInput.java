@@ -5,16 +5,17 @@
  */
 package org.jbundle.thin.main.properties.db;
 
+import org.jbundle.model.db.*;
 import java.util.*;
-
-import org.jbundle.model.db.Field;
-import org.jbundle.model.db.ScreenComponent;
+import java.util.*;
 import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
+import org.jbundle.model.main.properties.db.*;
+
 public class PropertiesInput extends FieldList
-    implements org.jbundle.model.main.properties.db.PropertiesInputModel
+    implements PropertiesInputModel
 {
 
     public PropertiesInput()
@@ -71,21 +72,26 @@ public class PropertiesInput extends FieldList
         keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "Key");
         keyArea.addKeyField("Key", Constants.ASCENDING);
     }
-    @Override
-    public void setPropertiesField(Field fldProperties) {
-        // TODO Auto-generated method stub
-        
+    /**
+     * SetPropertiesField Method.
+     */
+    public void setPropertiesField(Field fldProperties)
+    {
+        // TODO - Finish the thin impl
     }
-    @Override
-    public void loadFieldProperties(Field fldProperties) {
-        // TODO Auto-generated method stub
-        
+    /**
+     * LoadFieldProperties Method.
+     */
+    public void loadFieldProperties(Field fldProperties)
+    {
+        // not implemented in thin
     }
-    @Override
-    public ScreenComponent startEditor(Field fldProperties,
-            boolean bAllowAppending, Map<String, Object> mapKeyDescriptions) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * StartEditor Method.
+     */
+    public ScreenComponent startEditor(Field fldProperties, boolean bAllowAppending, Map<String,Object> mapKeyDescriptions)
+    {
+        return null; // TODO add thin impl
     }
 
 }

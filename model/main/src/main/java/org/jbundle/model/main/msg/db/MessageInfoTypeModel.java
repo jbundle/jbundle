@@ -5,11 +5,12 @@
  */
 package org.jbundle.model.main.msg.db;
 
-public interface MessageInfoTypeModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface MessageInfoTypeModel extends Rec
 {
     public static final String DESCRIPTION = "Description";
     public static final String CODE = "Code";
-
     public static final int REQUEST_ID = 1;
     public static final int REPLY_ID = 2;
     public static final String REQUEST = "REQUEST";

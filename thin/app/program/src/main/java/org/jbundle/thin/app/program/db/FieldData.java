@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class FieldData extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.app.program.db.FieldDataModel
+import org.jbundle.model.app.program.db.*;
+
+public class FieldData extends FieldList
+    implements FieldDataModel
 {
 
     public FieldData()

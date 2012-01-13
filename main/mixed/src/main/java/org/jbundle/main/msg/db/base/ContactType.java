@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.main.db.*;
+import org.jbundle.model.main.msg.db.base.*;
 
 /**
  *  ContactType - Contact type.
  */
 public class ContactType extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.base.ContactTypeModel
+     implements ContactTypeModel
 {
     private static final long serialVersionUID = 1L;
 

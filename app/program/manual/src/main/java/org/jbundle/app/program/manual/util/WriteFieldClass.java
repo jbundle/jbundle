@@ -5,15 +5,15 @@ package org.jbundle.app.program.manual.util;
 
 import java.util.Map;
 
-import org.jbundle.base.db.Record;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.app.program.db.ClassInfo;
 import org.jbundle.app.program.db.FieldData;
 import org.jbundle.app.program.db.LogicFile;
-import org.jbundle.app.program.db.ClassProject.CodeType;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.app.program.db.ClassProjectModel.CodeType;
 
 
 /**
@@ -102,7 +102,7 @@ public class WriteFieldClass extends WriteSharedClass
         strFieldClass = recClassInfo.getField(ClassInfo.kClassName).getString();
 
         this.writeHeading(strFieldClass, this.getPackage(codeType), CodeType.BASE);   // Write the first few lines of the files
-        this.writeIncludes();
+        this.writeIncludes(CodeType.BASE);
 
         if (m_MethodNameList.size() != 0)
             m_MethodNameList.removeAllElements();

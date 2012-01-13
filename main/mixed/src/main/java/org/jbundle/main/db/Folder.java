@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.main.screen.*;
+import org.jbundle.model.main.db.*;
 
 /**
  *  Folder - Folder.
  */
 public class Folder extends BaseFolder
-     implements org.jbundle.model.main.db.FolderModel
+     implements FolderModel
 {
     private static final long serialVersionUID = 1L;
 

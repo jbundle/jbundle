@@ -10,8 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class Packages extends org.jbundle.thin.main.db.Folder
-    implements org.jbundle.model.app.program.packages.db.PackagesModel
+import org.jbundle.thin.main.db.*;
+import org.jbundle.model.app.program.packages.db.*;
+
+public class Packages extends Folder
+    implements PackagesModel
 {
 
     public Packages()

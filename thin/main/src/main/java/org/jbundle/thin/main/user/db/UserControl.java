@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class UserControl extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.user.db.UserControlModel
+import org.jbundle.model.main.user.db.*;
+
+public class UserControl extends FieldList
+    implements UserControlModel
 {
 
     public UserControl()

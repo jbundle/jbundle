@@ -5,58 +5,38 @@
  */
 package org.jbundle.main.msg.db;
 
-import java.net.URL;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Vector;
+import java.awt.*;
+import java.util.*;
 
-import org.jbundle.base.db.EmptyKey;
-import org.jbundle.base.db.KeyArea;
-import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
-import org.jbundle.base.db.VirtualRecord;
-import org.jbundle.base.db.event.FreeOnFreeHandler;
-import org.jbundle.base.db.filter.SubFileFilter;
-import org.jbundle.base.field.BaseField;
-import org.jbundle.base.field.EmptyField;
-import org.jbundle.base.field.PropertiesField;
-import org.jbundle.base.field.ReferenceField;
-import org.jbundle.base.field.StringField;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
-import org.jbundle.base.message.trx.message.internal.ManualMessage;
-import org.jbundle.base.message.trx.processor.BaseMessageInProcessor;
-import org.jbundle.base.message.trx.processor.BaseMessageOutProcessor;
-import org.jbundle.base.message.trx.processor.BaseMessageReplyInProcessor;
-import org.jbundle.base.message.trx.processor.BaseMessageReplyOutProcessor;
-import org.jbundle.base.message.trx.transport.local.LocalMessageTransport;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.BaseScreen;
-import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.ScreenConstants;
-import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.base.BaseStatusSelect;
-import org.jbundle.main.msg.db.base.ContactType;
-import org.jbundle.main.msg.screen.MessageProcessInfoGridScreen;
-import org.jbundle.main.msg.screen.MessageProcessInfoScreen;
-import org.jbundle.main.msg.screen.MessageTransportInfoGridScreen;
-import org.jbundle.model.DBException;
-import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
-import org.jbundle.model.message.Message;
-import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.message.BaseMessageManager;
-import org.jbundle.thin.base.message.MessageConstants;
-import org.jbundle.thin.base.message.MessageRecordDesc;
-import org.jbundle.thin.base.message.TreeMessage;
-import org.jbundle.thin.base.util.Application;
+import org.jbundle.base.db.*;
+import org.jbundle.thin.base.util.*;
+import org.jbundle.thin.base.db.*;
+import org.jbundle.base.db.event.*;
+import org.jbundle.base.db.filter.*;
+import org.jbundle.base.field.*;
+import org.jbundle.base.field.convert.*;
+import org.jbundle.base.field.event.*;
+import org.jbundle.base.screen.model.*;
+import org.jbundle.base.screen.model.util.*;
+import org.jbundle.base.util.*;
+import org.jbundle.model.*;
+import org.jbundle.main.msg.screen.*;
+import org.jbundle.thin.base.message.*;
+import org.jbundle.base.message.trx.processor.*;
+import org.jbundle.base.message.trx.transport.local.*;
+import java.net.*;
+import org.jbundle.base.message.trx.message.*;
+import org.jbundle.base.message.trx.message.internal.*;
+import org.jbundle.model.message.*;
+import org.jbundle.model.db.*;
+import org.jbundle.main.msg.db.base.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageProcessInfo - Message process information.
  */
 public class MessageProcessInfo extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.MessageProcessInfoModel
+     implements MessageProcessInfoModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -86,7 +66,6 @@ public class MessageProcessInfo extends VirtualRecord
     protected MessageTransport m_recMessageTransport = null;
     protected MessageTransportInfo m_recMessageTransportInfo = null;
     protected MessageControl m_recMessageControl = null;
-    public static final String SAFE = "ota.safe";
     /**
      * Default constructor.
      */

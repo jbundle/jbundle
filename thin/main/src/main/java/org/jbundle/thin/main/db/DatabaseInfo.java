@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class DatabaseInfo extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.db.DatabaseInfoModel
+import org.jbundle.model.main.db.*;
+
+public class DatabaseInfo extends FieldList
+    implements DatabaseInfoModel
 {
 
     public DatabaseInfo()
@@ -82,10 +84,12 @@ public class DatabaseInfo extends org.jbundle.thin.base.db.FieldList
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Name");
         keyArea.addKeyField("Name", Constants.ASCENDING);
     }
-    @Override
-    public void setDatabaseName(String strDatabaseName) {
-        // TODO Auto-generated method stub
-        
+    /**
+     * SetDatabaseName Method.
+     */
+    public void setDatabaseName(String databaseName)
+    {
+        // Not used in thin impl
     }
 
 }

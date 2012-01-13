@@ -24,12 +24,13 @@ import org.jbundle.app.program.issue.screen.*;
 import org.jbundle.app.program.project.db.*;
 import org.jbundle.main.user.db.*;
 import org.jbundle.app.program.db.*;
+import org.jbundle.model.app.program.issue.db.*;
 
 /**
  *  Issue - Bug or Issue record.
  */
 public class Issue extends VirtualRecord
-     implements org.jbundle.model.app.program.issue.db.IssueModel
+     implements IssueModel
 {
     private static final long serialVersionUID = 1L;
 

@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class BaseStatus extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.msg.db.base.BaseStatusModel
+import org.jbundle.model.main.msg.db.base.*;
+
+public class BaseStatus extends FieldList
+    implements BaseStatusModel
 {
 
     public BaseStatus()

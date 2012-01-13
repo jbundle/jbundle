@@ -5,18 +5,18 @@ package org.jbundle.app.program.manual.util;
 
 import java.util.Map;
 
-import org.jbundle.base.db.Record;
-import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.app.program.db.ClassProject;
 import org.jbundle.app.program.db.ClassResource;
 import org.jbundle.app.program.db.LogicFile;
 import org.jbundle.app.program.db.ProgramControl;
-import org.jbundle.app.program.db.ClassProject.CodeType;
 import org.jbundle.app.program.resource.db.ResourceTypeField;
 import org.jbundle.app.program.resource.screen.WriteResources;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.app.program.db.ClassProjectModel.CodeType;
 
 
 /**
@@ -96,7 +96,7 @@ public class WriteResourceClass extends WriteClass
         this.writeHeading(strFileName, this.getPackage(codeType), bResourceListBundle ? CodeType.RESOURCE_CODE : CodeType.RESOURCE_PROPERTIES);        // Write the first few lines of the files
     	if (bResourceListBundle)
     	{
-	        this.writeIncludes();
+	        this.writeIncludes(CodeType.BASE);
 	        m_StreamOut.writeit("import java.util.*;\n");
 	    
 	        if (m_MethodNameList.size() != 0)

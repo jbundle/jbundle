@@ -22,12 +22,13 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.main.msg.screen.*;
 import org.jbundle.base.message.trx.message.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageTransportInfo - Message Process Transport Detail.
  */
 public class MessageTransportInfo extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.MessageTransportInfoModel
+     implements MessageTransportInfoModel
 {
     private static final long serialVersionUID = 1L;
 

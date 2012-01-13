@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.user.db.*;
 
 /**
  *  UserLogType - .
  */
 public class UserLogType extends VirtualRecord
-     implements org.jbundle.model.main.user.db.UserLogTypeModel
+     implements UserLogTypeModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -38,8 +39,6 @@ public class UserLogType extends VirtualRecord
     public static final int kDescriptionKey = kIDKey + 1;
     public static final int kUserLogTypeLastKey = kDescriptionKey;
     public static final int kUserLogTypeKeys = kDescriptionKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final int LOGIN = 1;
-    public static final int SCREEN = 2;
     /**
      * Default constructor.
      */

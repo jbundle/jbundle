@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.base.services.*;
+import org.jbundle.model.app.program.db.*;
 
 /**
  *  AnalysisLog - Analyze class create/delete.
  */
 public class AnalysisLog extends VirtualRecord
-     implements org.jbundle.model.app.program.db.AnalysisLogModel, AnalysisLogService
+     implements AnalysisLogModel, AnalysisLogService
 {
     private static final long serialVersionUID = 1L;
 

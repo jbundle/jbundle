@@ -22,12 +22,13 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.main.db.*;
 import org.jbundle.app.program.screen.*;
+import org.jbundle.model.app.program.db.*;
 
 /**
  *  Layout - Record layouts.
  */
 public class Layout extends Folder
-     implements org.jbundle.model.app.program.db.LayoutModel
+     implements LayoutModel
 {
     private static final long serialVersionUID = 1L;
 

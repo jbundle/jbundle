@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.db;
 
-public interface MessagesModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface MessagesModel extends Rec
 {
     public static final String DESCRIPTION = "Description";
 

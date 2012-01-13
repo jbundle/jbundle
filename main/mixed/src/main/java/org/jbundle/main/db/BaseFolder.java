@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.db.*;
 
 /**
  *  BaseFolder - This is a base class for a record that represents a hierarchial folder.
  */
 public class BaseFolder extends VirtualRecord
-     implements org.jbundle.model.main.db.BaseFolderModel
+     implements BaseFolderModel
 {
     private static final long serialVersionUID = 1L;
 

@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.user.db;
 
-public interface UserPermissionModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface UserPermissionModel extends Rec
 {
 
     public static final String USER_PERMISSION_FILE = "UserPermission";

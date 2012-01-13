@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.user.db;
 
-public interface UserControlModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface UserControlModel extends Rec
 {
     public static final String ANON_USER_GROUP_ID = "AnonUserGroupID";
     public static final String ANON_USER_INFO_ID = "AnonUserInfoID";

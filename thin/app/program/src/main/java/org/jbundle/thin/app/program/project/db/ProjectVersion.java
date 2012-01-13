@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class ProjectVersion extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.app.program.project.db.ProjectVersionModel
+import org.jbundle.model.app.program.project.db.*;
+
+public class ProjectVersion extends FieldList
+    implements ProjectVersionModel
 {
 
     public ProjectVersion()

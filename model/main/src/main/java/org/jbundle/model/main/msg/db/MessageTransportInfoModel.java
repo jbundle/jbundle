@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.msg.db;
 
-public interface MessageTransportInfoModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface MessageTransportInfoModel extends Rec
 {
 
     public static final String MESSAGE_TRANSPORT_INFO_FILE = "MessageTransportInfo";

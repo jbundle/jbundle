@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface ClassResourceModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface ClassResourceModel extends Rec
 {
 
     public static final String CLASS_RESOURCE_FILE = "ClassResource";

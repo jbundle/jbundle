@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.msg.db;
 
-public interface MessageDetailModel extends org.jbundle.model.main.db.PropertiesRecordModel
+import org.jbundle.model.main.db.*;
+
+public interface MessageDetailModel extends PropertiesRecordModel
 {
 
     public static final String MESSAGE_DETAIL_FILE = "MessageDetail";

@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.project.db;
 
-public interface ProjectVersionModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface ProjectVersionModel extends Rec
 {
 
     public static final String PROJECT_VERSION_FILE = "ProjectVersion";

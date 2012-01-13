@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class RequestType extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.msg.db.RequestTypeModel
+import org.jbundle.model.main.msg.db.*;
+
+public class RequestType extends FieldList
+    implements RequestTypeModel
 {
 
     public RequestType()

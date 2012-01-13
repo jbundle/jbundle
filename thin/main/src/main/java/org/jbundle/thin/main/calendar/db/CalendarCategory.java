@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class CalendarCategory extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.calendar.db.CalendarCategoryModel
+import org.jbundle.model.main.calendar.db.*;
+
+public class CalendarCategory extends FieldList
+    implements CalendarCategoryModel
 {
 
     public CalendarCategory()

@@ -25,12 +25,13 @@ import org.jbundle.app.program.script.screen.*;
 import org.jbundle.app.program.script.data.importfix.base.*;
 import org.jbundle.app.program.db.*;
 import org.jbundle.util.osgi.finder.*;
+import org.jbundle.model.app.program.script.db.*;
 
 /**
  *  Script - Script maintenance.
  */
 public class Script extends Folder
-     implements org.jbundle.model.app.program.script.db.ScriptModel
+     implements ScriptModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -53,15 +54,6 @@ public class Script extends Folder
     public static final int kScriptLastKey = kCodeKey;
     public static final int kScriptKeys = kCodeKey - DBConstants.MAIN_KEY_FIELD + 1;
     protected Script m_recSubScript = null;
-    public static final String RUN = "R";
-    public static final String RUN_REMOTE = "Z";
-    public static final String SEEK = "S";
-    public static final String COPY_FIELDS = "F";
-    public static final String COPY_RECORDS = "Z";
-    public static final String COPY_DATA = "D";
-    public static final String DESTINATION_RECORD = "destinationRecord";
-    public static final String SOURCE = "source";
-    public static final String DESTINATION = "destination";
     /**
      * Default constructor.
      */

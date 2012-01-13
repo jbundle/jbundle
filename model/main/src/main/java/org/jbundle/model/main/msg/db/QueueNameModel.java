@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.msg.db;
 
-public interface QueueNameModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface QueueNameModel extends Rec
 {
 
     public static final String QUEUE_NAME_FILE = "QueueName";

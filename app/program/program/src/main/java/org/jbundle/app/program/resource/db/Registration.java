@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.app.program.resource.screen.*;
+import org.jbundle.model.app.program.resource.db.*;
 
 /**
  *  Registration - Temporary database to emulate a system key registry.
  */
 public class Registration extends VirtualRecord
-     implements org.jbundle.model.app.program.resource.db.RegistrationModel
+     implements RegistrationModel
 {
     private static final long serialVersionUID = 1L;
 

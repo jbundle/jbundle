@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.db.*;
 
 /**
  *  DatabaseInfo - Database information.
  */
 public class DatabaseInfo extends ControlRecord
-     implements org.jbundle.model.main.db.DatabaseInfoModel
+     implements DatabaseInfoModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -174,9 +175,9 @@ public class DatabaseInfo extends ControlRecord
     /**
      * SetDatabaseName Method.
      */
-    public void setDatabaseName(String strDatabaseName)
+    public void setDatabaseName(String databaseName)
     {
-        m_strDatabaseName = strDatabaseName;
+        m_strDatabaseName = databaseName;
     }
 
 }

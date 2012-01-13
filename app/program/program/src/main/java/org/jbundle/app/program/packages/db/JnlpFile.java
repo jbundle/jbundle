@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.app.program.packages.screen.*;
+import org.jbundle.model.app.program.packages.db.*;
 
 /**
  *  JnlpFile - Jnlp header.
  */
 public class JnlpFile extends VirtualRecord
-     implements org.jbundle.model.app.program.packages.db.JnlpFileModel
+     implements JnlpFileModel
 {
     private static final long serialVersionUID = 1L;
 

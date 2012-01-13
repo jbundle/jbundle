@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.user.db;
 
-public interface UserRegistrationModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface UserRegistrationModel extends Rec
 {
     public static final String USER_ID = "UserID";
     public static final String CODE = "Code";

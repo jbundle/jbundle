@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class Part extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.app.program.packages.db.PartModel
+import org.jbundle.model.app.program.packages.db.*;
+
+public class Part extends FieldList
+    implements PartModel
 {
 
     public Part()

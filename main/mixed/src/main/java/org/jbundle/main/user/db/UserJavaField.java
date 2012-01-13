@@ -20,20 +20,12 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.thin.base.screen.*;
-import org.jbundle.main.db.*;
-import org.jbundle.main.user.screen.*;
 
 /**
  *  UserJavaField - .
  */
 public class UserJavaField extends StringPopupField
 {
-    public static final String DEFAULT = "";
-    public static final String WEBSTART = "WebStart";
-    public static final String PLUG_IN = "Plug-in";
-    public static final String YES = "Yes";
-    public static final String NO = "No";
     /**
      * Default constructor.
      */
@@ -67,11 +59,11 @@ public class UserJavaField extends StringPopupField
     public String[][] getPopupMap()
     {
         String string[][] = {
-            {DEFAULT, "Use default Java"}, 
-            {WEBSTART, "Java Web Start"}, 
-            {PLUG_IN, "JDK Plug-in"}, 
-            {YES, "Java Applet Tags"},
-            {NO, "No Java - Use HTML"}
+            {UserInfo.DEFAULT, "Use default Java"}, 
+            {UserInfo.WEBSTART, "Java Web Start"}, 
+            {UserInfo.PLUG_IN, "JDK Plug-in"}, 
+            {UserInfo.YES, "Java Applet Tags"},
+            {UserInfo.NO, "No Java - Use HTML"}
         };
         return string;
     }

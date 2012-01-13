@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.app.program.script.data.importfix.db.*;
 
 /**
  *  EmptyMemoryRecord - .
  */
 public class EmptyMemoryRecord extends Record
-     implements org.jbundle.model.app.program.script.data.importfix.db.EmptyMemoryRecordModel
+     implements EmptyMemoryRecordModel
 {
     private static final long serialVersionUID = 1L;
 

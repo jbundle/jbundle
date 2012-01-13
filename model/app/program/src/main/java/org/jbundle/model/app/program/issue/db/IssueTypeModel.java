@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.issue.db;
 
-public interface IssueTypeModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface IssueTypeModel extends Rec
 {
 
     public static final String ISSUE_TYPE_FILE = "IssueType";

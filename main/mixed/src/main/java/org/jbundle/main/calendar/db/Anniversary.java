@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.base.db.shared.*;
+import org.jbundle.model.main.calendar.db.*;
 
 /**
  *  Anniversary - Recurring appointments.
  */
 public class Anniversary extends CalendarEntry
-     implements org.jbundle.model.main.calendar.db.AnniversaryModel
+     implements AnniversaryModel
 {
     private static final long serialVersionUID = 1L;
 

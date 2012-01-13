@@ -22,12 +22,13 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.app.program.resource.screen.*;
 import org.jbundle.app.program.db.*;
+import org.jbundle.model.app.program.resource.db.*;
 
 /**
  *  Resource - .
  */
 public class Resource extends VirtualRecord
-     implements org.jbundle.model.app.program.resource.db.ResourceModel
+     implements ResourceModel
 {
     private static final long serialVersionUID = 1L;
 

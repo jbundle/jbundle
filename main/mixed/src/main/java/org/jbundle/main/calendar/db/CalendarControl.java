@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.calendar.db.*;
 
 /**
  *  CalendarControl - Calendar control.
  */
 public class CalendarControl extends ControlRecord
-     implements org.jbundle.model.main.calendar.db.CalendarControlModel
+     implements CalendarControlModel
 {
     private static final long serialVersionUID = 1L;
 

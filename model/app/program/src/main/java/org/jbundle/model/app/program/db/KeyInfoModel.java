@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface KeyInfoModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface KeyInfoModel extends Rec
 {
 
     public static final String KEY_INFO_FILE = "KeyInfo";

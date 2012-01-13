@@ -22,12 +22,13 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.main.calendar.screen.*;
 import org.jbundle.thin.base.message.*;
+import org.jbundle.model.main.calendar.db.*;
 
 /**
  *  AnnivMaster - Recurring appointments.
  */
 public class AnnivMaster extends VirtualRecord
-     implements org.jbundle.model.main.calendar.db.AnnivMasterModel
+     implements AnnivMasterModel
 {
     private static final long serialVersionUID = 1L;
 

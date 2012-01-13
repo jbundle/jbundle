@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageInfoType - Message type.
  */
 public class MessageInfoType extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.MessageInfoTypeModel
+     implements MessageInfoTypeModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -40,10 +41,6 @@ public class MessageInfoType extends VirtualRecord
     public static final int kCodeKey = kDescriptionKey + 1;
     public static final int kMessageInfoTypeLastKey = kCodeKey;
     public static final int kMessageInfoTypeKeys = kCodeKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final int REQUEST_ID = 1;
-    public static final int REPLY_ID = 2;
-    public static final String REQUEST = "REQUEST";
-    public static final String REPLY = "REPLY";
     /**
      * Default constructor.
      */

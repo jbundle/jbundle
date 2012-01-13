@@ -22,12 +22,13 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.thin.base.message.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageTransport - Message transports.
  */
 public class MessageTransport extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.MessageTransportModel
+     implements MessageTransportModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -44,26 +45,6 @@ public class MessageTransport extends VirtualRecord
     public static final int kCodeKey = kDescriptionKey + 1;
     public static final int kMessageTransportLastKey = kCodeKey;
     public static final int kMessageTransportKeys = kCodeKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final String DIRECT = "Direct";
-    public static final String EMAIL = "Email";
-    public static final String FAX = "Fax";
-    public static final String HTML = "HTML";
-    public static final String LOCAL = "Local";
-    public static final String MAIL = "Mail";
-    public static final String SCREEN = "Screen";
-    public static final String SOAP = "SOAP";
-    public static final String XML = "XML";
-    public static final String UPS = "UPS";
-    public static final String MANUAL = "Manual";
-    public static final String CLIENT = "Client";
-    public static final String SERVER = "Server";
-    public static final String DEFAULT = MessageTransport.CLIENT;
-    public static final String SEND_MESSAGE_BY_PARAM = "sendMessageBy";
-    public static final String TRANSPORT_ID_PARAM = "transportID";
-    public static final String TRANSPORT_CLASS_NAME_PARAM = "transportClassName";
-    public static final String TRANSPORT_TYPE_PARAM = "transportType";
-    public static final String REQUEST_TYPE_PARAM = "requestType";
-    public static final String MANUAL_RESPONSE_PARAM = "Manual";
     public static final String INITIAL_MESSAGE_DATA_STATUS = MessageDataDesc.DATA_STATUS;
     /**
      * Default constructor.

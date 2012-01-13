@@ -24,6 +24,7 @@ import org.jbundle.base.message.trx.message.*;
 import org.jbundle.thin.base.message.*;
 import org.jbundle.base.message.trx.transport.screen.*;
 import org.jbundle.main.msg.screen.*;
+import org.jbundle.model.message.*;
 
 /**
  *  CalcTimeoutTimeHandler - Calc the timeout time for this log entry.

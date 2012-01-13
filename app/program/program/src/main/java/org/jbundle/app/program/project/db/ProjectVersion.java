@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.main.user.db.*;
+import org.jbundle.model.app.program.project.db.*;
 
 /**
  *  ProjectVersion - .
  */
 public class ProjectVersion extends VirtualRecord
-     implements org.jbundle.model.app.program.project.db.ProjectVersionModel
+     implements ProjectVersionModel
 {
     private static final long serialVersionUID = 1L;
 

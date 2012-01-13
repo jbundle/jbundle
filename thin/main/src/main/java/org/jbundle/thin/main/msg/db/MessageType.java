@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class MessageType extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.msg.db.MessageTypeModel
+import org.jbundle.model.main.msg.db.*;
+
+public class MessageType extends FieldList
+    implements MessageTypeModel
 {
 
     public MessageType()

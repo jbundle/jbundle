@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.resource.db;
 
-public interface RegistrationModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface RegistrationModel extends Rec
 {
 
     public static final String REGISTRATION_FILE = "Registration";

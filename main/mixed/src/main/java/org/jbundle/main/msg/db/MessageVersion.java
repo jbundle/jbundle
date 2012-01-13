@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.base.message.trx.message.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageVersion - Message version.
  */
 public class MessageVersion extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.MessageVersionModel
+     implements MessageVersionModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -47,8 +48,7 @@ public class MessageVersion extends VirtualRecord
     public static final int kMessageVersionLastKey = kDescriptionKey;
     public static final int kMessageVersionKeys = kDescriptionKey - DBConstants.MAIN_KEY_FIELD + 1;
     public static final int NO_VERSION = 0;
-    public static final String VERSION = TrxMessageHeader.MESSAGE_VERSION;
-    public static final String VERSION_ID = TrxMessageHeader.MESSAGE_VERSION_ID;
+    public static final String VERSION_ID = "messageVersionID"; //TrxMessageHeader.MESSAGE_VERSION_ID;
     /**
      * Default constructor.
      */

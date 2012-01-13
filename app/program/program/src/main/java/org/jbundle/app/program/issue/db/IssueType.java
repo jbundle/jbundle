@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.app.program.issue.db.*;
 
 /**
  *  IssueType - .
  */
 public class IssueType extends VirtualRecord
-     implements org.jbundle.model.app.program.issue.db.IssueTypeModel
+     implements IssueTypeModel
 {
     private static final long serialVersionUID = 1L;
 

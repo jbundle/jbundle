@@ -5,9 +5,10 @@
  */
 package org.jbundle.model.main.msg.db;
 
-import org.jbundle.model.message.Message;
+import org.jbundle.model.message.*;
+import org.jbundle.model.db.*;
 
-public interface MessageLogModel extends org.jbundle.model.db.Rec
+public interface MessageLogModel extends Rec
 {
     public static final String MESSAGE_INFO_TYPE_ID = "MessageInfoTypeID";
     public static final String MESSAGE_TYPE_ID = "MessageTypeID";
@@ -37,6 +38,10 @@ public interface MessageLogModel extends org.jbundle.model.db.Rec
     public static final String XML_MESSAGE_DATA = "XMLMessageData";
     public static final String MESSAGE_DATA = "MessageData";
     public static final String ERROR_TEXT = "ErrorText";
+    public static final String MESSAGE_ICON = "Transaction";
+    public static final String SOURCE_ICON = "Source";
+    public static final String MESSAGE_SCREEN = "Message Screen";
+    public static final String SOURCE_SCREEN = "Source";
 
     public static final String MESSAGE_LOG_FILE = "MessageLog";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.MessageLog";
@@ -52,6 +57,6 @@ public interface MessageLogModel extends org.jbundle.model.db.Rec
     /**
      * Get this record.
      */
-    public MessageLogModel getMessageLog(String strID);
+    public MessageLogModel getMessageLog(String ID);
 
 }

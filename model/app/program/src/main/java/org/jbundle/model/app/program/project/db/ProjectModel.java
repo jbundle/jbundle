@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.project.db;
 
-public interface ProjectModel extends org.jbundle.model.main.db.FolderModel
+import org.jbundle.model.main.db.*;
+
+public interface ProjectModel extends FolderModel
 {
 
     public static final String PROJECT_FILE = "Project";

@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.app.program.project.screen.*;
+import org.jbundle.model.app.program.project.db.*;
 
 /**
  *  ProjectTaskPredecessor - .
  */
 public class ProjectTaskPredecessor extends VirtualRecord
-     implements org.jbundle.model.app.program.project.db.ProjectTaskPredecessorModel
+     implements ProjectTaskPredecessorModel
 {
     private static final long serialVersionUID = 1L;
 

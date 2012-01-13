@@ -22,12 +22,13 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.main.db.*;
 import org.jbundle.app.program.project.screen.*;
+import org.jbundle.model.app.program.project.db.*;
 
 /**
  *  Project - .
  */
 public class Project extends Folder
-     implements org.jbundle.model.app.program.project.db.ProjectModel
+     implements ProjectModel
 {
     private static final long serialVersionUID = 1L;
 

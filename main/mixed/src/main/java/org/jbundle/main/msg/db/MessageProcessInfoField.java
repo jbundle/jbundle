@@ -27,6 +27,8 @@ import org.jbundle.base.message.trx.transport.local.*;
 import java.net.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.base.message.trx.message.internal.*;
+import org.jbundle.model.message.*;
+import org.jbundle.model.db.*;
 
 /**
  *  MessageProcessInfoField - .

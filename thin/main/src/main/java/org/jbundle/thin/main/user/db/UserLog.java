@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class UserLog extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.user.db.UserLogModel
+import org.jbundle.model.main.user.db.*;
+
+public class UserLog extends FieldList
+    implements UserLogModel
 {
 
     public UserLog()
@@ -80,10 +82,12 @@ public class UserLog extends org.jbundle.thin.base.db.FieldList
         keyArea.addKeyField("UserID", Constants.ASCENDING);
         keyArea.addKeyField("LogTime", Constants.ASCENDING);
     }
-    @Override
-    public void log(int iUserID, int iUserLogTypeID, String strMessage) {
-        // TODO Auto-generated method stub
-        
+    /**
+     * Log Method.
+     */
+    public void log(int iUserID, int iUserLogTypeID, String strMessage)
+    {
+        // TODO - add thin log code here
     }
 
 }

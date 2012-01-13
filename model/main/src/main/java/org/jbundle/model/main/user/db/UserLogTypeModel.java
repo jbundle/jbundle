@@ -5,9 +5,10 @@
  */
 package org.jbundle.model.main.user.db;
 
-public interface UserLogTypeModel extends org.jbundle.model.db.Rec
-{
+import org.jbundle.model.db.*;
 
+public interface UserLogTypeModel extends Rec
+{
     public static final int LOGIN = 1;
     public static final int SCREEN = 2;
 

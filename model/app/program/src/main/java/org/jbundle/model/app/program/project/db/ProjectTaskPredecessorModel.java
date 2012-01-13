@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.project.db;
 
-public interface ProjectTaskPredecessorModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface ProjectTaskPredecessorModel extends Rec
 {
 
     public static final String PROJECT_TASK_PREDECESSOR_FILE = "ProjectTaskPredecessor";

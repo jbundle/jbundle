@@ -10,8 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class MessageDetail extends org.jbundle.thin.main.db.PropertiesRecord
-    implements org.jbundle.model.main.msg.db.MessageDetailModel
+import org.jbundle.thin.main.db.*;
+import org.jbundle.model.main.msg.db.*;
+
+public class MessageDetail extends PropertiesRecord
+    implements MessageDetailModel
 {
 
     public MessageDetail()

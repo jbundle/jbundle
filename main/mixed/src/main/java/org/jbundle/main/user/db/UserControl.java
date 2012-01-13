@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.user.db.*;
 
 /**
  *  UserControl - User Control file.
  */
 public class UserControl extends ControlRecord
-     implements org.jbundle.model.main.user.db.UserControlModel
+     implements UserControlModel
 {
     private static final long serialVersionUID = 1L;
 

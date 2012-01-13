@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.calendar.db;
 
-public interface CalendarControlModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface CalendarControlModel extends Rec
 {
 
     public static final String CALENDAR_CONTROL_FILE = "CalendarControl";

@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.user.db;
 
-public interface UserResourceModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface UserResourceModel extends Rec
 {
 
     public static final String USER_RESOURCE_FILE = "UserResource";

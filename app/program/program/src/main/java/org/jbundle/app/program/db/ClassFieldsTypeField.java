@@ -31,6 +31,7 @@ public class ClassFieldsTypeField extends StringPopupField
     public static final String CLASS_FIELD = "F";
     public static final String NATIVE_FIELD = "N";
     public static final String INCLUDE_PACKAGE = "P";
+    public static final String CLASS_NAME = "X";
     /**
      * Default constructor.
      */
@@ -88,6 +89,7 @@ public class ClassFieldsTypeField extends StringPopupField
         {INCLUDE_CLASS, "Include class"},
         {CLASS_FIELD, "Class field"},
         {NATIVE_FIELD, "Native field"},
+        {CLASS_NAME, "Class name"},
         };
         return string;
     }

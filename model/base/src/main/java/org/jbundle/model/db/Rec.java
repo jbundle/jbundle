@@ -22,6 +22,8 @@ public interface Rec
     public static final String LAST_CHANGED = "LastChanged";
     public static final String DELETED = "Deleted";
 
+    public static final String ID_KEY = "ID";
+
     /**
      * init.
      */

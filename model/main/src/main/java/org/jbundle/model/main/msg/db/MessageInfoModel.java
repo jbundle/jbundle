@@ -5,10 +5,14 @@
  */
 package org.jbundle.model.main.msg.db;
 
-public interface MessageInfoModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface MessageInfoModel extends Rec
 {
     public static final String MESSAGE_INFO_TYPE_ID = "MessageInfoTypeID";
     public static final String CONTACT_TYPE_ID = "ContactTypeID";
+    public static final String PROCESS_DETAIL_SCREEN = "Process detail";
+    public static final String TRANSPORT_DETAIL_SCREEN = "Transport detail";
 
     public static final String MESSAGE_INFO_FILE = "MessageInfo";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.MessageInfo";

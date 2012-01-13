@@ -5,8 +5,13 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface ClassProjectModel extends org.jbundle.model.main.db.FolderModel
+import org.jbundle.model.main.db.*;
+
+public interface ClassProjectModel extends FolderModel
 {
+    public static enum CodeType {BASE, THIN, RESOURCE_PROPERTIES, RESOURCE_CODE, INTERFACE};
+    public static final String CLASS_DETAIL_SCREEN = "ClassDetail";
+    public static final String RESOURCE_DETAIL_SCREEN = "ResourceDetail";
 
     public static final String CLASS_PROJECT_FILE = "ClassProject";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.db.ClassProject";

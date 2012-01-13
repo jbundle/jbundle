@@ -23,12 +23,13 @@ import org.jbundle.model.*;
 import org.jbundle.main.db.*;
 import org.jbundle.app.program.screen.*;
 import org.jbundle.app.program.resource.screen.*;
+import org.jbundle.model.app.program.db.*;
 
 /**
  *  ClassProject - .
  */
 public class ClassProject extends Folder
-     implements org.jbundle.model.app.program.db.ClassProjectModel
+     implements ClassProjectModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -56,10 +57,7 @@ public class ClassProject extends Folder
     public static final int kNameKey = kParentFolderIDKey + 1;
     public static final int kClassProjectLastKey = kNameKey;
     public static final int kClassProjectKeys = kNameKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static enum CodeType {BASE, THIN, RESOURCE_PROPERTIES, RESOURCE_CODE, INTERFACE};
-    public static final String CLASS_DETAIL_SCREEN = "ClassDetail";
     public static final int CLASS_DETAIL_MODE = ScreenConstants.LAST_MODE * 4;
-    public static final String RESOURCE_DETAIL_SCREEN = "ResourceDetail";
     public static final int RESOURCE_DETAIL_MODE = ScreenConstants.LAST_MODE * 8;
     /**
      * Default constructor.

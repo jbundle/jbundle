@@ -10,11 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class CalendarEntry extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.calendar.db.CalendarEntryModel
+import org.jbundle.model.main.calendar.db.*;
+
+public class CalendarEntry extends FieldList
+    implements CalendarEntryModel
 {
-    public static final int ANNIVERSARY_ID = 2;
-    public static final int APPOINTMENT_ID = 1;
 
     public CalendarEntry()
     {

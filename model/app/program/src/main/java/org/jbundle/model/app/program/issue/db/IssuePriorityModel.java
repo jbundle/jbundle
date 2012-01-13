@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.issue.db;
 
-public interface IssuePriorityModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface IssuePriorityModel extends Rec
 {
 
     public static final String ISSUE_PRIORITY_FILE = "IssuePriority";

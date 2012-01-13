@@ -5,8 +5,14 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface LogicFileModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface LogicFileModel extends Rec
 {
+    public static final int INCLUDE_THICK = 0x0001;
+    public static final int INCLUDE_THIN = 0x002;
+    public static final int INCLUDE_INTERFACE = 0x004;
+    public static final int INCLUDE_ALL = 0xFFF;
 
     public static final String LOGIC_FILE_FILE = "LogicFile";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.db.LogicFile";

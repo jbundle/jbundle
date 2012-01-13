@@ -22,12 +22,13 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.base.db.shared.*;
 import org.jbundle.main.calendar.screen.*;
+import org.jbundle.model.main.calendar.db.*;
 
 /**
  *  Appointment - Calendar appointments.
  */
 public class Appointment extends CalendarEntry
-     implements org.jbundle.model.main.calendar.db.AppointmentModel
+     implements AppointmentModel
 {
     private static final long serialVersionUID = 1L;
 

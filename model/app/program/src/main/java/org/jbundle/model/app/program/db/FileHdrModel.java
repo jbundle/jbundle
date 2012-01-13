@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface FileHdrModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface FileHdrModel extends Rec
 {
 
     public static final String FILE_HDR_FILE = "FileHdr";

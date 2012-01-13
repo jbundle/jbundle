@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  ProcessType - Message process type.
  */
 public class ProcessType extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.ProcessTypeModel
+     implements ProcessTypeModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -40,8 +41,6 @@ public class ProcessType extends VirtualRecord
     public static final int kCodeKey = kDescriptionKey + 1;
     public static final int kProcessTypeLastKey = kCodeKey;
     public static final int kProcessTypeKeys = kCodeKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final String UPDATE = "UPDATE";
-    public static final String INFO = "INFO";
     /**
      * Default constructor.
      */

@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class Resource extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.app.program.resource.db.ResourceModel
+import org.jbundle.model.app.program.resource.db.*;
+
+public class Resource extends FieldList
+    implements ResourceModel
 {
 
     public Resource()

@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.user.db;
 
-public interface UserLogModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface UserLogModel extends Rec
 {
 
     public static final String USER_LOG_FILE = "UserLog";

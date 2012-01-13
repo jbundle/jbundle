@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.calendar.db;
 
-public interface CalendarCategoryModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface CalendarCategoryModel extends Rec
 {
 
     public static final String CALENDAR_CATEGORY_FILE = "CalendarCategory";

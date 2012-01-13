@@ -5,10 +5,15 @@
  */
 package org.jbundle.model.main.msg.db.base;
 
-public interface ContactTypeModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface ContactTypeModel extends Rec
 {
     public static final String DESCRIPTION = "Description";
     public static final String CODE = "Code";
+
+    public static final String DESCRIPTION_KEY = "Description";
+
     public static final String CODE_KEY = "Code";
 
     public static final String CONTACT_TYPE_FILE = "ContactType";

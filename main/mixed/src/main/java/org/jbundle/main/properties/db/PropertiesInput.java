@@ -5,39 +5,31 @@
  */
 package org.jbundle.main.properties.db;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.awt.*;
+import java.util.*;
 
-import org.jbundle.base.db.EmptyKey;
-import org.jbundle.base.db.KeyArea;
-import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
-import org.jbundle.base.db.event.FileListener;
-import org.jbundle.base.field.BaseField;
-import org.jbundle.base.field.CounterField;
-import org.jbundle.base.field.EmptyField;
-import org.jbundle.base.field.ListenerOwner;
-import org.jbundle.base.field.PropertiesField;
-import org.jbundle.base.field.StringField;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.BaseScreen;
-import org.jbundle.base.screen.model.GridScreen;
-import org.jbundle.base.screen.model.Screen;
-import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ScreenConstants;
-import org.jbundle.main.properties.screen.PropertiesInputGridScreen;
-import org.jbundle.model.DBException;
-import org.jbundle.model.db.Field;
-import org.jbundle.model.db.ScreenComponent;
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.base.db.*;
+import org.jbundle.thin.base.util.*;
+import org.jbundle.thin.base.db.*;
+import org.jbundle.base.db.event.*;
+import org.jbundle.base.db.filter.*;
+import org.jbundle.base.field.*;
+import org.jbundle.base.field.convert.*;
+import org.jbundle.base.field.event.*;
+import org.jbundle.base.screen.model.*;
+import org.jbundle.base.screen.model.util.*;
+import org.jbundle.base.util.*;
+import org.jbundle.model.*;
+import org.jbundle.main.properties.screen.*;
+import org.jbundle.model.db.*;
+import java.util.*;
+import org.jbundle.model.main.properties.db.*;
 
 /**
  *  PropertiesInput - Memory table for inputting properties.
  */
 public class PropertiesInput extends Record
-     implements org.jbundle.model.main.properties.db.PropertiesInputModel
+     implements PropertiesInputModel
 {
     private static final long serialVersionUID = 1L;
 

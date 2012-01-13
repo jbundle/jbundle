@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class JnlpFile extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.app.program.packages.db.JnlpFileModel
+import org.jbundle.model.app.program.packages.db.*;
+
+public class JnlpFile extends FieldList
+    implements JnlpFileModel
 {
 
     public JnlpFile()

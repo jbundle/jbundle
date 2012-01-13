@@ -25,12 +25,13 @@ import org.jbundle.thin.base.message.*;
 import org.jbundle.main.msg.screen.*;
 import org.jbundle.util.osgi.finder.*;
 import org.jbundle.main.msg.db.base.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageInfo - Message information.
  */
 public class MessageInfo extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.MessageInfoModel
+     implements MessageInfoModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -53,9 +54,7 @@ public class MessageInfo extends VirtualRecord
     public static final int kMessageInfoLastKey = kMessageInfoTypeIDKey;
     public static final int kMessageInfoKeys = kMessageInfoTypeIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     public static final int PROCESS_DETAIL_MODE = ScreenConstants.LAST_MODE * 4;
-    public static final String PROCESS_DETAIL_SCREEN = "Process detail";
     public static final int TRANSPORT_DETAIL_MODE = ScreenConstants.LAST_MODE * 2;
-    public static final String TRANSPORT_DETAIL_SCREEN = "Transport detail";
     public static final String ELEMENT = "ota.element";
     public static final String SCHEMA_LOCATION = TrxMessageHeader.SCHEMA_LOCATION;
     public static final String NAMESPACE = "namespace";

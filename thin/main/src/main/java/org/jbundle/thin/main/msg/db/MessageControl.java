@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class MessageControl extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.msg.db.MessageControlModel
+import org.jbundle.model.main.msg.db.*;
+
+public class MessageControl extends FieldList
+    implements MessageControlModel
 {
 
     public MessageControl()
@@ -79,10 +81,12 @@ public class MessageControl extends org.jbundle.thin.base.db.FieldList
         keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
         keyArea.addKeyField("ID", Constants.ASCENDING);
     }
-    @Override
-    public String getVersionFromSchemaLocation(String schemaLocation) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * GetVersionFromSchemaLocation Method.
+     */
+    public String getVersionFromSchemaLocation(String schemaLocation)
+    {
+        return null;    // Not impl in thin
     }
 
 }

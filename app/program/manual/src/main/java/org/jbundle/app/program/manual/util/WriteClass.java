@@ -13,7 +13,6 @@ import org.jbundle.app.program.db.ClassFields;
 import org.jbundle.app.program.db.ClassFieldsTypeField;
 import org.jbundle.app.program.db.ClassInfo;
 import org.jbundle.app.program.db.ClassProject;
-import org.jbundle.app.program.db.ClassProject.CodeType;
 import org.jbundle.app.program.db.FieldData;
 import org.jbundle.app.program.db.LogicFile;
 import org.jbundle.app.program.db.ProgramControl;
@@ -32,6 +31,7 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.app.program.db.ClassProjectModel.CodeType;
 import org.jbundle.thin.base.db.Constants;
 
 
@@ -156,7 +156,7 @@ public class WriteClass extends BaseProcess
         if (!this.readThisClass(strClassName))  // Get the field this is based on
             return;
         this.writeHeading(strClassName, this.getPackage(codeType), codeType);        // Write the first few lines of the files
-        this.writeIncludes();
+        this.writeIncludes(codeType);
 
         if (m_MethodNameList.size() != 0)
             m_MethodNameList.removeAllElements();
@@ -272,20 +272,21 @@ public class WriteClass extends BaseProcess
         String strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
         String strClassDesc = recClassInfo.getField(ClassInfo.kClassDesc).getString();
         String strClassInterface = recClassInfo.getField(ClassInfo.kClassImplements).getString();
-        m_IncludeNameList.addInclude(strBaseClass);    // Make sure this is included
-    
-        m_StreamOut.writeit("\n/**\n *\t" + strClassName + " - " + strClassDesc + ".\n */\n");
-
         String implementsClass = null;
         if (((ClassInfo)recClassInfo).isARecord())
-            implementsClass = this.getPackage(CodeType.INTERFACE) + '.' + strClassName + "Model";
+            implementsClass = strClassName + "Model";
         if ((implementsClass != null) && (implementsClass.length() > 0))
         {
+            m_IncludeNameList.addInclude(this.getPackage(CodeType.INTERFACE));    // Make sure this is included
             if ((strClassInterface == null) || (strClassInterface.length() == 0))
                 strClassInterface = implementsClass;
             else
                 strClassInterface = implementsClass + ", " + strClassInterface;
         }
+        m_IncludeNameList.addInclude(strBaseClass);    // Make sure this is included
+    
+        m_StreamOut.writeit("\n/**\n *\t" + strClassName + " - " + strClassDesc + ".\n */\n");
+
         if ((strClassInterface == null) || (strClassInterface.length() == 0))
             strClassInterface = "";
         else
@@ -301,32 +302,36 @@ public class WriteClass extends BaseProcess
     }
     /**
      *  Write the includes
+     * @param codeType Target method types
      */
-    public void writeIncludes()
+    public void writeIncludes(CodeType codeType)
     {
         ClassInfo recClassInfo2 = null;
         ClassFields recClassFields = null;
         try   {
         	ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
-            String strPackage = this.getPackage(CodeType.BASE);
+            String strPackage = this.getPackage(codeType);
             m_StreamOut.writeit("package " + strPackage + ";\n\n");
-
-            m_StreamOut.writeit("import java.awt.*;\n"); //j Temp
-            m_StreamOut.writeit("import java.util.*;\n\n");    //j Temp
-
             m_IncludeNameList.addName(strPackage);     // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.db");        // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "thin.base.util");   // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "thin.base.db");   // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.db.event");      // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.db.filter");     // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.field");     // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.field.convert");     // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.field.event");   // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.screen.model");      // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.screen.model.util");     // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.util");      // Don't include this!!!
-            m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "model");      // Don't include this!!!
+
+            if (codeType == CodeType.BASE)
+            {
+                m_StreamOut.writeit("import java.awt.*;\n"); //j Temp
+                m_StreamOut.writeit("import java.util.*;\n\n");    //j Temp
+
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.db");        // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "thin.base.util");   // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "thin.base.db");   // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.db.event");      // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.db.filter");     // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.field");     // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.field.convert");     // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.field.event");   // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.screen.model");      // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.screen.model.util");     // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.util");      // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "model");      // Don't include this!!!
+            }            
         // Now write the include files for any base classes not in this file or fields with class defs not in file
             recClassInfo2 = new ClassInfo(this);
 
@@ -346,13 +351,29 @@ public class WriteClass extends BaseProcess
             while (recClassInfo2.hasNext())
             {
                 recClassInfo2.next();
+                if ((codeType == CodeType.THIN) && (!recClassInfo2.isARecord()))
+                    continue;
+                if ((codeType == CodeType.INTERFACE) && (!recClassInfo2.isARecord()))
+                    continue;
 
                 String strBaseRecordClass = recClassInfo2.getField(ClassInfo.kBaseClassName).getString();
-                m_IncludeNameList.addInclude(strBaseRecordClass);  // Include the base class if it isn't in this file
+                if (codeType == CodeType.BASE)
+                    m_IncludeNameList.addInclude(strBaseRecordClass);  // Include the base class if it isn't in this file
                 recClassFields.close();
                 while (recClassFields.hasNext())
                 {
                     recClassFields.next();
+                    
+                    int scope = (int)(recClassFields.getField(ClassFields.kIncludeScope).getValue() + 0.5);
+                    int target = 0;
+                    if (codeType == CodeType.BASE)
+                        target = LogicFile.INCLUDE_THICK;
+                    if (codeType == CodeType.THIN)
+                        target = LogicFile.INCLUDE_THIN;
+                    if (codeType == CodeType.INTERFACE)
+                        target = LogicFile.INCLUDE_INTERFACE;
+                    if ((target & scope) == 0)
+                        continue;
 
                     String strFieldName = recClassFields.getField(ClassFields.kClassFieldName).getString();
                     String strFieldClass = recClassFields.getField(ClassFields.kClassFieldClass).getString();
@@ -366,13 +387,13 @@ public class WriteClass extends BaseProcess
                         	if ((classProject != null)
                         			&& ((classProject.getEditMode() == DBConstants.EDIT_CURRENT) || (classProject.getEditMode() == DBConstants.EDIT_IN_PROGRESS)))
                         	{
-                        		CodeType codeType = CodeType.BASE;
+                        		CodeType codeType2 = CodeType.BASE;
                         		if (strFieldClass.startsWith(".thin"))
-                        				codeType = CodeType.THIN;
+                        				codeType2 = CodeType.THIN;
                         		if (strFieldClass.startsWith(".res"))
-                    				codeType = CodeType.RESOURCE_CODE;
+                    				codeType2 = CodeType.RESOURCE_CODE;
                         		strFieldClass = classProject.getFullPackage(CodeType.BASE, strFieldClass);
-                        		if (codeType != CodeType.BASE)
+                        		if (codeType2 != CodeType.BASE)
                         		{
                         			int end = strFieldClass.indexOf(codeType == CodeType.THIN ? ".thin" : ".res");
                         			int start = strFieldClass.indexOf('.');
@@ -441,14 +462,15 @@ public class WriteClass extends BaseProcess
                 if ((methodType & targetMethodTypes) == 0)
                     continue;
                 if ((isARecord)
-                        && ((methodType & LogicFile.INCLUDE_INTERFACE) != 0) && ((targetMethodTypes & LogicFile.INCLUDE_INTERFACE) == 0))
-                    continue;   // If this has already been included in the interface, don't include it here
+                    && ((methodType & LogicFile.INCLUDE_INTERFACE) != 0) && ((targetMethodTypes & LogicFile.INCLUDE_INTERFACE) == 0))
+                        continue;   // If this has already been included in the interface, don't include it here
                 String strFieldName = recClassFields.getField(ClassFields.kClassFieldName).getString();
                 String strFieldClass = recClassFields.getField(ClassFields.kClassFieldClass).getString();
                 String strReference = "";
                 String strClassFieldType = recClassFields.getField(ClassFields.kClassFieldsType).toString();
                 if ((strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_FIELD))
-                    || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.NATIVE_FIELD)))
+                    || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.NATIVE_FIELD))
+                    || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_NAME)))
                         if (strFieldName.length() != 0)
                 {
                         if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_FIELD))
@@ -466,6 +488,19 @@ public class WriteClass extends BaseProcess
                         strAssignmentOperator = " ";
                     if (!recClassFields.getField(ClassFields.kClassFieldInitialValue).isNull())
                         strInitialValue = strAssignmentOperator + recClassFields.getField(ClassFields.kClassFieldInitialValue).toString();
+                    if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_NAME))
+                    {
+                        ClassInfo recClassInfo2 = new ClassInfo(this);
+                        recClassInfo2.setKeyArea(ClassInfo.kClassNameKey);
+                        recClassInfo2.getField(ClassInfo.kClassName).setString(strFieldClass);   // Class of this record
+                        if (recClassInfo2.seek("="))
+                        {
+                            String packageName = recClassInfo2.getField(ClassInfo.kClassPackage).getString();
+                            ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo2.getField(ClassInfo.kClassProjectID)).getReference();
+                            strInitialValue = "\"" + classProject.getFullPackage(CodeType.BASE, packageName) + '.' + strFieldClass + "\"";
+                            strFieldClass = "String";
+                        }
+                    }
                     m_StreamOut.writeit(strProtection + " " + strFieldClass + " " + strFieldName + strReference + strInitialValue + ";\n");
                 }
             }

@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface ProgramControlModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface ProgramControlModel extends Rec
 {
 
     public static final String PROGRAM_CONTROL_FILE = "ProgramControl";

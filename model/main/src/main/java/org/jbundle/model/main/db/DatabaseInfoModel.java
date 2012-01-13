@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.db;
 
-public interface DatabaseInfoModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface DatabaseInfoModel extends Rec
 {
 
     public static final String DATABASE_INFO_FILE = "DatabaseInfo";
@@ -14,6 +16,6 @@ public interface DatabaseInfoModel extends org.jbundle.model.db.Rec
     /**
      * SetDatabaseName Method.
      */
-    public void setDatabaseName(String strDatabaseName);
+    public void setDatabaseName(String databaseName);
 
 }

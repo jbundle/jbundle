@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class Registration extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.app.program.resource.db.RegistrationModel
+import org.jbundle.model.app.program.resource.db.*;
+
+public class Registration extends FieldList
+    implements RegistrationModel
 {
 
     public Registration()

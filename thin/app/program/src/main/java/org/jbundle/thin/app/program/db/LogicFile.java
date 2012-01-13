@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class LogicFile extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.app.program.db.LogicFileModel
+import org.jbundle.model.app.program.db.*;
+
+public class LogicFile extends FieldList
+    implements LogicFileModel
 {
 
     public LogicFile()

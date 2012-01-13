@@ -5,16 +5,17 @@
  */
 package org.jbundle.thin.main.msg.db;
 
+import org.jbundle.model.message.*;
+import org.jbundle.model.db.*;
 import java.util.*;
-
-import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
-import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class MessageProcessInfo extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.msg.db.MessageProcessInfoModel
+import org.jbundle.model.main.msg.db.*;
+
+public class MessageProcessInfo extends FieldList
+    implements MessageProcessInfoModel
 {
 
     public MessageProcessInfo()
@@ -102,29 +103,33 @@ public class MessageProcessInfo extends org.jbundle.thin.base.db.FieldList
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Code");
         keyArea.addKeyField("Code", Constants.ASCENDING);
     }
-    @Override
-    public MessageProcessInfoModel getMessageProcessInfo(String strMessageKey) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * GetMessageProcessInfo Method.
+     */
+    public MessageProcessInfoModel getMessageProcessInfo(String strMessageKey)
+    {
+        return null;    // Not impl in thin
     }
-    @Override
-    public MessageProcessInfoModel getMessageProcessInfo(
-            String strMessageInfoType, String strContactType,
-            String strRequestType, String strMessageProcessType,
-            String strProcessType) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * GetMessageProcessInfo Method.
+     */
+    public MessageProcessInfoModel getMessageProcessInfo(String strMessageInfoType, String strContactType, String strRequestType, String strMessageProcessType, String strProcessType)
+    {
+        return null;    // No thin impl
     }
-    @Override
-    public boolean setupMessageHeaderFromCode(Message trxMessage,
-            String strMessageCode, String strVersion) {
-        // TODO Auto-generated method stub
-        return false;
+    /**
+     * SetupMessageHeaderFromCode Method.
+     */
+    public boolean setupMessageHeaderFromCode(Message trxMessage, String strMessageCode, String strVersion)
+    {
+        return false; // TODO - Add thin impl
     }
-    @Override
-    public Message createReplyMessage(Message message) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * CreateReplyMessage Method.
+     */
+    public Message createReplyMessage(Message message)
+    {
+        return null;    // TODO add thin impl
     }
 
 }

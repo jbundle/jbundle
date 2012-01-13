@@ -10,8 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class ProjectTask extends org.jbundle.thin.main.db.Folder
-    implements org.jbundle.model.app.program.project.db.ProjectTaskModel
+import org.jbundle.thin.main.db.*;
+import org.jbundle.model.app.program.project.db.*;
+
+public class ProjectTask extends Folder
+    implements ProjectTaskModel
 {
 
     public ProjectTask()

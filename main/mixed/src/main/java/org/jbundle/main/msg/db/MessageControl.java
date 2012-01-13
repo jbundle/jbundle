@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageControl - Message control information.
  */
 public class MessageControl extends ControlRecord
-     implements org.jbundle.model.main.msg.db.MessageControlModel
+     implements MessageControlModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -42,17 +43,6 @@ public class MessageControl extends ControlRecord
     public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
     public static final int kMessageControlLastKey = kIDKey;
     public static final int kMessageControlKeys = kIDKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final String[][] DESCRIPTIONS = {
-       {MessageControl.BASE_NAMESPACE_URI, "Base namespace"},
-       {MessageControl.WSDL_NAMESPACE_URI, "WSDL namespace"},
-    };
-    public static final String BASE_NAMESPACE_URI = "base.uri";
-    public static final String WSDL_NAMESPACE_URI = "uri.namespace";
-    public static final String SERVICE_NAME = "service.name";
-    public static final String INTERFACE_NAME = "interface.name";
-    public static final String BINDING_NAME = "binding.name";
-    public static final String ENDPOINT_NAME = "endpoint.name";
-    public static final String MESSAGE_SUFFIX = "message.suffix";
     /**
      * Default constructor.
      */

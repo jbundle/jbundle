@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface ScreenInModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface ScreenInModel extends Rec
 {
 
     public static final String SCREEN_IN_FILE = "ScreenIn";

@@ -24,12 +24,13 @@ import org.jbundle.thin.base.screen.*;
 import org.jbundle.main.db.*;
 import org.jbundle.main.user.screen.*;
 import org.jbundle.main.msg.db.base.*;
+import org.jbundle.model.main.user.db.*;
 
 /**
  *  UserInfo - User Information.
  */
 public class UserInfo extends PropertiesRecord
-     implements org.jbundle.model.main.user.db.UserInfoModel
+     implements UserInfoModel
 {
     private static final long serialVersionUID = 1L;
     public static final String USER_NAME = "UserName";

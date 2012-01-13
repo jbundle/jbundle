@@ -24,12 +24,13 @@ import org.jbundle.app.program.screen.*;
 import org.jbundle.base.services.*;
 import java.io.*;
 import org.jbundle.base.db.xmlutil.*;
+import org.jbundle.model.app.program.db.*;
 
 /**
  *  ClassInfo - Class information.
  */
 public class ClassInfo extends VirtualRecord
-     implements org.jbundle.model.app.program.db.ClassInfoModel, ClassInfoService
+     implements ClassInfoModel, ClassInfoService
 {
     private static final long serialVersionUID = 1L;
 

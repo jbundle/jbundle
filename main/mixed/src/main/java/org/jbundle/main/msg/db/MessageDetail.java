@@ -24,12 +24,13 @@ import org.jbundle.main.db.*;
 import org.jbundle.main.msg.screen.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.main.msg.db.base.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageDetail - Message detail.
  */
 public class MessageDetail extends PropertiesRecord
-     implements org.jbundle.model.main.msg.db.MessageDetailModel
+     implements MessageDetailModel
 {
     private static final long serialVersionUID = 1L;
 

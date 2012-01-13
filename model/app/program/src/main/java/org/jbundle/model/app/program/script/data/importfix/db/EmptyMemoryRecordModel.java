@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.script.data.importfix.db;
 
-public interface EmptyMemoryRecordModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface EmptyMemoryRecordModel extends Rec
 {
 
     public static final String EMPTY_MEMORY_RECORD_FILE = "EmptyMemoryRecord";

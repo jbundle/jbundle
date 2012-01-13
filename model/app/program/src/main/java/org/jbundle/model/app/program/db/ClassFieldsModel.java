@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface ClassFieldsModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface ClassFieldsModel extends Rec
 {
 
     public static final String CLASS_FIELDS_FILE = "ClassFields";

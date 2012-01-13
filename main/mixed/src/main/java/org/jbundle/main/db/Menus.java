@@ -27,12 +27,13 @@ import java.net.*;
 import org.jbundle.main.screen.*;
 import java.util.*;
 import org.jbundle.base.db.xmlutil.*;
+import org.jbundle.model.main.db.*;
 
 /**
  *  Menus - Menu maintenance.
  */
 public class Menus extends Folder
-     implements org.jbundle.model.main.db.MenusModel
+     implements MenusModel
 {
     private static final long serialVersionUID = 1L;
 

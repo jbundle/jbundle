@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.app.program.screen.*;
+import org.jbundle.model.app.program.db.*;
 
 /**
  *  FileHdr - File Information Record.
  */
 public class FileHdr extends VirtualRecord
-     implements org.jbundle.model.app.program.db.FileHdrModel
+     implements FileHdrModel
 {
     private static final long serialVersionUID = 1L;
 

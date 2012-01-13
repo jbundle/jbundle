@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.user.db.*;
 
 /**
  *  UserPermission - User permissions to resources.
  */
 public class UserPermission extends VirtualRecord
-     implements org.jbundle.model.main.user.db.UserPermissionModel
+     implements UserPermissionModel
 {
     private static final long serialVersionUID = 1L;
 

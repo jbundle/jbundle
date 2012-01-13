@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.calendar.db;
 
-public interface AnnivMasterModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface AnnivMasterModel extends Rec
 {
 
     public static final String ANNIV_MASTER_FILE = "AnnivMaster";

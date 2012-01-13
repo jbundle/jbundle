@@ -26,9 +26,6 @@ import org.jbundle.model.*;
  */
 public class UserLogosField extends StringPopupField
 {
-    public static final String HOME_PAGE_ONLY = "";
-    public static final String NO = "No";
-    public static final String YES = "YES";
     /**
      * Default constructor.
      */
@@ -62,9 +59,9 @@ public class UserLogosField extends StringPopupField
     public String[][] getPopupMap()
     {
         String string[][] = {
-        {HOME_PAGE_ONLY, "Home page only"},
-        {NO, "Never"}, 
-        {YES, "Always"}
+        {UserInfo.HOME_PAGE_ONLY, "Home page only"},
+        {UserInfo.NO, "Never"}, 
+        {UserInfo.YES, "Always"}
         };
         return string;
     }

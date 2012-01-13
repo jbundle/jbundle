@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class CalendarControl extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.calendar.db.CalendarControlModel
+import org.jbundle.model.main.calendar.db.*;
+
+public class CalendarControl extends FieldList
+    implements CalendarControlModel
 {
 
     public CalendarControl()

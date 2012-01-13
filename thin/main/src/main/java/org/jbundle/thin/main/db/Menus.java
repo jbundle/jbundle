@@ -10,8 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class Menus extends org.jbundle.thin.main.db.Folder
-    implements org.jbundle.model.main.db.MenusModel
+import org.jbundle.thin.main.db.*;
+import org.jbundle.model.main.db.*;
+
+public class Menus extends Folder
+    implements MenusModel
 {
 
     public Menus()
@@ -100,15 +103,19 @@ public class Menus extends org.jbundle.thin.main.db.Folder
         keyArea.addKeyField("Type", Constants.ASCENDING);
         keyArea.addKeyField("Program", Constants.ASCENDING);
     }
-    @Override
-    public String getLink() {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * GetLink Method.
+     */
+    public String getLink()
+    {
+        return null;    // TODO FIx thin impl
     }
-    @Override
-    public String getSubMenuXML() {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * GetSubMenuXML Method.
+     */
+    public String getSubMenuXML()
+    {
+        return null;    // Add thin impl
     }
 
 }

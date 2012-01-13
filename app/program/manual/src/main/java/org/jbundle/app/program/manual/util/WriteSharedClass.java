@@ -5,16 +5,16 @@ package org.jbundle.app.program.manual.util;
 
 import java.util.Map;
 
+import org.jbundle.app.program.db.ClassInfo;
+import org.jbundle.app.program.db.FieldData;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
-import org.jbundle.app.program.db.ClassInfo;
-import org.jbundle.app.program.db.FieldData;
-import org.jbundle.app.program.db.ClassProject.CodeType;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.app.program.db.ClassProjectModel.CodeType;
 
 
 /**

@@ -5,52 +5,35 @@
  */
 package org.jbundle.main.msg.db;
 
-import java.util.Map;
+import java.awt.*;
+import java.util.*;
 
-import org.jbundle.base.db.EmptyKey;
-import org.jbundle.base.db.KeyArea;
-import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
-import org.jbundle.base.db.VirtualRecord;
-import org.jbundle.base.db.event.NoDeleteModifyHandler;
-import org.jbundle.base.field.BaseField;
-import org.jbundle.base.field.DateTimeField;
-import org.jbundle.base.field.EmptyField;
-import org.jbundle.base.field.IntegerField;
-import org.jbundle.base.field.MemoField;
-import org.jbundle.base.field.PropertiesField;
-import org.jbundle.base.field.ReferenceField;
-import org.jbundle.base.field.StringField;
-import org.jbundle.base.field.XmlField;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
-import org.jbundle.base.message.trx.transport.screen.ScreenMessageTransport;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.BaseScreen;
-import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.ScreenConstants;
-import org.jbundle.base.util.Utility;
-import org.jbundle.main.msg.db.base.ContactField;
-import org.jbundle.main.msg.db.base.ContactTypeField;
-import org.jbundle.main.msg.screen.MessageLogGridScreen;
-import org.jbundle.main.msg.screen.MessageLogScreen;
-import org.jbundle.main.user.db.UserField;
-import org.jbundle.model.DBException;
-import org.jbundle.model.main.msg.db.MessageLogModel;
-import org.jbundle.model.message.Message;
-import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.message.BaseMessageHeader;
-import org.jbundle.thin.base.message.BaseMessageRecordDesc;
-import org.jbundle.thin.base.message.MessageRecordDesc;
-import org.jbundle.thin.base.message.TreeMessage;
+import org.jbundle.base.db.*;
+import org.jbundle.thin.base.util.*;
+import org.jbundle.thin.base.db.*;
+import org.jbundle.base.db.event.*;
+import org.jbundle.base.db.filter.*;
+import org.jbundle.base.field.*;
+import org.jbundle.base.field.convert.*;
+import org.jbundle.base.field.event.*;
+import org.jbundle.base.screen.model.*;
+import org.jbundle.base.screen.model.util.*;
+import org.jbundle.base.util.*;
+import org.jbundle.model.*;
+import org.jbundle.base.message.trx.message.*;
+import org.jbundle.thin.base.message.*;
+import org.jbundle.base.message.trx.transport.screen.*;
+import org.jbundle.main.msg.screen.*;
+import org.jbundle.model.message.*;
+import org.jbundle.main.msg.db.base.*;
+import org.jbundle.main.user.db.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageLog - Message log display.
  */
 public class MessageLog extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.MessageLogModel
+     implements MessageLogModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -93,11 +76,7 @@ public class MessageLog extends VirtualRecord
     public static final int kTimeoutKey = kMessageTimeKey + 1;
     public static final int kMessageLogLastKey = kTimeoutKey;
     public static final int kMessageLogKeys = kTimeoutKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final String MESSAGE_ICON = "Transaction";
-    public static final String MESSAGE_SCREEN = "Message Screen";
     public static final int MESSAGE_SCREEN_MODE = ScreenConstants.LAST_MODE * 2;
-    public static final String SOURCE_ICON = "Source";
-    public static final String SOURCE_SCREEN = "Source";
     public static final int SOURCE_SCREEN_MODE = ScreenConstants.LAST_MODE * 4;
     /**
      * Default constructor.
@@ -460,12 +439,12 @@ public class MessageLog extends VirtualRecord
     /**
      * Get this record.
      */
-    public MessageLogModel getMessageLog(String strID)
+    public MessageLogModel getMessageLog(String ID)
     {
         int iOldOrder = this.getDefaultOrder();
         try {
             this.addNew();
-            this.getField(MessageLog.kID).setString(strID);
+            this.getField(MessageLog.kID).setString(ID);
             this.setKeyArea(MessageLog.kIDKey);
             if (this.seek(null))
                 return this;

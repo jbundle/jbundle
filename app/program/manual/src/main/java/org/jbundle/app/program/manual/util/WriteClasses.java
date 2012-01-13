@@ -16,7 +16,7 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.app.program.db.ClassInfo;
 import org.jbundle.app.program.db.ClassProject;
 import org.jbundle.app.program.db.FileHdr;
-import org.jbundle.app.program.db.ClassProject.CodeType;
+import org.jbundle.model.app.program.db.ClassProjectModel.CodeType;
 import org.jbundle.app.program.manual.util.data.NameList;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;

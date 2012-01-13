@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class AnalysisLog extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.app.program.db.AnalysisLogModel
+import org.jbundle.model.app.program.db.*;
+
+public class AnalysisLog extends FieldList
+    implements AnalysisLogModel
 {
 
     public AnalysisLog()

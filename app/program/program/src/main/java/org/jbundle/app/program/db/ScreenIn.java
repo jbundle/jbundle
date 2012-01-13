@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.app.program.screen.*;
+import org.jbundle.model.app.program.db.*;
 
 /**
  *  ScreenIn - Screen In File.
  */
 public class ScreenIn extends VirtualRecord
-     implements org.jbundle.model.app.program.db.ScreenInModel
+     implements ScreenInModel
 {
     private static final long serialVersionUID = 1L;
 

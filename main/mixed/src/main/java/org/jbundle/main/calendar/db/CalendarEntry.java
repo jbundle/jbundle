@@ -23,12 +23,13 @@ import org.jbundle.model.*;
 import javax.swing.*;
 import org.jbundle.thin.base.screen.*;
 import org.jbundle.thin.base.message.*;
+import org.jbundle.model.main.calendar.db.*;
 
 /**
  *  CalendarEntry - Calendar.
  */
 public class CalendarEntry extends VirtualRecord
-     implements org.jbundle.model.main.calendar.db.CalendarEntryModel
+     implements CalendarEntryModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -50,9 +51,6 @@ public class CalendarEntry extends VirtualRecord
     public static final int kCalendarCategoryIDKey = kAnnivMasterIDKey + 1;
     public static final int kCalendarEntryLastKey = kCalendarCategoryIDKey;
     public static final int kCalendarEntryKeys = kCalendarCategoryIDKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final int ANNIVERSARY_ID = 2;
-    public static final int APPOINTMENT_ID = 1;
-    public static final String JOB_QUEUE_NAME = "jobSchedulerQueue";
     /**
      * Default constructor.
      */

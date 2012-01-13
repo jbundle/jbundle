@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.thin.base.message.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  RequestType - Message request type.
  */
 public class RequestType extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.RequestTypeModel
+     implements RequestTypeModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -41,15 +42,9 @@ public class RequestType extends VirtualRecord
     public static final int kCodeKey = kDescriptionKey + 1;
     public static final int kRequestTypeLastKey = kCodeKey;
     public static final int kRequestTypeKeys = kCodeKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final String MANUAL = "MANUAL";
-    public static final String INFORMATION = "InfoStatusID";
-    public static final String AVAILABILITY = "InventoryStatusID";
-    public static final String PRICE = "CostStatusID";
-    public static final String BOOKING = "ProductStatusID";
     public static final String BOOKING_ADD = MessageRecordDesc.ADD_RECORD;
     public static final String BOOKING_CHANGE = MessageRecordDesc.CHANGE_RECORD;
     public static final String BOOKING_CANCEL = MessageRecordDesc.DELETE_RECORD;
-    public static final String ERROR = "Error";
     /**
      * Default constructor.
      */

@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class MessageVersion extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.msg.db.MessageVersionModel
+import org.jbundle.model.main.msg.db.*;
+
+public class MessageVersion extends FieldList
+    implements MessageVersionModel
 {
 
     public MessageVersion()

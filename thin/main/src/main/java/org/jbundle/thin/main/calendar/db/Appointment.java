@@ -10,8 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class Appointment extends org.jbundle.thin.main.calendar.db.CalendarEntry
-    implements org.jbundle.model.main.calendar.db.AppointmentModel
+import org.jbundle.thin.main.calendar.db.*;
+import org.jbundle.model.main.calendar.db.*;
+
+public class Appointment extends CalendarEntry
+    implements AppointmentModel
 {
 
     public Appointment()

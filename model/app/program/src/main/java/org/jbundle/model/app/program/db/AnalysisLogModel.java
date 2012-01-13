@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface AnalysisLogModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface AnalysisLogModel extends Rec
 {
 
     public static final String ANALYSIS_LOG_FILE = "AnalysisLog";

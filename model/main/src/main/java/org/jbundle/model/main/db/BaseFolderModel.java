@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.db;
 
-public interface BaseFolderModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface BaseFolderModel extends Rec
 {
     public static final String NAME = "Name";
     public static final String PARENT_FOLDER_ID = "ParentFolderID";

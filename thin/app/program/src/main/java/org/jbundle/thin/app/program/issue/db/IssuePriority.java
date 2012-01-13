@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class IssuePriority extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.app.program.issue.db.IssuePriorityModel
+import org.jbundle.model.app.program.issue.db.*;
+
+public class IssuePriority extends FieldList
+    implements IssuePriorityModel
 {
 
     public IssuePriority()

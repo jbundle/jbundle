@@ -22,12 +22,13 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.main.db.*;
 import org.jbundle.main.user.screen.*;
+import org.jbundle.model.main.user.db.*;
 
 /**
  *  UserGroup - User security group.
  */
 public class UserGroup extends PropertiesRecord
-     implements org.jbundle.model.main.user.db.UserGroupModel
+     implements UserGroupModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -41,10 +42,7 @@ public class UserGroup extends PropertiesRecord
     public static final int kDescriptionKey = kIDKey + 1;
     public static final int kUserGroupLastKey = kDescriptionKey;
     public static final int kUserGroupKeys = kDescriptionKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final int RES_USER = 1;
     public static final int USER_INFO_DETAIL_SCREEN = ScreenConstants.DETAIL_MODE * 2;
-    public static final String USER_DETAIL = "User detail";
-    public static final String USER_ICON = "Distribution";
     /**
      * Default constructor.
      */

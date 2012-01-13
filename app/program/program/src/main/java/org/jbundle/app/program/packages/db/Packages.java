@@ -28,12 +28,13 @@ import org.jbundle.thin.base.message.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.base.thread.*;
 import org.jbundle.app.program.db.*;
+import org.jbundle.model.app.program.packages.db.*;
 
 /**
  *  Packages - Packages.
  */
 public class Packages extends Folder
-     implements org.jbundle.model.app.program.packages.db.PackagesModel
+     implements PackagesModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -60,7 +61,6 @@ public class Packages extends Folder
     public static final int kPartIDKey = kNameKey + 1;
     public static final int kPackagesLastKey = kPartIDKey;
     public static final int kPackagesKeys = kPartIDKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final String SCAN = "Scan";
     /**
      * Default constructor.
      */

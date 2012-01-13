@@ -7,6 +7,18 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.jbundle.app.program.db.ClassFields;
+import org.jbundle.app.program.db.ClassFieldsTypeField;
+import org.jbundle.app.program.db.ClassInfo;
+import org.jbundle.app.program.db.ClassProject;
+import org.jbundle.app.program.db.FieldData;
+import org.jbundle.app.program.db.FileHdr;
+import org.jbundle.app.program.db.KeyInfo;
+import org.jbundle.app.program.db.LogicFile;
+import org.jbundle.app.program.db.ProgramControl;
+import org.jbundle.app.program.manual.util.data.FieldStuff;
+import org.jbundle.app.program.resource.db.ResourceTypeField;
+import org.jbundle.app.program.resource.screen.WriteResources;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.field.CurrencyField;
@@ -21,22 +33,10 @@ import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.field.ShortField;
 import org.jbundle.base.field.TimeField;
 import org.jbundle.base.util.DBConstants;
-import org.jbundle.app.program.db.ClassFields;
-import org.jbundle.app.program.db.ClassFieldsTypeField;
-import org.jbundle.app.program.db.ClassInfo;
-import org.jbundle.app.program.db.ClassProject;
-import org.jbundle.app.program.db.FieldData;
-import org.jbundle.app.program.db.FileHdr;
-import org.jbundle.app.program.db.KeyInfo;
-import org.jbundle.app.program.db.LogicFile;
-import org.jbundle.app.program.db.ProgramControl;
-import org.jbundle.app.program.db.ClassProject.CodeType;
-import org.jbundle.app.program.manual.util.data.FieldStuff;
-import org.jbundle.app.program.resource.db.ResourceTypeField;
-import org.jbundle.app.program.resource.screen.WriteResources;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.app.program.db.ClassProjectModel.CodeType;
 
 
 /**
@@ -122,7 +122,7 @@ public class WriteRecordClass extends WriteSharedClass
         }
 
         this.writeHeading(strClassName, this.getPackage(codeType), CodeType.BASE);        // Write the first few lines of the files
-        this.writeIncludes();
+        this.writeIncludes(CodeType.BASE);
     // Now include any BaseField classes not included in this source (method include)
         try   {
             Record recFieldData = this.getRecord(FieldData.kFieldDataFile);
@@ -178,9 +178,12 @@ public class WriteRecordClass extends WriteSharedClass
     /**
      *  Write the includes
      */
-    public void writeIncludes()
+    public void writeIncludes(CodeType codeType)
     {
-        super.writeIncludes();
+        super.writeIncludes(codeType);
+        if (codeType != CodeType.BASE)
+            return;
+        // Thick only
         Record recClassInfo = this.getMainRecord();
         Record recFieldData = this.getRecord(FieldData.kFieldDataFile);
         Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
@@ -337,19 +340,23 @@ public class WriteRecordClass extends WriteSharedClass
         if ((strBaseClass.equalsIgnoreCase("Record")) || (strBaseClass.equalsIgnoreCase("QueryRecord")))
             strBaseClass = "";  // .model.db.Rec
         this.writeHeading(strClassName + "Model", strPackage, ClassProject.CodeType.INTERFACE);
-        m_StreamOut.writeit("package " + strPackage + ";\n");
+        this.writeIncludes(CodeType.INTERFACE);
 
+        String baseClassPackage = "";
         if (!strBaseClass.equals(""))
         {
             this.readRecordClass(strBaseClass);     // Return the record to the original position
             ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.kClassProjectID)).getReference();
-            String baseClassPackage = classProject.getFullPackage(CodeType.INTERFACE, recClassInfo.getField(ClassInfo.kClassPackage).toString());
+            baseClassPackage = classProject.getFullPackage(CodeType.INTERFACE, recClassInfo.getField(ClassInfo.kClassPackage).toString());
             if ((baseClassPackage.equalsIgnoreCase("org.jbundle.model.db")) || (baseClassPackage.equalsIgnoreCase("org.jbundle.model.base.db")))
                 strBaseClass = "";  // The only interface in the model package is 'Rec'.
-            strBaseClass = baseClassPackage + "." + strBaseClass + "Model";
+            strBaseClass = strBaseClass + "Model";
         }
-        if ((strBaseClass.equals("")) || (strBaseClass.equals("org.jbundle.model.base.db.Model")))
-            strBaseClass = "org.jbundle.model.db.Rec";
+        if ((strBaseClass.equals("")) || (strBaseClass.equals("Model")))
+            strBaseClass = "Rec";
+        if (strBaseClass.equals("Rec"))
+            baseClassPackage = "org.jbundle.model.db";
+        m_StreamOut.writeit("import " + baseClassPackage + ".*;\n");            
         m_StreamOut.writeit("\n");
         
         m_StreamOut.writeit("public interface " + strClassName + "Model extends " + strBaseClass + "\n");
@@ -372,6 +379,7 @@ public class WriteRecordClass extends WriteSharedClass
                 m_StreamOut.writeit("public static final String " + strFieldConstant + " = \"" + strFieldName + "\";\n");
             }
         }
+        this.writeKeyOffsets(CodeType.INTERFACE);   // Write the Key offsets
         this.writeClassFields(LogicFile.INCLUDE_INTERFACE);    // Write the thin class fields.
         
         m_StreamOut.writeit("\n");
@@ -419,13 +427,15 @@ public class WriteRecordClass extends WriteSharedClass
         String strDBType = recFileHdr.getField(FileHdr.kType).getString(); // Is Remote file?
         strDBType = this.fixDBType(strDBType, "Constants.");
         String strPackage = this.getPackage(CodeType.THIN);
-        String implementsClass = this.getPackage(CodeType.INTERFACE) + '.' + strClassName + "Model";
+        String implementsPackage = this.getPackage(CodeType.INTERFACE);
+        if (implementsPackage.equalsIgnoreCase("org.jbundle.model.base.db"))
+            implementsPackage = "org.jbundle.model.db";
     // Now, write the field resources (descriptions)
         String strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
         if ((strBaseClass.equalsIgnoreCase("Record")) || (strBaseClass.equalsIgnoreCase("QueryRecord")))
             strBaseClass = "FieldList";
         this.writeHeading(strClassName, strPackage, ClassProject.CodeType.THIN);
-        m_StreamOut.writeit("package " + strPackage + ";\n\n");
+        this.writeIncludes(CodeType.THIN);
 
         m_StreamOut.writeit("import java.util.*;\n");
         m_StreamOut.writeit("import " + DBConstants.ROOT_PACKAGE + "thin.base.util.*;\n\n");
@@ -447,12 +457,19 @@ public class WriteRecordClass extends WriteSharedClass
             ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.kClassProjectID)).getReference();
             String baseClassPackage = classProject.getFullPackage(CodeType.THIN, recClassInfo.getField(ClassInfo.kClassPackage).toString());
             if (baseClassPackage.equalsIgnoreCase("org.jbundle.thin.base.db"))
+            {
+                baseClassPackage = null;
                 strBaseClass = "FieldList"; // Only valid thin base field in this package
-            strBaseClass = baseClassPackage + "." + strBaseClass;
+            }
+            if (baseClassPackage != null)
+                m_StreamOut.writeit("import " + baseClassPackage + ".*;\n");            
         }
+        m_StreamOut.writeit("import " + implementsPackage + ".*;\n");
         
+        m_StreamOut.writeit("\n");
         m_StreamOut.writeit("public class " + strClassName + " extends " + strBaseClass + "\n");
         m_StreamOut.setTabs(+1);
+        String implementsClass = strClassName + "Model";
         m_StreamOut.writeit("implements " + implementsClass + "\n");
         m_StreamOut.setTabs(-1);
         m_StreamOut.writeit("{\n");
@@ -633,6 +650,7 @@ public class WriteRecordClass extends WriteSharedClass
             m_StreamOut.setTabs(-1);
             m_StreamOut.writeit("}\n");
 
+            this.writeKeyOffsets(CodeType.THIN);   // Write the Key offsets
             this.writeClassKeys(strClassName, recClassInfo, recFieldData, bAutoCounterField);
             
         } catch (DBException ex)    {
@@ -751,7 +769,7 @@ public class WriteRecordClass extends WriteSharedClass
             m_StreamOut.writeit("private static final long serialVersionUID = 1L;\n");
 
         	this.writeFieldOffsets(); // Write the BaseField offsets
-            this.writeKeyOffsets();   // Write the Key offsets
+            this.writeKeyOffsets(CodeType.BASE);   // Write the Key offsets
         
             this.writeClassFields(LogicFile.INCLUDE_THICK);
             this.writeDefaultConstructor(strRecordClass);
@@ -910,11 +928,11 @@ public class WriteRecordClass extends WriteSharedClass
     /**
      *  Create the Record Class for this Record
      */
-    public void writeKeyOffsets()
+    public void writeKeyOffsets(CodeType codeType)
     { // Now, write all the key offsets out
         Record recClassInfo = this.getMainRecord();
         try   {
-            String tempStr3;
+            String previousKey;
             String strKeyName = "";
             String strRecordClass;
             String uniqueKeyFields[] = new String[10];
@@ -940,11 +958,24 @@ public class WriteRecordClass extends WriteSharedClass
                 if (count == 1)
                 {
         //j         m_HeadersOut.Writeit("\nenum e" + strRecordClass + "Keys {");
-                    tempStr3 = "DBConstants.MAIN_KEY_FIELD;";
+                    previousKey = "DBConstants.MAIN_KEY_FIELD;";
                 }
                 else
-                    tempStr3 = "k" + strLastKeyName + "Key + 1;";
-                m_StreamOut.writeit("\npublic static final int k" + strKeyName + "Key = " + tempStr3);
+                    previousKey = "k" + strLastKeyName + "Key + 1;";
+                
+                if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
+                {
+                    int scope = (int)(recKeyInfo.getField(KeyInfo.kIncludeScope).getValue() + 0.5);
+                    if ((codeType == CodeType.INTERFACE) && ((scope & LogicFile.INCLUDE_INTERFACE) == 0))
+                        continue;
+                    if ((codeType == CodeType.THIN) && (((scope & LogicFile.INCLUDE_THIN) == 0) || ((scope & LogicFile.INCLUDE_INTERFACE) != 0)))
+                        continue;
+                    if (count > 1)
+                        m_StreamOut.writeit("\npublic static final String " + this.convertNameToConstant(strKeyName + "Key") + " = \"" + strKeyName +"\";\n");
+                    continue;
+                }
+                    
+                m_StreamOut.writeit("\npublic static final int k" + strKeyName + "Key = " + previousKey);
                     // This logic here checks to see if this is a unique key with one field, if yes adds field to array
                 String keyTypeStr, strKeyFieldName;
                 keyTypeStr = recKeyInfo.getField(KeyInfo.kKeyType).getString();
@@ -962,6 +993,7 @@ public class WriteRecordClass extends WriteSharedClass
             }
             recKeyInfo.close();
             if (count > 0)
+                if (codeType == CodeType.BASE)
             {
                 m_StreamOut.writeit("\npublic static final int k" + strRecordClass + "LastKey = k" + strKeyName + "Key;\n");
                 m_StreamOut.writeit("public static final int k" + strRecordClass + "Keys = k" + strKeyName + "Key - DBConstants.MAIN_KEY_FIELD + 1;\n");

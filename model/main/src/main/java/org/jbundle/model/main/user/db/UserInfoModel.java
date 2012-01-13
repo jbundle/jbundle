@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.user.db;
 
-public interface UserInfoModel extends org.jbundle.model.main.db.PropertiesRecordModel
+import org.jbundle.model.main.db.*;
+
+public interface UserInfoModel extends PropertiesRecordModel
 {
     public static final String USER_NAME = "UserName";
     public static final String PASSWORD = "Password";

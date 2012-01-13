@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface ClassInfoModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface ClassInfoModel extends Rec
 {
 
     public static final String CLASS_INFO_FILE = "ClassInfo";

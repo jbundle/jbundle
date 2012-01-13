@@ -5,8 +5,19 @@
  */
 package org.jbundle.model.app.program.script.db;
 
-public interface ScriptModel extends org.jbundle.model.main.db.FolderModel
+import org.jbundle.model.main.db.*;
+
+public interface ScriptModel extends FolderModel
 {
+    public static final String RUN = "R";
+    public static final String RUN_REMOTE = "Z";
+    public static final String SEEK = "S";
+    public static final String COPY_FIELDS = "F";
+    public static final String COPY_RECORDS = "Z";
+    public static final String COPY_DATA = "D";
+    public static final String DESTINATION_RECORD = "destinationRecord";
+    public static final String SOURCE = "source";
+    public static final String DESTINATION = "destination";
 
     public static final String SCRIPT_FILE = "Script";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.script.db.Script";

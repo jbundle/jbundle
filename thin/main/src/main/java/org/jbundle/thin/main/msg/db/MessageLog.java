@@ -5,16 +5,16 @@
  */
 package org.jbundle.thin.main.msg.db;
 
+import org.jbundle.model.message.*;
 import java.util.*;
-
-import org.jbundle.model.main.msg.db.MessageLogModel;
-import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class MessageLog extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.msg.db.MessageLogModel
+import org.jbundle.model.main.msg.db.*;
+
+public class MessageLog extends FieldList
+    implements MessageLogModel
 {
 
     public MessageLog()
@@ -131,20 +131,26 @@ public class MessageLog extends org.jbundle.thin.base.db.FieldList
         keyArea.addKeyField("MessageStatusID", Constants.ASCENDING);
         keyArea.addKeyField("TimeoutTime", Constants.ASCENDING);
     }
-    @Override
-    public Message createMessage(String strTrxID) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * CreateMessage Method.
+     */
+    public Message createMessage(String strTrxID)
+    {
+        return null;    // No impl in thin
     }
-    @Override
-    public String getProperty(String strKey) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * GetProperty Method.
+     */
+    public String getProperty(String strKey)
+    {
+        return null;    // No thin impl.
     }
-    @Override
-    public MessageLogModel getMessageLog(String strID) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * GetMessageLog Method.
+     */
+    public MessageLogModel getMessageLog(String ID)
+    {
+        return null;    // Not used in thin impl
     }
 
 }

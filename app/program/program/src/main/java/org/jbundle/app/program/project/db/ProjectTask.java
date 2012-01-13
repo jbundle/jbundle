@@ -24,12 +24,13 @@ import org.jbundle.main.db.*;
 import org.jbundle.app.program.project.screen.*;
 import org.jbundle.app.program.issue.db.*;
 import org.jbundle.main.user.db.*;
+import org.jbundle.model.app.program.project.db.*;
 
 /**
  *  ProjectTask - .
  */
 public class ProjectTask extends Folder
-     implements org.jbundle.model.app.program.project.db.ProjectTaskModel
+     implements ProjectTaskModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -64,9 +65,7 @@ public class ProjectTask extends Folder
     protected ProjectTask m_recDetailChildren = null;
     protected ProjectTaskPredecessor m_recProjectTaskPredecessor = null;
     public static final int PROJECT_PREDECESSOR_DETAIL_MODE = ScreenConstants.LAST_MODE * 2;
-    public static final String PROJECT_PREDECESSOR_DETAIL_SCREEN = "Predecessors";
     public static final int PROJECT_TASK_CALENDAR_MODE = ScreenConstants.LAST_MODE * 4;
-    public static final String PROJECT_TASK_CALENDAR_SCREEN = "Project Calendar";
     /**
      * Default constructor.
      */

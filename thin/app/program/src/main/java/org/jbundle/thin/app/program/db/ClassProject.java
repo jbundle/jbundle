@@ -10,8 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class ClassProject extends org.jbundle.thin.main.db.Folder
-    implements org.jbundle.model.app.program.db.ClassProjectModel
+import org.jbundle.thin.main.db.*;
+import org.jbundle.model.app.program.db.*;
+
+public class ClassProject extends Folder
+    implements ClassProjectModel
 {
 
     public ClassProject()

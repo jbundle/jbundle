@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageType - Message type.
  */
 public class MessageType extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.MessageTypeModel
+     implements MessageTypeModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -40,10 +41,6 @@ public class MessageType extends VirtualRecord
     public static final int kCodeKey = kDescriptionKey + 1;
     public static final int kMessageTypeLastKey = kCodeKey;
     public static final int kMessageTypeKeys = kCodeKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final int MESSAGE_IN_ID = 2;
-    public static final int MESSAGE_OUT_ID = 1;
-    public static final String MESSAGE_IN = "MESSAGE_IN";
-    public static final String MESSAGE_OUT = "MESSAGE_OUT";
     /**
      * Default constructor.
      */

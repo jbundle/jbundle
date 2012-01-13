@@ -22,6 +22,7 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.thin.base.message.*;
 import javax.swing.*;
+import org.jbundle.model.main.msg.db.base.*;
 
 /**
  *  BaseStatus - This is a base record class that contains the status for a value.
@@ -35,7 +36,7 @@ The possible status values are:
 The t.
  */
 public class BaseStatus extends VirtualRecord
-     implements org.jbundle.model.main.msg.db.base.BaseStatusModel
+     implements BaseStatusModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -49,21 +50,6 @@ public class BaseStatus extends VirtualRecord
     public static final int kDescriptionKey = kIDKey + 1;
     public static final int kBaseStatusLastKey = kDescriptionKey;
     public static final int kBaseStatusKeys = kDescriptionKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final int NULL_STATUS = 0;
-    public static final int NO_STATUS = 1;
-    public static final int PROPOSAL = 2;
-    public static final int ACCEPTED = 3;
-    public static final int CANCELED = 4;
-    public static final int VALID = MessageDataDesc.VALID;
-    public static final int OKAY = BaseStatus.VALID;
-    public static final int NOT_USED = VALID+1;
-    public static final int REQUEST_SENT = NOT_USED+1;
-    public static final int ERROR = MessageDataDesc.ERROR;
-    public static final int DATA_REQUIRED = MessageDataDesc.DATA_REQUIRED;
-    public static final int MANUAL_REQUEST_REQUIRED = DATA_REQUIRED+1;
-    public static final int MANUAL_REQUEST_SENT = MANUAL_REQUEST_REQUIRED+1;
-    public static final int NOT_VALID = MessageDataDesc.NOT_VALID;
-    public static final int DATA_VALID = MessageDataDesc.DATA_VALID;
     /**
      * Default constructor.
      */

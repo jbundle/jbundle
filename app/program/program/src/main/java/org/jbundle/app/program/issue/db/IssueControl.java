@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.app.program.project.db.*;
+import org.jbundle.model.app.program.issue.db.*;
 
 /**
  *  IssueControl - .
  */
 public class IssueControl extends ControlRecord
-     implements org.jbundle.model.app.program.issue.db.IssueControlModel
+     implements IssueControlModel
 {
     private static final long serialVersionUID = 1L;
 

@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class IssueType extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.app.program.issue.db.IssueTypeModel
+import org.jbundle.model.app.program.issue.db.*;
+
+public class IssueType extends FieldList
+    implements IssueTypeModel
 {
 
     public IssueType()

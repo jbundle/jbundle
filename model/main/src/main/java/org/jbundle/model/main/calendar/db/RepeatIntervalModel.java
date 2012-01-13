@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.calendar.db;
 
-public interface RepeatIntervalModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface RepeatIntervalModel extends Rec
 {
 
     public static final String REPEAT_INTERVAL_FILE = "RepeatInterval";

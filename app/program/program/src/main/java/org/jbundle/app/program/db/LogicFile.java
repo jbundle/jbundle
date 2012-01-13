@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.app.program.screen.*;
+import org.jbundle.model.app.program.db.*;
 
 /**
  *  LogicFile - Method Descriptions.
  */
 public class LogicFile extends VirtualRecord
-     implements org.jbundle.model.app.program.db.LogicFileModel
+     implements LogicFileModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -50,10 +51,6 @@ public class LogicFile extends VirtualRecord
     public static final int kSequenceKey = kMethodClassNameKey + 1;
     public static final int kLogicFileLastKey = kSequenceKey;
     public static final int kLogicFileKeys = kSequenceKey - DBConstants.MAIN_KEY_FIELD + 1;
-    public static final int INCLUDE_THICK = 0x0001;
-    public static final int INCLUDE_THIN = 0x002;
-    public static final int INCLUDE_INTERFACE = 0x004;
-    public static final int INCLUDE_ALL = 0xFFF;
     /**
      * Default constructor.
      */

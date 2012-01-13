@@ -5,9 +5,11 @@
  */
 package org.jbundle.model.main.msg.db;
 
-import org.jbundle.model.message.Message;
+import org.jbundle.model.message.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.db.*;
 
-public interface MessageProcessInfoModel extends org.jbundle.model.db.Rec
+public interface MessageProcessInfoModel extends Rec
 {
     public static final String CODE = "Code";
     public static final String DESCRIPTION = "Description";
@@ -15,6 +17,7 @@ public interface MessageProcessInfoModel extends org.jbundle.model.db.Rec
     public static final String MESSAGE_TYPE_ID = "MessageTypeID";
     public static final String PROCESS_TYPE_ID = "ProcessTypeID";
     public static final String PROCESSOR_CLASS = "ProcessorClass";
+    public static final String SAFE = "ota.safe";
 
     public static final String MESSAGE_PROCESS_INFO_FILE = "MessageProcessInfo";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.MessageProcessInfo";

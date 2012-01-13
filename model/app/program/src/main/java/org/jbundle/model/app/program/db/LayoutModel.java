@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface LayoutModel extends org.jbundle.model.main.db.FolderModel
+import org.jbundle.model.main.db.*;
+
+public interface LayoutModel extends FolderModel
 {
 
     public static final String LAYOUT_FILE = "Layout";

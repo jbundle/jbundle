@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.packages.db;
 
-public interface PartModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface PartModel extends Rec
 {
 
     public static final String PART_FILE = "Part";

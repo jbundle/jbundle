@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.db;
 
-public interface ClassIncludesModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface ClassIncludesModel extends Rec
 {
 
     public static final String CLASS_INCLUDES_FILE = "ClassIncludes";

@@ -20,12 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.app.program.project.db.*;
 
 /**
  *  ProjectControl - .
  */
 public class ProjectControl extends ControlRecord
-     implements org.jbundle.model.app.program.project.db.ProjectControlModel
+     implements ProjectControlModel
 {
     private static final long serialVersionUID = 1L;
 

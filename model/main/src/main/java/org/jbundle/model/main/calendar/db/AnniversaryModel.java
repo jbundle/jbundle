@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.calendar.db;
 
-public interface AnniversaryModel extends org.jbundle.model.main.calendar.db.CalendarEntryModel
+import org.jbundle.model.main.calendar.db.*;
+
+public interface AnniversaryModel extends CalendarEntryModel
 {
     public static final String START_DATE_TIME = "StartDateTime";
     public static final String END_DATE_TIME = "EndDateTime";

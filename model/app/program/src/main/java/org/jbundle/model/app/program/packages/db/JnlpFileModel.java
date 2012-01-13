@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.app.program.packages.db;
 
-public interface JnlpFileModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface JnlpFileModel extends Rec
 {
 
     public static final String JNLP_FILE_FILE = "JnlpFile";

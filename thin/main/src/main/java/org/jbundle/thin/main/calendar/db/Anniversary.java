@@ -10,8 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class Anniversary extends org.jbundle.thin.main.calendar.db.CalendarEntry
-    implements org.jbundle.model.main.calendar.db.AnniversaryModel
+import org.jbundle.thin.main.calendar.db.*;
+import org.jbundle.model.main.calendar.db.*;
+
+public class Anniversary extends CalendarEntry
+    implements AnniversaryModel
 {
 
     public Anniversary()

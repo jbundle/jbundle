@@ -21,12 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.app.program.resource.db.*;
+import org.jbundle.model.app.program.db.*;
 
 /**
  *  ProgramControl - Program control.
  */
 public class ProgramControl extends ControlRecord
-     implements org.jbundle.model.app.program.db.ProgramControlModel
+     implements ProgramControlModel
 {
     private static final long serialVersionUID = 1L;
 
