@@ -304,7 +304,7 @@ public class TopScreen extends BasePanel
         	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
         if (screen == null)
             if (strScreen.length() > 0)
-                screen = BaseScreen.makeNewScreen(strScreen, null, this, 0, null, true);
+                screen = BaseScreen.makeNewScreen(strScreen, null, this, 0, null, null, true);
                 // Now, see if they want to open a file and create the default screen
         if (screen == null) if (strRecord.length() > 0)
         {
@@ -344,7 +344,7 @@ public class TopScreen extends BasePanel
         if (screen == null)
         {   // Default Display Form
             strScreen = MenuScreen.class.getName();
-            screen = BaseScreen.makeNewScreen(strScreen, null, this, 0, null, true);
+            screen = BaseScreen.makeNewScreen(strScreen, null, this, 0, null, null, true);
         }
         if (applet != null)
             applet.setStatus(0, applet, oldCursor);

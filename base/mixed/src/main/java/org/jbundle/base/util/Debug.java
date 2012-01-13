@@ -9,8 +9,8 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.services.AnalysisLogService;
-import org.jbundle.base.services.Services;
+import org.jbundle.base.db.RecordOwner;
+import org.jbundle.model.app.program.db.AnalysisLogModel;
 
 
 /**
@@ -112,7 +112,7 @@ System.exit(0);
             System.out.println("---Assert False");
         }
     }
-    private static AnalysisLogService m_recAnalysisLog = null;
+    private static AnalysisLogModel m_recAnalysisLog = null;
     /**
      * Call this from the end of record.init
      * @param record
@@ -121,7 +121,7 @@ System.exit(0);
     {
         if ("AnalysisLog".equalsIgnoreCase(record.getTableNames(false)))
             return;     // This would create an endless loop
-        AnalysisLogService recAnalysisLog = Debug.getLogRecord(record);
+        AnalysisLogModel recAnalysisLog = Debug.getLogRecord(record);
         if (recAnalysisLog == null)
             return;
         synchronized(gsync) {
@@ -136,7 +136,7 @@ System.exit(0);
     {
         if ("AnalysisLog".equalsIgnoreCase(record.getTableNames(false)))
             return;     // This would create an endless loop
-        AnalysisLogService recAnalysisLog = Debug.getLogRecord(record);
+        AnalysisLogModel recAnalysisLog = Debug.getLogRecord(record);
         if (recAnalysisLog == null)
             return;
         synchronized(gsync) {
@@ -160,10 +160,31 @@ System.exit(0);
         m_mapObject.put(object, new Integer(m_iNextCount));
         return m_iNextCount;
     }
-    public static AnalysisLogService getLogRecord(Record record)
+    public static AnalysisLogModel getLogRecord(Record record)
     {
         if (m_recAnalysisLog == null)
-        	m_recAnalysisLog = Services.createAnalysisLog(record);
+        {
+            if (record.getTable() == null)
+                return null;
+            if (record.getTable().getDatabase() == null)
+                return null;
+            if (record.getTable().getDatabase().getDatabaseOwner() == null)
+                return null;
+            if (record.getTable().getDatabase().getDatabaseOwner().getEnvironment() == null)
+                return null;
+            if (record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getMessageApplication(false, null) == null)
+                return null;
+            if (record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication() == null)
+                return null;
+            if (record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication().getSystemRecordOwner() == null)
+                return null;
+            RecordOwner recordOwner = (RecordOwner)record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication().getSystemRecordOwner();
+
+            m_recAnalysisLog = (AnalysisLogModel)Record.makeRecordFromClassName(AnalysisLogModel.THICK_CLASS, recordOwner);
+
+            ((Record)m_recAnalysisLog).getTable().setProperty(DBParams.SUPRESSREMOTEDBMESSAGES, DBConstants.TRUE);
+            ((Record)m_recAnalysisLog).getTable().getDatabase().setProperty(DBParams.MESSAGES_TO_REMOTE, DBConstants.FALSE);
+        }
         return m_recAnalysisLog;
     }
     public static String getClassName(Object object)

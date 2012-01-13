@@ -20,17 +20,16 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.app.program.screen.*;
-import org.jbundle.base.services.*;
 import java.io.*;
 import org.jbundle.base.db.xmlutil.*;
+import java.util.*;
 import org.jbundle.model.app.program.db.*;
 
 /**
  *  ClassInfo - Class information.
  */
 public class ClassInfo extends VirtualRecord
-     implements ClassInfoModel, ClassInfoService
+     implements ClassInfoModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -59,6 +58,8 @@ public class ClassInfo extends VirtualRecord
     public static final int kClassInfoLastKey = kClassProjectIDKey;
     public static final int kClassInfoKeys = kClassProjectIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     public static final String RESOURCE_CLASS = "ListResourceBundle";
+    public static final String MAINT_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassInfoScreen";
+    public static final String GRID_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassInfoGridScreen";
     /**
      * Default constructor.
      */
@@ -112,15 +113,15 @@ public class ClassInfo extends VirtualRecord
         return DBConstants.REMOTE | DBConstants.SHARED_DATA | DBConstants.HIERARCHICAL | DBConstants.LOCALIZABLE;
     }
     /**
-     * Make a default screen.
+     * MakeScreen Method.
      */
     public BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String,Object> properties)
     {
         BaseScreen screen = null;
         if ((iDocMode & ScreenConstants.MAINT_MODE) != 0)
-            screen = new ClassInfoScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(MAINT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
-            screen = new ClassInfoGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
             screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
@@ -245,7 +246,7 @@ public class ClassInfo extends VirtualRecord
      * @param getRecord If true, read the record.
     .
      */
-    public ClassInfoService readClassInfo(RecordOwner recordOwner, String className)
+    public ClassInfoModel readClassInfo(PropertyOwner recordOwner, String className)
     {
         String strParamRecord = null;
         String strParamScreenType = null;

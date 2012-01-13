@@ -5,6 +5,9 @@
  */
 package org.jbundle.thin.app.program.db;
 
+import java.io.*;
+import java.util.*;
+import org.jbundle.model.*;
 import java.util.*;
 import org.jbundle.thin.base.util.*;
 
@@ -99,6 +102,101 @@ public class ClassInfo extends FieldList
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ClassProjectID");
         keyArea.addKeyField("ClassProjectID", Constants.ASCENDING);
         keyArea.addKeyField("ClassName", Constants.ASCENDING);
+    }
+    /**
+     * Get the link that will run this class.
+     */
+    public String getLink()
+    {
+        return null; // Empty implementation
+    }
+    /**
+     * Read the ClassInfoService record
+     * @param recordOwner The record owner to use to create the this record AND to optionally get the classinfo.
+     * @param className if non-null read this class name, if null, use the recordowner properties to figure out the class.
+     * @param getRecord If true, read the record.
+    .
+     */
+    public ClassInfoModel readClassInfo(PropertyOwner recordOwner, String className)
+    {
+        return null; // Empty implementation
+    }
+    /**
+     * GetClassName Method.
+     */
+    public String getClassName()
+    {
+        return null; // Empty implementation
+    }
+    /**
+     * GetFullClassName Method.
+     */
+    public String getFullClassName()
+    {
+        return null; // Empty implementation
+    }
+    /**
+     * GetClassDesc Method.
+     */
+    public String getClassDesc()
+    {
+        return null; // Empty implementation
+    }
+    /**
+     * GetClassExplain Method.
+     */
+    public String getClassExplain()
+    {
+        return null; // Empty implementation
+    }
+    /**
+     * GetClassHelp Method.
+     */
+    public String getClassHelp()
+    {
+        return null; // Empty implementation
+    }
+    /**
+     * GetClassType Method.
+     */
+    public String getClassType()
+    {
+        return null; // Empty implementation
+    }
+    /**
+     * GetSeeAlso Method.
+     */
+    public String getSeeAlso()
+    {
+        return null; // Empty implementation
+    }
+    /**
+     * GetTechnicalInfo Method.
+     */
+    public String getTechnicalInfo()
+    {
+        return null; // Empty implementation
+    }
+    /**
+     * IsValidRecord Method.
+     */
+    public boolean isValidRecord()
+    {
+        return false; // Empty implementation
+    }
+    /**
+     * PrintHtmlTechInfo Method.
+     */
+    public void printHtmlTechInfo(PrintWriter out, String strTag, String strParams, String strData)
+    {
+        // Empty implementation
+    }
+    /**
+     * PrintScreen Method.
+     */
+    public void printScreen(PrintWriter out, ResourceBundle reg)
+    {
+        // Empty implementation
     }
 
 }

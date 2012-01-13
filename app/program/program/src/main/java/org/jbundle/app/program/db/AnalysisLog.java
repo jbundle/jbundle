@@ -20,14 +20,14 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.base.services.*;
+import org.jbundle.model.db.*;
 import org.jbundle.model.app.program.db.*;
 
 /**
  *  AnalysisLog - Analyze class create/delete.
  */
 public class AnalysisLog extends VirtualRecord
-     implements AnalysisLogModel, AnalysisLogService
+     implements AnalysisLogModel
 {
     private static final long serialVersionUID = 1L;
 
@@ -157,7 +157,7 @@ public class AnalysisLog extends VirtualRecord
      * Call this from the end of record.init
      * @param record the record that is being added.
      */
-    public void logAddRecord(Record record, int iSystemID)
+    public void logAddRecord(Rec record, int iSystemID)
     {
         try {
             this.getTable().setProperty(DBParams.SUPRESSREMOTEDBMESSAGES, DBConstants.TRUE);
@@ -169,7 +169,7 @@ public class AnalysisLog extends VirtualRecord
             this.getField(AnalysisLog.kClassName).setString(Debug.getClassName(record));
             this.getField(AnalysisLog.kDatabaseName).setString(record.getDatabaseName());
             ((DateTimeField)this.getField(AnalysisLog.kInitTime)).setValue(DateTimeField.currentTime());
-            this.getField(AnalysisLog.kRecordOwner).setString(Debug.getClassName(record.getRecordOwner()));
+            this.getField(AnalysisLog.kRecordOwner).setString(Debug.getClassName(((Record)record).getRecordOwner()));
             this.getField(AnalysisLog.kStackTrace).setString(Debug.getStackTrace());
             this.add();
         } catch (DBException ex) {
@@ -181,7 +181,7 @@ public class AnalysisLog extends VirtualRecord
      * Call this from the end of record.free
      * @param record the record that is being added.
      */
-    public void logRemoveRecord(Record record, int iSystemID)
+    public void logRemoveRecord(Rec record, int iSystemID)
     {
         try {
             this.getTable().setProperty(DBParams.SUPRESSREMOTEDBMESSAGES, DBConstants.TRUE);
@@ -196,7 +196,7 @@ public class AnalysisLog extends VirtualRecord
                 this.edit();
                 ((DateTimeField)this.getField(AnalysisLog.kFreeTime)).setValue(DateTimeField.currentTime());
                 if (this.getField(AnalysisLog.kRecordOwner).isNull())
-                    this.getField(AnalysisLog.kRecordOwner).setString(Debug.getClassName(record.getRecordOwner()));
+                    this.getField(AnalysisLog.kRecordOwner).setString(Debug.getClassName(((Record)record).getRecordOwner()));
                 this.set();
             }
             else

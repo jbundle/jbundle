@@ -158,7 +158,7 @@ public class MessageLog extends VirtualRecord
                 if (strScreenClass != null)
                 {
                     parentScreen.setProperty(TrxMessageHeader.LOG_TRX_ID, this.getProperty(TrxMessageHeader.LOG_TRX_ID));
-                    screen = BaseScreen.makeNewScreen(strScreenClass, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, true);
+                    screen = BaseScreen.makeNewScreen(strScreenClass, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, null, true);
                 }
             }
             if (screen == null) // ? I don't know what else to do?

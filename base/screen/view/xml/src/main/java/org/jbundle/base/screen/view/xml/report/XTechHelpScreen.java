@@ -14,8 +14,8 @@ import java.util.ResourceBundle;
 
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.HelpScreen;
-import org.jbundle.base.services.ClassInfoService;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.app.program.db.ClassInfoModel;
 
 
 /**
@@ -67,7 +67,7 @@ public class XTechHelpScreen extends XHelpScreen
      */
     public void printHtmlHeaderArea(PrintWriter out)
     {
-        ClassInfoService classInfo = ((HelpScreen)this.getScreenField()).getClassInfo();
+        ClassInfoModel classInfo = ((HelpScreen)this.getScreenField()).getClassInfo();
         
         if (classInfo != null)
             if (classInfo.isValidRecord())
@@ -84,7 +84,7 @@ public class XTechHelpScreen extends XHelpScreen
      */
     public void printScreen(PrintWriter out, ResourceBundle reg)
     {
-        ClassInfoService classInfo = ((HelpScreen)this.getScreenField()).getClassInfo();
+        ClassInfoModel classInfo = ((HelpScreen)this.getScreenField()).getClassInfo();
         if (classInfo != null)
             if (classInfo.isValidRecord())
             	classInfo.printScreen(out, reg);

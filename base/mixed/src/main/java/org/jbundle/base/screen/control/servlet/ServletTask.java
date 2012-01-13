@@ -137,7 +137,7 @@ public class ServletTask extends BaseHttpTask
             screen = screen.doServletCommand(parentScreen);  // Move the input params to the record fields
             if (screen == null)
             {   // null = display Default Display Form
-                screen = BaseScreen.makeNewScreen(MenuScreen.class.getName(), null, parentScreen, 0, null, true);
+                screen = BaseScreen.makeNewScreen(MenuScreen.class.getName(), null, parentScreen, 0, null, null, true);
             }
         }
         if (screen != null)

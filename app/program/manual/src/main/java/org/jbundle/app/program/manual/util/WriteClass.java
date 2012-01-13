@@ -6,8 +6,10 @@ package org.jbundle.app.program.manual.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.jbundle.app.program.db.ClassFields;
 import org.jbundle.app.program.db.ClassFieldsTypeField;
@@ -484,9 +486,7 @@ public class WriteClass extends BaseProcess
                         recClassInfo2.getField(ClassInfo.kClassName).setString(strFieldClass);   // Class of this record
                         if (recClassInfo2.seek("="))
                         {
-                            String packageName = recClassInfo2.getField(ClassInfo.kClassPackage).getString();
-                            ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo2.getField(ClassInfo.kClassProjectID)).getReference();
-                            strInitialValue = "\"" + classProject.getFullPackage(CodeType.THICK, packageName) + '.' + strFieldClass + "\"";
+                            strInitialValue = " = \"" + recClassInfo2.getFullClassName() + "\"";
                             strFieldClass = "String";
                         }
                     }
@@ -952,12 +952,38 @@ public class WriteClass extends BaseProcess
     {
         LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
         try   {
+            Set<String> methodsIncluded = new HashSet<String>();
+            Set<String> methodInterfaces = new HashSet<String>();
             recLogicFile.close();
             while (recLogicFile.hasNext())
             {
                 recLogicFile.next();
-                if (((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(codeType, false));
+                if (((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(codeType, false))
+                {
                     this.writeThisMethod(codeType);
+                    String strMethodName = recLogicFile.getField(LogicFile.kMethodName).toString();
+                    if (strMethodName.length() > 2) if (strMethodName.charAt(strMethodName.length() - 2) == '*')
+                        strMethodName = strMethodName.substring(0, strMethodName.length() - 2);
+                    methodsIncluded.add(strMethodName);
+                }
+                if (((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(CodeType.INTERFACE, false))
+                {
+                    String strMethodName = recLogicFile.getField(LogicFile.kMethodName).toString();
+                    if (strMethodName.length() > 2) if (strMethodName.charAt(strMethodName.length() - 2) == '*')
+                        strMethodName = strMethodName.substring(0, strMethodName.length() - 2);
+                    methodInterfaces.add(strMethodName);                    
+                }
+            }
+            // Now add a empty implementation for any methods that I don't have
+            recLogicFile.close();
+            while (recLogicFile.hasNext())
+            {
+                recLogicFile.next();
+                String strMethodName = recLogicFile.getField(LogicFile.kMethodName).toString();
+                if (strMethodName.length() > 2) if (strMethodName.charAt(strMethodName.length() - 2) == '*')
+                    strMethodName = strMethodName.substring(0, strMethodName.length() - 2);
+                if ((methodInterfaces.contains(strMethodName)) && (!methodsIncluded.contains(strMethodName)))
+                    this.writeThisMethod(codeType); // Write a default impl of this method.
             }
             recLogicFile.close();
         } catch (DBException ex)   {
@@ -1059,14 +1085,24 @@ public class WriteClass extends BaseProcess
             String strCodeBody = null;
             if ((codeType == CodeType.INTERFACE) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
             {
-                int methodType = (int)(recLogicFile.getField(LogicFile.kIncludeScope).getValue() + .001);
-                if ((LogicFile.INCLUDE_INTERFACE & methodType) == 0)
+                if (!((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(CodeType.INTERFACE, false))
                     return;
                 strCodeBody = ";\n";
+            }
+            else if (!((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(codeType, false))
+            {   // Special case - write a default impl.
+                if ((methodInfo.strMethodReturns == null) || ("void".equals(methodInfo.strMethodReturns)) || (DBConstants.BLANK.equals(methodInfo.strMethodReturns)))
+                    strCodeBody = "{\n\t// Empty implementation\n}\n";
+                else if ("boolean".equals(methodInfo.strMethodReturns))
+                    strCodeBody = "{\n\treturn false; // Empty implementation\n}\n";
+                else
+                    strCodeBody = "{\n\treturn null; // Empty implementation\n}\n";
             }
             this.writeMethodInterface(strProtection, strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, strCodeBody);
         }
         if ((codeType == CodeType.INTERFACE) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
+            return;
+        if (!((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(codeType, false))
             return;
         if (!strMethodName.equals(strClassName))
         {

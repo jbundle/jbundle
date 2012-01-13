@@ -877,10 +877,11 @@ public class BaseScreen extends BasePanel
      * @param itsLocation The location of the new screen.
      * @param screenParent The parent of the new screen.
      * @param iDisplayFieldDesc Display the field desc?
-     * @param initScreen TODO
+     * @param mainRecord The main record
+     * @param initScreen Call the screen init method?
      * @return The new screen.
      */
-    public static BaseScreen makeNewScreen(String strScreenClass, ScreenLocation itsLocation, BasePanel screenParent, int iDisplayFieldDesc, Map<String, Object> properties, boolean initScreen)
+    public static BaseScreen makeNewScreen(String strScreenClass, ScreenLocation itsLocation, BasePanel screenParent, int iDisplayFieldDesc, Map<String, Object> properties, Record mainRecord, boolean initScreen)
     {
         BaseScreen screen = (BaseScreen)ClassServiceUtility.getClassService().makeObjectFromClassName(strScreenClass);
         if (screen != null)
@@ -893,7 +894,7 @@ public class BaseScreen extends BasePanel
                 Object oldCursor = null;
                 if (applet != null)
                 	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
-                screen.init(null, itsLocation, screenParent, null, iDisplayFieldDesc, properties);
+                screen.init(mainRecord, itsLocation, screenParent, null, iDisplayFieldDesc, properties);
                 if (applet != null)
                     applet.setStatus(0, applet, oldCursor);
             }
@@ -981,7 +982,7 @@ public class BaseScreen extends BasePanel
 // First, see if they want to see a screen
         String strScreen = task.getProperty(DBParams.SCREEN);
         if (strScreen != null)
-            screen = BaseScreen.makeNewScreen(strScreen, itsLocation, screenParent, iDocType | ScreenConstants.DEFAULT_DISPLAY, properties, true);
+            screen = BaseScreen.makeNewScreen(strScreen, itsLocation, screenParent, iDocType | ScreenConstants.DEFAULT_DISPLAY, properties, null, true);
 // Now, see if they want to open a file and create the default screen
         if (screen == null)
         {

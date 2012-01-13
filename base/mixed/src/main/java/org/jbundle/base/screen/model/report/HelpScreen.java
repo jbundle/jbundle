@@ -15,10 +15,9 @@ import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.model.util.HelpToolbar;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.services.ClassInfoService;
-import org.jbundle.base.services.Services;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.app.program.db.ClassInfoModel;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -86,11 +85,13 @@ public class HelpScreen extends BaseParserScreen
      * If the class information server is not active right now, create it.
      * @exception DBException File exception.
      */
-    public ClassInfoService getClassInfo()
+    public ClassInfoModel getClassInfo()
     {
-    	ClassInfoService classInfo = Services.getClassInfo(this, null, true);
+    	ClassInfoModel classInfo = (ClassInfoModel)this.getRecord(ClassInfoModel.CLASS_INFO_FILE);
     	if (classInfo == null)
-    		classInfo = Services.createClassInfo(this, null, true);
+    		classInfo = (ClassInfoModel)Record.makeRecordFromClassName(ClassInfoModel.THICK_CLASS, this);
+        if (classInfo != null)
+            classInfo = classInfo.readClassInfo(this, null);
     	return classInfo;
     }
 }

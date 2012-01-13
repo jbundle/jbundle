@@ -19,6 +19,7 @@ import org.jbundle.base.db.lock.ClientLockManager;
 import org.jbundle.base.message.app.MessageApplication;
 import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.main.msg.db.MessageInfoModel;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
@@ -411,7 +412,7 @@ Utility.getLogger().info("removeApp: " + application);
     			if (propDomain != null)
 					propTemp.putAll(propDomain);
     			properties = propTemp;
-    			String className = "org.jbundle.main.msg.app.MessageInfoApplication";
+    			String className = MessageInfoModel.THICK_APPLICATION;
     			messageApplication = (MessageApplication)ClassServiceUtility.getClassService().makeObjectFromClassName(className);
     			messageApplication.init(this, properties, null);
                 //messageApplication = new MessageInfoApplication(this, properties, null);

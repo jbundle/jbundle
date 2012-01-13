@@ -29,6 +29,7 @@ import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.base.util.XMLTags;
 import org.jbundle.model.DBException;
+import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.thin.base.db.Constants;
 
 
@@ -301,7 +302,7 @@ public class XBasePanel extends XScreenField
             strLogin = "Logout";
         ht.put("loginIcon", strLogin);
         ht.put("loginDesc", reg.getString(strLogin));
-        String strLoginLink = "?screen=" + "org.jbundle.main.user.screen.UserLoginScreen" + "&amp;java=no";
+        String strLoginLink = "?screen=" + UserInfoModel.LOGIN_SCREEN_CLASS + "&amp;java=no";
         if (strUserName.length() > 0)
             strLoginLink = "?user=&amp;menu=";
         ht.put("loginLink", strLoginLink);

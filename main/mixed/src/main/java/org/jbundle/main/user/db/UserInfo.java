@@ -33,8 +33,6 @@ public class UserInfo extends PropertiesRecord
      implements UserInfoModel
 {
     private static final long serialVersionUID = 1L;
-    public static final String USER_NAME = "UserName";
-    public static final String PASSWORD = "Password";
 
     //public static final int kID = kID;
     //public static final int kLastChanged = kLastChanged;

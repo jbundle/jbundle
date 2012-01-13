@@ -6,10 +6,10 @@ package org.jbundle.base.screen.model.report.parser;
 
 import java.io.PrintWriter;
 
+import org.jbundle.base.db.Record;
 import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.services.ClassInfoService;
-import org.jbundle.base.services.Services;
+import org.jbundle.model.app.program.db.ClassInfoModel;
 
 
 /**
@@ -20,7 +20,7 @@ public class HelpParser extends XMLParser
     /**
      *
      */
-    protected ClassInfoService m_recDetail = null;
+    protected ClassInfoModel m_recDetail = null;
     /**
      *  Default constructor.
      */
@@ -31,7 +31,7 @@ public class HelpParser extends XMLParser
     /**
      *  Constructor.
      */
-    public HelpParser(RecordOwner screen, ClassInfoService recDetail)
+    public HelpParser(RecordOwner screen, ClassInfoModel recDetail)
     {
         this();
         this.init(screen, recDetail);
@@ -39,7 +39,7 @@ public class HelpParser extends XMLParser
     /**
      *  Initialize class fields.
      */
-    public void init(RecordOwner screen, ClassInfoService recDetail)
+    public void init(RecordOwner screen, ClassInfoModel recDetail)
     {
         m_recDetail = null;
         m_recDetail = recDetail;
@@ -219,9 +219,11 @@ public class HelpParser extends XMLParser
     /**
      *  Output this screen using HTML.
      */
-    public void parseHtmlClassInfo(PrintWriter out, String strTag, String strParams, String strData, String strClass)
+    public void parseHtmlClassInfo(PrintWriter out, String strTag, String strParams, String strData, String className)
     {
-        ClassInfoService classInfo = Services.createClassInfo(this.getRecordOwner(), strClass, true);
+        ClassInfoModel classInfo = (ClassInfoModel)Record.makeRecordFromClassName(ClassInfoModel.THICK_CLASS, this.getRecordOwner());
+        if (classInfo != null)
+            classInfo = classInfo.readClassInfo(this.getRecordOwner(), className);
         if (classInfo != null)
         {
         	if (classInfo.isValidRecord())

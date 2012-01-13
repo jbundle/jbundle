@@ -13,6 +13,7 @@ import org.jbundle.app.program.db.ClassInfo;
 import org.jbundle.app.program.db.ClassProject;
 import org.jbundle.app.program.db.FieldData;
 import org.jbundle.app.program.db.FileHdr;
+import org.jbundle.app.program.db.IncludeScopeField;
 import org.jbundle.app.program.db.KeyInfo;
 import org.jbundle.app.program.db.LogicFile;
 import org.jbundle.app.program.db.ProgramControl;
@@ -370,8 +371,7 @@ public class WriteRecordClass extends WriteSharedClass
         while (fieldIterator.hasNext())
         {
             fieldIterator.next();
-            int methodType = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + .001);
-            if ((methodType & LogicFile.INCLUDE_INTERFACE) != 0)
+            if (((IncludeScopeField)recFieldData.getField(FieldData.kIncludeScope)).includeThis(CodeType.INTERFACE, true))
                 if (strClassName.equalsIgnoreCase(recFieldData.getField(FieldData.kFieldFileName).toString()))  // Only for concrete class
             {
                 String strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
@@ -482,17 +482,14 @@ public class WriteRecordClass extends WriteSharedClass
         while (fieldIterator.hasNext())
         {
             fieldIterator.next();
-            int methodType = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + 0.5);
             boolean concreteClass = true;
             if (recFieldData.getField(FieldData.kID).isNull())  // Only for concrete class
                 concreteClass = false;
-//          if (!recFieldData.getField(FieldData.kFieldFileName).equals(strClassName))
-  //            concreteClass = false;
             if (!recFieldData.getField(FieldData.kBaseFieldName).isNull())
                 if (!recFieldData.getField(FieldData.kBaseFieldName).toString().equalsIgnoreCase(recFieldData.getField(FieldData.kBaseFieldName).toString()))
                     concreteClass = false;
             if (concreteClass)
-                if (((methodType & LogicFile.INCLUDE_THIN) != 0) && ((methodType & LogicFile.INCLUDE_INTERFACE) == 0))
+                if (((IncludeScopeField)recFieldData.getField(FieldData.kIncludeScope)).includeThis(CodeType.THIN, true))
             {
                 String strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
                 String strFieldConstant = this.convertNameToConstant(strFieldName);
@@ -520,6 +517,7 @@ public class WriteRecordClass extends WriteSharedClass
         if ((strDatabaseName != null) && (strDatabaseName.length() > 0))
             this.writeFields(strClassName, strDatabaseName, strDBType, recClassInfo, recFileHdr, recFieldData, fieldIterator);
         
+        m_MethodNameList.removeAllElements();
         this.writeClassMethods(CodeType.THIN);
         
         m_StreamOut.setTabs(-1);
@@ -768,7 +766,7 @@ public class WriteRecordClass extends WriteSharedClass
         
             m_StreamOut.writeit("private static final long serialVersionUID = 1L;\n");
 
-        	this.writeFieldOffsets(); // Write the BaseField offsets
+        	this.writeFieldOffsets(CodeType.THICK); // Write the BaseField offsets
             this.writeKeyOffsets(CodeType.THICK);   // Write the Key offsets
         
             this.writeClassFields(CodeType.THICK);
@@ -849,8 +847,9 @@ public class WriteRecordClass extends WriteSharedClass
     }
     /**
      *  Write the constants for the field offsets
+     * @param codeType TODO
      */
-    public void writeFieldOffsets()
+    public void writeFieldOffsets(CodeType codeType)
     { // Now, write all the field offsets out in the header file
         Record recClassInfo = this.getMainRecord();
         int iFieldCount = 0;
@@ -869,8 +868,7 @@ public class WriteRecordClass extends WriteSharedClass
         while (fieldIterator.hasNext())
         {
             fieldIterator.next();
-            int methodType = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + .001);
-            if ((methodType & LogicFile.INCLUDE_THICK) != 0)
+            if (((IncludeScopeField)recFieldData.getField(FieldData.kIncludeScope)).includeThis(codeType, true))
             {
                 strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
                 String strFieldConstant = this.convertNameToConstant(strFieldName);
@@ -965,10 +963,7 @@ public class WriteRecordClass extends WriteSharedClass
                 
                 if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
                 {
-                    int scope = (int)(recKeyInfo.getField(KeyInfo.kIncludeScope).getValue() + 0.5);
-                    if ((codeType == CodeType.INTERFACE) && ((scope & LogicFile.INCLUDE_INTERFACE) == 0))
-                        continue;
-                    if ((codeType == CodeType.THIN) && (((scope & LogicFile.INCLUDE_THIN) == 0) || ((scope & LogicFile.INCLUDE_INTERFACE) != 0)))
+                    if (!((IncludeScopeField)recKeyInfo.getField(KeyInfo.kIncludeScope)).includeThis(codeType, true))
                         continue;
                     if (count > 1)
                         m_StreamOut.writeit("\npublic static final String " + this.convertNameToConstant(strKeyName + "Key") + " = \"" + strKeyName +"\";\n");

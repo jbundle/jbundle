@@ -19,11 +19,11 @@ import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.HelpScreen;
 import org.jbundle.base.screen.model.report.TechHelpScreen;
-import org.jbundle.base.services.ClassInfoService;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.app.program.db.ClassInfoModel;
 import org.jbundle.model.main.db.MessagesModel;
 
 
@@ -129,7 +129,7 @@ public class XHelpScreen extends XBaseParserScreen
      */
     public void printHtmlHeaderArea(PrintWriter out)
     {
-        ClassInfoService classInfo = ((HelpScreen)this.getScreenField()).getClassInfo();
+        ClassInfoModel classInfo = ((HelpScreen)this.getScreenField()).getClassInfo();
         
         if (classInfo != null)
             if (classInfo.isValidRecord())
@@ -148,7 +148,7 @@ public class XHelpScreen extends XBaseParserScreen
     {
         String strClassXML = null;
         
-        ClassInfoService classInfo = ((HelpScreen)this.getScreenField()).getClassInfo();
+        ClassInfoModel classInfo = ((HelpScreen)this.getScreenField()).getClassInfo();
         if (classInfo != null)
         {
             if (!classInfo.isValidRecord())	// Not found = Main help screen

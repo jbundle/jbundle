@@ -5,6 +5,7 @@
  */
 package org.jbundle.thin.app.program.db;
 
+import org.jbundle.model.db.*;
 import java.util.*;
 import org.jbundle.thin.base.util.*;
 
@@ -87,6 +88,24 @@ public class AnalysisLog extends FieldList
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ObjectID");
         keyArea.addKeyField("SystemID", Constants.ASCENDING);
         keyArea.addKeyField("ObjectID", Constants.ASCENDING);
+    }
+    /**
+     * Log that this record has been added.
+     * Call this from the end of record.init
+     * @param record the record that is being added.
+     */
+    public void logAddRecord(Rec record, int iSystemID)
+    {
+        // Empty implementation
+    }
+    /**
+     * Log that this record has been freed.
+     * Call this from the end of record.free
+     * @param record the record that is being added.
+     */
+    public void logRemoveRecord(Rec record, int iSystemID)
+    {
+        // Empty implementation
     }
 
 }

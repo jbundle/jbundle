@@ -19,15 +19,14 @@ import org.jbundle.base.screen.model.report.HelpScreen;
 import org.jbundle.base.screen.model.report.parser.HelpParser;
 import org.jbundle.base.screen.model.report.parser.MenuParser;
 import org.jbundle.base.screen.model.report.parser.XMLParser;
-import org.jbundle.base.services.ClassInfoService;
-import org.jbundle.base.services.Services;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.DBException;
+import org.jbundle.model.app.program.db.ClassInfoModel;
 import org.jbundle.model.main.db.MenusModel;
 import org.jbundle.model.main.user.db.UserInfoModel;
-import org.jbundle.model.DBException;
 
 
 /**
@@ -128,7 +127,9 @@ public class HHelpScreen extends HBaseParserScreen
     {
         String strHTML = "";
 
-        ClassInfoService classInfo = Services.createClassInfo(((HelpScreen)this.getScreenField()), null, true);
+        ClassInfoModel classInfo = (ClassInfoModel)Record.makeRecordFromClassName(ClassInfoModel.THICK_CLASS, ((HelpScreen)this.getScreenField()));
+        if (classInfo != null)
+            classInfo = classInfo.readClassInfo(((HelpScreen)this.getScreenField()), null);
 
         String strClassName = classInfo.getClassName();
         if ((strClassName != null) && (strClassName.equalsIgnoreCase("MenuScreen")))

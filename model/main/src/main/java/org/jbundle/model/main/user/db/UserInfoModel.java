@@ -29,6 +29,13 @@ public interface UserInfoModel extends PropertiesRecordModel
     public static final String FULL_MENU = "";
     public static final String ICONS_ONLY = "IconsOnly";
     public static final String NO_ICONS = "No";
+    public static final String MAINT_SCREEN_CLASS = "org.jbundle.main.user.screen.UserEntryScreen";
+    public static final String GRID_SCREEN_CLASS = "org.jbundle.main.user.screen.UserInfoGridScreen";
+    public static final String DETAIL_SCREEN_CLASS = "org.jbundle.main.user.screen.UserRegistrationGridScreen";
+    public static final String VERBOSE_SCREEN_CLASS = "org.jbundle.main.user.screen.UserInfoScreen";
+    public static final String LOGIN_SCREEN_CLASS = "org.jbundle.main.user.screen.UserLoginScreen";
+    public static final String PREFERENCES_SCREEN_CLASS = "org.jbundle.main.user.screen.UserPreferenceScreen";
+    public static final String PASSWORD_SCREEN_CLASS = "org.jbundle.main.user.screen.UserPasswordChange";
 
     public static final String USER_INFO_FILE = "UserInfo";
     public static final String THIN_CLASS = "org.jbundle.thin.main.user.db.UserInfo";
