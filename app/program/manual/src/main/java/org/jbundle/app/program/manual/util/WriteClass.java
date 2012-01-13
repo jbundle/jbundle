@@ -14,6 +14,7 @@ import org.jbundle.app.program.db.ClassFieldsTypeField;
 import org.jbundle.app.program.db.ClassInfo;
 import org.jbundle.app.program.db.ClassProject;
 import org.jbundle.app.program.db.FieldData;
+import org.jbundle.app.program.db.IncludeScopeField;
 import org.jbundle.app.program.db.LogicFile;
 import org.jbundle.app.program.db.ProgramControl;
 import org.jbundle.app.program.db.ScreenIn;
@@ -163,7 +164,7 @@ public class WriteClass extends BaseProcess
     
         this.writeClassInterface();
     
-        this.writeClassFields(LogicFile.INCLUDE_THICK);        // Write the C++ fields for this class
+        this.writeClassFields(CodeType.THICK);        // Write the C++ fields for this class
         this.writeDefaultConstructor(strClassName);
     
         this.writeClassInit();
@@ -171,7 +172,7 @@ public class WriteClass extends BaseProcess
     
         this.writeProgramDesc(strClassName);
     
-        this.writeClassMethods(LogicFile.INCLUDE_THICK);   // Write the remaining methods for this class
+        this.writeClassMethods(CodeType.THICK);   // Write the remaining methods for this class
         this.writeEndCode(true);
     }
     /**
@@ -314,7 +315,7 @@ public class WriteClass extends BaseProcess
             m_StreamOut.writeit("package " + strPackage + ";\n\n");
             m_IncludeNameList.addName(strPackage);     // Don't include this!!!
 
-            if (codeType == CodeType.BASE)
+            if (codeType == CodeType.THICK)
             {
                 m_StreamOut.writeit("import java.awt.*;\n"); //j Temp
                 m_StreamOut.writeit("import java.util.*;\n\n");    //j Temp
@@ -357,22 +358,14 @@ public class WriteClass extends BaseProcess
                     continue;
 
                 String strBaseRecordClass = recClassInfo2.getField(ClassInfo.kBaseClassName).getString();
-                if (codeType == CodeType.BASE)
+                if (codeType == CodeType.THICK)
                     m_IncludeNameList.addInclude(strBaseRecordClass);  // Include the base class if it isn't in this file
                 recClassFields.close();
                 while (recClassFields.hasNext())
                 {
                     recClassFields.next();
                     
-                    int scope = (int)(recClassFields.getField(ClassFields.kIncludeScope).getValue() + 0.5);
-                    int target = 0;
-                    if (codeType == CodeType.BASE)
-                        target = LogicFile.INCLUDE_THICK;
-                    if (codeType == CodeType.THIN)
-                        target = LogicFile.INCLUDE_THIN;
-                    if (codeType == CodeType.INTERFACE)
-                        target = LogicFile.INCLUDE_INTERFACE;
-                    if ((target & scope) == 0)
+                    if (!((IncludeScopeField)recClassFields.getField(ClassFields.kIncludeScope)).includeThis(codeType, false))
                         continue;
 
                     String strFieldName = recClassFields.getField(ClassFields.kClassFieldName).getString();
@@ -387,13 +380,13 @@ public class WriteClass extends BaseProcess
                         	if ((classProject != null)
                         			&& ((classProject.getEditMode() == DBConstants.EDIT_CURRENT) || (classProject.getEditMode() == DBConstants.EDIT_IN_PROGRESS)))
                         	{
-                        		CodeType codeType2 = CodeType.BASE;
+                        		CodeType codeType2 = CodeType.THICK;
                         		if (strFieldClass.startsWith(".thin"))
                         				codeType2 = CodeType.THIN;
                         		if (strFieldClass.startsWith(".res"))
                     				codeType2 = CodeType.RESOURCE_CODE;
-                        		strFieldClass = classProject.getFullPackage(CodeType.BASE, strFieldClass);
-                        		if (codeType2 != CodeType.BASE)
+                        		strFieldClass = classProject.getFullPackage(CodeType.THICK, strFieldClass);
+                        		if (codeType2 != CodeType.THICK)
                         		{
                         			int end = strFieldClass.indexOf(codeType == CodeType.THIN ? ".thin" : ".res");
                         			int start = strFieldClass.indexOf('.');
@@ -448,7 +441,7 @@ public class WriteClass extends BaseProcess
      *  Write out all the data fields for this class (not file fields!)
      * Required: strClassName - Current Class
      */
-    public void writeClassFields(int targetMethodTypes)
+    public void writeClassFields(CodeType codeType)
     {
         try   {
             ClassInfo classInfo = (ClassInfo)this.getRecord(ClassInfo.CLASS_INFO_FILE);
@@ -458,12 +451,8 @@ public class WriteClass extends BaseProcess
             while (recClassFields.hasNext())
             {
                 recClassFields.next();
-                int methodType = (int)(recClassFields.getField(ClassFields.kIncludeScope).getValue() + .001);
-                if ((methodType & targetMethodTypes) == 0)
+                if (!((IncludeScopeField)recClassFields.getField(ClassFields.kIncludeScope)).includeThis(codeType, isARecord))
                     continue;
-                if ((isARecord)
-                    && ((methodType & LogicFile.INCLUDE_INTERFACE) != 0) && ((targetMethodTypes & LogicFile.INCLUDE_INTERFACE) == 0))
-                        continue;   // If this has already been included in the interface, don't include it here
                 String strFieldName = recClassFields.getField(ClassFields.kClassFieldName).getString();
                 String strFieldClass = recClassFields.getField(ClassFields.kClassFieldClass).getString();
                 String strReference = "";
@@ -497,7 +486,7 @@ public class WriteClass extends BaseProcess
                         {
                             String packageName = recClassInfo2.getField(ClassInfo.kClassPackage).getString();
                             ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo2.getField(ClassInfo.kClassProjectID)).getReference();
-                            strInitialValue = "\"" + classProject.getFullPackage(CodeType.BASE, packageName) + '.' + strFieldClass + "\"";
+                            strInitialValue = "\"" + classProject.getFullPackage(CodeType.THICK, packageName) + '.' + strFieldClass + "\"";
                             strFieldClass = "String";
                         }
                     }
@@ -675,9 +664,9 @@ public class WriteClass extends BaseProcess
         if ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString()))
             return;
         if (this.readThisMethod(strClassName))
-            this.writeThisMethod(LogicFile.INCLUDE_THICK);
+            this.writeThisMethod(CodeType.THICK);
         else
-            this.writeThisMethod(LogicFile.INCLUDE_THICK);
+            this.writeThisMethod(CodeType.THICK);
     }
     /**
      *  Initialize the class
@@ -740,7 +729,7 @@ public class WriteClass extends BaseProcess
             if ("interface".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString()))
                 return;
             if (this.readThisMethod("init"))
-                this.writeThisMethod(LogicFile.INCLUDE_THICK);
+                this.writeThisMethod(CodeType.THICK);
             else
             {
                 strMethodName = "init";
@@ -957,9 +946,9 @@ public class WriteClass extends BaseProcess
     }
     /**
      * Write the methods for this class.
-     * @param targetMethodTypes Interface only
+     * @param codeType Interface only
      */
-    public void writeClassMethods(int targetMethodTypes)
+    public void writeClassMethods(CodeType codeType)
     {
         LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
         try   {
@@ -967,9 +956,8 @@ public class WriteClass extends BaseProcess
             while (recLogicFile.hasNext())
             {
                 recLogicFile.next();
-                int methodType = (int)(recLogicFile.getField(LogicFile.kIncludeScope).getValue() + .001);
-                if ((targetMethodTypes & methodType) != 0)
-                    this.writeThisMethod(targetMethodTypes);
+                if (((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(codeType, false));
+                    this.writeThisMethod(codeType);
             }
             recLogicFile.close();
         } catch (DBException ex)   {
@@ -1040,9 +1028,9 @@ public class WriteClass extends BaseProcess
     }
     /**
      * WriteThisMethod - Write this method for this class.
-     * @param targetMethodTypes Interface only
+     * @param codeType Interface only
      */
-    public void writeThisMethod(int targetMethodTypes)
+    public void writeThisMethod(CodeType codeType)
     {
         Record recClassInfo = this.getMainRecord();
         LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
@@ -1058,7 +1046,7 @@ public class WriteClass extends BaseProcess
             strMethodName = strMethodName.substring(0, strMethodName.length() - 2);
         if (strMethodName.equals(strClassName))
         {
-            if ((targetMethodTypes & LogicFile.INCLUDE_THICK) != 0)
+            if (codeType == CodeType.THICK)
             {
                 this.writeMethodInterface(strProtection, strMethodName, "", methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, null);
                 this.writeDefaultMethodCode(strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, strClassName);
@@ -1069,7 +1057,7 @@ public class WriteClass extends BaseProcess
             if (methodInfo.strMethodReturns.length() >= 7) if (methodInfo.strMethodReturns.substring(methodInfo.strMethodReturns.length() - 7, methodInfo.strMethodReturns.length()).equalsIgnoreCase("  "))
                 methodInfo.strMethodReturns = methodInfo.strMethodReturns.substring(0, methodInfo.strMethodReturns.length() - 6);
             String strCodeBody = null;
-            if (((targetMethodTypes & LogicFile.INCLUDE_INTERFACE) != 0) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
+            if ((codeType == CodeType.INTERFACE) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
             {
                 int methodType = (int)(recLogicFile.getField(LogicFile.kIncludeScope).getValue() + .001);
                 if ((LogicFile.INCLUDE_INTERFACE & methodType) == 0)
@@ -1078,7 +1066,7 @@ public class WriteClass extends BaseProcess
             }
             this.writeMethodInterface(strProtection, strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, strCodeBody);
         }
-        if (((targetMethodTypes & LogicFile.INCLUDE_INTERFACE) != 0) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
+        if ((codeType == CodeType.INTERFACE) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
             return;
         if (!strMethodName.equals(strClassName))
         {

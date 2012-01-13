@@ -100,7 +100,7 @@ public class BaseProcessRecords extends BaseProcess
                 classProject.getField(ClassProject.kID).setString(projectID);
                 try {
                     if (classProject.seek(DBConstants.EQUALS))
-                        packageName = classProject.getFullPackage(ClassProject.CodeType.BASE, packageName);
+                        packageName = classProject.getFullPackage(ClassProject.CodeType.THICK, packageName);
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
@@ -115,7 +115,7 @@ public class BaseProcessRecords extends BaseProcess
             while (classProject.hasNext())
             {
                 classProject.next();
-                String classPackageName = classProject.getFullPackage(ClassProject.CodeType.BASE, DBConstants.BLANK);
+                String classPackageName = classProject.getFullPackage(ClassProject.CodeType.THICK, DBConstants.BLANK);
                 classProjectPackages.put(classProject.getField(ClassProject.kID).toString(), classPackageName);
                 classProjectNames.put(classProject.getField(ClassProject.kName).toString(), classProject.getField(ClassProject.kID).toString());
                 classProjectIDs.put(classProject.getField(ClassProject.kID).toString(), classProject.getField(ClassProject.kName).toString());

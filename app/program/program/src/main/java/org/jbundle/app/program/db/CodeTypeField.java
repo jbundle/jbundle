@@ -59,10 +59,11 @@ public class CodeTypeField extends StringPopupField
     public String[][] getPopupMap()
     {
         String string[][] = {
-                {"BASE", "Base"}, 
+                {"THICK", "Thick"}, 
                 {"THIN", "Thin"},
                 {"RESOURCE_CODE", "Resource code"},
-                {"RESOURCE_PROPERTIES", "Resource properties"}
+                {"RESOURCE_PROPERTIES", "Resource properties"},
+               {"INTERFACE", "Interface"}
         };
         return string;
     }
@@ -72,14 +73,16 @@ public class CodeTypeField extends StringPopupField
     public ClassProject.CodeType getCodeType()
     {
         String code = this.toString();
-        if ("BASE".equalsIgnoreCase(code))
-            return ClassProject.CodeType.BASE;
+        if ("THICK".equalsIgnoreCase(code))
+            return ClassProject.CodeType.THICK;
         if ("THIN".equalsIgnoreCase(code))
             return ClassProject.CodeType.THIN;
         if ("RESOURCE_CODE".equalsIgnoreCase(code))
             return ClassProject.CodeType.RESOURCE_CODE;
         if ("RESOURCE_PROPERTIES".equalsIgnoreCase(code))
             return ClassProject.CodeType.RESOURCE_PROPERTIES;
+        if ("INTERFACE".equalsIgnoreCase(code))
+            return ClassProject.CodeType.INTERFACE;
         return null;
     }
     /**
@@ -88,14 +91,16 @@ public class CodeTypeField extends StringPopupField
     public int setCodeType(ClassProject.CodeType codeType)
     {
         String codeString = null;
-        if (codeType == ClassProject.CodeType.BASE)
-            codeString = "BASE";
+        if (codeType == ClassProject.CodeType.THICK)
+            codeString = "THICK";
         if (codeType == ClassProject.CodeType.THIN)
             codeString = "THIN";
         if (codeType == ClassProject.CodeType.RESOURCE_CODE)
             codeString = "RESOURCE_CODE";
         if (codeType == ClassProject.CodeType.RESOURCE_PROPERTIES)
             codeString = "RESOURCE_PROPERTIES";
+        if (codeType == ClassProject.CodeType.INTERFACE)
+            codeString = "INTERFACE";
         return this.setString(codeString);
     }
 

@@ -206,7 +206,7 @@ public class WriteClasses extends Screen
             writeClass = new WriteClass(this.getTask(), null, null);
         if (writeClass != null)
         {
-            writeClass.writeClass(strClassName, CodeType.BASE);
+            writeClass.writeClass(strClassName, CodeType.THICK);
             writeClass.free();
         }
 

@@ -103,9 +103,9 @@ public class PackagesScanListener extends BaseScanListener
                     if (containsFiles)
                     {
                         if ((m_recPackages.getField(Packages.kClassProjectID).getValue() == 0)  // No project yet, I own it
-                                || (ClassProject.CodeType.BASE == codeType)   // If there are files in a base dir, I own it
+                                || (ClassProject.CodeType.THICK == codeType)    // If there are files in a base dir, I own it
                                 || (fieldCodeType == codeType)  // Another dir of the same type is default, now I own it
-                                || (ClassProject.CodeType.BASE != codeType) && (ClassProject.CodeType.BASE != fieldCodeType)) // base doesn't own it, I own it
+                                || (ClassProject.CodeType.THICK != codeType) && (ClassProject.CodeType.THICK != fieldCodeType))   // base doesn't own it, I own it
                         {
                             m_recPackages.getField(Packages.kClassProjectID).setValue(projectID); // If there are files, I own it.
                             ((CodeTypeField)m_recPackages.getField(Packages.kCodeType)).setCodeType(codeType);

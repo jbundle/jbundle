@@ -121,8 +121,8 @@ public class WriteRecordClass extends WriteSharedClass
             return;     // Resource only class
         }
 
-        this.writeHeading(strClassName, this.getPackage(codeType), CodeType.BASE);        // Write the first few lines of the files
-        this.writeIncludes(CodeType.BASE);
+        this.writeHeading(strClassName, this.getPackage(codeType), CodeType.THICK);        // Write the first few lines of the files
+        this.writeIncludes(CodeType.THICK);
     // Now include any BaseField classes not included in this source (method include)
         try   {
             Record recFieldData = this.getRecord(FieldData.kFieldDataFile);
@@ -181,7 +181,7 @@ public class WriteRecordClass extends WriteSharedClass
     public void writeIncludes(CodeType codeType)
     {
         super.writeIncludes(codeType);
-        if (codeType != CodeType.BASE)
+        if (codeType != CodeType.THICK)
             return;
         // Thick only
         Record recClassInfo = this.getMainRecord();
@@ -380,7 +380,7 @@ public class WriteRecordClass extends WriteSharedClass
             }
         }
         this.writeKeyOffsets(CodeType.INTERFACE);   // Write the Key offsets
-        this.writeClassFields(LogicFile.INCLUDE_INTERFACE);    // Write the thin class fields.
+        this.writeClassFields(CodeType.INTERFACE);    // Write the thin class fields.
         
         m_StreamOut.writeit("\n");
 
@@ -399,13 +399,13 @@ public class WriteRecordClass extends WriteSharedClass
             m_StreamOut.writeit("public static final String " + this.convertNameToConstant(strClassName) + "_FILE = \"" + dBFileName + "\";\n");
 
             m_StreamOut.writeit("public static final String THIN_CLASS = \"" + this.getPackage(CodeType.THIN) + "." + strClassName + "\";\n");
-            m_StreamOut.writeit("public static final String THICK_CLASS = \"" + this.getPackage(CodeType.BASE) + "." + strClassName + "\";\n");
+            m_StreamOut.writeit("public static final String THICK_CLASS = \"" + this.getPackage(CodeType.THICK) + "." + strClassName + "\";\n");
 //            m_StreamOut.writeit("public static final String RESOURCE_CLASS = \"" + this.getPackage(CodeType.RESOURCE_CODE) + "." + strClassName + "\";\n");
         }
          
         if (m_MethodNameList.size() != 0)
             m_MethodNameList.removeAllElements();
-        this.writeClassMethods(LogicFile.INCLUDE_INTERFACE);   // Write the methods (that are) interfaces
+        this.writeClassMethods(CodeType.INTERFACE);   // Write the methods (that are) interfaces
 
         m_StreamOut.setTabs(-1);
         this.writeEndCode(true);
@@ -499,7 +499,7 @@ public class WriteRecordClass extends WriteSharedClass
                 m_StreamOut.writeit("public static final String " + strFieldConstant + " = \"" + strFieldName + "\";\n");
             }
         }
-        this.writeClassFields(LogicFile.INCLUDE_THIN);    // Write the thin class fields.
+        this.writeClassFields(CodeType.THIN);    // Write the thin class fields.
         
         m_StreamOut.writeit("\n");
 
@@ -520,7 +520,7 @@ public class WriteRecordClass extends WriteSharedClass
         if ((strDatabaseName != null) && (strDatabaseName.length() > 0))
             this.writeFields(strClassName, strDatabaseName, strDBType, recClassInfo, recFileHdr, recFieldData, fieldIterator);
         
-        this.writeClassMethods(LogicFile.INCLUDE_THIN);
+        this.writeClassMethods(CodeType.THIN);
         
         m_StreamOut.setTabs(-1);
         this.writeEndCode(true);
@@ -769,9 +769,9 @@ public class WriteRecordClass extends WriteSharedClass
             m_StreamOut.writeit("private static final long serialVersionUID = 1L;\n");
 
         	this.writeFieldOffsets(); // Write the BaseField offsets
-            this.writeKeyOffsets(CodeType.BASE);   // Write the Key offsets
+            this.writeKeyOffsets(CodeType.THICK);   // Write the Key offsets
         
-            this.writeClassFields(LogicFile.INCLUDE_THICK);
+            this.writeClassFields(CodeType.THICK);
             this.writeDefaultConstructor(strRecordClass);
             
             this.writeRecordInit();
@@ -841,7 +841,7 @@ public class WriteRecordClass extends WriteSharedClass
 
             if (bFileType) // Is there a file with this name?
                 this.writeSetupKey();
-            this.writeClassMethods(LogicFile.INCLUDE_THICK);       // Write the remaining methods
+            this.writeClassMethods(CodeType.THICK);       // Write the remaining methods
             this.writeEndCode(true);
         } catch (DBException ex)   {
             ex.printStackTrace();
@@ -993,7 +993,7 @@ public class WriteRecordClass extends WriteSharedClass
             }
             recKeyInfo.close();
             if (count > 0)
-                if (codeType == CodeType.BASE)
+                if (codeType == CodeType.THICK)
             {
                 m_StreamOut.writeit("\npublic static final int k" + strRecordClass + "LastKey = k" + strKeyName + "Key;\n");
                 m_StreamOut.writeit("public static final int k" + strRecordClass + "Keys = k" + strKeyName + "Key - DBConstants.MAIN_KEY_FIELD + 1;\n");
@@ -1011,7 +1011,7 @@ public class WriteRecordClass extends WriteSharedClass
         Record recClassInfo = this.getMainRecord();
         String strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
         this.readThisMethod(strClassName);
-        this.writeThisMethod(LogicFile.INCLUDE_THICK);
+        this.writeThisMethod(CodeType.THICK);
     }
     /**
      *  Write the TableDoc code to DoMakeViews.
@@ -1024,7 +1024,7 @@ public class WriteRecordClass extends WriteSharedClass
         maintClass = recFileHdr.getField(FileHdr.kMaintClass).getString();
         if (this.readThisMethod("makeScreen"))
         {
-            this.writeThisMethod(LogicFile.INCLUDE_THICK);
+            this.writeThisMethod(CodeType.THICK);
             return;     // if no views specified, use default methods
         }
         if ((maintClass.length() == 0) && (displayClass.length() == 0))

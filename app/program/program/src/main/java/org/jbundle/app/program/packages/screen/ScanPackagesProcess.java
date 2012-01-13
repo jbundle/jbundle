@@ -146,7 +146,8 @@ public class ScanPackagesProcess extends BaseProcess
         this.scanPackages(classProject, ClassProject.CodeType.RESOURCE_CODE);
         this.scanPackages(classProject, ClassProject.CodeType.RESOURCE_PROPERTIES);
         this.scanPackages(classProject, ClassProject.CodeType.THIN);
-        this.scanPackages(classProject, ClassProject.CodeType.BASE);
+        this.scanPackages(classProject, ClassProject.CodeType.INTERFACE);
+        this.scanPackages(classProject, ClassProject.CodeType.THICK);
     }
     /**
      * ScanPackages Method.

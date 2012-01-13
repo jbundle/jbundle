@@ -309,7 +309,7 @@ public class ClassInfo extends VirtualRecord
         ClassProject classProject = (ClassProject)((ReferenceField)this.getField(ClassInfo.kClassProjectID)).getReference();
         if (classProject != null)
             if ((classProject.getEditMode() == DBConstants.EDIT_IN_PROGRESS) || (classProject.getEditMode() == DBConstants.EDIT_CURRENT))
-                packageName = classProject.getFullPackage(ClassProject.CodeType.BASE, packageName);
+                packageName = classProject.getFullPackage(ClassProject.CodeType.THICK, packageName);
         return packageName;
     }
     /**
@@ -326,7 +326,7 @@ public class ClassInfo extends VirtualRecord
     {
         String className = this.getField(ClassInfo.kClassName).toString();
         ClassProject classProject = (ClassProject)((ReferenceField)this.getField(ClassInfo.kClassProjectID)).getReference();
-        String packageName = classProject.getFullPackage(ClassProject.CodeType.BASE, this.getField(ClassInfo.kClassPackage).toString());
+        String packageName = classProject.getFullPackage(ClassProject.CodeType.THICK, this.getField(ClassInfo.kClassPackage).toString());
         if (!packageName.endsWith("."))
             if (!className.endsWith("."))
                 className = "." + className;

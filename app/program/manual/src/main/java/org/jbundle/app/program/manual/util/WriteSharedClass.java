@@ -117,7 +117,7 @@ public class WriteSharedClass extends WriteClass
                 m_recClassInfo2.addNew(); // Clear info
                 m_recClassInfo2.getField(ClassInfo.kClassName).setString(strFieldClass);
                 m_recClassInfo2.getField(ClassInfo.kBaseClassName).setString(strBaseClass);
-                m_recClassInfo2.getField(ClassInfo.kClassPackage).setString(this.getPackage(CodeType.BASE)); // Manual classes are from the same package
+                m_recClassInfo2.getField(ClassInfo.kClassPackage).setString(this.getPackage(CodeType.THICK)); // Manual classes are from the same package
                 m_recClassInfo2.getField(ClassInfo.kClassSourceFile).moveFieldToThis(recClassInfo.getField(ClassInfo.kClassSourceFile));
                 m_recClassInfo2.getField(ClassInfo.kClassProjectID).moveFieldToThis(recClassInfo.getField(ClassInfo.kClassProjectID));
                 return m_recClassInfo2;            // Yes, this field has a unique class

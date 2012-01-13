@@ -299,7 +299,7 @@ public class ClassProject extends Folder
             programControl = programControlTemp = new ProgramControl(Utility.getRecordOwner(this));
         
         String startPackage = DBConstants.ROOT_PACKAGE.substring(0, DBConstants.ROOT_PACKAGE.length() - 1);
-        if (codeType == CodeType.BASE)
+        if (codeType == CodeType.THICK)
             if (!programControl.getField(ProgramControl.kPackageName).isNull())
         {
             if (programControl.getField(ProgramControl.kThinPackage).toString().startsWith("."))
@@ -374,7 +374,7 @@ public class ClassProject extends Folder
         String pathChar = bPackagePath ? "." : "/";
         switch (codeType)
         {
-        case BASE:
+        case THICK:
             if (!bPackagePath) if (!this.getField(ClassProject.kProjectPath).isNull())
                 strSrcPath = this.getField(ClassProject.kProjectPath).toString();
             if (bPackagePath) if (!this.getField(ClassProject.kPackageName).isNull())

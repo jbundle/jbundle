@@ -20,6 +20,7 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.app.program.db.*;
 
 /**
  *  IncludeScopeField - Include scope.
@@ -89,6 +90,24 @@ public class IncludeScopeField extends IntegerField
         itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST_CHECKBOX, ScreenConstants.DONT_SET_ANCHOR);
         screenField = (ScreenField)dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
         return screenField;
+    }
+    /**
+     * IncludeThis Method.
+     */
+    public boolean includeThis(ClassProjectModel.CodeType codeType, boolean isARecord)
+    {
+        int scope = (int)(this.getValue() + 0.5);
+        int target = 0;
+        if (codeType == ClassProjectModel.CodeType.THICK)
+            target = LogicFile.INCLUDE_THICK;
+        if (codeType == ClassProjectModel.CodeType.THIN)
+            target = LogicFile.INCLUDE_THIN;
+        if (codeType == ClassProjectModel.CodeType.INTERFACE)
+            target = LogicFile.INCLUDE_INTERFACE;
+        if ((isARecord)
+            && ((scope & LogicFile.INCLUDE_INTERFACE) != 0) && (codeType != ClassProjectModel.CodeType.INTERFACE))
+                return false;   // If this has already been included in the interface, don't include it here
+        return ((target & scope) != 0);
     }
 
 }

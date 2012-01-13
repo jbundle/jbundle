@@ -9,7 +9,7 @@ import org.jbundle.model.main.db.*;
 
 public interface ClassProjectModel extends FolderModel
 {
-    public static enum CodeType {BASE, THIN, RESOURCE_PROPERTIES, RESOURCE_CODE, INTERFACE};
+    public static enum CodeType {THICK, THIN, RESOURCE_PROPERTIES, RESOURCE_CODE, INTERFACE};
     public static final String CLASS_DETAIL_SCREEN = "ClassDetail";
     public static final String RESOURCE_DETAIL_SCREEN = "ResourceDetail";
 

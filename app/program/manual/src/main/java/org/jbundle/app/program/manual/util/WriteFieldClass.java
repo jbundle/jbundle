@@ -101,22 +101,22 @@ public class WriteFieldClass extends WriteSharedClass
         }
         strFieldClass = recClassInfo.getField(ClassInfo.kClassName).getString();
 
-        this.writeHeading(strFieldClass, this.getPackage(codeType), CodeType.BASE);   // Write the first few lines of the files
-        this.writeIncludes(CodeType.BASE);
+        this.writeHeading(strFieldClass, this.getPackage(codeType), CodeType.THICK);   // Write the first few lines of the files
+        this.writeIncludes(CodeType.THICK);
 
         if (m_MethodNameList.size() != 0)
             m_MethodNameList.removeAllElements();
     
         this.writeClassInterface();
     
-        this.writeClassFields(LogicFile.INCLUDE_THICK);        // Write the C++ fields for this class
+        this.writeClassFields(CodeType.THICK);        // Write the C++ fields for this class
         this.writeDefaultConstructor(strFieldClass);
         this.writeFieldInit();
         this.writeInit();               // Special case... zero all class fields!
     
         this.writeInitField();
     
-        this.writeClassMethods(LogicFile.INCLUDE_THICK);   // Write the remaining methods for this class
+        this.writeClassMethods(CodeType.THICK);   // Write the remaining methods for this class
         this.writeEndCode(true);
     }
     /**
@@ -128,9 +128,9 @@ public class WriteFieldClass extends WriteSharedClass
         Record recClassInfo = this.getMainRecord();
         strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
         if (this.readThisMethod(strClassName))
-            this.writeThisMethod(LogicFile.INCLUDE_THICK);
+            this.writeThisMethod(CodeType.THICK);
         else
-            this.writeThisMethod(LogicFile.INCLUDE_THICK);
+            this.writeThisMethod(CodeType.THICK);
     }
     /**
      *  Write the field init code
@@ -144,7 +144,7 @@ public class WriteFieldClass extends WriteSharedClass
             FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
             strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
             if (this.readThisMethod("initField"))
-                this.writeThisMethod(LogicFile.INCLUDE_THICK);
+                this.writeThisMethod(CodeType.THICK);
             else
             {
                 String strInitField = this.getInitField(recFieldData, false, false);

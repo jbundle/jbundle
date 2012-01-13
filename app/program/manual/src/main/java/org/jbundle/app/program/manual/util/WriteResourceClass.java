@@ -76,7 +76,7 @@ public class WriteResourceClass extends WriteClass
     	boolean bResourceListBundle = ResourceTypeField.LIST_RESOURCE_BUNDLE.equals(this.getRecord(ProgramControl.kProgramControlFile).getField(ProgramControl.kClassResourceType).toString());
     	codeType = bResourceListBundle ? CodeType.RESOURCE_CODE : CodeType.RESOURCE_PROPERTIES;
     	// For now, put this type of resource in the main code base
-    	codeType = CodeType.BASE;
+    	codeType = CodeType.THICK;
     	String strFileName = super.getFileName(strClassName, strPackage, codeType, recClassProject);
     	if (!bResourceListBundle)
     		strFileName.replace(".java", ".properties");
@@ -96,7 +96,7 @@ public class WriteResourceClass extends WriteClass
         this.writeHeading(strFileName, this.getPackage(codeType), bResourceListBundle ? CodeType.RESOURCE_CODE : CodeType.RESOURCE_PROPERTIES);        // Write the first few lines of the files
     	if (bResourceListBundle)
     	{
-	        this.writeIncludes(CodeType.BASE);
+	        this.writeIncludes(CodeType.THICK);
 	        m_StreamOut.writeit("import java.util.*;\n");
 	    
 	        if (m_MethodNameList.size() != 0)
@@ -104,13 +104,13 @@ public class WriteResourceClass extends WriteClass
 	    
 	        this.writeClassInterface();
 	    
-	        this.writeClassFields(LogicFile.INCLUDE_THICK);        // Write the C++ fields for this class
+	        this.writeClassFields(CodeType.THICK);        // Write the C++ fields for this class
 	
 	        this.writeResources(strClassName);
 	        this.writeMethodInterface(null, "getContents", "Object[][]", "", "", "Get the resource table", null);                   
 	        m_StreamOut.writeit("\treturn contents;\n");
 	        m_StreamOut.writeit("}\n");
-	        this.writeClassMethods(LogicFile.INCLUDE_THICK);   // Write the remaining methods for this class
+	        this.writeClassMethods(CodeType.THICK);   // Write the remaining methods for this class
     	}
     	else
     	{
