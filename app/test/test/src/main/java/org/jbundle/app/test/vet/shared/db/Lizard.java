@@ -23,11 +23,13 @@ import org.jbundle.model.*;
 import org.jbundle.base.db.shared.*;
 import org.jbundle.app.test.vet.shared.screen.*;
 import org.jbundle.app.test.vet.db.*;
+import org.jbundle.model.app.test.vet.shared.db.*;
 
 /**
  *  Lizard - .
  */
 public class Lizard extends Reptile
+     implements LizardModel
 {
     private static final long serialVersionUID = 1L;
 

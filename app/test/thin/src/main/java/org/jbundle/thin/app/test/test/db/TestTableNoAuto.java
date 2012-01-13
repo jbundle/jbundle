@@ -10,7 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class TestTableNoAuto extends org.jbundle.thin.app.test.test.db.TestTable
+import org.jbundle.thin.app.test.test.db.*;
+import org.jbundle.model.app.test.test.db.*;
+
+public class TestTableNoAuto extends TestTable
+    implements TestTableNoAutoModel
 {
 
     public TestTableNoAuto()

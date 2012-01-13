@@ -10,12 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
+import org.jbundle.model.app.test.test.db.*;
+
 public class TestTable extends FieldList
+    implements TestTableModel
 {
-    public static final String TEST_CODE = "TestCode";
-    public static final String TEST_NAME = "TestName";
-    public static final String TEST_CURRENCY = "TestCurrency";
-    public static final String TEST_VIRTUAL = "TestVirtual";
 
     public TestTable()
     {

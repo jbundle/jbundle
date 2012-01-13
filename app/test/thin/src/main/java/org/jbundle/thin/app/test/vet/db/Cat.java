@@ -10,7 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class Cat extends org.jbundle.thin.app.test.vet.db.Animal
+import org.jbundle.thin.app.test.vet.db.*;
+import org.jbundle.model.app.test.vet.db.*;
+
+public class Cat extends Animal
+    implements CatModel
 {
 
     public Cat()

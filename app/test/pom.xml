@@ -16,6 +16,7 @@
 
   <modules>
     <module>res</module>
+    <module>model</module>
     <module>thin</module>
     <module>thin.manual</module>
     <module>test</module>

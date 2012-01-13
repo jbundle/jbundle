@@ -10,12 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
+import org.jbundle.model.app.test.test.db.*;
+
 public class TestSecond extends FieldList
+    implements TestSecondModel
 {
-    public static final String ID = "ID";
-    public static final String CODE = "Code";
-    public static final String DESCRIPTION = "Description";
-    public static final String ICON = "Icon";
 
     public TestSecond()
     {

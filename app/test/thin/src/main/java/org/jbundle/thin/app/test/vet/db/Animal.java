@@ -10,7 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
+import org.jbundle.model.app.test.vet.db.*;
+
 public class Animal extends FieldList
+    implements AnimalModel
 {
 
     public Animal()

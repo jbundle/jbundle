@@ -10,7 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class Snake extends org.jbundle.thin.app.test.vet.shared.db.Reptile
+import org.jbundle.thin.app.test.vet.shared.db.*;
+import org.jbundle.model.app.test.vet.shared.db.*;
+
+public class Snake extends Reptile
+    implements SnakeModel
 {
 
     public Snake()

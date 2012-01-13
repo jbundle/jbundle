@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.app.test</groupId>
+    <artifactId>jbundle-app-test-reactor</artifactId>
+    <version>0.8.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>org.jbundle.model.app.test</artifactId>
+  <packaging>bundle</packaging>
+  <name>jbundle-model-app-test - Test model</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle</groupId>
+      <artifactId>org.jbundle.model</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+</project>

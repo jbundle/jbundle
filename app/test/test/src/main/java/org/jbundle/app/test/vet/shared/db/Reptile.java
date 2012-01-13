@@ -22,11 +22,13 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.app.test.vet.shared.screen.*;
 import org.jbundle.app.test.vet.db.*;
+import org.jbundle.model.app.test.vet.shared.db.*;
 
 /**
  *  Reptile - .
  */
 public class Reptile extends VirtualRecord
+     implements ReptileModel
 {
     private static final long serialVersionUID = 1L;
 

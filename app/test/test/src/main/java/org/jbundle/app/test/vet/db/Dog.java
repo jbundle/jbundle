@@ -20,11 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.app.test.vet.db.*;
 
 /**
  *  Dog - .
  */
 public class Dog extends Animal
+     implements DogModel
 {
     private static final long serialVersionUID = 1L;
 

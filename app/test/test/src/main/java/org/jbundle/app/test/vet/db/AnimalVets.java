@@ -20,11 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.app.test.vet.db.*;
 
 /**
  *  AnimalVets - Test Query.
  */
 public class AnimalVets extends QueryRecord
+     implements AnimalVetsModel
 {
     private static final long serialVersionUID = 1L;
     /**

@@ -20,11 +20,13 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.app.test.test.db.*;
 
 /**
  *  TestTableNoAuto - .
  */
 public class TestTableNoAuto extends TestTable
+     implements TestTableNoAutoModel
 {
     private static final long serialVersionUID = 1L;
 

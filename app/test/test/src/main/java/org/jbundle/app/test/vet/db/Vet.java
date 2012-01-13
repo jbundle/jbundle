@@ -21,11 +21,13 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.app.test.vet.screen.*;
+import org.jbundle.model.app.test.vet.db.*;
 
 /**
  *  Vet - .
  */
 public class Vet extends VirtualRecord
+     implements VetModel
 {
     private static final long serialVersionUID = 1L;
 
