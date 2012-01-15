@@ -1046,9 +1046,8 @@ public class WriteRecordClass extends WriteSharedClass
             } catch (DBException e) {
                 e.printStackTrace();
             }
-
-            return;
         }
+        /* Old code
         Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
         String displayClass = recFileHdr.getField(FileHdr.kDisplayClass).getString();
         String maintClass = recFileHdr.getField(FileHdr.kMaintClass).getString();
@@ -1080,6 +1079,7 @@ public class WriteRecordClass extends WriteSharedClass
         m_StreamOut.writeit(strDefaultCall);
 
         m_StreamOut.writeit("\treturn screen;\n}\n");
+        */
     }
     /**
      *  WriteSetupField.
