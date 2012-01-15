@@ -9,6 +9,8 @@ import org.jbundle.model.app.test.vet.shared.db.*;
 
 public interface LizardModel extends ReptileModel
 {
+    public static final String LIZARD_SCREEN_CLASS = "org.jbundle.app.test.vet.shared.screen.LizardScreen";
+    public static final String LIZARD_GRID_SCREEN_CLASS = "org.jbundle.app.test.vet.shared.screen.LizardGridScreen";
 
     public static final String LIZARD_FILE = "Reptile";
     public static final String THIN_CLASS = "org.jbundle.thin.app.test.vet.shared.db.Lizard";

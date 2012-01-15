@@ -9,6 +9,8 @@ import org.jbundle.model.app.test.vet.shared.db.*;
 
 public interface SnakeModel extends ReptileModel
 {
+    public static final String SNAKE_SCREEN_CLASS = "org.jbundle.app.test.vet.shared.screen.SnakeScreen";
+    public static final String SNAKE_GRID_SCREEN_CLASS = "org.jbundle.app.test.vet.shared.screen.SnakeGridScreen";
 
     public static final String SNAKE_FILE = "Reptile";
     public static final String THIN_CLASS = "org.jbundle.thin.app.test.vet.shared.db.Snake";
