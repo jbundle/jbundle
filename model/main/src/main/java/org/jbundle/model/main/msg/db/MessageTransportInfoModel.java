@@ -9,6 +9,8 @@ import org.jbundle.model.db.*;
 
 public interface MessageTransportInfoModel extends Rec
 {
+    public static final String MESSAGE_TRANSPORT_INFO_SCREEN_CLASS = "org.jbundle.main.msg.screen.MessageTransportInfoScreen";
+    public static final String MESSAGE_TRANSPORT_INFO_GRID_SCREEN_CLASS = "org.jbundle.main.msg.screen.MessageTransportInfoGridScreen";
 
     public static final String MESSAGE_TRANSPORT_INFO_FILE = "MessageTransportInfo";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.MessageTransportInfo";

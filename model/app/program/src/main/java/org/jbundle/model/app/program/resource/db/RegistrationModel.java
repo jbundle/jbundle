@@ -9,6 +9,8 @@ import org.jbundle.model.db.*;
 
 public interface RegistrationModel extends Rec
 {
+    public static final String REGISTRATION_SCREEN_CLASS = "org.jbundle.app.program.resource.screen.RegistrationScreen";
+    public static final String REGISTRATION_GRID_SCREEN_CLASS = "org.jbundle.app.program.resource.screen.RegistrationGridScreen";
 
     public static final String REGISTRATION_FILE = "Registration";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.resource.db.Registration";

@@ -13,6 +13,8 @@ public interface LogicFileModel extends Rec
     public static final int INCLUDE_THIN = 0x002;
     public static final int INCLUDE_INTERFACE = 0x004;
     public static final int INCLUDE_ALL = 0xFFF;
+    public static final String LOGIC_FILE_SCREEN_CLASS = "org.jbundle.app.program.screen.LogicFileScreen";
+    public static final String LOGIC_FILE_GRID_SCREEN_CLASS = "org.jbundle.app.program.screen.LogicFileGridScreen";
 
     public static final String LOGIC_FILE_FILE = "LogicFile";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.db.LogicFile";

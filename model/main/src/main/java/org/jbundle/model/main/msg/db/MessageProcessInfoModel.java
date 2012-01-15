@@ -18,6 +18,8 @@ public interface MessageProcessInfoModel extends Rec
     public static final String PROCESS_TYPE_ID = "ProcessTypeID";
     public static final String PROCESSOR_CLASS = "ProcessorClass";
     public static final String SAFE = "ota.safe";
+    public static final String MESSAGE_PROCESS_INFO_SCREEN_CLASS = "org.jbundle.main.msg.screen.MessageProcessInfoScreen";
+    public static final String MESSAGE_PROCESS_INFO_GRID_SCREEN_CLASS = "org.jbundle.main.msg.screen.MessageProcessInfoGridScreen";
 
     public static final String MESSAGE_PROCESS_INFO_FILE = "MessageProcessInfo";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.MessageProcessInfo";

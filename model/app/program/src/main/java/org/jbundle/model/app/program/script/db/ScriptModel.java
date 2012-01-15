@@ -18,6 +18,8 @@ public interface ScriptModel extends FolderModel
     public static final String DESTINATION_RECORD = "destinationRecord";
     public static final String SOURCE = "source";
     public static final String DESTINATION = "destination";
+    public static final String SCRIPT_GRID_SCREEN_CLASS = "org.jbundle.app.program.script.screen.ScriptGridScreen";
+    public static final String SCRIPT_SCREEN_CLASS = "org.jbundle.app.program.script.screen.ScriptScreen";
 
     public static final String SCRIPT_FILE = "Script";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.script.db.Script";

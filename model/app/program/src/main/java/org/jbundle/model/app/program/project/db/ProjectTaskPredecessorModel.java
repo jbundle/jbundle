@@ -9,6 +9,8 @@ import org.jbundle.model.db.*;
 
 public interface ProjectTaskPredecessorModel extends Rec
 {
+    public static final String PROJECT_TASK_PREDECESSOR_SCREEN_CLASS = "org.jbundle.app.program.project.screen.ProjectTaskPredecessorScreen";
+    public static final String PROJECT_TASK_PREDECESSOR_GRID_SCREEN_CLA = "org.jbundle.app.program.project.screen.ProjectTaskPredecessorGridScreen";
 
     public static final String PROJECT_TASK_PREDECESSOR_FILE = "ProjectTaskPredecessor";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.project.db.ProjectTaskPredecessor";

@@ -9,6 +9,8 @@ import org.jbundle.model.main.db.*;
 
 public interface MessageDetailModel extends PropertiesRecordModel
 {
+    public static final String MESSAGE_DETAIL_SCREEN_CLASS = "org.jbundle.main.msg.screen.MessageDetailScreen";
+    public static final String MESSAGE_DETAIL_GRID_SCREEN_CLASS = "org.jbundle.main.msg.screen.MessageDetailGridScreen";
 
     public static final String MESSAGE_DETAIL_FILE = "MessageDetail";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.MessageDetail";

@@ -12,6 +12,8 @@ import org.jbundle.model.db.*;
 
 public interface ClassInfoModel extends Rec
 {
+    public static final String CLASS_INFO_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassInfoScreen";
+    public static final String CLASS_INFO_GRID_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassInfoGridScreen";
 
     public static final String CLASS_INFO_FILE = "ClassInfo";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.db.ClassInfo";

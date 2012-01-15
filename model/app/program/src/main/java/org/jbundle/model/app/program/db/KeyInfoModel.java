@@ -9,6 +9,8 @@ import org.jbundle.model.db.*;
 
 public interface KeyInfoModel extends Rec
 {
+    public static final String KEY_INFO_SCREEN_CLASS = "org.jbundle.app.program.screen.KeyInfoScreen";
+    public static final String KEY_INFO_GRID_SCREEN_CLASS = "org.jbundle.app.program.screen.KeyInfoGridScreen";
 
     public static final String KEY_INFO_FILE = "KeyInfo";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.db.KeyInfo";

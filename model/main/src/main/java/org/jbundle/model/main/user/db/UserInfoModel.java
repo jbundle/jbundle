@@ -36,6 +36,8 @@ public interface UserInfoModel extends PropertiesRecordModel
     public static final String LOGIN_SCREEN_CLASS = "org.jbundle.main.user.screen.UserLoginScreen";
     public static final String PREFERENCES_SCREEN_CLASS = "org.jbundle.main.user.screen.UserPreferenceScreen";
     public static final String PASSWORD_SCREEN_CLASS = "org.jbundle.main.user.screen.UserPasswordChange";
+    public static final String USER_ENTRY_SCREEN_CLASS = "org.jbundle.main.user.screen.UserEntryScreen";
+    public static final String USER_INFO_GRID_SCREEN_CLASS = "org.jbundle.main.user.screen.UserInfoGridScreen";
 
     public static final String USER_INFO_FILE = "UserInfo";
     public static final String THIN_CLASS = "org.jbundle.thin.main.user.db.UserInfo";

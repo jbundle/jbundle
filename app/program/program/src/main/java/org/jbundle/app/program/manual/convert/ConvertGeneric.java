@@ -9,14 +9,15 @@ package org.jbundle.app.program.manual.convert;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.jbundle.app.program.db.ClassFields;
+import org.jbundle.app.program.db.FileHdr;
+import org.jbundle.app.program.db.LogicFile;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.thread.ProcessRunnerTask;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
-import org.jbundle.main.db.Menus;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
@@ -87,25 +88,67 @@ public class ConvertGeneric extends BaseProcess
     public void go()
     {
         try   {
-//            LogicFile record = new LogicFile(this);
-            Menus record = new Menus(this);
+            ClassFields cf = new ClassFields(this);
+            FileHdr record = new FileHdr(this);
             while (record.hasNext())
             {
                 record.next();
-                Record menu = ((ReferenceField)record.getField(Menus.kParentFolderID)).getReference();
-                if (record.getField(Menus.kParentFolderID).getValue() != 0)
-                    if ((menu == null)
-                            || (menu.getEditMode() == DBConstants.EDIT_NONE))
-                {
-	                    System.out.println(record.getField(Menus.kName).toString());
-	                    record.edit();
-	                    record.remove();
-                }
+                String displayClass = record.getField(FileHdr.kDisplayClass).getString();
+                String maintClass = record.getField(FileHdr.kMaintClass).getString();
+                if ((maintClass.length() == 0) && (displayClass.length() == 0))
+                    continue;
+                
+                if (record.getField(FileHdr.kID).getValue() > 50000)
+                    continue;
+
+                cf.addNew();
+                cf.getField(ClassFields.kClassInfoClassName).setString(record.getField(FileHdr.kFileName).toString());
+                cf.getField(ClassFields.kClassFieldClass).setString(maintClass);
+                cf.getField(ClassFields.kClassFieldsType).setString("S");
+                cf.getField(ClassFields.kClassFieldName).setString(convertNameToConstant(maintClass) + "_CLASS");
+                cf.getField(ClassFields.kClassFieldSequence).setString("1000");
+                cf.getField(ClassFields.kClassFieldInitialValue).setString("MAINT_MODE");
+                cf.getField(ClassFields.kIncludeScope).setValue(LogicFile.INCLUDE_INTERFACE);
+                cf.add();
+                cf.addNew();
+                cf.getField(ClassFields.kClassInfoClassName).setString(record.getField(FileHdr.kFileName).toString());
+                cf.getField(ClassFields.kClassFieldClass).setString(displayClass);
+                cf.getField(ClassFields.kClassFieldsType).setString("S");
+                if (maintClass.equalsIgnoreCase(displayClass))
+                    displayClass = displayClass + "2";
+                cf.getField(ClassFields.kClassFieldName).setString(convertNameToConstant(displayClass) + "_CLASS");
+                cf.getField(ClassFields.kClassFieldSequence).setString("1010");
+                cf.getField(ClassFields.kClassFieldInitialValue).setString("DISPLAY_MODE");
+                cf.getField(ClassFields.kIncludeScope).setValue(LogicFile.INCLUDE_INTERFACE);
+                cf.add();
             }
             record.free();
             record = null;
         } catch (DBException ex)    {
             ex.printStackTrace();
         }
+    }
+    /**
+     * A utility name to convert a java name to a constant.
+     * (ie., thisClassName -> THIS_CLASS_NAME)
+     */
+    public String convertNameToConstant(String strName)
+    {
+        String strConstants = DBConstants.BLANK;
+        int iLastUpper = -1;
+        for (int i = 0; i < strName.length(); i++)
+        {
+            char chNext = strName.charAt(i);
+            if (!Character.isLowerCase(chNext))
+            {   // The next word is always uppercase.
+                if (i != iLastUpper + 1)
+                    strConstants += "_";    // Previous letter was not uppercase, this starts a new word
+                else if ((iLastUpper != -1) && (i + 1 < strName.length()) && (Character.isLowerCase(strName.charAt(i + 1))))
+                    strConstants += "_";    // Previous letter was upper and next is lower, start a new word
+                iLastUpper = i;
+            }
+            strConstants += Character.toUpperCase(chNext);
+        }
+        return strConstants;
     }
 }

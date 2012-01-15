@@ -9,6 +9,8 @@ import org.jbundle.model.db.*;
 
 public interface IssueHistoryModel extends Rec
 {
+    public static final String ISSUE_HISTORY_SCREEN_CLASS = "org.jbundle.app.program.issue.screen.IssueHistoryScreen";
+    public static final String ISSUE_HISTORY_GRID_SCREEN_CLASS = "org.jbundle.app.program.issue.screen.IssueHistoryGridScreen";
 
     public static final String ISSUE_HISTORY_FILE = "IssueHistory";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.issue.db.IssueHistory";

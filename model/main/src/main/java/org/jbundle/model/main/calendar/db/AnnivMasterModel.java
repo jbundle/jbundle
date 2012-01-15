@@ -9,6 +9,8 @@ import org.jbundle.model.db.*;
 
 public interface AnnivMasterModel extends Rec
 {
+    public static final String ANNIV_MASTER_SCREEN_CLASS = "org.jbundle.main.calendar.screen.AnnivMasterScreen";
+    public static final String ANNIV_MASTER_GRID_SCREEN_CLASS = "org.jbundle.main.calendar.screen.AnnivMasterGridScreen";
 
     public static final String ANNIV_MASTER_FILE = "AnnivMaster";
     public static final String THIN_CLASS = "org.jbundle.thin.main.calendar.db.AnnivMaster";

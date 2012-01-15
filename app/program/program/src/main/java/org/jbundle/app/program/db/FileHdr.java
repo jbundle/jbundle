@@ -20,7 +20,6 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.app.program.screen.*;
 import org.jbundle.model.app.program.db.*;
 
 /**
@@ -106,10 +105,8 @@ public class FileHdr extends VirtualRecord
     public BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String,Object> properties)
     {
         BaseScreen screen = null;
-        if ((iDocMode & ScreenConstants.MAINT_MODE) != 0)
-            screen = new FileHdrScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-        else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
-            screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
+        if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+            screen = BaseScreen.makeNewScreen(FILE_HDR_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
             screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;

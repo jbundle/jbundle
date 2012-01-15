@@ -13,6 +13,8 @@ public interface UserGroupModel extends PropertiesRecordModel
     public static final int RES_USER = 1;
     public static final String USER_DETAIL = "User detail";
     public static final String USER_ICON = "Distribution";
+    public static final String USER_GROUP_SCREEN_CLASS = "org.jbundle.main.user.screen.UserGroupScreen";
+    public static final String USER_GROUP_GRID_SCREEN_CLASS = "org.jbundle.main.user.screen.UserGroupGridScreen";
 
     public static final String USER_GROUP_FILE = "UserGroup";
     public static final String THIN_CLASS = "org.jbundle.thin.main.user.db.UserGroup";

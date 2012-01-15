@@ -42,6 +42,8 @@ public interface MessageLogModel extends Rec
     public static final String SOURCE_ICON = "Source";
     public static final String MESSAGE_SCREEN = "Message Screen";
     public static final String SOURCE_SCREEN = "Source";
+    public static final String MESSAGE_LOG_SCREEN_CLASS = "org.jbundle.main.msg.screen.MessageLogScreen";
+    public static final String MESSAGE_LOG_GRID_SCREEN_CLASS = "org.jbundle.main.msg.screen.MessageLogGridScreen";
 
     public static final String MESSAGE_LOG_FILE = "MessageLog";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.MessageLog";

@@ -16,6 +16,8 @@ public interface PropertiesInputModel extends Rec
     public static final String COMMENT = "Comment";
 
     public static final String KEY_KEY = "Key";
+    public static final String PROPERTIES_INPUT_SCREEN_CLASS = "org.jbundle.main.properties.screen.PropertiesInputGridScreen";
+    public static final String PROPERTIES_INPUT_GRID_SCREEN_CLASS = "org.jbundle.main.properties.screen.PropertiesInputGridScreen";
 
     public static final String PROPERTIES_INPUT_FILE = "PropertiesInput";
     public static final String THIN_CLASS = "org.jbundle.thin.main.properties.db.PropertiesInput";

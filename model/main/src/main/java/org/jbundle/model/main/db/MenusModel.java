@@ -21,6 +21,8 @@ public interface MenusModel extends FolderModel
     public static final String CODE_KEY = "Code";
 
     public static final String TYPE_KEY = "Type";
+    public static final String MENU_SCREEN_CLASS = "org.jbundle.base.screen.model.MenuScreen";
+    public static final String MENU_DISPLAY_SCREEN_CLASS = "org.jbundle.base.screen.model.MenuScreen";
 
     public static final String MENUS_FILE = "Menus";
     public static final String THIN_CLASS = "org.jbundle.thin.main.db.Menus";
