@@ -23,11 +23,13 @@ import org.jbundle.model.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.main.msg.db.*;
 import org.jbundle.main.user.db.*;
+import org.jbundle.model.main.db.*;
 
 /**
  *  Person - List of People's Names, Addr.
  */
 public class Person extends VirtualRecord
+     implements PersonModel
 {
     private static final long serialVersionUID = 1L;
 

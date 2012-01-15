@@ -276,7 +276,7 @@ public class WriteClass extends BaseProcess
         String strClassDesc = recClassInfo.getField(ClassInfo.kClassDesc).getString();
         String strClassInterface = recClassInfo.getField(ClassInfo.kClassImplements).getString();
         String implementsClass = null;
-        if (((ClassInfo)recClassInfo).isARecord())
+        if (((ClassInfo)recClassInfo).isARecord(false))
             implementsClass = strClassName + "Model";
         if ((implementsClass != null) && (implementsClass.length() > 0))
         {
@@ -354,9 +354,9 @@ public class WriteClass extends BaseProcess
             while (recClassInfo2.hasNext())
             {
                 recClassInfo2.next();
-                if ((codeType == CodeType.THIN) && (!recClassInfo2.isARecord()))
+                if ((codeType == CodeType.THIN) && (!recClassInfo2.isARecord(true)))
                     continue;
-                if ((codeType == CodeType.INTERFACE) && (!recClassInfo2.isARecord()))
+                if ((codeType == CodeType.INTERFACE) && (!recClassInfo2.isARecord(true)))
                     continue;
 
                 String strBaseRecordClass = recClassInfo2.getField(ClassInfo.kBaseClassName).getString();
@@ -390,7 +390,7 @@ public class WriteClass extends BaseProcess
                         		strFieldClass = classProject.getFullPackage(CodeType.THICK, strFieldClass);
                         		if (codeType2 != CodeType.THICK)
                         		{
-                        			int end = strFieldClass.indexOf(codeType == CodeType.THIN ? ".thin" : ".res");
+                        			int end = strFieldClass.indexOf(codeType2 == CodeType.THIN ? ".thin" : ".res");
                         			int start = strFieldClass.indexOf('.');
                         			if (start != -1)
                         				start = strFieldClass.indexOf('.', start + 1);
@@ -447,13 +447,13 @@ public class WriteClass extends BaseProcess
     {
         try   {
             ClassInfo classInfo = (ClassInfo)this.getRecord(ClassInfo.CLASS_INFO_FILE);
-            boolean isARecord = classInfo.isARecord();
+            boolean hasAnInterface = classInfo.isARecord(false);
             Record recClassFields = this.getRecord(ClassFields.kClassFieldsFile);
             recClassFields.close();
             while (recClassFields.hasNext())
             {
                 recClassFields.next();
-                if (!((IncludeScopeField)recClassFields.getField(ClassFields.kIncludeScope)).includeThis(codeType, isARecord))
+                if (!((IncludeScopeField)recClassFields.getField(ClassFields.kIncludeScope)).includeThis(codeType, hasAnInterface))
                     continue;
                 String strFieldName = recClassFields.getField(ClassFields.kClassFieldName).getString();
                 String strFieldClass = recClassFields.getField(ClassFields.kClassFieldClass).getString();

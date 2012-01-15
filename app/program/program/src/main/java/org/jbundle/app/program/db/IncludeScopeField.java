@@ -94,7 +94,7 @@ public class IncludeScopeField extends IntegerField
     /**
      * IncludeThis Method.
      */
-    public boolean includeThis(ClassProjectModel.CodeType codeType, boolean isARecord)
+    public boolean includeThis(ClassProjectModel.CodeType codeType, boolean hasAnInterface)
     {
         int scope = (int)(this.getValue() + 0.5);
         int target = 0;
@@ -104,9 +104,11 @@ public class IncludeScopeField extends IntegerField
             target = LogicFile.INCLUDE_THIN;
         if (codeType == ClassProjectModel.CodeType.INTERFACE)
             target = LogicFile.INCLUDE_INTERFACE;
-        if ((isARecord)
+        if ((hasAnInterface)
             && ((scope & LogicFile.INCLUDE_INTERFACE) != 0) && (codeType != ClassProjectModel.CodeType.INTERFACE))
                 return false;   // If this has already been included in the interface, don't include it here
+        if ((!hasAnInterface) && (scope == LogicFile.INCLUDE_INTERFACE) && (codeType == ClassProjectModel.CodeType.THICK))
+            return true;    // If there isn't going to be an interface class, make sure it is included in thick
         return ((target & scope) != 0);
     }
 

@@ -20,12 +20,14 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.main.db.*;
 
 /**
  *  PropertiesRecord - A Record with a property field that is moved to and from
 some virtual fields..
  */
 public class PropertiesRecord extends VirtualRecord
+     implements PropertiesRecordModel
 {
     private static final long serialVersionUID = 1L;
 

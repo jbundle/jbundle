@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.db;
 
-public interface CompanyModel extends org.jbundle.model.main.db.PersonModel
+import org.jbundle.model.main.db.*;
+
+public interface CompanyModel extends PersonModel
 {
 
     public static final String COMPANY_FILE = "Company";

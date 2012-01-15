@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.db;
 
-public interface PersonModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface PersonModel extends Rec
 {
 
     public static final String PERSON_FILE = "Person";

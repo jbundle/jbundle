@@ -10,8 +10,11 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class Company extends org.jbundle.thin.main.db.Person
-    implements org.jbundle.model.main.db.CompanyModel
+import org.jbundle.thin.main.db.*;
+import org.jbundle.model.main.db.*;
+
+public class Company extends Person
+    implements CompanyModel
 {
 
     public Company()

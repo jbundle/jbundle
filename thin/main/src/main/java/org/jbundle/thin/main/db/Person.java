@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class Person extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.db.PersonModel
+import org.jbundle.model.main.db.*;
+
+public class Person extends FieldList
+    implements PersonModel
 {
 
     public Person()

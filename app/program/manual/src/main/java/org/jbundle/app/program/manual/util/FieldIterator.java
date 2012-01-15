@@ -152,7 +152,8 @@ import org.jbundle.model.DBException;
      */
     public boolean isShared()
     {
-//x            if (m_recFileHdr.getField(FileHdr.kType).toString().indexOf("BASE_TABLE_CLASS") != -1)
+        if (m_recFileHdr.getEditMode() != DBConstants.EDIT_CURRENT)
+            return false;   // Non-file record is never shared
         if (m_recFileHdr.getField(FileHdr.kType).toString().indexOf("SHARED_TABLE") != -1)
             return true;
         if (!m_bSharedOnly)

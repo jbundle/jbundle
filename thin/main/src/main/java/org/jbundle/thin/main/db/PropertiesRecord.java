@@ -10,8 +10,10 @@ import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-public class PropertiesRecord extends org.jbundle.thin.base.db.FieldList
-    implements org.jbundle.model.main.db.PropertiesRecordModel
+import org.jbundle.model.main.db.*;
+
+public class PropertiesRecord extends FieldList
+    implements PropertiesRecordModel
 {
 
     public PropertiesRecord()

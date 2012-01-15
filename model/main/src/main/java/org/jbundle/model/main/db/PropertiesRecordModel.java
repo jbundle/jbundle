@@ -5,7 +5,9 @@
  */
 package org.jbundle.model.main.db;
 
-public interface PropertiesRecordModel extends org.jbundle.model.db.Rec
+import org.jbundle.model.db.*;
+
+public interface PropertiesRecordModel extends Rec
 {
     public static final String PROPERTIES = "Properties";
 

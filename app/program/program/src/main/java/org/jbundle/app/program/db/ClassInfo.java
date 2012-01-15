@@ -476,7 +476,7 @@ public class ClassInfo extends VirtualRecord
     /**
      * IsARecord Method.
      */
-    public boolean isARecord()
+    public boolean isARecord(boolean isAFile)
     {
         Record recFileHdr = this.getRecordOwner().getRecord(FileHdr.kFileHdrFile);
         if (recFileHdr == null)
@@ -491,24 +491,25 @@ public class ClassInfo extends VirtualRecord
                 recFileHdr.getField(FileHdr.kFileName).moveFieldToThis(this.getField(ClassInfo.kClassName));
                 int oldKeyArea = recFileHdr.getDefaultOrder();
                 recFileHdr.setKeyArea(FileHdr.kFileNameKey);
-                if (!recFileHdr.seek(null))
-                    return false;
+                recFileHdr.seek(null);
                 recFileHdr.setKeyArea(oldKeyArea);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
-        if (((recFileHdr.getEditMode() != DBConstants.EDIT_CURRENT) || (!this.getField(ClassInfo.kClassName).toString().equals(recFileHdr.getField(FileHdr.kFileName).getString())))
-            && (!"Record".equalsIgnoreCase(this.getField(ClassInfo.kClassType).toString())))
-                return false;     // If this isn't a physical file, don't build it.
+        if ((recFileHdr.getEditMode() == DBConstants.EDIT_CURRENT) && (this.getField(ClassInfo.kClassName).toString().equals(recFileHdr.getField(FileHdr.kFileName).getString())))
+            return true;    // This is a file
+        if (isAFile)
+            return false;    // Just looking for files
+        if (!"Record".equalsIgnoreCase(this.getField(ClassInfo.kClassType).toString()))
+            return false;     // If this isn't a physical file, don't build it.
         if (this.getField(ClassInfo.kBaseClassName).toString().contains("ScreenRecord"))
-                return false;
+            return false;
         if ("Interface".equalsIgnoreCase(this.getField(ClassInfo.kClassType).toString()))   // An interface doesn't have an interface
             return false;     // If this isn't a physical file, don't build it.
         if (RESOURCE_CLASS.equals(this.getField(ClassInfo.kBaseClassName).toString()))
             return false;     // Resource only class
-        return true;
+        return true;    // This is a record
     }
 
 }

@@ -22,11 +22,13 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.main.msg.db.*;
+import org.jbundle.model.main.db.*;
 
 /**
  *  Company - Mailing list of company names.
  */
 public class Company extends Person
+     implements CompanyModel
 {
     private static final long serialVersionUID = 1L;
 

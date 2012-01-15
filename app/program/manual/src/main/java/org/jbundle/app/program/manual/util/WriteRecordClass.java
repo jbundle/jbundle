@@ -331,7 +331,7 @@ public class WriteRecordClass extends WriteSharedClass
         ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
         Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
         FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
-        if (!recClassInfo.isARecord())
+        if (!recClassInfo.isARecord(false))
             return;
         String strDBType = recFileHdr.getField(FileHdr.kType).getString(); // Is Remote file?
         strDBType = this.fixDBType(strDBType, "Constants.");
@@ -366,19 +366,7 @@ public class WriteRecordClass extends WriteSharedClass
 
         this.readRecordClass(strClassName);     // Return the record to the original position
         ThinFieldIterator fieldIterator = new ThinFieldIterator(recFileHdr, recClassInfo, recFieldData);
-        // Write out any field constants that should be include in the thin record.
-        fieldIterator.close();
-        while (fieldIterator.hasNext())
-        {
-            fieldIterator.next();
-            if (((IncludeScopeField)recFieldData.getField(FieldData.kIncludeScope)).includeThis(CodeType.INTERFACE, true))
-                if (strClassName.equalsIgnoreCase(recFieldData.getField(FieldData.kFieldFileName).toString()))  // Only for concrete class
-            {
-                String strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
-                String strFieldConstant = this.convertNameToConstant(strFieldName);
-                m_StreamOut.writeit("public static final String " + strFieldConstant + " = \"" + strFieldName + "\";\n");
-            }
-        }
+        this.writeFieldOffsets(fieldIterator, CodeType.INTERFACE);
         this.writeKeyOffsets(CodeType.INTERFACE);   // Write the Key offsets
         this.writeClassFields(CodeType.INTERFACE);    // Write the thin class fields.
         
@@ -419,7 +407,7 @@ public class WriteRecordClass extends WriteSharedClass
     public void writeThinRecord(String strClassName)
     {
         ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
-        if (!recClassInfo.isARecord())
+        if (!recClassInfo.isARecord(false))
             return;
         Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
         FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
@@ -441,16 +429,6 @@ public class WriteRecordClass extends WriteSharedClass
         m_StreamOut.writeit("import " + DBConstants.ROOT_PACKAGE + "thin.base.util.*;\n\n");
         m_StreamOut.writeit("import " + DBConstants.ROOT_PACKAGE + "thin.base.db.*;\n\n");
 
-/*        recFileHdr.getField(FileHdr.kFileName).setString(strBaseClass);
-        try {
-            if (!recFileHdr.seek(null))
-                strBaseClass = "FieldList";
-            recFileHdr.getField(FileHdr.kFileName).setString(strClassName); // Restore
-            recFileHdr.seek(null);
-        } catch (DBException e) {
-            e.printStackTrace();
-        }
-*/
         if (!strBaseClass.equals("FieldList"))
         {
             this.readRecordClass(strBaseClass);     // Return the record to the original position
@@ -477,25 +455,7 @@ public class WriteRecordClass extends WriteSharedClass
 
         this.readRecordClass(strClassName);     // Return the record to the original position
         ThinFieldIterator fieldIterator = new ThinFieldIterator(recFileHdr, recClassInfo, recFieldData);
-        // Write out any field constants that should be include in the thin record.
-        fieldIterator.close();
-        while (fieldIterator.hasNext())
-        {
-            fieldIterator.next();
-            boolean concreteClass = true;
-            if (recFieldData.getField(FieldData.kID).isNull())  // Only for concrete class
-                concreteClass = false;
-            if (!recFieldData.getField(FieldData.kBaseFieldName).isNull())
-                if (!recFieldData.getField(FieldData.kBaseFieldName).toString().equalsIgnoreCase(recFieldData.getField(FieldData.kBaseFieldName).toString()))
-                    concreteClass = false;
-            if (concreteClass)
-                if (((IncludeScopeField)recFieldData.getField(FieldData.kIncludeScope)).includeThis(CodeType.THIN, true))
-            {
-                String strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
-                String strFieldConstant = this.convertNameToConstant(strFieldName);
-                m_StreamOut.writeit("public static final String " + strFieldConstant + " = \"" + strFieldName + "\";\n");
-            }
-        }
+        this.writeFieldOffsets(fieldIterator, CodeType.THIN);
         this.writeClassFields(CodeType.THIN);    // Write the thin class fields.
         
         m_StreamOut.writeit("\n");
@@ -766,7 +726,10 @@ public class WriteRecordClass extends WriteSharedClass
         
             m_StreamOut.writeit("private static final long serialVersionUID = 1L;\n");
 
-        	this.writeFieldOffsets(CodeType.THICK); // Write the BaseField offsets
+            Record recFieldData = this.getRecord(FieldData.kFieldDataFile);
+            Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
+            FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
+        	this.writeFieldOffsets(fieldIterator, CodeType.THICK); // Write the BaseField offsets
             this.writeKeyOffsets(CodeType.THICK);   // Write the Key offsets
         
             this.writeClassFields(CodeType.THICK);
@@ -775,7 +738,6 @@ public class WriteRecordClass extends WriteSharedClass
             this.writeRecordInit();
             this.writeInit();   // Special case... zero all class fields!
         
-            FileHdr recFileHdr = (FileHdr)this.getRecord(FileHdr.kFileHdrFile);
             recFileHdr.getField(FileHdr.kFileName).setString(strRecordClass);
             recFileHdr.setKeyArea(FileHdr.kFileNameKey);
             boolean bFileType = (recFileHdr.seek("="));
@@ -849,7 +811,7 @@ public class WriteRecordClass extends WriteSharedClass
      *  Write the constants for the field offsets
      * @param codeType TODO
      */
-    public void writeFieldOffsets(CodeType codeType)
+    public void writeFieldOffsets(FieldIterator fieldIterator, CodeType codeType)
     { // Now, write all the field offsets out in the header file
         Record recClassInfo = this.getMainRecord();
         int iFieldCount = 0;
@@ -861,7 +823,33 @@ public class WriteRecordClass extends WriteSharedClass
         Record recFieldData = this.getRecord(FieldData.kFieldDataFile);
         Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
 
-        FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
+        if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
+        {
+            // Write out any field constants that should be included in the model record.
+            fieldIterator.close();
+            while (fieldIterator.hasNext())
+            {
+                fieldIterator.next();
+                boolean concreteClass = true;
+                if (recFieldData.getField(FieldData.kID).isNull())  // Only for concrete class
+                    concreteClass = false;
+                if (!recFieldData.getField(FieldData.kBaseFieldName).isNull())
+                    if (!recFieldData.getField(FieldData.kBaseFieldName).toString().equalsIgnoreCase(recFieldData.getField(FieldData.kBaseFieldName).toString()))
+                        concreteClass = false;
+                if (codeType == CodeType.THIN)
+                    if (!concreteClass)
+                        continue;
+                if (((IncludeScopeField)recFieldData.getField(FieldData.kIncludeScope)).includeThis(codeType, true))
+                    if (strRecordClass.equalsIgnoreCase(recFieldData.getField(FieldData.kFieldFileName).toString()))  // Only for concrete class
+                {
+                    strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
+                    String strFieldConstant = this.convertNameToConstant(strFieldName);
+                    m_StreamOut.writeit("public static final String " + strFieldConstant + " = \"" + strFieldName + "\";\n");
+                }
+            }     
+            return;
+        }
+
         String strLastField = strBaseRecordClass + "LastField";
 
         fieldIterator.close();
