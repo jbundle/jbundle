@@ -21,7 +21,6 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.base.db.shared.*;
-import org.jbundle.main.calendar.screen.*;
 import org.jbundle.model.main.calendar.db.*;
 
 /**
@@ -101,10 +100,10 @@ public class Appointment extends CalendarEntry
     public BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String,Object> properties)
     {
         BaseScreen screen = null;
-        if ((iDocMode & ScreenConstants.MAINT_MODE) != 0)
-            screen = new AppointmentScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-        else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
-            screen = new AppointmentGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
+            screen = BaseScreen.makeNewScreen(APPOINTMENT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+            screen = BaseScreen.makeNewScreen(APPOINTMENT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
             screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;

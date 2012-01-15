@@ -1001,15 +1001,57 @@ public class WriteRecordClass extends WriteSharedClass
      */
     public void writeFileMakeViews()
     {
-        String maintClass, displayClass;
-        Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
-        displayClass = recFileHdr.getField(FileHdr.kDisplayClass).getString();
-        maintClass = recFileHdr.getField(FileHdr.kMaintClass).getString();
         if (this.readThisMethod("makeScreen"))
         {
             this.writeThisMethod(CodeType.THICK);
             return;     // if no views specified, use default methods
         }
+        
+        if (true)
+        {
+            ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
+            ClassFields recClassFields = new ClassFields(this);
+            recClassFields.addListener(new SubFileFilter(ClassFields.kClassInfoClassNameKey, recClassInfo.getField(ClassInfo.kClassName)));   // Only read through the class fields
+            recClassFields.close();
+            try {
+                boolean firstTime = true;
+                while (recClassFields.hasNext())
+                {
+                    recClassFields.next();
+                    String strClassFieldType = recClassFields.getField(ClassFields.kClassFieldsType).toString();
+                    if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.SCREEN_CLASS_NAME))
+                    {
+                        if (firstTime)
+                        {
+                            this.writeMethodInterface(null, "makeScreen", "BaseScreen", "ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String,Object> properties", "", "Make a default screen.", null);
+                            m_StreamOut.writeit("\tBaseScreen screen = null;\n");
+                        }
+                        firstTime = false;
+                        String screenMode = recClassFields.getField(ClassFields.kClassFieldInitialValue).toString();
+                        if ((screenMode == null) || (screenMode.length() == 0))
+                            screenMode = "MAINT_MODE";
+                        if (!screenMode.contains("."))
+                            screenMode = "ScreenConstants." + screenMode;
+                        String fieldName = recClassFields.getField(ClassFields.kClassFieldName).toString();
+                        m_StreamOut.writeit("\tif ((iDocMode & " + screenMode + ") == " + screenMode + ")\n");
+                        m_StreamOut.writeit("\t\tscreen = BaseScreen.makeNewScreen(" + fieldName + ", itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);\n");
+                    }
+                }
+                if (!firstTime)
+                {
+                    m_StreamOut.writeit("\telse\n");
+                    m_StreamOut.writeit("\t\tscreen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);\n");
+                    m_StreamOut.writeit("\treturn screen;\n}\n");                    
+                }
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+
+            return;
+        }
+        Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
+        String displayClass = recFileHdr.getField(FileHdr.kDisplayClass).getString();
+        String maintClass = recFileHdr.getField(FileHdr.kMaintClass).getString();
         if ((maintClass.length() == 0) && (displayClass.length() == 0))
             return;
         this.writeMethodInterface(null, "makeScreen", "BaseScreen", "ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String,Object> properties", "", "Make a default screen.", null);

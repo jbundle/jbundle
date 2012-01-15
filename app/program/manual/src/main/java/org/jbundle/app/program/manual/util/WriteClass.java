@@ -461,7 +461,8 @@ public class WriteClass extends BaseProcess
                 String strClassFieldType = recClassFields.getField(ClassFields.kClassFieldsType).toString();
                 if ((strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_FIELD))
                     || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.NATIVE_FIELD))
-                    || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_NAME)))
+                    || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_NAME))
+                    || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.SCREEN_CLASS_NAME)))
                         if (strFieldName.length() != 0)
                 {
                         if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_FIELD))
@@ -479,8 +480,11 @@ public class WriteClass extends BaseProcess
                         strAssignmentOperator = " ";
                     if (!recClassFields.getField(ClassFields.kClassFieldInitialValue).isNull())
                         strInitialValue = strAssignmentOperator + recClassFields.getField(ClassFields.kClassFieldInitialValue).toString();
-                    if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_NAME))
+                    if ((strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_NAME))
+                            || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.SCREEN_CLASS_NAME)))
                     {
+                        if (recClassFields.getField(ClassFields.kClassFieldProtect).isNull())
+                            strProtection = "public static final";  // Default
                         ClassInfo recClassInfo2 = new ClassInfo(this);
                         recClassInfo2.setKeyArea(ClassInfo.kClassNameKey);
                         recClassInfo2.getField(ClassInfo.kClassName).setString(strFieldClass);   // Class of this record
