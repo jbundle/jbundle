@@ -20,7 +20,6 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.main.msg.screen.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.model.main.msg.db.*;
 

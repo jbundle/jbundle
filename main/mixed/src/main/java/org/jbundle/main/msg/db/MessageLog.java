@@ -23,7 +23,6 @@ import org.jbundle.model.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.thin.base.message.*;
 import org.jbundle.base.message.trx.transport.screen.*;
-import org.jbundle.main.msg.screen.*;
 import org.jbundle.model.message.*;
 import org.jbundle.main.msg.db.base.*;
 import org.jbundle.main.user.db.*;
@@ -162,7 +161,7 @@ public class MessageLog extends VirtualRecord
                 }
             }
             if (screen == null) // ? I don't know what else to do?
-                screen = new MessageLogScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+                screen = BaseScreen.makeNewScreen(MESSAGE_LOG_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         }
         else if ((iDocMode & MessageLog.SOURCE_SCREEN_MODE) == MessageLog.SOURCE_SCREEN_MODE)
         {
@@ -190,9 +189,9 @@ public class MessageLog extends VirtualRecord
             }
         }
         else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = new MessageLogScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(MESSAGE_LOG_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
-            screen = new MessageLogGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(MESSAGE_LOG_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         return screen;
     }
     /**

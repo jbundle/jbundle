@@ -22,8 +22,8 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.thin.base.message.*;
-import org.jbundle.main.msg.screen.*;
 import org.jbundle.util.osgi.finder.*;
+import org.jbundle.model.main.db.*;
 import org.jbundle.main.msg.db.base.*;
 import org.jbundle.model.main.msg.db.*;
 
@@ -109,12 +109,14 @@ public class MessageInfo extends VirtualRecord
     public BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String,Object> properties)
     {
         BaseScreen screen = null;
-        if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = new MessageInfoScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
+            screen = BaseScreen.makeNewScreen(MESSAGE_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+            screen = BaseScreen.makeNewScreen(MESSAGE_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
-            screen = new MessageInfoGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-        else if ((iDocMode & MessageInfo.PROCESS_DETAIL_MODE) == MessageInfo.PROCESS_DETAIL_MODE)
-            screen = new MessageProcessInfoGridScreen(this, null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(MESSAGE_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        else if ((iDocMode & ScreenConstants.MENU_MODE) != 0)
+            screen = BaseScreen.makeNewScreen(MenusModel.MENU_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
             screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;

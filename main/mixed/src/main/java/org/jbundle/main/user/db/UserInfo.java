@@ -22,7 +22,6 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.thin.base.screen.*;
 import org.jbundle.main.db.*;
-import org.jbundle.main.user.screen.*;
 import org.jbundle.main.msg.db.base.*;
 import org.jbundle.model.main.user.db.*;
 
@@ -131,19 +130,19 @@ public class UserInfo extends PropertiesRecord
     {
         BaseScreen screen = null;
         if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
-            screen = new UserRegistrationGridScreen(this, null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(UserRegistrationModel.USER_REGISTRATION_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = new UserEntryScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(USER_ENTRY_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
-            screen = new UserInfoGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(USER_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & UserInfo.VERBOSE_MAINT_MODE) == UserInfo.VERBOSE_MAINT_MODE)
-            screen = new UserInfoScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(USER_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & UserInfo.LOGIN_SCREEN_MODE) == UserInfo.LOGIN_SCREEN_MODE)
-            screen = new UserLoginScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(USER_LOGIN_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & UserInfo.PREFERENCES_SCREEN_MODE) == UserInfo.PREFERENCES_SCREEN_MODE)
-            screen = new UserPreferenceScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(USER_PREFERENCES_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & UserInfo.PASSWORD_CHANGE_SCREEN_MODE) == UserInfo.PASSWORD_CHANGE_SCREEN_MODE)
-            screen = new UserPasswordChange(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = BaseScreen.makeNewScreen(USER_PASSWORD_CHANGE_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
             screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;

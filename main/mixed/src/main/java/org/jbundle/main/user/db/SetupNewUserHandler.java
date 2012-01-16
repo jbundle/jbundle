@@ -3,7 +3,7 @@
  * Copyright © 2011 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.main.user.screen;
+package org.jbundle.main.user.db;
 
 import java.awt.*;
 import java.util.*;
@@ -20,7 +20,6 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.main.user.db.*;
 
 /**
  *  SetupNewUserHandler - Setup a new user by replicating the user template and the registration that comes with it..

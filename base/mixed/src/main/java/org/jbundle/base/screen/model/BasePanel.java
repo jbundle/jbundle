@@ -247,7 +247,7 @@ public class BasePanel extends ScreenField
             SCannedBox loginBox = new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.LOGIN);
             loginBox.setRequestFocusEnabled(true);
             strDesc = application.getResources(ResourceConstants.MAIN_RESOURCE, true).getString("Create new account");
-            String strCommand = Utility.addURLParam(null, Params.SCREEN, UserInfoModel.MAINT_SCREEN_CLASS);
+            String strCommand = Utility.addURLParam(null, Params.SCREEN, UserInfoModel.USER_INFO_SCREEN_CLASS);
             new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST_BUTTON_WITH_GAP, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, strDesc, MenuConstants.FORM, strCommand, MenuConstants.FORM + DBConstants.TIP);
             this.setDefaultButton(loginBox);
             ((BaseField)converter.getField()).addListener(new FieldListener(null)

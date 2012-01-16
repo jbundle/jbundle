@@ -9,6 +9,8 @@ import org.jbundle.model.db.*;
 
 public interface UserPermissionModel extends Rec
 {
+    public static final String USER_PERMISSION_GRID_SCREEN_CLASS = "org.jbundle.main.user.screen.UserPermissionGridScreen";
+    public static final String USER_PERMISSION_SCREEN_CLASS = "org.jbundle.main.user.screen.UserPermissionScreen";
 
     public static final String USER_PERMISSION_FILE = "UserPermission";
     public static final String THIN_CLASS = "org.jbundle.thin.main.user.db.UserPermission";

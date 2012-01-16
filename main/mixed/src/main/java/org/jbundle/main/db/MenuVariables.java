@@ -24,7 +24,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
 import java.net.*;
-import org.jbundle.main.screen.*;
 import java.util.*;
 import org.jbundle.base.db.xmlutil.*;
 

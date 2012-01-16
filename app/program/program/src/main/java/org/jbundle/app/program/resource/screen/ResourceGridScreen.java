@@ -20,7 +20,6 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.main.screen.*;
 import org.jbundle.app.program.db.*;
 import org.jbundle.app.program.screen.*;
 import org.jbundle.app.program.resource.db.*;

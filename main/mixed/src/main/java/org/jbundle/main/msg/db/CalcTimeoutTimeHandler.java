@@ -23,7 +23,6 @@ import org.jbundle.model.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.thin.base.message.*;
 import org.jbundle.base.message.trx.transport.screen.*;
-import org.jbundle.main.msg.screen.*;
 import org.jbundle.model.message.*;
 
 /**

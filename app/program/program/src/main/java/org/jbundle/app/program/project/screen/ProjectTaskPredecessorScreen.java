@@ -20,8 +20,8 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.main.screen.*;
 import org.jbundle.app.program.project.db.*;
+import org.jbundle.main.screen.*;
 
 /**
  *  ProjectTaskPredecessorScreen - .

@@ -21,7 +21,6 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.thin.base.screen.*;
-import org.jbundle.main.user.screen.*;
 
 /**
  *  CheckNonNumericListener - Check to make sure this field is not numeric.

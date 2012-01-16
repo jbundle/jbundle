@@ -894,7 +894,10 @@ public class BaseScreen extends BasePanel
                 Object oldCursor = null;
                 if (applet != null)
                 	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
-                screen.init(mainRecord, itsLocation, screenParent, null, iDisplayFieldDesc, properties);
+                if (((iDisplayFieldDesc & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE) && (screen instanceof DetailGridScreen))
+                    ((DetailGridScreen)screen).init(mainRecord, null, itsLocation, screenParent, null, iDisplayFieldDesc, properties);
+                else
+                    screen.init(mainRecord, itsLocation, screenParent, null, iDisplayFieldDesc, properties);
                 if (applet != null)
                     applet.setStatus(0, applet, oldCursor);
             }

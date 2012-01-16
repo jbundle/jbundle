@@ -3,7 +3,7 @@
  * Copyright © 2011 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.main.screen;
+package org.jbundle.base.screen.model;
 
 import java.awt.*;
 import java.util.*;

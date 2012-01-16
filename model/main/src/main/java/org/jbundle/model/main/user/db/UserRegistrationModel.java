@@ -14,6 +14,7 @@ public interface UserRegistrationModel extends Rec
     public static final String PROPERTIES = "Properties";
 
     public static final String USER_ID_KEY = "UserID";
+    public static final String USER_REGISTRATION_GRID_SCREEN_CLASS = "org.jbundle.main.user.screen.UserRegistrationGridScreen";
 
     public static final String USER_REGISTRATION_FILE = "UserRegistration";
     public static final String THIN_CLASS = "org.jbundle.thin.main.user.db.UserRegistration";

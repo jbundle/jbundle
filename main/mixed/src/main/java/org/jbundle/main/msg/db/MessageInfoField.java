@@ -22,8 +22,8 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.thin.base.message.*;
-import org.jbundle.main.msg.screen.*;
 import org.jbundle.util.osgi.finder.*;
+import org.jbundle.model.main.db.*;
 
 /**
  *  MessageInfoField - .

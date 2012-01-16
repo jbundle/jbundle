@@ -21,7 +21,6 @@ import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.main.db.*;
-import org.jbundle.main.user.screen.*;
 
 /**
  *  UserGroupField - .
