@@ -17,9 +17,9 @@ import java.util.Vector;
 
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Field;
-import org.jbundle.model.db.FieldComponent;
 import org.jbundle.model.db.Rec;
-import org.jbundle.model.db.ScreenComponent;
+import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * FieldInfo - This is the base class for all fields.
@@ -83,7 +83,7 @@ public class FieldInfo extends Converter
     /**
      * List of Components displaying this field.
      */
-    protected transient Vector<Object> m_vScreenField = null;
+    protected transient Vector<FieldComponent> m_vScreenField = null;
 
     /**
      * Constructor.
@@ -154,17 +154,17 @@ public class FieldInfo extends Converter
      * This screen component is displaying this field.
      * @param Object sField The screen component.. either a awt.Component or a ScreenField.
      */
-    public void addComponent(Object sField)
+    public void addComponent(FieldComponent sField)
     {
         if (m_vScreenField == null)
-            m_vScreenField = new Vector<Object>();
+            m_vScreenField = new Vector<FieldComponent>();
         m_vScreenField.addElement(sField);        // Notify this screen field if I change
     }
     /**
      * Remove this control from this field's control list.
      * @param Object sField The screen component.. either a awt.Component or a ScreenField
      */
-    public void removeComponent(Object screenField)
+    public void removeComponent(FieldComponent screenField)
     {   // DO NOT call Object or inherited
         if (m_vScreenField != null) if (screenField != null)
             m_vScreenField.removeElement(screenField);        // Remove this component
@@ -173,7 +173,7 @@ public class FieldInfo extends Converter
      * Get the component at this position.
      * @return The component at this position or null.
      */
-    public Object getComponent(int iPosition)
+    public ScreenComponent getComponent(int iPosition)
     {
         if (m_vScreenField == null)
             return null;
@@ -282,7 +282,7 @@ public class FieldInfo extends Converter
      * Display this field.
      * Go through the sFieldList and setText for JTextComponents and setControlValue for
      * FieldComponents.
-     * @see org.jbundle.model.db.FieldComponent
+     * @see org.jbundle.model.screen.FieldComponent
      */
     public void displayField()                  // init this field override for other value
     {

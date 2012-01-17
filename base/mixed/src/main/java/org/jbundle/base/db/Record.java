@@ -7,7 +7,6 @@ package org.jbundle.base.db;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.awt.Cursor;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.ListResourceBundle;
@@ -49,6 +48,8 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.Field;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenParent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
@@ -99,7 +100,7 @@ public class Record extends FieldList
     /**
      * List of all Dependent screens (doesn't include m_recordOwner).
      */
-    protected Vector<BaseScreen> m_depScreens = null;
+    protected Vector<ScreenParent> m_depScreens = null;
     /**
      * Auto-display fields on change?
      */
@@ -192,7 +193,7 @@ public class Record extends FieldList
         {
             while (m_depScreens.size() > 0)
             {
-                BasePanel screen = (BaseScreen)m_depScreens.elementAt(0);
+                ComponentParent screen = m_depScreens.elementAt(0);
                 screen = screen.getRootScreen();
                 screen.free();
             }
@@ -1191,17 +1192,6 @@ public class Record extends FieldList
         return this.getTableNames(false);
     } 
     /**
-     * Get the screen.
-     * @return The recordowner if it is a screen.
-     */
-    public BaseScreen getScreen()
-    {
-        if (this.getRecordOwner() instanceof BaseScreen)
-            return (BaseScreen)this.getRecordOwner();
-        else
-            return null;
-    }
-    /**
      * Make this the main record for screen.
      */
     public void setRecordOwner(RecordOwner recordOwner)
@@ -2053,11 +2043,12 @@ public class Record extends FieldList
      * @param iDocMode The type of screen to create (MAINT/DISPLAY/SELECT/MENU/etc).
      * @return The new screen.
      */
+//    public ScreenParent makeScreen(Object itsLocation, ComponentParent screenParent, int iDocMode, Map<String, Object> properties)  // Standard file maint for this record (returns new record)
     public BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel screenParent, int iDocMode, Map<String, Object> properties)  // Standard file maint for this record (returns new record)
     {   // This is almost always overidden!
-        if (m_recordOwner != null) if (m_recordOwner instanceof BaseScreen)
+        if (m_recordOwner != null) if (m_recordOwner instanceof ScreenParent)
             return (BaseScreen)m_recordOwner;
-        BaseScreen screen = null;
+        ScreenParent screen = null;
         if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
             screen = new Screen();     // Set up a screen with this being the main file
         else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
@@ -2069,12 +2060,12 @@ public class Record extends FieldList
         else
             screen = new GridScreen();
         try   {
-            screen.init(this, itsLocation, screenParent, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            ((BaseScreen)screen).init(this, itsLocation, screenParent, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
         } catch (Exception e) {
             e.printStackTrace();
             screen = null;
         }
-        return screen;
+        return (BaseScreen)screen;
     }
     /**
      * Clone, read same record, and create screen.
@@ -2088,7 +2079,7 @@ public class Record extends FieldList
      * @param bLinkGridToQuery Link the new query to this record?
      * @return The new screen.
      */
-    public final BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel parent, int iDocMode, boolean bCloneThisQuery, boolean bReadCurrentRecord, boolean bUseBaseTable, boolean bLinkGridToQuery, Map<String,Object> properties)
+    public final ScreenParent makeScreen(Object itsLocation, ComponentParent parent, int iDocMode, boolean bCloneThisQuery, boolean bReadCurrentRecord, boolean bUseBaseTable, boolean bLinkGridToQuery, Map<String,Object> properties)
     {
         Record recordNew = this;
         if (bCloneThisQuery)
@@ -2125,8 +2116,8 @@ public class Record extends FieldList
                     recordCurrent = recordCurrent.getBaseRecord();
                 boolean bRefreshIfChanged = true;
                 if (parent != null)
-                    if (this.getScreen() != null)
-                        if (this.getScreen().getParentScreen() == parent)
+                    if (this.getRecordOwner() != null)   // BasePanel
+                        if (this.getRecordOwner().getParentRecordOwner() == parent)
                             bRefreshIfChanged = false;  // Since the screen (and record) will be closed, only need to write record
                 recordNew.readSameRecord(recordCurrent, true, bRefreshIfChanged);  // Write if it is changed
             }
@@ -2153,10 +2144,10 @@ public class Record extends FieldList
         }
         if (parent != null)
         {
-            if (this.getScreen() != null)
-                if (this.getScreen().getParentScreen() == parent)
+            if (this.getRecordOwner() != null)
+                if (this.getRecordOwner().getParentRecordOwner() == parent)
             {
-                this.getScreen().free();    // Warning, this also closes "this" record.
+                this.getRecordOwner().free();    // Warning, this also closes "this" record.
                 bLinkGridToQuery = false;   // Can't link to a closed query.
             }
         }
@@ -2171,7 +2162,7 @@ public class Record extends FieldList
         Object oldCursor = null;
         if (applet != null)
         	oldCursor = applet.setStatus(Constants.WAIT, applet, null);
-        BaseScreen screenNew = recordNew.makeScreen(itsLocation, parent, iDocMode, properties);
+        ScreenParent screenNew = recordNew.makeScreen((ScreenLocation)itsLocation, (BasePanel)parent, iDocMode, properties);
         if (applet != null)
             applet.setStatus(0, applet, oldCursor);
         if (screenNew == null)
@@ -2183,14 +2174,16 @@ public class Record extends FieldList
             }
             return null;
         }
-        BaseScreen screenCurrent = this.getScreen();
+        ScreenParent screenCurrent = null;
+        if (this.getRecordOwner() instanceof ScreenParent)
+            screenCurrent = (ScreenParent)this.getRecordOwner();
         if (screenCurrent == null)
             bLinkGridToQuery = false;
         if (bLinkGridToQuery)
         {
             if ((iDocMode & ScreenConstants.MAINT_MODE) != 0)
             {   // Building a form
-                if ((screenCurrent instanceof GridScreen) && (screenCurrent.getMainRecord() == this))
+                if ((screenCurrent instanceof GridScreen) && (((BaseScreen)screenCurrent).getMainRecord() == this))
                     screenCurrent.setSelectQuery(recordNew, true);   // When user selects, reads from this file!
                 else
                     screenNew.setSelectQuery(this, false);         // When user reads or updates, reads from this file!
@@ -2201,7 +2194,7 @@ public class Record extends FieldList
                 if (!bSuccess)
                     if ((iDocMode & ScreenConstants.DETAIL_MODE) != 0)
                 {   // Linking to a detail screen
-                    recordNew = screenNew.getHeaderRecord();
+                    recordNew = (Record)screenNew.getHeaderRecord();
                     screenCurrent.setSelectQuery(recordNew, true);   // When user selects, reads from this file!
                 }
                 this.addDependentScreen(screenNew);        // When this closes, closes dependent screen
@@ -2272,10 +2265,10 @@ public class Record extends FieldList
      * If this record is closed, so is the dependent screen.
      * @param screen Dependent screen to add.
      */
-    public void addDependentScreen(BaseScreen screen)
+    public void addDependentScreen(ScreenParent screen)
     {
         if (m_depScreens == null)
-            m_depScreens = new Vector<BaseScreen>();
+            m_depScreens = new Vector<ScreenParent>();
         m_depScreens.addElement(screen);
         screen.setDependentQuery(this);
     }
@@ -2283,7 +2276,7 @@ public class Record extends FieldList
      * Remove a dependent screen.
      * @param screen The screen to remove.
      */
-    public void removeDependentScreen(BaseScreen screen)
+    public void removeDependentScreen(ScreenParent screen)
     {
         if (m_depScreens == null)
             return;

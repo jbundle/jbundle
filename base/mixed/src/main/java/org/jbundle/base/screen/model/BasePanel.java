@@ -45,6 +45,7 @@ import org.jbundle.model.Task;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.main.user.db.UserInfoModel;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.Param;
 import org.jbundle.model.util.Util;
@@ -81,7 +82,7 @@ import org.jbundle.thin.base.util.Application;
  * </pre>
  */
 public class BasePanel extends ScreenField
-    implements PropertyOwner, RecordOwnerParent
+    implements PropertyOwner, RecordOwnerParent, ComponentParent
 {
     /**
      * All the screen fields in this BasePanel.
@@ -873,7 +874,7 @@ public class BasePanel extends ScreenField
                     e.printStackTrace();
                 }
             }
-            BasePanel screen = recordMain.makeScreen(itsLocation, parentScreen, iDocMode | iCommandOptions, bCloneThisQuery, bReadCurrentRecord, bUseBaseTable, bLinkGridToQuery, properties);
+            BaseScreen screen = (BaseScreen)recordMain.makeScreen(itsLocation, parentScreen, iDocMode | iCommandOptions, bCloneThisQuery, bReadCurrentRecord, bUseBaseTable, bLinkGridToQuery, properties);
             return screen;    // Success
         }
         return null; // Command not processed

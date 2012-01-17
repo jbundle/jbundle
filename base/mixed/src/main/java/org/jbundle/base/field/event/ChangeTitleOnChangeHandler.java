@@ -69,7 +69,9 @@ public class ChangeTitleOnChangeHandler extends FieldListener
     public int fieldChanged(boolean bDisplayOption, int iMoveMode)
     {
         Record recDefault = this.getOwner().getRecord();
-        BasePanel screen = recDefault.getScreen();
+        BasePanel screen = null;
+        if (recDefault.getRecordOwner()instanceof BasePanel)
+            screen = (BasePanel)recDefault.getRecordOwner();
         screen = screen.getRootScreen();
         String strScreenTitle = Constants.BLANK;
         if (m_bSetTitleToThisString)

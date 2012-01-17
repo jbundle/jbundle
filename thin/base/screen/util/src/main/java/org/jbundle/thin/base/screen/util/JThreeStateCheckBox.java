@@ -13,7 +13,8 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import org.jbundle.model.db.FieldComponent;
+import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JScreenConstants;
@@ -149,8 +150,15 @@ public class JThreeStateCheckBox extends JButton
      * Get the converter for this screen field.
      * @return The converter for this screen field.
      */
-    public Converter getConverter()
+    public Convert getConverter()
     {
         return null;
+    }
+    /**
+     * Set the converter for this screen field.
+     * @converter The converter for this screen field.
+     */
+    public void setConverter(Convert converter)
+    {
     }
 }

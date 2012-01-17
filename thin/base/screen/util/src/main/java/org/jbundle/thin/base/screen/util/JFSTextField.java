@@ -9,7 +9,8 @@ package org.jbundle.thin.base.screen.util;
 
 import javax.swing.JTextField;
 
-import org.jbundle.model.db.FieldComponent;
+import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -83,8 +84,15 @@ public class JFSTextField extends JTextField
      * Get the converter for this screen field.
      * @return The converter for this screen field.
      */
-    public Converter getConverter()
+    public Convert getConverter()
     {
         return m_converter;
+    }
+    /**
+     * Set the converter for this screen field.
+     * @converter The converter for this screen field.
+     */
+    public void setConverter(Convert converter)
+    {
     }
 }

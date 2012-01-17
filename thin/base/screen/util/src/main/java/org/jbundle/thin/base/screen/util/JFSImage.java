@@ -13,7 +13,8 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import org.jbundle.model.db.FieldComponent;
+import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -101,8 +102,15 @@ public class JFSImage extends JPanel
      * Get the converter for this screen field.
      * @return The converter for this screen field.
      */
-    public Converter getConverter()
+    public Convert getConverter()
     {
         return null;
+    }
+    /**
+     * Set the converter for this screen field.
+     * @converter The converter for this screen field.
+     */
+    public void setConverter(Convert converter)
+    {
     }
 }

@@ -81,7 +81,7 @@ public class ControlRecord extends VirtualRecord
     public BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String, Object> properties)
     {
         iDocMode = iDocMode | ScreenConstants.MAINT_MODE;   // Control files are always forms.
-        return super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
+        return (BaseScreen)super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
     }
     /**
      * Get the starting ID for this table.

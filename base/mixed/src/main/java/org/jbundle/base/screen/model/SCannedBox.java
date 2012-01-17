@@ -248,7 +248,7 @@ public class SCannedBox extends SButtonBox
                 {
                     BasePanel parentScreen = Screen.makeWindow(application);
                     GridScreen screen = (GridScreen)this.getRecord().makeScreen(null, parentScreen, ScreenConstants.SELECT_MODE, true, true, true, true, properties);
-                    if (this.getRecord().getScreen() == null)
+                    if (this.getRecord().getRecordOwner() == null)
                         screen.setSelectQuery(this.getRecord(), false); // Since this record isn't linked to the screen, manually link it.
                 }
                 if (strCommand.equals(ThinMenuConstants.NEXT))

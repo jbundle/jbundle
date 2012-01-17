@@ -50,7 +50,7 @@ public interface Field extends Convert
      * Display this field.
      * Go through the sFieldList and setText for JTextComponents and setControlValue for
      * FieldComponents.
-     * @see org.jbundle.model.db.FieldComponent
+     * @see org.jbundle.model.screen.FieldComponent
      */
     public void displayField();
     /**

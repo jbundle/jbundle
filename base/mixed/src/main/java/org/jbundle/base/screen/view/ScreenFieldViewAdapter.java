@@ -612,13 +612,23 @@ public abstract class ScreenFieldViewAdapter extends Object
     }
     /**
      * Get the converter for this screen field.
-     * NOTE: Be careful, this method is just for convience and is required by the ScreenComponent
+     * NOTE: Be careful, this method is just for convenience and is required by the ScreenComponent
      * interface, although this is not the screen component.
      * @return The converter for this screen field.
      */
     public Convert getConverter()
     {
         return this.getScreenField().getConverter();    // Utility method
+    }
+    /**
+     * Get the converter for this screen field.
+     * NOTE: Be careful, this method is just for convenience and is required by the ScreenComponent
+     * interface, although this is not the screen component.
+     * @return The converter for this screen field.
+     */
+    public void setConverter(Convert converter)
+    {
+        this.getScreenField().setConverter(converter);    // Utility method
     }
     /**
      * Is this recordowner a batch process, or an interactive screen?

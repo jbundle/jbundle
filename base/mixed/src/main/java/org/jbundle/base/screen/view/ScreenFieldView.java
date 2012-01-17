@@ -18,9 +18,9 @@ import javax.swing.JMenuItem;
 import org.jbundle.model.db.Rec;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.model.DBException;
-import org.jbundle.model.db.FieldComponent;
 import org.jbundle.model.App;
 import org.jbundle.model.message.Message;
+import org.jbundle.model.screen.FieldComponent;
 
 /** 
  * The screen field view interface.

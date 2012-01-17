@@ -15,7 +15,7 @@ import org.jbundle.base.util.MenuConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
-import org.jbundle.model.db.ScreenComponent;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Params;
 

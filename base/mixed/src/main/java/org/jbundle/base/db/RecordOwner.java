@@ -100,7 +100,7 @@ public interface RecordOwner
      * Could be anotherRecordOwner or could be a Task.
      * @return The this record owner's parent.
      */
-    public RecordOwnerParent getMyParent();
+    public RecordOwnerParent getParentRecordOwner();
     /**
      * Is this recordowner the master or slave.
      * The slave is typically the TableSessionObject that is created to manage a ClientTable.

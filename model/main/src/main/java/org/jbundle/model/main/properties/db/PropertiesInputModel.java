@@ -5,8 +5,9 @@
  */
 package org.jbundle.model.main.properties.db;
 
-import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
 import java.util.*;
+import org.jbundle.model.db.*;
 import org.jbundle.model.db.*;
 
 public interface PropertiesInputModel extends Rec

@@ -329,7 +329,7 @@ public class RemoteRecordOwner extends RemoteObject
      * Could be anotherRecordOwner or could be a Task.
      * @return The this record owner's parent.
      */
-    public RecordOwnerParent getMyParent()
+    public RecordOwnerParent getParentRecordOwner()
     {
         return m_sessionObjectParent;
     }
@@ -341,8 +341,8 @@ public class RemoteRecordOwner extends RemoteObject
      */
     public String getProperty(String strProperty)
     {
-        if (this.getMyParent() != null)
-            return this.getMyParent().getProperty(strProperty);
+        if (this.getParentRecordOwner() != null)
+            return this.getParentRecordOwner().getProperty(strProperty);
         return null;
     }
     /**
@@ -353,8 +353,8 @@ public class RemoteRecordOwner extends RemoteObject
      */
     public void setProperty(String strProperty, String strValue)
     {
-        if (this.getMyParent() != null)
-            this.getMyParent().setProperty(strProperty, strValue);
+        if (this.getParentRecordOwner() != null)
+            this.getParentRecordOwner().setProperty(strProperty, strValue);
     }
     /**
      * Set the properties.
@@ -363,8 +363,8 @@ public class RemoteRecordOwner extends RemoteObject
      */
     public void setProperties(Map<String, Object> properties)
     {
-        if (this.getMyParent() != null)
-            this.getMyParent().setProperties(properties);
+        if (this.getParentRecordOwner() != null)
+            this.getParentRecordOwner().setProperties(properties);
     }
     /**
      * Get the properties.
@@ -372,8 +372,8 @@ public class RemoteRecordOwner extends RemoteObject
      */
     public Map<String, Object> getProperties()
     {
-        if (this.getMyParent() != null)
-            return this.getMyParent().getProperties();
+        if (this.getParentRecordOwner() != null)
+            return this.getParentRecordOwner().getProperties();
         return null;
     }
     /**
@@ -383,8 +383,8 @@ public class RemoteRecordOwner extends RemoteObject
      */
     public PropertyOwner retrieveUserProperties(String strRegistrationKey)
     {
-        if (this.getMyParent() != null)
-            return this.getMyParent().retrieveUserProperties(strRegistrationKey);
+        if (this.getParentRecordOwner() != null)
+            return this.getParentRecordOwner().retrieveUserProperties(strRegistrationKey);
         return null;
     }
     /**

@@ -10,7 +10,8 @@ package org.jbundle.thin.base.screen.util;
 import javax.swing.JComboBox;
 
 import org.jbundle.model.Freeable;
-import org.jbundle.model.db.FieldComponent;
+import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
@@ -210,8 +211,15 @@ public class JRemoteComboBox extends JComboBox
      * Get the converter for this screen field.
      * @return The converter for this screen field.
      */
-    public Converter getConverter()
+    public Convert getConverter()
     {
         return null;
+    }
+    /**
+     * Get the converter for this screen field.
+     * @return The converter for this screen field.
+     */
+    public void setConverter(Convert converter)
+    {
     }
 }

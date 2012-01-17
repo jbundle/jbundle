@@ -1,7 +1,11 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.model.db;
+package org.jbundle.model.screen;
+
+import org.jbundle.model.Freeable;
+import org.jbundle.model.RecordOwnerParent;
+
 
 /**
  * FieldComponent.java
@@ -15,11 +19,11 @@ package org.jbundle.model.db;
  * @author  Administrator
  * @version 1.0.0
  */
-public interface ScreenComponent
+public interface ComponentParent extends ScreenComponent, Freeable, RecordOwnerParent
 {
     /**
-     * Get the converter for this screen field.
-     * @return The converter for this screen field.
+     * Get the top level screen.
+     * @return The top level screen.
      */
-    public Convert getConverter();
+    public ComponentParent getRootScreen();
 }

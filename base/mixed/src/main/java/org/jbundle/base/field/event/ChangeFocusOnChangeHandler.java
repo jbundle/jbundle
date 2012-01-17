@@ -119,7 +119,7 @@ public class ChangeFocusOnChangeHandler extends FieldListener
      */
     public void lookupSField()
     {
-        m_screenField = m_fldTarget.getSFieldAt(0); // See if you can get the first screen field
+        m_screenField = (ScreenField)m_fldTarget.getComponent(0); // See if you can get the first screen field
     }
     /**
      * When to change focus.

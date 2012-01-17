@@ -17,7 +17,8 @@ import javax.swing.event.EventListenerList;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import org.jbundle.model.db.FieldComponent;
+import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.JScreen;
 
@@ -229,8 +230,15 @@ public class JCellTextField extends JTextField
      * Get the converter for this screen field.
      * @return The converter for this screen field.
      */
-    public Converter getConverter()
+    public Convert getConverter()
     {
         return null;
+    }
+    /**
+     * Set the converter for this screen field.
+     * @convert The converter for this screen field.
+     */
+    public void setConverter(Convert converter)
+    {
     }
 }

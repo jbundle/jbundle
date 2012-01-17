@@ -18,7 +18,8 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import org.jbundle.model.db.FieldComponent;
+import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -320,8 +321,15 @@ public class JBlinkLabel extends JLabel
      * Get the converter for this screen field.
      * @return The converter for this screen field.
      */
-    public Converter getConverter()
+    public Convert getConverter()
     {
         return null;
+    }
+    /**
+     * Set the converter for this screen field.
+     * @converter The converter for this screen field.
+     */
+    public void setConverter(Convert converter)
+    {
     }
 }

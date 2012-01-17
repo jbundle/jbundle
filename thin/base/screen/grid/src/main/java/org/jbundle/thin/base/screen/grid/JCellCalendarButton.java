@@ -21,7 +21,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.jbundle.model.Freeable;
 import org.jbundle.model.db.Convert;
-import org.jbundle.model.db.FieldComponent;
+import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.screen.JScreen;
@@ -310,11 +310,18 @@ public class JCellCalendarButton extends JCalendarButton
         this.getCellEditorHelper().fireEditingCanceled();
     }
     /**
-     * Get the converter for this screen field.
-     * @return The converter for this screen field.
+     * Set the converter for this screen field.
+     * @convert The converter for this screen field.
      */
     public Convert getConverter()
     {
-        return m_converter;
+        return null;
+    }
+    /**
+     * Set the converter for this screen field.
+     * @convert The converter for this screen field.
+     */
+    public void setConverter(Convert converter)
+    {
     }
 }

@@ -11,7 +11,7 @@ package org.jbundle.thin.base.screen.util;
  */
 
 import org.jbundle.model.db.Convert;
-import org.jbundle.model.db.ScreenComponent;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 

@@ -126,7 +126,8 @@ public class SwitchSubScreenHandler extends FieldListener
             sField.free();
             sField = null;
             if (m_screenParent == null)
-                m_screenParent = this.getOwner().getSFieldAt(0).getParentScreen();
+                if (this.getOwner().getComponent(0) instanceof ScreenField)    // Always
+                m_screenParent = ((ScreenField)this.getOwner().getComponent(0)).getParentScreen();
         }
         if (screenLocation == null)
             screenLocation = m_screenParent.getNextLocation(ScreenConstants.FLUSH_LEFT, ScreenConstants.FILL_REMAINDER);
@@ -173,8 +174,8 @@ public class SwitchSubScreenHandler extends FieldListener
             m_screenParent = subScreen.getParentScreen();   // Screen's parent
         if (m_screenParent == null) if (this.getOwner() != null) if (this.getOwner().getRecord() != null)
             m_screenParent = (BaseScreen)this.getOwner().getRecord().getRecordOwner();
-        if (m_screenParent == null) if (this.getOwner() != null) if (this.getOwner().getSFieldAt(0) != null)
-            m_screenParent = this.getOwner().getSFieldAt(0).getParentScreen();
+        if (m_screenParent == null) if (this.getOwner() != null) if (this.getOwner().getComponent(0) instanceof ScreenField)
+            m_screenParent = ((ScreenField)this.getOwner().getComponent(0)).getParentScreen();
         if (m_screenParent == null)
             return;
         int iBestGuess = -1;

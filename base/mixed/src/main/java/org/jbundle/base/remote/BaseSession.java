@@ -264,7 +264,7 @@ public class BaseSession extends RemoteRecordOwner
      */
     public BaseSession getParentSession()
     {
-        return (BaseSession)this.getMyParent();
+        return (BaseSession)this.getParentRecordOwner();
     }
     /**
      * Add this sub-session to this session.

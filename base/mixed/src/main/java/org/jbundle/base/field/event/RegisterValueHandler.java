@@ -113,7 +113,9 @@ public class RegisterValueHandler extends FieldListener
     public PropertyOwner retrieveUserProperties()
     {
         Record record = this.getOwner().getRecord();
-        BasePanel screen = record.getScreen();
+        BasePanel screen = null;
+        if (record.getRecordOwner() instanceof BasePanel)
+            screen = (BasePanel)record.getRecordOwner();
         if (screen != null)
             return screen.retrieveUserProperties();   // Return the registration key
         else

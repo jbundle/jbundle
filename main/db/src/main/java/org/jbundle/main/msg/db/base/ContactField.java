@@ -75,8 +75,8 @@ public class ContactField extends ReferenceField
         ContactTypeField fldContactType = this.getContactTypeField();
         if (fldContactType == null)
             return null;
-        if (this.getRecord().getScreen() != null)
-            recordOwner = this.getRecord().getScreen();
+        if (this.getRecord().getRecordOwner() != null)
+            recordOwner = this.getRecord().getRecordOwner();
         ContactType recContactType = (ContactType)fldContactType.getReferenceRecord();
         recContactType = (ContactType)fldContactType.getReference();
         if (m_recVendor == null)

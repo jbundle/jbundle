@@ -47,6 +47,8 @@ import org.jbundle.base.util.Debug;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
@@ -153,8 +155,9 @@ public class BaseField extends FieldInfo
         {   // Remove all the screen fields
             while (!m_vScreenField.isEmpty())
             {
-                ScreenField sField = this.getSFieldAt(0);
-                sField.free();      // Delete this screen field (will free this link).
+                ScreenComponent sField = this.getComponent(0);
+                if (sField instanceof Freeable)
+                    ((Freeable)sField).free();      // Delete this screen field (will free this link).
             }
             m_vScreenField.removeAllElements();
             m_vScreenField = null;
@@ -419,7 +422,7 @@ public class BaseField extends FieldInfo
     {
         if (m_vScreenField == null)
             return;
-        for (Enumeration<Object> e = m_vScreenField.elements() ; e.hasMoreElements() ;) { 
+        for (Enumeration<FieldComponent> e = m_vScreenField.elements() ; e.hasMoreElements() ;) { 
             ScreenField sField = (ScreenField)e.nextElement();
             sField.fieldToControl();    // Display using the new value(s)
         }
@@ -717,16 +720,6 @@ public class BaseField extends FieldInfo
     public Record getRecord()
     {
         return (Record)super.getRecord();
-    }
-    /**
-     * Get the Screen Field At this position.
-     * Same as getComponent, while casting the class to ScreenField.
-     * @param iPosition The index of the screen field.
-     * @return The screen field at this location.
-     */
-    public ScreenField getSFieldAt(int iPosition)
-    {
-        return (ScreenField)this.getComponent(iPosition);
     }
     /**
      * Get the SQL type of this field.
@@ -1107,7 +1100,7 @@ public class BaseField extends FieldInfo
     {
         if (m_vScreenField != null)
         {
-            for (Enumeration<Object> e = m_vScreenField.elements() ; e.hasMoreElements() ;)
+            for (Enumeration<FieldComponent> e = m_vScreenField.elements() ; e.hasMoreElements() ;)
             {
                 ((ScreenField)e.nextElement()).setEnabled(bEnable);
             }

@@ -339,7 +339,7 @@ public class TopScreen extends BasePanel
                         iDocType = record.commandToDocType(strScreenType);
             }
             if (record != null)
-                screen = record.makeScreen(null, this, iDocType, null);
+                screen = (BaseScreen)record.makeScreen(null, this, iDocType, null);
         }
         if (screen == null)
         {   // Default Display Form
@@ -413,7 +413,7 @@ public class TopScreen extends BasePanel
             ScreenLocation itsLocation = this.getScreenLocation();
             int docMode = record.commandToDocType(UserInfoModel.LOGIN_SCREEN);
             Map<String,Object> properties = null;
-            screen = record.makeScreen(itsLocation, parentScreen, docMode, properties);
+            screen = (BaseScreen)record.makeScreen(itsLocation, parentScreen, docMode, properties);
         }
         else if (iErrorCode == DBConstants.CREATE_USER_REQUIRED)
         {
@@ -421,7 +421,7 @@ public class TopScreen extends BasePanel
             ScreenLocation itsLocation = this.getScreenLocation();
             int docMode = record.commandToDocType(UserInfoModel.ENTRY_SCREEN);
             Map<String,Object> properties = null;
-            screen = record.makeScreen(itsLocation, parentScreen, docMode, properties);
+            screen = (BaseScreen)record.makeScreen(itsLocation, parentScreen, docMode, properties);
         }
         return screen;
     }

@@ -318,7 +318,7 @@ public class BaseRecordOwner extends Object
      * Could be anotherRecordOwner or could be a Task.
      * @return The this record owner's parent.
      */
-    public RecordOwnerParent getMyParent()
+    public RecordOwnerParent getParentRecordOwner()
     {
         return m_taskParent;
     }
@@ -330,8 +330,8 @@ public class BaseRecordOwner extends Object
      */
     public String getProperty(String strProperty)
     {
-        if (this.getMyParent() != null)
-            return this.getMyParent().getProperty(strProperty);
+        if (this.getParentRecordOwner() != null)
+            return this.getParentRecordOwner().getProperty(strProperty);
         return null;
     }
     /**
@@ -340,8 +340,8 @@ public class BaseRecordOwner extends Object
      */
     public Map<String, Object> getProperties()
     {
-        if (this.getMyParent() != null)
-            return this.getMyParent().getProperties();
+        if (this.getParentRecordOwner() != null)
+            return this.getParentRecordOwner().getProperties();
         return null;
     }
     /**
@@ -352,8 +352,8 @@ public class BaseRecordOwner extends Object
      */
     public void setProperty(String strProperty, String strValue)
     {
-        if (this.getMyParent() != null)
-            this.getMyParent().setProperty(strProperty, strValue);
+        if (this.getParentRecordOwner() != null)
+            this.getParentRecordOwner().setProperty(strProperty, strValue);
     }
     /**
      * Set the properties.
@@ -362,8 +362,8 @@ public class BaseRecordOwner extends Object
      */
     public void setProperties(Map<String, Object> properties)
     {
-        if (this.getMyParent() != null)
-            this.getMyParent().setProperties(properties);
+        if (this.getParentRecordOwner() != null)
+            this.getParentRecordOwner().setProperties(properties);
     }
     /**
      * Retrieve/Create a user properties record with this lookup key.
@@ -372,8 +372,8 @@ public class BaseRecordOwner extends Object
      */
     public PropertyOwner retrieveUserProperties(String strRegistrationKey)
     {
-        if (this.getMyParent() != null)
-            return this.getMyParent().retrieveUserProperties(strRegistrationKey);
+        if (this.getParentRecordOwner() != null)
+            return this.getParentRecordOwner().retrieveUserProperties(strRegistrationKey);
         return null;
     }
     /**

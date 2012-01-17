@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.model.db;
+package org.jbundle.model.screen;
 
 
 /**

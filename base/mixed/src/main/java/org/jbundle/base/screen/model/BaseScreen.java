@@ -36,8 +36,10 @@ import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Rec;
 import org.jbundle.model.main.msg.db.base.ContactTypeModel;
 import org.jbundle.model.main.user.db.UserInfoModel;
+import org.jbundle.model.screen.ScreenParent;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
@@ -54,7 +56,7 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
  * This is the base for any parent screen.
  */
 public class BaseScreen extends BasePanel
-    implements RecordOwner
+    implements ScreenParent, RecordOwner
 {
 
     /**
@@ -64,7 +66,7 @@ public class BaseScreen extends BasePanel
     /*
      * This screen is dependent on this file (if that file closes, this screen is destroyed)
      */
-    protected Record m_recDependent = null;
+    protected Rec m_recDependent = null;
     /*
      * Is Appending allowed?
      */
@@ -149,10 +151,11 @@ public class BaseScreen extends BasePanel
      * @param iDisplayFieldDesc Do I display the field desc?
      */
     public void init(Record mainRecord, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+//    public void init(Rec mainRecord, Object itsLocation, ComponentParent parentScreen, Convert fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         m_vRecordList = new RecordList(null);
         m_recDependent = null;
-        m_screenParent = parentScreen;  // I know this is done later in ScreenField.init, but parentScreen may be needed by the new records
+        m_screenParent = (BasePanel)parentScreen;  // I know this is done later in ScreenField.init, but parentScreen may be needed by the new records
         if (m_vRecordList.size() == 0)  // Was the main file passed in?
         {
             boolean bQueryInTable = false;
@@ -167,21 +170,21 @@ public class BaseScreen extends BasePanel
             }
             if (mainRecord != null)
                 if (!bQueryInTable)
-                    this.addRecord(mainRecord, false);
+                    this.addRecord((Record)mainRecord, false);
         }
         mainRecord = this.getMainRecord();
         if (mainRecord != null)
-            if (mainRecord.getKeyArea() != null)
-                if (mainRecord.getKeyArea().getKeyName().equals(DBConstants.PRIMARY_KEY))
-                    mainRecord.setKeyArea(mainRecord.getDefaultScreenKeyArea());
+            if (((Record)mainRecord).getKeyArea() != null)
+                if (((Record)mainRecord).getKeyArea().getKeyName().equals(DBConstants.PRIMARY_KEY))
+                        ((Record)mainRecord).setKeyArea(((Record)mainRecord).getDefaultScreenKeyArea());
         this.openOtherRecords();    // Open the other files
         this.setScreenRecord(this.addScreenRecord());
-        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
+        super.init((ScreenLocation)itsLocation, (BasePanel)parentScreen, (Converter)fieldConverter, iDisplayFieldDesc, properties);
         this.syncHeaderToMain();    // Read in the current (optional) Header record.
 
         boolean bPushToBrowser = (iDisplayFieldDesc & ScreenConstants.DONT_PUSH_TO_BROSWER) == ScreenConstants.PUSH_TO_BROSWER;
         if (parentScreen != null)
-            parentScreen.pushHistory(this.getScreenURL(), bPushToBrowser);  // Push this screen onto history stack
+            ((BasePanel)parentScreen).pushHistory(this.getScreenURL(), bPushToBrowser);  // Push this screen onto history stack
     }
     /**
      * Free.
@@ -210,8 +213,8 @@ public class BaseScreen extends BasePanel
                 this.displayError(ex);
             }
         }
-        if (m_recDependent != null)
-            m_recDependent.removeDependentScreen(this);  // This screen is gone, so query doesn't have to destroy me on close
+        if (m_recDependent instanceof Record)
+            ((Record)m_recDependent).removeDependentScreen(this);  // This screen is gone, so query doesn't have to destroy me on close
 
         if (this.getTask() != null)
             this.getTask().setProperties(null);     // Since the task holds all of my properties
@@ -647,7 +650,7 @@ public class BaseScreen extends BasePanel
      * When this query closes, this screen should close also.
      * @param record The record that is dependent on this screen.
      */
-    public void setDependentQuery(Record record)
+    public void setDependentQuery(Rec record)
     {
         m_recDependent = record;
     }
@@ -932,7 +935,7 @@ public class BaseScreen extends BasePanel
             Object oldCursor = null;
             if (applet != null)
             	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
-            screen = record.makeScreen(itsLocation, screenParent, iDocMode, properties);
+            screen = (BaseScreen)record.makeScreen(itsLocation, (BasePanel)screenParent, iDocMode, properties);
             if (applet != null)
                 applet.setStatus(0, applet, oldCursor);
         }
@@ -964,7 +967,7 @@ public class BaseScreen extends BasePanel
             Object oldCursor = null;
             if (applet != null)
             	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
-            screen = record.makeScreen(itsLocation, screenParent, iDocMode, properties);
+            screen = (BaseScreen)record.makeScreen(itsLocation, screenParent, iDocMode, properties);
             if (applet != null)
                 applet.setStatus(0, applet, oldCursor);
         }
@@ -1086,9 +1089,9 @@ public class BaseScreen extends BasePanel
      * Could be anotherRecordOwner or could be a Task.
      * @return The this record owner's parent.
      */
-    public RecordOwnerParent getMyParent()
+    public RecordOwnerParent getParentRecordOwner()
     {
-        return m_screenParent;
+        return this.getParentScreen();
     }
     /**
      * Is this recordowner the master or slave.

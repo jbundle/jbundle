@@ -17,7 +17,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
-import org.jbundle.model.db.FieldComponent;
+import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -144,8 +145,15 @@ public class JFSTextScroller extends JPanel
      * Get the converter for this screen field.
      * @return The converter for this screen field.
      */
-    public Converter getConverter()
+    public Convert getConverter()
     {
         return null;
+    }
+    /**
+     * Get the converter for this screen field.
+     * @return The converter for this screen field.
+     */
+    public void setConverter(Convert converter)
+    {
     }
 }

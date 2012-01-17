@@ -5,8 +5,9 @@
  */
 package org.jbundle.thin.main.properties.db;
 
-import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
 import java.util.*;
+import org.jbundle.model.db.*;
 import java.util.*;
 import org.jbundle.thin.base.util.*;
 

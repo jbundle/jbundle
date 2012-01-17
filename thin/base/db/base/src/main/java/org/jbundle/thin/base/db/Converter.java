@@ -10,7 +10,7 @@ package org.jbundle.thin.base.db;
  *      don@tourgeek.com
  */
 import org.jbundle.model.db.Convert;
-import org.jbundle.model.db.ScreenComponent;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.util.DataConverters;
 
 
