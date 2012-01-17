@@ -19,7 +19,6 @@
   </properties>
 
   <modules>
-    <module>mixed</module>
     <module>calendar</module>
     <module>db</module>
     <module>misc</module>

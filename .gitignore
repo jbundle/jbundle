@@ -16,9 +16,5 @@ release.properties
 /base/screen/misc/src
 /base/screen/control/servlet/src
 /base/util/src
-/main/db/src
 /base/misc/src
-/main/msg/src
-/main/remote/src
-/main/schedule/src
 

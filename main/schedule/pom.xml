@@ -30,58 +30,28 @@
     </plugins>
   </build>
 
-  <profiles>
-    <profile> 
-      <id>sonatype-oss-release</id>
-      <build>
-      <!-- ***CAREFUL*** This logic moves the source code to the current project, then
-      does NOT compile it. This way, the api and source are in the repo. -->
-	    <plugins>
-	      <plugin>
-	        <artifactId>maven-resources-plugin</artifactId>
-	        <executions>
-          <execution>
-            <id>copy-jibx-bind</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${basedir}/src/main/java</outputDirectory>
-              <resources>          
-                <resource>
-                  <directory>${baseMixedDir}/src/main/java</directory>
-                  <filtering>false</filtering>
-                  <includes>
-                    <include>org/jbundle/main/schedule/**/*.java</include>
-                  </includes>
-                </resource>
-              </resources>              
-            </configuration>            
-          </execution>
-	        </executions>
-	      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <exclude>**</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-	    </plugins>
-      </build>
-    </profile>
-  </profiles>
-  
   <dependencies>
     <dependency>
       <groupId>org.jbundle.main</groupId>
-      <artifactId>org.jbundle.main.mixed</artifactId>
+      <artifactId>org.jbundle.main.db</artifactId>
       <version>0.8.0-SNAPSHOT</version>
-      <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jbundle.main</groupId>
+      <artifactId>org.jbundle.main.calendar</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.base</groupId>
+      <version>0.8.0-SNAPSHOT</version>
+      <artifactId>org.jbundle.base.other</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.base.screen</groupId>
+      <version>0.8.0-SNAPSHOT</version>
+      <artifactId>org.jbundle.base.screen.misc</artifactId>
+    </dependency>
+
     <dependency>
 	    <groupId>org.jbundle.config.dep</groupId>
 	    <artifactId>jbundle-config-dep-thin-base</artifactId>
