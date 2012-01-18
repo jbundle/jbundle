@@ -214,7 +214,12 @@ public class VBasePanel extends VScreenField
      */
     public void setDefaultButton(ScreenFieldView button)
     {
-        ((JButton)button.getControl()).setDefaultCapable(true);
-        ((JComponent)this.getControl()).getRootPane().setDefaultButton(((JButton)button.getControl()));
+        if (button != null)
+        {
+            ((JButton)button.getControl()).setDefaultCapable(true);
+            ((JComponent)this.getControl()).getRootPane().setDefaultButton(((JButton)button.getControl()));
+        }
+        else
+            ((JComponent)this.getControl()).getRootPane().setDefaultButton(null);
     }
 }

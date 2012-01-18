@@ -1336,7 +1336,7 @@ public class BasePanel extends ScreenField
      */
     public void setDefaultButton(SBaseButton button)
     {
-        this.getScreenFieldView().setDefaultButton(button.getScreenFieldView());
+        this.getScreenFieldView().setDefaultButton(button == null ? null : button.getScreenFieldView());
     }
     /**
      * Override to add screen fields.

@@ -21,7 +21,10 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
-            <Export-Package>org.jbundle.main.msg.*;version=${project.version}</Export-Package>
+            <Export-Package>
+            !org.jbundle.main.msg.db.base.*,
+            org.jbundle.main.msg.*;version=${project.version}
+            </Export-Package>
             <Bundle-Activator>org.jbundle.main.msg.app.MessageServerActivator</Bundle-Activator>
           </instructions>
         </configuration>

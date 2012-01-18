@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.FieldComponent;
-import org.jbundle.thin.base.db.Converter;
 
 
 /** 
@@ -88,6 +87,12 @@ public class JBitMaskField extends JPanel
             checkBox.setName(Integer.toString(i));
             checkBox.setOpaque(false);
         }
+    }
+    /**
+     * Free this object's resources.
+     */
+    public void free()
+    {
     }
     /**
      * Get the value (On, Off or Null).

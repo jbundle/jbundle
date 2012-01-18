@@ -17,9 +17,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
-import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.model.db.Convert;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.screen.FieldComponent;
 
 
 /** 
@@ -77,6 +76,12 @@ public class JFSTextScroller extends JPanel
         this.add(scrollpane);
         this.setControlValue(text);
         m_control.addKeyListener(this);
+    }
+    /**
+     * Free this object's resources.
+     */
+    public void free()
+    {
     }
     /**
      * Get the value (On, Off or Null).

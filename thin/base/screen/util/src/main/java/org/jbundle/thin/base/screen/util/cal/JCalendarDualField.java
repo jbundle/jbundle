@@ -47,7 +47,7 @@ public class JCalendarDualField extends JPanel
 	/**
      * The field this component is tied to.
      */
-    protected Converter m_converter = null;
+    protected Convert m_converter = null;
     /**
      * The text field part of this component.
      */
@@ -248,5 +248,6 @@ public class JCalendarDualField extends JPanel
      */
     public void setConverter(Convert converter)
     {
+        m_converter = converter;
     }
 }

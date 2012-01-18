@@ -3,7 +3,6 @@
  */
 package org.jbundle.model.screen;
 
-import org.jbundle.model.Freeable;
 import org.jbundle.model.RecordOwnerParent;
 
 
@@ -19,7 +18,7 @@ import org.jbundle.model.RecordOwnerParent;
  * @author  Administrator
  * @version 1.0.0
  */
-public interface ComponentParent extends ScreenComponent, Freeable, RecordOwnerParent
+public interface ComponentParent extends ScreenComponent, RecordOwnerParent
 {
     /**
      * Get the top level screen.

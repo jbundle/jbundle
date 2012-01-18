@@ -17,9 +17,8 @@ import javax.swing.event.EventListenerList;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.model.db.Convert;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.thin.base.screen.JScreen;
 
 
@@ -70,6 +69,12 @@ public class JCellTextField extends JTextField
         this.setBorder(null);
         if (bAlignRight)
             this.setHorizontalAlignment(JTextField.RIGHT);
+    }
+    /**
+     * Free this object's resources.
+     */
+    public void free()
+    {
     }
     /**
      * The editor helper.

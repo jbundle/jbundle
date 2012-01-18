@@ -9,9 +9,8 @@ package org.jbundle.thin.base.screen.util;
 
 import javax.swing.JCheckBox;
 
-import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.model.db.Convert;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.screen.FieldComponent;
 
 
 /** 
@@ -50,6 +49,12 @@ public class JFSCheckBox extends JCheckBox
     {
         this.setBorder(null);
         this.setOpaque(false);
+    }
+    /**
+     * Free this object's resources.
+     */
+    public void free()
+    {
     }
     /**
      * Get the value (On, Off or Null).

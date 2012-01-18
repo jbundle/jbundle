@@ -10,9 +10,8 @@ package org.jbundle.thin.base.screen.util;
 import javax.swing.JComboBox;
 
 import org.jbundle.model.Freeable;
-import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.model.db.Convert;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;

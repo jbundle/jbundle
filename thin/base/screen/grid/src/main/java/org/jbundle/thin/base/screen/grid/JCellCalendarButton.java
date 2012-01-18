@@ -22,14 +22,11 @@ import javax.swing.table.TableCellRenderer;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.FieldComponent;
-import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.screen.JScreen;
 import org.jbundle.thin.base.screen.util.cal.JCalendarDualField;
 import org.jbundle.util.jcalendarbutton.JCalendarButton;
 import org.jbundle.util.jcalendarbutton.JCalendarPopup;
-
-
 
 /** 
  * A JCalendarButton is a button that displays a popup calendar (A JCalendarPopup).
@@ -315,7 +312,7 @@ public class JCellCalendarButton extends JCalendarButton
      */
     public Convert getConverter()
     {
-        return null;
+        return m_converter;
     }
     /**
      * Set the converter for this screen field.
@@ -323,5 +320,6 @@ public class JCellCalendarButton extends JCalendarButton
      */
     public void setConverter(Convert converter)
     {
+        m_converter = converter;
     }
 }

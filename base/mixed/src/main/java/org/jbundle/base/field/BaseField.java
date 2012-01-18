@@ -47,7 +47,6 @@ import org.jbundle.base.util.Debug;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.db.Convert;
-import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
@@ -156,8 +155,7 @@ public class BaseField extends FieldInfo
             while (!m_vScreenField.isEmpty())
             {
                 ScreenComponent sField = this.getComponent(0);
-                if (sField instanceof Freeable)
-                    ((Freeable)sField).free();      // Delete this screen field (will free this link).
+                sField.free();      // Delete this screen field (will free this link).
             }
             m_vScreenField.removeAllElements();
             m_vScreenField = null;
@@ -310,6 +308,14 @@ public class BaseField extends FieldInfo
         } // Remember to free the listener after removing it!
     }
     /**
+     * Get the component at this position.
+     * @return The component at this position or null.
+     */
+    public ScreenComponent getComponent(int iPosition)
+    {
+        return (ScreenComponent)super.getComponent(iPosition);
+    }
+    /**
      * This screen component is displaying this field.
      * @param Object sField The screen component.. either a awt.Component or a ScreenField.
      */
@@ -422,7 +428,7 @@ public class BaseField extends FieldInfo
     {
         if (m_vScreenField == null)
             return;
-        for (Enumeration<FieldComponent> e = m_vScreenField.elements() ; e.hasMoreElements() ;) { 
+        for (Enumeration<Object> e = m_vScreenField.elements() ; e.hasMoreElements() ;) { 
             ScreenField sField = (ScreenField)e.nextElement();
             sField.fieldToControl();    // Display using the new value(s)
         }
@@ -1100,14 +1106,14 @@ public class BaseField extends FieldInfo
     {
         if (m_vScreenField != null)
         {
-            for (Enumeration<FieldComponent> e = m_vScreenField.elements() ; e.hasMoreElements() ;)
+            for (Enumeration<Object> e = m_vScreenField.elements() ; e.hasMoreElements() ;)
             {
                 ((ScreenField)e.nextElement()).setEnabled(bEnable);
             }
         }
     }
     /**
-     * Set the minimun field length.
+     * Set the minimum field length.
      * @param iMinumum string field length.
      */
     public void setMinimumLength(int iMinumumLength)

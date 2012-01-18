@@ -13,9 +13,8 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.model.db.Convert;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.screen.FieldComponent;
 
 
 /** 
@@ -64,6 +63,12 @@ public class JFSImage extends JPanel
 //        this.setBorder(JScreen.m_borderLine);
         this.setOpaque(false);
         this.setControlValue(image);
+    }
+    /**
+     * Free this object's resources.
+     */
+    public void free()
+    {
     }
     /**
      * Get the value (On, Off or Null).

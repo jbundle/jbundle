@@ -9,8 +9,8 @@ package org.jbundle.thin.base.screen.util;
 
 import javax.swing.JTextField;
 
-import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -31,7 +31,7 @@ public class JFSTextField extends JTextField
 	/**
      * The field this component is tied to.
      */
-    protected Converter m_converter = null;   
+    protected Convert m_converter = null;   
 
     /**
      * Creates new JCellTextField.
@@ -60,6 +60,13 @@ public class JFSTextField extends JTextField
         m_converter = converter;
         if (converter != null)
             this.setColumns(converter.getMaxLength());
+    }
+    /**
+     * Free this object's resources.
+     */
+    public void free()
+    {
+        m_converter = null;
     }
     /**
      * Get the value (On, Off or Null).
@@ -94,5 +101,6 @@ public class JFSTextField extends JTextField
      */
     public void setConverter(Convert converter)
     {
+        m_converter = converter;
     }
 }

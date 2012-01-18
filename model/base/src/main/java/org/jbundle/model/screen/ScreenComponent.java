@@ -3,6 +3,7 @@
  */
 package org.jbundle.model.screen;
 
+import org.jbundle.model.Freeable;
 import org.jbundle.model.db.Convert;
 
 /**
@@ -17,7 +18,7 @@ import org.jbundle.model.db.Convert;
  * @author  Administrator
  * @version 1.0.0
  */
-public interface ScreenComponent
+public interface ScreenComponent extends Freeable
 {
     /**
      * Get the converter for this screen field.
