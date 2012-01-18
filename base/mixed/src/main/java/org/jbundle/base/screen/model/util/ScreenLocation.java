@@ -4,6 +4,8 @@
  */
 package org.jbundle.base.screen.model.util;
 
+import org.jbundle.model.screen.ScreenLoc;
+
 /**
  * @(#)STEView.java   0.00 12-Feb-97 Don Corley
  *
@@ -17,6 +19,7 @@ package org.jbundle.base.screen.model.util;
  * This allows for the correct screen layout independent of Font Size and metrics.
  */
 public class ScreenLocation extends Object
+    implements ScreenLoc
 {
     /**
      * The location (see the location constants in ScreenConstants).

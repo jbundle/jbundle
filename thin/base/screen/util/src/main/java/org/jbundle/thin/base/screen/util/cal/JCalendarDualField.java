@@ -13,17 +13,20 @@ import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Date;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.jbundle.model.db.Convert;
 import org.jbundle.model.Freeable;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.screen.ScreenLoc;
+import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JBasePanel;
 import org.jbundle.thin.base.screen.JBaseScreen;
@@ -72,7 +75,7 @@ public class JCalendarDualField extends JPanel
      * Creates new JCalendarDualField.
      * @param The field this component is tied to.
      */
-    public JCalendarDualField(Converter converter)
+    public JCalendarDualField(Convert converter)
     {
         this();
         this.init(converter, true, false);
@@ -81,7 +84,7 @@ public class JCalendarDualField extends JPanel
      * Creates new JCalendarDualField.
      * @param The field this component is tied to.
      */
-    public JCalendarDualField(Converter converter, boolean bAddCalendarButton, boolean bAddTimeButton)
+    public JCalendarDualField(Convert converter, boolean bAddCalendarButton, boolean bAddTimeButton)
     {
         this();
         this.init(converter, bAddCalendarButton, bAddTimeButton);
@@ -90,7 +93,7 @@ public class JCalendarDualField extends JPanel
      * Creates new JCalendarDualField.
      * @param The field this component is tied to.
      */
-    public void init(Converter converter, boolean bAddCalendarButton, boolean bAddTimeButton)
+    public void init(Convert converter, boolean bAddCalendarButton, boolean bAddTimeButton)
     {
         m_converter = converter;
         this.setBorder(null);
@@ -249,5 +252,46 @@ public class JCalendarDualField extends JPanel
     public void setConverter(Convert converter)
     {
         m_converter = converter;
+    }
+    /**
+     * Enable or disable this control.
+     * @param bEnable If true, enable this field.
+     */
+    public void setEnabled(boolean enabled)
+    {
+        super.setEnabled(enabled);  // Nice, this component has this method already
+    }
+    /**
+     * Get the top level screen.
+     * @return The top level screen.
+     */
+    public ComponentParent getParentScreen()
+    {
+        return null;
+    }
+    /**
+     * Move the control's value to the field.
+     * @return An error value.
+     */
+    public int controlToField()
+    {
+        return Constant.NORMAL_RETURN;
+    }
+    /**
+     * Move the field's value to the control.
+     */
+    public void fieldToControl()
+    {
+    }
+    /**
+     * Initialize.
+     * @param itsLocation The location of this component within the parent.
+     * @param parentScreen The parent screen.
+     * @param fieldConverter The field this screen field is linked to.
+     * @param iDisplayFieldDesc Do I display the field desc?
+     */
+    public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
+    {
+        this.init(converter, true, true);
     }
 }

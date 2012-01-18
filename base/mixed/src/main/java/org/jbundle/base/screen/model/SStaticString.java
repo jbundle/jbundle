@@ -10,8 +10,14 @@ package org.jbundle.base.screen.model;
  *      don@tourgeek.com
  */
 
+import java.util.Map;
+
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenLoc;
 
 /**
  * A static text area.
@@ -45,6 +51,19 @@ public class SStaticString extends ScreenField
         m_StaticString = strDisplay;
         this.init(itsLocation, parentScreen, strDisplay);
         m_bIsFocusTarget = false; // Can't tab to a static item
+    }
+    /**
+     * Initialize.
+     * @param itsLocation The location of this component within the parent.
+     * @param parentScreen The parent screen.
+     * @param fieldConverter The field this screen field is linked to.
+     * @param iDisplayFieldDesc Do I display the field desc?
+     */
+    public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+    {
+        if (properties != null)
+            m_StaticString = (String)properties.get(ScreenModel.DISPLAY_STRING);
+        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Initialize.

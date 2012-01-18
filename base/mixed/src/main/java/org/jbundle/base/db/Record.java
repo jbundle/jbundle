@@ -2043,7 +2043,6 @@ public class Record extends FieldList
      * @param iDocMode The type of screen to create (MAINT/DISPLAY/SELECT/MENU/etc).
      * @return The new screen.
      */
-//    public ScreenParent makeScreen(Object itsLocation, ComponentParent screenParent, int iDocMode, Map<String, Object> properties)  // Standard file maint for this record (returns new record)
     public BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel screenParent, int iDocMode, Map<String, Object> properties)  // Standard file maint for this record (returns new record)
     {   // This is almost always overidden!
         if (m_recordOwner != null) if (m_recordOwner instanceof ScreenParent)

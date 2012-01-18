@@ -3,14 +3,14 @@
  * Copyright © 2011 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.thin.main.msg.db.base;
+package org.jbundle.thin.main.db.base;
 
 import java.util.*;
 import org.jbundle.thin.base.util.*;
 
 import org.jbundle.thin.base.db.*;
 
-import org.jbundle.model.main.msg.db.base.*;
+import org.jbundle.model.main.db.base.*;
 
 public class BaseStatus extends FieldList
     implements BaseStatusModel

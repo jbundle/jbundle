@@ -3,7 +3,7 @@
  * Copyright © 2011 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.main.msg.db.base;
+package org.jbundle.main.db.base;
 
 import java.awt.*;
 import java.util.*;
@@ -20,8 +20,9 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.main.db.*;
 import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
+import org.jbundle.main.db.*;
 
 /**
  *  ContactField - Contact type
@@ -115,15 +116,16 @@ public class ContactField extends ReferenceField
      * @param targetScreen Where to place this component (ie., Parent screen or GridBagLayout).
      * @param converter The converter to set the screenfield to.
      * @param iDisplayFieldDesc Display the label? (optional).
+     * @param properties Extra properties
      * @return Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this.makeReferenceRecord();
         if (m_recVendor == null)    // Possible that these are not in my classpath
-            return super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
+            return super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         
-        ScreenField screenField = null;
+        ScreenComponent screenField = null;
         FieldListener listener = null;
         // ----------- Vendor -----------
         // First set up the code access:
@@ -162,22 +164,23 @@ public class ContactField extends ReferenceField
         checkConverter = new CheckConverter(this.getContactTypeField(), PROFILE_CONTACT_TYPE_ID, strAltFieldDesc, true);
         Converter conv = new FlagDepFieldConverter(m_recVendor.getField(Company.kCode), m_recProfile.getField(Company.kCode), checkConverter);
         conv = new FieldDescConverter(conv, this);  // Use the description for this field
-        screenField = new SEditText(itsLocation, targetScreen, conv, iDisplayFieldDesc);
+        screenField = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, conv, iDisplayFieldDesc, properties);
         // Set up to display the record description
         checkConverter = new CheckConverter(this.getContactTypeField(), PROFILE_CONTACT_TYPE_ID, strAltFieldDesc, true);
         itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR);
         iDisplayFieldDesc = ScreenConstants.DONT_DISPLAY_DESC;      // Display it only once
         Converter convContactName = new FlagDepFieldConverter(m_recVendor.getField(Company.kName), m_recProfile.getField(Company.kName), checkConverter);
-        ScreenField sfDesc = new SEditText(itsLocation, targetScreen, convContactName, iDisplayFieldDesc)
-        {
-            public void setEnabled(boolean bEnable)
-            {
-                super.setEnabled(false);    // Don't enable
-            }
-        };
+        //+convContactName = new DisableFieldConverter(convContactName);    // Don't enable
+        ScreenComponent sfDesc = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, convContactName, iDisplayFieldDesc, properties);
         sfDesc.setEnabled(false);
         // Add the lookup button and form (opt) button (Even though SSelectBoxes don't use converter, pass it, so field.enable(true), etc will work)
-        new SSelectBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_DESC, m_recVendor)
+        properties = new HashMap<String,Object>();
+        properties.put(ScreenModel.RECORD, m_recVendor);
+        properties.put(ScreenModel.COMMAND, ThinMenuConstants.LOOKUP);
+        properties.put(ScreenModel.IMAGE, ThinMenuConstants.LOOKUP);
+        createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_DESC, properties);
+        /* ??
+        new SSelectBox(, targetScreen, converter, , m_recVendor)
         {
             public Record getRecord()
             {
@@ -190,7 +193,7 @@ public class ContactField extends ReferenceField
                 return m_record;
             }
         };
-        
+        */
         return screenField;
     }
     /**

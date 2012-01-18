@@ -9,8 +9,12 @@ package org.jbundle.thin.base.db;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import java.util.Map;
+
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.util.DataConverters;
 
 
@@ -347,18 +351,18 @@ public abstract class Converter extends DataConverters
      *  @param  iDisplayFieldDesc Display the label? (optional).
      *  @return   Return the component or ScreenField that is created for this field.
      */
-    public Object setupDefaultView(Object itsLocation, Object targetScreen, int iDisplayFieldDesc)  // Add this view to the list
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, int iDisplayFieldDesc)  // Add this view to the list
     {
-        return this.setupDefaultView(itsLocation, targetScreen, this, iDisplayFieldDesc);
+        return this.setupDefaultView(itsLocation, targetScreen, this, iDisplayFieldDesc, null);
     }
     /**
      * Set up the default control for this field.
      *  @param  itsLocation     Location of this component on screen (ie., GridBagConstraint).
-     *  @param  targetScreen    Where to place this component (ie., Parent screen or GridBagLayout).
-     *  @param  iDisplayFieldDesc Display the label? (optional).
+     * @param  targetScreen    Where to place this component (ie., Parent screen or GridBagLayout).
+     * @param  iDisplayFieldDesc Display the label? (optional).
      *  @return   Return the component or ScreenField that is created for this field.
      */
-    public Object setupDefaultView(Object itsLocation, Object targetScreen, Convert converter, int iDisplayFieldDesc)   // Add this view to the list
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)   // Add this view to the list
     {
         return null;
     }

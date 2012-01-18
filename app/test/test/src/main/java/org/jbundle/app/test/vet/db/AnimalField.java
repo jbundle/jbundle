@@ -73,7 +73,7 @@ public class AnimalField extends MultiReferenceField
     {
         // Add code here to setup the popup or lookup button
         Record record = this.getReferenceRecord();  // Get/make the record that describes the referenced class.
-        ScreenField screenField = this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, record.getDefaultScreenKeyArea(), this.getDefaultDisplayFieldSeq(), true, false); 
+        ScreenField screenField = (ScreenField)this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, record.getDefaultScreenKeyArea(), this.getDefaultDisplayFieldSeq(), true, false); 
         return screenField;
     }
 

@@ -10,6 +10,7 @@ package org.jbundle.thin.base.db;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -21,6 +22,7 @@ import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Key;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.db.Table;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
@@ -808,5 +810,17 @@ public class FieldList extends Object
     public int getEndingID()
     {
         return Integer.MAX_VALUE;   // default
+    }
+    /**
+     * Create a default document for file maintenance or file display.
+     * Usually overidden in the file's record class.
+     * @param itsLocation The location of the screen in the parentScreen (usually null here).
+     * @param parentScreen The parent screen.
+     * @param iDocMode The type of screen to create (MAINT/DISPLAY/SELECT/MENU/etc).
+     * @return The new screen.
+     */
+    public ComponentParent makeScreen(Object itsLocation, ComponentParent parentScreen, int iDocMode, Map<String, Object> properties)
+    {
+        return null;    // Not implemented in thin.
     }
 }

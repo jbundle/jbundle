@@ -3,9 +3,12 @@
  */
 package org.jbundle.model.db;
 
+import java.util.Map;
+
 import org.jbundle.model.DBException;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.Task;
+import org.jbundle.model.screen.ComponentParent;
 
 /**
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
@@ -43,6 +46,15 @@ public interface Rec
      * Get the "record" owner.
      */
     public void setOwner(Object recordOwner);
+    /**
+     * Create a default document for file maintenance or file display.
+     * Usually overidden in the file's record class.
+     * @param itsLocation The location of the screen in the parentScreen (usually null here).
+     * @param parentScreen The parent screen.
+     * @param iDocMode The type of screen to create (MAINT/DISPLAY/SELECT/MENU/etc).
+     * @return The new screen.
+     */
+    public ComponentParent makeScreen(Object itsLocation, ComponentParent parentScreen, int iDocMode, Map<String, Object> properties);
     /**
      * Get the name of this table.
      * Override this to supply the name of the table.

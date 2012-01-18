@@ -334,7 +334,7 @@ public class PropertiesField extends MemoField
         else
         {
             screenField = super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
-            ScreenField sScreenField = new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, SCannedBox.EDIT, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this);
+            ScreenField sScreenField = new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenModel.EDIT, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this);
             sScreenField.setRequestFocusEnabled(false);
         }
         return screenField;

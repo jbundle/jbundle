@@ -7,11 +7,15 @@
  */
 package org.jbundle.thin.base.screen.util;
 
+import java.util.Map;
+
 import javax.swing.JTextField;
 
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.FieldComponent;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.screen.ScreenLoc;
+import org.jbundle.model.util.Constant;
 
 
 /** 
@@ -45,7 +49,7 @@ public class JFSTextField extends JTextField
      * @param iMaxLength The number of columns of text in this field.
      * @param bAlignRight If true, align the text to the right.
      */
-    public JFSTextField(Converter converter)
+    public JFSTextField(Convert converter)
     {
         this();
         this.init(converter);
@@ -55,7 +59,7 @@ public class JFSTextField extends JTextField
      * @param iMaxLength The number of columns of text in this field.
      * @param bAlignRight If true, align the text to the right.
      */
-    public void init(Converter converter)
+    public void init(Convert converter)
     {
         m_converter = converter;
         if (converter != null)
@@ -102,5 +106,46 @@ public class JFSTextField extends JTextField
     public void setConverter(Convert converter)
     {
         m_converter = converter;
+    }
+    /**
+     * Enable or disable this control.
+     * @param bEnable If true, enable this field.
+     */
+    public void setEnabled(boolean enabled)
+    {
+        super.setEnabled(enabled);  // Nice, this component has this method already
+    }
+    /**
+     * Get the top level screen.
+     * @return The top level screen.
+     */
+    public ComponentParent getParentScreen()
+    {
+        return null;
+    }
+    /**
+     * Move the control's value to the field.
+     * @return An error value.
+     */
+    public int controlToField()
+    {
+        return Constant.NORMAL_RETURN;
+    }
+    /**
+     * Move the field's value to the control.
+     */
+    public void fieldToControl()
+    {
+    }
+    /**
+     * Initialize.
+     * @param itsLocation The location of this component within the parent.
+     * @param parentScreen The parent screen.
+     * @param fieldConverter The field this screen field is linked to.
+     * @param iDisplayFieldDesc Do I display the field desc?
+     */
+    public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
+    {
+        this.init(converter);
     }
 }

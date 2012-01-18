@@ -20,6 +20,8 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
 
 /**
  *  MessageStatusField - .
@@ -66,18 +68,19 @@ public class MessageStatusField extends ReferenceField
      * @param targetScreen Where to place this component (ie., Parent screen or GridBagLayout).
      * @param converter The converter to set the screenfield to.
      * @param iDisplayFieldDesc Display the label? (optional).
+     * @param properties Extra properties
      * @return Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        ScreenField screenField = null;
+        ScreenComponent screenField = null;
         this.makeReferenceRecord();  // Get/make the record that describes the referenced class.
         
         screenField = this.setupIconView(itsLocation, targetScreen, converter, iDisplayFieldDesc, false);
         
         itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST_BUTTON_WITH_GAP, ScreenConstants.DONT_SET_ANCHOR);
         iDisplayFieldDesc = ScreenConstants.DONT_DISPLAY_DESC;
-        screenField = super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
+        screenField = super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         
         return screenField;
     }

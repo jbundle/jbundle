@@ -20,6 +20,8 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
 
 /**
  *  SetupNewUserHandler - Setup a new user by replicating the user template and the registration that comes with it..

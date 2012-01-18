@@ -81,7 +81,7 @@ public class ImageField extends ObjectField
     public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)   // Add this view to the list
     {
         SImageView screenField = new SImageView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
-        ScreenField pSScreenField = new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, SCannedBox.OPEN, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this);
+        ScreenField pSScreenField = new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenModel.OPEN, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this);
         pSScreenField.setRequestFocusEnabled(false);
         return screenField;
     }

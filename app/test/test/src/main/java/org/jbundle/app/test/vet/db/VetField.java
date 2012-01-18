@@ -71,7 +71,7 @@ public class VetField extends ReferenceField
      */
     public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)
     {
-        return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), Vet.kNameKey, Vet.kName, true, true);
+        return (ScreenField)this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), Vet.kNameKey, Vet.kName, true, true);
     }
 
 }

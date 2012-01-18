@@ -37,7 +37,7 @@ import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.Rec;
-import org.jbundle.model.main.msg.db.base.ContactTypeModel;
+import org.jbundle.model.main.db.base.ContactTypeModel;
 import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.screen.ScreenParent;
 import org.jbundle.model.util.Constant;

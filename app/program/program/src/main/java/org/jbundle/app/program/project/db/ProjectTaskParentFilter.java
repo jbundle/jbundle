@@ -20,6 +20,8 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
 
 /**
  *  ProjectTaskParentFilter - This filter only allows records that are this record or ancestors of this record.

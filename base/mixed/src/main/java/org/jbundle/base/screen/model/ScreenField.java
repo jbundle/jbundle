@@ -3,10 +3,9 @@
  */
 package org.jbundle.base.screen.model;
 import java.io.PrintWriter;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.jbundle.model.db.Rec;
-import org.jbundle.model.db.Field;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.screen.view.ScreenFieldView;
@@ -15,7 +14,11 @@ import org.jbundle.base.util.MenuConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.db.Field;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Params;
 
@@ -74,6 +77,17 @@ public abstract class ScreenField extends Object
     {
         this();
         this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+    }
+    /**
+     * Initialize.
+     * @param itsLocation The location of this component within the parent.
+     * @param parentScreen The parent screen.
+     * @param fieldConverter The field this screen field is linked to.
+     * @param iDisplayFieldDesc Do I display the field desc?
+     */
+    public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+    {
+        this.init((ScreenLocation)itsLocation, (BasePanel)parentScreen, fieldConverter, iDisplayFieldDesc);
     }
     /**
      * Initialize.

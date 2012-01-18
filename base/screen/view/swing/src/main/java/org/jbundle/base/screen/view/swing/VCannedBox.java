@@ -24,6 +24,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.DateTimeField;
 import org.jbundle.base.field.PropertiesField;
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.field.XmlField;
 import org.jbundle.base.screen.control.swing.SApplet;
 import org.jbundle.base.screen.model.GridScreen;
@@ -34,10 +35,10 @@ import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.main.properties.db.PropertiesInputModel;
 import org.jbundle.thin.base.screen.BaseApplet;
+import org.jbundle.thin.base.screen.util.SerializableImage;
 import org.jbundle.util.jcalendarbutton.JCalendarPopup;
 import org.jbundle.util.jcalendarbutton.JTimePopup;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
-import org.jbundle.thin.base.screen.util.SerializableImage;
 
 /**
  * Implements a button to carry out some standard functions.
@@ -140,9 +141,9 @@ public class VCannedBox extends VButtonBox
      */
     public boolean doCommand(String strCommand)
     {
-        if (SCannedBox.OPEN.equalsIgnoreCase(strCommand))
+        if (ScreenModel.OPEN.equalsIgnoreCase(strCommand))
             return this.openFile();
-        if (SCannedBox.EDIT.equalsIgnoreCase(strCommand))
+        if (ScreenModel.EDIT.equalsIgnoreCase(strCommand))
             return this.editFile();
         if (CALENDAR.equalsIgnoreCase(strCommand))
         {

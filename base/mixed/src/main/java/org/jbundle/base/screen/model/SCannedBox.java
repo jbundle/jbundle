@@ -18,6 +18,7 @@ import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.db.event.RemoveConverterOnCloseHandler;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.NumberField;
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.field.convert.FieldDescConverter;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.BaseApplication;
@@ -28,6 +29,9 @@ import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
@@ -65,20 +69,6 @@ public class SCannedBox extends SButtonBox
      * The (optional) value.
      */
     protected String m_strValue = null;
-    /**
-     * Constants.
-     */
-    public static final String MAIL = "Mail";
-    public static final String EMAIL = "EMail";
-    public static final String PHONE = "Phone";
-    public static final String FAX = "Fax";
-    public static final String URL = "URL";
-    /**
-     * The name of the open button.
-     */
-    public static final String OPEN = "Open";
-    public static final String EDIT = "Edit";
-    public static final String CLEAR = "Clear";
 
     /**
      * Constructor.
@@ -219,6 +209,35 @@ public class SCannedBox extends SButtonBox
         super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, strValue, strDesc, strImage, strCommand, strToolTip);
     }
     /**
+     * Initialize.
+     * @param itsLocation The location of this component within the parent.
+     * @param parentScreen The parent screen.
+     * @param fieldConverter The field this screen field is linked to.
+     * @param iDisplayFieldDesc Do I display the field desc?
+     */
+    public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+    {
+        String strValue = null;
+        String strDesc = null;
+        String strImage = null;
+        String strCommand = null;
+        String strToolTip = null;
+        Record record = null;
+        BaseField field = null;
+        if (properties != null)
+        {
+            strValue = (String)properties.get(ScreenModel.VALUE);
+            strDesc = (String)properties.get(ScreenModel.DESC);
+            strImage = (String)properties.get(ScreenModel.IMAGE);
+            strCommand = (String)properties.get(ScreenModel.COMMAND);
+            strToolTip = (String)properties.get(ScreenModel.TOOLTIP);
+            record = (Record)properties.get(ScreenModel.RECORD);
+            field = (BaseField)properties.get(ScreenModel.FIELD);          
+        }
+        
+        this.init((ScreenLocation)itsLocation, (BasePanel)parentScreen, (Converter)fieldConverter, iDisplayFieldDesc, strValue, strDesc, strImage, strCommand, strToolTip, record, field);
+    }
+    /**
      * Process the command.
      * Step 1 - Process the command if possible and return true if processed.
      * Step 2 - If I can't process, pass to all children (with me as the source).
@@ -298,7 +317,7 @@ public class SCannedBox extends SButtonBox
                 {
                     m_field.setString(Constants.BLANK);
                 }
-                else if (strCommand.equals(CLEAR))
+                else if (strCommand.equals(ScreenModel.CLEAR))
                 {
                     m_field.setData(null);
                 }
@@ -306,35 +325,35 @@ public class SCannedBox extends SButtonBox
                 {
                     m_field.setString(Constants.BLANK);
                 }
-                else if (strCommand.equals(MAIL))
+                else if (strCommand.equals(ScreenModel.MAIL))
                 {
                     String strHyperlink = m_field.getHyperlink();
                     if (strHyperlink != null) if (strHyperlink.length() > 0)
                         if (this.getScreenFieldView() != null)
                             this.getScreenFieldView().showDocument(strHyperlink, 0);
                 }
-                else if (strCommand.equals(EMAIL))
+                else if (strCommand.equals(ScreenModel.EMAIL))
                 {
                     String strHyperlink = m_field.getHyperlink();
                     if (strHyperlink != null) if (strHyperlink.length() > 0)
                         if (this.getScreenFieldView() != null)
                             this.getScreenFieldView().showDocument(strHyperlink, 0);
                 }
-                else if (strCommand.equals(PHONE))
+                else if (strCommand.equals(ScreenModel.PHONE))
                 {
                     String strHyperlink = m_field.getHyperlink();
                     if (strHyperlink != null) if (strHyperlink.length() > 0)
                         if (this.getScreenFieldView() != null)
                             this.getScreenFieldView().showDocument(strHyperlink, 0);
                 }
-                else if (strCommand.equals(FAX))
+                else if (strCommand.equals(ScreenModel.FAX))
                 {
                     String strHyperlink = m_field.getHyperlink();
                     if (strHyperlink != null) if (strHyperlink.length() > 0)
                         if (this.getScreenFieldView() != null)
                             this.getScreenFieldView().showDocument(strHyperlink, 0);
                 }
-                else if (strCommand.equals(URL))
+                else if (strCommand.equals(ScreenModel.URL))
                 {
                     String strHyperlink = m_field.getHyperlink();
                     if (strHyperlink != null) if (strHyperlink.length() > 0)

@@ -31,6 +31,10 @@ import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.BaseApplet;
@@ -180,7 +184,7 @@ public class ReferenceField extends RecordReferenceField
         // Add code here to setup the popup or lookup button
         Record record = this.getReferenceRecord();  // Get/make the record that describes the referenced class.
         if (record != null)
-            return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, record.getDefaultScreenKeyArea(), this.getDefaultDisplayFieldSeq(), true, false); 
+            return (ScreenField)this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, record.getDefaultScreenKeyArea(), this.getDefaultDisplayFieldSeq(), true, false); 
         else
             return super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
     }
@@ -296,7 +300,7 @@ public class ReferenceField extends RecordReferenceField
     /**
      * Display a button that shows the icon from the current record in the secondary file.
      */
-    public ScreenField setupIconView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc, boolean bIncludeBlankOption)
+    public ScreenComponent setupIconView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, boolean bIncludeBlankOption)
     {
         ScreenField screenField = null;
         Record record = this.makeReferenceRecord();
@@ -307,8 +311,8 @@ public class ReferenceField extends RecordReferenceField
             fldDisplayFieldDesc.addListener(new BlankButtonHandler(null));
         if (fldDisplayFieldDesc != null)
         {    // The next two lines are so in GridScreen(s), the converter leads to this field, while it displays the fielddesc.
-            FieldConverter fldDescConverter = new FieldDescConverter(fldDisplayFieldDesc, converter);
-            screenField = new SButtonBox(itsLocation, targetScreen, fldDescConverter, SCannedBox.CLEAR, iDisplayFieldDesc, SCannedBox.CLEAR)
+            FieldConverter fldDescConverter = new FieldDescConverter(fldDisplayFieldDesc, (Converter)converter);
+            screenField = new SButtonBox((ScreenLocation)itsLocation, (BasePanel)targetScreen, fldDescConverter, ScreenModel.CLEAR, iDisplayFieldDesc, ScreenModel.CLEAR)
             {
                 public void setEnabled(boolean bEnabled)
                 {
@@ -319,8 +323,8 @@ public class ReferenceField extends RecordReferenceField
             if (!(targetScreen instanceof GridScreen))
                 if ((strDisplay != null) && (strDisplay.length() > 0))
             { // Since display string does not come with buttons
-                ScreenLocation descLocation = targetScreen.getNextLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
-                new SStaticString(descLocation, targetScreen, strDisplay);
+                ScreenLocation descLocation = (ScreenLocation)targetScreen.getNextLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
+                new SStaticString(descLocation, (BasePanel)targetScreen, strDisplay);
             }
         }
 
@@ -348,9 +352,9 @@ public class ReferenceField extends RecordReferenceField
     /**
      * Add icon to popup.
      */
-    public ScreenField setupPopupView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc, boolean bIncludeBlankOption)
+    public ScreenComponent setupPopupView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, boolean bIncludeBlankOption)
     {
-        ScreenField screenField = null;
+        ScreenComponent screenField = null;
         Record record = this.makeReferenceRecord();
         //  Set up the listener to read the current record on a valid main record
         screenField = this.setupIconView(itsLocation, targetScreen, converter, iDisplayFieldDesc, bIncludeBlankOption);

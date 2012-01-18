@@ -20,6 +20,8 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
 import org.jbundle.model.app.program.db.*;
 
 /**
@@ -60,35 +62,38 @@ public class IncludeScopeField extends IntegerField
      * @param targetScreen Where to place this component (ie., Parent screen or GridBagLayout).
      * @param converter The converter to set the screenfield to.
      * @param iDisplayFieldDesc Display the label? (optional).
+     * @param properties Extra properties
      * @return Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        ScreenField screenField = null;
+        ScreenComponent screenField = null;
         
-        new SStaticString(itsLocation, targetScreen, DBConstants.BLANK);
+        createScreenComponent(ScreenModel.STATIC_STRING, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         String strDisplay = converter.getFieldDesc();
         if ((strDisplay != null) && (strDisplay.length() > 0))
         {
-            ScreenLocation descLocation = targetScreen.getNextLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
-            SStaticString staticString = new SStaticString(descLocation, targetScreen, strDisplay);
+            ScreenLoc descLocation = targetScreen.getNextLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
+            Map<String, Object> descProps = new HashMap<String, Object>();
+            descProps.put(ScreenModel.DISPLAY_STRING, strDisplay);
+            createScreenComponent(ScreenModel.STATIC_STRING, descLocation, targetScreen, null, 0, properties);
         }
         
-        Converter dayConverter = converter;
+        Converter dayConverter = (Converter)converter;
         dayConverter = new FieldDescConverter(dayConverter, "Thick");
         dayConverter = new BitConverter(dayConverter, 0, true, true);
         itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST_CHECKBOX, ScreenConstants.DONT_SET_ANCHOR);
-        screenField = (ScreenField)dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
+        screenField = dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
         
         dayConverter = new FieldDescConverter(dayConverter, "Thin");
         dayConverter = new BitConverter(dayConverter, 1, true, true);
         itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST_CHECKBOX, ScreenConstants.DONT_SET_ANCHOR);
-        screenField = (ScreenField)dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
+        screenField = dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
         
         dayConverter = new FieldDescConverter(dayConverter, "Interface");
         dayConverter = new BitConverter(dayConverter, 2, true, true);
         itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST_CHECKBOX, ScreenConstants.DONT_SET_ANCHOR);
-        screenField = (ScreenField)dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
+        screenField = dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
         return screenField;
     }
     /**

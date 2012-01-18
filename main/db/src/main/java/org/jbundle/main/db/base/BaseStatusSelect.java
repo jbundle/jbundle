@@ -1,9 +1,9 @@
 /**
- * @(#)MessageTypeField.
+ * @(#)BaseStatusSelect.
  * Copyright © 2011 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.main.msg.db.base;
+package org.jbundle.main.db.base;
 
 import java.awt.*;
 import java.util.*;
@@ -20,17 +20,20 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.model.main.msg.db.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
+import org.jbundle.thin.base.message.*;
+import javax.swing.*;
 
 /**
- *  MessageTypeField - .
+ *  BaseStatusSelect - .
  */
-public class MessageTypeField extends ReferenceField
+public class BaseStatusSelect extends BaseStatusField
 {
     /**
      * Default constructor.
      */
-    public MessageTypeField()
+    public BaseStatusSelect()
     {
         super();
     }
@@ -42,7 +45,7 @@ public class MessageTypeField extends ReferenceField
      * @param strDesc The string description (usually pass null, to use the resource file desc).
      * @param strDefault The default value (if object, this value is the default value, if string, the string is the default).
      */
-    public MessageTypeField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
+    public BaseStatusSelect(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
     {
         this();
         this.init(record, strName, iDataLength, strDesc, strDefault);
@@ -55,11 +58,17 @@ public class MessageTypeField extends ReferenceField
         super.init(record, strName, iDataLength, strDesc, strDefault);
     }
     /**
-     * Get (or make) the current record for this reference.
+     * Set up the default screen control for this field.
+     * @param itsLocation Location of this component on screen (ie., GridBagConstraint).
+     * @param targetScreen Where to place this component (ie., Parent screen or GridBagLayout).
+     * @param converter The converter to set the screenfield to.
+     * @param iDisplayFieldDesc Display the label? (optional).
+     * @param properties Extra properties
+     * @return Return the component or ScreenField that is created for this field.
      */
-    public Record makeReferenceRecord(RecordOwner recordOwner)
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        return Record.makeRecordFromClassName(MessageTypeModel.MESSAGE_TYPE_FILE, recordOwner);
+        return this.setupPopupView(itsLocation, targetScreen, converter, iDisplayFieldDesc, true);
     }
 
 }

@@ -12,6 +12,7 @@ package org.jbundle.base.screen.view;
 import java.awt.Component;
 import java.awt.LayoutManager;
 import java.io.PrintWriter;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.swing.JMenu;
@@ -27,6 +28,8 @@ import org.jbundle.model.Task;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.message.Message;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Constants;
 
 
@@ -57,7 +60,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public ScreenFieldViewAdapter(ScreenField model,boolean bEditableControl)
+    public ScreenFieldViewAdapter(ScreenField model, boolean bEditableControl)
     {
         this();
         this.init(model, bEditableControl);
@@ -320,6 +323,22 @@ public abstract class ScreenFieldViewAdapter extends Object
      */
     public void setEnabled(boolean bEnable)
     {
+        // Override
+    }
+    @Override
+    public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties) {
+        this.init(null, true);  // Never called.
+    }
+    @Override
+    public ComponentParent getParentScreen() {
+        return null;    // Override
+    }
+    @Override
+    public int controlToField() {
+        return Constants.NORMAL_RETURN;    // Override
+    }
+    @Override
+    public void fieldToControl() {
         // Override
     }
     /**

@@ -334,6 +334,8 @@ public class WriteClass extends BaseProcess
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.screen.model.util");     // Don't include this!!!
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.util");      // Don't include this!!!
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "model");      // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "model.db");      // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "model.screen");      // Don't include this!!!
             }            
         // Now write the include files for any base classes not in this file or fields with class defs not in file
             recClassInfo2 = new ClassInfo(this);

@@ -20,6 +20,8 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
 import org.jbundle.app.program.db.*;
 import org.jbundle.main.screen.*;
 import org.jbundle.app.program.script.process.*;
@@ -64,7 +66,7 @@ public class ClassInfoHelpScreen extends BaseScreen
     {
         this.getRecord(ClassInfo.kClassInfoFile).getField(ClassInfo.kCopyDescFrom).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getMainRecord().getField(ClassInfo.kClassExplain).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, ScreenConstants.DEFAULT_DISPLAY);
-        ScreenField pSScreenField = new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), this, this.getMainRecord().getField(ClassInfo.kClassHelp), SCannedBox.EDIT, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this.getMainRecord().getField(ClassInfo.kClassHelp));
+        ScreenField pSScreenField = new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), this, this.getMainRecord().getField(ClassInfo.kClassHelp), ScreenModel.EDIT, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this.getMainRecord().getField(ClassInfo.kClassHelp));
         pSScreenField.setRequestFocusEnabled(false);
         this.getMainRecord().getField(ClassInfo.kClassHelp).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.FILL_REMAINDER), this, ScreenConstants.DEFAULT_DISPLAY);
     }

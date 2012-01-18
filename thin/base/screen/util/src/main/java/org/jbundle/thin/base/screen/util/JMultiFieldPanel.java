@@ -9,6 +9,7 @@ package org.jbundle.thin.base.screen.util;
 
 import java.awt.Component;
 import java.awt.event.FocusListener;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,10 +19,12 @@ import javax.swing.text.JTextComponent;
 
 import org.jbundle.model.Freeable;
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
+import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.JBasePanel;
 
 
@@ -39,7 +42,7 @@ public class JMultiFieldPanel extends JPanel
 	/**
      * The field this component is tied to.
      */
-    protected Converter m_converter = null;
+    protected Convert m_converter = null;
     /**
      * 
      */
@@ -56,7 +59,7 @@ public class JMultiFieldPanel extends JPanel
      * Creates new JCalendarDualField.
      * @param The field this component is tied to.
      */
-    public JMultiFieldPanel(Converter converter)
+    public JMultiFieldPanel(Convert converter)
     {
         this();
         this.init(converter, null, null);
@@ -65,7 +68,7 @@ public class JMultiFieldPanel extends JPanel
      * Creates new JCalendarDualField.
      * @param The field this component is tied to.
      */
-    public JMultiFieldPanel(Converter converter, JComponent component1, JComponent component2)
+    public JMultiFieldPanel(Convert converter, JComponent component1, JComponent component2)
     {
         this();
         this.init(converter, component1, component2);
@@ -74,7 +77,7 @@ public class JMultiFieldPanel extends JPanel
      * Creates new JCalendarDualField.
      * @param The field this component is tied to.
      */
-    public void init(Converter converter, JComponent component1, JComponent component2)
+    public void init(Convert converter, JComponent component1, JComponent component2)
     {
         m_converter = converter;
         this.setBorder(null);
@@ -227,5 +230,46 @@ public class JMultiFieldPanel extends JPanel
      */
     public void setConverter(Convert converter)
     {
+    }
+    /**
+     * Enable or disable this control.
+     * @param bEnable If true, enable this field.
+     */
+    public void setEnabled(boolean enabled)
+    {
+        super.setEnabled(enabled);  // Nice, this component has this method already
+    }
+    /**
+     * Get the top level screen.
+     * @return The top level screen.
+     */
+    public ComponentParent getParentScreen()
+    {
+        return null;
+    }
+    /**
+     * Move the control's value to the field.
+     * @return An error value.
+     */
+    public int controlToField()
+    {
+        return Constant.NORMAL_RETURN;
+    }
+    /**
+     * Move the field's value to the control.
+     */
+    public void fieldToControl()
+    {
+    }
+    /**
+     * Initialize.
+     * @param itsLocation The location of this component within the parent.
+     * @param parentScreen The parent screen.
+     * @param fieldConverter The field this screen field is linked to.
+     * @param iDisplayFieldDesc Do I display the field desc?
+     */
+    public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
+    {
+        this.init(converter, null, null);
     }
 }

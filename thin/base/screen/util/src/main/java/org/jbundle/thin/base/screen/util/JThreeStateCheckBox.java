@@ -9,12 +9,16 @@ package org.jbundle.thin.base.screen.util;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.screen.ScreenLoc;
+import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JScreenConstants;
 
@@ -165,5 +169,46 @@ public class JThreeStateCheckBox extends JButton
      */
     public void setConverter(Convert converter)
     {
+    }
+    /**
+     * Enable or disable this control.
+     * @param bEnable If true, enable this field.
+     */
+    public void setEnabled(boolean enabled)
+    {
+        super.setEnabled(enabled);  // Nice, this component has this method already
+    }
+    /**
+     * Get the top level screen.
+     * @return The top level screen.
+     */
+    public ComponentParent getParentScreen()
+    {
+        return null;
+    }
+    /**
+     * Move the control's value to the field.
+     * @return An error value.
+     */
+    public int controlToField()
+    {
+        return Constant.NORMAL_RETURN;
+    }
+    /**
+     * Move the field's value to the control.
+     */
+    public void fieldToControl()
+    {
+    }
+    /**
+     * Initialize.
+     * @param itsLocation The location of this component within the parent.
+     * @param parentScreen The parent screen.
+     * @param fieldConverter The field this screen field is linked to.
+     * @param iDisplayFieldDesc Do I display the field desc?
+     */
+    public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
+    {
+        this.init(null);
     }
 }

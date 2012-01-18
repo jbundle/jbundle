@@ -3,7 +3,12 @@
  */
 package org.jbundle.model.db;
 
+import java.util.Map;
+
 import org.jbundle.model.Freeable;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 
 /**
  * @(#)Converter.java 0.00 12-Feb-97 Don Corley
@@ -206,13 +211,14 @@ public interface Convert
      *  @param  iDisplayFieldDesc Display the label? (optional).
      *  @return   Return the component or ScreenField that is created for this field.
      */
-    public Object setupDefaultView(Object itsLocation, Object targetScreen, int iDisplayFieldDesc) ;
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, int iDisplayFieldDesc) ;
     /**
      * Set up the default control for this field.
-     *  @param  itsLocation     Location of this component on screen (ie., GridBagConstraint).
-     *  @param  targetScreen    Where to place this component (ie., Parent screen or GridBagLayout).
-     *  @param  iDisplayFieldDesc Display the label? (optional).
-     *  @return   Return the component or ScreenField that is created for this field.
+     * @param itsLocation     Location of this component on screen (ie., GridBagConstraint).
+     * @param targetScreen    Where to place this component (ie., Parent screen or GridBagLayout).
+     * @param iDisplayFieldDesc Display the label? (optional).
+     * @param properties Extra properties
+     * @return Return the component or ScreenField that is created for this field.
      */
-    public Object setupDefaultView(Object itsLocation, Object targetScreen, Convert converter, int iDisplayFieldDesc);
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties);
 }

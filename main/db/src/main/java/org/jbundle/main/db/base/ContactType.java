@@ -3,7 +3,7 @@
  * Copyright © 2011 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.main.msg.db.base;
+package org.jbundle.main.db.base;
 
 import java.awt.*;
 import java.util.*;
@@ -20,9 +20,10 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.main.db.*;
 import org.jbundle.model.db.*;
-import org.jbundle.model.main.msg.db.base.*;
+import org.jbundle.model.screen.*;
+import org.jbundle.main.db.*;
+import org.jbundle.model.main.db.base.*;
 
 /**
  *  ContactType - Contact type.

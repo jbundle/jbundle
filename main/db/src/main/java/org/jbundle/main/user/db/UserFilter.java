@@ -20,6 +20,8 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
 import org.jbundle.thin.base.screen.*;
 import org.jbundle.main.db.*;
 
@@ -68,15 +70,22 @@ public class UserFilter extends ReferenceField
      * @param targetScreen Where to place this component (ie., Parent screen or GridBagLayout).
      * @param converter The converter to set the screenfield to.
      * @param iDisplayFieldDesc Display the label? (optional).
+     * @param properties Extra properties
      * @return Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         UserInfo user = (UserInfo)this.makeReferenceRecord();
         user.addListener(new StringSubFileFilter(Integer.toString(UserGroup.RES_USER), UserInfo.kUserGroupID, null, -1, null, -1));
         Converter convName = new FirstMLastConverter(user, -1, UserInfo.kFirstName, -1, UserInfo.kLastName);
         
-        ScreenField screenField = this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, user, UserInfo.kUserNameKey, convName, true, false);
+        ScreenComponent screenField = this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, user, UserInfo.kUserNameKey, convName, true, false);
+        properties = new HashMap<String,Object>();
+        properties.put(ScreenModel.FIELD, this);
+        properties.put(ScreenModel.COMMAND, ThinMenuConstants.HOME);
+        properties.put(ScreenModel.IMAGE, ThinMenuConstants.HOME);
+        createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        /*
         new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ThinMenuConstants.HOME, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this)
         {
             public boolean doCommand(String strCommand, ScreenField sourceSField, int iCommandOptions)
@@ -95,7 +104,7 @@ public class UserFilter extends ReferenceField
                 return bHandled;
             }
         };
-        
+         */        
         return screenField;
     }
 

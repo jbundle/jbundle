@@ -4,6 +4,7 @@
 package org.jbundle.model.screen;
 
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.db.Rec;
 
 
 /**
@@ -21,8 +22,20 @@ import org.jbundle.model.RecordOwnerParent;
 public interface ComponentParent extends ScreenComponent, RecordOwnerParent
 {
     /**
+     * Get the main record for this screen.
+     * @return The main record.
+     */
+    public Rec getMainRecord();
+    /**
      * Get the top level screen.
      * @return The top level screen.
      */
     public ComponentParent getRootScreen();
+    /**
+     * Code this position and Anchor to add it to the LayoutManager.
+     * @param position The position of the next location (see the position constants).
+     * @param setNewAnchor Set anchor?
+     * @return The new screen location constant.
+     */
+    public ScreenLoc getNextLocation(short position, short setNewAnchor);
 }

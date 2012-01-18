@@ -1,9 +1,9 @@
 /**
- * @(#)ContactTypeLevelOneField.
+ * @(#)MessageTypeField.
  * Copyright © 2011 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.main.msg.db.base;
+package org.jbundle.main.db.base;
 
 import java.awt.*;
 import java.util.*;
@@ -20,18 +20,19 @@ import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.main.db.*;
 import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
- *  ContactTypeLevelOneField - Level one field display.
+ *  MessageTypeField - .
  */
-public class ContactTypeLevelOneField extends ContactTypeField
+public class MessageTypeField extends ReferenceField
 {
     /**
      * Default constructor.
      */
-    public ContactTypeLevelOneField()
+    public MessageTypeField()
     {
         super();
     }
@@ -43,7 +44,7 @@ public class ContactTypeLevelOneField extends ContactTypeField
      * @param strDesc The string description (usually pass null, to use the resource file desc).
      * @param strDefault The default value (if object, this value is the default value, if string, the string is the default).
      */
-    public ContactTypeLevelOneField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
+    public MessageTypeField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
     {
         this();
         this.init(record, strName, iDataLength, strDesc, strDefault);
@@ -60,9 +61,7 @@ public class ContactTypeLevelOneField extends ContactTypeField
      */
     public Record makeReferenceRecord(RecordOwner recordOwner)
     {
-        Record record = super.makeReferenceRecord(recordOwner);
-        record.addListener(new CompareFileFilter(ContactType.kLevel, "1", DBConstants.EQUALS, null, true));
-        return record;
+        return Record.makeRecordFromClassName(MessageTypeModel.MESSAGE_TYPE_FILE, recordOwner);
     }
 
 }

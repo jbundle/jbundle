@@ -75,7 +75,7 @@ public class TestSecondField extends ReferenceField
         Converter fldDisplayFieldDesc = record.getField(TestSecond.kDescription);
         boolean bIncludeBlankOption = true;
         boolean bIncludeFormButton = true;
-        return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, iQueryKeySeq, fldDisplayFieldDesc, bIncludeBlankOption, bIncludeFormButton);
+        return (ScreenField)this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, iQueryKeySeq, fldDisplayFieldDesc, bIncludeBlankOption, bIncludeFormButton);
     }
 
 }
