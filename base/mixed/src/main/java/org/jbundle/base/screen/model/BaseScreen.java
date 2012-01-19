@@ -122,15 +122,15 @@ public class BaseScreen extends BasePanel
      * @param location (property) The location of this component within the parent.
      * @param display (property) Do I display the field desc?
      */
-    public void init(RecordOwnerParent parent, FieldList record, Object properties)
+    public void init(RecordOwnerParent parent, Rec record, Map<String, Object> properties)
     {
         ScreenLocation itsLocation = null;
         Converter fieldConverter = null;
         int iDisplayFieldDesc = ScreenConstants.DEFAULT_DISPLAY;
-        if (properties instanceof Properties)
+        if (properties != null)
         {
-            String strItsLocation = ((Properties)properties).getProperty("location");
-            String strDisplayFieldDesc =  ((Properties)properties).getProperty("display");
+            String strItsLocation = (String)properties.get("location");
+            String strDisplayFieldDesc =  (String)properties.get("display");
             try   {
                 iDisplayFieldDesc = Integer.parseInt(strDisplayFieldDesc);
                 if (strItsLocation != null)

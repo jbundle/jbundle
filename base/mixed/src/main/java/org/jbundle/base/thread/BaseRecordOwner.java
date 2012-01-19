@@ -26,6 +26,7 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
@@ -73,7 +74,7 @@ public class BaseRecordOwner extends Object
     /**
      * Initialization.
      */
-    public BaseRecordOwner(RecordOwnerParent parent, FieldList recordMain, Object properties)
+    public BaseRecordOwner(RecordOwnerParent parent, Rec recordMain, Map<String, Object> properties)
     {
         this();
         this.init(parent, recordMain, properties);
@@ -84,7 +85,7 @@ public class BaseRecordOwner extends Object
      * @param record Main record for this session (opt).
      * @param objectID ObjectID of the object that this SessionObject represents (usually a URL or bookmark).
      */
-    public void init(RecordOwnerParent parent, FieldList recordMain, Object properties)
+    public void init(RecordOwnerParent parent, Rec recordMain, Map<String, Object> properties)
     {
         m_taskParent = parent;
         if (m_taskParent != null)
@@ -105,7 +106,7 @@ public class BaseRecordOwner extends Object
         }
         if (recordMain != null)
             if (!bQueryInTable)
-                this.addRecord(recordMain, false);
+                this.addRecord((Record)recordMain, false);
         this.openOtherRecords();    // Open the other files
         if (this.getScreenRecord() == null)
             this.setScreenRecord(this.addScreenRecord());

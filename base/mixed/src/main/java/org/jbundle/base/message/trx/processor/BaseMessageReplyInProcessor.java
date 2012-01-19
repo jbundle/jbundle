@@ -4,7 +4,6 @@
 package org.jbundle.base.message.trx.processor;
 
 import java.util.Map;
-import java.util.Properties;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.ReferenceField;
@@ -40,7 +39,7 @@ public class BaseMessageReplyInProcessor extends BaseExternalMessageProcessor
     /**
      * Default constructor.
      */
-    public BaseMessageReplyInProcessor(RecordOwnerParent taskParent, Record recordMain, Properties properties)
+    public BaseMessageReplyInProcessor(RecordOwnerParent taskParent, Record recordMain, Map<String, Object> properties)
     {
         this();
         this.init(taskParent, recordMain, properties);    // The one and only

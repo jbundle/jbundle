@@ -69,7 +69,7 @@ public class BaseSession extends RemoteRecordOwner
      * @param record Main record for this session (opt).
      * @param objectID ObjectID of the object that this SessionObject represents (usually a URL or bookmark).
      */
-    public BaseSession(BaseSession parentSessionObject, Record record, Object objectID) throws RemoteException
+    public BaseSession(BaseSession parentSessionObject, Record record, Map<String, Object> objectID) throws RemoteException
     {
         this();
         this.init(parentSessionObject, record, objectID);
@@ -80,7 +80,7 @@ public class BaseSession extends RemoteRecordOwner
      * @param record Main record for this session (opt).
      * @param objectID ObjectID of the object that this SessionObject represents (usually a URL or bookmark).
      */
-    public void init(BaseSession parentSessionObject, Record record, Object objectID)
+    public void init(BaseSession parentSessionObject, Record record, Map<String, Object> objectID)
     {
         m_iMasterSlave = -1;    // Default
         if (parentSessionObject != null)

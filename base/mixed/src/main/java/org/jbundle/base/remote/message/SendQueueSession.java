@@ -11,6 +11,8 @@ package org.jbundle.base.remote.message;
  *
  */
  
+import java.util.Map;
+
 import org.jbundle.thin.base.remote.Unreferenced;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.remote.BaseSession;
@@ -57,7 +59,7 @@ public class SendQueueSession extends BaseSession
     /**
      * Constructor
      */
-    public void init(BaseSession parentSessionObject, Record record, Object objectID)
+    public void init(BaseSession parentSessionObject, Record record, Map<String, Object> objectID)
     {
         super.init(parentSessionObject, record, objectID);
     }

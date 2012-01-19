@@ -47,7 +47,7 @@ public class AjaxScreenSession extends Session
     /**
      * AjaxScreenSession Method.
      */
-    public AjaxScreenSession(BaseSession parentSessionObject, Record record, Object objectID) throws RemoteException
+    public AjaxScreenSession(BaseSession parentSessionObject, Record record, Map<String, Object> objectID) throws RemoteException
     {
         this();
         this.init(parentSessionObject, record, objectID);
@@ -55,7 +55,7 @@ public class AjaxScreenSession extends Session
     /**
      * Initialize class fields.
      */
-    public void init(BaseSession parentSessionObject, Record record, Object objectID)
+    public void init(BaseSession parentSessionObject, Record record, Map<String, Object> objectID)
     {
         m_topScreen = null;
         super.init(parentSessionObject, record, objectID);

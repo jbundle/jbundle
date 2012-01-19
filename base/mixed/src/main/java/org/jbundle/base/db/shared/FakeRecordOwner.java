@@ -54,7 +54,7 @@ public class FakeRecordOwner extends BaseRecordOwner
     /**
      * Initialization.
      */
-    public FakeRecordOwner(SharedBaseRecordTable sharedTable, RecordOwnerParent parent, FieldList recordMain, Object properties)
+    public FakeRecordOwner(SharedBaseRecordTable sharedTable, RecordOwnerParent parent, FieldList recordMain, Map<String, Object> properties)
     {
         this();
         this.init(sharedTable, parent, recordMain, properties);
@@ -65,7 +65,7 @@ public class FakeRecordOwner extends BaseRecordOwner
      * @param record Main record for this session (opt).
      * @param objectID ObjectID of the object that this SessionObject represents (usually a URL or bookmark).
      */
-    public void init(SharedBaseRecordTable sharedTable, RecordOwnerParent parent, FieldList recordMain, Object properties)
+    public void init(SharedBaseRecordTable sharedTable, RecordOwnerParent parent, FieldList recordMain, Map<String, Object> properties)
     {
         m_sharedTable = sharedTable;
         super.init(parent, recordMain, properties);

@@ -69,7 +69,7 @@ public class DatabaseSession extends BaseTaskSession
      * @param parentSessionObject My parent session (usually a RemoteTaskSessionObject).
      * @param database The database I'm passing calls to.
      */
-    public void init(BaseSession parentSessionObject, Record record, Object objectID)
+    public void init(BaseSession parentSessionObject, Record record, Map<String, Object> objectID)
     {
         super.init(parentSessionObject, record, objectID);
     }

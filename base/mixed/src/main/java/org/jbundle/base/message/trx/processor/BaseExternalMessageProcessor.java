@@ -4,7 +4,6 @@
 package org.jbundle.base.message.trx.processor;
 
 import java.util.Map;
-import java.util.Properties;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.model.RecordOwnerParent;
@@ -29,7 +28,7 @@ public abstract class BaseExternalMessageProcessor extends BaseMessageProcessor
     /**
      * Default constructor.
      */
-    public BaseExternalMessageProcessor(RecordOwnerParent taskParent, Record recordMain, Properties properties)
+    public BaseExternalMessageProcessor(RecordOwnerParent taskParent, Record recordMain, Map<String, Object> properties)
     {
         this();
         this.init(taskParent, recordMain, properties);    // The one and only

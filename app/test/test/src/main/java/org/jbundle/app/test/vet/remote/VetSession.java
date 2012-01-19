@@ -40,7 +40,7 @@ public class VetSession extends Session
     /**
      * VetSession Method.
      */
-    public VetSession(BaseSession parentSessionObject, Record record, Object objectID) throws RemoteException
+    public VetSession(BaseSession parentSessionObject, Record record, Map<String, Object> objectID) throws RemoteException
     {
         this();
         this.init(parentSessionObject, record, objectID);

@@ -89,7 +89,7 @@ public class BaseTaskSession extends BaseSession
      * @param record Main record for this session  (always null for task sessions).
      * @param objectID ObjectID of the object that this SessionObject represents  (usually null for task sessions).
      */
-    public void init(BaseSession parentSessionObject, Record record, Object objectID)
+    public void init(BaseSession parentSessionObject, Record record, Map<String, Object> objectID)
     {
         if (m_application == null)
             m_application = new MainApplication(null, null, null);

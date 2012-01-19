@@ -71,7 +71,7 @@ public class MessageReceivingPopClientProcess extends BaseProcess
     /**
      * Default constructor.
      */
-    public MessageReceivingPopClientProcess(RecordOwnerParent taskParent, Record recordMain, Map<Object,Object> properties)
+    public MessageReceivingPopClientProcess(RecordOwnerParent taskParent, Record recordMain, Map<String, Object> properties)
     {
         this();
         this.init(taskParent, recordMain, properties);    // The one and only

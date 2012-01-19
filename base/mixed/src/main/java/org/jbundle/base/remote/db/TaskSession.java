@@ -94,7 +94,7 @@ public class TaskSession extends BaseTaskSession
      * @param record Main record for this session  (always null for task sessions).
      * @param objectID ObjectID of the object that this SessionObject represents  (usually null for task sessions).
      */
-    public void init(BaseSession parentSessionObject, Record record, Object objectID)
+    public void init(BaseSession parentSessionObject, Record record, Map<String, Object> objectID)
     {
         super.init(parentSessionObject, record, objectID);
     }

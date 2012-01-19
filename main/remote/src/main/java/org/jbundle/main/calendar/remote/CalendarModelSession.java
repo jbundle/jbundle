@@ -42,7 +42,7 @@ public class CalendarModelSession extends TableModelSession
     /**
      * CalendarModelSession Method.
      */
-    public CalendarModelSession(BaseSession parentSessionObject, Record record, Object objectID) throws RemoteException
+    public CalendarModelSession(BaseSession parentSessionObject, Record record, Map<String, Object> objectID) throws RemoteException
     {
         this();
         this.init(parentSessionObject, record, objectID);
@@ -50,7 +50,7 @@ public class CalendarModelSession extends TableModelSession
     /**
      * Initialize class fields.
      */
-    public void init(BaseSession parentSessionObject, Record record, Object objectID)
+    public void init(BaseSession parentSessionObject, Record record, Map<String, Object> objectID)
     {
         super.init(parentSessionObject, record, objectID);
     }

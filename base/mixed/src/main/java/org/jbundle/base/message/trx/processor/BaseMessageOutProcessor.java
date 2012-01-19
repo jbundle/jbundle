@@ -4,7 +4,6 @@
 package org.jbundle.base.message.trx.processor;
 
 import java.util.Map;
-import java.util.Properties;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
@@ -33,7 +32,7 @@ public class BaseMessageOutProcessor extends BaseInternalMessageProcessor
     /**
      * Default constructor.
      */
-    public BaseMessageOutProcessor(RecordOwnerParent taskParent, Record recordMain, Properties properties)
+    public BaseMessageOutProcessor(RecordOwnerParent taskParent, Record recordMain, Map<String, Object> properties)
     {
         this();
         this.init(taskParent, recordMain, properties);    // The one and only

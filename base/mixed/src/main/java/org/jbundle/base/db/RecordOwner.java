@@ -9,9 +9,12 @@ package org.jbundle.base.db;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import java.util.Map;
+
 import org.jbundle.base.util.DatabaseOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.JMessageListener;
@@ -38,7 +41,7 @@ public interface RecordOwner
     /**
      * Initialize the RecordOwner.
      */
-    public void init(RecordOwnerParent parent, FieldList recordMain, Object properties);
+    public void init(RecordOwnerParent parent, Rec recordMain, Map<String, Object> properties);
     /**
      * Add this record to this screen.
      * @param record The record to add.

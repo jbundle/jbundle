@@ -79,7 +79,7 @@ public class TableSession extends Session
      * @param record The record this session calls.
      * @param objectID If this table session refers to a particular record object, this is the handle.
      */
-    public TableSession(BaseSession parentSessionObject, Record record, Object objectID) throws RemoteException
+    public TableSession(BaseSession parentSessionObject, Record record, Map<String, Object> objectID) throws RemoteException
     {
         this();
         this.init(parentSessionObject, record, objectID);
@@ -90,7 +90,7 @@ public class TableSession extends Session
      * @param record The record this session calls.
      * @param objectID If this table session refers to a particular record object, this is the handle.
      */
-    public void init(BaseSession parentSessionObject, Record record, Object objectID)
+    public void init(BaseSession parentSessionObject, Record record, Map<String, Object> objectID)
     {
         super.init(parentSessionObject, record, objectID);
     }

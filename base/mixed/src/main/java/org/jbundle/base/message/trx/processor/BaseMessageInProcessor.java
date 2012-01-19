@@ -6,7 +6,6 @@ package org.jbundle.base.message.trx.processor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -34,7 +33,7 @@ public class BaseMessageInProcessor extends BaseExternalMessageProcessor
     /**
      * Default constructor.
      */
-    public BaseMessageInProcessor(RecordOwnerParent taskParent, Record recordMain, Properties properties)
+    public BaseMessageInProcessor(RecordOwnerParent taskParent, Record recordMain, Map<String, Object> properties)
     {
         this();
         this.init(taskParent, recordMain, properties);    // The one and only

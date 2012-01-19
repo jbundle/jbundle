@@ -28,6 +28,7 @@ import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
@@ -79,7 +80,7 @@ public class RemoteRecordOwner extends RemoteObject
     /**
      * Initialization.
      */
-    public RemoteRecordOwner(RecordOwnerParent parent, FieldList recordMain, Object properties) throws RemoteException
+    public RemoteRecordOwner(RecordOwnerParent parent, Rec recordMain, Map<String, Object> properties) throws RemoteException
     {
         this();
         this.init(parent, recordMain, properties);
@@ -90,7 +91,7 @@ public class RemoteRecordOwner extends RemoteObject
      * @param record Main record for this session (opt).
      * @param objectID ObjectID of the object that this SessionObject represents (usually a URL or bookmark).
      */
-    public void init(RecordOwnerParent parent, FieldList recordMain, Object properties)
+    public void init(RecordOwnerParent parent, Rec recordMain, Map<String, Object> properties)
     {
         m_sessionObjectParent = parent;
         if (m_sessionObjectParent != null)
@@ -113,7 +114,7 @@ public class RemoteRecordOwner extends RemoteObject
         }
         if (recordMain != null)
             if (!bQueryInTable)
-                this.addRecord(recordMain, false);
+                this.addRecord((Record)recordMain, false);
         this.openOtherRecords();    // Open the other files
         if (this.getScreenRecord() == null)
             this.setScreenRecord(this.addScreenRecord());

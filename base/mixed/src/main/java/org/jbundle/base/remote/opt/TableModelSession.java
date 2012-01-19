@@ -7,6 +7,8 @@ package org.jbundle.base.remote.opt;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import java.util.Map;
+
 import org.jbundle.base.db.GridTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.remote.BaseSession;
@@ -32,7 +34,7 @@ public class TableModelSession extends TableSession
     /**
      * Constructor.
      */
-    public TableModelSession(BaseSession parentSessionObject, Record record, Object objectID) throws RemoteException
+    public TableModelSession(BaseSession parentSessionObject, Record record, Map<String, Object> objectID) throws RemoteException
     {
         this();
         this.init(parentSessionObject, record, objectID);
@@ -40,7 +42,7 @@ public class TableModelSession extends TableSession
     /**
      * Constructor.
      */
-    public void init(BaseSession parentSessionObject, Record record, Object objectID)
+    public void init(BaseSession parentSessionObject, Record record, Map<String, Object> objectID)
     {
         super.init(parentSessionObject, record, objectID);
     }

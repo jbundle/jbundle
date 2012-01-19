@@ -28,6 +28,7 @@ import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Rec;
 import org.jbundle.model.main.db.base.ContactTypeModel;
 import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
 import org.jbundle.model.main.msg.db.MessageLogModel;
@@ -37,7 +38,6 @@ import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.main.msg.db.MessageVersionModel;
 import org.jbundle.model.main.user.db.UserInfoModel;
-import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
 import org.jbundle.thin.base.message.MessageRecordDesc;
@@ -68,7 +68,7 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
     /**
      * Initialization.
      */
-    public BaseMessageTransport(RecordOwnerParent parent, FieldList recordMain, Object properties)
+    public BaseMessageTransport(RecordOwnerParent parent, Rec recordMain, Map<String, Object> properties)
     {
         this();
         this.init(parent, recordMain, properties);
@@ -79,11 +79,11 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
      * @param record Main record for this session (opt).
      * @param objectID ObjectID of the object that this SessionObject represents (usually a URL or bookmark).
      */
-    public void init(RecordOwnerParent parent, FieldList recordMain, Object properties)
+    public void init(RecordOwnerParent parent, Rec recordMain, Map<String, Object> properties)
     {
         super.init(parent, recordMain, properties);
-        if (properties instanceof Properties)
-            m_propTransport = (Map)properties;
+        if (properties != null)
+            m_propTransport = properties;
         else
             m_propTransport = this.getTransportProperties();
     }
