@@ -1351,7 +1351,13 @@ public class BaseField extends FieldInfo
      */
     public static ScreenComponent createScreenComponent(String componentType, ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
-        String screenFieldClass = ScreenModel.BASE_PACKAGE + componentType;
+        String screenFieldClass = null;
+        if (!componentType.contains("."))
+            screenFieldClass = ScreenModel.BASE_PACKAGE + componentType;
+        else if (componentType.startsWith("."))
+            screenFieldClass = ScreenModel.BASE_PACKAGE.substring(0, ScreenModel.BASE_PACKAGE.length() - 1) + componentType;
+        else
+            screenFieldClass = componentType;
         ScreenComponent screenField = (ScreenComponent)ClassServiceUtility.getClassService().makeObjectFromClassName(screenFieldClass);
         if (screenField == null)
         {
