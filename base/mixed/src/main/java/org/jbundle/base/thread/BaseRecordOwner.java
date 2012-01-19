@@ -97,7 +97,7 @@ public class BaseRecordOwner extends Object
         boolean bQueryInTable = false;
         if (m_vRecordList != null)
         {
-            for (Enumeration<FieldList> e = m_vRecordList.elements() ; e.hasMoreElements() ;)
+            for (Enumeration<Rec> e = m_vRecordList.elements() ; e.hasMoreElements() ;)
             {   // This should only be called for Imaged GridScreens (Child windows would be deleted by now if Component)
                 Record cQueryInTable = (Record)e.nextElement();
                 if (cQueryInTable == recordMain)
@@ -151,7 +151,7 @@ public class BaseRecordOwner extends Object
      * Add this record to this screen.
      * @param record The record to add.
      */
-    public void addRecord(FieldList record)
+    public void addRecord(Rec record)
     {
         this.addRecord(record, false);
     }
@@ -160,7 +160,7 @@ public class BaseRecordOwner extends Object
      * @param record The record to add.
      * @param bMainQuery If this is the main record.
      */
-    public void addRecord(FieldList record, boolean bMainQuery)
+    public void addRecord(Rec record, boolean bMainQuery)
     {
         if (m_vRecordList == null)
             m_vRecordList = new RecordList(null);
@@ -178,7 +178,7 @@ public class BaseRecordOwner extends Object
      * @param record The record to remove.
      * @return true if successful.
      */
-    public boolean removeRecord(FieldList record)
+    public boolean removeRecord(Rec record)
     {
         if (m_vRecordList == null)
             return false;

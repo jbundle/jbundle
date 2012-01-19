@@ -9,13 +9,11 @@ package org.jbundle.base.db;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.util.Map;
-
 import org.jbundle.base.util.DatabaseOwner;
+import org.jbundle.model.RecordOwnerModel;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.Rec;
-import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.JMessageListener;
 
@@ -25,7 +23,7 @@ import org.jbundle.thin.base.message.JMessageListener;
  * This implements JMessageListener, because it is very common for the RecordOwner to want RecordMessages.
  */
 public interface RecordOwner
-    extends JMessageListener, RecordOwnerParent, DatabaseOwner
+    extends JMessageListener, RecordOwnerModel, DatabaseOwner
 { // Attributes
     /**
      * Flag for a master process.
@@ -38,22 +36,6 @@ public interface RecordOwner
      */
     public static int SLAVE = 2;
     
-    /**
-     * Initialize the RecordOwner.
-     */
-    public void init(RecordOwnerParent parent, Rec recordMain, Map<String, Object> properties);
-    /**
-     * Add this record to this screen.
-     * @param record The record to add.
-     * @param bMainQuery If this is the main record.
-     */
-    public void addRecord(FieldList record, boolean bMainQuery);
-    /**
-     * Remove this record from this screen.
-     * @param record The record to remove.
-     * @return true if successful.
-     */
-    public boolean removeRecord(FieldList record);
     /**
      * Lookup this record for this recordowner.
      * @param The record's name.

@@ -162,7 +162,7 @@ public class BaseScreen extends BasePanel
             if (mainRecord == null)
                 mainRecord = this.openMainRecord(); // No, open it!
             // Now look through the list and see if this query was added, it not, add it!
-            for (Enumeration<FieldList> e = m_vRecordList.elements() ; e.hasMoreElements() ;)
+            for (Enumeration<Rec> e = m_vRecordList.elements() ; e.hasMoreElements() ;)
             {   // This should only be called for Imaged GridScreens (Child windows would be deleted by now if Component)
                 Record cQueryInTable = (Record)e.nextElement();
                 if (cQueryInTable == mainRecord)
@@ -537,7 +537,7 @@ public class BaseScreen extends BasePanel
      * @param record The record to add.
      * @param bMainQuery If this is the main record.
      */
-    public void addRecord(FieldList record, boolean bMainQuery)
+    public void addRecord(Rec record, boolean bMainQuery)
     {
         if (record == null)
             return;
@@ -553,7 +553,7 @@ public class BaseScreen extends BasePanel
      * @param record The record to remove.
      * @return true if successful.
      */
-    public boolean removeRecord(FieldList record)
+    public boolean removeRecord(Rec record)
     {
         if (m_vRecordList == null)
             return false;

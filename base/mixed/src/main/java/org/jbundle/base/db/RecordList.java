@@ -13,6 +13,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.FieldList;
 
 
@@ -21,7 +22,7 @@ import org.jbundle.thin.base.db.FieldList;
  * It handles most of the list and organization functions required of a recordowner.
  * Note: Since RecordList is a Vector, it holds the records directly.
  */
-public class RecordList extends Vector<FieldList>
+public class RecordList extends Vector<Rec>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -97,7 +98,7 @@ public class RecordList extends Vector<FieldList>
      * @param record The record to add.
      * @param bMainQuery If this is the main record.
      */
-    public void addRecord(FieldList record, boolean bMainQuery)
+    public void addRecord(Rec record, boolean bMainQuery)
     {
         if (record == null)
             return;
@@ -117,7 +118,7 @@ public class RecordList extends Vector<FieldList>
      * @param record The record to remove.
      * @return true if successful.
      */
-    public boolean removeRecord(FieldList record)
+    public boolean removeRecord(Rec record)
     {
         return this.remove(record);
     }
@@ -132,7 +133,7 @@ public class RecordList extends Vector<FieldList>
             return this.getScreenRecord();
         if (strFileName.length() == 0)
             return this.getMainRecord();
-        for (Enumeration<FieldList> e = this.elements() ; e.hasMoreElements() ;)
+        for (Enumeration<Rec> e = this.elements() ; e.hasMoreElements() ;)
         {   // This should only be called for Imaged GridScreens (Child windows would be deleted by now if Component)
             Record record = (Record)e.nextElement();
             record = record.getRecord(strFileName);
