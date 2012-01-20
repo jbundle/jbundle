@@ -1047,39 +1047,6 @@ public class WriteRecordClass extends WriteSharedClass
                 e.printStackTrace();
             }
         }
-        /* Old code
-        Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
-        String displayClass = recFileHdr.getField(FileHdr.kDisplayClass).getString();
-        String maintClass = recFileHdr.getField(FileHdr.kMaintClass).getString();
-        if ((maintClass.length() == 0) && (displayClass.length() == 0))
-            return;
-        this.writeMethodInterface(null, "makeScreen", "BaseScreen", "ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String,Object> properties", "", "Make a default screen.", null);
-        String strDefaultCall = "\t\tscreen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);\n";
-        m_StreamOut.writeit("\tBaseScreen screen = null;\n");
-        m_StreamOut.writeit("\tif ((iDocMode & ScreenConstants.MAINT_MODE) != 0)\n");
-        if ((maintClass.length() == 0))
-            m_StreamOut.writeit(strDefaultCall);
-        else
-        {
-            m_StreamOut.writeit("\t\tscreen = new " + maintClass + "(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);\n");
-            m_IncludeNameList.addInclude(maintClass);
-        }
-    
-        m_StreamOut.writeit("\telse if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)\n");
-    
-        if ((displayClass.length() == 0))
-            m_StreamOut.writeit(strDefaultCall);
-        else
-        {
-            m_StreamOut.writeit("\t\tscreen = new " + displayClass + "(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);\n");
-            m_IncludeNameList.addInclude(displayClass);
-        }
-    
-        m_StreamOut.writeit("\telse\n");
-        m_StreamOut.writeit(strDefaultCall);
-
-        m_StreamOut.writeit("\treturn screen;\n}\n");
-        */
     }
     /**
      *  WriteSetupField.

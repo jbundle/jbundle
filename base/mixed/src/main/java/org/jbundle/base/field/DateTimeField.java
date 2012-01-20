@@ -20,22 +20,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
-
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.field.convert.DateConverter;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.SCannedBox;
-import org.jbundle.base.screen.model.SEditText;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.TopScreen;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBSQLTypes;
 import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Field;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.util.jcalendarbutton.JCalendarPopup;
@@ -372,12 +372,12 @@ public class DateTimeField extends NumberField
      * @return Return the component or ScreenField that is created for this field.
      * For a Date field, use DateConverter.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)   // Add this view to the list
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         if (!(converter instanceof DateConverter))
-            converter = new DateConverter(converter, DBConstants.HYBRID_DATE_TIME_FORMAT);
+            converter = new DateConverter((Converter)converter, DBConstants.HYBRID_DATE_TIME_FORMAT);
         int iFormatType = ((DateConverter)converter).getDateFormat();
-        SEditText screenField = new SEditText(itsLocation, targetScreen, converter, iDisplayFieldDesc);
+        ScreenComponent screenField = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         if ((iFormatType == DBConstants.DATE_FORMAT)
            || (iFormatType == DBConstants.DATE_TIME_FORMAT)
            || (iFormatType == DBConstants.DATE_ONLY_FORMAT)
@@ -387,8 +387,12 @@ public class DateTimeField extends NumberField
            || (iFormatType == DBConstants.LONG_DATE_TIME_FORMAT)
            || (iFormatType == DBConstants.HYBRID_DATE_TIME_FORMAT))
         {   // Add Calendar button (If not HTML)
-            ScreenField pSScreenField = new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, JCalendarPopup.CALENDAR_ICON, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this);
-            pSScreenField.setRequestFocusEnabled(false);
+            properties = new HashMap<String,Object>();
+            properties.put(ScreenModel.FIELD, this);
+            properties.put(ScreenModel.COMMAND, JCalendarPopup.CALENDAR_ICON);
+            properties.put(ScreenModel.IMAGE, JCalendarPopup.CALENDAR_ICON);
+            ScreenComponent pSScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
+            ((ScreenField)pSScreenField).setRequestFocusEnabled(false);
         }
         if ((iFormatType == DBConstants.TIME_FORMAT)
            || (iFormatType == DBConstants.DATE_TIME_FORMAT)
@@ -401,8 +405,12 @@ public class DateTimeField extends NumberField
            || (iFormatType == DBConstants.LONG_TIME_ONLY_FORMAT)
            || (iFormatType == DBConstants.HYBRID_TIME_ONLY_FORMAT))
         {   // Add Calendar button (If not HTML)
-            ScreenField pSScreenField = new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, JTimePopup.TIME_ICON, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this);
-            pSScreenField.setRequestFocusEnabled(false);
+            properties = new HashMap<String,Object>();
+            properties.put(ScreenModel.FIELD, this);
+            properties.put(ScreenModel.COMMAND, JTimePopup.TIME_ICON);
+            properties.put(ScreenModel.IMAGE, JTimePopup.TIME_ICON);
+            ScreenComponent pSScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
+            ((ScreenField)pSScreenField).setRequestFocusEnabled(false);
         }
         return screenField;
     }

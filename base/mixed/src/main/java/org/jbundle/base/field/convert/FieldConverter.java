@@ -13,10 +13,8 @@ package org.jbundle.base.field.convert;
 import java.util.Map;
 
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.SEditText;
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
@@ -72,9 +70,9 @@ public class FieldConverter extends LinkedConverter
      *  @param  iDisplayFieldDesc Display the label? (optional).
      *  @return   Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, int iDisplayFieldDesc)  // Add this view to the list
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, int iDisplayFieldDesc)  // Add this view to the list
     {
-        return this.setupDefaultView(itsLocation, targetScreen, this, iDisplayFieldDesc);
+        return (ScreenField)this.setupDefaultView(itsLocation, targetScreen, this, iDisplayFieldDesc, null);
     }
     /**
      * Set up the default control for this field.
@@ -84,28 +82,17 @@ public class FieldConverter extends LinkedConverter
      *  @return   Return the component or ScreenField that is created for this field.
      */
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)   // Add this view to the list
-    {   // I NEVER call the thin implementation.
-        return this.setupDefaultView((ScreenLocation)itsLocation, (BasePanel)targetScreen, (Converter)converter, iDisplayFieldDesc);
-    }
-    /**
-     * Set up the default control for this field.
-     *  @param  itsLocation     Location of this component on screen (ie., GridBagConstraint).
-     *  @param  targetScreen    Where to place this component (ie., Parent screen or GridBagLayout).
-     *  @param  iDisplayFieldDesc Display the label? (optional).
-     *  @return   Return the component or ScreenField that is created for this field.
-     */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)   // Add this view to the list
     {
-        ScreenField sField = null;
+        ScreenComponent sField = null;
         BaseField field = (BaseField)this.getField();
         if (field != null)
         {
-            sField = field.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
+            sField = field.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
             if (sField != null) if (sField.getConverter() == null)
                 sField.setConverter(this);
         }
         else
-            sField = new SEditText(itsLocation, targetScreen, converter, iDisplayFieldDesc);
+            sField = BaseField.createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         return sField;
     }
 }

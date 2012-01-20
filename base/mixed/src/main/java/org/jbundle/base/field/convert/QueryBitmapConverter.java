@@ -10,14 +10,19 @@ package org.jbundle.base.field.convert;
  *      don@tourgeek.com
  */
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jbundle.base.db.Record;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.SCannedBox;
-import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.MenuConstants;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 
 
 /**
@@ -107,8 +112,11 @@ public class QueryBitmapConverter extends FieldConverter
      *  @param  iDisplayFieldDesc Display the label? (optional).
      *  @return   Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)   // Add this view to the list
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        return new SCannedBox(itsLocation, targetScreen, converter, iDisplayFieldDesc, null, null, MenuConstants.FORM, MenuConstants.FORMLINK, null);
+        properties = new HashMap<String,Object>();
+        properties.put(ScreenModel.COMMAND, MenuConstants.FORMLINK);
+        properties.put(ScreenModel.IMAGE, MenuConstants.FORM);
+        return BaseField.createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
     }
 }

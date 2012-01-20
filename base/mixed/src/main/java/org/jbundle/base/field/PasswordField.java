@@ -10,13 +10,14 @@ package org.jbundle.base.field;
  *      don@tourgeek.com
  */
 
+import java.util.Map;
+
 import org.jbundle.base.db.Record;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.SPasswordField;
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.TopScreen;
-import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 
 
 /**
@@ -69,9 +70,9 @@ public class PasswordField extends StringField
      * @param iDisplayFieldDesc Display the label? (optional).
      * @return Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        return new SPasswordField(itsLocation, targetScreen, converter, iDisplayFieldDesc);
+        return createScreenComponent(ScreenModel.PASSWORD_FIELD, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
     }
     /**
      * Get the HTML Input Type.

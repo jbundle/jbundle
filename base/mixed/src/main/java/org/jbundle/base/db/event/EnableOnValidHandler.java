@@ -15,8 +15,8 @@ import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.event.DisableOnFieldHandler;
 import org.jbundle.base.field.event.FieldRemoveBOnCloseHandler;
 import org.jbundle.base.field.event.MainReadOnlyHandler;
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * Enable target field on valid and disable on new.
@@ -36,7 +36,7 @@ public class EnableOnValidHandler extends FileListener
     /**
      * Screen field to enable/disable.
      */
-    protected ScreenField m_sField = null;
+    protected ScreenComponent m_sField = null;
     protected boolean m_bEnableOnValid = true;
     protected boolean m_bEnableOnNew = true;
 
@@ -84,7 +84,7 @@ public class EnableOnValidHandler extends FileListener
      * @param bEnableOnNew Enable/disable the fields on new.
      * @param flagField If this flag is true, do the opposite enable/disable.
      */
-    public EnableOnValidHandler(ScreenField sField, boolean bEnableOnValid, boolean bEnableOnNew)
+    public EnableOnValidHandler(ScreenComponent sField, boolean bEnableOnValid, boolean bEnableOnNew)
     {
         this();
         this.init(null, null, -1, bEnableOnValid, bEnableOnNew, sField);
@@ -98,7 +98,7 @@ public class EnableOnValidHandler extends FileListener
      * @param bEnableOnNew Enable/disable the fields on new.
      * @param flagField If this flag is true, do the opposite enable/disable.
      */
-    public void init(Record record, BaseField field, int iFieldSeq, boolean bEnableOnValid, boolean bEnableOnNew, ScreenField sField)
+    public void init(Record record, BaseField field, int iFieldSeq, boolean bEnableOnValid, boolean bEnableOnNew, ScreenComponent sField)
     {
         m_iFieldSeq = iFieldSeq;
         m_fldTarget = field;

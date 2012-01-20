@@ -14,9 +14,9 @@ import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.message.record.RecordMessage;
 import org.jbundle.base.message.record.RecordMessageHeader;
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.FieldInfo;
 
 
@@ -153,8 +153,8 @@ public class OnSelectHandler extends FileListener
             Object bookmark = this.getOwner().getBaseRecord().getHandle(DBConstants.BOOKMARK_HANDLE);
             
             RecordOwner recordOwner = this.getRecordOwner();    // Get the record owner of the record to sync
-            if ((recordOwner instanceof ScreenField)
-                && (((ScreenField)recordOwner).getScreenFieldView() != null))
+            if ((recordOwner instanceof ScreenComponent)
+                /*&& (((ScreenField)recordOwner).getScreenFieldView() != null)*/)
             {       // NOTE: This is not a real message, I send it directly to the record.
                 RecordMessage message = this.createMessage(bookmark);
                 recordOwner.handleMessage(message);

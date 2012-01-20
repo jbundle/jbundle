@@ -150,7 +150,9 @@ public class BasePanel extends ScreenField
         {
             for (String key : properties.keySet())
             {
-        		this.setProperty(key, (String)properties.get(key));
+                Object value = properties.get(key).toString();
+                if (value != null)
+                    this.setProperty(key, value.toString());
         	}
         }
 

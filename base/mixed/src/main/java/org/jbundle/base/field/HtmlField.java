@@ -10,15 +10,15 @@ package org.jbundle.base.field;
  *      don@tourgeek.com
  */
 
+import java.util.Map;
+
 import org.jbundle.base.db.Record;
-import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.GridScreen;
-import org.jbundle.base.screen.model.SEditText;
-import org.jbundle.base.screen.model.SHtmlView;
-import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 
 
 /**
@@ -84,13 +84,13 @@ public class HtmlField extends MemoField
      *  @param  iDisplayFieldDesc Display the label? (optional).
      *  @return   Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)   // Add this view to the list
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        ScreenField screenField = null;
+        ScreenComponent screenField = null;
         if (targetScreen instanceof GridScreen)
-            screenField = new SEditText(itsLocation, targetScreen, converter, iDisplayFieldDesc);
+            screenField = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         else
-            screenField = new SHtmlView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
+            screenField = createScreenComponent(ScreenModel.HTML_VIEW, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         return screenField;
     }
 } 

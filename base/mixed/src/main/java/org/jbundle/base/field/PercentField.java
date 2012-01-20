@@ -10,14 +10,15 @@ package org.jbundle.base.field;
  *      don@tourgeek.com
  */
 
+import java.util.Map;
+
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.convert.FieldConverter;
 import org.jbundle.base.field.convert.PercentConverter;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.SNumberText;
-import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 
 
 /**
@@ -84,10 +85,9 @@ public class PercentField extends FloatField
      * @return Return the component or ScreenField that is created for this field.
      * For a Percent field, use PercentConverter.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        FieldConverter pPercentConverter = new PercentConverter(this);
-        SNumberText screenField = new SNumberText(itsLocation, targetScreen, pPercentConverter, iDisplayFieldDesc);
-        return screenField;
+        FieldConverter percentConverter = new PercentConverter(this);
+        return createScreenComponent(ScreenModel.NUMBER_TEXT, itsLocation, targetScreen, percentConverter, iDisplayFieldDesc, properties);
     }
 }

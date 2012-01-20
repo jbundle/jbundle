@@ -4,18 +4,22 @@
  */
 package org.jbundle.base.field;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.convert.BitConverter;
 import org.jbundle.base.field.convert.FieldDescConverter;
-import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.GridScreen;
-import org.jbundle.base.screen.model.SStaticString;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -72,19 +76,22 @@ public class BitReferenceField extends RecordReferenceField
      * @param iDisplayFieldDesc Display the label? (optional).
      * @return Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)   // Add this view to the list
     {
         if (targetScreen instanceof GridScreen)
-            return super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
+            return super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         Record record = this.makeReferenceRecord();
         
         ScreenField screenField = null;
-        new SStaticString(itsLocation, targetScreen, DBConstants.BLANK);    // This sets the location of the other fields
+        Map<String,Object> staticMap = new HashMap<String,Object>();
+        staticMap.put(ScreenModel.DISPLAY_STRING, DBConstants.BLANK);
+        createScreenComponent(ScreenModel.STATIC_STRING, itsLocation, targetScreen, null, 0, staticMap);
         String strDisplay = converter.getFieldDesc();
         if ((strDisplay != null) && (strDisplay.length() > 0))
         {
-            ScreenLocation descLocation = targetScreen.getNextLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
-            new SStaticString(descLocation, targetScreen, strDisplay);
+            ScreenLoc descLocation = targetScreen.getNextLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
+            staticMap.put(ScreenModel.DISPLAY_STRING, strDisplay);
+            createScreenComponent(ScreenModel.STATIC_STRING, descLocation, targetScreen, null, 0, staticMap);
         }
         
         try {
@@ -92,7 +99,7 @@ public class BitReferenceField extends RecordReferenceField
             while (record.hasNext())    // 0 = First Day -> 6 = Last Day of Week
             {
                 record.next();
-                Converter dayConverter = converter;
+                Converter dayConverter = (Converter)converter;
                 String strWeek = record.getField(record.getDefaultDisplayFieldSeq()).toString();
                 if (strWeek.length() > 0)
                     dayConverter = new FieldDescConverter(dayConverter, strWeek);

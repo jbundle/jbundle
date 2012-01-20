@@ -10,14 +10,17 @@ package org.jbundle.base.field.convert;
  *      don@tourgeek.com
  */
 
+import java.util.Map;
 import java.util.Vector;
 
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.event.RemoveConverterOnCloseHandler;
-import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -174,14 +177,14 @@ public class MergeConverter extends FieldConverter
      *  @param  iDisplayFieldDesc Display the label? (optional).
      *  @return   Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, int iDisplayFieldDesc)  // Add this view to the list
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert convert, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        ScreenField sField = null;
+        ScreenComponent sField = null;
         Converter converter = this.getNextConverter();
         if (converter != null)
-            sField = (ScreenField)converter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
+            sField = (ScreenField)converter.setupDefaultView(itsLocation, targetScreen, convert, iDisplayFieldDesc, properties);
         else
-            sField = super.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
+            sField = super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         if (sField != null)
         {   // Get rid of any and all links to/from field/converter
             converter.removeComponent(sField);      // Have the field add me to its list for display

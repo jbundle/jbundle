@@ -10,14 +10,18 @@ package org.jbundle.base.field;
  *      don@tourgeek.com
  */
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.convert.FieldLengthConverter;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.SCannedBox;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.TopScreen;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -88,13 +92,17 @@ public class URLField extends StringField
      * @param iDisplayFieldDesc Display the label? (optional).
      * @return Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         if (converter.getMaxLength() > ScreenConstants.kMaxSingleChars)
-            converter = new FieldLengthConverter(converter, ScreenConstants.kMaxSingleChars);   // Show as a single line.
-        ScreenField sScreenField = super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
-        ScreenField pSScreenField = new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen,  converter, "URL", ScreenConstants.DONT_DISPLAY_FIELD_DESC, this);
-        pSScreenField.setRequestFocusEnabled(false);
+            converter = new FieldLengthConverter((Converter)converter, ScreenConstants.kMaxSingleChars);   // Show as a single line.
+        ScreenComponent sScreenField = super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
+        properties = new HashMap<String,Object>();
+        properties.put(ScreenModel.FIELD, this);
+        properties.put(ScreenModel.COMMAND, ScreenModel.URL);
+        properties.put(ScreenModel.IMAGE, ScreenModel.URL);
+        ScreenComponent pSScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
+        ((ScreenField)pSScreenField).setRequestFocusEnabled(false);
         return sScreenField;
     }
 }

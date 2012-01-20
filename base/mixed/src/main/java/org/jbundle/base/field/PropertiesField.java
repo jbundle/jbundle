@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
@@ -29,15 +30,15 @@ import org.jbundle.base.field.event.FieldDataScratchHandler;
 import org.jbundle.base.field.event.FieldListener;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.GridScreen;
-import org.jbundle.base.screen.model.SCannedBox;
-import org.jbundle.base.screen.model.SStaticString;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.db.Convert;
 import org.jbundle.model.main.properties.db.PropertiesInputModel;
-import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.main.properties.db.PropertiesInput;
 
@@ -304,10 +305,10 @@ public class PropertiesField extends MemoField
      * @param iDisplayFieldDesc Display the label? (optional).
      * @return Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)   // Add this view to the list
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        ScreenField screenField = null;
-        if ("swing".equalsIgnoreCase(targetScreen.getViewFactory().getViewSubpackage()))
+        ScreenComponent screenField = null;
+        if ("swing".equalsIgnoreCase(((BasePanel)targetScreen).getViewFactory().getViewSubpackage()))
         {
             Record recPropertiesInput = Record.makeRecordFromClassName(PropertiesInput.THICK_CLASS, this.getRecord().getRecordOwner());
             ((PropertiesInputModel)recPropertiesInput).setPropertiesField(this);
@@ -317,16 +318,24 @@ public class PropertiesField extends MemoField
             this.addListener(new SyncFieldToPropertiesRecord(recPropertiesInput));
             recPropertiesInput.addListener(new SyncPropertiesRecordToField(this));
             // No need to add FreeOnFree Handler, since PropertiesInput is owned by the new screen
-            ScreenLocation descLocation = targetScreen.getNextLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
+            ScreenLoc descLocation = targetScreen.getNextLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
             String strDisplay = converter.getFieldDesc();
             if ((strDisplay != null) && (strDisplay.length() > 0))
-                new SStaticString(descLocation, targetScreen, strDisplay);
+            {
+                properties = new HashMap<String,Object>();
+                properties.put(ScreenModel.DISPLAY_STRING, strDisplay);
+                createScreenComponent(ScreenModel.STATIC_STRING, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
+            }
         }
         else
         {
-            screenField = super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
-            ScreenField sScreenField = new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenModel.EDIT, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this);
-            sScreenField.setRequestFocusEnabled(false);
+            screenField = super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
+            properties = new HashMap<String,Object>();
+            properties.put(ScreenModel.FIELD, this);
+            properties.put(ScreenModel.COMMAND, ScreenModel.EDIT);
+            properties.put(ScreenModel.IMAGE, ScreenModel.EDIT);
+            ScreenComponent sScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
+            ((ScreenField)sScreenField).setRequestFocusEnabled(false);
         }
         return screenField;
     }

@@ -4,15 +4,17 @@
 package org.jbundle.base.field;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jbundle.base.db.Record;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.SCannedBox;
-import org.jbundle.base.screen.model.SImageView;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.util.SerializableImage;
 
 
@@ -78,11 +80,15 @@ public class ImageField extends ObjectField
      * @param iDisplayFieldDesc Display the label? (optional).
      * @return Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)   // Add this view to the list
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        SImageView screenField = new SImageView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
-        ScreenField pSScreenField = new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenModel.OPEN, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this);
-        pSScreenField.setRequestFocusEnabled(false);
+        ScreenComponent screenField = createScreenComponent(ScreenModel.IMAGE_VIEW, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
+        properties = new HashMap<String,Object>();
+        properties.put(ScreenModel.FIELD, this);
+        properties.put(ScreenModel.COMMAND, ScreenModel.OPEN);
+        properties.put(ScreenModel.IMAGE, ScreenModel.OPEN);
+        ScreenComponent pSScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
+        ((ScreenField)pSScreenField).setRequestFocusEnabled(false);
         return screenField;
     }
     /**

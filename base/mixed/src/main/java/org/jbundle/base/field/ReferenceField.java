@@ -10,6 +10,8 @@ package org.jbundle.base.field;
  * secondary record to be read, you must add a listener to this field.
  */
 
+import java.util.Map;
+
 import org.jbundle.base.db.KeyArea;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.event.ClearFieldReferenceOnCloseHandler;
@@ -24,7 +26,6 @@ import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.GridScreen;
 import org.jbundle.base.screen.model.SButtonBox;
-import org.jbundle.base.screen.model.SCannedBox;
 import org.jbundle.base.screen.model.SStaticString;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.util.ScreenLocation;
@@ -179,14 +180,14 @@ public class ReferenceField extends RecordReferenceField
      * @param iDisplayFieldDesc Display the label? (optional).
      * @return Return the component or ScreenField that is created for this field.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         // Add code here to setup the popup or lookup button
         Record record = this.getReferenceRecord();  // Get/make the record that describes the referenced class.
         if (record != null)
-            return (ScreenField)this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, record.getDefaultScreenKeyArea(), this.getDefaultDisplayFieldSeq(), true, false); 
+            return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, record.getDefaultScreenKeyArea(), this.getDefaultDisplayFieldSeq(), true, false); 
         else
-            return super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
+            return super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
     }
     /**
      * Enable/Disable the associated control(s).

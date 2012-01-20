@@ -809,14 +809,6 @@ public class WriteClass extends BaseProcess
                     strScreenRow = recScreenIn.getField(ScreenIn.kScreenRow).getString();
                     strScreenCol = recScreenIn.getField(ScreenIn.kScreenCol).getString();
         
-//z                 recFieldData.close();
-//z                 if (recFieldData.hasNext())
-//z                 {
-//z                     strFileName = m_FieldFileName.getString();
-//z                     getFile = "getRecord(" + strFileName + ".k" + strFileName + "File)";
-//z                 }
-//z                 else
-//z                 {
                         if (recScreenIn.getField(ScreenIn.kScreenFileName).getLength() != 0)
                         {
                             strFileName = recScreenIn.getField(ScreenIn.kScreenFileName).getString();
@@ -824,9 +816,7 @@ public class WriteClass extends BaseProcess
                         }
                         else
                             getFile = "getMainRecord()";
-//z                 }
-//z                 recFieldData.close();
-// Screen location
+                    // Screen location
                     if (strScreenOutNumber.equalsIgnoreCase("1"))
                         if (strScreenLocation.length() == 0)
                             if (row == oldRow+1) if (col == oldCol)
@@ -908,7 +898,14 @@ public class WriteClass extends BaseProcess
                     if (controlType.length() == 0)  // Default
                         m_StreamOut.writeit("\t" + fieldString + ".setupDefaultView(" + strScreenLocation + ", this, " + strScreenFieldDesc + ")" + strDisabledEnding + ";\n");
                     else
-                        m_StreamOut.writeit("\tnew " + controlType + "(" + strScreenLocation + ", this, " + fieldString + ", " + strScreenFieldDesc + ")" + strDisabledEnding + ";\n");
+                    {
+                        if (controlType.startsWith("S"))
+                            if (Character.isUpperCase(controlType.charAt(1)))
+                                controlType = controlType.substring(1);
+                        controlType = this.convertNameToConstant(controlType);
+                        m_StreamOut.writeit("\tcreateScreenComponent(ScreenModel." + controlType + ", " + strScreenLocation + ", this, fieldString, " + strScreenFieldDesc + ", null)" + strDisabledEnding + ";\n");
+                        //m_StreamOut.writeit("\tnew " + controlType + "(" + strScreenLocation + ", this, " + fieldString + ", " + strScreenFieldDesc + ", null)" + strDisabledEnding + ";\n");
+                    }
                     oldRow = row;
                     oldCol = col;
                 }

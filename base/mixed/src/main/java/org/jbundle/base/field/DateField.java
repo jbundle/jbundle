@@ -20,11 +20,12 @@ import java.util.Map;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.field.convert.DateConverter;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBSQLTypes;
+import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 
@@ -99,10 +100,10 @@ public class DateField extends DateTimeField
      * @return Return the component or ScreenField that is created for this field.
      * For a Date field, use DateConverter.
      */
-    public ScreenField setupDefaultView(ScreenLocation itsLocation, BasePanel targetScreen, Converter converter, int iDisplayFieldDesc)   // Add this view to the list
+    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        converter = new DateConverter(converter, DBConstants.DATE_FORMAT);
-        return super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc);
+        converter = new DateConverter((Converter)converter, DBConstants.DATE_FORMAT);
+        return super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
     }
     /**
      * Convert the native data type (date) to a string.
