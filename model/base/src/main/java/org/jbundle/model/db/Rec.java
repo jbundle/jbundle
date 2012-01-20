@@ -10,6 +10,7 @@ import org.jbundle.model.Freeable;
 import org.jbundle.model.Task;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenLoc;
+import org.jbundle.model.screen.ScreenParent;
 
 /**
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
@@ -55,7 +56,7 @@ public interface Rec
      * @param iDocMode The type of screen to create (MAINT/DISPLAY/SELECT/MENU/etc).
      * @return The new screen.
      */
-    public ComponentParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String, Object> properties);
+    public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String, Object> properties);
     /**
      * Get the name of this table.
      * Override this to supply the name of the table.

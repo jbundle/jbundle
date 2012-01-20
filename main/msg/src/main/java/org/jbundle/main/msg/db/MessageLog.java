@@ -134,9 +134,9 @@ public class MessageLog extends VirtualRecord
     /**
      * MakeScreen Method.
      */
-    public BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String,Object> properties)
+    public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties)
     {
-        BaseScreen screen = null;
+        ScreenParent screen = null;
         if ((iDocMode & MessageLog.MESSAGE_SCREEN_MODE) == MessageLog.MESSAGE_SCREEN_MODE)
         {
             if ((this.getEditMode() == DBConstants.EDIT_ADD) || (this.getEditMode() == DBConstants.EDIT_NONE))
@@ -159,11 +159,11 @@ public class MessageLog extends VirtualRecord
                 if (strScreenClass != null)
                 {
                     parentScreen.setProperty(TrxMessageHeader.LOG_TRX_ID, this.getProperty(TrxMessageHeader.LOG_TRX_ID));
-                    screen = BaseScreen.makeNewScreen(strScreenClass, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, null, true);
+                    screen = Record.makeNewScreen(strScreenClass, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, null, true);
                 }
             }
             if (screen == null) // ? I don't know what else to do?
-                screen = BaseScreen.makeNewScreen(MESSAGE_LOG_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+                screen = Record.makeNewScreen(MESSAGE_LOG_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         }
         else if ((iDocMode & MessageLog.SOURCE_SCREEN_MODE) == MessageLog.SOURCE_SCREEN_MODE)
         {
@@ -191,9 +191,9 @@ public class MessageLog extends VirtualRecord
             }
         }
         else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = BaseScreen.makeNewScreen(MESSAGE_LOG_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+            screen = Record.makeNewScreen(MESSAGE_LOG_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
-            screen = BaseScreen.makeNewScreen(MESSAGE_LOG_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+            screen = Record.makeNewScreen(MESSAGE_LOG_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         return screen;
     }
     /**

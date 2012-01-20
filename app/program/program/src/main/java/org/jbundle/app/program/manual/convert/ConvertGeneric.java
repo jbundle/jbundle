@@ -9,6 +9,7 @@ package org.jbundle.app.program.manual.convert;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.jbundle.app.program.db.LogicFile;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.thread.BaseProcess;
@@ -27,7 +28,7 @@ import org.jbundle.thin.base.screen.BaseApplet;
 /**
  * Template to change one record's field to another value.
  */
-public class ConvertGeneric extends BaseProcess
+public class ConvertGeneric extends ConvertBase
 {
 
     /**
@@ -87,19 +88,36 @@ public class ConvertGeneric extends BaseProcess
     public void go()
     {
         try   {
-//            LogicFile record = new LogicFile(this);
-            Menus record = new Menus(this);
+            LogicFile record = new LogicFile(this);
+//            Menus record = new Menus(this);
             while (record.hasNext())
             {
                 record.next();
-                Record menu = ((ReferenceField)record.getField(Menus.kParentFolderID)).getReference();
-                if (record.getField(Menus.kParentFolderID).getValue() != 0)
-                    if ((menu == null)
-                            || (menu.getEditMode() == DBConstants.EDIT_NONE))
+                if ("makeScreen".equals(record.getField(LogicFile.kMethodName).toString()))
                 {
-	                    System.out.println(record.getField(Menus.kName).toString());
-	                    record.edit();
-	                    record.remove();
+                    System.out.println(record.getField(LogicFile.kMethodClassName).toString());
+
+                    String string = record.getField(LogicFile.kLogicSource).toString();
+                    
+                    if (record.getCounterField().getValue() > 60000)
+                        continue;
+                    if (string.contains("Record.makeNewScreen"))
+                    {
+                    
+                        String strTarget = "(BasePanel)";
+                        String strReplace = "";
+                        String strResult = this.replaceString(string, strTarget, strReplace);
+                        
+                        if (!strResult.equals(string))
+                        {
+                            strTarget = "(ScreenLocation)";
+                            strReplace = "";
+                            strResult = this.replaceString(strResult, strTarget, strReplace);
+                            record.edit();
+                            System.out.println(string);record.getField(LogicFile.kLogicSource).setString(strResult);
+                            record.set();
+                        }
+                    }
                 }
             }
             record.free();

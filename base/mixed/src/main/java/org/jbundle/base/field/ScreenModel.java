@@ -10,6 +10,7 @@ public class ScreenModel {
     public static final String DETAIL_GRID_SCREEN = "DetailGridScreen";
     public static final String FRAME_SCREEN = "FrameScreen";
     public static final String GRID_SCREEN = "GridScreen";
+    public static final String BASE_MENU_SCREEN = "BaseMenuScreen";
     public static final String MENU_SCREEN = "MenuScreen";
     public static final String BUTTON_BOX = "SButtonBox";
     public static final String CANNED_BOX = "SCannedBox";
@@ -33,6 +34,9 @@ public class ScreenModel {
     public static final String TREE_CTRL = "STreeCtrl";
     public static final String TOOL_SCREEN = "ToolScreen";
     public static final String TOP_SCREEN = "TopScreen";
+    
+    public static final String LOCATION = "location";
+    public static final String DISPLAY = "display";
     
     public static final String DISPLAY_STRING = "displayString";
     public static final String RECORD = "record";

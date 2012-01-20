@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.MenuScreen;
 import org.jbundle.base.screen.model.TopScreen;
@@ -137,7 +138,7 @@ public class ServletTask extends BaseHttpTask
             screen = screen.doServletCommand(parentScreen);  // Move the input params to the record fields
             if (screen == null)
             {   // null = display Default Display Form
-                screen = BaseScreen.makeNewScreen(MenuScreen.class.getName(), null, parentScreen, 0, null, null, true);
+                screen = (BaseScreen)Record.makeNewScreen(MenuScreen.class.getName(), null, parentScreen, 0, null, null, true);
             }
         }
         if (screen != null)

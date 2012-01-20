@@ -174,15 +174,6 @@ public class PropertiesField extends MemoField
      * @param strProperty The property key.
      * @param strValue The property value.
      */
-    public int setProperties(Properties properties)
-    {
-        return this.setProperties((Map)properties, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
-    }
-    /**
-     * Set this property in the user's property area.
-     * @param strProperty The property key.
-     * @param strValue The property value.
-     */
     public int setProperties(Map<String,Object> properties)
     {
         return this.setProperties(properties, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);

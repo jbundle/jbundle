@@ -1023,8 +1023,8 @@ public class WriteRecordClass extends WriteSharedClass
                     {
                         if (firstTime)
                         {
-                            this.writeMethodInterface(null, "makeScreen", "BaseScreen", "ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String,Object> properties", "", "Make a default screen.", null);
-                            m_StreamOut.writeit("\tBaseScreen screen = null;\n");
+                            this.writeMethodInterface(null, "makeScreen", "ScreenParent", "ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties", "", "Make a default screen.", null);
+                            m_StreamOut.writeit("\tScreenParent screen = null;\n");
                         }
                         firstTime = false;
                         String screenMode = recClassFields.getField(ClassFields.kClassFieldInitialValue).toString();
@@ -1034,7 +1034,7 @@ public class WriteRecordClass extends WriteSharedClass
                             screenMode = "ScreenConstants." + screenMode;
                         String fieldName = recClassFields.getField(ClassFields.kClassFieldName).toString();
                         m_StreamOut.writeit("\tif ((iDocMode & " + screenMode + ") == " + screenMode + ")\n");
-                        m_StreamOut.writeit("\t\tscreen = BaseScreen.makeNewScreen(" + fieldName + ", itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);\n");
+                        m_StreamOut.writeit("\t\tscreen = Record.makeNewScreen(" + fieldName + ", itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);\n");
                     }
                 }
                 if (!firstTime)

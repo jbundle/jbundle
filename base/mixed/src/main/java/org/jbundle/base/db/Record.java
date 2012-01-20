@@ -23,6 +23,7 @@ import org.jbundle.base.field.CounterField;
 import org.jbundle.base.field.IntegerField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.ReferenceField;
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.field.StringField;
 import org.jbundle.base.field.event.FieldDataScratchHandler;
 import org.jbundle.base.field.event.FieldListener;
@@ -31,12 +32,6 @@ import org.jbundle.base.message.record.GridRecordMessageFilter;
 import org.jbundle.base.message.record.RecordMessage;
 import org.jbundle.base.message.record.RecordMessageFilter;
 import org.jbundle.base.message.record.RecordMessageHeader;
-import org.jbundle.base.screen.model.BaseMenuScreen;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.BaseScreen;
-import org.jbundle.base.screen.model.GridScreen;
-import org.jbundle.base.screen.model.Screen;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
@@ -49,7 +44,9 @@ import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.screen.ScreenParent;
+import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
@@ -2043,28 +2040,22 @@ public class Record extends FieldList
      * @param iDocMode The type of screen to create (MAINT/DISPLAY/SELECT/MENU/etc).
      * @return The new screen.
      */
-    public BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel screenParent, int iDocMode, Map<String, Object> properties)  // Standard file maint for this record (returns new record)
+    public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent screenParent, int iDocMode, Map<String, Object> properties)  // Standard file maint for this record (returns new record)
     {   // This is almost always overidden!
         if (m_recordOwner != null) if (m_recordOwner instanceof ScreenParent)
-            return (BaseScreen)m_recordOwner;
+            return (ScreenParent)m_recordOwner;
         ScreenParent screen = null;
         if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = new Screen();     // Set up a screen with this being the main file
+            screen = Record.makeNewScreen(ScreenModel.SCREEN, itsLocation, screenParent, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
-            screen = new GridScreen();
+            screen = Record.makeNewScreen(ScreenModel.GRID_SCREEN, itsLocation, screenParent, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.SELECT_MODE) == ScreenConstants.SELECT_MODE)
-            screen = new GridScreen();
+            screen = Record.makeNewScreen(ScreenModel.GRID_SCREEN, itsLocation, screenParent, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.MENU_MODE) == ScreenConstants.MENU_MODE)
-            screen = new BaseMenuScreen();  //record, null, screenParent, null, ScreenConstants.MAINT_MODE);
+            screen = Record.makeNewScreen(ScreenModel.BASE_MENU_SCREEN, itsLocation, screenParent, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
-            screen = new GridScreen();
-        try   {
-            ((BaseScreen)screen).init(this, itsLocation, screenParent, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-            screen = null;
-        }
-        return (BaseScreen)screen;
+            screen = Record.makeNewScreen(ScreenModel.GRID_SCREEN, itsLocation, screenParent, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        return (ScreenParent)screen;
     }
     /**
      * Clone, read same record, and create screen.
@@ -2078,7 +2069,7 @@ public class Record extends FieldList
      * @param bLinkGridToQuery Link the new query to this record?
      * @return The new screen.
      */
-    public final ScreenParent makeScreen(Object itsLocation, ComponentParent parent, int iDocMode, boolean bCloneThisQuery, boolean bReadCurrentRecord, boolean bUseBaseTable, boolean bLinkGridToQuery, Map<String,Object> properties)
+    public final ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parent, int iDocMode, boolean bCloneThisQuery, boolean bReadCurrentRecord, boolean bUseBaseTable, boolean bLinkGridToQuery, Map<String,Object> properties)
     {
         Record recordNew = this;
         if (bCloneThisQuery)
@@ -2161,7 +2152,7 @@ public class Record extends FieldList
         Object oldCursor = null;
         if (applet != null)
         	oldCursor = applet.setStatus(Constants.WAIT, applet, null);
-        ScreenParent screenNew = recordNew.makeScreen((ScreenLocation)itsLocation, (BasePanel)parent, iDocMode, properties);
+        ScreenParent screenNew = recordNew.makeScreen(itsLocation, parent, iDocMode, properties);
         if (applet != null)
             applet.setStatus(0, applet, oldCursor);
         if (screenNew == null)
@@ -2182,7 +2173,7 @@ public class Record extends FieldList
         {
             if ((iDocMode & ScreenConstants.MAINT_MODE) != 0)
             {   // Building a form
-                if ((screenCurrent instanceof GridScreen) && (((BaseScreen)screenCurrent).getMainRecord() == this))
+                if (/*(screenCurrent instanceof GridScreen) &&*/ (((ScreenParent)screenCurrent).getMainRecord() == this))
                     screenCurrent.setSelectQuery(recordNew, true);   // When user selects, reads from this file!
                 else
                     screenNew.setSelectQuery(this, false);         // When user reads or updates, reads from this file!
@@ -2200,6 +2191,58 @@ public class Record extends FieldList
             }
         }
         return screenNew;
+    }
+    /**
+     * Make a screen window and put the screen with this class name into it.
+     * @param componentType The class of the new screen.
+     * @param itsLocation The location of the new screen.
+     * @param screenParent The parent of the new screen.
+     * @param iDisplayFieldDesc Display the field desc?
+     * @param mainRecord The main record
+     * @param initScreen Call the screen init method?
+     * @return The new screen.
+     */
+    public static ScreenParent makeNewScreen(String componentType, ScreenLoc itsLocation, ComponentParent screenParent, int iDisplayFieldDesc, Map<String, Object> properties, Record mainRecord, boolean initScreen)
+    {
+        String screenClass = null;
+        if (!componentType.contains("."))
+            screenClass = ScreenModel.BASE_PACKAGE + componentType;
+        else if (componentType.startsWith("."))
+            screenClass = ScreenModel.BASE_PACKAGE.substring(0, ScreenModel.BASE_PACKAGE.length() - 1) + componentType;
+        else
+            screenClass = componentType;
+        ScreenParent screen = (ScreenParent)ClassServiceUtility.getClassService().makeObjectFromClassName(screenClass);
+        if (screen == null)
+        {
+            Utility.getLogger().warning("Screen component not found " + componentType);
+            screen = (ScreenParent)ClassServiceUtility.getClassService().makeObjectFromClassName(ScreenModel.BASE_PACKAGE + ScreenModel.SCREEN);
+        }
+        if (screen != null)
+        {
+            BaseApplet applet = null;
+            if (screenParent.getTask() instanceof BaseApplet)
+                applet = (BaseApplet)screenParent.getTask();
+            if (initScreen)
+            {
+                Object oldCursor = null;
+                if (applet != null)
+                    oldCursor = applet.setStatus(Constant.WAIT, applet, null);
+                if (properties == null)
+                    properties = new HashMap<String,Object>();
+                properties.put(ScreenModel.DISPLAY, iDisplayFieldDesc);
+                if (itsLocation != null)
+                    properties.put(ScreenModel.LOCATION, itsLocation);
+
+                //if (((iDisplayFieldDesc & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE) && (screen instanceof DetailGridScreen))
+                //    ((DetailGridScreen)screen).init((Record)mainRecord, null, (ScreenLocation)itsLocation, (BasePanel)screenParent, null, iDisplayFieldDesc, properties);
+                //else
+                    screen.init(screenParent, mainRecord, properties);
+
+                if (applet != null)
+                    applet.setStatus(0, applet, oldCursor);
+            }
+        }
+        return screen;
     }
     /**
      * Convert the command to the screen document type.

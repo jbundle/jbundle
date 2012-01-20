@@ -17,7 +17,6 @@ import org.jbundle.base.db.event.RemoveFromQueryRecordOnCloseHandler;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 
 

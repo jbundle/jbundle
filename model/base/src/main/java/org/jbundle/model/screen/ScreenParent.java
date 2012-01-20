@@ -3,6 +3,7 @@
  */
 package org.jbundle.model.screen;
 
+import org.jbundle.model.RecordOwnerModel;
 import org.jbundle.model.db.Rec;
 
 
@@ -18,17 +19,12 @@ import org.jbundle.model.db.Rec;
  * @author  Administrator
  * @version 1.0.0
  */
-public interface ScreenParent extends ComponentParent
+public interface ScreenParent extends ComponentParent, RecordOwnerModel
 {
     /**
-     * Open the files and setup the screen.
-     * @param record The main record for this screen.
-     * @param itsLocation The location of this component within the parent.
-     * @param parentScreen The parent screen.
-     * @param fieldConverter The field this screen field is linked to.
-     * @param iDisplayFieldDesc Do I display the field desc?
+     * Remember, the init method is in RecordOwnerModel.
      */
-//    public void init(Rec mainRecord, Object itsLocation, ComponentParent parentScreen, Convert fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties);
+    
     /**
      * When this query closes, this screen should close also.
      * @param record The record that is dependent on this screen.

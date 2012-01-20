@@ -9,11 +9,11 @@ import java.util.Map;
 import org.jbundle.base.db.event.ControlFileHandler;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.EmptyField;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.BaseScreen;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenLoc;
+import org.jbundle.model.screen.ScreenParent;
 
 
 /**
@@ -78,10 +78,10 @@ public class ControlRecord extends VirtualRecord
     /**
      * MakeScreen Method.
      */
-    public BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String, Object> properties)
+    public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String, Object> properties)
     {
         iDocMode = iDocMode | ScreenConstants.MAINT_MODE;   // Control files are always forms.
-        return (BaseScreen)super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
+        return super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
     }
     /**
      * Get the starting ID for this table.

@@ -386,7 +386,7 @@ public class SCannedBox extends SButtonBox
                 if (strCommand.equals("Record"))
                     BaseScreen.makeScreenFromRecord(null, screenParent, m_strValue, ScreenConstants.MAINT_MODE | ScreenConstants.DEFAULT_DISPLAY, null);
                 else
-                    BaseScreen.makeNewScreen(m_strValue, null, screenParent, ScreenConstants.DEFAULT_DISPLAY, null, null, true);
+                    Record.makeNewScreen(m_strValue, null, screenParent, ScreenConstants.DEFAULT_DISPLAY, null, null, true);
                 return true;    // Command handled
             }
             if (strCommand != null) if (sourceSField == this) if (this.getConverter() != null)

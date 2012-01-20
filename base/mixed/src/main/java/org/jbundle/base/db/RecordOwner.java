@@ -13,7 +13,6 @@ import org.jbundle.base.util.DatabaseOwner;
 import org.jbundle.model.RecordOwnerModel;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
-import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.JMessageListener;
 

@@ -92,9 +92,9 @@ public class Anniversary extends CalendarEntry
     /**
      * MakeScreen Method.
      */
-    public BaseScreen makeScreen(ScreenLocation itsLocation, BasePanel parentScreen, int iDocMode, Map<String,Object> properties)
+    public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties)
     {
-        BaseScreen screen = null;
+        ScreenParent screen = null;
         if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
         {   // This is a little weird... can't directly change this table, must edit AnnivMaster
             Record recAnnivMaster = ((ReferenceField)this.getField(Anniversary.kAnnivMasterID)).getReferenceRecord(this.getRecordOwner());
@@ -105,10 +105,10 @@ public class Anniversary extends CalendarEntry
             // Disconnect recAnnivMaster and free this
             ((ReferenceField)this.getField(Anniversary.kAnnivMasterID)).setReferenceRecord(null);
             this.free();
-            return recAnnivMaster.makeScreen(itsLocation, parentScreen, iDocMode, properties);
+            return recAnnivMaster.makeScreen((ScreenLocation)itsLocation, (BasePanel)parentScreen, iDocMode, properties);
         }
         else
-            screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
+            screen = super.makeScreen((ScreenLocation)itsLocation, (BasePanel)parentScreen, iDocMode, properties);
         return screen;
     }
     /**

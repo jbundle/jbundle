@@ -12,7 +12,6 @@ package org.jbundle.base.screen.model;
 import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.Properties;
 
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
@@ -21,6 +20,7 @@ import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.field.CounterField;
 import org.jbundle.base.field.ReferenceField;
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.screen.model.util.MaintToolbar;
 import org.jbundle.base.screen.model.util.ScreenLocation;
@@ -36,20 +36,21 @@ import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.main.db.base.ContactTypeModel;
 import org.jbundle.model.main.user.db.UserInfoModel;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.screen.ScreenParent;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.MessageListenerFilterList;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.ThinMenuConstants;
-import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -129,18 +130,30 @@ public class BaseScreen extends BasePanel
         int iDisplayFieldDesc = ScreenConstants.DEFAULT_DISPLAY;
         if (properties != null)
         {
-            String strItsLocation = (String)properties.get("location");
-            String strDisplayFieldDesc =  (String)properties.get("display");
-            try   {
-                iDisplayFieldDesc = Integer.parseInt(strDisplayFieldDesc);
-                if (strItsLocation != null)
-                    itsLocation = new ScreenLocation(Short.parseShort(strItsLocation), ScreenConstants.ANCHOR_DEFAULT);
-            } catch (Exception ex) {
+            if (properties.get(ScreenModel.LOCATION) instanceof ScreenLocation)
+                itsLocation = (ScreenLocation)properties.get(ScreenModel.LOCATION);
+            else
+            {
+                try   {
+                    if (properties.get(ScreenModel.LOCATION) != null)
+                        itsLocation = new ScreenLocation(Short.parseShort(properties.get(ScreenModel.LOCATION).toString()), ScreenConstants.ANCHOR_DEFAULT);
+                } catch (Exception ex) {
+                }
+            }
+            if (properties.get(ScreenModel.DISPLAY) instanceof Short)
+                itsLocation = new ScreenLocation(((Short)properties.get(ScreenModel.DISPLAY)).shortValue(), ScreenConstants.ANCHOR_DEFAULT);
+            if (properties.get(ScreenModel.DISPLAY) instanceof Integer)
+                itsLocation = new ScreenLocation(((Integer)properties.get(ScreenModel.DISPLAY)).shortValue(), ScreenConstants.ANCHOR_DEFAULT);
+            else
+            {
+                try   {
+                    if (properties.get(ScreenModel.DISPLAY) != null)
+                        iDisplayFieldDesc = Integer.parseInt(properties.get(ScreenModel.DISPLAY).toString());
+                } catch (Exception ex) {
+                }
             }
         }
-        else
-            properties = null;
-        this.init((Record)record, itsLocation, (BasePanel)parent, fieldConverter, iDisplayFieldDesc, (Map)properties);
+        this.init((Record)record, itsLocation, (BasePanel)parent, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Open the files and setup the screen.
@@ -151,7 +164,6 @@ public class BaseScreen extends BasePanel
      * @param iDisplayFieldDesc Do I display the field desc?
      */
     public void init(Record mainRecord, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
-//    public void init(Rec mainRecord, Object itsLocation, ComponentParent parentScreen, Convert fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         m_vRecordList = new RecordList(null);
         m_recDependent = null;
@@ -876,46 +888,13 @@ public class BaseScreen extends BasePanel
     }
     /**
      * Make a screen window and put the screen with this class name into it.
-     * @param strScreenClass The class of the new screen.
-     * @param itsLocation The location of the new screen.
-     * @param screenParent The parent of the new screen.
-     * @param iDisplayFieldDesc Display the field desc?
-     * @param mainRecord The main record
-     * @param initScreen Call the screen init method?
-     * @return The new screen.
-     */
-    public static BaseScreen makeNewScreen(String strScreenClass, ScreenLocation itsLocation, BasePanel screenParent, int iDisplayFieldDesc, Map<String, Object> properties, Record mainRecord, boolean initScreen)
-    {
-        BaseScreen screen = (BaseScreen)ClassServiceUtility.getClassService().makeObjectFromClassName(strScreenClass);
-        if (screen != null)
-        {
-            BaseApplet applet = null;
-            if (screenParent.getTask() instanceof BaseApplet)
-            	applet = (BaseApplet)screenParent.getTask();
-            if (initScreen)
-            {
-                Object oldCursor = null;
-                if (applet != null)
-                	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
-                if (((iDisplayFieldDesc & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE) && (screen instanceof DetailGridScreen))
-                    ((DetailGridScreen)screen).init(mainRecord, null, itsLocation, screenParent, null, iDisplayFieldDesc, properties);
-                else
-                    screen.init(mainRecord, itsLocation, screenParent, null, iDisplayFieldDesc, properties);
-                if (applet != null)
-                    applet.setStatus(0, applet, oldCursor);
-            }
-        }
-        return screen;
-    }
-    /**
-     * Make a screen window and put the screen with this class name into it.
      * @param itsLocation The location of the new screen.
      * @param screenParent The parent of the new screen.
      * @param strRecord The class of the record to create.
      * @param iDocMode The type of screen to create for this record.
      * @return The new screen.
      */
-    public static BaseScreen makeScreenFromRecord(ScreenLocation itsLocation, BasePanel screenParent, String strRecord, int iDocMode, Map<String, Object> properties)
+    public static ScreenParent makeScreenFromRecord(ScreenLoc itsLocation, ComponentParent screenParent, String strRecord, int iDocMode, Map<String, Object> properties)
     {
         BaseScreen screen = null;
         Record record = null;
@@ -949,9 +928,9 @@ public class BaseScreen extends BasePanel
      * @param iDocMode The type of screen to create for this record.
      * @return The new screen.
      */
-    public static BaseScreen makeScreenFromRecord(ScreenLocation itsLocation, BasePanel screenParent, String strRecord, String strDocMode, Map<String, Object> properties)
+    public static ScreenParent makeScreenFromRecord(ScreenLoc itsLocation, ComponentParent screenParent, String strRecord, String strDocMode, Map<String, Object> properties)
     {
-        BaseScreen screen = null;
+        ScreenParent screen = null;
         Record record = null;
         RecordOwner recordOwner = Utility.getRecordOwner(screenParent);
         if (strRecord != null)
@@ -981,14 +960,14 @@ public class BaseScreen extends BasePanel
      * @param iDocType The document display params
      * @return The new screen.
      */
-    public static BaseScreen makeScreenFromParams(Task task, ScreenLocation itsLocation, BasePanel screenParent, int iDocType, Map<String, Object> properties)
+    public static ScreenParent makeScreenFromParams(Task task, ScreenLoc itsLocation, ComponentParent screenParent, int iDocType, Map<String, Object> properties)
     {
     	iDocType = iDocType & ~(ScreenConstants.DISPLAY_MASK | ScreenConstants.SCREEN_TYPE_MASK);	// Don't need the screen types
-        BaseScreen screen = null;
+    	ScreenParent screen = null;
 // First, see if they want to see a screen
         String strScreen = task.getProperty(DBParams.SCREEN);
         if (strScreen != null)
-            screen = BaseScreen.makeNewScreen(strScreen, itsLocation, screenParent, iDocType | ScreenConstants.DEFAULT_DISPLAY, properties, null, true);
+            screen = Record.makeNewScreen(strScreen, itsLocation, screenParent, iDocType | ScreenConstants.DEFAULT_DISPLAY, properties, null, true);
 // Now, see if they want to open a file and create the default screen
         if (screen == null)
         {
@@ -1014,12 +993,12 @@ public class BaseScreen extends BasePanel
             String strMenu = task.getProperty(DBParams.MENU);
             if (strMenu != null)
             {
-                screen = new MenuScreen(null, null, screenParent, null, iDocType | ScreenConstants.MAINT_MODE, properties);
+                screen = new MenuScreen(null, null, (BasePanel)screenParent, null, iDocType | ScreenConstants.MAINT_MODE, properties);
             }
         }
         if (screen == null)
         {   // If no params were passed in, display the default screen (menu).
-            screen = new MenuScreen(null, null, screenParent, null, iDocType | ScreenConstants.MAINT_MODE, properties);
+            screen = new MenuScreen(null, null, (BasePanel)screenParent, null, iDocType | ScreenConstants.MAINT_MODE, properties);
         }
         return screen;
     }
