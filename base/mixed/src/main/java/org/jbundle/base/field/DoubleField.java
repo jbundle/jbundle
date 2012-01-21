@@ -20,7 +20,6 @@ import java.sql.Types;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBSQLTypes;
 import org.jbundle.model.db.Field;
@@ -128,7 +127,7 @@ public class DoubleField extends NumberField
      */
     public String getInputType(String strViewType)
     {
-        if (TopScreen.HTML_TYPE.equalsIgnoreCase(strViewType))
+        if (ScreenModel.HTML_TYPE.equalsIgnoreCase(strViewType))
             return "float";
         else //if (TopScreen.XML_TYPE.equalsIgnoreCase(strViewType))
             return super.getInputType(strViewType);

@@ -14,9 +14,10 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.NumberField;
-import org.jbundle.base.screen.model.GridScreen;
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.screen.GridScreenParent;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -73,7 +74,7 @@ public class SortOrderHandler extends FieldReSelectHandler
      * Constructor.
      * @param gridScreen The grid screen you will be requering.
      */
-    public SortOrderHandler(GridScreen gridScreen)
+    public SortOrderHandler(GridScreenParent gridScreen)
     {
         this();
         this.init(null, gridScreen, (Record)null, false);
@@ -82,7 +83,7 @@ public class SortOrderHandler extends FieldReSelectHandler
      * Constructor.
      * @param gridScreen The grid screen you will be requering.
      */
-    public SortOrderHandler(GridScreen gridScreen, boolean bCreateSortOrder)
+    public SortOrderHandler(GridScreenParent gridScreen, boolean bCreateSortOrder)
     {
         this();
         this.init(null, gridScreen, (Record)null, bCreateSortOrder);
@@ -102,7 +103,7 @@ public class SortOrderHandler extends FieldReSelectHandler
      * @param gridScreen The grid screen you will be requering.
      * @param recGrid The grid record.
      */
-    public void init(BaseField field, GridScreen gridScreen, Record recGrid, boolean bCreateSortOrder)
+    public void init(BaseField field, GridScreenParent gridScreen, Record recGrid, boolean bCreateSortOrder)
     {
         m_recGrid = recGrid;
         m_bCreateSortOrder = bCreateSortOrder;
@@ -154,7 +155,7 @@ public class SortOrderHandler extends FieldReSelectHandler
      * @param gridTable The record to set.
      * @param index The index to relate to this keyarea/gridtable combo.
      */
-    public void setGridTable(int iKeyArea, Record gridTable, int index)
+    public void setGridTable(int iKeyArea, Rec gridTable, int index)
     {
         if (index == -1)
             index = m_iNextArrayIndex;  // Next available
@@ -164,7 +165,7 @@ public class SortOrderHandler extends FieldReSelectHandler
         if (gridTable != null) if (m_gridScreen != null) if (gridTable != m_gridScreen.getMainRecord())
         {
             if (m_gridScreen.getMainRecord() instanceof QueryRecord)
-                iKeyArea = ((QueryRecord)m_gridScreen.getMainRecord()).setGridFile(gridTable, iKeyArea);    // Sets the key order and gridtable (even if only one file)
+                iKeyArea = ((QueryRecord)m_gridScreen.getMainRecord()).setGridFile((Record)gridTable, iKeyArea);    // Sets the key order and gridtable (even if only one file)
         }
         m_iKeyAreaArray[index] = iKeyArea;
     }
@@ -192,11 +193,11 @@ public class SortOrderHandler extends FieldReSelectHandler
             if (m_gridScreen != null)
             {
                 int iColumn = iKeyOrder + 1 + m_gridScreen.getNavCount(); // grid column
-                ScreenField sField = m_gridScreen.getSField(iColumn);
+                ScreenComponent sField = m_gridScreen.getSField(iColumn);
                 if (sField.getConverter() != null)
                     if (sField.getConverter().getField() != null)
                 {
-                    Record record = m_gridScreen.getMainRecord();
+                    Record record = (Record)m_gridScreen.getMainRecord();
                     iKeyOrder = -1;     // No obvious sort order
                     for (int iKeyArea = 0; iKeyArea < record.getKeyAreaCount(); iKeyArea++)
                     {
@@ -222,7 +223,7 @@ public class SortOrderHandler extends FieldReSelectHandler
             return DBConstants.KEY_NOT_FOUND;
         KeyArea keyArea = null;
         if (m_recGrid == null)
-            m_recGrid = m_gridScreen.getMainRecord();
+            m_recGrid = (Record)m_gridScreen.getMainRecord();
         keyArea = m_recGrid.setKeyArea(iKeyOrder);
         if (keyArea == null)
             iErrorCode = DBConstants.KEY_NOT_FOUND;
@@ -259,7 +260,7 @@ public class SortOrderHandler extends FieldReSelectHandler
         if (e.getFirstIndex() == e.getLastIndex())
             if (e.getFirstIndex() > 0)  // Column 0 is the form button
                 this.clickColumn(e.getFirstIndex());
-        JTable control = (JTable)m_gridScreen.getScreenFieldView().getControl();
+        JTable control = (JTable)m_gridScreen.getControl();
         control.clearSelection(); // Column selections not allowed
     }
     /**

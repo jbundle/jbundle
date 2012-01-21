@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
@@ -63,6 +64,8 @@ public class SStaticString extends ScreenField
     {
         if (properties != null)
             m_StaticString = (String)properties.get(ScreenModel.DISPLAY_STRING);
+        if (m_StaticString == null)
+            m_StaticString = DBConstants.BLANK;
         super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**

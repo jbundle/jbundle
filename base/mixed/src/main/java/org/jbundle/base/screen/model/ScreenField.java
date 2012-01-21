@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.screen.view.ViewFactory;
@@ -144,6 +145,17 @@ public abstract class ScreenField extends Object
         if (m_converterField != null)
             m_converterField.removeComponent(this);   // Make sure field won't send any more updates
         m_converterField = null;
+    }
+    /**
+     * Get the physical component associated with this view.
+     * @return The physical control.
+     */
+    public Object getControl()
+    {
+        if (this.getScreenFieldView() != null)
+            return this.getScreenFieldView().getControl();
+        else
+            return null;
     }
     /**
      * Get the screen model for this view.
@@ -433,11 +445,10 @@ public abstract class ScreenField extends Object
     }
     /**
      * Give this control the input focus.
-     * @return true if successful.
      */
-    public boolean requestFocus()
+    public void requestFocus()
     {
-        return this.getScreenFieldView().requestFocus();
+        this.getScreenFieldView().requestFocus();
     }
     /**
      * Validate the current field, update the current grid record.
@@ -889,14 +900,14 @@ public abstract class ScreenField extends Object
         {
             if (this instanceof SPasswordField)
             {
-                if (TopScreen.HTML_TYPE.equalsIgnoreCase(strViewType))
+                if (ScreenModel.HTML_TYPE.equalsIgnoreCase(strViewType))
                     strFieldType = "password";
                 else //if (TopScreen.XML_TYPE.equalsIgnoreCase(strViewType))
                     strFieldType = "secret";               
             }
             else if (this instanceof SNumberText)
             {
-                if (TopScreen.HTML_TYPE.equalsIgnoreCase(strViewType))
+                if (ScreenModel.HTML_TYPE.equalsIgnoreCase(strViewType))
                     strFieldType = "float";
             }
         }

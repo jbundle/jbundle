@@ -345,13 +345,13 @@ public abstract class Converter extends DataConverters
     }
     /**
      * Set up the default control for this field.
-     * Calls setupDefaultView with this as the converter.
+     * Calls setupDefaultView with this as the converter (Convenience method).
      *  @param  itsLocation     Location of this component on screen (ie., GridBagConstraint).
      *  @param  targetScreen    Where to place this component (ie., Parent screen or GridBagLayout).
      *  @param  iDisplayFieldDesc Display the label? (optional).
      *  @return   Return the component or ScreenField that is created for this field.
      */
-    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, int iDisplayFieldDesc)  // Add this view to the list
+    public final ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, int iDisplayFieldDesc)  // Add this view to the list
     {
         return this.setupDefaultView(itsLocation, targetScreen, this, iDisplayFieldDesc, null);
     }

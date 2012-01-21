@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
@@ -31,14 +32,6 @@ import org.jbundle.base.field.convert.QueryConverter;
 import org.jbundle.base.field.event.FieldListener;
 import org.jbundle.base.field.event.MainReadOnlyHandler;
 import org.jbundle.base.field.event.ReadSecondaryHandler;
-import org.jbundle.base.screen.model.BaseGridScreen;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.GridScreen;
-import org.jbundle.base.screen.model.SCannedBox;
-import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.TopScreen;
-import org.jbundle.base.screen.model.util.SSelectBox;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Debug;
 import org.jbundle.base.util.ScreenConstants;
@@ -47,6 +40,7 @@ import org.jbundle.model.Freeable;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.GridScreenParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Constants;
@@ -699,7 +693,7 @@ public class BaseField extends FieldInfo
      */
     public String getInputType(String strViewType)
     {
-        if (TopScreen.HTML_TYPE.equalsIgnoreCase(strViewType))
+        if (ScreenModel.HTML_TYPE.equalsIgnoreCase(strViewType))
             return "text";
         else //if (TopScreen.XML_TYPE.equalsIgnoreCase(strViewType))
             return "textbox";
@@ -1081,7 +1075,7 @@ public class BaseField extends FieldInfo
         m_bJustChanged = false;
         for (int iComponent = 0; ; iComponent++)
         {
-            ScreenField sField = (ScreenField)this.getComponent(iComponent);
+            ScreenComponent sField = this.getComponent(iComponent);
             if (sField == null)
                 break;
             iErrorCode = sField.setSFieldToProperty(null, DBConstants.DISPLAY, DBConstants.READ_MOVE);
@@ -1148,17 +1142,6 @@ public class BaseField extends FieldInfo
     /**
      * Set up the default control for this field.
      *  @param  itsLocation     Location of this component on screen (ie., GridBagConstraint).
-     *  @param  targetScreen    Where to place this component (ie., Parent screen or GridBagLayout).
-     *  @param  iDisplayFieldDesc Display the label? (optional).
-     *  @return   Return the component or ScreenField that is created for this field.
-     */
-    public ScreenField setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, int iDisplayFieldDesc)  // Add this view to the list
-    {
-        return (ScreenField)this.setupDefaultView(itsLocation, targetScreen, this, iDisplayFieldDesc, null);
-    }
-    /**
-     * Set up the default control for this field.
-     *  @param  itsLocation     Location of this component on screen (ie., GridBagConstraint).
      * @param  targetScreen    Where to place this component (ie., Parent screen or GridBagLayout).
      * @param  iDisplayFieldDesc Display the label? (optional).
      *  @return   Return the component or ScreenField that is created for this field.
@@ -1170,7 +1153,7 @@ public class BaseField extends FieldInfo
             screenField = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         else
         {
-            if (targetScreen instanceof GridScreen)
+            if (targetScreen instanceof GridScreenParent)
                 screenField = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
             else
                 screenField = createScreenComponent(ScreenModel.TE_VIEW, itsLocation, targetScreen, this, iDisplayFieldDesc, properties);
@@ -1224,8 +1207,14 @@ public class BaseField extends FieldInfo
         FieldConverter convert = new QueryConverter((Converter)converter, (Record)record, iDisplayFieldSeq, bIncludeBlankOption);
         ScreenComponent screenField = createScreenComponent(ScreenModel.POPUP_BOX, itsLocation, targetScreen, convert, iDisplayFieldDesc, null);
         if (bIncludeFormButton)
-            if (!(targetScreen instanceof BaseGridScreen))
-                new SCannedBox((ScreenLocation)targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), (BasePanel)targetScreen, (Converter)converter, ThinMenuConstants.FORM, ScreenConstants.DONT_DISPLAY_FIELD_DESC, (Record)record);
+            if (!(targetScreen instanceof GridScreenParent))
+            {
+                Map<String,Object> properties = new HashMap<String,Object>();
+                properties.put(ScreenModel.RECORD, record);
+                properties.put(ScreenModel.COMMAND, ThinMenuConstants.FORM);
+                properties.put(ScreenModel.IMAGE, ThinMenuConstants.FORM);
+                screenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            }
         ((Record)record).selectScreenFields();    // Only select fields that you will display
         return screenField;
     }
@@ -1268,8 +1257,8 @@ public class BaseField extends FieldInfo
         if (iQueryKeySeq != -1)
         { // Set up the listener to read the record using the code key (optional)
             BaseField fldKey = ((Record)record).getKeyArea(iQueryKeySeq).getField(DBConstants.MAIN_KEY_FIELD);    // Code
-            if (this.getRecord().getRecordOwner() instanceof BasePanel)
-                if (!((BasePanel)this.getRecord().getRecordOwner()).isPrintReport())
+            if (this.getRecord().getRecordOwner() instanceof ComponentParent)
+                if (!((ComponentParent)this.getRecord().getRecordOwner()).isPrintReport())
             {   // Only need the read behavior if this is an input field
                 ((Record)record).setKeyArea(iQueryKeySeq);
                 MainReadOnlyHandler behavior = new MainReadOnlyHandler(iQueryKeySeq);
@@ -1279,7 +1268,7 @@ public class BaseField extends FieldInfo
                 conv = new FieldDescConverter(fldKey, (Converter)converter); // Use the description for this field
             else
                 conv = fldKey;
-            screenField = (ScreenField)conv.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
+            screenField = conv.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
 //            screenField = new SEditText(itsLocation, targetScreen, conv, iDisplayFieldDesc);
             itsLocation = null;
             iDisplayFieldDesc = ScreenConstants.DONT_DISPLAY_DESC;      // Display it only once
@@ -1296,18 +1285,34 @@ public class BaseField extends FieldInfo
         {
             if (itsLocation == null)
                 itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR);
-            ScreenField sfDesc = (ScreenField)conv.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
+            ScreenComponent sfDesc = conv.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
 //            ScreenField sfDesc = new SEditText(itsLocation, targetScreen, conv, iDisplayFieldDesc);
             sfDesc.setEnabled(false);
         }
         // Add the lookup button and form (opt) button (Even though SSelectBoxes don't use converter, pass it, so field.enable(true), etc will work)
-        new SSelectBox((ScreenLocation)targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), (BasePanel)targetScreen, (Converter)converter, ScreenConstants.DONT_DISPLAY_DESC, (Record)record);
+        Map<String,Object> properties = new HashMap<String,Object>();
+        properties.put(ScreenModel.RECORD, record);
+        properties.put(ScreenModel.COMMAND, ThinMenuConstants.LOOKUP);
+        properties.put(ScreenModel.IMAGE, ThinMenuConstants.LOOKUP);
+        screenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
         if (bIncludeFormButton)
-            if (!(targetScreen instanceof BaseGridScreen))
-                new SCannedBox((ScreenLocation)targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), (BasePanel)targetScreen, (Converter)converter, ThinMenuConstants.FORM, ScreenConstants.DONT_DISPLAY_FIELD_DESC, (Record)record);
+            if (!(targetScreen instanceof GridScreenParent))
+        {
+            properties = new HashMap<String,Object>();
+            properties.put(ScreenModel.RECORD, record);
+            properties.put(ScreenModel.COMMAND, ThinMenuConstants.FORM);
+            properties.put(ScreenModel.IMAGE, ThinMenuConstants.FORM);
+            screenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        }
         if ((bIncludeBlankOption) || (iQueryKeySeq == -1))     // If there is no code field, the only way to blank a field is to click this button
-            if (!(targetScreen instanceof BaseGridScreen))
-                new SCannedBox((ScreenLocation)targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), (BasePanel)targetScreen, (Converter)converter, ScreenModel.CLEAR, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this);
+            if (!(targetScreen instanceof GridScreenParent))
+        {
+            properties = new HashMap<String,Object>();
+            properties.put(ScreenModel.FIELD, this);
+            properties.put(ScreenModel.COMMAND, ScreenModel.CLEAR);
+            properties.put(ScreenModel.IMAGE, ScreenModel.CLEAR);
+            screenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        }
 
 //x can't yet - what if someone wants access to a field.        record.selectScreenFields();    // Only select fields that you will display
 
@@ -1341,7 +1346,7 @@ public class BaseField extends FieldInfo
         if (!componentType.contains("."))
             screenFieldClass = ScreenModel.BASE_PACKAGE + componentType;
         else if (componentType.startsWith("."))
-            screenFieldClass = ScreenModel.BASE_PACKAGE.substring(0, ScreenModel.BASE_PACKAGE.length() - 1) + componentType;
+            screenFieldClass = DBConstants.ROOT_PACKAGE + componentType.substring(1);
         else
             screenFieldClass = componentType;
         ScreenComponent screenField = (ScreenComponent)ClassServiceUtility.getClassService().makeObjectFromClassName(screenFieldClass);

@@ -9,14 +9,13 @@ package org.jbundle.base.field.event;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.awt.Component;
-
 import javax.swing.JFrame;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenParent;
 import org.jbundle.thin.base.db.Constants;
 
 
@@ -69,9 +68,9 @@ public class ChangeTitleOnChangeHandler extends FieldListener
     public int fieldChanged(boolean bDisplayOption, int iMoveMode)
     {
         Record recDefault = this.getOwner().getRecord();
-        BasePanel screen = null;
-        if (recDefault.getRecordOwner()instanceof BasePanel)
-            screen = (BasePanel)recDefault.getRecordOwner();
+        ComponentParent screen = null;
+        if (recDefault.getRecordOwner()instanceof ScreenParent)
+            screen = (ComponentParent)recDefault.getRecordOwner();
         screen = screen.getRootScreen();
         String strScreenTitle = Constants.BLANK;
         if (m_bSetTitleToThisString)
@@ -80,7 +79,7 @@ public class ChangeTitleOnChangeHandler extends FieldListener
             strScreenTitle = this.getTitle(screen);
         if (strScreenTitle.length() > 0)
         {
-            Component pWnd = screen.getScreenFieldView().getControl();
+            Object pWnd = screen.getControl();
             JFrame pWndFrame = null;
             if (pWndFrame == null)
                 pWndFrame = (JFrame)pWnd;
@@ -108,7 +107,7 @@ public class ChangeTitleOnChangeHandler extends FieldListener
      * @param screenMain The screen to get the title string from.
      * @return The returned title for this screen.
      */
-    public String getTitle(BasePanel screenMain)
+    public String getTitle(ComponentParent screenMain)
     {
         String strScreenTitle = DBConstants.BLANK;
         if (screenMain != null)

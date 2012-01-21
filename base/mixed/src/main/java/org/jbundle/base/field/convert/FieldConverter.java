@@ -14,7 +14,6 @@ import java.util.Map;
 
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ScreenModel;
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
@@ -62,17 +61,6 @@ public class FieldConverter extends LinkedConverter
     public void free()
     {
         super.free();
-    }
-    /**
-     * Set up the default control for this field.
-     *  @param  itsLocation     Location of this component on screen (ie., GridBagConstraint).
-     *  @param  targetScreen    Where to place this component (ie., Parent screen or GridBagLayout).
-     *  @param  iDisplayFieldDesc Display the label? (optional).
-     *  @return   Return the component or ScreenField that is created for this field.
-     */
-    public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, int iDisplayFieldDesc)  // Add this view to the list
-    {
-        return (ScreenField)this.setupDefaultView(itsLocation, targetScreen, this, iDisplayFieldDesc, null);
     }
     /**
      * Set up the default control for this field.

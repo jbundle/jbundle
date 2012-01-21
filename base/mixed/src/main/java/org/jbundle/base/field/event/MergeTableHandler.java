@@ -15,8 +15,8 @@ import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.db.event.FileRemoveBOnCloseHandler;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
-import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.screen.ScreenParent;
 
 /**
  * This listener is used to filter a sub-table from a merge table view.
@@ -41,7 +41,7 @@ public class MergeTableHandler extends FieldReSelectHandler
     /**
      * The (optional) grid screen to requery on change.
      */
-    protected BaseScreen m_gridScreen = null;
+    protected ScreenParent m_gridScreen = null;
 
     /**
      * Constructor.
@@ -56,7 +56,7 @@ public class MergeTableHandler extends FieldReSelectHandler
      * @param subTable The sub-record to add and remove from the parent merge record.
      * @param gridScreen The (optional) grid screen to requery on change.
      */
-    public MergeTableHandler(Record mergeTable, Record subTable, BaseScreen gridScreen)
+    public MergeTableHandler(Record mergeTable, Record subTable, ScreenParent gridScreen)
     {
         this();
         this.init(null, mergeTable, subTable, gridScreen);
@@ -68,7 +68,7 @@ public class MergeTableHandler extends FieldReSelectHandler
      * @param subTable The sub-record to add and remove from the parent merge record.
      * @param gridScreen The (optional) grid screen to requery on change.
      */
-    public void init(BaseField field, Record mergeTable, Record subTable, BaseScreen gridScreen)
+    public void init(BaseField field, Record mergeTable, Record subTable, ScreenParent gridScreen)
     {
         super.init(field);
         m_gridScreen = gridScreen;

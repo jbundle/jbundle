@@ -13,10 +13,10 @@ package org.jbundle.base.field;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.screen.model.GridScreen;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.GridScreenParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 
@@ -87,7 +87,7 @@ public class HtmlField extends MemoField
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         ScreenComponent screenField = null;
-        if (targetScreen instanceof GridScreen)
+        if (targetScreen instanceof GridScreenParent)
             screenField = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         else
             screenField = createScreenComponent(ScreenModel.HTML_VIEW, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);

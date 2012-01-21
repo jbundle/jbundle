@@ -1583,6 +1583,7 @@ public class BaseApplet extends JApplet
      * Note: This is only used in the thin implementation, thick uses this method name in VAppletScreen.
      * @return True if successful.
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public boolean onSetFont()
     {
         Map<String,Object> properties = null;
@@ -1636,6 +1637,7 @@ public class BaseApplet extends JApplet
      * Get the screen properties and set up the look and feel.
      * @param propertyOwner The screen properties (if null, I will look them up).
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void setupLookAndFeel(PropertyOwner propertyOwner)
     {
         Map<String,Object> properties = null;

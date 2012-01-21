@@ -13,7 +13,6 @@ package org.jbundle.base.field;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
@@ -79,7 +78,7 @@ public class PasswordField extends StringField
      */
     public String getInputType(String strViewType)
     {
-        if (TopScreen.HTML_TYPE.equalsIgnoreCase(strViewType))
+        if (ScreenModel.HTML_TYPE.equalsIgnoreCase(strViewType))
             return "password";
         else //if (TopScreen.XML_TYPE.equalsIgnoreCase(strViewType))
             return "secret";

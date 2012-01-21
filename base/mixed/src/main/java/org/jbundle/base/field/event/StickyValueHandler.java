@@ -16,9 +16,9 @@ import java.util.Map;
 import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
-import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.util.Util;
 
 
@@ -33,7 +33,7 @@ public class StickyValueHandler extends FieldListener
     /*
      * Save this so I can re-push the history on free.
      */
-    private BasePanel m_recordOwnerCache = null;
+    private ComponentParent m_recordOwnerCache = null;
 
     /**
      * Constructor.
@@ -113,7 +113,7 @@ public class StickyValueHandler extends FieldListener
     {
         BaseField field = this.getOwner();
         RecordOwner recordOwner = field.getRecord().getRecordOwner();
-        if (recordOwner instanceof BasePanel)
+        if (recordOwner instanceof ComponentParent)
         {
             String strValue = recordOwner.getProperty(field.getFieldName());
             if (strValue != null)
@@ -122,7 +122,7 @@ public class StickyValueHandler extends FieldListener
                 field.setString(strValue, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
                 field.setEnableListeners(rgbEnabled);
             }
-            m_recordOwnerCache = (BasePanel)recordOwner;
+            m_recordOwnerCache = (ComponentParent)recordOwner;
         }
     }
     /**
@@ -132,19 +132,19 @@ public class StickyValueHandler extends FieldListener
     {
         BaseField field = this.getOwner();
         RecordOwner recordOwner = field.getRecord().getRecordOwner();
-        if (recordOwner instanceof BasePanel)
-            this.saveValue((BasePanel)recordOwner);
+        if (recordOwner instanceof ComponentParent)
+            this.saveValue((ComponentParent)recordOwner);
     }
     /**
      * Save the current value of this field to the registration database.
      * and change the URL on the push-down stack to take this into consideration.
      */
-    public void saveValue(BasePanel recordOwner)
+    public void saveValue(ComponentParent recordOwner)
     {
         if (recordOwner != null)
         {
             BaseField field = this.getOwner();
-            String strCommand = ((BasePanel)recordOwner).getParentScreen().popHistory(1, false);
+            String strCommand = ((ComponentParent)recordOwner).getParentScreen().popHistory(1, false);
             if (m_recordOwnerCache != null)
                 if (strCommand != null)
                     if (strCommand.indexOf(m_recordOwnerCache.getClass().getName()) != -1)
@@ -154,7 +154,7 @@ public class StickyValueHandler extends FieldListener
                 properties.put(field.getFieldName(), field.toString());
                 strCommand = Utility.propertiesToURL(null, properties);
             }
-            ((BasePanel)recordOwner).getParentScreen().pushHistory(strCommand, false);
+            ((ComponentParent)recordOwner).getParentScreen().pushHistory(strCommand, false);
         }
     }
 }

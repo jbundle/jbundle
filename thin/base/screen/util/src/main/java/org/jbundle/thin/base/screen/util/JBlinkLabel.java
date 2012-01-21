@@ -19,6 +19,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.FieldComponent;
@@ -375,5 +376,31 @@ public class JBlinkLabel extends JLabel
     public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this.init(null);
+    }
+    /**
+     * Request focus?
+     * @param bIsFocusTarget If true this is a focus target.
+     */
+    public void setRequestFocusEnabled(boolean bIsFocusTarget)
+    {
+    }
+    /**
+     * Get the physical component associated with this view.
+     * @return The physical control.
+     */
+    @Override
+    public Object getControl()
+    {
+        return this;
+    }
+    /**
+     * Move the HTML input to the screen record fields.
+     * @param strSuffix Only move fields with the suffix.
+     * @return true if one was moved.
+     * @exception DBException File exception.
+     */
+    public int setSFieldToProperty(String strSuffix, boolean bDisplayOption, int iMoveMode)
+    {
+        return Constant.NORMAL_RETURN;
     }
 }

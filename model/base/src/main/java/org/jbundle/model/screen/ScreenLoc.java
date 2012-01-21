@@ -3,8 +3,6 @@
  */
 package org.jbundle.model.screen;
 
-import org.jbundle.model.Freeable;
-import org.jbundle.model.db.Convert;
 
 /**
  * ScreenLoc.java - Screen location

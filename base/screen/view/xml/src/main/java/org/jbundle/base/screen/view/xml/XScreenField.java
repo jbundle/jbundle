@@ -12,10 +12,10 @@ package org.jbundle.base.screen.view.xml;
 import java.io.PrintWriter;
 
 import org.jbundle.base.field.HtmlField;
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.field.XMLPropertiesField;
 import org.jbundle.base.field.XmlField;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.screen.view.zml.ZScreenField;
 import org.jbundle.base.util.DBConstants;
@@ -84,7 +84,7 @@ public abstract class XScreenField extends ZScreenField
             strFieldDesc = this.getScreenField().getConverter().getFieldDesc();
         String strFieldName = this.getScreenField().getSFieldParam();
         String strControlType = this.getInputType(null);
-        String strFieldType = this.getInputType(TopScreen.DOJO_TYPE);
+        String strFieldType = this.getInputType(ScreenModel.DOJO_TYPE);
         if ((this.getScreenField().isEnabled() == true) && (!this.getScreenField().getParentScreen().isPrintReport()))
         {   // Input field and not printing a report
             Convert converter = this.getScreenField().getConverter();
@@ -199,8 +199,8 @@ public abstract class XScreenField extends ZScreenField
      */
     public String getInputType(String strViewType)
     {
-        if (TopScreen.DOJO_TYPE.equalsIgnoreCase(strViewType))
-            strViewType = TopScreen.HTML_TYPE;     // Temporary (return field type)
+        if (ScreenModel.DOJO_TYPE.equalsIgnoreCase(strViewType))
+            strViewType = ScreenModel.HTML_TYPE;     // Temporary (return field type)
         return super.getInputType(strViewType);
     }
 }

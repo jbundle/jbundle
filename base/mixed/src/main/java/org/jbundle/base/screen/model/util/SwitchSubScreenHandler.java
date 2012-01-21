@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.field.event;
+package org.jbundle.base.screen.model.util;
 
 /**
  * @(#)SwitchSubScreenHandler.java  0.00 12-Feb-97 Don Corley
@@ -15,10 +15,10 @@ import java.util.Map;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.NumberField;
+import org.jbundle.base.field.event.FieldListener;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.thin.base.screen.BaseApplet;

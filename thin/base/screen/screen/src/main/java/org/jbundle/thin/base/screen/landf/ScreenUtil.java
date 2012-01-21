@@ -36,7 +36,6 @@ import org.jbundle.model.PropertyOwner;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.landf.theme.CustomTheme;
-import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**

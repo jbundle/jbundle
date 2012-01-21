@@ -20,6 +20,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.PasswordField;
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.field.StringField;
 import org.jbundle.base.field.convert.FieldLengthConverter;
 import org.jbundle.base.field.convert.encode.HashSHAConverter;
@@ -1413,7 +1414,8 @@ public class BasePanel extends ScreenField
                 return null;
             if (!(parent instanceof TopScreen))
                 return parent.retrieveUserProperties();     // Register with the highest screen below the AppletScreen
-            String strKey = Constant.BLANK, strFileName = Constant.BLANK;
+            String strKey = Constant.BLANK;
+            String strFileName = Constant.BLANK;
             String strScreen = this.getClass().getName().toString();
             strKey += strScreen + MenuConstants.REGSEPARATOR; // Screen
             Record record = this.getMainRecord();
@@ -1484,6 +1486,14 @@ public class BasePanel extends ScreenField
         return strServletName;
     }
     /**
+     * Get the view subpackage name (such as swing/xml/etc.).
+     * @return the subpackage name.
+     */
+    public String getViewType()
+    {
+        return this.getViewFactory().getViewSubpackage();
+    }
+    /**
      * Get the environment to use for this record owner.
      * @return Record owner's environment, or null to use the default enviroment.
      */
@@ -1494,7 +1504,7 @@ public class BasePanel extends ScreenField
         m_viewFactory = super.getViewFactory();
         if (m_viewFactory != null)
             return m_viewFactory;
-        return m_viewFactory = ViewFactory.getViewFactory(TopScreen.SWING_TYPE, 'V');
+        return m_viewFactory = ViewFactory.getViewFactory(ScreenModel.SWING_TYPE, 'V');
     }
     protected ViewFactory m_viewFactory = null;
     /**

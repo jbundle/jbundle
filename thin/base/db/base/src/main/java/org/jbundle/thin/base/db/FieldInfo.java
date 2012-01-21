@@ -10,7 +10,6 @@ package org.jbundle.thin.base.db;
  *      don@tourgeek.com
  */
 
-//import java.awt.Component;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Vector;

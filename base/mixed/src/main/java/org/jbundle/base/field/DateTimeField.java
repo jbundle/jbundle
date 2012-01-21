@@ -26,8 +26,6 @@ import java.util.Map;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.field.convert.DateConverter;
-import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBSQLTypes;
 import org.jbundle.base.util.ScreenConstants;
@@ -152,7 +150,7 @@ public class DateTimeField extends NumberField
      */
     public String getInputType(String strViewType)
     {
-        if (TopScreen.HTML_TYPE.equalsIgnoreCase(strViewType))
+        if (ScreenModel.HTML_TYPE.equalsIgnoreCase(strViewType))
             return "date";
         else //if (TopScreen.XML_TYPE.equalsIgnoreCase(strViewType))
             return super.getInputType(strViewType);
@@ -392,7 +390,7 @@ public class DateTimeField extends NumberField
             properties.put(ScreenModel.COMMAND, JCalendarPopup.CALENDAR_ICON);
             properties.put(ScreenModel.IMAGE, JCalendarPopup.CALENDAR_ICON);
             ScreenComponent pSScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
-            ((ScreenField)pSScreenField).setRequestFocusEnabled(false);
+            pSScreenField.setRequestFocusEnabled(false);
         }
         if ((iFormatType == DBConstants.TIME_FORMAT)
            || (iFormatType == DBConstants.DATE_TIME_FORMAT)
@@ -410,7 +408,7 @@ public class DateTimeField extends NumberField
             properties.put(ScreenModel.COMMAND, JTimePopup.TIME_ICON);
             properties.put(ScreenModel.IMAGE, JTimePopup.TIME_ICON);
             ScreenComponent pSScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
-            ((ScreenField)pSScreenField).setRequestFocusEnabled(false);
+            pSScreenField.setRequestFocusEnabled(false);
         }
         return screenField;
     }

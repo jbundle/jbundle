@@ -30,6 +30,7 @@ import org.jbundle.model.db.Rec;
 import org.jbundle.model.message.Message;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenLoc;
+import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 
 
@@ -222,9 +223,9 @@ public abstract class ScreenFieldViewAdapter extends Object
      * Give this control the input focus.
      * @return True if successful.
      */
-    public boolean requestFocus()
+    public void requestFocus()
     {
-        return true;    // Focus handled
+        // Focus handled
     }
     /**
      * Do I create a separate control for the description for this type of control.
@@ -729,5 +730,15 @@ public abstract class ScreenFieldViewAdapter extends Object
             return ((BasePanel)this.getScreenField()).getTask();
         else
             return this.getScreenField().getParentScreen().getTask();
+    }
+    /**
+     * Move the HTML input to the screen record fields.
+     * @param strSuffix Only move fields with the suffix.
+     * @return true if one was moved.
+     * @exception DBException File exception.
+     */
+    public int setSFieldToProperty(String strSuffix, boolean bDisplayOption, int iMoveMode)
+    {
+        return Constant.NORMAL_RETURN;  // Override this!
     }
 }

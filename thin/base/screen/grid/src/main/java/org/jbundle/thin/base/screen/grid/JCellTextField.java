@@ -18,6 +18,7 @@ import javax.swing.event.EventListenerList;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.FieldComponent;
@@ -290,5 +291,24 @@ public class JCellTextField extends JTextField
     public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this.init(50, false);
+    }
+    /**
+     * Get the physical component associated with this view.
+     * @return The physical control.
+     */
+    @Override
+    public Object getControl()
+    {
+        return this;
+    }
+    /**
+     * Move the HTML input to the screen record fields.
+     * @param strSuffix Only move fields with the suffix.
+     * @return true if one was moved.
+     * @exception DBException File exception.
+     */
+    public int setSFieldToProperty(String strSuffix, boolean bDisplayOption, int iMoveMode)
+    {
+        return Constant.NORMAL_RETURN;
     }
 }

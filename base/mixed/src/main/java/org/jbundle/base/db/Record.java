@@ -2208,7 +2208,7 @@ public class Record extends FieldList
         if (!componentType.contains("."))
             screenClass = ScreenModel.BASE_PACKAGE + componentType;
         else if (componentType.startsWith("."))
-            screenClass = ScreenModel.BASE_PACKAGE.substring(0, ScreenModel.BASE_PACKAGE.length() - 1) + componentType;
+            screenClass = DBConstants.ROOT_PACKAGE + componentType.substring(1);
         else
             screenClass = componentType;
         ScreenParent screen = (ScreenParent)ClassServiceUtility.getClassService().makeObjectFromClassName(screenClass);

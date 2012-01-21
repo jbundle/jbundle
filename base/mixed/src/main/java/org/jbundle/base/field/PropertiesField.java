@@ -28,15 +28,13 @@ import org.jbundle.base.field.convert.PropertiesConverter;
 import org.jbundle.base.field.event.CopyConvertersHandler;
 import org.jbundle.base.field.event.FieldDataScratchHandler;
 import org.jbundle.base.field.event.FieldListener;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.GridScreen;
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.main.properties.db.PropertiesInputModel;
 import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.GridScreenParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.FieldInfo;
@@ -308,13 +306,13 @@ public class PropertiesField extends MemoField
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         ScreenComponent screenField = null;
-        if ("swing".equalsIgnoreCase(((BasePanel)targetScreen).getViewFactory().getViewSubpackage()))
+        if (ScreenModel.SWING_TYPE.equalsIgnoreCase(targetScreen.getViewType()))
         {
             Record recPropertiesInput = Record.makeRecordFromClassName(PropertiesInput.THICK_CLASS, this.getRecord().getRecordOwner());
             ((PropertiesInputModel)recPropertiesInput).setPropertiesField(this);
-            screenField = (GridScreen)recPropertiesInput.makeScreen(itsLocation, targetScreen, iDisplayFieldDesc | ScreenConstants.DISPLAY_MODE, this.getMapKeyDescriptions());
+            screenField = recPropertiesInput.makeScreen(itsLocation, targetScreen, iDisplayFieldDesc | ScreenConstants.DISPLAY_MODE, this.getMapKeyDescriptions());
             boolean bAllowAppending = this.getMapKeyDescriptions() == null;
-            ((GridScreen)screenField).setAppending(bAllowAppending);            
+            ((GridScreenParent)screenField).setAppending(bAllowAppending);
             this.addListener(new SyncFieldToPropertiesRecord(recPropertiesInput));
             recPropertiesInput.addListener(new SyncPropertiesRecordToField(this));
             // No need to add FreeOnFree Handler, since PropertiesInput is owned by the new screen
@@ -324,7 +322,7 @@ public class PropertiesField extends MemoField
             {
                 properties = new HashMap<String,Object>();
                 properties.put(ScreenModel.DISPLAY_STRING, strDisplay);
-                createScreenComponent(ScreenModel.STATIC_STRING, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
+                createScreenComponent(ScreenModel.STATIC_STRING, descLocation, targetScreen, converter, iDisplayFieldDesc, properties);
             }
         }
         else
@@ -335,7 +333,7 @@ public class PropertiesField extends MemoField
             properties.put(ScreenModel.COMMAND, ScreenModel.EDIT);
             properties.put(ScreenModel.IMAGE, ScreenModel.EDIT);
             ScreenComponent sScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
-            ((ScreenField)sScreenField).setRequestFocusEnabled(false);
+            sScreenField.setRequestFocusEnabled(false);
         }
         return screenField;
     }

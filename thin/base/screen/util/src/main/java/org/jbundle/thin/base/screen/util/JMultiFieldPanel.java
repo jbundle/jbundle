@@ -17,6 +17,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 
+import org.jbundle.model.DBException;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
@@ -271,5 +272,31 @@ public class JMultiFieldPanel extends JPanel
     public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this.init(converter, null, null);
+    }
+    /**
+     * Request focus?
+     * @param bIsFocusTarget If true this is a focus target.
+     */
+    public void setRequestFocusEnabled(boolean bIsFocusTarget)
+    {
+    }
+    /**
+     * Get the physical component associated with this view.
+     * @return The physical control.
+     */
+    @Override
+    public Object getControl()
+    {
+        return this;
+    }
+    /**
+     * Move the HTML input to the screen record fields.
+     * @param strSuffix Only move fields with the suffix.
+     * @return true if one was moved.
+     * @exception DBException File exception.
+     */
+    public int setSFieldToProperty(String strSuffix, boolean bDisplayOption, int iMoveMode)
+    {
+        return Constant.NORMAL_RETURN;
     }
 }

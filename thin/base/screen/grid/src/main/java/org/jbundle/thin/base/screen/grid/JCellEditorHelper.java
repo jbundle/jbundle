@@ -21,7 +21,6 @@ import javax.swing.event.EventListenerList;
  */
 public class JCellEditorHelper extends Object
 {
-	private static final long serialVersionUID = 1L;
 
 	/**
      * The listener list.

@@ -53,12 +53,12 @@ import org.jbundle.base.screen.model.SButtonBox;
 import org.jbundle.base.screen.model.SEditText;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.ToolScreen;
-import org.jbundle.base.screen.model.util.Resources;
 import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.screen.view.ScreenFieldViewAdapter;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ResourceConstants;
+import org.jbundle.base.util.Resources;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
@@ -899,17 +899,17 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
     private static boolean m_bDisableMessages = false;
     /**
      * Give this control the input focus.
-     * @return true If focus is gained.
      */
-    public boolean requestFocus()
+    public void requestFocus()
     {
         if (!this.getScreenField().isEnabled())
-            return false;
+            return;
         if (this.getControl() != null)
         {
             if (this.getScreenField().getParentScreen().getScreenFieldView() instanceof VGridScreen)
             {
-                return ((VGridScreen)((GridScreen)this.getScreenField().getParentScreen()).getScreenFieldView()).requestFocus(this.getScreenField()); // Special tab listener for grid screens
+                ((VGridScreen)((GridScreen)this.getScreenField().getParentScreen()).getScreenFieldView()).requestFocus(this.getScreenField()); // Special tab listener for grid screens
+                return;
             }
             else
             {
@@ -939,7 +939,7 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
             // END SPECIAL CODE
             }
         }
-        return true;    // Click handled
+        return;    // Click handled
     }
     /**
      * Request focus?

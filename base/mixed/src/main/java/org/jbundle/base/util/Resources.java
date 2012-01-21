@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.screen.model.util;
+package org.jbundle.base.util;
 
 /**
  * @(#)Resources.java 0.00 12-Feb-97 Don Corley
@@ -13,7 +13,6 @@ import java.util.Enumeration;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.jbundle.base.util.DBConstants;
 
 
 /**

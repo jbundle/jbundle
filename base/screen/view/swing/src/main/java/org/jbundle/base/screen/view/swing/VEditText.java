@@ -244,14 +244,13 @@ public class VEditText extends VScreenField
      * when the focus is requested.
      * @return True if successful.
      */
-    public boolean requestFocus()
+    public void requestFocus()
     {
-        boolean bSuccess = super.requestFocus();
+        super.requestFocus();
         /*  Uncomment these lines if you want to select all on tab.
         if (bSuccess)
             if (this.getScreenFieldView().getControl() != null)
                 ((JTextComponent)this.getScreenFieldView().getControl()).selectAll();
         */
-        return bSuccess;
     }
 }

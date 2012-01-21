@@ -13,7 +13,6 @@ package org.jbundle.base.field;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
@@ -109,7 +108,7 @@ public abstract class NumberField extends BaseField
      */
     public String getInputType(String strViewType)
     {
-        if (TopScreen.HTML_TYPE.equalsIgnoreCase(strViewType))
+        if (ScreenModel.HTML_TYPE.equalsIgnoreCase(strViewType))
             return "int";
         else //if (TopScreen.XML_TYPE.equalsIgnoreCase(strViewType))
             return super.getInputType(strViewType);

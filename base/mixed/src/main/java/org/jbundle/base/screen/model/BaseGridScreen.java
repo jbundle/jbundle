@@ -21,6 +21,7 @@ import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.GridScreenParent;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -29,6 +30,7 @@ import org.jbundle.thin.base.db.Converter;
  * The concrete classes that extend this class are GridScreen and XmlHtmlScreen.
  */
 public class BaseGridScreen extends BaseScreen
+    implements GridScreenParent
 {
     /**
      * Max items to display on Report/Grid Report.
@@ -422,5 +424,9 @@ public class BaseGridScreen extends BaseScreen
                 bHeadingFootingExists = true;   // Yes, there is a heading or footing.
         }
         return bHeadingFootingExists;
+    }
+    @Override
+    public void reSelectRecords() {
+        // Not used here
     }
 }

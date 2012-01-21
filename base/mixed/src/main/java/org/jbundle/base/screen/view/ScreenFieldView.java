@@ -117,9 +117,8 @@ public interface ScreenFieldView extends FieldComponent
     public Object getFieldState();
     /**
      * Give this control the input focus.
-     * @return True if successful.
      */
-    public boolean requestFocus();
+    public void requestFocus();
     /**
      * Do I create a separate control for the description for this type of control.
      * Generally yes, but you may want to override in checkboxes or buttons to include the description in the control.

@@ -90,6 +90,7 @@ public class XMLPropertiesField extends PropertiesField
      * Load the properties from the string and parse them.
      * @return The java properties.
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static Map<String,Object> xmlToProperties(String strProperties)
     {
         Properties properties = new Properties();

@@ -9,6 +9,7 @@ package org.jbundle.base.screen.control.servlet.html;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.base.screen.view.ViewFactory;
 import org.jbundle.model.RecordOwnerParent;
@@ -53,6 +54,6 @@ public class HtmlScreen extends TopScreen
     {
         if (m_viewFactory != null)
             return m_viewFactory;
-        return m_viewFactory = ViewFactory.getViewFactory(HTML_TYPE, 'H');
+        return m_viewFactory = ViewFactory.getViewFactory(ScreenModel.HTML_TYPE, 'H');
     }
 }

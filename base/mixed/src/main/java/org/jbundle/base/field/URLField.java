@@ -15,8 +15,6 @@ import java.util.Map;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.convert.FieldLengthConverter;
-import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
@@ -71,7 +69,7 @@ public class URLField extends StringField
      */
     public String getInputType(String strViewType)
     {
-        if (TopScreen.HTML_TYPE.equalsIgnoreCase(strViewType))
+        if (ScreenModel.HTML_TYPE.equalsIgnoreCase(strViewType))
             return "url";
         else //if (TopScreen.XML_TYPE.equalsIgnoreCase(strViewType))
             return super.getInputType(strViewType);
@@ -102,7 +100,7 @@ public class URLField extends StringField
         properties.put(ScreenModel.COMMAND, ScreenModel.URL);
         properties.put(ScreenModel.IMAGE, ScreenModel.URL);
         ScreenComponent pSScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
-        ((ScreenField)pSScreenField).setRequestFocusEnabled(false);
+        pSScreenField.setRequestFocusEnabled(false);
         return sScreenField;
     }
 }

@@ -13,10 +13,10 @@ package org.jbundle.base.field.event;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
-import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.UserProperties;
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.screen.ComponentParent;
 
 
 /**
@@ -113,9 +113,9 @@ public class RegisterValueHandler extends FieldListener
     public PropertyOwner retrieveUserProperties()
     {
         Record record = this.getOwner().getRecord();
-        BasePanel screen = null;
-        if (record.getRecordOwner() instanceof BasePanel)
-            screen = (BasePanel)record.getRecordOwner();
+        ComponentParent screen = null;
+        if (record.getRecordOwner() instanceof ComponentParent)
+            screen = (ComponentParent)record.getRecordOwner();
         if (screen != null)
             return screen.retrieveUserProperties();   // Return the registration key
         else

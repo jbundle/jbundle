@@ -12,8 +12,8 @@ package org.jbundle.base.field.convert;
 
 import java.util.Vector;
 
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.util.LinkedConverter;
 
@@ -245,7 +245,7 @@ public class MultipleFieldConverter extends FieldConverter
         }
         for (int iSeq = 0; ; iSeq++)
         {
-            ScreenField sField = (ScreenField)this.getNextConverter().getField().getComponent(iSeq);
+            ScreenComponent sField = (ScreenComponent)this.getNextConverter().getField().getComponent(iSeq);
             if (sField == null)
                 break;
             if (!this.isConverterInPath(sField))
@@ -295,7 +295,7 @@ public class MultipleFieldConverter extends FieldConverter
      * Is this converter in the converter path of this screen field.
      * @return true if it is.
      */
-    public boolean isConverterInPath(ScreenField sField)
+    public boolean isConverterInPath(ScreenComponent sField)
     {
         Convert converter = sField.getConverter();
         while (converter != null)

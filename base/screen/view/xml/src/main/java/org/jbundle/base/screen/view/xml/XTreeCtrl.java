@@ -9,8 +9,8 @@ package org.jbundle.base.screen.view.xml;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.TopScreen;
 
 /**
  * ScreenField - This is the information which tells the system about a field on the
@@ -57,7 +57,7 @@ public class XTreeCtrl extends XBaseScreen
      */
     public String getInputType(String strViewType)
     {
-        if (TopScreen.DOJO_TYPE.equalsIgnoreCase(strViewType))
+        if (ScreenModel.DOJO_TYPE.equalsIgnoreCase(strViewType))
             return "Tree";
         return super.getInputType(strViewType);
     }

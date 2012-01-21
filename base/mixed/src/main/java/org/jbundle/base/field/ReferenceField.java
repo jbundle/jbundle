@@ -10,6 +10,7 @@ package org.jbundle.base.field;
  * secondary record to be read, you must add a listener to this field.
  */
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.base.db.KeyArea;
@@ -22,23 +23,16 @@ import org.jbundle.base.field.event.FieldListener;
 import org.jbundle.base.field.event.MainReadOnlyHandler;
 import org.jbundle.base.field.event.MoveOnChangeHandler;
 import org.jbundle.base.field.event.ReadSecondaryHandler;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.BaseScreen;
-import org.jbundle.base.screen.model.GridScreen;
-import org.jbundle.base.screen.model.SButtonBox;
-import org.jbundle.base.screen.model.SStaticString;
-import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.GridScreenParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.screen.BaseApplet;
 
 
 public class ReferenceField extends RecordReferenceField
@@ -288,10 +282,9 @@ public class ReferenceField extends RecordReferenceField
                 if (NONE_BUTTON == null)
                 {
                     String NONE = "None";
-                    if (getRecord().getRecordOwner() instanceof BaseScreen)
-                        if (((BaseScreen)getRecord().getRecordOwner()).getParentScreen() != null)
-                            if (((BaseScreen)getRecord().getRecordOwner()).getParentScreen().getAppletScreen() != null)
-                            	NONE_BUTTON = ((BaseApplet)((BaseScreen)getRecord().getRecordOwner()).getParentScreen().getAppletScreen().getScreenFieldView().getControl()).loadImageIcon(NONE, null);
+                    if (getRecord().getTask() != null)
+                        if (getRecord().getTask().getApplication() != null)
+                            NONE_BUTTON = getRecord().getTask().getApplication().getResourceURL(NONE, null);
                 }
                 return NONE_BUTTON;
             }
@@ -303,7 +296,7 @@ public class ReferenceField extends RecordReferenceField
      */
     public ScreenComponent setupIconView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, boolean bIncludeBlankOption)
     {
-        ScreenField screenField = null;
+        ScreenComponent screenField = null;
         Record record = this.makeReferenceRecord();
         //  Set up the listener to read the current record on a valid main record
         
@@ -313,23 +306,27 @@ public class ReferenceField extends RecordReferenceField
         if (fldDisplayFieldDesc != null)
         {    // The next two lines are so in GridScreen(s), the converter leads to this field, while it displays the fielddesc.
             FieldConverter fldDescConverter = new FieldDescConverter(fldDisplayFieldDesc, (Converter)converter);
-            screenField = new SButtonBox((ScreenLocation)itsLocation, (BasePanel)targetScreen, fldDescConverter, ScreenModel.CLEAR, iDisplayFieldDesc, ScreenModel.CLEAR)
-            {
-                public void setEnabled(boolean bEnabled)
-                {
-                    super.setEnabled(true); // Never disable
-                }
-            };
+            Map<String,Object> properties = new HashMap<String,Object>();
+            properties.put(ScreenModel.IMAGE, ScreenModel.CLEAR);
+            createScreenComponent(ScreenModel.BUTTON_BOX, itsLocation, targetScreen, fldDescConverter, iDisplayFieldDesc, properties);
+            //?{
+            //?    public void setEnabled(boolean bEnabled)
+            //?    {
+            //?        super.setEnabled(true); // Never disable
+            //?    }
+            //?};
             String strDisplay = converter.getFieldDesc();
-            if (!(targetScreen instanceof GridScreen))
+            if (!(targetScreen instanceof GridScreenParent))
                 if ((strDisplay != null) && (strDisplay.length() > 0))
             { // Since display string does not come with buttons
-                ScreenLocation descLocation = (ScreenLocation)targetScreen.getNextLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
-                new SStaticString(descLocation, (BasePanel)targetScreen, strDisplay);
+                ScreenLoc descLocation = targetScreen.getNextLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
+                properties = new HashMap<String,Object>();
+                properties.put(ScreenModel.DISPLAY_STRING, strDisplay);
+                createScreenComponent(ScreenModel.STATIC_STRING, descLocation, targetScreen, converter, iDisplayFieldDesc, properties);
             }
         }
 
-        if (((targetScreen instanceof GridScreen)) || (iDisplayFieldDesc == ScreenConstants.DONT_DISPLAY_FIELD_DESC))
+        if (((targetScreen instanceof GridScreenParent)) || (iDisplayFieldDesc == ScreenConstants.DONT_DISPLAY_FIELD_DESC))
         { // If there is no popupbox to display the icon, I must explicitly read it.
             this.addListener(new ReadSecondaryHandler(fldDisplayFieldDesc.getRecord()));
         }
@@ -360,7 +357,7 @@ public class ReferenceField extends RecordReferenceField
         //  Set up the listener to read the current record on a valid main record
         screenField = this.setupIconView(itsLocation, targetScreen, converter, iDisplayFieldDesc, bIncludeBlankOption);
         
-        if ((!(targetScreen instanceof GridScreen)) && (iDisplayFieldDesc != ScreenConstants.DONT_DISPLAY_FIELD_DESC))
+        if ((!(targetScreen instanceof GridScreenParent)) && (iDisplayFieldDesc != ScreenConstants.DONT_DISPLAY_FIELD_DESC))
         {   // If it is not in a grid screen, add the description
             if (screenField != null)
             {

@@ -10,8 +10,8 @@ package org.jbundle.base.field.event;
  *      don@tourgeek.com
  */
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * If this field changes, Change the screen focus to another field's screen control.
@@ -24,7 +24,7 @@ public class ChangeFocusOnChangeHandler extends FieldListener
     /**
      * The screen field to change the focus to if this field changes.
      */
-    protected ScreenField m_screenField = null;
+    protected ScreenComponent m_screenField = null;
     /**
      * The field to change to focus to is this field changes.
      */
@@ -54,7 +54,7 @@ public class ChangeFocusOnChangeHandler extends FieldListener
      * Constructor.
      * @param screenField The screen field to change the focus to on change to this field.
      */
-    public ChangeFocusOnChangeHandler(ScreenField screenField)
+    public ChangeFocusOnChangeHandler(ScreenComponent screenField)
     {
         this();
         this.init(null, screenField, null);
@@ -65,7 +65,7 @@ public class ChangeFocusOnChangeHandler extends FieldListener
      * @param field The field to change the focus to on change to this field.
      * @param screenField The screen field to change the focus to on change to this field.
      */
-    public void init(BaseField field, ScreenField screenField, BaseField fldTarget)
+    public void init(BaseField field, ScreenComponent screenField, BaseField fldTarget)
     {
         super.init(field);
         m_screenField = screenField;
@@ -115,11 +115,11 @@ public class ChangeFocusOnChangeHandler extends FieldListener
         return DBConstants.NORMAL_RETURN;
     }
     /**
-     * Lookup the screen field from the field passed in the contructor.
+     * Lookup the screen field from the field passed in the constructor.
      */
     public void lookupSField()
     {
-        m_screenField = (ScreenField)m_fldTarget.getComponent(0); // See if you can get the first screen field
+        m_screenField = m_fldTarget.getComponent(0); // See if you can get the first screen field
     }
     /**
      * When to change focus.

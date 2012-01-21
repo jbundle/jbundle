@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.ScreenConstants;
@@ -92,7 +91,7 @@ public class PhoneField extends StringField
         properties.put(ScreenModel.COMMAND, ScreenModel.PHONE);
         properties.put(ScreenModel.IMAGE, ScreenModel.PHONE);
         ScreenComponent pSScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
-        ((ScreenField)pSScreenField).setRequestFocusEnabled(false);
+        pSScreenField.setRequestFocusEnabled(false);
         return screenField;
     }
 }

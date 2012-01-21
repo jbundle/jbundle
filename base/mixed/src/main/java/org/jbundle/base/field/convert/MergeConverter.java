@@ -16,7 +16,6 @@ import java.util.Vector;
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.event.RemoveConverterOnCloseHandler;
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
@@ -182,7 +181,7 @@ public class MergeConverter extends FieldConverter
         ScreenComponent sField = null;
         Converter converter = this.getNextConverter();
         if (converter != null)
-            sField = (ScreenField)converter.setupDefaultView(itsLocation, targetScreen, convert, iDisplayFieldDesc, properties);
+            sField = converter.setupDefaultView(itsLocation, targetScreen, convert, iDisplayFieldDesc, properties);
         else
             sField = super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         if (sField != null)

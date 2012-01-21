@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.db.Convert;
@@ -99,7 +98,7 @@ public class XmlField extends MemoField
         properties.put(ScreenModel.COMMAND, ScreenModel.EDIT);
         properties.put(ScreenModel.IMAGE, ScreenModel.EDIT);
         ScreenComponent pSScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
-        ((ScreenField)pSScreenField).setRequestFocusEnabled(false);
+        pSScreenField.setRequestFocusEnabled(false);
         return screenField;
     }
     /**

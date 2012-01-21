@@ -1,6 +1,13 @@
 package org.jbundle.base.field;
 
 public class ScreenModel {
+    public static final String HTML_TYPE = "html";
+
+    public static final String XML_TYPE = "xml";
+
+    public static final String SWING_TYPE = "swing";
+
+    public static final String DOJO_TYPE = "dojo";
     private ScreenModel() {
         
     }

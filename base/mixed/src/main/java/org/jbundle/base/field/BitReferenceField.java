@@ -11,13 +11,12 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.convert.BitConverter;
 import org.jbundle.base.field.convert.FieldDescConverter;
-import org.jbundle.base.screen.model.GridScreen;
-import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.GridScreenParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Converter;
@@ -78,11 +77,11 @@ public class BitReferenceField extends RecordReferenceField
      */
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)   // Add this view to the list
     {
-        if (targetScreen instanceof GridScreen)
+        if (targetScreen instanceof GridScreenParent)
             return super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         Record record = this.makeReferenceRecord();
         
-        ScreenField screenField = null;
+        ScreenComponent screenField = null;
         Map<String,Object> staticMap = new HashMap<String,Object>();
         staticMap.put(ScreenModel.DISPLAY_STRING, DBConstants.BLANK);
         createScreenComponent(ScreenModel.STATIC_STRING, itsLocation, targetScreen, null, 0, staticMap);
@@ -107,7 +106,7 @@ public class BitReferenceField extends RecordReferenceField
                 m_iBitsToCheck |= 1 << sBitPosition;
                 dayConverter = new BitConverter(dayConverter, sBitPosition, true, true);
                 itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST_CHECKBOX, ScreenConstants.DONT_SET_ANCHOR);
-                screenField = (ScreenField)dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
+                screenField = dayConverter.setupDefaultView(itsLocation, targetScreen, iDisplayFieldDesc);
             }
         } catch (DBException e) {
             e.printStackTrace();
