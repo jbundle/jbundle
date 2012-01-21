@@ -34,7 +34,8 @@ import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
+import org.jbundle.base.screen.control.servlet.BasicServlet;
+import org.jbundle.base.screen.control.servlet.BasicServlet.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.html.BaseServlet;
 import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
@@ -98,7 +99,7 @@ public class XSLServlet extends XMLServlet
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
         try   {
-            servletTask = new ServletTask(this, SERVLET_TYPE.COCOON);
+            servletTask = new ServletTask(this, BasicServlet.SERVLET_TYPE.COCOON);
             this.addBrowserProperties(req, servletTask);
 			BaseScreen screen = servletTask.doProcessInput(this, req, null);
 			

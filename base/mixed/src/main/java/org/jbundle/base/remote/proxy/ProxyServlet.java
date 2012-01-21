@@ -22,11 +22,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.jbundle.base.remote.proxy.transport.EncodedProxyTask;
 import org.jbundle.base.remote.proxy.transport.ProxyTask;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
+import org.jbundle.base.screen.control.servlet.BasicServlet.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.ServletTask;
-import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
-import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.model.RecordOwnerParent;
-import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
 
 
@@ -57,7 +57,7 @@ public class ProxyServlet extends HttpServlet
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
-        ServletTask.initServlet(this, SERVLET_TYPE.PROXY);
+        ServletTask.initServlet(this, BasicServlet.SERVLET_TYPE.PROXY);
         
         m_servletTask = this.createProxyTask();
     }
@@ -66,7 +66,7 @@ public class ProxyServlet extends HttpServlet
      */
     public ProxyTask createProxyTask()
     {
-        return new EncodedProxyTask(this, SERVLET_TYPE.PROXY);
+        return new EncodedProxyTask(this, BasicServlet.SERVLET_TYPE.PROXY);
     }
     /**
      * Destroy this Servlet and any active applications.
@@ -150,7 +150,7 @@ public class ProxyServlet extends HttpServlet
     /**
      * Get the main screen (with the correct view factory!).
      */
-    public TopScreen createTopScreen(RecordOwnerParent parent, FieldList recordMain, Object properties)
+    public ComponentParent createTopScreen(RecordOwnerParent parent, Rec recordMain, Object properties)
     {
         return null;//? new HtmlScreen(parent, recordMain, properties);
     }

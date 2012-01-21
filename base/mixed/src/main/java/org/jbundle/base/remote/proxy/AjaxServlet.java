@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jbundle.base.remote.proxy.transport.AjaxProxyTask;
 import org.jbundle.base.remote.proxy.transport.ProxyTask;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
-import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
+import org.jbundle.base.screen.control.servlet.BasicServlet.SERVLET_TYPE;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
 
 
@@ -49,7 +49,7 @@ public class AjaxServlet extends ProxyServlet
      */
     public ProxyTask createProxyTask()
     {
-        return new AjaxProxyTask(this, SERVLET_TYPE.AJAX);
+        return new AjaxProxyTask(this, BasicServlet.SERVLET_TYPE.AJAX);
     }
     /**
      * Set the content type for this type of servlet.

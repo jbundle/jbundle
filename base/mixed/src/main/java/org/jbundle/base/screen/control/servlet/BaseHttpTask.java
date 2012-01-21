@@ -85,11 +85,11 @@ public class BaseHttpTask extends Object
     /**
      * 
      */
-    protected SERVLET_TYPE m_servletType = null;
+    protected BasicServlet.SERVLET_TYPE m_servletType = null;
     /**
      *
      */
-    private static Map<SERVLET_TYPE, Map<String,Object>> gApplicationProperties = new Hashtable<SERVLET_TYPE, Map<String,Object>>();
+    private static Map<BasicServlet.SERVLET_TYPE, Map<String,Object>> gApplicationProperties = new Hashtable<BasicServlet.SERVLET_TYPE, Map<String,Object>>();
     /**
      * Last display message.
      */
@@ -117,7 +117,7 @@ public class BaseHttpTask extends Object
     /**
      * Constructor.
      */
-    public BaseHttpTask(BasicServlet servlet, SERVLET_TYPE servletType)
+    public BaseHttpTask(BasicServlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         this();
         this.init(servlet, servletType);
@@ -125,7 +125,7 @@ public class BaseHttpTask extends Object
     /**
      * Constructor.
      */
-    public void init(BasicServlet servlet, SERVLET_TYPE servletType)
+    public void init(BasicServlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         m_servlet = servlet;
         m_servletType = servletType;
@@ -142,19 +142,10 @@ public class BaseHttpTask extends Object
     {
         return true;   // A servlet task is unique for each http session.
     }
-    public static enum SERVLET_TYPE 
-    {
-        HTML,
-        COCOON,
-        PROXY,
-        MESSAGE,
-        AJAX,
-        XML
-    }
     /**
      * init method.
      */
-    public static Map<String,Object> getInitialProperties(javax.servlet.Servlet servlet, SERVLET_TYPE servletType)
+    public static Map<String,Object> getInitialProperties(javax.servlet.Servlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         Map<String,Object> properties = new Hashtable<String,Object>();
         Enumeration<?> enumeration = servlet.getServletConfig().getInitParameterNames();
@@ -180,7 +171,7 @@ public class BaseHttpTask extends Object
     /**
      * init method.
      */
-    public static void initServlet(javax.servlet.Servlet servlet, SERVLET_TYPE servletType)
+    public static void initServlet(javax.servlet.Servlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         Map<String,Object> properties = BaseHttpTask.getInitialProperties(servlet, servletType);
 
@@ -737,7 +728,7 @@ public class BaseHttpTask extends Object
                 bClearCookie = true;
         boolean bVerifyUser = false;
         if (application != null)
-            if (m_servletType == SERVLET_TYPE.COCOON)
+            if (m_servletType == BasicServlet.SERVLET_TYPE.COCOON)
                 bVerifyUser = true; // XML ajax javascript may have changed the user
         if ((!bSetCookie) && (!bClearCookie) && (!bVerifyUser) && (application != null))
             return application;

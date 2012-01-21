@@ -65,7 +65,7 @@ public class ProxyTask extends BaseHttpTask
     /**
      * Constructor.
      */
-    public ProxyTask(BasicServlet servlet, SERVLET_TYPE servletType)
+    public ProxyTask(BasicServlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         this();
         this.init(servlet, servletType);
@@ -73,7 +73,7 @@ public class ProxyTask extends BaseHttpTask
     /**
      * Constructor.
      */
-    public void init(BasicServlet servlet, SERVLET_TYPE servletType)
+    public void init(BasicServlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         super.init(servlet, servletType);
         // First see if this is an active session

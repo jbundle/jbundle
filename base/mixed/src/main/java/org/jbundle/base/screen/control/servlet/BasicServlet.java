@@ -16,9 +16,9 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.model.RecordOwnerParent;
-import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.screen.ComponentParent;
 
 
 /**
@@ -40,6 +40,15 @@ import org.jbundle.thin.base.db.FieldList;
  */
 public interface BasicServlet extends javax.servlet.Servlet
 {
+    public static enum SERVLET_TYPE 
+    {
+        HTML,
+        COCOON,
+        PROXY,
+        MESSAGE,
+        AJAX,
+        XML
+    }
     /**
      * Set the content type for this type of servlet.
      * (From the BasicServlet interface).
@@ -62,7 +71,7 @@ public interface BasicServlet extends javax.servlet.Servlet
      * @param properties The properties for this screen.
      * @return The top screen.
      */
-    public TopScreen createTopScreen(RecordOwnerParent parent, FieldList recordMain, Object properties);
+    public ComponentParent createTopScreen(RecordOwnerParent parent, Rec recordMain, Object properties);
     /**
      * Get the physical path for this internet path.
      * (From the BasicServlet interface).

@@ -18,14 +18,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
+import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
 import org.jbundle.base.screen.control.servlet.ServletTask;
-import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.base.util.DBParams;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
-import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.screen.ComponentParent;
 
 
 /**
@@ -64,7 +64,7 @@ public class HTMLServlet extends BaseServlet
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
-        ServletTask.initServlet(this, SERVLET_TYPE.HTML);
+        ServletTask.initServlet(this, BasicServlet.SERVLET_TYPE.HTML);
     }
     /**
      * Destroy this Servlet and any active applications.
@@ -132,7 +132,7 @@ public class HTMLServlet extends BaseServlet
     public void doProcess(HttpServletRequest req, HttpServletResponse res) 
         throws ServletException, IOException
     {
-        ServletTask servletTask = new ServletTask(this, SERVLET_TYPE.HTML);
+        ServletTask servletTask = new ServletTask(this, BasicServlet.SERVLET_TYPE.HTML);
         this.addBrowserProperties(req, servletTask);
         servletTask.doProcess(this, req, res, null);
         servletTask.free();
@@ -174,9 +174,9 @@ public class HTMLServlet extends BaseServlet
     /**
      * Get the main screen (with the correct view factory!).
      */
-    public TopScreen createTopScreen(RecordOwnerParent parent, FieldList recordMain, Object properties)
+    public ComponentParent createTopScreen(RecordOwnerParent parent, Rec recordMain, Object properties)
     {
-        return new HtmlScreen(parent, recordMain, properties);
+        return new HtmlScreen(parent, (Record)recordMain, properties);
     }
     /**
      * Get the physical path for this internet path.

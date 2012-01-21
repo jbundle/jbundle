@@ -40,7 +40,7 @@ public class EncodedProxyTask extends ProxyTask
     /**
      * Constructor.
      */
-    public EncodedProxyTask(BasicServlet servlet, SERVLET_TYPE servletType)
+    public EncodedProxyTask(BasicServlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         this();
         this.init(servlet, servletType);
@@ -48,7 +48,7 @@ public class EncodedProxyTask extends ProxyTask
     /**
      * Constructor.
      */
-    public void init(BasicServlet servlet, SERVLET_TYPE servletType)
+    public void init(BasicServlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         super.init(servlet, servletType);
     }

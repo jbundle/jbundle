@@ -22,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.XmlTrxMessageIn;
 import org.jbundle.base.screen.control.servlet.BaseHttpTask;
-import org.jbundle.base.screen.control.servlet.BaseHttpTask.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
+import org.jbundle.base.screen.control.servlet.BasicServlet.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
 import org.jbundle.base.util.BaseApplication;
@@ -56,7 +56,7 @@ public class XMLMessageReceivingServlet extends XMLServlet
     public void init(ServletConfig servletConfig) throws ServletException
     {
         super.init(servletConfig);
-        ServletTask.initServlet(this, SERVLET_TYPE.XML);
+        ServletTask.initServlet(this, BasicServlet.SERVLET_TYPE.XML);
         Enumeration<?> paramNames = this.getInitParameterNames();
         while (paramNames.hasMoreElements())
         {
@@ -97,7 +97,7 @@ public class XMLMessageReceivingServlet extends XMLServlet
 		        	properties.putAll(m_initProperties);
 				properties.put(DBParams.DOMAIN, strDomain);
         	}
-            servletTask = new ServletTask(this, SERVLET_TYPE.XML);
+            servletTask = new ServletTask(this, BasicServlet.SERVLET_TYPE.XML);
             servletTask.setProperties(properties);
             Environment env = null;
             if (servletTask.getApplication() != null)

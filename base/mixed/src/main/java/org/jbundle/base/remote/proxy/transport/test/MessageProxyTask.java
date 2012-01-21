@@ -51,7 +51,7 @@ public class MessageProxyTask extends ProxyTask
     /**
      * Constructor.
      */
-    public MessageProxyTask(BasicServlet servlet, SERVLET_TYPE servletType)
+    public MessageProxyTask(BasicServlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         this();
         this.init(servlet, servletType);
@@ -59,7 +59,7 @@ public class MessageProxyTask extends ProxyTask
     /**
      * Constructor.
      */
-    public void init(BasicServlet servlet, SERVLET_TYPE servletType)
+    public void init(BasicServlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         super.init(servlet, servletType);
     }

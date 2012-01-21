@@ -53,7 +53,7 @@ public class HttpProxyTask extends ProxyTask
     /**
      * Constructor.
      */
-    public HttpProxyTask(BasicServlet servlet, SERVLET_TYPE servletType)
+    public HttpProxyTask(BasicServlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         this();
         this.init(servlet, servletType);
@@ -61,7 +61,7 @@ public class HttpProxyTask extends ProxyTask
     /**
      * Constructor.
      */
-    public void init(BasicServlet servlet, SERVLET_TYPE servletType)
+    public void init(BasicServlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
         super.init(servlet, servletType);
     }

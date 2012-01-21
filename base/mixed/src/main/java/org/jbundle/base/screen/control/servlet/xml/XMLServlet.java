@@ -12,11 +12,12 @@ package org.jbundle.base.screen.control.servlet.xml;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.html.HTMLServlet;
-import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.model.RecordOwnerParent;
-import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.screen.ComponentParent;
 
 
 /**
@@ -64,8 +65,8 @@ public class XMLServlet extends HTMLServlet
     /**
      * Get the main screen (with the correct view factory!).
      */
-    public TopScreen createTopScreen(RecordOwnerParent parent, FieldList recordMain, Object properties)
+    public ComponentParent createTopScreen(RecordOwnerParent parent, Rec recordMain, Object properties)
     {
-        return new XmlScreen(parent, recordMain, properties);
+        return new XmlScreen(parent, (Record)recordMain, properties);
     }
 }
