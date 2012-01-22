@@ -11,16 +11,17 @@ package org.jbundle.base.screen.view.html;
  */
 import java.io.PrintWriter;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.model.BaseGridScreen;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.model.util.DisplayToolbar;
 import org.jbundle.base.screen.model.util.MaintToolbar;
 import org.jbundle.base.screen.model.util.MenuToolbar;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 
 
@@ -53,7 +54,7 @@ public class HBaseGridScreen extends HBaseScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

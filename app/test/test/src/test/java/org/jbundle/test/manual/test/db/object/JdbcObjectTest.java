@@ -15,7 +15,7 @@ import junit.framework.TestSuite;
 import org.jbundle.app.test.vet.db.Cat;
 import org.jbundle.app.test.vet.db.Dog;
 import org.jbundle.app.test.vet.db.Vet;
-import org.jbundle.base.db.RecordOwner;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;

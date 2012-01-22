@@ -12,7 +12,7 @@ package org.jbundle.base.field.event;
 import org.jbundle.base.db.event.FileRemoveBOnCloseHandler;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 /**
  * When this field is changed, trigger change on the dest field.

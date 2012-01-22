@@ -10,6 +10,7 @@ package org.jbundle.base.screen.view.swing;
  *      don@tourgeek.com
  */
 import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * The base for report screens.
@@ -41,7 +42,7 @@ public class VBaseGridScreen extends VBaseScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

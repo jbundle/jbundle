@@ -11,7 +11,7 @@ package org.jbundle.base.field;
  */
 
 import org.jbundle.base.field.event.MultDepHandler;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.FieldInfo;
 
 

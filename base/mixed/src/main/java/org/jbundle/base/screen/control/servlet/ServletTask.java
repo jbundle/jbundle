@@ -18,10 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.MenuScreen;
 import org.jbundle.base.screen.model.TopScreen;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Debug;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;

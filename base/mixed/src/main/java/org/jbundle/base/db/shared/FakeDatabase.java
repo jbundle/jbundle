@@ -13,7 +13,7 @@ import java.util.Map;
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.util.DatabaseOwner;
+import org.jbundle.base.model.DatabaseOwner;
 
 
 /**

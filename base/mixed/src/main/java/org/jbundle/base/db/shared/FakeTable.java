@@ -11,7 +11,7 @@ import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.event.RecordChangedHandler;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.FieldList;

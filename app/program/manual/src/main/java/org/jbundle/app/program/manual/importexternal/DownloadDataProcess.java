@@ -21,8 +21,8 @@ import java.net.URL;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.thread.BaseProcess;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 

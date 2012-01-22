@@ -27,9 +27,10 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.util.html.SyncPageLoader;
@@ -68,7 +69,7 @@ public class VHtmlView extends VTEView
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

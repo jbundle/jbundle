@@ -12,8 +12,9 @@ package org.jbundle.base.screen.view;
 import java.util.Hashtable;
 import java.util.Properties;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 

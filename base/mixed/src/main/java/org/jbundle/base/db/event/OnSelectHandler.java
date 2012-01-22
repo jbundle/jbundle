@@ -10,11 +10,11 @@ package org.jbundle.base.db.event;
  *      don@tourgeek.com
  */
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.message.record.RecordMessage;
 import org.jbundle.base.message.record.RecordMessageHeader;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.model.DBException;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.FieldInfo;

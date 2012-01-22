@@ -18,7 +18,7 @@ import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.PassThruTable;
 import org.jbundle.base.db.QueryTable;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.util.DatabaseOwner;
+import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.mem.base.PDatabase;

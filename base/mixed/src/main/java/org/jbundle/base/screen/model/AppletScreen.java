@@ -10,8 +10,8 @@ package org.jbundle.base.screen.model;
  *      don@tourgeek.com
  */
 import org.jbundle.base.field.BaseField;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.App;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;

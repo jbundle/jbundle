@@ -11,7 +11,7 @@ package org.jbundle.base.field;
  */
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 /**
  * CounterField - This is the field class for an auto-sequence field.

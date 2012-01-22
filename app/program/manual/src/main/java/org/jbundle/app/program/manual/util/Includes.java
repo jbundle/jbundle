@@ -10,8 +10,8 @@ package org.jbundle.app.program.manual.util;
 import org.jbundle.app.program.db.ClassInfo;
 import org.jbundle.app.program.manual.util.data.NameList;
 import org.jbundle.app.program.manual.util.data.StreamOut;
-import org.jbundle.base.db.RecordOwner;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.model.DBException;
 
 

@@ -16,6 +16,9 @@ import java.util.ResourceBundle;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.xmlutil.XmlUtilities;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.html.BaseServlet;
 import org.jbundle.base.screen.model.BaseGridScreen;
@@ -23,13 +26,11 @@ import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.HelpScreen;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.base.util.XMLTags;
 import org.jbundle.model.DBException;
 import org.jbundle.model.main.user.db.UserInfoModel;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 
 
@@ -57,7 +58,7 @@ public class XBasePanel extends XScreenField
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }
@@ -449,9 +450,9 @@ public class XBasePanel extends XScreenField
      * Output this screen using HTML.
      * @exception DBException File exception.
      */
-    public void printScreenFieldData(ScreenField sField, PrintWriter out, int iPrintOptions)
+    public void printScreenFieldData(ScreenComponent sField, PrintWriter out, int iPrintOptions)
     {
-        sField.printData(out, iPrintOptions);
+        ((ScreenField)sField).printData(out, iPrintOptions);
     }
     /**
      * Display the start form in input format.

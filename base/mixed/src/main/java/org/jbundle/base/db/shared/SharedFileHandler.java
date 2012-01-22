@@ -13,7 +13,7 @@ import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.db.filter.FileFilter;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.event.InitOnceFieldHandler;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 
 /**

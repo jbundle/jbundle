@@ -15,10 +15,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.db.netutil.NetUtility;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBParams;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.net.NDatabase;
@@ -57,7 +58,7 @@ public class DTableAccessScreen extends DDataAccessScreen
      * @param model The DataAccessScreen model.
      * @param bEditableControl If true, this view is editable.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

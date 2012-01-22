@@ -28,14 +28,15 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ResourceConstants;
 import org.jbundle.base.screen.model.GridScreen;
 import org.jbundle.base.screen.model.SCannedBox;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.view.swing.grid.GridTableModel;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.screen.AbstractThinTableModel;
@@ -70,7 +71,7 @@ public class VGridScreen extends VBaseGridTableScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

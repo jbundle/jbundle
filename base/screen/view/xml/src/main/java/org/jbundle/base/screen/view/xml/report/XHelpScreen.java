@@ -15,16 +15,17 @@ import java.util.ResourceBundle;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.xmlutil.XmlUtilities;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.HelpScreen;
 import org.jbundle.base.screen.model.report.TechHelpScreen;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.app.program.db.ClassInfoModel;
 import org.jbundle.model.main.db.MessagesModel;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -56,7 +57,7 @@ public class XHelpScreen extends XBaseParserScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

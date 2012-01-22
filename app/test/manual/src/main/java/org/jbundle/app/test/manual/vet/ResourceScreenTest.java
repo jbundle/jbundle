@@ -8,10 +8,10 @@ import java.util.Map;
 import org.jbundle.app.test.vet.db.Animal;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.convert.MultipleTableFieldConverter;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.Screen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.thin.base.db.Converter;
 
 

@@ -33,7 +33,7 @@ import org.jbundle.base.field.RealField;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.field.ShortField;
 import org.jbundle.base.field.TimeField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;

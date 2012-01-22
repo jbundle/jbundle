@@ -6,11 +6,11 @@ package org.jbundle.base.message.trx.processor;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.thread.BaseProcess;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;

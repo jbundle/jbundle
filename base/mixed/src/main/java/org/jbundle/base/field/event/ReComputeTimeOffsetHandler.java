@@ -13,7 +13,7 @@ package org.jbundle.base.field.event;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.DateField;
 import org.jbundle.base.field.DateTimeField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 /**
  * Calculate the difference in days between a date and this listener's owner.

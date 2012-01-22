@@ -10,6 +10,7 @@ package org.jbundle.base.screen.view.xml;
  *      don@tourgeek.com
  */
 import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * ScreenField - This is the information which tells the system about a field on the
@@ -36,7 +37,7 @@ public class XStaticString extends XScreenField
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

@@ -13,6 +13,7 @@ import java.awt.Component;
 
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.swing.VBaseScreen;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -43,7 +44,7 @@ public class VHeadingScreen extends VBaseScreen
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

@@ -15,9 +15,10 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
 
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.DatabaseOwner;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.DatabaseOwner;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.App;

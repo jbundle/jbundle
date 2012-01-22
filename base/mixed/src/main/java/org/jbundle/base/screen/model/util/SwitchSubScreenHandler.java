@@ -16,11 +16,11 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.NumberField;
 import org.jbundle.base.field.event.FieldListener;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.thin.base.screen.BaseApplet;
 
 

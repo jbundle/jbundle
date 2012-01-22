@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.transport.screen.ScreenMessageTransport;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.html.HTMLServlet;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Debug;
 import org.jbundle.model.main.msg.db.MessageLogModel;
 import org.jbundle.thin.main.msg.db.MessageLog;

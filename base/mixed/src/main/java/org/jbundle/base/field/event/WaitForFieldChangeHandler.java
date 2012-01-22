@@ -13,7 +13,7 @@ package org.jbundle.base.field.event;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.message.record.RecordMessageHeader;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageListener;

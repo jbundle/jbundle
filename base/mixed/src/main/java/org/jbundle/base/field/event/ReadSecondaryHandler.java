@@ -16,7 +16,7 @@ import org.jbundle.base.db.event.MoveOnValidHandler;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.ReferenceField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;

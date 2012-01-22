@@ -12,7 +12,7 @@ package org.jbundle.base.field.event;
 
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 /**
  * Disable the supplied field when this field is set to the target value.

@@ -10,10 +10,10 @@ package org.jbundle.base.remote.server;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;

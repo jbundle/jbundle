@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.db;
+package org.jbundle.base.model;
 
 /**
  * QueryBase - Query description class.
@@ -9,7 +9,7 @@ package org.jbundle.base.db;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import org.jbundle.base.util.DatabaseOwner;
+import org.jbundle.base.db.Record;
 import org.jbundle.model.RecordOwnerModel;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;

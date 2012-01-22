@@ -26,7 +26,7 @@ import java.sql.Types;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;

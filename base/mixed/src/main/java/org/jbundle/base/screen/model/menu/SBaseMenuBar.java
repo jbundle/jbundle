@@ -14,14 +14,14 @@ import java.util.ResourceBundle;
 
 import javax.swing.JMenuBar;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ResourceConstants;
+import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.screen.model.AppletScreen;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 

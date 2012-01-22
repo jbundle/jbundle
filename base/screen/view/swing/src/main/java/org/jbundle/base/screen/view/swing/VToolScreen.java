@@ -16,10 +16,11 @@ import java.awt.LayoutManager;
 
 import javax.swing.JToolBar;
 
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.control.swing.util.ScreenLayout;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.ToolScreen;
-import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -50,7 +51,7 @@ public class VToolScreen extends VBasePanel
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

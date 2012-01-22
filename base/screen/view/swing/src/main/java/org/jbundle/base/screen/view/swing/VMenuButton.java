@@ -17,10 +17,11 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.screen.model.SButtonBox;
 import org.jbundle.base.screen.model.SMenuButton;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.screen.menu.JUnderlinedButton;
 
 
@@ -54,7 +55,7 @@ public class VMenuButton extends VCannedBox
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

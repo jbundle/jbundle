@@ -30,6 +30,10 @@ import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.MenuConstants;
+import org.jbundle.base.model.ResourceConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.control.swing.SApplet;
 import org.jbundle.base.screen.control.swing.util.ScreenInfo;
 import org.jbundle.base.screen.model.AppletScreen;
@@ -40,14 +44,11 @@ import org.jbundle.base.screen.model.report.HelpScreen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.screen.view.swing.report.VDualReportScreen;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.MenuConstants;
-import org.jbundle.base.util.ResourceConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.UserProperties;
 import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
@@ -94,7 +95,7 @@ public class VAppletScreen extends VBasePanel
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         m_ScreenInfo = new ScreenInfo(null);    // One per applet screen
         super.init(model, bEditableControl);

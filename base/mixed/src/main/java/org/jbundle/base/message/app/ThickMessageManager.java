@@ -6,9 +6,9 @@ package org.jbundle.base.message.app;
 import java.util.Map;
 
 import org.jbundle.base.message.core.local.LocalMessageQueue;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.model.App;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.MessageConstants;

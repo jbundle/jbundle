@@ -10,11 +10,11 @@ import java.util.Map;
 import org.jbundle.app.test.test.db.TestTable;
 import org.jbundle.app.test.test.db.TestTableNoAuto;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.field.DateTimeField;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.thread.BaseProcess;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 

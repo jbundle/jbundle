@@ -12,10 +12,10 @@ package org.jbundle.base.screen.model;
 
 import java.util.Map;
 
-import org.jbundle.base.field.ScreenModel;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenConstants;
+import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenLoc;

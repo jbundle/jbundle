@@ -12,15 +12,15 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.SStaticString;
 import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.model.report.parser.XMLParser;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Converter;
 

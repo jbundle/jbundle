@@ -9,7 +9,9 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.model.app.program.db.AnalysisLogModel;
 
 

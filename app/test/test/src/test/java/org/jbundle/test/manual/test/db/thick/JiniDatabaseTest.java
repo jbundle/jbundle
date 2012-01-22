@@ -13,7 +13,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.jbundle.app.test.test.db.TestTableNoAuto;
-import org.jbundle.base.db.RecordOwner;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;

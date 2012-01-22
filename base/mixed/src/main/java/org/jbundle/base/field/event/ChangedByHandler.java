@@ -13,8 +13,8 @@ package org.jbundle.base.field.event;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.IntegerField;
 import org.jbundle.base.field.ListenerOwner;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
 
 /**
  * If this field is changed, update the "Changed by" Field.

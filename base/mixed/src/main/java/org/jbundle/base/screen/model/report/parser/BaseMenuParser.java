@@ -7,10 +7,10 @@ package org.jbundle.base.screen.model.report.parser;
 import java.io.PrintWriter;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;

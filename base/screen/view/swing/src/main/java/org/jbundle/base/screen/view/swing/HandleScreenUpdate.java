@@ -13,10 +13,11 @@ package org.jbundle.base.screen.view.swing;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.message.record.RecordMessageHeader;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.screen.model.BaseScreen;
-import org.jbundle.base.screen.view.ScreenFieldView;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 
@@ -64,7 +65,7 @@ class HandleScreenUpdate extends HandleBaseScreenUpdate
         String strTableName = (String)messageHeader.get(RecordMessageHeader.TABLE_NAME);
         if (this.getScreenFieldView().getScreenField() == null)
                 return; // Screen was probably freed before I got to it.
-        Record record = (Record)this.getScreenFieldView().getScreenField().getMainRecord(); // must be main record (for now)
+        Record record = (Record)((ComponentParent)this.getScreenFieldView().getScreenField()).getMainRecord(); // must be main record (for now)
         if (strTableName != null)
         	if (this.getScreenFieldView().getScreenField() instanceof BaseScreen)
         		if (!strTableName.equals(record.getTableNames(false)))

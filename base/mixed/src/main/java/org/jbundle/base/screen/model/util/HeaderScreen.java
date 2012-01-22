@@ -9,9 +9,9 @@ package org.jbundle.base.screen.model.util;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ToolScreen;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.thin.base.db.Converter;
 
 

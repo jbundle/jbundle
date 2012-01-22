@@ -10,6 +10,7 @@ package org.jbundle.base.screen.view.html;
  *      don@tourgeek.com
  */
 import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * This is the base for any parent screen.
@@ -38,7 +39,7 @@ public class HBaseScreen extends HBasePanel
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

@@ -25,6 +25,7 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ImageField;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.html.DataAccessScreen;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.screen.util.SerializableImage;
 import java.awt.Image;
 
@@ -60,7 +61,7 @@ public class DObjectAccessScreen extends DDataAccessScreen
      * @param model The DataAccessScreen model.
      * @param bEditableControl If true, this view is editable.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

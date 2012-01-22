@@ -13,12 +13,13 @@ import java.io.PrintWriter;
 import java.util.ResourceBundle;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.model.BaseMenuScreen;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.parser.XMLParser;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -49,7 +50,7 @@ public class HBaseMenuScreen extends HBaseScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

@@ -45,6 +45,10 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.text.JTextComponent;
 
 import org.jbundle.base.field.BaseField;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ResourceConstants;
+import org.jbundle.base.model.Resources;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.control.swing.util.ScreenInfo;
 import org.jbundle.base.screen.model.BaseGridScreen;
 import org.jbundle.base.screen.model.BasePanel;
@@ -53,14 +57,10 @@ import org.jbundle.base.screen.model.SButtonBox;
 import org.jbundle.base.screen.model.SEditText;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.ToolScreen;
-import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.screen.view.ScreenFieldViewAdapter;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ResourceConstants;
-import org.jbundle.base.util.Resources;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.Task;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.screen.landf.ScreenUtil;
 
@@ -70,7 +70,7 @@ import org.jbundle.thin.base.screen.landf.ScreenUtil;
  *  screen... where it is, what type it is, and the file and field position.
  */
 public abstract class VScreenField extends ScreenFieldViewAdapter
-    implements ScreenFieldView, ActionListener, FocusListener, TableCellRenderer, TableCellEditor, KeyListener, MouseListener
+    implements ActionListener, FocusListener, TableCellRenderer, TableCellEditor, KeyListener, MouseListener
 {
     /**
      * The Physical control.
@@ -139,7 +139,7 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
         m_rectExtent = null;

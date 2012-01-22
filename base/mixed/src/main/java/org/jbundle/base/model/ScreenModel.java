@@ -1,4 +1,4 @@
-package org.jbundle.base.field;
+package org.jbundle.base.model;
 
 public class ScreenModel {
     public static final String HTML_TYPE = "html";

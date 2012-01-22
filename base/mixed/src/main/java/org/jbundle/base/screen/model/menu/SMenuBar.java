@@ -13,9 +13,9 @@ import java.awt.Dimension;
 
 import javax.swing.JMenuBar;
 
+import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 

@@ -11,10 +11,10 @@ package org.jbundle.base.screen.model;
  */
 import java.io.PrintWriter;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.MenuConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.MenuConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Converter;
 

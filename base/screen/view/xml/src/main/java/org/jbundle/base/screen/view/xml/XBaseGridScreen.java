@@ -12,16 +12,17 @@ package org.jbundle.base.screen.view.xml;
 import java.io.PrintWriter;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.model.BaseGridScreen;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.ReportBreakScreen;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.base.util.XMLTags;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -49,7 +50,7 @@ public class XBaseGridScreen extends XBaseScreen
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

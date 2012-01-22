@@ -28,16 +28,17 @@ import javax.swing.JViewport;
 
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.internal.ManualMessage;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
+import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.ReportScreen;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
-import org.jbundle.base.util.MenuConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
@@ -75,7 +76,7 @@ public class VReportScreen extends VDualReportScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

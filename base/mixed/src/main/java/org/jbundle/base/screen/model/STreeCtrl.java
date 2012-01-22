@@ -16,8 +16,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;

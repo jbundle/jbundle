@@ -13,7 +13,7 @@ package org.jbundle.base.field.convert;
 import java.text.MessageFormat;
 
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.util.ResourceConstants;
+import org.jbundle.base.model.ResourceConstants;
 import org.jbundle.model.App;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Converter;

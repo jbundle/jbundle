@@ -15,7 +15,7 @@ import java.util.Map;
 
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.MessageConstants;
 

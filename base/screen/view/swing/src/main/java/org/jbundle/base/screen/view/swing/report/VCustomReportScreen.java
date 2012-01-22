@@ -23,9 +23,10 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.jbundle.base.db.GridTable;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.CustomReportScreen;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.screen.AbstractThinTableModel;
 import org.jbundle.thin.base.screen.grid.ThinTableModel;
 import org.jbundle.thin.base.screen.print.ScreenPrinter;
@@ -67,7 +68,7 @@ public class VCustomReportScreen extends VBaseReportScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         m_controlForPrint = null;
         super.init(model, bEditableControl);

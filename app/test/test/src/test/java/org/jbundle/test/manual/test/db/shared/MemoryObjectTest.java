@@ -15,7 +15,7 @@ import junit.framework.TestSuite;
 import org.jbundle.app.test.vet.db.Vet;
 import org.jbundle.app.test.vet.shared.db.Lizard;
 import org.jbundle.app.test.vet.shared.db.Snake;
-import org.jbundle.base.db.RecordOwner;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;

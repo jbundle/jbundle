@@ -20,13 +20,14 @@ import javax.swing.JScrollPane;
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.GridTable;
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.MenuConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.CalendarScreen;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.swing.calendar.CalendarTableModel;
 import org.jbundle.base.screen.view.swing.grid.GridTableModel;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.MenuConstants;
-import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.cal.opt.TaskCalendarStatusHandler;
 import org.jbundle.util.calendarpanel.CalendarPanel;
@@ -65,7 +66,7 @@ public class VCalendarScreen extends VBaseGridTableScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

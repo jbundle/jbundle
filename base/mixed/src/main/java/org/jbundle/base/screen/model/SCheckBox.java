@@ -10,9 +10,9 @@ package org.jbundle.base.screen.model;
  *      don@tourgeek.com
  */
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.thin.base.db.Converter;
 
 

@@ -7,9 +7,9 @@
  */
 package org.jbundle.base.message.trx.message.external.convert.xml;
 
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.message.trx.message.external.ExternalTrxMessageOut;
 import org.jbundle.base.message.trx.message.external.convert.BaseXmlConvertToNative;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.w3c.dom.Node;
 

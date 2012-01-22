@@ -11,7 +11,7 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 import org.jbundle.base.db.DatabaseException;
-import org.jbundle.base.util.DBParams;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;

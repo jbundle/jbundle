@@ -10,7 +10,7 @@ package org.jbundle.base.db;
  *      don@tourgeek.com
  *
  */
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.db.Field;
 
 /**

@@ -12,7 +12,8 @@ package org.jbundle.base.db;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.FieldList;
 

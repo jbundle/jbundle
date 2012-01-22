@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.message.BaseMessage;

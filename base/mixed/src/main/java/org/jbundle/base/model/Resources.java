@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.util;
+package org.jbundle.base.model;
 
 /**
  * @(#)Resources.java 0.00 12-Feb-97 Don Corley
@@ -12,6 +12,7 @@ package org.jbundle.base.util;
 import java.util.Enumeration;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
 
 
 

@@ -14,7 +14,7 @@ import org.jbundle.base.db.ScreenRecord;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.NumberField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 /**
  * This is a base class that recomputes the target field when this field changes.

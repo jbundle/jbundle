@@ -14,19 +14,20 @@ import java.util.Hashtable;
 import java.util.ResourceBundle;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.HelpScreen;
 import org.jbundle.base.screen.model.report.parser.HelpParser;
 import org.jbundle.base.screen.model.report.parser.MenuParser;
 import org.jbundle.base.screen.model.report.parser.XMLParser;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.app.program.db.ClassInfoModel;
 import org.jbundle.model.main.db.MenusModel;
 import org.jbundle.model.main.user.db.UserInfoModel;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -61,7 +62,7 @@ public class HHelpScreen extends HBaseParserScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

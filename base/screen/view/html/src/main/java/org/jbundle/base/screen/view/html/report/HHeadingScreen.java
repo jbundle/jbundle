@@ -11,11 +11,12 @@ package org.jbundle.base.screen.view.html.report;
  */
 import java.io.PrintWriter;
 
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.html.HBaseScreen;
 import org.jbundle.base.screen.view.html.HScreenField;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -50,7 +51,7 @@ public class HHeadingScreen extends HBaseScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }
@@ -75,10 +76,10 @@ public class HHeadingScreen extends HBaseScreen
      * Output this screen using HTML.
      * @exception DBException File exception.
      */
-    public void printScreenFieldData(ScreenField sField, PrintWriter out, int iPrintOptions)
+    public void printScreenFieldData(ScreenComponent sField, PrintWriter out, int iPrintOptions)
     {
-        ((HScreenField)sField.getScreenFieldView()).printHtmlHeading(out);
-        ((HScreenField)sField.getScreenFieldView()).printDisplayControl(out);
+        ((HScreenField)((ScreenField)sField).getScreenFieldView()).printHtmlHeading(out);
+        ((HScreenField)((ScreenField)sField).getScreenFieldView()).printDisplayControl(out);
     }
     /**
      * Output this screen using HTML.

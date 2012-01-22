@@ -13,6 +13,9 @@ import java.io.PrintWriter;
 import java.util.ResourceBundle;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.model.BaseGridScreen;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.BaseScreen;
@@ -23,12 +26,10 @@ import org.jbundle.base.screen.model.util.HelpToolbar;
 import org.jbundle.base.screen.model.util.MaintToolbar;
 import org.jbundle.base.screen.model.util.MenuToolbar;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.main.user.db.UserInfoModel;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
 
@@ -60,7 +61,7 @@ public class HBasePanel extends HScreenField
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }
@@ -511,9 +512,9 @@ public class HBasePanel extends HScreenField
      * Output this screen using HTML.
      * @exception DBException File exception.
      */
-    public void printScreenFieldData(ScreenField sField, PrintWriter out, int iPrintOptions)
+    public void printScreenFieldData(ScreenComponent sField, PrintWriter out, int iPrintOptions)
     {
-        sField.printData(out, iPrintOptions);
+        ((ScreenField)sField).printData(out, iPrintOptions);
     }
     /**
      * Display the start form in input format.

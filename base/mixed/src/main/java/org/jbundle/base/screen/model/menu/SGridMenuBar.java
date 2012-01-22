@@ -14,10 +14,10 @@ import java.awt.Dimension;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
+import org.jbundle.base.model.MenuConstants;
+import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.screen.view.ScreenFieldView;
-import org.jbundle.base.util.MenuConstants;
 import org.jbundle.thin.base.db.Converter;
 
 

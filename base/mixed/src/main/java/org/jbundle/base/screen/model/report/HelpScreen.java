@@ -11,11 +11,11 @@ package org.jbundle.base.screen.model.report;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.model.util.HelpToolbar;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.app.program.db.ClassInfoModel;
 import org.jbundle.thin.base.db.Converter;

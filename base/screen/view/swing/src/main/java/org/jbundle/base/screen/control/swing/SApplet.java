@@ -11,6 +11,9 @@ import java.util.Map;
 
 import javax.swing.BoxLayout;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.control.swing.util.ScreenInfo;
 import org.jbundle.base.screen.model.AppletScreen;
 import org.jbundle.base.screen.model.BasePanel;
@@ -18,11 +21,8 @@ import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.FrameScreen;
 import org.jbundle.base.screen.view.swing.VAppletScreen;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;

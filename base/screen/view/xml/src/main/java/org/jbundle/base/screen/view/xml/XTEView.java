@@ -16,6 +16,7 @@ import org.jbundle.base.field.XMLPropertiesField;
 import org.jbundle.base.field.XmlField;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -43,7 +44,7 @@ public class XTEView extends XEditText
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

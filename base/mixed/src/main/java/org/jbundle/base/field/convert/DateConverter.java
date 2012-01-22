@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;

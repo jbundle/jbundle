@@ -10,12 +10,12 @@ package org.jbundle.base.db.event;
  *      don@tourgeek.com
  */
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.field.ListenerOwner;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
+import org.jbundle.base.model.ResourceConstants;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.FieldInfo;

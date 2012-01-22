@@ -14,11 +14,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import org.jbundle.base.field.PropertiesField;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.screen.model.BaseMenuScreen;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.main.db.MenusModel;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.main.db.Menus;
 
@@ -51,7 +52,7 @@ public class XBaseMenuScreen extends XBaseScreen
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

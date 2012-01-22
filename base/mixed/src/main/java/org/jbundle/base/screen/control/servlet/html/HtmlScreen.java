@@ -9,7 +9,7 @@ package org.jbundle.base.screen.control.servlet.html;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import org.jbundle.base.field.ScreenModel;
+import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.screen.model.TopScreen;
 import org.jbundle.base.screen.view.ViewFactory;
 import org.jbundle.model.RecordOwnerParent;

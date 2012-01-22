@@ -20,9 +20,10 @@ import javax.swing.JTextPane;
 import javax.swing.text.JTextComponent;
 
 import org.jbundle.base.field.BaseField;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 
 
@@ -54,7 +55,7 @@ public class VEditText extends VScreenField
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

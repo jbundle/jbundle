@@ -15,10 +15,10 @@ import java.io.ObjectOutputStream;
 import java.util.Vector;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.BaseListener;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;

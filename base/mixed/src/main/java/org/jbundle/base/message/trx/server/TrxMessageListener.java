@@ -14,14 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.message.app.MessageApplication;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.main.msg.db.MessageProcessInfoModel;

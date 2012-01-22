@@ -7,7 +7,7 @@
  */
 package org.jbundle.base.message.record;
 
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 /**
  *

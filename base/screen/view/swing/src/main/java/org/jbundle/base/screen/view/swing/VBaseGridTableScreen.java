@@ -22,19 +22,20 @@ import javax.swing.SwingUtilities;
 import org.jbundle.base.db.GridTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.message.record.RecordMessageHeader;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.MenuConstants;
+import org.jbundle.base.model.ResourceConstants;
+import org.jbundle.base.model.ScreenConstants;
+import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.screen.model.BaseGridTableScreen;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.Screen;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.screen.view.swing.grid.GridTableModel;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.MenuConstants;
-import org.jbundle.base.util.ResourceConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.message.Message;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 
@@ -71,7 +72,7 @@ public class VBaseGridTableScreen extends VBaseGridScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

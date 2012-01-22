@@ -17,10 +17,11 @@ import java.awt.Rectangle;
 import javax.swing.JCheckBox;
 import javax.swing.JToggleButton;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.SCheckBox;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -50,7 +51,7 @@ public class VCheckBox extends VToggleButton
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

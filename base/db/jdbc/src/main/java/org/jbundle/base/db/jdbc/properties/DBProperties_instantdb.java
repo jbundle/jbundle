@@ -10,8 +10,8 @@ package org.jbundle.base.db.jdbc.properties;
 import java.util.ListResourceBundle;
 
 import org.jbundle.base.db.SQLParams;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBSQLTypes;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBSQLTypes;
 
 
 /**

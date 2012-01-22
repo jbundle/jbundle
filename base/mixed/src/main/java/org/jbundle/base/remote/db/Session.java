@@ -13,9 +13,9 @@ package org.jbundle.base.remote.db;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.message.record.GridRecordMessageFilter;
 import org.jbundle.base.message.record.RecordMessageFilter;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.message.MessageReceiver;

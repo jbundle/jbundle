@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.util;
+package org.jbundle.base.model;
 
 import org.jbundle.thin.base.screen.JScreenConstants;
 

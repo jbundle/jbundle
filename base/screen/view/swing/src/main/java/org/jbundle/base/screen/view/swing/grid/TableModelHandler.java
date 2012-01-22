@@ -12,7 +12,7 @@ package org.jbundle.base.screen.view.swing.grid;
 import org.jbundle.base.db.GridTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.event.FileListener;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldTable;
 

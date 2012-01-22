@@ -11,14 +11,14 @@ package org.jbundle.base.screen.model.html;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.screen.view.data.DJnlpAccessScreen;
 import org.jbundle.base.screen.view.data.DObjectAccessScreen;
 import org.jbundle.base.screen.view.data.DTableAccessScreen;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.thin.base.db.Converter;
 
 

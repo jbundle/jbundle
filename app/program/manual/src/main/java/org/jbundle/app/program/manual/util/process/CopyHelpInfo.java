@@ -6,10 +6,10 @@ package org.jbundle.app.program.manual.util.process;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.Screen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.main.db.Menus;
 import org.jbundle.model.DBException;
 import org.jbundle.app.program.db.ClassInfo;

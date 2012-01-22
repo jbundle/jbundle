@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.xml.XScreenField;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -42,7 +43,7 @@ public class XBlinkImageView extends XScreenField
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

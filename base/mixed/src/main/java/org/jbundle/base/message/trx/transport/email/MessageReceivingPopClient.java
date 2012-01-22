@@ -8,9 +8,9 @@ package org.jbundle.base.message.trx.transport.email;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.thread.ProcessRunnerTask;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.model.App;
 import org.jbundle.model.util.Util;

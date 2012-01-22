@@ -15,7 +15,8 @@ import java.util.Vector;
 
 import org.jbundle.base.db.event.RemoveFromQueryRecordOnCloseHandler;
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.FieldList;
 

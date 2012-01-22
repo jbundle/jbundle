@@ -26,6 +26,7 @@ import org.jbundle.base.thread.*;
 import org.jbundle.thin.base.message.*;
 import org.jbundle.main.msg.db.*;
 import org.jbundle.base.message.trx.message.*;
+import org.jbundle.base.model.DBParams;
 
 /**
  *  MessageStormProcess - .

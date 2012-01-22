@@ -15,6 +15,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.PropertiesField;
 import org.jbundle.base.field.ReferenceField;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.main.user.db.UserRegistrationModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;

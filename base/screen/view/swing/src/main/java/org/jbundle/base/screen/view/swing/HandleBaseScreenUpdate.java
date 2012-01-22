@@ -13,8 +13,8 @@ package org.jbundle.base.screen.view.swing;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.message.record.RecordMessageHeader;
-import org.jbundle.base.screen.view.ScreenFieldView;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.MessageConstants;

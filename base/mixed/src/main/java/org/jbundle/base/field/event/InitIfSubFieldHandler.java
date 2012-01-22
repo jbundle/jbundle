@@ -11,7 +11,7 @@ package org.jbundle.base.field.event;
  */
 import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 /**
  * If there is no SubFileFilter, then don't allow the field to be inited.

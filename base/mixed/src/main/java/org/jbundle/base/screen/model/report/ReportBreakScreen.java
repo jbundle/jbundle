@@ -15,11 +15,11 @@ import java.util.Map;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.CounterField;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Converter;
 

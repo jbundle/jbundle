@@ -14,7 +14,7 @@ import org.jbundle.base.db.event.FileRemoveBOnCloseHandler;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.ReferenceField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 /**
  * When this field is initialized, move the source value to this field.

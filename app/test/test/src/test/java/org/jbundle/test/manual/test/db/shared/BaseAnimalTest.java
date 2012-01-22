@@ -9,7 +9,7 @@ package org.jbundle.test.manual.test.db.shared;
 import org.jbundle.app.test.vet.db.Vet;
 import org.jbundle.app.test.vet.shared.db.Lizard;
 import org.jbundle.app.test.vet.shared.db.Snake;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 

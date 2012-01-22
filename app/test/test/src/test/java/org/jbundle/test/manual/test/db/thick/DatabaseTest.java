@@ -17,7 +17,7 @@ import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.field.StringField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 
 

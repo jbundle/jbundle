@@ -12,7 +12,7 @@ package org.jbundle.base.field.convert.encode;
 
 import java.security.NoSuchAlgorithmException;
 
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.util.base64.Base64;
 

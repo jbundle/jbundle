@@ -7,11 +7,11 @@ package org.jbundle.app.program.manual.util;
  *  WriteJava
  *  Copyright (c) 2005 jbundle.org. All rights reserved.
  */
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.SButtonBox;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.BaseApplet;

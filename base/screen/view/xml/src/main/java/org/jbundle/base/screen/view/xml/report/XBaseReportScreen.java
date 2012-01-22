@@ -11,6 +11,7 @@ package org.jbundle.base.screen.view.xml.report;
  */
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.xml.XBaseGridScreen;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  *  HTML Display screen (simply display some HTML in the content area of a screen).
@@ -42,7 +43,7 @@ public class XBaseReportScreen extends XBaseGridScreen
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

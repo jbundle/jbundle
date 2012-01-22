@@ -13,9 +13,9 @@ import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.BaseTable;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.thread.BaseRecordOwner;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DatabaseOwner;
 import org.jbundle.model.App;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;

@@ -15,8 +15,8 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.UserProperties;
 import org.jbundle.base.util.Utility;

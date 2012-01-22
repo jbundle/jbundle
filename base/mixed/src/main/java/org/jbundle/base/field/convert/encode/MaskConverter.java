@@ -11,7 +11,7 @@ package org.jbundle.base.field.convert.encode;
  */
 
 import org.jbundle.base.field.convert.FieldConverter;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.Converter;
 
 

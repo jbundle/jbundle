@@ -16,6 +16,7 @@ import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.HelpScreen;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.app.program.db.ClassInfoModel;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -43,7 +44,7 @@ public class XTechHelpScreen extends XHelpScreen
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

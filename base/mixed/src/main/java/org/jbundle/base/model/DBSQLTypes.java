@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.util;
+package org.jbundle.base.model;
 
 /**
  * @(#)Constants.java 1.16 95/12/14 Don Corley

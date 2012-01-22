@@ -13,12 +13,13 @@ import java.io.PrintWriter;
 import java.util.Vector;
 
 import org.jbundle.base.field.BaseField;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.screen.model.SPopupBox;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -57,7 +58,7 @@ public class HPopupBox extends HScreenField
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
         if (m_vDisplays == null)

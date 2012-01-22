@@ -7,7 +7,7 @@ package org.jbundle.base.screen.model.report.parser;
 import java.io.PrintWriter;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.model.app.program.db.ClassInfoModel;
 

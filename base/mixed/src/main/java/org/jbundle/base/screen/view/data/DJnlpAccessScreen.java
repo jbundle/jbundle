@@ -19,13 +19,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.screen.splash.Splash;
 import org.jbundle.thin.base.screen.ThinApplet;
@@ -60,7 +61,7 @@ public class DJnlpAccessScreen extends DDataAccessScreen
      * @param model The DataAccessScreen model.
      * @param bEditableControl If true, this view is editable.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

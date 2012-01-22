@@ -13,7 +13,7 @@ package org.jbundle.base.thread;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.jbundle.base.util.DBParams;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.App;
 import org.jbundle.model.util.Util;

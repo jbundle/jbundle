@@ -17,6 +17,8 @@ import java.util.Vector;
 
 import org.jbundle.base.db.lock.ClientLockManager;
 import org.jbundle.base.message.app.MessageApplication;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.main.msg.db.MessageInfoModel;

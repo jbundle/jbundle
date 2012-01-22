@@ -20,8 +20,8 @@ import java.sql.Types;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBSQLTypes;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBSQLTypes;
 import org.jbundle.model.db.Field;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldInfo;

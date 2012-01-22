@@ -13,10 +13,10 @@ package org.jbundle.base.field.event;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.util.Util;

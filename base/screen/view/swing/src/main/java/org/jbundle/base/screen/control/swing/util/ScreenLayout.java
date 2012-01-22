@@ -19,6 +19,8 @@ import java.awt.Rectangle;
 
 import javax.swing.JLabel;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.ScreenField;
@@ -26,8 +28,6 @@ import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.screen.view.swing.VBasePanel;
 import org.jbundle.base.screen.view.swing.VScreenField;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ScreenConstants;
 
 
 /**

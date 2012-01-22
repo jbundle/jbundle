@@ -21,7 +21,7 @@ import org.jbundle.base.message.trx.message.external.EMailTrxMessageIn;
 import org.jbundle.base.message.trx.message.external.EMailTrxMessageOut;
 import org.jbundle.base.message.trx.message.internal.ManualMessage;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
 import org.jbundle.model.main.msg.db.MessageStatusModel;

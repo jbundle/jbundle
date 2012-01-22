@@ -16,12 +16,12 @@ import java.util.Vector;
 
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.BaseField;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.remote.db.DatabaseSession;
 import org.jbundle.base.thread.RemoteRecordOwner;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.base.util.Debug;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;

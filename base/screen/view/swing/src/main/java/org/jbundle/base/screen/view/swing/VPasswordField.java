@@ -14,8 +14,9 @@ import java.awt.Component;
 import javax.swing.JPasswordField;
 import javax.swing.text.JTextComponent;
 
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -46,7 +47,7 @@ public class VPasswordField extends VEditText
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

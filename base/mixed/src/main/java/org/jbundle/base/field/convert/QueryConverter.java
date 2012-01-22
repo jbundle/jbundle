@@ -15,7 +15,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.field.IntegerField;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.field.StringField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;

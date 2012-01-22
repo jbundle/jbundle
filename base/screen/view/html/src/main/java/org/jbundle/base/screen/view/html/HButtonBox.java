@@ -13,13 +13,14 @@ import java.io.PrintWriter;
 import java.net.URLEncoder;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.model.GridScreen;
 import org.jbundle.base.screen.model.SButtonBox;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 
 
@@ -51,7 +52,7 @@ public class HButtonBox extends HBaseButton
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

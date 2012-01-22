@@ -11,13 +11,14 @@ package org.jbundle.base.screen.view.html;
  */
 import java.io.PrintWriter;
 
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.screen.model.GridScreen;
 import org.jbundle.base.screen.model.SCannedBox;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.ToolScreen;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.MenuConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -48,7 +49,7 @@ public class HToolScreen extends HBasePanel
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

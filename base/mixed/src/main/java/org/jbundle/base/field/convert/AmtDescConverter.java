@@ -13,8 +13,8 @@ package org.jbundle.base.field.convert;
 import java.util.ResourceBundle;
 
 import org.jbundle.base.field.BaseField;
+import org.jbundle.base.model.ResourceConstants;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 

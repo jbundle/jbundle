@@ -13,7 +13,7 @@ package org.jbundle.base.field.event;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.DateField;
 import org.jbundle.base.field.DateTimeField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 /**
  * If this listener's owner field changes, move the current date to the target field.

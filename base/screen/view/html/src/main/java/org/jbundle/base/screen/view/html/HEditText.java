@@ -10,6 +10,7 @@ package org.jbundle.base.screen.view.html;
  *      don@tourgeek.com
  */
 import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * A standard text input box.
@@ -39,7 +40,7 @@ public class HEditText extends HScreenField
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

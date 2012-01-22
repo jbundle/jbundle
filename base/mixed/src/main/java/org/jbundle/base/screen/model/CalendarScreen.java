@@ -13,9 +13,9 @@ import java.util.Date;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.calendar.CalendarRecordItem;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.util.calendarpanel.model.CalendarItem;

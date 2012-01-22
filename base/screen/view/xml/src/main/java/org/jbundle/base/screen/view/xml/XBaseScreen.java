@@ -10,6 +10,7 @@ package org.jbundle.base.screen.view.xml;
  *      don@tourgeek.com
  */
 import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * This is the base for any parent screen.
@@ -34,7 +35,7 @@ public class XBaseScreen extends XBasePanel
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

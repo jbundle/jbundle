@@ -15,6 +15,9 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.model.DBException;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 

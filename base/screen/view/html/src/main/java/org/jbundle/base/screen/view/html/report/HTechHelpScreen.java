@@ -10,6 +10,7 @@ package org.jbundle.base.screen.view.html.report;
  *      don@tourgeek.com
  */
 import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * ScreenField - This is the information which tells the system about a field on the
@@ -43,7 +44,7 @@ public class HTechHelpScreen extends HHelpScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

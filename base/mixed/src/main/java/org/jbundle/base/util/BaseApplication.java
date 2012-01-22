@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.jbundle.base.db.BaseDatabase;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.DatabaseOwner;
+import org.jbundle.base.model.Resources;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
 import org.jbundle.thin.base.message.BaseMessageManager;

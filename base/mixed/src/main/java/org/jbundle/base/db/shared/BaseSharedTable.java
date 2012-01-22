@@ -18,7 +18,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.event.FieldListener;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.FieldList;
 

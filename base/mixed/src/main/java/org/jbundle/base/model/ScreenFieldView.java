@@ -5,7 +5,7 @@
  
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.screen.view;
+package org.jbundle.base.model;
 
 import java.awt.Component;
 import java.awt.LayoutManager;
@@ -15,12 +15,12 @@ import java.util.ResourceBundle;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import org.jbundle.model.db.Rec;
-import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.model.DBException;
 import org.jbundle.model.App;
+import org.jbundle.model.DBException;
+import org.jbundle.model.db.Rec;
 import org.jbundle.model.message.Message;
 import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.screen.ScreenComponent;
 
 /** 
  * The screen field view interface.
@@ -35,7 +35,7 @@ public interface ScreenFieldView extends FieldComponent
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl);
+    public void init(ScreenComponent model, boolean bEditableControl);
     /**
      * Free.
      */
@@ -44,7 +44,7 @@ public interface ScreenFieldView extends FieldComponent
      * Get the model for this view.
      * @return The model.
      */
-    public ScreenField getScreenField();
+    public ScreenComponent getScreenField();
     /**
      * Set up the physical control (that implements Component).
      * @param bEditableControl Is this control editable?
@@ -383,7 +383,7 @@ public interface ScreenFieldView extends FieldComponent
      * Output this screen using HTML.
      * @exception DBException File exception.
      */
-    public void printScreenFieldData(ScreenField sField, PrintWriter out, int iPrintOptions);
+    public void printScreenFieldData(ScreenComponent sField, PrintWriter out, int iPrintOptions);
     /**
      * Display this screen's toolbars in html input format.
      * @param out The HTML output stream.

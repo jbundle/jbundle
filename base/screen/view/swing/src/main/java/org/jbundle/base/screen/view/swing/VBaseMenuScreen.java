@@ -25,18 +25,18 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BaseMenuScreen;
 import org.jbundle.base.screen.model.MenuScreen;
 import org.jbundle.base.screen.model.SMenuButton;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.util.Util;
-import org.jbundle.thin.base.db.Constants;
 
 
 /**
@@ -71,7 +71,7 @@ public class VBaseMenuScreen extends VBaseScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

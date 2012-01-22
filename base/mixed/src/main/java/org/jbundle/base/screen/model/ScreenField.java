@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.field.ScreenModel;
+import org.jbundle.base.model.MenuConstants;
+import org.jbundle.base.model.ScreenConstants;
+import org.jbundle.base.model.ScreenFieldView;
+import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.screen.view.ViewFactory;
-import org.jbundle.base.util.MenuConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Field;

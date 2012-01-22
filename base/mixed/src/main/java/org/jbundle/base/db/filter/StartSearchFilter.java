@@ -17,7 +17,7 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.DateField;
 import org.jbundle.base.field.NumberField;
 import org.jbundle.base.field.event.FieldReSelectHandler;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.Converter;
 
 

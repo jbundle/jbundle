@@ -26,10 +26,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.message.trx.message.external.BaseXmlTrxMessageIn;
 import org.jbundle.base.message.trx.message.external.ExternalTrxMessageIn;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.MessageDataDesc;
 import org.w3c.dom.Node;

@@ -14,7 +14,7 @@ import org.apache.log4j.Category;
 import org.jbundle.app.test.vet.db.Cat;
 import org.jbundle.app.test.vet.db.Dog;
 import org.jbundle.app.test.vet.db.Vet;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 
 

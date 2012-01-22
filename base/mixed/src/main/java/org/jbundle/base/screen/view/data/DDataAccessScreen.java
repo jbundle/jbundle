@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.ScreenFieldViewAdapter;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -52,7 +53,7 @@ public class DDataAccessScreen extends ScreenFieldViewAdapter
      * @param model The DataAccessScreen model.
      * @param bEditableControl If true, this view is editable.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

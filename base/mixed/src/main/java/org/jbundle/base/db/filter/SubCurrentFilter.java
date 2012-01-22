@@ -12,7 +12,7 @@ package org.jbundle.base.db.filter;
 import org.jbundle.base.db.KeyArea;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.ListenerOwner;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
 

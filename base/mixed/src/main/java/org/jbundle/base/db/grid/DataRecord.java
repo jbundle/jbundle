@@ -3,7 +3,7 @@
  */
 package org.jbundle.base.db.grid;
 
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 
 /**

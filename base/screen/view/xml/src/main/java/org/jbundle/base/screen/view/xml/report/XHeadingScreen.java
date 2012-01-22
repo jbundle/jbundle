@@ -11,6 +11,7 @@ package org.jbundle.base.screen.view.xml.report;
  */
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.xml.XBaseScreen;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * A Report heading screen.
@@ -36,7 +37,7 @@ public class XHeadingScreen extends XBaseScreen
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

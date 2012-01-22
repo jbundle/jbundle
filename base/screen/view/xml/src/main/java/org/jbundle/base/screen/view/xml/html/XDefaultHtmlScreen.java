@@ -17,17 +17,18 @@ import java.util.ResourceBundle;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.StringSubFileFilter;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.html.DefaultHtmlScreen;
 import org.jbundle.base.screen.view.xml.XBaseScreen;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.main.db.MenusModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.screen.BaseApplet;
@@ -60,7 +61,7 @@ public class XDefaultHtmlScreen extends XBaseScreen
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

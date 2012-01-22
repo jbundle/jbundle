@@ -15,9 +15,9 @@ import java.awt.Window;
 
 import javax.swing.LayoutFocusTraversalPolicy;
 
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.swing.VScreenField;
-import org.jbundle.base.util.DBConstants;
 
 
 /**
@@ -106,7 +106,7 @@ public class MyFocusTraversalPolicy extends LayoutFocusTraversalPolicy
             sField = sField.getComponentAfter(sField, iSelectNextOrder);
             if (sField != null)
             {
-                org.jbundle.base.screen.view.ScreenFieldView sFieldView = sField.getScreenFieldView();
+                org.jbundle.base.model.ScreenFieldView sFieldView = sField.getScreenFieldView();
                 if (sFieldView != null)
                 {
                     return sFieldView.getControl();

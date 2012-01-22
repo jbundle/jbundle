@@ -14,7 +14,7 @@ package org.jbundle.base.field.convert;
 import java.util.Map;
 
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.field.ScreenModel;
+import org.jbundle.base.model.ScreenModel;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;

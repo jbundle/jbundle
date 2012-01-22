@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.util;
+package org.jbundle.base.model;
 
 /**
  * @(#)Environment.java   1.16 95/12/14 Don Corley
@@ -13,6 +13,7 @@ package org.jbundle.base.util;
 import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
+import org.jbundle.base.util.Environment;
 import org.jbundle.model.PropertyOwner;
 
 

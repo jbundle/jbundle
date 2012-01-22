@@ -15,7 +15,7 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.CounterField;
 import org.jbundle.base.field.DateTimeField;
 import org.jbundle.base.field.NumberField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 
 

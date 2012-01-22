@@ -14,7 +14,7 @@ package org.jbundle.base.field.convert;
 import java.text.NumberFormat;
 
 import org.jbundle.base.field.NumberField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.Constants;
 
 

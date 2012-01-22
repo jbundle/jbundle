@@ -7,7 +7,7 @@ package org.jbundle.test.manual.test.message;
 import org.jbundle.app.test.vet.db.Cat;
 import org.jbundle.app.test.vet.db.Vet;
 import org.jbundle.base.field.ReferenceField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.MessageDataParent;

@@ -11,13 +11,14 @@ package org.jbundle.base.screen.view.html.report;
  */
 import java.io.PrintWriter;
 
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.DualReportScreen;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.main.user.db.UserInfoModel;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -54,7 +55,7 @@ public class HDualReportScreen extends HBaseReportScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

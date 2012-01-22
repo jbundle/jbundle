@@ -13,7 +13,7 @@ package org.jbundle.base.field;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.util.DBSQLTypes;
+import org.jbundle.base.model.DBSQLTypes;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;

@@ -14,7 +14,7 @@ import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.DatabaseException;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;

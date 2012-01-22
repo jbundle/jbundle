@@ -11,7 +11,7 @@ package org.jbundle.base.db.filter;
  */
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 /**
  * A StringSubFileFilter is a record filter that you can use to

@@ -9,9 +9,11 @@ import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.PropertiesField;
 import org.jbundle.base.field.ReferenceField;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.remote.server.RemoteSessionServer;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.model.DBException;

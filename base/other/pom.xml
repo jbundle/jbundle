@@ -23,6 +23,7 @@
           <instructions>
             <Export-Package>
             !org.jbundle.base.screen.*,
+            !org.jbundle.base.model.*,
             !org.jbundle.base.db.*,
             !org.jbundle.base.field.*,
             !org.jbundle.base.remote.*,

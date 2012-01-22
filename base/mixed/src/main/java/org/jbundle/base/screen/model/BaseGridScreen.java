@@ -14,12 +14,12 @@ import java.util.Map;
 
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.HtmlConstants;
+import org.jbundle.base.model.ResourceConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.report.ReportBreakScreen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.HtmlConstants;
-import org.jbundle.base.util.ResourceConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.screen.GridScreenParent;
 import org.jbundle.thin.base.db.Converter;

@@ -7,8 +7,8 @@ import java.util.Dictionary;
 
 import javax.servlet.Servlet;
 
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.screen.control.servlet.html.BaseServlet;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.jbundle.util.webapp.base.BaseOsgiServlet;

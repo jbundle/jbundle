@@ -8,9 +8,9 @@ package org.jbundle.app.program.manual.util;
  *  WriteJava
  *  Copyright (c) 2005 jbundle.org. All rights reserved.
  */
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.app.program.db.ClassInfo;
 import org.jbundle.app.program.db.FieldData;
 import org.jbundle.model.DBException;

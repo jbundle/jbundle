@@ -11,6 +11,7 @@ package org.jbundle.base.screen.view.html.report;
  */
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.html.HBaseGridScreen;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  *  HTML Display screen (simply display some HTML in the content area of a screen).
@@ -46,7 +47,7 @@ public class HBaseReportScreen extends HBaseGridScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

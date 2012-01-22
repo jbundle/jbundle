@@ -9,8 +9,8 @@ package org.jbundle.base.remote.server;
 
 import java.util.Map;
 
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.db.Params;

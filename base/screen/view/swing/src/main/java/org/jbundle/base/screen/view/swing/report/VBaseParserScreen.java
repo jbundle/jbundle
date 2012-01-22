@@ -19,9 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.DualReportScreen;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.screen.util.html.JHelpView;
 
 
@@ -59,7 +60,7 @@ public class VBaseParserScreen extends VDualReportScreen
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

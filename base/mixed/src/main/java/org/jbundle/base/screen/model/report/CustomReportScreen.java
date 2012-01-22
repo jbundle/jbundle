@@ -23,12 +23,12 @@ import javax.swing.text.JTextComponent;
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.GridTable;
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.model.util.ReportToolbar;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 

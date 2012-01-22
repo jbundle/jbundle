@@ -9,10 +9,10 @@ package org.jbundle.base.field;
  * If you want the capability to read a reference, use ReferenceField.
  */
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.db.event.ClearFieldReferenceOnCloseHandler;
 import org.jbundle.base.db.event.FreeOnFreeHandler;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.util.Utility;
 
 public class RecordReferenceField extends IntegerField

@@ -16,14 +16,15 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.message.record.RecordMessageHeader;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.screen.model.BaseGridTableScreen;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.ToolScreen;
-import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.screen.view.swing.grid.GridTableModel;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.message.BaseMessage;
 
@@ -75,9 +76,9 @@ class HandleBaseGridTableScreenUpdate extends HandleBaseScreenUpdate
     public void handleUpdateMessage(BaseMessage message, int iChangeType)
     {
         if ((this.getScreenFieldView().getScreenField() == null)
-            || (this.getScreenFieldView().getScreenField().getMainRecord() == null))
+            || (((ComponentParent)this.getScreenFieldView().getScreenField()).getMainRecord() == null))
                 return; // Screen was probably freed before I got to it.
-        Record record = (Record)this.getScreenFieldView().getScreenField().getMainRecord(); // Record changed
+        Record record = (Record)((ComponentParent)this.getScreenFieldView().getScreenField()).getMainRecord(); // Record changed
         int iHandleType = DBConstants.BOOKMARK_HANDLE;  // OBJECT_ID_HANDLE;
         Object bookmark = ((RecordMessageHeader)m_message.getMessageHeader()).getBookmark(iHandleType);
         int iRecordMessageType = ((RecordMessageHeader)m_message.getMessageHeader()).getRecordMessageType();

@@ -21,19 +21,20 @@ import javax.swing.JFileChooser;
 import javax.swing.JTable;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.DateTimeField;
 import org.jbundle.base.field.PropertiesField;
-import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.field.XmlField;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
+import org.jbundle.base.model.ScreenConstants;
+import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.screen.control.swing.SApplet;
 import org.jbundle.base.screen.model.GridScreen;
 import org.jbundle.base.screen.model.SCannedBox;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.swing.grid.GridTableModel;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.main.properties.db.PropertiesInputModel;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.util.SerializableImage;
 import org.jbundle.util.jcalendarbutton.JCalendarPopup;
@@ -81,7 +82,7 @@ public class VCannedBox extends VButtonBox
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

@@ -10,10 +10,10 @@ package org.jbundle.base.db.filter;
  *      don@tourgeek.com
  */
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.thin.base.db.FieldInfo;
 
 

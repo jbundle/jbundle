@@ -12,9 +12,9 @@ package org.jbundle.base.field.event;
 
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.NumberField;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ResourceConstants;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ResourceConstants;
 import org.jbundle.model.Task;
 
 

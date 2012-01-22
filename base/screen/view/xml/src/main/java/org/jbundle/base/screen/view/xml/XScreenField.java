@@ -12,24 +12,24 @@ package org.jbundle.base.screen.view.xml;
 import java.io.PrintWriter;
 
 import org.jbundle.base.field.HtmlField;
-import org.jbundle.base.field.ScreenModel;
 import org.jbundle.base.field.XMLPropertiesField;
 import org.jbundle.base.field.XmlField;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenFieldView;
+import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.view.ScreenFieldView;
 import org.jbundle.base.screen.view.zml.ZScreenField;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.base.util.XMLTags;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
  * The base view for XML components.
  */
 public abstract class XScreenField extends ZScreenField
-    implements ScreenFieldView
 {
     public static final String DEFAULT_CONTROL_TYPE = "textbox";
     public static final String DEFAULT_CONTROL_LENGTH = "40";
@@ -56,7 +56,7 @@ public abstract class XScreenField extends ZScreenField
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

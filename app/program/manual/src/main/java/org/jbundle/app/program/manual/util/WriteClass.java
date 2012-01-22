@@ -28,8 +28,8 @@ import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.NumberField;
 import org.jbundle.base.field.ReferenceField;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.thread.BaseProcess;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
@@ -332,6 +332,7 @@ public class WriteClass extends BaseProcess
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.field.event");   // Don't include this!!!
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.screen.model");      // Don't include this!!!
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.screen.model.util");     // Don't include this!!!
+                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.model");      // Don't include this!!!
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.util");      // Don't include this!!!
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "model");      // Don't include this!!!
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "model.db");      // Don't include this!!!

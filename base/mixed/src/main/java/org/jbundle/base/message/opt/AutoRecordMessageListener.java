@@ -5,14 +5,14 @@ package org.jbundle.base.message.opt;
 
 import org.jbundle.base.db.GridTable;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.db.grid.DataRecord;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.message.record.BaseRecordMessageListener;
 import org.jbundle.base.message.record.RecordMessage;
 import org.jbundle.base.message.record.RecordMessageHeader;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.DBParams;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.message.BaseMessage;

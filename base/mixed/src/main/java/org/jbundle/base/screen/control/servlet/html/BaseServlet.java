@@ -19,8 +19,8 @@ import java.net.URL;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.screen.control.servlet.ServletTask;
-import org.jbundle.base.util.DBParams;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;

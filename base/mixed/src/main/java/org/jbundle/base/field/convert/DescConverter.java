@@ -10,7 +10,7 @@ package org.jbundle.base.field.convert;
  *      don@tourgeek.com
  */
 
-import org.jbundle.base.util.ScreenConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.thin.base.db.Converter;
 
 

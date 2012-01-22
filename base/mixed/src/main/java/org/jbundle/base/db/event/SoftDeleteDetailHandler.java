@@ -10,9 +10,9 @@ package org.jbundle.base.db.event;
  *      don@tourgeek.com
  */
 import org.jbundle.base.db.Record;
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.field.BaseField;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 

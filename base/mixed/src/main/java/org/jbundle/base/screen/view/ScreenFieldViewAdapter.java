@@ -19,9 +19,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
@@ -29,6 +30,7 @@ import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.message.Message;
 import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
@@ -71,9 +73,9 @@ public abstract class ScreenFieldViewAdapter extends Object
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
-        m_model = model;
+        m_model = (ScreenField)model;
         m_bEditableControl = bEditableControl;
     }
     /**
@@ -605,7 +607,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * Output this screen using HTML.
      * @exception DBException File exception.
      */
-    public void printScreenFieldData(ScreenField sField, PrintWriter out, int iPrintOptions)
+    public void printScreenFieldData(ScreenComponent sField, PrintWriter out, int iPrintOptions)
     {
     }
     /**

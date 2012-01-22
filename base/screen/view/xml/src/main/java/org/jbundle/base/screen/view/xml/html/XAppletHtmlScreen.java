@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.xml.XBaseScreen;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -45,7 +46,7 @@ public class XAppletHtmlScreen extends XBaseScreen
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

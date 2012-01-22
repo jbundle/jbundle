@@ -13,6 +13,7 @@ package org.jbundle.base.field;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.ScreenModel;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;

@@ -7,10 +7,10 @@
  */
 package org.jbundle.base.message.trx.message.external;
 
-import org.jbundle.base.db.RecordOwner;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.convert.BaseConvertToNative;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;

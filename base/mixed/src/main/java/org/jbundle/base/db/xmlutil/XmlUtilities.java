@@ -37,7 +37,7 @@ import org.jbundle.base.field.TimeField;
 import org.jbundle.base.field.UnusedField;
 import org.jbundle.base.field.XMLPropertiesField;
 import org.jbundle.base.field.XmlField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.base.util.XMLTags;
 import org.jbundle.model.DBException;

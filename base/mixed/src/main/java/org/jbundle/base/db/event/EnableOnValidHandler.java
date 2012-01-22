@@ -15,7 +15,7 @@ import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.event.DisableOnFieldHandler;
 import org.jbundle.base.field.event.FieldRemoveBOnCloseHandler;
 import org.jbundle.base.field.event.MainReadOnlyHandler;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.screen.ScreenComponent;
 
 /**

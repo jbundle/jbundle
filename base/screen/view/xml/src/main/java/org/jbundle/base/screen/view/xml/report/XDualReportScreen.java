@@ -12,10 +12,11 @@ package org.jbundle.base.screen.view.xml.report;
 import java.io.PrintWriter;
 import java.util.ResourceBundle;
 
+import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.DualReportScreen;
-import org.jbundle.base.util.HtmlConstants;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -48,7 +49,7 @@ public class XDualReportScreen extends XBaseReportScreen
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

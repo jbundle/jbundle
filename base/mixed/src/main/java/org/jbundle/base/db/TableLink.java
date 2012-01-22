@@ -13,7 +13,7 @@ package org.jbundle.base.db;
 import java.util.Map;
 
 import org.jbundle.base.field.BaseField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 
 /**

@@ -19,9 +19,9 @@ import java.util.Map;
 import javax.swing.UIManager;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.control.swing.SApplet;
 import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.util.ScreenConstants;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.landf.ScreenUtil;

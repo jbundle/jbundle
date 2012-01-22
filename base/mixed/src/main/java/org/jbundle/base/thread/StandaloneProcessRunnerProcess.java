@@ -7,7 +7,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.util.DBParams;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.model.Task;

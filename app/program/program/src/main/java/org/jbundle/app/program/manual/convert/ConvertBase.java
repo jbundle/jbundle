@@ -6,8 +6,8 @@ package org.jbundle.app.program.manual.convert;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.thread.BaseProcess;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 

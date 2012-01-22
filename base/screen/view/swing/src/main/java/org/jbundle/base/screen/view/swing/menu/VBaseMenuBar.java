@@ -19,12 +19,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.menu.SBaseMenuBar;
 import org.jbundle.base.screen.model.menu.SGridMenuBar;
 import org.jbundle.base.screen.model.menu.SMenuBar;
 import org.jbundle.base.screen.view.swing.VBasePanel;
-import org.jbundle.base.util.MenuConstants;
+import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.screen.action.ActionManager;
 
 
@@ -53,7 +54,7 @@ public class VBaseMenuBar extends VBasePanel
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

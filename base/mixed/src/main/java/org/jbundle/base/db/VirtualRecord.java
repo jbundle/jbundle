@@ -9,7 +9,8 @@ import org.jbundle.base.field.BooleanField;
 import org.jbundle.base.field.CounterField;
 import org.jbundle.base.field.EmptyField;
 import org.jbundle.base.field.RecordChangedField;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.thin.base.db.Constants;
 
 

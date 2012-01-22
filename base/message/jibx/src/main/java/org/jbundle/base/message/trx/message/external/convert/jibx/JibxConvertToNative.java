@@ -14,7 +14,7 @@ import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.ExternalTrxMessageOut;
 import org.jbundle.base.message.trx.message.external.convert.BaseXmlConvertToNative;
 import org.jbundle.base.message.trx.transport.soap.SOAPMessageTransport;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.Constants;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;

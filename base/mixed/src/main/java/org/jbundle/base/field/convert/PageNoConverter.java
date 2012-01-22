@@ -11,7 +11,7 @@ package org.jbundle.base.field.convert;
  *      don@tourgeek.com
  */
 
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 
 /**
  * Page number converter.

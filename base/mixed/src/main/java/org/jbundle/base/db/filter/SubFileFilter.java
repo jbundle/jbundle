@@ -17,7 +17,7 @@ import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.field.event.FieldReSelectHandler;
 import org.jbundle.base.field.event.FieldRemoveBOnCloseHandler;
 import org.jbundle.base.field.event.InitIfSubFieldHandler;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.FieldInfo;
 

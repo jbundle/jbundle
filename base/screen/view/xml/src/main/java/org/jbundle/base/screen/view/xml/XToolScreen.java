@@ -11,16 +11,17 @@ package org.jbundle.base.screen.view.xml;
  */
 import java.io.PrintWriter;
 
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.HtmlConstants;
+import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.screen.model.GridScreen;
 import org.jbundle.base.screen.model.SCannedBox;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.base.screen.model.report.BaseReportScreen;
-import org.jbundle.base.util.DBParams;
-import org.jbundle.base.util.HtmlConstants;
-import org.jbundle.base.util.MenuConstants;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -51,7 +52,7 @@ public class XToolScreen extends XBasePanel
     /**
      * Constructor.
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

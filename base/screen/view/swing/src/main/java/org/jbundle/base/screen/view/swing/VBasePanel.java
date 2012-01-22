@@ -21,12 +21,13 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.screen.control.swing.util.ScreenLayout;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.view.ScreenFieldView;
-import org.jbundle.base.util.DBConstants;
 import org.jbundle.model.Task;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -61,7 +62,7 @@ public class VBasePanel extends VScreenField
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         m_ScreenLayout = null;
         super.init(model, bEditableControl);

@@ -13,7 +13,7 @@ package org.jbundle.base.db.net;
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.memory.MemoryTable;
-import org.jbundle.base.util.DBParams;
+import org.jbundle.base.model.DBParams;
 
 
 /**

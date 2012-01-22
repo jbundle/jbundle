@@ -19,6 +19,8 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.control.swing.util.ScreenInfo;
 import org.jbundle.base.screen.model.AppletScreen;
 import org.jbundle.base.screen.model.BasePanel;
@@ -26,9 +28,7 @@ import org.jbundle.base.screen.model.FrameScreen;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.menu.SBaseMenuBar;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.DBConstants;
-import org.jbundle.base.util.ScreenConstants;
-import org.jbundle.thin.base.db.Constants;
+import org.jbundle.model.screen.ScreenComponent;
 
 
 /**
@@ -60,7 +60,7 @@ public class VFrameScreen extends VBasePanel
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

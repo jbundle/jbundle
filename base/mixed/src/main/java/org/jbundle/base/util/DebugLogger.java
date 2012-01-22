@@ -11,6 +11,8 @@ package org.jbundle.base.util;
  */
 import java.util.logging.Level;
 
+import org.jbundle.base.model.DBConstants;
+
 /**
  * Debug utilities (comment out in production version).
  */

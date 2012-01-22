@@ -11,6 +11,7 @@ package org.jbundle.base.screen.view.html.menu;
  */
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.html.HBasePanel;
+import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * The basic menu control.
@@ -41,7 +42,7 @@ public class HBaseMenuBar extends HBasePanel
      * @param model The model object for this view object.
      * @param bEditableControl Is this control editable?
      */
-    public void init(ScreenField model, boolean bEditableControl)
+    public void init(ScreenComponent model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

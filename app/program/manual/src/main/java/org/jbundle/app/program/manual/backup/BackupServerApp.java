@@ -28,7 +28,7 @@ import java.util.Vector;
 import javax.swing.Timer;
 
 import org.jbundle.base.db.util.log.BackupConstants;
-import org.jbundle.base.util.DBConstants;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
