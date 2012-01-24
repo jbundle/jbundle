@@ -109,7 +109,7 @@ public class TestReport extends ReportScreen
      */
     public ToolScreen addToolbars()
     {
-        return new TestReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new TestReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * SetupSFields Method.

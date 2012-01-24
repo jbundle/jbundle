@@ -33,6 +33,11 @@ public interface ComponentParent extends ScreenComponent, RecordOwnerParent
      */
     public ComponentParent getRootScreen();
     /**
+     * Number of Screen Fields in this screen.
+     * @return screen field count.
+     */
+    public int getSFieldCount();
+    /**
      * Get the SField at this index.
      * @param index location of the screen field.
      * @return The screen field at this location.

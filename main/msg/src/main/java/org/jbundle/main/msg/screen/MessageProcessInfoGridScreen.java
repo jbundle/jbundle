@@ -202,7 +202,7 @@ public class MessageProcessInfoGridScreen extends DetailGridScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new MessageInfoHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new MessageInfoHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * SetupSFields Method.

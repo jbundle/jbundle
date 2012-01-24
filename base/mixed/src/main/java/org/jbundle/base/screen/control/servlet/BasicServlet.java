@@ -12,11 +12,13 @@ package org.jbundle.base.screen.control.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.Task;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.screen.ComponentParent;
 
@@ -71,7 +73,7 @@ public interface BasicServlet extends javax.servlet.Servlet
      * @param properties The properties for this screen.
      * @return The top screen.
      */
-    public ComponentParent createTopScreen(RecordOwnerParent parent, Rec recordMain, Object properties);
+    public ComponentParent createTopScreen(Task task, Map<String,Object> properties);
     /**
      * Get the physical path for this internet path.
      * (From the BasicServlet interface).
@@ -84,5 +86,5 @@ public interface BasicServlet extends javax.servlet.Servlet
      * Do any of the initial servlet stuff.
      * @param servletTask The calling servlet task.
      */
-    public void initServletSession(ServletTask servletTask);
+    public void initServletSession(Task servletTask);
 }

@@ -92,7 +92,7 @@ public class ProjectReportScreen extends ReportScreen
      */
     public ToolScreen addToolbars()
     {
-        return new ProjectReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new ProjectReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * SetupSFields Method.

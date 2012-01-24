@@ -105,7 +105,7 @@ public class CustomReportScreen extends BaseReportScreen
      */
     public ToolScreen addToolbars()
     {   // Override this to add (call this) or replace (don't call) this default toolbar.
-        return new ReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new ReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * Setup the print control for this custom report screen.

@@ -108,7 +108,7 @@ public class ProjectTaskPredecessorScreen extends DetailScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new ProjectTaskHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new ProjectTaskHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
 
 }

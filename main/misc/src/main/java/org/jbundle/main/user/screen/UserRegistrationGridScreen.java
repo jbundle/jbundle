@@ -98,7 +98,7 @@ public class UserRegistrationGridScreen extends DetailGridScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new UserInfoHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new UserInfoHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
 
 }

@@ -42,8 +42,10 @@ import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
+import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.Field;
+import org.jbundle.model.db.Rec;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.screen.ScreenParent;
@@ -2203,7 +2205,7 @@ public class Record extends FieldList
      * @param initScreen Call the screen init method?
      * @return The new screen.
      */
-    public static ScreenParent makeNewScreen(String componentType, ScreenLoc itsLocation, ComponentParent screenParent, int iDisplayFieldDesc, Map<String, Object> properties, Record mainRecord, boolean initScreen)
+    public static ScreenParent makeNewScreen(String componentType, ScreenLoc itsLocation, RecordOwnerParent screenParent, int iDisplayFieldDesc, Map<String, Object> properties, Rec mainRecord, boolean initScreen)
     {
         String screenClass = null;
         if (!componentType.contains("."))
@@ -2228,16 +2230,17 @@ public class Record extends FieldList
                 Object oldCursor = null;
                 if (applet != null)
                     oldCursor = applet.setStatus(Constant.WAIT, applet, null);
-                if (properties == null)
-                    properties = new HashMap<String,Object>();
-                properties.put(ScreenModel.DISPLAY, iDisplayFieldDesc);
+                Map<String,Object> screenProperties = new HashMap<String,Object>();
+                if (properties != null)
+                    screenProperties.putAll(properties);
+                screenProperties.put(ScreenModel.DISPLAY, iDisplayFieldDesc);
                 if (itsLocation != null)
-                    properties.put(ScreenModel.LOCATION, itsLocation);
+                    screenProperties.put(ScreenModel.LOCATION, itsLocation);
 
                 //if (((iDisplayFieldDesc & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE) && (screen instanceof DetailGridScreen))
                 //    ((DetailGridScreen)screen).init((Record)mainRecord, null, (ScreenLocation)itsLocation, (BasePanel)screenParent, null, iDisplayFieldDesc, properties);
                 //else
-                    screen.init(screenParent, mainRecord, properties);
+                    screen.init(screenParent, mainRecord, screenProperties);
 
                 if (applet != null)
                     applet.setStatus(0, applet, oldCursor);

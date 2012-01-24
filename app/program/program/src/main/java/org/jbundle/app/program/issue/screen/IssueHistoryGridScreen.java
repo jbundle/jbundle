@@ -89,7 +89,7 @@ public class IssueHistoryGridScreen extends DetailGridScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new IssueHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new IssueHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * SetupSFields Method.

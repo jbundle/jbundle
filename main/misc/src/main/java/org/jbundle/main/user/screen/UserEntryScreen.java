@@ -113,7 +113,7 @@ public class UserEntryScreen extends UserInfoBaseScreen
      */
     public ToolScreen addToolbars()
     {
-        return new MaintToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC)
+        return new MaintToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null)
         {
             public void setupMiddleSFields()
             {
@@ -188,7 +188,7 @@ public class UserEntryScreen extends UserInfoBaseScreen
      * 2. The error display line (if there was an error)
      * @return this or the new screen to display.
      */
-    public BaseScreen doServletCommand(BasePanel screenParent)
+    public ScreenModel doServletCommand(ScreenModel screenParent)
     {
         String strCommand = this.getProperty(DBParams.COMMAND);
         if (strCommand != null)
@@ -197,7 +197,7 @@ public class UserEntryScreen extends UserInfoBaseScreen
                     if (strCommand.equalsIgnoreCase(this.getTask().getApplication().getResources(ResourceConstants.MAIN_RESOURCE, true).getString(MenuConstants.SUBMIT)))
                         this.setProperty(DBParams.COMMAND, MenuConstants.SUBMIT);
         
-        BaseScreen screen = super.doServletCommand(screenParent);    // Process params from previous screen
+        ScreenModel screen = super.doServletCommand(screenParent);    // Process params from previous screen
         
         if (MenuConstants.SUBMIT.equalsIgnoreCase(this.getProperty(DBParams.COMMAND)))
         {

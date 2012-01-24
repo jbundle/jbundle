@@ -93,7 +93,8 @@ public class ConvertGeneric extends ConvertBase
             while (record.hasNext())
             {
                 record.next();
-                if ("makeScreen".equals(record.getField(LogicFile.kMethodName).toString()))
+                if (("addToolbars".equals(record.getField(LogicFile.kMethodName).toString()))
+                   || ("addToolbars".equals(record.getField(LogicFile.kMethodName).toString())))
                 {
                     System.out.println(record.getField(LogicFile.kMethodClassName).toString());
 
@@ -101,18 +102,15 @@ public class ConvertGeneric extends ConvertBase
                     
                     if (record.getCounterField().getValue() > 60000)
                         continue;
-                    if (string.contains("Record.makeNewScreen"))
+                    if (string.contains("DONT_DISPLAY_FIELD_DESC);"))
                     {
                     
-                        String strTarget = "(BasePanel)";
-                        String strReplace = "";
+                        String strTarget = "DONT_DISPLAY_FIELD_DESC);";
+                        String strReplace = "DONT_DISPLAY_FIELD_DESC, null);";
                         String strResult = this.replaceString(string, strTarget, strReplace);
                         
                         if (!strResult.equals(string))
                         {
-                            strTarget = "(ScreenLocation)";
-                            strReplace = "";
-                            strResult = this.replaceString(strResult, strTarget, strReplace);
                             record.edit();
                             System.out.println(string);record.getField(LogicFile.kLogicSource).setString(strResult);
                             record.set();

@@ -9,9 +9,11 @@ package org.jbundle.base.model;
 
 import java.awt.Component;
 import java.awt.LayoutManager;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ResourceBundle;
 
+import javax.servlet.ServletException;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -412,4 +414,14 @@ public interface ScreenFieldView extends FieldComponent
      * @return The name of the stylesheet.
      */
     public String getStylesheetPath();
+    /**
+     * Process an HTML get or post.
+     * You must override this method.
+     * @param req The servlet request.
+     * @param res The servlet response object.
+     * @exception ServletException From inherited class.
+     * @exception IOException From inherited class.
+     */
+    public void sendData(Object req, Object res) 
+        throws Exception, IOException;
 }

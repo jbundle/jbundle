@@ -132,7 +132,7 @@ public class RegistrationScreen extends DetailScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new ResourceHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new ResourceHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
 
 }

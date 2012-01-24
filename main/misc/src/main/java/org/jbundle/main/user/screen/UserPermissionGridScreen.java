@@ -94,9 +94,9 @@ public class UserPermissionGridScreen extends DetailGridScreen
     public BasePanel makeSubScreen()
     {
         if (this.getHeaderRecord() instanceof UserGroup)
-            return new UserGroupHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+            return new UserGroupHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
         else
-            return new UserResourceHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+            return new UserResourceHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * Get the command string to restore screen.

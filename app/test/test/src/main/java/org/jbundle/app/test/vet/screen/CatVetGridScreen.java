@@ -125,7 +125,7 @@ public class CatVetGridScreen extends DetailGridScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new CatVetHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new CatVetHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
 
 }

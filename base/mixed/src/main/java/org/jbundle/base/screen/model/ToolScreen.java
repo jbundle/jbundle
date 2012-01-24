@@ -10,6 +10,7 @@ package org.jbundle.base.screen.model;
  *      don@tourgeek.com
  */
 import java.io.PrintWriter;
+import java.util.Map;
 
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.MenuConstants;
@@ -48,10 +49,10 @@ public class ToolScreen extends BasePanel
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public ToolScreen(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public ToolScreen(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this();
-        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Initialize.
@@ -60,9 +61,9 @@ public class ToolScreen extends BasePanel
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * free.

@@ -40,7 +40,7 @@ public class SFakeScreenField extends ScreenField
     public SFakeScreenField(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
     {
         this();
-        this.init(null, parentScreen, fieldConverter, iDisplayFieldDesc);
+        this.init(null, parentScreen, fieldConverter, iDisplayFieldDesc, null);
         m_bIsFocusTarget = false; // Can't tab to a static item
     }
 }

@@ -29,9 +29,6 @@ import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
-import org.jbundle.model.db.Convert;
-import org.jbundle.model.screen.ComponentParent;
-import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
@@ -215,7 +212,7 @@ public class SCannedBox extends SButtonBox
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         String strValue = null;
         String strDesc = null;

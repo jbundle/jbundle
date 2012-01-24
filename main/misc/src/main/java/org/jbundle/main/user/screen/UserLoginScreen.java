@@ -108,7 +108,7 @@ public class UserLoginScreen extends Screen
      */
     public ToolScreen addToolbars()
     {
-        ToolScreen screen = new ToolScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        ToolScreen screen = new ToolScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
         new SCannedBox(screen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), screen, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.RESET);
         new SCannedBox(screen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), screen, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.LOGIN);
         BaseApplication application = (BaseApplication)this.getTask().getApplication();
@@ -199,45 +199,16 @@ public class UserLoginScreen extends Screen
         return super.doCommand(strCommand, sourceSField, iCommandOptions);
     }
     /**
-     * BaseScreen screen = super;    // Process params from previous screen
-     * 
-     * String strCommand = this.getProperty(DBParams.COMMAND);
-     * BaseApplication application = (BaseApplication)this.getTask().getApplication();
-     * String strDesc = application.getResources(ResourceConstants.MAIN_RESOURCE, true).getString(MenuConstants.LOGIN);
-     * if (strDesc.equals(strCommand))
-     * {
-     *     String strUserName = this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kuser).toString();
-     *     String strPassword = this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kpassword).toString();
-     *     Task task = this.getTask();
-     * 
-     *     int iErrorCode = task.getApplication().login(task, strUserName, strPassword);
-     *     if (iErrorCode == DBConstants.NORMAL_RETURN)
-     *     {
-     *         if (this.getTask().getStatusText(DBConstants.WARNING_MESSAGE) == null)
-     *         {   // Normal return = logged in, go to main menu.
-     *             this.free();
-     *             return null;    // This will cause the main menu to display
-     *         }
-     *     }
-     *     else
-     *     {   // Error - Get and display the error
-     *         String strError = task.getLastError(iErrorCode);
-     *         this.getTask().setStatusText(strError, DBConstants.WARNING_MESSAGE);
-     *         this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kpassword).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
-     *     }
-     * }
-     * strDesc = application.getResources(ResourceConstants.MAIN_RESOURCE, true).getString(UserEntryScreen.CREATE_NEW_USER);
-     * if (strDesc.equals(strCommand))
-     * {
-     *     screen.free();
-     *     screen = new UserEntryScreen(null, null, screenParent, null, 0, null);
-     *     screen.setProperty(DBParams.SCREEN, UserEntryScreen.class.getName());
-     * }
-     * return screen;.
+     * Do the special HTML command.
+     * This gives the screen a chance to change screens for special HTML commands.
+     * You have a chance to change two things:
+     * 1. The information display line (this will display on the next screen... ie., submit was successful)
+     * 2. The error display line (if there was an error)
+     * @return this or the new screen to display.
      */
-    public BaseScreen doServletCommand(BasePanel screenParent)
+    public ScreenModel doServletCommand(ScreenModel screenParent)
     {
-        BaseScreen screen = super.doServletCommand(screenParent);    // Process params from previous screen
+        ScreenModel screen = super.doServletCommand(screenParent);    // Process params from previous screen
         
         String strCommand = this.getProperty(DBParams.COMMAND);
         BaseApplication application = (BaseApplication)this.getTask().getApplication();
@@ -254,7 +225,7 @@ public class UserLoginScreen extends Screen
         if (strDesc.equals(strCommand))
         {
             screen.free();
-            screen = new UserEntryScreen(null, null, screenParent, null, 0, null);
+            screen = new UserEntryScreen(null, null, (BasePanel)screenParent, null, 0, null);
             screen.setProperty(DBParams.SCREEN, UserEntryScreen.class.getName());
         }
         return screen;

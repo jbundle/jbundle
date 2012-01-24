@@ -108,7 +108,7 @@ public class MessageTransportInfoGridScreen extends DetailGridScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new MessageProcessInfoHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new MessageProcessInfoHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
 
 }

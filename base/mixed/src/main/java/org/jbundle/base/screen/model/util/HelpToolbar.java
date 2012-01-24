@@ -9,6 +9,8 @@ package org.jbundle.base.screen.model.util;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import java.util.Map;
+
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.SCannedBox;
@@ -35,10 +37,10 @@ public class HelpToolbar extends ToolScreen
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public HelpToolbar(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public HelpToolbar(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this();
-        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Controls for a maint screen.

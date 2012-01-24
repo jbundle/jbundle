@@ -95,7 +95,7 @@ public class TestDetailXMLReport extends ReportScreen
      */
     public ToolScreen addToolbars()
     {
-        return new TestReportXMLToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new TestReportXMLToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * SetupSFields Method.

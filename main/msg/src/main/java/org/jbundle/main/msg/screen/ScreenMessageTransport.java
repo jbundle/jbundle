@@ -1,24 +1,36 @@
-/*
+/**
+ * @(#)ScreenMessageTransport.
  * Copyright © 2011 jbundle.org. All rights reserved.
+ * GPL3 Open Source Software License.
  */
-package org.jbundle.base.message.trx.transport.screen;
+package org.jbundle.main.msg.screen;
 
-import org.jbundle.base.message.trx.transport.BaseMessageTransport;
-import org.jbundle.model.main.msg.db.MessageTransportModel;
-import org.jbundle.model.Task;
-import org.jbundle.thin.base.message.BaseMessage;
+import java.awt.*;
+import java.util.*;
 
+import org.jbundle.base.db.*;
+import org.jbundle.thin.base.util.*;
+import org.jbundle.thin.base.db.*;
+import org.jbundle.base.db.event.*;
+import org.jbundle.base.db.filter.*;
+import org.jbundle.base.field.*;
+import org.jbundle.base.field.convert.*;
+import org.jbundle.base.field.event.*;
+import org.jbundle.base.screen.model.*;
+import org.jbundle.base.screen.model.util.*;
+import org.jbundle.base.model.*;
+import org.jbundle.base.util.*;
+import org.jbundle.model.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
+import org.jbundle.base.message.trx.transport.*;
 
 /**
- * This is the base class to process an external message.
+ *  ScreenMessageTransport - This is the base class to process an external message..
  */
 public class ScreenMessageTransport extends BaseMessageTransport
 {
-    /**
-     * The screen to handle the message.
-     */
-    public static String SCREEN_SCREEN = "screen";
-
+    public static final String SCREEN_SCREEN = "screen";
     /**
      * Default constructor.
      */
@@ -27,26 +39,19 @@ public class ScreenMessageTransport extends BaseMessageTransport
         super();
     }
     /**
-     * Default constructor.
+     * ScreenMessageTransport Method.
      */
     public ScreenMessageTransport(Task messageSenderReceiver)
     {
         this();
-        this.init(messageSenderReceiver);    // The one and only
+        this.init(messageSenderReceiver);
     }
     /**
-     * Initializes the MessageProcessor.
+     * Initialize class fields.
      */
     public void init(Task messageSenderReceiver)
     {
         super.init(messageSenderReceiver, null, null);
-    }
-    /**
-     * Free all the resources belonging to this class.
-     */
-    public void free()
-    {
-        super.free();
     }
     /**
      * Get the message type.
@@ -66,4 +71,5 @@ public class ScreenMessageTransport extends BaseMessageTransport
     {
         return null;    // You can't send via screen.
     }
+
 }

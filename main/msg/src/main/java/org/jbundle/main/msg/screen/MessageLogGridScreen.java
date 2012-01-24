@@ -318,7 +318,7 @@ public class MessageLogGridScreen extends DetailGridScreen
         Record recMessageDetail = this.getMainRecord();
         if (recHeader instanceof Company)   // Profile
             ((ReferenceField)recMessageDetail.getField(MessageDetail.kPersonID)).setReferenceRecord(recHeader);   // Make sure this is hooked up
-        return new MessageLogHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new MessageLogHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * SetupSFields Method.

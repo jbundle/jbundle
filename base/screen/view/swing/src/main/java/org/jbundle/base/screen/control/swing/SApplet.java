@@ -113,7 +113,7 @@ public class SApplet extends BaseApplet
             m_screenField.setTask(this);
             m_screenField.setScreenFieldView(m_screenField.setupScreenFieldView(true));
             // NOTE: When an Applet Screen passes no parent, the SApplet peer is not created, set it!
-            m_screenField.init(null, null, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+            m_screenField.init(null, null, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
             this.addRecordOwner(m_screenField);
             
             this.setupLookAndFeel(null);
@@ -225,13 +225,13 @@ public class SApplet extends BaseApplet
         BaseApplet.main(args);  // call super.main();
         // Create Toplevel Window to contain applet SApplet
         // Create the form, passing it the recordset
-        FrameScreen frameScreen = new FrameScreen(null, null, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        FrameScreen frameScreen = new FrameScreen(null, null, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
 
         // The following code starts the applet running within the frame window.
         // It also calls GetParameters() to retrieve parameter values from the
         // command line, and sets m_fStandAlone to true to prevent init() from
         // trying to get them from the HTML page.
-        AppletScreen appletScreen = new AppletScreen(null, frameScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        AppletScreen appletScreen = new AppletScreen(null, frameScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
 
         SApplet applet = (SApplet)appletScreen.getScreenFieldView().getControl();
         applet.init();
@@ -349,13 +349,13 @@ public class SApplet extends BaseApplet
         }
         if (m_screenField == null)
         {
-            FrameScreen frameScreen = new FrameScreen(null, null, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+            FrameScreen frameScreen = new FrameScreen(null, null, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
             
             m_screenField = new AppletScreen();
             m_screenField.setTask(this);
             m_screenField.setScreenFieldView(m_screenField.setupScreenFieldView(true));
             // NOTE: When an Applet Screen passes no parent, the SApplet peer is not created, set it!
-            m_screenField.init(null, frameScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+            m_screenField.init(null, frameScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
             
             this.init(null);
             this.addRecordOwner(m_screenField);

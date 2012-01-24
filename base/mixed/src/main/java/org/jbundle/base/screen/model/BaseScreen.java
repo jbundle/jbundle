@@ -343,7 +343,7 @@ public class BaseScreen extends BasePanel
      * 2. The error display line (if there was an error)
      * @return this or the new screen to display.
      */
-    public BaseScreen doServletCommand(BasePanel screenParent)
+    public ScreenModel doServletCommand(ScreenModel screenParent)
     {
         this.getTask().setLastError(null);  // If there is an error, set it here!
         this.getTask().setStatusText(null); // If there is a completion message, set it here!
@@ -579,7 +579,7 @@ public class BaseScreen extends BasePanel
      */
     public ToolScreen addToolbars()
     {   // Override this to add (call this) or replace (don't call) this default toolbar
-        return new MaintToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new MaintToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * Get the environment to use for this record owner.

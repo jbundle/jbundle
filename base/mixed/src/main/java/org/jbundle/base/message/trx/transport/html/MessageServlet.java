@@ -18,12 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
-import org.jbundle.base.message.trx.transport.screen.ScreenMessageTransport;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.html.HTMLServlet;
-import org.jbundle.base.util.Debug;
+import org.jbundle.model.Task;
 import org.jbundle.model.main.msg.db.MessageLogModel;
 import org.jbundle.thin.main.msg.db.MessageLog;
 
@@ -70,7 +68,7 @@ public class MessageServlet extends HTMLServlet
      * Do any of the initial servlet stuff.
      * @param servletTask The calling servlet task.
      */
-    public void initServletSession(ServletTask servletTask)
+    public void initServletSession(Task servletTask)
     {
         String strTrxID = servletTask.getProperty(TrxMessageHeader.LOG_TRX_ID);
         if (strTrxID != null)
@@ -81,7 +79,7 @@ public class MessageServlet extends HTMLServlet
                 if (recMessageLog != null)
                 {
                     servletTask.setProperty(TrxMessageHeader.LOG_TRX_ID, strTrxID);
-                    String strHTMLScreen = recMessageLog.getProperty(ScreenMessageTransport.SCREEN_SCREEN);
+                    String strHTMLScreen = recMessageLog.getProperty("screen" /*ScreenMessageTransport.SCREEN_SCREEN */);
                     if (strHTMLScreen != null)  // Special case, html screen is different from java screen.
                         servletTask.setProperty(DBParams.SCREEN, strHTMLScreen);
                 }

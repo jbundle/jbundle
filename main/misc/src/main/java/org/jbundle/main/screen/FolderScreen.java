@@ -114,7 +114,7 @@ public class FolderScreen extends BaseFolderScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new FolderHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new FolderHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * Set up all the screen fields.

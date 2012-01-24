@@ -104,7 +104,7 @@ public class UserPreferenceScreen extends UserInfoBaseScreen
      */
     public ToolScreen addToolbars()
     {
-        return new MaintToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC)
+        return new MaintToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null)
         {
             public void setupMiddleSFields()
             {
@@ -199,9 +199,9 @@ public class UserPreferenceScreen extends UserInfoBaseScreen
      * 2. The error display line (if there was an error)
      * @return this or the new screen to display.
      */
-    public BaseScreen doServletCommand(BasePanel screenParent)
+    public ScreenModel doServletCommand(ScreenModel screenParent)
     {
-        BaseScreen screen = super.doServletCommand(screenParent);    // Process params from previous screen
+        ScreenModel screen = super.doServletCommand(screenParent);    // Process params from previous screen
         
         String strCommand = this.getProperty(DBParams.COMMAND);
         BaseApplication application = (BaseApplication)this.getTask().getApplication();
@@ -214,14 +214,14 @@ public class UserPreferenceScreen extends UserInfoBaseScreen
         if (strDesc.equals(strCommand))
         {
             screen.free();
-            screen = new UserPasswordChange(null, null, screenParent, null, 0, null);
+            screen = new UserPasswordChange(null, null, (BasePanel)screenParent, null, 0, null);
             screen.setProperty(DBParams.SCREEN, UserPasswordChange.class.getName());
         }
         strDesc = application.getResources(ResourceConstants.MAIN_RESOURCE, true).getString(UserEntryScreen.CREATE_NEW_USER);
         if (strDesc.equals(strCommand))
         {
             screen.free();
-            screen = new UserEntryScreen(null, null, screenParent, null, 0, null);
+            screen = new UserEntryScreen(null, null, (BasePanel)screenParent, null, 0, null);
             screen.setProperty(DBParams.SCREEN, UserEntryScreen.class.getName());
         }
         return screen;

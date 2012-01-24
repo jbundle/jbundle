@@ -107,7 +107,7 @@ public class LayoutGridScreen extends FolderGridScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new LayoutHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new LayoutHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * Process the command.

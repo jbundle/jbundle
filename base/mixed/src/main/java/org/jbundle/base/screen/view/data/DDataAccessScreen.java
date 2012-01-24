@@ -81,6 +81,19 @@ public class DDataAccessScreen extends ScreenFieldViewAdapter
      * @exception ServletException From inherited class.
      * @exception IOException From inherited class.
      */
+    public void sendData(Object req, Object res)
+        throws Exception, IOException
+    {
+        this.sendData((HttpServletRequest)req, (HttpServletResponse)res);
+    }
+    /**
+     * Process an HTML get or post.
+     * You must override this method.
+     * @param req The servlet request.
+     * @param res The servlet response object.
+     * @exception ServletException From inherited class.
+     * @exception IOException From inherited class.
+     */
     public void sendData(HttpServletRequest req, HttpServletResponse res) 
         throws ServletException, IOException
     {

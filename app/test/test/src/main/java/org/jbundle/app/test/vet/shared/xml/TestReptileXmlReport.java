@@ -103,7 +103,7 @@ public class TestReptileXmlReport extends ReportScreen
      */
     public ToolScreen addToolbars()
     {
-        return new TestReptileXmlToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new TestReptileXmlToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * SetupSFields Method.

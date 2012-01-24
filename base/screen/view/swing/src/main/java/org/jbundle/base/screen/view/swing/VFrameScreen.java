@@ -138,7 +138,7 @@ public class VFrameScreen extends VBasePanel
         AppletScreen appletScreen = (AppletScreen)((FrameScreen)this.getScreenField()).getSField(0);
         ScreenField menuBar = appletScreen.getSField(0);
         if (!(menuBar instanceof SBaseMenuBar))     // If there is not menu, throw up a default
-            new SBaseMenuBar(new ScreenLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), appletScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+            new SBaseMenuBar(new ScreenLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), appletScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
         try   {
             if (!frame.isValid())
                 frame.validate(); // Make sure all subs are laid out before show

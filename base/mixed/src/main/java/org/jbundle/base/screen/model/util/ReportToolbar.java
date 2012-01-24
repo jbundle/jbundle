@@ -9,6 +9,8 @@ package org.jbundle.base.screen.model.util;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import java.util.Map;
+
 import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
@@ -37,10 +39,10 @@ public class ReportToolbar extends ToolScreen
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public ReportToolbar(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public ReportToolbar(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this();
-        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Initialize.
@@ -49,9 +51,9 @@ public class ReportToolbar extends ToolScreen
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Free.

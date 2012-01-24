@@ -80,7 +80,7 @@ public class IssueHistoryScreen extends DetailScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new IssueHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new IssueHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
 
 }

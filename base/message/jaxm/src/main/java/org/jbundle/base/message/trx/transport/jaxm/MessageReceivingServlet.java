@@ -28,17 +28,17 @@ import org.jbundle.base.message.trx.transport.soap.SOAPMessageTransport;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
-import org.jbundle.base.screen.control.servlet.BasicServlet.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.Task;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
 import org.jbundle.model.main.msg.db.MessageStatusModel;
 import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.screen.ComponentParent;
-import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.TreeMessage;
 import org.jbundle.thin.base.util.Application;
@@ -163,7 +163,7 @@ public class MessageReceivingServlet extends JAXMServlet
      * Do any of the initial servlet stuff.
      * @param servletTask The calling servlet task.
      */
-    public void initServletSession(ServletTask servletTask)
+    public void initServletSession(Task servletTask)
     {
     }
     /**
@@ -194,7 +194,7 @@ public class MessageReceivingServlet extends JAXMServlet
      * @param properties The properties for this screen.
      * @return The top screen.
      */
-    public ComponentParent createTopScreen(RecordOwnerParent parent, Rec recordMain, Object properties)
+    public ComponentParent createTopScreen(Task task, Map<String,Object> properties)
     {
         return null;    // Not used for a JAXM servlet.
     }

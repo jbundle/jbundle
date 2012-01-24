@@ -196,7 +196,7 @@ public class MessageDetailScreen extends DetailScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new MessageDetailHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new MessageDetailHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
 
 }

@@ -12,19 +12,21 @@ package org.jbundle.base.screen.control.servlet.html;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jbundle.base.db.Record;
+import org.jbundle.base.field.BaseField;
 import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.model.PropertyOwner;
-import org.jbundle.model.RecordOwnerParent;
-import org.jbundle.model.db.Rec;
+import org.jbundle.model.Task;
 import org.jbundle.model.screen.ComponentParent;
 
 
@@ -153,7 +155,7 @@ public class HTMLServlet extends BaseServlet
      * Do any of the initial servlet stuff.
      * @param servletTask The calling servlet task.
      */
-    public void initServletSession(ServletTask servletTask)
+    public void initServletSession(Task servletTask)
     {
     }
     /**
@@ -174,9 +176,14 @@ public class HTMLServlet extends BaseServlet
     /**
      * Get the main screen (with the correct view factory!).
      */
-    public ComponentParent createTopScreen(RecordOwnerParent parent, Rec recordMain, Object properties)
+    public ComponentParent createTopScreen(Task task, Map<String,Object> properties)
     {
-        return new HtmlScreen(parent, (Record)recordMain, properties);
+        if (properties == null)
+            properties = new HashMap<String,Object>();
+        properties.put(ScreenModel.VIEW_TYPE, ScreenModel.HTML_TYPE);
+        properties.put(DBParams.TASK, task);
+        ComponentParent topScreen = (ComponentParent)BaseField.createScreenComponent(ScreenModel.TOP_SCREEN, null, null, null, 0, properties);
+        return topScreen;
     }
     /**
      * Get the physical path for this internet path.

@@ -35,11 +35,11 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.html.BaseServlet;
 import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
-import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.util.Utility;
 
 
@@ -100,7 +100,7 @@ public class XSLServlet extends XMLServlet
         try   {
             servletTask = new ServletTask(this, BasicServlet.SERVLET_TYPE.COCOON);
             this.addBrowserProperties(req, servletTask);
-			BaseScreen screen = (BaseScreen)servletTask.doProcessInput(this, req, null);
+			ScreenModel screen = servletTask.doProcessInput(this, req, null);
 			
 			if (stylesheet == null)
 				stylesheet = req.getParameter(DBParams.TEMPLATE);

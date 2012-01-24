@@ -37,7 +37,7 @@ import org.jbundle.thin.base.screen.*;
 public class AjaxScreenSession extends Session
 {
     public static final String CREATE_SCREEN = "createScreen";
-    protected TopScreen m_topScreen = null;
+    protected ScreenModel m_topScreen = null;
     /**
      * Default constructor.
      */
@@ -67,12 +67,12 @@ public class AjaxScreenSession extends Session
     public BaseScreen getScreen(Map<String,Object> properties)
     {
         if (m_topScreen == null)
-            m_topScreen = this.createTopScreen(this, null, null);
+            m_topScreen = (ScreenModel)this.createTopScreen(this.getTask(), null);
         BaseScreen screen = null;
         if (m_topScreen.getSFieldCount() > 0)
             screen = (BaseScreen)m_topScreen.getSField(0);
         this.setProperties(properties);
-        BaseScreen newScreen = m_topScreen.getScreen(screen, this);
+        BaseScreen newScreen = (BaseScreen)m_topScreen.getScreen(screen, this);
         return newScreen;
     }
     /**
@@ -116,7 +116,7 @@ public class AjaxScreenSession extends Session
             BaseScreen screen = this.getScreen(properties);
             if (screen != null)
             {
-                screen = screen.doServletCommand(m_topScreen);  // Move the input params to the record fields
+                screen = (BaseScreen)screen.doServletCommand(m_topScreen);  // Move the input params to the record fields
                 if (screen != null)
                 {
                     screen.processInputData(out);
@@ -173,9 +173,14 @@ public class AjaxScreenSession extends Session
     /**
      * CreateTopScreen Method.
      */
-    public TopScreen createTopScreen(RecordOwnerParent parent, FieldList recordMain, Object properties)
+    public ComponentParent createTopScreen(Task task, Map<String,Object> properties)
     {
-        return new XmlScreen(parent, recordMain, properties);
+        if (properties == null)
+            properties = new HashMap<String,Object>();
+        properties.put(ScreenModel.VIEW_TYPE, ScreenModel.XML_TYPE);
+        properties.put(DBParams.TASK, task);
+        ComponentParent topScreen = (ComponentParent)BaseField.createScreenComponent(ScreenModel.TOP_SCREEN, null, null, null, 0, properties);
+        return topScreen;
     }
 
 }

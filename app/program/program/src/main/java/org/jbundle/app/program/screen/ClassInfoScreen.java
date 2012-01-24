@@ -104,7 +104,7 @@ public class ClassInfoScreen extends Screen
     {
         super.addToolbars();
         
-        ToolScreen toolbar = new EmptyToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        ToolScreen toolbar = new EmptyToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
         
         Record mainFile = this.getMainRecord();
         

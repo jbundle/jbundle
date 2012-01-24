@@ -24,6 +24,7 @@ import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.model.ResourceConstants;
 import org.jbundle.base.model.ScreenConstants;
+import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.screen.model.html.AppletHtmlScreen;
 import org.jbundle.base.screen.model.html.DataAccessScreen;
 import org.jbundle.base.screen.model.report.BaseParserScreen;
@@ -39,7 +40,6 @@ import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.Application;
 
@@ -80,29 +80,10 @@ public class TopScreen extends BasePanel
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public TopScreen(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public TopScreen(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this();
-        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
-    }
-    /**
-     * Initialize the RecordOwner.
-     * This initializer is required by the RecordOwner interface.
-     * @param record The main record for this screen.
-     * @param parent The parent screen (task).
-     * @param properties The properties object.
-     */
-    public void init(RecordOwnerParent parent, FieldList recordMain, Object properties)
-    {
-        if (!(parent instanceof BasePanel))
-        {   // The parent is an SApplet (but the view packages are not accessible from here)
-            m_recordOwnerParent = parent;
-            if (m_recordOwnerParent != null)
-            	m_recordOwnerParent.addRecordOwner(this);
-            
-            parent = null;
-        }
-        this.init(null, (BasePanel)parent, null, ScreenConstants.DEFAULT_DISPLAY);
+        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Initialize.
@@ -110,10 +91,27 @@ public class TopScreen extends BasePanel
      * @param parentScreen The parent screen.
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
+     * @param properties Extra properties
      */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        if (!(parentScreen instanceof BasePanel))
+        {   // The parent is an SApplet (but the view packages are not accessible from here)
+            m_recordOwnerParent = parentScreen;
+            if (properties != null)
+                if (properties.get(DBParams.TASK) instanceof Task)
+                   m_recordOwnerParent = (Task)properties.get(DBParams.TASK);
+            if (m_recordOwnerParent != null)
+                m_recordOwnerParent.addRecordOwner(this);
+            for (String key : properties.keySet())
+            {
+                if (!DBParams.TASK.equals(key))
+                    m_recordOwnerParent.setProperty(key, properties.get(key).toString());
+            }
+            
+            parentScreen = null;
+        }
+        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Free the resources.
@@ -168,9 +166,12 @@ public class TopScreen extends BasePanel
         return DBConstants.NORMAL_RETURN;   // This is never a main screen
     }
     /**
-     * From the parameters, get the screen.
+     * From these parameters, create the correct new screen.
+     * @param screen The current sub-screen
+     * @param propertyOwner The property owner
+     * @return The new screen
      */
-    public BaseScreen getScreen(BaseScreen screen, PropertyOwner propertyOwner)
+    public ScreenModel getScreen(ScreenModel screen, PropertyOwner propertyOwner)
     {
         if (propertyOwner == null)
             propertyOwner = this;
@@ -239,7 +240,7 @@ public class TopScreen extends BasePanel
         {
             if ((strRecord != null) && (strRecord.length() > 0))
                 if (screen.getMainRecord() != null)
-                    if ((strRecord.equalsIgnoreCase(screen.getMainRecord().getRecordName()))
+                    if ((strRecord.equalsIgnoreCase(((BasePanel)screen).getMainRecord().getRecordName()))
                         || (strRecord.equalsIgnoreCase(screen.getMainRecord().getClass().getName())))
             {
                 int iOldMode = ScreenConstants.MAINT_MODE;
@@ -261,10 +262,10 @@ public class TopScreen extends BasePanel
             }
         }
         if (screen != null)
-	        if ((screen.getDisplayFieldDesc() & ScreenConstants.SECURITY_MODE) != 0)
+	        if ((((BasePanel)screen).getDisplayFieldDesc() & ScreenConstants.SECURITY_MODE) != 0)
     	        bUseOldScreen = false;
         if (bUseOldScreen)
-            screen.clearCachedData();
+            ((BaseScreen)screen).clearCachedData();
         if (screen != null)
         {
         	boolean bIsApplet = false;
@@ -299,7 +300,7 @@ public class TopScreen extends BasePanel
         	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
         if (screen == null)
             if (strScreen.length() > 0)
-                screen = (BaseScreen)Record.makeNewScreen(strScreen, null, this, 0, null, null, true);
+                screen = (ScreenModel)Record.makeNewScreen(strScreen, null, this, 0, null, null, true);
                 // Now, see if they want to open a file and create the default screen
         if (screen == null) if (strRecord.length() > 0)
         {
@@ -334,12 +335,12 @@ public class TopScreen extends BasePanel
                         iDocType = record.commandToDocType(strScreenType);
             }
             if (record != null)
-                screen = (BaseScreen)record.makeScreen(null, this, iDocType, null);
+                screen = (ScreenModel)record.makeScreen(null, this, iDocType, null);
         }
         if (screen == null)
         {   // Default Display Form
             strScreen = MenuScreen.class.getName();
-            screen = (BaseScreen)Record.makeNewScreen(strScreen, null, this, 0, null, null, true);
+            screen = (ScreenModel)Record.makeNewScreen(strScreen, null, this, 0, null, null, true);
         }
         if (applet != null)
             applet.setStatus(0, applet, oldCursor);
@@ -361,19 +362,19 @@ public class TopScreen extends BasePanel
         return chJavaLaunch;
     }
     /**
-     * 
+     * Make sure I am allowed access to this screen.
      * @param strClassResource
      * @return
      */
-    public BaseScreen checkSecurity(BaseScreen screen, BasePanel parentScreen)
+    public ScreenModel checkSecurity(ScreenModel screen, ScreenModel parentScreen)
     {
         int iErrorCode = DBConstants.NORMAL_RETURN;
         if (screen != null)
-            iErrorCode = screen.checkSecurity();
+            iErrorCode = ((BaseScreen)screen).checkSecurity();
         if (iErrorCode == Constants.READ_ACCESS)
         {
-            screen.setEditing(false);
-            screen.setAppending(false);
+            ((BaseScreen)screen).setEditing(false);
+            ((BaseScreen)screen).setAppending(false);
             iErrorCode = DBConstants.NORMAL_RETURN;
         }
         if (iErrorCode == DBConstants.NORMAL_RETURN)
@@ -382,7 +383,7 @@ public class TopScreen extends BasePanel
         {
             if (screen != null)
                 screen.free();
-            return this.getSecurityScreen(iErrorCode, parentScreen);  // Create and return the login or error screen
+            return this.getSecurityScreen(iErrorCode, (BasePanel)parentScreen);  // Create and return the login or error screen
         }
     }
     /**

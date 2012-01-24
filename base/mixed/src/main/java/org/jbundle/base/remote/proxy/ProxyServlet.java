@@ -12,6 +12,7 @@ package org.jbundle.base.remote.proxy;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -22,9 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.jbundle.base.remote.proxy.transport.EncodedProxyTask;
 import org.jbundle.base.remote.proxy.transport.ProxyTask;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
-import org.jbundle.base.screen.control.servlet.BasicServlet.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.Task;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
@@ -129,7 +130,7 @@ public class ProxyServlet extends HttpServlet
      * Do any of the initial servlet stuff.
      * @param servletTask The calling servlet task.
      */
-    public void initServletSession(ServletTask servletTask)
+    public void initServletSession(Task servletTask)
     {
     }
     /**
@@ -150,7 +151,7 @@ public class ProxyServlet extends HttpServlet
     /**
      * Get the main screen (with the correct view factory!).
      */
-    public ComponentParent createTopScreen(RecordOwnerParent parent, Rec recordMain, Object properties)
+    public ComponentParent createTopScreen(Task task, Map<String,Object> properties)
     {
         return null;//? new HtmlScreen(parent, recordMain, properties);
     }

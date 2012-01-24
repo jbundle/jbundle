@@ -1,43 +1,39 @@
-/*
- *  @(#)HotelAvailRQScreen.
+/**
+ * @(#)MessageScreen.
  * Copyright © 2011 jbundle.org. All rights reserved.
+ * GPL3 Open Source Software License.
  */
-package org.jbundle.base.message.trx.transport.screen;
+package org.jbundle.main.msg.screen;
 
-import java.io.PrintWriter;
-import java.util.Map;
+import java.awt.*;
+import java.util.*;
 
-import org.jbundle.base.db.Record;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
-import org.jbundle.base.message.trx.message.external.ExternalMapTrxMessageIn;
-import org.jbundle.base.message.trx.transport.BaseMessageTransport;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.Screen;
-import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.model.ToolScreen;
-import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.Debug;
-import org.jbundle.base.util.Utility;
-import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
-import org.jbundle.model.main.msg.db.MessageLogModel;
-import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
-import org.jbundle.model.main.msg.db.MessageTypeModel;
-import org.jbundle.model.DBException;
-import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.message.TreeMessage;
-
+import org.jbundle.base.db.*;
+import org.jbundle.thin.base.util.*;
+import org.jbundle.thin.base.db.*;
+import org.jbundle.base.db.event.*;
+import org.jbundle.base.db.filter.*;
+import org.jbundle.base.field.*;
+import org.jbundle.base.field.convert.*;
+import org.jbundle.base.field.event.*;
+import org.jbundle.base.screen.model.*;
+import org.jbundle.base.screen.model.util.*;
+import org.jbundle.base.model.*;
+import org.jbundle.base.util.*;
+import org.jbundle.model.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
+import org.jbundle.thin.base.message.*;
+import org.jbundle.base.message.trx.transport.*;
 
 /**
- *  MessageScreen - Enter the message information for this transaction.
+ *  MessageScreen - The special screen for responding to messages..
  */
 public class MessageScreen extends Screen
 {
-    /**
-     *
-     */
-    public BaseMessageTransport m_transport = null;
-    
+    protected BaseMessage m_message = null;
+    protected String m_strTrxID = null;
+    protected BaseMessageTransport m_transport = null;
     /**
      * Default constructor.
      */
@@ -51,9 +47,10 @@ public class MessageScreen extends Screen
      * @param itsLocation The location of this component within the parent.
      * @param parentScreen The parent screen.
      * @param fieldConverter The field this screen field is linked to.
-     * @param iDisplayFieldDesc Do I display the field desc?.
+     * @param iDisplayFieldDesc Do I display the field desc?
+     * @param properties Addition properties to pass to the screen.
      */
-    public MessageScreen(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+    public MessageScreen(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
         this();
         this.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
@@ -61,9 +58,18 @@ public class MessageScreen extends Screen
     /**
      * Initialize class fields.
      */
-    public void init(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+    public void init(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
+        m_message = null;
+        m_transport = null;
         super.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
+    }
+    /**
+     * Get the screen display title.
+     */
+    public String getTitle()
+    {
+        return "The special screen for responding to messages.";
     }
     /**
      * Add all the screen listeners.
@@ -90,25 +96,24 @@ public class MessageScreen extends Screen
         }
     }
     /**
-     * Move the message params to this screen before I put the screen up.
-     * Override this.
+     * Move the original(sent) message params to this screen.
      */
     public void moveMessageParamsToScreen(BaseMessage message)
     {
+        // Override
     }
     /**
-     * Return true if this post for the screen is a reply message.
-     * You should override this to check for the critical information that this screen should supply.
+     * IsReplyMessage Method.
      */
     public boolean isReplyMessage(BaseMessage message)
     {
-// Should look something like this:
-//        String strxxx = (String)this.getServletTask().getProperties().get("xxx");
+        // Should look something like this:
+        //        String strxxx = (String)this.getServletTask().getProperties().get("xxx");
         return false;
     }
     /**
      * Process the "Add" toolbar command.
-     * @return  true    If command was handled
+     * @return  true    If command was handled.
      */
     public boolean onAdd()
     {
@@ -116,12 +121,12 @@ public class MessageScreen extends Screen
         this.processThisMessage();
         return true;
     }
-    /*
-    * This is the application code for handling the message. Once the
-    * message is received the application can retrieve the soap part, the
-    * attachment part if there are any, or any other information from the
-    * message.
-    */
+    /**
+     * This is the application code for handling the message. Once the
+     * message is received the application can retrieve the soap part, the
+     * attachment part if there are any, or any other information from the
+     * message.
+     */
     public void processThisMessage()
     {
         Utility.getLogger().info("On message called in receiving process");
@@ -143,16 +148,16 @@ public class MessageScreen extends Screen
     }
     /**
      * Given this message in, create the reply message.
-     * @param messageIn
-     * @return
+     * @param messageIn The incomming message
+     * @return the (empty) reply message.
      */
     public BaseMessage createReplyMessage(BaseMessage messageIn)
     {
-//            ProductRequest productRequest = (ProductRequest)messageIn.getMessageDataDesc(null);
+        //ProductRequest productRequest = (ProductRequest)messageIn.getMessageDataDesc(null);
         BaseMessage replyMessage = (BaseMessage)this.getMessageProcessInfo().createReplyMessage(messageIn);
-
-//        BaseProductResponse responseMessage = (BaseProductResponse)replyMessage.getMessageDataDesc(null);
-//        responseMessage.moveRequestInfoToReply(productRequest);
+        
+        //BaseProductResponse responseMessage = (BaseProductResponse)replyMessage.getMessageDataDesc(null);
+        //responseMessage.moveRequestInfoToReply(productRequest);
         if (replyMessage == null)
             replyMessage = new TreeMessage(null, null);
         if (replyMessage.getExternalMessage() == null)
@@ -170,17 +175,13 @@ public class MessageScreen extends Screen
     }
     /**
      * Move to entered fields to the return message.
-     * @param message TODO
      */
     public void moveScreenParamsToMessage(BaseMessage message)
     {
         // Override this
     }
     /**
-     * Display this screen in html input format.
-     * @return true if default params were found for this form.
-     * @param out The http output stream.
-     * @exception DBException File exception.
+     * PrintData Method.
      */
     public boolean printData(PrintWriter out, int iPrintOptions)
     {
@@ -189,6 +190,7 @@ public class MessageScreen extends Screen
     }
     /**
      * Get the path to the target servlet.
+     * @param The servlet type (regular html or xhtml)
      * @return the servlet path.
      */
     public String getServletPath(String strServletParam)
@@ -207,7 +209,7 @@ public class MessageScreen extends Screen
     }
     /**
      * This utility method re-creates the source(sent) message from the message log.
-     * @return The sent message
+     * @return The sent message.
      */
     public BaseMessage getMessage()
     {
@@ -227,11 +229,9 @@ public class MessageScreen extends Screen
         }
         return m_message;
     }
-    protected BaseMessage m_message = null;
-    protected String m_strTrxID = null;
     /**
      * Get the transport for an incomming screen message.
-     * @return The screen transport.
+     * \@return The screen transport.
      */
     public BaseMessageTransport getTransport()
     {
@@ -239,4 +239,5 @@ public class MessageScreen extends Screen
             m_transport = new ScreenMessageTransport(this.getTask());
         return m_transport;
     }
+
 }

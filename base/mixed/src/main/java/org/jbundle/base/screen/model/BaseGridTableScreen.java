@@ -118,7 +118,7 @@ public class BaseGridTableScreen extends BaseGridScreen
      */
     public ToolScreen addToolbars()
     {   // Override this to add (call this) or replace (don't call) this default toolbar.
-        return new DisplayToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new DisplayToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * Add the menus that belong with this screen.
@@ -133,7 +133,7 @@ public class BaseGridTableScreen extends BaseGridScreen
             {
                 if (menuBar instanceof SBaseMenuBar)
                     menuBar.free();     // Wrong menu
-                new SGridMenuBar(new ScreenLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), appletScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+                new SGridMenuBar(new ScreenLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), appletScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
             }
         }
     }

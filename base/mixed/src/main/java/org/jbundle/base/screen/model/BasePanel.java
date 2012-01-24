@@ -46,7 +46,6 @@ import org.jbundle.model.Task;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.main.user.db.UserInfoModel;
-import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.Param;
 import org.jbundle.model.util.Util;
@@ -83,7 +82,7 @@ import org.jbundle.thin.base.util.Application;
  * </pre>
  */
 public class BasePanel extends ScreenField
-    implements PropertyOwner, RecordOwnerParent, ComponentParent
+    implements ScreenModel, RecordOwnerParent
 {
     /**
      * All the screen fields in this BasePanel.
@@ -116,21 +115,10 @@ public class BasePanel extends ScreenField
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public BasePanel(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public BasePanel(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this();
-        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
-    }
-    /**
-     * Initialize.
-     * @param itsLocation The location of this component within the parent.
-     * @param parentScreen The parent screen.
-     * @param fieldConverter The field this screen field is linked to.
-     * @param iDisplayFieldDesc Do I display the field desc?
-     */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
-    {
-    	this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, null);
+        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Open the files and setup the screen.
@@ -139,7 +127,7 @@ public class BasePanel extends ScreenField
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         if (itsLocation == null) if (parentScreen != null)
             itsLocation = parentScreen.getNextLocation(ScreenConstants.BELOW_LAST_DESC, ScreenConstants.DONT_SET_ANCHOR);
@@ -157,7 +145,7 @@ public class BasePanel extends ScreenField
         	}
         }
 
-        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
         m_bIsFocusTarget = false; // Generally, can't tab to a panel
 
         int iErrorCode = this.checkSecurity();
@@ -219,7 +207,7 @@ public class BasePanel extends ScreenField
             String strMessage = application.getResources(ResourceConstants.ERROR_RESOURCE, true).getString(strDisplay);
             new SStaticString(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, strMessage);
             new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.BACK);
-            new MenuToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+            new MenuToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
             this.resizeToContent(strDisplay);
         }
         if ((iErrorCode == Constants.LOGIN_REQUIRED) || (iErrorCode == Constants.AUTHENTICATION_REQUIRED))
@@ -269,7 +257,7 @@ public class BasePanel extends ScreenField
                 if (this.getSField(i) instanceof ToolScreen)
                     this.getSField(i).free();
             }
-            new MenuToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+            new MenuToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
             this.resizeToContent(strDisplay);
         }
     }
@@ -717,8 +705,8 @@ public class BasePanel extends ScreenField
      */
     public static BasePanel makeWindow(App application)
     {
-        FrameScreen frameScreen = new FrameScreen(null, null, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
-        AppletScreen appletScreen = new AppletScreen(null, frameScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        FrameScreen frameScreen = new FrameScreen(null, null, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
+        AppletScreen appletScreen = new AppletScreen(null, frameScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
         
         appletScreen.setupDefaultTask((Application)application);
         
@@ -1504,7 +1492,13 @@ public class BasePanel extends ScreenField
         m_viewFactory = super.getViewFactory();
         if (m_viewFactory != null)
             return m_viewFactory;
-        return m_viewFactory = ViewFactory.getViewFactory(ScreenModel.SWING_TYPE, 'V');
+        String viewType = this.getProperty(ScreenModel.VIEW_TYPE);
+        if (viewType == null)
+            viewType = ScreenModel.SWING_TYPE;
+        char viewPrefix = Character.toUpperCase(viewType.charAt(0));
+        if (ScreenModel.SWING_TYPE.equalsIgnoreCase(viewType))
+            viewPrefix = 'V';   // Special, swing starts with 'V'
+        return m_viewFactory = ViewFactory.getViewFactory(viewType, viewPrefix);
     }
     protected ViewFactory m_viewFactory = null;
     /**
@@ -1658,5 +1652,21 @@ public class BasePanel extends ScreenField
     	if (m_recordOwnerCollection != null)
     		return m_recordOwnerCollection.removeRecordOwner(recordOwner);
     	return false;
+    }
+    /**
+     * From the parameters, get the screen.
+     */
+    public ScreenModel getScreen(ScreenModel screen, PropertyOwner propertyOwner)
+    {
+        return null;    // This is only implemented in TopScreen
+    }
+    /**
+     * Make sure I am allowed access to this screen.
+     * @param strClassResource
+     * @return
+     */
+    public ScreenModel checkSecurity(ScreenModel screen, ScreenModel parentScreen)
+    {
+        return null;    // This is only implemented in TopScreen
     }
 }

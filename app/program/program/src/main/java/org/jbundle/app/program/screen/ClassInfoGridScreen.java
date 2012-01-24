@@ -150,7 +150,7 @@ public class ClassInfoGridScreen extends DetailGridScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new ClassProjectHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new ClassProjectHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
 
 }

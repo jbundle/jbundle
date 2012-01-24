@@ -19,9 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.screen.model.BaseScreen;
-import org.jbundle.base.screen.model.MenuScreen;
-import org.jbundle.base.screen.model.TopScreen;
+import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.util.Debug;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
@@ -110,7 +108,7 @@ public class ServletTask extends BaseHttpTask
     public void doProcess(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res, PrintWriter outExt) 
         throws ServletException, IOException
     {
-    	ScreenParent screen = this.doProcessInput(servlet, req, res);
+    	ScreenModel screen = this.doProcessInput(servlet, req, res);
     	this.doProcessOutput(servlet, req, res, outExt, screen);
     }
     /**
@@ -118,7 +116,7 @@ public class ServletTask extends BaseHttpTask
      * @exception ServletException From inherited class.
      * @exception IOException From inherited class.
      */
-    public ScreenParent doProcessInput(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res) 
+    public ScreenModel doProcessInput(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res) 
         throws ServletException, IOException
     {
         this.parseArgs(req);    // Parameters are now available to all children of this Task.
@@ -133,19 +131,19 @@ public class ServletTask extends BaseHttpTask
         
         servlet.initServletSession(this);
 
-        ComponentParent parentScreen = servlet.createTopScreen(this, null, null);
-        BaseScreen screen = ((TopScreen)parentScreen).getScreen(null, null);
+        ComponentParent parentScreen = servlet.createTopScreen(this, null);
+        ScreenModel screen = ((ScreenModel)parentScreen).getScreen(null, null);
         if (screen != null)
         {
-            screen = screen.doServletCommand((TopScreen)parentScreen);  // Move the input params to the record fields
+            screen = screen.doServletCommand((ScreenModel)parentScreen);  // Move the input params to the record fields
             if (screen == null)
             {   // null = display Default Display Form
-                screen = (BaseScreen)Record.makeNewScreen(MenuScreen.class.getName(), null, parentScreen, 0, null, null, true);
+                screen = (ScreenModel)Record.makeNewScreen(ScreenModel.MENU_SCREEN, null, parentScreen, 0, null, null, true);
             }
         }
         if (screen != null)
         	if (this.getProperty(DBParams.DATATYPE) == null)
-        		screen = ((TopScreen)parentScreen).checkSecurity(screen, (TopScreen)parentScreen);  // Screen specified
+        		screen = ((ScreenModel)parentScreen).checkSecurity(screen, (ScreenModel)parentScreen);  // Screen specified
         if (((strUserID == null) && (m_application.getProperty(DBParams.USER_ID) != null))
             || ((strUserID != null) && (!strUserID.equals(m_application.getProperty(DBParams.USER_ID)))))
         {   // Special case, the screen changed the user.
@@ -162,7 +160,7 @@ public class ServletTask extends BaseHttpTask
      * @exception ServletException From inherited class.
      * @exception IOException From inherited class.
      */
-    public void doProcessOutput(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res, PrintWriter outExt, ScreenParent screen) 
+    public void doProcessOutput(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res, PrintWriter outExt, ScreenModel screen) 
         throws ServletException, IOException
     {
         PrintWriter out = outExt;
@@ -180,11 +178,11 @@ public class ServletTask extends BaseHttpTask
             {
                 if (out == null)
                     out = servlet.getOutputStream(res); // Always
-                ((BaseScreen)screen).printReport(out);
+                ((ScreenModel)screen).printReport(out);
             }
             else
             {       // Raw data output
-                ((org.jbundle.base.screen.view.data.DDataAccessScreen)((BaseScreen)screen).getScreenFieldView()).sendData(req, res);
+                ((ScreenModel)screen).getScreenFieldView().sendData(req, res);
             }
             screen.free();
             screen = null;

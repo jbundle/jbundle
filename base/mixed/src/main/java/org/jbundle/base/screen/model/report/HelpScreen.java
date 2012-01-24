@@ -78,7 +78,7 @@ public class HelpScreen extends BaseParserScreen
      */
     public ToolScreen addToolbars()
     {   // Override this to add (call this) or replace (don't call) this default toolbar
-        return new HelpToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new HelpToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * Get the Class Information Service for this screen (use the properties to get the class).

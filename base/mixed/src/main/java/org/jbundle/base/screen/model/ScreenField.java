@@ -21,6 +21,7 @@ import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.util.Constant;
+import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.Params;
 
 /**
@@ -77,7 +78,7 @@ public abstract class ScreenField extends Object
     public ScreenField(ScreenLocation itsLocation, BasePanel parentScreen, Convert fieldConverter, int iDisplayFieldDesc)
     {
         this();
-        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, null);
     }
     /**
      * Initialize.
@@ -86,9 +87,9 @@ public abstract class ScreenField extends Object
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+    public final void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        this.init((ScreenLocation)itsLocation, (BasePanel)parentScreen, fieldConverter, iDisplayFieldDesc);
+        this.init((ScreenLocation)itsLocation, (BasePanel)parentScreen, (Converter)fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Initialize.
@@ -97,7 +98,7 @@ public abstract class ScreenField extends Object
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Convert fieldConverter, int iDisplayFieldDesc)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         m_converterField = null;
         m_screenParent = null;
@@ -665,7 +666,7 @@ public abstract class ScreenField extends Object
      * @exception DBException File exception.
      * @return bParamsFound True if params were found and moved.
      */
-    public BaseScreen doServletCommand(BasePanel parentScreen)
+    public ScreenModel doServletCommand(ScreenModel parentScreen)
     {
         return null;    // This should never be called for a screenField, see BaseScree.moveControlInput.
     }

@@ -104,7 +104,7 @@ public class SBaseButton extends ScreenField
                 m_DependentConverter = converter; // Remember to remove this
             fieldConverter = converter;
         }
-        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, null);
     }
     /**
      * Free.

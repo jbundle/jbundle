@@ -28,6 +28,7 @@ import org.jbundle.thin.base.message.*;
 import org.jbundle.base.message.trx.transport.screen.*;
 import org.jbundle.model.message.*;
 import org.jbundle.main.db.base.*;
+import org.jbundle.main.msg.screen.ScreenMessageTransport;
 import org.jbundle.main.user.db.*;
 import org.jbundle.model.main.msg.db.*;
 

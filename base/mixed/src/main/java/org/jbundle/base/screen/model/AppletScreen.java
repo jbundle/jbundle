@@ -9,14 +9,14 @@ package org.jbundle.base.screen.model;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import java.util.Map;
+
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.model.App;
-import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 
 
@@ -40,24 +40,10 @@ public class AppletScreen extends TopScreen
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public AppletScreen(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public AppletScreen(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this();
-        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
-    }
-    /**
-     * Initialize the RecordOwner.
-     * This initializer is required by the RecordOwner interface.
-     * @param record The main record for this screen.
-     * @param parent The parent screen.
-     * @param properties The properties object.
-     * @param location (property) The location of this component within the parent.
-     * @param display (property) Do I display the field desc?
-     */
-    public AppletScreen(RecordOwnerParent parent, FieldList record, Object properties)
-    {
-        this();
-        this.init(parent, record, properties);
+        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Initialize.
@@ -66,11 +52,11 @@ public class AppletScreen extends TopScreen
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        m_screenParent = parentScreen;          // Now screeninfo can get some FontMetrics
+        m_screenParent = (BasePanel)parentScreen;          // Now screeninfo can get some FontMetrics
 
-        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Free the resources.

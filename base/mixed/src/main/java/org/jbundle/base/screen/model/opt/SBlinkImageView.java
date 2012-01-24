@@ -10,6 +10,8 @@ package org.jbundle.base.screen.model.opt;
  *      don@tourgeek.com
  */
 
+import java.util.Map;
+
 import javax.swing.ImageIcon;
 
 import org.jbundle.base.screen.model.BasePanel;
@@ -41,10 +43,10 @@ public class SBlinkImageView extends ScreenField
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public SBlinkImageView(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public SBlinkImageView(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this();
-        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Initialize.
@@ -52,10 +54,11 @@ public class SBlinkImageView extends ScreenField
      * @param parentScreen The parent screen.
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
+     * @param properties TODO
      */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
         for (int iIndex = 0; iIndex < 32; iIndex++)
         {
             ImageIcon icon = this.getIcon(iIndex);

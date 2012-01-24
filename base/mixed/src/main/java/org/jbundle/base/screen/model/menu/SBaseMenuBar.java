@@ -10,6 +10,7 @@ package org.jbundle.base.screen.model.menu;
  *      don@tourgeek.com
  */
 import java.awt.Dimension;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.swing.JMenuBar;
@@ -50,10 +51,10 @@ public class SBaseMenuBar extends BasePanel
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public SBaseMenuBar(ScreenLocation itsLocation,BasePanel parentScreen,Converter fieldConverter,int iDisplayFieldDesc)
+    public SBaseMenuBar(ScreenLocation itsLocation,BasePanel parentScreen,Converter fieldConverter,int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this();
-        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Initialize.
@@ -62,7 +63,7 @@ public class SBaseMenuBar extends BasePanel
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         m_resources = null;
         BasePanel myParentScreen = parentScreen;
@@ -71,7 +72,7 @@ public class SBaseMenuBar extends BasePanel
         if (myParentScreen == null)
             myParentScreen = parentScreen;  // Only in HTML screens
 
-        super.init(itsLocation, myParentScreen, fieldConverter, iDisplayFieldDesc);
+        super.init(itsLocation, myParentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * free.

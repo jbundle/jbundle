@@ -16,9 +16,7 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.model.db.Convert;
-import org.jbundle.model.screen.ComponentParent;
-import org.jbundle.model.screen.ScreenLoc;
+import org.jbundle.thin.base.db.Converter;
 
 /**
  * A static text area.
@@ -60,7 +58,7 @@ public class SStaticString extends ScreenField
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public void init(ScreenLoc itsLocation, ComponentParent parentScreen, Convert fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         if (properties != null)
             m_StaticString = (String)properties.get(ScreenModel.DISPLAY_STRING);
@@ -77,7 +75,7 @@ public class SStaticString extends ScreenField
     public void init(ScreenLocation itsLocation, BasePanel parentScreen, String strDisplay)
     {
         m_StaticString = strDisplay;
-        super.init(itsLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_DESC);
+        super.init(itsLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_DESC, null);
     }
     /**
      * Free.

@@ -107,7 +107,7 @@ public class PackagesReport extends ReportScreen
      */
     public ToolScreen addToolbars()
     {
-        return new PackagesReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new PackagesReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * SetupSFields Method.

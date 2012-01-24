@@ -170,7 +170,7 @@ public class BaseMenuScreen extends BaseScreen
      */
     public ToolScreen addToolbars()
     {   // Override this to add (call this) or replace (don't call) this default toolbar.
-        return new MenuToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new MenuToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * Add the menus that belong with this screen.
@@ -185,7 +185,7 @@ public class BaseMenuScreen extends BaseScreen
             {
                 if (menuBar instanceof SBaseMenuBar)
                     menuBar.free();     // Wrong menu
-                new SBaseMenuBar(new ScreenLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), appletScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+                new SBaseMenuBar(new ScreenLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), appletScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
             }
         }
     }

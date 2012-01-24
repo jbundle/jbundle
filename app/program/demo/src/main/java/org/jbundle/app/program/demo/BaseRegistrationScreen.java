@@ -156,9 +156,9 @@ public class BaseRegistrationScreen extends UserEntryScreen
      * 2. The error display line (if there was an error)
      * @return this or the new screen to display.
      */
-    public BaseScreen doServletCommand(BasePanel screenParent)
+    public ScreenModel doServletCommand(ScreenModel screenParent)
     {
-        BaseScreen screen = super.doServletCommand(screenParent);    // Process params from previous screen
+        ScreenModel screen = super.doServletCommand(screenParent);    // Process params from previous screen
         
         if (MenuConstants.SUBMIT.equalsIgnoreCase(this.getProperty(DBParams.COMMAND)))
         {

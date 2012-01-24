@@ -9,6 +9,8 @@ package org.jbundle.base.screen.model.util;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import java.util.Map;
+
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.thin.base.db.Converter;
@@ -33,10 +35,10 @@ public class EmptyToolbar extends ToolScreen
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public EmptyToolbar(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public EmptyToolbar(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         this();
-        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Do not set up any buttons by default.

@@ -10,6 +10,8 @@ package org.jbundle.base.screen.model;
  *      don@tourgeek.com
  */
 
+import java.util.Map;
+
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.thin.base.db.Converter;
 
@@ -48,7 +50,7 @@ public class SComboBox extends SPopupBox
     public SComboBox(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
     {
         this();
-        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, null);
     }
     /**
      * Initialize.
@@ -57,9 +59,9 @@ public class SComboBox extends SPopupBox
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?
      */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc);
+        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * Free.

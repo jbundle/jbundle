@@ -147,7 +147,7 @@ public class FolderGridScreen extends BaseFolderGridScreen
      */
     public BasePanel makeSubScreen()
     {
-        return new FolderHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+        return new FolderHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
      * SetupSFields Method.

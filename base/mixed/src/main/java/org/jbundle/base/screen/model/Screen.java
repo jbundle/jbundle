@@ -163,7 +163,7 @@ public class Screen extends BaseScreen
             {
                 if (menuBar instanceof SBaseMenuBar)
                     menuBar.free();     // Wrong menu
-                new SMenuBar(new ScreenLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), appletScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
+                new SMenuBar(new ScreenLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), appletScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
             }
         }
     }
