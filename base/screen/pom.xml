@@ -16,9 +16,9 @@
   <name>jbundle-base-screen</name>
 
   <modules>
+    <module>model</module>
     <module>control</module>
     <module>view</module>
-    <module>misc</module>
   </modules>
 
 </project>

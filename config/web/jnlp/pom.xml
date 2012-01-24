@@ -225,7 +225,7 @@
                 
                 <jarResource>
                   <groupId>org.jbundle.base.screen</groupId>
-                  <artifactId>org.jbundle.base.screen.misc</artifactId>
+                  <artifactId>org.jbundle.base.screen.model</artifactId>
                   <version>${project.version}</version>
                 </jarResource>
                 <jarResource>

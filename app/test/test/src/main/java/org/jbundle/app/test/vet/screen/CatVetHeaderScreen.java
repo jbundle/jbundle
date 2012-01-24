@@ -16,9 +16,9 @@ import org.jbundle.base.db.filter.*;
 import org.jbundle.base.field.*;
 import org.jbundle.base.field.convert.*;
 import org.jbundle.base.field.event.*;
-import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
+import org.jbundle.base.model.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
@@ -44,7 +44,7 @@ public class CatVetHeaderScreen extends HeaderScreen
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?.
      */
-    public CatVetHeaderScreen(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+    public CatVetHeaderScreen(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
         this();
         this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
@@ -52,7 +52,7 @@ public class CatVetHeaderScreen extends HeaderScreen
     /**
      * Initialize class fields.
      */
-    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+    public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
         super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
