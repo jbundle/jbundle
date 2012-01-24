@@ -24,6 +24,8 @@ import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.base.message.trx.transport.*;
+import org.jbundle.thin.base.message.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  ScreenMessageTransport - This is the base class to process an external message..
