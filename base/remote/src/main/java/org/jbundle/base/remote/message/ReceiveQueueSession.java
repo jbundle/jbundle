@@ -20,6 +20,7 @@ import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.message.Message;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageManager;
@@ -87,7 +88,7 @@ public class ReceiveQueueSession extends BaseSession
         BaseMessageManager messageManager = null;
         if (this.getTask() != null) // May have been freed already.
             if (this.getTask().getApplication() != null)
-                messageManager = ((Application)this.getTask().getApplication()).getMessageManager(false);
+                messageManager = (BaseMessageManager)((Application)this.getTask().getApplication()).getMessageManager(false);
         if (messageManager != null)
             messageManager.freeFiltersWithListener(this);
         if (m_messageStack != null)
@@ -160,7 +161,7 @@ public class ReceiveQueueSession extends BaseSession
         remoteFilter.setUpdateRemoteFilter(true);      // (This is a transient field you MUST set the initial value)
         Utility.getLogger().info("EJB addRemoteMessageFilter session: " + remoteSession);
         // Give the filter the remote environment
-        BaseMessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
+        MessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
         if (remoteSession == null)
             messageManager.addMessageFilter(remoteFilter); // If there was a remote session, setupRemoteSessionFilter would have added the filter.
         else
@@ -183,7 +184,7 @@ public class ReceiveQueueSession extends BaseSession
     public boolean removeRemoteMessageFilter(BaseMessageFilter messageFilter, boolean bFreeFilter) throws RemoteException
     {
         Utility.getLogger().info("EJB removeMessageFilter filter: " + messageFilter);
-        BaseMessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
+        MessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
         BaseMessageReceiver messageReceiver = (BaseMessageReceiver)messageManager.getMessageQueue(messageFilter.getRemoteFilterQueueName(), messageFilter.getRemoteFilterQueueType()).getMessageReceiver();
         boolean bRemoved = false;
         if (messageReceiver != null)
@@ -199,7 +200,7 @@ public class ReceiveQueueSession extends BaseSession
     {
         Utility.getLogger().info("EJB updateRemoteFilter properties: " + mxProperties);
         // Give the filter the remote environment
-        BaseMessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
+        MessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
         messageFilter = ((BaseMessageReceiver)messageManager.getMessageQueue(messageFilter.getQueueName(), messageFilter.getQueueType()).getMessageReceiver()).getMessageFilter(messageFilter.getRemoteFilterID());  // Must look it up
         if (messageFilter != null)  // Always
         {

@@ -13,13 +13,12 @@ package org.jbundle.thin.app.test.manual.chat;
 import java.util.Hashtable;
 import java.util.Map;
 
-
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageListener;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.screen.ThinApplication;
@@ -88,7 +87,7 @@ public class ChatServer extends ThinApplication
             this.free();    // Don't start this application (It's already running somewhere)
             return;
         }
-        BaseMessageManager messageManager = this.getMessageManager();
+        MessageManager messageManager = this.getMessageManager();
         BaseMessageReceiver receiver = (BaseMessageReceiver)messageManager.getMessageQueue(CHAT_QUEUE_NAME, CHAT_QUEUE_TYPE).getMessageReceiver();
         
         m_messageFilter = new ChatMessageFilter(m_strTree, m_strBack, m_strFilter, null);

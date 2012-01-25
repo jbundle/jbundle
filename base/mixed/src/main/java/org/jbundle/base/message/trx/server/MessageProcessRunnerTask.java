@@ -17,7 +17,6 @@ import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.thread.ProcessRunnerTask;
 import org.jbundle.model.App;
 import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.util.Application;
 
 
 /**

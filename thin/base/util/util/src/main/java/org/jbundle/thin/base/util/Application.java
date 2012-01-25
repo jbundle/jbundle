@@ -21,6 +21,7 @@ import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
@@ -28,7 +29,6 @@ import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.remote.ApplicationServer;
 import org.jbundle.thin.base.remote.RemoteException;
@@ -1206,7 +1206,7 @@ public class Application extends Object
     /**
      * Get this Message Queue (or create one if this name doesn't exist).
      */
-    public BaseMessageManager getMessageManager()
+    public MessageManager getMessageManager()
     {
         return this.getMessageManager(true);
     }
@@ -1215,7 +1215,7 @@ public class Application extends Object
      * @param bCreateIfNone
      * NOTE: This is overridden for anything but thin.
      */
-    public BaseMessageManager getMessageManager(boolean bCreateIfNone)
+    public MessageManager getMessageManager(boolean bCreateIfNone)
     {
         return null;	// Override this (in ThinMessageApplication)
     }

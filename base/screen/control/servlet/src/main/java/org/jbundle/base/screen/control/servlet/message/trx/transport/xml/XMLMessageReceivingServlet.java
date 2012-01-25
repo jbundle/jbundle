@@ -30,12 +30,12 @@ import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.App;
 import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
 import org.jbundle.model.main.msg.db.MessageStatusModel;
 import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.TreeMessage;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -103,7 +103,7 @@ public class XMLMessageReceivingServlet extends XMLServlet
                 env = ((BaseApplication)servletTask.getApplication()).getEnvironment();
             if (env == null)
                 env = Environment.getEnvironment(null);
-            Application app = env.getMessageApplication(true, properties);
+            App app = env.getMessageApplication(true, properties);
             servletTask.setApplication(app);
 
             xmlMessageTransport = new XMLMessageTransport(servletTask);

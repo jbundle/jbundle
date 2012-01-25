@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.jbundle.model.App;
+import org.jbundle.model.message.Message;
 import org.jbundle.model.message.MessageFilter;
 import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.message.MessageQueue;
@@ -169,9 +170,9 @@ public class BaseMessageManager extends AutoTask
      * @param The message to send.
      * @return An error code.
      */
-    public int sendMessage(BaseMessage message)
+    public int sendMessage(Message message)
     {
-        BaseMessageHeader messageHeader = message.getMessageHeader();
+        BaseMessageHeader messageHeader = ((BaseMessage)message).getMessageHeader();
         String strQueueType = messageHeader.getQueueType();
         String strQueueName = messageHeader.getQueueName();
         MessageSender sender = this.getMessageQueue(strQueueName, strQueueType).getMessageSender();

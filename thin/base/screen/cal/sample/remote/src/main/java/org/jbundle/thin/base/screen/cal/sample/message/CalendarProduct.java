@@ -9,8 +9,8 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.message.MessageSender;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.screen.BaseApplet;
@@ -125,7 +125,7 @@ public class CalendarProduct extends CachedItem implements CalendarItem
             properties.put("rateType", "Rack");
             properties.put("roomClass", "Single");
 
-            BaseMessageManager messageManager = applet.getApplication().getMessageManager();
+            MessageManager messageManager = applet.getApplication().getMessageManager();
             sendQueue = messageManager.getMessageQueue(strSendQueueName, null).getMessageSender();
 if (gbFirstTime)
 {

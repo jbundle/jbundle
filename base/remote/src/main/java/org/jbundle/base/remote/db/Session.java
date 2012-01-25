@@ -18,9 +18,9 @@ import org.jbundle.base.message.record.RecordMessageFilter;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.thin.base.message.BaseMessageFilter;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.message.session.ClientSessionMessageFilter;
 import org.jbundle.thin.base.remote.RemoteException;
@@ -158,7 +158,7 @@ public class Session extends BaseSession
             bThinClient = true;
         messageFilter = this.setupRemoteFilter(messageFilter);  // Change the filter?
         messageFilter.setThinTarget(bThinClient);   // This way the server process knows not to send a thick message here (before converting it to thin).
-        BaseMessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
+        MessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
         MessageReceiver messageReceiver = messageManager.getMessageQueue(messageFilter.getQueueName(), messageFilter.getQueueType()).getMessageReceiver();
         messageReceiver.addMessageFilter(messageFilter);    // I do this just in case the link code wants to add a filter to the tree (ie., RecordFilters).
         BaseMessageFilter messageFilterNew = messageFilter.linkRemoteSession(this);  // Link the filter and give filter a chance to change the remote version.

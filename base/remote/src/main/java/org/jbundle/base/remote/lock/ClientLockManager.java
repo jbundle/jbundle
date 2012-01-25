@@ -117,7 +117,7 @@ public class ClientLockManager extends Object
     {
         if (m_lockServer == null)
         {   // Haven't done any locks yet, hook up with the lock server.
-            Application app = ((Environment)m_owner).getDefaultApplication();
+            Application app = (Application)((Environment)m_owner).getDefaultApplication();
             if (m_gbRemoteTaskServer)
             {
                 String strServer = app.getAppServerName();

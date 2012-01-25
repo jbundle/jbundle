@@ -14,10 +14,10 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.message.record.RecordMessageHeader;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageListener;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.util.Application;
@@ -88,7 +88,7 @@ public class WaitForFieldChangeHandler extends FieldListener
         if (owner != null)
         {
             Record record = this.getOwner().getRecord();
-            BaseMessageManager messageManager = ((Application)record.getTask().getApplication()).getMessageManager();
+            MessageManager messageManager = ((Application)record.getTask().getApplication()).getMessageManager();
             if (messageManager != null)
             {
                 BaseMessageFilter messageFilter = new BaseMessageFilter(MessageConstants.TRX_RETURN_QUEUE, MessageConstants.INTERNET_QUEUE, this, null);

@@ -10,9 +10,9 @@ import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.model.Resources;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.screen.ThinApplication;
 
 
@@ -137,9 +137,9 @@ public class BaseApplication extends ThinApplication
      * Set the environment (This is used primarily for testing, since env is static).
      * @param env The parent enviroment.
      */
-    public void setEnvironment(Environment env)
+    public void setEnvironment(Object env)
     {
-        m_env = env;
+        m_env = (Environment)env;
     }
     /**
      * Given a class name in the program package, get this resource's class name in the res package.
@@ -241,7 +241,7 @@ public class BaseApplication extends ThinApplication
      * @param bCreateIfNone
      * NOTE: This is overridden for anything but thin.
      */
-    public BaseMessageManager getMessageManager(boolean bCreateIfNone)
+    public MessageManager getMessageManager(boolean bCreateIfNone)
     {
         return this.getEnvironment().getMessageManager(this, bCreateIfNone);
     }

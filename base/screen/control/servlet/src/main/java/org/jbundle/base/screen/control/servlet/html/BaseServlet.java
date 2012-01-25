@@ -21,10 +21,10 @@ import javax.servlet.ServletException;
 
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.screen.control.servlet.ServletTask;
+import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.webapp.base.BaseWebappServlet;
 
 /**
@@ -56,7 +56,7 @@ public class BaseServlet extends BaseWebappServlet
     public InputStream getFileStream(ServletTask servletTask, String filename, String filepath) throws MalformedURLException
 	{
 		URL fileURL = null;
-		Application app = null;
+		App app = null;
 		if (servletTask != null)
 			app = servletTask.getApplication();
 

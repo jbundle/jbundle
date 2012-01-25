@@ -11,13 +11,13 @@ import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
-import org.jbundle.model.main.msg.db.MessageLogModel;
-import org.jbundle.model.main.msg.db.MessageStatusModel;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.main.msg.db.MessageLogModel;
+import org.jbundle.model.main.msg.db.MessageStatusModel;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.MessageConstants;
 
 
@@ -91,7 +91,7 @@ public class BaseMessageReplyInProcessor extends BaseExternalMessageProcessor
         App app = null;
         if (this.getTask() != null)
         	app = this.getTask().getApplication();
-        BaseMessageManager msgManager = env.getMessageManager(app, true);
+        MessageManager msgManager = env.getMessageManager(app, true);
         msgManager.sendMessage(message);
         return null;
     }

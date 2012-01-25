@@ -29,12 +29,12 @@ import org.jbundle.base.message.trx.message.external.EMailTrxMessageIn;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.DBException;
+import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
 import org.jbundle.model.main.msg.db.MessageLogModel;
 import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.main.msg.db.MessageTypeModel;
-import org.jbundle.model.DBException;
-import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.TreeMessage;
 

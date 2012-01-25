@@ -6,8 +6,8 @@ package org.jbundle.base.message.app;
 import java.util.Map;
 
 import org.jbundle.base.util.BaseApplication;
+import org.jbundle.model.App;
 import org.jbundle.thin.base.message.BaseMessageManager;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -93,7 +93,7 @@ public class MessageApplication extends BaseApplication
         String strValue = super.getProperty(strProperty);
         if (strValue == null)
         {
-            Application appDefault = this.getEnvironment().getDefaultApplication();
+            App appDefault = this.getEnvironment().getDefaultApplication();
             if ((appDefault != null)
                 && (appDefault != this))
                     strValue = appDefault.getProperty(strProperty);

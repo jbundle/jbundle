@@ -12,6 +12,7 @@ package org.jbundle.thin.app.calendar;
  */
 import java.util.Properties;
 
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.client.RemoteFieldTable;
@@ -63,7 +64,7 @@ public class AppointmentMessageCalendarScreen extends AppointmentCalendarScreen
 
         RemoteSession remoteSession = ((RemoteFieldTable)this.getFieldList().getTable()).getRemoteTableType(org.jbundle.model.Remote.class);
 
-        BaseMessageManager messageManager = this.getBaseApplet().getApplication().getMessageManager();
+        MessageManager messageManager = this.getBaseApplet().getApplication().getMessageManager();
         MessageReceiver handler = messageManager.getMessageQueue(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE).getMessageReceiver();
 
         Properties properties = new Properties();
@@ -77,7 +78,7 @@ public class AppointmentMessageCalendarScreen extends AppointmentCalendarScreen
      */
     public void free()
     {
-        BaseMessageManager messageManager = this.getBaseApplet().getApplication().getMessageManager();
+        BaseMessageManager messageManager = (BaseMessageManager)this.getBaseApplet().getApplication().getMessageManager();
         messageManager.freeListenersWithSource(this);
         messageManager.freeFiltersWithSource(this);
         super.free();

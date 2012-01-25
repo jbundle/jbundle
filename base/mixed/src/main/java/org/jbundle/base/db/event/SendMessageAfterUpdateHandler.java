@@ -17,13 +17,13 @@ import org.jbundle.base.message.trx.server.TrxMessageListener;
 import org.jbundle.base.message.trx.transport.direct.DirectMessageTransport;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.Task;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.screen.print.thread.SwingSyncPageWorker;
@@ -93,7 +93,7 @@ public class SendMessageAfterUpdateHandler extends FileListener
         int iErrorCode = super.doRecordChange(field, iChangeType, bDisplayOption);
         if (iChangeType == DBConstants.AFTER_UPDATE_TYPE)
         {
-            BaseMessageManager messageManager = ((Application)this.getOwner().getTask().getApplication()).getMessageManager();
+            MessageManager messageManager = ((Application)this.getOwner().getTask().getApplication()).getMessageManager();
             if (messageManager != null)
             {
                 BaseMessageHeader messageHeader = m_message.getMessageHeader();

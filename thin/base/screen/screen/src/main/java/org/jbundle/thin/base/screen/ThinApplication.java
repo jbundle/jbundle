@@ -8,9 +8,9 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.jbundle.model.BaseAppletReference;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.screen.message.RemoteMessageManager;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
@@ -159,7 +159,7 @@ public class ThinApplication extends Application {
      * @param bCreateIfNone
      * NOTE: This is overridden for anything but thin.
      */
-    public BaseMessageManager getMessageManager(boolean bCreateIfNone)
+    public MessageManager getMessageManager(boolean bCreateIfNone)
     {
         return RemoteMessageManager.getMessageManager(this, null, null, bCreateIfNone);
     }

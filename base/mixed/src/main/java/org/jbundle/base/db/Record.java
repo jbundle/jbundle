@@ -46,6 +46,7 @@ import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.screen.ScreenParent;
@@ -58,7 +59,6 @@ import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.JMessageListener;
 import org.jbundle.thin.base.remote.LocalTask;
 import org.jbundle.thin.base.remote.RemoteException;
@@ -2694,7 +2694,7 @@ public class Record extends FieldList
     public BaseMessageFilter setupRecordListener(JMessageListener listener, boolean bTrackMultipleRecords, boolean bAllowEchos, boolean bReceiveAllAdds)
     {
         BaseMessageFilter filter = null;
-        BaseMessageManager messageManager = null;
+        MessageManager messageManager = null;
         if (listener == null)
             listener = this.getRecordOwner();
         if (listener != null)
@@ -2729,7 +2729,7 @@ public class Record extends FieldList
         {   // Look a little harder
         	if (this.getTable().getDatabase().getDatabaseOwner() != null)
         		if (this.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication() != null)
-            task = this.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication().getMainTask();
+            task = ((BaseApplication)this.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication()).getMainTask();
         }
         return task;
     }

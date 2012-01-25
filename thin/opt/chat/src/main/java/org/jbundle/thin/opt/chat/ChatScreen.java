@@ -26,18 +26,17 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.text.BadLocationException;
 
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.BaseMessageListener;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JBasePanel;
 import org.jbundle.thin.base.screen.JBaseToolbar;
-import org.jbundle.thin.base.screen.message.RemoteMessageManager;
 
 
 /**
@@ -97,7 +96,7 @@ public class ChatScreen extends JBasePanel
         
         this.addSubPanels(this);
 
-        BaseMessageManager messageManager = baseApplet.getApplication().getMessageManager();
+        MessageManager messageManager = baseApplet.getApplication().getMessageManager();
         BaseMessageReceiver receiver = (BaseMessageReceiver)messageManager.getMessageQueue(CHAT_TYPE, MessageConstants.INTRANET_QUEUE).getMessageReceiver();
         
         new BaseMessageListener(receiver)   // Listener automatically added to receiver

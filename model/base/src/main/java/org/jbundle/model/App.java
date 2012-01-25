@@ -96,6 +96,15 @@ public interface App
       */
      public String addUserParamsToURL(String strURL);
      /**
+      * Get the connection to the server for this applet.
+      * Optionally create the server connection.
+      * @param localTaskOwner The task that will own this remote task (or application) server) [If null, get the app server].
+      * @param strUserID The user id (or name) to initialize the server's application to.
+      * @param bCreateIfNotFound If the server is null, initialize the server.
+      * @return The server object (application defined).
+      */
+     public Object getRemoteTask(Task localTaskOwner, String strUserID, boolean bCreateIfNotFound);
+     /**
       * Get a connection to the server for this applet.
       * @param localTaskOwner The task that will own this remote task (or application) server) [If null, get the app server].
       * @return The server object (application defined).

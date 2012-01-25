@@ -29,12 +29,12 @@ import javax.swing.Timer;
 
 import org.jbundle.base.db.util.log.BackupConstants;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageListener;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.screen.ThinApplication;
 import org.jbundle.thin.base.screen.message.RemoteMessageManager;
@@ -100,7 +100,7 @@ public class BackupServerApp extends ThinApplication
             this.free();    // Don't start this application (It's already running somewhere)
             return;
         }
-        BaseMessageManager messageManager = RemoteMessageManager.getMessageManager(this);
+        MessageManager messageManager = RemoteMessageManager.getMessageManager(this);
         BaseMessageReceiver receiver = (BaseMessageReceiver)messageManager.getMessageQueue(BACKUP_QUEUE_NAME, BACKUP_QUEUE_TYPE).getMessageReceiver();
         
         m_messageFilter = new BaseMessageFilter(BACKUP_QUEUE_NAME, BACKUP_QUEUE_TYPE, this, null);

@@ -15,17 +15,17 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
 
-import org.jbundle.base.message.app.MessageApplication;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.LockManager;
+import org.jbundle.base.model.MessageApp;
 import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.main.msg.db.MessageInfoModel;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
@@ -66,11 +66,11 @@ public class Environment extends Object
     /**
      * List of applications for this Environment.
      */
-    protected Vector<Application> m_vApplication = null;
+    protected Vector<App> m_vApplication = null;
     /**
      * The default application (usually the startup application).
      */
-    protected Application m_applicationDefault = null;
+    protected App m_applicationDefault = null;
     /**
      * Initial startup arguments.
      */
@@ -117,14 +117,14 @@ public class Environment extends Object
             m_properties = new Hashtable<String,Object>();
         else
             m_properties = properties;
-        m_vApplication = new Vector<Application>();
+        m_vApplication = new Vector<App>();
     }
     /**
      * Free this object.
      */
     public void free()
     {
-		MessageApplication messageApplication  = this.getMessageApplication(null, null);
+        MessageApp messageApplication  = this.getMessageApplication(null, null);
     	if (messageApplication != null)
         {
             messageApplication.setEnvironment(null);  // So it doesn't try to free me.
@@ -164,7 +164,7 @@ public class Environment extends Object
             if (!DBConstants.FALSE.equalsIgnoreCase(this.getProperty(DBParams.FREEIFDONE)))
                 if (application == this.getDefaultApplication())
                     continue;
-            if (application instanceof MessageApplication)
+            if (application instanceof MessageApp)
                 continue;
             bValidAppFound = true;
         }
@@ -255,7 +255,7 @@ public class Environment extends Object
      * Get the default application.
      * @return The default application.
      */
-    public Application getDefaultApplication()
+    public App getDefaultApplication()
     {
         return m_applicationDefault;
     }
@@ -263,7 +263,7 @@ public class Environment extends Object
      * Set the default application.
      * @param application The default application.
      */
-    public void setDefaultApplication(Application application)
+    public void setDefaultApplication(App application)
     {
         m_applicationDefault = application;
         if (m_applicationDefault != null)
@@ -283,7 +283,7 @@ public class Environment extends Object
      * If there is no default application yet, this is set to the default application.
      * @param application The application to add.
      */
-    public void addApplication(Application application)
+    public void addApplication(App application)
     {
 Utility.getLogger().info("addApp: " + application);
         m_vApplication.add(application);
@@ -296,7 +296,7 @@ Utility.getLogger().info("addApp: " + application);
      * @param application The application to remove.
      * @return Number of remaining applications still active.
      */
-    public int removeApplication(Application application)
+    public int removeApplication(App application)
     {
 Utility.getLogger().info("removeApp: " + application);
         m_vApplication.remove(application);     // Add code here
@@ -318,7 +318,7 @@ Utility.getLogger().info("removeApp: " + application);
      * Get the application count.
      * @return Number of remaining application still active.
      */
-    public Application getApplication(int i)
+    public App getApplication(int i)
     {
         return m_vApplication.get(i);
     }
@@ -328,7 +328,7 @@ Utility.getLogger().info("removeApp: " + application);
      * @param bCreateIfNotFound Create the manager if not found?
      * @return The message manager.
      */
-    public BaseMessageManager getMessageManager(App application, boolean bCreateIfNotFound)
+    public MessageManager getMessageManager(App application, boolean bCreateIfNotFound)
     {
     	if (application == null)
     		application = this.getDefaultApplication();
@@ -342,13 +342,13 @@ Utility.getLogger().info("removeApp: " + application);
      * @param strDomain The domain to get the message app for (or default/best guess if null)
      * @return The message manager or null if no match.
      */
-    public MessageApplication getMessageApplication(String strDBPrefix, String strSubSystem)
+    public MessageApp getMessageApplication(String strDBPrefix, String strSubSystem)
     {
-    	MessageApplication messageApplication = null;
+        MessageApp messageApplication = null;
 		for (int i = 0; i < this.getApplicationCount(); i++)
 		{
-			Application app = this.getApplication(i);
-			if (app instanceof MessageApplication)
+			App app = this.getApplication(i);
+			if (app instanceof MessageApp)
 			{
 				String strAppDBPrefix = app.getProperty(DBConstants.DB_USER_PREFIX);
 				String strAppSubSystem = app.getProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX);
@@ -365,7 +365,7 @@ Utility.getLogger().info("removeApp: " + application);
 					if (strAppSubSystem.equalsIgnoreCase(strSubSystem))
 						bSubSystemMatch = true;
 				if ((bDBMatch) && (bSubSystemMatch))
-					messageApplication = (MessageApplication)app;
+					messageApplication = (MessageApp)app;
 			}
 		}
 		return messageApplication;
@@ -376,7 +376,7 @@ Utility.getLogger().info("removeApp: " + application);
      * @param properties Initial properties for the application
      * @return The message manager.
      */
-    public MessageApplication getMessageApplication(boolean bCreateIfNotFound, Map<String, Object> properties)
+    public MessageApp getMessageApplication(boolean bCreateIfNotFound, Map<String, Object> properties)
     {
     	String strDBPrefix = null;
     	String strSubSystem = null;
@@ -395,11 +395,11 @@ Utility.getLogger().info("removeApp: " + application);
 				strSubSystem = (String)propDomain.get(DBConstants.SUB_SYSTEM_LN_SUFFIX);
 			}
 		}    			
-    	MessageApplication messageApplication = this.getMessageApplication(strDBPrefix, strSubSystem);
+		MessageApp messageApplication = this.getMessageApplication(strDBPrefix, strSubSystem);
         if (bCreateIfNotFound)
     		if (messageApplication == null)
         {
-			MessageApplication defaultMessageApplication = this.getMessageApplication(null, null);
+    		MessageApp defaultMessageApplication = this.getMessageApplication(null, null);
             synchronized (this)
             {
             	messageApplication = this.getMessageApplication(strDBPrefix, strSubSystem);
@@ -415,7 +415,7 @@ Utility.getLogger().info("removeApp: " + application);
 					propTemp.putAll(propDomain);
     			properties = propTemp;
     			String className = MessageInfoModel.THICK_APPLICATION;
-    			messageApplication = (MessageApplication)ClassServiceUtility.getClassService().makeObjectFromClassName(className);
+    			messageApplication = (MessageApp)ClassServiceUtility.getClassService().makeObjectFromClassName(className);
     			messageApplication.init(this, properties, null);
                 //messageApplication = new MessageInfoApplication(this, properties, null);
                 if (this.getDefaultApplication() != null)
@@ -473,7 +473,7 @@ Utility.getLogger().info("removeApp: " + application);
     {
         if (m_lockManager == null)
         {
-            m_lockManager = (LockManager)ClassServiceUtility.getClassService().makeObjectFromClassName(m_lockManager.CLIENT_LOCK_MANAGER_CLASS);
+            m_lockManager = (LockManager)ClassServiceUtility.getClassService().makeObjectFromClassName(LockManager.CLIENT_LOCK_MANAGER_CLASS);
             m_lockManager.init(this);
         }
         return m_lockManager;

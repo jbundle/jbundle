@@ -12,11 +12,11 @@ import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.message.app.MessageApplication;
+import org.jbundle.base.model.MessageApp;
 import org.jbundle.base.util.BaseApplication;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.screen.message.RemoteMessageManager;
 
@@ -31,7 +31,7 @@ public class MessageLogTable extends LogTable
     implements BackupConstants
 {
     protected BaseMessage m_message = null;
-    protected BaseMessageManager m_messageManager = null;
+    protected MessageManager m_messageManager = null;
 
     /**
      * RecordList Constructor.
@@ -86,11 +86,11 @@ public class MessageLogTable extends LogTable
      * Don't create a new object each time.
      * @return
      */
-    public BaseMessageManager getMessageManager()
+    public MessageManager getMessageManager()
     {
         if (m_messageManager == null)
         {
-        	MessageApplication messageApplication = null;
+        	MessageApp messageApplication = null;
         	BaseApplication app = null;
         	if (this.getRecord() != null)
         		if (this.getRecord().getRecordOwner() != null)

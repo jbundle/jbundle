@@ -16,11 +16,11 @@ import org.jbundle.base.model.DBParams;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.remote.opt.TableModelSession;
 import org.jbundle.model.DBException;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.remote.RemoteException;
@@ -69,7 +69,7 @@ public class TestGridSession extends TableModelSession
         
         this.selectGridFields();    // Initial value
         
-        BaseMessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
+        MessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
         Integer intRegistryID = null;
         if (messageManager != null)
         {
@@ -92,7 +92,7 @@ public class TestGridSession extends TableModelSession
             map.put(DBParams.VALUE, "123");
             BaseMessage message = new MapMessage(new BaseMessageHeader(MessageConstants.TRX_RETURN_QUEUE, MessageConstants.INTERNET_QUEUE, null, null), map);
 
-            BaseMessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
+            MessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
             messageManager.sendMessage(message);
             
             return Boolean.TRUE;

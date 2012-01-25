@@ -35,14 +35,14 @@ import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.ReportScreen;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.DBException;
 import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.main.user.db.UserInfoModel;
-import org.jbundle.model.DBException;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.screen.print.ScreenPrinter;
 import org.jbundle.thin.base.util.Application;
 
@@ -176,7 +176,7 @@ public class VReportScreen extends VDualReportScreen
 
             BaseMessage message = new ManualMessage(messageHeader, strMessage);
 
-            BaseMessageManager messageManager = ((Application)modelScreen.getTask().getApplication()).getMessageManager();
+            MessageManager messageManager = ((Application)modelScreen.getTask().getApplication()).getMessageManager();
             if (messageManager != null)
                 messageManager.sendMessage(message);
         }

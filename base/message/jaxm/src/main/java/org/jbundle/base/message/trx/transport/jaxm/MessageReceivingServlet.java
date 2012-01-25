@@ -32,16 +32,14 @@ import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
-import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.App;
 import org.jbundle.model.Task;
-import org.jbundle.model.db.Rec;
 import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
 import org.jbundle.model.main.msg.db.MessageStatusModel;
 import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.TreeMessage;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -115,7 +113,7 @@ public class MessageReceivingServlet extends JAXMServlet
                 env = ((BaseApplication)servletTask.getApplication()).getEnvironment();
             if (env == null)
                 env = Environment.getEnvironment(null);
-            Application app = env.getMessageApplication(true, properties);
+            App app = env.getMessageApplication(true, properties);
             servletTask.setApplication(app);
 
             soapMessageTransport = new SOAPMessageTransport(servletTask);

@@ -5,7 +5,6 @@ package org.jbundle.base.message.trx.transport;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.DateTimeField;

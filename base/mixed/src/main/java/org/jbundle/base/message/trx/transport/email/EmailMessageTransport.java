@@ -23,11 +23,11 @@ import org.jbundle.base.message.trx.message.internal.ManualMessage;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.Task;
 import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
 import org.jbundle.model.main.msg.db.MessageStatusModel;
 import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.main.msg.db.MessageTypeModel;
-import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
 

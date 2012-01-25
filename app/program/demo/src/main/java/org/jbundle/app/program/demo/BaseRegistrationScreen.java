@@ -5,40 +5,45 @@
  */
 package org.jbundle.app.program.demo;
 
-import java.awt.*;
-import java.util.*;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.model.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.model.db.*;
-import org.jbundle.model.screen.*;
-import org.jbundle.main.user.screen.*;
-import org.jbundle.main.db.*;
-import org.jbundle.main.user.db.*;
-import org.jbundle.thin.base.db.buff.*;
-import org.jbundle.base.thread.*;
-import org.jbundle.thin.base.thread.*;
-import java.net.*;
-import java.io.*;
-import org.jbundle.app.program.script.scan.*;
-import org.jbundle.app.program.manual.convert.*;
-import org.jbundle.app.program.demo.message.*;
-import java.text.*;
-import org.jbundle.thin.base.message.*;
-import org.jbundle.main.msg.db.*;
-import org.jbundle.base.message.remote.*;
-import org.jbundle.base.message.trx.message.*;
+import org.jbundle.app.program.demo.message.CreateSiteMessageData;
+import org.jbundle.app.program.demo.message.MenusMessageData;
+import org.jbundle.base.db.DatabaseException;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.event.FileListener;
+import org.jbundle.base.field.PropertiesField;
+import org.jbundle.base.message.remote.RunRemoteProcessMessageData;
+import org.jbundle.base.message.remote.StandardMessageResponseData;
+import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.MenuConstants;
+import org.jbundle.base.model.ScreenModel;
+import org.jbundle.base.screen.model.BasePanel;
+import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.base.util.Utility;
+import org.jbundle.main.db.Menus;
+import org.jbundle.main.msg.db.MessageProcessInfo;
+import org.jbundle.main.msg.db.MessageTransport;
+import org.jbundle.main.user.db.UserInfo;
+import org.jbundle.main.user.screen.UserEntryScreen;
+import org.jbundle.model.DBException;
+import org.jbundle.model.message.MessageManager;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Converter;
+import org.jbundle.thin.base.db.FieldInfo;
+import org.jbundle.thin.base.db.buff.BaseBuffer;
+import org.jbundle.thin.base.db.buff.VectorBuffer;
+import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.thin.base.message.BaseMessageFilter;
+import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.message.MessageRecordDesc;
+import org.jbundle.thin.base.message.TreeMessage;
+import org.jbundle.thin.base.util.Application;
 
 /**
  *  BaseRegistrationScreen - .
@@ -117,7 +122,7 @@ public class BaseRegistrationScreen extends UserEntryScreen
             }
         });
         
-        BaseMessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
+        MessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
         if (messageManager != null)
         {
             Object source = this;
@@ -208,7 +213,7 @@ public class BaseRegistrationScreen extends UserEntryScreen
                 message.setMessageHeader(trxMessageHeader);
                 if (!MessageTransport.DIRECT.equalsIgnoreCase((String)trxMessageHeader.get(MessageTransport.SEND_MESSAGE_BY_PARAM)))
                 {
-                    BaseMessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
+                    MessageManager messageManager = ((Application)this.getTask().getApplication()).getMessageManager();
                     if (messageManager != null)
                         messageManager.sendMessage(message);
                 }

@@ -12,8 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.model.Freeable;
-import org.jbundle.model.util.Util;
+import org.jbundle.model.message.MessageHeader;
 import org.jbundle.model.util.Constant;
+import org.jbundle.model.util.Util;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
@@ -25,7 +26,7 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
  * @version 1.0.0
  */
 public class BaseMessageHeader extends Object
-    implements Serializable, Freeable, Cloneable
+    implements MessageHeader, Serializable, Freeable, Cloneable
 {
 	private static final long serialVersionUID = 1L;
 

@@ -5,27 +5,42 @@
  */
 package org.jbundle.main.calendar.db;
 
-import java.awt.*;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.model.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.model.db.*;
-import org.jbundle.model.screen.*;
-import org.jbundle.main.calendar.screen.*;
-import org.jbundle.thin.base.message.*;
-import org.jbundle.model.main.calendar.db.*;
+import org.jbundle.base.db.EmptyKey;
+import org.jbundle.base.db.KeyArea;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.VirtualRecord;
+import org.jbundle.base.db.event.FileListener;
+import org.jbundle.base.db.filter.SubFileFilter;
+import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.BooleanField;
+import org.jbundle.base.field.DateTimeField;
+import org.jbundle.base.field.EmptyField;
+import org.jbundle.base.field.PropertiesField;
+import org.jbundle.base.field.ReferenceField;
+import org.jbundle.base.field.ShortField;
+import org.jbundle.base.field.StringField;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.RecordOwner;
+import org.jbundle.base.model.ScreenConstants;
+import org.jbundle.model.DBException;
+import org.jbundle.model.main.calendar.db.AnnivMasterModel;
+import org.jbundle.model.message.MessageManager;
+import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.model.screen.ScreenLoc;
+import org.jbundle.model.screen.ScreenParent;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.Converter;
+import org.jbundle.thin.base.db.FieldInfo;
+import org.jbundle.thin.base.message.BaseMessageHeader;
+import org.jbundle.thin.base.message.MapMessage;
+import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.util.Application;
 
 /**
  *  AnnivMaster - Recurring appointments.
@@ -195,7 +210,7 @@ public class AnnivMaster extends VirtualRecord
                     if ((iChangeType == DBConstants.AFTER_ADD_TYPE) || (iChangeType == DBConstants.AFTER_UPDATE_TYPE))
                             if (!getField(AnnivMaster.kProperties).isNull())
                     {   // This will cause the JobScheduler to reschedule the jobs (now that they have changed)
-                        BaseMessageManager messageManager = ((Application)getTask().getApplication()).getMessageManager();
+                        MessageManager messageManager = ((Application)getTask().getApplication()).getMessageManager();
                         Map<String,Object> properties = new Hashtable<String,Object>();
                         properties.put(DBParams.PROCESS, CalendarEntry.JOB_PROCESS_NAME);
                         if (messageManager != null)

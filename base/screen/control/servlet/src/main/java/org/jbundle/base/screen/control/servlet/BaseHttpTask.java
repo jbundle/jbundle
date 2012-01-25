@@ -77,7 +77,7 @@ public class BaseHttpTask extends Object
     /**
      * My parent application.
      */
-    protected Application m_application = null;
+    protected App m_application = null;
     /**
      * The servlet that called me.
      */
@@ -367,7 +367,7 @@ public class BaseHttpTask extends Object
      * Get the parent application.
      * @return The application.
      */
-    public Application getApplication()
+    public App getApplication()
     {
         return m_application;
     }
@@ -553,7 +553,7 @@ public class BaseHttpTask extends Object
      * username can be user(name) or userid.
      * password can be password or auth(entication) token.
      */
-    public Application findApplication(HttpServletRequest req, HttpServletResponse res)
+    public App findApplication(HttpServletRequest req, HttpServletResponse res)
     {
         ServletApplication application = null;
         String strDatatype = BaseHttpTask.getParam(req, DBParams.DATATYPE, null); // Raw data (such as in image from the DB)
@@ -927,7 +927,7 @@ public class BaseHttpTask extends Object
      * For requests that do not require a user, return an application using me as the user.
      * pend(don) Is this cool to use the default application?
      */
-    public Application getNonUserApplication()
+    public App getNonUserApplication()
     {
         Environment env = null;
         if (this.getApplication() != null)

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.jbundle.model.App;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.message.MessageReceiver;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
@@ -85,7 +86,7 @@ public class ThinMessageManager extends BaseMessageManager
         FieldTable table = record.getTable();
         RemoteSession remoteSession = ((org.jbundle.thin.base.db.client.RemoteFieldTable) table).getRemoteTableType(org.jbundle.model.Remote.class);
 
-        BaseMessageManager messageManager = screen.getBaseApplet().getApplication().getMessageManager();
+        MessageManager messageManager = screen.getBaseApplet().getApplication().getMessageManager();
         MessageReceiver handler = messageManager.getMessageQueue(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE).getMessageReceiver();
 
         JMessageListener listenerForSession = null;
@@ -112,7 +113,7 @@ public class ThinMessageManager extends BaseMessageManager
      */
     public static void freeScreenMessageListeners(JBaseScreen screen)
     {
-        BaseMessageManager messageManager = screen.getBaseApplet().getApplication().getMessageManager();
+        BaseMessageManager messageManager = (BaseMessageManager)screen.getBaseApplet().getApplication().getMessageManager();
         messageManager.freeListenersWithSource(screen);
         messageManager.freeFiltersWithSource(screen);
     }

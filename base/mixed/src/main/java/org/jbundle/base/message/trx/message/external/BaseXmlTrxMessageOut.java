@@ -14,7 +14,6 @@ import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
-import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.w3c.dom.Node;
 

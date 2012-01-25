@@ -41,6 +41,7 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.BaseListener;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.RecordOwner;
+import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.thin.base.db.Constants;
@@ -662,7 +663,7 @@ public class Utility extends ThinUtil
                 if (record.getTable().getDatabase() != null)
                     if (record.getTable().getDatabase().getDatabaseOwner() instanceof Application)
         {
-            Application app = (Application)record.getTable().getDatabase().getDatabaseOwner();
+            App app = (App)record.getTable().getDatabase().getDatabaseOwner();
             if (app.getSystemRecordOwner() == null) // This should be okay... get the system recordowner.
                 app = record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication();
             if (app != null)

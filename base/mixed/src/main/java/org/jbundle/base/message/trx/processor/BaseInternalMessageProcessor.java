@@ -11,9 +11,9 @@ import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.base.message.trx.transport.soap.SOAPMessageTransport;
 import org.jbundle.base.util.Utility;
-import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 

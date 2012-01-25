@@ -25,10 +25,10 @@ import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.main.user.db.UserLogModel;
 import org.jbundle.model.main.user.db.UserLogTypeModel;
 import org.jbundle.model.main.user.db.UserRegistrationModel;
+import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.Params;
-import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.util.base64.Base64;
@@ -581,7 +581,7 @@ public class MainApplication extends BaseApplication
     /**
      * Get this Message Queue (or create one if this name doesn't exist).
      */
-    public BaseMessageManager getMessageManager()
+    public MessageManager getMessageManager()
     {
     	if (DBConstants.FALSE.equalsIgnoreCase(this.getProperty(DBParams.JMSSERVER)))
     		return this.getMessageManager(false);
