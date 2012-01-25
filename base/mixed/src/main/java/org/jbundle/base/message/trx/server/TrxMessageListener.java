@@ -19,11 +19,12 @@ import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.App;
+import org.jbundle.model.Task;
 import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
@@ -31,6 +32,7 @@ import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.BaseMessageListener;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
@@ -100,9 +102,10 @@ public class TrxMessageListener extends BaseMessageListener
             return this.handleOtherMessage(message);
         message.consume();      // I'll be handling this one.
         String strParams = Utility.addURLParam(null, DBParams.PROCESS, strClassName);
-        Application application = m_application;
-        if (message.getProcessedByClientSession() instanceof TaskSession)
-            application = ((TaskSession)message.getProcessedByClientSession()).getApplication();    // If I have the task session, run this task under the same app
+        App application = m_application;
+        if (message.getProcessedByClientSession() instanceof RemoteTask)
+            if (message.getProcessedByClientSession() instanceof Task)  // Always
+                application = ((Task)message.getProcessedByClientSession()).getApplication();    // If I have the task session, run this task under the same app
         /* Don't need to do this since the message client was created by the calling client (with correct db params)
         Map<String, Object> messageDBProperties = BaseDatabase.addDBProperties(null, application, message.getMessageHeader().getProperties());
         boolean dbChanged = false;

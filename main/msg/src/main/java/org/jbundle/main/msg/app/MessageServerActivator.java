@@ -77,7 +77,7 @@ public class MessageServerActivator extends BaseRemoteSessionActivator
         Environment env = environmentActivator.getEnvironment();
         // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
         BaseApplication app = new MessageInfoApplication();
-        server.setApp(app);
+        server.init(app, null, null);
         app.init(env, Utility.propertiesToMap(this.getProperties()), null); // Default application (with params).
         //app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
         //app.getMessageManager(true);

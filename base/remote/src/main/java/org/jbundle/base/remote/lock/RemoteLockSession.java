@@ -5,7 +5,7 @@
 
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.db.lock;
+package org.jbundle.base.remote.lock;
 
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.remote.RemoteException;

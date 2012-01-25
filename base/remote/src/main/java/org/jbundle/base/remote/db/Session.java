@@ -46,6 +46,11 @@ public class Session extends BaseSession
 {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
+    /**
      * Constructor
      */
     public Session() throws RemoteException

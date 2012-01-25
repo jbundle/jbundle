@@ -17,6 +17,8 @@ import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
+import org.jbundle.model.App;
+import org.jbundle.model.db.Rec;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.remote.ApplicationServer;
@@ -44,7 +46,7 @@ public class RemoteSessionServer extends RemoteObject
     /**
      * The main application associated with this server.
      */
-    protected BaseApplication m_app = null;
+    protected App m_app = null;
 
     /**
      * Creates new RmiSessionServer.
@@ -56,15 +58,15 @@ public class RemoteSessionServer extends RemoteObject
     /**
      * Creates new RmiSessionServer.
      */
-    public RemoteSessionServer(BaseApplication app) throws RemoteException
+    public RemoteSessionServer(App app, Rec record, Map<String,Object> properties) throws RemoteException
     {
         this();
-        this.init(app);
+        this.init(app, record, properties);
     }
     /**
      * Creates new RmiSessionServer.
      */
-    public void init(BaseApplication app) throws RemoteException
+    public void init(App app, Rec record, Map<String,Object> properties)
     {
         m_app = app;
     }
@@ -77,68 +79,14 @@ public class RemoteSessionServer extends RemoteObject
     	RemoteSessionServer remoteServer = null;
         Utility.getLogger().info("Starting RemoteSession server");
 
-        // create a registry if one is not running already. (GET RID OF THIS!)
-/*        try {
-            String strServer = (String)properties.get(DBParams.PROVIDER);
-            int iRmiPort = Registry.REGISTRY_PORT;  //(1099);
-            try {
-                if (strServer != null)
-                    if (strServer.indexOf(':') != -1)
-                        iRmiPort = Integer.parseInt(strServer.substring(strServer.indexOf(':') + 1));
-            } catch (NumberFormatException ex)   {
-            }
-            LocateRegistry.createRegistry(iRmiPort);
-            Utility.getLogger().info("Starting rmi registry server");
-        } catch (ExportException ee) {
-            // registry already exists, we'll just use it.
-        } catch (RemoteException re) {
-            System.err.println(re.getMessage());
-            re.printStackTrace();
-        }
-
- // Create and install a security manager
-        if (System.getSecurityManager() == null)
-        {
-            System.setSecurityManager(new RMISecurityManager());
-        }
-*/
         try {
-            remoteServer = new RemoteSessionServer(null);
-
-            String strAppName = (String)properties.get(DBParams.REMOTE_APP_NAME);
-            if ((strAppName == null) || (strAppName.length() == 0))
-                strAppName = DBParams.DEFAULT_REMOTE_APP;
-/*            String strServer = (String)properties.get(DBParams.PROVIDER);
-            if ((strServer == null) || (strServer.length() == 0))
-            {
-                try   {
-                    strServer = InetAddress.getLocalHost().getHostName();
-                } catch (Exception ex)  {
-                    strServer = "localhost";
-                }
-            }
-
-            Hashtable<String,String> contextEnv = new Hashtable<String,String>();
-            contextEnv.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.rmi.registry.RegistryContextFactory");
-            contextEnv.put(Context.PROVIDER_URL, "rmi://" + strServer);   // + ":1099");    // The RMI server port
-            Context initial = new InitialContext(contextEnv);
-            // Bind this object instance to the server app name.
-            initial.rebind(strAppName, remoteServer);
-
-            Utility.getLogger().info(strAppName + " bound in registry on " + strServer);
+            remoteServer = new RemoteSessionServer(null, null, null);
         } catch (RemoteException ex)    {
             ex.printStackTrace();
-        } catch (NamingException ex)    {
-            //x ex.printStackTrace();
-            //x System.out.println("RemoteSessionServer could not start as an rmi server, starting as a standalone service");
-            Utility.getLogger().info("RemoteSessionServer could not start as an rmi server, starting as a standalone service");
-*/        } catch (RemoteException ex)    {
-    ex.printStackTrace();
         }
-        
+
         return remoteServer;
     }
-
     /**
      * Start up the remote server.
      * Params:
@@ -168,12 +116,17 @@ public class RemoteSessionServer extends RemoteObject
         if (propertiesTemp.get(MessageConstants.MESSAGE_FILTER) == null)
             propertiesTemp.put(MessageConstants.MESSAGE_FILTER, MessageConstants.TREE_FILTER);  // Default for a server
 
-        RemoteSessionServer remoteServer = RemoteSessionServer.startupServer(propertiesTemp);
+        RemoteSessionServer remoteServer = null;
+        try {
+            remoteServer = new RemoteSessionServer(null, null, propertiesTemp);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         Environment env = new Environment(propertiesTemp);
         // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
         BaseApplication app = new MainApplication();
-        remoteServer.setApp(app);
+        remoteServer.init(app, null, null);     // Okay to call init twice here
         Map<String,Object> properties = null;
         if (args != null)
         {
@@ -181,13 +134,6 @@ public class RemoteSessionServer extends RemoteObject
             Util.parseArgs(properties, args);
         }
         app.init(env, properties, null); // Default application (with params).
-    }
-    /**
-     * 
-     */
-    public void setApp(BaseApplication app)
-    {
-        m_app = app;
     }
     /**
      * Build a new remote session and initialize it.
@@ -208,7 +154,7 @@ public class RemoteSessionServer extends RemoteObject
     public RemoteTask getNewRemoteTask(Map<String,Object> properties)
     {
         try   {
-            Application app = new MainApplication(m_app.getEnvironment(), properties, null);
+            Application app = new MainApplication(((BaseApplication)m_app).getEnvironment(), properties, null);
             RemoteTask remoteServer = new TaskSession(app);
             ((TaskSession)remoteServer).setProperties(properties);
             return remoteServer;
@@ -222,7 +168,7 @@ public class RemoteSessionServer extends RemoteObject
      */
     public void shutdown()
     {
-        Environment env = m_app.getEnvironment();
+        Environment env = ((BaseApplication)m_app).getEnvironment();
         if (m_app != null)
         	m_app.free();
         m_app = null;

@@ -17,9 +17,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
-import org.jbundle.model.db.Rec;
 import org.jbundle.model.screen.ComponentParent;
 
 

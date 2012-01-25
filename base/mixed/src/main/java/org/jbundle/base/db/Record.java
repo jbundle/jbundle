@@ -60,8 +60,10 @@ import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.JMessageListener;
+import org.jbundle.thin.base.remote.LocalTask;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
+import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.osgi.ClassService;
@@ -1812,9 +1814,9 @@ public class Record extends FieldList
                     }
                     BaseMessage message = new RecordMessage(new RecordMessageHeader(this, dsBookmark, this, iChangeType, mapHints));
                     if (this.getRecordOwner() != null)
-                        if (this.getRecordOwner().getTask() instanceof org.jbundle.base.remote.db.TaskSession)
+                        if (this.getRecordOwner().getTask() instanceof LocalTask)
                     {
-                        Object messageTask = ((org.jbundle.base.remote.db.TaskSession)this.getRecordOwner().getTask()).getRemoteMessageTask();
+                        RemoteTask messageTask = ((LocalTask)this.getRecordOwner().getTask()).getRemoteMessageTask();
                         if (this.getSupressRemoteMessages())
                             message.setProcessedByClientSession(messageTask);   // Don't echo back up to my server.
                     }

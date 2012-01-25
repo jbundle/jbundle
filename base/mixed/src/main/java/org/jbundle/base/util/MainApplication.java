@@ -14,8 +14,7 @@ import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.remote.server.RemoteSessionServer;
-import org.jbundle.base.thread.BaseProcess;
+import org.jbundle.base.model.ResourceConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
@@ -35,6 +34,7 @@ import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.util.base64.Base64;
 import org.jbundle.thin.main.db.Menus;
 import org.jbundle.thin.main.user.db.UserInfo;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -82,7 +82,8 @@ public class MainApplication extends BaseApplication
         super.init(env, properties, applet);
 
         Task task = new AutoTask(this, null, null);	// This is the base task for this application
-        m_systemRecordOwner = new BaseProcess(task, null, null);
+        m_systemRecordOwner = (RecordOwner)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(ResourceConstants.BASE_PROCESS_CLASS, null, null, -1);
+        m_systemRecordOwner.init(task, null, null);
         
 //x        this.readUserInfo();
         String strUser = this.getProperty(Params.USER_ID);
@@ -339,10 +340,11 @@ public class MainApplication extends BaseApplication
                 	if (((mapDomainProperties.get(DBConstants.DB_USER_PREFIX) != null) && (!mapDomainProperties.get(DBConstants.DB_USER_PREFIX).equals(m_systemRecordOwner.getProperty(DBConstants.DB_USER_PREFIX))))
                     	|| ((m_systemRecordOwner.getProperty(DBConstants.DB_USER_PREFIX) != null) && (!m_systemRecordOwner.getProperty(DBConstants.DB_USER_PREFIX).equals(mapDomainProperties.get(DBConstants.DB_USER_PREFIX)))))
             	{
-            		((BaseProcess)m_systemRecordOwner).free();
+            		m_systemRecordOwner.free();
             		m_databaseCollection.free();
                     m_databaseCollection = new DatabaseCollection(this);
-            		m_systemRecordOwner = new BaseProcess(task, null, null);
+                    m_systemRecordOwner = (RecordOwner)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(ResourceConstants.BASE_PROCESS_CLASS, null, null, -1);
+                    m_systemRecordOwner.init(task, null, null);
             	}
                 m_systemRecordOwner.setProperties(mapDomainProperties);// Note: I know this is overwritten at the end of this method, BUT I DO NEED these properties NOW if Db_prefix was changed
             }
@@ -574,21 +576,6 @@ public class MainApplication extends BaseApplication
     public RemoteTask createRemoteTask(String strServer, String strRemoteApp, String strUserID, String strPassword)
     {
         RemoteTask remoteTask = super.createRemoteTask(strServer, strRemoteApp, strUserID, strPassword);
-        if (remoteTask == null)
-            if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty("autoStartServer")))
-        {   // TODO This does not work. The classloader for glassfish does not have access to the RemoteSessionServer (since it is a webapp)
-            this.setProperty("autoStartServer", DBConstants.FALSE); // Make sure I don't do this again
-
-            System.setProperty("java.security.policy", "/bin/policy/policy.all");
-            
-            RemoteSessionServer remoteServer = RemoteSessionServer.startupServer(this.getProperties());
-            if (remoteServer != null)
-            {
-                remoteServer.setApp(this);
-                // Try again
-                remoteTask = super.createRemoteTask(strServer, strRemoteApp, strUserID, strPassword);
-            }
-        }
         return remoteTask;
     }
     /**

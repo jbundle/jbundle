@@ -28,6 +28,9 @@ public interface ResourceConstants extends ThinResourceConstants
     public static final String PROFILE_RESOURCE = "com.tourapp.res.tour.profile.Profile";  // Name of the main Default Resources
     public static final String PRODUCT_RESOURCE = "com.tourapp.res.tour.product.Product";  // Name of the main Default Resources
     public static final String BOOKING_RESOURCE = "com.tourapp.res.tour.booking.Booking";  // Name of the main Default Resources
+
+    public static final String BASE_PROCESS_CLASS = "org.jbundle.base.thread.BaseProcess";  // Name of the main Default Resources
+    
     public static final String MAIN_RESOURCE = "Main";  // Name of the main Default Resources
     public static final String AMOUNT_RESOURCE = "Amount";  // Name of the main Default Resources
 }

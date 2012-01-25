@@ -12,7 +12,6 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
-import org.jbundle.util.osgi.finder.BaseClassFinderService;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.osgi.framework.BundleContext;
 
@@ -32,7 +31,7 @@ public class RemoteSessionActivator extends BaseRemoteSessionActivator
         Environment env = environmentActivator.getEnvironment();
         // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
         BaseApplication app = new MainApplication();
-        server.setApp(app);
+        server.init(app, null, null);
         app.init(env, Utility.propertiesToMap(this.getProperties()), null); // Default application (with params).
 //        app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
 //        app.getMessageManager(true);

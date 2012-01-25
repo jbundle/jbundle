@@ -19,6 +19,7 @@ import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
@@ -175,11 +176,12 @@ public class BaseRecordMessageFilter extends BaseMessageFilter
      */
     public BaseMessageFilter linkRemoteSession(Object remoteSession)
     {
-        if (remoteSession instanceof org.jbundle.base.remote.db.Session)
-            if (m_source == null)
+        if (remoteSession instanceof RemoteSession)
+            if (remoteSession instanceof RecordOwner)   // Always
+                if (m_source == null)
         {
             String strTableName = (String)this.getProperties().get(TABLE_NAME);
-            Record record = ((org.jbundle.base.remote.db.Session)remoteSession).getRecord(strTableName);
+            Record record = ((RecordOwner)remoteSession).getRecord(strTableName);
             if (record != null)
             {
                 record.addListener(new SyncRecordMessageFilterHandler(this, true));

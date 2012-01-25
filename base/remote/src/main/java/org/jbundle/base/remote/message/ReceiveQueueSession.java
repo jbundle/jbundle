@@ -26,7 +26,6 @@ import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.JMessageListener;
 import org.jbundle.thin.base.remote.RemoteException;
-import org.jbundle.thin.base.remote.RemoteObject;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.Unreferenced;

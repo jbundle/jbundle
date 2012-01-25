@@ -29,6 +29,7 @@ public interface ProxyConstants
     public static final String GET_REMOTE_DATABASE = "getRemoteDatabase";
     public static final String MAKE_REMOTE_SESSION = "makeRemoteSession";
     public static final String SET_REMOTE_MESSAGE_TASK = "setRemoteMessageTask";
+    public static final String GET_REMOTE_MESSAGE_TASK = "getRemoteMessageTask";
     public static final String LOGIN = "login";
     /**
      * Database commands.

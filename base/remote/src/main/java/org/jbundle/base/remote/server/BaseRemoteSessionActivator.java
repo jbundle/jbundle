@@ -92,8 +92,11 @@ public class BaseRemoteSessionActivator extends BaseBundleService
     public boolean startupThisService(BundleContext bundleContext)
     {
         Map<String,Object> props = Utility.propertiesToMap(this.getProperties());
-        server = RemoteSessionServer.startupServer(props);	// Doesn't create environment
-
+        try {
+            server = new RemoteSessionServer(null, null, props);	// Doesn't create environment
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     	return true;
     }
 

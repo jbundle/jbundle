@@ -5,13 +5,14 @@
 
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.db.lock;
+package org.jbundle.base.remote.lock;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
 
 import org.jbundle.base.db.DatabaseException;
 import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.LockManager;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
@@ -25,6 +26,7 @@ import org.jbundle.thin.base.util.Application;
  * The ClientLockManager manages the links to the lock server(s).
  */
 public class ClientLockManager extends Object
+    implements LockManager
 {
     /**
      * My owner/parent.

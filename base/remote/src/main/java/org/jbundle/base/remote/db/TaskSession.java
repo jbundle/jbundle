@@ -25,9 +25,9 @@ import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
 import org.jbundle.base.util.Utility;
-import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
+import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
@@ -37,6 +37,7 @@ import org.jbundle.thin.base.db.model.ThinPhysicalTableOwner;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.BaseMessageSender;
+import org.jbundle.thin.base.remote.LocalTask;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.remote.RemoteSendQueue;
@@ -59,7 +60,7 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
  * are not automatically freed, so you need to free them yourself in the client code.
  */
 public class TaskSession extends BaseTaskSession
-    implements RemoteTask, Unreferenced,   // Must implement RemoteTask's remote calls!
+    implements RemoteTask, LocalTask, Unreferenced,   // Must implement RemoteTask's remote calls!
     	ThinPhysicalDatabaseOwner, ThinPhysicalTableOwner
 {
     private static final long serialVersionUID = 1L;

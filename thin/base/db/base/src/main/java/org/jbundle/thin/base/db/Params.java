@@ -39,6 +39,7 @@ public interface Params extends Param
      * The default RMI resource name.
      */
     public static final String DEFAULT_REMOTE_APP = "org.jbundle.base.remote.server.RemoteSessionActivator";
+    public static final String REMOTE_SESSION_SERVER_CLASS = "org.jbundle.base.remote.server.RemoteSessionServer";   // RemoteSessionServer
     /**
      * The default RMI resource name.
      */

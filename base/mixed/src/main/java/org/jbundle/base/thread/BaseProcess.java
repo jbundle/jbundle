@@ -39,7 +39,6 @@ import org.jbundle.thin.base.message.BaseMessage;
 public class BaseProcess extends BaseRecordOwner
     implements PropertyOwner    // and RecordOwner from BaseRecordOwner
 {
-    private static final long serialVersionUID = 1L;
 
     /**
      * Session object that made me.

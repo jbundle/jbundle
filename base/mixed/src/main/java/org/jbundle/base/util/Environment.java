@@ -15,10 +15,10 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
 
-import org.jbundle.base.db.lock.ClientLockManager;
 import org.jbundle.base.message.app.MessageApplication;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.LockManager;
 import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.main.msg.db.MessageInfoModel;
@@ -82,7 +82,7 @@ public class Environment extends Object
     /**
      * The client lock manger
      */
-    protected ClientLockManager m_lockManager = null;
+    protected LockManager m_lockManager = null;
 
     /**
      * Constructor.
@@ -469,10 +469,13 @@ Utility.getLogger().info("removeApp: " + application);
      * Get the lock manager (or create one if it doesn't exist).
      * @return The lock manager.
      */
-    public ClientLockManager getLockManager()
+    public LockManager getLockManager()
     {
         if (m_lockManager == null)
-            m_lockManager = new ClientLockManager(this);
+        {
+            m_lockManager = (LockManager)ClassServiceUtility.getClassService().makeObjectFromClassName(m_lockManager.CLIENT_LOCK_MANAGER_CLASS);
+            m_lockManager.init(this);
+        }
         return m_lockManager;
     }
     /**

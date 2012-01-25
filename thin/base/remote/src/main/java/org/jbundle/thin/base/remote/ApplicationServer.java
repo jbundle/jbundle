@@ -18,7 +18,7 @@ public interface ApplicationServer
      * Build a new remote session and initialize it.
      * @param properties to create the new remote task
      * @return The remote Task.
-     * @throws RemoteException TODO
+     * @throws RemoteException Remote exception
      */
     public RemoteTask createRemoteTask(Map<String, Object> properties) throws RemoteException;
 }

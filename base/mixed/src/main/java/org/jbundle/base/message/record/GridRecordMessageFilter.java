@@ -15,8 +15,11 @@ import java.util.Map;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.RecordOwner;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
+import org.jbundle.thin.base.remote.RemoteReceiveQueue;
+import org.jbundle.thin.base.remote.RemoteSession;
 
 
 /** 
@@ -136,7 +139,7 @@ public class GridRecordMessageFilter extends BaseRecordMessageFilter
                     bMatch = true;  // What the heck, as long as I don't have to send it up, process this message.
                     for (int i = 0; (this.getMessageListener(i) != null); i++)
                     {
-                        if (this.getMessageListener(i) instanceof org.jbundle.base.remote.message.ReceiveQueueSession)
+                        if (this.getMessageListener(i) instanceof RemoteReceiveQueue)
                         {
                             bMatch = m_bReceiveAllAdds; // Do I receive all the add messages?
                             break;
@@ -213,11 +216,12 @@ public class GridRecordMessageFilter extends BaseRecordMessageFilter
      */
     public BaseMessageFilter linkRemoteSession(Object remoteSession)
     {
-        if (remoteSession instanceof org.jbundle.base.remote.db.Session)
-            if (m_source == null)
+        if (remoteSession instanceof RemoteSession)
+            if (remoteSession instanceof RecordOwner)   // Always
+                if (m_source == null)
         {
             String strTableName = (String)this.getProperties().get(TABLE_NAME);
-            Record record = ((org.jbundle.base.remote.db.Session)remoteSession).getRecord(strTableName);
+            Record record = ((RecordOwner)remoteSession).getRecord(strTableName);
             if (record != null)
             {
                 record.addListener(new GridSyncRecordMessageFilterHandler(this, true));
