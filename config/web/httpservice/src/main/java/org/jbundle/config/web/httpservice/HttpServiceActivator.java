@@ -178,7 +178,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             }
             if (BaseServlet.MESSAGE.equalsIgnoreCase(alias))
             {
-                servlet = new org.jbundle.base.message.trx.transport.html.MessageServlet();
+                servlet = new org.jbundle.base.screen.control.servlet.message.trx.transport.html.MessageServlet();
                 properties.put("remotehost", "localhost");
             }
             if (BaseServlet.WS.equalsIgnoreCase(alias))
@@ -188,7 +188,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             }
             if (BaseServlet.XMLWS.equalsIgnoreCase(alias))
             {
-                servlet = new org.jbundle.base.message.trx.transport.xml.XMLMessageReceivingServlet();
+                servlet = new org.jbundle.base.screen.control.servlet.message.trx.transport.xml.XMLMessageReceivingServlet();
                 properties.put("remotehost", "localhost");
             }
         } catch (Exception e) {

@@ -12,8 +12,5 @@ skeleton_test_data*
 release.properties
 /base/other/src
 /base/db/core/src
-/base/screen/misc/src
-/base/screen/control/servlet/src
 /base/util/src
-/base/misc/src
 

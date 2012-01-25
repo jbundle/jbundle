@@ -126,4 +126,5 @@ public interface DBParams extends Params
     public static final String LOG_TRXS = "logTrxs";
     
     public static final String BASE_APPLET = org.jbundle.thin.base.db.Constants.ROOT_PACKAGE + "thin.base.screen.BaseApplet";
+    public static final String APPLICATION = "application";
 }

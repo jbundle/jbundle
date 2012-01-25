@@ -19,7 +19,6 @@ import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.Utility;
@@ -194,9 +193,9 @@ public class TrxMessageListener extends BaseMessageListener
                 this.free();
                 message.consume();
             }
-            else if (m_properties.get(ServletTask.APPLICATION) != null)
+            else if (m_properties.get(DBParams.APPLICATION) != null)
             {
-                String strApplicationClass = (String)m_properties.get(ServletTask.APPLICATION);
+                String strApplicationClass = (String)m_properties.get(DBParams.APPLICATION);
                 Application app  = (Application)ClassServiceUtility.getClassService().makeObjectFromClassName(strApplicationClass);
                 if (app != null)
                 {
@@ -205,7 +204,7 @@ public class TrxMessageListener extends BaseMessageListener
                         m_properties.put(MessageConstants.QUEUE_NAME, message.getMessageHeader().getQueueName());
                     if (m_properties.get(MessageConstants.QUEUE_TYPE) == null)
                         m_properties.put(MessageConstants.QUEUE_TYPE, message.getMessageHeader().getQueueType());
-                    m_properties.remove(ServletTask.APPLICATION);
+                    m_properties.remove(DBParams.APPLICATION);
                     m_properties.remove(MessageApplication.AUTOSTART);
                     app.init(env, m_properties, null);
                     
@@ -225,7 +224,7 @@ public class TrxMessageListener extends BaseMessageListener
                             if (propMessage != null)
                                 properties.putAll(propMessage);
                         }
-                        properties.remove(ServletTask.APPLICATION);
+                        properties.remove(DBParams.APPLICATION);
                         properties.remove(MessageApplication.AUTOSTART);
                         properties.put(DBParams.PROCESS, strProcessClass);
                         BaseMessage messageInitial = new MapMessage(new BaseMessageHeader(message.getMessageHeader().getQueueName(), message.getMessageHeader().getQueueType(), this, null), properties);

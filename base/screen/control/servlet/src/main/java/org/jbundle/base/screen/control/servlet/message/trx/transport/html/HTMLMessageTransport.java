@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.message.trx.transport.html;
+package org.jbundle.base.screen.control.servlet.message.trx.transport.html;
 
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.model.main.msg.db.MessageTransportModel;

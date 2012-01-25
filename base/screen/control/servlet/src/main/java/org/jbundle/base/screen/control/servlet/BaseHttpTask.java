@@ -542,7 +542,6 @@ public class BaseHttpTask extends Object
     {
         return  this.getApplication().getRemoteTask(this);
     }
-    public static final String APPLICATION = "application";
     /**
      * See if this user has a persisent userID cookie and set up preferences.
      * Note: This method is only called if the user does not have a current session.
@@ -570,7 +569,7 @@ public class BaseHttpTask extends Object
             strUserNameOrID = BaseHttpTask.cleanParam(req.getParameterValues(DBParams.USER_ID), false, null);
         if (!session.isNew())
         {   // Session in progress
-            application = (ServletApplication)session.getAttribute(APPLICATION);    // Get the currently instantiate app getValue(APPLICATION);  //
+            application = (ServletApplication)session.getAttribute(DBParams.APPLICATION);    // Get the currently instantiate app getValue(APPLICATION);  //
             if (application != null)
             { // Always
                 if (strUserNameOrID != null)    // user= means new user
@@ -592,7 +591,7 @@ public class BaseHttpTask extends Object
                     }
                     if (bNewUser)
                     { // They want to change users
-                        session.removeAttribute(APPLICATION); // This also frees the application (through the xxx interface)    //removeValue(APPLICATION);   //
+                        session.removeAttribute(DBParams.APPLICATION); // This also frees the application (through the xxx interface)    //removeValue(APPLICATION);   //
                         application = null;
                     }
                 }
@@ -669,7 +668,7 @@ public class BaseHttpTask extends Object
         
         application = this.changeCookie(application, req, res);
         
-        session.setAttribute(APPLICATION, application);   // Cache the preferences, so I can save my session putValue(APPLICATION, application);//
+        session.setAttribute(DBParams.APPLICATION, application);   // Cache the preferences, so I can save my session putValue(APPLICATION, application);//
         application.addTask(this, null);      // Will be removed on destroy
         return application;
     }

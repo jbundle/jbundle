@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.message.trx.transport.xml;
+package org.jbundle.base.screen.control.servlet.message.trx.transport.xml;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

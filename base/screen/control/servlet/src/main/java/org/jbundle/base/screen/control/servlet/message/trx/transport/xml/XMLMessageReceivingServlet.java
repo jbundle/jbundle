@@ -3,7 +3,7 @@
 
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.message.trx.transport.xml;
+package org.jbundle.base.screen.control.servlet.message.trx.transport.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +25,6 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.screen.control.servlet.BaseHttpTask;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
-import org.jbundle.base.screen.control.servlet.BasicServlet.SERVLET_TYPE;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
 import org.jbundle.base.util.BaseApplication;
