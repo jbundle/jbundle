@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.message.trx.server;
+package org.jbundle.base.message.process;
 
 /**
  * @(#)DBServlet.java 0.00 12-Feb-97 Don Corley
@@ -10,9 +10,10 @@ package org.jbundle.base.message.trx.server;
  *      don@tourgeek.com
  */
 
+import java.util.HashMap;
 import java.util.Map;
 
-import org.jbundle.base.message.trx.processor.BaseMessageProcessor;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.thread.ProcessRunnerTask;
 import org.jbundle.model.App;
@@ -82,17 +83,14 @@ public class MessageProcessRunnerTask extends ProcessRunnerTask
      */
     public void runProcess(BaseProcess job, Map<String,Object> properties)
     {
-        Map<String,Object> propMessage = m_message.getMessageHeader().getProperties();
         if (properties == null)
-            propMessage = properties;
-        else if (propMessage != null)
+            properties = new HashMap<String,Object>();
+        Map<String,Object> propMessage = m_message.getMessageHeader().getProperties();
+        if (propMessage != null)
             properties.putAll(propMessage);
+        properties.put(DBParams.MESSAGE, m_message);
         
         job.init(this, null, properties);
-
-        if (job instanceof BaseMessageProcessor)    // Always
-            if (m_message instanceof BaseMessage)    // Always
-                ((BaseMessageProcessor)job).setTargetMessage((BaseMessage)m_message);
 
         job.run();
         job.free();

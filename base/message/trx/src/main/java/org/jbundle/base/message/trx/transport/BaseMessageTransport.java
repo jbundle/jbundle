@@ -37,6 +37,8 @@ import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.main.msg.db.MessageTypeModel;
 import org.jbundle.model.main.msg.db.MessageVersionModel;
 import org.jbundle.model.main.user.db.UserInfoModel;
+import org.jbundle.model.message.Message;
+import org.jbundle.model.message.MessageSender;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
 import org.jbundle.thin.base.message.MessageRecordDesc;
@@ -48,6 +50,7 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
  * This is the base class to process an external message.
  */
 public abstract class BaseMessageTransport extends BaseRecordOwner
+    implements MessageSender
 {
     /**
      * Default constructor.
@@ -139,6 +142,15 @@ public abstract class BaseMessageTransport extends BaseRecordOwner
      * @return the type of message this concrete class processes.
      */
     public abstract String getMessageTransportType();
+    /**
+     * Send this message.
+     *  Override this to do something.
+     * @param message The message to send.
+     */
+    public void sendMessage(Message message)
+    {
+        this.sendMessage((BaseMessage)message, null);
+    }
     /**
      * Using this transport, send this message (using this processor) and (optionally) process the reply.
      * @param internalTrxMessage The message to send.

@@ -25,6 +25,8 @@ import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.thin.base.message.*;
+import org.jbundle.base.message.trx.transport.*;
+import org.jbundle.util.osgi.finder.*;
 
 /**
  *  MessageTransportField - .

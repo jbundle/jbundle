@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.message.trx.server;
+package org.jbundle.base.message.process;
 
 /**
  * @(#)DBServlet.java 0.00 12-Feb-97 Don Corley
@@ -15,7 +15,6 @@ import java.util.Map;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.message.app.MessageApplication;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
@@ -105,29 +104,6 @@ public class TrxMessageListener extends BaseMessageListener
         if (message.getProcessedByClientSession() instanceof RemoteTask)
             if (message.getProcessedByClientSession() instanceof Task)  // Always
                 application = ((Task)message.getProcessedByClientSession()).getApplication();    // If I have the task session, run this task under the same app
-        /* Don't need to do this since the message client was created by the calling client (with correct db params)
-        Map<String, Object> messageDBProperties = BaseDatabase.addDBProperties(null, application, message.getMessageHeader().getProperties());
-        boolean dbChanged = false;
-    	for (String key : messageDBProperties.keySet())
-    	{	// Merged set of application and message db properties
-    		if ((message.getMessageHeader().get(key) == null)
-    			|| (!message.getMessageHeader().get(key).equals(application.getProperty(key))))
-    					dbChanged = true;
-        }
-		if (dbChanged)
-			if (application instanceof BaseApplication)	// Always
-		{	// If the db properties are different, need a new app (ouch)
-		    	if (application.getProperties() != null)
-		    	{
-			    	for (String key : application.getProperties().keySet())
-			    	{	// Merged set of application and message db properties
-			    		if (!application.getProperty(key).equals(message.getMessageHeader().get(key)))
-			    			messageDBProperties.put(key, application.getProperty(key));
-			        }
-		    	}
-		    	application = new MessageInfoApplication(((BaseApplication)application).getEnvironment(), messageDBProperties, null);
-		}
-		*/
         MessageProcessRunnerTask task = new MessageProcessRunnerTask(application, strParams, null);
         task.setMessage(message);
         m_application.getTaskScheduler().addTask(task);
@@ -139,14 +115,14 @@ public class TrxMessageListener extends BaseMessageListener
      */
     public String getMessageProcessorClassName(BaseMessage message)
     {
-        String strClass = (String)message.getMessageHeader().get(TrxMessageHeader.MESSAGE_PROCESSOR_CLASS);
+        String strClass = (String)message.getMessageHeader().get(DBParams.PROCESS);
         if ((strClass == null)
             || (strClass.length() == 0))
         {
-            String strMessageCode = (String)message.getMessageHeader().get(TrxMessageHeader.MESSAGE_CODE);
+            String strMessageCode = (String)message.getMessageHeader().get(BaseMessageHeader.MESSAGE_CODE);
             if ((strMessageCode == null)
                 || (strMessageCode.length() == 0))
-                    strMessageCode = (String)message.get(TrxMessageHeader.MESSAGE_CODE);
+                    strMessageCode = (String)message.get(BaseMessageHeader.MESSAGE_CODE);
             if (strMessageCode != null)
                 if (strMessageCode.length() > 0)
                     if (message instanceof BaseMessage)
@@ -154,10 +130,10 @@ public class TrxMessageListener extends BaseMessageListener
                 MessageProcessInfoModel recMessageProcessInfo = (MessageProcessInfoModel)Record.makeRecordFromClassName(MessageProcessInfoModel.THICK_CLASS, (RecordOwner)m_application.getSystemRecordOwner()); // todo(don) Not the most efficent sharing! Note: Remember the import
                 recMessageProcessInfo.setupMessageHeaderFromCode((BaseMessage)message, strMessageCode, null);
                 recMessageProcessInfo.free();
-                strClass = (String)message.getMessageHeader().get(TrxMessageHeader.MESSAGE_PROCESSOR_CLASS);
+                strClass = (String)message.getMessageHeader().get(DBParams.PROCESS);
             }
         }
-        String strPackage = (String)message.getMessageHeader().get(TrxMessageHeader.BASE_PACKAGE);
+        String strPackage = (String)message.getMessageHeader().get(BaseMessageHeader.BASE_PACKAGE);
         if (strPackage != null)
             if (strPackage.length() > 0)
                 if (strPackage.charAt(strPackage.length() - 1) != '.')

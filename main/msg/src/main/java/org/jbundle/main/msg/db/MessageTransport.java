@@ -25,6 +25,8 @@ import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.base.message.trx.message.*;
 import org.jbundle.thin.base.message.*;
+import org.jbundle.base.message.trx.transport.*;
+import org.jbundle.util.osgi.finder.*;
 import org.jbundle.model.main.msg.db.*;
 
 /**
@@ -226,6 +228,28 @@ public class MessageTransport extends VirtualRecord
             || (MessageTransport.CLIENT.equalsIgnoreCase(strTransportCode)))
                 return true;    // These are the direct types
         return false;    // The others are not direct
+    }
+    /**
+     * Get the message transport for this type
+     * @param messageTransportType
+     * @returns The concrete BaseMessageTransport implementation.
+     */
+    public Object createMessageTransport(String messageTransportType, Task task)
+    {
+        MessageTransport messageTransport = this.getMessageTransport(messageTransportType);
+        String className = null;
+        if (messageTransport != null)
+            className = ((PropertiesField)messageTransport.getField(MessageTransport.kProperties)).getProperty("className");
+        if (className == null)
+        {
+            String packageName = BaseMessageTransport.class.getPackage().getName();
+            className = packageName + '.' + messageTransportType.toLowerCase() + '.' + messageTransportType + "MessageTransport";
+        }
+        BaseMessageTransport transport = (BaseMessageTransport)ClassServiceUtility.getClassService().makeObjectFromClassName(className);
+        if (transport != null)
+            transport.init(task, null, null);
+        return transport;
+
     }
 
 }

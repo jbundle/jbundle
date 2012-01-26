@@ -5,6 +5,7 @@
  */
 package org.jbundle.thin.main.msg.db;
 
+import org.jbundle.model.*;
 import java.util.*;
 import org.jbundle.thin.base.util.*;
 
@@ -80,6 +81,15 @@ public class MessageTransport extends FieldList
         keyArea.addKeyField("Description", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.SECONDARY_KEY, "Code");
         keyArea.addKeyField("Code", Constants.ASCENDING);
+    }
+    /**
+     * Get the message transport for this type
+     * @param messageTransportType
+     * @returns The concrete BaseMessageTransport implementation.
+     */
+    public Object createMessageTransport(String messageTransportType, Task task)
+    {
+        return null; // Empty implementation
     }
 
 }

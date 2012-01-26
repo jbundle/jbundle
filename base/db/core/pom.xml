@@ -24,6 +24,7 @@
             <Export-Package>
             org.jbundle.base.db.*;version=${project.version},
             org.jbundle.base.field.*;version=${project.version},
+            org.jbundle.base.message.*;version=${project.version},
             </Export-Package>
           </instructions>
         </configuration>

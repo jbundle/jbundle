@@ -26,7 +26,7 @@ import org.jbundle.model.screen.*;
 import org.jbundle.base.thread.*;
 import org.jbundle.main.msg.db.*;
 import org.jbundle.thin.base.message.*;
-import org.jbundle.base.message.trx.server.*;
+import org.jbundle.base.message.process.*;
 
 /**
  *  MessageInitialProcess - .

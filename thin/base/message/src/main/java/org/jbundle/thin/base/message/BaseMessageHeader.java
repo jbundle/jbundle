@@ -31,6 +31,10 @@ public class BaseMessageHeader extends Object
 	private static final long serialVersionUID = 1L;
 
     /**
+     * The (optional) code of this message(info).
+     */
+    public static final String MESSAGE_CODE = "messageCode";
+    /**
      * The code of this message(info).
      */
     public static final String BASE_PACKAGE = "package";

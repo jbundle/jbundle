@@ -5,6 +5,7 @@
  */
 package org.jbundle.model.main.msg.db;
 
+import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 
 public interface MessageTransportModel extends Rec
@@ -41,5 +42,11 @@ public interface MessageTransportModel extends Rec
     public static final String MESSAGE_TRANSPORT_FILE = "MessageTransport";
     public static final String THIN_CLASS = "org.jbundle.thin.main.msg.db.MessageTransport";
     public static final String THICK_CLASS = "org.jbundle.main.msg.db.MessageTransport";
+    /**
+     * Get the message transport for this type
+     * @param messageTransportType
+     * @returns The concrete BaseMessageTransport implementation.
+     */
+    public Object createMessageTransport(String messageTransportType, Task task);
 
 }

@@ -5,6 +5,7 @@ package org.jbundle.model.message;
 
 
 public interface MessageHeader {
+    
     /**
      * Return the state of this object as a properties object.
      * @param strKey The key to return.

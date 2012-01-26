@@ -13,13 +13,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.message.trx.server.TrxMessageListener;
-import org.jbundle.base.message.trx.transport.direct.DirectMessageTransport;
+import org.jbundle.base.message.process.TrxMessageListener;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.thread.BaseRecordOwner;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.model.Task;
 import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.message.MessageManager;
+import org.jbundle.model.message.MessageSender;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
@@ -29,6 +30,7 @@ import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.screen.print.thread.SwingSyncPageWorker;
 import org.jbundle.thin.base.screen.print.thread.SyncPage;
 import org.jbundle.thin.base.util.Application;
+import org.jbundle.thin.main.msg.db.MessageTransport;
 
 
 /**
@@ -125,9 +127,9 @@ public class SendMessageAfterUpdateHandler extends FileListener
                         {
                             public void done()
                             {
-                                DirectMessageTransport transport = new DirectMessageTransport((Task)m_syncPage);
+                                BaseRecordOwner transport = getDirectMessageTransport((Task)m_syncPage);
                                 BaseMessage message = (BaseMessage)this.get("message");
-                                transport.sendMessage(message, null);                    
+                                ((MessageSender)transport).sendMessage(message);
                                 transport.free();
                             }
                         };
@@ -135,8 +137,8 @@ public class SendMessageAfterUpdateHandler extends FileListener
                     }
                     else
                     {
-                        DirectMessageTransport transport = new DirectMessageTransport(this.getOwner().getTask());
-                        transport.sendMessage(m_message, null);                    
+                        BaseRecordOwner transport = getDirectMessageTransport(this.getOwner().getTask());
+                        ((MessageSender)transport).sendMessage(m_message);                    
                         transport.free();
                     }
                 }
@@ -148,5 +150,12 @@ public class SendMessageAfterUpdateHandler extends FileListener
             this.getOwner().removeListener(this, true);    // ONE TIME SHOT
         }
         return iErrorCode;
+    }
+    public BaseRecordOwner getDirectMessageTransport(Task task)
+    {
+        MessageTransportModel messageTransport = (MessageTransportModel)this.getOwner().findRecordOwner().getRecord(MessageTransport.MESSAGE_TRANSPORT_FILE);
+        if (messageTransport == null)
+            messageTransport = (MessageTransportModel)Record.makeRecordFromClassName(MessageTransportModel.THICK_CLASS, this.getOwner().findRecordOwner());
+        return (BaseRecordOwner)messageTransport.createMessageTransport(MessageTransportModel.DIRECT, task);
     }
 }

@@ -63,6 +63,8 @@ public interface DBParams extends Params
      */
     public static final String DEFAULT_REMOTE_LOCK = "lockapp";
 
+    public static final String MESSAGE = "message";
+
     public static final String BROWSER = "browser";
     public static final String OS = "os";
     public static final String COLUMNS = "columns";

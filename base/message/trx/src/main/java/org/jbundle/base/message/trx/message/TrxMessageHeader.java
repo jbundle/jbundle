@@ -69,10 +69,6 @@ public class TrxMessageHeader extends BaseMessageHeader
     /**
      * The code of this message(info).
      */
-    public static final String MESSAGE_CODE = "messageCode";
-    /**
-     * The code of this message(info).
-     */
     public static final String MESSAGE_MARSHALLER_CLASS = "marshallerClass";
     /**
      * The code of this message(info).

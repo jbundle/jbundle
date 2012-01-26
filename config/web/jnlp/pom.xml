@@ -219,7 +219,12 @@
 			    </jarResource>
 			    <jarResource>
 			      <groupId>org.jbundle.base.message</groupId>
-			      <artifactId>org.jbundle.base.message.misc</artifactId>
+			      <artifactId>org.jbundle.base.message.trx</artifactId>
+                  <version>${project.version}</version>
+			    </jarResource>
+			    <jarResource>
+			      <groupId>org.jbundle.base.message</groupId>
+			      <artifactId>org.jbundle.base.message.remote</artifactId>
                   <version>${project.version}</version>
 			    </jarResource>
                 

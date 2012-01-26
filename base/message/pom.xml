@@ -17,7 +17,8 @@
 
   <modules>
     <module>core</module>
-    <module>misc</module>
+    <module>trx</module>
+    <module>remote</module>
     <module>jibx</module>
     <module>jaxm</module>
   </modules>

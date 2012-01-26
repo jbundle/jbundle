@@ -9,6 +9,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.model.Utility;
 import org.jbundle.base.thread.BaseProcess;
@@ -62,6 +63,8 @@ public abstract class BaseMessageProcessor extends BaseProcess
     public void init(RecordOwnerParent taskParent, Record recordMain, Map<String, Object> properties)
     {
         m_trxMessage = null;
+        if (properties != null)   // NOTE: I remove message from the properties
+            m_trxMessage = (BaseMessage)properties.remove(DBParams.MESSAGE);
         super.init(taskParent, recordMain, properties);
     }
     /**
@@ -77,6 +80,9 @@ public abstract class BaseMessageProcessor extends BaseProcess
      */
     public BaseMessage getTargetMessage()
     {
+        if (m_trxMessage == null)
+            if (this.getProperties() != null)   // NOTE: I remove message from the properties
+                m_trxMessage = (BaseMessage)this.getProperties().remove(DBParams.MESSAGE);
         return m_trxMessage;
     }
     /**

@@ -138,10 +138,10 @@
       <version>${jbundleUtilWsdlVersionRange}</version>
     </dependency>
 
-	<dependency>
-	  <groupId>joda-time</groupId>
-	  <artifactId>joda-time</artifactId>
-	</dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
