@@ -12,9 +12,9 @@ package org.jbundle.base.screen.view.xml.report;
 import java.io.PrintWriter;
 import java.util.ResourceBundle;
 
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.report.HelpScreen;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.app.program.db.ClassInfoModel;
 import org.jbundle.model.screen.ScreenComponent;
 

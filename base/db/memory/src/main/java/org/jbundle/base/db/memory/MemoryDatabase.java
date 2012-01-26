@@ -18,7 +18,7 @@ import org.jbundle.base.db.physical.PhysicalDatabase;
 import org.jbundle.base.db.physical.PhysicalTable;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.DatabaseOwner;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;

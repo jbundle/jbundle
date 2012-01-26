@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.model;
+package org.jbundle.model.db;
 
 /**
  * @(#)Environment.java   1.16 95/12/14 Don Corley
@@ -12,8 +12,6 @@ package org.jbundle.base.model;
  */
 import java.util.Map;
 
-import org.jbundle.base.db.BaseDatabase;
-import org.jbundle.base.util.Environment;
 import org.jbundle.model.PropertyOwner;
 
 
@@ -32,23 +30,23 @@ public interface DatabaseOwner extends PropertyOwner
      * @param properties The database properties
      * @return The database (new or current).
      */
-    public BaseDatabase getDatabase(String strDBName, int iDatabaseType, Map<String, Object> properties);
+    public Database getDatabase(String strDBName, int iDatabaseType, Map<String, Object> properties);
     /**
      * Add this database to my database list.<br />
      * Do not call these directly, used in database init.
      * @param database The database to add.
      */
-    public void addDatabase(BaseDatabase database);
+    public void addDatabase(Database database);
     /**
      * Remove this database from my database list.
      * Do not call these directly, used in database free.
      * @param database The database to free.
      * @return true if successful.
      */
-    public boolean removeDatabase(BaseDatabase database);
+    public boolean removeDatabase(Database database);
     /**
      * Get the environment.
      * @return The Environment. NEVER return NULL!
      */
-    public Environment getEnvironment();
+    public PropertyOwner getEnvironment();
 }

@@ -5,51 +5,33 @@
  */
 package org.jbundle.main.msg.db;
 
-import java.net.URL;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Vector;
+import java.awt.*;
+import java.util.*;
 
-import org.jbundle.base.db.EmptyKey;
-import org.jbundle.base.db.KeyArea;
-import org.jbundle.base.db.Record;
-import org.jbundle.base.db.VirtualRecord;
-import org.jbundle.base.db.event.FreeOnFreeHandler;
-import org.jbundle.base.db.filter.SubFileFilter;
-import org.jbundle.base.field.BaseField;
-import org.jbundle.base.field.EmptyField;
-import org.jbundle.base.field.PropertiesField;
-import org.jbundle.base.field.ReferenceField;
-import org.jbundle.base.field.StringField;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
-import org.jbundle.base.message.trx.message.internal.ManualMessage;
-import org.jbundle.base.message.trx.processor.BaseMessageInProcessor;
-import org.jbundle.base.message.trx.processor.BaseMessageOutProcessor;
-import org.jbundle.base.message.trx.processor.BaseMessageReplyInProcessor;
-import org.jbundle.base.message.trx.processor.BaseMessageReplyOutProcessor;
-import org.jbundle.base.message.trx.transport.local.LocalMessageTransport;
-import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.model.ScreenConstants;
-import org.jbundle.base.util.Utility;
-import org.jbundle.main.db.base.BaseStatusSelect;
-import org.jbundle.main.db.base.ContactType;
-import org.jbundle.main.db.base.MessageTypeField;
-import org.jbundle.model.DBException;
-import org.jbundle.model.main.msg.db.MessageProcessInfoModel;
-import org.jbundle.model.main.msg.db.MessageTransportInfoModel;
-import org.jbundle.model.message.Message;
-import org.jbundle.model.message.MessageManager;
-import org.jbundle.model.screen.ComponentParent;
-import org.jbundle.model.screen.ScreenLoc;
-import org.jbundle.model.screen.ScreenParent;
-import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.message.MessageConstants;
-import org.jbundle.thin.base.message.MessageRecordDesc;
-import org.jbundle.thin.base.message.TreeMessage;
-import org.jbundle.thin.base.util.Application;
+import org.jbundle.base.db.*;
+import org.jbundle.thin.base.util.*;
+import org.jbundle.thin.base.db.*;
+import org.jbundle.base.db.event.*;
+import org.jbundle.base.db.filter.*;
+import org.jbundle.base.field.*;
+import org.jbundle.base.field.convert.*;
+import org.jbundle.base.field.event.*;
+import org.jbundle.base.screen.model.*;
+import org.jbundle.base.screen.model.util.*;
+import org.jbundle.base.model.*;
+import org.jbundle.base.util.*;
+import org.jbundle.model.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
+import org.jbundle.thin.base.message.*;
+import org.jbundle.base.message.trx.processor.*;
+import org.jbundle.base.message.trx.transport.local.*;
+import java.net.*;
+import org.jbundle.base.message.trx.message.*;
+import org.jbundle.base.message.trx.message.internal.*;
+import org.jbundle.model.message.*;
+import org.jbundle.main.db.base.*;
+import org.jbundle.model.main.msg.db.*;
 
 /**
  *  MessageProcessInfo - Message process information.
@@ -440,7 +422,7 @@ public class MessageProcessInfo extends VirtualRecord
         {
             if (m_recMessageDetail == null)
             {
-                RecordOwner recordOwner = Utility.getRecordOwner(this);
+                RecordOwner recordOwner = this.findRecordOwner();
                 m_recMessageDetail = new MessageDetail(recordOwner);
                 recordOwner.removeRecord(m_recMessageDetail);
                 this.addListener(new FreeOnFreeHandler(m_recMessageDetail));
@@ -527,7 +509,7 @@ public class MessageProcessInfo extends VirtualRecord
     {
         if (m_recMessageTransport == null)
         {
-            RecordOwner recordOwner = Utility.getRecordOwner(this);
+            RecordOwner recordOwner = this.findRecordOwner();
             m_recMessageTransport = new MessageTransport(recordOwner);
             if (recordOwner != null)
                 recordOwner.removeRecord(m_recMessageTransport);    // Set it is not on the recordowner's list
@@ -542,7 +524,7 @@ public class MessageProcessInfo extends VirtualRecord
     {
         if (m_recMessageControl == null)
             {
-            RecordOwner recordOwner = Utility.getRecordOwner(this);
+            RecordOwner recordOwner = this.findRecordOwner();
             m_recMessageControl = new MessageControl(recordOwner);
             if (recordOwner != null)
                 recordOwner.removeRecord(m_recMessageControl);    // Set it is not on the recordowner's list
@@ -604,7 +586,7 @@ public class MessageProcessInfo extends VirtualRecord
     {
         if (trxMessageHeader.get(MessageTransport.TRANSPORT_ID_PARAM) != null)
         {
-            RecordOwner recordOwner = Utility.getRecordOwner(this);
+            RecordOwner recordOwner = this.findRecordOwner();
             if (m_recMessageTransport == null)
             {
                 m_recMessageTransport = new MessageTransport(recordOwner);

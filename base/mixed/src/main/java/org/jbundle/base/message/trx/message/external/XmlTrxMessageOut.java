@@ -8,7 +8,7 @@
 package org.jbundle.base.message.trx.message.external;
 
 import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.w3c.dom.Node;
 

@@ -21,9 +21,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jbundle.base.model.Utility;
+import org.jbundle.base.model.XMLTags;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
-import org.jbundle.base.util.Utility;
-import org.jbundle.base.util.XMLTags;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;

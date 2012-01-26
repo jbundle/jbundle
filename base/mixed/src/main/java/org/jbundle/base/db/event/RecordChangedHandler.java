@@ -19,7 +19,7 @@ import org.jbundle.base.field.DateTimeField;
 import org.jbundle.base.field.event.FieldDataScratchHandler;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.FieldInfo;
 

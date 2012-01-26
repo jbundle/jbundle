@@ -310,7 +310,7 @@ public class UserInfo extends PropertiesRecord
                         if (this.getOwner().getField(UserInfo.kUserGroupID).isNull())
                             if (this.getOwner().getRecordOwner() != null)
                         {
-                            Record recUserControl = this.getOwner().getRecordOwner().getRecord(UserControl.kUserControlFile);
+                            Record recUserControl = (Record)this.getOwner().getRecordOwner().getRecord(UserControl.kUserControlFile);
                             if (recUserControl == null)
                             {
                                 recUserControl = new UserControl(this.getOwner().getRecordOwner());

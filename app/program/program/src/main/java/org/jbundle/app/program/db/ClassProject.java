@@ -233,9 +233,9 @@ public class ClassProject extends Folder
      */
     public String getFileName(String strFileName, String strPackage, CodeType codeType, boolean fullPath, boolean sourcePath)
     {
-        Record recProgramControl = this.getRecordOwner().getRecord(ProgramControl.kProgramControlFile);
+        Record recProgramControl = (Record)this.getRecordOwner().getRecord(ProgramControl.kProgramControlFile);
         if (recProgramControl == null)
-            recProgramControl = new ProgramControl(Utility.getRecordOwner(this));
+            recProgramControl = new ProgramControl(this.findRecordOwner());
         
         String packagePath = DBConstants.BLANK;
         if (strPackage != null)
@@ -296,10 +296,10 @@ public class ClassProject extends Folder
         
         Record programControl = null;
         if (this.getRecordOwner() != null)
-            programControl = this.getRecordOwner().getRecord(ProgramControl.kProgramControlFile);
+            programControl = (Record)this.getRecordOwner().getRecord(ProgramControl.kProgramControlFile);
         Record programControlTemp = null;
         if (programControl == null)
-            programControl = programControlTemp = new ProgramControl(Utility.getRecordOwner(this));
+            programControl = programControlTemp = new ProgramControl(this.findRecordOwner());
         
         String startPackage = DBConstants.ROOT_PACKAGE.substring(0, DBConstants.ROOT_PACKAGE.length() - 1);
         if (codeType == CodeType.THICK)

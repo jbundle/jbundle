@@ -15,9 +15,9 @@ import java.util.Map;
 
 import org.jbundle.thin.base.remote.Unreferenced;
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.remote.db.TaskSession;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageSender;

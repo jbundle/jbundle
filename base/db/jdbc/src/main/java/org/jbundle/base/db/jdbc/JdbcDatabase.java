@@ -44,13 +44,13 @@ import org.jbundle.base.db.jdbc.properties.DBProperties_sybase;
 import org.jbundle.base.field.DateTimeField;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.DatabaseOwner;
+import org.jbundle.base.model.Debug;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.util.Debug;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.Environment;
-import org.jbundle.base.util.Utility;
 import org.jbundle.main.db.DatabaseInfo;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 /**
@@ -863,7 +863,7 @@ public class JdbcDatabase extends BaseDatabase
             properties.put(BASE_DATABASE_JDBC_DRIVER, properties.remove(SQLParams.JDBC_DRIVER_PARAM));
             properties.put(DBConstants.DB_USER_PREFIX, DBConstants.BLANK);
             properties.put(DBConstants.SUB_SYSTEM_LN_SUFFIX, DBConstants.BLANK);
-            m_databaseBase = m_databaseOwner.getDatabase(this.getProperty(BASE_DATABASE), this.getDatabaseType() & DBConstants.TABLE_MASK, properties);
+            m_databaseBase = (BaseDatabase)m_databaseOwner.getDatabase(this.getProperty(BASE_DATABASE), this.getDatabaseType() & DBConstants.TABLE_MASK, properties);
         }
     }
     public static final String BASE_DATABASE_JDBC_DRIVER = "baseDatabaseJDBCDriver";
@@ -875,8 +875,9 @@ public class JdbcDatabase extends BaseDatabase
     public void addDatabaseProperty(String strKey, String strValue)
     {
         this.setProperty(strKey, strValue);
-        if (this.getDatabaseOwner().getEnvironment().getCachedDatabaseProperties(this.getDatabaseName(true)) != null)  // Always
-            if (this.getDatabaseOwner().getEnvironment().getCachedDatabaseProperties(this.getDatabaseName(true)) != Environment.DATABASE_DOESNT_EXIST)  // Always
-            	this.getDatabaseOwner().getEnvironment().getCachedDatabaseProperties(this.getDatabaseName(true)).put(strKey, strValue);
+        Environment env = (Environment)this.getDatabaseOwner().getEnvironment();
+        if (env.getCachedDatabaseProperties(this.getDatabaseName(true)) != null)  // Always
+            if (env.getCachedDatabaseProperties(this.getDatabaseName(true)) != Environment.DATABASE_DOESNT_EXIST)  // Always
+                env.getCachedDatabaseProperties(this.getDatabaseName(true)).put(strKey, strValue);
     }
 }

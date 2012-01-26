@@ -17,7 +17,7 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.util.Util;
 

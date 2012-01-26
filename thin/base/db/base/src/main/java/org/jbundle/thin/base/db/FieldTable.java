@@ -4,6 +4,7 @@
 package org.jbundle.thin.base.db;
 
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Database;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.db.Table;
@@ -559,5 +560,13 @@ public class FieldTable extends Object
     public Object getRemoteTableType(Class<?> classType)
     {
         return null;	// Override this
+    }
+    /**
+     * Get the table's database.
+     * @return The database.
+     */
+    public Database getDatabase()
+    {
+        return null;    // Override this
     }
 }

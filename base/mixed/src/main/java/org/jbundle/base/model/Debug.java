@@ -1,19 +1,12 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.util;
+package org.jbundle.base.model;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Hashtable;
 import java.util.Map;
-
-import org.jbundle.base.db.Record;
-import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.RecordOwner;
-import org.jbundle.model.app.program.db.AnalysisLogModel;
-
 
 /**
  * @(#)TableException.java  1.16 95/12/14 Don Corley
@@ -114,39 +107,6 @@ System.exit(0);
             System.out.println("---Assert False");
         }
     }
-    private static AnalysisLogModel m_recAnalysisLog = null;
-    /**
-     * Call this from the end of record.init
-     * @param record
-     */
-    public static void logAddRecord(Record record)
-    {
-        if ("AnalysisLog".equalsIgnoreCase(record.getTableNames(false)))
-            return;     // This would create an endless loop
-        AnalysisLogModel recAnalysisLog = Debug.getLogRecord(record);
-        if (recAnalysisLog == null)
-            return;
-        synchronized(gsync) {
-            m_recAnalysisLog.logAddRecord(record, m_iSystemID);
-        }
-    }
-    /**
-     * Call this from before record.free.
-     * @param record
-     */
-    public static void logRemoveRecord(Record record)
-    {
-        if ("AnalysisLog".equalsIgnoreCase(record.getTableNames(false)))
-            return;     // This would create an endless loop
-        AnalysisLogModel recAnalysisLog = Debug.getLogRecord(record);
-        if (recAnalysisLog == null)
-            return;
-        synchronized(gsync) {
-            m_recAnalysisLog.logRemoveRecord(record, m_iSystemID);
-        }
-    }
-    private static Object gsync = new Object();
-    private static int m_iSystemID = (int)(Math.random() * (float)Integer.MAX_VALUE);
     private static int m_iNextCount = 0;
     private static Map<Object,Integer> m_mapObject = new Hashtable<Object,Integer>();
     public static int getObjectID(Object object, boolean bRemove)
@@ -161,33 +121,6 @@ System.exit(0);
         m_iNextCount++;
         m_mapObject.put(object, new Integer(m_iNextCount));
         return m_iNextCount;
-    }
-    public static AnalysisLogModel getLogRecord(Record record)
-    {
-        if (m_recAnalysisLog == null)
-        {
-            if (record.getTable() == null)
-                return null;
-            if (record.getTable().getDatabase() == null)
-                return null;
-            if (record.getTable().getDatabase().getDatabaseOwner() == null)
-                return null;
-            if (record.getTable().getDatabase().getDatabaseOwner().getEnvironment() == null)
-                return null;
-            if (record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getMessageApplication(false, null) == null)
-                return null;
-            if (record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication() == null)
-                return null;
-            if (record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication().getSystemRecordOwner() == null)
-                return null;
-            RecordOwner recordOwner = (RecordOwner)record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication().getSystemRecordOwner();
-
-            m_recAnalysisLog = (AnalysisLogModel)Record.makeRecordFromClassName(AnalysisLogModel.THICK_CLASS, recordOwner);
-
-            ((Record)m_recAnalysisLog).getTable().setProperty(DBParams.SUPRESSREMOTEDBMESSAGES, DBConstants.TRUE);
-            ((Record)m_recAnalysisLog).getTable().getDatabase().setProperty(DBParams.MESSAGES_TO_REMOTE, DBConstants.FALSE);
-        }
-        return m_recAnalysisLog;
     }
     public static String getClassName(Object object)
     {

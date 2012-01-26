@@ -33,17 +33,20 @@ import org.jbundle.base.message.record.RecordMessageFilter;
 import org.jbundle.base.message.record.RecordMessageHeader;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.model.ResourceConstants;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.ScreenModel;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.util.Environment;
+import org.jbundle.base.util.MainApplication;
+import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.message.MessageManager;
@@ -173,7 +176,7 @@ public class Record extends FieldList
             if (this.getTable().getDatabase() != null)
                 if (this.getTable().getDatabase().getDatabaseOwner() != null)
                 if (this.getTable().getDatabase().getDatabaseOwner().getEnvironment() != null)
-                if ((DBConstants.YES.equalsIgnoreCase(this.getTable().getDatabase().getDatabaseOwner().getEnvironment().getProperty(DBParams.LOG_TRXS))) || (DBConstants.TRUE.equalsIgnoreCase(this.getTable().getDatabase().getDatabaseOwner().getEnvironment().getProperty(DBParams.LOG_TRXS))))
+                if ((DBConstants.YES.equalsIgnoreCase(((Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getProperty(DBParams.LOG_TRXS))) || (DBConstants.TRUE.equalsIgnoreCase(((Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getProperty(DBParams.LOG_TRXS))))
             if ((this.getMasterSlave() & RecordOwner.SLAVE) != 0)   // Slaves do the logging.
                 if ((this.getDatabaseType() & DBConstants.DONT_LOG_TRX) == 0)
         {
@@ -242,7 +245,7 @@ public class Record extends FieldList
         try {
             Class<?> c = this.getClass();
             record = (Record)c.newInstance();
-            RecordOwner recordOwner = Utility.getRecordOwner(this);
+            RecordOwner recordOwner = Record.findRecordOwner(this);
             record.init(recordOwner);   // This is strange, but this way, the cloned record has access to all recordowner's objects (ie., Environment).
             if (recordOwner != null)        // Now, disconnect this record from the owner, so the caller can set this.
                 recordOwner.removeRecord(record);
@@ -961,7 +964,7 @@ public class Record extends FieldList
                 databaseOwner = this.getRecordOwner().getDatabaseOwner();
             if (databaseOwner != null)
             {
-                BaseDatabase database = databaseOwner.getDatabase(this.getDatabaseName(), this.getDatabaseType(), null);
+                BaseDatabase database = (BaseDatabase)databaseOwner.getDatabase(this.getDatabaseName(), this.getDatabaseType(), null);
                 m_table = database.makeTable(this);
             }
         }
@@ -1207,6 +1210,57 @@ public class Record extends FieldList
     public RecordOwner getRecordOwner()
     {
         return (RecordOwner)m_recordOwner;
+    }
+    public static RecordOwner findRecordOwner(Record record)
+    {
+        return record.findRecordOwner();    // Get rid of this
+    }
+    /**
+     * Get a recordowner from this record.
+     * This method does a deep search using the listeners and the database connections to find a recordowner.
+     * @param record
+     * @return
+     */
+    public RecordOwner findRecordOwner()
+    {
+        RecordOwner recordOwner = this.getRecordOwner();
+        if (recordOwner instanceof org.jbundle.base.db.shared.FakeRecordOwner)
+            recordOwner = null; 
+        BaseListener listener = this.getListener();
+        while ((recordOwner == null) && (listener != null))
+        {
+            BaseListener listenerDep = listener.getDependentListener();
+            if (listenerDep != null)
+                if (listenerDep.getListenerOwner() instanceof RecordOwner)
+                    recordOwner = (RecordOwner)listenerDep.getListenerOwner();
+            listener = listener.getNextListener();
+        }
+        if (recordOwner == null)
+            if (this.getTable() != null)
+                if (this.getTable().getDatabase() != null)
+                    if (this.getTable().getDatabase().getDatabaseOwner() instanceof Application)
+        {
+            App app = (App)this.getTable().getDatabase().getDatabaseOwner();
+            if (app.getSystemRecordOwner() == null) // This should be okay... get the system recordowner.
+                app = ((Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getDefaultApplication();
+            if (app != null)
+            {
+                if (app.getSystemRecordOwner() instanceof RecordOwner)
+                    recordOwner = (RecordOwner)app.getSystemRecordOwner();
+                else
+                {
+                    Environment env = (Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment();
+                    for (int i = env.getApplicationCount() - 1; i >= 0; i--)
+                    {
+                        app = env.getApplication(i);
+                        if (app instanceof MainApplication)
+                            if (app.getSystemRecordOwner() instanceof RecordOwner)
+                                recordOwner = (RecordOwner)app.getSystemRecordOwner();
+                    }
+                }
+            }
+        }
+        return recordOwner;
     }
     /**
      * Setup the SQL Key Filter.
@@ -2728,8 +2782,8 @@ public class Record extends FieldList
         if (task == null)
         {   // Look a little harder
         	if (this.getTable().getDatabase().getDatabaseOwner() != null)
-        		if (this.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication() != null)
-            task = ((BaseApplication)this.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication()).getMainTask();
+        		if (((Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getDefaultApplication() != null)
+            task = ((BaseApplication)((Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getDefaultApplication()).getMainTask();
         }
         return task;
     }

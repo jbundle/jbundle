@@ -17,8 +17,9 @@ import java.util.Map;
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.Database;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
@@ -37,7 +38,7 @@ public class DatabaseCollection extends Object
     /**
      * The list of databases.
      */
-    private Hashtable<String, BaseDatabase> m_htDatabaseList[] = new Hashtable[DBConstants.TABLE_MASK + 1];    // List of database lists (Each list is by DB name)
+    private Hashtable<String, Database> m_htDatabaseList[] = new Hashtable[DBConstants.TABLE_MASK + 1];    // List of database lists (Each list is by DB name)
 
     /**
      * Constructor
@@ -75,9 +76,9 @@ public class DatabaseCollection extends Object
         {
             if (m_htDatabaseList[i] != null)
             {
-                for (Enumeration<BaseDatabase> e = m_htDatabaseList[i].elements() ; e.hasMoreElements() ;)
+                for (Enumeration<Database> e = m_htDatabaseList[i].elements() ; e.hasMoreElements() ;)
                 { 
-                    BaseDatabase database = e.nextElement();
+                    Database database = e.nextElement();
                     database.setDatabaseOwner(null);    // Otherwise the enumerator is messed up
                     database.free();
                 } 
@@ -95,16 +96,16 @@ public class DatabaseCollection extends Object
      * @param iDatabaseType The type of database/table.
      * @return The database (new or current).
      */
-    public BaseDatabase getDatabase(String strDBName, int iDatabaseType, Map<String, Object> properties)
+    public Database getDatabase(String strDBName, int iDatabaseType, Map<String, Object> properties)
     {
         if ((strDBName == null) || (strDBName.length() == 0))
             return null;
-        BaseDatabase database = this.getDatabaseList(iDatabaseType).get(strDBName);
+        Database database = this.getDatabaseList(iDatabaseType).get(strDBName);
         if (database == null)
         {
             if ((properties != null)
             	&& (DBConstants.FALSE.equals(properties.get(DBConstants.CREATE_DB_IF_NOT_FOUND)))
-            	&& (Environment.DATABASE_DOESNT_EXIST == m_databaseOwner.getEnvironment().getCachedDatabaseProperties(strDBName)))
+            	&& (Environment.DATABASE_DOESNT_EXIST == ((Environment)m_databaseOwner.getEnvironment()).getCachedDatabaseProperties(strDBName)))
             		return null;	// Hey, if the database doesn't exist, don't try again.
             if (iDatabaseType != DBConstants.SCREEN)
                 database = this.makeDatabase(iDatabaseType);    // BaseDatabase not found, open it!
@@ -115,7 +116,7 @@ public class DatabaseCollection extends Object
             if (database != null)
             {
                 try   {
-                    database.open();    // open it!
+                    ((BaseDatabase)database).open();    // open it!
                 } catch (DBException ex) {
                     database.free();
                     database = null;    // Failure on db open
@@ -123,7 +124,7 @@ public class DatabaseCollection extends Object
                 		&& (properties != null)
                         && (DBConstants.FALSE.equals(properties.get(DBConstants.CREATE_DB_IF_NOT_FOUND))))
                     {	// If the db doesn't exist, cache the name so I won't try this (expensive) operation again
-                    	m_databaseOwner.getEnvironment().cacheDatabaseProperties(strDBName, Environment.DATABASE_DOESNT_EXIST);
+                        ((Environment)m_databaseOwner.getEnvironment()).cacheDatabaseProperties(strDBName, Environment.DATABASE_DOESNT_EXIST);
                     }
                 }
             }
@@ -135,7 +136,7 @@ public class DatabaseCollection extends Object
      * @param iDatabaseType The DB Type.
      * @return The database table.
      */
-    public Hashtable<String,BaseDatabase> getDatabaseList(int iDatabaseType)
+    public Hashtable<String,Database> getDatabaseList(int iDatabaseType)
     {
         String strDbPrefix = this.getDatabasePrefix(iDatabaseType);
         iDatabaseType = iDatabaseType & DBConstants.TABLE_MASK;
@@ -153,7 +154,7 @@ public class DatabaseCollection extends Object
             iDatabaseType = DBConstants.INTERNAL_MAPPED;
         
         if (m_htDatabaseList[iDatabaseType] == null)
-            m_htDatabaseList[iDatabaseType] = new Hashtable<String,BaseDatabase>();
+            m_htDatabaseList[iDatabaseType] = new Hashtable<String,Database>();
         return m_htDatabaseList[iDatabaseType];
     }
     /**
@@ -225,7 +226,7 @@ public class DatabaseCollection extends Object
      * Do not call these directly, used in database init.
      * @param database The database to add.
      */
-    public void addDatabase(BaseDatabase database)
+    public void addDatabase(Database database)
     {
         this.getDatabaseList((database.getDatabaseType() & DBConstants.TABLE_MASK)).put(database.getDatabaseName(false), database);
     }
@@ -235,7 +236,7 @@ public class DatabaseCollection extends Object
      * @param database The database to free.
      * @return true if successful.
      */
-    public boolean removeDatabase(BaseDatabase database)
+    public boolean removeDatabase(Database database)
     {
         database = (BaseDatabase)this.getDatabaseList((database.getDatabaseType() & DBConstants.TABLE_MASK)).remove(database.getDatabaseName(false));
         if (database == null)
@@ -256,7 +257,7 @@ public class DatabaseCollection extends Object
         if (strValue == null)
             if (!(m_databaseOwner instanceof Environment))
                 if (m_databaseOwner.getEnvironment() != null)
-                    strValue = m_databaseOwner.getEnvironment().getProperty(strProperty);
+                    strValue = ((Environment)m_databaseOwner.getEnvironment()).getProperty(strProperty);
         return strValue;
     }
 }

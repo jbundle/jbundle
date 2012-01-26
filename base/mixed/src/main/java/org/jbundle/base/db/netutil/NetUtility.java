@@ -16,9 +16,9 @@ import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.RecordOwner;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
@@ -112,7 +112,7 @@ public class NetUtility {
             	if (!databaseName.equalsIgnoreCase(record.getDatabaseName()))
         	{	// Set alternate database name
             		// Yikes... This is a little off logic because I use the actual long database name to create a database (It should work though)
-                BaseDatabase database = recordOwner.getDatabaseOwner().getDatabase(databaseName, record.getDatabaseType(), null);
+                BaseDatabase database = (BaseDatabase)recordOwner.getDatabaseOwner().getDatabase(databaseName, record.getDatabaseType(), null);
                 BaseTable table = database.makeTable(record);
         		record.setTable(table);
         	}

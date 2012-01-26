@@ -215,4 +215,9 @@ public interface Table
      * @return The remote table reference.
      */
     public Object getRemoteTableType(Class<?> classType);
+    /**
+     * Get the table's database.
+     * @return The database.
+     */
+    public Database getDatabase();
 }

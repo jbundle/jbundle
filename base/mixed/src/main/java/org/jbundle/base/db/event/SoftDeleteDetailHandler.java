@@ -13,7 +13,6 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 
 
@@ -96,7 +95,7 @@ public class SoftDeleteDetailHandler extends SoftDeleteHandler
     public boolean isSoftDeleteThisRecord()
     {
         Record recDetailOld = m_recDetail;
-        Record recDetail = this.getDetailRecord(Utility.getRecordOwner(this.getOwner()));
+        Record recDetail = this.getDetailRecord(Record.findRecordOwner(this.getOwner()));
         if (m_recDetail != null)
             if (recDetailOld != m_recDetail)
             {

@@ -15,9 +15,9 @@ import java.io.PrintWriter;
 
 import org.jbundle.base.field.PropertiesField;
 import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.screen.model.BaseMenuScreen;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.main.db.MenusModel;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.DBException;

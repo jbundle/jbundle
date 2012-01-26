@@ -107,7 +107,7 @@ public class SetupNewUserHandler extends FileListener
             {
                 Record userInfo = this.getOwner();
                 Object bookmark = userInfo.getLastModified(DBConstants.BOOKMARK_HANDLE);
-                RecordOwner recordOwner = Utility.getRecordOwner(this.getOwner());
+                RecordOwner recordOwner = this.getOwner().findRecordOwner();
                 UserRegistration userRegistration = new UserRegistration(recordOwner);
                 UserRegistration newUserRegistration = new UserRegistration(recordOwner);
                 userRegistration.addListener(new SubFileFilter(userTemplate));
@@ -134,7 +134,7 @@ public class SetupNewUserHandler extends FileListener
     public UserInfo getUserTemplate()
     {
         if (userControl == null)
-            userControl = new UserControl(Utility.getRecordOwner(this.getOwner()));
+            userControl = new UserControl(this.getOwner().findRecordOwner());
         if (userControl != null)
             if ((userControl.getEditMode() == DBConstants.EDIT_CURRENT) || (userControl.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
         {

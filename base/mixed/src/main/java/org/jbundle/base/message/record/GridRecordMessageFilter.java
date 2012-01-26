@@ -221,7 +221,7 @@ public class GridRecordMessageFilter extends BaseRecordMessageFilter
                 if (m_source == null)
         {
             String strTableName = (String)this.getProperties().get(TABLE_NAME);
-            Record record = ((RecordOwner)remoteSession).getRecord(strTableName);
+            Record record = (Record)((RecordOwner)remoteSession).getRecord(strTableName);
             if (record != null)
             {
                 record.addListener(new GridSyncRecordMessageFilterHandler(this, true));

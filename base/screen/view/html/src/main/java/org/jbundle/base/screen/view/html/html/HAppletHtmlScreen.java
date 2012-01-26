@@ -15,12 +15,12 @@ import java.util.ResourceBundle;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.HtmlConstants;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.ScreenFieldViewAdapter;
 import org.jbundle.base.screen.view.html.HBaseScreen;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.screen.ScreenComponent;
 

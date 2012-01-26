@@ -11,9 +11,9 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.remote.proxy.transport.ProxyTask;
-import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.remote.RemoteException;

@@ -31,7 +31,7 @@ import org.jbundle.base.field.event.FieldListener;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.ScreenModel;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.main.properties.db.PropertiesInputModel;
 import org.jbundle.model.screen.ComponentParent;

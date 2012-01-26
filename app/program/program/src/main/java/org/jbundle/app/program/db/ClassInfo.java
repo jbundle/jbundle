@@ -390,7 +390,7 @@ public class ClassInfo extends VirtualRecord
      */
     public void printHtmlTechInfo(PrintWriter out, String strTag, String strParams, String strData)
     {
-        FieldData fieldInfo = new FieldData(Utility.getRecordOwner(this));
+        FieldData fieldInfo = new FieldData(this.findRecordOwner());
         
         String strClass = this.getClassName();
         fieldInfo.setKeyArea(FieldData.kFieldFileNameKey);
@@ -481,7 +481,7 @@ public class ClassInfo extends VirtualRecord
      */
     public boolean isARecord(boolean isAFile)
     {
-        Record recFileHdr = this.getRecordOwner().getRecord(FileHdr.kFileHdrFile);
+        Record recFileHdr = (Record)this.getRecordOwner().getRecord(FileHdr.kFileHdrFile);
         if (recFileHdr == null)
         {
             recFileHdr = new FileHdr(this.getRecordOwner());

@@ -16,7 +16,6 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.model.ResourceConstants;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
@@ -206,7 +205,7 @@ public class SubFileIntegrityHandler extends FreeOnFreeHandler
         Record record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(m_strSubFile);
         if (record != null)
         {
-            RecordOwner recordOwner = Utility.getRecordOwner(this.getOwner());
+            RecordOwner recordOwner = Record.findRecordOwner(this.getOwner());
             record.init(recordOwner);
             if (recordOwner != null)
                 recordOwner.removeRecord(record);

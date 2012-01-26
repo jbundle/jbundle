@@ -14,9 +14,9 @@ import org.jbundle.base.db.netutil.NetUtility;
 import org.jbundle.base.message.record.RecordMessageConstants;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.model.RecordOwner;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.remote.BaseTaskSession;
 import org.jbundle.base.remote.message.ReceiveQueueSession;
@@ -24,9 +24,9 @@ import org.jbundle.base.remote.message.SendQueueSession;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.db.Params;
@@ -184,7 +184,7 @@ public class TaskSession extends BaseTaskSession
         BaseDatabase database = null;
         if (this.getDatabaseOwner() != null)
         {   // Always - Make sure the database is set up correctly BEFORE I create the record.
-            database = this.getDatabaseOwner().getDatabase(record.getDatabaseName(), record.getDatabaseType(), null);
+            database = (BaseDatabase)this.getDatabaseOwner().getDatabase(record.getDatabaseName(), record.getDatabaseType(), null);
             if (database != null)
             {   // Rare - only on querytables, then the database will have already been set up.
                 database.setMasterSlave(RecordOwner.SLAVE);      // Don't create client behaviors

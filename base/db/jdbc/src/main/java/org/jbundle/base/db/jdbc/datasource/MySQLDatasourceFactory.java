@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.db.jdbc.JdbcDatabase;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 
 
 /**

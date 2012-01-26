@@ -9,10 +9,12 @@ package org.jbundle.base.model;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import org.jbundle.base.db.Record;
+
 import org.jbundle.model.RecordOwnerModel;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.DatabaseOwner;
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.JMessageListener;
 
@@ -40,17 +42,17 @@ public interface RecordOwner
      * @param The record's name.
      * @return The record with this name (or null if not found).
      */
-    public Record getRecord(String strFileName);
+    public Rec getRecord(String strFileName);
     /**
      * Get the main record for this screen.
      * @return The main record (or null if none).
      */
-    public Record getMainRecord();
+    public Rec getMainRecord();
     /**
      * Get the screen record.
      * @return The screen record.
      */
-    public Record getScreenRecord();
+    public Rec getScreenRecord();
     /**
      * Get this Property for this key.
      * @param strProperty The key to lookup.

@@ -81,7 +81,7 @@ public class SetupExcludePackagesHandler extends FileListener
     {
         if (m_recPackagesExclude == null)
         {
-            RecordOwner recordOwner = Utility.getRecordOwner(this.getOwner());
+            RecordOwner recordOwner = this.getOwner().findRecordOwner();
             m_recPackagesExclude = new Packages(recordOwner);
             if (recordOwner != null)
                 recordOwner.removeRecord(m_recPackagesExclude);
@@ -134,7 +134,7 @@ public class SetupExcludePackagesHandler extends FileListener
         try {
             if (m_recPackagesTree == null)
             {
-                RecordOwner recordOwner = Utility.getRecordOwner(this.getOwner());
+                RecordOwner recordOwner = this.getOwner().findRecordOwner();
                 m_recPackagesTree = new Packages(recordOwner);
                 if (recordOwner != null)
                     recordOwner.removeRecord(m_recPackagesTree);

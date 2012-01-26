@@ -20,7 +20,7 @@ import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.FieldList;

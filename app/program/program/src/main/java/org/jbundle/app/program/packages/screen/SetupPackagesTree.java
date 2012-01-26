@@ -78,7 +78,7 @@ public class SetupPackagesTree extends FileListener
         try {
             if (m_recPackages == null)
             {
-                RecordOwner recordOwner = Utility.getRecordOwner(this.getOwner());
+                RecordOwner recordOwner = this.getOwner().findRecordOwner();
                 m_recPackages = new Packages(recordOwner);
                 if (recordOwner != null)
                     recordOwner.removeRecord(m_recPackages);

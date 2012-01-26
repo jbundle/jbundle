@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.Debug;
 import org.jbundle.base.model.ScreenModel;
-import org.jbundle.base.util.Debug;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;

@@ -14,7 +14,6 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 
 
@@ -266,7 +265,7 @@ import org.jbundle.model.DBException;
         if (m_bSharedOnly == false)
         {
 	        // Now add all the classes from the first shared record up the chain
-	    	FileHdr recFileHdr = new FileHdr(Utility.getRecordOwner(m_recFileHdr));
+	    	FileHdr recFileHdr = new FileHdr(Record.findRecordOwner(m_recFileHdr));
 	    	recFileHdr.setKeyArea(FileHdr.kFileNameKey);
 	        try {
 		        for (int i = 0; i < m_rgstrClasses.length; i++)
@@ -310,10 +309,10 @@ import org.jbundle.model.DBException;
      */
     private String[] getBaseRecordClasses(String strClassName, boolean bSharedOnly)
     {
-        ClassInfo recClassInfo = new ClassInfo(Utility.getRecordOwner(m_recClassInfo));
+        ClassInfo recClassInfo = new ClassInfo(Record.findRecordOwner(m_recClassInfo));
         String[] rgstrClasses = new String[0];
 //        rgstrClasses[0] = strClassName;
-        Record recFileHdr = new FileHdr(Utility.getRecordOwner(m_recFileHdr));
+        Record recFileHdr = new FileHdr(Record.findRecordOwner(m_recFileHdr));
         try {
             // First, get the base shared record
             String strBaseClass = strClassName;
@@ -358,8 +357,8 @@ import org.jbundle.model.DBException;
      */
     private void scanBaseFields(String strBaseClass, boolean topLevel)
     {
-        ClassInfo recClassInfo = new ClassInfo(Utility.getRecordOwner(m_recClassInfo));
-        FieldData recFieldData = new FieldData(Utility.getRecordOwner(m_recFieldData));
+        ClassInfo recClassInfo = new ClassInfo(Record.findRecordOwner(m_recClassInfo));
+        FieldData recFieldData = new FieldData(Record.findRecordOwner(m_recFieldData));
         try {
             recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
             recClassInfo.getField(ClassInfo.kClassName).setString(strBaseClass);  // Base class
@@ -410,8 +409,8 @@ import org.jbundle.model.DBException;
      */
     protected void scanRecordFields(String[] strClassNames, int iClassIndex, boolean bMarkUnused)
     {
-        ClassInfo recClassInfo = new ClassInfo(Utility.getRecordOwner(m_recClassInfo));
-        FieldData recFieldData = new FieldData(Utility.getRecordOwner(m_recFieldData));
+        ClassInfo recClassInfo = new ClassInfo(Record.findRecordOwner(m_recClassInfo));
+        FieldData recFieldData = new FieldData(Record.findRecordOwner(m_recFieldData));
         String strClassName = strClassNames[iClassIndex];
         try {
             // First, re-read the original class.
@@ -479,9 +478,9 @@ import org.jbundle.model.DBException;
      */
     private void scanExtendedClasses(String strBaseClass)
     {
-        ClassInfo recClassInfo = new ClassInfo(Utility.getRecordOwner(m_recClassInfo));
-        FieldData recFieldData = new FieldData(Utility.getRecordOwner(m_recFieldData));
-        FileHdr recFileHdr = new FileHdr(Utility.getRecordOwner(m_recFileHdr));
+        ClassInfo recClassInfo = new ClassInfo(Record.findRecordOwner(m_recClassInfo));
+        FieldData recFieldData = new FieldData(Record.findRecordOwner(m_recFieldData));
+        FileHdr recFileHdr = new FileHdr(Record.findRecordOwner(m_recFileHdr));
         try {
             recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
             recClassInfo.getField(ClassInfo.kClassName).setString(strBaseClass);  // Base class

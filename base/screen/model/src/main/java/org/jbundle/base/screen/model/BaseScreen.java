@@ -22,20 +22,21 @@ import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.ScreenModel;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.screen.model.util.MaintToolbar;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DatabaseCollection;
 import org.jbundle.base.util.Environment;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Database;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.main.db.base.ContactTypeModel;
 import org.jbundle.model.main.user.db.UserInfoModel;
@@ -1030,14 +1031,14 @@ public class BaseScreen extends BasePanel
     {
         if (m_databaseCollection == null)
             m_databaseCollection = new DatabaseCollection(this);
-        return m_databaseCollection.getDatabase(strDBName, iDatabaseType, properties);
+        return (BaseDatabase)m_databaseCollection.getDatabase(strDBName, iDatabaseType, properties);
     }
     /**
      * Add this database to my database list.<br />
      * Do not call these directly, used in database init.
      * @param database The database to add.
      */
-    public void addDatabase(BaseDatabase database)
+    public void addDatabase(Database database)
     {
         m_databaseCollection.addDatabase(database);
     }
@@ -1047,7 +1048,7 @@ public class BaseScreen extends BasePanel
      * @param database The database to free.
      * @return true if successful.
      */
-    public boolean removeDatabase(BaseDatabase database)
+    public boolean removeDatabase(Database database)
     {
         return m_databaseCollection.removeDatabase(database);
     }

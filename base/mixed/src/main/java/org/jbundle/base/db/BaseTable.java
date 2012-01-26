@@ -26,9 +26,9 @@ import org.jbundle.base.message.record.RecordMessageConstants;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
@@ -1155,9 +1155,9 @@ public abstract class BaseTable extends FieldTable
         record.setOpenMode(DBConstants.OPEN_NORMAL);	// Possible read-only
         String strFilename = record.getArchiveFilename(false);
         InputStream inputStream = null;
-        if (Utility.getRecordOwner(record) != null)
-            if (Utility.getRecordOwner(record).getTask() != null)
-                inputStream = Utility.getRecordOwner(record).getTask().getInputStream(strFilename);
+        if (Record.findRecordOwner(record) != null)
+            if (Record.findRecordOwner(record).getTask() != null)
+                inputStream = Record.findRecordOwner(record).getTask().getInputStream(strFilename);
         org.jbundle.base.db.xmlutil.XmlInOut xml = new org.jbundle.base.db.xmlutil.XmlInOut(null, null, null);
         
         int iCount = record.getFieldCount();

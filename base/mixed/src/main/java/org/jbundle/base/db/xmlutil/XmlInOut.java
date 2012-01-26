@@ -37,12 +37,12 @@ import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.field.StringField;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.Debug;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.util.BaseApplication;
-import org.jbundle.base.util.Debug;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.main.db.DatabaseInfoModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
@@ -306,7 +306,7 @@ public class XmlInOut extends BaseProcess
         	BaseDatabase database = null;
             if ((databaseName != null) && (databaseName.length() > 0))
             	if (databaseName.contains("_"))	// Alternate database name
-            		database = ((BaseApplication)this.getTask().getApplication()).getDatabase(databaseName, iDatabaseType, null);
+            		database = (BaseDatabase)((BaseApplication)this.getTask().getApplication()).getDatabase(databaseName, iDatabaseType, null);
             if (database == null)
             	record = Record.makeRecordFromClassName(className, this);
             else

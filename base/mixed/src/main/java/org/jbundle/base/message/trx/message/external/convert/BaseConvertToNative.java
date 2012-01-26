@@ -22,7 +22,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.jbundle.base.message.trx.message.external.ExternalTrxMessageOut;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.MessageDataDesc;

@@ -13,12 +13,10 @@ package org.jbundle.base.thread;
 import java.util.Enumeration;
 import java.util.Map;
 
-import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.RecordList;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DatabaseCollection;
@@ -26,6 +24,8 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Database;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
@@ -197,7 +197,7 @@ public class BaseRecordOwner extends Object
             record = m_vRecordList.getMainRecord();
         if (record == null)
             if (m_taskParent instanceof RecordOwner)
-                record = ((RecordOwner)m_taskParent).getMainRecord(); // Look thru the parent window now
+                record = (Record)((RecordOwner)m_taskParent).getMainRecord(); // Look thru the parent window now
         return record;
     }
     /**
@@ -212,7 +212,7 @@ public class BaseRecordOwner extends Object
             record = m_vRecordList.getRecord(strFileName);
         if (record == null)
             if (m_taskParent instanceof RecordOwner)
-                record = ((RecordOwner)m_taskParent).getRecord(strFileName); // Look thru the parent window now
+                record = (Record)((RecordOwner)m_taskParent).getRecord(strFileName); // Look thru the parent window now
         return record;  // Look thru the parent window now
     }
     /**
@@ -401,7 +401,7 @@ public class BaseRecordOwner extends Object
      * @param iDatabaseType The type of database/table.
      * @return The database (new or current).
      */
-    public BaseDatabase getDatabase(String strDBName, int iDatabaseType, Map<String, Object> properties)
+    public Database getDatabase(String strDBName, int iDatabaseType, Map<String, Object> properties)
     {
         if (m_databaseCollection == null)
             m_databaseCollection = new DatabaseCollection(this);
@@ -412,7 +412,7 @@ public class BaseRecordOwner extends Object
      * Do not call these directly, used in database init.
      * @param database The database to add.
      */
-    public void addDatabase(BaseDatabase database)
+    public void addDatabase(Database database)
     {
         m_databaseCollection.addDatabase(database);
     }
@@ -422,7 +422,7 @@ public class BaseRecordOwner extends Object
      * @param database The database to free.
      * @return true if successful.
      */
-    public boolean removeDatabase(BaseDatabase database)
+    public boolean removeDatabase(Database database)
     {
         return m_databaseCollection.removeDatabase(database);
     }

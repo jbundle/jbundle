@@ -28,7 +28,7 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.jbundle.base.message.trx.message.TrxMessageHeader;
 import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.App;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.message.BaseMessage;

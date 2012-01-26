@@ -12,8 +12,8 @@ package org.jbundle.base.screen.view.xml;
 import java.io.PrintWriter;
 
 import org.jbundle.base.model.HtmlConstants;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.screen.ScreenComponent;
 

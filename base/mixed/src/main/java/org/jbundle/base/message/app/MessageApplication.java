@@ -5,6 +5,7 @@ package org.jbundle.base.message.app;
 
 import java.util.Map;
 
+import org.jbundle.base.model.MessageApp;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.model.App;
 import org.jbundle.thin.base.message.BaseMessageManager;
@@ -22,6 +23,7 @@ import org.jbundle.thin.base.message.BaseMessageManager;
  * and the RecordOwner is a MessageProcess.
  */
 public class MessageApplication extends BaseApplication
+    implements MessageApp
 {
     public static final String AUTOSTART = "autostart";
 

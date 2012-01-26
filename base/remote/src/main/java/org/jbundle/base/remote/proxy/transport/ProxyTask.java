@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.remote.proxy.BaseHolder;
 import org.jbundle.base.remote.proxy.MapList;
@@ -30,7 +31,6 @@ import org.jbundle.base.screen.control.servlet.BaseHttpTask;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.MainApplication;
-import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;

@@ -13,7 +13,7 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.main.db.MenusModel;
 
 

@@ -9,7 +9,7 @@ import org.jbundle.base.message.trx.message.external.ExternalMapTrxMessageOut;
 import org.jbundle.base.message.trx.processor.BaseMessageProcessor;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.main.msg.db.MessageInfoTypeModel;
 import org.jbundle.model.main.msg.db.MessageStatusModel;
 import org.jbundle.model.main.msg.db.MessageTransportModel;

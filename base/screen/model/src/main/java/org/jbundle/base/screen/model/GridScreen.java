@@ -19,8 +19,8 @@ import org.jbundle.base.field.ImageField;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.model.ScreenConstants;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.util.Utility;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 

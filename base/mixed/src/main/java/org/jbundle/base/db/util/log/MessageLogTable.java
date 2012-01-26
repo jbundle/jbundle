@@ -14,6 +14,7 @@ import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.model.MessageApp;
 import org.jbundle.base.util.BaseApplication;
+import org.jbundle.base.util.Environment;
 import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageHeader;
@@ -99,7 +100,7 @@ public class MessageLogTable extends LogTable
         	if (app != null)
         		messageApplication = app.getEnvironment().getMessageApplication(true, app.getProperties());
         	else
-        		messageApplication = this.getDatabase().getDatabaseOwner().getEnvironment().getMessageApplication(true, null);
+        		messageApplication = ((Environment)this.getDatabase().getDatabaseOwner().getEnvironment()).getMessageApplication(true, null);
             m_messageManager = RemoteMessageManager.getMessageManager(messageApplication);
         }
         return m_messageManager;

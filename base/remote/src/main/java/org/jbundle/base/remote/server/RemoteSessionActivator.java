@@ -7,11 +7,11 @@
  */
 package org.jbundle.base.remote.server;
 
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.base.util.MainApplication;
-import org.jbundle.base.util.Utility;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.osgi.framework.BundleContext;
 

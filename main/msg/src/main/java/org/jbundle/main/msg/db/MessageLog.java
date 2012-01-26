@@ -174,7 +174,7 @@ public class MessageLog extends VirtualRecord
                 strReferenceID = this.getProperty(TrxMessageHeader.REFERENCE_ID);
             if ((strReferenceClass != null) && (strReferenceID != null))
             {
-                Record record = Record.makeRecordFromClassName(strReferenceClass, Utility.getRecordOwner(this));
+                Record record = Record.makeRecordFromClassName(strReferenceClass, this.findRecordOwner());
                 if (record != null)
                 {
                     try {

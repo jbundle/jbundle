@@ -119,7 +119,7 @@ public class UpdateGroupPermissionHandler extends FileListener
     public void updateGroupPermission(int iGroupID)
     {
         if (m_recUserPermission == null)
-            m_recUserPermission = new UserPermission(Utility.getRecordOwner(this.getOwner()));
+            m_recUserPermission = new UserPermission(this.getOwner().findRecordOwner());
         Record m_recUserGroup = ((ReferenceField)m_recUserPermission.getField(UserPermission.kUserGroupID)).getReferenceRecord();
         m_recUserGroup.setOpenMode(m_recUserGroup.getOpenMode() & ~DBConstants.OPEN_READ_ONLY); // Read and write
         if (m_recUserPermission.getListener(SubFileFilter.class) == null)

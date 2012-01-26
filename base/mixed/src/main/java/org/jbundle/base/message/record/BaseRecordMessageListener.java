@@ -6,7 +6,7 @@ package org.jbundle.base.message.record;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.db.event.FreeOnFreeHandler;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.Freeable;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;

@@ -8,8 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
 
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.MainApplication;
-import org.jbundle.base.util.Utility;
 
 
 /**

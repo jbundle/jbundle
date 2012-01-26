@@ -18,7 +18,6 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.DateTimeField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.FieldInfo;
 
@@ -142,7 +141,7 @@ public class HistoryHandler extends FreeOnFreeHandler
         {
             if (m_strRecHistoryClass != null)
             {
-                m_recDependent = Record.makeRecordFromClassName(m_strRecHistoryClass, Utility.getRecordOwner(this.getOwner()));
+                m_recDependent = Record.makeRecordFromClassName(m_strRecHistoryClass, Record.findRecordOwner(this.getOwner()));
                 if (m_recDependent != null)
                 {
                     m_bCloseOnFree = true;

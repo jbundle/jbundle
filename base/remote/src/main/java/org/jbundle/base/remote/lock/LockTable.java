@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 
 
 /**

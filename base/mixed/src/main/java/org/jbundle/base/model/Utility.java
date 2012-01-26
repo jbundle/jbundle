@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.util;
+package org.jbundle.base.model;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -36,17 +36,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.jbundle.base.db.Record;
-import org.jbundle.base.field.BaseField;
-import org.jbundle.base.field.BaseListener;
-import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.model.RecordOwner;
-import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.db.Field;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinUtil;
 import org.w3c.dom.Node;
 
@@ -59,7 +53,7 @@ public class Utility extends ThinUtil
     /**
      * SaveProductParam Method.
      */
-    public static Map<String,Object> addFieldParam(Map<String,Object> map, BaseField field)
+    public static Map<String,Object> addFieldParam(Map<String,Object> map, Field field)
     {
         if (!field.isNull())
             map.put(field.getFieldName(), field.toString());
@@ -68,7 +62,7 @@ public class Utility extends ThinUtil
     /**
      * SaveProductParam Method.
      */
-    public static String addFieldParam(String strCommand, BaseField field)
+    public static String addFieldParam(String strCommand, Field field)
     {
         if (!field.isNull())
             strCommand = Utility.addURLParam(strCommand, field.getFieldName(), field.toString());
@@ -77,7 +71,7 @@ public class Utility extends ThinUtil
     /**
      * RestoreProductParam Method.
      */
-    public static void restoreFieldParam(PropertyOwner propertyOwner, BaseField field)
+    public static void restoreFieldParam(PropertyOwner propertyOwner, Field field)
     {
         String strFieldName = field.getFieldName();
         if (propertyOwner.getProperty(strFieldName) != null)
@@ -637,53 +631,6 @@ public class Utility extends ThinUtil
             }
         }
         return strDomain;
-    }
-    /**
-     * Get a recordowner from this record.
-     * This method does a deep search using the listeners and the database connections to find a recordowner.
-     * @param record
-     * @return
-     */
-    public static RecordOwner getRecordOwner(Record record)
-    {
-        RecordOwner recordOwner = record.getRecordOwner();
-        if (recordOwner instanceof org.jbundle.base.db.shared.FakeRecordOwner)
-            recordOwner = null; 
-        BaseListener listener = record.getListener();
-        while ((recordOwner == null) && (listener != null))
-        {
-            BaseListener listenerDep = listener.getDependentListener();
-            if (listenerDep != null)
-                if (listenerDep.getListenerOwner() instanceof RecordOwner)
-                    recordOwner = (RecordOwner)listenerDep.getListenerOwner();
-            listener = listener.getNextListener();
-        }
-        if (recordOwner == null)
-            if (record.getTable() != null)
-                if (record.getTable().getDatabase() != null)
-                    if (record.getTable().getDatabase().getDatabaseOwner() instanceof Application)
-        {
-            App app = (App)record.getTable().getDatabase().getDatabaseOwner();
-            if (app.getSystemRecordOwner() == null) // This should be okay... get the system recordowner.
-                app = record.getTable().getDatabase().getDatabaseOwner().getEnvironment().getDefaultApplication();
-            if (app != null)
-            {
-                if (app.getSystemRecordOwner() instanceof RecordOwner)
-                    recordOwner = (RecordOwner)app.getSystemRecordOwner();
-                else
-                {
-                	Environment env = record.getTable().getDatabase().getDatabaseOwner().getEnvironment();
-                	for (int i = env.getApplicationCount() - 1; i >= 0; i--)
-                	{
-                		app = env.getApplication(i);
-                		if (app instanceof MainApplication)
-                			if (app.getSystemRecordOwner() instanceof RecordOwner)
-                				recordOwner = (RecordOwner)app.getSystemRecordOwner();
-                	}
-                }
-            }
-        }
-        return recordOwner;
     }
     /**
      * Get a recordowner from this recordOwnerParent.

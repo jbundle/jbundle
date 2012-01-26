@@ -18,16 +18,17 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.db.RecordList;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.model.RecordOwner;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DatabaseCollection;
 import org.jbundle.base.util.Environment;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Database;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
@@ -412,7 +413,7 @@ public class RemoteRecordOwner extends RemoteObject
      * @param iDatabaseType The type of database/table.
      * @return The database (new or current).
      */
-    public BaseDatabase getDatabase(String strDBName, int iDatabaseType, Map<String, Object> properties)
+    public Database getDatabase(String strDBName, int iDatabaseType, Map<String, Object> properties)
     {
         if (m_databaseCollection == null)
             m_databaseCollection = new DatabaseCollection(this);
@@ -423,7 +424,7 @@ public class RemoteRecordOwner extends RemoteObject
      * Do not call these directly, used in database init.
      * @param database The database to add.
      */
-    public void addDatabase(BaseDatabase database)
+    public void addDatabase(Database database)
     {
         m_databaseCollection.addDatabase(database);
     }
@@ -433,7 +434,7 @@ public class RemoteRecordOwner extends RemoteObject
      * @param database The database to free.
      * @return true if successful.
      */
-    public boolean removeDatabase(BaseDatabase database)
+    public boolean removeDatabase(Database database)
     {
         return m_databaseCollection.removeDatabase(database);
     }

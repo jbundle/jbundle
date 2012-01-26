@@ -14,9 +14,9 @@ import java.util.Vector;
 
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.screen.model.SPopupBox;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ScreenComponent;

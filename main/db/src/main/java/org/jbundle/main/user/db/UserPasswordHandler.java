@@ -64,7 +64,7 @@ public class UserPasswordHandler extends FileListener
         {
             Record recUserInfo = this.getOwner();
             RecordOwner recordOwner = recUserInfo.getRecordOwner();
-            Record recUserScreenRecord = recordOwner.getScreenRecord();
+            Record recUserScreenRecord = (Record)recordOwner.getScreenRecord();
             // This will flag the password as changed:
             recUserScreenRecord.getField(UserScreenRecord.kNewPassword1).addListener(new ChangeOnChangeHandler(recUserInfo.getField(UserInfo.kPassword), true));
             recUserScreenRecord.getField(UserScreenRecord.kNewPassword2).addListener(new ChangeOnChangeHandler(recUserInfo.getField(UserInfo.kPassword), true));
@@ -78,7 +78,7 @@ public class UserPasswordHandler extends FileListener
     {
         Record recUserInfo = this.getOwner();
         RecordOwner recordOwner = recUserInfo.getRecordOwner();
-        Record recUserScreenRecord = recordOwner.getScreenRecord();
+        Record recUserScreenRecord = (Record)recordOwner.getScreenRecord();
         recUserScreenRecord.getField(UserScreenRecord.kCurrentPassword).setData(null);
         recUserScreenRecord.getField(UserScreenRecord.kNewPassword1).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
         recUserScreenRecord.getField(UserScreenRecord.kNewPassword2).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
@@ -97,7 +97,7 @@ public class UserPasswordHandler extends FileListener
     {
         Record recUserInfo = this.getOwner();
         RecordOwner recordOwner = recUserInfo.getRecordOwner();
-        Record recUserScreenRecord = recordOwner.getScreenRecord();
+        Record recUserScreenRecord = (Record)recordOwner.getScreenRecord();
         recUserScreenRecord.getField(UserScreenRecord.kCurrentPassword).setModified(false);
         recUserScreenRecord.getField(UserScreenRecord.kCurrentPassword).setData(null);
         
@@ -132,7 +132,7 @@ public class UserPasswordHandler extends FileListener
         {
             Record recUserInfo = this.getOwner();
             RecordOwner recordOwner = recUserInfo.getRecordOwner();
-            Record recUserScreenRecord = recordOwner.getScreenRecord();
+            Record recUserScreenRecord = (Record)recordOwner.getScreenRecord();
             Task task = recordOwner.getTask();
         
             if (m_bCheckOldPassword)

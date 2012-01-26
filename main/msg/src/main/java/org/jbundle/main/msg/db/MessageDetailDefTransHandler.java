@@ -125,7 +125,7 @@ public class MessageDetailDefTransHandler extends FileListener
             }
             if ((newDefaultMessageTransport == null) || (newDefaultMessageTransport != -1))
             {
-                MessageDetail recMessageDetail = new MessageDetail(Utility.getRecordOwner(this.getOwner()));
+                MessageDetail recMessageDetail = new MessageDetail(this.getOwner().findRecordOwner());
                 try {
                     recMessageDetail.setKeyArea(MessageDetail.kContactTypeIDKey);
                     recMessageDetail.addListener(new StringSubFileFilter(this.getOwner().getField(MessageDetail.kContactTypeID).toString(), MessageDetail.kContactTypeID, this.getOwner().getField(MessageDetail.kPersonID).toString(), MessageDetail.kPersonID, this.getOwner().getField(MessageDetail.kMessageProcessInfoID).toString(), MessageDetail.kMessageProcessInfoID));

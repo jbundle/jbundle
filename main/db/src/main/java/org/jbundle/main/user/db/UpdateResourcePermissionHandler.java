@@ -84,7 +84,7 @@ public class UpdateResourcePermissionHandler extends FileListener
      */
     public void updateResourcePermissions()
     {
-        UserPermission recUserPermission = new UserPermission(Utility.getRecordOwner(this.getOwner()));
+        UserPermission recUserPermission = new UserPermission(this.getOwner().findRecordOwner());
         
         recUserPermission.addListener(new SubFileFilter(this.getOwner()));
         

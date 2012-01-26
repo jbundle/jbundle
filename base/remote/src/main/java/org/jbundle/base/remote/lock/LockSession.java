@@ -16,9 +16,9 @@ import java.util.Map;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.remote.db.TaskSession;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.Unreferenced;

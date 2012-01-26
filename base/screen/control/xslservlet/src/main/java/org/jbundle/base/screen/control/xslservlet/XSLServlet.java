@@ -36,11 +36,11 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.ScreenModel;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
 import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.control.servlet.html.BaseServlet;
 import org.jbundle.base.screen.control.servlet.xml.XMLServlet;
-import org.jbundle.base.util.Utility;
 
 
 /**

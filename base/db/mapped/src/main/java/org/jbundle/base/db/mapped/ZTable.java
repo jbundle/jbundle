@@ -91,7 +91,7 @@ public class ZTable extends MTable
             String strThickRecordClass = record.getClass().getName();
             
             RecordOwner recordOwner = ((Record)record).getRecordOwner();
-            BaseDatabase database = recordOwner.getDatabase(record.getDatabaseName(), record.getDatabaseType(), null);
+            BaseDatabase database = (BaseDatabase)recordOwner.getDatabase(record.getDatabaseName(), record.getDatabaseType(), null);
             Record recSource = Record.makeRecordFromClassName(strThickRecordClass, recordOwner, false, true);
             if (recSource == null)
                 return;

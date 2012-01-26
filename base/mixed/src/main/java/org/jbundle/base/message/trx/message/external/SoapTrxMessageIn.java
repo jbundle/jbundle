@@ -22,7 +22,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 
 import org.jbundle.base.message.trx.transport.soap.SOAPMessageTransport;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;

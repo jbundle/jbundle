@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.util;
+package org.jbundle.base.model;
 
 /**
  * @(#)TableException.java  1.16 95/12/14 Don Corley
@@ -11,7 +11,6 @@ package org.jbundle.base.util;
  */
 import java.util.logging.Level;
 
-import org.jbundle.base.model.DBConstants;
 
 /**
  * Debug utilities (comment out in production version).

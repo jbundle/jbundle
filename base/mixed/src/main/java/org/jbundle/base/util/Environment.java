@@ -19,6 +19,7 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.LockManager;
 import org.jbundle.base.model.MessageApp;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.App;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.main.msg.db.MessageInfoModel;
@@ -42,6 +43,7 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
  * @author    Don Corley
  */
 public class Environment extends Object
+    implements PropertyOwner
 {
     /**
      * The default database type for local files.

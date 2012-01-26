@@ -12,7 +12,7 @@ import java.io.Reader;
 import org.jbundle.base.message.trx.message.external.BaseXmlTrxMessageIn;
 import org.jbundle.base.message.trx.message.external.ExternalTrxMessageIn;
 import org.jbundle.base.message.trx.message.external.convert.BaseXmlConvertToMessage;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 import org.w3c.dom.Node;
 
 

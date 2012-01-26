@@ -111,7 +111,7 @@ public class UserContactHandler extends FieldListener
     {
         if (m_recContactType == null)
         {
-            m_recContactType = (ContactType)Record.makeRecordFromClassName(ContactTypeModel.CONTACT_TYPE_FILE, Utility.getRecordOwner(this.getOwner().getRecord()));
+            m_recContactType = (ContactType)Record.makeRecordFromClassName(ContactTypeModel.CONTACT_TYPE_FILE, this.getOwner().getRecord().findRecordOwner());
             if (((Record)m_recContactType).getRecordOwner() != null)
                 ((Record)m_recContactType).getRecordOwner().removeRecord((Record)m_recContactType);
         }

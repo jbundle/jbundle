@@ -93,21 +93,22 @@ public class ConvertGeneric extends ConvertBase
             while (record.hasNext())
             {
                 record.next();
-                if (("addToolbars".equals(record.getField(LogicFile.kMethodName).toString()))
-                   || ("addToolbars".equals(record.getField(LogicFile.kMethodName).toString())))
                 {
-                    System.out.println(record.getField(LogicFile.kMethodClassName).toString());
-
                     String string = record.getField(LogicFile.kLogicSource).toString();
                     
                     if (record.getCounterField().getValue() > 60000)
                         continue;
-                    if (string.contains("DONT_DISPLAY_FIELD_DESC);"))
+
+                    //if (string.contains("Utility.getRecordOwner("))
                     {
-                    
-                        String strTarget = "DONT_DISPLAY_FIELD_DESC);";
-                        String strReplace = "DONT_DISPLAY_FIELD_DESC, null);";
+                        System.out.println(record.getField(LogicFile.kMethodClassName).toString());
+
+                        String strTarget = "this.getOwner(.findRecordOwner().getRecord())";
+                        String strReplace = "this.getOwner().getRecord().findRecordOwner()";
                         String strResult = this.replaceString(string, strTarget, strReplace);
+                        strTarget = "this.getOwner(.findRecordOwner())";
+                        strReplace = "this.getOwner().findRecordOwner()";
+                        strResult = this.replaceString(strResult, strTarget, strReplace);
                         
                         if (!strResult.equals(string))
                         {

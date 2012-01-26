@@ -15,6 +15,7 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.model.ResourceConstants;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
@@ -82,7 +83,7 @@ public class MainApplication extends BaseApplication
         super.init(env, properties, applet);
 
         Task task = new AutoTask(this, null, null);	// This is the base task for this application
-        m_systemRecordOwner = (RecordOwner)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(ResourceConstants.BASE_PROCESS_CLASS, null, null, -1);
+        m_systemRecordOwner = (RecordOwner)ClassServiceUtility.getClassService().makeObjectFromClassName(ResourceConstants.BASE_PROCESS_CLASS);
         m_systemRecordOwner.init(task, null, null);
         
 //x        this.readUserInfo();
@@ -97,7 +98,7 @@ public class MainApplication extends BaseApplication
      */
     public void free()
     {
-        Record recUserRegistration = m_systemRecordOwner.getRecord(UserRegistrationModel.USER_REGISTRATION_FILE);
+        Record recUserRegistration = (Record)m_systemRecordOwner.getRecord(UserRegistrationModel.USER_REGISTRATION_FILE);
         if (recUserRegistration != null)
         {
             for (UserProperties regKey : m_htRegistration.values())
@@ -151,7 +152,7 @@ public class MainApplication extends BaseApplication
         	if (mapDomainPropertyCache != null)
         		if (mapDomainPropertyCache.get(strDomain) != null)
         			return mapDomainPropertyCache.get(strDomain);
-	        Record recMenus = m_systemRecordOwner.getRecord(MenusModel.MENUS_FILE);
+	        Record recMenus = (Record)m_systemRecordOwner.getRecord(MenusModel.MENUS_FILE);
 	        if (recMenus == null)
 	            recMenus = Record.makeRecordFromClassName(MenusModel.THICK_CLASS, m_systemRecordOwner);
 	        recMenus.setKeyArea(MenusModel.CODE_KEY);
@@ -224,7 +225,7 @@ public class MainApplication extends BaseApplication
                 Record recUserControl = null;
                 if (m_systemRecordOwner != null)
                 {   // Always
-                    recUserControl = m_systemRecordOwner.getRecord(UserControlModel.USER_CONTROL_FILE);
+                    recUserControl = (Record)m_systemRecordOwner.getRecord(UserControlModel.USER_CONTROL_FILE);
                     if (recUserControl == null)
                         recUserControl = Record.makeRecordFromClassName(UserControlModel.THICK_CLASS, m_systemRecordOwner);
                     String strUserID = recUserControl.getField(UserControlModel.ANON_USER_INFO_ID).getString();
@@ -343,7 +344,7 @@ public class MainApplication extends BaseApplication
             		m_systemRecordOwner.free();
             		m_databaseCollection.free();
                     m_databaseCollection = new DatabaseCollection(this);
-                    m_systemRecordOwner = (RecordOwner)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(ResourceConstants.BASE_PROCESS_CLASS, null, null, -1);
+                    m_systemRecordOwner = (RecordOwner)ClassServiceUtility.getClassService().makeObjectFromClassName(ResourceConstants.BASE_PROCESS_CLASS);
                     m_systemRecordOwner.init(task, null, null);
             	}
                 m_systemRecordOwner.setProperties(mapDomainProperties);// Note: I know this is overwritten at the end of this method, BUT I DO NEED these properties NOW if Db_prefix was changed
@@ -551,7 +552,7 @@ public class MainApplication extends BaseApplication
      */
     public Record getUserRegistration()
     {
-        Record recUserRegistration = m_systemRecordOwner.getRecord(UserRegistrationModel.USER_REGISTRATION_FILE);
+        Record recUserRegistration = (Record)m_systemRecordOwner.getRecord(UserRegistrationModel.USER_REGISTRATION_FILE);
         if (recUserRegistration == null)
             recUserRegistration = Record.makeRecordFromClassName(UserRegistrationModel.THICK_CLASS, m_systemRecordOwner);
         return recUserRegistration;

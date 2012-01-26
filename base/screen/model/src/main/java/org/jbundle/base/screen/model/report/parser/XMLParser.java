@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 
 /**
  * This is the base for any data maintenance screen.

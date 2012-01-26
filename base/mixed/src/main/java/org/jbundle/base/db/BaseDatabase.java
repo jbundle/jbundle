@@ -17,15 +17,15 @@ import java.util.Vector;
 
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.util.Environment;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.Database;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
@@ -38,7 +38,7 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
  * @author    Don Corley
  */
 public class BaseDatabase extends Object
-    implements PropertyOwner
+    implements Database, PropertyOwner
 {
     /**
      * The database's DatabaseOwner.
@@ -311,7 +311,7 @@ public class BaseDatabase extends Object
         if (((record.getDatabaseType() & DBConstants.TABLE_TYPE_MASK) == DBConstants.MEMORY)
             || ((record.getDatabaseType() & DBConstants.TABLE_TYPE_MASK) == DBConstants.UNSHAREABLE_MEMORY))
         {
-        	BaseDatabase database = this.getDatabaseOwner().getDatabase(DBParams.MEMORY, record.getDatabaseType(), null);
+        	BaseDatabase database = (BaseDatabase)this.getDatabaseOwner().getDatabase(DBParams.MEMORY, record.getDatabaseType(), null);
         	return database.doMakeTable(record);
         }
         else
@@ -382,7 +382,7 @@ public class BaseDatabase extends Object
                 		if ((strLanguage.length() == 2) || (strLanguage.length() == 5))		// Don't create database for locales (es or en_EN) only for special locales
                 			this.getProperties().put(DBConstants.CREATE_DB_IF_NOT_FOUND, DBConstants.FALSE);
                 	}
-                    databaseLocale = m_databaseOwner.getDatabase(strLocaleDBName, record.getDatabaseType() & DBConstants.TABLE_MASK, this.getProperties());
+                    databaseLocale = (BaseDatabase)m_databaseOwner.getDatabase(strLocaleDBName, record.getDatabaseType() & DBConstants.TABLE_MASK, this.getProperties());
                     if (databaseLocale != null)
                     {
                     	databaseLocale.setProperty(DBParams.LANGUAGE, strLanguage);
@@ -415,7 +415,7 @@ public class BaseDatabase extends Object
             BaseTable table2 = databaseBase.makeTable(record2);
             record2.setTable(table2);
 
-            RecordOwner recordOwner = Utility.getRecordOwner(record);
+            RecordOwner recordOwner = Record.findRecordOwner(record);
             record2.init(recordOwner);
             recordOwner.removeRecord(record2);  // This is okay as ResourceTable will remove this table on close.
 
@@ -644,7 +644,7 @@ public class BaseDatabase extends Object
             return true;    // Already setup
 
         String strDatabaseName = this.getDatabaseName(true);
-        Environment env = this.getDatabaseOwner().getEnvironment();
+        Environment env = (Environment)this.getDatabaseOwner().getEnvironment();
         Map<String,String> map = env.getCachedDatabaseProperties(strDatabaseName);
         if ((map == null) || (map == Environment.DATABASE_DOESNT_EXIST))
         {
@@ -667,7 +667,7 @@ public class BaseDatabase extends Object
             properties.remove(SQLParams.JDBC_DRIVER_PARAM);
             properties.put(DBConstants.DB_USER_PREFIX, DBConstants.BLANK);
             properties.put(DBConstants.SUB_SYSTEM_LN_SUFFIX, DBConstants.BLANK);
-            m_databaseBase = m_databaseOwner.getDatabase(this.getProperty(BASE_DATABASE), this.getDatabaseType() & DBConstants.TABLE_MASK, properties);
+            m_databaseBase = (BaseDatabase)m_databaseOwner.getDatabase(this.getProperty(BASE_DATABASE), this.getDatabaseType() & DBConstants.TABLE_MASK, properties);
         }
 
         this.setProperty(DB_PROPERTIES_LOADED, DBConstants.TRUE); // Flag properties as read

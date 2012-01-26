@@ -18,9 +18,9 @@ import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.PassThruTable;
 import org.jbundle.base.db.QueryTable;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.DBException;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.mem.net.NDatabase;
@@ -94,7 +94,7 @@ public class PhysicalDatabase extends BaseDatabase
         if (m_pDatabase == null)
         {
             PhysicalDatabaseParent pDBParent = null;
-            Environment env = this.getDatabaseOwner().getEnvironment();
+            Environment env = (Environment)this.getDatabaseOwner().getEnvironment();
             if (env != null)
                 pDBParent = (PhysicalDatabaseParent)env.getPDatabaseParent(mapDBParentProperties, true);
             String databaseName = this.getDatabaseName(true);

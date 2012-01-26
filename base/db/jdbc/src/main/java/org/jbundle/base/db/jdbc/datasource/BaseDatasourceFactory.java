@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.db.jdbc.JdbcDatabase;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;

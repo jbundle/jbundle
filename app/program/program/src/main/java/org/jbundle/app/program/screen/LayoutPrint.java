@@ -58,7 +58,7 @@ public class LayoutPrint extends Object
             bFirstTime = true;
             if (recLayout == null)
             {
-                recLayout = new Layout(Utility.getRecordOwner((Record)null));
+                recLayout = new Layout((Record.findRecordOwner(null)));
                 bNewRecord = true;
             }
             recLayout.getField(Layout.kID).setValue(1);
@@ -113,7 +113,7 @@ public class LayoutPrint extends Object
             if (strType.equalsIgnoreCase("enum"))
                 strEndLoop = null;
             this.println(out, "{", null, iIndents, "");
-            Layout recLayoutLoop = new Layout(Utility.getRecordOwner(recLayout));
+            Layout recLayoutLoop = new Layout(recLayout.findRecordOwner());
             recLayoutLoop.setKeyArea(Layout.kParentFolderIDKey);
             recLayoutLoop.addListener(new SubFileFilter(recLayout));
             try   {

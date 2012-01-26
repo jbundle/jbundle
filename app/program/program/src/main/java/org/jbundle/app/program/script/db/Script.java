@@ -247,7 +247,7 @@ public class Script extends Folder
             if (strTableName.indexOf('.') != -1)
                 strTableName = strTableName.substring(strTableName.lastIndexOf('.') + 1);
             if (this.getRecordOwner() != null)  // Always
-                record = this.getRecordOwner().getRecord(strTableName);
+                record = (Record)this.getRecordOwner().getRecord(strTableName);
             if (record != null)
                 return record;    // Already open
             if (strRecordName.indexOf('.') == -1)
@@ -271,7 +271,7 @@ public class Script extends Folder
             {
                record = (Record)ClassServiceUtility.getClassService().makeObjectFromClassName(strRecordName);
                 if (record != null)
-                    record.init(Utility.getRecordOwner(this));
+                    record.init(this.findRecordOwner());
             }
         }
         return record;
@@ -290,7 +290,7 @@ public class Script extends Folder
     {
         if (m_recSubScript == null)
         {
-            RecordOwner recordOwner = Utility.getRecordOwner(this);
+            RecordOwner recordOwner = this.findRecordOwner();
             m_recSubScript = new Script(recordOwner);
             recordOwner.removeRecord(m_recSubScript);
             m_recSubScript.addListener(new SubFileFilter(this));

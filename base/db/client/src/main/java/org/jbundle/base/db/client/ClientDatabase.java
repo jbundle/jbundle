@@ -18,11 +18,12 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.util.Utility;
+import org.jbundle.base.model.Utility;
+import org.jbundle.base.util.Environment;
 import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.thin.base.remote.RemoteDatabase;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
@@ -165,7 +166,7 @@ public class ClientDatabase extends BaseDatabase
                 if (task != null)
                     server = (RemoteTask)task.getRemoteTask();
                 if (server == null)
-                    server = (RemoteTask)this.getDatabaseOwner().getEnvironment().getDefaultApplication().getRemoteTask(task, null, true);
+                    server = (RemoteTask)((Environment)this.getDatabaseOwner().getEnvironment()).getDefaultApplication().getRemoteTask(task, null, true);
 //?                String strUserID = null;
 //?                if (record.getRecordOwner() != null)
 //?                    strUserID = record.getRecordOwner().getProperty(DBParams.USER_ID);

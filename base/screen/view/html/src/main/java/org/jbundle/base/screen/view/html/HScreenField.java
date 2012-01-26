@@ -13,9 +13,9 @@ import java.io.PrintWriter;
 
 import org.jbundle.base.model.HtmlConstants;
 import org.jbundle.base.model.ScreenFieldView;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.zml.ZScreenField;
-import org.jbundle.base.util.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.model.db.Convert;

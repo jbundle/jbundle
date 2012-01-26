@@ -13,7 +13,6 @@ import org.jbundle.base.db.event.ClearFieldReferenceOnCloseHandler;
 import org.jbundle.base.db.event.FreeOnFreeHandler;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.util.Utility;
 
 public class RecordReferenceField extends IntegerField
 {
@@ -75,7 +74,7 @@ public class RecordReferenceField extends IntegerField
         {
             RecordOwner recordOwner = null;
             if (this.getRecord() != null)
-                recordOwner = Utility.getRecordOwner(this.getRecord());
+                recordOwner = Record.findRecordOwner(this.getRecord());
             if (recordOwner != null)
                 recordOwner.addRecord(recordReference, false);
             if (this.getRecord() != null)
@@ -116,7 +115,7 @@ public class RecordReferenceField extends IntegerField
             RecordOwner recordOwner = screen;
             if (recordOwner == null)
                 if (this.getRecord() != null)
-                    recordOwner = Utility.getRecordOwner(this.getRecord());
+                    recordOwner = Record.findRecordOwner(this.getRecord());
             this.setReferenceRecord(this.makeReferenceRecord(recordOwner));
             if (m_recordReference != null)  // getReferenceRecord() would cause an endless loop
             {
@@ -165,7 +164,7 @@ public class RecordReferenceField extends IntegerField
             return m_recordReference;       // It already exists
         RecordOwner recordOwner = null;
         if (this.getRecord() != null)
-            recordOwner = Utility.getRecordOwner(this.getRecord());    // This way the record has access to the correct environment.
+            recordOwner = Record.findRecordOwner(this.getRecord());    // This way the record has access to the correct environment.
         this.setReferenceRecord(this.makeReferenceRecord(recordOwner));
         return m_recordReference;
     }

@@ -8,8 +8,10 @@ import java.util.ResourceBundle;
 
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.DatabaseOwner;
 import org.jbundle.base.model.Resources;
+import org.jbundle.base.model.Utility;
+import org.jbundle.model.db.Database;
+import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
@@ -205,7 +207,7 @@ public class BaseApplication extends ThinApplication
      * @param iDatabaseType The type of database/table.
      * @return The database (new or current).
      */
-    public BaseDatabase getDatabase(String strDBName, int iDatabaseType, Map<String, Object> properties)
+    public Database getDatabase(String strDBName, int iDatabaseType, Map<String, Object> properties)
     {
         return m_databaseCollection.getDatabase(strDBName, iDatabaseType, properties);
     }
@@ -214,7 +216,7 @@ public class BaseApplication extends ThinApplication
      * Do not call these directly, used in database init.
      * @param database The database to add.
      */
-    public void addDatabase(BaseDatabase database)
+    public void addDatabase(Database database)
     {
         m_databaseCollection.addDatabase(database);
     }
@@ -224,7 +226,7 @@ public class BaseApplication extends ThinApplication
      * @param database The database to free.
      * @return true if successful.
      */
-    public boolean removeDatabase(BaseDatabase database)
+    public boolean removeDatabase(Database database)
     {
         return m_databaseCollection.removeDatabase(database);
     }
