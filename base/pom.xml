@@ -20,6 +20,7 @@
   </properties>
 
   <modules>
+    <module>model</module>
     <module>mixed</module>
     <module>screen</module>
     <module>db</module>
