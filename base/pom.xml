@@ -21,13 +21,11 @@
 
   <modules>
     <module>model</module>
-    <module>mixed</module>
-    <module>screen</module>
+    <module>base</module>
     <module>db</module>
+    <module>screen</module>
     <module>message</module>
     <module>remote</module>
-    <module>util</module>
-    <module>other</module>
   </modules>
 
 </project>

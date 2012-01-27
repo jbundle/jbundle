@@ -10,7 +10,4 @@ skeleton_test_data*
 .metadata
 *.releaseBackup
 release.properties
-/base/other/src
-/base/db/core/src
-/base/util/src
 

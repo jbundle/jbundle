@@ -29,7 +29,6 @@
     <module>proxy</module>
     <module>serial</module>
     <module>xml</module>
-    <module>core</module>
   </modules>
 
 </project>

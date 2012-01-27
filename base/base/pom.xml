@@ -1,74 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-  <!-- NOTE: This is a phantom project. DO NOT include it as a dependency in your POMs
-             or expect dependencies entered here to be included in your distribution. 
-             It is waiting to be split into independent projects - use these projects:
-             jbundle-base-screen-core (org.jbundle.screen [which is a packaging only project (mixed is provided)])
-             I do this because Maven does not allow circular dependencies... but OSGi does! -->
 
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.jbundle.base</groupId>
     <artifactId>jbundle-base-reactor</artifactId>
+    <groupId>org.jbundle.base</groupId>
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.jbundle.base.mixed</artifactId>
-  <packaging>jar</packaging>	<!-- This is NOT an OSGi bundle -->
-
-  <name>jbundle-base-mixed - Thick mixed nodeploy</name>
+  <artifactId>org.jbundle.base</artifactId>
+  <name>jbundle-base</name>
+  <packaging>bundle</packaging>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>run</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
-        </executions>
+        <inherited>true</inherited>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
-            <mainClass>org.jbundle.Main</mainClass>
-          <executable>java</executable>
-            <arguments>
-            <!-- 
-              <argument>-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=y</argument>
-              <argument>-classpath</argument>
-              <classpath />
-            <argument>org.jbundle.Main</argument>
-              <argument>local=Jdbc</argument>
-              <argument>remote=Jdbc</argument>
-              <argument>table=Jdbc</argument>
-              <argument>menu=dev.jbundle.com</argument>
-              <argument>background=backgrounds/worldmapalpha.gif</argument>
-              <argument>backgroundcolor=#FFFFCC</argument>
-              <argument>remotehost=linux-laptop</argument>
-              <argument>codebase=linux-laptop:8181/</argument>
-               -->
-              <argument>-agentlib:jdwp=transport=dt_socket,address=8001,server=y,suspend=y</argument>
-              <argument>-classpath</argument>
-              <classpath />
-              <argument>-Xms256m</argument>
-              <argument>-Xmx512m</argument>
-              <argument>-Djava.rmi.server.codebase=http://linux-laptop/classes/</argument>
-              <argument>-Djava.security.policy=/home/don/workspace/jbundleold/bin/policy/policy.all</argument>
-              <argument>org.jbundle.server.Server</argument>
-              <argument>jmsserver=true</argument>
-              <argument>appname=org.jbundle.main.msg.app.MessageServerActivator</argument>
-              <argument>provider=linux-laptop</argument>
-             </arguments>
+          <instructions>
+            <Export-Package>
+            org.jbundle.base.db.*;version=${project.version},
+            org.jbundle.base.field.*;version=${project.version},
+            org.jbundle.base.message.*;version=${project.version},
+            org.jbundle.base.util.*;version=${project.version},
+            org.jbundle.base.thread.*;version=${project.version},
+            </Export-Package>
+            <Bundle-Activator>org.jbundle.base.util.EnvironmentActivator</Bundle-Activator>
+          </instructions>
         </configuration>
       </plugin>
-      
     </plugins>
   </build>
-
+  
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -155,6 +120,11 @@
     <dependency>
       <groupId>org.jbundle.base.message</groupId>
       <artifactId>org.jbundle.base.message.core</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.thin.base</groupId>
+      <artifactId>org.jbundle.thin.base.message</artifactId>
       <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
