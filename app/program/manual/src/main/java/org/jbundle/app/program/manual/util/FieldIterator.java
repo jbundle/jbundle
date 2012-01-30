@@ -215,7 +215,7 @@ import org.jbundle.model.DBException;
                 m_recFieldData.getField(FieldData.kFieldFileName).setString(m_rgstrClasses[m_rgstrClasses.length-1]);
             }
             else if ((fieldSummary.m_iFieldType == FieldSummary.EXTENDED_FIELD) && (!m_recClassInfo.getField(ClassInfo.kClassName).toString().equals(fieldSummary.m_strFieldFileName)))
-                m_recFieldData.getField(FieldData.kIncludeScope).setValue(0);   // Field name not included here
+                m_recFieldData.getField(FieldData.kIncludeScope).setValue(fieldSummary.m_iIncludeScope);   // Field name not included here
             else
                 m_recFieldData.getField(FieldData.kIncludeScope).setValue(fieldSummary.m_iIncludeScope);
 

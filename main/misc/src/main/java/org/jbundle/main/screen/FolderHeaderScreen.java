@@ -64,7 +64,7 @@ public class FolderHeaderScreen extends HeaderScreen
         if (this.getParentScreen() instanceof GridScreen)
         {
             Record recHeader = ((GridScreen)this.getParentScreen()).getHeaderRecord();
-            recHeader.getField(Folder.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+            recHeader.getField(Folder.NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         }
     }
 

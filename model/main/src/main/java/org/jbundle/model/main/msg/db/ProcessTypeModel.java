@@ -9,8 +9,14 @@ import org.jbundle.model.db.*;
 
 public interface ProcessTypeModel extends Rec
 {
+
+    //public static final String ID = ID;
     public static final String DESCRIPTION = "Description";
     public static final String CODE = "Code";
+
+    public static final String DESCRIPTION_KEY = "Description";
+
+    public static final String CODE_KEY = "Code";
     public static final String UPDATE = "UPDATE";
     public static final String INFO = "INFO";
 

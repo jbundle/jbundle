@@ -54,6 +54,16 @@ public class CopyFieldHandler extends MoveOnChangeHandler
      * @param field The field to move this listener's field to.
      * @param fldCheckMark Only move if this field evaluates to true.
      */
+    public CopyFieldHandler(BaseField field)
+    {
+        this();
+        this.init(null, field, null, -1);
+    }
+    /**
+     * Constructor.
+     * @param field The field to move this listener's field to.
+     * @param fldCheckMark Only move if this field evaluates to true.
+     */
     public CopyFieldHandler(BaseField field, Converter fldCheckMark)
     {
         this();

@@ -34,6 +34,12 @@ public class DependentFileFilter extends FileFilter
     protected int m_iThisFileFieldSeq2 = -1;
     protected int m_iThisFileFieldSeq3 = -1;
     /**
+     * A temporary holder for the field sequence until the field can be stored in setOwner().
+     */
+    protected String thisFileFieldName = null;
+    protected String thisFileFieldName2 = null;
+    protected String thisFileFieldName3 = null;
+    /**
      * The field dependent on the first field of this key area.
      */
     protected BaseField m_fldThisFile = null;
@@ -64,26 +70,29 @@ public class DependentFileFilter extends FileFilter
     public DependentFileFilter(int iFieldSeq, int iFieldSeq2, int iFieldSeq3)
     {
         this();
-        this.init(null, iFieldSeq, null, iFieldSeq2, null, iFieldSeq3, null);
+        this.init(null, iFieldSeq, null, null, iFieldSeq2, null, null, iFieldSeq3, null, null);
     }
     /**
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      * @param iFieldSeq The First field sequence of the key.
-     * @param fldThisFile TODO
+     * @param fldThisFile The first field
      * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
-     * @param fldThisFile2 TODO
+     * @param fldThisFile2 The second field
      * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
-     * @param fldThisFile3 TODO
+     * @param fldThisFile3 The third field
      */
-    public void init(Record record, int iFieldSeq, BaseField fldThisFile, int iFieldSeq2, BaseField fldThisFile2, int iFieldSeq3, BaseField fldThisFile3)
+    public void init(Record record, int iFieldSeq, String thisFileFieldName, BaseField fldThisFile, int iFieldSeq2, String thisFileFieldName2, BaseField fldThisFile2, int iFieldSeq3, String thisFileFieldName3, BaseField fldThisFile3)
     {
         super.init(record);
         m_iThisFileFieldSeq = iFieldSeq;
+        this.thisFileFieldName = thisFileFieldName;
         m_fldThisFile = fldThisFile;
         m_iThisFileFieldSeq2 = iFieldSeq2;
+        this.thisFileFieldName2 = thisFileFieldName2;
         m_fldThisFile2 = fldThisFile2;
         m_iThisFileFieldSeq3 = iFieldSeq3;
+        this.thisFileFieldName3 = thisFileFieldName3;
         m_fldThisFile3 = fldThisFile3;
         m_bInitialKey = true;
         m_bEndKey = true;
@@ -99,12 +108,21 @@ public class DependentFileFilter extends FileFilter
         if (owner == null)
             return;
         if (m_fldThisFile == null)
+            if (thisFileFieldName != null)
+                m_fldThisFile = this.getOwner().getField(thisFileFieldName);
+        if (m_fldThisFile == null)
             if (m_iThisFileFieldSeq != -1)
                 m_fldThisFile = this.getOwner().getField(m_iThisFileFieldSeq);
         if (m_fldThisFile2 == null)
+            if (thisFileFieldName2 != null)
+                m_fldThisFile2 = this.getOwner().getField(thisFileFieldName2);
+        if (m_fldThisFile2 == null)
             if (m_iThisFileFieldSeq2 != -1)
                 m_fldThisFile2 = this.getOwner().getField(m_iThisFileFieldSeq2);
-        if (m_fldThisFile2 == null)
+        if (m_fldThisFile3 == null)
+            if (thisFileFieldName3 != null)
+                m_fldThisFile3 = this.getOwner().getField(thisFileFieldName3);
+        if (m_fldThisFile3 == null)
             if (m_iThisFileFieldSeq3 != -1)
                 m_fldThisFile3 = this.getOwner().getField(m_iThisFileFieldSeq3);
 //?        if (m_fldThisFile != null)

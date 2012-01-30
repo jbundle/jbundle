@@ -10,6 +10,8 @@ import org.jbundle.model.db.*;
 public interface EmptyMemoryRecordModel extends Rec
 {
 
+    public static final String ID = "ID";
+
     public static final String EMPTY_MEMORY_RECORD_FILE = "EmptyMemoryRecord";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.script.data.importfix.db.EmptyMemoryRecord";
     public static final String THICK_CLASS = "org.jbundle.app.program.script.data.importfix.db.EmptyMemoryRecord";

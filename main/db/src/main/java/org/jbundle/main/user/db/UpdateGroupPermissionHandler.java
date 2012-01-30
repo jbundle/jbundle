@@ -80,7 +80,7 @@ public class UpdateGroupPermissionHandler extends FileListener
     public void doValidRecord(boolean bDisplayOption)
     {
         super.doValidRecord(bDisplayOption);
-        this.setOldGroupID((int)this.getOwner().getField(UserPermission.kUserGroupID).getValue());
+        this.setOldGroupID((int)this.getOwner().getField(UserPermission.USER_GROUP_ID).getValue());
     }
     /**
      * Called when a change is the record status is about to happen/has happened.
@@ -105,7 +105,7 @@ public class UpdateGroupPermissionHandler extends FileListener
             || (iChangeType == DBConstants.AFTER_ADD_TYPE)
             || (iChangeType == DBConstants.AFTER_DELETE_TYPE))
         {
-            int iGroupID = (int)this.getOwner().getField(UserPermission.kUserGroupID).getValue();
+            int iGroupID = (int)this.getOwner().getField(UserPermission.USER_GROUP_ID).getValue();
             if (m_iOldGroupID != -1)
                 if (iGroupID != m_iOldGroupID)
                     this.updateGroupPermission(m_iOldGroupID);
@@ -120,7 +120,7 @@ public class UpdateGroupPermissionHandler extends FileListener
     {
         if (m_recUserPermission == null)
             m_recUserPermission = new UserPermission(this.getOwner().findRecordOwner());
-        Record m_recUserGroup = ((ReferenceField)m_recUserPermission.getField(UserPermission.kUserGroupID)).getReferenceRecord();
+        Record m_recUserGroup = ((ReferenceField)m_recUserPermission.getField(UserPermission.USER_GROUP_ID)).getReferenceRecord();
         m_recUserGroup.setOpenMode(m_recUserGroup.getOpenMode() & ~DBConstants.OPEN_READ_ONLY); // Read and write
         if (m_recUserPermission.getListener(SubFileFilter.class) == null)
             m_recUserPermission.addListener(new SubFileFilter(m_recUserGroup));
@@ -137,8 +137,8 @@ public class UpdateGroupPermissionHandler extends FileListener
                 {
                     m_recUserPermission.next();
                     
-                    Record recUserResource = ((ReferenceField)m_recUserPermission.getField(UserPermission.kUserResourceID)).getReference();
-                    String strResource = recUserResource.getField(UserResource.kResourceClass).toString();
+                    Record recUserResource = ((ReferenceField)m_recUserPermission.getField(UserPermission.USER_RESOURCE_ID)).getReference();
+                    String strResource = recUserResource.getField(UserResource.RESOURCE_CLASS).toString();
                     StringTokenizer tokenizer = new StringTokenizer(strResource, "\n\t ,");
                     while (tokenizer.hasMoreTokens())
                     {
@@ -149,13 +149,13 @@ public class UpdateGroupPermissionHandler extends FileListener
                         if (strClass.length() > 0)
                         {
                             sb.append(strClass).append('\t');
-                            sb.append(m_recUserPermission.getField(UserPermission.kAccessLevel).toString()).append('\t');
-                            sb.append(m_recUserPermission.getField(UserPermission.kLoginLevel).toString()).append("\t\n");
+                            sb.append(m_recUserPermission.getField(UserPermission.ACCESS_LEVEL).toString()).append('\t');
+                            sb.append(m_recUserPermission.getField(UserPermission.LOGIN_LEVEL).toString()).append("\t\n");
                         }
                     }
                 }
                 
-                m_recUserGroup.getField(UserGroup.kAccessMap).setString(sb.toString());
+                m_recUserGroup.getField(UserGroup.ACCESS_MAP).setString(sb.toString());
                 m_recUserGroup.set();
             }
         } catch (DBException e) {

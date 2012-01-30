@@ -31,16 +31,27 @@ public class UserScreenRecord extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String NAME_SORT = "NameSort";
     public static final int kNameSort = kScreenRecordLastField + 1;
+    public static final String USER_GROUP_ID = "UserGroupID";
     public static final int kUserGroupID = kNameSort + 1;
+    public static final String HEADER_TYPE = "HeaderType";
     public static final int kHeaderType = kUserGroupID + 1;
+    public static final String USER = "user";
     public static final int kuser = kHeaderType + 1;
+    public static final String PASSWORD = "password";
     public static final int kpassword = kuser + 1;
+    public static final String SAVEUSER = "saveuser";
     public static final int ksaveuser = kpassword + 1;
+    public static final String STATUS_LINE = "StatusLine";
     public static final int kStatusLine = ksaveuser + 1;
+    public static final String CURRENT_PASSWORD = "CurrentPassword";
     public static final int kCurrentPassword = kStatusLine + 1;
+    public static final String NEW_PASSWORD_1 = "NewPassword1";
     public static final int kNewPassword1 = kCurrentPassword + 1;
+    public static final String NEW_PASSWORD_2 = "NewPassword2";
     public static final int kNewPassword2 = kNewPassword1 + 1;
+    public static final String TERMS = "Terms";
     public static final int kTerms = kNewPassword2 + 1;
     public static final int kUserScreenRecordLastField = kTerms;
     public static final int kUserScreenRecordFields = kTerms - DBConstants.MAIN_FIELD + 1;

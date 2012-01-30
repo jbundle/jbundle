@@ -27,6 +27,7 @@ public class DateChangedHandler extends FileListener
      * The sequence of the date changed field in this record.
      */
     protected int m_iMainFilesFieldSeq = -1;
+    protected String mainFilesFieldName = null;
     /**
      * The date changed field in this record.
      */
@@ -43,10 +44,19 @@ public class DateChangedHandler extends FileListener
      * Constructor.
      * @param iMainFilesField The sequence of the date changed field in this record.
      */
+    public DateChangedHandler(String mainFilesFieldName)
+    {
+        this();
+        this.init(null, null, -1, mainFilesFieldName);
+    }
+    /**
+     * Constructor.
+     * @param iMainFilesField The sequence of the date changed field in this record.
+     */
     public DateChangedHandler(int iMainFilesField)
     {
         this();
-        this.init(null, null,  iMainFilesField);
+        this.init(null, null, iMainFilesField, null);
     }
     /**
      * Constructor.
@@ -55,7 +65,7 @@ public class DateChangedHandler extends FileListener
     public DateChangedHandler(DateTimeField field)
     {
         this();
-        this.init(null, field,  -1);
+        this.init(null, field, -1, null);
     }
     /**
      * Constructor.
@@ -63,11 +73,12 @@ public class DateChangedHandler extends FileListener
      * @param iMainFilesField The sequence of the date changed field in this record.
      * @param field The date changed field in this record.
      */
-    public void init(Record record, DateTimeField field, int iMainFilesField)
+    public void init(Record record, DateTimeField field, int iMainFilesField, String mainFilesFieldName)
     {
         super.init(record);
         m_iMainFilesFieldSeq = iMainFilesField;
         m_field = field;
+        this.mainFilesFieldName = mainFilesFieldName;
     }
     /**
      * Called when a change is the record status is about to happen/has happened.
@@ -85,6 +96,9 @@ public class DateChangedHandler extends FileListener
             case DBConstants.ADD_TYPE:
             case DBConstants.UPDATE_TYPE:
                 DateTimeField thisField = m_field;
+                if (m_field == null)
+                    if (mainFilesFieldName != null)
+                    thisField = (DateTimeField)this.getOwner().getField(mainFilesFieldName);
                 if (m_field == null)
                     thisField = (DateTimeField)this.getOwner().getField(m_iMainFilesFieldSeq);
                 boolean[] rgbEnabled = thisField.setEnableListeners(false);

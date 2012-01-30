@@ -83,11 +83,11 @@ public class CalendarEntryCalendarScreen extends CalendarScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().setKeyArea(CalendarEntry.kStartDateTimeKey);
+        this.getMainRecord().setKeyArea(CalendarEntry.START_DATE_TIME_KEY);
         BaseField fieldTrue = new BooleanField(null, "FalseField", DBConstants.DEFAULT_FIELD_LENGTH, "FalseField", null);
         fieldTrue.setState(true);
         this.getMainRecord().addListener(new FreeOnFreeHandler(fieldTrue));
-        //+this.getMainRecord().addListener(new CompareFileFilter(CalendarEntry.kHidden, fieldTrue, "<>", null, true));
+        //+this.getMainRecord().addListener(new CompareFileFilter(CalendarEntry.HIDDEN, fieldTrue, "<>", null, true));
         this.setEditing(true);
     }
     /**
@@ -113,9 +113,9 @@ public class CalendarEntryCalendarScreen extends CalendarScreen
     public void setupSFields()
     {
         Record record = this.getMainRecord();
-        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.kStartDateTime));
-        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.kEndDateTime));
-        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.kDescription));
+        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.START_DATE_TIME));
+        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.END_DATE_TIME));
+        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.DESCRIPTION));
     }
     /**
      * Process the command.

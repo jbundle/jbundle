@@ -49,13 +49,13 @@ public class WriteResources extends BaseProcess
     {
         StreamOut out = null;
         Record registration = this.getMainRecord();
-        Resource resource = (Resource)this.getRecord(Resource.kResourceFile);
+        Resource resource = (Resource)this.getRecord(Resource.RESOURCE_FILE);
         
         String strCurrentFileName = "none";
         String strCurrentLanguage = "none";
         String strCurrentLocale = "none";
         try   {
-            registration.setKeyArea(Registration.kResourceIDKey);
+            registration.setKeyArea(Registration.RESOURCE_ID_KEY);
             registration.close();
             boolean bFirstTime = true;
             boolean bResourceListBundle = true;
@@ -63,9 +63,9 @@ public class WriteResources extends BaseProcess
             {
                 registration.next();
         
-                String strFileName = resource.getField(Resource.kCode).toString();
-                String strLanguage = registration.getField(Registration.kLanguage).toString();
-                String strLocale = registration.getField(Registration.kLocale).toString();
+                String strFileName = resource.getField(Resource.CODE).toString();
+                String strLanguage = registration.getField(Registration.LANGUAGE).toString();
+                String strLocale = registration.getField(Registration.LOCALE).toString();
                 
                 if ((!strCurrentFileName.equals(strFileName))
                     || (!strCurrentLanguage.equals(strLanguage))
@@ -75,7 +75,7 @@ public class WriteResources extends BaseProcess
                         this.printEndFile(out, strCurrentFileName, bResourceListBundle);   // End file stuff
                     out = null;
         
-                    if (ResourceTypeField.PROPERTIES.equals(resource.getField(Resource.kType).getString()))
+                    if (ResourceTypeField.PROPERTIES.equals(resource.getField(Resource.TYPE).getString()))
                         bResourceListBundle = false;
                     else
                         bResourceListBundle = true;
@@ -84,7 +84,7 @@ public class WriteResources extends BaseProcess
                     strCurrentFileName = strFileName;
                     strCurrentLanguage = strLanguage;
                     strCurrentLocale = strLocale;
-                    String packageName = resource.getField(Resource.kLocation).toString();
+                    String packageName = resource.getField(Resource.LOCATION).toString();
                     strFileName += "Resources";
                     if (strLanguage != null)
                         if (strLanguage.length() > 0)
@@ -92,7 +92,7 @@ public class WriteResources extends BaseProcess
                     if (strLocale != null)
                         if (strLocale.length() > 0)
                             strFileName += "_" + strLocale;
-                    ClassProject recClassProject = (ClassProject)((ReferenceField)resource.getField(Resource.kClassProjectID)).getReference();
+                    ClassProject recClassProject = (ClassProject)((ReferenceField)resource.getField(Resource.CLASS_PROJECT_ID)).getReference();
                     strFileName = strFileName.replace('.', '/');
                     String basePackageName = packageName;
                     if (basePackageName.startsWith("." + DBConstants.RES_SUBPACKAGE.substring(0, DBConstants.RES_SUBPACKAGE.length() - 1)))
@@ -100,7 +100,7 @@ public class WriteResources extends BaseProcess
                     String strFullFileName = recClassProject.getFileName(strFileName, basePackageName, bResourceListBundle ? ClassProject.CodeType.RESOURCE_CODE : ClassProject.CodeType.RESOURCE_PROPERTIES, true, true);
                     packageName = recClassProject.getFullPackage(bResourceListBundle ? ClassProject.CodeType.RESOURCE_CODE : ClassProject.CodeType.RESOURCE_PROPERTIES, packageName);
                     out = this.createFile(strFullFileName);
-                    out.writeit(this.getStartSourceCode(packageName, strFileName, resource.getField(Resource.kDescription).toString(), bResourceListBundle));
+                    out.writeit(this.getStartSourceCode(packageName, strFileName, resource.getField(Resource.DESCRIPTION).toString(), bResourceListBundle));
                     if (bResourceListBundle)
                     {
                         out.writeit("   static final Object[][] contents = {\n");
@@ -161,15 +161,15 @@ public class WriteResources extends BaseProcess
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().getField(Registration.kResourceID).addListener(new ReadSecondaryHandler(this.getRecord(Resource.kResourceFile)));
+        this.getMainRecord().getField(Registration.RESOURCE_ID).addListener(new ReadSecondaryHandler(this.getRecord(Resource.RESOURCE_FILE)));
     }
     /**
      * WriteDetailLine Method.
      */
     public void writeDetailLine(Record registration, StreamOut out, boolean bResourceListBundle)
     {
-        String strKey = registration.getField(Registration.kKeyValue).toString();
-        String strValue = registration.getField(Registration.kObjectValue).toString();
+        String strKey = registration.getField(Registration.KEY_VALUE).toString();
+        String strValue = registration.getField(Registration.OBJECT_VALUE).toString();
         strValue = WriteResources.fixPropertyValue(strValue, bResourceListBundle);
         if (bResourceListBundle)
             out.writeit("\t{\"" + strKey + "\", " + strValue + "}");
@@ -184,16 +184,16 @@ public class WriteResources extends BaseProcess
     public void printEndFile(StreamOut out, String strFileName, boolean bResourceListBundle)
     {
         if (strFileName != null)
-        { // This is kind of lame, I write duplication resources for the base resource. I should have a resource chain.
+        { // This is IND of lame, I write duplication resources for the base resource. I should have a resource chain.
             Resource recResource = new Resource(this);
             try {
-                recResource.getField(Resource.kCode).setString(strFileName);
-                recResource.setKeyArea(Resource.kCodeKey);
+                recResource.getField(Resource.CODE).setString(strFileName);
+                recResource.setKeyArea(Resource.CODE_KEY);
                 if (recResource.seek(DBConstants.EQUALS))
                 {
-                    if (!recResource.getField(Resource.kBaseResourceID).isNull())
+                    if (!recResource.getField(Resource.BASE_RESOURCE_ID).isNull())
                     { // There is an base resource - add the base resources
-                        Record recBaseResource = ((ReferenceField)recResource.getField(Resource.kBaseResourceID)).getReference();
+                        Record recBaseResource = ((ReferenceField)recResource.getField(Resource.BASE_RESOURCE_ID)).getReference();
                         Registration recBaseRegistration = new Registration(this);
                         recBaseRegistration.addListener(new SubFileFilter(recBaseResource));
                         Registration recRegistration = new Registration(this);
@@ -201,12 +201,12 @@ public class WriteResources extends BaseProcess
                         {
                             recBaseRegistration.next();
                             recRegistration.addNew();
-                            recRegistration.setKeyArea(Registration.kCodeKey);
-                            recRegistration.getField(Registration.kResourceID).moveFieldToThis(recResource.getField(Resource.kID));
-                            recRegistration.getField(Registration.kCode).moveFieldToThis(recResource.getField(Resource.kCode));
-                            recRegistration.getField(Registration.kLanguage).moveFieldToThis(recBaseRegistration.getField(Registration.kLanguage));
-                            recRegistration.getField(Registration.kLocale).moveFieldToThis(recBaseRegistration.getField(Registration.kLocale));
-                            recRegistration.getField(Registration.kKeyValue).moveFieldToThis(recBaseRegistration.getField(Registration.kKeyValue));
+                            recRegistration.setKeyArea(Registration.CODE_KEY);
+                            recRegistration.getField(Registration.RESOURCE_ID).moveFieldToThis(recResource.getField(Resource.kID));
+                            recRegistration.getField(Registration.CODE).moveFieldToThis(recResource.getField(Resource.CODE));
+                            recRegistration.getField(Registration.LANGUAGE).moveFieldToThis(recBaseRegistration.getField(Registration.LANGUAGE));
+                            recRegistration.getField(Registration.LOCALE).moveFieldToThis(recBaseRegistration.getField(Registration.LOCALE));
+                            recRegistration.getField(Registration.KEY_VALUE).moveFieldToThis(recBaseRegistration.getField(Registration.KEY_VALUE));
                             if (!recRegistration.seek(DBConstants.EQUALS))
                             { // If this base registration doesn't exist in the main registration file, add it.
                                 if (bResourceListBundle)

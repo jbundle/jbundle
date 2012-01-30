@@ -84,8 +84,8 @@ public class AnnivMasterHandler extends FileListener
             try {
                 recAnnivMaster.setHandle(bookmark, DBConstants.BOOKMARK_HANDLE);
                 
-                Calendar calStart = ((DateTimeField)this.getCalendarControl().getField(CalendarControl.kStartAnnivDate)).getCalendar();
-                Calendar calEnd = ((DateTimeField)this.getCalendarControl().getField(CalendarControl.kEndAnnivDate)).getCalendar();
+                Calendar calStart = ((DateTimeField)this.getCalendarControl().getField(CalendarControl.START_ANNIV_DATE)).getCalendar();
+                Calendar calEnd = ((DateTimeField)this.getCalendarControl().getField(CalendarControl.END_ANNIV_DATE)).getCalendar();
         
                 recAnnivMaster.addAppointments(this.getAnniversary(), calStart, calEnd);
         
@@ -96,8 +96,8 @@ public class AnnivMasterHandler extends FileListener
         }
         if (iChangeType == DBConstants.AFTER_UPDATE_TYPE)
         {
-            Calendar calStart = ((DateTimeField)this.getCalendarControl().getField(CalendarControl.kStartAnnivDate)).getCalendar();
-            Calendar calEnd = ((DateTimeField)this.getCalendarControl().getField(CalendarControl.kEndAnnivDate)).getCalendar();
+            Calendar calStart = ((DateTimeField)this.getCalendarControl().getField(CalendarControl.START_ANNIV_DATE)).getCalendar();
+            Calendar calEnd = ((DateTimeField)this.getCalendarControl().getField(CalendarControl.END_ANNIV_DATE)).getCalendar();
         
             recAnnivMaster.removeAppointments(this.getAnniversary());
             recAnnivMaster.addAppointments(this.getAnniversary(), calStart, calEnd);

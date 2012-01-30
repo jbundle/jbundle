@@ -9,6 +9,12 @@ import org.jbundle.model.main.db.*;
 
 public interface ProjectModel extends FolderModel
 {
+
+    //public static final String ID = ID;
+    //public static final String NAME = NAME;
+    public static final String MAIN_PROJECT_ID = PARENT_FOLDER_ID;
+    //public static final String CODE = CODE;
+    public static final String USER_ID = "UserID";
     public static final String PROJECT_SCREEN_CLASS = "org.jbundle.app.program.project.screen.ProjectScreen";
     public static final String PROJECT_GRID_SCREEN_CLASS = "org.jbundle.app.program.project.screen.ProjectGridScreen";
 

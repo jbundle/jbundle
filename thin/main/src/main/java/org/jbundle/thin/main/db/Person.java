@@ -16,6 +16,8 @@ public class Person extends FieldList
     implements PersonModel
 {
 
+    //public static final String ID = ID;
+
     public Person()
     {
         super();

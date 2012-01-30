@@ -78,8 +78,8 @@ public class UpdateDependenciesHandler extends FileListener
             || (iChangeType == DBConstants.AFTER_DELETE_TYPE))
         {
             if ((iChangeType == DBConstants.AFTER_DELETE_TYPE)
-                || (this.getOwner().getField(ProjectTask.kStartDateTime).isModified())
-                || (this.getOwner().getField(ProjectTask.kEndDateTime).isModified()))
+                || (this.getOwner().getField(ProjectTask.START_DATE_TIME).isModified())
+                || (this.getOwner().getField(ProjectTask.END_DATE_TIME).isModified()))
             {
                 if (iChangeType == DBConstants.AFTER_UPDATE_TYPE)
                     ((ProjectTask)this.getOwner()).updateDependencies(m_bMoveSiblings, bDisplayOption);

@@ -99,8 +99,8 @@ public class MessageTransportInfoGridScreen extends DetailGridScreen
     {
         super.addListeners();
             // Link the screen field to the passed in record
-        ((ReferenceField)this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageProcessInfoID)).syncReference(this.getHeaderRecord());
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageProcessInfoID).addListener(new FieldReSelectHandler(this));
+        ((ReferenceField)this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_PROCESS_INFO_ID)).syncReference(this.getHeaderRecord());
+        this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_PROCESS_INFO_ID).addListener(new FieldReSelectHandler(this));
     }
     /**
      * Make a sub-screen.

@@ -294,8 +294,8 @@ public class UserInfo extends PropertiesRecord
     public void addMasterListeners()
     {
         super.addMasterListeners();
-        this.getField(UserInfo.kUserName).addListener(new CheckNonNumericListener(null));
-        this.addListener(new ReadOnlyRecordHandler(UserInfo.kReadOnlyRecord, true));
+        this.getField(UserInfo.USER_NAME).addListener(new CheckNonNumericListener(null));
+        this.addListener(new ReadOnlyRecordHandler(this.getField(UserInfo.READ_ONLY_RECORD), true));
         this.addListener(new FileListener(null)
         {
             /**
@@ -307,16 +307,16 @@ public class UserInfo extends PropertiesRecord
                 {
                     case DBConstants.ADD_TYPE:
                     case DBConstants.UPDATE_TYPE:
-                        if (this.getOwner().getField(UserInfo.kUserGroupID).isNull())
+                        if (this.getOwner().getField(UserInfo.USER_GROUP_ID).isNull())
                             if (this.getOwner().getRecordOwner() != null)
                         {
-                            Record recUserControl = (Record)this.getOwner().getRecordOwner().getRecord(UserControl.kUserControlFile);
+                            Record recUserControl = (Record)this.getOwner().getRecordOwner().getRecord(UserControl.USER_CONTROL_FILE);
                             if (recUserControl == null)
                             {
                                 recUserControl = new UserControl(this.getOwner().getRecordOwner());
                                 this.getOwner().addListener(new FreeOnFreeHandler(recUserControl));
                             }
-                            this.getOwner().getField(UserInfo.kUserGroupID).moveFieldToThis(recUserControl.getField(UserControl.kAnonUserGroupID));
+                            this.getOwner().getField(UserInfo.USER_GROUP_ID).moveFieldToThis(recUserControl.getField(UserControl.ANON_USER_GROUP_ID));
                         }
                         break;
                 }
@@ -349,33 +349,33 @@ public class UserInfo extends PropertiesRecord
      */
     public void addPropertyListeners()
     {
-        BaseField fldProperties = this.getField(PropertiesRecord.kProperties);
+        BaseField fldProperties = this.getField(PropertiesRecord.PROPERTIES);
         if (fldProperties.getListener(CopyConvertersHandler.class) != null)
             return;
         
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kFrames), DBParams.FRAMES);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kJava), DBParams.JAVA);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kHome), DBParams.HOME);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kMenu), DBParams.MENU);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.FRAMES), DBParams.FRAMES);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.JAVA), DBParams.JAVA);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.HOME), DBParams.HOME);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.MENU), DBParams.MENU);
         
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kBanners), DBParams.BANNERS);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kTrailers), DBParams.TRAILERS);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kMenubars), DBParams.MENUBARS);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kLogos), DBParams.LOGOS);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kNavMenus), DBParams.NAVMENUS);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kMenuDesc), DBParams.MENUDESC);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kHelpPage), MenuConstants.USER_HELP_DISPLAY);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kLanguage), DBParams.LANGUAGE);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.BANNERS), DBParams.BANNERS);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.TRAILERS), DBParams.TRAILERS);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.MENUBARS), DBParams.MENUBARS);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.LOGOS), DBParams.LOGOS);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.NAV_MENUS), DBParams.NAVMENUS);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.MENU_DESC), DBParams.MENUDESC);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.HELP_PAGE), MenuConstants.USER_HELP_DISPLAY);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.LANGUAGE), DBParams.LANGUAGE);
         
-        Record recContactType = ((ReferenceField)this.getField(UserInfo.kContactTypeID)).getReferenceRecord();
-        this.getField(UserInfo.kContactTypeID).addListener(new ReadSecondaryHandler(recContactType));
-        BaseField fldContactTypeCode = recContactType.getField(ContactType.kCode);
+        Record recContactType = ((ReferenceField)this.getField(UserInfo.CONTACT_TYPE_ID)).getReferenceRecord();
+        this.getField(UserInfo.CONTACT_TYPE_ID).addListener(new ReadSecondaryHandler(recContactType));
+        BaseField fldContactTypeCode = recContactType.getField(ContactType.CODE);
         CopyConvertersHandler listener = new CopyConvertersHandler(new PropertiesConverter(fldProperties, DBParams.CONTACT_TYPE), fldContactTypeCode);
-        this.getField(UserInfo.kContactTypeID).addListener(listener);
+        this.getField(UserInfo.CONTACT_TYPE_ID).addListener(listener);
         listener.setRespondsToMode(DBConstants.INIT_MOVE, false);
         listener.setRespondsToMode(DBConstants.READ_MOVE, false);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kContactTypeID), DBParams.CONTACT_TYPE + DBParams.ID);
-        this.addPropertiesFieldBehavior(this.getField(UserInfo.kContactID), DBParams.CONTACT_ID);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.CONTACT_TYPE_ID), DBParams.CONTACT_TYPE + DBParams.ID);
+        this.addPropertiesFieldBehavior(this.getField(UserInfo.CONTACT_ID), DBParams.CONTACT_ID);
     }
     /**
      * GetUserInfo Method.
@@ -399,17 +399,17 @@ public class UserInfo extends PropertiesRecord
         { // Read using the User name
             if (!bForceRead)
                 if ((this.getEditMode() == DBConstants.EDIT_CURRENT) || (this.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
-                    if (this.getField(UserInfo.kUserName).toString().equalsIgnoreCase(strUser))
+                    if (this.getField(UserInfo.USER_NAME).toString().equalsIgnoreCase(strUser))
                         return true;    // Already current
-            this.getField(UserInfo.kUserName).setString(strUser);
-            this.setKeyArea(UserInfo.kUserNameKey);
+            this.getField(UserInfo.USER_NAME).setString(strUser);
+            this.setKeyArea(UserInfo.USER_NAME_KEY);
             try   {
                 bFound = this.seek(null);
             } catch (DBException ex)    {
                 ex.printStackTrace();
                 bFound = false;
             }
-            this.setKeyArea(UserInfo.kIDKey);
+            this.setKeyArea(UserInfo.ID_KEY);
         }
         if (iUserID != -1)
         {   // Valid UserID, read it!
@@ -419,7 +419,7 @@ public class UserInfo extends PropertiesRecord
                         return true;    // Already current
             this.getField(UserInfo.kID).setValue(iUserID);
             try   {
-                this.setKeyArea(UserInfo.kIDKey);
+                this.setKeyArea(UserInfo.ID_KEY);
                 bFound = this.seek(null);
             } catch (DBException ex)    {
                 ex.printStackTrace();

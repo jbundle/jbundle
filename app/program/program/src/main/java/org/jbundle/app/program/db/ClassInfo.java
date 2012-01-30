@@ -232,10 +232,10 @@ public class ClassInfo extends VirtualRecord
      */
     public String getLink()
     {
-        String strType = this.getField(ClassInfo.kClassType).getString();
-        String strLink = this.getField(ClassInfo.kClassName).getString();
-        if (this.getField(ClassInfo.kClassPackage).getLength() > 0)
-            strLink = DBConstants.ROOT_PACKAGE + this.getField(ClassInfo.kClassPackage).toString() + "." + strLink;
+        String strType = this.getField(ClassInfo.CLASS_TYPE).getString();
+        String strLink = this.getField(ClassInfo.CLASS_NAME).getString();
+        if (this.getField(ClassInfo.CLASS_PACKAGE).getLength() > 0)
+            strLink = DBConstants.ROOT_PACKAGE + this.getField(ClassInfo.CLASS_PACKAGE).toString() + "." + strLink;
         if (strType.equalsIgnoreCase("screen"))
             strLink = HtmlConstants.SERVLET_LINK + "?screen=" + strLink;
         else if (strType.equalsIgnoreCase("record"))
@@ -277,24 +277,24 @@ public class ClassInfo extends VirtualRecord
             this.setKeyArea(DBConstants.PRIMARY_KEY);
             if (className.lastIndexOf('.') != -1)
                 className = className.substring(className.lastIndexOf('.') + 1);
-            this.getField(ClassInfo.kClassName).setString(className);
+            this.getField(ClassInfo.CLASS_NAME).setString(className);
             boolean bSuccess = false;
-            this.setKeyArea(ClassInfo.kClassNameKey);
+            this.setKeyArea(ClassInfo.CLASS_NAME_KEY);
             if (className.length() > 0)
                 bSuccess = this.seek("=");
             if (!bSuccess)
             {   // Not found, use standard screen maintenance screen
                 if ((strParamMenu != null) && (strParamMenu.length() > 0))
-                    this.getField(ClassInfo.kClassName).setString("MenuScreen");
+                    this.getField(ClassInfo.CLASS_NAME).setString("MenuScreen");
                 else if ((strParamRecord != null) && (strParamRecord.length() > 0))
                 {
                     if ((strParamScreenType != null) && (strParamScreenType.length() > 0) && (strParamScreenType.equalsIgnoreCase(ThinMenuConstants.FORM)))
-                        this.getField(ClassInfo.kClassName).setString("Screen");
+                        this.getField(ClassInfo.CLASS_NAME).setString("Screen");
                     else
-                        this.getField(ClassInfo.kClassName).setString("GridScreen");
+                        this.getField(ClassInfo.CLASS_NAME).setString("GridScreen");
                 }
                 else
-                    this.getField(ClassInfo.kClassName).setString(strParamHelp);
+                    this.getField(ClassInfo.CLASS_NAME).setString(strParamHelp);
                 if (!bSuccess)
                         bSuccess = this.seek("=");
             }
@@ -309,8 +309,8 @@ public class ClassInfo extends VirtualRecord
      */
     public String getPackageName()
     {
-        String packageName = this.getField(ClassInfo.kClassPackage).toString();
-        ClassProject classProject = (ClassProject)((ReferenceField)this.getField(ClassInfo.kClassProjectID)).getReference();
+        String packageName = this.getField(ClassInfo.CLASS_PACKAGE).toString();
+        ClassProject classProject = (ClassProject)((ReferenceField)this.getField(ClassInfo.CLASS_PROJECT_ID)).getReference();
         if (classProject != null)
             if ((classProject.getEditMode() == DBConstants.EDIT_IN_PROGRESS) || (classProject.getEditMode() == DBConstants.EDIT_CURRENT))
                 packageName = classProject.getFullPackage(ClassProject.CodeType.THICK, packageName);
@@ -321,16 +321,16 @@ public class ClassInfo extends VirtualRecord
      */
     public String getClassName()
     {
-        return this.getField(ClassInfo.kClassName).toString();
+        return this.getField(ClassInfo.CLASS_NAME).toString();
     }
     /**
      * GetFullClassName Method.
      */
     public String getFullClassName()
     {
-        String className = this.getField(ClassInfo.kClassName).toString();
-        ClassProject classProject = (ClassProject)((ReferenceField)this.getField(ClassInfo.kClassProjectID)).getReference();
-        String packageName = classProject.getFullPackage(ClassProject.CodeType.THICK, this.getField(ClassInfo.kClassPackage).toString());
+        String className = this.getField(ClassInfo.CLASS_NAME).toString();
+        ClassProject classProject = (ClassProject)((ReferenceField)this.getField(ClassInfo.CLASS_PROJECT_ID)).getReference();
+        String packageName = classProject.getFullPackage(ClassProject.CodeType.THICK, this.getField(ClassInfo.CLASS_PACKAGE).toString());
         if (!packageName.endsWith("."))
             if (!className.endsWith("."))
                 className = "." + className;
@@ -341,42 +341,42 @@ public class ClassInfo extends VirtualRecord
      */
     public String getClassDesc()
     {
-        return this.getField(ClassInfo.kClassDesc).toString();
+        return this.getField(ClassInfo.CLASS_DESC).toString();
     }
     /**
      * GetClassExplain Method.
      */
     public String getClassExplain()
     {
-        return this.getField(ClassInfo.kClassExplain).toString();
+        return this.getField(ClassInfo.CLASS_EXPLAIN).toString();
     }
     /**
      * GetClassHelp Method.
      */
     public String getClassHelp()
     {
-        return this.getField(ClassInfo.kClassHelp).toString();
+        return this.getField(ClassInfo.CLASS_HELP).toString();
     }
     /**
      * GetClassType Method.
      */
     public String getClassType()
     {
-        return this.getField(ClassInfo.kClassType).toString();
+        return this.getField(ClassInfo.CLASS_TYPE).toString();
     }
     /**
      * GetSeeAlso Method.
      */
     public String getSeeAlso()
     {
-        return this.getField(ClassInfo.kSeeAlso).toString();
+        return this.getField(ClassInfo.SEE_ALSO).toString();
     }
     /**
      * GetTechnicalInfo Method.
      */
     public String getTechnicalInfo()
     {
-        return this.getField(ClassInfo.kTechnicalInfo).toString();
+        return this.getField(ClassInfo.TECHNICAL_INFO).toString();
     }
     /**
      * IsValidRecord Method.
@@ -393,26 +393,26 @@ public class ClassInfo extends VirtualRecord
         FieldData fieldInfo = new FieldData(this.findRecordOwner());
         
         String strClass = this.getClassName();
-        fieldInfo.setKeyArea(FieldData.kFieldFileNameKey);
-        fieldInfo.addListener(new StringSubFileFilter(strClass, FieldData.kFieldFileName, null, -1, null, -1));
+        fieldInfo.setKeyArea(FieldData.FIELD_FILE_NAME_KEY);
+        fieldInfo.addListener(new StringSubFileFilter(strClass, fieldInfo.getField(FieldData.FIELD_FILE_NAME), null, null, null, null));
         try   {
             out.println("<table border=1>");
             out.println("<tr>");
-            out.println("<th>" + fieldInfo.getField(FieldData.kFieldName).getFieldDesc() + "</th>");
-            out.println("<th>" + fieldInfo.getField(FieldData.kFieldClass).getFieldDesc() + "</th>");
-            out.println("<th>" + fieldInfo.getField(FieldData.kBaseFieldName).getFieldDesc() + "</th>");
-            out.println("<th>" + fieldInfo.getField(FieldData.kMaximumLength).getFieldDesc() + "</th>");
-            out.println("<th>" + fieldInfo.getField(FieldData.kFieldDescription).getFieldDesc() + "</th>");
+            out.println("<th>" + fieldInfo.getField(FieldData.FIELD_NAME).getFieldDesc() + "</th>");
+            out.println("<th>" + fieldInfo.getField(FieldData.FIELD_CLASS).getFieldDesc() + "</th>");
+            out.println("<th>" + fieldInfo.getField(FieldData.BASE_FIELD_NAME).getFieldDesc() + "</th>");
+            out.println("<th>" + fieldInfo.getField(FieldData.MAXIMUM_LENGTH).getFieldDesc() + "</th>");
+            out.println("<th>" + fieldInfo.getField(FieldData.FIELD_DESCRIPTION).getFieldDesc() + "</th>");
             out.println("</tr>");
             while (fieldInfo.hasNext())
             {
                 fieldInfo.next();
                 out.println("<tr>");
-                out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.kFieldName).toString() + "</td>");
-                out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.kFieldClass).toString() + "</td>");
-                out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.kBaseFieldName).toString() + "</td>");
-                out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.kMaximumLength).toString() + "</td>");
-                out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.kFieldDescription).toString() + "</td>");
+                out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.FIELD_NAME).toString() + "</td>");
+                out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.FIELD_CLASS).toString() + "</td>");
+                out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.BASE_FIELD_NAME).toString() + "</td>");
+                out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.MAXIMUM_LENGTH).toString() + "</td>");
+                out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.FIELD_DESCRIPTION).toString() + "</td>");
                 out.println("</tr>");
             }
             out.println("</table>");
@@ -435,15 +435,15 @@ public class ClassInfo extends VirtualRecord
         
         String strOptXML = DBConstants.BLANK;
         FileHdr fileHdr = new FileHdr(null);
-        fileHdr.setKeyArea(FileHdr.kFileNameKey);
-        fileHdr.getField(FileHdr.kFileName).moveFieldToThis(this.getField(ClassInfo.kClassName));
+        fileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
+        fileHdr.getField(FileHdr.FILE_NAME).moveFieldToThis(this.getField(ClassInfo.CLASS_NAME));
         try   {
             if (fileHdr.seek("="))
             {
                 strOptXML = XmlUtilities.createXMLStringRecord(fileHdr);
                 FieldData fieldInfo = new FieldData(null);
-                fieldInfo.setKeyArea(FieldData.kFieldFileNameKey);
-                fieldInfo.addListener(new SubFileFilter(this.getField(ClassInfo.kClassName), FieldData.kFieldFileName, null, -1, null, -1));
+                fieldInfo.setKeyArea(FieldData.FIELD_FILE_NAME_KEY);
+                fieldInfo.addListener(new SubFileFilter(this.getField(ClassInfo.CLASS_NAME), fieldInfo.getField(FieldData.FIELD_FILE_NAME), null, null, null, null));
                 strOptXML += Utility.startTag(XMLTags.FIELD_LIST);
                 while (fieldInfo.hasNext())
                 {
@@ -454,8 +454,8 @@ public class ClassInfo extends VirtualRecord
                 fieldInfo.free();
         
                 KeyInfo keyInfo = new KeyInfo(null);
-                keyInfo.setKeyArea(KeyInfo.kKeyFilenameKey);
-                keyInfo.addListener(new SubFileFilter(this.getField(ClassInfo.kClassName), KeyInfo.kKeyFilename, null, -1, null, -1));
+                keyInfo.setKeyArea(KeyInfo.KEY_FILENAME_KEY);
+                keyInfo.addListener(new SubFileFilter(this.getField(ClassInfo.CLASS_NAME), keyInfo.getField(KeyInfo.KEY_FILENAME), null, null, null, null));
                 strOptXML += Utility.startTag(XMLTags.KEY_LIST);
                 while (keyInfo.hasNext())
                 {
@@ -481,36 +481,36 @@ public class ClassInfo extends VirtualRecord
      */
     public boolean isARecord(boolean isAFile)
     {
-        Record recFileHdr = (Record)this.getRecordOwner().getRecord(FileHdr.kFileHdrFile);
+        Record recFileHdr = (Record)this.getRecordOwner().getRecord(FileHdr.FILE_HDR_FILE);
         if (recFileHdr == null)
         {
             recFileHdr = new FileHdr(this.getRecordOwner());
             this.addListener(new FreeOnFreeHandler(recFileHdr));
         }
-        if (!recFileHdr.getField(FileHdr.kFileName).equals(this.getField(ClassInfo.kClassName)))
+        if (!recFileHdr.getField(FileHdr.FILE_NAME).equals(this.getField(ClassInfo.CLASS_NAME)))
         {
             try {
                 recFileHdr.addNew();
-                recFileHdr.getField(FileHdr.kFileName).moveFieldToThis(this.getField(ClassInfo.kClassName));
+                recFileHdr.getField(FileHdr.FILE_NAME).moveFieldToThis(this.getField(ClassInfo.CLASS_NAME));
                 int oldKeyArea = recFileHdr.getDefaultOrder();
-                recFileHdr.setKeyArea(FileHdr.kFileNameKey);
+                recFileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
                 recFileHdr.seek(null);
                 recFileHdr.setKeyArea(oldKeyArea);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if ((recFileHdr.getEditMode() == DBConstants.EDIT_CURRENT) && (this.getField(ClassInfo.kClassName).toString().equals(recFileHdr.getField(FileHdr.kFileName).getString())))
+        if ((recFileHdr.getEditMode() == DBConstants.EDIT_CURRENT) && (this.getField(ClassInfo.CLASS_NAME).toString().equals(recFileHdr.getField(FileHdr.FILE_NAME).getString())))
             return true;    // This is a file
         if (isAFile)
             return false;    // Just looking for files
-        if (!"Record".equalsIgnoreCase(this.getField(ClassInfo.kClassType).toString()))
+        if (!"Record".equalsIgnoreCase(this.getField(ClassInfo.CLASS_TYPE).toString()))
             return false;     // If this isn't a physical file, don't build it.
-        if (this.getField(ClassInfo.kBaseClassName).toString().contains("ScreenRecord"))
+        if (this.getField(ClassInfo.BASE_CLASS_NAME).toString().contains("ScreenRecord"))
             return false;
-        if ("Interface".equalsIgnoreCase(this.getField(ClassInfo.kClassType).toString()))   // An interface doesn't have an interface
+        if ("Interface".equalsIgnoreCase(this.getField(ClassInfo.CLASS_TYPE).toString()))   // An interface doesn't have an interface
             return false;     // If this isn't a physical file, don't build it.
-        if (RESOURCE_CLASS.equals(this.getField(ClassInfo.kBaseClassName).toString()))
+        if (RESOURCE_CLASS.equals(this.getField(ClassInfo.BASE_CLASS_NAME).toString()))
             return false;     // Resource only class
         return true;    // This is a record
     }

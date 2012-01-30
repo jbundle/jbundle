@@ -92,7 +92,7 @@ public class CalcBalanceHandler extends ReComputeFieldHandler
         m_fldValue2 = fldValue2;
         m_bUseAbsoluteValue = bUseAbsoluteValue;
         m_strOperator = strOperator;
-        super.init(null, -1, fldTargetValue);
+        super.init(null, -1, null, fldTargetValue);
         this.setRespondsToMode(DBConstants.READ_MOVE, false);
         this.setRespondsToMode(DBConstants.INIT_MOVE, true);
     }

@@ -68,9 +68,9 @@ public class ProjectTaskParentFilter extends FileFilter
         {
             if (recProjectTask.getField(ProjectTask.kID).equals(m_recProjectTaskParent.getField(ProjectTask.kID)))
                 break;   // Match! This record is my target
-            if (recProjectTask.getField(ProjectTask.kParentProjectTaskID).equals(m_recProjectTaskParent.getField(ProjectTask.kID)))
+            if (recProjectTask.getField(ProjectTask.PARENT_PROJECT_TASK_ID).equals(m_recProjectTaskParent.getField(ProjectTask.kID)))
                 break;   // Match! This record has my target as a ancestor
-            recProjectTask = ((ReferenceField)recProjectTask.getField(ProjectTask.kParentProjectTaskID)).getReference();
+            recProjectTask = ((ReferenceField)recProjectTask.getField(ProjectTask.PARENT_PROJECT_TASK_ID)).getReference();
             if ((recProjectTask == null)
                     || ((recProjectTask.getEditMode() == DBConstants.EDIT_NONE) || (recProjectTask.getEditMode() == DBConstants.EDIT_ADD)))
                 return false;  // No match

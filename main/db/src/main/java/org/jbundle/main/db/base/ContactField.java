@@ -98,7 +98,7 @@ public class ContactField extends ReferenceField
         recContactType = (ContactType)fldContactType.getReference();
         String strHeaderRecordName = null;
         if (recContactType != null)
-            strHeaderRecordName = recContactType.getField(ContactType.kCode).toString();
+            strHeaderRecordName = recContactType.getField(ContactType.CODE).toString();
         if ((strHeaderRecordName == null) || (strHeaderRecordName.length() == 0))
             strHeaderRecordName = recordOwner.getProperty(fldContactType.getFieldName());
         Record record = m_recVendor;
@@ -130,10 +130,10 @@ public class ContactField extends ReferenceField
         FieldListener listener = null;
         // ----------- Vendor -----------
         // First set up the code access:
-        m_recVendor.setKeyArea(Company.kCodeKey);
-        m_recVendor.getField(Company.kCode).addListener(new MainReadOnlyHandler(Company.kCodeKey));
+        m_recVendor.setKeyArea(Company.CODE_KEY);
+        m_recVendor.getField(Company.CODE).addListener(new MainReadOnlyHandler(Company.CODE_KEY));
         //  Set up the listener to read the current record on a valid main record
-        m_recVendor.getField(Company.kID).addListener(listener = new MainReadOnlyHandler(Company.kIDKey));
+        m_recVendor.getField(Company.kID).addListener(listener = new MainReadOnlyHandler(Company.ID_KEY));
         listener.setRespondsToMode(DBConstants.INIT_MOVE, true);
         listener.setRespondsToMode(DBConstants.READ_MOVE, true);
         // On change or new, change this; on change, set the type to vendor
@@ -141,10 +141,10 @@ public class ContactField extends ReferenceField
         m_recVendor.addListener(new MoveOnValidHandler(this.getContactTypeField(), VENDOR_CONTACT_TYPE_ID));
         // ----------- Profile -----------
         // First set up the code access:
-        m_recProfile.setKeyArea(Company.kCodeKey);
-        m_recProfile.getField(Company.kCode).addListener(new MainReadOnlyHandler(Company.kCodeKey));
+        m_recProfile.setKeyArea(Company.CODE_KEY);
+        m_recProfile.getField(Company.CODE).addListener(new MainReadOnlyHandler(Company.CODE_KEY));
         //  Set up the listener to read the current record on a valid main record
-        m_recProfile.getField(Company.kID).addListener(listener = new MainReadOnlyHandler(Company.kIDKey));
+        m_recProfile.getField(Company.kID).addListener(listener = new MainReadOnlyHandler(Company.ID_KEY));
         listener.setRespondsToMode(DBConstants.INIT_MOVE, true);
         listener.setRespondsToMode(DBConstants.READ_MOVE, true);
         // On change or new, change this; on change, set the type to profile
@@ -163,14 +163,14 @@ public class ContactField extends ReferenceField
         listener.setRespondsToMode(DBConstants.READ_MOVE, true);
         // Setup the code box
         checkConverter = new CheckConverter(this.getContactTypeField(), PROFILE_CONTACT_TYPE_ID, strAltFieldDesc, true);
-        Converter conv = new FlagDepFieldConverter(m_recVendor.getField(Company.kCode), m_recProfile.getField(Company.kCode), checkConverter);
+        Converter conv = new FlagDepFieldConverter(m_recVendor.getField(Company.CODE), m_recProfile.getField(Company.CODE), checkConverter);
         conv = new FieldDescConverter(conv, this);  // Use the description for this field
         screenField = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, conv, iDisplayFieldDesc, properties);
         // Set up to display the record description
         checkConverter = new CheckConverter(this.getContactTypeField(), PROFILE_CONTACT_TYPE_ID, strAltFieldDesc, true);
         itsLocation = targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR);
         iDisplayFieldDesc = ScreenConstants.DONT_DISPLAY_DESC;      // Display it only once
-        Converter convContactName = new FlagDepFieldConverter(m_recVendor.getField(Company.kName), m_recProfile.getField(Company.kName), checkConverter);
+        Converter convContactName = new FlagDepFieldConverter(m_recVendor.getField(Company.NAME), m_recProfile.getField(Company.NAME), checkConverter);
         //+convContactName = new DisableFieldConverter(convContactName);    // Don't enable
         ScreenComponent sfDesc = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, convContactName, iDisplayFieldDesc, properties);
         sfDesc.setEnabled(false);

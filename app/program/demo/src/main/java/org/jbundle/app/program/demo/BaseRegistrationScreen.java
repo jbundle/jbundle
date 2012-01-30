@@ -194,8 +194,8 @@ public class BaseRegistrationScreen extends UserEntryScreen
             RunRemoteProcessMessageData createSiteRequest = this.setupUserProperties(properties);
         
             recMessageProcessInfo = new MessageProcessInfo(this);
-            recMessageProcessInfo.setKeyArea(MessageProcessInfo.kCodeKey);
-            recMessageProcessInfo.getField(MessageProcessInfo.kCode).setString("RunRemoteProcessRQ");
+            recMessageProcessInfo.setKeyArea(MessageProcessInfo.CODE_KEY);
+            recMessageProcessInfo.getField(MessageProcessInfo.CODE).setString("RunRemoteProcessRQ");
             if (recMessageProcessInfo.seek(null))
             {
                 TrxMessageHeader trxMessageHeader = recMessageProcessInfo.createProcessMessageHeader(null, MessageTransport.XML);
@@ -241,10 +241,10 @@ public class BaseRegistrationScreen extends UserEntryScreen
         
         Record recUser = this.getMainRecord();
         
-        String sitePrefix = ((PropertiesField)recUser.getField(UserInfo.kProperties)).getProperty(MenusMessageData.SITE_PREFIX);
+        String sitePrefix = ((PropertiesField)recUser.getField(UserInfo.PROPERTIES)).getProperty(MenusMessageData.SITE_PREFIX);
         if (sitePrefix == null)
         {
-            sitePrefix = recUser.getField(UserInfo.kUserName).toString();
+            sitePrefix = recUser.getField(UserInfo.USER_NAME).toString();
             if (sitePrefix.indexOf('@') != -1)
                 sitePrefix = sitePrefix.substring(0, sitePrefix.indexOf('@'));
             sitePrefix = sitePrefix.toLowerCase();
@@ -309,12 +309,12 @@ public class BaseRegistrationScreen extends UserEntryScreen
             String homeMenu = (String)properties.get(MenusMessageData.SITE_HOME_MENU);
         
             // Next, Create a main site menu for this new domain.
-            Record recMenus = this.getRecord(Menus.kMenusFile);
+            Record recMenus = this.getRecord(Menus.MENUS_FILE);
             recMenus.addNew();
             String siteTemplate = (String)properties.get(SITE_TEMPLATE_CODE_PARAM);
-            recMenus.getField(Menus.kCode).setString(siteTemplate);
+            recMenus.getField(Menus.CODE).setString(siteTemplate);
             int iOldOrder = recMenus.getDefaultOrder();
-            recMenus.setKeyArea(Menus.kCodeKey);
+            recMenus.setKeyArea(Menus.CODE_KEY);
             BaseBuffer buffer = null;
             if (recMenus.seek(null))
             {
@@ -329,14 +329,14 @@ public class BaseRegistrationScreen extends UserEntryScreen
             if (buffer != null)     // Always
                 buffer.bufferToFields(recMenus, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
             
-            recMenus.getField(Menus.kSequence).setValue(100);
+            recMenus.getField(Menus.SEQUENCE).setValue(100);
             String siteNameTemplate = (String)properties.get(SITE_NAME_TEMPLATE_PARAM);
             if (siteNameTemplate == null)
                 siteNameTemplate = "{0}''s Demo site";
             String siteName = MessageFormat.format(siteNameTemplate, sitePrefix.toUpperCase().substring(0,1) + sitePrefix.substring(1));
-            recMenus.getField(Menus.kName).setString(siteName);
-            ((PropertiesField)recMenus.getField(Menus.kParams)).setProperty(MAIN_USER_PARAM, recUser.getField(UserInfo.kUserName).toString());
-            String templateArchivePath = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperty(DBConstants.USER_ARCHIVE_FOLDER);
+            recMenus.getField(Menus.NAME).setString(siteName);
+            ((PropertiesField)recMenus.getField(Menus.PARAMS)).setProperty(MAIN_USER_PARAM, recUser.getField(UserInfo.USER_NAME).toString());
+            String templateArchivePath = ((PropertiesField)recMenus.getField(Menus.PARAMS)).getProperty(DBConstants.USER_ARCHIVE_FOLDER);
             if ((templateArchivePath == null) || (templateArchivePath.length() == 0))
                 templateArchivePath = Utility.addToPath(DEFAULT_ARCHIVE_FOLDER, CURRENT_TEST_DATA_DIR);
             
@@ -349,7 +349,7 @@ public class BaseRegistrationScreen extends UserEntryScreen
                     if (iCounter > 0)
                         fullSitePrefix += Integer.toString(iCounter);
         
-                    recMenus.getField(Menus.kCode).setString(fullSitePrefix + '.' + strDomain);
+                    recMenus.getField(Menus.CODE).setString(fullSitePrefix + '.' + strDomain);
         
                     recMenus.add();
                     iErrorCode = DBConstants.NORMAL_RETURN;
@@ -371,10 +371,10 @@ public class BaseRegistrationScreen extends UserEntryScreen
             if (iErrorCode == DBConstants.NORMAL_RETURN)
             {
                 iOldOrder = recUser.getDefaultOrder();
-                recUser.setKeyArea(UserInfo.kIDKey);
+                recUser.setKeyArea(UserInfo.ID_KEY);
                 recUser.edit();
-                ((PropertiesField)recUser.getField(UserInfo.kProperties)).setProperty(MenusMessageData.DOMAIN_NAME, recMenus.getField(Menus.kCode).toString());
-                ((PropertiesField)recUser.getField(UserInfo.kProperties)).setProperty(DBParams.HOME, homeMenu);
+                ((PropertiesField)recUser.getField(UserInfo.PROPERTIES)).setProperty(MenusMessageData.DOMAIN_NAME, recMenus.getField(Menus.CODE).toString());
+                ((PropertiesField)recUser.getField(UserInfo.PROPERTIES)).setProperty(DBParams.HOME, homeMenu);
                 recUser.set();
                 recUser.setKeyArea(iOldOrder);
             }
@@ -384,8 +384,8 @@ public class BaseRegistrationScreen extends UserEntryScreen
         
             CreateSiteMessageData createSiteRequest = new CreateSiteMessageData(runRemoteProcessRequest, null);
             runRemoteProcessRequest.addMessageDataDesc(createSiteRequest);
-            MessageRecordDesc userInfoMessageData = (MessageRecordDesc)createSiteRequest.getMessageDataDesc(UserInfo.kUserInfoFile);
-            MessageRecordDesc menusMessageData = (MessageRecordDesc)createSiteRequest.getMessageDataDesc(Menus.kMenusFile);
+            MessageRecordDesc userInfoMessageData = (MessageRecordDesc)createSiteRequest.getMessageDataDesc(UserInfo.USER_INFO_FILE);
+            MessageRecordDesc menusMessageData = (MessageRecordDesc)createSiteRequest.getMessageDataDesc(Menus.MENUS_FILE);
             
             String user = this.getProperty(DBParams.USER_NAME);
             String auth = this.getProperty(DBParams.AUTH_TOKEN);

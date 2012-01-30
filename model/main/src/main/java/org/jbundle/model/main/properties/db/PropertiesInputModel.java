@@ -12,6 +12,8 @@ import org.jbundle.model.db.*;
 
 public interface PropertiesInputModel extends Rec
 {
+
+    public static final String ID = "ID";
     public static final String KEY = "Key";
     public static final String VALUE = "Value";
     public static final String COMMENT = "Comment";

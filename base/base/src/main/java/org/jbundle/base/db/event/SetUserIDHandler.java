@@ -7,7 +7,8 @@
 package org.jbundle.base.db.event;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.field.IntegerField;
+import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.thin.base.db.FieldInfo;
@@ -24,7 +25,11 @@ public class SetUserIDHandler extends FileListener
     /**
      * Sequence of the user id field.
      */
-    protected int m_iFieldSeq = -1;
+    protected int fieldSeq = -1;
+    /**
+     * Sequence of the user id field.
+     */
+    protected String userIdFieldName = null;
     /**
      * Set it on the an add (not on update) only?
      */
@@ -45,7 +50,17 @@ public class SetUserIDHandler extends FileListener
     public SetUserIDHandler(int iFieldSeq, boolean bFirstTimeOnly)
     {
         this();
-        this.init(null, iFieldSeq, bFirstTimeOnly);
+        this.init(null, null, iFieldSeq, bFirstTimeOnly);
+    }
+    /**
+     * Constructor.
+     * @param iFieldSeq Sequence of the user id field.
+     * @param iFirstTimeOnly Set it on the an add (not on update) only?
+     */
+    public SetUserIDHandler(String userIdFieldName, boolean bFirstTimeOnly)
+    {
+        this();
+        this.init(null, userIdFieldName, -1, bFirstTimeOnly);
     }
     /**
      * Constructor.
@@ -53,11 +68,25 @@ public class SetUserIDHandler extends FileListener
      * @param iFieldSeq Sequence of the user id field.
      * @param iFirstTimeOnly Set it on the first time only?
      */
-    public void init(Record thisFile, int iFieldSeq, boolean bFirstTimeOnly)
+    public void init(Record thisFile, String userIdFieldName, int iFieldSeq, boolean bFirstTimeOnly)
     {
         super.init(thisFile);
-        m_iFieldSeq = iFieldSeq;
+        this.fieldSeq = iFieldSeq;
+        this.userIdFieldName = userIdFieldName;
         m_bFirstTimeOnly = bFirstTimeOnly;
+    }
+    /**
+     * Set the field or file that owns this listener.
+     * Note: There is no getOwner() method here... This is because
+     * the specific listeners return the correct owner class on getOwner().
+     * @param owner My owner.
+     */
+    public void setOwner(ListenerOwner owner)
+    {
+        super.setOwner(owner);
+        if (this.getOwner() != null)
+            if (userIdFieldName == null)
+                userIdFieldName = this.getOwner().getField(fieldSeq).getFieldName();
     }
     /**
      * Called when a new blank record is required for the table/query.
@@ -91,7 +120,7 @@ public class SetUserIDHandler extends FileListener
                 break;
             case DBConstants.FIELD_CHANGED_TYPE:
                 if ((this.getOwner().getEditMode() == DBConstants.EDIT_ADD)
-                        && (this.getOwner().getField(m_iFieldSeq).getValue() == -1))
+                        && (this.getOwner().getField(userIdFieldName).getValue() == -1))
             {   // Special case - Init Record did not have record owner, but I probably do now.
                 iErrorCode = this.setUserID(iChangeType, bDisplayOption);
                 if (iErrorCode != DBConstants.NORMAL_RETURN)
@@ -109,22 +138,21 @@ public class SetUserIDHandler extends FileListener
     public int setUserID(int iChangeType, boolean bDisplayOption)
     {
         int iErrorCode = DBConstants.NORMAL_RETURN;
-        IntegerField thisField = (IntegerField)this.getOwner().getField(m_iFieldSeq);
         int iUserID = -1;
         if (this.getOwner().getRecordOwner() != null)
             if (((BaseApplication)this.getOwner().getRecordOwner().getTask().getApplication()) != null)
             if (((BaseApplication)this.getOwner().getRecordOwner().getTask().getApplication()).getUserID() != null)
             if (((BaseApplication)this.getOwner().getRecordOwner().getTask().getApplication()).getUserID().length() > 0)
                 iUserID = Integer.parseInt(((BaseApplication)this.getOwner().getRecordOwner().getTask().getApplication()).getUserID());
-        boolean bOldModified = thisField.isModified();
+        boolean bOldModified = this.getOwner().getField(userIdFieldName).isModified();
         boolean[] rgbEnabled = null; 
         if (iChangeType == DBConstants.INIT_MOVE)
-            rgbEnabled = thisField.setEnableListeners(false);
-        iErrorCode = thisField.setValue(iUserID, bDisplayOption, iChangeType);
+            rgbEnabled = this.getOwner().getField(userIdFieldName).setEnableListeners(false);
+        iErrorCode = this.getOwner().getField(userIdFieldName).setValue(iUserID, bDisplayOption, iChangeType);
         if (iChangeType == DBConstants.INIT_MOVE)
         {   // Don't change the record on an init
-            thisField.setEnableListeners(rgbEnabled);
-            thisField.setModified(bOldModified);
+            this.getOwner().getField(userIdFieldName).setEnableListeners(rgbEnabled);
+            this.getOwner().getField(userIdFieldName).setModified(bOldModified);
         }
         return iErrorCode;
     }

@@ -9,6 +9,20 @@ import org.jbundle.model.db.*;
 
 public interface ResourceModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String CODE = "Code";
+    public static final String DESCRIPTION = "Description";
+    public static final String LOCATION = "Location";
+    public static final String TYPE = "Type";
+    public static final String BASE_RESOURCE_ID = "BaseResourceID";
+    public static final String CLASS_PROJECT_ID = "ClassProjectID";
+
+    public static final String CODE_KEY = "Code";
+
+    public static final String DESCRIPTION_KEY = "Description";
+
+    public static final String CLASS_PROJECT_ID_KEY = "ClassProjectID";
     public static final String RESOURCE_GRID_SCREEN_CLASS = "org.jbundle.app.program.resource.screen.ResourceGridScreen";
     public static final String RESOURCE_SCREEN_CLASS = "org.jbundle.app.program.resource.screen.ResourceScreen";
 

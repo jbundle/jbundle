@@ -98,7 +98,7 @@ public class UserInfoBaseScreen extends Screen
     {
         super.addListeners();
         this.addMainKeyBehavior();
-        this.getMainRecord().getField(UserInfo.kUserGroupID).addListener(new InitFieldHandler(this.getRecord(UserControl.kUserControlFile).getField(UserControl.kAnonUserGroupID)));
+        this.getMainRecord().getField(UserInfo.USER_GROUP_ID).addListener(new InitFieldHandler(this.getRecord(UserControl.USER_CONTROL_FILE).getField(UserControl.ANON_USER_GROUP_ID)));
         ((UserInfo)this.getMainRecord()).addPropertyListeners();
     }
     /**
@@ -119,7 +119,7 @@ public class UserInfoBaseScreen extends Screen
             {
                 bUserFound = ((UserInfo)this.getMainRecord()).getUserInfo(strUserID, false);
                 if (bUserFound)
-                    if (this.getMainRecord().getField(UserInfo.kReadOnlyRecord).getState() == true)
+                    if (this.getMainRecord().getField(UserInfo.READ_ONLY_RECORD).getState() == true)
                         bUserFound = false; // Can't change anonymous
             }
             if (!bUserFound)
@@ -127,7 +127,7 @@ public class UserInfoBaseScreen extends Screen
             {
                 bUserFound = ((UserInfo)this.getMainRecord()).getUserInfo(strUserName, false);
                 if (bUserFound)
-                    if (this.getMainRecord().getField(UserInfo.kReadOnlyRecord).getState() == true)
+                    if (this.getMainRecord().getField(UserInfo.READ_ONLY_RECORD).getState() == true)
                         bUserFound = false; // Can't change anonymous
             }
         }
@@ -138,8 +138,8 @@ public class UserInfoBaseScreen extends Screen
             } catch (DBException e) {
                 e.printStackTrace();
             }
-            this.getMainRecord().getField(UserInfo.kUserName).setString(strUserName);
-            this.getMainRecord().getField(UserInfo.kUserName).setModified(false);   // Don't force a write
+            this.getMainRecord().getField(UserInfo.USER_NAME).setString(strUserName);
+            this.getMainRecord().getField(UserInfo.USER_NAME).setModified(false);   // Don't force a write
         }
         else
         {
@@ -166,7 +166,7 @@ public class UserInfoBaseScreen extends Screen
                     String strUserName = recUserInfo.getField(UserInfo.kID).toString();
                     if ((strUserName == null) || (strUserName.length() == 0))
                         strUserName = recUserInfo.getLastModified(DBConstants.BOOKMARK_HANDLE).toString();
-                    String strPassword = recUserInfo.getField(UserInfo.kPassword).toString();
+                    String strPassword = recUserInfo.getField(UserInfo.PASSWORD).toString();
                     iErrorCode = task.getApplication().login(task, strUserName, strPassword, task.getProperty(DBParams.DOMAIN));   // Always okay
                 }
                 return iErrorCode;

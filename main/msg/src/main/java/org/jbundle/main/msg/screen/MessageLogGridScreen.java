@@ -113,21 +113,21 @@ public class MessageLogGridScreen extends DetailGridScreen
             String strUserContactType = this.getProperty(DBParams.CONTACT_TYPE);
             String strUserContactID = this.getProperty(DBParams.CONTACT_ID);
         
-            String strContactTypeID = this.getScreenRecord().getField(MessageLogScreenRecord.kContactTypeID).toString();
+            String strContactTypeID = this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID).toString();
             if ((strContactTypeID == null) || (strContactTypeID.length() == 0))
                 if ((strUserContactType != null) && (strUserContactType.length() > 0))
             {
                 if (!Utility.isNumeric(strUserContactType))
                 {
-                    ContactType recContactType = (ContactType)((ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.kContactTypeID)).getReferenceRecord(this);
+                    ContactType recContactType = (ContactType)((ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID)).getReferenceRecord(this);
                     strUserContactType = Integer.toString(recContactType.getIDFromCode(strUserContactType));
                 }
-                this.getScreenRecord().getField(MessageLogScreenRecord.kContactTypeID).setString(strContactTypeID = strUserContactType);
+                this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID).setString(strContactTypeID = strUserContactType);
             }
-            String strContactID = this.getScreenRecord().getField(MessageLogScreenRecord.kContactID).toString();
+            String strContactID = this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_ID).toString();
             if ((strContactID == null) || (strContactID.length() == 0))
                 if ((strUserContactID != null) && (strUserContactID.length() > 0))
-                    this.getScreenRecord().getField(MessageLogScreenRecord.kContactID).setString(strContactID = strUserContactID);
+                    this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_ID).setString(strContactID = strUserContactID);
             iErrorCode = this.checkContactSecurity(strContactTypeID, strContactID);
         }
         return iErrorCode;
@@ -140,8 +140,8 @@ public class MessageLogGridScreen extends DetailGridScreen
         String strUserContactType = this.getProperty(DBParams.CONTACT_TYPE);
         String strUserContactID = this.getProperty(DBParams.CONTACT_ID);
         
-        String strContactType = ((ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.kContactTypeID)).getReference().getField(ContactType.kCode).toString();
-        String strContactID = this.getScreenRecord().getField(MessageLogScreenRecord.kContactID).toString();
+        String strContactType = ((ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID)).getReference().getField(ContactType.CODE).toString();
+        String strContactID = this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_ID).toString();
         
         if ((strUserContactID != null) && (strUserContactID.equals(strContactID)))
             if ((strUserContactType != null) && (strUserContactType.equals(strContactType)))
@@ -157,36 +157,36 @@ public class MessageLogGridScreen extends DetailGridScreen
         
         if (this.isContactDisplay())
         {
-            ReferenceField field = (ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.kMessageInfoTypeID);
+            ReferenceField field = (ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.MESSAGE_INFO_TYPE_ID);
             field.setValue(field.getReferenceRecord(this).getIDFromCode(MessageInfoType.REQUEST));
-            field = (ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.kMessageTypeID);
+            field = (ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.MESSAGE_TYPE_ID);
             field.setValue(field.getReferenceRecord(this).getIDFromCode(MessageType.MESSAGE_OUT));
-            field = (ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.kMessageStatusID);
+            field = (ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.MESSAGE_STATUS_ID);
             field.setValue(field.getReferenceRecord(this).getIDFromCode(MessageStatus.SENT));
         }
         
         this.getMainRecord().getKeyArea().setKeyOrder(DBConstants.DESCENDING);
         
-        this.getMainRecord().addListener(new CompareFileFilter(MessageLog.kReferenceID, this.getScreenRecord().getField(MessageLogScreenRecord.kReferenceID), DBConstants.EQUALS, null, true));
-        this.getScreenRecord().getField(MessageLogScreenRecord.kReferenceID).addListener(new FieldReSelectHandler(this));
-        this.getMainRecord().addListener(new CompareFileFilter(MessageLog.kReferenceType, this.getScreenRecord().getField(MessageLogScreenRecord.kReferenceType), DBConstants.EQUALS, null, true));
-        this.getScreenRecord().getField(MessageLogScreenRecord.kReferenceType).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.REFERENCE_ID), this.getScreenRecord().getField(MessageLogScreenRecord.REFERENCE_ID), DBConstants.EQUALS, null, true));
+        this.getScreenRecord().getField(MessageLogScreenRecord.REFERENCE_ID).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.REFERENCE_TYPE), this.getScreenRecord().getField(MessageLogScreenRecord.REFERENCE_TYPE), DBConstants.EQUALS, null, true));
+        this.getScreenRecord().getField(MessageLogScreenRecord.REFERENCE_TYPE).addListener(new FieldReSelectHandler(this));
         
-        this.getScreenRecord().getField(MessageLogScreenRecord.kContactID).addListener(new FieldReSelectHandler(this));
-        this.getMainRecord().addListener(new CompareFileFilter(MessageLog.kMessageInfoTypeID, this.getScreenRecord().getField(MessageLogScreenRecord.kMessageInfoTypeID), DBConstants.EQUALS, null, true));
-        this.getScreenRecord().getField(MessageLogScreenRecord.kMessageInfoTypeID).addListener(new FieldReSelectHandler(this));
-        this.getMainRecord().addListener(new CompareFileFilter(MessageLog.kMessageTypeID, this.getScreenRecord().getField(MessageLogScreenRecord.kMessageTypeID), DBConstants.EQUALS, null, true));
-        this.getScreenRecord().getField(MessageLogScreenRecord.kMessageTypeID).addListener(new FieldReSelectHandler(this));
-        this.getMainRecord().addListener(new CompareFileFilter(MessageLog.kMessageStatusID, this.getScreenRecord().getField(MessageLogScreenRecord.kMessageStatusID), DBConstants.EQUALS, null, true));
-        this.getScreenRecord().getField(MessageLogScreenRecord.kMessageStatusID).addListener(new FieldReSelectHandler(this));
-        this.getMainRecord().addListener(new CompareFileFilter(MessageLog.kMessageTransportID, this.getScreenRecord().getField(MessageLogScreenRecord.kMessageTransportID), DBConstants.EQUALS, null, true));
-        this.getScreenRecord().getField(MessageLogScreenRecord.kMessageTransportID).addListener(new FieldReSelectHandler(this));
-        this.getMainRecord().addListener(new CompareFileFilter(MessageLog.kUserID, this.getScreenRecord().getField(MessageLogScreenRecord.kUserID), DBConstants.EQUALS, null, true));
-        this.getScreenRecord().getField(MessageLogScreenRecord.kUserID).addListener(new FieldReSelectHandler(this));
-        this.getMainRecord().addListener(new CompareFileFilter(MessageLog.kMessageTime, this.getScreenRecord().getField(MessageLogScreenRecord.kStartDate), CompareFileFilter.GREATER_THAN_EQUAL, null, true));
-        this.getScreenRecord().getField(MessageLogScreenRecord.kStartDate).addListener(new FieldReSelectHandler(this));
-        this.getMainRecord().addListener(new CompareFileFilter(MessageLog.kMessageTime, this.getScreenRecord().getField(MessageLogScreenRecord.kEndDate), CompareFileFilter.LESS_THAN_EQUAL, null, true));
-        this.getScreenRecord().getField(MessageLogScreenRecord.kEndDate).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_ID).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.MESSAGE_INFO_TYPE_ID), this.getScreenRecord().getField(MessageLogScreenRecord.MESSAGE_INFO_TYPE_ID), DBConstants.EQUALS, null, true));
+        this.getScreenRecord().getField(MessageLogScreenRecord.MESSAGE_INFO_TYPE_ID).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.MESSAGE_TYPE_ID), this.getScreenRecord().getField(MessageLogScreenRecord.MESSAGE_TYPE_ID), DBConstants.EQUALS, null, true));
+        this.getScreenRecord().getField(MessageLogScreenRecord.MESSAGE_TYPE_ID).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.MESSAGE_STATUS_ID), this.getScreenRecord().getField(MessageLogScreenRecord.MESSAGE_STATUS_ID), DBConstants.EQUALS, null, true));
+        this.getScreenRecord().getField(MessageLogScreenRecord.MESSAGE_STATUS_ID).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.MESSAGE_TRANSPORT_ID), this.getScreenRecord().getField(MessageLogScreenRecord.MESSAGE_TRANSPORT_ID), DBConstants.EQUALS, null, true));
+        this.getScreenRecord().getField(MessageLogScreenRecord.MESSAGE_TRANSPORT_ID).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.USER_ID), this.getScreenRecord().getField(MessageLogScreenRecord.USER_ID), DBConstants.EQUALS, null, true));
+        this.getScreenRecord().getField(MessageLogScreenRecord.USER_ID).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.MESSAGE_TIME), this.getScreenRecord().getField(MessageLogScreenRecord.START_DATE), CompareFileFilter.GREATER_THAN_EQUAL, null, true));
+        this.getScreenRecord().getField(MessageLogScreenRecord.START_DATE).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.MESSAGE_TIME), this.getScreenRecord().getField(MessageLogScreenRecord.END_DATE), CompareFileFilter.LESS_THAN_EQUAL, null, true));
+        this.getScreenRecord().getField(MessageLogScreenRecord.END_DATE).addListener(new FieldReSelectHandler(this));
         
         this.setEditing(false);
     }
@@ -196,8 +196,8 @@ public class MessageLogGridScreen extends DetailGridScreen
     public void syncHeaderToMain()
     {
         super.syncHeaderToMain();
-        this.restoreScreenParam(MessageLogScreenRecord.kReferenceID);
-        this.restoreScreenParam(MessageLogScreenRecord.kReferenceType);
+        this.restoreScreenParam(MessageLogScreenRecord.REFERENCE_ID);
+        this.restoreScreenParam(MessageLogScreenRecord.REFERENCE_TYPE);
     }
     /**
      * OpenHeaderRecord Method.
@@ -208,17 +208,17 @@ public class MessageLogGridScreen extends DetailGridScreen
         //this.syncContactTypeToMain();    // Read in the current contact record
         if (this.getScreenRecord() == null)
             this.setScreenRecord(this.addScreenRecord());
-        ReferenceField fldContactType = (ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.kContactTypeID);
+        ReferenceField fldContactType = (ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID);
         ContactType recContactType = (ContactType)fldContactType.getReferenceRecord(this);
         recContactType = (ContactType)fldContactType.getReference(); // Being careful
         String strHeaderRecordName = null;
         if (recContactType != null)
-            strHeaderRecordName = recContactType.getField(ContactType.kCode).toString();
+            strHeaderRecordName = recContactType.getField(ContactType.CODE).toString();
         if ((strHeaderRecordName == null) || (strHeaderRecordName.length() == 0))
             strHeaderRecordName = this.getProperty(fldContactType.getFieldName());
         record = recContactType.makeRecordFromRecordName(strHeaderRecordName, this);
         if (record != null)
-            ((ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.kContactID)).setReferenceRecord(record);
+            ((ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_ID)).setReferenceRecord(record);
         return record;
     }
     /**
@@ -226,34 +226,34 @@ public class MessageLogGridScreen extends DetailGridScreen
      */
     public void addSubFileFilter()
     {
-        ContactType recContactType = (ContactType)((ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.kContactTypeID)).getReference();
+        ContactType recContactType = (ContactType)((ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID)).getReference();
         Record recHeader = this.getHeaderRecord();
         if (recHeader != null)
         {
             recContactType = recContactType.getContactType(recHeader);
-            this.getScreenRecord().getField(MessageLogScreenRecord.kContactTypeID).moveFieldToThis(recContactType.getField(ContactType.kID));   // Display the field
+            this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID).moveFieldToThis(recContactType.getField(ContactType.kID));   // Display the field
             if ((recHeader.getEditMode() == DBConstants.EDIT_CURRENT) || (recHeader.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
-                this.getScreenRecord().getField(MessageLogScreenRecord.kContactID).moveFieldToThis(recHeader.getField(VirtualRecord.kID));   // Display the field
+                this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_ID).moveFieldToThis(recHeader.getField(VirtualRecord.kID));   // Display the field
         }
         Record recMessageDetail = this.getMainRecord();
-        this.getMainRecord().addListener(new CompareFileFilter(MessageLog.kContactTypeID, this.getScreenRecord().getField(MessageLogScreenRecord.kContactTypeID), DBConstants.EQUALS, null, true));
-        this.getScreenRecord().getField(MessageLogScreenRecord.kContactTypeID).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.CONTACT_TYPE_ID), this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID), DBConstants.EQUALS, null, true));
+        this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID).addListener(new FieldReSelectHandler(this));
         
-        this.getMainRecord().addListener(new CompareFileFilter(MessageLog.kContactID, this.getScreenRecord().getField(MessageLogScreenRecord.kContactID), DBConstants.EQUALS, null, true));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.CONTACT_ID), this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_ID), DBConstants.EQUALS, null, true));
         FieldListener listener = null;
-        this.getScreenRecord().getField(MessageLogScreenRecord.kContactID).addListener(listener = new FieldListener(null)
+        this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_ID).addListener(listener = new FieldListener(null)
         {
             public int fieldChanged(boolean bDisplayOption, int iMoveMode)
             {
-                int iKeyOrder = MessageLog.kContactTypeIDKey;
+                String iKeyOrder = MessageLog.CONTACT_TYPE_ID_KEY;
                 if (this.getOwner().isNull())
-                    iKeyOrder = MessageLog.kMessageTimeKey;
+                    iKeyOrder = MessageLog.MESSAGE_TIME_KEY;
                 getMainRecord().setKeyArea(iKeyOrder);
                 return super.fieldChanged(bDisplayOption, iMoveMode);
             }
         });
-        listener.fieldChanged(true, DBConstants.INIT_MOVE); // Initialize key order.
-        this.getScreenRecord().getField(MessageLogScreenRecord.kContactID).addListener(new FieldReSelectHandler(this));
+        listener.fieldChanged(true, DBConstants.INIT_MOVE); // Initialize EY order.
+        this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_ID).addListener(new FieldReSelectHandler(this));
     }
     /**
      * Get the command string to restore screen.
@@ -261,11 +261,11 @@ public class MessageLogGridScreen extends DetailGridScreen
     public String getScreenURL()
     {
         String strURL = super.getScreenURL();
-        ReferenceField fldContactType = (ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.kContactTypeID);
+        ReferenceField fldContactType = (ReferenceField)this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID);
         String strContactTypeParam = fldContactType.getFieldName();
         if (!fldContactType.isNull())
         {
-            String strContactType = fldContactType.getReference().getField(ContactType.kCode).toString();
+            String strContactType = fldContactType.getReference().getField(ContactType.CODE).toString();
             strURL = this.addURLParam(strURL, strContactTypeParam, strContactType);
         }
         return strURL;
@@ -317,7 +317,7 @@ public class MessageLogGridScreen extends DetailGridScreen
         Record recHeader = this.getHeaderRecord();
         Record recMessageDetail = this.getMainRecord();
         if (recHeader instanceof Company)   // Profile
-            ((ReferenceField)recMessageDetail.getField(MessageDetail.kPersonID)).setReferenceRecord(recHeader);   // Make sure this is hooked up
+            ((ReferenceField)recMessageDetail.getField(MessageDetail.PERSON_ID)).setReferenceRecord(recHeader);   // Make sure this is hooked up
         return new MessageLogHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**

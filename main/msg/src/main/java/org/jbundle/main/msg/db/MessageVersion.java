@@ -167,15 +167,15 @@ public class MessageVersion extends VirtualRecord
     {
         Map<String,Object> mapHeaderMessageInfo = trxMessageHeader.getMessageInfoMap();
         
-        Map<String,Object> propMessageTransportInfo = ((PropertiesField)this.getField(MessageVersion.kProperties)).loadProperties();
+        Map<String,Object> propMessageTransportInfo = ((PropertiesField)this.getField(MessageVersion.PROPERTIES)).loadProperties();
         if (mapHeaderMessageInfo != null)
             Utility.putAllIfNew(mapHeaderMessageInfo, propMessageTransportInfo);
         else
             mapHeaderMessageInfo = propMessageTransportInfo;
         if (mapHeaderMessageInfo == null)
             mapHeaderMessageInfo = new HashMap<String,Object>();
-        if (!this.getField(MessageVersion.kCode).isNull())
-            mapHeaderMessageInfo.put(VERSION, this.getField(MessageVersion.kCode).toString());
+        if (!this.getField(MessageVersion.CODE).isNull())
+            mapHeaderMessageInfo.put(VERSION, this.getField(MessageVersion.CODE).toString());
         if (!this.getField(MessageVersion.kID).isNull())
             mapHeaderMessageInfo.put(VERSION_ID, this.getField(MessageVersion.kID).toString());
         if (recMessageControl != null)

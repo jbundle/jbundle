@@ -84,19 +84,19 @@ public class MessageInitialProcess extends BaseProcess
                 recMessageProcessInfo.next();
                 String strQueueName = recMessageProcessInfo.getQueueName(true);
                 String strQueueType = recMessageProcessInfo.getQueueType(true);
-                String strProcessClass = recMessageProcessInfo.getField(MessageProcessInfo.kProcessorClass).toString();
-                Map<String,Object> properties = ((PropertiesField)recMessageProcessInfo.getField(MessageProcessInfo.kProperties)).getProperties();
-                Record recMessageType = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kMessageTypeID)).getReference();
+                String strProcessClass = recMessageProcessInfo.getField(MessageProcessInfo.PROCESSOR_CLASS).toString();
+                Map<String,Object> properties = ((PropertiesField)recMessageProcessInfo.getField(MessageProcessInfo.PROPERTIES)).getProperties();
+                Record recMessageType = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.MESSAGE_TYPE_ID)).getReference();
                 if (recMessageType != null)
                 {   // Start all processes that handle INcoming REQUESTs.
-                    String strMessageType = recMessageType.getField(MessageType.kCode).toString();
-                    Record recMessageInfo = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kMessageInfoID)).getReference();
+                    String strMessageType = recMessageType.getField(MessageType.CODE).toString();
+                    Record recMessageInfo = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference();
                     if (recMessageInfo != null)
                     {
-                        Record recMessageInfoType = ((ReferenceField)recMessageInfo.getField(MessageInfo.kMessageInfoTypeID)).getReference();
+                        Record recMessageInfoType = ((ReferenceField)recMessageInfo.getField(MessageInfo.MESSAGE_INFO_TYPE_ID)).getReference();
                         if (recMessageInfoType != null)
                         {
-                            String strMessageInfoType = recMessageInfoType.getField(MessageInfoType.kCode).toString();
+                            String strMessageInfoType = recMessageInfoType.getField(MessageInfoType.CODE).toString();
                             if (MessageInfoType.REQUEST.equals(strMessageInfoType))
                                 if (MessageType.MESSAGE_IN.equals(strMessageType))
                                     if ((strQueueName != null) && (strQueueName.length() > 0))

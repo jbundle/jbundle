@@ -32,8 +32,11 @@ public class MessageTimeoutScreenRecord extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String MESSAGE_STATUS_ID = "MessageStatusID";
     public static final int kMessageStatusID = kScreenRecordLastField + 1;
+    public static final String START_TIMEOUT = "StartTimeout";
     public static final int kStartTimeout = kMessageStatusID + 1;
+    public static final String END_TIMEOUT = "EndTimeout";
     public static final int kEndTimeout = kStartTimeout + 1;
     public static final int kMessageTimeoutScreenRecordLastField = kEndTimeout;
     public static final int kMessageTimeoutScreenRecordFields = kEndTimeout - DBConstants.MAIN_FIELD + 1;

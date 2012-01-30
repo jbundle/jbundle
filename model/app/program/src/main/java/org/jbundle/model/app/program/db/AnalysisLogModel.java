@@ -10,6 +10,18 @@ import org.jbundle.model.db.*;
 public interface AnalysisLogModel extends Rec
 {
 
+    //public static final String ID = ID;
+    public static final String SYSTEM_ID = "SystemID";
+    public static final String OBJECT_ID = "ObjectID";
+    public static final String CLASS_NAME = "ClassName";
+    public static final String DATABASE_NAME = "DatabaseName";
+    public static final String INIT_TIME = "InitTime";
+    public static final String FREE_TIME = "FreeTime";
+    public static final String RECORD_OWNER = "RecordOwner";
+    public static final String STACK_TRACE = "StackTrace";
+
+    public static final String OBJECT_ID_KEY = "ObjectID";
+
     public static final String ANALYSIS_LOG_FILE = "AnalysisLog";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.db.AnalysisLog";
     public static final String THICK_CLASS = "org.jbundle.app.program.db.AnalysisLog";

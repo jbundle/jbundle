@@ -233,7 +233,7 @@ public class ClassProject extends Folder
      */
     public String getFileName(String strFileName, String strPackage, CodeType codeType, boolean fullPath, boolean sourcePath)
     {
-        Record recProgramControl = (Record)this.getRecordOwner().getRecord(ProgramControl.kProgramControlFile);
+        Record recProgramControl = (Record)this.getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE);
         if (recProgramControl == null)
             recProgramControl = new ProgramControl(this.findRecordOwner());
         
@@ -247,15 +247,15 @@ public class ClassProject extends Folder
         String strFileRoot = DBConstants.BLANK;
         if (fullPath)
         {
-            strFileRoot = recProgramControl.getField(ProgramControl.kBaseDirectory).toString();
+            strFileRoot = recProgramControl.getField(ProgramControl.BASE_DIRECTORY).toString();
             if (!strFileRoot.endsWith("/"))
                 strFileRoot += "/";
         }
         String strSourcePath = null;
         if (sourcePath)
-            strSourcePath = recProgramControl.getField(ProgramControl.kSourceDirectory).toString();
+            strSourcePath = recProgramControl.getField(ProgramControl.SOURCE_DIRECTORY).toString();
         else
-            strSourcePath = recProgramControl.getField(ProgramControl.kClassDirectory).toString();
+            strSourcePath = recProgramControl.getField(ProgramControl.CLASS_DIRECTORY).toString();
         if ((this.getEditMode() == DBConstants.EDIT_CURRENT) || (this.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
         {
             String strSrcPath = this.getPath(codeType, false);
@@ -296,52 +296,52 @@ public class ClassProject extends Folder
         
         Record programControl = null;
         if (this.getRecordOwner() != null)
-            programControl = (Record)this.getRecordOwner().getRecord(ProgramControl.kProgramControlFile);
+            programControl = (Record)this.getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE);
         Record programControlTemp = null;
         if (programControl == null)
             programControl = programControlTemp = new ProgramControl(this.findRecordOwner());
         
         String startPackage = DBConstants.ROOT_PACKAGE.substring(0, DBConstants.ROOT_PACKAGE.length() - 1);
         if (codeType == CodeType.THICK)
-            if (!programControl.getField(ProgramControl.kPackageName).isNull())
+            if (!programControl.getField(ProgramControl.PACKAGE_NAME).isNull())
         {
-            if (programControl.getField(ProgramControl.kThinPackage).toString().startsWith("."))
-                startPackage = startPackage + programControl.getField(ProgramControl.kPackageName).toString();
+            if (programControl.getField(ProgramControl.THIN_PACKAGE).toString().startsWith("."))
+                startPackage = startPackage + programControl.getField(ProgramControl.PACKAGE_NAME).toString();
             else
-                startPackage = programControl.getField(ProgramControl.kPackageName).toString();
+                startPackage = programControl.getField(ProgramControl.PACKAGE_NAME).toString();
         }
         if (codeType == CodeType.THIN)
         {
-            if (!programControl.getField(ProgramControl.kThinPackage).isNull())
+            if (!programControl.getField(ProgramControl.THIN_PACKAGE).isNull())
             {
-                if (programControl.getField(ProgramControl.kThinPackage).toString().startsWith("."))
-                    startPackage = startPackage + programControl.getField(ProgramControl.kThinPackage).toString();
+                if (programControl.getField(ProgramControl.THIN_PACKAGE).toString().startsWith("."))
+                    startPackage = startPackage + programControl.getField(ProgramControl.THIN_PACKAGE).toString();
                 else
-                    startPackage = programControl.getField(ProgramControl.kThinPackage).toString();
+                    startPackage = programControl.getField(ProgramControl.THIN_PACKAGE).toString();
             }
             else
                 startPackage = startPackage + ".thin";
         }
         if ((codeType == CodeType.RESOURCE_CODE) || (codeType == CodeType.RESOURCE_PROPERTIES))
         {
-            if (!programControl.getField(ProgramControl.kResourcePackage).isNull())
+            if (!programControl.getField(ProgramControl.RESOURCE_PACKAGE).isNull())
             {
-                if (programControl.getField(ProgramControl.kResourcePackage).toString().startsWith("."))
-                    startPackage = startPackage + programControl.getField(ProgramControl.kResourcePackage).toString();
+                if (programControl.getField(ProgramControl.RESOURCE_PACKAGE).toString().startsWith("."))
+                    startPackage = startPackage + programControl.getField(ProgramControl.RESOURCE_PACKAGE).toString();
                 else
-                    startPackage = programControl.getField(ProgramControl.kResourcePackage).toString();
+                    startPackage = programControl.getField(ProgramControl.RESOURCE_PACKAGE).toString();
             }
             else
                 startPackage = startPackage + ".res";
         }
         if (codeType == CodeType.INTERFACE)
         {
-            if (!programControl.getField(ProgramControl.kInterfacePackage).isNull())
+            if (!programControl.getField(ProgramControl.INTERFACE_PACKAGE).isNull())
             {
-                if (programControl.getField(ProgramControl.kInterfacePackage).toString().startsWith("."))
-                    startPackage = startPackage + programControl.getField(ProgramControl.kInterfacePackage).toString();
+                if (programControl.getField(ProgramControl.INTERFACE_PACKAGE).toString().startsWith("."))
+                    startPackage = startPackage + programControl.getField(ProgramControl.INTERFACE_PACKAGE).toString();
                 else
-                    startPackage = programControl.getField(ProgramControl.kInterfacePackage).toString();
+                    startPackage = programControl.getField(ProgramControl.INTERFACE_PACKAGE).toString();
             }
             else
                 startPackage = startPackage + ".model";
@@ -373,43 +373,43 @@ public class ClassProject extends Folder
     {
         String strSrcPath = DBConstants.BLANK;
         if (!bPackagePath)
-            strSrcPath = this.getField(ClassProject.kName).toString();
+            strSrcPath = this.getField(ClassProject.NAME).toString();
         String pathChar = bPackagePath ? "." : "/";
         switch (codeType)
         {
         case THICK:
-            if (!bPackagePath) if (!this.getField(ClassProject.kProjectPath).isNull())
-                strSrcPath = this.getField(ClassProject.kProjectPath).toString();
-            if (bPackagePath) if (!this.getField(ClassProject.kPackageName).isNull())
-                strSrcPath = this.getField(ClassProject.kPackageName).toString();
+            if (!bPackagePath) if (!this.getField(ClassProject.PROJECT_PATH).isNull())
+                strSrcPath = this.getField(ClassProject.PROJECT_PATH).toString();
+            if (bPackagePath) if (!this.getField(ClassProject.PACKAGE_NAME).isNull())
+                strSrcPath = this.getField(ClassProject.PACKAGE_NAME).toString();
             break;
         case THIN:
-            if (!bPackagePath) if (!this.getField(ClassProject.kThinProjectPath).isNull())
-                strSrcPath = this.getField(ClassProject.kThinProjectPath).toString();
-            if (bPackagePath) if (!this.getField(ClassProject.kThinPackage).isNull())
-                strSrcPath = this.getField(ClassProject.kThinPackage).toString();
+            if (!bPackagePath) if (!this.getField(ClassProject.THIN_PROJECT_PATH).isNull())
+                strSrcPath = this.getField(ClassProject.THIN_PROJECT_PATH).toString();
+            if (bPackagePath) if (!this.getField(ClassProject.THIN_PACKAGE).isNull())
+                strSrcPath = this.getField(ClassProject.THIN_PACKAGE).toString();
             break;
         case RESOURCE_PROPERTIES:
         case RESOURCE_CODE:
-            if (!bPackagePath) if (!this.getField(ClassProject.kResProjectPath).isNull())
-                strSrcPath = this.getField(ClassProject.kResProjectPath).toString();
-            if (bPackagePath) if (!this.getField(ClassProject.kResourcePackage).isNull())
-                strSrcPath = this.getField(ClassProject.kResourcePackage).toString();
+            if (!bPackagePath) if (!this.getField(ClassProject.RES_PROJECT_PATH).isNull())
+                strSrcPath = this.getField(ClassProject.RES_PROJECT_PATH).toString();
+            if (bPackagePath) if (!this.getField(ClassProject.RESOURCE_PACKAGE).isNull())
+                strSrcPath = this.getField(ClassProject.RESOURCE_PACKAGE).toString();
             break;
         case INTERFACE:
-            if (!bPackagePath) if (!this.getField(ClassProject.kInterfaceProjectPath).isNull())
-                strSrcPath = this.getField(ClassProject.kInterfaceProjectPath).toString();
-            if (bPackagePath) if (!this.getField(ClassProject.kInterfacePackage).isNull())
-                strSrcPath = this.getField(ClassProject.kInterfacePackage).toString();
+            if (!bPackagePath) if (!this.getField(ClassProject.INTERFACE_PROJECT_PATH).isNull())
+                strSrcPath = this.getField(ClassProject.INTERFACE_PROJECT_PATH).toString();
+            if (bPackagePath) if (!this.getField(ClassProject.INTERFACE_PACKAGE).isNull())
+                strSrcPath = this.getField(ClassProject.INTERFACE_PACKAGE).toString();
             break;
         }
         
         if (strSrcPath == null)
             strSrcPath = DBConstants.BLANK;
         
-        if (this.getField(ClassProject.kParentFolderID).getValue() != 0)
+        if (this.getField(ClassProject.PARENT_FOLDER_ID).getValue() != 0)
         { // Continue up the chain
-            ClassProject classProject = (ClassProject)((ReferenceField)this.getField(ClassProject.kParentFolderID)).getReference();
+            ClassProject classProject = (ClassProject)((ReferenceField)this.getField(ClassProject.PARENT_FOLDER_ID)).getReference();
             if (classProject != null)
                 if ((classProject.getEditMode() == DBConstants.EDIT_CURRENT) || (classProject.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
             {

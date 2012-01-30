@@ -74,15 +74,15 @@ public class ClassFieldsScreen extends Screen
     {
         super.addListeners();
         Record record = this.getMainRecord();
-        Record recClassInfo = this.getRecord(ClassInfo.kClassInfoFile);
+        Record recClassInfo = this.getRecord(ClassInfo.CLASS_INFO_FILE);
         if (recClassInfo != null)
         {
-            record.setKeyArea(ClassFields.kClassInfoClassNameKey);
-            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), ClassFields.kClassInfoClassName, null, -1, null, -1, true);
+            record.setKeyArea(ClassFields.CLASS_INFO_CLASS_NAME_KEY);
+            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), ClassFields.CLASS_INFO_CLASS_NAME, null, null, null, null, true);
             record.addListener(listener);
         }
         MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
-        this.getMainRecord().getField(ClassFields.kClassFieldName).addListener(fieldBeh);
+        this.getMainRecord().getField(ClassFields.CLASS_FIELD_NAME).addListener(fieldBeh);
     }
     /**
      * Set up all the screen fields.

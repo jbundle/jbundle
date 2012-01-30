@@ -78,7 +78,8 @@ public class UserField extends ReferenceField
      */
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), -1, UserInfo.kUserName, true, true);
+        Record record = this.makeReferenceRecord();
+        return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, -1, record.getField(UserInfo.USER_NAME), true, true);
     }
     /**
      * Get the current User's ID.

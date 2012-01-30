@@ -16,6 +16,10 @@ public class IssueControl extends FieldList
     implements IssueControlModel
 {
 
+    //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
+
     public IssueControl()
     {
         super();

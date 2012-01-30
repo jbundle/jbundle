@@ -219,7 +219,7 @@ public class Packages extends Folder
     public void addMasterListeners()
     {
         super.addMasterListeners();
-        this.addListener(new DateChangedHandler(Packages.kLastUpdated));
+        this.addListener(new DateChangedHandler(Packages.LAST_UPDATED));
     }
 
 }

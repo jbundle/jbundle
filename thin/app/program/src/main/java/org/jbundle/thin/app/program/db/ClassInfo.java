@@ -19,6 +19,10 @@ public class ClassInfo extends FieldList
     implements ClassInfoModel
 {
 
+    //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
+
     public ClassInfo()
     {
         super();

@@ -94,7 +94,7 @@ public class BaseProcessRecords extends BaseProcess
     public void run()
     {
         String packageName = this.getProperty("package");
-        ClassProject classProject = (ClassProject)this.getRecord(ClassProject.kClassProjectFile);
+        ClassProject classProject = (ClassProject)this.getRecord(ClassProject.CLASS_PROJECT_FILE);
         if (packageName != null) if (packageName.length() > 0)
         {
             String projectID = this.getProperty("project");
@@ -120,8 +120,8 @@ public class BaseProcessRecords extends BaseProcess
                 classProject.next();
                 String classPackageName = classProject.getFullPackage(ClassProject.CodeType.THICK, DBConstants.BLANK);
                 classProjectPackages.put(classProject.getField(ClassProject.kID).toString(), classPackageName);
-                classProjectNames.put(classProject.getField(ClassProject.kName).toString(), classProject.getField(ClassProject.kID).toString());
-                classProjectIDs.put(classProject.getField(ClassProject.kID).toString(), classProject.getField(ClassProject.kName).toString());
+                classProjectNames.put(classProject.getField(ClassProject.NAME).toString(), classProject.getField(ClassProject.kID).toString());
+                classProjectIDs.put(classProject.getField(ClassProject.kID).toString(), classProject.getField(ClassProject.NAME).toString());
             }
         } catch (DBException e) {
             e.printStackTrace();
@@ -181,26 +181,26 @@ public class BaseProcessRecords extends BaseProcess
     {
         Map<String,String> mapDatabaseList = new HashMap<String,String>();
         FileHdr recFileHdr = (FileHdr)this.getMainRecord();
-        recFileHdr.setKeyArea(FileHdr.kFileNameKey);
+        recFileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
         recFileHdr.close();
         try   {
-            Record recClassInfo = this.getRecord(ClassInfo.kClassInfoFile);
+            Record recClassInfo = this.getRecord(ClassInfo.CLASS_INFO_FILE);
             while (recFileHdr.hasNext())
             {
                 recFileHdr.next();
-                String strRecord = recFileHdr.getField(FileHdr.kFileName).toString();
+                String strRecord = recFileHdr.getField(FileHdr.FILE_NAME).toString();
                 if ((strRecord == null) || (strRecord.length() == 0))
                     continue;
                 if (!recFileHdr.isPhysicalFile())
                     continue;
-                if (recFileHdr.getField(FileHdr.kDatabaseName).isNull())
+                if (recFileHdr.getField(FileHdr.DATABASE_NAME).isNull())
                     continue;
         
-                recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
-                recClassInfo.getField(ClassInfo.kClassName).setString(strRecord);
+                recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
+                recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strRecord);
                 if (recClassInfo.seek(null))
                 {                    
-                    String strClassPackage = this.getFullPackageName(recClassInfo.getField(ClassInfo.kClassProjectID).toString(), recClassInfo.getField(ClassInfo.kClassPackage).toString());
+                    String strClassPackage = this.getFullPackageName(recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID).toString(), recClassInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
                     if (this.includeRecord(recFileHdr, recClassInfo, strPackage))
                             {
                                Record record = this.getThisRecord(strRecord, strClassPackage, null);
@@ -220,23 +220,23 @@ public class BaseProcessRecords extends BaseProcess
             while (recFileHdr.hasNext())
             {
                 recFileHdr.next();
-                String strRecord = recFileHdr.getField(FileHdr.kFileName).toString();
+                String strRecord = recFileHdr.getField(FileHdr.FILE_NAME).toString();
                 if ((strRecord == null) || (strRecord.length() == 0))
                     continue;
                 if (!recFileHdr.isPhysicalFile())
                     continue;
-                if (!recFileHdr.getField(FileHdr.kDatabaseName).isNull())
+                if (!recFileHdr.getField(FileHdr.DATABASE_NAME).isNull())
                     continue;
         
-                recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
-                recClassInfo.getField(ClassInfo.kClassName).setString(strRecord);
+                recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
+                recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strRecord);
                 if (recClassInfo.seek(null))
                 {
-                    if (recClassInfo.getField(ClassInfo.kBaseClassName).toString().equalsIgnoreCase("QueryRecord"))
+                    if (recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString().equalsIgnoreCase("QueryRecord"))
                         continue;
-                    if (recClassInfo.getField(ClassInfo.kBaseClassName).toString().indexOf("Query") != -1)
+                    if (recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString().indexOf("Query") != -1)
                         continue;
-                    String strClassPackage = this.getFullPackageName(recClassInfo.getField(ClassInfo.kClassProjectID).toString(), recClassInfo.getField(ClassInfo.kClassPackage).toString());
+                    String strClassPackage = this.getFullPackageName(recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID).toString(), recClassInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
                     if (strPackage != null)
                         if (strClassPackage != null)
                             if (!strClassPackage.matches(strPackage))
@@ -288,8 +288,8 @@ public class BaseProcessRecords extends BaseProcess
             record.setOpenMode(record.getOpenMode() | DBConstants.OPEN_DONT_CREATE);
         
         //if (this.getProperty("locale") != null)
-        //    if (this.getRecord(FileHdr.kFileHdrFile).getEditMode() == DBConstants.EDIT_CURRENT)
-        //        strDBName = this.getRecord(FileHdr.kFileHdrFile).getField(FileHdr.kDatabaseName).toString() + '_' + this.getProperty("locale");
+        //    if (this.getRecord(FileHdr.FILE_HDR_FILE).getEditMode() == DBConstants.EDIT_CURRENT)
+        //        strDBName = this.getRecord(FileHdr.FILE_HDR_FILE).getField(FileHdr.DATABASE_NAME).toString() + '_' + this.getProperty("locale");
         if (strDBName != null)
             if (strPackage != null)
                 if (!strRecordClass.matches(strPackage))
@@ -315,14 +315,14 @@ public class BaseProcessRecords extends BaseProcess
             classLists = classList.split(",");
         String database = this.getProperty("database");
         
-        if (recClassInfo.getField(ClassInfo.kBaseClassName).toString().equalsIgnoreCase("QueryRecord"))
+        if (recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString().equalsIgnoreCase("QueryRecord"))
             return false;
-        if (recClassInfo.getField(ClassInfo.kBaseClassName).toString().indexOf("Query") != -1)
+        if (recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString().indexOf("Query") != -1)
             return false;
         
-        String strClassPackage = this.getFullPackageName(recClassInfo.getField(ClassInfo.kClassProjectID).toString(), recClassInfo.getField(ClassInfo.kClassPackage).toString());
-        String strClassProject = classProjectIDs.get(recClassInfo.getField(ClassInfo.kClassProjectID).toString());
-        String strClassType = recFileHdr.getField(FileHdr.kType).toString();
+        String strClassPackage = this.getFullPackageName(recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID).toString(), recClassInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
+        String strClassProject = classProjectIDs.get(recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID).toString());
+        String strClassType = recFileHdr.getField(FileHdr.TYPE).toString();
         
         if (strClassPackage != null)
             if (strPackage != null)
@@ -336,7 +336,7 @@ public class BaseProcessRecords extends BaseProcess
         
         if (classLists != null)
         {
-            String className = recClassInfo.getField(ClassInfo.kClassName).toString();
+            String className = recClassInfo.getField(ClassInfo.CLASS_NAME).toString();
             boolean match = false;
             for (String classMatch : classLists)
             {
@@ -353,7 +353,7 @@ public class BaseProcessRecords extends BaseProcess
             return strClassProject.matches(this.patternToRegex(strProject));   // Does the project name pattern match?
         
         if (database != null)
-           if (!database.equalsIgnoreCase(recFileHdr.getField(FileHdr.kDatabaseName).toString()))
+           if (!database.equalsIgnoreCase(recFileHdr.getField(FileHdr.DATABASE_NAME).toString()))
                return false;
         
         return true;

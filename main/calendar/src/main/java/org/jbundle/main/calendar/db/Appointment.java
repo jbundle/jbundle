@@ -160,7 +160,7 @@ public class Appointment extends CalendarEntry
     {
         super.addListeners();
         
-        this.addListener(new SharedFileHandler(CalendarEntry.kCalendarEntryTypeID, CalendarEntry.APPOINTMENT_ID));
+        this.addListener(new SharedFileHandler(CalendarEntry.CALENDAR_ENTRY_TYPE_ID, CalendarEntry.APPOINTMENT_ID));
     }
 
 }

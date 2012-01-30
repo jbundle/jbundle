@@ -1223,6 +1223,14 @@ public class BaseField extends FieldInfo
      * Same as setupTablePopup for larger files (that don't fit in a popup).
      * @return  Return the component or ScreenField that is created for this field.
      */
+    public ScreenComponent setupTableLookup(ScreenLoc itsLocation, ComponentParent targetScreen, int iDisplayFieldDesc, Rec record, String iQueryKeySeq, String iDisplayFieldSeq, boolean bIncludeFormButton)
+    {
+        return this.setupTableLookup(itsLocation, targetScreen, this, iDisplayFieldDesc, record, iQueryKeySeq, iDisplayFieldSeq, true, bIncludeFormButton);
+    }
+    /**
+     * Same as setupTablePopup for larger files (that don't fit in a popup).
+     * @return  Return the component or ScreenField that is created for this field.
+     */
     public ScreenComponent setupTableLookup(ScreenLoc itsLocation, ComponentParent targetScreen, int iDisplayFieldDesc, Rec record, int iQueryKeySeq, int iDisplayFieldSeq, boolean bIncludeFormButton)
     {
         return this.setupTableLookup(itsLocation, targetScreen, this, iDisplayFieldDesc, record, iQueryKeySeq, iDisplayFieldSeq, true, bIncludeFormButton);
@@ -1233,10 +1241,26 @@ public class BaseField extends FieldInfo
      */
     public ScreenComponent setupTableLookup(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Rec record, int iQueryKeySeq, int iDisplayFieldSeq, boolean bIncludeBlankOption, boolean bIncludeFormButton)
     {
+        String keyAreaName = null;
+        if (iQueryKeySeq != -1)
+            if (record != null) // Always
+                keyAreaName = ((Record)record).getKeyArea(iQueryKeySeq).getKeyName();
+        BaseField fldDisplayFieldDesc = null;
+        if (iDisplayFieldDesc != -1)
+            if (record != null) // Always
+                fldDisplayFieldDesc = ((Record)record).getField(iDisplayFieldDesc);
+        return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, keyAreaName, fldDisplayFieldDesc, bIncludeBlankOption, bIncludeFormButton);
+    }
+    /**
+     * Same as setupTablePopup for larger files (that don't fit in a popup).
+     * @return  Return the component or ScreenField that is created for this field.
+     */
+    public ScreenComponent setupTableLookup(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Rec record, String iQueryKeySeq, String iDisplayFieldSeq, boolean bIncludeBlankOption, boolean bIncludeFormButton)
+    {
         Converter fldDisplayFieldDesc = null;
-        if (iDisplayFieldSeq == -1)
-            iDisplayFieldSeq = ((Record)record).getDefaultDisplayFieldSeq();
-        if (iDisplayFieldSeq >= DBConstants.MAIN_FIELD)
+        if (iDisplayFieldSeq == null)
+            iDisplayFieldSeq = ((Record)record).getDefaultDisplayFieldName();
+        if (iDisplayFieldSeq != null)
             fldDisplayFieldDesc = ((Record)record).getField(iDisplayFieldSeq);
         return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, iQueryKeySeq, fldDisplayFieldDesc, bIncludeBlankOption, bIncludeFormButton);
     }
@@ -1251,18 +1275,34 @@ public class BaseField extends FieldInfo
      */
     public ScreenComponent setupTableLookup(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Rec record, int iQueryKeySeq, Converter fldDisplayFieldDesc, boolean bIncludeBlankOption, boolean bIncludeFormButton)
     {
+        String keyAreaName = null;
+        if (iQueryKeySeq != -1)
+            keyAreaName = this.getRecord().getKeyArea(iQueryKeySeq).getKeyName();
+        return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, keyAreaName, fldDisplayFieldDesc, bIncludeBlankOption, bIncludeFormButton);
+    }
+    /**
+     * Same as setupTablePopup for larger files (that don't fit in a popup).
+     * Displays a [Key to record (opt)] [Record Description] [Lookup button] [Form button (opt)]
+     * @param record Record to display in a popup
+     * @param keyAreaName Key to use for code-lookup operation (-1 = None)
+     * @param iDisplayFieldSeq Description field for the display field (-1 = third field)
+     * @param bIncludeFormButton Include a form button (in addition to the lookup button)?
+     * @return  Return the component or ScreenField that is created for this field.
+     */
+    public ScreenComponent setupTableLookup(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Rec record, String keyAreaName, Converter fldDisplayFieldDesc, boolean bIncludeBlankOption, boolean bIncludeFormButton)
+    {
         ScreenComponent screenField = null;
         if ((!(this instanceof ReferenceField)) && (!(this instanceof CounterField)))
             Debug.doAssert(false);    // error, wrong field type
         Converter conv = null;
-        if (iQueryKeySeq != -1)
+        if (keyAreaName != null)
         { // Set up the listener to read the record using the code key (optional)
-            BaseField fldKey = ((Record)record).getKeyArea(iQueryKeySeq).getField(DBConstants.MAIN_KEY_FIELD);    // Code
+            BaseField fldKey = ((Record)record).getKeyArea(keyAreaName).getField(DBConstants.MAIN_KEY_FIELD);    // Code
             if (this.getRecord().getRecordOwner() instanceof ComponentParent)
                 if (!((ComponentParent)this.getRecord().getRecordOwner()).isPrintReport())
             {   // Only need the read behavior if this is an input field
-                ((Record)record).setKeyArea(iQueryKeySeq);
-                MainReadOnlyHandler behavior = new MainReadOnlyHandler(iQueryKeySeq);
+                ((Record)record).setKeyArea(keyAreaName);
+                MainReadOnlyHandler behavior = new MainReadOnlyHandler(keyAreaName);
                 fldKey.addListener(behavior);
             }
             if (iDisplayFieldDesc != ScreenConstants.DONT_DISPLAY_DESC)
@@ -1305,7 +1345,7 @@ public class BaseField extends FieldInfo
             properties.put(ScreenModel.IMAGE, ThinMenuConstants.FORM);
             screenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
         }
-        if ((bIncludeBlankOption) || (iQueryKeySeq == -1))     // If there is no code field, the only way to blank a field is to click this button
+        if ((bIncludeBlankOption) || (keyAreaName == null))     // If there is no code field, the only way to blank a field is to click this button
             if (!(targetScreen instanceof GridScreenParent))
         {
             properties = new HashMap<String,Object>();

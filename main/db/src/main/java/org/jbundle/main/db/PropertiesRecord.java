@@ -88,7 +88,7 @@ public class PropertiesRecord extends VirtualRecord
      */
     public void addPropertiesFieldBehavior(BaseField fldDisplay, String strProperty)
     {
-        BaseField fldProperties = this.getField(PropertiesRecord.kProperties);
+        BaseField fldProperties = this.getField(PropertiesRecord.PROPERTIES);
         FieldListener listener = new CopyConvertersHandler(new PropertiesConverter(fldProperties, strProperty));
         listener.setRespondsToMode(DBConstants.INIT_MOVE, false);
         listener.setRespondsToMode(DBConstants.READ_MOVE, false);

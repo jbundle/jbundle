@@ -10,6 +10,8 @@ import org.jbundle.model.db.*;
 
 public interface MessageLogModel extends Rec
 {
+
+    //public static final String ID = ID;
     public static final String MESSAGE_INFO_TYPE_ID = "MessageInfoTypeID";
     public static final String MESSAGE_TYPE_ID = "MessageTypeID";
     public static final String MESSAGE_STATUS_ID = "MessageStatusID";
@@ -38,6 +40,14 @@ public interface MessageLogModel extends Rec
     public static final String XML_MESSAGE_DATA = "XMLMessageData";
     public static final String MESSAGE_DATA = "MessageData";
     public static final String ERROR_TEXT = "ErrorText";
+
+    public static final String REFERENCE_ID_KEY = "ReferenceID";
+
+    public static final String CONTACT_TYPE_ID_KEY = "ContactTypeID";
+
+    public static final String MESSAGE_TIME_KEY = "MessageTime";
+
+    public static final String TIMEOUT_KEY = "Timeout";
     public static final String MESSAGE_ICON = "Transaction";
     public static final String SOURCE_ICON = "Source";
     public static final String MESSAGE_SCREEN = "Message Screen";

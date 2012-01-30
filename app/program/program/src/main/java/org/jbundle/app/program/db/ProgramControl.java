@@ -193,7 +193,7 @@ public class ProgramControl extends ControlRecord
     public void addMasterListeners()
     {
         super.addMasterListeners();
-        this.getField(ProgramControl.kLastPackageUpdate).setEnabled(false);
+        this.getField(ProgramControl.LAST_PACKAGE_UPDATE).setEnabled(false);
     }
 
 }

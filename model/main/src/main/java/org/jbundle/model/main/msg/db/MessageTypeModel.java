@@ -9,8 +9,14 @@ import org.jbundle.model.db.*;
 
 public interface MessageTypeModel extends Rec
 {
+
+    //public static final String ID = ID;
     public static final String DESCRIPTION = "Description";
     public static final String CODE = "Code";
+
+    public static final String DESCRIPTION_KEY = "Description";
+
+    public static final String CODE_KEY = "Code";
     public static final int MESSAGE_IN_ID = 2;
     public static final int MESSAGE_OUT_ID = 1;
     public static final String MESSAGE_IN = "MESSAGE_IN";

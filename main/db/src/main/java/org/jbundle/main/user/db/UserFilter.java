@@ -77,10 +77,10 @@ public class UserFilter extends ReferenceField
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         UserInfo user = (UserInfo)this.makeReferenceRecord();
-        user.addListener(new StringSubFileFilter(Integer.toString(UserGroup.RES_USER), UserInfo.kUserGroupID, null, -1, null, -1));
-        Converter convName = new FirstMLastConverter(user, -1, UserInfo.kFirstName, -1, UserInfo.kLastName);
+        user.addListener(new StringSubFileFilter(Integer.toString(UserGroup.RES_USER), user.getField(UserInfo.USER_GROUP_ID), null, null, null, null));
+        Converter convName = new FirstMLastConverter(user, null, UserInfo.FIRST_NAME, null, UserInfo.LAST_NAME);
         
-        ScreenComponent screenField = this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, user, UserInfo.kUserNameKey, convName, true, false);
+        ScreenComponent screenField = this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, user, UserInfo.USER_NAME_KEY, convName, true, false);
         properties = new HashMap<String,Object>();
         properties.put(ScreenModel.FIELD, this);
         properties.put(ScreenModel.COMMAND, ThinMenuConstants.HOME);

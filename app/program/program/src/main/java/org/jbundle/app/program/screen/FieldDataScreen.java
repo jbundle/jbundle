@@ -74,16 +74,16 @@ public class FieldDataScreen extends Screen
     {
         super.addListeners();
         Record record = this.getMainRecord();
-        Record recClassInfo = this.getRecord(ClassInfo.kClassInfoFile);
+        Record recClassInfo = this.getRecord(ClassInfo.CLASS_INFO_FILE);
         if (recClassInfo != null)
         {
-            record.setKeyArea(FieldData.kFieldFileNameKey);
-            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), FieldData.kFieldFileName, null, -1, null, -1, true);
+            record.setKeyArea(FieldData.FIELD_FILE_NAME_KEY);
+            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), FieldData.FIELD_FILE_NAME, null, null, null, null, true);
             record.addListener(listener);
         }
         MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
-        this.getMainRecord().getField(FieldData.kFieldName).addListener(fieldBeh);
-        this.getMainRecord().setKeyArea(FieldData.kFieldFileNameKey);
+        this.getMainRecord().getField(FieldData.FIELD_NAME).addListener(fieldBeh);
+        this.getMainRecord().setKeyArea(FieldData.FIELD_FILE_NAME_KEY);
     }
     /**
      * Set up all the screen fields.

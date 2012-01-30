@@ -10,6 +10,17 @@ import org.jbundle.model.db.*;
 public interface ProjectVersionModel extends Rec
 {
 
+    //public static final String ID = ID;
+    public static final String DESCRIPTION = "Description";
+    public static final String PROJECT_ID = "ProjectID";
+    public static final String USER_ID = "UserID";
+    public static final String CLOSED = "Closed";
+    public static final String DUE_DATE = "DueDate";
+
+    public static final String DESCRIPTION_KEY = "Description";
+
+    public static final String PROJECT_ID_KEY = "ProjectID";
+
     public static final String PROJECT_VERSION_FILE = "ProjectVersion";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.project.db.ProjectVersion";
     public static final String THICK_CLASS = "org.jbundle.app.program.project.db.ProjectVersion";

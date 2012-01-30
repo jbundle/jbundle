@@ -9,8 +9,14 @@ import org.jbundle.model.db.*;
 
 public interface ContactTypeModel extends Rec
 {
+
+    //public static final String ID = ID;
     public static final String DESCRIPTION = "Description";
     public static final String CODE = "Code";
+    public static final String LEVEL = "Level";
+    public static final String PARENT_CONTACT_TYPE_ID = "ParentContactTypeID";
+    public static final String ICON = "Icon";
+    public static final String RECORD_CLASS = "RecordClass";
 
     public static final String DESCRIPTION_KEY = "Description";
 

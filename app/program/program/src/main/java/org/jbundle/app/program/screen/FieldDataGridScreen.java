@@ -73,13 +73,13 @@ public class FieldDataGridScreen extends GridScreen
     {
         super.addListeners();
         Record record = this.getMainRecord();
-        Record recClassInfo = this.getRecord(ClassInfo.kClassInfoFile);
+        Record recClassInfo = this.getRecord(ClassInfo.CLASS_INFO_FILE);
         if (recClassInfo != null)
         {
-            record.setKeyArea(FieldData.kFieldFileNameKey);
-            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), FieldData.kFieldFileName, null, -1, null, -1, true);
+            record.setKeyArea(FieldData.FIELD_FILE_NAME_KEY);
+            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), FieldData.FIELD_FILE_NAME, null, null, null, null, true);
             record.addListener(listener);
-            recClassInfo.getField(ClassInfo.kClassName).addListener(new FieldReSelectHandler(this));
+            recClassInfo.getField(ClassInfo.CLASS_NAME).addListener(new FieldReSelectHandler(this));
         }
     }
     /**

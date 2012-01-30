@@ -42,10 +42,20 @@ public class ReComputeTimeOffsetHandler extends ReComputeFieldHandler
      * @param iTargetFieldSeq The date field sequence in this owner to use to calc the difference.
      * @param fldOtherDate The other date field to use in calculating the date difference. If null, uses the current time.
      */
+    public ReComputeTimeOffsetHandler(String targetFieldName, DateTimeField fldOtherDate)
+    {
+        this();
+        this.init(null, -1, targetFieldName, fldOtherDate);
+    }
+    /**
+     * Constructor.
+     * @param iTargetFieldSeq The date field sequence in this owner to use to calc the difference.
+     * @param fldOtherDate The other date field to use in calculating the date difference. If null, uses the current time.
+     */
     public ReComputeTimeOffsetHandler(int iTargetFieldSeq, DateTimeField fldOtherDate)
     {
         this();
-        this.init(null, iTargetFieldSeq, fldOtherDate);
+        this.init(null, iTargetFieldSeq, null, fldOtherDate);
     }
     /**
      * Constructor - Using the current time as the offset.
@@ -54,7 +64,7 @@ public class ReComputeTimeOffsetHandler extends ReComputeFieldHandler
     public ReComputeTimeOffsetHandler(int iTargetFieldSeq)
     {
         this();
-        this.init(null, iTargetFieldSeq, (DateTimeField)null);
+        this.init(null, iTargetFieldSeq, null, (DateTimeField)null);
     }
     /**
      * Constructor.
@@ -62,10 +72,10 @@ public class ReComputeTimeOffsetHandler extends ReComputeFieldHandler
      * @param iTargetFieldSeq The date field sequence in this owner to use to calc the difference.
      * @param fldOtherDate The other date field to use in calculating the date difference. If null, uses the current time.
      */
-    public void init(BaseField field, int iTargetFieldSeq, DateTimeField fldOtherDate)
+    public void init(BaseField field, int iTargetFieldSeq, String targetFieldName, DateTimeField fldOtherDate)
     {
         m_fldOtherDate = fldOtherDate;
-        super.init(field, iTargetFieldSeq, null);
+        super.init(field, iTargetFieldSeq, targetFieldName, null);
     }
     /**
      * Compute the target value.

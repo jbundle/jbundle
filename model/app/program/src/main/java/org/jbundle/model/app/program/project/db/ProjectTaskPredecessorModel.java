@@ -9,6 +9,16 @@ import org.jbundle.model.db.*;
 
 public interface ProjectTaskPredecessorModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String PROJECT_TASK_ID = "ProjectTaskID";
+    public static final String PROJECT_TASK_PREDECESSOR_ID = "ProjectTaskPredecessorID";
+    public static final String PREDECESSOR_TYPE = "PredecessorType";
+    public static final String PREDECESSOR_DELAY = "PredecessorDelay";
+
+    public static final String PROJECT_TASK_ID_KEY = "ProjectTaskID";
+
+    public static final String PROJECT_TASK_PREDECESSOR_ID_KEY = "ProjectTaskPredecessorID";
     public static final String PROJECT_TASK_PREDECESSOR_SCREEN_CLASS = "org.jbundle.app.program.project.screen.ProjectTaskPredecessorScreen";
     public static final String PROJECT_TASK_PREDECESSOR_GRID_SCREEN_CLA = "org.jbundle.app.program.project.screen.ProjectTaskPredecessorGridScreen";
 

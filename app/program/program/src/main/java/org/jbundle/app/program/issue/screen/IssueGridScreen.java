@@ -84,29 +84,29 @@ public class IssueGridScreen extends GridScreen
         
         Record recIssue = this.getMainRecord();
         SortOrderHandler keyBehavior = new SortOrderHandler(this, true);
-        this.getScreenRecord().getField(IssueScreenRecord.kKeyOrder).setValue(1);
-        this.getScreenRecord().getField(IssueScreenRecord.kKeyOrder).addListener(keyBehavior);
+        this.getScreenRecord().getField(IssueScreenRecord.KEY_ORDER).setValue(1);
+        this.getScreenRecord().getField(IssueScreenRecord.KEY_ORDER).addListener(keyBehavior);
         
-        recIssue.addListener(new CompareFileFilter(Issue.kProjectID, this.getScreenRecord().getField(IssueScreenRecord.kProjectID), "=", null, true));
-        recIssue.addListener(new CompareFileFilter(Issue.kProjectVersionID, this.getScreenRecord().getField(IssueScreenRecord.kProjectVersionID), "=", null, true));
-        recIssue.addListener(new CompareFileFilter(Issue.kIssueTypeID, this.getScreenRecord().getField(IssueScreenRecord.kIssueTypeID), "=", null, true));
-        recIssue.addListener(new CompareFileFilter(Issue.kIssueStatusID, this.getScreenRecord().getField(IssueScreenRecord.kIssueStatusID), "=", null, true));
-        recIssue.addListener(new CompareFileFilter(Issue.kAssignedUserID, this.getScreenRecord().getField(IssueScreenRecord.kAssignedUserID), "=", null, true));
-        recIssue.addListener(new CompareFileFilter(Issue.kIssuePriorityID, this.getScreenRecord().getField(IssueScreenRecord.kIssuePriorityID), "=", null, true));
+        recIssue.addListener(new CompareFileFilter(Issue.PROJECT_ID, this.getScreenRecord().getField(IssueScreenRecord.PROJECT_ID), "=", null, true));
+        recIssue.addListener(new CompareFileFilter(Issue.PROJECT_VERSION_ID, this.getScreenRecord().getField(IssueScreenRecord.PROJECT_VERSION_ID), "=", null, true));
+        recIssue.addListener(new CompareFileFilter(Issue.ISSUE_TYPE_ID, this.getScreenRecord().getField(IssueScreenRecord.ISSUE_TYPE_ID), "=", null, true));
+        recIssue.addListener(new CompareFileFilter(Issue.ISSUE_STATUS_ID, this.getScreenRecord().getField(IssueScreenRecord.ISSUE_STATUS_ID), "=", null, true));
+        recIssue.addListener(new CompareFileFilter(Issue.ASSIGNED_USER_ID, this.getScreenRecord().getField(IssueScreenRecord.ASSIGNED_USER_ID), "=", null, true));
+        recIssue.addListener(new CompareFileFilter(Issue.ISSUE_PRIORITY_ID, this.getScreenRecord().getField(IssueScreenRecord.ISSUE_PRIORITY_ID), "=", null, true));
         
-        this.getScreenRecord().getField(IssueScreenRecord.kProjectID).addListener(new FieldReSelectHandler(this));
-        this.getScreenRecord().getField(IssueScreenRecord.kProjectVersionID).addListener(new FieldReSelectHandler(this));
-        this.getScreenRecord().getField(IssueScreenRecord.kIssueTypeID).addListener(new FieldReSelectHandler(this));
-        this.getScreenRecord().getField(IssueScreenRecord.kIssueStatusID).addListener(new FieldReSelectHandler(this));
-        this.getScreenRecord().getField(IssueScreenRecord.kAssignedUserID).addListener(new FieldReSelectHandler(this));
-        this.getScreenRecord().getField(IssueScreenRecord.kIssuePriorityID).addListener(new FieldReSelectHandler(this));
-        this.getScreenRecord().getField(IssueScreenRecord.kProjectID).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(IssueScreenRecord.PROJECT_ID).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(IssueScreenRecord.PROJECT_VERSION_ID).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(IssueScreenRecord.ISSUE_TYPE_ID).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(IssueScreenRecord.ISSUE_STATUS_ID).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(IssueScreenRecord.ASSIGNED_USER_ID).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(IssueScreenRecord.ISSUE_PRIORITY_ID).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(IssueScreenRecord.PROJECT_ID).addListener(new FieldReSelectHandler(this));
         
-        this.getScreenRecord().getField(IssueScreenRecord.kProjectVersionID).addListener(new RegisterValueHandler(null));
-        this.getScreenRecord().getField(IssueScreenRecord.kIssueTypeID).addListener(new RegisterValueHandler(null));
-        this.getScreenRecord().getField(IssueScreenRecord.kIssueStatusID).addListener(new RegisterValueHandler(null));
-        this.getScreenRecord().getField(IssueScreenRecord.kAssignedUserID).addListener(new RegisterValueHandler(null));
-        this.getScreenRecord().getField(IssueScreenRecord.kIssuePriorityID).addListener(new RegisterValueHandler(null));
+        this.getScreenRecord().getField(IssueScreenRecord.PROJECT_VERSION_ID).addListener(new RegisterValueHandler(null));
+        this.getScreenRecord().getField(IssueScreenRecord.ISSUE_TYPE_ID).addListener(new RegisterValueHandler(null));
+        this.getScreenRecord().getField(IssueScreenRecord.ISSUE_STATUS_ID).addListener(new RegisterValueHandler(null));
+        this.getScreenRecord().getField(IssueScreenRecord.ASSIGNED_USER_ID).addListener(new RegisterValueHandler(null));
+        this.getScreenRecord().getField(IssueScreenRecord.ISSUE_PRIORITY_ID).addListener(new RegisterValueHandler(null));
     }
     /**
      * Add button(s) to the toolbar.
@@ -114,12 +114,12 @@ public class IssueGridScreen extends GridScreen
     public void addToolbarButtons(ToolScreen toolScreen)
     {
         new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
-        toolScreen.getScreenRecord().getField(IssueScreenRecord.kProjectID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
-        toolScreen.getScreenRecord().getField(IssueScreenRecord.kProjectVersionID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
-        toolScreen.getScreenRecord().getField(IssueScreenRecord.kIssueTypeID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
-        toolScreen.getScreenRecord().getField(IssueScreenRecord.kIssueStatusID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
-        toolScreen.getScreenRecord().getField(IssueScreenRecord.kAssignedUserID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
-        toolScreen.getScreenRecord().getField(IssueScreenRecord.kIssuePriorityID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+        toolScreen.getScreenRecord().getField(IssueScreenRecord.PROJECT_ID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+        toolScreen.getScreenRecord().getField(IssueScreenRecord.PROJECT_VERSION_ID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+        toolScreen.getScreenRecord().getField(IssueScreenRecord.ISSUE_TYPE_ID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+        toolScreen.getScreenRecord().getField(IssueScreenRecord.ISSUE_STATUS_ID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+        toolScreen.getScreenRecord().getField(IssueScreenRecord.ASSIGNED_USER_ID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+        toolScreen.getScreenRecord().getField(IssueScreenRecord.ISSUE_PRIORITY_ID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
         
         new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
     }

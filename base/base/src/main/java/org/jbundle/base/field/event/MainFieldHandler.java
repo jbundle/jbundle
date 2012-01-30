@@ -35,7 +35,8 @@ public class MainFieldHandler extends FieldListener
     /**
      * The key area to check.
      */
-    protected int m_iKeySeq = -1;
+    protected int keySeq = -1;
+    protected String keyName = null;
     /**
      * Read only?
      */
@@ -55,17 +56,27 @@ public class MainFieldHandler extends FieldListener
     public MainFieldHandler(int iKeySeq)
     {
         this();
-        this.init(null, iKeySeq);
+        this.init(null, null, iKeySeq);
+    }
+    /**
+     * Constructor.
+     * @param iKeySeq The key area this field accesses.
+     */
+    public MainFieldHandler(String keyName)
+    {
+        this();
+        this.init(null, keyName, -1);
     }
     /**
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      * @param iKeySeq The key area this field accesses.
      */
-    public void init(BaseField field, int iKeySeq)
+    public void init(BaseField field, String keyName, int iKeySeq)
     {
         super.init(field);
-        m_iKeySeq = iKeySeq;
+        this.keySeq = iKeySeq;
+        this.keyName = keyName;
         m_bInitMove = false;        // DONT respond to these moves!
         m_bReadMove = false;
         
@@ -79,9 +90,13 @@ public class MainFieldHandler extends FieldListener
     {
         super.setOwner(owner);
         if (this.getOwner() != null)
+        {
+            if (keyName == null)
+                keyName = this.getOwner().getRecord().getKeyArea(keySeq).getKeyName();
             if (this.getOwner().getListener(this.getClass()) != this)
                 if (((MainFieldHandler)this.getOwner().getListener(this.getClass())).getActualKeyArea() == this.getActualKeyArea())
                     this.getOwner().removeListener(this.getOwner().getListener(this.getClass()), true); // Make sure there is only one of these
+        }
     }
     /**
      * Set this cloned listener to the same state at this listener.
@@ -93,7 +108,7 @@ public class MainFieldHandler extends FieldListener
     public boolean syncClonedListener(BaseField field, FieldListener listener, boolean bInitCalled)
     {
         if (!bInitCalled)
-            ((MainFieldHandler)listener).init(null, m_iKeySeq);
+            ((MainFieldHandler)listener).init(null, keyName, keySeq);
         return super.syncClonedListener(field, listener, true);
     }
     /**
@@ -129,12 +144,12 @@ public class MainFieldHandler extends FieldListener
             if ((!this.getOwner().isJustModified()) || (data == null))
                 return result;  // If no change or set to null
             String iOldKeySeq = record.getKeyArea(-1).getKeyName();
-            record.setKeyArea(m_iKeySeq);
+            record.setKeyArea(keyName);
             if ((!record.isModified(true)) && ((record.getEditMode() == Constants.EDIT_ADD) || (record.getEditMode() == Constants.EDIT_NONE)))   // Modified or valid record
             {   // This is a new record and this is the first mod
                 try   {
                     buffer = new VectorBuffer(null);
-                    record.getKeyArea(m_iKeySeq).setupKeyBuffer(buffer, DBConstants.FILE_KEY_AREA);   // Save the keys
+                    record.getKeyArea(keyName).setupKeyBuffer(buffer, DBConstants.FILE_KEY_AREA);   // Save the keys
                     bSuccess = this.seek(record); // Read this record (display if found)
                     record.setKeyArea(iOldKeySeq);      // Set the key order back
                     if (!bSuccess)
@@ -142,7 +157,7 @@ public class MainFieldHandler extends FieldListener
                         record.addNew();            // This may wipe out the keys
                         if (buffer != null)
                             buffer.resetPosition();   // Just to be careful
-                        record.getKeyArea(m_iKeySeq).reverseKeyBuffer(buffer, DBConstants.FILE_KEY_AREA); // Restore the keys
+                        record.getKeyArea(keyName).reverseKeyBuffer(buffer, DBConstants.FILE_KEY_AREA); // Restore the keys
                         result = DBConstants.NORMAL_RETURN;     // Everything went okay
                     }
                     else
@@ -156,7 +171,7 @@ public class MainFieldHandler extends FieldListener
                     return e.getErrorCode();    // Never
                 }
             }
-            else if (record.getKeyArea(m_iKeySeq).getUniqueKeyCode() == DBConstants.UNIQUE)
+            else if (record.getKeyArea(keyName).getUniqueKeyCode() == DBConstants.UNIQUE)
             { // Data already entered, see if this entry makes a duplicate key!
                 buffer = new VectorBuffer(null);
                 try   {
@@ -200,7 +215,7 @@ public class MainFieldHandler extends FieldListener
                 return result;  // If error or no change
             String strOldKeySeq = Constants.BLANK;
             strOldKeySeq = record.getKeyArea(-1).getKeyName();
-            record.setKeyArea(m_iKeySeq);
+            record.setKeyArea(keyName);
             if (!record.isModified(true))   // Modified or valid (Need valid for secondary lookups)
             {
                 try   {
@@ -247,10 +262,10 @@ public class MainFieldHandler extends FieldListener
      * Get the key sequence.
      * @return
      */
-    public int getActualKeyArea()
+    public String getActualKeyArea()
     {
-        if (m_iKeySeq == -1)
-            return DBConstants.MAIN_KEY_AREA;
-        return m_iKeySeq;
+        if (keyName == null)
+            return Record.ID_KEY;
+        return keyName;
     }
 }

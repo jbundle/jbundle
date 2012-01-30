@@ -84,7 +84,7 @@ public class MenusSession extends Session
             public void doValidRecord(boolean bDisplayOption) // init this field override for other value
             {   // Convert the XMLProperties field to a URL type string (yikes... in the same field)
                 Record recMenus = this.getOwner();
-                XMLPropertiesField field = (XMLPropertiesField)recMenus.getField(Menus.kParams);
+                XMLPropertiesField field = (XMLPropertiesField)recMenus.getField(Menus.PARAMS);
                 Map<String,Object> properties = field.getProperties();
                 String strURL = null;
                 strURL = Utility.propertiesToURL(strURL, properties);
@@ -105,7 +105,7 @@ public class MenusSession extends Session
      */
     public Object doRemoteCommand(String strCommand, Map<String,Object> properties) throws RemoteException, DBException
     {
-        Map<String,Object> propMenu = properties; // I know for a fact this is a Properties object.
+        Map<String,Object> propMenu = properties; // I NOW for a fact this is a Properties object.
         if (propMenu == null)
             propMenu = new Hashtable<String,Object>();
         if (strCommand != null)
@@ -139,17 +139,17 @@ public class MenusSession extends Session
             boolean bIsNumeric = Utility.isNumeric(strCommandNoCommas);
             if (bIsNumeric)
             {
-                recMenu.setKeyArea(Menus.kIDKey);
+                recMenu.setKeyArea(Menus.ID_KEY);
                 recMenu.getField(Menus.kID).setString(strCommandNoCommas);
                 bIsNumeric = recMenu.seek("=");
             }
             if (!bIsNumeric)
             {
-                recMenu.setKeyArea(Menus.kCodeKey);
-                recMenu.getField(Menus.kCode).setString(strMenu);
+                recMenu.setKeyArea(Menus.CODE_KEY);
+                recMenu.getField(Menus.CODE).setString(strMenu);
                 if (!recMenu.seek("="))
                 {   // Not found, try the default main menu
-                    recMenu.getField(Menus.kCode).setString(HtmlConstants.MAIN_MENU_KEY);
+                    recMenu.getField(Menus.CODE).setString(HtmlConstants.MAIN_MENU_KEY);
                     recMenu.seek("=");
                 }
             }
@@ -162,8 +162,8 @@ public class MenusSession extends Session
         { // Should just change the string
             recMenu.removeListener(listener, true);
         }
-        recMenu.setKeyArea(Menus.kParentFolderIDKey);
-        recMenu.addListener(new StringSubFileFilter(strParentID, Menus.kParentFolderID, null, -1, null, -1));
+        recMenu.setKeyArea(Menus.PARENT_FOLDER_ID_KEY);
+        recMenu.addListener(new StringSubFileFilter(strParentID, recMenu.getField(Menus.PARENT_FOLDER_ID), null, null, null, null));
     }
 
 }

@@ -21,6 +21,7 @@ import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.event.FieldRemoveBOnCloseHandler;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.Converter;
+import org.jbundle.thin.base.remote.proxy.ProxyConstants;
 
 
 /**
@@ -38,6 +39,10 @@ public class CompareFileFilter extends FileFilter
      * The field sequence in this record to compare (see m_fldToCheck).
      */
     protected int m_iFieldSeqToCheck = -1;
+    /**
+     * The field sequence in this record to compare (see m_fldToCheck).
+     */
+    protected String fieldNameToCheck = null;
     /**
      * The field in this record to compare.
      */
@@ -80,7 +85,31 @@ public class CompareFileFilter extends FileFilter
     public CompareFileFilter(int fsToCheck, String strToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare)
     {
         this();
-        this.init(null, fsToCheck, strToCompare, strSeekSign, pconvFlag, bDontFilterIfNullCompare, null, null);
+        this.init(null, fsToCheck, null, strToCompare, strSeekSign, pconvFlag, bDontFilterIfNullCompare, null, null);
+    }
+    /**
+     * Constructor.
+     * @param fsToCheck The field sequence in this record to compare (see m_fldToCheck).
+     * @param szstrSeekSign The comparison sign.
+     * @param pconvFlag If this field is non-null and the state is false, don't do this comparison.
+     * @param bValidOnNull Is this record valid if the compare field is null?
+     */
+    public CompareFileFilter(String fieldNameToCheck, String strToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare)
+    {
+        this();
+        this.init(null, -1, fieldNameToCheck, strToCompare, strSeekSign, pconvFlag, bDontFilterIfNullCompare, null, null);
+    }
+    /**
+     * Constructor.
+     * @param fsToCheck The field sequence in this record to compare (see m_fldToCheck).
+     * @param szstrSeekSign The comparison sign.
+     * @param pconvFlag If this field is non-null and the state is false, don't do this comparison.
+     * @param bValidOnNull Is this record valid if the compare field is null?
+     */
+    public CompareFileFilter(BaseField fieldToCheck, String strToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare)
+    {
+        this();
+        this.init(null, -1, null, strToCompare, strSeekSign, pconvFlag, bDontFilterIfNullCompare, fieldToCheck, null);
     }
     /**
      * Constructor.
@@ -92,7 +121,7 @@ public class CompareFileFilter extends FileFilter
     public CompareFileFilter(int fsToCheck, BaseField fldToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare)
     {
         this();
-        this.init(null, fsToCheck, null, strSeekSign, pconvFlag, bDontFilterIfNullCompare, null, fldToCompare);
+        this.init(null, fsToCheck, null, null, strSeekSign, pconvFlag, bDontFilterIfNullCompare, null, fldToCompare);
     }
     /**
      * Constructor.
@@ -103,7 +132,20 @@ public class CompareFileFilter extends FileFilter
     public CompareFileFilter(BaseField fldToCheck, BaseField fldToCompare, String strSeekSign)
     {
         this();
-        this.init(null, -1, null, strSeekSign, null, true, fldToCheck, fldToCompare);
+        this.init(null, -1, null, null, strSeekSign, null, true, fldToCheck, fldToCompare);
+    }
+    /**
+     * Constructor.
+     * @param fldToCheck The field in this record to compare.
+     * @param szstrSeekSign The comparison sign.
+     * @param pconvFlag If this field is non-null and the state is false, don't do this comparison.
+     * @param pfldToCompare The field to compare the target field to.
+     * @param bValidOnNull Is this record valid if the compare field is null?
+     */
+    public CompareFileFilter(String fldNameToCheck, BaseField fldToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare)
+    {
+        this();
+        this.init(null, -1, fldNameToCheck, null, strSeekSign, pconvFlag, bDontFilterIfNullCompare, null, fldToCompare);
     }
     /**
      * Constructor.
@@ -116,7 +158,7 @@ public class CompareFileFilter extends FileFilter
     public CompareFileFilter(BaseField fldToCheck, BaseField fldToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare)
     {
         this();
-        this.init(null, -1, null, strSeekSign, pconvFlag, bDontFilterIfNullCompare, fldToCheck, fldToCompare);
+        this.init(null, -1, null, null, strSeekSign, pconvFlag, bDontFilterIfNullCompare, fldToCheck, fldToCompare);
     }
     /**
      * Constructor.
@@ -128,12 +170,13 @@ public class CompareFileFilter extends FileFilter
      * @param strToCompare The string to compare the target field to.
      * @param bValidOnNull Is this record valid if the compare field is null?
      */
-    public void init(Record record, int fsToCheck, String strToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare, BaseField fldToCheck, BaseField fldToCompare)
+    public void init(Record record, int fsToCheck, String fieldNameToCheck, String strToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare, BaseField fldToCheck, BaseField fldToCompare)
     {
         super.init(record);
         this.setMasterSlaveFlag(FileListener.RUN_IN_SLAVE);   // This runs on the slave (if there is a slave)
 
         m_iFieldSeqToCheck = fsToCheck;
+        this.fieldNameToCheck = fieldNameToCheck;
         m_fldToCheck = fldToCheck;
         m_fldToCompare = fldToCompare;
         m_strSeekSign = strSeekSign;
@@ -153,7 +196,7 @@ public class CompareFileFilter extends FileFilter
     public Object clone() throws CloneNotSupportedException
     {
         CompareFileFilter listener = new CompareFileFilter();
-        listener.init(null, m_iFieldSeqToCheck, m_strToCompare, m_strSeekSign, m_convFlag, m_bDontFilterIfNullCompare, m_fldToCheck, m_fldToCompare);
+        listener.init(null, m_iFieldSeqToCheck, fieldNameToCheck, m_strToCompare, m_strSeekSign, m_convFlag, m_bDontFilterIfNullCompare, m_fldToCheck, m_fldToCompare);
         return listener;
     }
     /**
@@ -198,6 +241,9 @@ public class CompareFileFilter extends FileFilter
             return super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList);    // Flag not set, don't process it
         BaseField recordField = m_fldToCheck;
         if (m_fldToCheck == null)
+            if (fieldNameToCheck != null)
+                recordField = this.getOwner().getField(fieldNameToCheck);   //.getText(recordString);
+        if (m_fldToCheck == null)
             recordField = this.getOwner().getField(m_iFieldSeqToCheck);   //.getText(recordString);
         if (m_fldToCompare != null)
             if (m_bDontFilterIfNullCompare)
@@ -224,6 +270,7 @@ public class CompareFileFilter extends FileFilter
     {
         try   {
             daOut.writeInt(m_iFieldSeqToCheck);
+            daOut.writeUTF(fieldNameToCheck != null ? fieldNameToCheck : ProxyConstants.NULL);
             daOut.writeObject(m_strToCompare);
             daOut.writeUTF(m_strSeekSign);
             this.writeField(daOut, m_convFlag);
@@ -251,6 +298,9 @@ public class CompareFileFilter extends FileFilter
     {
         try   {
             int iFieldSeqToCheck = daIn.readInt();
+            String fieldNameToCheck = daIn.readUTF();
+            if (ProxyConstants.NULL.equals(fieldNameToCheck))
+                fieldNameToCheck = null;
             String strToCompare = (String)daIn.readObject();
             String strSeekSign = daIn.readUTF();
             BaseField convFlag = this.readField(daIn, (BaseField)m_convFlag);
@@ -259,7 +309,7 @@ public class CompareFileFilter extends FileFilter
             BaseField fldToCompare = this.readField(daIn, m_fldToCompare);
             m_strFieldNameToCheck = daIn.readUTF();
 
-            this.init(null, iFieldSeqToCheck, strToCompare, strSeekSign, convFlag, bDontFilterIfNullCompare, fldToCheck, fldToCompare);
+            this.init(null, iFieldSeqToCheck, fieldNameToCheck, strToCompare, strSeekSign, convFlag, bDontFilterIfNullCompare, fldToCheck, fldToCompare);
         } catch (IOException ex)    {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex)   {

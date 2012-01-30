@@ -220,13 +220,13 @@ public class Menus extends Folder
      */
     public String getLink()
     {
-        String strType = this.getField(Menus.kType).getString();
-        String strLink = this.getField(Menus.kProgram).getString();
+        String strType = this.getField(Menus.TYPE).getString();
+        String strLink = this.getField(Menus.PROGRAM).getString();
         if (strLink != null)
             if (strLink.length() > 1)
                 if (strLink.charAt(0) == '.')
                     strLink = DBConstants.ROOT_PACKAGE + strLink.substring(1);
-        String strTitle = this.getField(Menus.kName).getString();
+        String strTitle = this.getField(Menus.NAME).getString();
         String strParams = Utility.addURLParam(null, strType, strLink); // Default command
         if ((strType.equalsIgnoreCase(DBParams.SCREEN))
                 || (strType.equalsIgnoreCase(DBParams.RECORD)))
@@ -270,7 +270,7 @@ public class Menus extends Folder
         else
         { // Default is okay
         }
-        Map<String,Object> properties = ((PropertiesField)this.getField(Menus.kParams)).loadProperties();
+        Map<String,Object> properties = ((PropertiesField)this.getField(Menus.PARAMS)).loadProperties();
         if (properties != null)
             if (DBConstants.BLANK.equalsIgnoreCase((String)properties.get(DBParams.USER_NAME)))
         {       // They want me to fill in the user name
@@ -320,12 +320,12 @@ public class Menus extends Folder
         
         if (this.getEditMode() == Constants.EDIT_CURRENT)
         {
-            if (this.getField(Menus.kIconResource).isNull())
+            if (this.getField(Menus.ICON_RESOURCE).isNull())
             {
-                String strIcon = this.getField(Menus.kType).toString();
+                String strIcon = this.getField(Menus.TYPE).toString();
                 if (strIcon.length() > 0)
                     strIcon = strIcon.substring(0, 1).toUpperCase() + strIcon.substring(1);
-                this.getField(Menus.kIconResource).setString(strIcon);
+                this.getField(Menus.ICON_RESOURCE).setString(strIcon);
             }
             sbMenuArea.append(XmlUtilities.createXMLStringRecord(this));
             sbMenuArea = this.addLinkTag(sbMenuArea);
@@ -347,19 +347,19 @@ public class Menus extends Folder
         sbContentArea.append(Utility.startTag(XMLTags.MENU_LIST));
         try   {
             String strMenu = this.getField(Menus.kID).toString();
-            this.setKeyArea(Menus.kParentFolderIDKey);
-            FileListener behavior = new StringSubFileFilter(strMenu, Menus.kParentFolderID, null, -1, null, -1);
+            this.setKeyArea(Menus.PARENT_FOLDER_ID_KEY);
+            FileListener behavior = new StringSubFileFilter(strMenu, this.getField(Menus.PARENT_FOLDER_ID), null, null, null, null);
             this.addListener(behavior);
             this.close();
             while (this.hasNext())
             {
                 this.next();
-                if (this.getField(Menus.kIconResource).isNull())
+                if (this.getField(Menus.ICON_RESOURCE).isNull())
                 {
-                    String strIcon = this.getField(Menus.kType).toString();
+                    String strIcon = this.getField(Menus.TYPE).toString();
                     if (strIcon.length() > 0)
                         strIcon = strIcon.substring(0, 1).toUpperCase() + strIcon.substring(1);
-                    this.getField(Menus.kIconResource).setString(strIcon);
+                    this.getField(Menus.ICON_RESOURCE).setString(strIcon);
                 }
                 StringBuffer sbMenuItem = new StringBuffer();
                 sbMenuItem.append(XmlUtilities.createXMLStringRecord(this));

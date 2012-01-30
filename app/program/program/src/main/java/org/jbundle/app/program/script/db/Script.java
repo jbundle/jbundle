@@ -210,9 +210,9 @@ public class Script extends Folder
     public void addMasterListeners()
     {
         super.addMasterListeners();
-        PropertiesField fldProperties = (PropertiesField)this.getField(Script.kProperties);
-        fldProperties.addPropertiesFieldBehavior(this.getField(Script.kSource), SOURCE);
-        fldProperties.addPropertiesFieldBehavior(this.getField(Script.kDestination), DESTINATION);
+        PropertiesField fldProperties = (PropertiesField)this.getField(Script.PROPERTIES);
+        fldProperties.addPropertiesFieldBehavior(this.getField(Script.SOURCE_PARAM), SOURCE_PARAM);
+        fldProperties.addPropertiesFieldBehavior(this.getField(Script.DESTINATION_PARAM), DESTINATION_PARAM);
     }
     /**
      * Execute Method.
@@ -257,8 +257,8 @@ public class Script extends Folder
             {
                 ClassInfo recClassInfo = new ClassInfo(this.getRecordOwner());
                 try {
-                    recClassInfo.getField(ClassInfo.kClassName).setString(strRecordName);
-                    recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
+                    recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strRecordName);
+                    recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
                     if (recClassInfo.seek(null))
                         strRecordName = recClassInfo.getPackageName() + '.' + strRecordName;
                 } catch (DBException ex) {
@@ -281,7 +281,7 @@ public class Script extends Folder
      */
     public String getProperty(String strKey)
     {
-        return ((PropertiesField)this.getField(Script.kProperties)).getProperty(strKey);
+        return ((PropertiesField)this.getField(Script.PROPERTIES)).getProperty(strKey);
     }
     /**
      * Create a record to read through this script's children.

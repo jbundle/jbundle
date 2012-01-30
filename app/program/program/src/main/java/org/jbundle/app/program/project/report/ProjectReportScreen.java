@@ -75,7 +75,7 @@ public class ProjectReportScreen extends ReportScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().setKeyArea(ProjectTask.kParentProjectTaskIDKey);
+        this.getMainRecord().setKeyArea(ProjectTask.PARENT_PROJECT_TASK_ID_KEY);
     }
     /**
      * Add the screen fields.
@@ -126,28 +126,28 @@ public class ProjectReportScreen extends ReportScreen
         Record recNew = null;
         if (bFirstTime)
         {
-            String mainString = this.getScreenRecord().getField(ProjectTaskScreenRecord.kProjectTaskID).toString();
+            String mainString = this.getScreenRecord().getField(ProjectTaskScreenRecord.PROJECT_TASK_ID).toString();
             recNew = this.getCurrentLevelInfo(+0, record);
-            recNew.addListener(new StringSubFileFilter(mainString, ProjectTask.kParentProjectTaskID, null, -1, null, -1));
+            recNew.addListener(new StringSubFileFilter(mainString, ProjectTask.PARENT_PROJECT_TASK_ID, null, null, null, null));
         }
         else
         { // See if there are any sub-records to the last valid record
             recNew = this.getCurrentLevelInfo(+1, record);
             String mainString = record.getCounterField().toString();
             if (recNew.getListener(StringSubFileFilter.class) == null)
-                recNew.addListener(new StringSubFileFilter(mainString, ProjectTask.kParentProjectTaskID, null, -1, null, -1));
+                recNew.addListener(new StringSubFileFilter(mainString, ProjectTask.PARENT_PROJECT_TASK_ID, null, null, null, null));
         }
         boolean bHasNext = recNew.hasNext();
         if (!bHasNext)
         {
-            int dLevel = (int)this.getScreenRecord().getField(ProjectTaskScreenRecord.kCurrentLevel).getValue();
+            int dLevel = (int)this.getScreenRecord().getField(ProjectTaskScreenRecord.CURRENT_LEVEL).getValue();
             if (dLevel == 0)
                 return null;    // All done
             Record recTemp = this.getCurrentLevelInfo(+0, record);
             recTemp.removeListener(recTemp.getListener(StringSubFileFilter.class), true);
             recTemp.close();
             dLevel = dLevel - 2;    // Since it is incremented next time
-            this.getScreenRecord().getField(ProjectTaskScreenRecord.kCurrentLevel).setValue(dLevel);
+            this.getScreenRecord().getField(ProjectTaskScreenRecord.CURRENT_LEVEL).setValue(dLevel);
             return this.getNextGridRecord(false);
         }
         Record recNext = (Record)recNew.next();
@@ -164,14 +164,14 @@ public class ProjectReportScreen extends ReportScreen
      */
     public Record getCurrentLevelInfo(int iOffsetFromCurrentLevel, Record record)
     {
-        int dLevel = (int)this.getScreenRecord().getField(ProjectTaskScreenRecord.kCurrentLevel).getValue();
+        int dLevel = (int)this.getScreenRecord().getField(ProjectTaskScreenRecord.CURRENT_LEVEL).getValue();
         dLevel = dLevel + iOffsetFromCurrentLevel;
-        this.getScreenRecord().getField(ProjectTaskScreenRecord.kCurrentLevel).setValue(dLevel);
+        this.getScreenRecord().getField(ProjectTaskScreenRecord.CURRENT_LEVEL).setValue(dLevel);
         if (m_rgCurrentLevelInfo.size() >= dLevel)
         {
             try {
                 m_rgCurrentLevelInfo.add((Record)record.clone());
-                m_rgCurrentLevelInfo.elementAt(dLevel).setKeyArea(ProjectTask.kParentProjectTaskIDKey);
+                m_rgCurrentLevelInfo.elementAt(dLevel).setKeyArea(ProjectTask.PARENT_PROJECT_TASK_ID_KEY);
             } catch (CloneNotSupportedException ex) {
                 ex.printStackTrace();
             }

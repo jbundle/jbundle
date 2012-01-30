@@ -9,7 +9,12 @@ import org.jbundle.model.main.db.*;
 
 public interface UserGroupModel extends PropertiesRecordModel
 {
+
+    //public static final String ID = ID;
+    public static final String DESCRIPTION = "Description";
     public static final String ACCESS_MAP = "AccessMap";
+
+    public static final String DESCRIPTION_KEY = "Description";
     public static final int RES_USER = 1;
     public static final String USER_DETAIL = "User detail";
     public static final String USER_ICON = "Distribution";

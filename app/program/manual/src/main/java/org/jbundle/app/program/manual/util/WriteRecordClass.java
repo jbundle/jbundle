@@ -15,7 +15,6 @@ import org.jbundle.app.program.db.FieldData;
 import org.jbundle.app.program.db.FileHdr;
 import org.jbundle.app.program.db.IncludeScopeField;
 import org.jbundle.app.program.db.KeyInfo;
-import org.jbundle.app.program.db.LogicFile;
 import org.jbundle.app.program.db.ProgramControl;
 import org.jbundle.app.program.manual.util.data.FieldStuff;
 import org.jbundle.app.program.resource.db.ResourceTypeField;
@@ -365,7 +364,7 @@ public class WriteRecordClass extends WriteSharedClass
         m_StreamOut.setTabs(+1);
 
         this.readRecordClass(strClassName);     // Return the record to the original position
-        ThinFieldIterator fieldIterator = new ThinFieldIterator(recFileHdr, recClassInfo, recFieldData);
+        FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
         this.writeFieldOffsets(fieldIterator, CodeType.INTERFACE);
         this.writeKeyOffsets(CodeType.INTERFACE);   // Write the Key offsets
         this.writeClassFields(CodeType.INTERFACE);    // Write the thin class fields.
@@ -454,7 +453,7 @@ public class WriteRecordClass extends WriteSharedClass
         m_StreamOut.setTabs(+1);
 
         this.readRecordClass(strClassName);     // Return the record to the original position
-        ThinFieldIterator fieldIterator = new ThinFieldIterator(recFileHdr, recClassInfo, recFieldData);
+        FieldIterator fieldIterator = new ThinFieldIterator(recFileHdr, recClassInfo, recFieldData);
         this.writeFieldOffsets(fieldIterator, CodeType.THIN);
         this.writeClassFields(CodeType.THIN);    // Write the thin class fields.
         
@@ -486,7 +485,7 @@ public class WriteRecordClass extends WriteSharedClass
 
         this.readRecordClass(strClassName);     // Return the record to the original position
     }
-    public void writeFields(String strClassName, String strDatabaseName, String strDBType, ClassInfo recClassInfo, Record recFileHdr, FieldData recFieldData, ThinFieldIterator fieldIterator)
+    public void writeFields(String strClassName, String strDatabaseName, String strDBType, ClassInfo recClassInfo, Record recFileHdr, FieldData recFieldData, FieldIterator fieldIterator)
     {
         FieldStuff fieldStuff = new FieldStuff();
         String dBFileName = recFileHdr.getField(FileHdr.kFileMainFilename).getString();
@@ -814,16 +813,14 @@ public class WriteRecordClass extends WriteSharedClass
     public void writeFieldOffsets(FieldIterator fieldIterator, CodeType codeType)
     { // Now, write all the field offsets out in the header file
         Record recClassInfo = this.getMainRecord();
-        int iFieldCount = 0;
         boolean firstTime = true;
         String strBaseRecordClass, strBaseFieldName, strFieldName, strRecordClass;
         strRecordClass = recClassInfo.getField(ClassInfo.kClassName).getString();
         strBaseRecordClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
         strFieldName = "MainField";     // In case there are no fields
         Record recFieldData = this.getRecord(FieldData.kFieldDataFile);
-        Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
 
-        if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
+/*        if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
         {
             // Write out any field constants that should be included in the model record.
             fieldIterator.close();
@@ -849,51 +846,62 @@ public class WriteRecordClass extends WriteSharedClass
             }     
             return;
         }
-
+*/
         String strLastField = strBaseRecordClass + "LastField";
 
-        fieldIterator.close();
-        while (fieldIterator.hasNext())
-        {
-            fieldIterator.next();
-            if (((IncludeScopeField)recFieldData.getField(FieldData.kIncludeScope)).includeThis(codeType, true))
-            {
-                strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
-                String strFieldConstant = this.convertNameToConstant(strFieldName);
-                m_StreamOut.writeit("public static final String " + strFieldConstant + " = \"" + strFieldName + "\";\n");
-            }
-        }
         for (int pass = 1; pass <= 2; ++pass) // Do this two times (two passes)
         {
             fieldIterator.close();
-            int count = 0;
             while (fieldIterator.hasNext())
             {
                 fieldIterator.next();
                 strFieldName = recFieldData.getField(FieldData.kFieldName).getString();
                 strBaseFieldName = recFieldData.getField(FieldData.kBaseFieldName).getString();
+                String type = "int";
+                if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
+                    type = "String";
                 switch (pass)
                 {
                 case 1:     // First, add all fields based on the super.New8 class
-                    iFieldCount++;      // Total BaseField Count
                     if (strBaseFieldName.length() > 0)
                     {
-                        count++;
                         firstTime = false;
-                        String tempStr3 = " = k" + strBaseFieldName + ";";
+//                        boolean concreteClass = true;
+//                        if (recFieldData.getField(FieldData.kID).isNull())  // Only for concrete class
+//                            concreteClass = false;
+//                        if (!recFieldData.getField(FieldData.kBaseFieldName).isNull())
+//                            if (!recFieldData.getField(FieldData.kBaseFieldName).toString().equalsIgnoreCase(recFieldData.getField(FieldData.kBaseFieldName).toString()))
+//                                concreteClass = false;
+//                        if (codeType == CodeType.THIN)
+//                            if (!concreteClass)
+//                                break;
+                        String value;
+                        if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
+                            value = convertNameToConstant(strBaseFieldName);
+                        else
+                            value = "k" + strBaseFieldName;
                         String strPre = DBConstants.BLANK;
                         if (recFieldData.getField(FieldData.kFieldName).getString().equals(strBaseFieldName))
                             strPre = "//";
-                        m_StreamOut.writeit("\n" + strPre + "public static final int k" + strFieldName + tempStr3);
+                        if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
+                            strFieldName = convertNameToConstant(strFieldName);
+                        else
+                            strFieldName = "k" + strFieldName;
+                        m_StreamOut.writeit("\n" + strPre + "public static final " + type + " " + strFieldName + " = " + value + ";");
                     }
                     break;
                 case 2:     // Now, add all fields new to this class
                     if (strBaseFieldName.length() == 0)
                     {
                         firstTime = false;
-                        count++;
+                        if (((IncludeScopeField)recFieldData.getField(FieldData.kIncludeScope)).includeThis(codeType, true))
+                        {
+                            String strFieldConstant = this.convertNameToConstant(strFieldName);
+                            m_StreamOut.writeit("\n" + "public static final String " + strFieldConstant + " = \"" + strFieldName + "\";");
+                        }
                         String tempStr3 = " = k" + strLastField + " + 1;";
-                        m_StreamOut.writeit("\npublic static final int k" + strFieldName + tempStr3);
+                        if (codeType == CodeType.THICK)
+                            m_StreamOut.writeit("\npublic static final int k" + strFieldName + tempStr3);
                         strLastField = strFieldName;
                         break;
                     }
@@ -904,8 +912,13 @@ public class WriteRecordClass extends WriteSharedClass
             {
                 if (!firstTime)
                 {
-                    m_StreamOut.writeit("\npublic static final int k" + strRecordClass + "LastField = k" + strLastField + ";\n");
-                    m_StreamOut.writeit("public static final int k" + strRecordClass + "Fields = k" + strLastField + " - DBConstants.MAIN_FIELD + 1;\n");
+                    if (codeType == CodeType.THICK)
+                    {
+                        m_StreamOut.writeit("\npublic static final int k" + strRecordClass + "LastField = k" + strLastField + ";\n");
+                        m_StreamOut.writeit("public static final int k" + strRecordClass + "Fields = k" + strLastField + " - DBConstants.MAIN_FIELD + 1;\n");
+                    }
+                    else
+                        m_StreamOut.writeit("\n");
                 }
             }
         } // End of pass loop
@@ -943,7 +956,6 @@ public class WriteRecordClass extends WriteSharedClass
                     strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
                 if (count == 1)
                 {
-        //j         m_HeadersOut.Writeit("\nenum e" + strRecordClass + "Keys {");
                     previousKey = "DBConstants.MAIN_KEY_FIELD;";
                 }
                 else
@@ -952,6 +964,8 @@ public class WriteRecordClass extends WriteSharedClass
                 if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
                 {
                     if (!((IncludeScopeField)recKeyInfo.getField(KeyInfo.kIncludeScope)).includeThis(codeType, true))
+                        continue;
+                    if (keyInBase(recClassInfo, recKeyInfo))
                         continue;
                     if (count > 1)
                         m_StreamOut.writeit("\npublic static final String " + this.convertNameToConstant(strKeyName + "Key") + " = \"" + strKeyName +"\";\n");
@@ -986,6 +1000,52 @@ public class WriteRecordClass extends WriteSharedClass
             ex.printStackTrace();
         }
     }
+    Record recClassInfo2 = null;
+    Record recKeyInfo2 = null;
+    /**
+     * Is this key already included in a base record?
+     * @return
+     */
+    public boolean keyInBase(Record recClassInfo, Record recKeyInfo)
+    {
+        try {
+            if (recClassInfo2 == null)
+                recClassInfo2 = new ClassInfo(this);
+            if (recKeyInfo2 == null)
+            {
+                recKeyInfo2 = new KeyInfo(this);
+                recKeyInfo2.setKeyArea(KeyInfo.KEY_FILENAME_KEY);
+                SubFileFilter keyBehavior = new SubFileFilter(recClassInfo2.getField(ClassInfo.kClassName), KeyInfo.kKeyFilename, null, -1, null, -1);
+                recKeyInfo2.addListener(keyBehavior);
+            }
+
+            String baseClass = recClassInfo.getField(ClassInfo.kBaseClassName).toString();
+            while ((baseClass != null) && (baseClass.length() > 0) && (!"FieldList".equalsIgnoreCase(baseClass)))
+            {
+                recClassInfo2.getField(ClassInfo.kClassName).setString(baseClass);
+                recClassInfo2.setKeyArea(ClassInfo.kClassNameKey);
+                if (!recClassInfo2.seek("="))   // Get this class record back
+                    break;
+                recKeyInfo2.close();
+                while (recKeyInfo2.hasNext())
+                {
+                    recKeyInfo2.next();
+                    String keyName = recKeyInfo.getField(KeyInfo.kKeyName).toString();
+                    if ((keyName == null) || (keyName.length() == 0))
+                        keyName = recKeyInfo.getField(KeyInfo.kKeyField1).toString();
+                    String keyName2 = recKeyInfo2.getField(KeyInfo.kKeyName).toString();
+                    if ((keyName2 == null) || (keyName2.length() == 0))
+                        keyName2 = recKeyInfo2.getField(KeyInfo.kKeyField1).toString();
+                    if (keyName2.equals(keyName))
+                        return true;    // Match!
+                }
+                baseClass = recClassInfo2.getField(ClassInfo.kBaseClassName).toString();
+            }
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return false;    // Not in base 
+    }
     /**
      *  Initialize the class
      */
@@ -1011,7 +1071,7 @@ public class WriteRecordClass extends WriteSharedClass
         {
             ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
             ClassFields recClassFields = new ClassFields(this);
-            recClassFields.addListener(new SubFileFilter(ClassFields.kClassInfoClassNameKey, recClassInfo.getField(ClassInfo.kClassName)));   // Only read through the class fields
+            recClassFields.addListener(new SubFileFilter(ClassFields.CLASS_INFO_CLASS_NAME_KEY, recClassInfo.getField(ClassInfo.kClassName)));   // Only read through the class fields
             recClassFields.close();
             try {
                 boolean firstTime = true;

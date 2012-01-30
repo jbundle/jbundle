@@ -60,7 +60,7 @@ public class UpdatePreferencesHandler extends FileListener
     public void doValidRecord(boolean bDisplayOption)
     {
         super.doValidRecord(bDisplayOption);
-        m_properties = ((PropertiesField)this.getOwner().getField(UserInfo.kProperties)).getProperties();
+        m_properties = ((PropertiesField)this.getOwner().getField(UserInfo.PROPERTIES)).getProperties();
     }
     /**
      * Called when a change is the record status is about to happen/has happened.
@@ -83,7 +83,7 @@ public class UpdatePreferencesHandler extends FileListener
     {
         if (iChangeType == DBConstants.AFTER_UPDATE_TYPE)
         {
-            Map<String,Object> properties = ((PropertiesField)this.getOwner().getField(UserInfo.kProperties)).getProperties();
+            Map<String,Object> properties = ((PropertiesField)this.getOwner().getField(UserInfo.PROPERTIES)).getProperties();
             if (properties != null)
             {
                 if (m_properties != null)

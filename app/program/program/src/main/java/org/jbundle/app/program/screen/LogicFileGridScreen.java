@@ -73,13 +73,13 @@ public class LogicFileGridScreen extends GridScreen
     {
         super.addListeners();
         Record record = this.getMainRecord();
-        Record recClassInfo = this.getRecord(ClassInfo.kClassInfoFile);
+        Record recClassInfo = this.getRecord(ClassInfo.CLASS_INFO_FILE);
         if (recClassInfo != null)
         {
-            record.setKeyArea(LogicFile.kSequenceKey);
-            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), LogicFile.kMethodClassName, null, -1, null, -1, true);
+            record.setKeyArea(LogicFile.SEQUENCE_KEY);
+            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), LogicFile.METHOD_CLASS_NAME, null, null, null, null, true);
             record.addListener(listener);
-            recClassInfo.getField(ClassInfo.kClassName).addListener(new FieldReSelectHandler(this));
+            recClassInfo.getField(ClassInfo.CLASS_NAME).addListener(new FieldReSelectHandler(this));
         }
     }
     /**

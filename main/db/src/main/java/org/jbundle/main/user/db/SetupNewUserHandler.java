@@ -67,15 +67,15 @@ public class SetupNewUserHandler extends FileListener
             Object[] fieldListenerStates = userInfo.setEnableFieldListeners(false);
             userInfo.moveFields(userTemplate, null, bDisplayOption, DBConstants.INIT_MOVE, false, false, false);
             userInfo.getField(UserInfo.kID).initField(bDisplayOption);
-            userInfo.getField(UserInfo.kFirstName).initField(bDisplayOption);
-            userInfo.getField(UserInfo.kLastName).initField(bDisplayOption);
-            userInfo.getField(UserInfo.kUserName).initField(bDisplayOption);
-            userInfo.getField(UserInfo.kPassword).initField(bDisplayOption);
+            userInfo.getField(UserInfo.FIRST_NAME).initField(bDisplayOption);
+            userInfo.getField(UserInfo.LAST_NAME).initField(bDisplayOption);
+            userInfo.getField(UserInfo.USER_NAME).initField(bDisplayOption);
+            userInfo.getField(UserInfo.PASSWORD).initField(bDisplayOption);
             userInfo.getField(UserInfo.kID).setModified(false);
-            userInfo.getField(UserInfo.kFirstName).setModified(false);
-            userInfo.getField(UserInfo.kLastName).setModified(false);
-            userInfo.getField(UserInfo.kUserName).setModified(false);
-            userInfo.getField(UserInfo.kPassword).setModified(false);
+            userInfo.getField(UserInfo.FIRST_NAME).setModified(false);
+            userInfo.getField(UserInfo.LAST_NAME).setModified(false);
+            userInfo.getField(UserInfo.USER_NAME).setModified(false);
+            userInfo.getField(UserInfo.PASSWORD).setModified(false);
             userInfo.setEnableListeners(fileListenerStates);
             userInfo.setEnableFieldListeners(fieldListenerStates);
         }
@@ -118,7 +118,7 @@ public class SetupNewUserHandler extends FileListener
                         newUserRegistration.addNew();
                         newUserRegistration.moveFields(userRegistration, null, bDisplayOption, DBConstants.INIT_MOVE, true, false, false);
                         newUserRegistration.getField(UserRegistration.kID).initField(bDisplayOption);
-                        newUserRegistration.getField(UserRegistration.kUserID).setData(bookmark);
+                        newUserRegistration.getField(UserRegistration.USER_ID).setData(bookmark);
                         newUserRegistration.add();
                     }
                 } catch (DBException e) {
@@ -138,7 +138,7 @@ public class SetupNewUserHandler extends FileListener
         if (userControl != null)
             if ((userControl.getEditMode() == DBConstants.EDIT_CURRENT) || (userControl.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
         {
-            UserInfo userInfo = (UserInfo)((ReferenceField)userControl.getField(UserControl.kTemplateUserID)).getReference();
+            UserInfo userInfo = (UserInfo)((ReferenceField)userControl.getField(UserControl.TEMPLATE_USER_ID)).getReference();
             if (userInfo != null)
                 if ((userInfo.getEditMode() == DBConstants.EDIT_CURRENT) || (userInfo.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
                     return userInfo;

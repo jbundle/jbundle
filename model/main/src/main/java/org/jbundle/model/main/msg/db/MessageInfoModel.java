@@ -9,8 +9,22 @@ import org.jbundle.model.db.*;
 
 public interface MessageInfoModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String DESCRIPTION = "Description";
+    public static final String CODE = "Code";
+    public static final String MESSAGE_CLASS = "MessageClass";
+    public static final String MESSAGE_PROPERTIES = "MessageProperties";
     public static final String MESSAGE_INFO_TYPE_ID = "MessageInfoTypeID";
+    public static final String REVERSE_MESSAGE_INFO_ID = "ReverseMessageInfoID";
     public static final String CONTACT_TYPE_ID = "ContactTypeID";
+    public static final String REQUEST_TYPE_ID = "RequestTypeID";
+
+    public static final String DESCRIPTION_KEY = "Description";
+
+    public static final String CODE_KEY = "Code";
+
+    public static final String MESSAGE_INFO_TYPE_ID_KEY = "MessageInfoTypeID";
     public static final String PROCESS_DETAIL_SCREEN = "Process detail";
     public static final String TRANSPORT_DETAIL_SCREEN = "Transport detail";
     public static final String THICK_APPLICATION = "org.jbundle.main.msg.app.MessageInfoApplication";

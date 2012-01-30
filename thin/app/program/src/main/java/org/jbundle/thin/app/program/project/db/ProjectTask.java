@@ -17,6 +17,15 @@ public class ProjectTask extends Folder
     implements ProjectTaskModel
 {
 
+    //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
+    //public static final String NAME = NAME;
+    public static final String PARENT_PROJECT_TASK_ID = PARENT_FOLDER_ID;
+    //public static final String SEQUENCE = SEQUENCE;
+    //public static final String COMMENT = COMMENT;
+    //public static final String CODE = CODE;
+
     public ProjectTask()
     {
         super();

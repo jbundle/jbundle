@@ -73,7 +73,7 @@ public class SiteRegistrationScreen extends BaseRegistrationScreen
      */
     public void addListeners()
     {
-        this.setProperty("terms", "terms");   // Terms resource key (change for different terms)
+        this.setProperty("terms", "terms");   // Terms resource EY (change for different terms)
         
         super.addListeners();
     }
@@ -100,7 +100,7 @@ public class SiteRegistrationScreen extends BaseRegistrationScreen
         super.addOtherSFields();
         
         // Subdomain field
-        UserInfo recUserInfo = (UserInfo)this.getRecord(UserInfo.kUserInfoFile);
+        UserInfo recUserInfo = (UserInfo)this.getRecord(UserInfo.USER_INFO_FILE);
         BaseField field = new StringField(recUserInfo, "Sub-Domain", 10, null, null);
         field.setVirtual(true);
         

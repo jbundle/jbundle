@@ -20,6 +20,7 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.StringField;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.remote.proxy.ProxyConstants;
 
 
 /**
@@ -39,6 +40,14 @@ public class ExtractRangeFilter extends FileFilter
      * End field in this file.
      */
     protected int m_iEndFieldSeq = -1;
+    /**
+     * Start of range is in this field.
+     */
+    protected String startFieldName = null;
+    /**
+     * End of range is in this field.
+     */
+    protected String endFieldName = null;
     /**
      * Start of range is in this field.
      */
@@ -74,7 +83,7 @@ public class ExtractRangeFilter extends FileFilter
     public ExtractRangeFilter(int iStartFieldSeq, BaseField fldStart, int iEndFieldSeq, BaseField fldEnd, int iPadfldEnd)
     {
         this();
-        this.init(null, iStartFieldSeq, fldStart, iEndFieldSeq, fldEnd, iPadfldEnd);
+        this.init(null, iStartFieldSeq, null, fldStart, iEndFieldSeq, null, fldEnd, iPadfldEnd);
     }
     /**
      * Constructor.
@@ -86,7 +95,7 @@ public class ExtractRangeFilter extends FileFilter
     public ExtractRangeFilter(int iFieldSeq, BaseField fldStart, BaseField fldEnd, int iPadfldEnd)
     {
         this();
-        this.init(null, iFieldSeq, fldStart, -1, fldEnd, iPadfldEnd);
+        this.init(null, iFieldSeq, null, fldStart, -1, null, fldEnd, iPadfldEnd);
     }
     /**
      * Constructor.
@@ -97,7 +106,17 @@ public class ExtractRangeFilter extends FileFilter
     public ExtractRangeFilter(int iFieldSeq, BaseField fldStart, int iPadfldEnd)
     {
         this();
-        this.init(null, iFieldSeq, fldStart, -1, null, iPadfldEnd);
+        this.init(null, iFieldSeq, null, fldStart, -1, null, null, iPadfldEnd);
+    }
+    /**
+     * Constructor (using the default pad).
+     * @param iFieldSeq The field in this record to compare to the range.
+     * @param fldStart The range starts at this field's value.
+     */
+    public ExtractRangeFilter(String startFieldName, BaseField fldStart)
+    {
+        this();
+        this.init(null, -1, startFieldName, fldStart, -1, null, null, PAD_DEFAULT);
     }
     /**
      * Constructor (using the default pad).
@@ -107,7 +126,7 @@ public class ExtractRangeFilter extends FileFilter
     public ExtractRangeFilter(int iFieldSeq, BaseField fldStart)
     {
         this();
-        this.init(null, iFieldSeq, fldStart, -1, null, PAD_DEFAULT);
+        this.init(null, iFieldSeq, null, fldStart, -1, null, null, PAD_DEFAULT);
     }
     /**
      * Constructor.
@@ -118,7 +137,7 @@ public class ExtractRangeFilter extends FileFilter
      * @param fldEnd The range ends at this field's value.
      * @param iPadfldEnd Should I pad the end string field with high characters?
      */
-    public void init(Record record, int iStartFieldSeq, BaseField fldStart, int iEndFieldSeq, BaseField fldEnd, int iPadfldEnd)
+    public void init(Record record, int iStartFieldSeq, String startFieldName, BaseField fldStart, int iEndFieldSeq, String endFieldName, BaseField fldEnd, int iPadfldEnd)
     {
         super.init(record);
         this.setMasterSlaveFlag(FileListener.RUN_IN_SLAVE);   // This runs on the slave (if there is a slave)
@@ -128,9 +147,14 @@ public class ExtractRangeFilter extends FileFilter
 
         m_fldStart = fldStart;
         m_fldEnd = fldEnd;
+        
+        this.startFieldName = startFieldName;
+        this.endFieldName = endFieldName;
 
         if (m_iEndFieldSeq == -1)
             m_iEndFieldSeq = m_iStartFieldSeq;
+        if (this.endFieldName == null)
+            this.endFieldName = this.startFieldName;
         if (m_fldEnd == null)
             m_fldEnd = m_fldStart;
         m_iPadfldEnd = iPadfldEnd;
@@ -152,7 +176,7 @@ public class ExtractRangeFilter extends FileFilter
     public Object clone() throws CloneNotSupportedException
     {
         ExtractRangeFilter listener = new ExtractRangeFilter();
-        listener.init(null, m_iStartFieldSeq, m_fldStart, m_iEndFieldSeq, m_fldEnd, m_iPadfldEnd);
+        listener.init(null, m_iStartFieldSeq, startFieldName, m_fldStart, m_iEndFieldSeq, endFieldName, m_fldEnd, m_iPadfldEnd);
         return listener;
     }
     /**
@@ -167,7 +191,10 @@ public class ExtractRangeFilter extends FileFilter
     {   // Between start and end dates? (Defaults to Currentdate thru +1 year)
         boolean bDontSkip2 = true;
         if (!m_fldStart.isNull())
-            bDontSkip2 = this.fieldCompare(this.getOwner().getField(m_iEndFieldSeq), m_fldStart, GREATER_THAN_EQUAL, strbFilter, bIncludeFileName, vParamList);
+        {
+            BaseField endField = (endFieldName != null) ? this.getOwner().getField(endFieldName) : this.getOwner().getField(m_iEndFieldSeq);
+            bDontSkip2 = this.fieldCompare(endField, m_fldStart, GREATER_THAN_EQUAL, strbFilter, bIncludeFileName, vParamList);
+        }
         BaseField pfldHigh = m_fldEnd;
         if (m_iPadfldEnd != DONT_PAD_END_FIELD)
         {
@@ -184,7 +211,10 @@ public class ExtractRangeFilter extends FileFilter
         }
         boolean bDontSkip = true;
         if (!m_fldEnd.isNull())
-            bDontSkip = this.fieldCompare(this.getOwner().getField(m_iStartFieldSeq), pfldHigh, LESS_THAN_EQUAL, strbFilter, bIncludeFileName, vParamList);
+        {
+            BaseField startField = (startFieldName != null) ? this.getOwner().getField(startFieldName) : this.getOwner().getField(m_iStartFieldSeq); 
+            bDontSkip = this.fieldCompare(startField, pfldHigh, LESS_THAN_EQUAL, strbFilter, bIncludeFileName, vParamList);
+        }
         if (m_iPadfldEnd != DONT_PAD_END_FIELD)
         {
             pfldHigh.free();
@@ -210,6 +240,8 @@ public class ExtractRangeFilter extends FileFilter
         try   {
             daOut.writeInt(m_iStartFieldSeq);
             daOut.writeInt(m_iEndFieldSeq);
+            daOut.writeUTF(startFieldName != null ? startFieldName : ProxyConstants.NULL);
+            daOut.writeUTF(endFieldName != null ? endFieldName : ProxyConstants.NULL);
             this.writeField(daOut, m_fldStart);
             this.writeField(daOut, m_fldEnd);
             daOut.writeInt(m_iPadfldEnd);
@@ -227,11 +259,17 @@ public class ExtractRangeFilter extends FileFilter
         try   {
             int iStartFieldSeq = daIn.readInt();
             int iEndFieldSeq = daIn.readInt();
+            String startFieldName = daIn.readUTF();
+            if (ProxyConstants.NULL.equals(startFieldName))
+                startFieldName = null;
+            String endFieldName = daIn.readUTF();
+            if (ProxyConstants.NULL.equals(endFieldName))
+                endFieldName = null;
             BaseField fldStart = this.readField(daIn, (BaseField)m_fldStart);
             BaseField fldEnd = this.readField(daIn, (BaseField)m_fldEnd);
             int iPadfldEnd = daIn.readInt();
 
-            this.init(null, iStartFieldSeq, fldStart, iEndFieldSeq, fldEnd, iPadfldEnd);
+            this.init(null, iStartFieldSeq, startFieldName, fldStart, iEndFieldSeq, endFieldName, fldEnd, iPadfldEnd);
         } catch (IOException ex)    {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex)   {

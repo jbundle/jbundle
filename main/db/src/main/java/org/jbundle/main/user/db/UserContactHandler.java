@@ -91,8 +91,8 @@ public class UserContactHandler extends FieldListener
                         int iOldOpenMode = recUserInfo.setOpenMode(recUserInfo.getOpenMode() & ~DBConstants.OPEN_READ_ONLY);
                         try {
                             recUserInfo.edit();
-                            recUserInfo.getField(UserInfo.kContactTypeID).moveFieldToThis(((Record)recContactType).getCounterField());
-                            recUserInfo.getField(UserInfo.kContactID).moveFieldToThis(recPerson.getCounterField());
+                            recUserInfo.getField(UserInfo.CONTACT_TYPE_ID).moveFieldToThis(((Record)recContactType).getCounterField());
+                            recUserInfo.getField(UserInfo.CONTACT_ID).moveFieldToThis(recPerson.getCounterField());
                             recUserInfo.set();
                         } catch (DBException ex) {
                             ex.printStackTrace();

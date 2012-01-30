@@ -90,7 +90,7 @@ public class UserRegistrationGridScreen extends DetailGridScreen
      */
     public Record getHeaderRecord()
     {
-        return this.getRecord(UserInfo.kUserInfoFile);
+        return this.getRecord(UserInfo.USER_INFO_FILE);
     }
     /**
      * Make a sub-screen.

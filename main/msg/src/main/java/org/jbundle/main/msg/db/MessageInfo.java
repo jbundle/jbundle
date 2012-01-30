@@ -214,7 +214,7 @@ public class MessageInfo extends VirtualRecord
      */
     public void addPropertiesFieldBehavior(BaseField fldDisplay, String strProperty)
     {
-        BaseField fldProperties = this.getField(MessageInfo.kMessageProperties);
+        BaseField fldProperties = this.getField(MessageInfo.MESSAGE_PROPERTIES);
         FieldListener listener = new CopyConvertersHandler(new PropertiesConverter(fldProperties, strProperty));
         listener.setRespondsToMode(DBConstants.INIT_MOVE, false);
         listener.setRespondsToMode(DBConstants.READ_MOVE, false);
@@ -229,21 +229,21 @@ public class MessageInfo extends VirtualRecord
     public TrxMessageHeader addMessageProperties(TrxMessageHeader trxMessageHeader)
     {
         Map<String, Object> mapHeaderMessageInfo = trxMessageHeader.getMessageInfoMap();
-        Map<String, Object> propMessageInfo = ((PropertiesField)this.getField(MessageInfo.kMessageProperties)).loadProperties();
-        propMessageInfo.put(TrxMessageHeader.INTERNAL_MESSAGE_CLASS, this.getField(MessageInfo.kMessageClass).toString());
+        Map<String, Object> propMessageInfo = ((PropertiesField)this.getField(MessageInfo.MESSAGE_PROPERTIES)).loadProperties();
+        propMessageInfo.put(TrxMessageHeader.INTERNAL_MESSAGE_CLASS, this.getField(MessageInfo.MESSAGE_CLASS).toString());
         
-        MessageInfoType recMessageInfoType = (MessageInfoType)((ReferenceField)this.getField(MessageInfo.kMessageInfoTypeID)).getReference();
+        MessageInfoType recMessageInfoType = (MessageInfoType)((ReferenceField)this.getField(MessageInfo.MESSAGE_INFO_TYPE_ID)).getReference();
         if (recMessageInfoType != null)
-            propMessageInfo.put(TrxMessageHeader.MESSAGE_INFO_TYPE, recMessageInfoType.getField(MessageInfoType.kCode).toString());
+            propMessageInfo.put(TrxMessageHeader.MESSAGE_INFO_TYPE, recMessageInfoType.getField(MessageInfoType.CODE).toString());
         String schemaLocation = (String)propMessageInfo.get(SCHEMA_LOCATION);
         if (schemaLocation == null)
-            schemaLocation = this.getField(MessageInfo.kCode).toString();
+            schemaLocation = this.getField(MessageInfo.CODE).toString();
         if (schemaLocation != null)
             propMessageInfo.put(SCHEMA_LOCATION, schemaLocation);
         
-        Record recRequestType = ((ReferenceField)this.getField(MessageInfo.kRequestTypeID)).getReference();
+        Record recRequestType = ((ReferenceField)this.getField(MessageInfo.REQUEST_TYPE_ID)).getReference();
         if ((recRequestType != null) && (recRequestType.getEditMode() == DBConstants.EDIT_CURRENT))
-            propMessageInfo.put(TrxMessageHeader.MESSAGE_REQUEST_TYPE, recRequestType.getField(RequestType.kCode).toString());
+            propMessageInfo.put(TrxMessageHeader.MESSAGE_REQUEST_TYPE, recRequestType.getField(RequestType.CODE).toString());
         
         if (mapHeaderMessageInfo != null)
             mapHeaderMessageInfo.putAll(propMessageInfo);
@@ -261,7 +261,7 @@ public class MessageInfo extends VirtualRecord
     public MessageRecordDesc createNewMessage(BaseMessage message, String strKey)
     {
         MessageRecordDesc messageData = null;
-        String strClassName = this.getField(MessageInfo.kMessageClass).toString();
+        String strClassName = this.getField(MessageInfo.MESSAGE_CLASS).toString();
         messageData = (MessageRecordDesc)ClassServiceUtility.getClassService().makeObjectFromClassName(strClassName);
         if (messageData != null)
                messageData.init(message, strKey);

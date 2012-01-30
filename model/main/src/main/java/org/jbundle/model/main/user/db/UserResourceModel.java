@@ -9,6 +9,12 @@ import org.jbundle.model.db.*;
 
 public interface UserResourceModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String DESCRIPTION = "Description";
+    public static final String RESOURCE_CLASS = "ResourceClass";
+
+    public static final String DESCRIPTION_KEY = "Description";
     public static final String USER_RESOURCE_SCREEN_CLASS = "org.jbundle.main.user.screen.UserResourceScreen";
     public static final String USER_RESOURCE_GRID_SCREEN_CLASS = "org.jbundle.main.user.screen.UserResourceGridScreen";
 

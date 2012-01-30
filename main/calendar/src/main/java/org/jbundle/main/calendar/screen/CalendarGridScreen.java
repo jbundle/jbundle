@@ -79,7 +79,7 @@ public class CalendarGridScreen extends GridScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().setKeyArea(CalendarEntry.kStartDateTimeKey);
+        this.getMainRecord().setKeyArea(CalendarEntry.START_DATE_TIME_KEY);
         this.setEditing(true);
     }
     /**
@@ -88,10 +88,10 @@ public class CalendarGridScreen extends GridScreen
     public void setupSFields()
     {
         Record record = this.getMainRecord();
-        //this.addColumn(new MergeConverter(record, Animal.kName));
-        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.kStartDateTime));
-        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.kEndDateTime));
-        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.kDescription));
+        //this.addColumn(new MergeConverter(record, Animal.NAME));
+        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.START_DATE_TIME));
+        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.END_DATE_TIME));
+        this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.DESCRIPTION));
     }
 
 }

@@ -239,16 +239,16 @@ public class MessageProcessInfo extends VirtualRecord
     public String getQueueName(boolean bDefaultIfNone)
     {
         String strName = null;
-        Record recQueueName = ((ReferenceField)this.getField(MessageProcessInfo.kQueueNameID)).getReference();
+        Record recQueueName = ((ReferenceField)this.getField(MessageProcessInfo.QUEUE_NAME_ID)).getReference();
         if ((recQueueName != null) && (recQueueName.getEditMode() == DBConstants.EDIT_CURRENT))
-            strName = recQueueName.getField(QueueName.kCode).toString();
+            strName = recQueueName.getField(QueueName.CODE).toString();
         if ((strName == null) || (strName.length() == 0))
             if (bDefaultIfNone)
         {
             int iMessageInfoType = MessageInfoType.REQUEST_ID;
-            Record recMessageInfo = ((ReferenceField)this.getField(MessageProcessInfo.kMessageInfoID)).getReference();
+            Record recMessageInfo = ((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference();
             if ((recMessageInfo != null) && (recMessageInfo.getEditMode() == DBConstants.EDIT_CURRENT))
-                iMessageInfoType = (int)recMessageInfo.getField(MessageInfo.kMessageInfoTypeID).getValue();
+                iMessageInfoType = (int)recMessageInfo.getField(MessageInfo.MESSAGE_INFO_TYPE_ID).getValue();
             if (iMessageInfoType == MessageInfoType.REQUEST_ID)
                 strName = MessageConstants.TRX_SEND_QUEUE;
             else
@@ -262,10 +262,10 @@ public class MessageProcessInfo extends VirtualRecord
     public String getQueueType(boolean bDefaultIfNone)
     {
         String strQueueType = null;
-        Record recQueueName = ((ReferenceField)this.getField(MessageProcessInfo.kQueueNameID)).getReference();
+        Record recQueueName = ((ReferenceField)this.getField(MessageProcessInfo.QUEUE_NAME_ID)).getReference();
         if (recQueueName != null)
             if (recQueueName.getEditMode() == DBConstants.EDIT_CURRENT)
-                strQueueType = recQueueName.getField(QueueName.kQueueType).toString();
+                strQueueType = recQueueName.getField(QueueName.QUEUE_TYPE).toString();
         if ((strQueueType == null) || (strQueueType.length() == 0))
             if (bDefaultIfNone)
                 strQueueType = MessageConstants.DEFAULT_QUEUE;
@@ -281,29 +281,29 @@ public class MessageProcessInfo extends VirtualRecord
             if (Utility.isNumeric(strMessageKey))
             {
                 this.getField(MessageProcessInfo.kID).setString(strMessageKey);
-                this.setKeyArea(MessageProcessInfo.kIDKey);
+                this.setKeyArea(MessageProcessInfo.ID_KEY);
                 if (this.seek(null))
                     return this;
             }
-            this.getField(MessageProcessInfo.kCode).setString(strMessageKey);
-            this.setKeyArea(MessageProcessInfo.kCodeKey);
+            this.getField(MessageProcessInfo.CODE).setString(strMessageKey);
+            this.setKeyArea(MessageProcessInfo.CODE_KEY);
             if (this.seek(null))
                 return this;
-            MessageInfo recMessageInfo = (MessageInfo)((ReferenceField)this.getField(MessageProcessInfo.kMessageInfoID)).getReferenceRecord();
+            MessageInfo recMessageInfo = (MessageInfo)((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReferenceRecord();
             recMessageInfo.addNew();
-            recMessageInfo.getField(MessageInfo.kCode).setString(strMessageKey);
-            recMessageInfo.setKeyArea(MessageInfo.kCodeKey);
+            recMessageInfo.getField(MessageInfo.CODE).setString(strMessageKey);
+            recMessageInfo.setKeyArea(MessageInfo.CODE_KEY);
             if (recMessageInfo.seek(null))
             {
-                if (MessageInfoType.REQUEST.equalsIgnoreCase(((ReferenceField)recMessageInfo.getField(MessageInfo.kMessageInfoTypeID)).getReference().getField(MessageInfoType.kCode).toString()))
+                if (MessageInfoType.REQUEST.equalsIgnoreCase(((ReferenceField)recMessageInfo.getField(MessageInfo.MESSAGE_INFO_TYPE_ID)).getReference().getField(MessageInfoType.CODE).toString()))
                 {   // Must be a request!
-                    this.getField(MessageProcessInfo.kMessageInfoID).moveFieldToThis(recMessageInfo.getField(MessageInfo.kID));
-                    this.getField(MessageProcessInfo.kMessageTypeID).setValue(((ReferenceField)this.getField(MessageProcessInfo.kMessageTypeID)).getIDFromCode(MessageType.MESSAGE_IN));
-                    this.getField(MessageProcessInfo.kProcessTypeID).setValue(((ReferenceField)this.getField(MessageProcessInfo.kProcessTypeID)).getIDFromCode(ProcessType.INFO));
-                    this.setKeyArea(MessageProcessInfo.kMessageInfoIDKey);
+                    this.getField(MessageProcessInfo.MESSAGE_INFO_ID).moveFieldToThis(recMessageInfo.getField(MessageInfo.kID));
+                    this.getField(MessageProcessInfo.MESSAGE_TYPE_ID).setValue(((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_TYPE_ID)).getIDFromCode(MessageType.MESSAGE_IN));
+                    this.getField(MessageProcessInfo.PROCESS_TYPE_ID).setValue(((ReferenceField)this.getField(MessageProcessInfo.PROCESS_TYPE_ID)).getIDFromCode(ProcessType.INFO));
+                    this.setKeyArea(MessageProcessInfo.MESSAGE_INFO_ID_KEY);
                     if (this.seek(null))
                         return this;
-                    this.getField(MessageProcessInfo.kProcessTypeID).setValue(((ReferenceField)this.getField(MessageProcessInfo.kProcessTypeID)).getIDFromCode(ProcessType.UPDATE));    // Should not be, but check anyway
+                    this.getField(MessageProcessInfo.PROCESS_TYPE_ID).setValue(((ReferenceField)this.getField(MessageProcessInfo.PROCESS_TYPE_ID)).getIDFromCode(ProcessType.UPDATE));    // Should not be, but check anyway
                     if (this.seek(null))
                         return this;
                 }
@@ -322,45 +322,45 @@ public class MessageProcessInfo extends VirtualRecord
     {
         int iOldKeyArea = this.getDefaultOrder();
         try {
-            Record recMessageInfo = ((ReferenceField)this.getField(MessageProcessInfo.kMessageInfoID)).getReferenceRecord();
-            int iMessageTypeID = ((ReferenceField)recMessageInfo.getField(MessageInfo.kMessageInfoTypeID)).getIDFromCode(strMessageInfoType);
+            Record recMessageInfo = ((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReferenceRecord();
+            int iMessageTypeID = ((ReferenceField)recMessageInfo.getField(MessageInfo.MESSAGE_INFO_TYPE_ID)).getIDFromCode(strMessageInfoType);
             if (iMessageTypeID <= 0)
                 return null;
-            recMessageInfo.getField(MessageInfo.kMessageInfoTypeID).setValue(iMessageTypeID);
-            int iContactTypeID = ((ReferenceField)recMessageInfo.getField(MessageInfo.kContactTypeID)).getIDFromCode(strContactType);
+            recMessageInfo.getField(MessageInfo.MESSAGE_INFO_TYPE_ID).setValue(iMessageTypeID);
+            int iContactTypeID = ((ReferenceField)recMessageInfo.getField(MessageInfo.CONTACT_TYPE_ID)).getIDFromCode(strContactType);
             if (iContactTypeID <= 0)
                 return null;
-            recMessageInfo.getField(MessageInfo.kContactTypeID).setValue(iContactTypeID);
-            int iRequestTypeID = ((ReferenceField)recMessageInfo.getField(MessageInfo.kRequestTypeID)).getIDFromCode(strRequestType);
+            recMessageInfo.getField(MessageInfo.CONTACT_TYPE_ID).setValue(iContactTypeID);
+            int iRequestTypeID = ((ReferenceField)recMessageInfo.getField(MessageInfo.REQUEST_TYPE_ID)).getIDFromCode(strRequestType);
             if (iRequestTypeID <= 0)
                 return null;
-            recMessageInfo.getField(MessageInfo.kRequestTypeID).setValue(iRequestTypeID);
-            recMessageInfo.setKeyArea(MessageInfo.kMessageInfoTypeIDKey);
+            recMessageInfo.getField(MessageInfo.REQUEST_TYPE_ID).setValue(iRequestTypeID);
+            recMessageInfo.setKeyArea(MessageInfo.MESSAGE_INFO_TYPE_ID_KEY);
             if (recMessageInfo.seek(DBConstants.EQUALS))
             {
-                this.setKeyArea(MessageProcessInfo.kMessageInfoIDKey);
-                this.getField(MessageProcessInfo.kMessageInfoID).moveFieldToThis((BaseField)recMessageInfo.getCounterField());
-                int iMessageProcessTypeID = ((ReferenceField)this.getField(MessageProcessInfo.kMessageTypeID)).getIDFromCode(strMessageProcessType);
+                this.setKeyArea(MessageProcessInfo.MESSAGE_INFO_ID_KEY);
+                this.getField(MessageProcessInfo.MESSAGE_INFO_ID).moveFieldToThis((BaseField)recMessageInfo.getCounterField());
+                int iMessageProcessTypeID = ((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_TYPE_ID)).getIDFromCode(strMessageProcessType);
                 if (iMessageProcessTypeID <= 0)
                     return null;
-                this.getField(MessageProcessInfo.kMessageTypeID).setValue(iMessageProcessTypeID);
-                int iProcessTypeID = ((ReferenceField)this.getField(MessageProcessInfo.kProcessTypeID)).getIDFromCode(strProcessType);
+                this.getField(MessageProcessInfo.MESSAGE_TYPE_ID).setValue(iMessageProcessTypeID);
+                int iProcessTypeID = ((ReferenceField)this.getField(MessageProcessInfo.PROCESS_TYPE_ID)).getIDFromCode(strProcessType);
                 if (iProcessTypeID <= 0)
                     return null;
-                this.getField(MessageProcessInfo.kProcessTypeID).setValue(iProcessTypeID);
+                this.getField(MessageProcessInfo.PROCESS_TYPE_ID).setValue(iProcessTypeID);
                 
                 if (this.seek(null))
                     return this;
             }
             // Try the parent contact type
-            Record recContactType = ((ReferenceField)recMessageInfo.getField(MessageInfo.kContactTypeID)).getReferenceRecord();
+            Record recContactType = ((ReferenceField)recMessageInfo.getField(MessageInfo.CONTACT_TYPE_ID)).getReferenceRecord();
             if (recContactType != null)
             {
-                recContactType = ((ReferenceField)recContactType.getField(ContactType.kParentContactTypeID)).getReference();
+                recContactType = ((ReferenceField)recContactType.getField(ContactType.PARENT_CONTACT_TYPE_ID)).getReference();
                 if (recContactType != null)
                     if ((recContactType.getEditMode() == DBConstants.EDIT_CURRENT) || (recContactType.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
                 {
-                    strContactType = recContactType.getField(ContactType.kCode).toString();
+                    strContactType = recContactType.getField(ContactType.CODE).toString();
                     if (strContactType != null)
                         return this.getMessageProcessInfo(strMessageInfoType, strContactType, strRequestType, strMessageProcessType, strProcessType);
                 }
@@ -393,7 +393,7 @@ public class MessageProcessInfo extends VirtualRecord
         MessageProcessInfo recMessageProcessInfo = (MessageProcessInfo)this.getMessageProcessInfo(strMessageCode);
         if (recMessageProcessInfo == null)
             return false;   // Message not found
-        MessageInfo recMessageInfo = (MessageInfo)((ReferenceField)this.getField(MessageProcessInfo.kMessageInfoID)).getReference();
+        MessageInfo recMessageInfo = (MessageInfo)((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference();
         if (recMessageInfo == null)
             return false;    // Impossible
         trxMessageHeader = recMessageInfo.addMessageProperties(trxMessageHeader);
@@ -412,7 +412,7 @@ public class MessageProcessInfo extends VirtualRecord
             return null;    // Must have a valid record
         TrxMessageHeader trxMessageHeader = new TrxMessageHeader(null, null);
         // Add properties from this process info
-        MessageInfo recMessageInfo = (MessageInfo)((ReferenceField)this.getField(MessageProcessInfo.kMessageInfoID)).getReference();
+        MessageInfo recMessageInfo = (MessageInfo)((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference();
         if (recMessageInfo == null)
             return null;    // Impossible
         trxMessageHeader = recMessageInfo.addMessageProperties(trxMessageHeader);
@@ -455,8 +455,8 @@ public class MessageProcessInfo extends VirtualRecord
             }
             if (recMessageTransport == null)
             { // See if there is a default transport specified in this record
-                if (!this.getField(MessageProcessInfo.kDefaultMessageTransportID).isNull())
-                    recMessageTransport = (MessageTransport)((ReferenceField)this.getField(MessageProcessInfo.kDefaultMessageTransportID)).getReference();
+                if (!this.getField(MessageProcessInfo.DEFAULT_MESSAGE_TRANSPORT_ID).isNull())
+                    recMessageTransport = (MessageTransport)((ReferenceField)this.getField(MessageProcessInfo.DEFAULT_MESSAGE_TRANSPORT_ID)).getReference();
             }
             if (recMessageTransport == null)
             { // See if there is a default transport in the MessageDetailTarget chain.
@@ -539,7 +539,7 @@ public class MessageProcessInfo extends VirtualRecord
     {
         Map<String,Object> mapHeaderMessageInfo = trxMessageHeader.getMessageInfoMap();
         
-        Map<String,Object> propMessageProcessInfo = ((PropertiesField)this.getField(MessageProcessInfo.kProperties)).loadProperties();
+        Map<String,Object> propMessageProcessInfo = ((PropertiesField)this.getField(MessageProcessInfo.PROPERTIES)).loadProperties();
         String strQueueName = this.getQueueName(false);
         if (propMessageProcessInfo.get(MessageConstants.QUEUE_NAME) == null)
             if (strQueueName != null)
@@ -548,19 +548,19 @@ public class MessageProcessInfo extends VirtualRecord
         if (propMessageProcessInfo.get(MessageConstants.QUEUE_TYPE) == null)
             if (strQueueType != null)
                 propMessageProcessInfo.put(MessageConstants.QUEUE_TYPE, strQueueType);
-        if (!this.getField(MessageProcessInfo.kReplyMessageProcessInfoID).isNull())
-            propMessageProcessInfo.put(TrxMessageHeader.MESSAGE_RESPONSE_ID, this.getField(MessageProcessInfo.kReplyMessageProcessInfoID).toString());
-        if (!this.getField(MessageProcessInfo.kLocalMessageProcessInfoID).isNull())
-            propMessageProcessInfo.put(LocalMessageTransport.LOCAL_PROCESSOR, this.getField(MessageProcessInfo.kLocalMessageProcessInfoID).toString());
-        if (!this.getField(MessageProcessInfo.kMessageTypeID).isNull())
+        if (!this.getField(MessageProcessInfo.REPLY_MESSAGE_PROCESS_INFO_ID).isNull())
+            propMessageProcessInfo.put(TrxMessageHeader.MESSAGE_RESPONSE_ID, this.getField(MessageProcessInfo.REPLY_MESSAGE_PROCESS_INFO_ID).toString());
+        if (!this.getField(MessageProcessInfo.LOCAL_MESSAGE_PROCESS_INFO_ID).isNull())
+            propMessageProcessInfo.put(LocalMessageTransport.LOCAL_PROCESSOR, this.getField(MessageProcessInfo.LOCAL_MESSAGE_PROCESS_INFO_ID).toString());
+        if (!this.getField(MessageProcessInfo.MESSAGE_TYPE_ID).isNull())
         {
-            MessageType recMessageType = (MessageType)((ReferenceField)this.getField(MessageProcessInfo.kMessageTypeID)).getReference();
+            MessageType recMessageType = (MessageType)((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_TYPE_ID)).getReference();
             if (recMessageType != null)
-                propMessageProcessInfo.put(TrxMessageHeader.MESSAGE_PROCESS_TYPE, recMessageType.getField(MessageType.kCode).toString());
+                propMessageProcessInfo.put(TrxMessageHeader.MESSAGE_PROCESS_TYPE, recMessageType.getField(MessageType.CODE).toString());
         }
         
-        if (!this.getField(MessageProcessInfo.kProcessorClass).isNull())
-            propMessageProcessInfo.put(TrxMessageHeader.MESSAGE_PROCESSOR_CLASS, this.getField(MessageProcessInfo.kProcessorClass).toString());
+        if (!this.getField(MessageProcessInfo.PROCESSOR_CLASS).isNull())
+            propMessageProcessInfo.put(TrxMessageHeader.MESSAGE_PROCESSOR_CLASS, this.getField(MessageProcessInfo.PROCESSOR_CLASS).toString());
         if (mapHeaderMessageInfo != null)
             mapHeaderMessageInfo.putAll(propMessageProcessInfo);
         else
@@ -571,10 +571,10 @@ public class MessageProcessInfo extends VirtualRecord
         
         trxMessageHeader.put(TrxMessageHeader.MESSAGE_PROCESS_INFO_ID, this.getCounterField().toString());
         
-        String strDescription = this.getField(MessageProcessInfo.kDescription).toString();
-        if (((ReferenceField)this.getField(MessageProcessInfo.kMessageInfoID)).getReference() != null)
-            if (!((ReferenceField)this.getField(MessageProcessInfo.kMessageInfoID)).getReference().getField(MessageInfo.kDescription).isNull())
-                strDescription = ((ReferenceField)this.getField(MessageProcessInfo.kMessageInfoID)).getReference().getField(MessageInfo.kDescription).toString();
+        String strDescription = this.getField(MessageProcessInfo.DESCRIPTION).toString();
+        if (((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference() != null)
+            if (!((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference().getField(MessageInfo.DESCRIPTION).isNull())
+                strDescription = ((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference().getField(MessageInfo.DESCRIPTION).toString();
         trxMessageHeader.put(TrxMessageHeader.DESCRIPTION, strDescription);
         
         return trxMessageHeader;
@@ -605,10 +605,10 @@ public class MessageProcessInfo extends VirtualRecord
             try {
                 if (m_recMessageTransport.setHandle(trxMessageHeader.get(MessageTransport.TRANSPORT_ID_PARAM), DBConstants.BOOKMARK_HANDLE) != null)
                 {
-                    Map<String,Object> propMessageTransport = ((PropertiesField)m_recMessageTransport.getField(MessageTransport.kProperties)).loadProperties();
+                    Map<String,Object> propMessageTransport = ((PropertiesField)m_recMessageTransport.getField(MessageTransport.PROPERTIES)).loadProperties();
                     String strInitialMessageStatusID = null;
-                    if (!this.getField(MessageProcessInfo.kInitialMessageStatusID).isNull())
-                        strInitialMessageStatusID = this.getField(MessageProcessInfo.kInitialMessageStatusID).toString();
+                    if (!this.getField(MessageProcessInfo.INITIAL_MESSAGE_STATUS_ID).isNull())
+                        strInitialMessageStatusID = this.getField(MessageProcessInfo.INITIAL_MESSAGE_STATUS_ID).toString();
                     if (strInitialMessageStatusID != null)
                     {
                         if (propMessageTransport == null)
@@ -624,7 +624,7 @@ public class MessageProcessInfo extends VirtualRecord
                             propHeaderTransport = propMessageTransport;
                         trxMessageHeader.setMessageTransportMap(propHeaderTransport);
                     }
-                    m_recMessageTransportInfo.setKeyArea(MessageTransportInfo.kMessageProcessInfoIDKey);
+                    m_recMessageTransportInfo.setKeyArea(MessageTransportInfo.MESSAGE_PROCESS_INFO_ID_KEY);
                     int iMessageVersionID = 0;
                     if (trxMessageHeader.getProperties() != null)
                         if (strVersion == null)
@@ -644,7 +644,7 @@ public class MessageProcessInfo extends VirtualRecord
                     if (iMessageVersionID != 0)
                     {
                         recMessageVersion.getField(MessageVersion.kID).setValue(iMessageVersionID);
-                        recMessageVersion.setKeyArea(MessageVersion.kIDKey);
+                        recMessageVersion.setKeyArea(MessageVersion.ID_KEY);
                         if (!recMessageVersion.seek(DBConstants.EQUALS))
                             iMessageVersionID = 0;  // Never
                     }
@@ -657,17 +657,17 @@ public class MessageProcessInfo extends VirtualRecord
                             int iMessageVersionIDDefault = 0;
                             int iMessageVersionIDBestGuess = iMessageVersionID;
                             boolean bDefaultExists = false;
-                            m_recMessageTransportInfo.addListener(subFileFilter = new SubFileFilter(this.getField(MessageProcessInfo.kID), MessageTransportInfo.kMessageProcessInfoID, m_recMessageTransport.getField(MessageTransport.kID), MessageTransportInfo.kMessageTransportID, null, -1));
+                            addListener(subFileFilter = new SubFileFilter(this.getField(MessageProcessInfo.kID), m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_PROCESS_INFO_ID), m_recMessageTransport.getField(MessageTransport.kID), m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_TRANSPORT_ID), null, null));
                             while  (m_recMessageTransportInfo.hasNext())
                             {
                                 m_recMessageTransportInfo.next();
-                                if (m_recMessageTransportInfo.getField(MessageTransportInfo.kActive).getState())
-                                    iMessageVersionIDBestGuess = (int)m_recMessageTransportInfo.getField(MessageTransportInfo.kMessageVersionID).getValue();
-                                else if (m_recMessageTransportInfo.getField(MessageTransportInfo.kMessageVersionID).getValue() == 0)
+                                if (m_recMessageTransportInfo.getField(MessageTransportInfo.ACTIVE).getState())
+                                    iMessageVersionIDBestGuess = (int)m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_VERSION_ID).getValue();
+                                else if (m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_VERSION_ID).getValue() == 0)
                                     iMessageVersionIDBestGuess = 0;    // If not active with no version, best guess is no version
-                                if (m_recMessageTransportInfo.getField(MessageTransportInfo.kDefaultTransport).getState())  // Default is always the best guess
-                                    iMessageVersionIDDefault = (int)m_recMessageTransportInfo.getField(MessageTransportInfo.kMessageVersionID).getValue();
-                                if (m_recMessageTransportInfo.getField(MessageTransportInfo.kMessageVersionID).getValue() == iMessageVersionID)  // Default is always the best guess
+                                if (m_recMessageTransportInfo.getField(MessageTransportInfo.DEFAULT_TRANSPORT).getState())  // Default is always the best guess
+                                    iMessageVersionIDDefault = (int)m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_VERSION_ID).getValue();
+                                if (m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_VERSION_ID).getValue() == iMessageVersionID)  // Default is always the best guess
                                     bDefaultExists = true;
                             }
                             subFileFilter.free();
@@ -677,14 +677,14 @@ public class MessageProcessInfo extends VirtualRecord
                             else if (!bDefaultExists)
                                 iMessageVersionID = iMessageVersionIDBestGuess; // else, If the default doesn't exist, use the best guess
                             recMessageVersion.getField(MessageVersion.kID).setValue(iMessageVersionID);
-                            recMessageVersion.setKeyArea(MessageVersion.kIDKey);
+                            recMessageVersion.setKeyArea(MessageVersion.ID_KEY);
                             if (!recMessageVersion.seek(DBConstants.EQUALS))
                                 iMessageVersionID = 0;  // Never
                         }
                     }
-                    m_recMessageTransportInfo.getField(MessageTransportInfo.kMessageProcessInfoID).moveFieldToThis(this.getField(MessageProcessInfo.kID));
-                    m_recMessageTransportInfo.getField(MessageTransportInfo.kMessageTransportID).moveFieldToThis(m_recMessageTransport.getField(MessageTransport.kID));
-                    m_recMessageTransportInfo.getField(MessageTransportInfo.kMessageVersionID).setValue(iMessageVersionID);
+                    m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_PROCESS_INFO_ID).moveFieldToThis(this.getField(MessageProcessInfo.kID));
+                    m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_TRANSPORT_ID).moveFieldToThis(m_recMessageTransport.getField(MessageTransport.kID));
+                    m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_VERSION_ID).setValue(iMessageVersionID);
                     if (m_recMessageTransportInfo.seek(DBConstants.EQUALS))
                     {
                         trxMessageHeader = recMessageVersion.addMessageProperties(trxMessageHeader, this.getMessageControl());
@@ -735,7 +735,7 @@ public class MessageProcessInfo extends VirtualRecord
         if (objResponseID == null)
             return null;    // TODO (don) FIX this - return an error.
         MessageProcessInfo recMessageProcessInfo = (MessageProcessInfo)this.getMessageProcessInfo(objResponseID.toString());
-        MessageInfo recMessageInfo = (MessageInfo)((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kMessageInfoID)).getReference();
+        MessageInfo recMessageInfo = (MessageInfo)((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference();
         BaseMessage replyMessage = new TreeMessage(null, null);
         MessageRecordDesc messageRecordDesc = recMessageInfo.createNewMessage(replyMessage, null);
         return replyMessage;

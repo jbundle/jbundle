@@ -66,8 +66,8 @@ public class UserPasswordHandler extends FileListener
             RecordOwner recordOwner = recUserInfo.getRecordOwner();
             Record recUserScreenRecord = (Record)recordOwner.getScreenRecord();
             // This will flag the password as changed:
-            recUserScreenRecord.getField(UserScreenRecord.kNewPassword1).addListener(new ChangeOnChangeHandler(recUserInfo.getField(UserInfo.kPassword), true));
-            recUserScreenRecord.getField(UserScreenRecord.kNewPassword2).addListener(new ChangeOnChangeHandler(recUserInfo.getField(UserInfo.kPassword), true));
+            recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_1).addListener(new ChangeOnChangeHandler(recUserInfo.getField(UserInfo.PASSWORD), true));
+            recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_2).addListener(new ChangeOnChangeHandler(recUserInfo.getField(UserInfo.PASSWORD), true));
         }
     }
     /**
@@ -79,14 +79,14 @@ public class UserPasswordHandler extends FileListener
         Record recUserInfo = this.getOwner();
         RecordOwner recordOwner = recUserInfo.getRecordOwner();
         Record recUserScreenRecord = (Record)recordOwner.getScreenRecord();
-        recUserScreenRecord.getField(UserScreenRecord.kCurrentPassword).setData(null);
-        recUserScreenRecord.getField(UserScreenRecord.kNewPassword1).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
-        recUserScreenRecord.getField(UserScreenRecord.kNewPassword2).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
-        recUserScreenRecord.getField(UserScreenRecord.kCurrentPassword).setModified(false);
-        recUserScreenRecord.getField(UserScreenRecord.kNewPassword1).setModified(false);
-        recUserScreenRecord.getField(UserScreenRecord.kNewPassword2).setModified(false);
+        recUserScreenRecord.getField(UserScreenRecord.CURRENT_PASSWORD).setData(null);
+        recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_1).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
+        recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_2).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
+        recUserScreenRecord.getField(UserScreenRecord.CURRENT_PASSWORD).setModified(false);
+        recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_1).setModified(false);
+        recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_2).setModified(false);
         
-        recUserScreenRecord.getField(UserScreenRecord.kStatusLine).setString(DBConstants.BLANK);
+        recUserScreenRecord.getField(UserScreenRecord.STATUS_LINE).setString(DBConstants.BLANK);
         super.doNewRecord(bDisplayOption);
     }
     /**
@@ -98,15 +98,15 @@ public class UserPasswordHandler extends FileListener
         Record recUserInfo = this.getOwner();
         RecordOwner recordOwner = recUserInfo.getRecordOwner();
         Record recUserScreenRecord = (Record)recordOwner.getScreenRecord();
-        recUserScreenRecord.getField(UserScreenRecord.kCurrentPassword).setModified(false);
-        recUserScreenRecord.getField(UserScreenRecord.kCurrentPassword).setData(null);
+        recUserScreenRecord.getField(UserScreenRecord.CURRENT_PASSWORD).setModified(false);
+        recUserScreenRecord.getField(UserScreenRecord.CURRENT_PASSWORD).setData(null);
         
-        recUserScreenRecord.getField(UserScreenRecord.kNewPassword1).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
-        recUserScreenRecord.getField(UserScreenRecord.kNewPassword2).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
-        recUserScreenRecord.getField(UserScreenRecord.kNewPassword1).setModified(false);
-        recUserScreenRecord.getField(UserScreenRecord.kNewPassword2).setModified(false);
+        recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_1).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
+        recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_2).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
+        recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_1).setModified(false);
+        recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_2).setModified(false);
         
-        recUserScreenRecord.getField(UserScreenRecord.kStatusLine).setString(DBConstants.BLANK);
+        recUserScreenRecord.getField(UserScreenRecord.STATUS_LINE).setString(DBConstants.BLANK);
         super.doValidRecord(bDisplayOption);
     }
     /**
@@ -139,18 +139,18 @@ public class UserPasswordHandler extends FileListener
             {
                 if (iChangeType == DBConstants.ADD_TYPE)
                     return task.setLastError(task.getString("Can't add a new account on this screen."));
-                if (!recUserInfo.getField(UserInfo.kPassword).equals(recUserScreenRecord.getField(UserScreenRecord.kCurrentPassword)))
+                if (!recUserInfo.getField(UserInfo.PASSWORD).equals(recUserScreenRecord.getField(UserScreenRecord.CURRENT_PASSWORD)))
                 {
                     return task.setLastError(task.getString("Error, current password was incorrect."));
                 }
             }
             
-            if ((recUserScreenRecord.getField(UserScreenRecord.kNewPassword1).isModified())
-                || (recUserScreenRecord.getField(UserScreenRecord.kNewPassword2).isModified()))
+            if ((recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_1).isModified())
+                || (recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_2).isModified()))
             {
-                if (recUserScreenRecord.getField(UserScreenRecord.kNewPassword1).equals(recUserScreenRecord.getField(UserScreenRecord.kNewPassword2)))
+                if (recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_1).equals(recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_2)))
                 {
-                    recUserInfo.getField(UserInfo.kPassword).moveFieldToThis(recUserScreenRecord.getField(UserScreenRecord.kNewPassword1));
+                    recUserInfo.getField(UserInfo.PASSWORD).moveFieldToThis(recUserScreenRecord.getField(UserScreenRecord.NEW_PASSWORD_1));
                 }
                 else
                 {

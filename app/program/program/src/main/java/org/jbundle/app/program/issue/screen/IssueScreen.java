@@ -81,11 +81,11 @@ public class IssueScreen extends Screen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().getField(Issue.kProjectID).addListener(new InitFieldHandler(this.getRecord(IssueControl.kIssueControlFile).getField(IssueControl.kProjectID)));
-        this.getMainRecord().getField(Issue.kProjectVersionID).addListener(new InitFieldHandler(this.getRecord(IssueControl.kIssueControlFile).getField(IssueControl.kProjectVersionID)));
-        this.getMainRecord().getField(Issue.kIssueTypeID).addListener(new InitFieldHandler(this.getRecord(IssueControl.kIssueControlFile).getField(IssueControl.kIssueTypeID)));
-        this.getMainRecord().getField(Issue.kIssueStatusID).addListener(new InitFieldHandler(this.getRecord(IssueControl.kIssueControlFile).getField(IssueControl.kIssueStatusID)));
-        this.getMainRecord().getField(Issue.kIssuePriorityID).addListener(new InitFieldHandler(this.getRecord(IssueControl.kIssueControlFile).getField(IssueControl.kIssuePriorityID)));
+        this.getMainRecord().getField(Issue.PROJECT_ID).addListener(new InitFieldHandler(this.getRecord(IssueControl.ISSUE_CONTROL_FILE).getField(IssueControl.PROJECT_ID)));
+        this.getMainRecord().getField(Issue.PROJECT_VERSION_ID).addListener(new InitFieldHandler(this.getRecord(IssueControl.ISSUE_CONTROL_FILE).getField(IssueControl.PROJECT_VERSION_ID)));
+        this.getMainRecord().getField(Issue.ISSUE_TYPE_ID).addListener(new InitFieldHandler(this.getRecord(IssueControl.ISSUE_CONTROL_FILE).getField(IssueControl.ISSUE_TYPE_ID)));
+        this.getMainRecord().getField(Issue.ISSUE_STATUS_ID).addListener(new InitFieldHandler(this.getRecord(IssueControl.ISSUE_CONTROL_FILE).getField(IssueControl.ISSUE_STATUS_ID)));
+        this.getMainRecord().getField(Issue.ISSUE_PRIORITY_ID).addListener(new InitFieldHandler(this.getRecord(IssueControl.ISSUE_CONTROL_FILE).getField(IssueControl.ISSUE_PRIORITY_ID)));
     }
     /**
      * Add button(s) to the toolbar.

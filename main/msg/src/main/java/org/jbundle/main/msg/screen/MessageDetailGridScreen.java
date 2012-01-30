@@ -99,7 +99,7 @@ public class MessageDetailGridScreen extends DetailGridScreen
     public void openOtherRecords()
     {
         super.openOtherRecords();
-        Record recContactType = ((ReferenceField)this.getMainRecord().getField(MessageDetail.kContactTypeID)).getReferenceRecord(this);
+        Record recContactType = ((ReferenceField)this.getMainRecord().getField(MessageDetail.CONTACT_TYPE_ID)).getReferenceRecord(this);
     }
     /**
      * OpenHeaderRecord Method.
@@ -108,16 +108,16 @@ public class MessageDetailGridScreen extends DetailGridScreen
     {
         Record record = null;
         this.syncContactTypeToMain();    // Read in the current contact record
-        ReferenceField fldContactType = (ReferenceField)this.getMainRecord().getField(MessageDetail.kContactTypeID);
+        ReferenceField fldContactType = (ReferenceField)this.getMainRecord().getField(MessageDetail.CONTACT_TYPE_ID);
         ContactType recContactType = (ContactType)fldContactType.getReferenceRecord(this);
         String strHeaderRecordName = null;
         if (recContactType != null)
-            strHeaderRecordName = recContactType.getField(ContactType.kCode).toString();
+            strHeaderRecordName = recContactType.getField(ContactType.CODE).toString();
         if ((strHeaderRecordName == null) || (strHeaderRecordName.length() == 0))
             strHeaderRecordName = this.getProperty(fldContactType.getFieldName());
         record = recContactType.makeRecordFromRecordName(strHeaderRecordName, this);
         if (record != null)
-                ((ReferenceField)this.getMainRecord().getField(MessageDetail.kPersonID)).setReferenceRecord(record);
+                ((ReferenceField)this.getMainRecord().getField(MessageDetail.PERSON_ID)).setReferenceRecord(record);
         return record;
     }
     /**
@@ -127,8 +127,8 @@ public class MessageDetailGridScreen extends DetailGridScreen
     {
         super.addListeners();
         this.getMainRecord().addListener(new MessageDetailDefTransHandler(null));
-        String strManualTransportID = Integer.toString(((ReferenceField)this.getMainRecord().getField(MessageDetail.kMessageTransportID)).getIDFromCode(MessageTransport.MANUAL));
-        this.getMainRecord().getField(MessageDetail.kMessageTransportID).setDefault(strManualTransportID);
+        String strManualTransportID = Integer.toString(((ReferenceField)this.getMainRecord().getField(MessageDetail.MESSAGE_TRANSPORT_ID)).getIDFromCode(MessageTransport.MANUAL));
+        this.getMainRecord().getField(MessageDetail.MESSAGE_TRANSPORT_ID).setDefault(strManualTransportID);
     }
     /**
      * Read the current file in the header record given the current detail record.
@@ -137,7 +137,7 @@ public class MessageDetailGridScreen extends DetailGridScreen
     {
         // Don't call super.
         this.syncContactTypeToMain();
-        ReferenceField fldMain = (ReferenceField)this.getMainRecord().getField(MessageDetail.kPersonID);
+        ReferenceField fldMain = (ReferenceField)this.getMainRecord().getField(MessageDetail.PERSON_ID);
         this.syncRecordToMainField(fldMain, null, DBParams.HEADER_OBJECT_ID);
     }
     /**
@@ -145,7 +145,7 @@ public class MessageDetailGridScreen extends DetailGridScreen
      */
     public void syncContactTypeToMain()
     {
-        ReferenceField fldContactType = (ReferenceField)this.getMainRecord().getField(MessageDetail.kContactTypeID);
+        ReferenceField fldContactType = (ReferenceField)this.getMainRecord().getField(MessageDetail.CONTACT_TYPE_ID);
         String strContactTypeParam = fldContactType.getFieldName();
         this.syncRecordToMainField(fldContactType, null, strContactTypeParam);
     }
@@ -154,12 +154,12 @@ public class MessageDetailGridScreen extends DetailGridScreen
      */
     public void addSubFileFilter()
     {
-        ContactType recContactType = (ContactType)this.getRecord(ContactType.kContactTypeFile);
+        ContactType recContactType = (ContactType)this.getRecord(ContactType.CONTACT_TYPE_FILE);
         Record recHeader = this.getHeaderRecord();
         recContactType = recContactType.getContactType(recHeader);
         Record recMessageDetail = this.getMainRecord();
-        recMessageDetail.setKeyArea(MessageDetail.kContactTypeIDKey);
-        recMessageDetail.addListener(new SubFileFilter(recContactType.getField(ContactType.kID), MessageDetail.kContactTypeID, recHeader.getField(VirtualRecord.kID), MessageDetail.kPersonID, null, -1));
+        recMessageDetail.setKeyArea(MessageDetail.CONTACT_TYPE_ID_KEY);
+        recMessageDetail.addListener(new SubFileFilter(recContactType.getField(ContactType.kID), recMessageDetail.getField(MessageDetail.CONTACT_TYPE_ID), recHeader.getField(VirtualRecord.kID), recMessageDetail.getField(MessageDetail.PERSON_ID), null, null));
     }
     /**
      * SetupSFields Method.
@@ -177,7 +177,7 @@ public class MessageDetailGridScreen extends DetailGridScreen
     public String getScreenURL()
     {
         String strURL = super.getScreenURL();
-        ReferenceField fldContactType = (ReferenceField)this.getMainRecord().getField(MessageDetail.kContactTypeID);
+        ReferenceField fldContactType = (ReferenceField)this.getMainRecord().getField(MessageDetail.CONTACT_TYPE_ID);
         strURL = Utility.addFieldParam(strURL, fldContactType);
         return strURL;
     }
@@ -190,7 +190,7 @@ public class MessageDetailGridScreen extends DetailGridScreen
         Record recHeader = this.getHeaderRecord();
         Record recMessageDetail = this.getMainRecord();        
         if (recHeader instanceof Company)   // Profile
-            ((ReferenceField)recMessageDetail.getField(MessageDetail.kPersonID)).setReferenceRecord(recHeader);   // Make sure this is hooked up
+            ((ReferenceField)recMessageDetail.getField(MessageDetail.PERSON_ID)).setReferenceRecord(recHeader);   // Make sure this is hooked up
         return new MessageDetailHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
 

@@ -9,6 +9,23 @@ import org.jbundle.model.db.*;
 
 public interface LogicFileModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String SEQUENCE = "Sequence";
+    public static final String METHOD_NAME = "MethodName";
+    public static final String LOGIC_DESCRIPTION = "LogicDescription";
+    public static final String METHOD_RETURNS = "MethodReturns";
+    public static final String METHOD_INTERFACE = "MethodInterface";
+    public static final String METHOD_CLASS_NAME = "MethodClassName";
+    public static final String LOGIC_SOURCE = "LogicSource";
+    public static final String LOGIC_THROWS = "LogicThrows";
+    public static final String PROTECTION = "Protection";
+    public static final String COPY_FROM = "CopyFrom";
+    public static final String INCLUDE_SCOPE = "IncludeScope";
+
+    public static final String METHOD_CLASS_NAME_KEY = "MethodClassName";
+
+    public static final String SEQUENCE_KEY = "Sequence";
     public static final int INCLUDE_THICK = 0x0001;
     public static final int INCLUDE_THIN = 0x002;
     public static final int INCLUDE_INTERFACE = 0x004;

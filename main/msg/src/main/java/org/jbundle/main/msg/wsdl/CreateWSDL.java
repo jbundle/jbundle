@@ -146,10 +146,10 @@ public class CreateWSDL extends BaseProcess
      */
     public String getDefaultVersion()
     {
-        Record recMessageVersion = ((ReferenceField)this.getRecord(MessageControl.kMessageControlFile).getField(MessageControl.kDefaultVersionID)).getReference();
+        Record recMessageVersion = ((ReferenceField)this.getRecord(MessageControl.MESSAGE_CONTROL_FILE).getField(MessageControl.DEFAULT_VERSION_ID)).getReference();
         if (recMessageVersion != null)
             if ((recMessageVersion.getEditMode() == DBConstants.EDIT_CURRENT) || (recMessageVersion.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
-                return recMessageVersion.getField(MessageVersion.kCode).toString();
+                return recMessageVersion.getField(MessageVersion.CODE).toString();
         return "2007B"; // Never
     }
     /**
@@ -160,10 +160,10 @@ public class CreateWSDL extends BaseProcess
         String strTargetVersion = this.getProperty("version");
         if (strTargetVersion == null)
             strTargetVersion = this.getDefaultVersion();
-        Record recMessageTransport = ((ReferenceField)this.getRecord(MessageControl.kMessageControlFile).getField(MessageControl.kWebMessageTransportID)).getReference();
-        MessageVersion recMessageVersion = ((MessageControl)this.getRecord(MessageControl.kMessageControlFile)).getMessageVersion(strTargetVersion);
+        Record recMessageTransport = ((ReferenceField)this.getRecord(MessageControl.MESSAGE_CONTROL_FILE).getField(MessageControl.WEB_MESSAGE_TRANSPORT_ID)).getReference();
+        MessageVersion recMessageVersion = ((MessageControl)this.getRecord(MessageControl.MESSAGE_CONTROL_FILE)).getMessageVersion(strTargetVersion);
         MessageProcessInfo recMessageProcessInfo = new MessageProcessInfo(this);
-        recMessageProcessInfo.setKeyArea(MessageProcessInfo.kMessageInfoIDKey);
+        recMessageProcessInfo.setKeyArea(MessageProcessInfo.MESSAGE_INFO_ID_KEY);
         try   {
              // Always register this generic processing queue.
             recMessageProcessInfo.close();
@@ -172,28 +172,28 @@ public class CreateWSDL extends BaseProcess
                 recMessageProcessInfo.next();
                 String strQueueName = recMessageProcessInfo.getQueueName(true);
                 String strQueueType = recMessageProcessInfo.getQueueType(true);
-                String strProcessClass = recMessageProcessInfo.getField(MessageProcessInfo.kProcessorClass).toString();
-                Map<String,Object> properties = ((PropertiesField)recMessageProcessInfo.getField(MessageProcessInfo.kProperties)).getProperties();
-                Record recMessageType = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kMessageTypeID)).getReference();
+                String strProcessClass = recMessageProcessInfo.getField(MessageProcessInfo.PROCESSOR_CLASS).toString();
+                Map<String,Object> properties = ((PropertiesField)recMessageProcessInfo.getField(MessageProcessInfo.PROPERTIES)).getProperties();
+                Record recMessageType = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.MESSAGE_TYPE_ID)).getReference();
                 if (recMessageType != null)
                 {   // Start all processes that handle INcoming REQUESTs.
-                    String strMessageType = recMessageType.getField(MessageType.kCode).toString();
-                    Record recMessageInfo = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kMessageInfoID)).getReference();
+                    String strMessageType = recMessageType.getField(MessageType.CODE).toString();
+                    Record recMessageInfo = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference();
                     if (recMessageInfo != null)
                     {
-                        Record recMessageInfoType = ((ReferenceField)recMessageInfo.getField(MessageInfo.kMessageInfoTypeID)).getReference();
+                        Record recMessageInfoType = ((ReferenceField)recMessageInfo.getField(MessageInfo.MESSAGE_INFO_TYPE_ID)).getReference();
                         if (recMessageInfoType != null)
                         {
-                            String strMessageInfoType = recMessageInfoType.getField(MessageInfoType.kCode).toString();
+                            String strMessageInfoType = recMessageInfoType.getField(MessageInfoType.CODE).toString();
                             if (MessageInfoType.REQUEST.equals(strMessageInfoType))
                                 if (MessageType.MESSAGE_IN.equals(strMessageType))
                                     if ((strQueueName != null) && (strQueueName.length() > 0))
                             {
-                                Record recMessageTransportInfo = this.getRecord(MessageTransportInfo.kMessageTransportInfoFile);
-                                recMessageTransportInfo.setKeyArea(MessageTransportInfo.kMessageProcessInfoIDKey);
-                                recMessageTransportInfo.getField(MessageTransportInfo.kMessageProcessInfoID).moveFieldToThis(recMessageProcessInfo.getField(MessageProcessInfo.kID));
-                                recMessageTransportInfo.getField(MessageTransportInfo.kMessageTransportID).moveFieldToThis(recMessageTransport.getField(MessageTransport.kID));
-                                recMessageTransportInfo.getField(MessageTransportInfo.kMessageVersionID).moveFieldToThis(recMessageVersion.getField(MessageVersion.kID));
+                                Record recMessageTransportInfo = this.getRecord(MessageTransportInfo.MESSAGE_TRANSPORT_INFO_FILE);
+                                recMessageTransportInfo.setKeyArea(MessageTransportInfo.MESSAGE_PROCESS_INFO_ID_KEY);
+                                recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_PROCESS_INFO_ID).moveFieldToThis(recMessageProcessInfo.getField(MessageProcessInfo.kID));
+                                recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_TRANSPORT_ID).moveFieldToThis(recMessageTransport.getField(MessageTransport.kID));
+                                recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_VERSION_ID).moveFieldToThis(recMessageVersion.getField(MessageVersion.kID));
                                 if (recMessageTransportInfo.seek(DBConstants.EQUALS))
                                 {
                                     this.addProcessForWSDL(strTargetVersion, typeObject, recMessageProcessInfo, type);
@@ -229,7 +229,7 @@ public class CreateWSDL extends BaseProcess
      */
     public String getControlProperty(String strKey, String strDefaultValue)
     {
-        String strValue = ((PropertiesField)this.getRecord(MessageControl.kMessageControlFile).getField(MessageControl.kProperties)).getProperty(strKey);
+        String strValue = ((PropertiesField)this.getRecord(MessageControl.MESSAGE_CONTROL_FILE).getField(MessageControl.PROPERTIES)).getProperty(strKey);
         if (strValue == null)
         {
             if (strDefaultValue == null)
@@ -267,7 +267,7 @@ public class CreateWSDL extends BaseProcess
      */
     public String getURIValue(String strValue)
     {
-        String strBaseURI = ((PropertiesField)this.getRecord(MessageControl.kMessageControlFile).getField(MessageControl.kProperties)).getProperty(MessageControl.BASE_NAMESPACE_URI);
+        String strBaseURI = ((PropertiesField)this.getRecord(MessageControl.MESSAGE_CONTROL_FILE).getField(MessageControl.PROPERTIES)).getProperty(MessageControl.BASE_NAMESPACE_URI);
         if (strBaseURI == null)
         {
             strBaseURI = this.getProperty(DBParams.BASE_URL);   // Defaults to same site as wsdl
@@ -293,16 +293,16 @@ public class CreateWSDL extends BaseProcess
      */
     public MessageInfo getMessageIn(MessageProcessInfo recMessageProcessInfo)
     {
-        return (MessageInfo)((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kMessageInfoID)).getReference();
+        return (MessageInfo)((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference();
     }
     /**
      * GetMessageOut Method.
      */
     public MessageInfo getMessageOut(MessageProcessInfo recMessageProcessInfo)
     {
-        MessageProcessInfo recMessageProcessInfo2 =  (MessageProcessInfo)((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kReplyMessageProcessInfoID)).getReference();
+        MessageProcessInfo recMessageProcessInfo2 =  (MessageProcessInfo)((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.REPLY_MESSAGE_PROCESS_INFO_ID)).getReference();
         if (recMessageProcessInfo2 != null)
-            return (MessageInfo)((ReferenceField)recMessageProcessInfo2.getField(MessageProcessInfo.kMessageInfoID)).getReference();
+            return (MessageInfo)((ReferenceField)recMessageProcessInfo2.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference();
         return null;
     }
     /**
@@ -322,7 +322,7 @@ public class CreateWSDL extends BaseProcess
      */
     public MessageControl getMessageControl()
     {
-        MessageControl recMessageControl = (MessageControl)this.getRecord(MessageControl.kMessageControlFile);
+        MessageControl recMessageControl = (MessageControl)this.getRecord(MessageControl.MESSAGE_CONTROL_FILE);
         return recMessageControl;
     }
     /**

@@ -466,6 +466,22 @@ public class BaseScreen extends BasePanel
         }
     }
     /**
+     * RestoreScreenParam Method.
+     * This is a convenience method to restore screen fields to their property values.
+     * @param iFieldSeq The screen field sequence to restore.
+     */
+    public void restoreScreenParam(String fieldName)
+    {
+        if (this.getScreenRecord() != null)
+            if (this.getScreenRecord().getField(fieldName) != null)
+                if (this.getScreenRecord().getField(fieldName).getFieldName() != null)
+        {
+            String strFieldName = this.getScreenRecord().getField(fieldName).getFieldName();
+            if (this.getProperty(strFieldName) != null)
+                this.getScreenRecord().getField(fieldName).setString((String)this.getProperty(strFieldName));
+        }
+    }
+    /**
      * Sync the contact type record to the main value.
      * @oaram fldMain The field in the main record to sync the recHeader to (if null, tries to figure it out from the recHeader).
      * @param recHeader The header record (if null, will try to make it from the fldMain).

@@ -73,13 +73,13 @@ public class KeyInfoGridScreen extends GridScreen
     {
         super.addListeners();
         Record record = this.getMainRecord();
-        Record recClassInfo = this.getRecord(ClassInfo.kClassInfoFile);
+        Record recClassInfo = this.getRecord(ClassInfo.CLASS_INFO_FILE);
         if (recClassInfo != null)
         {
-            record.setKeyArea(KeyInfo.kKeyFilenameKey);
-            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), KeyInfo.kKeyFilename, null, -1, null, -1, true);
+            record.setKeyArea(KeyInfo.KEY_FILENAME_KEY);
+            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), KeyInfo.KEY_FILENAME, null, null, null, null, true);
             record.addListener(listener);
-            recClassInfo.getField(ClassInfo.kClassName).addListener(new FieldReSelectHandler(this));
+            recClassInfo.getField(ClassInfo.CLASS_NAME).addListener(new FieldReSelectHandler(this));
         }
     }
     /**

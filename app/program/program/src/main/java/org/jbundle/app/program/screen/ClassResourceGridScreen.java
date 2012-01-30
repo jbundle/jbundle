@@ -80,12 +80,12 @@ public class ClassResourceGridScreen extends GridScreen
     {
         super.addListeners();
         Record record = this.getMainRecord();
-        Record classInfo = this.getRecord(ClassInfo.kClassInfoFile);
+        Record classInfo = this.getRecord(ClassInfo.CLASS_INFO_FILE);
         if (classInfo != null)
         {
-            SubFileFilter listener = new SubFileFilter(classInfo.getField(ClassInfo.kClassName), ClassResource.kClassName, null, -1, null, -1, true);
+            SubFileFilter listener = new SubFileFilter(classInfo.getField(ClassInfo.CLASS_NAME), ClassResource.CLASS_NAME, null, null, null, null, true);
             record.addListener(listener);
-            classInfo.getField(ClassInfo.kClassName).addListener(new FieldReSelectHandler(this));
+            classInfo.getField(ClassInfo.CLASS_NAME).addListener(new FieldReSelectHandler(this));
         }
     }
     /**

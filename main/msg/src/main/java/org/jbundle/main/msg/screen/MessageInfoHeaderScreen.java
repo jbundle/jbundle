@@ -63,12 +63,12 @@ public class MessageInfoHeaderScreen extends HeaderScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageInfoID).setEnabled(true);
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageInfoTypeID).setEnabled(true);
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageTypeID).setEnabled(true);
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kProcessTypeID).setEnabled(true);
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kContactTypeID).setEnabled(true);
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kRequestTypeID).setEnabled(true);
+        this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_INFO_ID).setEnabled(true);
+        this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_INFO_TYPE_ID).setEnabled(true);
+        this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_TYPE_ID).setEnabled(true);
+        this.getScreenRecord().getField(MessageInfoScreenRecord.PROCESS_TYPE_ID).setEnabled(true);
+        this.getScreenRecord().getField(MessageInfoScreenRecord.CONTACT_TYPE_ID).setEnabled(true);
+        this.getScreenRecord().getField(MessageInfoScreenRecord.REQUEST_TYPE_ID).setEnabled(true);
     }
     /**
      * SetupSFields Method.

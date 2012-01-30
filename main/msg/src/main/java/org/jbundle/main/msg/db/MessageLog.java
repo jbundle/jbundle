@@ -163,13 +163,13 @@ public class MessageLog extends VirtualRecord
                     screen = Record.makeNewScreen(strScreenClass, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, null, true);
                 }
             }
-            if (screen == null) // ? I don't know what else to do?
+            if (screen == null) // ? I don't NOW what else to do?
                 screen = Record.makeNewScreen(MESSAGE_LOG_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         }
         else if ((iDocMode & MessageLog.SOURCE_SCREEN_MODE) == MessageLog.SOURCE_SCREEN_MODE)
         {
             String strReferenceClass = this.getProperty(TrxMessageHeader.REFERENCE_CLASS);
-            String strReferenceID = this.getField(MessageLog.kReferenceID).toString();
+            String strReferenceID = this.getField(MessageLog.REFERENCE_ID).toString();
             if (strReferenceID == null)
                 strReferenceID = this.getProperty(TrxMessageHeader.REFERENCE_ID);
             if ((strReferenceClass != null) && (strReferenceID != null))
@@ -354,20 +354,20 @@ public class MessageLog extends VirtualRecord
      */
     public BaseMessageHeader createMessageHeader()
     {
-        Map<String,Object> properties = ((PropertiesField)this.getField(MessageLog.kMessageHeaderProperties)).getProperties();
+        Map<String,Object> properties = ((PropertiesField)this.getField(MessageLog.MESSAGE_HEADER_PROPERTIES)).getProperties();
         BaseMessageHeader messageHeader = null;
-        String strMessageHeaderClassName = this.getField(MessageLog.kMessageHeaderClassName).toString();
-        String strQueueName = this.getField(MessageLog.kMessageQueueName).toString();
-        String strQueueType = this.getField(MessageLog.kMessageQueueType).toString();
+        String strMessageHeaderClassName = this.getField(MessageLog.MESSAGE_HEADER_CLASS_NAME).toString();
+        String strQueueName = this.getField(MessageLog.MESSAGE_QUEUE_NAME).toString();
+        String strQueueType = this.getField(MessageLog.MESSAGE_QUEUE_TYPE).toString();
         Object source = null;
         messageHeader = BaseMessageHeader.createMessageHeader(strMessageHeaderClassName, strQueueName, strQueueType, source, properties);
         if (messageHeader == null)
             messageHeader = new TrxMessageHeader(null, properties);
         if (messageHeader instanceof TrxMessageHeader)
         {
-            properties = ((PropertiesField)this.getField(MessageLog.kMessageInfoProperties)).getProperties();
+            properties = ((PropertiesField)this.getField(MessageLog.MESSAGE_INFO_PROPERTIES)).getProperties();
             ((TrxMessageHeader)messageHeader).setMessageInfoMap(properties);
-            properties = ((PropertiesField)this.getField(MessageLog.kMessageTransportProperties)).getProperties();
+            properties = ((PropertiesField)this.getField(MessageLog.MESSAGE_TRANSPORT_PROPERTIES)).getProperties();
             ((TrxMessageHeader)messageHeader).setMessageTransportMap(properties);
             ((TrxMessageHeader)messageHeader).put(TrxMessageHeader.LOG_TRX_ID, this.getCounterField().toString());  // Should be there
         }
@@ -379,7 +379,7 @@ public class MessageLog extends VirtualRecord
     public BaseMessageRecordDesc createMessageData()
     {
         MessageRecordDesc messageData = null;
-        String strMessageDataClassName = this.getField(MessageLog.kMessageDataClassName).toString();
+        String strMessageDataClassName = this.getField(MessageLog.MESSAGE_DATA_CLASS_NAME).toString();
         return MessageRecordDesc.createMessageRecordDesc(strMessageDataClassName, null, null);
     }
     /**
@@ -401,7 +401,7 @@ public class MessageLog extends VirtualRecord
     public Message createMessage(BaseMessageHeader messageHeader, MessageRecordDesc messageDataDesc)
     {
         BaseMessage message = null;
-        String strMessageClassName = this.getField(MessageLog.kMessageClassName).toString();
+        String strMessageClassName = this.getField(MessageLog.MESSAGE_CLASS_NAME).toString();
         message = BaseMessage.createMessage(strMessageClassName, messageHeader, null);
         if (messageDataDesc != null)
             message.addMessageDataDesc(messageDataDesc);
@@ -412,7 +412,7 @@ public class MessageLog extends VirtualRecord
             if (message == null)
                 message = new TreeMessage((TrxMessageHeader)messageHeader, null);
         }
-        String strXMLData = this.getField(MessageLog.kXMLMessageData).getString();
+        String strXMLData = this.getField(MessageLog.XML_MESSAGE_DATA).getString();
         message.setXML(strXMLData);
         return message;
     }
@@ -423,11 +423,11 @@ public class MessageLog extends VirtualRecord
     {
         String strProperty = this.getMessageProperty(strKey);
         if (strProperty == null)
-            strProperty = ((PropertiesField)this.getField(MessageLog.kMessageHeaderProperties)).getProperty(strKey);
+            strProperty = ((PropertiesField)this.getField(MessageLog.MESSAGE_HEADER_PROPERTIES)).getProperty(strKey);
         if (strProperty == null)
-            strProperty = ((PropertiesField)this.getField(MessageLog.kMessageInfoProperties)).getProperty(strKey);
+            strProperty = ((PropertiesField)this.getField(MessageLog.MESSAGE_INFO_PROPERTIES)).getProperty(strKey);
         if (strProperty == null)
-            strProperty = ((PropertiesField)this.getField(MessageLog.kMessageTransportProperties)).getProperty(strKey);
+            strProperty = ((PropertiesField)this.getField(MessageLog.MESSAGE_TRANSPORT_PROPERTIES)).getProperty(strKey);
         return strProperty;
     }
     /**
@@ -435,7 +435,7 @@ public class MessageLog extends VirtualRecord
      */
     public String getMessageProperty(String strKey)
     {
-        // todo(don) fix this! ((PropertiesField)this.getField(MessageLog.kMessageProperties)).getProperty(strKey);
+        // todo(don) fix this! ((PropertiesField)this.getField(MessageLog.MESSAGE_PROPERTIES)).getProperty(strKey);
         return null;
     }
     /**
@@ -447,7 +447,7 @@ public class MessageLog extends VirtualRecord
         try {
             this.addNew();
             this.getField(MessageLog.kID).setString(ID);
-            this.setKeyArea(MessageLog.kIDKey);
+            this.setKeyArea(MessageLog.ID_KEY);
             if (this.seek(null))
                 return this;
         } catch (DBException ex)    {

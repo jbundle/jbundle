@@ -16,6 +16,8 @@ public class PropertiesRecord extends FieldList
     implements PropertiesRecordModel
 {
 
+    //public static final String ID = ID;
+
     public PropertiesRecord()
     {
         super();

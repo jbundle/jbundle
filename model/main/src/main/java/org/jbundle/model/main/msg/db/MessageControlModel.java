@@ -9,6 +9,14 @@ import org.jbundle.model.db.*;
 
 public interface MessageControlModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String PROPERTIES = "Properties";
+    public static final String WEB_SERVICES_SERVER = "WebServicesServer";
+    public static final String DEFAULT_VERSION_ID = "DefaultVersionID";
+    public static final String BASE_NAMESPACE = "BaseNamespace";
+    public static final String BASE_SCHEMA_LOCATION = "BaseSchemaLocation";
+    public static final String WEB_MESSAGE_TRANSPORT_ID = "WebMessageTransportID";
     public static final String[][] DESCRIPTIONS = {
        {MessageControlModel.BASE_NAMESPACE_URI, "Base namespace"},
        {MessageControlModel.WSDL_NAMESPACE_URI, "WSDL namespace"},

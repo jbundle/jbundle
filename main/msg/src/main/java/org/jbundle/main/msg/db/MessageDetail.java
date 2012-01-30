@@ -224,13 +224,13 @@ public class MessageDetail extends PropertiesRecord
      */
     public void addPropertyListeners()
     {
-        this.addPropertiesFieldBehavior(this.getField(MessageDetail.kDestinationSite), TrxMessageHeader.DESTINATION_PARAM);
-        this.addPropertiesFieldBehavior(this.getField(MessageDetail.kDestinationPath), TrxMessageHeader.DESTINATION_MESSAGE_PARAM);
-        this.addPropertiesFieldBehavior(this.getField(MessageDetail.kReturnSite), TrxMessageHeader.SOURCE_PARAM);
-        this.addPropertiesFieldBehavior(this.getField(MessageDetail.kReturnPath), TrxMessageHeader.SOURCE_MESSAGE_PARAM);
-        this.addPropertiesFieldBehavior(this.getField(MessageDetail.kXSLTDocument), TrxMessageHeader.XSLT_DOCUMENT);
-        this.addPropertiesFieldBehavior(this.getField(MessageDetail.kInitialManualTransportStatusID), MessageTransport.INITIAL_MESSAGE_DATA_STATUS); 
-        this.addPropertiesFieldBehavior(this.getField(MessageDetail.kDefaultMessageVersionID), TrxMessageHeader.MESSAGE_VERSION_ID);
+        this.addPropertiesFieldBehavior(this.getField(MessageDetail.DESTINATION_SITE), TrxMessageHeader.DESTINATION_PARAM);
+        this.addPropertiesFieldBehavior(this.getField(MessageDetail.DESTINATION_PATH), TrxMessageHeader.DESTINATION_MESSAGE_PARAM);
+        this.addPropertiesFieldBehavior(this.getField(MessageDetail.RETURN_SITE), TrxMessageHeader.SOURCE_PARAM);
+        this.addPropertiesFieldBehavior(this.getField(MessageDetail.RETURN_PATH), TrxMessageHeader.SOURCE_MESSAGE_PARAM);
+        this.addPropertiesFieldBehavior(this.getField(MessageDetail.XSLT_DOCUMENT), TrxMessageHeader.XSLT_DOCUMENT);
+        this.addPropertiesFieldBehavior(this.getField(MessageDetail.INITIAL_MANUAL_TRANSPORT_STATUS_ID), MessageTransport.INITIAL_MESSAGE_DATA_STATUS); 
+        this.addPropertiesFieldBehavior(this.getField(MessageDetail.DEFAULT_MESSAGE_VERSION_ID), TrxMessageHeader.MESSAGE_VERSION_ID);
     }
     /**
      * Get the message properties for this vendor.
@@ -242,19 +242,19 @@ public class MessageDetail extends PropertiesRecord
         try {
             if (trxMessageHeader == null)
                 trxMessageHeader = new TrxMessageHeader(null, null);
-            ContactType recContactType = (ContactType)((ReferenceField)this.getField(MessageDetail.kContactTypeID)).getReferenceRecord(null);
+            ContactType recContactType = (ContactType)((ReferenceField)this.getField(MessageDetail.CONTACT_TYPE_ID)).getReferenceRecord(null);
             recContactType = (ContactType)recContactType.getContactType((Record)recMessageDetailTarget);
             if (recContactType == null)
                 return trxMessageHeader;    // Just being careful
         
-            this.setKeyArea(MessageDetail.kContactTypeIDKey);
-            this.getField(MessageDetail.kContactTypeID).moveFieldToThis((BaseField)recContactType.getCounterField());
-            this.getField(MessageDetail.kPersonID).moveFieldToThis((BaseField)((Record)recMessageDetailTarget).getCounterField());
-            this.getField(MessageDetail.kMessageProcessInfoID).moveFieldToThis((BaseField)recMessageProcessInfo.getCounterField());
-            this.getField(MessageDetail.kMessageTransportID).moveFieldToThis((BaseField)recMessageTransport.getCounterField());
+            this.setKeyArea(MessageDetail.CONTACT_TYPE_ID_KEY);
+            this.getField(MessageDetail.CONTACT_TYPE_ID).moveFieldToThis((BaseField)recContactType.getCounterField());
+            this.getField(MessageDetail.PERSON_ID).moveFieldToThis((BaseField)((Record)recMessageDetailTarget).getCounterField());
+            this.getField(MessageDetail.MESSAGE_PROCESS_INFO_ID).moveFieldToThis((BaseField)recMessageProcessInfo.getCounterField());
+            this.getField(MessageDetail.MESSAGE_TRANSPORT_ID).moveFieldToThis((BaseField)recMessageTransport.getCounterField());
             if (this.seek(null))
             {
-                Map<String,Object> propHeader = ((PropertiesField)this.getField(MessageDetail.kProperties)).loadProperties();
+                Map<String,Object> propHeader = ((PropertiesField)this.getField(MessageDetail.PROPERTIES)).loadProperties();
                 if (propHeader == null)
                     propHeader = new HashMap<String,Object>(); // Never return null.
                 Map<String,Object> map = trxMessageHeader.getMessageHeaderMap();
@@ -282,23 +282,23 @@ public class MessageDetail extends PropertiesRecord
     public MessageTransport getDefaultMessageTransport(MessageDetailTarget recMessageDetailTarget, MessageProcessInfo recMessageProcessInfo)
     {
         try {
-            ContactType recContactType = (ContactType)((ReferenceField)this.getField(MessageDetail.kContactTypeID)).getReferenceRecord(null);
+            ContactType recContactType = (ContactType)((ReferenceField)this.getField(MessageDetail.CONTACT_TYPE_ID)).getReferenceRecord(null);
             recContactType = (ContactType)recContactType.getContactType((Record)recMessageDetailTarget);
             if (recContactType == null)
                 return null;    // Just being careful
         
-            this.setKeyArea(MessageDetail.kContactTypeIDKey);
-            this.getField(MessageDetail.kContactTypeID).moveFieldToThis((BaseField)recContactType.getCounterField());
-            this.getField(MessageDetail.kPersonID).moveFieldToThis((BaseField)((Record)recMessageDetailTarget).getCounterField());
-            this.getField(MessageDetail.kMessageProcessInfoID).moveFieldToThis((BaseField)recMessageProcessInfo.getCounterField());
-            this.getField(MessageDetail.kMessageTransportID).setValue(0);
+            this.setKeyArea(MessageDetail.CONTACT_TYPE_ID_KEY);
+            this.getField(MessageDetail.CONTACT_TYPE_ID).moveFieldToThis((BaseField)recContactType.getCounterField());
+            this.getField(MessageDetail.PERSON_ID).moveFieldToThis((BaseField)((Record)recMessageDetailTarget).getCounterField());
+            this.getField(MessageDetail.MESSAGE_PROCESS_INFO_ID).moveFieldToThis((BaseField)recMessageProcessInfo.getCounterField());
+            this.getField(MessageDetail.MESSAGE_TRANSPORT_ID).setValue(0);
             if (this.seek(">="))
             {
-                if (this.getField(MessageDetail.kContactTypeID).equals((BaseField)recContactType.getCounterField()))
-                    if (this.getField(MessageDetail.kPersonID).equals((BaseField)((Record)recMessageDetailTarget).getCounterField()))
-                        if (this.getField(MessageDetail.kMessageProcessInfoID).equals((BaseField)recMessageProcessInfo.getCounterField()))
-                            if (!this.getField(MessageDetail.kDefaultMessageTransportID).isNull())
-                                return (MessageTransport)((ReferenceField)this.getField(MessageDetail.kDefaultMessageTransportID)).getReference();
+                if (this.getField(MessageDetail.CONTACT_TYPE_ID).equals((BaseField)recContactType.getCounterField()))
+                    if (this.getField(MessageDetail.PERSON_ID).equals((BaseField)((Record)recMessageDetailTarget).getCounterField()))
+                        if (this.getField(MessageDetail.MESSAGE_PROCESS_INFO_ID).equals((BaseField)recMessageProcessInfo.getCounterField()))
+                            if (!this.getField(MessageDetail.DEFAULT_MESSAGE_TRANSPORT_ID).isNull())
+                                return (MessageTransport)((ReferenceField)this.getField(MessageDetail.DEFAULT_MESSAGE_TRANSPORT_ID)).getReference();
             }
         } catch (DBException ex)    {
             ex.printStackTrace();

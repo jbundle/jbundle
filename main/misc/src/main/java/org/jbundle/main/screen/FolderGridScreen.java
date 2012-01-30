@@ -130,7 +130,7 @@ public class FolderGridScreen extends BaseFolderGridScreen
     {
         // Override this if it is not correct.
         SubFileFilter listener = null;
-        this.getMainRecord().setKeyArea(BaseFolder.kParentFolderIDKey);
+        this.getMainRecord().setKeyArea(BaseFolder.PARENT_FOLDER_ID_KEY);
         this.getMainRecord().addListener(listener = new SubFileFilter(this.getHeaderRecord()));
         if (this.getMainRecord().getKeyArea().getField(DBConstants.MAIN_KEY_FIELD).isNullable() == false)
         {

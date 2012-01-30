@@ -9,6 +9,16 @@ import org.jbundle.model.db.*;
 
 public interface JnlpFileModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String NAME = "Name";
+    public static final String DESCRIPTION = "Description";
+    public static final String SHORT_DESC = "ShortDesc";
+    public static final String TITLE = "Title";
+    public static final String ICON = "Icon";
+    public static final String FILE_LOCATION = "FileLocation";
+
+    public static final String NAME_KEY = "Name";
     public static final String JNLP_FILE_SCREEN_CLASS = "org.jbundle.app.program.packages.screen.JnlpFileScreen";
     public static final String JNLP_FILE_GRID_SCREEN_CLASS = "org.jbundle.app.program.packages.screen.JnlpFileGridScreen";
 

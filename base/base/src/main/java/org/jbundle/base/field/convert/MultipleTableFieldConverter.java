@@ -42,6 +42,14 @@ public class MultipleTableFieldConverter extends MultipleFieldConverter
      * The sequence of this field in the secondary record.
      */
     protected int m_iSecondaryFieldSeq = -1;
+    /**
+     * The sequence of this field in the target records.
+     */
+    protected String fieldName = null;
+    /**
+     * The sequence of this field in the secondary record.
+     */
+    protected String secondaryFieldName = null;
 
     /**
      * Constructor.
@@ -58,7 +66,17 @@ public class MultipleTableFieldConverter extends MultipleFieldConverter
     public MultipleTableFieldConverter(Record record, int iFieldSeq)
     {
         this();
-        this.init(record, iFieldSeq, -1);
+        this.init(record, iFieldSeq, null, -1, null);
+    }
+    /**
+     * Constructor.
+     * @param record The merge record.
+     * @param iFieldSeq The sequence of the field in the target records.
+     */
+    public MultipleTableFieldConverter(Record record, String fieldName)
+    {
+        this();
+        this.init(record, -1, fieldName, -1, null);
     }
     /**
      * Constructor.
@@ -68,19 +86,31 @@ public class MultipleTableFieldConverter extends MultipleFieldConverter
     public MultipleTableFieldConverter(Record record, int iFieldSeq, int iSecondaryFieldSeq)
     {
         this();
-        this.init(record, iFieldSeq, iSecondaryFieldSeq);
+        this.init(record, iFieldSeq, null, iSecondaryFieldSeq, null);
+    }
+    /**
+     * Constructor.
+     * @param record The merge record.
+     * @param iFieldSeq The sequence of the field in the target records.
+     */
+    public MultipleTableFieldConverter(Record record, String fieldName, String secondaryFieldName)
+    {
+        this();
+        this.init(record, -1, fieldName, -1, secondaryFieldName);
     }
     /**
      * Init.
      * @param record The merge record.
      * @param iFieldSeq The sequence of the field in the target records.
      */
-    public void init(Record record, int iFieldSeq, int iSecondaryFieldSeq)
+    public void init(Record record, int iFieldSeq, String fieldName, int iSecondaryFieldSeq, String secondaryFieldName)
     {
         Converter converter = null;
         m_recMerge = record;
         m_iFieldSeq = iFieldSeq;
         m_iSecondaryFieldSeq = iSecondaryFieldSeq;
+        this.fieldName = fieldName;
+        this.secondaryFieldName = secondaryFieldName;
         if (record != null)
             converter = this.getTargetField(null);
         super.init(converter, null);
@@ -107,6 +137,8 @@ public class MultipleTableFieldConverter extends MultipleFieldConverter
         m_recMerge = null;
         m_iFieldSeq = -1;
         m_iSecondaryFieldSeq = -1;
+        this.fieldName = null;
+        this.secondaryFieldName = null;
         super.free();
     }
     /**
@@ -144,15 +176,24 @@ public class MultipleTableFieldConverter extends MultipleFieldConverter
                 currentTable = m_recMerge.getTable();    // First time only
             record = currentTable.getRecord();
         }
-        Converter field = record.getField(m_iFieldSeq);  // Get the current field
-        if (m_iSecondaryFieldSeq != -1)
+        Converter field = null;
+        if (fieldName != null)
+            field = record.getField(fieldName);  // Get the current field
+        else
+            field = record.getField(m_iFieldSeq);  // Get the current field
+        if ((m_iSecondaryFieldSeq != -1) || (secondaryFieldName != null))
             if (field instanceof ReferenceField)
             	if (((ReferenceField)field).getRecord() != null)
                 	if (((ReferenceField)field).getRecord().getTable() != null)		// Make sure this isn't being called in free()
         {   // Special case - field in the secondary file
             Record recordSecond = ((ReferenceField)field).getReferenceRecord();
             if (recordSecond != null)
-                field = recordSecond.getField(m_iSecondaryFieldSeq);
+            {
+                if (secondaryFieldName != null)
+                    field = recordSecond.getField(secondaryFieldName);
+                else
+                    field = recordSecond.getField(m_iSecondaryFieldSeq);
+            }
         }
         return field;
     }

@@ -59,8 +59,8 @@ public class MessageDetailDefTransHandler extends FileListener
      */
     public void doValidRecord(boolean bDisplayOption)
     {
-        m_iOriginalMessageTransportID = (int)this.getOwner().getField(MessageDetail.kMessageTransportID).getValue();
-        m_iOriginalDefaultMessageTransportID = (int)this.getOwner().getField(MessageDetail.kDefaultMessageTransportID).getValue();
+        m_iOriginalMessageTransportID = (int)this.getOwner().getField(MessageDetail.MESSAGE_TRANSPORT_ID).getValue();
+        m_iOriginalDefaultMessageTransportID = (int)this.getOwner().getField(MessageDetail.DEFAULT_MESSAGE_TRANSPORT_ID).getValue();
         super.doValidRecord(bDisplayOption);
     }
     /**
@@ -94,8 +94,8 @@ public class MessageDetailDefTransHandler extends FileListener
     {
         if ((iChangeType == DBConstants.AFTER_ADD_TYPE) || (iChangeType == DBConstants.AFTER_UPDATE_TYPE) || (iChangeType == DBConstants.AFTER_DELETE_TYPE))
         {
-            BaseField fldMessageDetail = this.getOwner().getField(MessageDetail.kMessageTransportID);
-            BaseField fldDefaultMessageDetail = this.getOwner().getField(MessageDetail.kDefaultMessageTransportID);
+            BaseField fldMessageDetail = this.getOwner().getField(MessageDetail.MESSAGE_TRANSPORT_ID);
+            BaseField fldDefaultMessageDetail = this.getOwner().getField(MessageDetail.DEFAULT_MESSAGE_TRANSPORT_ID);
             Integer newDefaultMessageTransport = -1;    // None (to start)
             boolean bDefaultTransportFlag = fldMessageDetail.equals(fldDefaultMessageDetail);
         
@@ -127,8 +127,8 @@ public class MessageDetailDefTransHandler extends FileListener
             {
                 MessageDetail recMessageDetail = new MessageDetail(this.getOwner().findRecordOwner());
                 try {
-                    recMessageDetail.setKeyArea(MessageDetail.kContactTypeIDKey);
-                    recMessageDetail.addListener(new StringSubFileFilter(this.getOwner().getField(MessageDetail.kContactTypeID).toString(), MessageDetail.kContactTypeID, this.getOwner().getField(MessageDetail.kPersonID).toString(), MessageDetail.kPersonID, this.getOwner().getField(MessageDetail.kMessageProcessInfoID).toString(), MessageDetail.kMessageProcessInfoID));
+                    recMessageDetail.setKeyArea(MessageDetail.CONTACT_TYPE_ID_KEY);
+                    recMessageDetail.addListener(new StringSubFileFilter(this.getOwner().getField(MessageDetail.CONTACT_TYPE_ID).toString(), recMessageDetail.getField(MessageDetail.CONTACT_TYPE_ID), this.getOwner().getField(MessageDetail.PERSON_ID).toString(), recMessageDetail.getField(MessageDetail.PERSON_ID), this.getOwner().getField(MessageDetail.MESSAGE_PROCESS_INFO_ID).toString(), recMessageDetail.getField(MessageDetail.MESSAGE_PROCESS_INFO_ID)));
                     if (newDefaultMessageTransport != null) if (newDefaultMessageTransport == -2)
                     {
                         newDefaultMessageTransport = null;
@@ -136,9 +136,9 @@ public class MessageDetailDefTransHandler extends FileListener
                         while (recMessageDetail.hasNext())
                         {
                             recMessageDetail.next();
-                            if (!recMessageDetail.getField(MessageDetail.kDefaultMessageTransportID).isNull())
+                            if (!recMessageDetail.getField(MessageDetail.DEFAULT_MESSAGE_TRANSPORT_ID).isNull())
                             {
-                                newDefaultMessageTransport = (int)recMessageDetail.getField(MessageDetail.kDefaultMessageTransportID).getValue();
+                                newDefaultMessageTransport = (int)recMessageDetail.getField(MessageDetail.DEFAULT_MESSAGE_TRANSPORT_ID).getValue();
                                 break;  // This is the current default (to set in the new record)
                             }
                         }
@@ -148,7 +148,7 @@ public class MessageDetailDefTransHandler extends FileListener
                     {
                         recMessageDetail.next();
                         recMessageDetail.edit();
-                        recMessageDetail.getField(MessageDetail.kDefaultMessageTransportID).setData(newDefaultMessageTransport, bDisplayOption, DBConstants.INIT_MOVE);
+                        recMessageDetail.getField(MessageDetail.DEFAULT_MESSAGE_TRANSPORT_ID).setData(newDefaultMessageTransport, bDisplayOption, DBConstants.INIT_MOVE);
                         recMessageDetail.set();
                     }
                 } catch (DBException ex) {

@@ -9,6 +9,11 @@ import org.jbundle.model.db.*;
 
 public interface UserLogTypeModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String DESCRIPTION = "Description";
+
+    public static final String DESCRIPTION_KEY = "Description";
     public static final int LOGIN = 1;
     public static final int SCREEN = 2;
 

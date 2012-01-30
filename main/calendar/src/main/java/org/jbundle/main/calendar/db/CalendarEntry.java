@@ -199,7 +199,7 @@ public class CalendarEntry extends VirtualRecord
                 int iErrorCode = super.doRecordChange(field, iChangeType, bDisplayOption);
                 if ((iChangeType == DBConstants.AFTER_ADD_TYPE) || (iChangeType == DBConstants.AFTER_UPDATE_TYPE))
                     if (getSharedRecordTypeKey().getValue() == CalendarEntry.APPOINTMENT_ID)
-                        if (!getField(CalendarEntry.kProperties).isNull())
+                        if (!getField(CalendarEntry.PROPERTIES).isNull())
                 {   // This will cause the JobScheduler to reschedule the jobs (now that they have changed)
                     MessageManager messageManager = ((Application)getTask().getApplication()).getMessageManager();
                     Map<String,Object> properties = new Hashtable<String,Object>();
@@ -218,14 +218,14 @@ public class CalendarEntry extends VirtualRecord
      */
     public Map<String,Object> getProperties()
     {
-        Map<String,Object> properties = ((PropertiesField)this.getField(CalendarEntry.kProperties)).getProperties();
-        if (!this.getField(CalendarEntry.kAnnivMasterID).isNull())
-            if (this.getField(CalendarEntry.kAnnivMasterID) instanceof ReferenceField)
+        Map<String,Object> properties = ((PropertiesField)this.getField(CalendarEntry.PROPERTIES)).getProperties();
+        if (!this.getField(Anniversary.ANNIV_MASTER_ID).isNull())
+            if (this.getField(Anniversary.ANNIV_MASTER_ID) instanceof ReferenceField)
         {
-            Record recAnnivMaster = ((ReferenceField)this.getField(CalendarEntry.kAnnivMasterID)).getReference();
+            Record recAnnivMaster = ((ReferenceField)this.getField(Anniversary.ANNIV_MASTER_ID)).getReference();
             if ((recAnnivMaster != null) && ((recAnnivMaster.getEditMode() == DBConstants.EDIT_CURRENT) || (recAnnivMaster.getEditMode() == DBConstants.EDIT_IN_PROGRESS)))
             {
-                Map<String,Object> propMaster = ((PropertiesField)recAnnivMaster.getField(AnnivMaster.kProperties)).getProperties();
+                Map<String,Object> propMaster = ((PropertiesField)recAnnivMaster.getField(AnnivMaster.PROPERTIES)).getProperties();
                 if (propMaster != null)
                 {
                     if (properties != null)
@@ -242,16 +242,16 @@ public class CalendarEntry extends VirtualRecord
     public ImageIcon getStartIcon()
     {
         ImageIcon iconStart = null;
-        Record recCalendarCategory = ((ReferenceField)this.getField(CalendarEntry.kCalendarCategoryID)).getReference();
+        Record recCalendarCategory = ((ReferenceField)this.getField(CalendarEntry.CALENDAR_CATEGORY_ID)).getReference();
         if ((recCalendarCategory == null) || (recCalendarCategory.getEditMode() != DBConstants.EDIT_CURRENT))
-            if (this.getField(CalendarEntry.kAnnivMasterID) instanceof ReferenceField)
+            if (this.getField(Anniversary.ANNIV_MASTER_ID) instanceof ReferenceField)
         {
-        //    Record recAnnivMaster = ((ReferenceField)this.getField(CalendarEntry.kAnnivMasterID)).getReference();
+        //    Record recAnnivMaster = ((ReferenceField)this.getField(Anniversary.ANNIV_MASTER_ID)).getReference();
         //    if ((recAnnivMaster != null) && ((recAnnivMaster.getEditMode() == DBConstants.EDIT_CURRENT) || (recAnnivMaster.getEditMode() == DBConstants.EDIT_IN_PROGRESS)))
-        //        recCalendarCategory = ((ReferenceField)recAnnivMaster.getField(AnnivMaster.kCalendarCategoryID)).getReference();
+        //        recCalendarCategory = ((ReferenceField)recAnnivMaster.getField(AnnivMaster.CALENDAR_CATEGORY_ID)).getReference();
         }
         if ((recCalendarCategory != null) && (recCalendarCategory.getEditMode() == DBConstants.EDIT_CURRENT))
-            iconStart = (ImageIcon)new ImageIcon(((ImageField)recCalendarCategory.getField(CalendarCategory.kIcon)).getImage().getImage());
+            iconStart = (ImageIcon)new ImageIcon(((ImageField)recCalendarCategory.getField(CalendarCategory.ICON)).getImage().getImage());
         if (iconStart == null)
         {
             if (this.getTask() instanceof BaseApplet)
@@ -266,7 +266,7 @@ public class CalendarEntry extends VirtualRecord
      */
     public BaseField getSharedRecordTypeKey()
     {
-        return this.getField(CalendarEntry.kCalendarEntryTypeID);
+        return this.getField(CalendarEntry.CALENDAR_ENTRY_TYPE_ID);
     }
     /**
      * Get the shared record that goes with this key.

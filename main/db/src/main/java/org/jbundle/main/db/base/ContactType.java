@@ -163,8 +163,8 @@ public class ContactType extends VirtualRecord
     public ContactType getContactType(Record record)
     {
         String strType = record.getTableNames(false);
-        this.setKeyArea(ContactType.kCodeKey);
-        this.getField(ContactType.kCode).setString(strType);
+        this.setKeyArea(ContactType.CODE_KEY);
+        this.getField(ContactType.CODE).setString(strType);
         try {
             if (this.seek(null))
             {   // Success
@@ -183,11 +183,11 @@ public class ContactType extends VirtualRecord
         if (Utility.isNumeric(strContactTypeID))
         {
             int iOldKeyArea = this.getDefaultOrder();
-            this.setKeyArea(ContactType.kIDKey);
+            this.setKeyArea(ContactType.ID_KEY);
             this.getCounterField().setString(strContactTypeID);
             try   {
                 if (this.seek(null))
-                    strContactTypeID = this.getField(ContactType.kCode).toString();
+                    strContactTypeID = this.getField(ContactType.CODE).toString();
             } catch (DBException ex)    {
                 ex.printStackTrace();
             } finally {
@@ -204,8 +204,8 @@ public class ContactType extends VirtualRecord
         int iOldKeyArea = this.getDefaultOrder();
         try {
             this.addNew();
-            this.setKeyArea(ContactType.kCodeKey);
-            this.getField(ContactType.kCode).setString(strRecordName);
+            this.setKeyArea(ContactType.CODE_KEY);
+            this.getField(ContactType.CODE).setString(strRecordName);
             if (this.seek(DBConstants.EQUALS))
                 return this.makeContactRecord(recordOwner);
         } catch (DBException ex) {
@@ -218,7 +218,7 @@ public class ContactType extends VirtualRecord
      */
     public Record makeContactRecord(RecordOwner recordOwner)
     {
-        String strRecordClass = this.getField(ContactType.kRecordClass).toString();
+        String strRecordClass = this.getField(ContactType.RECORD_CLASS).toString();
         return Record.makeRecordFromClassName(strRecordClass, recordOwner, true, false);
     }
 

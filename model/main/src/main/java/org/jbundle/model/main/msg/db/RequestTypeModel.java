@@ -9,6 +9,14 @@ import org.jbundle.model.db.*;
 
 public interface RequestTypeModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String DESCRIPTION = "Description";
+    public static final String CODE = "Code";
+
+    public static final String DESCRIPTION_KEY = "Description";
+
+    public static final String CODE_KEY = "Code";
     public static final String MANUAL = "MANUAL";
     public static final String INFORMATION = "InfoStatusID";
     public static final String AVAILABILITY = "InventoryStatusID";

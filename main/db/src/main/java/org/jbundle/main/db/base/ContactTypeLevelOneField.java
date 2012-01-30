@@ -63,7 +63,7 @@ public class ContactTypeLevelOneField extends ContactTypeField
     public Record makeReferenceRecord(RecordOwner recordOwner)
     {
         Record record = super.makeReferenceRecord(recordOwner);
-        record.addListener(new CompareFileFilter(ContactType.kLevel, "1", DBConstants.EQUALS, null, true));
+        record.addListener(new CompareFileFilter(record.getField(ContactType.LEVEL), "1", DBConstants.EQUALS, null, true));
         return record;
     }
 

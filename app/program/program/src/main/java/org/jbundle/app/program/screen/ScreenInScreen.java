@@ -74,15 +74,15 @@ public class ScreenInScreen extends Screen
     {
         super.addListeners();
         Record record = this.getMainRecord();
-        Record recClassInfo = this.getRecord(ClassInfo.kClassInfoFile);
+        Record recClassInfo = this.getRecord(ClassInfo.CLASS_INFO_FILE);
         if (recClassInfo != null)
         {
-            record.setKeyArea(ScreenIn.kScreenInProgNameKey);
-            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), ScreenIn.kScreenInProgName, null, -1, null, -1, true);
+            record.setKeyArea(ScreenIn.SCREEN_IN_PROG_NAME_KEY);
+            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), ScreenIn.SCREEN_IN_PROG_NAME, null, null, null, null, true);
             record.addListener(listener);
         }
         MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
-        this.getMainRecord().getField(ScreenIn.kScreenItemNumber).addListener(fieldBeh);
+        this.getMainRecord().getField(ScreenIn.SCREEN_ITEM_NUMBER).addListener(fieldBeh);
 
     }
     /**

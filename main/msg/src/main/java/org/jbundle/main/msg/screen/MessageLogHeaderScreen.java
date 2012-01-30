@@ -66,7 +66,7 @@ public class MessageLogHeaderScreen extends HeaderScreen
         super.addListeners();
         this.setEditing(true);
         Record screenRecord = this.getScreenRecord();
-        ReferenceField fldMessageInfoType = (ReferenceField)screenRecord.getField(MessageLogScreenRecord.kMessageInfoTypeID);
+        ReferenceField fldMessageInfoType = (ReferenceField)screenRecord.getField(MessageLogScreenRecord.MESSAGE_INFO_TYPE_ID);
     }
     /**
      * SetupSFields Method.

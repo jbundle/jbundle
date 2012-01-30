@@ -31,7 +31,9 @@ public class ResourceScreenRecord extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String LANGUAGE = "Language";
     public static final int kLanguage = kScreenRecordLastField + 1;
+    public static final String LOCALE = "Locale";
     public static final int kLocale = kLanguage + 1;
     public static final int kResourceScreenRecordLastField = kLocale;
     public static final int kResourceScreenRecordFields = kLocale - DBConstants.MAIN_FIELD + 1;

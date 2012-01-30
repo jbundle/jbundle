@@ -77,21 +77,21 @@ public class ScanPackagesProcess extends BaseProcess
     public void run()
     {
         Packages recPackages = (Packages)this.getMainRecord();
-        ProgramControl recPackagesControl = (ProgramControl)this.getRecord(ProgramControl.kProgramControlFile);
+        ProgramControl recPackagesControl = (ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE);
         try {
             recPackagesControl.edit();
-            recPackagesControl.getField(ProgramControl.kLastPackageUpdate).setValue(DateTimeField.currentTime());
+            recPackagesControl.getField(ProgramControl.LAST_PACKAGE_UPDATE).setValue(DateTimeField.currentTime());
         
             this.scanProjects(0);
         
-            recPackages.setKeyArea(Packages.kIDKey);
+            recPackages.setKeyArea(Packages.ID_KEY);
             recPackages.close();
             while (recPackages.hasNext())
             {
                 recPackages.next();
-                Date timePackages = ((DateTimeField)recPackages.getField(Packages.kLastUpdated)).getDateTime();
-                Date timeUpdated = ((DateTimeField)recPackagesControl.getField(ProgramControl.kLastPackageUpdate)).getDateTime();
-                boolean bManual = recPackages.getField(Packages.kManual).getState();
+                Date timePackages = ((DateTimeField)recPackages.getField(Packages.LAST_UPDATED)).getDateTime();
+                Date timeUpdated = ((DateTimeField)recPackagesControl.getField(ProgramControl.LAST_PACKAGE_UPDATE)).getDateTime();
+                boolean bManual = recPackages.getField(Packages.MANUAL).getState();
                 if (((timePackages == null) || (timePackages.before(timeUpdated)))
                     && (bManual == false))
                 {
@@ -114,7 +114,7 @@ public class ScanPackagesProcess extends BaseProcess
         ClassProject classProject = new ClassProject(this);
         try {
             classProject.addNew();
-            classProject.setKeyArea(ClassProject.kIDKey);
+            classProject.setKeyArea(ClassProject.ID_KEY);
             classProject.getField(ClassProject.kID).setValue(parentProjectID);
             if (classProject.seek(null))
             {
@@ -125,8 +125,8 @@ public class ScanPackagesProcess extends BaseProcess
             field.setValue(parentProjectID);
             classProject.addNew();
             classProject.close();
-            classProject.setKeyArea(ClassProject.kParentFolderIDKey);
-            classProject.addListener(new SubFileFilter(field, ClassProject.kParentFolderID, null, -1, null, -1));
+            classProject.setKeyArea(ClassProject.PARENT_FOLDER_ID_KEY);
+            classProject.addListener(new SubFileFilter(field, ClassProject.PARENT_FOLDER_ID, null, null, null, null));
             while (classProject.hasNext())
             {
                 classProject.next();

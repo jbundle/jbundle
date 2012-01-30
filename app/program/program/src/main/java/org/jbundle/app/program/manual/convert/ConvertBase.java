@@ -165,4 +165,27 @@ System.out.println("New String " + string);
         }
         return dest.toString();
     }
+    /**
+     * A utility name to convert a java name to a constant.
+     * (ie., thisClassName -> THIS_CLASS_NAME)
+     */
+    public String convertNameToConstant(String strName)
+    {
+        String strConstants = DBConstants.BLANK;
+        int iLastUpper = -1;
+        for (int i = 0; i < strName.length(); i++)
+        {
+            char chNext = strName.charAt(i);
+            if (!Character.isLowerCase(chNext))
+            {   // The next word is always uppercase.
+                if (i != iLastUpper + 1)
+                    strConstants += "_";    // Previous letter was not uppercase, this starts a new word
+                else if ((iLastUpper != -1) && (i + 1 < strName.length()) && (Character.isLowerCase(strName.charAt(i + 1))))
+                    strConstants += "_";    // Previous letter was upper and next is lower, start a new word
+                iLastUpper = i;
+            }
+            strConstants += Character.toUpperCase(chNext);
+        }
+        return strConstants;
+    }
 }

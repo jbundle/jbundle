@@ -32,7 +32,9 @@ public class ProjectTaskScreenRecord extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String PROJECT_TASK_ID = "ProjectTaskID";
     public static final int kProjectTaskID = kScreenRecordLastField + 1;
+    public static final String CURRENT_LEVEL = "CurrentLevel";
     public static final int kCurrentLevel = kProjectTaskID + 1;
     public static final int kProjectTaskScreenRecordLastField = kCurrentLevel;
     public static final int kProjectTaskScreenRecordFields = kCurrentLevel - DBConstants.MAIN_FIELD + 1;

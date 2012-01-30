@@ -35,17 +35,29 @@ public class MessageLogScreenRecord extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String CONTACT_TYPE_ID = "ContactTypeID";
     public static final int kContactTypeID = kScreenRecordLastField + 1;
+    public static final String CONTACT_ID = "ContactID";
     public static final int kContactID = kContactTypeID + 1;
+    public static final String MESSAGE_INFO_TYPE_ID = "MessageInfoTypeID";
     public static final int kMessageInfoTypeID = kContactID + 1;
+    public static final String MESSAGE_TYPE_ID = "MessageTypeID";
     public static final int kMessageTypeID = kMessageInfoTypeID + 1;
+    public static final String MESSAGE_STATUS_ID = "MessageStatusID";
     public static final int kMessageStatusID = kMessageTypeID + 1;
+    public static final String MESSAGE_TRANSPORT_ID = "MessageTransportID";
     public static final int kMessageTransportID = kMessageStatusID + 1;
+    public static final String USER_ID = "UserID";
     public static final int kUserID = kMessageTransportID + 1;
+    public static final String START_DATE = "StartDate";
     public static final int kStartDate = kUserID + 1;
+    public static final String END_DATE = "EndDate";
     public static final int kEndDate = kStartDate + 1;
+    public static final String SORT_KEY = "SortKey";
     public static final int kSortKey = kEndDate + 1;
+    public static final String REFERENCE_TYPE = "ReferenceType";
     public static final int kReferenceType = kSortKey + 1;
+    public static final String REFERENCE_ID = "ReferenceID";
     public static final int kReferenceID = kReferenceType + 1;
     public static final int kMessageLogScreenRecordLastField = kReferenceID;
     public static final int kMessageLogScreenRecordFields = kReferenceID - DBConstants.MAIN_FIELD + 1;

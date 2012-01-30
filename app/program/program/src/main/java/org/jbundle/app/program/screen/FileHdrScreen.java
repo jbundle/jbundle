@@ -86,7 +86,6 @@ public class FileHdrScreen extends Screen
         for (int fieldSeq = FileHdr.kFileNotes+1; fieldSeq <= FileHdr.kFileHdrLastField; fieldSeq++)
             query.getField(fieldSeq).setupFieldView(this);  // Add this view to the list
         query.getField(FileHdr.kFileNotes).setupFieldView(this);    // Add this view to the list
-
     }
 
 }

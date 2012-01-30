@@ -31,12 +31,19 @@ public class ReportScreenRecord extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String REPORT_DATE = "ReportDate";
     public static final int kReportDate = kScreenRecordLastField + 1;
+    public static final String REPORT_TIME = "ReportTime";
     public static final int kReportTime = kReportDate + 1;
+    public static final String REPORT_USER_ID = "ReportUserID";
     public static final int kReportUserID = kReportTime + 1;
+    public static final String REPORT_PAGE = "ReportPage";
     public static final int kReportPage = kReportUserID + 1;
+    public static final String REPORT_COUNT = "ReportCount";
     public static final int kReportCount = kReportPage + 1;
+    public static final String REPORT_TOTAL = "ReportTotal";
     public static final int kReportTotal = kReportCount + 1;
+    public static final String REPORT_KEY_AREA = "ReportKeyArea";
     public static final int kReportKeyArea = kReportTotal + 1;
     public static final int kReportScreenRecordLastField = kReportKeyArea;
     public static final int kReportScreenRecordFields = kReportKeyArea - DBConstants.MAIN_FIELD + 1;

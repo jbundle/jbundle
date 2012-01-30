@@ -70,7 +70,7 @@ public class LayoutPrint extends Object
                 ex.printStackTrace();
                 return;
             }
-            String strFileName = recLayout.getField(Layout.kName).toString() + ".idl";
+            String strFileName = recLayout.getField(Layout.NAME).toString() + ".idl";
             try   {
                 FileOutputStream outStream = new FileOutputStream(strFileName);
                 BufferedOutputStream buffOut = new BufferedOutputStream(outStream);
@@ -94,12 +94,12 @@ public class LayoutPrint extends Object
     public void printIt(Record recLayout, PrintWriter out, int iIndents, String strEnd)
     {
         // Print out the current record
-        String strName = recLayout.getField(Layout.kName).toString();
-        String strType = recLayout.getField(Layout.kType).toString();
-        String strValue = recLayout.getField(Layout.kFieldValue).toString();
-        String strReturns = recLayout.getField(Layout.kReturnsValue).toString();
-        String strMax = recLayout.getField(Layout.kMax).toString();
-        String strDescription = recLayout.getField(Layout.kComment).toString();
+        String strName = recLayout.getField(Layout.NAME).toString();
+        String strType = recLayout.getField(Layout.TYPE).toString();
+        String strValue = recLayout.getField(Layout.FIELD_VALUE).toString();
+        String strReturns = recLayout.getField(Layout.RETURNS_VALUE).toString();
+        String strMax = recLayout.getField(Layout.MAX).toString();
+        String strDescription = recLayout.getField(Layout.COMMENT).toString();
         boolean bLoop = false;
         if ((strType.equalsIgnoreCase("module")) ||
             (strType.equalsIgnoreCase("enum")) ||
@@ -114,7 +114,7 @@ public class LayoutPrint extends Object
                 strEndLoop = null;
             this.println(out, "{", null, iIndents, "");
             Layout recLayoutLoop = new Layout(recLayout.findRecordOwner());
-            recLayoutLoop.setKeyArea(Layout.kParentFolderIDKey);
+            recLayoutLoop.setKeyArea(Layout.PARENT_FOLDER_ID_KEY);
             recLayoutLoop.addListener(new SubFileFilter(recLayout));
             try   {
                 boolean bFirstLoop = true;

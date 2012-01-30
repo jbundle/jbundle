@@ -576,9 +576,20 @@ public class FieldList extends Object
      * @param String strKeyName the current index.
      * @return The new default key area (null if not found).
      */
+    public KeyAreaInfo getKeyArea(String strKeyName)
+    {
+        return this.setKeyArea(strKeyName);
+    }
+    /**
+     * Set the default key order.
+     * @param String strKeyName the current index.
+     * @return The new default key area (null if not found).
+     */
     public KeyAreaInfo setKeyArea(String strKeyName)
     {
         KeyAreaInfo keyArea = null;
+        if (strKeyName == null)
+            strKeyName = Constants.PRIMARY_KEY;
         for (m_iDefaultOrder = Constants.MAIN_KEY_AREA; m_iDefaultOrder < this.getKeyAreaCount() - Constants.MAIN_KEY_AREA; m_iDefaultOrder++)
         {
             keyArea = this.getKeyArea(m_iDefaultOrder);

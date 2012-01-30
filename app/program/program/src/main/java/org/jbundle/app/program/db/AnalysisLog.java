@@ -166,13 +166,13 @@ public class AnalysisLog extends VirtualRecord
             this.getTable().getDatabase().setProperty(DBParams.MESSAGES_TO_REMOTE, DBConstants.FALSE);
         
             this.addNew();
-            this.getField(AnalysisLog.kSystemID).setValue(iSystemID);
-            this.getField(AnalysisLog.kObjectID).setValue(Debug.getObjectID(record, false));
-            this.getField(AnalysisLog.kClassName).setString(Debug.getClassName(record));
-            this.getField(AnalysisLog.kDatabaseName).setString(record.getDatabaseName());
-            ((DateTimeField)this.getField(AnalysisLog.kInitTime)).setValue(DateTimeField.currentTime());
-            this.getField(AnalysisLog.kRecordOwner).setString(Debug.getClassName(((Record)record).getRecordOwner()));
-            this.getField(AnalysisLog.kStackTrace).setString(Debug.getStackTrace());
+            this.getField(AnalysisLog.SYSTEM_ID).setValue(iSystemID);
+            this.getField(AnalysisLog.OBJECT_ID).setValue(Debug.getObjectID(record, false));
+            this.getField(AnalysisLog.CLASS_NAME).setString(Debug.getClassName(record));
+            this.getField(AnalysisLog.DATABASE_NAME).setString(record.getDatabaseName());
+            ((DateTimeField)this.getField(AnalysisLog.INIT_TIME)).setValue(DateTimeField.currentTime());
+            this.getField(AnalysisLog.RECORD_OWNER).setString(Debug.getClassName(((Record)record).getRecordOwner()));
+            this.getField(AnalysisLog.STACK_TRACE).setString(Debug.getStackTrace());
             this.add();
         } catch (DBException ex) {
             ex.printStackTrace();
@@ -190,15 +190,15 @@ public class AnalysisLog extends VirtualRecord
             this.getTable().getDatabase().setProperty(DBParams.MESSAGES_TO_REMOTE, DBConstants.FALSE);
         
             this.addNew();
-            this.getField(AnalysisLog.kSystemID).setValue(iSystemID);
-            this.getField(AnalysisLog.kObjectID).setValue(Debug.getObjectID(record, true));
-            this.setKeyArea(AnalysisLog.kObjectIDKey);
+            this.getField(AnalysisLog.SYSTEM_ID).setValue(iSystemID);
+            this.getField(AnalysisLog.OBJECT_ID).setValue(Debug.getObjectID(record, true));
+            this.setKeyArea(AnalysisLog.OBJECT_ID_KEY);
             if (this.seek(null))
             {
                 this.edit();
-                ((DateTimeField)this.getField(AnalysisLog.kFreeTime)).setValue(DateTimeField.currentTime());
-                if (this.getField(AnalysisLog.kRecordOwner).isNull())
-                    this.getField(AnalysisLog.kRecordOwner).setString(Debug.getClassName(((Record)record).getRecordOwner()));
+                ((DateTimeField)this.getField(AnalysisLog.FREE_TIME)).setValue(DateTimeField.currentTime());
+                if (this.getField(AnalysisLog.RECORD_OWNER).isNull())
+                    this.getField(AnalysisLog.RECORD_OWNER).setString(Debug.getClassName(((Record)record).getRecordOwner()));
                 this.set();
             }
             else

@@ -80,7 +80,7 @@ public class AnnivMasterGridScreen extends GridScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().getField(AnnivMaster.kCalendarCategoryID).addListener(new InitFieldHandler(this.getRecord(CalendarControl.kCalendarControlFile).getField(CalendarControl.kAnniversaryCategoryID)));
+        this.getMainRecord().getField(AnnivMaster.CALENDAR_CATEGORY_ID).addListener(new InitFieldHandler(this.getRecord(CalendarControl.CALENDAR_CONTROL_FILE).getField(CalendarControl.ANNIVERSARY_CATEGORY_ID)));
     }
 
 }

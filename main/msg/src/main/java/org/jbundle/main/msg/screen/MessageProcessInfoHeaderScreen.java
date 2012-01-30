@@ -63,7 +63,7 @@ public class MessageProcessInfoHeaderScreen extends HeaderScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageProcessInfoID).setEnabled(true);
+        this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_PROCESS_INFO_ID).setEnabled(true);
     }
     /**
      * SetupSFields Method.

@@ -149,7 +149,7 @@ public class MessageControl extends ControlRecord
     {
         super.addListeners();
         Map<String,Object> map = Utility.arrayToMap(DESCRIPTIONS);
-        ((PropertiesField)this.getField(MessageControl.kProperties)).setMapKeyDescriptions(map);
+        ((PropertiesField)this.getField(MessageControl.PROPERTIES)).setMapKeyDescriptions(map);
     }
     /**
      * GetDefaultNamespace Method.
@@ -164,11 +164,11 @@ public class MessageControl extends ControlRecord
     public String getNamespaceFromVersion(String version)
     {
         MessageVersion recMessageVersion = this.getMessageVersion(version);
-        String namespace = this.getField(MessageControl.kBaseNamespace).toString();
+        String namespace = this.getField(MessageControl.BASE_NAMESPACE).toString();
         if (namespace == null)
             namespace = DBConstants.BLANK;
-        if ((recMessageVersion != null) && (!recMessageVersion.getField(MessageVersion.kNamespace).isNull()))
-                namespace += recMessageVersion.getField(MessageVersion.kNamespace).toString();
+        if ((recMessageVersion != null) && (!recMessageVersion.getField(MessageVersion.NAMESPACE).isNull()))
+                namespace += recMessageVersion.getField(MessageVersion.NAMESPACE).toString();
         return namespace;
     }
     /**
@@ -187,15 +187,15 @@ public class MessageControl extends ControlRecord
      */
     public String getSchemaLocation(MessageVersion recMessageVersion, String schemaLocation)
     {
-        String location = this.getField(MessageControl.kBaseSchemaLocation).toString();
+        String location = this.getField(MessageControl.BASE_SCHEMA_LOCATION).toString();
         if (location == null)
             location = DBConstants.BLANK;
         else if (!location.endsWith("/"))
             location += "/";
-        if ((recMessageVersion != null) && (!recMessageVersion.getField(MessageVersion.kSchemaLocation).isNull()))
-            location = location + recMessageVersion.getField(MessageVersion.kSchemaLocation).toString();
+        if ((recMessageVersion != null) && (!recMessageVersion.getField(MessageVersion.SCHEMA_LOCATION).isNull()))
+            location = location + recMessageVersion.getField(MessageVersion.SCHEMA_LOCATION).toString();
         else
-            location = location + recMessageVersion.getField(MessageVersion.kCode).toString();
+            location = location + recMessageVersion.getField(MessageVersion.CODE).toString();
         if (location != null)
         {
             if (!location.endsWith("/"))
@@ -209,7 +209,7 @@ public class MessageControl extends ControlRecord
      */
     public MessageVersion getMessageVersion()
     {
-        return (MessageVersion)((ReferenceField)this.getField(MessageControl.kDefaultVersionID)).getReferenceRecord();
+        return (MessageVersion)((ReferenceField)this.getField(MessageControl.DEFAULT_VERSION_ID)).getReferenceRecord();
     }
     /**
      * GetMessageVersion Method.
@@ -217,9 +217,9 @@ public class MessageControl extends ControlRecord
     public MessageVersion getMessageVersion(String version)
     {
         MessageVersion recMessageVersion = this.getMessageVersion();
-        recMessageVersion.setKeyArea(MessageVersion.kCodeKey);
+        recMessageVersion.setKeyArea(MessageVersion.CODE_KEY);
         version = MessageControl.fixVersion(version);
-        recMessageVersion.getField(MessageVersion.kCode).setString(version);
+        recMessageVersion.getField(MessageVersion.CODE).setString(version);
         try {
             if (version != null)
                 if (recMessageVersion.seek(DBConstants.EQUALS))
@@ -229,7 +229,7 @@ public class MessageControl extends ControlRecord
         } catch (DBException e) {
             e.printStackTrace();
         }
-        return (MessageVersion)((ReferenceField)this.getField(MessageControl.kDefaultVersionID)).getReference();
+        return (MessageVersion)((ReferenceField)this.getField(MessageControl.DEFAULT_VERSION_ID)).getReference();
     }
     /**
      * GetNumericVersionFromVersion Method.
@@ -238,8 +238,8 @@ public class MessageControl extends ControlRecord
     {
         MessageVersion recMessageVersion = this.getMessageVersion(version);
         String numericVersion = DBConstants.BLANK;
-        if ((recMessageVersion != null) && (!recMessageVersion.getField(MessageVersion.kNamespace).isNull()))
-            numericVersion = recMessageVersion.getField(MessageVersion.kNumericVersion).toString();
+        if ((recMessageVersion != null) && (!recMessageVersion.getField(MessageVersion.NAMESPACE).isNull()))
+            numericVersion = recMessageVersion.getField(MessageVersion.NUMERIC_VERSION).toString();
         if ((numericVersion == null) || (numericVersion.length() == 0))
             numericVersion = "1.000";
         return numericVersion;
@@ -251,8 +251,8 @@ public class MessageControl extends ControlRecord
     {
         MessageVersion recMessageVersion = this.getMessageVersion(version);
         String idVersion = DBConstants.BLANK;
-        if ((idVersion != null) && (!recMessageVersion.getField(MessageVersion.kNamespace).isNull()))
-            idVersion = recMessageVersion.getField(MessageVersion.kVersionID).toString();
+        if ((idVersion != null) && (!recMessageVersion.getField(MessageVersion.NAMESPACE).isNull()))
+            idVersion = recMessageVersion.getField(MessageVersion.VERSION_ID).toString();
         if ((idVersion == null) || (idVersion.length() == 0))
             idVersion = "OTA" + version;
         return idVersion;
@@ -284,7 +284,7 @@ public class MessageControl extends ControlRecord
                 recMessageVersion.next();
                 String messageSchemaLocation = this.getSchemaLocation(recMessageVersion, DBConstants.BLANK);
                 if (schemaLocation.startsWith(messageSchemaLocation))
-                    return recMessageVersion.getField(MessageVersion.kCode).toString();
+                    return recMessageVersion.getField(MessageVersion.CODE).toString();
             }
         } catch (DBException e) {
             e.printStackTrace();

@@ -32,8 +32,11 @@ public class ClassInfoScreenRecord extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String CLASS_PROJECT_ID = "ClassProjectID";
     public static final int kClassProjectID = kScreenRecordLastField + 1;
+    public static final String NAME = "Name";
     public static final int kName = kClassProjectID + 1;
+    public static final String PACKAGE = "Package";
     public static final int kPackage = kName + 1;
     public static final int kClassInfoScreenRecordLastField = kPackage;
     public static final int kClassInfoScreenRecordFields = kPackage - DBConstants.MAIN_FIELD + 1;

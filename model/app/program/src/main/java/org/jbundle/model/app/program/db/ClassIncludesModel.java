@@ -9,6 +9,12 @@ import org.jbundle.model.db.*;
 
 public interface ClassIncludesModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String CLASS_INFO_ID = "ClassInfoID";
+    public static final String CLASS_INCLUDES_CLASS = "ClassIncludesClass";
+
+    public static final String CLASS_INFO_ID_KEY = "ClassInfoID";
     public static final String CLASS_INCLUDES_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassIncludesScreen";
     public static final String CLASS_INCLUDES_GRID_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassIncludesGridScreen";
 

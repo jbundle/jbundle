@@ -94,7 +94,7 @@ public class ClassInfoScreen extends Screen
         super.addListeners();
         this.addMainKeyBehavior();
         this.getMainRecord().addListener(new EnableOnPhysicalHandler(null));
-        this.getMainRecord().getField(ClassInfo.kClassName).addListener(new MoveOnChangeHandler(this.getMainRecord().getField(ClassInfo.kClassSourceFile), this.getMainRecord().getField(ClassInfo.kClassName), false, true));
+        this.getMainRecord().getField(ClassInfo.CLASS_NAME).addListener(new MoveOnChangeHandler(this.getMainRecord().getField(ClassInfo.CLASS_SOURCE_FILE), this.getMainRecord().getField(ClassInfo.CLASS_NAME), false, true));
     }
     /**
      * Add the toolbars that belong with this screen.
@@ -117,7 +117,7 @@ public class ClassInfoScreen extends Screen
         strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
         strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ExportRecordsToXmlScreen.class.getName());    // Screen class
         strJob = Utility.addURLParam(strJob, "newwindow", DBConstants.TRUE);    // Screen class
-        strJob = Utility.addURLParam(strJob, "prefix", this.getRecord(ProgramControl.kProgramControlFile).getField(ProgramControl.kBaseDirectory).toString()+ this.getRecord(ProgramControl.kProgramControlFile).getField(ProgramControl.kProjectName).toString() + "/");    // Screen class
+        strJob = Utility.addURLParam(strJob, "prefix", this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.BASE_DIRECTORY).toString()+ this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.PROJECT_NAME).toString() + "/");    // Screen class
         new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Export");
         strJob = Utility.addURLParam(strJob, "mode", "import");
         new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Import");
@@ -128,7 +128,7 @@ public class ClassInfoScreen extends Screen
         strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ".app.program.manual.util.process.CopyHelpInfo");    // Screen class
         new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Scan Help");
         
-        BaseField field = this.getScreenRecord().getField(ClassVars.kClassKey);
+        BaseField field = this.getScreenRecord().getField(ClassVars.CLASS_KEY);
         new SCannedBox(toolbar.getNextLocation(ScreenConstants.FLUSH_LEFT, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "5", "Description");
         new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "0", "Logic");
         new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "1", "Fields");
@@ -155,8 +155,8 @@ public class ClassInfoScreen extends Screen
     public BasePanel makeSubScreen()
     {
         SwitchClassSub listener = new SwitchClassSub(null, null, null);
-        this.getScreenRecord().getField(ClassVars.kClassKey).addListener(listener);
-        this.getScreenRecord().getField(ClassVars.kClassKey).setValue(5, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
+        this.getScreenRecord().getField(ClassVars.CLASS_KEY).addListener(listener);
+        this.getScreenRecord().getField(ClassVars.CLASS_KEY).setValue(5, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
         return (BasePanel)listener.getSubScreen();
 
     }
@@ -182,10 +182,10 @@ public class ClassInfoScreen extends Screen
             || (strCommand.indexOf("AccessGridScreen") != -1))
         {
             iCommandOptions = ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER;
-            strCommand = Utility.addURLParam(strCommand, DBParams.RECORD, this.getMainRecord().getField(ClassInfo.kClassName).toString());
+            strCommand = Utility.addURLParam(strCommand, DBParams.RECORD, this.getMainRecord().getField(ClassInfo.CLASS_NAME).toString());
             String packageName = ((ClassInfo)this.getMainRecord()).getPackageName();
             strCommand = Utility.addURLParam(strCommand, "package", packageName);
-            strCommand = Utility.addURLParam(strCommand, "project", Converter.stripNonNumber(this.getMainRecord().getField(ClassInfo.kClassProjectID).toString()));
+            strCommand = Utility.addURLParam(strCommand, "project", Converter.stripNonNumber(this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).toString()));
         }
         
         if (bFlag == false)

@@ -9,6 +9,12 @@ import org.jbundle.model.db.*;
 
 public interface BaseStatusModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String DESCRIPTION = "Description";
+    public static final String ICON = "Icon";
+
+    public static final String DESCRIPTION_KEY = "Description";
     public static final int NULL_STATUS = 0;
     public static final int NO_STATUS = 1;
     public static final int PROPOSAL = 2;

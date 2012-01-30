@@ -10,6 +10,8 @@ import org.jbundle.model.db.*;
 
 public interface MessageTransportModel extends Rec
 {
+
+    //public static final String ID = ID;
     public static final String DESCRIPTION = "Description";
     public static final String CODE = "Code";
     public static final String PROPERTIES = "Properties";

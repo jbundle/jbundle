@@ -71,13 +71,13 @@ public class JavaButton extends SButtonBox
         {
             TaskScheduler js = BaseApplet.getSharedInstance().getApplication().getTaskScheduler();
             String strJob = Utility.addURLParam(null, DBParams.SCREEN, ".app.program.manual.util.WriteClasses");
-            strJob = Utility.addURLParam(strJob, "fileName", m_classInfo.getField(ClassInfo.kClassSourceFile).toString());
-            strJob = Utility.addURLParam(strJob, "package", m_classInfo.getField(ClassInfo.kClassPackage).toString());
-            strJob = Utility.addURLParam(strJob, "project", Converter.stripNonNumber(m_classInfo.getField(ClassInfo.kClassProjectID).toString()));
+            strJob = Utility.addURLParam(strJob, "fileName", m_classInfo.getField(ClassInfo.CLASS_SOURCE_FILE).toString());
+            strJob = Utility.addURLParam(strJob, "package", m_classInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
+            strJob = Utility.addURLParam(strJob, "project", Converter.stripNonNumber(m_classInfo.getField(ClassInfo.CLASS_PROJECT_ID).toString()));
             strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
             js.addTask(strJob);
         //BasePanel parentScreen = Screen.makeWindow(this.getParentScreen().getTask().getApplication());
-        //WriteJava screen = new WriteJava(null, null, parentScreen, null, ScreenConstants.DISPLAY_FIELD_DESC, m_classInfo.getField(ClassInfo.kClassSourceFile), m_classInfo.getField(ClassInfo.kClassPackage));
+        //WriteJava screen = new WriteJava(null, null, parentScreen, null, ScreenConstants.DISPLAY_FIELD_DESC, m_classInfo.getField(ClassInfo.CLASS_SOURCE_FILE), m_classInfo.getField(ClassInfo.CLASS_PACKAGE));
         //screen.writeFileDesc();     // Write the code
         //BasePanel panel = screen.getRootScreen();
         //panel.free();

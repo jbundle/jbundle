@@ -16,6 +16,7 @@ public class EmptyMemoryRecord extends FieldList
     implements EmptyMemoryRecordModel
 {
 
+
     public EmptyMemoryRecord()
     {
         super();

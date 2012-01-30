@@ -255,36 +255,36 @@ public class ProjectTask extends Folder
     {
         super.addMasterListeners();
         
-        this.addListener(new SetUserIDHandler(ProjectTask.kEnteredByUserID, true));
-        this.addListener(new SetUserIDHandler(ProjectTask.kChangedByUserID, true));
-        this.addListener(new DateChangedHandler(ProjectTask.kChangedDate));
+        this.addListener(new SetUserIDHandler(ProjectTask.ENTERED_BY_USER_ID, true));
+        this.addListener(new SetUserIDHandler(ProjectTask.CHANGED_BY_USER_ID, true));
+        this.addListener(new DateChangedHandler(ProjectTask.CHANGED_DATE));
         
         FieldListener listener = null;
-        this.getField(ProjectTask.kEndDateTime).addListener(listener = new InitDateOffsetHandler(this.getField(ProjectTask.kDuration), (DateTimeField)this.getField(ProjectTask.kStartDateTime)));
+        this.getField(ProjectTask.END_DATE_TIME).addListener(listener = new InitDateOffsetHandler(this.getField(ProjectTask.DURATION), (DateTimeField)this.getField(ProjectTask.START_DATE_TIME)));
         listener.setRespondsToMode(DBConstants.READ_MOVE, true);
         
-        this.getField(ProjectTask.kEndDateTime).addListener(listener = new ReComputeTimeOffsetHandler(ProjectTask.kDuration, (DateTimeField)this.getField(ProjectTask.kStartDateTime)));
+        this.getField(ProjectTask.END_DATE_TIME).addListener(listener = new ReComputeTimeOffsetHandler(ProjectTask.DURATION, (DateTimeField)this.getField(ProjectTask.START_DATE_TIME)));
         
-        this.getField(ProjectTask.kStartDateTime).addListener(listener = new ReComputeEndDateHandler(ProjectTask.kEndDateTime, (NumberField)this.getField(ProjectTask.kDuration)));
+        this.getField(ProjectTask.START_DATE_TIME).addListener(listener = new ReComputeEndDateHandler(ProjectTask.END_DATE_TIME, (NumberField)this.getField(ProjectTask.DURATION)));
         
-        this.getField(ProjectTask.kDuration).addListener(listener = new ChangeOnChangeHandler(this.getField(ProjectTask.kStartDateTime)));
+        this.getField(ProjectTask.DURATION).addListener(listener = new ChangeOnChangeHandler(this.getField(ProjectTask.START_DATE_TIME)));
         listener.setRespondsToMode(DBConstants.INIT_MOVE, false);
         
         
-        this.getField(ProjectTask.kStartDateTime).addListener(new InitFieldHandler((BaseField)null)
+        this.getField(ProjectTask.START_DATE_TIME).addListener(new InitFieldHandler((BaseField)null)
         {
             public int fieldChanged(boolean bDisplayOption, int iMoveMode)
             {
-                if (!getField(ProjectTask.kParentProjectTaskID).isNull())
+                if (!getField(ProjectTask.PARENT_PROJECT_TASK_ID).isNull())
                 {
-                    Record recParent = ((ReferenceField)getField(ProjectTask.kParentProjectTaskID)).getReference();
+                    Record recParent = ((ReferenceField)getField(ProjectTask.PARENT_PROJECT_TASK_ID)).getReference();
                     if (recParent != null)
                         if ((recParent.getEditMode() == DBConstants.EDIT_IN_PROGRESS) || (recParent.getEditMode() == DBConstants.EDIT_CURRENT))
                         {
-                            if (recParent.getField(ProjectTask.kHasChildren).getState() == true)
-                                return this.getOwner().moveFieldToThis(recParent.getField(ProjectTask.kEndDateTime), bDisplayOption, iMoveMode);
+                            if (recParent.getField(ProjectTask.HAS_CHILDREN).getState() == true)
+                                return this.getOwner().moveFieldToThis(recParent.getField(ProjectTask.END_DATE_TIME), bDisplayOption, iMoveMode);
                             else
-                                return this.getOwner().moveFieldToThis(recParent.getField(ProjectTask.kStartDateTime), bDisplayOption, iMoveMode);
+                                return this.getOwner().moveFieldToThis(recParent.getField(ProjectTask.START_DATE_TIME), bDisplayOption, iMoveMode);
                         }
                 }
                 return super.fieldChanged(bDisplayOption, iMoveMode);
@@ -311,8 +311,8 @@ public class ProjectTask extends Folder
                 {
                     if (m_recDependent.getListener(SubFileFilter.class.getName()) == null)
                     {
-                        m_recDependent.addListener(new SubFileFilter(getField(ProjectTask.kID), ProjectTaskPredecessor.kProjectTaskID, null, -1, null, -1));
-                        m_recDependent.setKeyArea(ProjectTaskPredecessor.kProjectTaskIDKey);
+                        m_recDependent.addListener(new SubFileFilter(getField(ProjectTask.kID), ProjectTaskPredecessor.PROJECT_TASK_ID, null, null, null, null));
+                        m_recDependent.setKeyArea(ProjectTaskPredecessor.PROJECT_TASK_ID_KEY);
                     }
                 }
                 return m_recDependent;
@@ -360,21 +360,21 @@ public class ProjectTask extends Folder
                 m_recDetail.next();
                 if (m_recDetail.getHandle(DBConstants.BOOKMARK_HANDLE).equals(bookmark))
                     continue;   // Don't use the one you just added
-                if ((!m_recDetail.getField(ProjectTask.kEndDateTime).equals(this.getField(ProjectTask.kEndDateTime)))
-                    || (!m_recDetail.getField(ProjectTask.kEndDateTime).equals(recNewProjectTask.getField(ProjectTask.kStartDateTime))))
+                if ((!m_recDetail.getField(ProjectTask.END_DATE_TIME).equals(this.getField(ProjectTask.END_DATE_TIME)))
+                    || (!m_recDetail.getField(ProjectTask.END_DATE_TIME).equals(recNewProjectTask.getField(ProjectTask.START_DATE_TIME))))
                         return false;   // Never
         
                 ProjectTaskPredecessor recProjectTaskPredecessor = this.getProjectTaskPredecessor();
                 recProjectTaskPredecessor.addNew();
-                recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kProjectTaskPredecessorID).moveFieldToThis(m_recDetail.getField(ProjectTask.kID));
-                recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kProjectTaskID).setData(bookmark);
-                recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kPredecessorType).setString(PredecessorTypeField.FINISH_START);
+                recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_ID).moveFieldToThis(m_recDetail.getField(ProjectTask.kID));
+                recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PROJECT_TASK_ID).setData(bookmark);
+                recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PREDECESSOR_TYPE).setString(PredecessorTypeField.FINISH_START);
                 recProjectTaskPredecessor.add();
         
                 this.getListener(UpdateChildrenHandler.class).setEnabledListener(false);
         
                 this.edit();
-                ((DateTimeField)this.getField(ProjectTask.kEndDateTime)).moveFieldToThis(recNewProjectTask.getField(ProjectTask.kEndDateTime), bDisplayOption, iMoveMode);
+                ((DateTimeField)this.getField(ProjectTask.END_DATE_TIME)).moveFieldToThis(recNewProjectTask.getField(ProjectTask.END_DATE_TIME), bDisplayOption, iMoveMode);
                 bookmark = this.getHandle(DBConstants.BOOKMARK_HANDLE);
                 this.set();
                 this.setHandle(bookmark, DBConstants.BOOKMARK_HANDLE);
@@ -395,8 +395,8 @@ public class ProjectTask extends Folder
     {
         int iMoveMode = DBConstants.SCREEN_MOVE;
         ProjectTask recDetailChildren = this.getDetailChildren();
-        Date startDate = ((DateTimeField)this.getField(ProjectTask.kStartDateTime)).getDateTime();
-        Date endDate = ((DateTimeField)this.getField(ProjectTask.kEndDateTime)).getDateTime();
+        Date startDate = ((DateTimeField)this.getField(ProjectTask.START_DATE_TIME)).getDateTime();
+        Date endDate = ((DateTimeField)this.getField(ProjectTask.END_DATE_TIME)).getDateTime();
         try {
             boolean bFirstRecord = true;
             double dOffset = 0;
@@ -406,8 +406,8 @@ public class ProjectTask extends Folder
             while (recDetailChildren.hasNext())
             {
                 recDetailChildren.next();
-                Date thisStartDate = ((DateTimeField)recDetailChildren.getField(ProjectTask.kStartDateTime)).getDateTime();
-                Date thisEndDate = ((DateTimeField)recDetailChildren.getField(ProjectTask.kEndDateTime)).getDateTime();
+                Date thisStartDate = ((DateTimeField)recDetailChildren.getField(ProjectTask.START_DATE_TIME)).getDateTime();
+                Date thisEndDate = ((DateTimeField)recDetailChildren.getField(ProjectTask.END_DATE_TIME)).getDateTime();
                 if (bFirstRecord)
                 {
                     bFirstRecord = false;
@@ -420,9 +420,9 @@ public class ProjectTask extends Folder
                         break;
                 }
                 recDetailChildren.edit();
-                Converter.gCalendar = ((DateTimeField)recDetailChildren.getField(ProjectTask.kStartDateTime)).getCalendar();
+                Converter.gCalendar = ((DateTimeField)recDetailChildren.getField(ProjectTask.START_DATE_TIME)).getCalendar();
                 Converter.gCalendar.add(Calendar.MILLISECOND, (int)dOffset);
-                ((DateTimeField)recDetailChildren.getField(ProjectTask.kStartDateTime)).setCalendar(Converter.gCalendar, bDisplayOption, iMoveMode);
+                ((DateTimeField)recDetailChildren.getField(ProjectTask.START_DATE_TIME)).setCalendar(Converter.gCalendar, bDisplayOption, iMoveMode);
                 recDetailChildren.set();
             }
         } catch (DBException ex) {
@@ -444,43 +444,43 @@ public class ProjectTask extends Folder
         BaseListener listener = null;
         try {
         
-            DateTimeField fldSource = (DateTimeField)this.getField(ProjectTask.kEndDateTime);
+            DateTimeField fldSource = (DateTimeField)this.getField(ProjectTask.END_DATE_TIME);
             if (fldSource.isModified())
             {
-                recProjectTaskPredecessor.addListener(listener = new SubFileFilter(this.getField(ProjectTask.kID), ProjectTaskPredecessor.kProjectTaskPredecessorID, null, -1, null, -1));
-                recProjectTaskPredecessor.setKeyArea(ProjectTaskPredecessor.kProjectTaskPredecessorIDKey);
+                recProjectTaskPredecessor.addListener(listener = new SubFileFilter(this.getField(ProjectTask.kID), ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_ID, null, null, null, null));
+                recProjectTaskPredecessor.setKeyArea(ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_ID_KEY);
                 recProjectTaskPredecessor.close();
                 while (recProjectTaskPredecessor.hasNext())
                 {
                     recProjectTaskPredecessor.next();
-                    String strPredecessorType = recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kPredecessorType).toString();
+                    String strPredecessorType = recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PREDECESSOR_TYPE).toString();
                     if ((PredecessorTypeField.FINISH_START.equals(strPredecessorType))
                         || (PredecessorTypeField.FINISH_FINISH.equals(strPredecessorType)))
                     {
-                        Record recProjectTask = ((ReferenceField)recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kProjectTaskID)).getReference();
+                        Record recProjectTask = ((ReferenceField)recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PROJECT_TASK_ID)).getReference();
                         if (recProjectTask != null)
                             if ((recProjectTask.getEditMode() == DBConstants.EDIT_CURRENT)
                                 || (recProjectTask.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
                         {
                             if ((bMoveSiblings == true)
-                                || (!recProjectTask.getField(ProjectTask.kParentFolderID).equals(this.getField(ProjectTask.kParentFolderID))))
+                                || (!recProjectTask.getField(ProjectTask.PARENT_FOLDER_ID).equals(this.getField(ProjectTask.PARENT_FOLDER_ID))))
                             {
                                 double iAdditionalOffset = 0;
                                 if (PredecessorTypeField.FINISH_FINISH.equals(strPredecessorType))
-                                    iAdditionalOffset = recProjectTask.getField(ProjectTask.kDuration).getValue();
+                                    iAdditionalOffset = recProjectTask.getField(ProjectTask.DURATION).getValue();
                                 recProjectTask.getListener(SurveyDatesHandler.class).setEnabledListener(false);
                                 recProjectTask.edit();
                                 Converter.gCalendar = fldSource.getCalendar();
-                                if ((recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kPredecessorDelay).getValue() + iAdditionalOffset) != 0)
-                                    Converter.gCalendar.add(Calendar.SECOND, (int)((recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kPredecessorDelay).getValue() + iAdditionalOffset) * 24 * 60 * 60));
+                                if ((recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PREDECESSOR_DELAY).getValue() + iAdditionalOffset) != 0)
+                                    Converter.gCalendar.add(Calendar.SECOND, (int)((recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PREDECESSOR_DELAY).getValue() + iAdditionalOffset) * 24 * 60 * 60));
             
-                                Calendar lowerCalendarValue = ((DateTimeField)recProjectTask.getField(ProjectTask.kStartDateTime)).getCalendar();
+                                Calendar lowerCalendarValue = ((DateTimeField)recProjectTask.getField(ProjectTask.START_DATE_TIME)).getCalendar();
                                 lowerCalendarValue.add(Calendar.MINUTE, -1);
-                                Calendar upperCalendarValue = ((DateTimeField)recProjectTask.getField(ProjectTask.kStartDateTime)).getCalendar();
+                                Calendar upperCalendarValue = ((DateTimeField)recProjectTask.getField(ProjectTask.START_DATE_TIME)).getCalendar();
                                 upperCalendarValue.add(Calendar.MINUTE, 1);
                                 if ((Converter.gCalendar.before(lowerCalendarValue))
                                     || (Converter.gCalendar.after(upperCalendarValue)))
-                                        ((DateTimeField)recProjectTask.getField(ProjectTask.kStartDateTime)).setCalendar(Converter.gCalendar, bDisplayOption, iMoveMode);
+                                        ((DateTimeField)recProjectTask.getField(ProjectTask.START_DATE_TIME)).setCalendar(Converter.gCalendar, bDisplayOption, iMoveMode);
                                 recProjectTask.set();
                                 recProjectTask.getListener(SurveyDatesHandler.class).setEnabledListener(true);
                             }
@@ -491,42 +491,42 @@ public class ProjectTask extends Folder
             if (listener != null)
                 recProjectTaskPredecessor.removeListener(listener, true);
         
-            fldSource = (DateTimeField)this.getField(ProjectTask.kStartDateTime);
+            fldSource = (DateTimeField)this.getField(ProjectTask.START_DATE_TIME);
             if (fldSource.isModified())
             {
-                recProjectTaskPredecessor.addListener(listener = new SubFileFilter(this.getField(ProjectTask.kID), ProjectTaskPredecessor.kProjectTaskID, null, -1, null, -1));
-                recProjectTaskPredecessor.setKeyArea(ProjectTaskPredecessor.kProjectTaskIDKey);
+                recProjectTaskPredecessor.addListener(listener = new SubFileFilter(this.getField(ProjectTask.kID), ProjectTaskPredecessor.PROJECT_TASK_ID, null, null, null, null));
+                recProjectTaskPredecessor.setKeyArea(ProjectTaskPredecessor.PROJECT_TASK_ID_KEY);
                 recProjectTaskPredecessor.close();
                 while (recProjectTaskPredecessor.hasNext())
                 {
                     recProjectTaskPredecessor.next();
-                    String strPredecessorType = recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kPredecessorType).toString();
+                    String strPredecessorType = recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PREDECESSOR_TYPE).toString();
                     if ((PredecessorTypeField.FINISH_START.equals(strPredecessorType))
                         || (PredecessorTypeField.START_START.equals(strPredecessorType)))
                     {
-                        Record recProjectTask = ((ReferenceField)recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kProjectTaskPredecessorID)).getReference();
+                        Record recProjectTask = ((ReferenceField)recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_ID)).getReference();
                         if (recProjectTask != null)
                             if ((recProjectTask.getEditMode() == DBConstants.EDIT_CURRENT)
                                 || (recProjectTask.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
                         {
                             if ((bMoveSiblings == true)
-                                    || (!recProjectTask.getField(ProjectTask.kParentFolderID).equals(this.getField(ProjectTask.kParentFolderID))))
+                                    || (!recProjectTask.getField(ProjectTask.PARENT_FOLDER_ID).equals(this.getField(ProjectTask.PARENT_FOLDER_ID))))
                             {
                                 double iAdditionalOffset = 0;
                                 if (PredecessorTypeField.FINISH_START.equals(strPredecessorType))
-                                    iAdditionalOffset = -recProjectTask.getField(ProjectTask.kDuration).getValue();
+                                    iAdditionalOffset = -recProjectTask.getField(ProjectTask.DURATION).getValue();
                                 recProjectTask.getListener(SurveyDatesHandler.class).setEnabledListener(false);
                                 recProjectTask.edit();
                                 Converter.gCalendar = fldSource.getCalendar();
-                                if ((recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kPredecessorDelay).getValue() + iAdditionalOffset) != 0)
-                                    Converter.gCalendar.add(Calendar.SECOND, (int)((recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kPredecessorDelay).getValue() + iAdditionalOffset) * 24 * 60 * 60));
-                                Calendar lowerCalendarValue = ((DateTimeField)recProjectTask.getField(ProjectTask.kStartDateTime)).getCalendar();
+                                if ((recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PREDECESSOR_DELAY).getValue() + iAdditionalOffset) != 0)
+                                    Converter.gCalendar.add(Calendar.SECOND, (int)((recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PREDECESSOR_DELAY).getValue() + iAdditionalOffset) * 24 * 60 * 60));
+                                Calendar lowerCalendarValue = ((DateTimeField)recProjectTask.getField(ProjectTask.START_DATE_TIME)).getCalendar();
                                 lowerCalendarValue.add(Calendar.MINUTE, -1);
-                                Calendar upperCalendarValue = ((DateTimeField)recProjectTask.getField(ProjectTask.kStartDateTime)).getCalendar();
+                                Calendar upperCalendarValue = ((DateTimeField)recProjectTask.getField(ProjectTask.START_DATE_TIME)).getCalendar();
                                 upperCalendarValue.add(Calendar.MINUTE, 1);
                                 if ((Converter.gCalendar.before(lowerCalendarValue))
                                     || (Converter.gCalendar.after(upperCalendarValue)))
-                                        ((DateTimeField)recProjectTask.getField(ProjectTask.kStartDateTime)).setCalendar(Converter.gCalendar, bDisplayOption, iMoveMode);
+                                        ((DateTimeField)recProjectTask.getField(ProjectTask.START_DATE_TIME)).setCalendar(Converter.gCalendar, bDisplayOption, iMoveMode);
                                 recProjectTask.set();
                                 recProjectTask.getListener(SurveyDatesHandler.class).setEnabledListener(true);
                             }
@@ -562,15 +562,15 @@ public class ProjectTask extends Folder
             {
                 m_recDetail.next();
                 Date thisStartDate = null;
-                if (!m_recDetail.getField(ProjectTask.kStartDateTime).isNull())
-                    thisStartDate = ((DateTimeField)m_recDetail.getField(ProjectTask.kStartDateTime)).getDateTime();
+                if (!m_recDetail.getField(ProjectTask.START_DATE_TIME).isNull())
+                    thisStartDate = ((DateTimeField)m_recDetail.getField(ProjectTask.START_DATE_TIME)).getDateTime();
                 if (thisStartDate != null)
                     if ((startDate == null)
                         || (thisStartDate.before(startDate)))
                             startDate = thisStartDate;
                 Date thisEndDate = null;
-                if (!m_recDetail.getField(ProjectTask.kEndDateTime).isNull())
-                    thisEndDate = ((DateTimeField)m_recDetail.getField(ProjectTask.kEndDateTime)).getDateTime();
+                if (!m_recDetail.getField(ProjectTask.END_DATE_TIME).isNull())
+                    thisEndDate = ((DateTimeField)m_recDetail.getField(ProjectTask.END_DATE_TIME)).getDateTime();
                 if (thisEndDate != null)
                     if ((endDate == null)
                         || (thisEndDate.after(endDate)))
@@ -580,13 +580,13 @@ public class ProjectTask extends Folder
             this.edit();
             int iMoveMode = DBConstants.SCREEN_MOVE;
             if (startDate != null)
-                ((DateTimeField)this.getField(ProjectTask.kStartDateTime)).setDateTime(startDate, bDisplayOption, iMoveMode);
+                ((DateTimeField)this.getField(ProjectTask.START_DATE_TIME)).setDateTime(startDate, bDisplayOption, iMoveMode);
             if (endDate != null)
-                ((DateTimeField)this.getField(ProjectTask.kEndDateTime)).setDateTime(endDate, bDisplayOption, iMoveMode);
+                ((DateTimeField)this.getField(ProjectTask.END_DATE_TIME)).setDateTime(endDate, bDisplayOption, iMoveMode);
             boolean bHasChildren = true;
             if ((startDate == null) && (endDate == null))
                 bHasChildren = false;
-            this.getField(ProjectTask.kHasChildren).setState(bHasChildren);
+            this.getField(ProjectTask.HAS_CHILDREN).setState(bHasChildren);
             if (this.isModified())
             {
                 Object bookmark = this.getHandle(DBConstants.BOOKMARK_HANDLE);
@@ -609,9 +609,9 @@ public class ProjectTask extends Folder
         if (m_recProjectTaskPredecessor == null)
         {
             m_recProjectTaskPredecessor = new ProjectTaskPredecessor(this.getRecordOwner());
-            // Must have the sub-records set up in advance to keep them from mixing with this record.
-            ((ReferenceField)m_recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kProjectTaskID)).getReferenceRecord();
-            ((ReferenceField)m_recProjectTaskPredecessor.getField(ProjectTaskPredecessor.kProjectTaskPredecessorID)).getReferenceRecord();
+            // Must have the sub-records set up in advance to EEP them from mixing with this record.
+            ((ReferenceField)m_recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PROJECT_TASK_ID)).getReferenceRecord();
+            ((ReferenceField)m_recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_ID)).getReferenceRecord();
         }
         return m_recProjectTaskPredecessor;
     }
@@ -620,7 +620,7 @@ public class ProjectTask extends Folder
      */
     public boolean isParentTask()
     {
-        return this.getField(ProjectTask.kHasChildren).getState();
+        return this.getField(ProjectTask.HAS_CHILDREN).getState();
     }
     /**
      * GetDetailChildren Method.

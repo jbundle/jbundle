@@ -74,7 +74,7 @@ public class AnnivMasterField extends ReferenceField
      */
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        return this.setupTableLookup(itsLocation, targetScreen, iDisplayFieldDesc, this.makeReferenceRecord(), AnnivMaster.kIDKey, AnnivMaster.kDescription, true);
+        return this.setupTableLookup(itsLocation, targetScreen, iDisplayFieldDesc, this.makeReferenceRecord(), AnnivMaster.ID_KEY, AnnivMaster.DESCRIPTION, true);
     }
 
 }

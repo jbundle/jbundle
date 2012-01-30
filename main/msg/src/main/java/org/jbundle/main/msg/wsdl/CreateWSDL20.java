@@ -130,7 +130,7 @@ public class CreateWSDL20 extends CreateWSDL
         serviceType.setInterface(qname);
         EndpointType endpointType = wsdlFactory.createEndpointType();
         serviceType.getEndpointOrFeatureOrProperty().add(wsdlFactory.createEndpoint(endpointType));
-        String address = this.getURIValue(this.getRecord(MessageControl.kMessageControlFile).getField(MessageControl.kWebServicesServer).toString());  // Important - This is the web services URL
+        String address = this.getURIValue(this.getRecord(MessageControl.MESSAGE_CONTROL_FILE).getField(MessageControl.WEB_SERVICES_SERVER).toString());  // Important - This is the web services URL
         endpointType.setAddress(address);
         interfacens = this.getNamespace();;
         interfacename = this.getControlProperty(MessageControl.BINDING_NAME);
@@ -188,7 +188,7 @@ public class CreateWSDL20 extends CreateWSDL
         BindingOperationType bindingOperationType = wsdlFactory.createBindingOperationType();
         bindingType.getOperationOrFaultOrFeature().add(wsdlFactory.createBindingTypeOperation(bindingOperationType));
         interfacens = this.getNamespace();
-        interfacename = this.fixName(recMessageProcessInfo.getField(MessageProcessInfo.kDescription).toString());
+        interfacename = this.fixName(recMessageProcessInfo.getField(MessageProcessInfo.DESCRIPTION).toString());
         qname = new QName(interfacens, interfacename);
         bindingOperationType.setRef(qname);
         interfacens = this.getURIProperty(WSOAP_BINDING_URI);
@@ -231,16 +231,16 @@ public class CreateWSDL20 extends CreateWSDL
     {
         InterfaceOperationType interfaceOperationType = wsdlFactory.createInterfaceOperationType();
         interfaceType.getOperationOrFaultOrFeature().add(wsdlFactory.createInterfaceTypeOperation(interfaceOperationType));
-        String name = this.fixName(recMessageProcessInfo.getField(MessageProcessInfo.kDescription).toString());
+        String name = this.fixName(recMessageProcessInfo.getField(MessageProcessInfo.DESCRIPTION).toString());
         interfaceOperationType.setName(name);
         String pattern = this.getURIProperty(MESSAGE_PATTERN_URI);
         interfaceOperationType.setPattern(pattern);
         boolean safe = SAFE_DEFAULT;
-        String safeValue = ((PropertiesField)recMessageProcessInfo.getField(MessageProcessInfo.kProperties)).getProperty(MessageProcessInfo.SAFE);
+        String safeValue = ((PropertiesField)recMessageProcessInfo.getField(MessageProcessInfo.PROPERTIES)).getProperty(MessageProcessInfo.SAFE);
         if (safeValue != null)
             safe = Boolean.parseBoolean(safeValue);
         interfaceOperationType.setSafe(safe);
-        String style = ((PropertiesField)recMessageProcessInfo.getField(MessageProcessInfo.kProperties)).getProperty(MESSAGE_STYLE_URI);
+        String style = ((PropertiesField)recMessageProcessInfo.getField(MessageProcessInfo.PROPERTIES)).getProperty(MESSAGE_STYLE_URI);
         if (style == null)
             style = this.getURIProperty(MESSAGE_STYLE_URI);
         interfaceOperationType.setStyle(style);
@@ -250,11 +250,11 @@ public class CreateWSDL20 extends CreateWSDL
             MessageRefType messageRefType = wsdlFactory.createMessageRefType();
             JAXBElement<MessageRefType> interfaceOperationTypeInput = wsdlFactory.createInterfaceOperationTypeInput(messageRefType);
             interfaceOperationType.getInputOrOutputOrInfault().add(interfaceOperationTypeInput);
-            name = this.fixName(recMessageInfo.getField(MessageInfo.kDescription).toString());
-            String code = recMessageInfo.getField(MessageInfo.kCode).toString();
+            name = this.fixName(recMessageInfo.getField(MessageInfo.DESCRIPTION).toString());
+            String code = recMessageInfo.getField(MessageInfo.CODE).toString();
             if (code == null)
                 code = name;
-            String element = ((PropertiesField)recMessageInfo.getField(MessageInfo.kMessageProperties)).getProperty(MessageInfo.ELEMENT);
+            String element = ((PropertiesField)recMessageInfo.getField(MessageInfo.MESSAGE_PROPERTIES)).getProperty(MessageInfo.ELEMENT);
             if (element == null)
                 if (code != null)
                     element = code;
@@ -269,11 +269,11 @@ public class CreateWSDL20 extends CreateWSDL
             MessageRefType messageRefType = wsdlFactory.createMessageRefType();
             JAXBElement<MessageRefType> interfaceOperationTypeOutput = wsdlFactory.createInterfaceOperationTypeOutput(messageRefType);
             interfaceOperationType.getInputOrOutputOrInfault().add(interfaceOperationTypeOutput);
-            name = this.fixName(recMessageInfo.getField(MessageInfo.kDescription).toString());
-            String code = recMessageInfo.getField(MessageInfo.kCode).toString();
+            name = this.fixName(recMessageInfo.getField(MessageInfo.DESCRIPTION).toString());
+            String code = recMessageInfo.getField(MessageInfo.CODE).toString();
             if (code == null)
                 code = name;
-            String element = ((PropertiesField)recMessageInfo.getField(MessageInfo.kMessageProperties)).getProperty(MessageInfo.ELEMENT);
+            String element = ((PropertiesField)recMessageInfo.getField(MessageInfo.MESSAGE_PROPERTIES)).getProperty(MessageInfo.ELEMENT);
             if (element == null)
                 if (code != null)
                     element = code;
@@ -303,7 +303,7 @@ public class CreateWSDL20 extends CreateWSDL
         MessageInfo recMessageInfo = this.getMessageIn(recMessageProcessInfo);
         if (recMessageInfo != null)
         {
-            String name = this.fixName(recMessageInfo.getField(MessageInfo.kDescription).toString());
+            String name = this.fixName(recMessageInfo.getField(MessageInfo.DESCRIPTION).toString());
             if (this.isNewType(name))
             {
                 this.addSchema(version, typesType, recMessageInfo);
@@ -312,7 +312,7 @@ public class CreateWSDL20 extends CreateWSDL
         recMessageInfo = this.getMessageOut(recMessageProcessInfo);
         if (recMessageInfo != null)
         {
-            String name = this.fixName(recMessageInfo.getField(MessageInfo.kDescription).toString());
+            String name = this.fixName(recMessageInfo.getField(MessageInfo.DESCRIPTION).toString());
             if (this.isNewType(name))
             {
                 this.addSchema(version, typesType, recMessageInfo);
@@ -324,16 +324,16 @@ public class CreateWSDL20 extends CreateWSDL
      */
     public void addSchema(String version, TypesType typesType, MessageInfo recMessageInfo)
     {
-        String name = this.fixName(recMessageInfo.getField(MessageInfo.kDescription).toString());
+        String name = this.fixName(recMessageInfo.getField(MessageInfo.DESCRIPTION).toString());
         
         Import importel = schemaFactory.createImport();
         typesType.getAny().add(importel);
-        String code = recMessageInfo.getField(MessageInfo.kCode).toString();
+        String code = recMessageInfo.getField(MessageInfo.CODE).toString();
         if (code == null)
             code = name;
-        String namespace = ((PropertiesField)recMessageInfo.getField(MessageInfo.kMessageProperties)).getProperty(MessageInfo.NAMESPACE);
-        String element = ((PropertiesField)recMessageInfo.getField(MessageInfo.kMessageProperties)).getProperty(MessageInfo.ELEMENT);
-        String schemaLocation = ((PropertiesField)recMessageInfo.getField(MessageInfo.kMessageProperties)).getProperty(MessageInfo.SCHEMA_LOCATION);
+        String namespace = ((PropertiesField)recMessageInfo.getField(MessageInfo.MESSAGE_PROPERTIES)).getProperty(MessageInfo.NAMESPACE);
+        String element = ((PropertiesField)recMessageInfo.getField(MessageInfo.MESSAGE_PROPERTIES)).getProperty(MessageInfo.ELEMENT);
+        String schemaLocation = ((PropertiesField)recMessageInfo.getField(MessageInfo.MESSAGE_PROPERTIES)).getProperty(MessageInfo.SCHEMA_LOCATION);
         
         if (namespace == null)
             namespace = this.getMessageControl().getNamespaceFromVersion(version);

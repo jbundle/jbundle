@@ -107,17 +107,17 @@ public class MessageProcessInfoGridScreen extends DetailGridScreen
         super.addListeners();
         
         // Link the screen field to the passed in record
-        ((ReferenceField)this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageInfoID)).syncReference(this.getHeaderRecord());
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageInfoID).addListener(new FieldReSelectHandler(this));
+        ((ReferenceField)this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_INFO_ID)).syncReference(this.getHeaderRecord());
+        this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_INFO_ID).addListener(new FieldReSelectHandler(this));
         
-        this.getMainRecord().addListener(new CompareFileFilter(MessageProcessInfo.kMessageTypeID, this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageTypeID), DBConstants.EQUALS, null, true));
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageTypeID).addListener(new FieldReSelectHandler(this));
-        this.getMainRecord().addListener(new CompareFileFilter(MessageProcessInfo.kProcessTypeID, this.getScreenRecord().getField(MessageInfoScreenRecord.kProcessTypeID), DBConstants.EQUALS, null, true));
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kProcessTypeID).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageProcessInfo.MESSAGE_TYPE_ID), this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_TYPE_ID), DBConstants.EQUALS, null, true));
+        this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_TYPE_ID).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageProcessInfo.PROCESS_TYPE_ID), this.getScreenRecord().getField(MessageInfoScreenRecord.PROCESS_TYPE_ID), DBConstants.EQUALS, null, true));
+        this.getScreenRecord().getField(MessageInfoScreenRecord.PROCESS_TYPE_ID).addListener(new FieldReSelectHandler(this));
         
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageInfoTypeID).addListener(new FieldReSelectHandler(this));
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kContactTypeID).addListener(new FieldReSelectHandler(this));
-        this.getScreenRecord().getField(MessageInfoScreenRecord.kRequestTypeID).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_INFO_TYPE_ID).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(MessageInfoScreenRecord.CONTACT_TYPE_ID).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(MessageInfoScreenRecord.REQUEST_TYPE_ID).addListener(new FieldReSelectHandler(this));
         // This is a little inefficient, but this filter is not used much.
         this.getMainRecord().addListener(new FileFilter(null)
         {
@@ -132,23 +132,23 @@ public class MessageProcessInfoGridScreen extends DetailGridScreen
             {
                 Record recMessageInfoScreenRecord = getScreenRecord();
                 if (recMessageInfoScreenRecord != null)
-                    if ((!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.kMessageInfoTypeID).isNull())
-                        || (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.kContactTypeID).isNull())
-                        || (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.kRequestTypeID).isNull()))
+                    if ((!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.MESSAGE_INFO_TYPE_ID).isNull())
+                        || (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.CONTACT_TYPE_ID).isNull())
+                        || (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.REQUEST_TYPE_ID).isNull()))
                 {
                     // Note I move the MessageInfoField to a temp field since the reference is a header filter.
-                            recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.kMessageInfoCompareID).moveFieldToThis(this.getOwner().getField(MessageProcessInfo.kMessageInfoID));
-                            Record recMessageInfo = ((ReferenceField)recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.kMessageInfoCompareID)).getReference();
+                            recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.MESSAGE_INFO_COMPARE_ID).moveFieldToThis(this.getOwner().getField(MessageProcessInfo.MESSAGE_INFO_ID));
+                            Record recMessageInfo = ((ReferenceField)recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.MESSAGE_INFO_COMPARE_ID)).getReference();
                             if (recMessageInfo != null)
                             {
-                                if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.kMessageInfoTypeID).isNull())
-                                    if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.kMessageInfoTypeID).equals(recMessageInfo.getField(MessageInfo.kMessageInfoTypeID)))
+                                if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.MESSAGE_INFO_TYPE_ID).isNull())
+                                    if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.MESSAGE_INFO_TYPE_ID).equals(recMessageInfo.getField(MessageInfo.MESSAGE_INFO_TYPE_ID)))
                                         return false;
-                                if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.kContactTypeID).isNull())
-                                    if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.kContactTypeID).equals(recMessageInfo.getField(MessageInfo.kContactTypeID)))
+                                if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.CONTACT_TYPE_ID).isNull())
+                                    if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.CONTACT_TYPE_ID).equals(recMessageInfo.getField(MessageInfo.CONTACT_TYPE_ID)))
                                         return false;
-                                if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.kRequestTypeID).isNull())
-                                    if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.kRequestTypeID).equals(recMessageInfo.getField(MessageInfo.kRequestTypeID)))
+                                if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.REQUEST_TYPE_ID).isNull())
+                                    if (!recMessageInfoScreenRecord.getField(MessageInfoScreenRecord.REQUEST_TYPE_ID).equals(recMessageInfo.getField(MessageInfo.REQUEST_TYPE_ID)))
                                         return false;
                             }
                         }
@@ -164,19 +164,19 @@ public class MessageProcessInfoGridScreen extends DetailGridScreen
     {
         super.syncHeaderToMain();
         
-        this.restoreScreenParam(MessageInfoScreenRecord.kMessageTypeID);
-        this.restoreScreenParam(MessageInfoScreenRecord.kProcessTypeID);
-        this.restoreScreenParam(MessageInfoScreenRecord.kMessageInfoTypeID);
-        this.restoreScreenParam(MessageInfoScreenRecord.kContactTypeID);
-        this.restoreScreenParam(MessageInfoScreenRecord.kRequestTypeID);
+        this.restoreScreenParam(MessageInfoScreenRecord.MESSAGE_TYPE_ID);
+        this.restoreScreenParam(MessageInfoScreenRecord.PROCESS_TYPE_ID);
+        this.restoreScreenParam(MessageInfoScreenRecord.MESSAGE_INFO_TYPE_ID);
+        this.restoreScreenParam(MessageInfoScreenRecord.CONTACT_TYPE_ID);
+        this.restoreScreenParam(MessageInfoScreenRecord.REQUEST_TYPE_ID);
     }
     /**
      * AddSubFileFilter Method.
      */
     public void addSubFileFilter()
     {
-        this.getMainRecord().addListener(new CompareFileFilter(MessageProcessInfo.kMessageInfoID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
-        this.getMainRecord().getField(MessageProcessInfo.kMessageInfoID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageProcessInfo.MESSAGE_INFO_ID), (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
+        this.getMainRecord().getField(MessageProcessInfo.MESSAGE_INFO_ID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));
     }
     /**
      * Add the navigation button(s) to the left of the grid row.

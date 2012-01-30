@@ -86,12 +86,12 @@ public class Company extends Person
     {
         super.addListeners();
         
-        this.getField(Person.kName).removeListener(this.getField(Person.kName).getListener(CopyLastHandler.class), true);    // Only if dest is null (ie., company name is null)
-        this.getField(Person.kName).addListener(new CopyFieldHandler(Person.kNameSort));
-        this.getField(Company.kNameSort).addListener(new CheckForTheHandler(null));
+        this.getField(Person.NAME).removeListener(this.getField(Person.NAME).getListener(CopyLastHandler.class), true);    // Only if dest is null (ie., company name is null)
+        this.getField(Person.NAME).addListener(new CopyFieldHandler(this.getField(Person.NAME_SORT)));
+        this.getField(Company.NAME_SORT).addListener(new CheckForTheHandler(null));
         
-        CopyLastHandler listener = new CopyLastHandler(Company.kNameSort);
-        this.getField(Company.kContact).addListener(listener);    // Only if dest is null (ie., company name is null)
+        CopyLastHandler listener = new CopyLastHandler(this.getField(Company.NAME_SORT));
+        this.getField(Company.CONTACT).addListener(listener);    // Only if dest is null (ie., company name is null)
         listener.setOnlyIfDestNull(true);
     }
 

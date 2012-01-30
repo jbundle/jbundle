@@ -92,14 +92,14 @@ public class PackagesReport extends ReportScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().setKeyArea(Part.kJnlpFileIDKey);
-        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Part.kJnlpFileID), this.getScreenRecord().getField(PackagesReportScreenRecord.kJnlpFileID), "="));
+        this.getMainRecord().setKeyArea(Part.JNLP_FILE_ID_KEY);
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Part.JNLP_FILE_ID), this.getScreenRecord().getField(PackagesReportScreenRecord.JNLP_FILE_ID), "="));
         
-        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(PackagesReportScreenRecord.kReportCount), false, true));
+        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(PackagesReportScreenRecord.REPORT_COUNT), false, true));
         
-        this.getRecord(Packages.kPackagesFile).addListener(new SubFileFilter(this.getMainRecord()));
-        this.getRecord(Packages.kPackagesFile).addListener(new SetupPackagesTree(this.getScreenRecord().getField(PackagesReportScreenRecord.kPackagesTree))); 
-        this.getRecord(Packages.kPackagesFile).addListener(new SetupExcludePackagesHandler(this.getScreenRecord().getField(PackagesReportScreenRecord.kExcludePackages)));
+        this.getRecord(Packages.PACKAGES_FILE).addListener(new SubFileFilter(this.getMainRecord()));
+        this.getRecord(Packages.PACKAGES_FILE).addListener(new SetupPackagesTree(this.getScreenRecord().getField(PackagesReportScreenRecord.PACKAGES_TREE))); 
+        this.getRecord(Packages.PACKAGES_FILE).addListener(new SetupExcludePackagesHandler(this.getScreenRecord().getField(PackagesReportScreenRecord.EXCLUDE_PACKAGES)));
     }
     /**
      * Add the toolbars that belong with this screen.

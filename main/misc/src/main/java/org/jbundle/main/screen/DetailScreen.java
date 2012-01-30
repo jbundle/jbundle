@@ -171,7 +171,7 @@ public class DetailScreen extends Screen
     public void syncScreenFieldToHeader()
     {
         // Do something like this to Link the screen field to the passed in record
-        //((ReferenceField)this.getScreenRecord().getField(ProductScreenRecord.kProductID)).syncReference(this.getHeaderRecord());
+        //((ReferenceField)this.getScreenRecord().getField(ProductScreenRecord.PRODUCT_ID)).syncReference(this.getHeaderRecord());
     }
 
 }

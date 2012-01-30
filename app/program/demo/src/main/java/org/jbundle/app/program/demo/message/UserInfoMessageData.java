@@ -52,7 +52,7 @@ public class UserInfoMessageData extends MessageRecordDesc
     public void init(MessageDataParent messageDataParent, String strKey)
     {
         if (strKey == null)
-            strKey = UserInfo.kUserInfoFile;
+            strKey = UserInfo.USER_INFO_FILE;
         super.init(messageDataParent, strKey);
     }
     /**

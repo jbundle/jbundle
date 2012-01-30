@@ -98,13 +98,13 @@ public class Anniversary extends CalendarEntry
         ScreenParent screen = null;
         if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
         {   // This is a little weird... can't directly change this table, must edit AnnivMaster
-            Record recAnnivMaster = ((ReferenceField)this.getField(Anniversary.kAnnivMasterID)).getReferenceRecord(this.getRecordOwner());
+            Record recAnnivMaster = ((ReferenceField)this.getField(Anniversary.ANNIV_MASTER_ID)).getReferenceRecord(this.getRecordOwner());
             recAnnivMaster.setOpenMode(recAnnivMaster.getOpenMode() & ~DBConstants.OPEN_READ_ONLY);
             if ((this.getEditMode() == DBConstants.EDIT_CURRENT)
                 || (this.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
-                    recAnnivMaster = ((ReferenceField)this.getField(Anniversary.kAnnivMasterID)).getReference();
+                    recAnnivMaster = ((ReferenceField)this.getField(Anniversary.ANNIV_MASTER_ID)).getReference();
             // Disconnect recAnnivMaster and free this
-            ((ReferenceField)this.getField(Anniversary.kAnnivMasterID)).setReferenceRecord(null);
+            ((ReferenceField)this.getField(Anniversary.ANNIV_MASTER_ID)).setReferenceRecord(null);
             this.free();
             return recAnnivMaster.makeScreen((ScreenLocation)itsLocation, (BasePanel)parentScreen, iDocMode, properties);
         }
@@ -161,7 +161,7 @@ public class Anniversary extends CalendarEntry
     {
         super.addListeners();
         
-        this.addListener(new SharedFileHandler(CalendarEntry.kCalendarEntryTypeID, CalendarEntry.ANNIVERSARY_ID));
+        this.addListener(new SharedFileHandler(CalendarEntry.CALENDAR_ENTRY_TYPE_ID, ANNIVERSARY_ID));
     }
 
 }

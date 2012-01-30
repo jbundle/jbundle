@@ -194,7 +194,7 @@ public class AnnivMaster extends VirtualRecord
                 {
                     int iErrorCode = super.doRecordChange(field, iChangeType, bDisplayOption);
                     if ((iChangeType == DBConstants.AFTER_ADD_TYPE) || (iChangeType == DBConstants.AFTER_UPDATE_TYPE))
-                            if (!getField(AnnivMaster.kProperties).isNull())
+                            if (!getField(AnnivMaster.PROPERTIES).isNull())
                     {   // This will cause the JobScheduler to reschedule the jobs (now that they have changed)
                         MessageManager messageManager = ((Application)getTask().getApplication()).getMessageManager();
                         Map<String,Object> properties = new Hashtable<String,Object>();
@@ -238,10 +238,10 @@ public class AnnivMaster extends VirtualRecord
             Converter.initGlobals();
             Calendar calendar = Converter.gCalendar;
             
-            Record recRepeat = ((ReferenceField)this.getField(AnnivMaster.kRepeatIntervalID)).getReference();
+            Record recRepeat = ((ReferenceField)this.getField(AnnivMaster.REPEAT_INTERVAL_ID)).getReference();
             String strRepeat = null;
             if (recRepeat != null)
-                strRepeat = recRepeat.getField(RepeatInterval.kDescription).toString();
+                strRepeat = recRepeat.getField(RepeatInterval.DESCRIPTION).toString();
             char chRepeat;
             if ((strRepeat == null) || (strRepeat.length() == 0))
                 chRepeat = 'Y';
@@ -256,11 +256,11 @@ public class AnnivMaster extends VirtualRecord
                 iRepeatCode = Calendar.MONTH;
             else
                 iRepeatCode = Calendar.YEAR;
-            short sRepeatCount = (short)this.getField(AnnivMaster.kRepeatCount).getValue();
+            short sRepeatCount = (short)this.getField(AnnivMaster.REPEAT_COUNT).getValue();
             if (sRepeatCount == 0)
                 sRepeatCount = 1;
-            Date timeStart = ((DateTimeField)this.getField(AnnivMaster.kStartDateTime)).getDateTime();
-            Date timeEnd = ((DateTimeField)this.getField(AnnivMaster.kEndDateTime)).getDateTime();
+            Date timeStart = ((DateTimeField)this.getField(AnnivMaster.START_DATE_TIME)).getDateTime();
+            Date timeEnd = ((DateTimeField)this.getField(AnnivMaster.END_DATE_TIME)).getDateTime();
             long lTimeLength = -1;
             if (timeEnd != null)
                 lTimeLength = timeEnd.getTime() - timeStart.getTime();
@@ -277,13 +277,13 @@ public class AnnivMaster extends VirtualRecord
                         timeEnd = new Date(timeStart.getTime() + lTimeLength);
         
                     recAnniversary.addNew();
-                    ((DateTimeField)recAnniversary.getField(Anniversary.kStartDateTime)).setDateTime(timeStart, false, DBConstants.SCREEN_MOVE);
+                    ((DateTimeField)recAnniversary.getField(Anniversary.START_DATE_TIME)).setDateTime(timeStart, false, DBConstants.SCREEN_MOVE);
                     if (timeEnd != null)
-                        ((DateTimeField)recAnniversary.getField(Anniversary.kEndDateTime)).setDateTime(timeEnd, false, DBConstants.SCREEN_MOVE);
-                    recAnniversary.getField(Anniversary.kDescription).moveFieldToThis(this.getField(AnnivMaster.kDescription));
-                    ((ReferenceField)recAnniversary.getField(Anniversary.kAnnivMasterID)).setReference(this);
-                    recAnniversary.getField(Anniversary.kCalendarCategoryID).moveFieldToThis(this.getField(AnnivMaster.kCalendarCategoryID));
-                    recAnniversary.getField(Anniversary.kHidden).moveFieldToThis(this.getField(AnnivMaster.kHidden));
+                        ((DateTimeField)recAnniversary.getField(Anniversary.END_DATE_TIME)).setDateTime(timeEnd, false, DBConstants.SCREEN_MOVE);
+                    recAnniversary.getField(Anniversary.DESCRIPTION).moveFieldToThis(this.getField(AnnivMaster.DESCRIPTION));
+                    ((ReferenceField)recAnniversary.getField(Anniversary.ANNIV_MASTER_ID)).setReference(this);
+                    recAnniversary.getField(Anniversary.CALENDAR_CATEGORY_ID).moveFieldToThis(this.getField(AnnivMaster.CALENDAR_CATEGORY_ID));
+                    recAnniversary.getField(Anniversary.HIDDEN).moveFieldToThis(this.getField(AnnivMaster.HIDDEN));
                     // Don't move properties (you will have to read the AnnivMaster to get the properties)
                     recAnniversary.add();
                 }

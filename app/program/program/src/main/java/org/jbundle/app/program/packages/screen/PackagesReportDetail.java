@@ -66,7 +66,7 @@ public class PackagesReportDetail extends ReportScreen
      */
     public Record getMainRecord()
     {
-        return this.getRecord(Packages.kPackagesFile);
+        return this.getRecord(Packages.PACKAGES_FILE);
     }
     /**
      * SetupSFields Method.

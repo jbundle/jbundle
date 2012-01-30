@@ -66,7 +66,7 @@ public class MenusMessageData extends MessageRecordDesc
     public void init(MessageDataParent messageDataParent, String strKey)
     {
         if (strKey == null)
-            strKey = Menus.kMenusFile;
+            strKey = Menus.MENUS_FILE;
         super.init(messageDataParent, strKey);
     }
     /**

@@ -105,7 +105,7 @@ public class FolderScreen extends BaseFolderScreen
      */
     public void addSubFileFilter()
     {
-        this.getMainRecord().setKeyArea(BaseFolder.kParentFolderIDKey);
+        this.getMainRecord().setKeyArea(BaseFolder.PARENT_FOLDER_ID_KEY);
         super.addSubFileFilter();
     }
     /**

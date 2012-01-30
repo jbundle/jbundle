@@ -170,11 +170,11 @@ public class MessageTransport extends VirtualRecord
     {
         Map<String,Object> mapHeaderMessageTransport = trxMessageHeader.getMessageTransportMap();
         
-        Map<String,Object> propMessageTransport = ((PropertiesField)this.getField(MessageTransport.kProperties)).loadProperties();
-        String strSendBy = this.getField(MessageTransport.kCode).toString();
+        Map<String,Object> propMessageTransport = ((PropertiesField)this.getField(MessageTransport.PROPERTIES)).loadProperties();
+        String strSendBy = this.getField(MessageTransport.CODE).toString();
         if ((strSendBy != null) && (strSendBy.length() > 0))
             propMessageTransport.put(MessageTransport.SEND_MESSAGE_BY_PARAM, strSendBy);
-        String strTransType = this.getField(MessageTransport.kMessageTransportType).toString();
+        String strTransType = this.getField(MessageTransport.MESSAGE_TRANSPORT_TYPE).toString();
         if ((strTransType != null) && (strTransType.length() > 0))
             propMessageTransport.put(MessageTransport.TRANSPORT_TYPE_PARAM, strTransType);
         propMessageTransport.put(MessageTransport.TRANSPORT_ID_PARAM, this.getField(MessageTransport.kID).toString());
@@ -195,13 +195,13 @@ public class MessageTransport extends VirtualRecord
             return null;
         if (Utility.isNumeric(strMessageTransport))
         {
-            this.setKeyArea(MessageTransport.kIDKey);
+            this.setKeyArea(MessageTransport.ID_KEY);
             this.getField(MessageTransport.kID).setString(strMessageTransport);   
         }
         else
         {
-            this.setKeyArea(MessageTransport.kCodeKey);
-            this.getField(MessageTransport.kCode).setString(strMessageTransport);
+            this.setKeyArea(MessageTransport.CODE_KEY);
+            this.getField(MessageTransport.CODE).setString(strMessageTransport);
         }
         try {
             if (this.seek(null))
@@ -216,7 +216,7 @@ public class MessageTransport extends VirtualRecord
      */
     public boolean isDirectTransport()
     {
-        return MessageTransport.isDirectTransport(this.getField(MessageTransport.kCode).toString());
+        return MessageTransport.isDirectTransport(this.getField(MessageTransport.CODE).toString());
     }
     /**
      * Is this transport code a direct type?.
@@ -239,7 +239,7 @@ public class MessageTransport extends VirtualRecord
         MessageTransport messageTransport = this.getMessageTransport(messageTransportType);
         String className = null;
         if (messageTransport != null)
-            className = ((PropertiesField)messageTransport.getField(MessageTransport.kProperties)).getProperty("className");
+            className = ((PropertiesField)messageTransport.getField(MessageTransport.PROPERTIES)).getProperty("className");
         if (className == null)
         {
             String packageName = BaseMessageTransport.class.getPackage().getName();

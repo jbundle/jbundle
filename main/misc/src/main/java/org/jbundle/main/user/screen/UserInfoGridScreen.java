@@ -104,16 +104,16 @@ public class UserInfoGridScreen extends GridScreen
         super.addListeners();
         
         Record recUserInfo = this.getMainRecord();
-        recUserInfo.setKeyArea(UserInfo.kUserNameKey);
+        recUserInfo.setKeyArea(UserInfo.USER_NAME_KEY);
         
         if (m_recHeader != null)
-            ((ReferenceField)this.getScreenRecord().getField(UserScreenRecord.kUserGroupID)).setReference(m_recHeader);
+            ((ReferenceField)this.getScreenRecord().getField(UserScreenRecord.USER_GROUP_ID)).setReference(m_recHeader);
         
-        recUserInfo.addListener(new ExtractRangeFilter(UserInfo.kUserName, this.getScreenRecord().getField(UserScreenRecord.kNameSort)));
-        recUserInfo.addListener(new CompareFileFilter(UserInfo.kUserGroupID, this.getScreenRecord().getField(UserScreenRecord.kUserGroupID), "=", null, true));
+        recUserInfo.addListener(new ExtractRangeFilter(UserInfo.USER_NAME, this.getScreenRecord().getField(UserScreenRecord.NAME_SORT)));
+        recUserInfo.addListener(new CompareFileFilter(recUserInfo.getField(UserInfo.USER_GROUP_ID), this.getScreenRecord().getField(UserScreenRecord.USER_GROUP_ID), "=", null, true));
         
-        this.getScreenRecord().getField(UserScreenRecord.kNameSort).addListener(new FieldReSelectHandler(this));
-        this.getScreenRecord().getField(UserScreenRecord.kUserGroupID).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(UserScreenRecord.NAME_SORT).addListener(new FieldReSelectHandler(this));
+        this.getScreenRecord().getField(UserScreenRecord.USER_GROUP_ID).addListener(new FieldReSelectHandler(this));
         
         this.getMainRecord(). addListener(new SetupNewUserHandler(null));
     }
@@ -122,8 +122,8 @@ public class UserInfoGridScreen extends GridScreen
      */
     public void addToolbarButtons(ToolScreen toolScreen)
     {
-        toolScreen.getScreenRecord().getField(UserScreenRecord.kNameSort).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
-        toolScreen.getScreenRecord().getField(UserScreenRecord.kUserGroupID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+        toolScreen.getScreenRecord().getField(UserScreenRecord.NAME_SORT).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+        toolScreen.getScreenRecord().getField(UserScreenRecord.USER_GROUP_ID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * SetupSFields Method.

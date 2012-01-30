@@ -155,13 +155,13 @@ public class Person extends VirtualRecord
     {
         super.addListeners();
         
-        this.addListener(new DateChangedHandler(Person.kDateChanged));
-        this.addListener(new SetUserIDHandler(Person.kChangedID, false));
+        this.addListener(new DateChangedHandler((DateTimeField)this.getField(Person.DATE_CHANGED)));
+        this.addListener(new SetUserIDHandler(Person.CHANGED_ID, false));
         
-        this.getField(Person.kName).addListener(new CopyLastHandler(Person.kNameSort));    // Only if dest is null (ie., company name is null)
-        this.getField(Person.kNameSort).addListener(new FieldToUpperHandler(null));
+        this.getField(Person.NAME).addListener(new CopyLastHandler(this.getField(Person.NAME_SORT)));    // Only if dest is null (ie., company name is null)
+        this.getField(Person.NAME_SORT).addListener(new FieldToUpperHandler(null));
         
-        this.getField(Person.kPostalCode).addListener(new CopyFieldHandler(Person.kPostalCodeSort));
+        this.getField(Person.POSTAL_CODE).addListener(new CopyFieldHandler(this.getField(Person.POSTAL_CODE_SORT)));
     }
     /**
      * Add the destination information of this person to the message.
@@ -171,24 +171,24 @@ public class Person extends VirtualRecord
         String strMessageTransport = (String)trxMessageHeader.get(MessageTransportModel.SEND_MESSAGE_BY_PARAM);
         if ((MessageTransportModel.EMAIL.equalsIgnoreCase(strMessageTransport))
             && (trxMessageHeader.get(TrxMessageHeader.DESTINATION_PARAM) == null))
-                trxMessageHeader.put(TrxMessageHeader.DESTINATION_PARAM, this.getField(Person.kEmail).toString());
+                trxMessageHeader.put(TrxMessageHeader.DESTINATION_PARAM, this.getField(Person.EMAIL).toString());
         else if ((MessageTransportModel.FAX.equalsIgnoreCase(strMessageTransport))
             && (trxMessageHeader.get(TrxMessageHeader.DESTINATION_PARAM) == null))
-                trxMessageHeader.put(TrxMessageHeader.DESTINATION_PARAM, this.getField(Person.kFax).toString());
+                trxMessageHeader.put(TrxMessageHeader.DESTINATION_PARAM, this.getField(Person.FAX).toString());
         else if ((MessageTransportModel.MAIL.equalsIgnoreCase(strMessageTransport))
             && (trxMessageHeader.get(TrxMessageHeader.DESTINATION_PARAM) == null))
         {
-            String strMail = this.getField(Person.kName).toString();
-            strMail += '\n' + this.getField(Person.kAddressLine1).toString();
-            if (!this.getField(Person.kAddressLine2).isNull())
-                strMail += '\n' + this.getField(Person.kAddressLine2).toString();
-            strMail += '\n' + this.getField(Person.kCityOrTown).toString();
-            if (!this.getField(Person.kStateOrRegion).isNull())
-                strMail += ", " + this.getField(Person.kStateOrRegion).toString();
-            if (!this.getField(Person.kPostalCode).isNull())
-                strMail += ' ' + this.getField(Person.kPostalCode).toString();
-            if (!this.getField(Person.kCountry).isNull())
-                strMail += ' ' + this.getField(Person.kCountry).toString();
+            String strMail = this.getField(Person.NAME).toString();
+            strMail += '\n' + this.getField(Person.ADDRESS_LINE_1).toString();
+            if (!this.getField(Person.ADDRESS_LINE_2).isNull())
+                strMail += '\n' + this.getField(Person.ADDRESS_LINE_2).toString();
+            strMail += '\n' + this.getField(Person.CITY_OR_TOWN).toString();
+            if (!this.getField(Person.STATE_OR_REGION).isNull())
+                strMail += ", " + this.getField(Person.STATE_OR_REGION).toString();
+            if (!this.getField(Person.POSTAL_CODE).isNull())
+                strMail += ' ' + this.getField(Person.POSTAL_CODE).toString();
+            if (!this.getField(Person.COUNTRY).isNull())
+                strMail += ' ' + this.getField(Person.COUNTRY).toString();
             trxMessageHeader.put(TrxMessageHeader.DESTINATION_PARAM, strMail);
         }
         Map<String,Object> mapInfo = trxMessageHeader.getMessageInfoMap();
@@ -197,25 +197,25 @@ public class Person extends VirtualRecord
         
         mapInfo.put(TrxMessageHeader.CONTACT_TYPE, this.getTableNames(false));
         mapInfo.put(TrxMessageHeader.CONTACT_ID, this.getField(Person.kID).toString());
-        if (!this.getField(Person.kUserID).isNull())
+        if (!this.getField(Person.USER_ID).isNull())
         {
-            mapInfo.put(TrxMessageHeader.CONTACT_USER_ID, this.getField(Person.kUserID).toString());
-            Record recUserInfo = ((ReferenceField)this.getField(Person.kUserID)).getReference();
+            mapInfo.put(TrxMessageHeader.CONTACT_USER_ID, this.getField(Person.USER_ID).toString());
+            Record recUserInfo = ((ReferenceField)this.getField(Person.USER_ID)).getReference();
             if (recUserInfo != null)
                 if ((recUserInfo.getEditMode() == DBConstants.EDIT_CURRENT) || (recUserInfo.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
-                    if (!recUserInfo.getField(UserInfo.kUserName).isNull())
-                        mapInfo.put(TrxMessageHeader.CONTACT_USER, recUserInfo.getField(UserInfo.kUserName).toString());
+                    if (!recUserInfo.getField(UserInfo.USER_NAME).isNull())
+                        mapInfo.put(TrxMessageHeader.CONTACT_USER, recUserInfo.getField(UserInfo.USER_NAME).toString());
         }
         
         return trxMessageHeader;
     }
     /**
-     * Get the default display field for this record (for popups and lookups).
-     * @return The sequence of the field that should be displayed.
+     * Get the default display field name
+     * @return The field name to display in popups, grids, etc.
      */
-    public int getDefaultDisplayFieldSeq()
+    public String getDefaultDisplayFieldName()
     {
-        return Person.kName;
+        return Person.NAME;
     }
 
 }

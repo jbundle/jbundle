@@ -12,6 +12,29 @@ import org.jbundle.model.db.*;
 
 public interface ClassInfoModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String CLASS_NAME = "ClassName";
+    public static final String BASE_CLASS_NAME = "BaseClassName";
+    public static final String CLASS_DESC = "ClassDesc";
+    public static final String CLASS_PROJECT_ID = "ClassProjectID";
+    public static final String CLASS_PACKAGE = "ClassPackage";
+    public static final String CLASS_SOURCE_FILE = "ClassSourceFile";
+    public static final String CLASS_TYPE = "ClassType";
+    public static final String CLASS_EXPLAIN = "ClassExplain";
+    public static final String CLASS_HELP = "ClassHelp";
+    public static final String CLASS_IMPLEMENTS = "ClassImplements";
+    public static final String SEE_ALSO = "SeeAlso";
+    public static final String TECHNICAL_INFO = "TechnicalInfo";
+    public static final String COPY_DESC_FROM = "CopyDescFrom";
+
+    public static final String CLASS_NAME_KEY = "ClassName";
+
+    public static final String CLASS_SOURCE_FILE_KEY = "ClassSourceFile";
+
+    public static final String BASE_CLASS_NAME_KEY = "BaseClassName";
+
+    public static final String CLASS_PROJECT_ID_KEY = "ClassProjectID";
     public static final String CLASS_INFO_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassInfoScreen";
     public static final String CLASS_INFO_GRID_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassInfoGridScreen";
 

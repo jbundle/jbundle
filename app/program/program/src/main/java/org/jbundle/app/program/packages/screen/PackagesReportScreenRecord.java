@@ -33,10 +33,15 @@ public class PackagesReportScreenRecord extends ReportScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String JNLP_FILE_ID = "JnlpFileID";
     public static final int kJnlpFileID = kReportScreenRecordLastField + 1;
+    public static final String TEMPLATE = "template";
     public static final int ktemplate = kJnlpFileID + 1;
+    public static final String FILEOUT = "fileout";
     public static final int kfileout = ktemplate + 1;
+    public static final String PACKAGES_TREE = "PackagesTree";
     public static final int kPackagesTree = kfileout + 1;
+    public static final String EXCLUDE_PACKAGES = "ExcludePackages";
     public static final int kExcludePackages = kPackagesTree + 1;
     public static final int kPackagesReportScreenRecordLastField = kExcludePackages;
     public static final int kPackagesReportScreenRecordFields = kExcludePackages - DBConstants.MAIN_FIELD + 1;

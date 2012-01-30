@@ -9,16 +9,21 @@ import org.jbundle.model.main.db.*;
 
 public interface MenusModel extends FolderModel
 {
+
+    //public static final String ID = ID;
+    //public static final String SEQUENCE = SEQUENCE;
+    //public static final String NAME = NAME;
+    //public static final String COMMENT = COMMENT;
+    //public static final String PARENT_FOLDER_ID = PARENT_FOLDER_ID;
+    //public static final String CODE = CODE;
     public static final String TYPE = "Type";
+    public static final String AUTO_DESC = "AutoDesc";
     public static final String PROGRAM = "Program";
     public static final String PARAMS = "Params";
     public static final String ICON_RESOURCE = "IconResource";
     public static final String KEYWORDS = "Keywords";
     public static final String XML_DATA = "XmlData";
-
-    public static final String PARENT_FOLDER_ID_KEY = "ParentFolderID";
-
-    public static final String CODE_KEY = "Code";
+    public static final String MENUS_HELP = "MenusHelp";
 
     public static final String TYPE_KEY = "Type";
     public static final String MENU_SCREEN_CLASS = "org.jbundle.base.screen.model.MenuScreen";

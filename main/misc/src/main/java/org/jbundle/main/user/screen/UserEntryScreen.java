@@ -73,7 +73,7 @@ public class UserEntryScreen extends UserInfoBaseScreen
     public void addListeners()
     {
         String strMessage = "Create new user account";
-        String strTerms = this.getProperty("terms");    // Terms resource key
+        String strTerms = this.getProperty("terms");    // Terms resource EY
         if (strTerms == null)
             strTerms = "terms";
         if (this.getTask() != null)
@@ -84,16 +84,16 @@ public class UserEntryScreen extends UserInfoBaseScreen
         
             strTerms = application.getResources(ResourceConstants.DEFAULT_RESOURCE, true).getString(strTerms);
         }
-        this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kStatusLine).setString(strMessage);
-        this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kTerms).setString(strTerms);
+        this.getScreenRecord().getField(UserScreenRecord.STATUS_LINE).setString(strMessage);
+        this.getScreenRecord().getField(UserScreenRecord.TERMS).setString(strTerms);
         
         //x this.readCurrentUser();
         
         super.addListeners();
         
-        FieldListener listener = this.getMainRecord().getField(UserInfo.kUserName).getListener(MainFieldHandler.class);
+        FieldListener listener = this.getMainRecord().getField(UserInfo.USER_NAME).getListener(MainFieldHandler.class);
         if (listener != null)
-            this.getMainRecord().getField(UserInfo.kUserName).removeListener(listener, true);   // Don't read current accounts
+            this.getMainRecord().getField(UserInfo.USER_NAME).removeListener(listener, true);   // Don't read current accounts
         
         this.getMainRecord().addListener(new UserPasswordHandler(false));
         
@@ -208,8 +208,8 @@ public class UserEntryScreen extends UserInfoBaseScreen
             }
             else
             {
-                this.getScreenRecord().getField(UserScreenRecord.kNewPassword1).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
-                this.getScreenRecord().getField(UserScreenRecord.kNewPassword2).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
+                this.getScreenRecord().getField(UserScreenRecord.NEW_PASSWORD_1).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
+                this.getScreenRecord().getField(UserScreenRecord.NEW_PASSWORD_2).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
             }
         }
         

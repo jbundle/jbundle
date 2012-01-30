@@ -34,12 +34,19 @@ public class IssueScreenRecord extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String KEY_ORDER = "KeyOrder";
     public static final int kKeyOrder = kScreenRecordLastField + 1;
+    public static final String PROJECT_ID = "ProjectID";
     public static final int kProjectID = kKeyOrder + 1;
+    public static final String PROJECT_VERSION_ID = "ProjectVersionID";
     public static final int kProjectVersionID = kProjectID + 1;
+    public static final String ISSUE_TYPE_ID = "IssueTypeID";
     public static final int kIssueTypeID = kProjectVersionID + 1;
+    public static final String ISSUE_STATUS_ID = "IssueStatusID";
     public static final int kIssueStatusID = kIssueTypeID + 1;
+    public static final String ASSIGNED_USER_ID = "AssignedUserID";
     public static final int kAssignedUserID = kIssueStatusID + 1;
+    public static final String ISSUE_PRIORITY_ID = "IssuePriorityID";
     public static final int kIssuePriorityID = kAssignedUserID + 1;
     public static final int kIssueScreenRecordLastField = kIssuePriorityID;
     public static final int kIssueScreenRecordFields = kIssuePriorityID - DBConstants.MAIN_FIELD + 1;

@@ -87,7 +87,7 @@ public class UserFileHandler extends FileListener
             this.getOwner().getField(UserInfo.kID).setValue(iUserID);
             String strOldKey = this.getOwner().getKeyName();
             try   {
-                this.getOwner().setKeyArea(UserInfo.kIDKey);
+                this.getOwner().setKeyArea(UserInfo.ID_KEY);
                 if (!this.getOwner().seek("="))
                 {
                     this.getOwner().addNew(); // Make a new one

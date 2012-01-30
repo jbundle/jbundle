@@ -115,7 +115,7 @@ public class ProjectTaskCalendar extends CalendarScreen
             public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector vParamList)
             {   // Between start and end dates? (Defaults to Currentdate thru +1 year)
                 boolean bDontSkip = true;
-                if (this.getOwner().getField(ProjectTask.kStartDateTime).isNull())
+                if (this.getOwner().getField(ProjectTask.START_DATE_TIME).isNull())
                     bDontSkip = false;
                 if (bDontSkip)
                     return super.doLocalCriteria(strbFilter, bIncludeFileName, vParamList);    // Dont skip this record
@@ -141,12 +141,12 @@ public class ProjectTaskCalendar extends CalendarScreen
         {
             public ImageIcon getIcon(int iIconType)
             {
-                Record recProjectControl = getRecord(ProjectControl.kProjectControlFile);
+                Record recProjectControl = getRecord(ProjectControl.PROJECT_CONTROL_FILE);
                 ImageField field = null;
-                int fieldSeq = (iIconType == CalendarConstants.START_ICON) ? ProjectControl.kStartParentIcon : ProjectControl.kEndParentIcon;
+                String fieldSeq = (iIconType == CalendarConstants.START_ICON) ? ProjectControl.START_PARENT_ICON : ProjectControl.END_PARENT_ICON;
                 if (this.isParentTask())
                     field = (ImageField)recProjectControl.getField(fieldSeq);
-                fieldSeq = (iIconType == CalendarConstants.START_ICON) ? ProjectControl.kStartIcon : ProjectControl.kEndIcon;
+                fieldSeq = (iIconType == CalendarConstants.START_ICON) ? ProjectControl.START_ICON : ProjectControl.END_ICON;
                 if ((field == null) || (field.isNull()))
                     field = (ImageField)recProjectControl.getField(fieldSeq);
                 if (field.isNull())
@@ -155,24 +155,24 @@ public class ProjectTaskCalendar extends CalendarScreen
             }
             public Color getHighlightColor()
             {
-                Record recProjectControl = getRecord(ProjectControl.kProjectControlFile);
+                Record recProjectControl = getRecord(ProjectControl.PROJECT_CONTROL_FILE);
                 ColorField field = null;
                 if (this.isParentTask())
-                    field = (ColorField)recProjectControl.getField(ProjectControl.kParentTaskColor);
+                    field = (ColorField)recProjectControl.getField(ProjectControl.PARENT_TASK_COLOR);
                 if ((field == null) || (field.isNull()))
-                    field = (ColorField)recProjectControl.getField(ProjectControl.kTaskColor);
+                    field = (ColorField)recProjectControl.getField(ProjectControl.TASK_COLOR);
                 if (field.isNull())
                     return super.getHighlightColor();
                 return field.getColor();
             }
             public Color getSelectColor()
             {
-                Record recProjectControl = getRecord(ProjectControl.kProjectControlFile);
+                Record recProjectControl = getRecord(ProjectControl.PROJECT_CONTROL_FILE);
                 ColorField field = null;
                 if (this.isParentTask())
-                    field = (ColorField)recProjectControl.getField(ProjectControl.kParentTaskSelectColor);
+                    field = (ColorField)recProjectControl.getField(ProjectControl.PARENT_TASK_SELECT_COLOR);
                 if ((field == null) || (field.isNull()))
-                    field = (ColorField)recProjectControl.getField(ProjectControl.kTaskSelectColor);
+                    field = (ColorField)recProjectControl.getField(ProjectControl.TASK_SELECT_COLOR);
                 if (field.isNull())
                     return super.getSelectColor();
                 return field.getColor();

@@ -9,6 +9,18 @@ import org.jbundle.model.db.*;
 
 public interface AnnivMasterModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String START_DATE_TIME = "StartDateTime";
+    public static final String END_DATE_TIME = "EndDateTime";
+    public static final String DESCRIPTION = "Description";
+    public static final String REPEAT_INTERVAL_ID = "RepeatIntervalID";
+    public static final String REPEAT_COUNT = "RepeatCount";
+    public static final String CALENDAR_CATEGORY_ID = "CalendarCategoryID";
+    public static final String HIDDEN = "Hidden";
+    public static final String PROPERTIES = "Properties";
+
+    public static final String START_DATE_TIME_KEY = "StartDateTime";
     public static final String ANNIV_MASTER_SCREEN_CLASS = "org.jbundle.main.calendar.screen.AnnivMasterScreen";
     public static final String ANNIV_MASTER_GRID_SCREEN_CLASS = "org.jbundle.main.calendar.screen.AnnivMasterGridScreen";
 

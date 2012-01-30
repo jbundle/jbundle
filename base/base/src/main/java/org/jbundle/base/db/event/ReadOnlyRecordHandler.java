@@ -81,6 +81,15 @@ public class ReadOnlyRecordHandler extends FileListener
     }
     /**
      * Constructor.
+     * @param field The date changed field in this record.
+     */
+    public ReadOnlyRecordHandler(BaseField field, boolean bNewOnChange)
+    {
+        this();
+        this.init(null, field,  -1, bNewOnChange);
+    }
+    /**
+     * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      * @param iMainFilesField The sequence of the date changed field in this record.
      * @param field The date changed field in this record.

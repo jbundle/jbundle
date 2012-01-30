@@ -65,7 +65,7 @@ public class ResourceHeaderScreen extends HeaderScreen
     {
         super.addListeners();
         this.setEnabled(true);
-        this.getRecord(Resource.kResourceFile).getField(Resource.kCode).setEnabled(false);
+        this.getRecord(Resource.RESOURCE_FILE).getField(Resource.CODE).setEnabled(false);
     }
     /**
      * SetupSFields Method.

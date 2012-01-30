@@ -67,7 +67,7 @@ public class JobSchedulerProcess extends BaseProcess
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().setKeyArea(CalendarEntry.kStartDateTimeKey);
+        this.getMainRecord().setKeyArea(CalendarEntry.START_DATE_TIME_KEY);
     }
     /**
      * Run Method.
@@ -92,7 +92,7 @@ public class JobSchedulerProcess extends BaseProcess
                 if (properties.get(CalendarUpdateProcess.TASK_COMPLETED) != null)
                     continue;   // It has already been run
         
-                date = ((DateTimeField)recCalendarEntry.getField(CalendarEntry.kStartDateTime)).getDateTime();
+                date = ((DateTimeField)recCalendarEntry.getField(CalendarEntry.START_DATE_TIME)).getDateTime();
                 if (date == null)
                     continue;   // Never?
                 if ((date.getTime() - now.getTime()) > 0)

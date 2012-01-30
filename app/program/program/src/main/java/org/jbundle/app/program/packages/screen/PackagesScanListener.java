@@ -89,73 +89,73 @@ public class PackagesScanListener extends BaseScanListener
             {
                 Object bookmark = null;
                 m_recPackages.addNew();
-                m_recPackages.setKeyArea(Packages.kNameKey);
-                m_recPackages.getField(Packages.kParentFolderID).setValue(intParent);
-                m_recPackages.getField(Packages.kName).setString(directoryName);
-                m_recPackages.getField(Packages.kClassProjectID).setData(null);
+                m_recPackages.setKeyArea(Packages.NAME_KEY);
+                m_recPackages.getField(Packages.PARENT_FOLDER_ID).setValue(intParent);
+                m_recPackages.getField(Packages.NAME).setString(directoryName);
+                m_recPackages.getField(Packages.CLASS_PROJECT_ID).setData(null);
                 boolean recordExists = false;
                 if ((m_recPackages.seek(">=") == true)
-                    && (m_recPackages.getField(Packages.kParentFolderID).getValue() == intParent)
-                    && (m_recPackages.getField(Packages.kName).toString().equalsIgnoreCase(directoryName)))
+                    && (m_recPackages.getField(Packages.PARENT_FOLDER_ID).getValue() == intParent)
+                    && (m_recPackages.getField(Packages.NAME).toString().equalsIgnoreCase(directoryName)))
                         recordExists = true;
                 if (recordExists)
                 { // Good, one exists already, use it (note: this reads the default [0] if it exists)
                     bookmark = m_recPackages.getHandle(DBConstants.BOOKMARK_HANDLE);
-                    ClassProject.CodeType fieldCodeType = ((CodeTypeField)m_recPackages.getField(Packages.kCodeType)).getCodeType();
+                    ClassProject.CodeType fieldCodeType = ((CodeTypeField)m_recPackages.getField(Packages.CODE_TYPE)).getCodeType();
                     m_recPackages.edit(); // Always updates the "last updated" time
                     if (containsFiles)
                     {
-                        if ((m_recPackages.getField(Packages.kClassProjectID).getValue() == 0)  // No project yet, I own it
+                        if ((m_recPackages.getField(Packages.CLASS_PROJECT_ID).getValue() == 0)   // No project yet, I own it
                                 || (ClassProject.CodeType.THICK == codeType)    // If there are files in a base dir, I own it
                                 || (fieldCodeType == codeType)  // Another dir of the same type is default, now I own it
                                 || (ClassProject.CodeType.THICK != codeType) && (ClassProject.CodeType.THICK != fieldCodeType))   // base doesn't own it, I own it
                         {
-                            m_recPackages.getField(Packages.kClassProjectID).setValue(projectID); // If there are files, I own it.
-                            ((CodeTypeField)m_recPackages.getField(Packages.kCodeType)).setCodeType(codeType);
+                            m_recPackages.getField(Packages.CLASS_PROJECT_ID).setValue(projectID);  // If there are files, I own it.
+                            ((CodeTypeField)m_recPackages.getField(Packages.CODE_TYPE)).setCodeType(codeType);
                         }
                     }
                     else
                     {
-                        if (m_recPackages.getField(Packages.kClassProjectID).getValue() == projectID)
+                        if (m_recPackages.getField(Packages.CLASS_PROJECT_ID).getValue() == projectID)
                             if (fieldCodeType == codeType)
                         { // That's weird. I should not own it if there are no files in here.
-                            m_recPackages.getField(Packages.kClassProjectID).setValue(0); // This says it is empty (will be replaced when I find a dir with files in it)
+                            m_recPackages.getField(Packages.CLASS_PROJECT_ID).setValue(0); // This says it is empty (will be replaced when I find a dir with files in it)
                         }
                     }
-                    m_recPackages.handleRecordChange(m_recPackages.getField(Packages.kParentFolderID), DBConstants.FIELD_CHANGED_TYPE, true);     // init this field override for other value
+                    m_recPackages.handleRecordChange(m_recPackages.getField(Packages.PARENT_FOLDER_ID), DBConstants.FIELD_CHANGED_TYPE, true);     // init this field override for other value
                     m_recPackages.set();                        
                 }
                 else
                 { // None exists, create a default entry
                     m_recPackages.addNew();
-                    m_recPackages.getField(Packages.kParentFolderID).setValue(intParent);
-                    m_recPackages.getField(Packages.kName).setString(directoryName);
+                    m_recPackages.getField(Packages.PARENT_FOLDER_ID).setValue(intParent);
+                    m_recPackages.getField(Packages.NAME).setString(directoryName);
                     if (containsFiles)
-                        m_recPackages.getField(Packages.kClassProjectID).setValue(projectID); // If there are files, I own it.
+                        m_recPackages.getField(Packages.CLASS_PROJECT_ID).setValue(projectID);  // If there are files, I own it.
                     else
-                        m_recPackages.getField(Packages.kClassProjectID).setValue(0);
-                    ((CodeTypeField)m_recPackages.getField(Packages.kCodeType)).setCodeType(codeType);
+                        m_recPackages.getField(Packages.CLASS_PROJECT_ID).setValue(0);
+                    ((CodeTypeField)m_recPackages.getField(Packages.CODE_TYPE)).setCodeType(codeType);
                     m_recPackages.add();
                     bookmark = m_recPackages.getLastModified(DBConstants.BOOKMARK_HANDLE);                      
                 }
         
                 // Now claim ownership of any empty directories above this
-                while (m_recPackages.getField(Packages.kParentFolderID).getValue() != 0)
+                while (m_recPackages.getField(Packages.PARENT_FOLDER_ID).getValue() != 0)
                 {
-                    int parentFolderID = (int)m_recPackages.getField(Packages.kParentFolderID).getValue();
-                    m_recPackages.setKeyArea(Packages.kIDKey);
+                    int parentFolderID = (int)m_recPackages.getField(Packages.PARENT_FOLDER_ID).getValue();
+                    m_recPackages.setKeyArea(Packages.ID_KEY);
                     m_recPackages.addNew();
                     m_recPackages.getField(Packages.kID).setValue(parentFolderID);
                     if ((!m_recPackages.seek(null)) || (m_recPackages.getEditMode() != DBConstants.EDIT_CURRENT))
                         break;
-                    if (m_recPackages.getField(Packages.kClassProjectID).getValue() == 0)
+                    if (m_recPackages.getField(Packages.CLASS_PROJECT_ID).getValue() == 0)
                     { // Any empty parents belong to the same project
                         m_recPackages.edit();
                         if (containsFiles)
-                            m_recPackages.getField(Packages.kClassProjectID).setValue(projectID); // If there are files in child, I own it (for now)
+                            m_recPackages.getField(Packages.CLASS_PROJECT_ID).setValue(projectID);  // If there are files in child, I own it (for now)
                         else
-                            m_recPackages.getField(Packages.kClassProjectID).setValue(0);
-                        ((CodeTypeField)m_recPackages.getField(Packages.kCodeType)).setCodeType(codeType);
+                            m_recPackages.getField(Packages.CLASS_PROJECT_ID).setValue(0);
+                        ((CodeTypeField)m_recPackages.getField(Packages.CODE_TYPE)).setCodeType(codeType);
                         m_recPackages.set();
                     }
                 }

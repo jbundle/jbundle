@@ -45,6 +45,16 @@ public class CopyLastHandler extends CopyFieldHandler
      * @param fldTarget The destination last name field.
      * @param checkMark If false, do not move the last name.
      */
+    public CopyLastHandler(BaseField fldTarget)
+    { // Split name into title/first/middle/last
+        this();
+        this.init(null, fldTarget, null, -1);
+    }
+    /**
+     * Constructor.
+     * @param fldTarget The destination last name field.
+     * @param checkMark If false, do not move the last name.
+     */
     public CopyLastHandler(BaseField fldTarget, Converter checkMark)
     { // Split name into title/first/middle/last
         this();

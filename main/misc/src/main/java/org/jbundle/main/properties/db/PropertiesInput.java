@@ -196,7 +196,7 @@ public class PropertiesInput extends Record
             return;
         boolean[] rgbEnabled = this.setEnableListeners(false);;
         try {
-            this.setKeyArea(PropertiesInput.kKeyKey);
+            this.setKeyArea(PropertiesInput.KEY_KEY);
             // First, delete the old records
             this.close();
             while (this.hasNext())
@@ -213,15 +213,15 @@ public class PropertiesInput extends Record
                 String strKey = iterator.next();
                 String strValue = (String)properties.get(strKey);
                 this.addNew();
-                this.getField(PropertiesInput.kKey).setString(strKey);
+                this.getField(PropertiesInput.KEY).setString(strKey);
                 if (this.seek(null))
                 {
                     this.edit();
                     this.remove();
                 }
                 this.addNew();
-                this.getField(PropertiesInput.kKey).setString(strKey);
-                this.getField(PropertiesInput.kValue).setString(strValue);
+                this.getField(PropertiesInput.KEY).setString(strKey);
+                this.getField(PropertiesInput.VALUE).setString(strValue);
                 this.add();
             }
             if (this.getRecordOwner() instanceof GridScreen)
@@ -253,8 +253,8 @@ public class PropertiesInput extends Record
             while (this.hasNext())
             {
                 this.next();
-                String strKey = this.getField(PropertiesInput.kKey).getString();
-                String strValue = this.getField(PropertiesInput.kValue).getString();
+                String strKey = this.getField(PropertiesInput.KEY).getString();
+                String strValue = this.getField(PropertiesInput.VALUE).getString();
                 if (strValue != null)
                     if (strValue.length() > 0)
                 {

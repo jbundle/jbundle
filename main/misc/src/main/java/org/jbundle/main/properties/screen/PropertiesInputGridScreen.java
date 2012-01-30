@@ -76,25 +76,25 @@ public class PropertiesInputGridScreen extends GridScreen
         if (m_properties.size() > 0)
         {
             Record recPropertiesInput = this.getMainRecord();
-            recPropertiesInput.setKeyArea(PropertiesInput.kKeyKey);
+            recPropertiesInput.setKeyArea(PropertiesInput.KEY_KEY);
             Iterator<Object> iterator = m_properties.keySet().iterator();
             while (iterator.hasNext())
             {
                 String strKey = (String)iterator.next();
                 try {
                     recPropertiesInput.addNew();
-                    recPropertiesInput.getField(PropertiesInput.kKey).setString(strKey);
+                    recPropertiesInput.getField(PropertiesInput.KEY).setString(strKey);
                     if (!recPropertiesInput.seek(null))
                     {
                         recPropertiesInput.addNew();
-                        recPropertiesInput.getField(PropertiesInput.kKey).setString(strKey);
+                        recPropertiesInput.getField(PropertiesInput.KEY).setString(strKey);
                         recPropertiesInput.add();
                     }
                 } catch (DBException ex) {
                     ex.printStackTrace();
                 }
             }
-            this.getMainRecord().getField(PropertiesInput.kKey).setEnabled(false);
+            this.getMainRecord().getField(PropertiesInput.KEY).setEnabled(false);
         }
     }
     /**

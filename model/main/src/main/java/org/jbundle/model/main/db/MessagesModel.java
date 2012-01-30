@@ -9,7 +9,11 @@ import org.jbundle.model.db.*;
 
 public interface MessagesModel extends Rec
 {
+
+    //public static final String ID = ID;
     public static final String DESCRIPTION = "Description";
+    public static final String EMAIL = "Email";
+    public static final String USER_ID_FIELD = "UserIDField";
 
     public static final String MESSAGES_FILE = "Messages";
     public static final String THIN_CLASS = "org.jbundle.thin.main.db.Messages";

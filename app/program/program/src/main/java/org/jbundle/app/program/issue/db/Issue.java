@@ -228,9 +228,9 @@ public class Issue extends VirtualRecord
     public void addMasterListeners()
     {
         super.addMasterListeners();
-        this.addListener(new SetUserIDHandler(Issue.kEnteredByUserID, true));
-        this.addListener(new SetUserIDHandler(Issue.kChangedByUserID, true));
-        this.addListener(new DateChangedHandler(Issue.kChangedDate));
+        this.addListener(new SetUserIDHandler(Issue.ENTERED_BY_USER_ID, true));
+        this.addListener(new SetUserIDHandler(Issue.CHANGED_BY_USER_ID, true));
+        this.addListener(new DateChangedHandler(Issue.CHANGED_DATE));
     }
 
 }

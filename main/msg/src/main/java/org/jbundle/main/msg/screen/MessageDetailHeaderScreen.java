@@ -71,7 +71,7 @@ public class MessageDetailHeaderScreen extends HeaderScreen
      */
     public void setupSFields()
     {
-        Record recContact = ((ReferenceField)this.getMainRecord().getField(MessageDetail.kPersonID)).getReferenceRecord();
+        Record recContact = ((ReferenceField)this.getMainRecord().getField(MessageDetail.PERSON_ID)).getReferenceRecord();
         if (recContact != null)
             if (recContact.getEditMode() == DBConstants.EDIT_CURRENT)
             if (recContact instanceof Person)   // Profile

@@ -17,6 +17,7 @@ public class Company extends Person
     implements CompanyModel
 {
 
+
     public Company()
     {
         super();

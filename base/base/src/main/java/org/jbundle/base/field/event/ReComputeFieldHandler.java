@@ -34,6 +34,10 @@ public class ReComputeFieldHandler extends FieldListener
      */
     protected int m_iTargetFieldSeq = -1;
     /**
+     * The target field sequence to recompute on field change.
+     */
+    protected String targetFieldName = null;
+    /**
      * Disable the target field's behaviors before moving?
      */
     protected boolean m_bDisableTarget = false;
@@ -52,7 +56,16 @@ public class ReComputeFieldHandler extends FieldListener
     public ReComputeFieldHandler(int iTargetFieldSeq)
     {
         this();
-        this.init(null, iTargetFieldSeq, null);
+        this.init(null, iTargetFieldSeq, null, null);
+    }
+    /**
+     * Constructor.
+     * @param iTargetFieldSeq The target field sequence to recompute on field change.
+     */
+    public ReComputeFieldHandler(String targetFieldName)
+    {
+        this();
+        this.init(null, -1, targetFieldName, null);
     }
     /**
      * Constructor.
@@ -61,7 +74,7 @@ public class ReComputeFieldHandler extends FieldListener
     public ReComputeFieldHandler(BaseField fldTarget)
     {
         this();
-        this.init(null, -1, fldTarget);
+        this.init(null, -1, null, fldTarget);
     }
     /**
      * Constructor.
@@ -69,13 +82,13 @@ public class ReComputeFieldHandler extends FieldListener
      * @param iTargetFieldSeq The target field sequence to recompute on field change.
      * @param fldTarget The target field to recompute on field change.
      */
-    public void init(BaseField field, int iTargetFieldSeq, BaseField fldTarget)
+    public void init(BaseField field, int iTargetFieldSeq, String targetFieldName, BaseField fldTarget)
     {
         super.init(field);
-        
 
         m_bDisableTarget = false;
         m_iTargetFieldSeq = iTargetFieldSeq;
+        this.targetFieldName = targetFieldName;
         m_fldTarget = fldTarget;
     }
     /**
@@ -150,6 +163,9 @@ public class ReComputeFieldHandler extends FieldListener
         if (fldTarget == null)
             if (m_iTargetFieldSeq != -1)
                 fldTarget = (NumberField)(this.getOwner().getRecord().getField(m_iTargetFieldSeq));
+        if (fldTarget == null)
+            if (targetFieldName != null)
+                fldTarget = (NumberField)(this.getOwner().getRecord().getField(targetFieldName));
         if (fldTarget == null)
             fldTarget = this.getOwner();
         return fldTarget;

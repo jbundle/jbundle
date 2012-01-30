@@ -33,27 +33,27 @@ public class FirstMLastConverter extends FieldConverter
     /**
      * Field sequence of the prefix field.
      */
-    protected int m_iNamePrefix = -1;
+    protected String m_iNamePrefix = null;
     /**
      * Field sequence of the First name field.
      */
-    protected int m_iNameFirst = -1;
+    protected String m_iNameFirst = null;
     /**
      * Field sequence of the middle name field.
      */
-    protected int m_iNameMiddle = -1;
+    protected String m_iNameMiddle = null;
     /**
      * Field sequence of the sur name field.
      */
-    protected int m_iNameSur = -1;
+    protected String m_iNameSur = null;
     /**
      * Field sequence of the suffix field.
      */
-    protected int m_iNameSuffix = -1;
+    protected String m_iNameSuffix = null;
     /**
      * Field sequence of the title field.
      */
-    protected int m_iNameTitle = -1;
+    protected String m_iNameTitle = null;
 
     /**
      * Constructor.
@@ -70,10 +70,10 @@ public class FirstMLastConverter extends FieldConverter
      * @param iNameMiddle Field sequence of the middle name field.
      * @param iNameSuffix Field sequence of the suffix field.
      */
-    public FirstMLastConverter(Record thisFile, int iNamePrefix, int iNameFirst, int iNameMiddle, int iNameSur)
+    public FirstMLastConverter(Record thisFile, String iNamePrefix, String iNameFirst, String iNameMiddle, String iNameSur)
     {
         this();
-        this.init(null, thisFile, iNamePrefix, iNameFirst, iNameMiddle, iNameSur, -1, -1);
+        this.init(null, thisFile, iNamePrefix, iNameFirst, iNameMiddle, iNameSur, null, null);
     }
     /**
      * Constructor.
@@ -85,7 +85,7 @@ public class FirstMLastConverter extends FieldConverter
      * @param iNameSuffix Field sequence of the suffix field.
      * @param iNameTitle Field sequence of the title field.
      */
-    public FirstMLastConverter(Record thisFile, int iNamePrefix, int iNameFirst, int iNameMiddle, int iNameSur, int iNameSuffix, int iNameTitle)
+    public FirstMLastConverter(Record thisFile, String iNamePrefix, String iNameFirst, String iNameMiddle, String iNameSur, String iNameSuffix, String iNameTitle)
     {
         this();
         this.init(null, thisFile, iNamePrefix, iNameFirst, iNameMiddle, iNameSur, iNameSuffix, iNameTitle);
@@ -100,7 +100,7 @@ public class FirstMLastConverter extends FieldConverter
      * @param iNameSuffix Field sequence of the suffix field.
      * @param iNameTitle Field sequence of the title field.
      */
-    public FirstMLastConverter(Converter convFullName, int iNamePrefix, int iNameFirst, int iNameMiddle, int iNameSur, int iNameSuffix, int iNameTitle)
+    public FirstMLastConverter(Converter convFullName, String iNamePrefix, String iNameFirst, String iNameMiddle, String iNameSur, String iNameSuffix, String iNameTitle)
     {
         this();
         this.init(convFullName, ((BaseField)convFullName.getField()).getRecord(), iNamePrefix, iNameFirst, iNameMiddle, iNameSur, iNameSuffix, iNameTitle);
@@ -115,7 +115,7 @@ public class FirstMLastConverter extends FieldConverter
      * @param iNameSuffix Field sequence of the suffix field.
      * @param iNameTitle Field sequence of the title field.
      */
-    public void init(Converter converter, Record thisFile, int iNamePrefix, int iNameFirst, int iNameMiddle, int iNameSur, int iNameSuffix, int iNameTitle)
+    public void init(Converter converter, Record thisFile, String iNamePrefix, String iNameFirst, String iNameMiddle, String iNameSur, String iNameSuffix, String iNameTitle)
     {
         super.init(converter);
         m_recThis = thisFile;
@@ -126,13 +126,13 @@ public class FirstMLastConverter extends FieldConverter
         m_iNameSuffix = iNameSuffix;
         m_iNameTitle = iNameTitle;
 
-        if (m_iNameFirst == -1)
-            m_iNameFirst = m_iNamePrefix + 1;
-        if (m_iNameSur == -1)
-            m_iNameSur = m_iNameMiddle + 1;
-        if (m_iNameMiddle == -1)
-            if (m_iNameFirst + 1 != m_iNameSur)
-                m_iNameMiddle = m_iNameFirst + 1;
+        //if (m_iNameFirst == -1)
+        //    m_iNameFirst = m_iNamePrefix + 1;
+        //if (m_iNameSur == -1)
+        //    m_iNameSur = m_iNameMiddle + 1;
+        //if (m_iNameMiddle == -1)
+        //    if (m_iNameFirst + 1 != m_iNameSur)
+        // = m_iNameFirst + 1;
     }
     /**
      * Free this converter.
@@ -149,15 +149,15 @@ public class FirstMLastConverter extends FieldConverter
     public void addComponent(Object screenField)
     { // Set up the dependencies
 
-        if (m_iNamePrefix != -1)
+        if (m_iNamePrefix != null)
             m_recThis.getField(m_iNamePrefix).addComponent(screenField);
         m_recThis.getField(m_iNameFirst).addComponent(screenField);
-        if (m_iNameMiddle != -1)
+        if (m_iNameMiddle != null)
             m_recThis.getField(m_iNameMiddle).addComponent(screenField);
         m_recThis.getField(m_iNameSur).addComponent(screenField);
-        if (m_iNameSuffix != -1)
+        if (m_iNameSuffix != null)
             m_recThis.getField(m_iNameSuffix).addComponent(screenField);
-        if (m_iNameTitle != -1)
+        if (m_iNameTitle != null)
             m_recThis.getField(m_iNameTitle).addComponent(screenField);
 
         super.addComponent(screenField);
@@ -169,15 +169,15 @@ public class FirstMLastConverter extends FieldConverter
     public void removeComponent(Object screenField)
     { // Set up the dependencies
 
-        if (m_iNamePrefix != -1)
+        if (m_iNamePrefix != null)
             m_recThis.getField(m_iNamePrefix).removeComponent(screenField);
         m_recThis.getField(m_iNameFirst).removeComponent(screenField);
-        if (m_iNameMiddle != -1)
+        if (m_iNameMiddle != null)
             m_recThis.getField(m_iNameMiddle).removeComponent(screenField);
         m_recThis.getField(m_iNameSur).removeComponent(screenField);
-        if (m_iNameSuffix != -1)
+        if (m_iNameSuffix != null)
             m_recThis.getField(m_iNameSuffix).removeComponent(screenField);
-        if (m_iNameTitle != -1)
+        if (m_iNameTitle != null)
             m_recThis.getField(m_iNameTitle).removeComponent(screenField);
 
         super.removeComponent(screenField);
@@ -222,11 +222,11 @@ public class FirstMLastConverter extends FieldConverter
      * @param iNameTitle Field sequence of the title field.
      * @return Concatinate the fields and return the result.
      */
-    public static String partsToName(Record record, int iNamePrefix, int iNameFirst, int iNameMiddle, int iNameSur, int iNameSuffix, int iNameTitle)
+    public static String partsToName(Record record, String iNamePrefix, String iNameFirst, String iNameMiddle, String iNameSur, String iNameSuffix, String iNameTitle)
     {
         String string = null;
         String strFinal = Constants.BLANK;
-        if (iNamePrefix != -1)
+        if (iNamePrefix != null)
         {
             string = record.getField(iNamePrefix).getString();
             if (string.length() != 0)
@@ -235,7 +235,7 @@ public class FirstMLastConverter extends FieldConverter
         string = record.getField(iNameFirst).getString();
         if (string.length() != 0)
             strFinal += string + " ";
-        if (iNameMiddle != -1)
+        if (iNameMiddle != null)
         {
             string = record.getField(iNameMiddle).getString();
             if (string.length() != 0)
@@ -244,13 +244,13 @@ public class FirstMLastConverter extends FieldConverter
         string = record.getField(iNameSur).getString();
         if (string.length() != 0)
             strFinal += string;
-        if (iNameSuffix != -1)
+        if (iNameSuffix != null)
         {
             string = record.getField(iNameSuffix).getString();
             if (string.length() != 0)
                 strFinal += " " + string;
         }
-        if (iNameTitle != -1)
+        if (iNameTitle != null)
         {
             string = record.getField(iNameTitle).getString();
             if (string.length() != 0)
@@ -283,7 +283,7 @@ public class FirstMLastConverter extends FieldConverter
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code (or NORMAL_RETURN).
      */
-    public static int nameToParts(String strSource, boolean bDisplayOption, int iMoveMode, Record record, int iNamePrefix, int iNameFirst, int iNameMiddle, int iNameSur, int iNameSuffix, int iNameTitle)
+    public static int nameToParts(String strSource, boolean bDisplayOption, int iMoveMode, Record record, String iNamePrefix, String iNameFirst, String iNameMiddle, String iNameSur, String iNameSuffix, String iNameTitle)
     {
         char temp;
         String strFirstName = Constants.BLANK, strLastName = Constants.BLANK, strMiddleName = Constants.BLANK, strPrefix = Constants.BLANK, strSuffix = Constants.BLANK, strTitle = Constants.BLANK;
@@ -379,7 +379,7 @@ public class FirstMLastConverter extends FieldConverter
                     strMiddleName = stringbuf.toString().substring(firstChar, lastChar + 1);
         }
     // Now, move the strings to their respective fields
-        if (iNameMiddle == -1)
+        if (iNameMiddle == null)
             if (strMiddleName.length() != 0)
                 if (!strMiddleName.equals(" "))
                     strFirstName = strFirstName + " " + strMiddleName;
@@ -398,7 +398,7 @@ public class FirstMLastConverter extends FieldConverter
             if (temp != strMiddleName.charAt(0))
                 strMiddleName = temp + strMiddleName.substring(1);
         }
-        if (iNameMiddle != -1)
+        if (iNameMiddle != null)
             record.getField(iNameMiddle).setData(strMiddleName, bDisplayOption, iMoveMode);
         if (strLastName.length() != 0)
         {

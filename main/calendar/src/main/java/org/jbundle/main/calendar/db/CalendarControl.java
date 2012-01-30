@@ -173,34 +173,34 @@ public class CalendarControl extends ControlRecord
         if ((this.getEditMode() == DBConstants.EDIT_NONE) || (this.getEditMode() == DBConstants.EDIT_ADD))
             return; // Only on initial setup
         boolean bUpdateDates = false;
-        int iUpdateDays = (int)this.getField(CalendarControl.kUpdateDays).getValue();
+        int iUpdateDays = (int)this.getField(CalendarControl.UPDATE_DAYS).getValue();
         Calendar calNow = new GregorianCalendar();
-        if ((this.getField(CalendarControl.kStartAnnivDate).isNull())
-            || (this.getField(CalendarControl.kEndAnnivDate).isNull()))
+        if ((this.getField(CalendarControl.START_ANNIV_DATE).isNull())
+            || (this.getField(CalendarControl.END_ANNIV_DATE).isNull()))
                 bUpdateDates = true;
         else
         {
-            Calendar calCutoff = ((DateTimeField)this.getField(CalendarControl.kLastUpdateDate)).getCalendar();
+            Calendar calCutoff = ((DateTimeField)this.getField(CalendarControl.LAST_UPDATE_DATE)).getCalendar();
             calCutoff.add(Calendar.DAY_OF_YEAR, iUpdateDays);
             if (calNow.after(calCutoff))
                 bUpdateDates = true;
         }
         if (bUpdateDates)
         {
-            int iBackDays = (int)this.getField(CalendarControl.kAnnivBackDays).getValue();
-            int iRangeDays = (int)this.getField(CalendarControl.kAnniversaryDays).getValue();
+            int iBackDays = (int)this.getField(CalendarControl.ANNIV_BACK_DAYS).getValue();
+            int iRangeDays = (int)this.getField(CalendarControl.ANNIVERSARY_DAYS).getValue();
             Calendar calStart = (Calendar)calNow.clone();
             calStart.add(Calendar.DAY_OF_YEAR, -iBackDays);
             Calendar calEnd = (Calendar)calStart.clone();
             calEnd.add(Calendar.DAY_OF_YEAR, iRangeDays - iBackDays);
             
-            Calendar calOldEnd = ((DateTimeField)this.getField(CalendarControl.kEndAnnivDate)).getCalendar();
+            Calendar calOldEnd = ((DateTimeField)this.getField(CalendarControl.END_ANNIV_DATE)).getCalendar();
             if (calOldEnd == null)
                 calOldEnd = calNow;
         
-            ((DateTimeField)this.getField(CalendarControl.kStartAnnivDate)).setCalendar(calStart, true, DBConstants.SCREEN_MOVE);
-            ((DateTimeField)this.getField(CalendarControl.kEndAnnivDate)).setCalendar(calEnd, true, DBConstants.SCREEN_MOVE);
-            ((DateTimeField)this.getField(CalendarControl.kLastUpdateDate)).setCalendar(calNow, true, DBConstants.SCREEN_MOVE);
+            ((DateTimeField)this.getField(CalendarControl.START_ANNIV_DATE)).setCalendar(calStart, true, DBConstants.SCREEN_MOVE);
+            ((DateTimeField)this.getField(CalendarControl.END_ANNIV_DATE)).setCalendar(calEnd, true, DBConstants.SCREEN_MOVE);
+            ((DateTimeField)this.getField(CalendarControl.LAST_UPDATE_DATE)).setCalendar(calNow, true, DBConstants.SCREEN_MOVE);
             
             this.updateCalendar(calOldEnd, calEnd);  // Update the calendar
             
@@ -218,12 +218,12 @@ public class CalendarControl extends ControlRecord
     {
         Anniversary recAnniversary = new Anniversary(this.getRecordOwner());
         AnnivMaster recAnnivMaster = new AnnivMaster(this.getRecordOwner());
-        recAnniversary.setKeyArea(Anniversary.kStartDateTimeKey);
+        recAnniversary.setKeyArea(Anniversary.START_DATE_TIME_KEY);
         try {
             while (recAnniversary.hasNext())
             {
                 recAnniversary.next();
-                if (recAnniversary.getField(Anniversary.kStartDateTime).compareTo(this.getField(CalendarControl.kStartAnnivDate)) > 0)
+                if (recAnniversary.getField(Anniversary.START_DATE_TIME).compareTo(this.getField(CalendarControl.START_ANNIV_DATE)) > 0)
                     break;  // end of the entries that are not in the current range.
                 recAnniversary.edit();
                 recAnniversary.remove();

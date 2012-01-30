@@ -77,19 +77,19 @@ public class SurveyDatesHandler extends FileListener
             || (iChangeType == DBConstants.AFTER_DELETE_TYPE))
         {
             if ((iChangeType == DBConstants.AFTER_DELETE_TYPE)
-                || (this.getOwner().getField(ProjectTask.kStartDateTime).isModified())
-                || (this.getOwner().getField(ProjectTask.kEndDateTime).isModified()))
+                || (this.getOwner().getField(ProjectTask.START_DATE_TIME).isModified())
+                || (this.getOwner().getField(ProjectTask.END_DATE_TIME).isModified()))
             {
                 Record recParent = null;
-                if (!this.getOwner().getField(ProjectTask.kParentProjectTaskID).isNull())
-                    recParent = ((ReferenceField)this.getOwner().getField(ProjectTask.kParentProjectTaskID)).getReference();
+                if (!this.getOwner().getField(ProjectTask.PARENT_PROJECT_TASK_ID).isNull())
+                    recParent = ((ReferenceField)this.getOwner().getField(ProjectTask.PARENT_PROJECT_TASK_ID)).getReference();
                 if (recParent != null)
                     if ((recParent.getEditMode() == DBConstants.EDIT_IN_PROGRESS) || (recParent.getEditMode() == DBConstants.EDIT_CURRENT))
                 {
                     boolean bSurveyNeeded = true;
                     if (iChangeType == DBConstants.AFTER_ADD_TYPE)
-                        if ((!this.getOwner().getField(ProjectTask.kStartDateTime).isNull())
-                            && (this.getOwner().getField(ProjectTask.kStartDateTime).equals(recParent.getField(ProjectTask.kEndDateTime))))
+                        if ((!this.getOwner().getField(ProjectTask.START_DATE_TIME).isNull())
+                            && (this.getOwner().getField(ProjectTask.START_DATE_TIME).equals(recParent.getField(ProjectTask.END_DATE_TIME))))
                         bSurveyNeeded = !((ProjectTask)recParent).linkLastPredecessor(this.getOwner(), bDisplayOption);
                     if (bSurveyNeeded)
                         ((ProjectTask)recParent).surveyDates(bDisplayOption);

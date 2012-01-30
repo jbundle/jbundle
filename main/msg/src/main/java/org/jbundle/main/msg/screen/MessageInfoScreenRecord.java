@@ -33,13 +33,21 @@ public class MessageInfoScreenRecord extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String MESSAGE_INFO_COMPARE_ID = "MessageInfoCompareID";
     public static final int kMessageInfoCompareID = kScreenRecordLastField + 1;
+    public static final String MESSAGE_INFO_ID = "MessageInfoID";
     public static final int kMessageInfoID = kMessageInfoCompareID + 1;
+    public static final String MESSAGE_PROCESS_INFO_ID = "MessageProcessInfoID";
     public static final int kMessageProcessInfoID = kMessageInfoID + 1;
+    public static final String MESSAGE_TYPE_ID = "MessageTypeID";
     public static final int kMessageTypeID = kMessageProcessInfoID + 1;
+    public static final String MESSAGE_INFO_TYPE_ID = "MessageInfoTypeID";
     public static final int kMessageInfoTypeID = kMessageTypeID + 1;
+    public static final String PROCESS_TYPE_ID = "ProcessTypeID";
     public static final int kProcessTypeID = kMessageInfoTypeID + 1;
+    public static final String CONTACT_TYPE_ID = "ContactTypeID";
     public static final int kContactTypeID = kProcessTypeID + 1;
+    public static final String REQUEST_TYPE_ID = "RequestTypeID";
     public static final int kRequestTypeID = kContactTypeID + 1;
     public static final int kMessageInfoScreenRecordLastField = kRequestTypeID;
     public static final int kMessageInfoScreenRecordFields = kRequestTypeID - DBConstants.MAIN_FIELD + 1;

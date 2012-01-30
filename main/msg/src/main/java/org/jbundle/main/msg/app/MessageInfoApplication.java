@@ -27,7 +27,6 @@ import org.jbundle.base.message.app.*;
 import org.jbundle.main.msg.db.*;
 import org.jbundle.thin.base.message.*;
 import javax.swing.*;
-
 import org.jbundle.base.message.process.*;
 import org.jbundle.base.thread.*;
 

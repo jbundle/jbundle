@@ -52,7 +52,7 @@ public class SubFileFilter extends DependentFileFilter
     /**
      * The key order.
      */
-    protected int m_iKeyOrder = -1;
+    protected String m_strKeyName = null;
     /**
      * 
      */
@@ -74,10 +74,38 @@ public class SubFileFilter extends DependentFileFilter
      * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
      * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
      */
+    public SubFileFilter(BaseField fldMainFile, BaseField fldThisFile, BaseField fldMainFile2, BaseField fldThisFile2, BaseField fldMainFile3, BaseField fldThisFile3)
+    {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
+        this();
+        this.init(null, null, null, fldMainFile, -1, null, fldThisFile, fldMainFile2, -1, null, fldThisFile2, fldMainFile3, -1, null, fldThisFile, false, false, true);
+    }
+    /**
+     * Constructor.
+     * @param fldMainFile First field in the key fields.
+     * @param fldMainFile2 Second field in the key fields.
+     * @param fldMainFile3 Third field in the key fields.
+     * @param iFieldSeq The First field sequence of the key.
+     * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
+     * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
+     */
     public SubFileFilter(BaseField fldMainFile, int iFieldSeq, BaseField fldMainFile2, int iFieldSeq2, BaseField fldMainFile3, int iFieldSeq3)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, null, -1, fldMainFile, iFieldSeq, fldMainFile2, iFieldSeq2, fldMainFile3, iFieldSeq3, false, false, true);
+        this.init(null, null, null, fldMainFile, iFieldSeq, null, null, fldMainFile2, iFieldSeq2, null, null, fldMainFile3, iFieldSeq3, null, null, false, false, true);
+    }
+    /**
+     * Constructor.
+     * @param fldMainFile First field in the key fields.
+     * @param fldMainFile2 Second field in the key fields.
+     * @param fldMainFile3 Third field in the key fields.
+     * @param iFieldSeq The First field sequence of the key.
+     * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
+     * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
+     */
+    public SubFileFilter(BaseField fldMainFile, String fieldName, BaseField fldMainFile2, String fieldName2, BaseField fldMainFile3, String fieldName3)
+    {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
+        this();
+        this.init(null, null, null, fldMainFile, -1, fieldName, null, fldMainFile2, -1, fieldName2, null, fldMainFile3, -1, fieldName3, null, false, false, true);
     }
     /**
      * Constructor.
@@ -91,7 +119,21 @@ public class SubFileFilter extends DependentFileFilter
     public SubFileFilter(BaseField fldMainFile, int iFieldSeq, BaseField fldMainFile2, int iFieldSeq2, BaseField fldMainFile3, int iFieldSeq3, boolean bSetFilterIfNull)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, null, -1, fldMainFile, iFieldSeq, fldMainFile2, iFieldSeq2, fldMainFile3, iFieldSeq3, bSetFilterIfNull, false, true);
+        this.init(null, null, null, fldMainFile, iFieldSeq, null, null, fldMainFile2, iFieldSeq2, null, null, fldMainFile3, iFieldSeq3, null, null, bSetFilterIfNull, false, true);
+    }
+    /**
+     * Constructor.
+     * @param fldMainFile First field in the key fields.
+     * @param fldMainFile2 Second field in the key fields.
+     * @param fldMainFile3 Third field in the key fields.
+     * @param iFieldSeq The First field sequence of the key.
+     * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
+     * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
+     */
+    public SubFileFilter(BaseField fldMainFile, String fieldName, BaseField fldMainFile2, String fieldName2, BaseField fldMainFile3, String fieldName3, boolean bSetFilterIfNull)
+    {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
+        this();
+        this.init(null, null, null, fldMainFile, -1, fieldName, null, fldMainFile2, -1, fieldName2, null, fldMainFile3, -1, fieldName3, null, bSetFilterIfNull, false, true);
     }
     /**
      * Constructor for Records with properly set-up reference fields.
@@ -102,7 +144,7 @@ public class SubFileFilter extends DependentFileFilter
     public SubFileFilter(Record recordMain)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, recordMain, -1, null, -1, null, -1, null, -1, false, false, true);
+        this.init(null, recordMain, null, null, -1, null, null, null, -1, null, null, null, -1, null, null, false, false, true);
     }
     /**
      * Constructor for Records with properly set-up reference fields.
@@ -115,7 +157,7 @@ public class SubFileFilter extends DependentFileFilter
     public SubFileFilter(Record recordMain, boolean bSetFilterIfNull, boolean bAddNewHeaderOnAdd)
     {   // For this to work right, the key field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, recordMain, -1, null, -1, null, -1, null, -1, bSetFilterIfNull, false, bAddNewHeaderOnAdd);
+        this.init(null, recordMain, null, null, -1, null, null, null, -1, null, null, null, -1, null, null, bSetFilterIfNull, false, bAddNewHeaderOnAdd);
     }
     /**
      * Constructor for Records with properly set-up reference fields.
@@ -128,7 +170,7 @@ public class SubFileFilter extends DependentFileFilter
     public SubFileFilter(Record recordMain, boolean bSetFilterIfNull)
     {   // For this to work right, the key field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, recordMain, -1, null, -1, null, -1, null, -1, bSetFilterIfNull, false, true);
+        this.init(null, recordMain, null, null, -1, null, null, null, -1, null, null, null, -1, null, null, bSetFilterIfNull, false, true);
     }
     /**
      * Constructor for Records with properly set-up reference fields.
@@ -138,10 +180,10 @@ public class SubFileFilter extends DependentFileFilter
      * @param bRefreshLastIfNotCurrent If true, this class will refresh the last record if the record is not current.
      * @param bRefreshLastIfNotCurrent (Typically used for remote sessions where the remote method does an add before the detail can add).
      */
-    public SubFileFilter(int iKeyOrder, BaseField fldMainFile)
+    public SubFileFilter(String keyOrder, BaseField fldMainFile)
     {   // For this to work right, the key field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, null, iKeyOrder, fldMainFile, -1, null, -1, null, -1, false, false, true);
+        this.init(null, null, keyOrder, fldMainFile, -1, null, null, null, -1, null, null, null, -1, null, null, false, false, true);
     }
     /**
      * Constructor.
@@ -157,13 +199,13 @@ public class SubFileFilter extends DependentFileFilter
      * @param bRefreshLastIfNotCurrent If true, this class will refresh the last record if the record is not current.
      * @param bRefreshLastIfNotCurrent (Typically used for remote sessions where the remote method does an add before the detail can add).
      */
-    public void init(Record record, Record recordMain, int iKeyOrder, BaseField fldMainFile, int iFieldSeq, BaseField fldMainFile2, int iFieldSeq2, BaseField fldMainFile3, int iFieldSeq3, boolean bSetFilterIfNull, boolean bRefreshLastIfNotCurrent, boolean bAddNewHeaderOnAdd)
+    public void init(Record record, Record recordMain, String keyName, BaseField fldMainFile, int iFieldSeq, String fldMainFileName, BaseField fldThisFile, BaseField fldMainFile2, int iFieldSeq2, String fldMainFileName2, BaseField fldThisFile2, BaseField fldMainFile3, int iFieldSeq3, String fldMainFileName3, BaseField fldThisFile3, boolean bSetFilterIfNull, boolean bRefreshLastIfNotCurrent, boolean bAddNewHeaderOnAdd)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
-        super.init(record, iFieldSeq, null, iFieldSeq2, null, iFieldSeq3, null);
+        super.init(record, iFieldSeq, fldMainFileName, fldThisFile, iFieldSeq2, fldMainFileName2, fldThisFile2, iFieldSeq3, fldMainFileName3, fldThisFile3);
 
         m_recordMain = recordMain;
         
-        m_iKeyOrder = iKeyOrder;
+        m_strKeyName = keyName;
         
         m_fldMainFile = fldMainFile;
         m_fldMainFile2 = fldMainFile2;
@@ -204,15 +246,20 @@ public class SubFileFilter extends DependentFileFilter
                         if (this.getOwner().getRecordOwner() != m_recordMain.getRecordOwner())
                             fieldThisRecord.addListener(new InitIfSubFieldHandler(null));
         }
-        else if ((m_iKeyOrder != -1) && (m_fldThisFile == null))
+        else if (m_fldThisFile == null)
         {
-        	this.getOwner().setKeyArea(m_iKeyOrder);
-        	if (m_fldMainFile != null)
-        		m_fldThisFile = this.getOwner().getKeyArea().getField(0);
-        	if (m_fldMainFile2 != null)
-        		m_fldThisFile2 = this.getOwner().getKeyArea().getField(1);
-        	if (m_fldMainFile3 != null)
-        		m_fldThisFile3 = this.getOwner().getKeyArea().getField(2);
+            if (m_strKeyName == null)
+                m_strKeyName = this.getOwner().getKeyArea().getKeyName();
+            if (m_strKeyName != null)
+            {
+            	this.getOwner().setKeyArea(m_strKeyName);
+            	if (m_fldMainFile != null)
+            		m_fldThisFile = this.getOwner().getKeyArea().getField(0);
+            	if (m_fldMainFile2 != null)
+            		m_fldThisFile2 = this.getOwner().getKeyArea().getField(1);
+            	if (m_fldMainFile3 != null)
+            		m_fldThisFile3 = this.getOwner().getKeyArea().getField(2);
+            }
         }
     }
     /**

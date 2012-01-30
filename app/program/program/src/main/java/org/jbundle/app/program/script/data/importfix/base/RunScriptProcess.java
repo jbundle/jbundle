@@ -86,7 +86,7 @@ public class RunScriptProcess extends BaseProcess
     {
         Record record = super.getRecord(strFileName);
         if (record == null)
-            if (Script.kScriptFile.equalsIgnoreCase(strFileName))
+            if (Script.SCRIPT_FILE.equalsIgnoreCase(strFileName))
                 record = new Script(this);
         return record;
     }
@@ -106,12 +106,12 @@ public class RunScriptProcess extends BaseProcess
         Script recScript = (Script)this.getMainRecord();
         if ((strCode == null) || (strCode.length() == 0))
         {
-            recScript.setKeyArea(Script.kCodeKey);
-            recScript.getField(Script.kCode).setString(strCode);
+            recScript.setKeyArea(Script.CODE_KEY);
+            recScript.getField(Script.CODE).setString(strCode);
         }
         else
         {
-            recScript.setKeyArea(Script.kIDKey);
+            recScript.setKeyArea(Script.ID_KEY);
             recScript.getField(Script.kID).setString(strID);
         }
         try {
@@ -135,17 +135,17 @@ public class RunScriptProcess extends BaseProcess
             properties = new Hashtable<String,Object>();
             Script recTempScript = new Script(this);
             try {
-                int iParentScriptID = (int)recScript.getField(Script.kParentFolderID).getValue();
+                int iParentScriptID = (int)recScript.getField(Script.PARENT_FOLDER_ID).getValue();
                 recTempScript.getField(Script.kID).setValue(iParentScriptID);
                 while ((iParentScriptID > 0) && (recTempScript.seek(null) == true))
                 {
-                    if (!recTempScript.getField(Script.kProperties).isNull())
+                    if (!recTempScript.getField(Script.PROPERTIES).isNull())
                     {   // Execute this script
-                        Map<String,Object> propRecord = ((PropertiesField)recTempScript.getField(Script.kProperties)).getProperties();
+                        Map<String,Object> propRecord = ((PropertiesField)recTempScript.getField(Script.PROPERTIES)).getProperties();
                         propRecord.putAll(properties);  // These properties override parent properties
                         properties = propRecord;
                     }
-                    iParentScriptID = (int)recTempScript.getField(Script.kParentFolderID).getValue();
+                    iParentScriptID = (int)recTempScript.getField(Script.PARENT_FOLDER_ID).getValue();
                     recTempScript.addNew();
                     recTempScript.getField(Script.kID).setValue(iParentScriptID);
                 }
@@ -156,14 +156,14 @@ public class RunScriptProcess extends BaseProcess
                 recTempScript = null;
             }
         }
-        if (!recScript.getField(Script.kProperties).isNull())
+        if (!recScript.getField(Script.PROPERTIES).isNull())
         {   // Execute this script
-            Map<String,Object> propRecord = ((PropertiesField)recScript.getField(Script.kProperties)).getProperties();
+            Map<String,Object> propRecord = ((PropertiesField)recScript.getField(Script.PROPERTIES)).getProperties();
             properties = new Hashtable<String,Object>(properties);    // Create a copy, so you don't mess up the original
             properties.putAll(propRecord);
         }
         
-        String strCommand = recScript.getField(Script.kCommand).toString();
+        String strCommand = recScript.getField(Script.COMMAND).toString();
         if (Script.RUN.equalsIgnoreCase(strCommand))
             iErrorCode = this.doRunCommand(recScript, properties);
         else if (Script.RUN_REMOTE.equalsIgnoreCase(strCommand))
@@ -297,8 +297,8 @@ public class RunScriptProcess extends BaseProcess
         Record recDestination = recScript.getTargetRecord(properties, Script.DESTINATION_RECORD);
         if (recDestination == null)
             return DBConstants.ERROR_RETURN;
-        String strSourceField = (String)properties.get(Script.SOURCE);
-        String strDestField = (String)properties.get(Script.DESTINATION);
+        String strSourceField = (String)properties.get(Script.SOURCE_PARAM);
+        String strDestField = (String)properties.get(Script.DESTINATION_PARAM);
         if (strDestField == null)
             strDestField = strSourceField;
         if (strSourceField == null)
@@ -322,8 +322,8 @@ public class RunScriptProcess extends BaseProcess
      */
     public int doCopyDataCommand(Script recScript, Map<String,Object> properties)
     {
-        String strURL = (String)properties.get(Script.SOURCE);
-        String strDest = (String)properties.get(Script.DESTINATION);
+        String strURL = (String)properties.get(Script.SOURCE_PARAM);
+        String strDest = (String)properties.get(Script.DESTINATION_PARAM);
         if ((strURL != null) && (strDest != null))
             Utility.transferURLStream(strURL, strDest);
         return DBConstants.NORMAL_RETURN;
@@ -349,17 +349,17 @@ public class RunScriptProcess extends BaseProcess
         boolean bSubsExist = false;
         String strName;
         Script recReplication = new Script(this);
-        recReplication.setKeyArea(Script.kParentFolderIDKey);
+        recReplication.setKeyArea(Script.PARENT_FOLDER_ID_KEY);
         recReplication.addListener(new SubFileFilter(parent));
         try   {
-            strName = parent.getField(Script.kName).toString();
+            strName = parent.getField(Script.NAME).toString();
                     while (recReplication.hasNext())
             { // Read through the pictures and create an index
                 recReplication.next();
                 bSubsExist = true;
-                strName = recReplication.getField(Script.kName).toString();
-                String strSource = recReplication.getField(Script.kSource).toString();
-                String strDestination = recReplication.getField(Script.kDestination).toString();
+                strName = recReplication.getField(Script.NAME).toString();
+                String strSource = recReplication.getField(Script.SOURCE_PARAM).toString();
+                String strDestination = recReplication.getField(Script.DESTINATION_PARAM).toString();
                 strSource = strSourcePath + strSource;
                 strDestination = strDestPath + strDestination;
                 this.processDetail(recReplication, strSource, strDestination);

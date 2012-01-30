@@ -65,7 +65,7 @@ public class UserPasswordChange extends UserInfoBaseScreen
      */
     public void addListeners()
     {
-        this.getRecord(UserInfo.kUserInfoFile).getField(UserInfo.kUserName).setEnabled(false);
+        this.getRecord(UserInfo.USER_INFO_FILE).getField(UserInfo.USER_NAME).setEnabled(false);
         this.readCurrentUser();
         
         super.addListeners();
@@ -151,9 +151,9 @@ public class UserPasswordChange extends UserInfoBaseScreen
             }
             else
             {
-                this.getScreenRecord().getField(UserScreenRecord.kCurrentPassword).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
-                this.getScreenRecord().getField(UserScreenRecord.kNewPassword1).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
-                this.getScreenRecord().getField(UserScreenRecord.kNewPassword2).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
+                this.getScreenRecord().getField(UserScreenRecord.CURRENT_PASSWORD).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
+                this.getScreenRecord().getField(UserScreenRecord.NEW_PASSWORD_1).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
+                this.getScreenRecord().getField(UserScreenRecord.NEW_PASSWORD_2).setData(null, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
             }
         }
         

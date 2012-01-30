@@ -66,11 +66,11 @@ public class ClassIssueGridScreen extends IssueGridScreen
     {
         super.addListeners();
         Record record = this.getMainRecord();
-        Record recClassInfo = this.getRecord(ClassInfo.kClassInfoFile);
+        Record recClassInfo = this.getRecord(ClassInfo.CLASS_INFO_FILE);
         if (recClassInfo != null)
         {
-            record.setKeyArea(Issue.kClassInfoIDKey);
-            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.kID), Issue.kClassInfoID, null, -1, null, -1, true);
+            record.setKeyArea(Issue.CLASS_INFO_ID_KEY);
+            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.kID), Issue.CLASS_INFO_ID, null, null, null, null, true);
             record.addListener(listener);
             recClassInfo.getField(ClassInfo.kID).addListener(new FieldReSelectHandler(this));
         }

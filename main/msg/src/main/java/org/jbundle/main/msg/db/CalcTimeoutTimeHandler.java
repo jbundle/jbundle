@@ -79,20 +79,20 @@ public class CalcTimeoutTimeHandler extends FileListener
         {
             case DBConstants.ADD_TYPE:
             case DBConstants.UPDATE_TYPE:
-                if (this.getOwner().getField(MessageLog.kLastChanged) != null)  // Always
-                    if (this.getOwner().getField(MessageLog.kTimeoutSeconds).getValue() > 0)
-                        if (this.getOwner().getField(MessageLog.kTimeoutTime).getValue() == 0)  // Don't change timeout after it was set
+                if (this.getOwner().getField(MessageLog.LAST_CHANGED) != null)  // Always
+                    if (this.getOwner().getField(MessageLog.TIMEOUT_SECONDS).getValue() > 0)
+                        if (this.getOwner().getField(MessageLog.TIMEOUT_TIME).getValue() == 0)  // Don't change timeout after it was set
                     {
-                        if (MessageStatus.SENT.equalsIgnoreCase(((ReferenceField)this.getOwner().getField(MessageLog.kMessageStatusID)).getReference().getField(MessageStatus.kCode).toString()))
+                        if (MessageStatus.SENT.equalsIgnoreCase(((ReferenceField)this.getOwner().getField(MessageLog.MESSAGE_STATUS_ID)).getReference().getField(MessageStatus.CODE).toString()))
                         {
-                            Calendar cal = ((DateTimeField)this.getOwner().getField(MessageLog.kLastChanged)).getCalendar();
-                            int iSeconds = (int)this.getOwner().getField(MessageLog.kTimeoutSeconds).getValue();
+                            Calendar cal = ((DateTimeField)this.getOwner().getField(MessageLog.LAST_CHANGED)).getCalendar();
+                            int iSeconds = (int)this.getOwner().getField(MessageLog.TIMEOUT_SECONDS).getValue();
                             cal.add(Calendar.SECOND, iSeconds);
-                            ((DateTimeField)this.getOwner().getField(MessageLog.kTimeoutTime)).setCalendar(cal, bDisplayOption, DBConstants.SCREEN_MOVE);
+                            ((DateTimeField)this.getOwner().getField(MessageLog.TIMEOUT_TIME)).setCalendar(cal, bDisplayOption, DBConstants.SCREEN_MOVE);
                         }
                         else
                         {   // Clear the timeout
-                            ((DateTimeField)this.getOwner().getField(MessageLog.kTimeoutTime)).setData(null, bDisplayOption, DBConstants.SCREEN_MOVE);                    
+                            ((DateTimeField)this.getOwner().getField(MessageLog.TIMEOUT_TIME)).setData(null, bDisplayOption, DBConstants.SCREEN_MOVE);                    
                         }
                     }
                 break;

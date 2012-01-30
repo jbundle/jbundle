@@ -74,15 +74,15 @@ public class KeyInfoScreen extends Screen
     {
         super.addListeners();
         Record record = this.getMainRecord();
-        Record recClassInfo = this.getRecord(ClassInfo.kClassInfoFile);
+        Record recClassInfo = this.getRecord(ClassInfo.CLASS_INFO_FILE);
         if (recClassInfo != null)
         {
-            record.setKeyArea(KeyInfo.kKeyFilenameKey);
-            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), KeyInfo.kKeyFilename, null, -1, null, -1, true);
+            record.setKeyArea(KeyInfo.KEY_FILENAME_KEY);
+            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), KeyInfo.KEY_FILENAME, null, null, null, null, true);
             record.addListener(listener);
         }
         MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
-        this.getMainRecord().getField(KeyInfo.kKeyNumber).addListener(fieldBeh);
+        this.getMainRecord().getField(KeyInfo.KEY_NUMBER).addListener(fieldBeh);
 
     }
     /**

@@ -75,7 +75,7 @@ public class UserPermissionGridScreen extends DetailGridScreen
     public Record openHeaderRecord()
     {
         String strType = this.getProperty(HEADER_RECORD);
-        if (UserResource.kUserResourceFile.equalsIgnoreCase(strType))
+        if (UserResource.USER_RESOURCE_FILE.equalsIgnoreCase(strType))
             return new UserResource(this);
         else
             return new UserGroup(this);

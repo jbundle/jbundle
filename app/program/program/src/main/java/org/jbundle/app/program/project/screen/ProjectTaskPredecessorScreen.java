@@ -91,7 +91,7 @@ public class ProjectTaskPredecessorScreen extends DetailScreen
      */
     public void addSubFileFilter()
     {
-        this.getMainRecord().addListener(new SubFileFilter(ProjectTaskPredecessor.kProjectTaskIDKey, this.getHeaderRecord().getField(ProjectTask.kID)));
+        this.getMainRecord().addListener(new SubFileFilter(ProjectTaskPredecessor.PROJECT_TASK_ID_KEY, this.getHeaderRecord().getField(ProjectTask.kID)));
     }
     /**
      * Set up all the screen fields.

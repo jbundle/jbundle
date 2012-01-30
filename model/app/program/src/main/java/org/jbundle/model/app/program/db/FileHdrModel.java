@@ -9,6 +9,19 @@ import org.jbundle.model.db.*;
 
 public interface FileHdrModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String FILE_NAME = "FileName";
+    public static final String FILE_DESC = "FileDesc";
+    public static final String FILE_MAIN_FILENAME = "FileMainFilename";
+    public static final String TYPE = "Type";
+    public static final String FILE_NOTES = "FileNotes";
+    public static final String DATABASE_NAME = "DatabaseName";
+    public static final String FILE_REC_CALLED = "FileRecCalled";
+    public static final String DISPLAY_CLASS = "DisplayClass";
+    public static final String MAINT_CLASS = "MaintClass";
+
+    public static final String FILE_NAME_KEY = "FileName";
     public static final String FILE_HDR_SCREEN_CLASS = "org.jbundle.app.program.screen.FileHdrScreen";
 
     public static final String FILE_HDR_FILE = "FileHdr";

@@ -177,7 +177,7 @@ public class MessageTransportInfo extends VirtualRecord
     {
         Map<String,Object> mapHeaderMessageInfo = trxMessageHeader.getMessageInfoMap();
         
-        Map<String,Object> propMessageTransportInfo = ((PropertiesField)this.getField(MessageTransportInfo.kProperties)).loadProperties();
+        Map<String,Object> propMessageTransportInfo = ((PropertiesField)this.getField(MessageTransportInfo.PROPERTIES)).loadProperties();
         if (mapHeaderMessageInfo != null)
             mapHeaderMessageInfo.putAll(propMessageTransportInfo);
         else

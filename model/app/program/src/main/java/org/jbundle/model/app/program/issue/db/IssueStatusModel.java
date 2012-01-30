@@ -10,6 +10,11 @@ import org.jbundle.model.db.*;
 public interface IssueStatusModel extends Rec
 {
 
+    //public static final String ID = ID;
+    public static final String DESCRIPTION = "Description";
+
+    public static final String DESCRIPTION_KEY = "Description";
+
     public static final String ISSUE_STATUS_FILE = "IssueStatus";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.issue.db.IssueStatus";
     public static final String THICK_CLASS = "org.jbundle.app.program.issue.db.IssueStatus";

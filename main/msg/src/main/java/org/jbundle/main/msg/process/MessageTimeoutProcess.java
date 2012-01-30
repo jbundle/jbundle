@@ -80,13 +80,13 @@ public class MessageTimeoutProcess extends BaseInternalMessageProcessor
     {
         super.addListeners();
         
-        this.getMainRecord().setKeyArea(MessageLog.kTimeoutKey);
-        int iMessageStatus = ((ReferenceField)this.getScreenRecord().getField(MessageTimeoutScreenRecord.kMessageStatusID)).getIDFromCode(MessageStatus.SENT);
-        this.getScreenRecord().getField(MessageTimeoutScreenRecord.kMessageStatusID).setValue(iMessageStatus);
+        this.getMainRecord().setKeyArea(MessageLog.TIMEOUT_KEY);
+        int iMessageStatus = ((ReferenceField)this.getScreenRecord().getField(MessageTimeoutScreenRecord.MESSAGE_STATUS_ID)).getIDFromCode(MessageStatus.SENT);
+        this.getScreenRecord().getField(MessageTimeoutScreenRecord.MESSAGE_STATUS_ID).setValue(iMessageStatus);
         
-        this.getMainRecord().addListener(new SubFileFilter(this.getScreenRecord().getField(MessageTimeoutScreenRecord.kMessageStatusID), MessageLog.kMessageStatusID, null, -1, null, -1));
-        this.getScreenRecord().getField(MessageTimeoutScreenRecord.kStartTimeout).setToLimit(DBConstants.START_SELECT_KEY);
-        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.kTimeoutTime), this.getScreenRecord().getField(MessageTimeoutScreenRecord.kStartTimeout), ">="));
+        this.getMainRecord().addListener(new SubFileFilter(this.getScreenRecord().getField(MessageTimeoutScreenRecord.MESSAGE_STATUS_ID), this.getMainRecord().getField(MessageLog.MESSAGE_STATUS_ID), null, null, null, null));
+        this.getScreenRecord().getField(MessageTimeoutScreenRecord.START_TIMEOUT).setToLimit(DBConstants.START_SELECT_KEY);
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.TIMEOUT_TIME), this.getScreenRecord().getField(MessageTimeoutScreenRecord.START_TIMEOUT), ">="));
     }
     /**
      * Run Method.
@@ -100,7 +100,7 @@ public class MessageTimeoutProcess extends BaseInternalMessageProcessor
             {
                 recMessageLog.next();
                 
-                timeTimeout = ((DateTimeField)recMessageLog.getField(MessageLog.kTimeoutTime)).getDateTime();
+                timeTimeout = ((DateTimeField)recMessageLog.getField(MessageLog.TIMEOUT_TIME)).getDateTime();
                 if (timeTimeout == null)
                     continue;   // Never
                 if (timeTimeout.getTime() > System.currentTimeMillis())
@@ -108,8 +108,8 @@ public class MessageTimeoutProcess extends BaseInternalMessageProcessor
         
                 String strTrxID = recMessageLog.getCounterField().toString();
                 recMessageLog.edit();
-                int iErrorStatus = ((ReferenceField)recMessageLog.getField(MessageLog.kMessageStatusID)).getIDFromCode(MessageStatus.ERROR);
-                recMessageLog.getField(MessageLog.kMessageStatusID).setValue(iErrorStatus);
+                int iErrorStatus = ((ReferenceField)recMessageLog.getField(MessageLog.MESSAGE_STATUS_ID)).getIDFromCode(MessageStatus.ERROR);
+                recMessageLog.getField(MessageLog.MESSAGE_STATUS_ID).setValue(iErrorStatus);
                 recMessageLog.set();
                 
                 this.processMessageTimeout(strTrxID);

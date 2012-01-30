@@ -91,18 +91,18 @@ public class GetWSDL extends BaseProcess
             if (!record.seek(null))
                 return; // Never;
         
-            ContactType recContactType = (ContactType)this.getRecord(ContactType.kContactTypeFile);
+            ContactType recContactType = (ContactType)this.getRecord(ContactType.CONTACT_TYPE_FILE);
             recContactType = (ContactType)recContactType.getContactType(record);
-            Record recMessageDetail = this.getRecord(MessageDetail.kMessageDetailFile);
-            recMessageDetail.setKeyArea(MessageDetail.kContactTypeIDKey);
-            recMessageDetail.addListener(new SubFileFilter(recContactType.getField(ContactType.kID), MessageDetail.kContactTypeID, (BaseField)record.getCounterField(), MessageDetail.kPersonID, null, -1));
+            Record recMessageDetail = this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE);
+            recMessageDetail.setKeyArea(MessageDetail.CONTACT_TYPE_ID_KEY);
+            recMessageDetail.addListener(new SubFileFilter(recContactType.getField(ContactType.kID), recMessageDetail.getField(MessageDetail.CONTACT_TYPE_ID), (BaseField)record.getCounterField(), recMessageDetail.getField(MessageDetail.PERSON_ID), null, null));
         
         } catch (DBException e) {
             e.printStackTrace();
             return;
         }
         
-        MessageTransport recMessageTransport = (MessageTransport)this.getRecord(MessageTransport.kMessageTransportFile);
+        MessageTransport recMessageTransport = (MessageTransport)this.getRecord(MessageTransport.MESSAGE_TRANSPORT_FILE);
         recMessageTransport = recMessageTransport.getMessageTransport(MessageTransport.SOAP);   // For now - Only SOAP
     }
     /**

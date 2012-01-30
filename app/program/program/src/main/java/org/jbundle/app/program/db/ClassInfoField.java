@@ -77,7 +77,7 @@ public class ClassInfoField extends ReferenceField
      */
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), ClassInfo.kClassNameKey, ClassInfo.kClassName, true, true);
+        return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), ClassInfo.CLASS_NAME_KEY, ClassInfo.CLASS_NAME, true, true);
     }
 
 }

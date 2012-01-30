@@ -76,7 +76,7 @@ public class CalendarUpdateProcess extends BaseProcess
                 {
                     recCalendarEntry.edit();
                     boolean[] rgbEnabled = recCalendarEntry.setEnableListeners(false);  // I need to do this since a change in properties will reschedule the jobs.
-                    ((PropertiesField)recCalendarEntry.getField(CalendarEntry.kProperties)).setProperty(TASK_COMPLETED, DBConstants.TRUE);
+                    ((PropertiesField)recCalendarEntry.getField(CalendarEntry.PROPERTIES)).setProperty(TASK_COMPLETED, DBConstants.TRUE);
                     recCalendarEntry.setEnableListeners(rgbEnabled);
                     recCalendarEntry.set();
                 }

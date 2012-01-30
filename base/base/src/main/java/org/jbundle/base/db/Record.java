@@ -1125,6 +1125,15 @@ public class Record extends FieldList
         return null;    // Not found
     }
     /**
+     * Set the default key order.
+     * @param String strKeyName the current index.
+     * @return The new default key area (null if not found).
+     */
+    public KeyArea getKeyArea(String strKeyName)
+    {
+        return (KeyArea)super.setKeyArea(strKeyName);
+    }
+    /**
      * Get the default key index for grid screens.
      * The default key area for grid screens is the first non-unique key that is a string.
      * Override this to supply a different key area.
@@ -1139,6 +1148,17 @@ public class Record extends FieldList
                     return i;
         }
         return -1;      // Return the current key area
+    }
+    /**
+     * Get the default display field for this record (for popups and lookups).
+     * @return The sequence of the field that should be displayed.
+     */
+    public String getDefaultDisplayFieldName()
+    {
+        int iSeq = this.getDefaultDisplayFieldSeq();
+        if (iSeq == -1)
+            return null;
+        return this.getField(iSeq).getFieldName();
     }
     /**
      * Get the default display field for this record (for popups and lookups).

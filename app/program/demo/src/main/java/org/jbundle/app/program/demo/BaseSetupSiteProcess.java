@@ -103,35 +103,35 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
      */
     public StandardMessageResponseData setupUserInfo(CreateSiteMessageData siteMessageData)
     {
-        MessageRecordDesc userInfoMessageData = (MessageRecordDesc)siteMessageData.getMessageDataDesc(UserInfo.kUserInfoFile);
-        MessageRecordDesc menusMessageData = (MessageRecordDesc)siteMessageData.getMessageDataDesc(Menus.kMenusFile);
+        MessageRecordDesc userInfoMessageData = (MessageRecordDesc)siteMessageData.getMessageDataDesc(UserInfo.USER_INFO_FILE);
+        MessageRecordDesc menusMessageData = (MessageRecordDesc)siteMessageData.getMessageDataDesc(Menus.MENUS_FILE);
         
         TreeMessage replyMessage = new TreeMessage(null, null);
         StandardMessageResponseData runRemoteProcessResponse = new StandardMessageResponseData(replyMessage, null);
         try {
             Record recUser = this.getMainRecord();
             recUser.addNew();
-            recUser.setKeyArea(UserInfo.kUserNameKey);
-            recUser.getField(UserInfo.kUserName).setString((String)userInfoMessageData.get(UserInfo.USER_NAME));
+            recUser.setKeyArea(UserInfo.USER_NAME_KEY);
+            recUser.getField(UserInfo.USER_NAME).setString((String)userInfoMessageData.get(UserInfo.USER_NAME));
             if (recUser.seek(null))
                 recUser.edit();
             else
                 recUser.addNew(); // If user doesn't exist, create it
             userInfoMessageData.getRawRecordData(recUser);  // User username, password
-            ((PropertiesField)recUser.getField(UserInfo.kProperties)).setProperty(DBParams.HOME, (String)menusMessageData.get(MenusMessageData.SITE_HOME_MENU));
-            ((PropertiesField)recUser.getField(UserInfo.kProperties)).setProperty(MenusMessageData.DOMAIN_NAME, (String)menusMessageData.get(MenusMessageData.DOMAIN_NAME));
+            ((PropertiesField)recUser.getField(UserInfo.PROPERTIES)).setProperty(DBParams.HOME, (String)menusMessageData.get(MenusMessageData.SITE_HOME_MENU));
+            ((PropertiesField)recUser.getField(UserInfo.PROPERTIES)).setProperty(MenusMessageData.DOMAIN_NAME, (String)menusMessageData.get(MenusMessageData.DOMAIN_NAME));
             if (recUser.getEditMode() == DBConstants.EDIT_ADD)
                 recUser.add();
             else
                 recUser.set();
             
-            Record recMenus = this.getRecord(Menus.kMenusFile);
+            Record recMenus = this.getRecord(Menus.MENUS_FILE);
         
             // First read the template menu record
             String siteTemplate = (String)menusMessageData.get(MenusMessageData.SITE_TEMPLATE_MENU);
-            recMenus.getField(Menus.kCode).setString(siteTemplate);
+            recMenus.getField(Menus.CODE).setString(siteTemplate);
             int iOldOrder = recMenus.getDefaultOrder();
-            recMenus.setKeyArea(Menus.kCodeKey);
+            recMenus.setKeyArea(Menus.CODE_KEY);
             BaseBuffer buffer = null;
             if (recMenus.seek(null))
             {
@@ -146,8 +146,8 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
         
             // Next, create the new menu for this domain (using template record info)
             recMenus.addNew();
-            recMenus.setKeyArea(Menus.kCodeKey);
-            recMenus.getField(Menus.kCode).setString((String)menusMessageData.get(MenusMessageData.DOMAIN_NAME));
+            recMenus.setKeyArea(Menus.CODE_KEY);
+            recMenus.getField(Menus.CODE).setString((String)menusMessageData.get(MenusMessageData.DOMAIN_NAME));
             if (recMenus.seek(null))
                 recMenus.edit();    // If it already exists, I must be on the same machine that sent me this message!
             else
@@ -157,32 +157,32 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
                     buffer.bufferToFields(recMenus, DBConstants.DISPLAY, DBConstants.INIT_MOVE);
             }
             
-            recMenus.getField(Menus.kSequence).setValue(100);
+            recMenus.getField(Menus.SEQUENCE).setValue(100);
             
             // Create customized xslt stylesheet
             String homeDir = System.getProperty("user.home") + File.separator + ".tourapp";
-            recMenus.getField(Menus.kCode).setString((String)menusMessageData.get(MenusMessageData.DOMAIN_NAME));
+            recMenus.getField(Menus.CODE).setString((String)menusMessageData.get(MenusMessageData.DOMAIN_NAME));
         
             String fullSitePrefix = (String)menusMessageData.get(MenusMessageData.SITE_PREFIX);
             String siteName = (String)menusMessageData.get(MenusMessageData.SITE_NAME);
             String templateArchivePath = (String)menusMessageData.get(MenusMessageData.XSL_TEMPLATE_PATH);
             String siteHomeCode = (String)menusMessageData.get(MenusMessageData.SITE_HOME_MENU);
-            recMenus.getField(Menus.kName).setString(siteName);
+            recMenus.getField(Menus.NAME).setString(siteName);
         
             String destArchivePath  = templateArchivePath;
             if (destArchivePath.lastIndexOf(File.separator) != -1)  // Always
                 destArchivePath = destArchivePath.substring(destArchivePath.lastIndexOf(File.separator) + 1); // Dest archive dir
             destArchivePath  = Utility.addToPath(homeDir, fullSitePrefix + File.separator + destArchivePath);
         
-            ((PropertiesField)recMenus.getField(Menus.kParams)).setProperty(DBConstants.USER_ARCHIVE_FOLDER, destArchivePath);
-            ((PropertiesField)recMenus.getField(Menus.kParams)).setProperty(DBConstants.DB_USER_PREFIX, fullSitePrefix + "_");
+            ((PropertiesField)recMenus.getField(Menus.PARAMS)).setProperty(DBConstants.USER_ARCHIVE_FOLDER, destArchivePath);
+            ((PropertiesField)recMenus.getField(Menus.PARAMS)).setProperty(DBConstants.DB_USER_PREFIX, fullSitePrefix + "_");
         
-            String templateFilename = ((PropertiesField)recMenus.getField(Menus.kParams)).getProperty(MenusMessageData.XSL_TEMPLATE_PATH);
+            String templateFilename = ((PropertiesField)recMenus.getField(Menus.PARAMS)).getProperty(MenusMessageData.XSL_TEMPLATE_PATH);
             if ((templateFilename == null) || (templateFilename.length() == 0))
                 templateFilename = this.getProperty(MenusMessageData.XSL_TEMPLATE_PATH);
             if ((templateFilename == null) || (templateFilename.length() == 0))
                 templateFilename = "docs/styles/xsl/program/fixdemotemplate.xsl";
-            ((PropertiesField)recMenus.getField(Menus.kParams)).setProperty(MenusMessageData.XSL_TEMPLATE_PATH, templateFilename);
+            ((PropertiesField)recMenus.getField(Menus.PARAMS)).setProperty(MenusMessageData.XSL_TEMPLATE_PATH, templateFilename);
         
             if (recMenus.getEditMode() == DBConstants.EDIT_ADD)
                 recMenus.add();
@@ -208,12 +208,12 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
             recUserNew.addNew();
             recUserNew.moveFields(recUser, null, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE, false, false, false);
             if (properties.get(BaseRegistrationScreen.ADMIN_HOME_MENU_CODE) != null)
-                ((PropertiesField)recUserNew.getField(UserInfo.kProperties)).setProperty(DBParams.HOME, properties.get(BaseRegistrationScreen.ADMIN_HOME_MENU_CODE).toString());
+                ((PropertiesField)recUserNew.getField(UserInfo.PROPERTIES)).setProperty(DBParams.HOME, properties.get(BaseRegistrationScreen.ADMIN_HOME_MENU_CODE).toString());
             UserGroup recUserGroup = new UserGroup(this);
-            recUserGroup.setKeyArea(UserGroup.kDescriptionKey);
-            recUserGroup.getField(UserGroup.kDescription).setString("Admin");
+            recUserGroup.setKeyArea(UserGroup.DESCRIPTION_KEY);
+            recUserGroup.getField(UserGroup.DESCRIPTION).setString("Admin");
             if (recUserGroup.seek(">="))
-                recUserNew.getField(UserInfo.kUserGroupID).moveFieldToThis(recUserGroup.getCounterField());
+                recUserNew.getField(UserInfo.USER_GROUP_ID).moveFieldToThis(recUserGroup.getCounterField());
             recUserGroup.free();
             recUserNew.add();
             
@@ -228,7 +228,7 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
                 if (recUserNew.getField(UserInfo.kID).getValue() == 1)
                     continue; // Anonymous user
                 recUserNew.edit();
-                recUserNew.getField(UserInfo.kPassword).moveFieldToThis(recUser.getField(UserInfo.kPassword), DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
+                recUserNew.getField(UserInfo.PASSWORD).moveFieldToThis(recUser.getField(UserInfo.PASSWORD), DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
                 recUserNew.set();
             }
             recUserNew.setEnableListeners(rgbEnabled);
@@ -256,7 +256,7 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
     {
         Record recUser = this.getMainRecord();
         Map<String,String> map = new HashMap<String,String>();
-        map.put("${email}", recUser.getField(UserInfo.kUserName).toString());
+        map.put("${email}", recUser.getField(UserInfo.USER_NAME).toString());
         Date date = new Date();   // Today
         DateField dateField = new DateField(null, null, -1, null, null);
         dateField.setDate(date, DBConstants.DISPLAY, DBConstants.INIT_MOVE);

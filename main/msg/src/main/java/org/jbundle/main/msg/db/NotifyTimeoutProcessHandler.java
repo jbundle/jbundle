@@ -79,9 +79,9 @@ public class NotifyTimeoutProcessHandler extends FileListener
     public int doRecordChange(FieldInfo field, int iChangeType, boolean bDisplayOption)
     {
         if ((iChangeType == DBConstants.AFTER_ADD_TYPE) || (iChangeType == DBConstants.AFTER_UPDATE_TYPE))
-            if (!this.getOwner().getField(MessageLog.kTimeoutTime).isNull())
+            if (!this.getOwner().getField(MessageLog.TIMEOUT_TIME).isNull())
         {
-            Date timeTimeout = ((DateTimeField)this.getOwner().getField(MessageLog.kTimeoutTime)).getDateTime();
+            Date timeTimeout = ((DateTimeField)this.getOwner().getField(MessageLog.TIMEOUT_TIME)).getDateTime();
             Date timeNow = new Date();
             if (timeTimeout != null)
             {

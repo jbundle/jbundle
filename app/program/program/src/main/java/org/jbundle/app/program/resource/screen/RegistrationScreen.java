@@ -109,13 +109,13 @@ public class RegistrationScreen extends DetailScreen
     public void addListeners()
     {
         super.addListeners();
-        // This is all temporary. It will be much better to display the resources next to the key for each record
-        this.getMainRecord().addListener(new CompareFileFilter(Registration.kLanguage, this.getScreenRecord().getField(ResourceScreenRecord.kLanguage), DBConstants.EQUALS, null, false));
-        this.getMainRecord().getField(Registration.kLanguage).addListener(new InitFieldHandler(this.getScreenRecord().getField(ResourceScreenRecord.kLanguage)));
-        this.getMainRecord().addListener(new CompareFileFilter(Registration.kLocale, this.getScreenRecord().getField(ResourceScreenRecord.kLocale), DBConstants.EQUALS, null, false));
-        this.getMainRecord().getField(Registration.kLocale).addListener(new InitFieldHandler(this.getScreenRecord().getField(ResourceScreenRecord.kLocale)));
+        // This is all temporary. It will be much better to display the resources next to the EY for each record
+        this.getMainRecord().addListener(new CompareFileFilter(Registration.LANGUAGE, this.getScreenRecord().getField(ResourceScreenRecord.LANGUAGE), DBConstants.EQUALS, null, false));
+        this.getMainRecord().getField(Registration.LANGUAGE).addListener(new InitFieldHandler(this.getScreenRecord().getField(ResourceScreenRecord.LANGUAGE)));
+        this.getMainRecord().addListener(new CompareFileFilter(Registration.LOCALE, this.getScreenRecord().getField(ResourceScreenRecord.LOCALE), DBConstants.EQUALS, null, false));
+        this.getMainRecord().getField(Registration.LOCALE).addListener(new InitFieldHandler(this.getScreenRecord().getField(ResourceScreenRecord.LOCALE)));
         
-        this.getMainRecord().getField(Registration.kCode).addListener(new InitFieldHandler(this.getHeaderRecord().getField(Resource.kCode)));
+        this.getMainRecord().getField(Registration.CODE).addListener(new InitFieldHandler(this.getHeaderRecord().getField(Resource.CODE)));
     }
     /**
      * Set up all the screen fields.

@@ -29,7 +29,11 @@ public class SharedFileHandler extends FileFilter
      * Record type field (sequence).
      */
     protected int m_iTypeField;
-
+    /**
+     * Record type field (sequence).
+     */
+    protected String typeFieldName = null;
+    
     /**
      * Default constructor.
      */
@@ -43,16 +47,25 @@ public class SharedFileHandler extends FileFilter
     public SharedFileHandler(int iTypeField, int iTargetValue)
     {
         this();
-        this.init(iTypeField, iTargetValue);
+        this.init(iTypeField, null, iTargetValue);
+    }
+    /**
+     * SharedFileHandler Method.
+     */
+    public SharedFileHandler(String typeFieldName, int iTargetValue)
+    {
+        this();
+        this.init(-1, typeFieldName, iTargetValue);
     }
     /**
      * Initialize class fields.
      */
-    public void init(int iTypeField, int iTargetValue)
+    public void init(int iTypeField, String typeFieldName, int iTargetValue)
     {
         m_iTargetValue = 0;
         m_iTypeField = 0;
         m_iTypeField = iTypeField;
+        this.typeFieldName = typeFieldName;
         m_iTargetValue = iTargetValue;
 
         super.init(null);
@@ -65,7 +78,11 @@ public class SharedFileHandler extends FileFilter
     public void doNewRecord(boolean bDisplayOption)
     {
         super.doNewRecord(bDisplayOption);
-        BaseField fldTarget = this.getOwner().getField(m_iTypeField);
+        BaseField fldTarget = null;
+        if (typeFieldName != null)
+            fldTarget = this.getOwner().getField(typeFieldName);
+        else
+            fldTarget = this.getOwner().getField(m_iTypeField);
         boolean[] rgbEnabled = fldTarget.setEnableListeners(false);
         InitOnceFieldHandler listener = (InitOnceFieldHandler)fldTarget.getListener(InitOnceFieldHandler.class.getName());
         if (listener != null)
@@ -86,7 +103,11 @@ public class SharedFileHandler extends FileFilter
      */
     public boolean doRemoteCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
     {
-        BaseField fldTarget = this.getOwner().getField(m_iTypeField);
+        BaseField fldTarget = null;
+        if (typeFieldName != null)
+            fldTarget = this.getOwner().getField(typeFieldName);
+        else
+            fldTarget = this.getOwner().getField(m_iTypeField);
         String strToCompare = Integer.toString(m_iTargetValue);
         boolean bDontSkip = this.fieldCompare(fldTarget, strToCompare, DBConstants.EQUALS, strbFilter, bIncludeFileName, vParamList);
         if (strbFilter != null)
@@ -103,6 +124,7 @@ public class SharedFileHandler extends FileFilter
     {
         try   {
             daOut.writeInt(m_iTypeField);
+            daOut.writeUTF(typeFieldName);
             daOut.writeInt(m_iTargetValue);
         } catch (IOException ex)    {
             ex.printStackTrace();
@@ -115,9 +137,10 @@ public class SharedFileHandler extends FileFilter
     {
         try   {
             int iTypeField = daIn.readInt();
+            String typeFieldName = daIn.readUTF();
             int iTargetValue = daIn.readInt();
         
-            this.init(iTypeField, iTargetValue);
+            this.init(iTypeField, typeFieldName, iTargetValue);
         } catch (IOException ex)    {
             ex.printStackTrace();
         }

@@ -76,7 +76,7 @@ public class StartSearchFilter extends CompareFileFilter
     public void init(Record record, int fsToCheck, String strToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare, BaseField fldToCheck, BaseField fldToCompare)
     {
         m_fldFakeDate = null;
-        super.init(record, fsToCheck, strToCompare, null, pconvFlag, bDontFilterIfNullCompare, fldToCheck, fldToCompare);
+        super.init(record, fsToCheck, null, strToCompare, null, pconvFlag, bDontFilterIfNullCompare, fldToCheck, fldToCompare);
         if (strSeekSign == null)
             m_strSeekSign = DBConstants.BLANK;    // I Must do this here because I don't want the default value
     }

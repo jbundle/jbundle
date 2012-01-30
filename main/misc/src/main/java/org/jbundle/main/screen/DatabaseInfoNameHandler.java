@@ -79,7 +79,7 @@ public class DatabaseInfoNameHandler extends FieldListener
                     record.setDatabaseType(iType);
                 try {
                     record.open();
-                    record.setKeyArea(DatabaseInfo.kIDKey);
+                    record.setKeyArea(DatabaseInfo.ID_KEY);
                     record.getField(DatabaseInfo.kID).setValue(1);
                     if (!record.seek(DBConstants.EQUALS))
                     {

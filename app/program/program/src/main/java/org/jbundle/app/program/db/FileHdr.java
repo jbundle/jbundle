@@ -183,7 +183,7 @@ public class FileHdr extends VirtualRecord
      */
     public boolean isPhysicalFile()
     {
-        String strFileType = this.getField(FileHdr.kType).toString();
+        String strFileType = this.getField(FileHdr.TYPE).toString();
         if (strFileType == null)
             return false;
         strFileType = strFileType.toUpperCase();

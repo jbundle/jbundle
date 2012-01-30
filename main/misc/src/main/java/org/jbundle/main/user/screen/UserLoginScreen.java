@@ -73,7 +73,7 @@ public class UserLoginScreen extends Screen
     public void addListeners()
     {
         String strUserName = this.getProperty(DBParams.USER_NAME);
-        this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kuser).setString(strUserName);
+        this.getScreenRecord().getField(UserScreenRecord.USER).setString(strUserName);
         
         String strMessage = "Login required";
         if (this.getTask() != null)
@@ -81,7 +81,7 @@ public class UserLoginScreen extends Screen
         {
             BaseApplication application = (BaseApplication)this.getTask().getApplication();
             strMessage = application.getResources(ResourceConstants.ERROR_RESOURCE, true).getString(strMessage);
-            this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kStatusLine).setString(strMessage);
+            this.getScreenRecord().getField(UserScreenRecord.STATUS_LINE).setString(strMessage);
         }
         
         super.addListeners();
@@ -155,14 +155,14 @@ public class UserLoginScreen extends Screen
             Task task = this.getTask();
             if (task != null)
             {
-                String strUserName = this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kuser).toString();
-                String strPassword = this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kpassword).toString();
+                String strUserName = this.getScreenRecord().getField(UserScreenRecord.USER).toString();
+                String strPassword = this.getScreenRecord().getField(UserScreenRecord.PASSWORD).toString();
         
                 String strOldUserID = this.getProperty(DBParams.USER_ID);
                 int iErrorCode = task.getApplication().login(task, strUserName, strPassword, this.getProperty(DBParams.DOMAIN));
                 if (iErrorCode == DBConstants.NORMAL_RETURN)
                 {
-                    if (this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.ksaveuser).getState() == true)
+                    if (this.getScreenRecord().getField(UserScreenRecord.SAVEUSER).getState() == true)
                         if (((Application)task.getApplication()).getMuffinManager() != null)
                             if (((Application)task.getApplication()).getMuffinManager().isServiceAvailable())
                                 if (this.getProperty(DBParams.USER_ID) != null)
@@ -178,7 +178,7 @@ public class UserLoginScreen extends Screen
                 else
                 {   // Error - Get and display the error
                     String strError = task.getLastError(iErrorCode);
-                    this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kStatusLine).setString(strError);
+                    this.getScreenRecord().getField(UserScreenRecord.STATUS_LINE).setString(strError);
                 }
             }
             // May want to add some code here to login if this is used in thick client

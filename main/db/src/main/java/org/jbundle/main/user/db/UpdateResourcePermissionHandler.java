@@ -74,7 +74,7 @@ public class UpdateResourcePermissionHandler extends FileListener
             || (iChangeType == DBConstants.AFTER_ADD_TYPE)
             || (iChangeType == DBConstants.AFTER_DELETE_TYPE))
         {
-            if (this.getOwner().getField(UserResource.kResourceClass).isModified())
+            if (this.getOwner().getField(UserResource.RESOURCE_CLASS).isModified())
                 this.updateResourcePermissions();
         }
         return super.doRecordChange(field, iChangeType, bDisplayOption);
@@ -93,7 +93,7 @@ public class UpdateResourcePermissionHandler extends FileListener
             {
                 recUserPermission.next();
                 recUserPermission.edit();
-                recUserPermission.getField(UserPermission.kUserResourceID).setModified(true);   // Fake a mod, so the group permissions will be updated
+                recUserPermission.getField(UserPermission.USER_RESOURCE_ID).setModified(true);   // Fake a mod, so the group permissions will be updated
                 recUserPermission.set();
             }
         } catch (DBException ex) {

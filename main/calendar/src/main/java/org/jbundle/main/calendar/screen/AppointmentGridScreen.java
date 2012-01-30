@@ -80,7 +80,7 @@ public class AppointmentGridScreen extends GridScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().getField(Appointment.kCalendarCategoryID).addListener(new InitFieldHandler(this.getRecord(CalendarControl.kCalendarControlFile).getField(CalendarControl.kAppointmentCategoryID)));
+        this.getMainRecord().getField(Appointment.CALENDAR_CATEGORY_ID).addListener(new InitFieldHandler(this.getRecord(CalendarControl.CALENDAR_CONTROL_FILE).getField(CalendarControl.APPOINTMENT_CATEGORY_ID)));
     }
     /**
      * SetupSFields Method.

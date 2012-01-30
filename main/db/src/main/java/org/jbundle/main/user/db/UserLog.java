@@ -150,9 +150,9 @@ public class UserLog extends VirtualRecord
     {
         try {
             this.addNew();
-            this.getField(UserLog.kUserID).setValue(iUserID);
-            this.getField(UserLog.kUserLogTypeID).setValue(iUserLogTypeID);
-            this.getField(UserLog.kMessage).setString(strMessage);
+            this.getField(UserLog.USER_ID).setValue(iUserID);
+            this.getField(UserLog.USER_LOG_TYPE_ID).setValue(iUserLogTypeID);
+            this.getField(UserLog.MESSAGE).setString(strMessage);
             this.add();
         } catch (DBException ex) {
             ex.printStackTrace();

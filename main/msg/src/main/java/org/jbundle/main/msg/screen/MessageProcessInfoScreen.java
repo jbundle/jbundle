@@ -99,13 +99,13 @@ public class MessageProcessInfoScreen extends DetailScreen
     {
         super.addListeners();
             // Link the screen field to the passed in record
-        ((ReferenceField)this.getScreenRecord().getField(MessageInfoScreenRecord.kMessageInfoID)).syncReference(this.getHeaderRecord());
+        ((ReferenceField)this.getScreenRecord().getField(MessageInfoScreenRecord.MESSAGE_INFO_ID)).syncReference(this.getHeaderRecord());
         
-        String strManualTransportID = Integer.toString(((ReferenceField)this.getMainRecord().getField(MessageProcessInfo.kDefaultMessageTransportID)).getIDFromCode(MessageTransport.MANUAL));
-        this.getMainRecord().getField(MessageProcessInfo.kDefaultMessageTransportID).addListener(new DisableOnFieldHandler(this.getMainRecord().getField(MessageProcessInfo.kInitialMessageStatusID), strManualTransportID, false));
-        Converter convCheckMark = new RadioConverter(this.getMainRecord().getField(MessageProcessInfo.kDefaultMessageTransportID), strManualTransportID, false);
-        this.getMainRecord().getField(MessageProcessInfo.kDefaultMessageTransportID).addListener(new RemoveConverterOnFreeHandler(convCheckMark));
-        this.getMainRecord().getField(MessageProcessInfo.kDefaultMessageTransportID).addListener(new CopyDataHandler(this.getMainRecord().getField(MessageProcessInfo.kInitialMessageStatusID), null, convCheckMark));
+        String strManualTransportID = Integer.toString(((ReferenceField)this.getMainRecord().getField(MessageProcessInfo.DEFAULT_MESSAGE_TRANSPORT_ID)).getIDFromCode(MessageTransport.MANUAL));
+        this.getMainRecord().getField(MessageProcessInfo.DEFAULT_MESSAGE_TRANSPORT_ID).addListener(new DisableOnFieldHandler(this.getMainRecord().getField(MessageProcessInfo.INITIAL_MESSAGE_STATUS_ID), strManualTransportID, false));
+        Converter convCheckMark = new RadioConverter(this.getMainRecord().getField(MessageProcessInfo.DEFAULT_MESSAGE_TRANSPORT_ID), strManualTransportID, false);
+        this.getMainRecord().getField(MessageProcessInfo.DEFAULT_MESSAGE_TRANSPORT_ID).addListener(new RemoveConverterOnFreeHandler(convCheckMark));
+        this.getMainRecord().getField(MessageProcessInfo.DEFAULT_MESSAGE_TRANSPORT_ID).addListener(new CopyDataHandler(this.getMainRecord().getField(MessageProcessInfo.INITIAL_MESSAGE_STATUS_ID), null, convCheckMark));
     }
     /**
      * Make a sub-screen.
@@ -130,8 +130,8 @@ public class MessageProcessInfoScreen extends DetailScreen
      */
     public void addSubFileFilter()
     {
-        this.getMainRecord().addListener(new CompareFileFilter(MessageProcessInfo.kMessageInfoID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
-        this.getMainRecord().getField(MessageProcessInfo.kMessageInfoID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageProcessInfo.MESSAGE_INFO_ID), (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
+        this.getMainRecord().getField(MessageProcessInfo.MESSAGE_INFO_ID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));
     }
 
 }

@@ -58,7 +58,7 @@ public class SetDataClass extends FileListener
      */
     public void doValidRecord(boolean bDisplayOption)
     {
-        String strClass = this.getOwner().getField(FieldData.kFieldClass).toString();
+        String strClass = this.getOwner().getField(FieldData.FIELD_CLASS).toString();
         String strType = null;
         if (strClass.indexOf("Field") != -1)
         {
@@ -73,7 +73,7 @@ public class SetDataClass extends FileListener
                 strType = "Float";
         }
         if (strType != null)
-            this.getOwner().getField(FieldData.kDataClass).setString(strType);
+            this.getOwner().getField(FieldData.DATA_CLASS).setString(strType);
         super.doValidRecord(bDisplayOption);
     }
 

@@ -95,28 +95,48 @@ public class ConvertGeneric extends ConvertBase
                 record.next();
                 {
                     String string = record.getField(LogicFile.kLogicSource).toString();
+                    String strStart = string;
                     
-                    if (record.getCounterField().getValue() > 60000)
-                        continue;
+                    //if (record.getCounterField().getValue() > 60000)
+                    //    continue;
 
-                    //if (string.contains("Utility.getRecordOwner("))
+                    int start;
+                    int end = 0;
+                    while ((start = string.indexOf("k", end)) > 0)
                     {
-                        System.out.println(record.getField(LogicFile.kMethodClassName).toString());
-
-                        String strTarget = "this.getOwner(.findRecordOwner().getRecord())";
-                        String strReplace = "this.getOwner().getRecord().findRecordOwner()";
-                        String strResult = this.replaceString(string, strTarget, strReplace);
-                        strTarget = "this.getOwner(.findRecordOwner())";
-                        strReplace = "this.getOwner().findRecordOwner()";
-                        strResult = this.replaceString(strResult, strTarget, strReplace);
-                        
-                        if (!strResult.equals(string))
+                        end = start + 1;
+                        char ch = string.charAt(start - 1);
+                        if ((ch != '.') && (ch != ' '))
+                            continue;
+                        boolean isUpper = false;
+                        for (; end < string.length(); end++)
                         {
+                             ch = string.charAt(end);
+                            if (!Character.isJavaIdentifierPart(ch))
+                                break;
+                            if (!Character.isUpperCase(ch))
+                                isUpper = true;
+                        }
+                        if (!isUpper)
+                            continue;
+                        if (end >= string.length())
+                            break;
+
+                        String newName = convertNameToConstant(string.substring(start+1, end));
+                        
+                        string = string.substring(0, start) + newName + string.substring(end);
+
+                        System.out.println(string);
+                    }
+                        
+                        if (!strStart.equals(string))
+                        {
+                            System.out.println("--------------------------------------------------");
+                            System.out.println(record.getField(LogicFile.kMethodClassName).toString());
                             record.edit();
-                            System.out.println(string);record.getField(LogicFile.kLogicSource).setString(strResult);
+                            System.out.println(string);record.getField(LogicFile.kLogicSource).setString(string);
                             record.set();
                         }
-                    }
                 }
             }
             record.free();

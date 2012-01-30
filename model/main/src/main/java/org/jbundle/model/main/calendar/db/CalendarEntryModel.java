@@ -9,8 +9,22 @@ import org.jbundle.model.db.*;
 
 public interface CalendarEntryModel extends Rec
 {
+
+    //public static final String ID = ID;
     public static final String CALENDAR_ENTRY_TYPE_ID = "CalendarEntryTypeID";
+    public static final String START_DATE_TIME = "StartDateTime";
+    public static final String END_DATE_TIME = "EndDateTime";
     public static final String DESCRIPTION = "Description";
+    public static final String CALENDAR_CATEGORY_ID = "CalendarCategoryID";
+    public static final String HIDDEN = "Hidden";
+    public static final String PROPERTIES = "Properties";
+    public static final String ANNIV_MASTER_ID = "AnnivMasterID";
+
+    public static final String START_DATE_TIME_KEY = "StartDateTime";
+
+    public static final String ANNIV_MASTER_ID_KEY = "AnnivMasterID";
+
+    public static final String CALENDAR_CATEGORY_ID_KEY = "CalendarCategoryID";
     public static final int ANNIVERSARY_ID = 2;
     public static final int APPOINTMENT_ID = 1;
     public static final String JOB_QUEUE_NAME = "jobSchedulerQueue";

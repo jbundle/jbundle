@@ -132,34 +132,34 @@ public class GetWSDLBase extends BaseProcess
         MessageInfo recMessageInfo = this.getMessageInfo(elementIn);   // Note: Message IN for them is Message Out for me
         if (recMessageInfo != null)
         {
-            MessageProcessInfo recMessageProcessInfo = (MessageProcessInfo)this.getRecord(MessageProcessInfo.kMessageProcessInfoFile);
+            MessageProcessInfo recMessageProcessInfo = (MessageProcessInfo)this.getRecord(MessageProcessInfo.MESSAGE_PROCESS_INFO_FILE);
             FileListener listener = new SubFileFilter(recMessageInfo);
             recMessageProcessInfo.addListener(listener);
-            recMessageProcessInfo.setKeyArea(MessageProcessInfo.kMessageInfoIDKey);
+            recMessageProcessInfo.setKeyArea(MessageProcessInfo.MESSAGE_INFO_ID_KEY);
             recMessageProcessInfo.close();
             try {
                 while (recMessageProcessInfo.hasNext())
                 {
                     recMessageProcessInfo.next();
-                    if (!MessageType.MESSAGE_OUT.equalsIgnoreCase(((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kMessageTypeID)).getReference().getField(MessageType.kCode).toString()))
+                    if (!MessageType.MESSAGE_OUT.equalsIgnoreCase(((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.MESSAGE_TYPE_ID)).getReference().getField(MessageType.CODE).toString()))
                         continue;
                     boolean safe = CreateWSDL.SAFE_DEFAULT;
-                    String safeValue = ((PropertiesField)recMessageProcessInfo.getField(MessageProcessInfo.kProperties)).getProperty(MessageProcessInfo.SAFE);
+                    String safeValue = ((PropertiesField)recMessageProcessInfo.getField(MessageProcessInfo.PROPERTIES)).getProperty(MessageProcessInfo.SAFE);
                     if (safeValue != null)
                         safe = Boolean.parseBoolean(safeValue);
                     if (safeValue != null)
                         if (safe != bIsSafe)
                             continue;
                     
-                    Record recMessageProcessInfo2 = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.kReplyMessageProcessInfoID)).getReference();
+                    Record recMessageProcessInfo2 = ((ReferenceField)recMessageProcessInfo.getField(MessageProcessInfo.REPLY_MESSAGE_PROCESS_INFO_ID)).getReference();
                     if (recMessageProcessInfo2 != null)
                         if ((recMessageProcessInfo2.getEditMode() == DBConstants.EDIT_IN_PROGRESS) || (recMessageProcessInfo2.getEditMode() == DBConstants.EDIT_CURRENT))
                         {
-                            Record recMessageInfo2 = ((ReferenceField)recMessageProcessInfo2.getField(MessageProcessInfo.kMessageInfoID)).getReference();
+                            Record recMessageInfo2 = ((ReferenceField)recMessageProcessInfo2.getField(MessageProcessInfo.MESSAGE_INFO_ID)).getReference();
                             if (recMessageInfo2 != null)
                             {
                                 if (elementOut != null)
-                                    if (elementOut.equalsIgnoreCase(recMessageInfo2.getField(MessageInfo.kCode).getString()))
+                                    if (elementOut.equalsIgnoreCase(recMessageInfo2.getField(MessageInfo.CODE).getString()))
                                     {
                                         Map<String,Object> map = null;
                                         if (address != null)
@@ -186,9 +186,9 @@ public class GetWSDLBase extends BaseProcess
      */
     public MessageInfo getMessageInfo(String element)
     {
-        MessageInfo recMessageInfo = (MessageInfo)this.getRecord(MessageInfo.kMessageInfoFile);
-        recMessageInfo.setKeyArea(MessageInfo.kCodeKey);
-        recMessageInfo.getField(MessageInfo.kCode).setString(element);
+        MessageInfo recMessageInfo = (MessageInfo)this.getRecord(MessageInfo.MESSAGE_INFO_FILE);
+        recMessageInfo.setKeyArea(MessageInfo.CODE_KEY);
+        recMessageInfo.getField(MessageInfo.CODE).setString(element);
         try {
             if (recMessageInfo.seek(null))
             {
@@ -224,25 +224,25 @@ public class GetWSDLBase extends BaseProcess
      */
     public void updateMessageDetail(MessageProcessInfo recMessageProcessInfo, Map<String,Object> map)
     {
-        MessageDetail recMessageDetail = (MessageDetail)this.getRecord(MessageDetail.kMessageDetailFile);
-        MessageTransport recMessageTransport = (MessageTransport)this.getRecord(MessageTransport.kMessageTransportFile);
+        MessageDetail recMessageDetail = (MessageDetail)this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE);
+        MessageTransport recMessageTransport = (MessageTransport)this.getRecord(MessageTransport.MESSAGE_TRANSPORT_FILE);
         
         try {
             recMessageDetail.addNew();
             
-            recMessageDetail.getField(MessageDetail.kMessageProcessInfoID).moveFieldToThis((BaseField)recMessageProcessInfo.getCounterField());
-            recMessageDetail.getField(MessageDetail.kMessageTransportID).moveFieldToThis((BaseField)recMessageTransport.getCounterField());
+            recMessageDetail.getField(MessageDetail.MESSAGE_PROCESS_INFO_ID).moveFieldToThis((BaseField)recMessageProcessInfo.getCounterField());
+            recMessageDetail.getField(MessageDetail.MESSAGE_TRANSPORT_ID).moveFieldToThis((BaseField)recMessageTransport.getCounterField());
             if (recMessageDetail.seek(null))
                 recMessageDetail.edit();
             else
                 recMessageDetail.addNew();
             
-            recMessageDetail.getField(MessageDetail.kMessageProcessInfoID).moveFieldToThis((BaseField)recMessageProcessInfo.getCounterField());
-            recMessageDetail.getField(MessageDetail.kMessageTransportID).moveFieldToThis((BaseField)recMessageTransport.getCounterField());
+            recMessageDetail.getField(MessageDetail.MESSAGE_PROCESS_INFO_ID).moveFieldToThis((BaseField)recMessageProcessInfo.getCounterField());
+            recMessageDetail.getField(MessageDetail.MESSAGE_TRANSPORT_ID).moveFieldToThis((BaseField)recMessageTransport.getCounterField());
             String site = (map == null) ? null : (String)map.get(TrxMessageHeader.DESTINATION_PARAM);
-            ((PropertiesField)recMessageDetail.getField(MessageDetail.kProperties)).setProperty(TrxMessageHeader.DESTINATION_PARAM, site);
+            ((PropertiesField)recMessageDetail.getField(MessageDetail.PROPERTIES)).setProperty(TrxMessageHeader.DESTINATION_PARAM, site);
             String wspath = (map == null) ? null : (String)map.get(TrxMessageHeader.DESTINATION_MESSAGE_PARAM);
-            ((PropertiesField)recMessageDetail.getField(MessageDetail.kProperties)).setProperty(TrxMessageHeader.DESTINATION_MESSAGE_PARAM, wspath);
+            ((PropertiesField)recMessageDetail.getField(MessageDetail.PROPERTIES)).setProperty(TrxMessageHeader.DESTINATION_MESSAGE_PARAM, wspath);
             
             if (recMessageDetail.getEditMode() == DBConstants.EDIT_ADD)
                 recMessageDetail.add();

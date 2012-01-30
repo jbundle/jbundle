@@ -101,14 +101,14 @@ public class ResourceGridScreen extends DetailGridScreen
         super.addListeners();
         
             // Link the screen field to the passed in record
-        ((ReferenceField)this.getScreenRecord().getField(ClassInfoScreenRecord.kClassProjectID)).syncReference(this.getHeaderRecord());
-        this.getScreenRecord().getField(ClassInfoScreenRecord.kClassProjectID).addListener(new FieldReSelectHandler(this));
+        ((ReferenceField)this.getScreenRecord().getField(ClassInfoScreenRecord.CLASS_PROJECT_ID)).syncReference(this.getHeaderRecord());
+        this.getScreenRecord().getField(ClassInfoScreenRecord.CLASS_PROJECT_ID).addListener(new FieldReSelectHandler(this));
         
-        this.getMainRecord().addListener(new ExtractRangeFilter(Resource.kDescription, this.getScreenRecord().getField(ClassInfoScreenRecord.kName)));
-        this.getScreenRecord().getField(ClassInfoScreenRecord.kName).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new ExtractRangeFilter(Resource.DESCRIPTION, this.getScreenRecord().getField(ClassInfoScreenRecord.NAME)));
+        this.getScreenRecord().getField(ClassInfoScreenRecord.NAME).addListener(new FieldReSelectHandler(this));
         
-        this.getMainRecord().addListener(new ExtractRangeFilter(Resource.kLocation, this.getScreenRecord().getField(ClassInfoScreenRecord.kPackage)));
-        this.getScreenRecord().getField(ClassInfoScreenRecord.kPackage).addListener(new FieldReSelectHandler(this));
+        this.getMainRecord().addListener(new ExtractRangeFilter(Resource.LOCATION, this.getScreenRecord().getField(ClassInfoScreenRecord.PACKAGE)));
+        this.getScreenRecord().getField(ClassInfoScreenRecord.PACKAGE).addListener(new FieldReSelectHandler(this));
     }
     /**
      * If there is a header record, return it, otherwise, return the main record.
@@ -118,7 +118,7 @@ public class ResourceGridScreen extends DetailGridScreen
      */
     public Record getHeaderRecord()
     {
-        return this.getRecord(ClassProject.kClassProjectFile);
+        return this.getRecord(ClassProject.CLASS_PROJECT_FILE);
     }
     /**
      * Add the navigation button(s) to the left of the grid row.

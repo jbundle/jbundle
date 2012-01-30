@@ -74,7 +74,7 @@ public class PackagesReportHeading extends HeadingScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getRecord(PackagesReportScreenRecord.kPackagesReportScreenRecordFile).getField(PackagesReportScreenRecord.kJnlpFileID).addListener(new ReadSecondaryHandler(this.getRecord(JnlpFile.kJnlpFileFile)));
+        this.getScreenRecord().getField(PackagesReportScreenRecord.JNLP_FILE_ID).addListener(new ReadSecondaryHandler(this.getRecord(JnlpFile.JNLP_FILE_FILE)));
     }
     /**
      * SetupSFields Method.
