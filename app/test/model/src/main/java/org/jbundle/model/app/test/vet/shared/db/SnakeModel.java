@@ -9,6 +9,15 @@ import org.jbundle.model.app.test.vet.shared.db.*;
 
 public interface SnakeModel extends ReptileModel
 {
+
+    //public static final String ID = ID;
+    //public static final String REPTILE_TYPE_ID = REPTILE_TYPE_ID;
+    //public static final String EXTRA = EXTRA;
+    //public static final String SPECIAL = SPECIAL;
+    //public static final String NAME = NAME;
+    //public static final String VET_ID = VET_ID;
+    //public static final String WEIGHT = WEIGHT;
+    //public static final String CLEARANCE = CLEARANCE;
     public static final String SNAKE_SCREEN_CLASS = "org.jbundle.app.test.vet.shared.screen.SnakeScreen";
     public static final String SNAKE_GRID_SCREEN_CLASS = "org.jbundle.app.test.vet.shared.screen.SnakeGridScreen";
 

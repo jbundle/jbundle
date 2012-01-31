@@ -31,8 +31,11 @@ public class TestScreenRecord extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String NAME_SORT = "NameSort";
     public static final int kNameSort = kScreenRecordLastField + 1;
+    public static final String CODE_SORT = "CodeSort";
     public static final int kCodeSort = kNameSort + 1;
+    public static final String SORT_KEY = "SortKey";
     public static final int kSortKey = kCodeSort + 1;
     public static final int kTestScreenRecordLastField = kSortKey;
     public static final int kTestScreenRecordFields = kSortKey - DBConstants.MAIN_FIELD + 1;

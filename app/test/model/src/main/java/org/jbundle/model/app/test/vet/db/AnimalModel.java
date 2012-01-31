@@ -9,6 +9,16 @@ import org.jbundle.model.db.*;
 
 public interface AnimalModel extends Rec
 {
+
+    //public static final String ID = ID;
+    public static final String NAME = "Name";
+    public static final String COLOR = "Color";
+    public static final String WEIGHT = "Weight";
+    public static final String VET = "Vet";
+
+    public static final String NAME_KEY = "Name";
+
+    public static final String VET_KEY = "Vet";
     public static final String ANIMAL_GRID_SCREEN_CLASS = "org.jbundle.app.test.vet.screen.AnimalGridScreen";
 
     public static final String ANIMAL_FILE = "Animal";

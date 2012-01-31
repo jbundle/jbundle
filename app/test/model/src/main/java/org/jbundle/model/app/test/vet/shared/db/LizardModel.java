@@ -9,6 +9,15 @@ import org.jbundle.model.app.test.vet.shared.db.*;
 
 public interface LizardModel extends ReptileModel
 {
+
+    //public static final String ID = ID;
+    //public static final String REPTILE_TYPE_ID = REPTILE_TYPE_ID;
+    //public static final String EXTRA = EXTRA;
+    //public static final String SPECIAL = SPECIAL;
+    //public static final String NAME = NAME;
+    //public static final String VET_ID = VET_ID;
+    //public static final String WEIGHT = WEIGHT;
+    //public static final String CLEARANCE = CLEARANCE;
     public static final String LIZARD_SCREEN_CLASS = "org.jbundle.app.test.vet.shared.screen.LizardScreen";
     public static final String LIZARD_GRID_SCREEN_CLASS = "org.jbundle.app.test.vet.shared.screen.LizardGridScreen";
 

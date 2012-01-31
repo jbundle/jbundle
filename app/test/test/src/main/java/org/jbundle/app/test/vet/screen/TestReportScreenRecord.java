@@ -34,11 +34,17 @@ public class TestReportScreenRecord extends ReportScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String VET_ID = "VetID";
     public static final int kVetID = kReportScreenRecordLastField + 1;
+    public static final String REPORT_COUNT = "ReportCount";
     public static final int kReportCount = kVetID + 1;
+    public static final String TEMPLATE = "template";
     public static final int ktemplate = kReportCount + 1;
+    public static final String FILEOUT = "fileout";
     public static final int kfileout = ktemplate + 1;
+    public static final String SEND_MESSAGE_BY = "sendMessageBy";
     public static final int ksendMessageBy = kfileout + 1;
+    public static final String DESTINATION_ADDRESS = "destinationAddress";
     public static final int kdestinationAddress = ksendMessageBy + 1;
     public static final int kTestReportScreenRecordLastField = kdestinationAddress;
     public static final int kTestReportScreenRecordFields = kdestinationAddress - DBConstants.MAIN_FIELD + 1;

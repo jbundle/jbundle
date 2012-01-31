@@ -9,6 +9,12 @@ import org.jbundle.model.app.test.vet.db.*;
 
 public interface CatModel extends AnimalModel
 {
+
+    //public static final String ID = ID;
+    //public static final String NAME = NAME;
+    //public static final String COLOR = COLOR;
+    //public static final String WEIGHT = WEIGHT;
+    //public static final String VET = VET;
     public static final String CAT_VET_SCREEN_CLASS = "org.jbundle.app.test.vet.screen.CatVetScreen";
     public static final String CAT_VET_GRID_SCREEN_CLASS = "org.jbundle.app.test.vet.screen.CatVetGridScreen";
 

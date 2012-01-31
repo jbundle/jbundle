@@ -17,6 +17,17 @@ public class Snake extends Reptile
     implements SnakeModel
 {
 
+    //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
+    //public static final String REPTILE_TYPE_ID = REPTILE_TYPE_ID;
+    //public static final String EXTRA = EXTRA;
+    //public static final String SPECIAL = SPECIAL;
+    //public static final String NAME = NAME;
+    //public static final String VET_ID = VET_ID;
+    //public static final String WEIGHT = WEIGHT;
+    //public static final String CLEARANCE = CLEARANCE;
+
     public Snake()
     {
         super();
