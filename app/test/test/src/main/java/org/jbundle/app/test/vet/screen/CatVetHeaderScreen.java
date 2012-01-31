@@ -69,7 +69,7 @@ public class CatVetHeaderScreen extends HeaderScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getScreenRecord().getField(TestReportScreenRecord.kVetID).setEnabled(true);
+        this.getScreenRecord().getField(TestReportScreenRecord.VET_ID).setEnabled(true);
     }
     /**
      * SetupSFields Method.

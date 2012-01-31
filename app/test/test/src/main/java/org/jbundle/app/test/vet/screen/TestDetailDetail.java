@@ -73,7 +73,7 @@ public class TestDetailDetail extends ReportScreen
      */
     public Record getMainRecord()
     {
-        return this.getRecord(Cat.kCatFile);
+        return this.getRecord(Cat.CAT_FILE);
     }
 
 }

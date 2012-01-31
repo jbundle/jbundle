@@ -73,7 +73,7 @@ public class CatVetScreen extends Screen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().getField(Cat.kVet).addListener(new InitOnceFieldHandler(false));
+        this.getMainRecord().getField(Cat.VET).addListener(new InitOnceFieldHandler(false));
     }
 
 }

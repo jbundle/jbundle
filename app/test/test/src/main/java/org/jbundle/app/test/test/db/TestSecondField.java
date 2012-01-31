@@ -75,8 +75,8 @@ public class TestSecondField extends ReferenceField
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         Record record = this.makeReferenceRecord();
-        int iQueryKeySeq = TestSecond.kCodeKey;
-        Converter fldDisplayFieldDesc = record.getField(TestSecond.kDescription);
+        String iQueryKeySeq = TestSecond.CODE_KEY;
+        Converter fldDisplayFieldDesc = record.getField(TestSecond.DESCRIPTION);
         boolean bIncludeBlankOption = true;
         boolean bIncludeFormButton = true;
         return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, iQueryKeySeq, fldDisplayFieldDesc, bIncludeBlankOption, bIncludeFormButton);

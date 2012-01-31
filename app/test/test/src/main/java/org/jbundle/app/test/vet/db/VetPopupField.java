@@ -67,8 +67,8 @@ public class VetPopupField extends VetField
      */
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-                return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), Vet.kNameKey, Vet.kName, true, true);
-        //      return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), -1, Vet.kName, true, true);
+                return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), Vet.NAME_KEY, Vet.NAME, true, true);
+        //      return this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), -1, Vet.NAME, true, true);
     }
 
 }

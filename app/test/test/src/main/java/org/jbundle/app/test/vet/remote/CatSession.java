@@ -68,9 +68,9 @@ public class CatSession extends Session
     public void addListeners()
     {
         super.addListeners();
-        Vet recVet = (Vet)this.getRecord(Vet.kVetFile);
+        Vet recVet = (Vet)this.getRecord(Vet.VET_FILE);
         
-        this.getMainRecord().setKeyArea(Cat.kVetKey);
+        this.getMainRecord().setKeyArea(Cat.VET_KEY);
         this.getMainRecord().addListener(new SubFileFilter(recVet));
     }
 

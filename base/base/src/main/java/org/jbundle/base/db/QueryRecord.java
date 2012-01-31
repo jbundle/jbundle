@@ -143,13 +143,37 @@ public class QueryRecord extends Record
      */
     public void addRelationship(int iLinkType, Record recLeft, Record recRight, int ifldLeft1, int ifldRight1)
     {
-        new TableLink(this, iLinkType, recLeft, recRight, ifldLeft1, ifldRight1, -1, -1, -1, -1);
+        String fldLeft1 = recLeft.getField(ifldLeft1).getFieldName();
+        String fldRight1 = recRight.getField(ifldRight1).getFieldName();
+        this.addRelationship(iLinkType, recLeft, recRight, fldLeft1, fldRight1);
     }
     /**
      * Add this table link to this query.
      * Creates a new tablelink and adds it to the link list.
      */
-    public void addRelationship(int linkType, Record recLeft, Record recRight, int fldLeft1, int fldRight1, int fldLeft2, int fldRight2, int fldLeft3, int fldRight3)
+    public void addRelationship(int iLinkType, Record recLeft, Record recRight, String ifldLeft1, String ifldRight1)
+    {
+        new TableLink(this, iLinkType, recLeft, recRight, ifldLeft1, ifldRight1, null, null, null, null);
+    }
+    /**
+     * Add this table link to this query.
+     * Creates a new tablelink and adds it to the link list.
+     */
+    public void addRelationship(int linkType, Record recLeft, Record recRight, int ifldLeft1, int ifldRight1, int ifldLeft2, int ifldRight2, int ifldLeft3, int ifldRight3)
+    {
+        String fldLeft1 = recLeft.getField(ifldLeft1).getFieldName();
+        String fldRight1 = recRight.getField(ifldRight1).getFieldName();
+        String fldLeft2 = ifldLeft2 != -1 ? recLeft.getField(ifldLeft2).getFieldName() : null;
+        String fldRight2 = ifldRight2 != -1 ? recRight.getField(ifldRight2).getFieldName() : null;
+        String fldLeft3 = ifldLeft3 != -1 ? recLeft.getField(ifldLeft3).getFieldName() : null;
+        String fldRight3 = ifldRight3 != -1 ? recRight.getField(ifldRight3).getFieldName() : null;
+        new TableLink(this, linkType, recLeft, recRight, fldLeft1, fldRight1, fldLeft2, fldRight2, fldLeft3, fldRight3);
+    }
+    /**
+     * Add this table link to this query.
+     * Creates a new tablelink and adds it to the link list.
+     */
+    public void addRelationship(int linkType, Record recLeft, Record recRight, String fldLeft1, String fldRight1, String fldLeft2, String fldRight2, String fldLeft3, String fldRight3)
     {
         new TableLink(this, linkType, recLeft, recRight, fldLeft1, fldRight1, fldLeft2, fldRight2, fldLeft3, fldRight3);
     }

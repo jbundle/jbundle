@@ -97,8 +97,8 @@ public class ConvertGeneric extends ConvertBase
                     String string = record.getField(LogicFile.kLogicSource).toString();
                     String strStart = string;
                     
-                    //if (record.getCounterField().getValue() > 60000)
-                    //    continue;
+                    if (record.getCounterField().getValue() > 60000)
+                        continue;
 
                     int start;
                     int end = 0;
@@ -107,6 +107,9 @@ public class ConvertGeneric extends ConvertBase
                         end = start + 1;
                         char ch = string.charAt(start - 1);
                         if ((ch != '.') && (ch != ' '))
+                            continue;
+                        ch = string.charAt(start + 1);
+                        if (!Character.isUpperCase(ch))
                             continue;
                         boolean isUpper = false;
                         for (; end < string.length(); end++)

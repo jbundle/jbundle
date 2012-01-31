@@ -79,8 +79,8 @@ public class TestGridScreen extends GridScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getRecord(TestTable.kTestTableFile).addListener(new CompareFileFilter(TestTable.kTestKey, this.getScreenRecord().getField(TestScreenRecord.kNameSort), "=", null, true));
-        this.getScreenRecord().getField(TestScreenRecord.kNameSort).addListener(new FieldReSelectHandler(this));
+        this.getRecord(TestTable.TEST_TABLE_FILE).addListener(new CompareFileFilter(TestTable.TEST_KEY, this.getScreenRecord().getField(TestScreenRecord.NAME_SORT), "=", null, true));
+        this.getScreenRecord().getField(TestScreenRecord.NAME_SORT).addListener(new FieldReSelectHandler(this));
     }
     /**
      * SetupSFields Method.
@@ -107,7 +107,7 @@ public class TestGridScreen extends GridScreen
      */
     public void addToolbarButtons(ToolScreen toolScreen)
     {
-        toolScreen.getScreenRecord().getField(TestScreenRecord.kNameSort).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+        toolScreen.getScreenRecord().getField(TestScreenRecord.NAME_SORT).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

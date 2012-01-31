@@ -92,7 +92,7 @@ public class TestUpdateProcess extends BaseProcess
                     }
                 }
                 recTestTable.edit();
-                ((PropertiesField)recTestTable.getField(TestTable.kTestProperties)).setProperty(this.getProperty("count"), new Date().toString());
+                ((PropertiesField)recTestTable.getField(TestTable.TEST_PROPERTIES)).setProperty(this.getProperty("count"), new Date().toString());
                 synchronized(this)
                 {
                     try {

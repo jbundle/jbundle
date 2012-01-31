@@ -106,25 +106,25 @@ public class AnimalVets extends QueryRecord
         this.setSelected(false);    // de-select all
         super.selectFields();
         
-        //?this.getField(Animal.kAnimalFile, Animal.kID).setSelected(true);
-        //?this.getField(Animal.kAnimalFile, Animal.kName).setSelected(true);
-        //?this.getField(Animal.kAnimalFile, Animal.kColor).setSelected(true);
-        //?this.getField(Animal.kAnimalFile, Animal.kWeight).setSelected(true);
+        //?this.getField(Animal.ANIMAL_FILE, Animal.kID).setSelected(true);
+        //?this.getField(Animal.ANIMAL_FILE, Animal.NAME).setSelected(true);
+        //?this.getField(Animal.ANIMAL_FILE, Animal.COLOR).setSelected(true);
+        //?this.getField(Animal.ANIMAL_FILE, Animal.WEIGHT).setSelected(true);
         
-        this.getField(Dog.kDogFile, Animal.kID).setSelected(true);
-        this.getField(Dog.kDogFile, Animal.kName).setSelected(true);
-        this.getField(Dog.kDogFile, Animal.kColor).setSelected(true);
-        this.getField(Dog.kDogFile, Animal.kWeight).setSelected(true);
+        this.getField(Dog.DOG_FILE, Animal.kID).setSelected(true);
+        this.getField(Dog.DOG_FILE, Animal.NAME).setSelected(true);
+        this.getField(Dog.DOG_FILE, Animal.COLOR).setSelected(true);
+        this.getField(Dog.DOG_FILE, Animal.WEIGHT).setSelected(true);
         
-        this.getField(Vet.kVetFile, Vet.kName).setSelected(true);
+        this.getField(Vet.VET_FILE, Vet.NAME).setSelected(true);
     }
     /**
      * SetupRelationships Method.
      */
     public void setupRelationships()
     {
-        //?this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Animal.kAnimalFile), this.getRecord(Vet.kVetFile), Animal.kVet, Vet.kID);
-        this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Dog.kDogFile), this.getRecord(Vet.kVetFile), Animal.kVet, Vet.kID);
+        //?this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Animal.ANIMAL_FILE), this.getRecord(Vet.VET_FILE), Animal.VET, Vet.kID);
+        this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Dog.DOG_FILE), this.getRecord(Vet.VET_FILE), Animal.VET, Vet.ID);
     }
 
 }

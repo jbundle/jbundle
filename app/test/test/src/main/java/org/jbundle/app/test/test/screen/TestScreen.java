@@ -74,11 +74,11 @@ public class TestScreen extends Screen
     {
         super.addListeners();
         this.addMainKeyBehavior();
-        this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDouble).addListener(new CheckRangeHandler(5, 10));
-        this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestName).addListener(new FieldToUpperHandler(null));
-        this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey).addListener(new RegisterValueHandler(null));
+        this.getRecord(TestTable.TEST_TABLE_FILE).getField(TestTable.TEST_DOUBLE).addListener(new CheckRangeHandler(5, 10));
+        this.getRecord(TestTable.TEST_TABLE_FILE).getField(TestTable.TEST_NAME).addListener(new FieldToUpperHandler(null));
+        this.getRecord(TestTable.TEST_TABLE_FILE).getField(TestTable.TEST_KEY).addListener(new RegisterValueHandler(null));
         
-        this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode).addListener(new ChangeFocusOnChangeHandler(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestLong)));
+        this.getRecord(TestTable.TEST_TABLE_FILE).getField(TestTable.TEST_CODE).addListener(new ChangeFocusOnChangeHandler(this.getRecord(TestTable.TEST_TABLE_FILE).getField(TestTable.TEST_LONG)));
     }
     /**
      * Set up all the screen fields.

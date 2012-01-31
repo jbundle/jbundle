@@ -29,6 +29,7 @@ public class ValidateFieldHandler extends FileListener
      *
      */
     protected int m_iFieldSeq = -1;
+    protected String fieldName = null;
     /**
      *
      */
@@ -52,15 +53,25 @@ public class ValidateFieldHandler extends FileListener
     public ValidateFieldHandler(int iFieldSeq, String strCompare, boolean bValidIfMatch)
     {
         this();
-        this.init(null, iFieldSeq, strCompare, bValidIfMatch);
+        this.init(null, iFieldSeq, null, strCompare, bValidIfMatch);
+    }
+    /**
+     * Constructor.
+     * @param record The sub-record to check.
+     */
+    public ValidateFieldHandler(String fieldName, String strCompare, boolean bValidIfMatch)
+    {
+        this();
+        this.init(null, -1, fieldName, strCompare, bValidIfMatch);
     }
     /**
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      */
-    public void init(Record record, int iFieldSeq, String strCompare, boolean bValidIfMatch)
+    public void init(Record record, int iFieldSeq, String fieldName, String strCompare, boolean bValidIfMatch)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
         m_iFieldSeq = iFieldSeq;
+        this.fieldName = fieldName;
         m_strCompare = strCompare;
         m_bValidIfMatch = bValidIfMatch;
         super.init(record);
@@ -90,7 +101,11 @@ public class ValidateFieldHandler extends FileListener
         if ((iChangeType == DBConstants.ADD_TYPE)
             || (iChangeType == DBConstants.UPDATE_TYPE))
         {
-            BaseField fld = this.getOwner().getField(m_iFieldSeq);
+            BaseField fld = null;
+            if (fieldName != null)
+                fld = this.getOwner().getField(fieldName);
+            else
+                fld = this.getOwner().getField(m_iFieldSeq);
             boolean bValid = this.checkValidField(fld);
             if (!bValid)
             {

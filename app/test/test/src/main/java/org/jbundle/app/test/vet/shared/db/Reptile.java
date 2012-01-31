@@ -113,9 +113,9 @@ public class Reptile extends VirtualRecord
             String strObjectID = null;
             if (objObjectID != null)
                 parentScreen.setProperty(DBConstants.STRING_OBJECT_ID_HANDLE, objObjectID.toString());
-            if (this.getField(Reptile.kReptileTypeID).getValue() == ReptileTypeField.SNAKE)
+            if (this.getField(Reptile.REPTILE_TYPE_ID).getValue() == ReptileTypeField.SNAKE)
                 screen = new SnakeScreen(null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-            else //if (this.getField(Reptile.kReptileTypeID).getValue() == ReptileTypeField.LIZARD)
+            else //if (this.getField(Reptile.REPTILE_TYPE_ID).getValue() == ReptileTypeField.LIZARD)
                 screen = new LizardScreen(null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
         }
         else //if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
@@ -201,7 +201,7 @@ public class Reptile extends VirtualRecord
      */
     public BaseField getSharedRecordTypeKey()
     {
-        return this.getField(Reptile.kReptileTypeID);
+        return this.getField(Reptile.REPTILE_TYPE_ID);
     }
     /**
      * MakeSharedRecord Method.

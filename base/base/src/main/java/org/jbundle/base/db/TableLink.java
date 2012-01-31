@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.Utility;
 
 
 /**
@@ -44,7 +45,7 @@ public class TableLink extends Object
     /**
      * The equal fields on the right.
      */
-    protected int m_rgiFldRight[] = null;
+    protected String m_rgiFldRight[] = null;
 
     /**
      * Constructor.
@@ -66,9 +67,9 @@ public class TableLink extends Object
      */
     public TableLink(QueryRecord queryRecord, int joinType,
             Record recLeft, Record recRight,
-            int fldLeft1, int fldRight1,
-            int fldLeft2, int fldRight2,
-            int fldLeft3, int fldRight3)
+            String fldLeft1, String fldRight1,
+            String fldLeft2, String fldRight2,
+            String fldLeft3, String fldRight3)
     {
         this();
         this.init(queryRecord, joinType, recLeft, recRight);
@@ -89,13 +90,13 @@ public class TableLink extends Object
 
         m_QueryRecord.addRelationship(this);
     }
-    public void addLink(int fsLeft, int fsRight)
+    public void addLink(int fsLeft, Object fsRight)
     {
         if (fsLeft == -1)
             return;
         this.addLink(new Integer(fsLeft), fsRight);
     }
-    public void addLink(Object objLeft, int fsRight)
+    public void addLink(Object objLeft, String fsRight)
     {
         if (objLeft == null)
             return;
@@ -103,9 +104,9 @@ public class TableLink extends Object
         if (m_rgiFldLeft != null)
             iNewSize = m_rgiFldLeft.length + 1;
         Object[] rgiFldLeftOld = m_rgiFldLeft;
-        int[] rgiFldRightOld = m_rgiFldRight;
+        String[] rgiFldRightOld = m_rgiFldRight;
         m_rgiFldLeft = new Object[iNewSize];
-        m_rgiFldRight = new int[iNewSize];
+        m_rgiFldRight = new String[iNewSize];
         if (rgiFldLeftOld != null)
         {
             for (int i = 1; i < iNewSize - 1; i++)
@@ -161,6 +162,9 @@ public class TableLink extends Object
     {
         if (m_rgiFldLeft.length <= iFieldSeq)
             return null;
+        if ((m_rgiFldLeft[iFieldSeq] instanceof String))
+            if (!Utility.isNumeric((String)m_rgiFldLeft[iFieldSeq]))
+                return this.getLeftRecord().getTable().getCurrentTable().getRecord().getField((String)m_rgiFldLeft[iFieldSeq]);
         if (!(m_rgiFldLeft[iFieldSeq] instanceof Integer))
             return null;
         int fs = ((Integer)m_rgiFldLeft[iFieldSeq]).intValue();
@@ -175,7 +179,7 @@ public class TableLink extends Object
     {
         if (m_rgiFldRight.length <= iFieldSeq)
             return null;
-        if (m_rgiFldRight[iFieldSeq] == -1)
+        if (m_rgiFldRight[iFieldSeq] == null)
             return null;
         // Note that the right record does NOT get the current record (because you will need the BASE record to do a seek).
         return this.getRightRecord().getField(m_rgiFldRight[iFieldSeq]);
@@ -184,6 +188,9 @@ public class TableLink extends Object
     {
         if (m_rgiFldLeft.length <= iFieldSeq)
             return null;
+        if ((m_rgiFldLeft[iFieldSeq] instanceof String))
+            if (!Utility.isNumeric((String)m_rgiFldLeft[iFieldSeq]))
+                return (String)m_rgiFldLeft[iFieldSeq];
         if (m_rgiFldLeft[iFieldSeq] instanceof Integer)
             return this.getLeftField(iFieldSeq).getFieldName(bAddQuotes, bOther);
         return m_rgiFldLeft[iFieldSeq].toString();

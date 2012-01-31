@@ -98,14 +98,14 @@ public class TestDetailReport extends ReportScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().setKeyArea(Vet.kNameKey);
-        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Vet.kID), this.getScreenRecord().getField(TestReportScreenRecord.kVetID), "="));
+        this.getMainRecord().setKeyArea(Vet.NAME_KEY);
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Vet.kID), this.getScreenRecord().getField(TestReportScreenRecord.VET_ID), "="));
                 
-        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), false, true));
+        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.REPORT_COUNT), false, true));
         
-        Record recCat = this.getRecord(Cat.kCatFile);
-        recCat.setKeyArea(Cat.kVetKey);
-        recCat.addListener(new SubFileFilter(this.getMainRecord().getField(Vet.kID), Cat.kVet, null, -1, null, -1));
+        Record recCat = this.getRecord(Cat.CAT_FILE);
+        recCat.setKeyArea(Cat.VET_KEY);
+        recCat.addListener(new SubFileFilter(this.getMainRecord().getField(Vet.kID), Cat.VET, null, null, null, null));
     }
     /**
      * Add the toolbars that belong with this screen.

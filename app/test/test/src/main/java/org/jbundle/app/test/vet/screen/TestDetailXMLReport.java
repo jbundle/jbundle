@@ -83,10 +83,10 @@ public class TestDetailXMLReport extends ReportScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().setKeyArea(Animal.kNameKey);
-        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Animal.kVet), this.getScreenRecord().getField(TestReportScreenRecord.kVetID), "="));
+        this.getMainRecord().setKeyArea(Animal.NAME_KEY);
+        this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(Animal.VET), this.getScreenRecord().getField(TestReportScreenRecord.VET_ID), "="));
         
-        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), false, true));
+        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.REPORT_COUNT), false, true));
     }
     /**
      * Add the toolbars that belong with this screen.

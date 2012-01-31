@@ -110,11 +110,11 @@ public class TestTableAnalysis extends AnalysisScreen
      */
     public void addSummary(Record recSummary, BaseField[][] mxKeyFields, BaseField[][] mxDataFields)
     {
-        this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestCode).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestCode));
-        this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestKey).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestKey));
-        this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestCount).setValue(1);
-        this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestShort).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestShort));
-        this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestDouble).moveFieldToThis(this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestDouble));
+        this.getScreenRecord().getField(TestTableSummary.TEST_CODE).moveFieldToThis(this.getRecord(TestTable.TEST_TABLE_FILE).getField(TestTable.TEST_CODE));
+        this.getScreenRecord().getField(TestTableSummary.TEST_KEY).moveFieldToThis(this.getRecord(TestTable.TEST_TABLE_FILE).getField(TestTable.TEST_KEY));
+        this.getScreenRecord().getField(TestTableSummary.TEST_COUNT).setValue(1);
+        this.getScreenRecord().getField(TestTableSummary.TEST_SHORT).moveFieldToThis(this.getRecord(TestTable.TEST_TABLE_FILE).getField(TestTable.TEST_SHORT));
+        this.getScreenRecord().getField(TestTableSummary.TEST_DOUBLE).moveFieldToThis(this.getRecord(TestTable.TEST_TABLE_FILE).getField(TestTable.TEST_DOUBLE));
         
         super.addSummary(recSummary, mxKeyFields, mxDataFields);
     }

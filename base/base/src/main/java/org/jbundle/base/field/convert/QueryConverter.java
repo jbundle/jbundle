@@ -42,6 +42,7 @@ public class QueryConverter extends FieldConverter
      *
      */
     protected int m_iFieldSeq = -1;
+    protected String displayFieldName = null;
     /**
      *
      */
@@ -68,7 +69,19 @@ public class QueryConverter extends FieldConverter
     public QueryConverter(Converter converter, Record record, int iDisplayFieldSeq, boolean bIncludeBlankOption)
     {
         this();
-        this.init(converter, record, iDisplayFieldSeq, bIncludeBlankOption);
+        this.init(converter, record, iDisplayFieldSeq, null, bIncludeBlankOption);
+    }
+    /**
+     * This method was created by a SmartGuide.
+     * @param converter The field that controls this grid query (should be a reference field).
+     * @param record tour.db.Record The record to control (note, this converter adds a GridTable to the record's table).
+     * @param iDisplayFieldSeq int The description field sequence in the grid record.
+     * @param bIncludeBlankOption boolean Include a blank line in the popup?
+     */
+    public QueryConverter(Converter converter, Record record, String displayFieldName, boolean bIncludeBlankOption)
+    {
+        this();
+        this.init(converter, record, -1, displayFieldName, bIncludeBlankOption);
     }
     /**
      * Initialize this converter.
@@ -77,9 +90,11 @@ public class QueryConverter extends FieldConverter
      * @param iDisplayFieldSeq int The description field sequence in the grid record.
      * @param bIncludeBlankOption boolean Include a blank line in the popup?
      */
-    public void init(Converter converter, Record record, int iDisplayFieldSeq, boolean bIncludeBlankOption)
+    public void init(Converter converter, Record record, int iDisplayFieldSeq, String displayFieldName, boolean bIncludeBlankOption)
     {
         super.init(converter);
+        if (converter == null)
+            converter = record.getField(displayFieldName);
         if (converter == null)
             converter = record.getField(iDisplayFieldSeq);
         m_iHandleType = DBConstants.BOOKMARK_HANDLE;
@@ -93,6 +108,7 @@ public class QueryConverter extends FieldConverter
             m_gridTable = new GridTable(null, record);
         m_bIncludeBlankOption = bIncludeBlankOption;
         m_iFieldSeq = iDisplayFieldSeq;
+        this.displayFieldName = displayFieldName;
         try   {
             m_gridTable.open();
         } catch (DBException e)   {
@@ -198,7 +214,12 @@ public class QueryConverter extends FieldConverter
     {
         int iErrorCode = this.moveToIndex(index);
         if (iErrorCode == DBConstants.NORMAL_RETURN)
-            return m_record.getField(m_iFieldSeq).getString();
+        {
+            if (displayFieldName != null)
+                return m_record.getField(displayFieldName).getString();
+            else
+                return m_record.getField(m_iFieldSeq).getString();
+        }
         else
             return Constants.BLANK;
     }
@@ -220,7 +241,14 @@ public class QueryConverter extends FieldConverter
             if (field instanceof ReferenceField)
                 ((ReferenceField)field).setReference(m_record, bDisplayOption, iMoveMode);
             else if (field instanceof StringField)
-                field.setString(m_record.getField(m_iFieldSeq).toString());
+            {
+                {
+                    if (displayFieldName != null)
+                        return field.setString(m_record.getField(displayFieldName).toString());
+                    else
+                        return field.setString(m_record.getField(m_iFieldSeq).toString());
+                }
+            }
         }
         return iErrorCode;
     }
@@ -233,7 +261,10 @@ public class QueryConverter extends FieldConverter
         FieldInfo field = this.getField();
         if (field instanceof StringField)
             return field.toString();
-        return m_record.getField(m_iFieldSeq).getString();  // Return the desc string
+        if (displayFieldName != null)
+            return m_record.getField(displayFieldName).getString();  // Return the desc string
+        else
+            return m_record.getField(m_iFieldSeq).getString();  // Return the desc string
     }
     /**
      * Move the grid record to this location in the query (taking blank/no blank into consideration).

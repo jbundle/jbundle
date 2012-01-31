@@ -90,11 +90,11 @@ public class TestScreenLockStorm extends TestScreen
     public void setupSFields()
     {
         super.setupSFields();
-        this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestProperties).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(TestTable.TEST_TABLE_FILE).getField(TestTable.TEST_PROPERTIES).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Start storm");
         new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Stop storm"); 
         new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Auto storm"); 
-        this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        //this.getScreenRecord().getField(TourEventScreenRecord.RUN_PROCESS_IN).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * Process the command.
@@ -130,15 +130,15 @@ public class TestScreenLockStorm extends TestScreen
         BaseMessage message = new MapMessage(new TrxMessageHeader(strQueueName, strQueueType, properties), properties);
         String strProcess = Utility.propertiesToURL(null, properties);
         
-        if (RunProcessInField.REMOTE_PROCESS.equalsIgnoreCase(this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).toString()))
+        //if (RunProcessInField.REMOTE_PROCESS.equalsIgnoreCase(this.getScreenRecord().getField(TourEventScreenRecord.RUN_PROCESS_IN).toString()))
         {
             app.getMessageManager().sendMessage(message);
         }
-        else if (RunProcessInField.LOCAL_PROCESS.equalsIgnoreCase(this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).toString()))
+        //else if (RunProcessInField.LOCAL_PROCESS.equalsIgnoreCase(this.getScreenRecord().getField(TourEventScreenRecord.RUN_PROCESS_IN).toString()))
         {
             app.getTaskScheduler().addTask(new ProcessRunnerTask(app, strProcess, null));
         }
-        else // LOCAL
+       // else // LOCAL
         {
             new ProcessRunnerTask(app, strProcess, null).run();
         }
@@ -165,7 +165,7 @@ public class TestScreenLockStorm extends TestScreen
             if (record.seek(null))
             {
                 record.edit();
-                record.getField(TestTable.kTestProperties).setData(null);
+                record.getField(TestTable.TEST_PROPERTIES).setData(null);
                 record.set();
                 
                 record.seek(null);
@@ -196,7 +196,7 @@ public class TestScreenLockStorm extends TestScreen
                         Record record = getMainRecord();
                         for (int i = 1; i <=COUNT; i++)
                         {
-                            if (((PropertiesField)record.getField(TestTable.kTestProperties)).getProperty(Integer.toString(i)) == null)
+                            if (((PropertiesField)record.getField(TestTable.TEST_PROPERTIES)).getProperty(Integer.toString(i)) == null)
                                 return;
                         }
                      

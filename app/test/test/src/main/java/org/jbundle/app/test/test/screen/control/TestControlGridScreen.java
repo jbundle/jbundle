@@ -73,12 +73,12 @@ public class TestControlGridScreen extends GridScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getScreenRecord().getField(TestScreenRecord.kSortKey).addListener(new SortOrderHandler(this));        
+        this.getScreenRecord().getField(TestScreenRecord.SORT_KEY).addListener(new SortOrderHandler(this));        
         
-        BaseField fldTargetValue = this.getMainRecord().getField(TestTable.kTestFloat);
-        BaseField fldValue1 = this.getMainRecord().getField(TestTable.kTestLong);
-        BaseField fldValue2 = this.getMainRecord().getField(TestTable.kTestShort);
-        this.getMainRecord().getField(TestTable.kTestShort).addListener(new CalcBalanceHandler(fldTargetValue, fldValue1, fldValue2, CalcBalanceHandler.MULTIPLY, false));
+        BaseField fldTargetValue = this.getMainRecord().getField(TestTable.TEST_FLOAT);
+        BaseField fldValue1 = this.getMainRecord().getField(TestTable.TEST_LONG);
+        BaseField fldValue2 = this.getMainRecord().getField(TestTable.TEST_SHORT);
+        this.getMainRecord().getField(TestTable.TEST_SHORT).addListener(new CalcBalanceHandler(fldTargetValue, fldValue1, fldValue2, CalcBalanceHandler.MULTIPLY, false));
     }
     /**
      * Add the navigation button(s) to the left of the grid row.

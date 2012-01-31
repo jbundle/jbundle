@@ -1197,14 +1197,33 @@ public class BaseField extends FieldInfo
      */
     public ScreenComponent setupTablePopup(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Rec record, int iQueryKeySeq, int iDisplayFieldSeq, boolean bIncludeBlankOption, boolean bIncludeFormButton)
     {
+        String keyAreaName = null;
+        if (iQueryKeySeq != -1)
+            keyAreaName = this.getRecord().getKeyArea(iQueryKeySeq).getKeyName();
+        String displayFieldName = null;
+        if (iDisplayFieldSeq != -1)
+            displayFieldName = record.getField(iDisplayFieldSeq).getFieldName();
+        return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, record, keyAreaName, displayFieldName, bIncludeBlankOption, bIncludeFormButton);
+    }
+    /**
+     * Add a popup for the table tied to this field.
+     * Key must be the first and primary and only key.
+     * @param record Record to display in a popup
+     * @param iQueryKeySeq Order to display the record (-1 = Primary field)
+     * @param iDisplayFieldSeq Description field for the popup (-1 = second field)
+     * @param bIncludeBlankOption Include a blank option in the popup?
+     * @return  Return the component or ScreenField that is created for this field.
+     */
+    public ScreenComponent setupTablePopup(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Rec record, String iQueryKeySeq, String iDisplayFieldSeq, boolean bIncludeBlankOption, boolean bIncludeFormButton)
+    {
         if ((!(this instanceof ReferenceField)) && (!(this instanceof CounterField)))
             Debug.doAssert(false);    // error, wrong field type
         ((Record)record).setKeyArea(iQueryKeySeq);
         ((Record)record).close();
         if (converter == null)
             converter = this;
-        if (iDisplayFieldSeq == -1)
-            iDisplayFieldSeq = ((Record)record).getDefaultDisplayFieldSeq();
+        if (iDisplayFieldSeq == null)
+            iDisplayFieldSeq = ((Record)record).getDefaultDisplayFieldName();
         FieldConverter convert = new QueryConverter((Converter)converter, (Record)record, iDisplayFieldSeq, bIncludeBlankOption);
         ScreenComponent screenField = createScreenComponent(ScreenModel.POPUP_BOX, itsLocation, targetScreen, convert, iDisplayFieldDesc, null);
         if (bIncludeFormButton)

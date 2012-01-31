@@ -72,7 +72,7 @@ public class AnimalGridScreen extends GridScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().setKeyArea(Animal.kNameKey);
+        this.getMainRecord().setKeyArea(Animal.NAME_KEY);
         this.setEditing(true);
     }
     /**
@@ -81,7 +81,7 @@ public class AnimalGridScreen extends GridScreen
     public void setupSFields()
     {
         Record record = this.getMainRecord();
-        this.addColumn(new MultipleTableFieldConverter(record, Animal.kName));
+        this.addColumn(new MultipleTableFieldConverter(record, Animal.NAME));
     }
 
 }

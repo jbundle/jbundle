@@ -98,13 +98,13 @@ public class TestBreakReport extends ReportScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().setKeyArea(Cat.kVetKey);
+        this.getMainRecord().setKeyArea(Cat.VET_KEY);
         
-        Record recVet = this.getRecord(Vet.kVetFile);
-        this.getMainRecord().getField(Cat.kVet).addListener(new ReadSecondaryHandler(recVet));
+        Record recVet = this.getRecord(Vet.VET_FILE);
+        this.getMainRecord().getField(Cat.VET).addListener(new ReadSecondaryHandler(recVet));
         
-        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportCount), -1, true, true, true));
-        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.kReportTotal), Cat.kWeight, true, true, true));
+        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.REPORT_COUNT), -1, true, true, true));
+        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.REPORT_TOTAL), Cat.WEIGHT, true, true, true));
     }
     /**
      * Add the toolbars that belong with this screen.

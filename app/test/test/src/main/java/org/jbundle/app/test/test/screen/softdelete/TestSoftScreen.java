@@ -65,7 +65,7 @@ public class TestSoftScreen extends TestBasicScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().addListener(new SoftDeleteHandler(this.getMainRecord().getField(TestTable.kTestYesNo)));
+        this.getMainRecord().addListener(new SoftDeleteHandler(this.getMainRecord().getField(TestTable.TEST_YES_NO)));
     }
 
 }

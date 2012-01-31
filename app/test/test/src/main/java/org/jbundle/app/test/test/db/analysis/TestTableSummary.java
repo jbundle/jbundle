@@ -32,10 +32,15 @@ public class TestTableSummary extends ScreenRecord
     private static final long serialVersionUID = 1L;
 
     //public static final int kID = kID;
+    public static final String TEST_CODE = "TestCode";
     public static final int kTestCode = kScreenRecordLastField + 1;
+    public static final String TEST_KEY = "TestKey";
     public static final int kTestKey = kTestCode + 1;
+    public static final String TEST_COUNT = "TestCount";
     public static final int kTestCount = kTestKey + 1;
+    public static final String TEST_SHORT = "TestShort";
     public static final int kTestShort = kTestCount + 1;
+    public static final String TEST_DOUBLE = "TestDouble";
     public static final int kTestDouble = kTestShort + 1;
     public static final int kTestTableSummaryLastField = kTestDouble;
     public static final int kTestTableSummaryFields = kTestDouble - DBConstants.MAIN_FIELD + 1;

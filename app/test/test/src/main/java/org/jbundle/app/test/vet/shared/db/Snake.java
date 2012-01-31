@@ -184,7 +184,7 @@ public class Snake extends Reptile
     {
         super.addListeners();
         
-        this.addListener(new SharedFileHandler(Reptile.kReptileTypeID, ReptileTypeField.SNAKE));
+        this.addListener(new SharedFileHandler(Reptile.REPTILE_TYPE_ID, ReptileTypeField.SNAKE));
     }
 
 }

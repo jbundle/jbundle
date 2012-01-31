@@ -73,7 +73,7 @@ public class ReptileGridScreen extends GridScreen
     {
         super.addListeners();
         
-        this.getMainRecord().setKeyArea(Reptile.kNameKey);
+        this.getMainRecord().setKeyArea(Reptile.NAME_KEY);
     }
     /**
      * SetupSFields Method.
@@ -81,11 +81,11 @@ public class ReptileGridScreen extends GridScreen
     public void setupSFields()
     {
         Record record = this.getMainRecord();
-        this.addColumn(new MultipleTableFieldConverter(record, Reptile.kName));
-        this.addColumn(new MultipleTableFieldConverter(record, Reptile.kVetID));
-        this.addColumn(new MultipleTableFieldConverter(record, Reptile.kWeight));
+        this.addColumn(new MultipleTableFieldConverter(record, Reptile.NAME));
+        this.addColumn(new MultipleTableFieldConverter(record, Reptile.VET_ID));
+        this.addColumn(new MultipleTableFieldConverter(record, Reptile.WEIGHT));
         
-        this.addColumn(new MultipleTableFieldConverter(record, Reptile.kReptileTypeID));
+        this.addColumn(new MultipleTableFieldConverter(record, Reptile.REPTILE_TYPE_ID));
     }
 
 }

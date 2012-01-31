@@ -93,8 +93,8 @@ public class TestReptileXmlReport extends ReportScreen
     {
         super.addListeners();
         
-        Record recVet = ((ReferenceField)this.getMainRecord().getField(Reptile.kVetID)).getReferenceRecord();
-        this.getMainRecord().getField(Reptile.kVetID).addListener(new ReadSecondaryHandler(recVet));
+        Record recVet = ((ReferenceField)this.getMainRecord().getField(Reptile.VET_ID)).getReferenceRecord();
+        this.getMainRecord().getField(Reptile.VET_ID).addListener(new ReadSecondaryHandler(recVet));
     }
     /**
      * Add the toolbars that belong with this screen.
@@ -109,9 +109,9 @@ public class TestReptileXmlReport extends ReportScreen
      */
     public void setupSFields()
     {
-        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kName));
-        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kWeight));
-        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kVetID, Vet.kName));
+        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.REPTILE_FILE), Reptile.NAME));
+        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.REPTILE_FILE), Reptile.WEIGHT));
+        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.REPTILE_FILE), Reptile.VET_ID, Vet.NAME));
         //?new TestReptileXmlRecordDetail(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC | HtmlConstants.FOOTING_SCREEN);
     }
     /**

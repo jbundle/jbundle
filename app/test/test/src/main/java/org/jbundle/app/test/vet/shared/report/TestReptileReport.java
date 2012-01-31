@@ -84,20 +84,20 @@ public class TestReptileReport extends ReportScreen
     {
         super.addListeners();
         
-        this.getMainRecord().setKeyArea(Reptile.kVetIDKey);
-        Record recVet = this.getRecord(Vet.kVetFile); //((ReferenceField)this.getMainRecord().getField(Reptile.kVetID)).getReferenceRecord();
-        this.getMainRecord().getField(Reptile.kVetID).addListener(new ReadSecondaryHandler(recVet));
-        //?this.getRecord(Cat.kCatFile).getField(Animal.kVet).addListener(new ReadSecondaryHandler(recVet));
-        //?this.getRecord(Dog.kDogFile).getField(Animal.kVet).addListener(new ReadSecondaryHandler(recVet));
+        this.getMainRecord().setKeyArea(Reptile.VET_ID_KEY);
+        Record recVet = this.getRecord(Vet.VET_FILE); //((ReferenceField)this.getMainRecord().getField(Reptile.VET_ID)).getReferenceRecord();
+        this.getMainRecord().getField(Reptile.VET_ID).addListener(new ReadSecondaryHandler(recVet));
+        //?this.getRecord(Cat.CAT_FILE).getField(Animal.VET).addListener(new ReadSecondaryHandler(recVet));
+        //?this.getRecord(Dog.DOG_FILE).getField(Animal.VET).addListener(new ReadSecondaryHandler(recVet));
     }
     /**
      * SetupSFields Method.
      */
     public void setupSFields()
     {
-        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kName));
-        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kWeight));
-        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.kReptileFile), Reptile.kVetID));
+        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.REPTILE_FILE), Reptile.NAME));
+        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.REPTILE_FILE), Reptile.WEIGHT));
+        this.addColumn(new MultipleTableFieldConverter(this.getRecord(Reptile.REPTILE_FILE), Reptile.VET_ID));
         
         new TestReptileBreak(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC | HtmlConstants.FOOTING_SCREEN, null);
     }
