@@ -38,7 +38,16 @@ public class CopyLastHandler extends CopyFieldHandler
     public CopyLastHandler(int iFieldSeq)
     {
         this();
-        this.init(null, null, null, iFieldSeq);
+        this.init(null, null, null, iFieldSeq, null);
+    }
+    /**
+     * Constructor.
+     * @param iFieldSeq The sequence of the last name field in this record.
+     */
+    public CopyLastHandler(String fieldName)
+    {
+        this();
+        this.init(null, null, null, -1, fieldName);
     }
     /**
      * Constructor.
@@ -48,7 +57,7 @@ public class CopyLastHandler extends CopyFieldHandler
     public CopyLastHandler(BaseField fldTarget)
     { // Split name into title/first/middle/last
         this();
-        this.init(null, fldTarget, null, -1);
+        this.init(null, fldTarget, null, -1, null);
     }
     /**
      * Constructor.
@@ -58,7 +67,7 @@ public class CopyLastHandler extends CopyFieldHandler
     public CopyLastHandler(BaseField fldTarget, Converter checkMark)
     { // Split name into title/first/middle/last
         this();
-        this.init(null, fldTarget, checkMark, -1);
+        this.init(null, fldTarget, checkMark, -1, null);
     }
     /**
      * Constructor.
@@ -67,9 +76,9 @@ public class CopyLastHandler extends CopyFieldHandler
      * @param iFieldSeq The sequence of the last name field in this record.
      * @param checkMark If false, do not move the last name.
      */
-    public void init(BaseField field, BaseField fldTarget, Converter checkMark, int iFieldSeq)
+    public void init(BaseField field, BaseField fldTarget, Converter checkMark, int iFieldSeq, String fieldName)
     {
-        super.init(field, fldTarget, checkMark, iFieldSeq);
+        super.init(field, fldTarget, checkMark, iFieldSeq, fieldName);
     }
     /**
      * Do the physical move operation.

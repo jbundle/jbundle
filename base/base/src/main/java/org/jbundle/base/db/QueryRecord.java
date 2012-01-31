@@ -518,7 +518,22 @@ public class QueryRecord extends Record
      */
     public int setGridFile(Record record, int iKeyNo)
     {
-        KeyArea recordKeyArea = record.getKeyArea(iKeyNo);
+        String keyAreaName = null;
+        if (iKeyNo != -1)
+            keyAreaName = record.getKeyArea(iKeyNo).getKeyName();
+        return this.setGridFile(record, keyAreaName);
+    }
+    /**
+     * Mark the main grid file and key order.<p>
+     * Included as a utility for backward compatibility (Use SetupKeys now).
+     * Basically, this method clones the key area for this record.
+     * @param record The record in my list to get the key area from.
+     * @param iKeyNo The key area in the record to retrieve.
+     * @param The index of this key area.
+     */
+    public int setGridFile(Record record, String keyAreaName)
+    {
+        KeyArea recordKeyArea = record.getKeyArea(keyAreaName);
         KeyArea newKeyArea = this.makeIndex(recordKeyArea.getUniqueKeyCode(), recordKeyArea.getKeyName());
         for (int iKeyField = 0; iKeyField < recordKeyArea.getKeyFields(); iKeyField++)
         {

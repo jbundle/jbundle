@@ -55,7 +55,7 @@ public class CopyDataHandler extends CopyFieldHandler
      */
     public void init(BaseField field, BaseField fldDest, Object objValue, Converter convCheckMark)
     {
-        super.init(field, fldDest, convCheckMark, -1);
+        super.init(field, fldDest, convCheckMark, -1, null);
         m_bClearIfThisNull = false; // Must be for this to work
         this.setRespondsToMode(DBConstants.READ_MOVE, false);   // Usually, you only want to move a string on screen change
         this.setRespondsToMode(DBConstants.INIT_MOVE, false);   // Usually, you only want to move a string on screen change

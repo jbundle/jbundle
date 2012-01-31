@@ -28,6 +28,7 @@ public class CopyFieldHandler extends MoveOnChangeHandler
      * The field sequence in this record to move this listener's field to.
      */
 	protected int m_iFieldSeq = -1;
+	protected String fieldName = null;
     /**
      * Only move if this field evaluates to true.
      */
@@ -47,7 +48,16 @@ public class CopyFieldHandler extends MoveOnChangeHandler
     public CopyFieldHandler(int iFieldSeq)
     {
         this();
-        this.init(null, null, null, iFieldSeq);
+        this.init(null, null, null, iFieldSeq, null);
+    }
+    /**
+     * Constructor.
+     * @param iFieldSeq The field sequence in this record to move this listener's field to.
+     */
+    public CopyFieldHandler(String fieldName)
+    {
+        this();
+        this.init(null, null, null, -1, fieldName);
     }
     /**
      * Constructor.
@@ -57,7 +67,7 @@ public class CopyFieldHandler extends MoveOnChangeHandler
     public CopyFieldHandler(BaseField field)
     {
         this();
-        this.init(null, field, null, -1);
+        this.init(null, field, null, -1, null);
     }
     /**
      * Constructor.
@@ -67,7 +77,7 @@ public class CopyFieldHandler extends MoveOnChangeHandler
     public CopyFieldHandler(BaseField field, Converter fldCheckMark)
     {
         this();
-        this.init(null, field, fldCheckMark, -1);
+        this.init(null, field, fldCheckMark, -1, null);
     }
     /**
      * Constructor.
@@ -76,7 +86,7 @@ public class CopyFieldHandler extends MoveOnChangeHandler
      * @param field The field to move this listener's field to.
      * @param fldCheckMark Only move if this field evaluates to true.
      */
-    public void init(BaseField field, BaseField fldDest, Converter fldCheckMark, int iFieldSeq)
+    public void init(BaseField field, BaseField fldDest, Converter fldCheckMark, int iFieldSeq, String fieldName)
     {
         BaseField fldSource = null;
         boolean bClearIfThisNull = true;
@@ -87,6 +97,7 @@ public class CopyFieldHandler extends MoveOnChangeHandler
         this.setRespondsToMode(DBConstants.READ_MOVE, false);   // Usually, you only want to move a string on screen change
 
         m_iFieldSeq = iFieldSeq;
+        this.fieldName = fieldName;
         m_convCheckMark = fldCheckMark;
     }
     /**
@@ -95,10 +106,14 @@ public class CopyFieldHandler extends MoveOnChangeHandler
      */
     public void setOwner(ListenerOwner owner)
     {
+        if (owner != null)
         if (m_fldDest == null)
+        {
             if (m_iFieldSeq != -1)
-                if (owner != null)
-            m_fldDest = ((BaseField)owner).getRecord().getField(m_iFieldSeq);
+                m_fldDest = ((BaseField)owner).getRecord().getField(m_iFieldSeq);
+            if (fieldName != null)
+                m_fldDest = ((BaseField)owner).getRecord().getField(fieldName);
+        }
         super.setOwner(owner);
     }
     /**

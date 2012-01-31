@@ -49,7 +49,7 @@ public class SortOrderHandler extends FieldReSelectHandler
     /**
      * Key Areas.
      */
-    protected int m_iKeyAreaArray[] = null;
+    protected String m_iKeyAreaArray[] = null;
     /**
      * The next open row in the key area area.
      */
@@ -108,9 +108,9 @@ public class SortOrderHandler extends FieldReSelectHandler
         m_recGrid = recGrid;
         m_bCreateSortOrder = bCreateSortOrder;
         super.init(field, gridScreen, null);
-        m_iKeyAreaArray = new int[MAX_ARRAY_SIZE];
+        m_iKeyAreaArray = new String[MAX_ARRAY_SIZE];
         for (int i = 0; i < MAX_ARRAY_SIZE; i++)
-            m_iKeyAreaArray[i] = -1;
+            m_iKeyAreaArray[i] = null;
         m_iNextArrayIndex = 0;
     }
     /**
@@ -147,7 +147,10 @@ public class SortOrderHandler extends FieldReSelectHandler
      */
     public void setGridTable(int iKeyArea)
     {
-        this.setGridTable(iKeyArea, null, -1);
+        String keyAreaName = null;
+        if (iKeyArea != -1)
+            keyAreaName = this.getOwner().getRecord().getKeyArea(iKeyArea).getKeyName();
+        this.setGridTable(keyAreaName, null, -1);
     }
     /**
      * Set an index to a key area.
@@ -155,7 +158,17 @@ public class SortOrderHandler extends FieldReSelectHandler
      * @param gridTable The record to set.
      * @param index The index to relate to this keyarea/gridtable combo.
      */
-    public void setGridTable(int iKeyArea, Rec gridTable, int index)
+    public void setGridTable(int iKeyArea, Rec gridTable, int index, String indexName)
+    {
+        
+    }
+    /**
+     * Set an index to a key area.
+     * @param iKeyArea The key area to set to this index.
+     * @param gridTable The record to set.
+     * @param index The index to relate to this keyarea/gridtable combo.
+     */
+    public void setGridTable(String keyAreaName, Rec gridTable, int index)
     {
         if (index == -1)
             index = m_iNextArrayIndex;  // Next available
@@ -165,9 +178,12 @@ public class SortOrderHandler extends FieldReSelectHandler
         if (gridTable != null) if (m_gridScreen != null) if (gridTable != m_gridScreen.getMainRecord())
         {
             if (m_gridScreen.getMainRecord() instanceof QueryRecord)
-                iKeyArea = ((QueryRecord)m_gridScreen.getMainRecord()).setGridFile((Record)gridTable, iKeyArea);    // Sets the key order and gridtable (even if only one file)
+            {
+                int keyIndex = ((QueryRecord)m_gridScreen.getMainRecord()).setGridFile((Record)gridTable, keyAreaName);    // Sets the key order and gridtable (even if only one file)
+                keyAreaName = gridTable.getKeyArea(keyIndex).getKeyName();
+            }
         }
-        m_iKeyAreaArray[index] = iKeyArea;
+        m_iKeyAreaArray[index] = keyAreaName;
     }
     /**
      * Set the grid order to the value in this field.
@@ -187,7 +203,13 @@ public class SortOrderHandler extends FieldReSelectHandler
         }
         iKeyOrder--;    // 0 Based
         if (iKeyOrder < m_iNextArrayIndex)
-            iKeyOrder = m_iKeyAreaArray[iKeyOrder];   // Get key order from internal array
+        {
+            for (int i = 0; i < m_recGrid.getKeyAreaCount(); i++)
+            {
+                if (m_recGrid.getKeyArea(i).getKeyName().equals(m_iKeyAreaArray[iKeyOrder]))
+                    iKeyOrder = i;   // Get key order from internal array
+            }
+        }
         else
         { // They chose a column that was was not specified... Get the desc and try to sort it by the field
             if (m_gridScreen != null)
