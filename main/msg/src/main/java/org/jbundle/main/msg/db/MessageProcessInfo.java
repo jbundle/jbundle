@@ -280,7 +280,7 @@ public class MessageProcessInfo extends VirtualRecord
         try {
             if (Utility.isNumeric(strMessageKey))
             {
-                this.getField(MessageProcessInfo.kID).setString(strMessageKey);
+                this.getField(MessageProcessInfo.ID).setString(strMessageKey);
                 this.setKeyArea(MessageProcessInfo.ID_KEY);
                 if (this.seek(null))
                     return this;
@@ -297,7 +297,7 @@ public class MessageProcessInfo extends VirtualRecord
             {
                 if (MessageInfoType.REQUEST.equalsIgnoreCase(((ReferenceField)recMessageInfo.getField(MessageInfo.MESSAGE_INFO_TYPE_ID)).getReference().getField(MessageInfoType.CODE).toString()))
                 {   // Must be a request!
-                    this.getField(MessageProcessInfo.MESSAGE_INFO_ID).moveFieldToThis(recMessageInfo.getField(MessageInfo.kID));
+                    this.getField(MessageProcessInfo.MESSAGE_INFO_ID).moveFieldToThis(recMessageInfo.getField(MessageInfo.ID));
                     this.getField(MessageProcessInfo.MESSAGE_TYPE_ID).setValue(((ReferenceField)this.getField(MessageProcessInfo.MESSAGE_TYPE_ID)).getIDFromCode(MessageType.MESSAGE_IN));
                     this.getField(MessageProcessInfo.PROCESS_TYPE_ID).setValue(((ReferenceField)this.getField(MessageProcessInfo.PROCESS_TYPE_ID)).getIDFromCode(ProcessType.INFO));
                     this.setKeyArea(MessageProcessInfo.MESSAGE_INFO_ID_KEY);
@@ -643,7 +643,7 @@ public class MessageProcessInfo extends VirtualRecord
                     MessageVersion recMessageVersion = this.getMessageControl().getMessageVersion();
                     if (iMessageVersionID != 0)
                     {
-                        recMessageVersion.getField(MessageVersion.kID).setValue(iMessageVersionID);
+                        recMessageVersion.getField(MessageVersion.ID).setValue(iMessageVersionID);
                         recMessageVersion.setKeyArea(MessageVersion.ID_KEY);
                         if (!recMessageVersion.seek(DBConstants.EQUALS))
                             iMessageVersionID = 0;  // Never
@@ -651,13 +651,13 @@ public class MessageProcessInfo extends VirtualRecord
                     if (iMessageVersionID == 0)
                     {
                         recMessageVersion = this.getMessageControl().getMessageVersion(strVersion);
-                        iMessageVersionID = (int)recMessageVersion.getField(MessageVersion.kID).getValue();
+                        iMessageVersionID = (int)recMessageVersion.getField(MessageVersion.ID).getValue();
                         if (strVersion == null)
                         {
                             int iMessageVersionIDDefault = 0;
                             int iMessageVersionIDBestGuess = iMessageVersionID;
                             boolean bDefaultExists = false;
-                            addListener(subFileFilter = new SubFileFilter(this.getField(MessageProcessInfo.kID), m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_PROCESS_INFO_ID), m_recMessageTransport.getField(MessageTransport.kID), m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_TRANSPORT_ID), null, null));
+                            addListener(subFileFilter = new SubFileFilter(this.getField(MessageProcessInfo.ID), MessageTransportInfo.MESSAGE_PROCESS_INFO_ID, m_recMessageTransport.getField(MessageTransport.ID), MessageTransportInfo.MESSAGE_TRANSPORT_ID, null, null));
                             while  (m_recMessageTransportInfo.hasNext())
                             {
                                 m_recMessageTransportInfo.next();
@@ -676,14 +676,14 @@ public class MessageProcessInfo extends VirtualRecord
                                 iMessageVersionID = iMessageVersionIDDefault;   // If there is a default, always use it
                             else if (!bDefaultExists)
                                 iMessageVersionID = iMessageVersionIDBestGuess; // else, If the default doesn't exist, use the best guess
-                            recMessageVersion.getField(MessageVersion.kID).setValue(iMessageVersionID);
+                            recMessageVersion.getField(MessageVersion.ID).setValue(iMessageVersionID);
                             recMessageVersion.setKeyArea(MessageVersion.ID_KEY);
                             if (!recMessageVersion.seek(DBConstants.EQUALS))
                                 iMessageVersionID = 0;  // Never
                         }
                     }
-                    m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_PROCESS_INFO_ID).moveFieldToThis(this.getField(MessageProcessInfo.kID));
-                    m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_TRANSPORT_ID).moveFieldToThis(m_recMessageTransport.getField(MessageTransport.kID));
+                    m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_PROCESS_INFO_ID).moveFieldToThis(this.getField(MessageProcessInfo.ID));
+                    m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_TRANSPORT_ID).moveFieldToThis(m_recMessageTransport.getField(MessageTransport.ID));
                     m_recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_VERSION_ID).setValue(iMessageVersionID);
                     if (m_recMessageTransportInfo.seek(DBConstants.EQUALS))
                     {

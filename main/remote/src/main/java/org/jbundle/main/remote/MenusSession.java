@@ -140,7 +140,7 @@ public class MenusSession extends Session
             if (bIsNumeric)
             {
                 recMenu.setKeyArea(Menus.ID_KEY);
-                recMenu.getField(Menus.kID).setString(strCommandNoCommas);
+                recMenu.getField(Menus.ID).setString(strCommandNoCommas);
                 bIsNumeric = recMenu.seek("=");
             }
             if (!bIsNumeric)
@@ -156,7 +156,7 @@ public class MenusSession extends Session
         } catch (DBException ex)    {
             ex.printStackTrace(); // Never
         }
-        String strParentID = recMenu.getField(Menus.kID).toString();
+        String strParentID = recMenu.getField(Menus.ID).toString();
         BaseListener listener = recMenu.getListener(StringSubFileFilter.class.getName());
         if (listener != null)
         { // Should just change the string

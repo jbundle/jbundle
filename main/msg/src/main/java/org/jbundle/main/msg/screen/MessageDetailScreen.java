@@ -161,7 +161,7 @@ public class MessageDetailScreen extends DetailScreen
         recContactType = recContactType.getContactType(recHeader);
         Record recMessageDetail = this.getMainRecord();
         recMessageDetail.setKeyArea(MessageDetail.CONTACT_TYPE_ID_KEY);
-        recMessageDetail.addListener(new SubFileFilter(recContactType.getField(ContactType.kID), recMessageDetail.getField(MessageDetail.CONTACT_TYPE_ID), recHeader.getField(VirtualRecord.kID), recMessageDetail.getField(MessageDetail.PERSON_ID), null, null));
+        recMessageDetail.addListener(new SubFileFilter(recContactType.getField(ContactType.ID), MessageDetail.CONTACT_TYPE_ID, recHeader.getField(VirtualRecord.ID), MessageDetail.PERSON_ID, null, null));
     }
     /**
      * Set up all the screen fields.
@@ -175,7 +175,7 @@ public class MessageDetailScreen extends DetailScreen
         this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kDestinationPath).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kReturnSite).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kXSLTDocument).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        Converter convDefaultTransport = new CheckConverter(this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kDefaultMessageTransportID), this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageTransportID), null, true);
+        Converter convDefaultTransport = new CheckConverter(this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.DEFAULT_MESSAGE_TRANSPORT_ID), this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.MESSAGE_TRANSPORT_ID), null, true);
         convDefaultTransport.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kInitialManualTransportStatusID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kProperties).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);

@@ -225,7 +225,7 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
             while (recUserNew.hasNext())
             {
                 recUserNew.next();
-                if (recUserNew.getField(UserInfo.kID).getValue() == 1)
+                if (recUserNew.getField(UserInfo.ID).getValue() == 1)
                     continue; // Anonymous user
                 recUserNew.edit();
                 recUserNew.getField(UserInfo.PASSWORD).moveFieldToThis(recUser.getField(UserInfo.PASSWORD), DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);

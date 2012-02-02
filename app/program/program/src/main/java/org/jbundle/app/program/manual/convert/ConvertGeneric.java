@@ -96,45 +96,15 @@ public class ConvertGeneric extends ConvertBase
                 {
                     String string = record.getField(LogicFile.kLogicSource).toString();
                     String strStart = string;
+                    string = this.replaceString(string, ".kID", ".ID");
                     
                     if (record.getCounterField().getValue() > 60000)
                         continue;
-
-                    int start;
-                    int end = 0;
-                    while ((start = string.indexOf("k", end)) > 0)
-                    {
-                        end = start + 1;
-                        char ch = string.charAt(start - 1);
-                        if ((ch != '.') && (ch != ' '))
-                            continue;
-                        ch = string.charAt(start + 1);
-                        if (!Character.isUpperCase(ch))
-                            continue;
-                        boolean isUpper = false;
-                        for (; end < string.length(); end++)
-                        {
-                             ch = string.charAt(end);
-                            if (!Character.isJavaIdentifierPart(ch))
-                                break;
-                            if (!Character.isUpperCase(ch))
-                                isUpper = true;
-                        }
-                        if (!isUpper)
-                            continue;
-                        if (end >= string.length())
-                            break;
-
-                        String newName = convertNameToConstant(string.substring(start+1, end));
-                        
-                        string = string.substring(0, start) + newName + string.substring(end);
-
-                        System.out.println(string);
-                    }
                         
                         if (!strStart.equals(string))
                         {
                             System.out.println("--------------------------------------------------");
+                            System.out.println(string);
                             System.out.println(record.getField(LogicFile.kMethodClassName).toString());
                             record.edit();
                             System.out.println(string);record.getField(LogicFile.kLogicSource).setString(string);

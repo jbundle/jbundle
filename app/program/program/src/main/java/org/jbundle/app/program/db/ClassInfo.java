@@ -443,7 +443,7 @@ public class ClassInfo extends VirtualRecord
                 strOptXML = XmlUtilities.createXMLStringRecord(fileHdr);
                 FieldData fieldInfo = new FieldData(null);
                 fieldInfo.setKeyArea(FieldData.FIELD_FILE_NAME_KEY);
-                fieldInfo.addListener(new SubFileFilter(this.getField(ClassInfo.CLASS_NAME), fieldInfo.getField(FieldData.FIELD_FILE_NAME), null, null, null, null));
+                fieldInfo.addListener(new SubFileFilter(this.getField(ClassInfo.CLASS_NAME), FieldData.FIELD_FILE_NAME, null, null, null, null));
                 strOptXML += Utility.startTag(XMLTags.FIELD_LIST);
                 while (fieldInfo.hasNext())
                 {
@@ -455,7 +455,7 @@ public class ClassInfo extends VirtualRecord
         
                 KeyInfo keyInfo = new KeyInfo(null);
                 keyInfo.setKeyArea(KeyInfo.KEY_FILENAME_KEY);
-                keyInfo.addListener(new SubFileFilter(this.getField(ClassInfo.CLASS_NAME), keyInfo.getField(KeyInfo.KEY_FILENAME), null, null, null, null));
+                keyInfo.addListener(new SubFileFilter(this.getField(ClassInfo.CLASS_NAME), KeyInfo.KEY_FILENAME, null, null, null, null));
                 strOptXML += Utility.startTag(XMLTags.KEY_LIST);
                 while (keyInfo.hasNext())
                 {

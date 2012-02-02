@@ -87,6 +87,31 @@ public class ExtractRangeFilter extends FileFilter
     }
     /**
      * Constructor.
+     * @param iStartFieldSeq The field in this record to start the range.
+     * @param fldStart The range starts at this field's value.
+     * @param iEndFieldSeq The field in this record to end the range (ie., and end date of a record date range).
+     * @param fldEnd The range ends at this field's value.
+     * @param iPadfldEnd Should I pad the end string field with high characters?
+     */
+    public ExtractRangeFilter(String startFieldName, BaseField fldStart, String endFieldName, BaseField fldEnd, int iPadfldEnd)
+    {
+        this();
+        this.init(null, -1, startFieldName, fldStart, -1, endFieldName, fldEnd, iPadfldEnd);
+    }
+    /**
+     * Constructor.
+     * @param iFieldSeq The field in this record to compare to the range.
+     * @param fldStart The range starts at this field's value.
+     * @param fldEnd The range ends at this field's value.
+     * @param iPadfldEnd Should I pad the end string field with high characters?
+     */
+    public ExtractRangeFilter(String startFieldName, BaseField fldStart, BaseField fldEnd, int iPadfldEnd)
+    {
+        this();
+        this.init(null, -1, startFieldName, fldStart, -1, null, fldEnd, iPadfldEnd);
+    }
+    /**
+     * Constructor.
      * @param iFieldSeq The field in this record to compare to the range.
      * @param fldStart The range starts at this field's value.
      * @param fldEnd The range ends at this field's value.
@@ -107,6 +132,17 @@ public class ExtractRangeFilter extends FileFilter
     {
         this();
         this.init(null, iFieldSeq, null, fldStart, -1, null, null, iPadfldEnd);
+    }
+    /**
+     * Constructor.
+     * @param iFieldSeq The field in this record to compare to the range.
+     * @param fldStart The range starts at this field's value.
+     * @param iPadfldEnd Should I pad the end string field with high characters?
+     */
+    public ExtractRangeFilter(String startFieldName, BaseField fldStart, int iPadfldEnd)
+    {
+        this();
+        this.init(null, -1, startFieldName, fldStart, -1, null, null, iPadfldEnd);
     }
     /**
      * Constructor (using the default pad).

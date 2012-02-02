@@ -140,7 +140,7 @@ public class ResourceGridScreen extends DetailGridScreen
      */
     public void setupSFields()
     {
-        Converter converter = new FieldLengthConverter(this.getMainRecord().getField(Resource.kCode), 60);
+        Converter converter = new FieldLengthConverter(this.getMainRecord().getField(Resource.CODE), 60);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(Resource.kResourceFile).getField(Resource.kDescription).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }

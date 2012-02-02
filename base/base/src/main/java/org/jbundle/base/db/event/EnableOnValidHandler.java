@@ -29,6 +29,7 @@ public class EnableOnValidHandler extends FileListener
     public static final boolean DISABLE_ON_NEW = false;
 
     protected int m_iFieldSeq = -1;
+    protected String fieldName = null;
     /**
      * Target field to enable/disable.
      */
@@ -55,7 +56,17 @@ public class EnableOnValidHandler extends FileListener
     public EnableOnValidHandler(boolean bEnableOnValid, boolean bEnableOnNew)
     {
         this();
-        this.init(null, null, -1, bEnableOnValid, bEnableOnNew, null);
+        this.init(null, null, -1, null, bEnableOnValid, bEnableOnNew, null);
+    }
+    /**
+     * This constructor enable/disables ALL non-unique key fields.
+     * @param bEnbleOnValid Enable/disable the fields on valid.
+     * @param bEnableOnNew Enable/disable the fields on new.
+     */
+    public EnableOnValidHandler(String fieldName, boolean bEnableOnValid, boolean bEnableOnNew)
+    {
+        this();
+        this.init(null, null, -1, fieldName, bEnableOnValid, bEnableOnNew, null);
     }
     /**
      * This constructor enable/disables ALL non-unique key fields.
@@ -65,7 +76,7 @@ public class EnableOnValidHandler extends FileListener
     public EnableOnValidHandler(int iFieldSeq, boolean bEnableOnValid, boolean bEnableOnNew)
     {
         this();
-        this.init(null, null, iFieldSeq, bEnableOnValid, bEnableOnNew, null);
+        this.init(null, null, iFieldSeq, null, bEnableOnValid, bEnableOnNew, null);
     }
     /**
      * This constructor enable/disables ALL non-unique key fields.
@@ -75,7 +86,7 @@ public class EnableOnValidHandler extends FileListener
     public EnableOnValidHandler(BaseField field, boolean bEnableOnValid, boolean bEnableOnNew)
     {
         this();
-        this.init(null, field, -1, bEnableOnValid, bEnableOnNew, null);
+        this.init(null, field, -1, null, bEnableOnValid, bEnableOnNew, null);
     }
     /**
      * Constructor.
@@ -87,7 +98,7 @@ public class EnableOnValidHandler extends FileListener
     public EnableOnValidHandler(ScreenComponent sField, boolean bEnableOnValid, boolean bEnableOnNew)
     {
         this();
-        this.init(null, null, -1, bEnableOnValid, bEnableOnNew, sField);
+        this.init(null, null, -1, null, bEnableOnValid, bEnableOnNew, sField);
     }
     /**
      * Constructor.
@@ -98,9 +109,10 @@ public class EnableOnValidHandler extends FileListener
      * @param bEnableOnNew Enable/disable the fields on new.
      * @param flagField If this flag is true, do the opposite enable/disable.
      */
-    public void init(Record record, BaseField field, int iFieldSeq, boolean bEnableOnValid, boolean bEnableOnNew, ScreenComponent sField)
+    public void init(Record record, BaseField field, int iFieldSeq, String fieldName, boolean bEnableOnValid, boolean bEnableOnNew, ScreenComponent sField)
     {
         m_iFieldSeq = iFieldSeq;
+        this.fieldName = fieldName;
         m_fldTarget = field;
         m_sField = sField;
         m_bEnableOnValid = bEnableOnValid;
@@ -127,6 +139,8 @@ public class EnableOnValidHandler extends FileListener
         super.setOwner(owner);
         if (owner == null)
             return;
+        if (fieldName != null)
+            m_fldTarget = this.getOwner().getField(fieldName);
         if (m_iFieldSeq != -1)
             m_fldTarget = this.getOwner().getField(m_iFieldSeq);
         if (m_fldTarget != null) if (m_fldTarget.getRecord() != this.getOwner())    // If field is not in this file, remember to remove it

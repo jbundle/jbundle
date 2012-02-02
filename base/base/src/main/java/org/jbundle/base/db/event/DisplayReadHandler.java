@@ -24,8 +24,10 @@ public class DisplayReadHandler extends FileListener
 {
     protected Record m_FileToRead = null;
     protected int m_iMainField = -1;
+    String mainFieldName = null;
     protected BaseField m_fldMain = null;
     protected int m_iFileKeyField = -1;
+    String fileKeyFieldName = null;
     public static final String RECORD_NOT_FOUND_MESSAGE = "***Record not found***";
 
     /**
@@ -41,10 +43,21 @@ public class DisplayReadHandler extends FileListener
      * @param fileToRead The secondary file to read when I read a record from the owner (onvalidrecord).
      * @param iFileKeyField The key field in the secondary file.
      */
+    public DisplayReadHandler(String mainFieldName, Record fileToRead, String fileKeyAreaName)
+    {
+        this();
+        this.init(null, -1, mainFieldName, fileToRead, -1, fileKeyAreaName);
+    }
+    /**
+     * Constructor.
+     * @param iMainField The field to use as a key in the file to read.
+     * @param fileToRead The secondary file to read when I read a record from the owner (onvalidrecord).
+     * @param iFileKeyField The key field in the secondary file.
+     */
     public DisplayReadHandler(int iMainField, Record fileToRead, int iFileKeyField)
     {
         this();
-        this.init(null, iMainField, fileToRead, iFileKeyField);
+        this.init(null, iMainField, null, fileToRead, iFileKeyField, null);
     }
     /**
      * Constructor.
@@ -55,7 +68,7 @@ public class DisplayReadHandler extends FileListener
     public DisplayReadHandler(Record fileToRead)
     {
         this();
-        this.init(null, -1, fileToRead, DBConstants.MAIN_FIELD);
+        this.init(null, -1, null, fileToRead, DBConstants.MAIN_FIELD, null);
     }
     /**
      * Constructor.
@@ -64,11 +77,13 @@ public class DisplayReadHandler extends FileListener
      * @param fileToRead The secondary file to read when I read a record from the owner (onvalidrecord).
      * @param iFileKeyField The key field in the secondary file.
      */
-    public void init(Record record, int iMainField, Record fileToRead, int iFileKeyField)
+    public void init(Record record, int iMainField, String mainFieldName, Record fileToRead, int iFileKeyField, String fileKeyAreaName)
     {
         m_FileToRead = fileToRead;
         m_iMainField = iMainField;
+        this.mainFieldName = mainFieldName;
         m_iFileKeyField = iFileKeyField;
+        this.fileKeyFieldName = fileKeyAreaName;
         super.init(record);
         FileListener listener = new FileRemoveBOnCloseHandler(this);    // If this closes first, this will remove FileListener
         fileToRead.addListener(listener); // Remove this if you close the file first
@@ -83,9 +98,12 @@ public class DisplayReadHandler extends FileListener
         super.setOwner(owner);
         if (owner != null)
         {
-            if (m_iMainField == -1)
+            if ((m_iMainField == -1) && (mainFieldName == null))
                 m_fldMain = this.getOwner().getReferenceField(m_FileToRead);
-            m_FileToRead.setKeyArea(m_FileToRead.getField(m_iFileKeyField));
+            if (fileKeyFieldName != null)
+                m_FileToRead.setKeyArea(m_FileToRead.getField(fileKeyFieldName));
+            else
+                m_FileToRead.setKeyArea(m_FileToRead.getField(m_iFileKeyField));
         }
     }
     /**
@@ -97,7 +115,7 @@ public class DisplayReadHandler extends FileListener
     public Object clone() throws CloneNotSupportedException
     {
         DisplayReadHandler listener = new DisplayReadHandler();
-        listener.init(null, m_iMainField, m_FileToRead, m_iFileKeyField);
+        listener.init(null, m_iMainField, mainFieldName, m_FileToRead, m_iFileKeyField, fileKeyFieldName);
         return listener;
     }
     /**
@@ -108,16 +126,21 @@ public class DisplayReadHandler extends FileListener
     public void doValidRecord(boolean bDisplayOption)
     {
         if (m_fldMain == null)
+            m_fldMain = this.getOwner().getField(mainFieldName);
+        if (m_fldMain == null)
             m_fldMain = this.getOwner().getField(m_iMainField);
         if (m_fldMain == null)
             return;     // Error - Field not found?
-        m_FileToRead.getField(m_iFileKeyField).moveFieldToThis(m_fldMain, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);  // SCREEN_MOVE says this is coming from here
+        if (fileKeyFieldName != null)
+            m_FileToRead.getField(fileKeyFieldName).moveFieldToThis(m_fldMain, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);  // SCREEN_MOVE says this is coming from here
+        else
+            m_FileToRead.getField(m_iFileKeyField).moveFieldToThis(m_fldMain, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);  // SCREEN_MOVE says this is coming from here
         try   {
             boolean bSuccess = m_FileToRead.seek("=");
             if (!bSuccess)
             {
                 m_FileToRead.initRecord(bDisplayOption);    // Put's record in an indeterminate state (so this record won't be written) and clears the fields.
-                BaseField nextField = m_FileToRead.getField(m_iFileKeyField+1);
+                BaseField nextField = m_FileToRead.getField(m_FileToRead.getDefaultDisplayFieldName());
                 String strRecNotFound = this.getOwner().getTable().getString(RECORD_NOT_FOUND_MESSAGE);
                 if (nextField instanceof StringField)
                     nextField.setString(strRecNotFound, bDisplayOption, DBConstants.SCREEN_MOVE);

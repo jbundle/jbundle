@@ -66,12 +66,12 @@ public class SetupNewUserHandler extends FileListener
             boolean[] fileListenerStates = userInfo.setEnableListeners(false);
             Object[] fieldListenerStates = userInfo.setEnableFieldListeners(false);
             userInfo.moveFields(userTemplate, null, bDisplayOption, DBConstants.INIT_MOVE, false, false, false);
-            userInfo.getField(UserInfo.kID).initField(bDisplayOption);
+            userInfo.getField(UserInfo.ID).initField(bDisplayOption);
             userInfo.getField(UserInfo.FIRST_NAME).initField(bDisplayOption);
             userInfo.getField(UserInfo.LAST_NAME).initField(bDisplayOption);
             userInfo.getField(UserInfo.USER_NAME).initField(bDisplayOption);
             userInfo.getField(UserInfo.PASSWORD).initField(bDisplayOption);
-            userInfo.getField(UserInfo.kID).setModified(false);
+            userInfo.getField(UserInfo.ID).setModified(false);
             userInfo.getField(UserInfo.FIRST_NAME).setModified(false);
             userInfo.getField(UserInfo.LAST_NAME).setModified(false);
             userInfo.getField(UserInfo.USER_NAME).setModified(false);
@@ -117,7 +117,7 @@ public class SetupNewUserHandler extends FileListener
                         userRegistration.next();
                         newUserRegistration.addNew();
                         newUserRegistration.moveFields(userRegistration, null, bDisplayOption, DBConstants.INIT_MOVE, true, false, false);
-                        newUserRegistration.getField(UserRegistration.kID).initField(bDisplayOption);
+                        newUserRegistration.getField(UserRegistration.ID).initField(bDisplayOption);
                         newUserRegistration.getField(UserRegistration.USER_ID).setData(bookmark);
                         newUserRegistration.add();
                     }

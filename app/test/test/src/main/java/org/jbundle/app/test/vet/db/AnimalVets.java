@@ -106,12 +106,12 @@ public class AnimalVets extends QueryRecord
         this.setSelected(false);    // de-select all
         super.selectFields();
         
-        //?this.getField(Animal.ANIMAL_FILE, Animal.kID).setSelected(true);
+        //?this.getField(Animal.ANIMAL_FILE, Animal.ID).setSelected(true);
         //?this.getField(Animal.ANIMAL_FILE, Animal.NAME).setSelected(true);
         //?this.getField(Animal.ANIMAL_FILE, Animal.COLOR).setSelected(true);
         //?this.getField(Animal.ANIMAL_FILE, Animal.WEIGHT).setSelected(true);
         
-        this.getField(Dog.DOG_FILE, Animal.kID).setSelected(true);
+        this.getField(Dog.DOG_FILE, Animal.ID).setSelected(true);
         this.getField(Dog.DOG_FILE, Animal.NAME).setSelected(true);
         this.getField(Dog.DOG_FILE, Animal.COLOR).setSelected(true);
         this.getField(Dog.DOG_FILE, Animal.WEIGHT).setSelected(true);
@@ -123,7 +123,7 @@ public class AnimalVets extends QueryRecord
      */
     public void setupRelationships()
     {
-        //?this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Animal.ANIMAL_FILE), this.getRecord(Vet.VET_FILE), Animal.VET, Vet.kID);
+        //?this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Animal.ANIMAL_FILE), this.getRecord(Vet.VET_FILE), Animal.VET, Vet.ID);
         this.addRelationship(DBConstants.LEFT_INNER, this.getRecord(Dog.DOG_FILE), this.getRecord(Vet.VET_FILE), Animal.VET, Vet.ID);
     }
 

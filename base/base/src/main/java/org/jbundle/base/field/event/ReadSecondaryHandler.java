@@ -41,6 +41,7 @@ public class ReadSecondaryHandler extends FieldListener
      * The key area in the secondary record to read from.
      */
     protected int m_iQueryKeyArea = -1;
+    protected String keyAreaName = null;
     /**
      * The main key field in the secondary record.
      */
@@ -75,7 +76,7 @@ public class ReadSecondaryHandler extends FieldListener
     public ReadSecondaryHandler(Record record)
     {
         this();
-        this.init(null, record, DBConstants.MAIN_KEY_AREA, true, false, true);
+        this.init(null, record, DBConstants.MAIN_KEY_AREA, null, true, false, true);
     }
     /**
      * Constructor.
@@ -85,7 +86,30 @@ public class ReadSecondaryHandler extends FieldListener
     public ReadSecondaryHandler(Record record, int iQueryKeyArea)
     {
         this();
-        this.init(null, record, iQueryKeyArea, true, false, true);
+        this.init(null, record, iQueryKeyArea, null, true, false, true);
+    }
+    /**
+     * Constructor.
+     * @param record The secondary record to read.
+     * @param iQueryKeyArea The key area to read from.
+     */
+    public ReadSecondaryHandler(Record record, String keyAreaName)
+    {
+        this();
+        this.init(null, record, -1, keyAreaName, true, false, true);
+    }
+    /**
+     * Constructor.
+     * @param record The secondary record to read.
+     * @param iQueryKeyArea The key area to read from.
+     * @param bCloseOnFree Close the record when this behavior is removed?
+     * @param bUpdateRecord Update the secondary record before reading (if it has changed)?
+     * @param bAllowNull If true, a null field value will trigger a new record; if false a key not found error.
+     */
+    public ReadSecondaryHandler(Record record, String keyAreaName, boolean bCloseOnFree, boolean bUpdateRecord, boolean bAllowNull)
+    {
+        this();
+        this.init(null, record, -1, keyAreaName, bCloseOnFree, bUpdateRecord, bAllowNull);
     }
     /**
      * Constructor.
@@ -98,7 +122,7 @@ public class ReadSecondaryHandler extends FieldListener
     public ReadSecondaryHandler(Record record, int iQueryKeyArea, boolean bCloseOnFree, boolean bUpdateRecord, boolean bAllowNull)
     {
         this();
-        this.init(null, record, iQueryKeyArea, bCloseOnFree, bUpdateRecord, bAllowNull);
+        this.init(null, record, iQueryKeyArea, null, bCloseOnFree, bUpdateRecord, bAllowNull);
     }
     /**
      * Initialize this listener.
@@ -109,11 +133,12 @@ public class ReadSecondaryHandler extends FieldListener
      * @param bUpdateRecord Update the secondary record before reading (if it has changed)?
      * @param bAllowNull If true, a null field value will trigger a new record; if false a key not found error.
      */
-    public void init(BaseField field, Record record, int iQueryKeyArea, boolean bCloseOnFree, boolean bUpdateRecord, boolean bAllowNull)
+    public void init(BaseField field, Record record, int iQueryKeyArea, String keyAreaName, boolean bCloseOnFree, boolean bUpdateRecord, boolean bAllowNull)
     {
         super.init(field);
         m_record = record;
         m_iQueryKeyArea = iQueryKeyArea;
+        this.keyAreaName = keyAreaName;
         m_KeyField = null;
         m_bCloseOnFree = bCloseOnFree;
         m_bUpdateRecord = bUpdateRecord;
@@ -173,14 +198,26 @@ public class ReadSecondaryHandler extends FieldListener
 
             if (owner instanceof ReferenceField)
             {
-                m_KeyField = m_record.getKeyArea(m_iQueryKeyArea).getField(DBConstants.MAIN_KEY_FIELD);   // Handle field
+                if (keyAreaName != null)
+                    m_KeyField = m_record.getKeyArea(keyAreaName).getField(DBConstants.MAIN_KEY_FIELD);   // Handle field
+                else
+                    m_KeyField = m_record.getKeyArea(m_iQueryKeyArea).getField(DBConstants.MAIN_KEY_FIELD);   // Handle field
                 moveBehavior = new MoveOnValidHandler(((BaseField)owner), m_KeyField, null, true, true);        // Its okay to sync the key with references
                 m_KeyField = null;
             } 
             else
             {
-                MainReadOnlyHandler listener = new MainReadOnlyHandler(m_iQueryKeyArea);
-                m_KeyField = m_record.getKeyArea(m_iQueryKeyArea).getField(DBConstants.MAIN_KEY_FIELD);
+                MainReadOnlyHandler listener = null;
+                if (keyAreaName != null)
+                {
+                    listener = new MainReadOnlyHandler(keyAreaName);
+                    m_KeyField = m_record.getKeyArea(keyAreaName).getField(DBConstants.MAIN_KEY_FIELD);
+                }
+                else
+                {
+                    listener = new MainReadOnlyHandler(m_iQueryKeyArea);
+                    m_KeyField = m_record.getKeyArea(m_iQueryKeyArea).getField(DBConstants.MAIN_KEY_FIELD);
+                }
                 m_KeyField.addListener(listener); //    Make sure this field has the BaseListener to read it's file
                     // Make sure you move the key field to this field!!
                 moveBehavior = new MoveOnValidHandler(((BaseField)owner), m_KeyField, null, false, true);
@@ -267,6 +304,43 @@ public class ReadSecondaryHandler extends FieldListener
                 bMoveToDependent, bMoveBackOnChange, convCheckMark, convBackconvCheckMark);
     }
     /**
+     * This method is specifically for making sure a handle is moved to this field on valid.
+     *  The field must be a ReferenceField.
+     * @param iFieldSeq int On valid, move to this field.
+     */
+    public MoveOnValidHandler addFieldSeqPair(String iFieldSeq)
+    {
+        m_bMoveBehavior = true;
+        MoveOnValidHandler moveBehavior = new MoveOnValidHandler(this.getOwner().getRecord().getField(iFieldSeq));
+        m_record.addListener(moveBehavior);
+        return moveBehavior;
+    }
+    /**
+     * Add a destination/source field pair (on valid record, move dest to source).
+     * @param iDestFieldSeq The destination field.
+     * @param iSourceFieldSeq The source field.
+     * @param bMoveToDependent If true adds a MoveOnValidHandler to the secondary record.
+     * @param bMoveBackOnChange If true, adds a CopyFieldHandler to the destination field (moves to the source).
+     */
+    public MoveOnValidHandler addFieldSeqPair(String iDestFieldSeq, String iSourceFieldSeq, boolean bMoveToDependent, boolean bMoveBackOnChange)
+    {   // BaseField will return iSourceFieldSeq if m_OwnerField is 'Y'es
+        return this.addFieldPair(this.getOwner().getRecord().getField(iDestFieldSeq), m_record.getField(iSourceFieldSeq), bMoveToDependent, bMoveBackOnChange, null, null);
+    }
+    /**
+     * Add the set of fields that will move on a valid record.
+     * @param iDestFieldSeq The destination field.
+     * @param iSourceFieldSeq The source field.
+     * @param bMoveToDependent If true adds a MoveOnValidHandler to the secondary record.
+     * @param bMoveBackOnChange If true, adds a CopyFieldHandler to the destination field (moves to the source).
+     * @param convCheckMark Check mark to check before moving.
+     * @param convBackconvCheckMark Check mark to check before moving back.
+     */
+    public MoveOnValidHandler addFieldSeqPair(String iDestFieldSeq, String iSourceFieldSeq, boolean bMoveToDependent, boolean bMoveBackOnChange, Converter convCheckMark, Converter convBackconvCheckMark)
+    {   // BaseField will return iSourceFieldSeq if m_OwnerField is 'Y'es
+        return this.addFieldPair(this.getOwner().getRecord().getField(iDestFieldSeq), m_record.getField(iSourceFieldSeq),
+                bMoveToDependent, bMoveBackOnChange, convCheckMark, convBackconvCheckMark);
+    }
+    /**
      * The Field has Changed.
      * Read the secondary file.
      * @param bDisplayOption If true, display the change.
@@ -348,10 +422,12 @@ public class ReadSecondaryHandler extends FieldListener
      * Get the key area
      * @return
      */
-    public int getActualKeyArea()
+    public String getActualKeyArea()
     {
-        if (m_iQueryKeyArea == -1)
-            return DBConstants.MAIN_KEY_AREA;
-        return m_iQueryKeyArea;
+        if (keyAreaName != null)
+            return keyAreaName;
+        if (m_iQueryKeyArea != -1)
+            return m_record.getKeyArea(m_iQueryKeyArea).getKeyName();
+        return Record.ID_KEY;    // Main key area
     }
 }

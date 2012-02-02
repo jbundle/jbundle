@@ -84,7 +84,7 @@ public class MessageTimeoutProcess extends BaseInternalMessageProcessor
         int iMessageStatus = ((ReferenceField)this.getScreenRecord().getField(MessageTimeoutScreenRecord.MESSAGE_STATUS_ID)).getIDFromCode(MessageStatus.SENT);
         this.getScreenRecord().getField(MessageTimeoutScreenRecord.MESSAGE_STATUS_ID).setValue(iMessageStatus);
         
-        this.getMainRecord().addListener(new SubFileFilter(this.getScreenRecord().getField(MessageTimeoutScreenRecord.MESSAGE_STATUS_ID), this.getMainRecord().getField(MessageLog.MESSAGE_STATUS_ID), null, null, null, null));
+        this.getMainRecord().addListener(new SubFileFilter(this.getScreenRecord().getField(MessageTimeoutScreenRecord.MESSAGE_STATUS_ID), MessageLog.MESSAGE_STATUS_ID, null, null, null, null));
         this.getScreenRecord().getField(MessageTimeoutScreenRecord.START_TIMEOUT).setToLimit(DBConstants.START_SELECT_KEY);
         this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.TIMEOUT_TIME), this.getScreenRecord().getField(MessageTimeoutScreenRecord.START_TIMEOUT), ">="));
     }

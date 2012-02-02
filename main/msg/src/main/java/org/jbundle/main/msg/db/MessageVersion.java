@@ -176,8 +176,8 @@ public class MessageVersion extends VirtualRecord
             mapHeaderMessageInfo = new HashMap<String,Object>();
         if (!this.getField(MessageVersion.CODE).isNull())
             mapHeaderMessageInfo.put(VERSION, this.getField(MessageVersion.CODE).toString());
-        if (!this.getField(MessageVersion.kID).isNull())
-            mapHeaderMessageInfo.put(VERSION_ID, this.getField(MessageVersion.kID).toString());
+        if (!this.getField(MessageVersion.ID).isNull())
+            mapHeaderMessageInfo.put(VERSION_ID, this.getField(MessageVersion.ID).toString());
         if (recMessageControl != null)
             if ((recMessageControl.getEditMode() == DBConstants.EDIT_CURRENT) || (recMessageControl.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
                 if (mapHeaderMessageInfo.get(TrxMessageHeader.SCHEMA_LOCATION) != null)

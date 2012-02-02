@@ -132,11 +132,11 @@ public class RegistrationGridScreen extends DetailGridScreen
      */
     public void setupSFields()
     {
-        Converter converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.kKeyValue), 60);
+        Converter converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.KEY_VALUE), 60);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);
-        converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.kObjectValue), 60);
+        converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.OBJECT_VALUE), 60);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);
-        converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.kCode), 60);
+        converter = new FieldLengthConverter(this.getMainRecord().getField(Registration.CODE), 60);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**

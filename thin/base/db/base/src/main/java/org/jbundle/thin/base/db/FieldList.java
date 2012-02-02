@@ -630,6 +630,14 @@ public class FieldList extends Object
         return m_iDefaultOrder;
     }
     /**
+     * Get the current key order.
+     * @return The current Key order.
+     */
+    public String getDefaultKeyName()
+    {
+        return this.getKeyArea(m_iDefaultOrder).getKeyName();
+    }
+    /**
      * Get this key area.
      * @param iKeySeq The key area to set.
      * @return The key area.

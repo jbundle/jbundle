@@ -100,7 +100,7 @@ public class ProjectTaskGridScreen extends FolderGridScreen
      */
     public void setupSFields()
     {
-        Converter converter = new FieldLengthConverter(this.getRecord(ProjectTask.kProjectTaskFile).getField(ProjectTask.kName), 40);
+        Converter converter = new FieldLengthConverter(this.getRecord(ProjectTask.PROJECT_TASK_FILE).getField(ProjectTask.NAME), 40);
         converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(ProjectTask.kProjectTaskFile).getField(ProjectTask.kStartDateTime).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(ProjectTask.kProjectTaskFile).getField(ProjectTask.kEndDateTime).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);

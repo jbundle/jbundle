@@ -122,10 +122,10 @@ public class UserLoginScreen extends Screen
      */
     public void setupSFields()
     {
-        Converter fieldConverter = this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kStatusLine);
+        Converter fieldConverter = this.getScreenRecord().getField(UserScreenRecord.STATUS_LINE);
         new SStaticText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, fieldConverter, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
         this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kuser).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        Converter converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kpassword));
+        Converter converter = new HashSHAConverter(this.getScreenRecord().getField(UserScreenRecord.kpassword));
         converter = new FieldLengthConverter(converter, 20);
         converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.ksaveuser).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);

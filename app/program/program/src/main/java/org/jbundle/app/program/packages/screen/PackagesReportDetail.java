@@ -74,9 +74,9 @@ public class PackagesReportDetail extends ReportScreen
     public void setupSFields()
     {
         this.getRecord(Packages.kPackagesFile).getField(Packages.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        Converter converter = this.getRecord(Packages.kPackagesFile).getField(Packages.kParentFolderID);
+        Converter converter = this.getRecord(Packages.PACKAGES_FILE).getField(Packages.PARENT_FOLDER_ID);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);
-        converter = this.getRecord(Packages.kPackagesFile).getField(Packages.kClassProjectID);
+        converter = this.getRecord(Packages.PACKAGES_FILE).getField(Packages.CLASS_PROJECT_ID);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);
         Record packages = this.getMainRecord();
         StringField field = new StringField(packages, "Path", DBConstants.DEFAULT_FIELD_LENGTH, "Path", null);
@@ -87,8 +87,8 @@ public class PackagesReportDetail extends ReportScreen
             public String getString() 
             {
                 Record packages = ((BaseField)this.getField()).getRecord();
-                ClassProject classProject = (ClassProject)((ReferenceField)packages.getField(Packages.kClassProjectID)).getReference();
-                ClassProject.CodeType codeType = ((CodeTypeField)packages.getRecord(Packages.kPackagesFile).getField(Packages.kCodeType)).getCodeType();
+                ClassProject classProject = (ClassProject)((ReferenceField)packages.getField(Packages.CLASS_PROJECT_ID)).getReference();
+                ClassProject.CodeType codeType = ((CodeTypeField)packages.getRecord(Packages.PACKAGES_FILE).getField(Packages.CODE_TYPE)).getCodeType();
                 String path = DBConstants.BLANK;
                 if (classProject != null)
                     if ((classProject.getEditMode() == DBConstants.EDIT_IN_PROGRESS) || (classProject.getEditMode() == DBConstants.EDIT_CURRENT))

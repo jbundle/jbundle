@@ -96,7 +96,7 @@ public class FieldDataScreen extends Screen
         this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kFieldClass).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         ScreenLocation lastFieldPosition;
         Record query = this.getMainRecord();
-        for (int fieldSeq = FieldData.kDependentFieldName; fieldSeq <= FieldData.kFieldFileName; fieldSeq++)
+        for (int fieldSeq = query.getFieldSeq(FieldData.DEPENDENT_FIELD_NAME); fieldSeq <= query.getFieldSeq(FieldData.FIELD_FILE_NAME); fieldSeq++)
         {
             lastFieldPosition = this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR);
             query.getField(fieldSeq).setupDefaultView(lastFieldPosition, this, ScreenConstants.DISPLAY_DESC); // Add this view to the list

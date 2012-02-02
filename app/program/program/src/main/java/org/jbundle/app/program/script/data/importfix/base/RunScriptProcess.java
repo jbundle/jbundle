@@ -112,7 +112,7 @@ public class RunScriptProcess extends BaseProcess
         else
         {
             recScript.setKeyArea(Script.ID_KEY);
-            recScript.getField(Script.kID).setString(strID);
+            recScript.getField(Script.ID).setString(strID);
         }
         try {
             if (recScript.seek(null) == false)
@@ -136,7 +136,7 @@ public class RunScriptProcess extends BaseProcess
             Script recTempScript = new Script(this);
             try {
                 int iParentScriptID = (int)recScript.getField(Script.PARENT_FOLDER_ID).getValue();
-                recTempScript.getField(Script.kID).setValue(iParentScriptID);
+                recTempScript.getField(Script.ID).setValue(iParentScriptID);
                 while ((iParentScriptID > 0) && (recTempScript.seek(null) == true))
                 {
                     if (!recTempScript.getField(Script.PROPERTIES).isNull())
@@ -147,7 +147,7 @@ public class RunScriptProcess extends BaseProcess
                     }
                     iParentScriptID = (int)recTempScript.getField(Script.PARENT_FOLDER_ID).getValue();
                     recTempScript.addNew();
-                    recTempScript.getField(Script.kID).setValue(iParentScriptID);
+                    recTempScript.getField(Script.ID).setValue(iParentScriptID);
                 }
             } catch (DBException ex) {
                 ex.printStackTrace();
@@ -336,7 +336,7 @@ public class RunScriptProcess extends BaseProcess
         Record recReplication = this.getMainRecord();
         if ((recReplication.getEditMode() == DBConstants.EDIT_NONE)
             || (recReplication.getEditMode() == DBConstants.EDIT_ADD))
-                recReplication.getField(Script.kID).setValue(0);
+                recReplication.getField(Script.ID).setValue(0);
         String strSourcePath = "";
         String strDestPath = "";
         this.processDetail(recReplication, strSourcePath, strDestPath);

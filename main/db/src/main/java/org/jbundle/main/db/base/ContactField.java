@@ -86,14 +86,14 @@ public class ContactField extends ReferenceField
             String strRecordName = "Vendor";
             m_recVendor = (Company)recContactType.makeRecordFromRecordName(strRecordName, recordOwner);
             if (m_recVendor != null)
-                VENDOR_CONTACT_TYPE_ID = recContactType.getContactType(m_recVendor).getField(ContactType.kID).toString();
+                VENDOR_CONTACT_TYPE_ID = recContactType.getContactType(m_recVendor).getField(ContactType.ID).toString();
         }
         if (m_recProfile == null)
         {
             String strRecordName = "Profile";
             m_recProfile = (Company)recContactType.makeRecordFromRecordName(strRecordName, recordOwner);
             if (m_recProfile != null)
-                PROFILE_CONTACT_TYPE_ID = recContactType.getContactType(m_recProfile).getField(ContactType.kID).toString();
+                PROFILE_CONTACT_TYPE_ID = recContactType.getContactType(m_recProfile).getField(ContactType.ID).toString();
         }
         recContactType = (ContactType)fldContactType.getReference();
         String strHeaderRecordName = null;
@@ -133,22 +133,22 @@ public class ContactField extends ReferenceField
         m_recVendor.setKeyArea(Company.CODE_KEY);
         m_recVendor.getField(Company.CODE).addListener(new MainReadOnlyHandler(Company.CODE_KEY));
         //  Set up the listener to read the current record on a valid main record
-        m_recVendor.getField(Company.kID).addListener(listener = new MainReadOnlyHandler(Company.ID_KEY));
+        m_recVendor.getField(Company.ID).addListener(listener = new MainReadOnlyHandler(Company.ID_KEY));
         listener.setRespondsToMode(DBConstants.INIT_MOVE, true);
         listener.setRespondsToMode(DBConstants.READ_MOVE, true);
         // On change or new, change this; on change, set the type to vendor
-        m_recVendor.addListener(new MoveOnEventHandler(this, m_recVendor.getField(Company.kID), null, true, true, false, false, false, null, false));
+        m_recVendor.addListener(new MoveOnEventHandler(this, m_recVendor.getField(Company.ID), null, true, true, false, false, false, null, false));
         m_recVendor.addListener(new MoveOnValidHandler(this.getContactTypeField(), VENDOR_CONTACT_TYPE_ID));
         // ----------- Profile -----------
         // First set up the code access:
         m_recProfile.setKeyArea(Company.CODE_KEY);
         m_recProfile.getField(Company.CODE).addListener(new MainReadOnlyHandler(Company.CODE_KEY));
         //  Set up the listener to read the current record on a valid main record
-        m_recProfile.getField(Company.kID).addListener(listener = new MainReadOnlyHandler(Company.ID_KEY));
+        m_recProfile.getField(Company.ID).addListener(listener = new MainReadOnlyHandler(Company.ID_KEY));
         listener.setRespondsToMode(DBConstants.INIT_MOVE, true);
         listener.setRespondsToMode(DBConstants.READ_MOVE, true);
         // On change or new, change this; on change, set the type to profile
-        m_recProfile.addListener(new MoveOnEventHandler(this, m_recProfile.getField(Company.kID), null, true, true, false, false, false, null, false));
+        m_recProfile.addListener(new MoveOnEventHandler(this, m_recProfile.getField(Company.ID), null, true, true, false, false, false, null, false));
         m_recProfile.addListener(new MoveOnValidHandler(this.getContactTypeField(), PROFILE_CONTACT_TYPE_ID));
         
         this.getContactTypeField().addListener(listener = new InitOnChangeHandler(this));
@@ -157,7 +157,7 @@ public class ContactField extends ReferenceField
         String strAltFieldDesc = null;
         // Do the code to read the correct record
         Converter checkConverter = new CheckConverter(this.getContactTypeField(), PROFILE_CONTACT_TYPE_ID, strAltFieldDesc, true);
-        Converter convContactID = new FlagDepFieldConverter(m_recVendor.getField(Company.kID), m_recProfile.getField(Company.kID), checkConverter);
+        Converter convContactID = new FlagDepFieldConverter(m_recVendor.getField(Company.ID), m_recProfile.getField(Company.ID), checkConverter);
         this.addListener(listener = new MoveOnChangeHandler(convContactID));
         listener.setRespondsToMode(DBConstants.INIT_MOVE, true);
         listener.setRespondsToMode(DBConstants.READ_MOVE, true);

@@ -61,7 +61,7 @@ public class LayoutPrint extends Object
                 recLayout = new Layout((Record.findRecordOwner(null)));
                 bNewRecord = true;
             }
-            recLayout.getField(Layout.kID).setValue(1);
+            recLayout.getField(Layout.ID).setValue(1);
             try   {
                 if (!recLayout.seek("="))
                 { // Error - top level not found?

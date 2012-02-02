@@ -99,13 +99,13 @@ public class UserPasswordChange extends UserInfoBaseScreen
     public void setupSFields()
     {
         super.setupSFields();
-        Converter converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kCurrentPassword));
+        Converter converter = new HashSHAConverter(this.getScreenRecord().getField(UserScreenRecord.CURRENT_PASSWORD));
         converter = new FieldLengthConverter(converter, 20);
         converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kNewPassword1));
+        converter = new HashSHAConverter(this.getScreenRecord().getField(UserScreenRecord.NEW_PASSWORD_1));
         converter = new FieldLengthConverter(converter, 20, 6);
         converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        converter = new HashSHAConverter(this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kNewPassword2));
+        converter = new HashSHAConverter(this.getScreenRecord().getField(UserScreenRecord.NEW_PASSWORD_2));
         converter = new FieldLengthConverter(converter, 20, 6);
         converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         SCannedBox submitButton = new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.SUBMIT);

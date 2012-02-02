@@ -145,7 +145,7 @@ public class PackagesScanListener extends BaseScanListener
                     int parentFolderID = (int)m_recPackages.getField(Packages.PARENT_FOLDER_ID).getValue();
                     m_recPackages.setKeyArea(Packages.ID_KEY);
                     m_recPackages.addNew();
-                    m_recPackages.getField(Packages.kID).setValue(parentFolderID);
+                    m_recPackages.getField(Packages.ID).setValue(parentFolderID);
                     if ((!m_recPackages.seek(null)) || (m_recPackages.getEditMode() != DBConstants.EDIT_CURRENT))
                         break;
                     if (m_recPackages.getField(Packages.CLASS_PROJECT_ID).getValue() == 0)
@@ -161,7 +161,7 @@ public class PackagesScanListener extends BaseScanListener
                 }
         
                 m_recPackages.setHandle(bookmark, DBConstants.BOOKMARK_HANDLE);
-                iCounter = (int)m_recPackages.getField(Packages.kID).getValue();
+                iCounter = (int)m_recPackages.getField(Packages.ID).getValue();
             }
         } catch (DBException ex)    {
             ex.printStackTrace();

@@ -196,7 +196,7 @@ public class Person extends VirtualRecord
             trxMessageHeader.setMessageInfoMap(mapInfo = new HashMap<String,Object>());
         
         mapInfo.put(TrxMessageHeader.CONTACT_TYPE, this.getTableNames(false));
-        mapInfo.put(TrxMessageHeader.CONTACT_ID, this.getField(Person.kID).toString());
+        mapInfo.put(TrxMessageHeader.CONTACT_ID, this.getField(Person.ID).toString());
         if (!this.getField(Person.USER_ID).isNull())
         {
             mapInfo.put(TrxMessageHeader.CONTACT_USER_ID, this.getField(Person.USER_ID).toString());

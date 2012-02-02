@@ -47,7 +47,7 @@ public class ReadSecondIfCheckHandler extends ReadSecondaryHandler
     public ReadSecondIfCheckHandler(Record record, int iQueryKeyArea, boolean bCloseOnFree, Converter convFlag)
     {
         this();
-        this.init(null, record, iQueryKeyArea, bCloseOnFree, convFlag);
+        this.init(null, record, iQueryKeyArea, null, bCloseOnFree, convFlag);
     }
     /**
      * Constructor.
@@ -57,10 +57,10 @@ public class ReadSecondIfCheckHandler extends ReadSecondaryHandler
      * @param bCloseOnFree Close the record when this behavior is removed?
      * @param convFlag The flag to check.
      */
-    public void init(BaseField field, Record record, int iQueryKeyArea, boolean bCloseOnFree, Converter convFlag)
+    public void init(BaseField field, Record record, int iQueryKeyArea, String keyAreaName, boolean bCloseOnFree, Converter convFlag)
     {
         m_convFlag = convFlag;
-        super.init(field, record, iQueryKeyArea, bCloseOnFree, false, true);
+        super.init(field, record, iQueryKeyArea, keyAreaName, bCloseOnFree, false, true);
     }
     /**
      * The Field has Changed.

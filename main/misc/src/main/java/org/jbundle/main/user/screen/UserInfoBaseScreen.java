@@ -163,7 +163,7 @@ public class UserInfoBaseScreen extends Screen
                 {
                     Record recUserInfo = this.getOwner();
                     Task task = recUserInfo.getTask();
-                    String strUserName = recUserInfo.getField(UserInfo.kID).toString();
+                    String strUserName = recUserInfo.getField(UserInfo.ID).toString();
                     if ((strUserName == null) || (strUserName.length() == 0))
                         strUserName = recUserInfo.getLastModified(DBConstants.BOOKMARK_HANDLE).toString();
                     String strPassword = recUserInfo.getField(UserInfo.PASSWORD).toString();

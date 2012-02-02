@@ -109,7 +109,7 @@ public class CatVetGridScreen extends DetailGridScreen
         this.getMainRecord().setKeyArea(Cat.VET_KEY);
         this.getMainRecord().addListener(new SubFileFilter(this.getHeaderRecord()));
             // Any change to the bundle file triggers a re-select (note: SPopup read-thru will not respond)
-        this.getRecord(Vet.VET_FILE).getField(Vet.kID).addListener(new FieldReSelectHandler(this));
+        this.getRecord(Vet.VET_FILE).getField(Vet.ID).addListener(new FieldReSelectHandler(this));
     }
     /**
      * SetupSFields Method.

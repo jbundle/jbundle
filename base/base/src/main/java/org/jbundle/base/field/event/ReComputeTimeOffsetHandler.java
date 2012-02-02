@@ -67,6 +67,15 @@ public class ReComputeTimeOffsetHandler extends ReComputeFieldHandler
         this.init(null, iTargetFieldSeq, null, (DateTimeField)null);
     }
     /**
+     * Constructor - Using the current time as the offset.
+     * @param iTargetFieldSeq The date field sequence in this owner to use to calc the difference.
+     */
+    public ReComputeTimeOffsetHandler(String targetFieldName)
+    {
+        this();
+        this.init(null, -1, targetFieldName, (DateTimeField)null);
+    }
+    /**
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      * @param iTargetFieldSeq The date field sequence in this owner to use to calc the difference.

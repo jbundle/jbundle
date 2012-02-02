@@ -89,7 +89,7 @@ public class SetupExcludePackagesHandler extends FileListener
         
         StringBuffer sb = new StringBuffer();
         sb.append("<excludes>\n");
-        this.scanTreeForExcludes(sb, this.getOwner().getField(Packages.kID).toString());
+        this.scanTreeForExcludes(sb, this.getOwner().getField(Packages.ID).toString());
         sb.append("</excludes>");
         
         m_fldExcludePackages.setString(sb.toString());
@@ -112,7 +112,7 @@ public class SetupExcludePackagesHandler extends FileListener
                 m_recPackagesExclude.next();
                 if (m_recPackagesExclude.getField(Packages.EXCLUDE).getState() == true)
                     sb.append("<exclude>" + this.getTree(m_recPackagesExclude) + "</exclude>\n");
-                list.add(m_recPackagesExclude.getField(Packages.kID).toString());
+                list.add(m_recPackagesExclude.getField(Packages.ID).toString());
             }
             m_recPackagesExclude.removeListener(listener, true);
             listener = null;
@@ -141,11 +141,11 @@ public class SetupExcludePackagesHandler extends FileListener
             }
             String strPackagesTree = recPackages.getField(Packages.NAME).toString();
             m_recPackagesTree.addNew();
-            m_recPackagesTree.getField(Packages.kID).moveFieldToThis(recPackages.getField(Packages.PARENT_FOLDER_ID));
-            while ((m_recPackagesTree.getField(Packages.kID).getValue() > 0) && (m_recPackagesTree.seek(null)))
+            m_recPackagesTree.getField(Packages.ID).moveFieldToThis(recPackages.getField(Packages.PARENT_FOLDER_ID));
+            while ((m_recPackagesTree.getField(Packages.ID).getValue() > 0) && (m_recPackagesTree.seek(null)))
             {
                 strPackagesTree = m_recPackagesTree.getField(Packages.NAME).toString() + '.' + strPackagesTree;
-                m_recPackagesTree.getField(Packages.kID).moveFieldToThis(m_recPackagesTree.getField(Packages.PARENT_FOLDER_ID));
+                m_recPackagesTree.getField(Packages.ID).moveFieldToThis(m_recPackagesTree.getField(Packages.PARENT_FOLDER_ID));
             }
             return strPackagesTree;
             

@@ -1018,6 +1018,20 @@ public class Record extends FieldList
         return this.getField(strFieldName);
     }
     /**
+     * Get the field sequence for this field.
+     * @param fieldName
+     * @return
+     */
+    public int getFieldSeq(String fieldName)
+    {
+        for (int i = 0; i < this.getFieldCount(); i++)
+        {
+            if (fieldName.equals(this.getField(i).getFieldName()))
+                return i;
+        }
+        return -1;
+    }
+    /**
      * Get the field in the record that is a reference to this record.
      * The field returned must be a ReferenceField, in a key area, and must override getReferenceRecordName().
      * @param record The record to check.
@@ -1139,15 +1153,15 @@ public class Record extends FieldList
      * Override this to supply a different key area.
      * @return The key area to use for screens and popups.
      */
-    public int getDefaultScreenKeyArea()
+    public String getDefaultScreenKeyArea()
     {
         for (int i = DBConstants.MAIN_KEY_AREA; i < this.getKeyAreaCount(); i++)
         {
             if (this.getKeyArea(i).getUniqueKeyCode() == DBConstants.NOT_UNIQUE)
                 if (this.getKeyArea(i).getKeyField(DBConstants.MAIN_KEY_FIELD).getField(DBConstants.FILE_KEY_AREA) instanceof StringField)
-                    return i;
+                    return this.getKeyArea(i).getKeyName();
         }
-        return -1;      // Return the current key area
+        return null;      // Return the current key area
     }
     /**
      * Get the default display field for this record (for popups and lookups).
@@ -1166,8 +1180,8 @@ public class Record extends FieldList
      */
     public int getDefaultDisplayFieldSeq()
     {
-        int iKeyOrder = this.getDefaultScreenKeyArea();
-        if (iKeyOrder == -1)
+        String iKeyOrder = this.getDefaultScreenKeyArea();
+        if (iKeyOrder == null)
         {
             for (int i = 0; i < this.getFieldCount(); i++)
             {

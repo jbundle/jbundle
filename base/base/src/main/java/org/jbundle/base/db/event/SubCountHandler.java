@@ -99,6 +99,18 @@ public class SubCountHandler extends FileListener
      * @param bVerifyOnEOF Verify the total on End of File (true default).
      * @param bRecountOnSelect Recount the total each time a file select is called (False default).
      */
+    public SubCountHandler(BaseField fieldMain, String fsToCount, boolean bRecountOnSelect, boolean bVerifyOnEOF)   // Init this field override for other value
+    {
+        this();
+        this.init(null, null, -1, fieldMain, -1, fsToCount, bRecountOnSelect, bVerifyOnEOF, false);
+    }
+    /**
+     * Constructor for counting the value of a field in this record.
+     * @param fieldMain The field to receive the count.
+     * @param ifsToCount The field in this record to add up.
+     * @param bVerifyOnEOF Verify the total on End of File (true default).
+     * @param bRecountOnSelect Recount the total each time a file select is called (False default).
+     */
     public SubCountHandler(BaseField fieldMain, int ifsToCount, boolean bRecountOnSelect, boolean bVerifyOnEOF)   // Init this field override for other value
     {
         this();

@@ -88,7 +88,7 @@ public class ProjectTaskPredecessorGridScreen extends DetailGridScreen
      */
     public void addSubFileFilter()
     {
-        this.getMainRecord().addListener(new SubFileFilter(ProjectTaskPredecessor.PROJECT_TASK_ID_KEY, this.getHeaderRecord().getField(ProjectTask.kID)));
+        this.getMainRecord().addListener(new SubFileFilter(ProjectTaskPredecessor.PROJECT_TASK_ID_KEY, this.getHeaderRecord().getField(ProjectTask.ID)));
     }
     /**
      * SetupSFields Method.

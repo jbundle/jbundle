@@ -138,7 +138,7 @@ public class IssueGridScreen extends GridScreen
     {
         this.getRecord(Issue.kIssueFile).getField(Issue.kIssuePriorityID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(Issue.kIssueFile).getField(Issue.kIssueSequence).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        Converter converter = new FieldLengthConverter(this.getRecord(Issue.kIssueFile).getField(Issue.kDescription), 50);
+        Converter converter = new FieldLengthConverter(this.getRecord(Issue.ISSUE_FILE).getField(Issue.DESCRIPTION), 50);
         converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(Issue.kIssueFile).getField(Issue.kProjectID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(Issue.kIssueFile).getField(Issue.kIssueStatusID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);

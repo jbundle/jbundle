@@ -40,7 +40,7 @@ public class HistoryHandler extends FreeOnFreeHandler
     /**
      * Location of the mod date in the history record.
      */
-    protected int m_iHistoryDateSeq = -1;
+    protected String m_iHistoryDateSeq = null;
     /**
      * Name of the history class.
      */
@@ -52,7 +52,7 @@ public class HistoryHandler extends FreeOnFreeHandler
     /**
      * The source history date field sequence in this record.
      */
-    protected int m_iSourceDateSeq = -1;
+    protected String m_iSourceDateSeq = null;
 
     /**
      * Constructor.
@@ -68,7 +68,7 @@ public class HistoryHandler extends FreeOnFreeHandler
     public HistoryHandler(Record recHistory)
     {
         this();
-        this.init(null, recHistory, -1, null, true, null, -1);   // Warning, you must manually free this record
+        this.init(null, recHistory, null, null, true, null, null);   // Warning, you must manually free this record
     }
     /**
      * Constructor.
@@ -78,10 +78,10 @@ public class HistoryHandler extends FreeOnFreeHandler
      * @param bConfirmOnChange If true, ask the user if the changes are okay before writing them.
      * @param bCloseOnFree Close the history file when this record is freed (default true).
      */
-    public HistoryHandler(Record recHistory, int iHistoryDate, BaseField fldSourceHistoryDate, boolean bCloseOnFree)
+    public HistoryHandler(Record recHistory, String iHistoryDateField, BaseField fldSourceHistoryDate, boolean bCloseOnFree)
     {
         this();
-        this.init(null, recHistory, iHistoryDate, fldSourceHistoryDate, bCloseOnFree, null, -1);
+        this.init(null, recHistory, iHistoryDateField, fldSourceHistoryDate, bCloseOnFree, null, null);
     }
     /**
      * Constructor.
@@ -91,10 +91,10 @@ public class HistoryHandler extends FreeOnFreeHandler
      * @param bConfirmOnChange If true, ask the user if the changes are okay before writing them.
      * @param bCloseOnFree Close the history file when this record is freed (default true).
      */
-    public HistoryHandler(String strRecHistoryClass, int iHistoryDate, int iSourceHistoryDateSeq)
+    public HistoryHandler(String strRecHistoryClass, String iHistoryDateField, String iSourceHistoryDateSeq)
     {
         this();
-        this.init(null, null, iHistoryDate, null, false, strRecHistoryClass, iSourceHistoryDateSeq);    // Free on Free
+        this.init(null, null, iHistoryDateField, null, false, strRecHistoryClass, iSourceHistoryDateSeq);    // Free on Free
     }
     /**
      * Constructor.
@@ -105,10 +105,10 @@ public class HistoryHandler extends FreeOnFreeHandler
      * @param bConfirmOnChange If true, ask the user if the changes are okay before writing them.
      * @param bCloseOnFree Close the history file when this record is freed (default true).
      */
-    public void init(Record record, Record recHistory, int iHistoryDateSeq, BaseField fldSourceHistoryDate, boolean bCloseOnFree, String strRecHistoryClass, int iSourceHistoryDateSeq)
+    public void init(Record record, Record recHistory, String iHistoryDateSeq, BaseField fldSourceHistoryDate, boolean bCloseOnFree, String strRecHistoryClass, String iSourceHistoryDateSeq)
     {
-        if (iHistoryDateSeq == -1)
-            iHistoryDateSeq = recHistory.getFieldCount() - 1;    // Last field
+        if (iHistoryDateSeq == null)
+            iHistoryDateSeq = recHistory.getField(recHistory.getFieldCount() - 1).getFieldName();    // Last field
         m_iHistoryDateSeq = iHistoryDateSeq;
         m_fldSourceHistoryDate = fldSourceHistoryDate;
         m_strRecHistoryClass = strRecHistoryClass;
@@ -171,7 +171,7 @@ public class HistoryHandler extends FreeOnFreeHandler
     {
         if (m_fldSourceHistoryDate == null)
         {
-            if (m_iSourceDateSeq != -1)
+            if (m_iSourceDateSeq != null)
                 m_fldSourceHistoryDate = this.getOwner().getField(m_iSourceDateSeq);
             else if (this.getHistoryRecord() instanceof VirtualRecord)
                 m_fldSourceHistoryDate = this.getOwner().getField(VirtualRecord.kLastChanged);

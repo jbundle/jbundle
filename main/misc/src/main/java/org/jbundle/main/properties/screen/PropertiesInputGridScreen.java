@@ -120,7 +120,7 @@ public class PropertiesInputGridScreen extends GridScreen
      */
     public void setupSFields()
     {
-        Converter converter = this.getRecord(PropertiesInput.kPropertiesInputFile).getField(PropertiesInput.kKey);
+        Converter converter = this.getRecord(PropertiesInput.PROPERTIES_INPUT_FILE).getField(PropertiesInput.KEY);
         converter = new FieldLengthConverter(converter, 20);
         if (m_properties.size() > 0)
         {
@@ -152,7 +152,7 @@ public class PropertiesInputGridScreen extends GridScreen
             };
         }
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);
-        converter = this.getRecord(PropertiesInput.kPropertiesInputFile).getField(PropertiesInput.kValue);
+        converter = this.getRecord(PropertiesInput.PROPERTIES_INPUT_FILE).getField(PropertiesInput.VALUE);
         converter = new FieldLengthConverter(converter, 30);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);
     }

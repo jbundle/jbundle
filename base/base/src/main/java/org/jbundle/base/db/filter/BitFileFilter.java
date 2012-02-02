@@ -24,7 +24,7 @@ public class BitFileFilter extends FileFilter
     /**
      * The field sequence to check.
      */
-    protected int m_fsRecordTarget = -1;
+    protected String m_fsRecordTarget = null;
     /**
      * The field sequence to check.
      */
@@ -48,7 +48,7 @@ public class BitFileFilter extends FileFilter
     /**
      * FilterApTrxHandler Method.
      */
-    public BitFileFilter(int fsTarget, BaseField fldTarget)
+    public BitFileFilter(String fsTarget, BaseField fldTarget)
     {
         this();
         this.init(null, null, fsTarget, fldTarget);
@@ -59,12 +59,12 @@ public class BitFileFilter extends FileFilter
     public BitFileFilter(BaseField fldRecordTarget, BaseField fldTarget)
     {
         this();
-        this.init(null, fldRecordTarget, -1, fldTarget);
+        this.init(null, fldRecordTarget, null, fldTarget);
     }
     /**
      * Initialize class fields.
      */
-    public void init(Record record, BaseField fldRecordTarget, int fsTarget, BaseField fldTarget)
+    public void init(Record record, BaseField fldRecordTarget, String fsTarget, BaseField fldTarget)
     {
         m_fldToCompare = fldTarget;
         m_fsRecordTarget = fsTarget;

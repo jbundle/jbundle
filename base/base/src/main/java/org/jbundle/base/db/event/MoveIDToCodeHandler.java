@@ -24,7 +24,7 @@ public class MoveIDToCodeHandler extends FileListener
     /**
      * 
      */
-    protected int m_iCodeField = -1;
+    protected String m_iCodeField = null;
 
     /**
      * Constructor.
@@ -46,7 +46,7 @@ public class MoveIDToCodeHandler extends FileListener
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      */
-    public MoveIDToCodeHandler(int iCodeField)
+    public MoveIDToCodeHandler(String iCodeField)
     {
         this();
         this.init(null, iCodeField);
@@ -55,7 +55,7 @@ public class MoveIDToCodeHandler extends FileListener
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      */
-    public void init(Record record, int iCodeField)
+    public void init(Record record, String iCodeField)
     {
         super.init(record);
         m_iCodeField = iCodeField;
@@ -96,7 +96,7 @@ public class MoveIDToCodeHandler extends FileListener
     public BaseField getCodeField()
     {
         Record record = this.getOwner();
-        if (m_iCodeField != -1)
+        if (m_iCodeField != null)
             return record.getField(m_iCodeField);
         else
             return record.getKeyArea(record.getCodeKeyArea()).getField(DBConstants.MAIN_KEY_FIELD);

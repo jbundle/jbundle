@@ -115,7 +115,7 @@ public class ScanPackagesProcess extends BaseProcess
         try {
             classProject.addNew();
             classProject.setKeyArea(ClassProject.ID_KEY);
-            classProject.getField(ClassProject.kID).setValue(parentProjectID);
+            classProject.getField(ClassProject.ID).setValue(parentProjectID);
             if (classProject.seek(null))
             {
                 if (isBaseDatabase(classProject))
@@ -130,7 +130,7 @@ public class ScanPackagesProcess extends BaseProcess
             while (classProject.hasNext())
             {
                 classProject.next();
-                this.scanProjects((int)classProject.getField(ClassProject.kID).getValue());
+                this.scanProjects((int)classProject.getField(ClassProject.ID).getValue());
             }
             field.free();
         } catch (DBException e) {
@@ -144,7 +144,7 @@ public class ScanPackagesProcess extends BaseProcess
      */
     public void scanAllPackages(ClassProject classProject)
     {
-        this.setProperty("projectID", classProject.getField(ClassProject.kID).toString());
+        this.setProperty("projectID", classProject.getField(ClassProject.ID).toString());
         
         this.scanPackages(classProject, ClassProject.CodeType.RESOURCE_CODE);
         this.scanPackages(classProject, ClassProject.CodeType.RESOURCE_PROPERTIES);

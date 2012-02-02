@@ -446,7 +446,7 @@ public class MessageLog extends VirtualRecord
         int iOldOrder = this.getDefaultOrder();
         try {
             this.addNew();
-            this.getField(MessageLog.kID).setString(ID);
+            this.getField(MessageLog.ID).setString(ID);
             this.setKeyArea(MessageLog.ID_KEY);
             if (this.seek(null))
                 return this;

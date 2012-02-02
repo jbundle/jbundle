@@ -191,9 +191,9 @@ public class CreateWSDL extends BaseProcess
                             {
                                 Record recMessageTransportInfo = this.getRecord(MessageTransportInfo.MESSAGE_TRANSPORT_INFO_FILE);
                                 recMessageTransportInfo.setKeyArea(MessageTransportInfo.MESSAGE_PROCESS_INFO_ID_KEY);
-                                recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_PROCESS_INFO_ID).moveFieldToThis(recMessageProcessInfo.getField(MessageProcessInfo.kID));
-                                recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_TRANSPORT_ID).moveFieldToThis(recMessageTransport.getField(MessageTransport.kID));
-                                recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_VERSION_ID).moveFieldToThis(recMessageVersion.getField(MessageVersion.kID));
+                                recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_PROCESS_INFO_ID).moveFieldToThis(recMessageProcessInfo.getField(MessageProcessInfo.ID));
+                                recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_TRANSPORT_ID).moveFieldToThis(recMessageTransport.getField(MessageTransport.ID));
+                                recMessageTransportInfo.getField(MessageTransportInfo.MESSAGE_VERSION_ID).moveFieldToThis(recMessageVersion.getField(MessageVersion.ID));
                                 if (recMessageTransportInfo.seek(DBConstants.EQUALS))
                                 {
                                     this.addProcessForWSDL(strTargetVersion, typeObject, recMessageProcessInfo, type);

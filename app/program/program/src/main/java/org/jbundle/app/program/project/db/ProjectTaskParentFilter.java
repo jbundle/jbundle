@@ -66,9 +66,9 @@ public class ProjectTaskParentFilter extends FileFilter
         Record recProjectTask = this.getOwner();
         while (recProjectTask != null)
         {
-            if (recProjectTask.getField(ProjectTask.kID).equals(m_recProjectTaskParent.getField(ProjectTask.kID)))
+            if (recProjectTask.getField(ProjectTask.ID).equals(m_recProjectTaskParent.getField(ProjectTask.ID)))
                 break;   // Match! This record is my target
-            if (recProjectTask.getField(ProjectTask.PARENT_PROJECT_TASK_ID).equals(m_recProjectTaskParent.getField(ProjectTask.kID)))
+            if (recProjectTask.getField(ProjectTask.PARENT_PROJECT_TASK_ID).equals(m_recProjectTaskParent.getField(ProjectTask.ID)))
                 break;   // Match! This record has my target as a ancestor
             recProjectTask = ((ReferenceField)recProjectTask.getField(ProjectTask.PARENT_PROJECT_TASK_ID)).getReference();
             if ((recProjectTask == null)

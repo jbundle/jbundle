@@ -202,7 +202,7 @@ public class WriteResources extends BaseProcess
                             recBaseRegistration.next();
                             recRegistration.addNew();
                             recRegistration.setKeyArea(Registration.CODE_KEY);
-                            recRegistration.getField(Registration.RESOURCE_ID).moveFieldToThis(recResource.getField(Resource.kID));
+                            recRegistration.getField(Registration.RESOURCE_ID).moveFieldToThis(recResource.getField(Resource.ID));
                             recRegistration.getField(Registration.CODE).moveFieldToThis(recResource.getField(Resource.CODE));
                             recRegistration.getField(Registration.LANGUAGE).moveFieldToThis(recBaseRegistration.getField(Registration.LANGUAGE));
                             recRegistration.getField(Registration.LOCALE).moveFieldToThis(recBaseRegistration.getField(Registration.LOCALE));

@@ -70,9 +70,9 @@ public class ClassIssueGridScreen extends IssueGridScreen
         if (recClassInfo != null)
         {
             record.setKeyArea(Issue.CLASS_INFO_ID_KEY);
-            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.kID), Issue.CLASS_INFO_ID, null, null, null, null, true);
+            SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.ID), Issue.CLASS_INFO_ID, null, null, null, null, true);
             record.addListener(listener);
-            recClassInfo.getField(ClassInfo.kID).addListener(new FieldReSelectHandler(this));
+            recClassInfo.getField(ClassInfo.ID).addListener(new FieldReSelectHandler(this));
         }
     }
 

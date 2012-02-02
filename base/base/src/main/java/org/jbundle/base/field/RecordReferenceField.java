@@ -21,7 +21,7 @@ public class RecordReferenceField extends IntegerField
 	/**
      * Typical description field.
      */
-    protected int m_iDescription = -1;
+    protected String m_iDescription = null;
     /**
      * Record this field refers to.
      */
@@ -58,7 +58,7 @@ public class RecordReferenceField extends IntegerField
     public void init(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
     {
         super.init(record, strName, iDataLength, strDesc, strDefault);
-        m_iDescription = -1;    // Typical description field
+        m_iDescription = null;    // Typical description field
         m_recordReference = null;                                       // Record description of this Table
     }
     /**
@@ -233,10 +233,10 @@ public class RecordReferenceField extends IntegerField
      * Get the field sequence of the record description field.
      * @return
      */
-    public int getDefaultDisplayFieldSeq()
+    public String getDefaultDisplayFieldSeq()
     {
-        if (m_iDescription == -1)
-        	m_iDescription = this.getReferenceRecord().getDefaultDisplayFieldSeq();
+        if (m_iDescription == null)
+        	m_iDescription = this.getReferenceRecord().getDefaultDisplayFieldName();
         return m_iDescription;
     }
 }

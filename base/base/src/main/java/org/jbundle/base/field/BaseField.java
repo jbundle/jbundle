@@ -1182,6 +1182,14 @@ public class BaseField extends FieldInfo
      * Add a popup for the table tied to this field.
      * @return  Return the component or ScreenField that is created for this field.
      */
+    public ScreenComponent setupTablePopup(ScreenLoc itsLocation, ComponentParent targetScreen, int iDisplayFieldDesc, Rec record, String displayFieldName, boolean bIncludeBlankOption)
+    {
+        return this.setupTablePopup(itsLocation, targetScreen, this, iDisplayFieldDesc, record, null, displayFieldName, bIncludeBlankOption, false);
+    }
+    /**
+     * Add a popup for the table tied to this field.
+     * @return  Return the component or ScreenField that is created for this field.
+     */
     public ScreenComponent setupTablePopup(ScreenLoc itsLocation, ComponentParent targetScreen, int iDisplayFieldDesc, Rec record, int iDisplayFieldSeq, boolean bIncludeBlankOption)
     {
         return this.setupTablePopup(itsLocation, targetScreen, this, iDisplayFieldDesc, record, DBConstants.MAIN_KEY_AREA, iDisplayFieldSeq, bIncludeBlankOption, false);

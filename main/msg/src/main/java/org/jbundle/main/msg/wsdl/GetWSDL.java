@@ -95,7 +95,7 @@ public class GetWSDL extends BaseProcess
             recContactType = (ContactType)recContactType.getContactType(record);
             Record recMessageDetail = this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE);
             recMessageDetail.setKeyArea(MessageDetail.CONTACT_TYPE_ID_KEY);
-            recMessageDetail.addListener(new SubFileFilter(recContactType.getField(ContactType.kID), recMessageDetail.getField(MessageDetail.CONTACT_TYPE_ID), (BaseField)record.getCounterField(), recMessageDetail.getField(MessageDetail.PERSON_ID), null, null));
+            recMessageDetail.addListener(new SubFileFilter(recContactType.getField(ContactType.ID), MessageDetail.CONTACT_TYPE_ID, (BaseField)record.getCounterField(), MessageDetail.PERSON_ID, null, null));
         
         } catch (DBException e) {
             e.printStackTrace();

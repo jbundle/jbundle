@@ -346,7 +346,7 @@ public class Menus extends Folder
         StringBuffer sbContentArea = new StringBuffer();
         sbContentArea.append(Utility.startTag(XMLTags.MENU_LIST));
         try   {
-            String strMenu = this.getField(Menus.kID).toString();
+            String strMenu = this.getField(Menus.ID).toString();
             this.setKeyArea(Menus.PARENT_FOLDER_ID_KEY);
             FileListener behavior = new StringSubFileFilter(strMenu, this.getField(Menus.PARENT_FOLDER_ID), null, null, null, null);
             this.addListener(behavior);

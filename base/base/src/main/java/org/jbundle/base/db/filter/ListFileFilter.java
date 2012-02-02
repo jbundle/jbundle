@@ -23,7 +23,7 @@ public class ListFileFilter extends FileFilter
     /**
      * The field sequence to check.
      */
-    protected int m_fsTarget = -1;
+    protected String m_fsTarget = null;
     /**
      * The list of valid objects.
      */
@@ -42,12 +42,12 @@ public class ListFileFilter extends FileFilter
     public ListFileFilter(BaseField fldTarget)
     {
         this();
-        this.init(fldTarget, -1);
+        this.init(fldTarget, null);
     }
     /**
      * FilterApTrxHandler Method.
      */
-    public ListFileFilter(int fsTarget)
+    public ListFileFilter(String fsTarget)
     {
         this();
         this.init(null, fsTarget);
@@ -55,7 +55,7 @@ public class ListFileFilter extends FileFilter
     /**
      * Initialize class fields.
      */
-    public void init(BaseField fldTarget, int fsTarget)
+    public void init(BaseField fldTarget, String fsTarget)
     {
         m_hsFilter = null;
         m_fldTarget = fldTarget;
@@ -78,7 +78,7 @@ public class ListFileFilter extends FileFilter
         super.setOwner(owner);
         if (this.getOwner() != null)
             if (m_fldTarget == null)
-                if (m_fsTarget != -1)
+                if (m_fsTarget != null)
                     m_fldTarget = this.getOwner().getField(m_fsTarget);
     }
     /**

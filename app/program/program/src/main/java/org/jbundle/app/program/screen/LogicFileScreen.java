@@ -94,12 +94,12 @@ public class LogicFileScreen extends Screen
         this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kMethodName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kLogicSource).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kLogicDescription).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        converter = this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kMethodReturns);
+        converter = this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.METHOD_RETURNS);
         converter = new FieldLengthConverter(converter, 50);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);
         Record query = this.getMainRecord();
             
-        BaseField field = query.getField(LogicFile.kMethodInterface);
+        BaseField field = query.getField(LogicFile.METHOD_INTERFACE);
         Converter converter2 = new FieldLengthConverter(field, 40);
         SEditText screenField = new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, converter2, ScreenConstants.DISPLAY_DESC);
         this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kSequence).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);

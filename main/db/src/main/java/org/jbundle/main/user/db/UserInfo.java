@@ -415,9 +415,9 @@ public class UserInfo extends PropertiesRecord
         {   // Valid UserID, read it!
             if (!bForceRead)
                 if ((this.getEditMode() == DBConstants.EDIT_CURRENT) || (this.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
-                    if (this.getField(UserInfo.kID).getValue() == iUserID)
+                    if (this.getField(UserInfo.ID).getValue() == iUserID)
                         return true;    // Already current
-            this.getField(UserInfo.kID).setValue(iUserID);
+            this.getField(UserInfo.ID).setValue(iUserID);
             try   {
                 this.setKeyArea(UserInfo.ID_KEY);
                 bFound = this.seek(null);

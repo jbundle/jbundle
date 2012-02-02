@@ -177,7 +177,7 @@ public class MessageTransport extends VirtualRecord
         String strTransType = this.getField(MessageTransport.MESSAGE_TRANSPORT_TYPE).toString();
         if ((strTransType != null) && (strTransType.length() > 0))
             propMessageTransport.put(MessageTransport.TRANSPORT_TYPE_PARAM, strTransType);
-        propMessageTransport.put(MessageTransport.TRANSPORT_ID_PARAM, this.getField(MessageTransport.kID).toString());
+        propMessageTransport.put(MessageTransport.TRANSPORT_ID_PARAM, this.getField(MessageTransport.ID).toString());
         if (mapHeaderMessageTransport != null)
             Utility.putAllIfNew(mapHeaderMessageTransport, propMessageTransport);
         else
@@ -196,7 +196,7 @@ public class MessageTransport extends VirtualRecord
         if (Utility.isNumeric(strMessageTransport))
         {
             this.setKeyArea(MessageTransport.ID_KEY);
-            this.getField(MessageTransport.kID).setString(strMessageTransport);   
+            this.getField(MessageTransport.ID).setString(strMessageTransport);  
         }
         else
         {

@@ -311,7 +311,7 @@ public class ProjectTask extends Folder
                 {
                     if (m_recDependent.getListener(SubFileFilter.class.getName()) == null)
                     {
-                        m_recDependent.addListener(new SubFileFilter(getField(ProjectTask.kID), ProjectTaskPredecessor.PROJECT_TASK_ID, null, null, null, null));
+                        m_recDependent.addListener(new SubFileFilter(getField(ProjectTask.ID), ProjectTaskPredecessor.PROJECT_TASK_ID, null, null, null, null));
                         m_recDependent.setKeyArea(ProjectTaskPredecessor.PROJECT_TASK_ID_KEY);
                     }
                 }
@@ -366,7 +366,7 @@ public class ProjectTask extends Folder
         
                 ProjectTaskPredecessor recProjectTaskPredecessor = this.getProjectTaskPredecessor();
                 recProjectTaskPredecessor.addNew();
-                recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_ID).moveFieldToThis(m_recDetail.getField(ProjectTask.kID));
+                recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_ID).moveFieldToThis(m_recDetail.getField(ProjectTask.ID));
                 recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PROJECT_TASK_ID).setData(bookmark);
                 recProjectTaskPredecessor.getField(ProjectTaskPredecessor.PREDECESSOR_TYPE).setString(PredecessorTypeField.FINISH_START);
                 recProjectTaskPredecessor.add();
@@ -447,7 +447,7 @@ public class ProjectTask extends Folder
             DateTimeField fldSource = (DateTimeField)this.getField(ProjectTask.END_DATE_TIME);
             if (fldSource.isModified())
             {
-                recProjectTaskPredecessor.addListener(listener = new SubFileFilter(this.getField(ProjectTask.kID), ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_ID, null, null, null, null));
+                recProjectTaskPredecessor.addListener(listener = new SubFileFilter(this.getField(ProjectTask.ID), ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_ID, null, null, null, null));
                 recProjectTaskPredecessor.setKeyArea(ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_ID_KEY);
                 recProjectTaskPredecessor.close();
                 while (recProjectTaskPredecessor.hasNext())
@@ -494,7 +494,7 @@ public class ProjectTask extends Folder
             fldSource = (DateTimeField)this.getField(ProjectTask.START_DATE_TIME);
             if (fldSource.isModified())
             {
-                recProjectTaskPredecessor.addListener(listener = new SubFileFilter(this.getField(ProjectTask.kID), ProjectTaskPredecessor.PROJECT_TASK_ID, null, null, null, null));
+                recProjectTaskPredecessor.addListener(listener = new SubFileFilter(this.getField(ProjectTask.ID), ProjectTaskPredecessor.PROJECT_TASK_ID, null, null, null, null));
                 recProjectTaskPredecessor.setKeyArea(ProjectTaskPredecessor.PROJECT_TASK_ID_KEY);
                 recProjectTaskPredecessor.close();
                 while (recProjectTaskPredecessor.hasNext())

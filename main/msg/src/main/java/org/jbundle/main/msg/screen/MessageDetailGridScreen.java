@@ -159,7 +159,7 @@ public class MessageDetailGridScreen extends DetailGridScreen
         recContactType = recContactType.getContactType(recHeader);
         Record recMessageDetail = this.getMainRecord();
         recMessageDetail.setKeyArea(MessageDetail.CONTACT_TYPE_ID_KEY);
-        recMessageDetail.addListener(new SubFileFilter(recContactType.getField(ContactType.kID), recMessageDetail.getField(MessageDetail.CONTACT_TYPE_ID), recHeader.getField(VirtualRecord.kID), recMessageDetail.getField(MessageDetail.PERSON_ID), null, null));
+        recMessageDetail.addListener(new SubFileFilter(recContactType.getField(ContactType.ID), MessageDetail.CONTACT_TYPE_ID, recHeader.getField(VirtualRecord.ID), MessageDetail.PERSON_ID, null, null));
     }
     /**
      * SetupSFields Method.
@@ -167,7 +167,7 @@ public class MessageDetailGridScreen extends DetailGridScreen
     public void setupSFields()
     {
         this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageProcessInfoID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        Converter convDefaultTransport = new CheckConverter(this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kDefaultMessageTransportID), this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageTransportID), null, true);
+        Converter convDefaultTransport = new CheckConverter(this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.DEFAULT_MESSAGE_TRANSPORT_ID), this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.MESSAGE_TRANSPORT_ID), null, true);
         convDefaultTransport.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageTransportID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }

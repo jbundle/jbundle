@@ -231,9 +231,9 @@ public class MessageLogGridScreen extends DetailGridScreen
         if (recHeader != null)
         {
             recContactType = recContactType.getContactType(recHeader);
-            this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID).moveFieldToThis(recContactType.getField(ContactType.kID));   // Display the field
+            this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID).moveFieldToThis(recContactType.getField(ContactType.ID));   // Display the field
             if ((recHeader.getEditMode() == DBConstants.EDIT_CURRENT) || (recHeader.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
-                this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_ID).moveFieldToThis(recHeader.getField(VirtualRecord.kID));   // Display the field
+                this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_ID).moveFieldToThis(recHeader.getField(VirtualRecord.ID));   // Display the field
         }
         Record recMessageDetail = this.getMainRecord();
         this.getMainRecord().addListener(new CompareFileFilter(this.getMainRecord().getField(MessageLog.CONTACT_TYPE_ID), this.getScreenRecord().getField(MessageLogScreenRecord.CONTACT_TYPE_ID), DBConstants.EQUALS, null, true));

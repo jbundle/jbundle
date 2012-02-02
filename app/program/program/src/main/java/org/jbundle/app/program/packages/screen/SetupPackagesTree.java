@@ -85,11 +85,11 @@ public class SetupPackagesTree extends FileListener
             }
             String strPackagesTree = this.getOwner().getField(Packages.NAME).toString();
             m_recPackages.addNew();
-            m_recPackages.getField(Packages.kID).moveFieldToThis(this.getOwner().getField(Packages.PARENT_FOLDER_ID));
-            while ((m_recPackages.getField(Packages.kID).getValue() > 0) && (m_recPackages.seek(null)))
+            m_recPackages.getField(Packages.ID).moveFieldToThis(this.getOwner().getField(Packages.PARENT_FOLDER_ID));
+            while ((m_recPackages.getField(Packages.ID).getValue() > 0) && (m_recPackages.seek(null)))
             {
                 strPackagesTree = m_recPackages.getField(Packages.NAME).toString() + '.' + strPackagesTree;
-                m_recPackages.getField(Packages.kID).moveFieldToThis(m_recPackages.getField(Packages.PARENT_FOLDER_ID));
+                m_recPackages.getField(Packages.ID).moveFieldToThis(m_recPackages.getField(Packages.PARENT_FOLDER_ID));
             }
             m_fldTargetTree.setString(strPackagesTree);
         } catch (DBException ex) {
