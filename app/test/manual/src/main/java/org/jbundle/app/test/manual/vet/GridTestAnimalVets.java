@@ -43,7 +43,7 @@ public class GridTestAnimalVets extends GridScreen
     public void addListeners()
     {
         super.addListeners();
-        this.getMainRecord().setKeyArea(Animal.kNameKey);
+        this.getMainRecord().setKeyArea(Animal.NAME_KEY);
 //      this.setEditing(true);
     }
     /**
@@ -66,8 +66,8 @@ public class GridTestAnimalVets extends GridScreen
     public void  setupSFields()
     {
         Record record = this.getMainRecord();
-        this.addColumn(record.getField(Dog.kDogFile, Animal.kName));
-        this.addColumn(record.getField(Dog.kDogFile, Animal.kColor));
-        this.addColumn(record.getField(Vet.kVetFile, Vet.kName));
+        this.addColumn(record.getField(Dog.DOG_FILE, Animal.NAME));
+        this.addColumn(record.getField(Dog.DOG_FILE, Animal.COLOR));
+        this.addColumn(record.getField(Vet.VET_FILE, Vet.NAME));
     }
 }

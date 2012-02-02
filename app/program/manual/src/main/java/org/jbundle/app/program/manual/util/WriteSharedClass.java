@@ -67,9 +67,9 @@ public class WriteSharedClass extends WriteClass
         
         Record recClassInfo = this.getMainRecord();
 
-        Record recFieldData = this.getRecord(FieldData.kFieldDataFile);          // Open the Agency File
-        recFieldData.setKeyArea(FieldData.kFieldFileNameKey);
-        recFieldData.addListener(new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), FieldData.kFieldFileName, null, -1, null, -1));
+        Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);          // Open the Agency File
+        recFieldData.setKeyArea(FieldData.FIELD_FILE_NAME_KEY);
+        recFieldData.addListener(new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), FieldData.FIELD_FILE_NAME, null, null, null, null));
     }
     /**
      *
@@ -97,36 +97,36 @@ public class WriteSharedClass extends WriteClass
             String strBaseClass = null;
             String strFieldClass = "Error-no based records";
             Record recClassInfo = this.getMainRecord();
-            FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
-            String strRecordClass = recFieldData.getField(FieldData.kFieldFileName).getString();
-            String strFieldName = recFieldData.getField(FieldData.kFieldName).getString();
-            String strBaseFieldName = recFieldData.getField(FieldData.kBaseFieldName).getString();
+            FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);
+            String strRecordClass = recFieldData.getField(FieldData.FIELD_FILE_NAME).getString();
+            String strFieldName = recFieldData.getField(FieldData.FIELD_NAME).getString();
+            String strBaseFieldName = recFieldData.getField(FieldData.BASE_FIELD_NAME).getString();
             m_BasedFieldHelper.getBasedField(recFieldData, strRecordClass, strFieldName, strBaseFieldName);  // Get the field this is based on
-            strFieldClass = recFieldData.getField(FieldData.kFieldClass).getString();
-            m_recClassInfo2.getField(ClassInfo.kClassName).setString(strFieldClass);
-            m_recClassInfo2.setKeyArea(ClassInfo.kClassNameKey);
+            strFieldClass = recFieldData.getField(FieldData.FIELD_CLASS).getString();
+            m_recClassInfo2.getField(ClassInfo.CLASS_NAME).setString(strFieldClass);
+            m_recClassInfo2.setKeyArea(ClassInfo.CLASS_NAME_KEY);
             boolean bClassInfoExists = m_recClassInfo2.seek("=");
             if (bClassInfoExists)
-                strBaseClass = m_recClassInfo2.getField(ClassInfo.kBaseClassName).getString();  // This will probally be the base class
+                strBaseClass = m_recClassInfo2.getField(ClassInfo.BASE_CLASS_NAME).getString();  // This will probally be the base class
             String strInitField = this.getInitField(recFieldData, false, false);
             if (strInitField.length() != 0)
             {
                 strBaseClass = strFieldClass;
-                strFieldClass = recFieldData.getField(FieldData.kFieldName).getString();
+                strFieldClass = recFieldData.getField(FieldData.FIELD_NAME).getString();
                 strFieldClass = strRecordClass + "_" + strFieldClass;
                 m_recClassInfo2.addNew(); // Clear info
-                m_recClassInfo2.getField(ClassInfo.kClassName).setString(strFieldClass);
-                m_recClassInfo2.getField(ClassInfo.kBaseClassName).setString(strBaseClass);
-                m_recClassInfo2.getField(ClassInfo.kClassPackage).setString(this.getPackage(CodeType.THICK)); // Manual classes are from the same package
-                m_recClassInfo2.getField(ClassInfo.kClassSourceFile).moveFieldToThis(recClassInfo.getField(ClassInfo.kClassSourceFile));
-                m_recClassInfo2.getField(ClassInfo.kClassProjectID).moveFieldToThis(recClassInfo.getField(ClassInfo.kClassProjectID));
+                m_recClassInfo2.getField(ClassInfo.CLASS_NAME).setString(strFieldClass);
+                m_recClassInfo2.getField(ClassInfo.BASE_CLASS_NAME).setString(strBaseClass);
+                m_recClassInfo2.getField(ClassInfo.CLASS_PACKAGE).setString(this.getPackage(CodeType.THICK)); // Manual classes are from the same package
+                m_recClassInfo2.getField(ClassInfo.CLASS_SOURCE_FILE).moveFieldToThis(recClassInfo.getField(ClassInfo.CLASS_SOURCE_FILE));
+                m_recClassInfo2.getField(ClassInfo.CLASS_PROJECT_ID).moveFieldToThis(recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID));
                 return m_recClassInfo2;            // Yes, this field has a unique class
             }
             if (bClassInfoExists)
-//?                if (recClassInfo.getField(ClassInfo.kClassSourceFile).getString().equalsIgnoreCase(m_recClassInfo2.getField(ClassInfo.kClassSourceFile).toString()))
+//?                if (recClassInfo.getField(ClassInfo.CLASS_SOURCE_FILE).getString().equalsIgnoreCase(m_recClassInfo2.getField(ClassInfo.CLASS_SOURCE_FILE).toString()))
                     return m_recClassInfo2;        // Yes, this field has a unique class
-//            recClassInfo.getField(ClassInfo.kClassName).setString(strFieldClass);
-//            recClassInfo.getField(ClassInfo.kBaseClassName).initField(false);        // Blank base class = other class
+//            recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strFieldClass);
+//            recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).initField(false);        // Blank base class = other class
         } catch (DBException ex)   {
             ex.printStackTrace();
         }
@@ -140,7 +140,7 @@ public class WriteSharedClass extends WriteClass
     {
         boolean bConstantValue = false;
         boolean bValidThinConstant = true;
-        String strInitField = recFieldData.getField(FieldData.kInitialValue).getString();
+        String strInitField = recFieldData.getField(FieldData.INITIAL_VALUE).getString();
         if (strInitField != null) if (strInitField.length() > 0)
         {
             if (strInitField.charAt(0) == '\"')

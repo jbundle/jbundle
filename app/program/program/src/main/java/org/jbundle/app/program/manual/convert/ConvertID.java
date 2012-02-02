@@ -129,16 +129,16 @@ public class ConvertID extends BaseProcess
      */
     public boolean isChangeToNewID(Record record)
     {
-        Record recClassInfo = this.getRecord(ClassInfo.kClassInfoFile);
-        recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
-        recClassInfo.getField(ClassInfo.kClassName).moveFieldToThis(record.getField(ScreenIn.kScreenInProgName));
+        Record recClassInfo = this.getRecord(ClassInfo.CLASS_INFO_FILE);
+        recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
+        recClassInfo.getField(ClassInfo.CLASS_NAME).moveFieldToThis(record.getField(ScreenIn.SCREEN_IN_PROG_NAME));
         try {
             if (!recClassInfo.seek(DBConstants.EQUALS))
                 return false;
         } catch (DBException e) {
             e.printStackTrace();
         }
-        return (recClassInfo.getField(ClassInfo.kClassProjectID).getValue() == 1);
+        return (recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID).getValue() == 1);
     }
     /**
      * 

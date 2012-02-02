@@ -75,7 +75,7 @@ public class XTechHelpScreen extends XHelpScreen
         {
             String strHeader =
     " <title>Technical Help Screen - " + Utility.encodeXML(classInfo.getClassDesc()) + " </title>" +
-    //+"    <meta-keywords>" + Utility.encodeXML(m_classInfo.getField(ClassInfo.kKeywords).toString()) + "</meta-keywords>" +
+    //+"    <meta-keywords>" + Utility.encodeXML(m_classInfo.getField(ClassInfo.KEYWORDS).toString()) + "</meta-keywords>" +
     " <meta-description>" + Utility.encodeXML(classInfo.getClassExplain()) + "</meta-description>";
             out.println(strHeader);
         }

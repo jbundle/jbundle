@@ -94,12 +94,12 @@ public class BaseAnimalTest extends TestCase
 
             vet.setOpenMode(DBConstants.OPEN_REFRESH_AND_LOCK_ON_CHANGE_STRATEGY);
             vet.addNew();
-            vet.getField(Vet.kName).setString("Dr. Smith");
+            vet.getField(Vet.NAME).setString("Dr. Smith");
             iVet1 = (int)vet.getField(Vet.kID).getValue();
             vet.add();
 
             vet.addNew();
-            vet.getField(Vet.kName).setString("Dr. Jones");
+            vet.getField(Vet.NAME).setString("Dr. Jones");
             iVet2 = (int)vet.getField(Vet.kID).getValue();
             vet.add();
             
@@ -160,31 +160,31 @@ public class BaseAnimalTest extends TestCase
 
 
             lizard.addNew();
-            lizard.getField(lizard.kName).setString("Blue Belly");
-            lizard.getField(lizard.kClearance).setValue(5);
-            lizard.getField(lizard.kWeight).setValue(2.0);
-            lizard.getField(lizard.kVetID).setValue(iVet1);
+            lizard.getField(lizard.NAME).setString("Blue Belly");
+            lizard.getField(lizard.CLEARANCE).setValue(5);
+            lizard.getField(lizard.WEIGHT).setValue(2.0);
+            lizard.getField(lizard.VET_ID).setValue(iVet1);
             lizard.add();
 
             lizard.addNew();
-            lizard.getField(lizard.kName).setString("Alligator lizard");
-            lizard.getField(lizard.kClearance).setValue(2);
-            lizard.getField(lizard.kWeight).setValue(2.5);
-            lizard.getField(lizard.kVetID).setValue(iVet1);
+            lizard.getField(lizard.NAME).setString("Alligator lizard");
+            lizard.getField(lizard.CLEARANCE).setValue(2);
+            lizard.getField(lizard.WEIGHT).setValue(2.5);
+            lizard.getField(lizard.VET_ID).setValue(iVet1);
             lizard.add();
 
             lizard.addNew();
-            lizard.getField(lizard.kName).setString("Sand lizard");
-            lizard.getField(lizard.kClearance).setValue(8);
-            lizard.getField(lizard.kWeight).setValue(1.5);
-            lizard.getField(lizard.kVetID).setValue(iVet2);
+            lizard.getField(lizard.NAME).setString("Sand lizard");
+            lizard.getField(lizard.CLEARANCE).setValue(8);
+            lizard.getField(lizard.WEIGHT).setValue(1.5);
+            lizard.getField(lizard.VET_ID).setValue(iVet2);
             lizard.add();
 
             lizard.addNew();
-            lizard.getField(lizard.kName).setString("Milk lizard");
-            lizard.getField(lizard.kClearance).setValue(12);
-            lizard.getField(lizard.kWeight).setValue(3.0);
-            lizard.getField(lizard.kVetID).setValue(iVet2);
+            lizard.getField(lizard.NAME).setString("Milk lizard");
+            lizard.getField(lizard.CLEARANCE).setValue(12);
+            lizard.getField(lizard.WEIGHT).setValue(3.0);
+            lizard.getField(lizard.VET_ID).setValue(iVet2);
             lizard.add();
 
                 Utility.getLogger().info("lizards added.\n");
@@ -268,33 +268,33 @@ public class BaseAnimalTest extends TestCase
 
 
             snake.addNew();
-            snake.getField(snake.kName).setString("Python");
-            snake.getField(snake.kWeight).setValue(21.0);
-            snake.getField(snake.kVetID).setValue(iVet2);
+            snake.getField(snake.NAME).setString("Python");
+            snake.getField(snake.WEIGHT).setValue(21.0);
+            snake.getField(snake.VET_ID).setValue(iVet2);
             snake.add();
 
             snake.addNew();
-            snake.getField(snake.kName).setString("Rattlesnake");
-            snake.getField(snake.kWeight).setValue(3.5);
-            snake.getField(snake.kVetID).setValue(iVet1);
+            snake.getField(snake.NAME).setString("Rattlesnake");
+            snake.getField(snake.WEIGHT).setValue(3.5);
+            snake.getField(snake.VET_ID).setValue(iVet1);
             snake.add();
 
             snake.addNew();
-            snake.getField(snake.kName).setString("Gopher snake");
-            snake.getField(snake.kWeight).setValue(71.0);
-            snake.getField(snake.kVetID).setValue(iVet2);
+            snake.getField(snake.NAME).setString("Gopher snake");
+            snake.getField(snake.WEIGHT).setValue(71.0);
+            snake.getField(snake.VET_ID).setValue(iVet2);
             snake.add();
 
             snake.addNew();
-            snake.getField(snake.kName).setString("Anaconda");
-            snake.getField(snake.kWeight).setValue(30.0);
-            snake.getField(snake.kVetID).setValue(iVet1);
+            snake.getField(snake.NAME).setString("Anaconda");
+            snake.getField(snake.WEIGHT).setValue(30.0);
+            snake.getField(snake.VET_ID).setValue(iVet1);
             snake.add();
 
             snake.addNew();
-            snake.getField(snake.kName).setString("Striped racer");
-            snake.getField(snake.kWeight).setValue(35.0);
-            snake.getField(snake.kVetID).setValue(iVet2);
+            snake.getField(snake.NAME).setString("Striped racer");
+            snake.getField(snake.WEIGHT).setValue(35.0);
+            snake.getField(snake.VET_ID).setValue(iVet2);
             snake.add();
 
             Utility.getLogger().info("snakes added.\n");

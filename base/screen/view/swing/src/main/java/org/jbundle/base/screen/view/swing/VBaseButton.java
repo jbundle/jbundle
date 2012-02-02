@@ -104,7 +104,7 @@ public class VBaseButton extends VScreenField
         Dimension itsSize = this.getTextBoxSize(1, ScreenConstants.CHECK_BOX_DESC, 1);
         String tempString = ((SBaseButton)this.getScreenField()).getButtonDesc();
         if ((tempString != null) && (tempString.length() > 0))
-            itsSize.width = this.getTextExtent(tempString).width + ScreenInfo.kExtraColSpacing;
+            itsSize.width = this.getTextExtent(tempString).width + ScreenInfo.EXTRA_COL_SPACING;
         String m_strImageButton = ((SBaseButton)this.getScreenField()).getImageButtonName();
         if (m_strImageButton != null)
         {   // Assume toolbutton size

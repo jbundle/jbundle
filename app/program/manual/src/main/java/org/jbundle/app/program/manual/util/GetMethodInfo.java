@@ -35,7 +35,7 @@ public class GetMethodInfo extends Object
         m_ClassInfo = null;
         LogicFile logicFile = new LogicFile(recordOwner);
         m_LogicFile = logicFile;
-        m_LogicFile.setKeyArea(LogicFile.kMethodClassNameKey);
+        m_LogicFile.setKeyArea(LogicFile.METHOD_CLASS_NAME_KEY);
         ClassInfo classInfo = new ClassInfo(recordOwner);
         m_ClassInfo = classInfo;
     }
@@ -50,39 +50,39 @@ public class GetMethodInfo extends Object
     {
         try   {
             String methodClass, strMethodName, strBaseClass;
-            strMethodName = logicFile.getField(LogicFile.kMethodName).getString();
-            methodClass = logicFile.getField(LogicFile.kMethodClassName).getString();
+            strMethodName = logicFile.getField(LogicFile.METHOD_NAME).getString();
+            methodClass = logicFile.getField(LogicFile.METHOD_CLASS_NAME).getString();
         
         //d   m_ClassInfo.AddNew();
-            m_ClassInfo.getField(ClassInfo.kClassName).setString(methodClass);      // Class of this record
-            m_ClassInfo.setKeyArea(ClassInfo.kClassNameKey);
+            m_ClassInfo.getField(ClassInfo.CLASS_NAME).setString(methodClass);      // Class of this record
+            m_ClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
             while (m_ClassInfo.seek("="))
             {
         //d     m_LogicFile.AddNew();
-                strBaseClass = m_ClassInfo.getField(ClassInfo.kBaseClassName).getString();
-                m_LogicFile.getField(LogicFile.kMethodName).setString(strMethodName);
+                strBaseClass = m_ClassInfo.getField(ClassInfo.BASE_CLASS_NAME).getString();
+                m_LogicFile.getField(LogicFile.METHOD_NAME).setString(strMethodName);
                 if (strMethodName == methodClass) // For method initialization, use ClassName
-                    m_LogicFile.getField(LogicFile.kMethodName).setString(strBaseClass);
-                m_LogicFile.getField(LogicFile.kMethodClassName).setString(strBaseClass);
-                m_LogicFile.setKeyArea(LogicFile.kMethodClassNameKey);
+                    m_LogicFile.getField(LogicFile.METHOD_NAME).setString(strBaseClass);
+                m_LogicFile.getField(LogicFile.METHOD_CLASS_NAME).setString(strBaseClass);
+                m_LogicFile.setKeyArea(LogicFile.METHOD_CLASS_NAME_KEY);
                 if (m_LogicFile.seek("="))
                     this.moveupMethodInfo(logicFile, false);
         //d     m_ClassInfo.AddNew();
-                m_ClassInfo.getField(ClassInfo.kClassName).setString(strBaseClass);     // Class of this record
+                m_ClassInfo.getField(ClassInfo.CLASS_NAME).setString(strBaseClass);     // Class of this record
                 if ((strBaseClass == null) || (strBaseClass.length() == 0))
                 	break;
             }
-            if (!logicFile.getField(LogicFile.kCopyFrom).isNull())
+            if (!logicFile.getField(LogicFile.COPY_FROM).isNull())
             {   // Copy code from another class
-                m_LogicFile.getField(LogicFile.kMethodName).setString(strMethodName);
+                m_LogicFile.getField(LogicFile.METHOD_NAME).setString(strMethodName);
                 if (strMethodName == methodClass) // For method initialization, use ClassName
-                    m_LogicFile.getField(LogicFile.kMethodName).moveFieldToThis(logicFile.getField(LogicFile.kCopyFrom));
-                m_LogicFile.getField(LogicFile.kMethodClassName).moveFieldToThis(logicFile.getField(LogicFile.kCopyFrom));
-                m_LogicFile.setKeyArea(LogicFile.kMethodClassNameKey);
+                    m_LogicFile.getField(LogicFile.METHOD_NAME).moveFieldToThis(logicFile.getField(LogicFile.COPY_FROM));
+                m_LogicFile.getField(LogicFile.METHOD_CLASS_NAME).moveFieldToThis(logicFile.getField(LogicFile.COPY_FROM));
+                m_LogicFile.setKeyArea(LogicFile.METHOD_CLASS_NAME_KEY);
                 if (m_LogicFile.seek("="))
                     this.moveupMethodInfo(logicFile, true);                
             }
-            methodInfo.strHeaderInterface = logicFile.getField(LogicFile.kMethodInterface).getString();
+            methodInfo.strHeaderInterface = logicFile.getField(LogicFile.METHOD_INTERFACE).getString();
             if (methodInfo.strHeaderInterface.length() > 150)
             {
                 methodInfo.strMethodReturns = methodInfo.strHeaderInterface.substring(150, methodInfo.strHeaderInterface.length());
@@ -90,8 +90,8 @@ public class GetMethodInfo extends Object
                 if (pos != -1)
                     methodInfo.strHeaderInterface = methodInfo.strHeaderInterface.substring(0, pos+150) + "\n" + methodInfo.strHeaderInterface.substring(pos+150, methodInfo.strHeaderInterface.length());
             }
-            methodInfo.strMethodReturns = logicFile.getField(LogicFile.kMethodReturns).getString();   // Value returned
-            methodInfo.strMethodThrows = logicFile.getField(LogicFile.kLogicThrows).getString();    // Value returned
+            methodInfo.strMethodReturns = logicFile.getField(LogicFile.METHOD_RETURNS).getString();   // Value returned
+            methodInfo.strMethodThrows = logicFile.getField(LogicFile.LOGIC_THROWS).getString();    // Value returned
             if (methodInfo.strMethodReturns.length() == 0)
                 methodInfo.strMethodReturns = "void";
             if (strMethodName.equalsIgnoreCase("finalize"))
@@ -141,7 +141,7 @@ public class GetMethodInfo extends Object
         int count = logicFile.getFieldCount() + DBConstants.MAIN_FIELD;
         for (int i = DBConstants.MAIN_FIELD; i < count; i++)
         {
-            if (i == LogicFile.kLogicSource)
+            if (i == logicFile.getFieldSeq(LogicFile.LOGIC_SOURCE))
                 if (!bCopySource)
                     continue;
             field = logicFile.getField(i);

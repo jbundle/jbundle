@@ -107,7 +107,7 @@ public class WriteClasses extends Screen
     public void setupSFields()
     {   // Override this to add screen behaviors
         Record query = this.getMainRecord();
-        query.getField(FileHdr.kFileName).setupFieldView(this);   // Add this view to the list
+        query.getField(FileHdr.FILE_NAME).setupFieldView(this);   // Add this view to the list
     }
     /**
      *  Create the default file Class
@@ -118,34 +118,34 @@ public class WriteClasses extends Screen
         ClassInfo classInfo = new ClassInfo(this);
         String strFileNameTarget = m_strFileName;
         String strBaseFileName = DBConstants.BLANK;
-        classInfo.setKeyArea(ClassInfo.kClassSourceFileKey);
+        classInfo.setKeyArea(ClassInfo.CLASS_SOURCE_FILE_KEY);
         if ((m_strFileName != null)
             && (m_strFileName.length() != 0))
         {
-            StringSubFileFilter fileBehavior = new StringSubFileFilter(m_strFileName, ClassInfo.kClassSourceFile, null, -1, null, -1);
+            StringSubFileFilter fileBehavior = new StringSubFileFilter(m_strFileName, ClassInfo.CLASS_SOURCE_FILE, null, null, null, null);
             fileBehavior.setEndKey(false);          // Manually check for EOF
             classInfo.addListener(fileBehavior);    // Only select records which match m_strFileName
         }
         if (m_strPackage.length() != 0)
-            classInfo.addListener(new CompareFileFilter(ClassInfo.kClassPackage, m_strPackage, "=", null, false));
+            classInfo.addListener(new CompareFileFilter(ClassInfo.CLASS_PACKAGE, m_strPackage, "=", null, false));
         if (m_strProjectID.length() != 0)
-            classInfo.addListener(new CompareFileFilter(ClassInfo.kClassProjectID, m_strProjectID, "=", null, false));
+            classInfo.addListener(new CompareFileFilter(ClassInfo.CLASS_PROJECT_ID, m_strProjectID, "=", null, false));
 
         try   {
             classInfo.close();
             while (classInfo.hasNext())
             {
                 classInfo.next();
-                String strClassName = classInfo.getField(ClassInfo.kClassName).getString();
-                String strRecordType = classInfo.getField(ClassInfo.kClassType).getString();
+                String strClassName = classInfo.getField(ClassInfo.CLASS_NAME).getString();
+                String strRecordType = classInfo.getField(ClassInfo.CLASS_TYPE).getString();
                 if (strRecordType.length() == 0)
                     strRecordType = " ";
-                String strPackage =  classInfo.getField(ClassInfo.kClassPackage).getString();
-                String strFileName = classInfo.getField(ClassInfo.kClassSourceFile).getString();
-                Record classProject = ((ReferenceField)classInfo.getField(ClassInfo.kClassProjectID)).getReference();
+                String strPackage =  classInfo.getField(ClassInfo.CLASS_PACKAGE).getString();
+                String strFileName = classInfo.getField(ClassInfo.CLASS_SOURCE_FILE).getString();
+                Record classProject = ((ReferenceField)classInfo.getField(ClassInfo.CLASS_PROJECT_ID)).getReference();
                 if (classProject != null)
                 	if ((classProject.getEditMode() == DBConstants.EDIT_IN_PROGRESS) || (classProject.getEditMode() == DBConstants.EDIT_CURRENT))
-                		if (classProject.getField(ClassProject.kSystemClasses).getState() == true)	// Special system classes, don't generate!
+                		if (classProject.getField(ClassProject.SYSTEM_CLASSES).getState() == true)	// Special system classes, don't generate!
                         strFileName = DBConstants.BLANK; // Skip these
                 if (strFileName.length() == 0)
                     continue;
@@ -181,11 +181,11 @@ public class WriteClasses extends Screen
      */
     public void writeThisClass(String strClassName, String strRecordType)
     {
-        Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
+        Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);
         try   {
             recFileHdr.addNew();
-            recFileHdr.getField(FileHdr.kFileName).setString(strClassName);
-            recFileHdr.setKeyArea(FileHdr.kFileNameKey);
+            recFileHdr.getField(FileHdr.FILE_NAME).setString(strClassName);
+            recFileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
             if (recFileHdr.seek(DBConstants.EQUALS))    // Is there a file with this name?
                 strRecordType = "Record"; // Just to be sure
         } catch (DBException ex)   {

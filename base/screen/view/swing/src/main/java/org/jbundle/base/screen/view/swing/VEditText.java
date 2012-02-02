@@ -84,12 +84,12 @@ public class VEditText extends VScreenField
         if (this.getScreenField().getConverter() != null)
             cols = this.getScreenField().getConverter().getMaxLength();
         JTextComponent control = null;
-        if (cols > ScreenConstants.kMaxSingleLineChars)
+        if (cols > ScreenConstants.MAX_SINGLE_LINE_CHARS)
         {
-            control = new JTextArea(2, ScreenConstants.kMaxSingleChars);
+            control = new JTextArea(2, ScreenConstants.MAX_SINGLE_CHARS);
             control.setBorder(m_defaultBorder);
         }
-        else if (cols > ScreenConstants.kMaxSingleChars)
+        else if (cols > ScreenConstants.MAX_SINGLE_CHARS)
             control = new JTextField(cols);   //? ScreenConstants.kMaxSingleChars
         else
             control = new JTextField(cols);

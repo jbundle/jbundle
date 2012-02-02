@@ -94,11 +94,11 @@ public class WriteRecordClass extends WriteSharedClass
         
         Record recClassInfo = this.getMainRecord();
 
-        Record recKeyInfo = this.getRecord(KeyInfo.kKeyInfoFile);
-        recKeyInfo.setKeyArea(KeyInfo.kKeyFilenameKey);
-        SubFileFilter keyBehavior = new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), KeyInfo.kKeyFilename, null, -1, null, -1);
+        Record recKeyInfo = this.getRecord(KeyInfo.KEY_INFO_FILE);
+        recKeyInfo.setKeyArea(KeyInfo.KEY_FILENAME_KEY);
+        SubFileFilter keyBehavior = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), KeyInfo.KEY_FILENAME, null, null, null, null);
         recKeyInfo.addListener(keyBehavior);
-        recKeyInfo.setKeyArea(KeyInfo.kKeyFilenameKey);
+        recKeyInfo.setKeyArea(KeyInfo.KEY_FILENAME_KEY);
     }
     /**
      *
@@ -115,7 +115,7 @@ public class WriteRecordClass extends WriteSharedClass
         Record recClassInfo = this.getMainRecord();
         if (!this.readThisClass(strClassName))  // Get the field this is based on
             return;
-        if (RESOURCE_CLASS.equals(recClassInfo.getField(ClassInfo.kBaseClassName).toString()))
+        if (RESOURCE_CLASS.equals(recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString()))
         {
             this.writeFieldResources(strClassName);
             return;     // Resource only class
@@ -125,7 +125,7 @@ public class WriteRecordClass extends WriteSharedClass
         this.writeIncludes(CodeType.THICK);
     // Now include any BaseField classes not included in this source (method include)
         try   {
-            Record recFieldData = this.getRecord(FieldData.kFieldDataFile);
+            Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);
 
             this.writeRecordClassDetail(strClassName);  // Write the Thick Record Class
 
@@ -136,7 +136,7 @@ public class WriteRecordClass extends WriteSharedClass
             this.writeRecordInterface(strClassName);  // Write the Record Class Interface
 
         // Now write out the BaseField classes
-            Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
+            Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);
         
             FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
             while (fieldIterator.hasNext())
@@ -144,23 +144,23 @@ public class WriteRecordClass extends WriteSharedClass
                 fieldIterator.next();
                 ClassInfo recClassInfo2 = null;
                 if ((recClassInfo2 = this.readFieldClass()) != null)
-                    if (recClassInfo2.getField(ClassInfo.kClassSourceFile).equals(recClassInfo.getField(ClassInfo.kClassSourceFile)))
+                    if (recClassInfo2.getField(ClassInfo.CLASS_SOURCE_FILE).equals(recClassInfo.getField(ClassInfo.CLASS_SOURCE_FILE)))
                 {   // If they are in the same source file, write the field class also.
                     String strFieldDataHandle = recFieldData.getHandle(DBConstants.OBJECT_ID_HANDLE).toString();
                     Map<String,Object> properties = new Hashtable<String,Object>();
-                    properties.put(FieldData.kFieldDataFile, strFieldDataHandle);
+                    properties.put(FieldData.FIELD_DATA_FILE, strFieldDataHandle);
                     if ((recClassInfo2.getEditMode() == DBConstants.EDIT_CURRENT)
                         || (recClassInfo2.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
                     {
                         String strClassInfoHandle = recClassInfo2.getHandle(DBConstants.OBJECT_ID_HANDLE).toString();
-                        properties.put(ClassInfo.kClassInfoFile, strClassInfoHandle);
+                        properties.put(ClassInfo.CLASS_INFO_FILE, strClassInfoHandle);
                     }
                     else
                     {
-                        properties.put(recClassInfo2.getField(ClassInfo.kClassName).getFieldName(), recClassInfo2.getField(ClassInfo.kClassName).toString());
-                        properties.put(recClassInfo2.getField(ClassInfo.kBaseClassName).getFieldName(), recClassInfo2.getField(ClassInfo.kBaseClassName).toString());
-                        properties.put(recClassInfo2.getField(ClassInfo.kClassPackage).getFieldName(), this.getPackage(codeType));
-                        properties.put(recClassInfo2.getField(ClassInfo.kClassProjectID).getFieldName(), recClassInfo2.getField(ClassInfo.kClassProjectID).toString());
+                        properties.put(recClassInfo2.getField(ClassInfo.CLASS_NAME).getFieldName(), recClassInfo2.getField(ClassInfo.CLASS_NAME).toString());
+                        properties.put(recClassInfo2.getField(ClassInfo.BASE_CLASS_NAME).getFieldName(), recClassInfo2.getField(ClassInfo.BASE_CLASS_NAME).toString());
+                        properties.put(recClassInfo2.getField(ClassInfo.CLASS_PACKAGE).getFieldName(), this.getPackage(codeType));
+                        properties.put(recClassInfo2.getField(ClassInfo.CLASS_PROJECT_ID).getFieldName(), recClassInfo2.getField(ClassInfo.CLASS_PROJECT_ID).toString());
                     }
 
                     WriteFieldClass classWriter = new WriteFieldClass(this.getTask(), null, properties);
@@ -185,8 +185,8 @@ public class WriteRecordClass extends WriteSharedClass
             return;
         // Thick only
         Record recClassInfo = this.getMainRecord();
-        Record recFieldData = this.getRecord(FieldData.kFieldDataFile);
-        Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
+        Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);
+        Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);
 
         FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
         while (fieldIterator.hasNext())
@@ -195,7 +195,7 @@ public class WriteRecordClass extends WriteSharedClass
             ClassInfo recClassInfo2 = null;
             if ((recClassInfo2 = this.readFieldClass()) != null)   // Get the field this is based on
             {       // Not in this source
-                String strFieldClass = recClassInfo2.getField(ClassInfo.kClassName).getString();
+                String strFieldClass = recClassInfo2.getField(ClassInfo.CLASS_NAME).getString();
                 m_IncludeNameList.addInclude(strFieldClass); // include the source
             }
         }
@@ -205,7 +205,7 @@ public class WriteRecordClass extends WriteSharedClass
      */
     public void writeFieldResources(String strClassName)
     {
-    	boolean bResourceListBundle = ResourceTypeField.LIST_RESOURCE_BUNDLE.equals(this.getRecord(ProgramControl.kProgramControlFile).getField(ProgramControl.kResourceType).toString());
+    	boolean bResourceListBundle = ResourceTypeField.LIST_RESOURCE_BUNDLE.equals(this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.RESOURCE_TYPE).toString());
         Record recClassInfo = this.getMainRecord();
         String strPackage = this.getPackage(bResourceListBundle ? CodeType.RESOURCE_CODE : CodeType.RESOURCE_PROPERTIES);
     // Now, write the field resources (descriptions)
@@ -213,7 +213,7 @@ public class WriteRecordClass extends WriteSharedClass
         String strBaseClass = "ListResourceBundle";
         String strClassSuffix = "Resources";
         boolean bResourceOnlyFile = false;
-        if (RESOURCE_CLASS.equals(recClassInfo.getField(ClassInfo.kBaseClassName).toString()))
+        if (RESOURCE_CLASS.equals(recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString()))
             bResourceOnlyFile = true;     // Resource only class
         if (bResourceOnlyFile)
             if (strClassName.endsWith(strClassSuffix))
@@ -243,7 +243,7 @@ public class WriteRecordClass extends WriteSharedClass
         }
         int count = 0;
         try   {
-            Record recFieldData = this.getRecord(FieldData.kFieldDataFile);
+            Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);
             if (!bResourceOnlyFile)
             {
                 recFieldData.close();
@@ -280,8 +280,8 @@ public class WriteRecordClass extends WriteSharedClass
             {
                 recFieldData.next();
                 String strPre = DBConstants.BLANK;
-                if (recFieldData.getField(FieldData.kFieldName).getString().equals(recFieldData.getField(FieldData.kBaseFieldName).getString()))
-                	if (recFieldData.getField(FieldData.kFieldDescVertical).getLength() == 0)
+                if (recFieldData.getField(FieldData.FIELD_NAME).getString().equals(recFieldData.getField(FieldData.BASE_FIELD_NAME).getString()))
+                	if (recFieldData.getField(FieldData.FIELD_DESC_VERTICAL).getLength() == 0)
                 	{
                         if (bResourceListBundle)
                         	strPre = "//";
@@ -328,15 +328,15 @@ public class WriteRecordClass extends WriteSharedClass
     public void writeRecordInterface(String strClassName)
     {
         ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
-        Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
-        FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
+        Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);
+        FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);
         if (!recClassInfo.isARecord(false))
             return;
-        String strDBType = recFileHdr.getField(FileHdr.kType).getString(); // Is Remote file?
+        String strDBType = recFileHdr.getField(FileHdr.TYPE).getString(); // Is Remote file?
         strDBType = this.fixDBType(strDBType, "Constants.");
         String strPackage = this.getPackage(CodeType.INTERFACE);
     // Now, write the field resources (descriptions)
-        String strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
+        String strBaseClass = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).getString();
         if ((strBaseClass.equalsIgnoreCase("Record")) || (strBaseClass.equalsIgnoreCase("QueryRecord")))
             strBaseClass = "";  // .model.db.Rec
         this.writeHeading(strClassName + "Model", strPackage, ClassProject.CodeType.INTERFACE);
@@ -346,8 +346,8 @@ public class WriteRecordClass extends WriteSharedClass
         if (!strBaseClass.equals(""))
         {
             this.readRecordClass(strBaseClass);     // Return the record to the original position
-            ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.kClassProjectID)).getReference();
-            baseClassPackage = classProject.getFullPackage(CodeType.INTERFACE, recClassInfo.getField(ClassInfo.kClassPackage).toString());
+            ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID)).getReference();
+            baseClassPackage = classProject.getFullPackage(CodeType.INTERFACE, recClassInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
             if ((baseClassPackage.equalsIgnoreCase("org.jbundle.model.db")) || (baseClassPackage.equalsIgnoreCase("org.jbundle.model.base.db")))
                 strBaseClass = "";  // The only interface in the model package is 'Rec'.
             strBaseClass = strBaseClass + "Model";
@@ -371,14 +371,14 @@ public class WriteRecordClass extends WriteSharedClass
         
         m_StreamOut.writeit("\n");
 
-        String dBFileName = recFileHdr.getField(FileHdr.kFileMainFilename).getString();
+        String dBFileName = recFileHdr.getField(FileHdr.FILE_MAIN_FILENAME).getString();
         if (dBFileName.length() != 0)
         {
             dBFileName = this.fixSQLName(dBFileName);
             if (dBFileName.equalsIgnoreCase("NONE"))
                 dBFileName = null;
         }
-        else if (recFileHdr.getField(FileHdr.kType).toString().indexOf("MAPPED") == -1)
+        else if (recFileHdr.getField(FileHdr.TYPE).toString().indexOf("MAPPED") == -1)
             dBFileName = strClassName;  // Default file name (unless mapped)
 
         if ((dBFileName != null) && (dBFileName.length() > 0))
@@ -408,17 +408,17 @@ public class WriteRecordClass extends WriteSharedClass
         ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
         if (!recClassInfo.isARecord(false))
             return;
-        Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
-        FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
-        String strDatabaseName = recFileHdr.getField(FileHdr.kDatabaseName).getString();   // Database name
-        String strDBType = recFileHdr.getField(FileHdr.kType).getString(); // Is Remote file?
+        Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);
+        FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);
+        String strDatabaseName = recFileHdr.getField(FileHdr.DATABASE_NAME).getString();   // Database name
+        String strDBType = recFileHdr.getField(FileHdr.TYPE).getString(); // Is Remote file?
         strDBType = this.fixDBType(strDBType, "Constants.");
         String strPackage = this.getPackage(CodeType.THIN);
         String implementsPackage = this.getPackage(CodeType.INTERFACE);
         if (implementsPackage.equalsIgnoreCase("org.jbundle.model.base.db"))
             implementsPackage = "org.jbundle.model.db";
     // Now, write the field resources (descriptions)
-        String strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
+        String strBaseClass = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).getString();
         if ((strBaseClass.equalsIgnoreCase("Record")) || (strBaseClass.equalsIgnoreCase("QueryRecord")))
             strBaseClass = "FieldList";
         this.writeHeading(strClassName, strPackage, ClassProject.CodeType.THIN);
@@ -431,8 +431,8 @@ public class WriteRecordClass extends WriteSharedClass
         if (!strBaseClass.equals("FieldList"))
         {
             this.readRecordClass(strBaseClass);     // Return the record to the original position
-            ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.kClassProjectID)).getReference();
-            String baseClassPackage = classProject.getFullPackage(CodeType.THIN, recClassInfo.getField(ClassInfo.kClassPackage).toString());
+            ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID)).getReference();
+            String baseClassPackage = classProject.getFullPackage(CodeType.THIN, recClassInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
             if (baseClassPackage.equalsIgnoreCase("org.jbundle.thin.base.db"))
             {
                 baseClassPackage = null;
@@ -488,14 +488,14 @@ public class WriteRecordClass extends WriteSharedClass
     public void writeFields(String strClassName, String strDatabaseName, String strDBType, ClassInfo recClassInfo, Record recFileHdr, FieldData recFieldData, FieldIterator fieldIterator)
     {
         FieldStuff fieldStuff = new FieldStuff();
-        String dBFileName = recFileHdr.getField(FileHdr.kFileMainFilename).getString();
+        String dBFileName = recFileHdr.getField(FileHdr.FILE_MAIN_FILENAME).getString();
         if (dBFileName.length() != 0)
         {
             dBFileName = this.fixSQLName(dBFileName);
             if (dBFileName.equalsIgnoreCase("NONE"))
                 dBFileName = null;
         }
-        else if (recFileHdr.getField(FileHdr.kType).toString().indexOf("MAPPED") == -1)
+        else if (recFileHdr.getField(FileHdr.TYPE).toString().indexOf("MAPPED") == -1)
             dBFileName = strClassName;  // Default file name (unless mapped)
 
         if ((dBFileName != null) && (dBFileName.length() > 0))
@@ -547,7 +547,7 @@ public class WriteRecordClass extends WriteSharedClass
                     || ("CounterField".equals(fieldStuff.strBaseFieldClass)))
                         bAutoCounterField = true;
 
-                if (recFieldData.getField(FieldData.kFieldType).getString().equalsIgnoreCase(VIRTUAL_FIELD_TYPE))
+                if (recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase(VIRTUAL_FIELD_TYPE))
                     strPre = "//";  // Skip virtual fields (EJB is not expecting them to be sent to the server)
                 if (!fieldStuff.strFieldDesc.equals("null"))
                     fieldStuff.strFieldDesc = "\"" + fieldStuff.strFieldDesc + "\"";
@@ -620,7 +620,7 @@ public class WriteRecordClass extends WriteSharedClass
     {
         // Now write out the setupkey method.
         this.readRecordClass(strClassName);     // Return the record to the original position
-        String strRecordClass = recClassInfo.getField(ClassInfo.kClassName).getString();
+        String strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
         m_StreamOut.writeit("/**\n");
         m_StreamOut.writeit("* Set up the key areas.\n");
         m_StreamOut.writeit("*/\n");
@@ -629,7 +629,7 @@ public class WriteRecordClass extends WriteSharedClass
         m_StreamOut.setTabs(+1);
         m_StreamOut.writeit("KeyAreaInfo keyArea = null;\n");
         int count = 0;
-        Record recKeyInfo = this.getRecord(KeyInfo.kKeyInfoFile);
+        Record recKeyInfo = this.getRecord(KeyInfo.KEY_INFO_FILE);
         
         recKeyInfo.close();
         while (recKeyInfo.hasNext())
@@ -637,16 +637,16 @@ public class WriteRecordClass extends WriteSharedClass
             recKeyInfo.next();
             count++;
             String strDaoKeyName = "";
-            String strKeyName = recKeyInfo.getField(KeyInfo.kKeyName).getString();
+            String strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
             if (strKeyName.length() == 0)
             {
-                strKeyName = recKeyInfo.getField(KeyInfo.kKeyField1).getString();
+                strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
                 recFieldData.initRecord(false);
                 String strFieldName, strBaseFieldName;
                 strFieldName = strKeyName;
                 strBaseFieldName = "";
                 m_BasedFieldHelper.getBasedField(recFieldData, strRecordClass, strFieldName, strBaseFieldName);  // Get the field this is based on
-                strDaoKeyName = recFieldData.getField(FieldData.kFieldName).getString();
+                strDaoKeyName = recFieldData.getField(FieldData.FIELD_NAME).getString();
                 if (count == 1)
                 {
                     strDaoKeyName = DBConstants.PRIMARY_KEY;
@@ -659,7 +659,7 @@ public class WriteRecordClass extends WriteSharedClass
             strKeyName = strKeyName + "Key";
 
             String strKeyType, strKeyFieldName;
-            strKeyType = recKeyInfo.getField(KeyInfo.kKeyType).getString();
+            strKeyType = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
             strDaoKeyName = this.fixSQLName(strDaoKeyName);
             String strUnique = "UNIQUE";
             if (strKeyType.equalsIgnoreCase("U"))
@@ -677,9 +677,9 @@ public class WriteRecordClass extends WriteSharedClass
             }
             m_StreamOut.writeit("keyArea = new KeyAreaInfo(this, Constants." + strUnique + ", \"" + strDaoKeyName + "\");\n");
             boolean bAscending = true;
-            if (recKeyInfo.getField(KeyInfo.kKeyField9).getString().equalsIgnoreCase("D"))
+            if (recKeyInfo.getField(KeyInfo.KEY_FIELD_9).getString().equalsIgnoreCase("D"))
                 bAscending = false;     // *Fix this to allow Ascending/Descending on each key area!*
-            for (int i = KeyInfo.kKeyField1; i <= KeyInfo.kKeyField9; i++)
+            for (int i = recKeyInfo.getFieldSeq(KeyInfo.KEY_FIELD_1); i <= recKeyInfo.getFieldSeq(KeyInfo.KEY_FIELD_9); i++)
             {
                 strKeyFieldName = recKeyInfo.getField(i).getString();
                 if (strKeyFieldName.length() == 0)
@@ -725,8 +725,8 @@ public class WriteRecordClass extends WriteSharedClass
         
             m_StreamOut.writeit("private static final long serialVersionUID = 1L;\n");
 
-            Record recFieldData = this.getRecord(FieldData.kFieldDataFile);
-            Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);
+            Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);
+            Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);
             FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
         	this.writeFieldOffsets(fieldIterator, CodeType.THICK); // Write the BaseField offsets
             this.writeKeyOffsets(CodeType.THICK);   // Write the Key offsets
@@ -737,19 +737,19 @@ public class WriteRecordClass extends WriteSharedClass
             this.writeRecordInit();
             this.writeInit();   // Special case... zero all class fields!
         
-            recFileHdr.getField(FileHdr.kFileName).setString(strRecordClass);
-            recFileHdr.setKeyArea(FileHdr.kFileNameKey);
+            recFileHdr.getField(FileHdr.FILE_NAME).setString(strRecordClass);
+            recFileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
             boolean bFileType = (recFileHdr.seek("="));
             if (bFileType) // Is there a file with this name?
             {
-                String dBFileName = recFileHdr.getField(FileHdr.kFileMainFilename).getString();
+                String dBFileName = recFileHdr.getField(FileHdr.FILE_MAIN_FILENAME).getString();
                 if (dBFileName.length() != 0)
                 {
                     dBFileName = this.fixSQLName(dBFileName);
                     if (dBFileName.equalsIgnoreCase("NONE"))
                         dBFileName = null;
                 }
-                else if (recFileHdr.getField(FileHdr.kType).toString().indexOf("MAPPED") == -1)
+                else if (recFileHdr.getField(FileHdr.TYPE).toString().indexOf("MAPPED") == -1)
                     dBFileName = strRecordClass;  // Default file name (unless mapped)
 
                 if ((dBFileName != null) && (dBFileName.length() > 0))
@@ -761,9 +761,9 @@ public class WriteRecordClass extends WriteSharedClass
                     	m_StreamOut.writeit("\treturn (m_tableName == null) ? Record.formatTableNames(k" + strRecordClass + "File, bAddQuotes) : super.getTableNames(bAddQuotes);\n}\n");
                     }
                 }
-                String recordName = recFileHdr.getField(FileHdr.kFileRecCalled).getString();    // Description of a record
-                String databaseName = recFileHdr.getField(FileHdr.kDatabaseName).getString(); // Database name
-                String strDBType = recFileHdr.getField(FileHdr.kType).getString(); // Is Remote file?
+                String recordName = recFileHdr.getField(FileHdr.FILE_REC_CALLED).getString();    // Description of a record
+                String databaseName = recFileHdr.getField(FileHdr.DATABASE_NAME).getString(); // Database name
+                String strDBType = recFileHdr.getField(FileHdr.TYPE).getString(); // Is Remote file?
                 if (recordName.length() != 0)   // Valid Name
                 {
                     if (!this.readThisMethod("getRecordName"))
@@ -792,7 +792,7 @@ public class WriteRecordClass extends WriteSharedClass
                 this.writeFileMakeViews();
             }
             else
-                if (recClassInfo.getField(ClassInfo.kClassType).getString().equalsIgnoreCase("Record"))
+                if (recClassInfo.getField(ClassInfo.CLASS_TYPE).getString().equalsIgnoreCase("Record"))
                     m_StreamOut.writeit("\npublic static final String k" + strRecordClass + "File = null;\t// Screen field\n");    // Screen fields
 
             this.writeSetupField();
@@ -815,10 +815,10 @@ public class WriteRecordClass extends WriteSharedClass
         Record recClassInfo = this.getMainRecord();
         boolean firstTime = true;
         String strBaseRecordClass, strBaseFieldName, strFieldName, strRecordClass;
-        strRecordClass = recClassInfo.getField(ClassInfo.kClassName).getString();
-        strBaseRecordClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
+        strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
+        strBaseRecordClass = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).getString();
         strFieldName = "MainField";     // In case there are no fields
-        Record recFieldData = this.getRecord(FieldData.kFieldDataFile);
+        Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);
 
 /*        if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
         {
@@ -830,16 +830,16 @@ public class WriteRecordClass extends WriteSharedClass
                 boolean concreteClass = true;
                 if (recFieldData.getField(FieldData.kID).isNull())  // Only for concrete class
                     concreteClass = false;
-                if (!recFieldData.getField(FieldData.kBaseFieldName).isNull())
-                    if (!recFieldData.getField(FieldData.kBaseFieldName).toString().equalsIgnoreCase(recFieldData.getField(FieldData.kBaseFieldName).toString()))
+                if (!recFieldData.getField(FieldData.BASE_FIELD_NAME).isNull())
+                    if (!recFieldData.getField(FieldData.BASE_FIELD_NAME).toString().equalsIgnoreCase(recFieldData.getField(FieldData.BASE_FIELD_NAME).toString()))
                         concreteClass = false;
                 if (codeType == CodeType.THIN)
                     if (!concreteClass)
                         continue;
-                if (((IncludeScopeField)recFieldData.getField(FieldData.kIncludeScope)).includeThis(codeType, true))
-                    if (strRecordClass.equalsIgnoreCase(recFieldData.getField(FieldData.kFieldFileName).toString()))  // Only for concrete class
+                if (((IncludeScopeField)recFieldData.getField(FieldData.INCLUDE_SCOPE)).includeThis(codeType, true))
+                    if (strRecordClass.equalsIgnoreCase(recFieldData.getField(FieldData.FIELD_FILE_NAME).toString()))  // Only for concrete class
                 {
-                    strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
+                    strFieldName = recFieldData.getField(FieldData.FIELD_NAME).toString();
                     String strFieldConstant = this.convertNameToConstant(strFieldName);
                     m_StreamOut.writeit("public static final String " + strFieldConstant + " = \"" + strFieldName + "\";\n");
                 }
@@ -855,8 +855,8 @@ public class WriteRecordClass extends WriteSharedClass
             while (fieldIterator.hasNext())
             {
                 fieldIterator.next();
-                strFieldName = recFieldData.getField(FieldData.kFieldName).getString();
-                strBaseFieldName = recFieldData.getField(FieldData.kBaseFieldName).getString();
+                strFieldName = recFieldData.getField(FieldData.FIELD_NAME).getString();
+                strBaseFieldName = recFieldData.getField(FieldData.BASE_FIELD_NAME).getString();
                 String type = "int";
                 if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
                     type = "String";
@@ -869,8 +869,8 @@ public class WriteRecordClass extends WriteSharedClass
 //                        boolean concreteClass = true;
 //                        if (recFieldData.getField(FieldData.kID).isNull())  // Only for concrete class
 //                            concreteClass = false;
-//                        if (!recFieldData.getField(FieldData.kBaseFieldName).isNull())
-//                            if (!recFieldData.getField(FieldData.kBaseFieldName).toString().equalsIgnoreCase(recFieldData.getField(FieldData.kBaseFieldName).toString()))
+//                        if (!recFieldData.getField(FieldData.BASE_FIELD_NAME).isNull())
+//                            if (!recFieldData.getField(FieldData.BASE_FIELD_NAME).toString().equalsIgnoreCase(recFieldData.getField(FieldData.BASE_FIELD_NAME).toString()))
 //                                concreteClass = false;
 //                        if (codeType == CodeType.THIN)
 //                            if (!concreteClass)
@@ -881,7 +881,7 @@ public class WriteRecordClass extends WriteSharedClass
                         else
                             value = "k" + strBaseFieldName;
                         String strPre = DBConstants.BLANK;
-                        if (recFieldData.getField(FieldData.kFieldName).getString().equals(strBaseFieldName))
+                        if (recFieldData.getField(FieldData.FIELD_NAME).getString().equals(strBaseFieldName))
                             strPre = "//";
                         if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
                             strFieldName = convertNameToConstant(strFieldName);
@@ -894,7 +894,7 @@ public class WriteRecordClass extends WriteSharedClass
                     if (strBaseFieldName.length() == 0)
                     {
                         firstTime = false;
-                        if (((IncludeScopeField)recFieldData.getField(FieldData.kIncludeScope)).includeThis(codeType, true))
+                        if (((IncludeScopeField)recFieldData.getField(FieldData.INCLUDE_SCOPE)).includeThis(codeType, true))
                         {
                             String strFieldConstant = this.convertNameToConstant(strFieldName);
                             m_StreamOut.writeit("\n" + "public static final String " + strFieldConstant + " = \"" + strFieldName + "\";");
@@ -937,9 +937,9 @@ public class WriteRecordClass extends WriteSharedClass
             String uniqueKeyFields[] = new String[10];
             String uniqueKeySeq[] = new String[10];
             int uniqueKeyCount = 0;
-            strRecordClass = recClassInfo.getField(ClassInfo.kClassName).getString();
+            strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
             
-            Record recKeyInfo = this.getRecord(KeyInfo.kKeyInfoFile);
+            Record recKeyInfo = this.getRecord(KeyInfo.KEY_INFO_FILE);
             recKeyInfo.close();
             int count = 0;
             String strLastKeyName = "DBConstants.MAIN_KEY_FIELD;";
@@ -947,10 +947,10 @@ public class WriteRecordClass extends WriteSharedClass
             {
                 recKeyInfo.next();
                 count++;
-                strKeyName = recKeyInfo.getField(KeyInfo.kKeyName).getString();
+                strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
                 if (strKeyName.length() == 0)
                 {
-                    strKeyName = recKeyInfo.getField(KeyInfo.kKeyField1).getString();
+                    strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
                 }
                 if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
                     strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
@@ -963,7 +963,7 @@ public class WriteRecordClass extends WriteSharedClass
                 
                 if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
                 {
-                    if (!((IncludeScopeField)recKeyInfo.getField(KeyInfo.kIncludeScope)).includeThis(codeType, true))
+                    if (!((IncludeScopeField)recKeyInfo.getField(KeyInfo.INCLUDE_SCOPE)).includeThis(codeType, true))
                         continue;
                     if (keyInBase(recClassInfo, recKeyInfo))
                         continue;
@@ -975,13 +975,13 @@ public class WriteRecordClass extends WriteSharedClass
                 m_StreamOut.writeit("\npublic static final int k" + strKeyName + "Key = " + previousKey);
                     // This logic here checks to see if this is a unique key with one field, if yes adds field to array
                 String keyTypeStr, strKeyFieldName;
-                keyTypeStr = recKeyInfo.getField(KeyInfo.kKeyType).getString();
+                keyTypeStr = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
                 if (keyTypeStr.length() == 0)
                     keyTypeStr = "U"; // Unique key if no selection
-                strKeyFieldName = recKeyInfo.getField(KeyInfo.kKeyField2).getString();
+                strKeyFieldName = recKeyInfo.getField(KeyInfo.KEY_FIELD_2).getString();
                 if (((keyTypeStr.charAt(0) == 'U') || (keyTypeStr.charAt(0) == 'Y')) && (strKeyFieldName.length() == 0))
                     { // Unique key with one field, default logic... always try to read
-                    strKeyFieldName = recKeyInfo.getField(KeyInfo.kKeyField1).getString();
+                    strKeyFieldName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
                     uniqueKeyFields[uniqueKeyCount] = strKeyFieldName;
                     uniqueKeySeq[uniqueKeyCount] = strKeyName;
                     uniqueKeyCount++;
@@ -1015,31 +1015,31 @@ public class WriteRecordClass extends WriteSharedClass
             {
                 recKeyInfo2 = new KeyInfo(this);
                 recKeyInfo2.setKeyArea(KeyInfo.KEY_FILENAME_KEY);
-                SubFileFilter keyBehavior = new SubFileFilter(recClassInfo2.getField(ClassInfo.kClassName), KeyInfo.kKeyFilename, null, -1, null, -1);
+                SubFileFilter keyBehavior = new SubFileFilter(recClassInfo2.getField(ClassInfo.CLASS_NAME), KeyInfo.KEY_FILENAME, null, null, null, null);
                 recKeyInfo2.addListener(keyBehavior);
             }
 
-            String baseClass = recClassInfo.getField(ClassInfo.kBaseClassName).toString();
+            String baseClass = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString();
             while ((baseClass != null) && (baseClass.length() > 0) && (!"FieldList".equalsIgnoreCase(baseClass)))
             {
-                recClassInfo2.getField(ClassInfo.kClassName).setString(baseClass);
-                recClassInfo2.setKeyArea(ClassInfo.kClassNameKey);
+                recClassInfo2.getField(ClassInfo.CLASS_NAME).setString(baseClass);
+                recClassInfo2.setKeyArea(ClassInfo.CLASS_NAME_KEY);
                 if (!recClassInfo2.seek("="))   // Get this class record back
                     break;
                 recKeyInfo2.close();
                 while (recKeyInfo2.hasNext())
                 {
                     recKeyInfo2.next();
-                    String keyName = recKeyInfo.getField(KeyInfo.kKeyName).toString();
+                    String keyName = recKeyInfo.getField(KeyInfo.KEY_NAME).toString();
                     if ((keyName == null) || (keyName.length() == 0))
-                        keyName = recKeyInfo.getField(KeyInfo.kKeyField1).toString();
-                    String keyName2 = recKeyInfo2.getField(KeyInfo.kKeyName).toString();
+                        keyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).toString();
+                    String keyName2 = recKeyInfo2.getField(KeyInfo.KEY_NAME).toString();
                     if ((keyName2 == null) || (keyName2.length() == 0))
-                        keyName2 = recKeyInfo2.getField(KeyInfo.kKeyField1).toString();
+                        keyName2 = recKeyInfo2.getField(KeyInfo.KEY_FIELD_1).toString();
                     if (keyName2.equals(keyName))
                         return true;    // Match!
                 }
-                baseClass = recClassInfo2.getField(ClassInfo.kBaseClassName).toString();
+                baseClass = recClassInfo2.getField(ClassInfo.BASE_CLASS_NAME).toString();
             }
         } catch (DBException e) {
             e.printStackTrace();
@@ -1052,7 +1052,7 @@ public class WriteRecordClass extends WriteSharedClass
     public void writeRecordInit()
     {
         Record recClassInfo = this.getMainRecord();
-        String strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
+        String strClassName = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
         this.readThisMethod(strClassName);
         this.writeThisMethod(CodeType.THICK);
     }
@@ -1071,14 +1071,14 @@ public class WriteRecordClass extends WriteSharedClass
         {
             ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
             ClassFields recClassFields = new ClassFields(this);
-            recClassFields.addListener(new SubFileFilter(ClassFields.CLASS_INFO_CLASS_NAME_KEY, recClassInfo.getField(ClassInfo.kClassName)));   // Only read through the class fields
+            recClassFields.addListener(new SubFileFilter(ClassFields.CLASS_INFO_CLASS_NAME_KEY, recClassInfo.getField(ClassInfo.CLASS_NAME)));   // Only read through the class fields
             recClassFields.close();
             try {
                 boolean firstTime = true;
                 while (recClassFields.hasNext())
                 {
                     recClassFields.next();
-                    String strClassFieldType = recClassFields.getField(ClassFields.kClassFieldsType).toString();
+                    String strClassFieldType = recClassFields.getField(ClassFields.CLASS_FIELDS_TYPE).toString();
                     if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.SCREEN_CLASS_NAME))
                     {
                         if (firstTime)
@@ -1087,12 +1087,12 @@ public class WriteRecordClass extends WriteSharedClass
                             m_StreamOut.writeit("\tScreenParent screen = null;\n");
                         }
                         firstTime = false;
-                        String screenMode = recClassFields.getField(ClassFields.kClassFieldInitialValue).toString();
+                        String screenMode = recClassFields.getField(ClassFields.CLASS_FIELD_INITIAL_VALUE).toString();
                         if ((screenMode == null) || (screenMode.length() == 0))
                             screenMode = "MAINT_MODE";
                         if (!screenMode.contains("."))
                             screenMode = "ScreenConstants." + screenMode;
-                        String fieldName = recClassFields.getField(ClassFields.kClassFieldName).toString();
+                        String fieldName = recClassFields.getField(ClassFields.CLASS_FIELD_NAME).toString();
                         m_StreamOut.writeit("\tif ((iDocMode & " + screenMode + ") == " + screenMode + ")\n");
                         m_StreamOut.writeit("\t\tscreen = Record.makeNewScreen(" + fieldName + ", itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);\n");
                     }
@@ -1117,14 +1117,14 @@ public class WriteRecordClass extends WriteSharedClass
         FieldStuff fieldStuff = new FieldStuff();
         Record recClassInfo = this.getMainRecord();
     // Now, write all the record methods
-        Record recFileHdr = this.getRecord(FileHdr.kFileHdrFile);          // Open the Agency File
-        Record recFieldData = this.getRecord(FieldData.kFieldDataFile);          // Open the Agency File
+        Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);          // Open the Agency File
+        Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);          // Open the Agency File
         FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
         if (!fieldIterator.hasNext())
             return;
 
     // Initialization method
-        String strRecordClass = recClassInfo.getField(ClassInfo.kClassName).getString();
+        String strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
 
         this.writeMethodInterface(null, "setupField", "BaseField", "int iFieldSeq", "", "Add this field in the Record's field sequence.", null);
         m_StreamOut.setTabs(+1);
@@ -1136,23 +1136,23 @@ public class WriteRecordClass extends WriteSharedClass
             String strPre = DBConstants.BLANK;
             if (recFieldData.getField(FieldData.kID).isNull())
                 strPre = "//";
-            if (recFieldData.getField(FieldData.kFieldName).getString().equals(recFieldData.getField(FieldData.kBaseFieldName).getString()))
-            if (recFieldData.getField(FieldData.kFieldClass).getLength() == 0)
-            if (recFieldData.getField(FieldData.kMaximumLength).getLength() == 0)
-            if (recFieldData.getField(FieldData.kFieldDescVertical).getLength() == 0)
-            if (recFieldData.getField(FieldData.kDefaultValue).getLength() == 0)
-            if (recFieldData.getField(FieldData.kInitialValue).getLength() == 0)
+            if (recFieldData.getField(FieldData.FIELD_NAME).getString().equals(recFieldData.getField(FieldData.BASE_FIELD_NAME).getString()))
+            if (recFieldData.getField(FieldData.FIELD_CLASS).getLength() == 0)
+            if (recFieldData.getField(FieldData.MAXIMUM_LENGTH).getLength() == 0)
+            if (recFieldData.getField(FieldData.FIELD_DESC_VERTICAL).getLength() == 0)
+            if (recFieldData.getField(FieldData.DEFAULT_VALUE).getLength() == 0)
+            if (recFieldData.getField(FieldData.INITIAL_VALUE).getLength() == 0)
                 strPre = "//";
 
             this.getFieldData(fieldStuff, false);
 
-            if ((recFieldData.getField(FieldData.kFieldType).getString().equalsIgnoreCase("N")) || (fieldStuff.bNotNullField))
+            if ((recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase("N")) || (fieldStuff.bNotNullField))
                 strPre = DBConstants.BLANK;
             m_StreamOut.writeit(strPre + "if (iFieldSeq == k" + fieldStuff.strFieldName + ")\n");
-            String strFieldType = recFieldData.getField(FieldData.kFieldType).getString();
-            String strDefaultValue = recFieldData.getField(FieldData.kDefaultValue).getString();
-            String strMinimumLength = recFieldData.getField(FieldData.kMinimumLength).getString();
-            boolean bHidden = recFieldData.getField(FieldData.kHidden).getState();
+            String strFieldType = recFieldData.getField(FieldData.FIELD_TYPE).getString();
+            String strDefaultValue = recFieldData.getField(FieldData.DEFAULT_VALUE).getString();
+            String strMinimumLength = recFieldData.getField(FieldData.MINIMUM_LENGTH).getString();
+            boolean bHidden = recFieldData.getField(FieldData.HIDDEN).getState();
             if (strMinimumLength.equals("0"))
                 strMinimumLength = "";
             if ((strFieldType.equalsIgnoreCase("N")) || (fieldStuff.bNotNullField) || (strDefaultValue.equalsIgnoreCase("old")) || (strMinimumLength.length() > 0) || bHidden)   // Virtual BaseField?
@@ -1198,9 +1198,9 @@ public class WriteRecordClass extends WriteSharedClass
         try   {
             String strRecordClass, strDaoKeyName;
             String strKeyName = DBConstants.BLANK;
-            strRecordClass = recClassInfo.getField(ClassInfo.kClassName).getString();
+            strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
             
-            Record recKeyInfo = this.getRecord(KeyInfo.kKeyInfoFile);
+            Record recKeyInfo = this.getRecord(KeyInfo.KEY_INFO_FILE);
             recKeyInfo.close();
             if (!recKeyInfo.hasNext())
             {
@@ -1221,21 +1221,21 @@ public class WriteRecordClass extends WriteSharedClass
                 recKeyInfo.next();
                 count++;
                 strDaoKeyName = "";
-                strKeyName = recKeyInfo.getField(KeyInfo.kKeyName).getString();
+                strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
                 if (strKeyName.length() == 0)
                 {
-                    strKeyName = recKeyInfo.getField(KeyInfo.kKeyField1).getString();
+                    strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
                     if (count == 1)
                         strDaoKeyName = DBConstants.PRIMARY_KEY;
                     else
                     {   // No key name, use the field name!
-                        FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
+                        FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);
                         recFieldData.initRecord(false);
                         String strFieldName, strBaseFieldName;
                         strFieldName = strKeyName;
                         strBaseFieldName = "";
                         m_BasedFieldHelper.getBasedField(recFieldData, strRecordClass, strFieldName, strBaseFieldName);  // Get the field this is based on
-                        strDaoKeyName = recFieldData.getField(FieldData.kFieldName).getString();
+                        strDaoKeyName = recFieldData.getField(FieldData.FIELD_NAME).getString();
                     }
                 }
                 if (strDaoKeyName.length() == 0)
@@ -1248,7 +1248,7 @@ public class WriteRecordClass extends WriteSharedClass
                 m_StreamOut.writeit("{\n");
                 m_StreamOut.setTabs(+1);
                 String strKeyType, strKeyFieldName;
-                strKeyType = recKeyInfo.getField(KeyInfo.kKeyType).getString();
+                strKeyType = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
                 strDaoKeyName = this.fixSQLName(strDaoKeyName);
                 String strUnique = "UNIQUE";
                 if (strKeyType.equalsIgnoreCase("U"))
@@ -1266,9 +1266,9 @@ public class WriteRecordClass extends WriteSharedClass
                 }
                 m_StreamOut.writeit("keyArea = this.makeIndex(DBConstants." + strUnique + ", \"" + strDaoKeyName + "\");\n");
                 boolean bAscending = true;
-                if (recKeyInfo.getField(KeyInfo.kKeyField9).getString().equalsIgnoreCase("D"))
+                if (recKeyInfo.getField(KeyInfo.KEY_FIELD_9).getString().equalsIgnoreCase("D"))
                     bAscending = false;     // *Fix this to allow Ascending/Descending on each key area!*
-                for (int i = KeyInfo.kKeyField1; i <= KeyInfo.kKeyField9; i++)
+                for (int i = recKeyInfo.getFieldSeq(KeyInfo.KEY_FIELD_1); i <= recKeyInfo.getFieldSeq(KeyInfo.KEY_FIELD_9); i++)
                 {
                     strKeyFieldName = recKeyInfo.getField(i).getString();
                     if (strKeyFieldName.length() == 0)
@@ -1317,8 +1317,8 @@ public class WriteRecordClass extends WriteSharedClass
             String strFieldClass;
                 //  Now, zero out all the class fields
 
-            recClassFields.setKeyArea(ClassFields.kClassInfoClassNameKey);
-            SubFileFilter fileBehavior2 = new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), ClassFields.kClassInfoClassName, null, -1, null, -1);
+            recClassFields.setKeyArea(ClassFields.CLASS_INFO_CLASS_NAME_KEY);
+            SubFileFilter fileBehavior2 = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), ClassFields.CLASS_INFO_CLASS_NAME, null, null, null, null);
             recClassFields.addListener(fileBehavior2);   // Only read through the class fields
 
             recClassFields.close();
@@ -1331,23 +1331,23 @@ public class WriteRecordClass extends WriteSharedClass
             while (recClassFields.hasNext())
             {
                 recClassFields.next();
-                strFieldName = recClassFields.getField(ClassFields.kClassFieldName).getString();
-                String strClassFieldType = recClassFields.getField(ClassFields.kClassFieldsType).toString();
+                strFieldName = recClassFields.getField(ClassFields.CLASS_FIELD_NAME).getString();
+                String strClassFieldType = recClassFields.getField(ClassFields.CLASS_FIELDS_TYPE).toString();
                 if ((strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_FIELD))
                     || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.NATIVE_FIELD)))
                         if (strFieldName.length() != 0)
-                    if (!recClassFields.getField(ClassFields.kClassFieldProtect).getString().equalsIgnoreCase("S"))  // Not static
+                    if (!recClassFields.getField(ClassFields.CLASS_FIELD_PROTECT).getString().equalsIgnoreCase("S"))  // Not static
                 {
                     String strReference = "";
                     if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_FIELD))
                         strReference = "null";
                     else
                     {
-                        strReference = recClassFields.getField(ClassFields.kClassFieldInitial).getString();
+                        strReference = recClassFields.getField(ClassFields.CLASS_FIELD_INITIAL).getString();
                         if (strReference.length() == 0)
                         {
                             strReference = "0";
-                            strFieldClass = recClassFields.getField(ClassFields.kClassFieldClass).getString();
+                            strFieldClass = recClassFields.getField(ClassFields.CLASS_FIELD_CLASS).getString();
                             if (strFieldClass.equalsIgnoreCase("String"))
                                 strReference = "\"\"";
                         }
@@ -1377,38 +1377,38 @@ public class WriteRecordClass extends WriteSharedClass
             strBaseClass = "Record";
         else
         {
-            strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
+            strBaseClass = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).getString();
             if (strBaseClass.equalsIgnoreCase("Record"))
                 strBaseClass = "Record";
             if (strBaseClass.length() == 0)
                 strBaseClass = "Record";
         }
-        recClassInfo.getField(ClassInfo.kBaseClassName).setString(strBaseClass);
+        recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).setString(strBaseClass);
     }
     /**
      *  getFieldData.
      */
     public void getFieldData(FieldStuff fieldStuff, boolean bThin)
     {
-        FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
+        FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);
         Record recClassInfo2 = this.readFieldClass();      // Get the field and class this is based on
         if (recClassInfo2 == null)
-            fieldStuff.strFieldClass = recFieldData.getField(FieldData.kFieldClass).getString();
+            fieldStuff.strFieldClass = recFieldData.getField(FieldData.FIELD_CLASS).getString();
         else
-            fieldStuff.strFieldClass = recClassInfo2.getField(ClassInfo.kClassName).getString();
-        fieldStuff.strFieldName = recFieldData.getField(FieldData.kFieldName).getString();
-        fieldStuff.strFieldLength = recFieldData.getField(FieldData.kMaximumLength).getString();
+            fieldStuff.strFieldClass = recClassInfo2.getField(ClassInfo.CLASS_NAME).getString();
+        fieldStuff.strFieldName = recFieldData.getField(FieldData.FIELD_NAME).getString();
+        fieldStuff.strFieldLength = recFieldData.getField(FieldData.MAXIMUM_LENGTH).getString();
         if ((fieldStuff.strFieldLength.length() == 0) || (fieldStuff.strFieldLength.equalsIgnoreCase("0")))
             fieldStuff.strFieldLength = "Constants.DEFAULT_FIELD_LENGTH";
         else
-            fieldStuff.strFieldLength = recFieldData.getField(FieldData.kMaximumLength).stripNonNumeric(fieldStuff.strFieldLength);
-        fieldStuff.strFileFieldName = recFieldData.getField(FieldData.kFieldName).getString();
-//x     fieldStuff.strFileFieldName = recFieldData.getField(FieldData.kFieldNameDB).getString();
+            fieldStuff.strFieldLength = recFieldData.getField(FieldData.MAXIMUM_LENGTH).stripNonNumeric(fieldStuff.strFieldLength);
+        fieldStuff.strFileFieldName = recFieldData.getField(FieldData.FIELD_NAME).getString();
+//x     fieldStuff.strFileFieldName = recFieldData.getField(FieldData.FIELD_NAME_DB).getString();
         if (fieldStuff.strFileFieldName.length() == 0)
             fieldStuff.strFileFieldName = fieldStuff.strFieldName;
-        fieldStuff.bNotNullField = recFieldData.getField(FieldData.kFieldNotNull).getState();
-        fieldStuff.strFieldDesc = recFieldData.getField(FieldData.kFieldDescVertical).getString();
-        fieldStuff.strFieldTip = recFieldData.getField(FieldData.kFieldDescription).getString();
+        fieldStuff.bNotNullField = recFieldData.getField(FieldData.FIELD_NOT_NULL).getState();
+        fieldStuff.strFieldDesc = recFieldData.getField(FieldData.FIELD_DESC_VERTICAL).getString();
+        fieldStuff.strFieldTip = recFieldData.getField(FieldData.FIELD_DESCRIPTION).getString();
         if (fieldStuff.strFieldDesc.length() == 0)
             fieldStuff.strFieldDesc = fieldStuff.strFieldTip;
         if (fieldStuff.strFieldDesc.length() == 0)
@@ -1424,8 +1424,8 @@ public class WriteRecordClass extends WriteSharedClass
                 fieldStuff.strFieldTip = null;  // Don't need a tip, if the tip and description are the same.
         if (fieldStuff.strFieldDesc.equals(fieldStuff.strFileFieldName))
             fieldStuff.strFieldDesc = "null"; // Default to field name fieldStuff.strFileFieldName;
-        fieldStuff.strDataClass = recFieldData.getField(FieldData.kDataClass).toString();
-        fieldStuff.bHidden = recFieldData.getField(FieldData.kHidden).getState();
+        fieldStuff.strDataClass = recFieldData.getField(FieldData.DATA_CLASS).toString();
+        fieldStuff.bHidden = recFieldData.getField(FieldData.HIDDEN).getState();
         this.getBaseDataClass(fieldStuff);
 
         fieldStuff.strDefaultField = this.getInitField(recFieldData, true, bThin);
@@ -1453,26 +1453,26 @@ public class WriteRecordClass extends WriteSharedClass
     public void getBaseDataClass(FieldStuff fieldStuff)
     {
         Record recClassInfo2 = m_recClassInfo2;
-        FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
+        FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);
         
-        String strRecordClass = recFieldData.getField(FieldData.kFieldClass).getString();
+        String strRecordClass = recFieldData.getField(FieldData.FIELD_CLASS).getString();
         fieldStuff.strBaseFieldClass = null;
         try   {
             while (true)
             {
-                recClassInfo2.setKeyArea(ClassInfo.kClassNameKey);
-                recClassInfo2.getField(ClassInfo.kClassName).setString(strRecordClass);   // Class of this record
+                recClassInfo2.setKeyArea(ClassInfo.CLASS_NAME_KEY);
+                recClassInfo2.getField(ClassInfo.CLASS_NAME).setString(strRecordClass);   // Class of this record
                 if ((!recClassInfo2.seek("=")) || (strRecordClass == null) || (strRecordClass.length() == 0))
                 {
                     if (fieldStuff.strBaseFieldClass == null)
-                        fieldStuff.strBaseFieldClass = recFieldData.getField(FieldData.kFieldClass).getString();   // Never
+                        fieldStuff.strBaseFieldClass = recFieldData.getField(FieldData.FIELD_CLASS).getString();   // Never
                     return;
                 }
                 if (fieldStuff.strBaseFieldClass == null)
                 {
                 	String packageName = ((ClassInfo)recClassInfo2).getPackageName();
                     if (packageName.endsWith(".base.field"))
-                        fieldStuff.strBaseFieldClass = recClassInfo2.getField(ClassInfo.kClassName).toString();
+                        fieldStuff.strBaseFieldClass = recClassInfo2.getField(ClassInfo.CLASS_NAME).toString();
                 }
                 if (strRecordClass.indexOf("Field") != -1)
                 {
@@ -1487,7 +1487,7 @@ public class WriteRecordClass extends WriteSharedClass
                         return;
                     }
                 }
-                strRecordClass = recClassInfo2.getField(ClassInfo.kBaseClassName).getString();
+                strRecordClass = recClassInfo2.getField(ClassInfo.BASE_CLASS_NAME).getString();
             }
         } catch (DBException ex)    {
             ex.printStackTrace();

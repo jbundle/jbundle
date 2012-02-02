@@ -82,8 +82,8 @@ public class DatabaseTest extends BaseTest
             cat.debug("Try to add a duplicate record.");
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("4");
-            testTable.getField(TestTable.kTestName).setString("If you see this there was an error");
-            testTable.getField(TestTable.kTestKey).setString("X");
+            testTable.getField(TestTable.TEST_NAME).setString("If you see this there was an error");
+            testTable.getField(TestTable.TEST_KEY).setString("X");
             testTable.add();
             cat.debug("Error, duplicate not sensed");
             
@@ -131,7 +131,7 @@ System.exit(0);
                 {
                     cat.debug("Update record #2.");
                     testTable.edit();
-                    testTable.getField(TestTable.kTestName).setString("B - Pretty Good Agent");
+                    testTable.getField(TestTable.TEST_NAME).setString("B - Pretty Good Agent");
                     testTable.set();
                 }
                 else if (testTable.getField(TestTable.kID).getString().equals("3"))
@@ -146,7 +146,7 @@ System.exit(0);
                     bookmark = testTable.getHandle(DBConstants.BOOKMARK_HANDLE);
                     Record record = testTable.setHandle(bookmark, DBConstants.BOOKMARK_HANDLE);
                     record.edit();
-                    record.getField(TestTable.kTestName).setString("B - Pretty Good Agent #2");
+                    record.getField(TestTable.TEST_NAME).setString("B - Pretty Good Agent #2");
                     cat.debug("Try to update record #4. (Set Handle during query).");
                     record.set();
                     testTable.addNew();
@@ -154,7 +154,7 @@ System.exit(0);
                     if (testTable.seek(null))
                     {
                         record.edit();
-                        record.getField(TestTable.kTestName).setString("B - Pretty Good Agent #3");
+                        record.getField(TestTable.TEST_NAME).setString("B - Pretty Good Agent #3");
                         cat.debug("Try to update record #4. (Seek during query).");
                         record.set();
                     }
@@ -279,7 +279,7 @@ System.exit(0);
         try   {
             testTable.setKeyArea("TestKey");
             testTable.addNew();
-            testTable.getField(TestTable.kTestKey).setString("B");
+            testTable.getField(TestTable.TEST_KEY).setString("B");
             bSuccess = testTable.seek("=");
         } catch (DBException e)   {
             assertTrue("Error seeking on Secondary key", false);
@@ -315,7 +315,7 @@ System.exit(0);
         cat.debug("Now, let's seek a record in the SecondaryKey that doesn't exist");
         try   {
             testTable.addNew();
-            testTable.getField(TestTable.kTestKey).setString("X");
+            testTable.getField(TestTable.TEST_KEY).setString("X");
             bSuccess = testTable.seek("=");
         } catch (DBException e)   {
             assertTrue("Error on read non-existant 2nd key", false);
@@ -339,7 +339,7 @@ System.exit(0);
         cat.debug("Now, let's seek a the next >= record that does exist");
         try   {
             testTable.addNew();
-            testTable.getField(TestTable.kTestKey).setString("B");
+            testTable.getField(TestTable.TEST_KEY).setString("B");
             bSuccess = testTable.seek(">=");
         } catch (DBException e)   {
             assertTrue("Error on seek >=", false);
@@ -375,7 +375,7 @@ System.exit(0);
         cat.debug("Now, let's seek a the next >= record that doesn't exist");
         try   {
             testTable.addNew();
-            testTable.getField(TestTable.kTestKey).setString("C");
+            testTable.getField(TestTable.TEST_KEY).setString("C");
             bSuccess = testTable.seek(">=");
         } catch (DBException e)   {
             assertTrue("Error on seek >=", false);
@@ -409,7 +409,7 @@ System.exit(0);
         cat.debug("Now, let's seek a the next > record that does exist");
         try   {
             testTable.addNew();
-            testTable.getField(TestTable.kTestKey).setString("B");
+            testTable.getField(TestTable.TEST_KEY).setString("B");
             bSuccess = testTable.seek(">");
         } catch (DBException e)   {
             assertTrue("Error on seek >=", false);
@@ -443,7 +443,7 @@ System.exit(0);
         cat.debug("Now, let's seek a the next > record that doesn't exist");
         try   {
             testTable.addNew();
-            testTable.getField(TestTable.kTestKey).setString("C");
+            testTable.getField(TestTable.TEST_KEY).setString("C");
             bSuccess = testTable.seek(">");
         } catch (DBException e)   {
             assertTrue("Error on seek next", false);
@@ -477,7 +477,7 @@ System.exit(0);
         cat.debug("Now, let's seek a the next < record that does exist");
         try   {
             testTable.addNew();
-            testTable.getField(TestTable.kTestKey).setString("B");
+            testTable.getField(TestTable.TEST_KEY).setString("B");
             bSuccess = testTable.seek("<");
         } catch (DBException e)   {
             assertTrue("Error on seek <", false);
@@ -511,7 +511,7 @@ System.exit(0);
         cat.debug("Now, let's seek a the next < record that doesn't exist");
         try   {
             testTable.addNew();
-            testTable.getField(TestTable.kTestKey).setString("C");
+            testTable.getField(TestTable.TEST_KEY).setString("C");
             bSuccess = testTable.seek("<");
         } catch (DBException e)   {
             assertTrue("Error on seek <", false);
@@ -550,7 +550,7 @@ System.exit(0);
         cat.debug("Now, let's seek a the next <= record that does exist");
         try   {
             testTable.addNew();
-            testTable.getField(TestTable.kTestKey).setString("B");
+            testTable.getField(TestTable.TEST_KEY).setString("B");
             bSuccess = testTable.seek("<=");
         } catch (DBException e)   {
             assertTrue("Error on seek <=", false);
@@ -589,7 +589,7 @@ System.exit(0);
         cat.debug("Now, let's seek a the next <= record that doesn't exist");
         try   {
             testTable.addNew();
-            testTable.getField(TestTable.kTestKey).setString("C");
+            testTable.getField(TestTable.TEST_KEY).setString("C");
             bSuccess = testTable.seek("<=");
         } catch (DBException e)   {
             assertTrue("Error on seek <=", false);
@@ -677,8 +677,8 @@ System.exit(0);
         testTable.close();
         testTable.setKeyArea("PrimaryKey");
         iCount = 0;
-//      FileListener listener = new CompareFileFilter(TestTable.kTestKey, "B", "=", null, false);
-        FileListener listener = new CompareFileFilter(TestTable.kTestKey, fieldKey, "=", null, false);
+//      FileListener listener = new CompareFileFilter(TestTable.TEST_KEY, "B", "=", null, false);
+        FileListener listener = new CompareFileFilter(TestTable.TEST_KEY, fieldKey, "=", null, false);
         testTable.addListener(listener);
 //      FileListener behavior2 = new CompareFileFilter(TestTable.kID, "2", ">", null, false);
         FileListener behavior2 = new CompareFileFilter(TestTable.kID, fieldID, ">", null, false);
@@ -703,7 +703,7 @@ System.exit(0);
         testTable.close();
         testTable.setKeyArea("TestKey");
         iCount = 0;
-        FileListener listener = new StringSubFileFilter("B", TestTable.kTestKey, null, -1, null, -1);
+        FileListener listener = new StringSubFileFilter("B", TestTable.TEST_KEY, null, -1, null, -1);
         testTable.addListener(listener);
         testTable.close();
         while (testTable.hasNext())   {
@@ -731,7 +731,7 @@ System.exit(0);
         testTable.close();
         testTable.setKeyArea("TestKey");
         iCount = 0;
-        FileListener listener = new StringSubFileFilter("Z", TestTable.kTestKey, null, -1, null, -1);
+        FileListener listener = new StringSubFileFilter("Z", TestTable.TEST_KEY, null, -1, null, -1);
         testTable.addListener(listener);
         testTable.close();
         while (testTable.hasNext())   {
@@ -814,10 +814,10 @@ System.exit(0);
         cat.debug("Lock(edit) file 2");
         testTable2.edit();
         cat.debug("Update file 1");
-        testTable.getField(TestTable.kTestName).setString("B - Good Agent1");
+        testTable.getField(TestTable.TEST_NAME).setString("B - Good Agent1");
         testTable.set();
         cat.debug("Update file 2");
-        testTable2.getField(TestTable.kTestName).setString("B - Good Agent2");
+        testTable2.getField(TestTable.TEST_NAME).setString("B - Good Agent2");
         testTable2.set();
     } catch (DBException e)   {
         cat.debug("Error reading through file (alternate success): Error" + e.getMessage() + "");
@@ -889,7 +889,7 @@ System.exit(0);
         GridTable recordList = new GridTable(null, testTable);
         try   {
             Record newRecord = null;
-//          testTable.addListener(new CompareFileFilter(TestTable.kTestKey, "B", ">", null, false));
+//          testTable.addListener(new CompareFileFilter(TestTable.TEST_KEY, "B", ">", null, false));
 
             recordList.close();
             cat.debug("First, lets read a record in the middle.\n");
@@ -916,13 +916,13 @@ System.exit(0);
             cat.debug(testTable.toString());
             cat.debug(", and update it.\n");
             newRecord.edit();
-            newRecord.getField(TestTable.kTestName).setString("New 4 Agent");
+            newRecord.getField(TestTable.TEST_NAME).setString("New 4 Agent");
             newRecord.set();
 
             newRecord = (Record)recordList.get(4);
             cat.debug(", and update it again.\n");
             newRecord.edit();
-            newRecord.getField(TestTable.kTestName).setString("New 4 Agent Two");
+            newRecord.getField(TestTable.TEST_NAME).setString("New 4 Agent Two");
             newRecord.set();
 
             cat.debug(testTable.toString());    // Make sure I get the right record
@@ -955,7 +955,7 @@ System.exit(0);
             cat.debug(testTable.toString());
             cat.debug("Now, lets change some data and set.\n");
             newRecord.edit();
-            newRecord.getField(TestTable.kTestName).setString("New Agent");
+            newRecord.getField(TestTable.TEST_NAME).setString("New Agent");
             newRecord.set();
             cat.debug(testTable.toString());
 
@@ -979,8 +979,8 @@ System.exit(0);
             newRecord = recordList.getRecord();
             newRecord.addNew();
             newRecord.getField(TestTable.kID).setString("5");
-            newRecord.getField(TestTable.kTestName).setString("B - Good Agent");
-            newRecord.getField(TestTable.kTestKey).setString("B");
+            newRecord.getField(TestTable.TEST_NAME).setString("B - Good Agent");
+            newRecord.getField(TestTable.TEST_KEY).setString("B");
             newRecord.add();
             
             cat.debug("Go through the new records after an addNew()");

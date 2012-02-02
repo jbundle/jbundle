@@ -69,7 +69,7 @@ public abstract class XScreenField extends ZScreenField
     }
     /**
      * Get the current string value in XML.<p/>
-     * May want to check GetRootScreen().GetScreenType() & kInput/DISPLAY_MODE
+     * May want to check GetRootScreen().GetScreenType() & INPUT/DISPLAY_MODE
      * @exception DBException File exception.
      * @return true if any fields were found.
      */
@@ -161,7 +161,7 @@ public abstract class XScreenField extends ZScreenField
     }
     /**
      * Get the current string value in HTML.<p/>
-     * May want to check GetRootScreen().GetScreenType() & kInput/DISPLAY_MODE
+     * May want to check GetRootScreen().GetScreenType() & INPUT/DISPLAY_MODE
      * @param strFieldType The field type
      * @exception DBException File exception.
      */

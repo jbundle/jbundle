@@ -155,7 +155,7 @@ public class GridScreen extends BaseGridTableScreen
                 continue;   // Don't display the counter field
             if (field instanceof ImageField)
                 continue;   // Typically don't display in a grid
-            if (field.getMaxLength() > ScreenConstants.kMaxEditLineChars)
+            if (field.getMaxLength() > ScreenConstants.MAX_EDIT_LINE_CHARS)
                 continue;   // By default, don't display large fields (speeds up query)
             if (field.isSelected())
                 this.addColumn(field);

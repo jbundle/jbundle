@@ -89,18 +89,18 @@ public class VStaticString extends VScreenField
         String m_StaticString = ((SStaticString)this.getScreenField()).getStaticString();
         boxChars = m_StaticString.length();
         boxLines = 1;
-        if (boxChars > ScreenConstants.kMaxEditLineChars)
+        if (boxChars > ScreenConstants.MAX_EDIT_LINE_CHARS)
         {       // This should depend on the m_ScreenSize relative values
-            boxChars = ScreenConstants.kMaxTEChars;
-            boxLines = ScreenConstants.kMaxTELines;
+            boxChars = ScreenConstants.MAX_TE_CHARS;
+            boxLines = ScreenConstants.MAX_TE_LINES;
         }
-        else if (boxChars > ScreenConstants.kMaxSingleLineChars)
+        else if (boxChars > ScreenConstants.MAX_SINGLE_LINE_CHARS)
         {       // not int enough for a scroll box, but not single line
-            if (boxChars > ScreenConstants.kMaxDoubleLineChars)
-                boxLines = ScreenConstants.kMaxDoubleLines;
+            if (boxChars > ScreenConstants.MAX_DOUBLE_LINE_CHARS)
+                boxLines = ScreenConstants.MAX_DOUBLE_LINES;
             else
-                boxLines = ScreenConstants.kMaxSingleLines;
-            boxChars = ScreenConstants.kMaxSingleChars;
+                boxLines = ScreenConstants.MAX_SINGLE_LINES;
+            boxChars = ScreenConstants.MAX_SINGLE_CHARS;
         }
         Dimension itsSize = this.getTextBoxSize(boxChars, ScreenConstants.NEXT_LOGICAL, boxLines);
         Rectangle rect = new Rectangle(ptLocation.x , ptLocation.y, itsSize.width, itsSize.height);
@@ -118,7 +118,7 @@ public class VStaticString extends VScreenField
 
 //?            ScreenLocation screenLocation = new ScreenLocation(ScreenConstants.FIELD_DESC, ScreenConstants.DONT_SET_ANCHOR);
             Point descLocation = ptLocation;//xm_ParentScreen.getScreenLayout().calcLocation(screenLocation);
-            Dimension itsSize2 = this.getTextBoxSize(ScreenConstants.kMaxDescLength, ScreenConstants.FIELD_DESC, (short)1);
+            Dimension itsSize2 = this.getTextBoxSize(ScreenConstants.MAX_DESC_LENGTH, ScreenConstants.FIELD_DESC, (short)1);
             if (descLocation.x < 1)
             { // Too far to the left, shrink the size of the box
                 itsSize2.width += descLocation.x + 1;
@@ -126,7 +126,7 @@ public class VStaticString extends VScreenField
             }
             else
             {   // Shrink box by size of desc text
-                int sizeFix = this.getScreenInfo().getBoxWidth(ScreenConstants.kMaxDescLength);
+                int sizeFix = this.getScreenInfo().getBoxWidth(ScreenConstants.MAX_DESC_LENGTH);
                 sizeFix -= this.getTextExtent(descString).width;
                 itsSize2.width -= sizeFix;
                 descLocation.x += sizeFix;

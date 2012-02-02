@@ -96,17 +96,17 @@ public class ConvertDB extends ConvertBase
             while (recLogic.hasNext())
             {
                 recLogic.next();
-                String strSource = recLogic.getField(LogicFile.kLogicSource).toString();
+                String strSource = recLogic.getField(LogicFile.LOGIC_SOURCE).toString();
                 String strNew = this.convertString(strSource);
-                String strSource2 = recLogic.getField(LogicFile.kMethodReturns).toString();
+                String strSource2 = recLogic.getField(LogicFile.METHOD_RETURNS).toString();
                 String strNew2 = this.convertString(strSource2);
                 if ((strSource != strNew) || (strSource2 != strNew2))
                 {
                     iChanged++;
                     System.out.println("Count: " + iCount + " Changed: " + iChanged);
                     recLogic.edit();
-                    recLogic.getField(LogicFile.kLogicSource).setString(strNew);
-                    recLogic.getField(LogicFile.kMethodReturns).setString(strNew2);
+                    recLogic.getField(LogicFile.LOGIC_SOURCE).setString(strNew);
+                    recLogic.getField(LogicFile.METHOD_RETURNS).setString(strNew2);
                     recLogic.set();
                 }
                 iCount++;
@@ -122,14 +122,14 @@ public class ConvertDB extends ConvertBase
             while (recScreenIn.hasNext())
             {
                 recScreenIn.next();
-                String strSource = recScreenIn.getField(ScreenIn.kScreenText).toString();
+                String strSource = recScreenIn.getField(ScreenIn.SCREEN_TEXT).toString();
                 String strNew = this.convertString(strSource);
                 if (strSource != strNew)
                 {
                     iChanged++;
                     System.out.println("Count: " + iCount + " Changed: " + iChanged);
                     recScreenIn.edit();
-                    recScreenIn.getField(ScreenIn.kScreenText).setString(strNew);
+                    recScreenIn.getField(ScreenIn.SCREEN_TEXT).setString(strNew);
                     recScreenIn.set();
                 }
                 iCount++;

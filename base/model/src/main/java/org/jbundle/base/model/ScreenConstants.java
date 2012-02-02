@@ -78,32 +78,32 @@ public interface ScreenConstants extends JScreenConstants
     public static final short NEXT_INPUT_LOCATION = 32;  // Below farthest field, at left input location
     public static final short LAST_LOCATION = 33;		// Very last control - typically a total on a screen
 
-    public static final short kFirstColOffset = 4;  // start 5 pixels down on displays
-    public static final short kFieldHorizOffset = 1;    // Extra pixels needed in each character cell
-    public static final short kExtraColBoxSpacing = kFieldHorizOffset * 2 + 3;  // Extra pixels needed for a box
-    public static final short kCellBorderWidth = 2;
-    public static final short kShiftTextDown = -6;
-    public static final short kShiftTextRight = +0;
-    public static final short kShiftEditDown = -6;
-    public static final short kShiftEditRight = +4;
+    public static final short FIRST_COL_OFFSET = 4;  // start 5 pixels down on displays
+    public static final short FIELD_HORIZ_OFFSET = 1;    // Extra pixels needed in each character cell
+    public static final short EXTRA_COL_BOX_SPACING = FIELD_HORIZ_OFFSET * 2 + 3;  // Extra pixels needed for a box
+    public static final short CELL_BORDER_WIDTH = 2;
+    public static final short SHIFT_TEXT_DOWN = -6;
+    public static final short SHIFT_TEXT_RIGHT = +0;
+    public static final short SHIFT_EDIT_DOWN = -6;
+    public static final short SHIFT_EDIT_RIGHT = +4;
 //enum eAnchorFlag
     public static final short ANCHOR_DEFAULT = 1;
     public static final short SET_ANCHOR = 2;
     public static final short DONT_SET_ANCHOR = 3;
     public static final short FILL_REMAINDER = 4; // Grow the control to fill the parent screen
 
-    public static final short kMaxSingleLineChars = 65;
-    public static final short kMaxSingleChars = 50;
-    public static final short kMaxSingleLines = 2;
-    public static final short kMaxDoubleLineChars = kMaxSingleLineChars * 2;
-    public static final short kMaxDoubleChars = kMaxSingleChars;
-    public static final short kMaxDoubleLines = 3;
-    public static final short kMaxEditLineChars = 128;  // Max line length before making a scrolling edit box
+    public static final short MAX_SINGLE_LINE_CHARS = 65;
+    public static final short MAX_SINGLE_CHARS = 50;
+    public static final short MAX_SINGLE_LINES = 2;
+    public static final short MAX_DOUBLE_LINE_CHARS = MAX_SINGLE_LINE_CHARS * 2;
+    public static final short MAX_DOUBLE_CHARS = MAX_SINGLE_CHARS;
+    public static final short MAX_DOUBLE_LINES = 3;
+    public static final short MAX_EDIT_LINE_CHARS = 128;  // Max line length before making a scrolling edit box
     
-    public static final short kMaxDescLength = 14;
-    public static final short kMaxTEChars = 50;
-    public static final short kMaxTELines = 6;      // 50 characters by 6 lines
-    public static final short kGridButtonOffset = 14; // Dimension of the grid button
-    public static final short kInitialControl = -2;
-    public static final short kSelectField = 0;
+    public static final short MAX_DESC_LENGTH = 14;
+    public static final short MAX_TE_CHARS = 50;
+    public static final short MAX_TE_LINES = 6;      // 50 characters by 6 lines
+    public static final short GRID_BUTTON_OFFSET = 14; // Dimension of the grid button
+    public static final short INITIAL_CONTROL = -2;
+    public static final short SELECT_FIELD = 0;
 }

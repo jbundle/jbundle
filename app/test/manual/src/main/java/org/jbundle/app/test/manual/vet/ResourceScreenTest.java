@@ -42,7 +42,7 @@ public class ResourceScreenTest extends Screen
     {
         super.addListeners();
         this.addMainKeyBehavior();
-        this.getMainRecord().setKeyArea(Animal.kNameKey);
+        this.getMainRecord().setKeyArea(Animal.NAME_KEY);
 //+     this.setAdding(false);
     }
     /**
@@ -66,13 +66,13 @@ public class ResourceScreenTest extends Screen
     public void setupSFields()
     {
 //      super.setupSFields();
-//      Converter conv2 = this.getMainRecord().getField(Animal.kName);
+//      Converter conv2 = this.getMainRecord().getField(Animal.NAME);
 //      conv2.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        Converter conv = new MultipleTableFieldConverter(this.getMainRecord(), Animal.kName);
+        Converter conv = new MultipleTableFieldConverter(this.getMainRecord(), Animal.NAME);
         conv.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        new MultipleTableFieldConverter(this.getMainRecord(), Animal.kColor).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        new MultipleTableFieldConverter(this.getMainRecord(), Animal.kWeight).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        new MultipleTableFieldConverter(this.getMainRecord(), Animal.kVet).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        new MultipleTableFieldConverter(this.getMainRecord(), Animal.COLOR).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        new MultipleTableFieldConverter(this.getMainRecord(), Animal.WEIGHT).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        new MultipleTableFieldConverter(this.getMainRecord(), Animal.VET).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
 
     }
 }

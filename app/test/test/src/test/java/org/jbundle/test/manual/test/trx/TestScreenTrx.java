@@ -84,10 +84,10 @@ public class TestScreenTrx extends TestScreen
     public void setupSFields()
     {
         super.setupSFields();
-        this.getRecord(TestTable.kTestTableFile).getField(TestTable.kTestProperties).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(TestTable.TEST_TABLE_FILE).getField(TestTable.TEST_PROPERTIES).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Start storm");
         new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, "Stop storm"); 
-        this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getScreenRecord().getField(TourEventScreenRecord.RUN_PROCESS_IN).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * Process the command.
@@ -121,11 +121,11 @@ public class TestScreenTrx extends TestScreen
         BaseMessage message = new MapMessage(new TrxMessageHeader(strQueueName, strQueueType, properties), properties);
         String strProcess = Utility.propertiesToURL(null, properties);
         
-        if (RunProcessInField.REMOTE_PROCESS.equalsIgnoreCase(this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).toString()))
+        if (RunProcessInField.REMOTE_PROCESS.equalsIgnoreCase(this.getScreenRecord().getField(TourEventScreenRecord.RUN_PROCESS_IN).toString()))
         {
             app.getMessageManager().sendMessage(message);
         }
-        else if (RunProcessInField.LOCAL_PROCESS.equalsIgnoreCase(this.getScreenRecord().getField(TourEventScreenRecord.kRunProcessIn).toString()))
+        else if (RunProcessInField.LOCAL_PROCESS.equalsIgnoreCase(this.getScreenRecord().getField(TourEventScreenRecord.RUN_PROCESS_IN).toString()))
         {
             app.getTaskScheduler().addTask(new ProcessRunnerTask(app, strProcess, null));
         }

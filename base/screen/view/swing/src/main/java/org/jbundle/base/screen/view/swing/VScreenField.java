@@ -231,22 +231,22 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
         short boxLines = 1;
         if (this.getScreenField().getConverter() != null)
             boxChars = (short)this.getScreenField().getConverter().getMaxLength();
-        if (boxChars > ScreenConstants.kMaxEditLineChars)
+        if (boxChars > ScreenConstants.MAX_EDIT_LINE_CHARS)
         {       // This should depend on the m_ScreenSize relative values
-            boxChars = ScreenConstants.kMaxTEChars;
-            boxLines = ScreenConstants.kMaxTELines;
+            boxChars = ScreenConstants.MAX_TE_CHARS;
+            boxLines = ScreenConstants.MAX_TE_LINES;
         }
-        else if (boxChars > ScreenConstants.kMaxSingleLineChars)
+        else if (boxChars > ScreenConstants.MAX_SINGLE_LINE_CHARS)
         {       // not int enough for a scroll box, but not single line
-            if (boxChars > ScreenConstants.kMaxDoubleLineChars)
-                boxLines = ScreenConstants.kMaxDoubleLines;
+            if (boxChars > ScreenConstants.MAX_DOUBLE_LINE_CHARS)
+                boxLines = ScreenConstants.MAX_DOUBLE_LINES;
             else
-                boxLines = ScreenConstants.kMaxSingleLines;
-            boxChars = ScreenConstants.kMaxSingleChars;
+                boxLines = ScreenConstants.MAX_SINGLE_LINES;
+            boxChars = ScreenConstants.MAX_SINGLE_CHARS;
         }
-        else if (boxChars > ScreenConstants.kMaxSingleChars)
+        else if (boxChars > ScreenConstants.MAX_SINGLE_CHARS)
         {       // not enough for a few lines, but don't make a long field
-            boxChars = ScreenConstants.kMaxSingleChars;
+            boxChars = ScreenConstants.MAX_SINGLE_CHARS;
         }
         Dimension itsSize = this.getTextBoxSize(boxChars, ScreenConstants.NEXT_LOGICAL, boxLines);
         return new Rectangle(ptLocation.x , ptLocation.y, itsSize.width, itsSize.height);
@@ -262,15 +262,15 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
     {
         Dimension boxSize = new Dimension(0, 0);
         if (position == ScreenConstants.FIELD_DESC)
-            itsMaxChars = ScreenConstants.kMaxDescLength;
+            itsMaxChars = ScreenConstants.MAX_DESC_LENGTH;
         if (position == ScreenConstants.CHECK_BOX_DESC)
-//            itsMaxChars = ScreenConstants.kMaxDescLength + 2;
+//            itsMaxChars = ScreenConstants.MAX_DESC_LENGTH + 2;
             itsMaxChars = itsMaxChars + 4;
         if (position == ScreenConstants.POPUP_DESC)
             itsMaxChars += 2;
         boxSize.width = this.getScreenInfo().getBoxWidth(itsMaxChars);
         if (position != ScreenConstants.FIELD_DESC)     // Descriptions have to line up on the right
-            boxSize.width += ScreenConstants.kExtraColBoxSpacing;
+            boxSize.width += ScreenConstants.EXTRA_COL_BOX_SPACING;
 
         if (itsMaxLines > 1)
             itsMaxLines++;  // Space for scroll bars

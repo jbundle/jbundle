@@ -56,10 +56,10 @@ import org.jbundle.model.DBException;
 
         int iOldKeyOrder = m_recFileHdr.getDefaultOrder();
         try {
-            if (!m_recFileHdr.getField(FileHdr.kFileName).equals(m_recClassInfo.getField(ClassInfo.kClassName)))
+            if (!m_recFileHdr.getField(FileHdr.FILE_NAME).equals(m_recClassInfo.getField(ClassInfo.CLASS_NAME)))
             {
-                m_recFileHdr.getField(FileHdr.kFileName).moveFieldToThis(m_recClassInfo.getField(ClassInfo.kClassName));
-                m_recFileHdr.setKeyArea(FileHdr.kFileNameKey);
+                m_recFileHdr.getField(FileHdr.FILE_NAME).moveFieldToThis(m_recClassInfo.getField(ClassInfo.CLASS_NAME));
+                m_recFileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
                 if (!m_recFileHdr.seek("="))
                     m_recFileHdr.addNew();
             }
@@ -153,7 +153,7 @@ import org.jbundle.model.DBException;
     {
         if (m_recFileHdr.getEditMode() != DBConstants.EDIT_CURRENT)
             return false;   // Non-file record is never shared
-        if (m_recFileHdr.getField(FileHdr.kType).toString().indexOf("SHARED_TABLE") != -1)
+        if (m_recFileHdr.getField(FileHdr.TYPE).toString().indexOf("SHARED_TABLE") != -1)
             return true;
         if (!m_bSharedOnly)
             return true;    // For thin, always process as shared.
@@ -190,34 +190,34 @@ import org.jbundle.model.DBException;
             FieldSummary fieldSummary = (FieldSummary)m_vFieldList.elementAt(m_iCurrentIndex);
             m_iCurrentIndex++;
 
-            m_recFieldData.setKeyArea(FieldData.kIDKey);
+            m_recFieldData.setKeyArea(FieldData.ID_KEY);
             m_recFieldData.addNew();
             m_recFieldData.getField(FieldData.kID).setData(fieldSummary.m_objID);
             if (!m_recFieldData.seek(null))
                 return null;    // Never
             
             if (fieldSummary.m_strNewBaseField != null)
-                m_recFieldData.getField(FieldData.kBaseFieldName).setString(fieldSummary.m_strNewBaseField);
+                m_recFieldData.getField(FieldData.BASE_FIELD_NAME).setString(fieldSummary.m_strNewBaseField);
             if (fieldSummary.m_strNewFieldClass == UNUSED)
             {
-                m_recFieldData.getField(FieldData.kFieldClass).setString(fieldSummary.m_strNewFieldClass);
-                m_recFieldData.getField(FieldData.kDefaultValue).setString(DBConstants.BLANK);
-                m_recFieldData.getField(FieldData.kInitialValue).setString(DBConstants.BLANK);
-                m_recFieldData.getField(FieldData.kIncludeScope).setValue(0);
+                m_recFieldData.getField(FieldData.FIELD_CLASS).setString(fieldSummary.m_strNewFieldClass);
+                m_recFieldData.getField(FieldData.DEFAULT_VALUE).setString(DBConstants.BLANK);
+                m_recFieldData.getField(FieldData.INITIAL_VALUE).setString(DBConstants.BLANK);
+                m_recFieldData.getField(FieldData.INCLUDE_SCOPE).setValue(0);
             }
             else if (this.inBaseField(fieldSummary.m_strFieldFileName, m_rgstrClasses))
             {   // This field is in a base record class, so fake the record to think it just overrides the field
-                int scope = (int)(m_recFieldData.getField(FieldData.kIncludeScope).getValue() + 0.5);
+                int scope = (int)(m_recFieldData.getField(FieldData.INCLUDE_SCOPE).getValue() + 0.5);
                 m_recFieldData.addNew();
-                m_recFieldData.getField(FieldData.kIncludeScope).setValue(scope & ~fieldSummary.m_iIncludeScope);
-                m_recFieldData.getField(FieldData.kBaseFieldName).setString(fieldSummary.m_strFieldName);
-                m_recFieldData.getField(FieldData.kFieldName).setString(fieldSummary.m_strFieldName);
-                m_recFieldData.getField(FieldData.kFieldFileName).setString(m_rgstrClasses[m_rgstrClasses.length-1]);
+                m_recFieldData.getField(FieldData.INCLUDE_SCOPE).setValue(scope & ~fieldSummary.m_iIncludeScope);
+                m_recFieldData.getField(FieldData.BASE_FIELD_NAME).setString(fieldSummary.m_strFieldName);
+                m_recFieldData.getField(FieldData.FIELD_NAME).setString(fieldSummary.m_strFieldName);
+                m_recFieldData.getField(FieldData.FIELD_FILE_NAME).setString(m_rgstrClasses[m_rgstrClasses.length-1]);
             }
-            else if ((fieldSummary.m_iFieldType == FieldSummary.EXTENDED_FIELD) && (!m_recClassInfo.getField(ClassInfo.kClassName).toString().equals(fieldSummary.m_strFieldFileName)))
-                m_recFieldData.getField(FieldData.kIncludeScope).setValue(fieldSummary.m_iIncludeScope);   // Field name not included here
+            else if ((fieldSummary.m_iFieldType == FieldSummary.EXTENDED_FIELD) && (!m_recClassInfo.getField(ClassInfo.CLASS_NAME).toString().equals(fieldSummary.m_strFieldFileName)))
+                m_recFieldData.getField(FieldData.INCLUDE_SCOPE).setValue(fieldSummary.m_iIncludeScope);   // Field name not included here
             else
-                m_recFieldData.getField(FieldData.kIncludeScope).setValue(fieldSummary.m_iIncludeScope);
+                m_recFieldData.getField(FieldData.INCLUDE_SCOPE).setValue(fieldSummary.m_iIncludeScope);
 
             return m_recFieldData;  // This is the next field data record
             
@@ -257,7 +257,7 @@ import org.jbundle.model.DBException;
         m_vFieldList = new Vector<FieldSummary>();
         m_iCurrentIndex = 0;
 
-        String strClassName = m_recClassInfo.getField(ClassInfo.kClassName).toString();
+        String strClassName = m_recClassInfo.getField(ClassInfo.CLASS_NAME).toString();
 
         m_rgstrClasses = this.getBaseRecordClasses(strClassName, m_bSharedOnly);
 
@@ -266,14 +266,14 @@ import org.jbundle.model.DBException;
         {
 	        // Now add all the classes from the first shared record up the chain
 	    	FileHdr recFileHdr = new FileHdr(Record.findRecordOwner(m_recFileHdr));
-	    	recFileHdr.setKeyArea(FileHdr.kFileNameKey);
+	    	recFileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
 	        try {
 		        for (int i = 0; i < m_rgstrClasses.length; i++)
 		        {
 		        	recFileHdr.addNew();
-		        	recFileHdr.getField(FileHdr.kFileName).setString(m_rgstrClasses[i]);
+		        	recFileHdr.getField(FileHdr.FILE_NAME).setString(m_rgstrClasses[i]);
 			        if (recFileHdr.seek(null) == true)  // For shared records, include overriding record fields.
-//			        	if (recFileHdr.getField(FileHdr.kType).toString().indexOf("SHARED_TABLE") != -1)  // For shared records, include overriding record fields.
+//			        	if (recFileHdr.getField(FileHdr.TYPE).toString().indexOf("SHARED_TABLE") != -1)  // For shared records, include overriding record fields.
 			        {
 		        		strBaseSharedRecord = m_rgstrClasses[i];
 			            break;
@@ -318,23 +318,23 @@ import org.jbundle.model.DBException;
             String strBaseClass = strClassName;
             while (true)
             {
-                recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
-                recClassInfo.getField(ClassInfo.kClassName).setString(strBaseClass);
+                recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
+                recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strBaseClass);
                 if (!recClassInfo.seek(null))
                     break;  // No class, Parent is the base.
-                if ("Record".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassName).toString()))
+                if ("Record".equalsIgnoreCase(recClassInfo.getField(ClassInfo.CLASS_NAME).toString()))
                     break;
                 if (bSharedOnly)
                 {
-                    recFileHdr.getField(FileHdr.kFileName).moveFieldToThis(recClassInfo.getField(ClassInfo.kClassName));
-                    recFileHdr.setKeyArea(FileHdr.kFileNameKey);
+                    recFileHdr.getField(FileHdr.FILE_NAME).moveFieldToThis(recClassInfo.getField(ClassInfo.CLASS_NAME));
+                    recFileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
                     if (!recFileHdr.seek("="))
                         break;  // No file, Parent is the base.
-                    if (recFileHdr.getField(FileHdr.kType).toString().indexOf("SHARED_TABLE") == -1)
+                    if (recFileHdr.getField(FileHdr.TYPE).toString().indexOf("SHARED_TABLE") == -1)
                         break;  // Not shared, Parent is the base.
                 }
                 strClassName = strBaseClass;    // This is the new valid base.
-                strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).toString();  // Continue down.
+                strBaseClass = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString();  // Continue down.
                 // Now add this base class to the bottom of the list
                 String[] rgstrClassesTemp = new String[rgstrClasses.length + 1];
                 for (int i = 0; i < rgstrClasses.length; i++)
@@ -360,12 +360,12 @@ import org.jbundle.model.DBException;
         ClassInfo recClassInfo = new ClassInfo(Record.findRecordOwner(m_recClassInfo));
         FieldData recFieldData = new FieldData(Record.findRecordOwner(m_recFieldData));
         try {
-            recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
-            recClassInfo.getField(ClassInfo.kClassName).setString(strBaseClass);  // Base class
+            recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
+            recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strBaseClass);  // Base class
             recClassInfo.seek(null);    // Read this class.
 
-            recFieldData.setKeyArea(FieldData.kFieldFileNameKey);
-            recFieldData.addListener(new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), FieldData.kFieldFileName, null, -1, null, -1));
+            recFieldData.setKeyArea(FieldData.FIELD_FILE_NAME_KEY);
+            recFieldData.addListener(new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), FieldData.FIELD_FILE_NAME, null, null, null, null));
             recFieldData.close();
             while (recFieldData.hasNext())
             {
@@ -414,15 +414,15 @@ import org.jbundle.model.DBException;
         String strClassName = strClassNames[iClassIndex];
         try {
             // First, re-read the original class.
-            recClassInfo.getField(ClassInfo.kClassName).setString(strClassName);
-            recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
+            recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strClassName);
+            recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
             if (!recClassInfo.seek(null))
                 return; // Never
             
-            recFieldData.setKeyArea(FieldData.kFieldFileNameKey);
-            recFieldData.addListener(new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), FieldData.kFieldFileName, null, -1, null, -1));
+            recFieldData.setKeyArea(FieldData.FIELD_FILE_NAME_KEY);
+            recFieldData.addListener(new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), FieldData.FIELD_FILE_NAME, null, null, null, null));
 
-            strClassName = recClassInfo.getField(ClassInfo.kClassName).toString();
+            strClassName = recClassInfo.getField(ClassInfo.CLASS_NAME).toString();
             recFieldData.close();
             while (recFieldData.hasNext())
             {
@@ -482,31 +482,31 @@ import org.jbundle.model.DBException;
         FieldData recFieldData = new FieldData(Record.findRecordOwner(m_recFieldData));
         FileHdr recFileHdr = new FileHdr(Record.findRecordOwner(m_recFileHdr));
         try {
-            recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
-            recClassInfo.getField(ClassInfo.kClassName).setString(strBaseClass);  // Base class
+            recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
+            recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strBaseClass);  // Base class
             recClassInfo.seek(null);    // Read this class.
 
-            recFieldData.setKeyArea(FieldData.kFieldFileNameKey);
-            recFieldData.addListener(new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), FieldData.kFieldFileName, null, -1, null, -1));
+            recFieldData.setKeyArea(FieldData.FIELD_FILE_NAME_KEY);
+            recFieldData.addListener(new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), FieldData.FIELD_FILE_NAME, null, null, null, null));
 
-            recClassInfo.setKeyArea(ClassInfo.kBaseClassNameKey);
-            recClassInfo.addListener(new StringSubFileFilter(strBaseClass, ClassInfo.kBaseClassName, null, -1, null, -1));
+            recClassInfo.setKeyArea(ClassInfo.BASE_CLASS_NAME_KEY);
+            recClassInfo.addListener(new StringSubFileFilter(strBaseClass, ClassInfo.BASE_CLASS_NAME, null, null, null, null));
             
             recClassInfo.close();
             while (recClassInfo.hasNext())
             {
                 recClassInfo.next();
 
-                recFileHdr.getField(FileHdr.kFileName).moveFieldToThis(recClassInfo.getField(ClassInfo.kClassName));
-                recFileHdr.setKeyArea(FileHdr.kFileNameKey);
+                recFileHdr.getField(FileHdr.FILE_NAME).moveFieldToThis(recClassInfo.getField(ClassInfo.CLASS_NAME));
+                recFileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
                 if (recFileHdr.seek("=") == false)
             		continue;
-                if (recFileHdr.getField(FileHdr.kType).toString().indexOf("SHARED_TABLE") == -1)
+                if (recFileHdr.getField(FileHdr.TYPE).toString().indexOf("SHARED_TABLE") == -1)
                     continue;  // Not shared, Parent is the base.
 
                 this.scanExtendedClassFields(recClassInfo, recFieldData);
                 
-                this.scanExtendedClasses(recClassInfo.getField(ClassInfo.kClassName).toString());
+                this.scanExtendedClasses(recClassInfo.getField(ClassInfo.CLASS_NAME).toString());
             }
             
         } catch (DBException ex)    {
@@ -528,7 +528,7 @@ import org.jbundle.model.DBException;
             {
                 recFieldData.next();
                 
-                if (recFieldData.getField(FieldData.kBaseFieldName).isNull())
+                if (recFieldData.getField(FieldData.BASE_FIELD_NAME).isNull())
                 {   // New name
                     FieldSummary fieldSummary = new FieldSummary(recFieldData, FieldSummary.EXTENDED_FIELD);
 
@@ -545,9 +545,9 @@ import org.jbundle.model.DBException;
      */
     private int findField(Record recFieldData, boolean bInBaseField)
     {
-        String strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
-        String strBaseFieldName = recFieldData.getField(FieldData.kBaseFieldName).toString();
-//?        String strSourceRecord = recFieldData.getField(FieldData.kFieldFileName).toString();
+        String strFieldName = recFieldData.getField(FieldData.FIELD_NAME).toString();
+        String strBaseFieldName = recFieldData.getField(FieldData.BASE_FIELD_NAME).toString();
+//?        String strSourceRecord = recFieldData.getField(FieldData.FIELD_FILE_NAME).toString();
         for (int i = 0; i < m_vFieldList.size(); i++)
         {
             FieldSummary fieldData = (FieldSummary)m_vFieldList.elementAt(i);
@@ -575,11 +575,11 @@ import org.jbundle.model.DBException;
         public FieldSummary(Record recFieldData, int iFieldType)
         {
             this.m_objID = recFieldData.getField(FieldData.kID).getData();
-            this.m_strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
-            this.m_strBaseFieldName = recFieldData.getField(FieldData.kBaseFieldName).toString();
-            this.m_strFieldFileName = recFieldData.getField(FieldData.kFieldFileName).toString();
-            this.m_iIncludeScope = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + 0.5);
-            this.m_iIncludeScopeCumulative = (int)(recFieldData.getField(FieldData.kIncludeScope).getValue() + 0.5);
+            this.m_strFieldName = recFieldData.getField(FieldData.FIELD_NAME).toString();
+            this.m_strBaseFieldName = recFieldData.getField(FieldData.BASE_FIELD_NAME).toString();
+            this.m_strFieldFileName = recFieldData.getField(FieldData.FIELD_FILE_NAME).toString();
+            this.m_iIncludeScope = (int)(recFieldData.getField(FieldData.INCLUDE_SCOPE).getValue() + 0.5);
+            this.m_iIncludeScopeCumulative = (int)(recFieldData.getField(FieldData.INCLUDE_SCOPE).getValue() + 0.5);
             this.m_iFieldType = iFieldType;
         }
         public FieldSummary mergeNewSummary(FieldSummary fieldSummary, boolean topLevel, String strClassName)

@@ -32,9 +32,9 @@ public class TourEventScreenRecord extends ScreenRecord
     public static final int kActionCutoffDate = kScreenRecordLastField + 1;
     public static final int kBookingUpdate = kActionCutoffDate + 1;
     public static final int kTourUpdate = kBookingUpdate + 1;
-    public static final int kRunProcessIn = kTourUpdate + 1;
-    public static final int kTourEventScreenRecordLastField = kRunProcessIn;
-    public static final int kTourEventScreenRecordFields = kRunProcessIn - DBConstants.MAIN_FIELD + 1;
+    public static final int RUN_PROCESS_IN = kTourUpdate + 1;
+    public static final int kTourEventScreenRecordLastField = RUN_PROCESS_IN;
+    public static final int kTourEventScreenRecordFields = RUN_PROCESS_IN - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -71,7 +71,7 @@ public class TourEventScreenRecord extends ScreenRecord
             field = new BooleanField(this, "BookingUpdate", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
         if (iFieldSeq == kTourUpdate)
             field = new BooleanField(this, "TourUpdate", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
-        if (iFieldSeq == kRunProcessIn)
+        if (iFieldSeq == RUN_PROCESS_IN)
             field = new RunProcessInField(this, "RunProcessIn", Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
         {

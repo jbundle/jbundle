@@ -115,8 +115,8 @@ public class TestGridSession extends TableModelSession
         
         record.setSelected(false);
         record.getField(TestTable.kID).setSelected(true);
-        record.getField(TestTable.kTestName).setSelected(true);
-        record.getField(TestTable.kTestCurrency).setSelected(true);
-        record.getField(TestTable.kTestVirtual).setSelected(true);
+        record.getField(TestTable.TEST_NAME).setSelected(true);
+        record.getField(TestTable.TEST_CURRENCY).setSelected(true);
+        record.getField(TestTable.TEST_VIRTUAL).setSelected(true);
     }
 }

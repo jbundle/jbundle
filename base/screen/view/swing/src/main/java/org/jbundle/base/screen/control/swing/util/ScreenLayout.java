@@ -304,7 +304,7 @@ public class ScreenLayout extends Object
                 case ScreenConstants.BELOW_LAST_DESC:
                     nextPosition.x = m_rectLastField.x;
                     if (m_sLocation == ScreenConstants.BELOW_LAST_DESC)
-                        nextPosition.x = m_rectAnchor.x - m_screenInfo.getColumnWidth(ScreenConstants.kMaxDescLength + 1);
+                        nextPosition.x = m_rectAnchor.x - m_screenInfo.getColumnWidth(ScreenConstants.MAX_DESC_LENGTH + 1);
                     if (nextPosition.x < 0)
                         nextPosition.x = 5;
                     nextPosition.y = m_rectLastField.y + m_rectLastField.height;    // Bottom of last char + gap between lines
@@ -314,7 +314,7 @@ public class ScreenLayout extends Object
                 case ScreenConstants.TOP_NEXT:
                     int iDescCharWidth = 1;   // Buffer space
                     if (m_sLocation == ScreenConstants.TOP_NEXT)
-                        iDescCharWidth += ScreenConstants.kMaxDescLength;
+                        iDescCharWidth += ScreenConstants.MAX_DESC_LENGTH;
                     nextPosition = new Point(this.getFarthestField().width + m_screenInfo.getColumnWidth(iDescCharWidth), m_screenInfo.getRowLocation((BasePanel)m_screen.getScreenField(), 1));
                     if (setNewAnchor == ScreenConstants.ANCHOR_DEFAULT)
                         setNewAnchor = ScreenConstants.SET_ANCHOR;
@@ -323,9 +323,9 @@ public class ScreenLayout extends Object
                 case ScreenConstants.CHECK_BOX_DESC:
                 case ScreenConstants.FIELD_DESC:
                     nextPosition = new Point(m_rectLastField.x, m_rectLastField.y); // m_anchorLocation;
-                    nextPosition.x -= m_screenInfo.getColumnWidth(ScreenConstants.kMaxDescLength + 1);
+                    nextPosition.x -= m_screenInfo.getColumnWidth(ScreenConstants.MAX_DESC_LENGTH + 1);
                     if (m_sLocation == ScreenConstants.FIELD_DESC)
-                        nextPosition.y += ScreenInfo.kFieldVertOffset;
+                        nextPosition.y += ScreenInfo.FIELD_VERT_OFFSET;
                     if (setNewAnchor == ScreenConstants.ANCHOR_DEFAULT)
                         setNewAnchor = ScreenConstants.DONT_SET_ANCHOR;
                     break;
@@ -339,8 +339,8 @@ public class ScreenLayout extends Object
                     nextPosition = new Point(viewSize.width, viewSize.height);
                     if (m_sLocation == ScreenConstants.ADD_SCREEN_VIEW_BUFFER)
                     {
-                        nextPosition.x += ScreenInfo.kHorizBuffer;
-                        nextPosition.y += ScreenInfo.kVerticalBuffer;
+                        nextPosition.x += ScreenInfo.HORIZ_BUFFER;
+                        nextPosition.y += ScreenInfo.VERTICAL_BUFFER;
                     }
                     if (m_sLocation == ScreenConstants.ADD_GRID_SCREEN_BUFFER)
                     {
@@ -362,19 +362,19 @@ public class ScreenLayout extends Object
                     if (setNewAnchor == ScreenConstants.ANCHOR_DEFAULT)
                         setNewAnchor = ScreenConstants.SET_ANCHOR;
                     if ((m_sLocation == ScreenConstants.FIRST_LOCATION) || (m_sLocation == ScreenConstants.FIRST_INPUT_LOCATION))
-                        nextPosition = new Point(m_screenInfo.getColumnLocation(ScreenConstants.kMaxDescLength + ScreenInfo.kHorizontalExtraChars), m_screenInfo.getRowLocation((BasePanel)m_screen.getScreenField(), 0));
+                        nextPosition = new Point(m_screenInfo.getColumnLocation(ScreenConstants.MAX_DESC_LENGTH + ScreenInfo.HORIZONTAL_EXTRA_CHARS), m_screenInfo.getRowLocation((BasePanel)m_screen.getScreenField(), 0));
                     if (m_sLocation == ScreenConstants.FIRST_DISPLAY_LOCATION)
-                        nextPosition = new Point(3, 3);   // Enough to display 3DRect //xthis.GetColumnLocation(0) + ScreenConstants.kGridButtonOffset, this.getRowLocation(m_screen, 1));  //***GET RID OF THIS**
+                        nextPosition = new Point(3, 3);   // Enough to display 3DRect //xthis.GetColumnLocation(0) + ScreenConstants.GRID_BUTTON_OFFSET, this.getRowLocation(m_screen, 1));  //***GET RID OF THIS**
                     break;
                 case ScreenConstants.NEXT_INPUT_LOCATION:
-                    nextPosition.x = m_screenInfo.getColumnLocation(ScreenConstants.kMaxDescLength + ScreenInfo.kHorizontalExtraChars);
-                    nextPosition.y = this.getFarthestField().height + ScreenInfo.kExtraInterRowSpacing;   // Bottom of last char + gap between lines
+                    nextPosition.x = m_screenInfo.getColumnLocation(ScreenConstants.MAX_DESC_LENGTH + ScreenInfo.HORIZONTAL_EXTRA_CHARS);
+                    nextPosition.y = this.getFarthestField().height + ScreenInfo.EXTRA_INTER_ROW_SPACING;   // Bottom of last char + gap between lines
                     break;
                 case ScreenConstants.FLUSH_RIGHT:
                 case ScreenConstants.CENTER:
                 case ScreenConstants.FLUSH_LEFT:
                     nextPosition.x = 0;
-                    nextPosition.y = this.getFarthestField().height + ScreenInfo.kExtraInterRowSpacing;   // Bottom of last char + gap between lines
+                    nextPosition.y = this.getFarthestField().height + ScreenInfo.EXTRA_INTER_ROW_SPACING;   // Bottom of last char + gap between lines
                     if (setNewAnchor == ScreenConstants.ANCHOR_DEFAULT)
                         setNewAnchor = ScreenConstants.SET_ANCHOR;
                     break;
@@ -389,9 +389,9 @@ public class ScreenLayout extends Object
                 default:
                     nextPosition = new Point(m_rectAnchor.x, m_rectAnchor.y);
                     if (((m_rectAnchor.x == m_rectLastField.x) && (m_rectAnchor.y == m_rectLastField.y)) && (m_rectLastField.height > 0))
-                        nextPosition.y += m_rectLastField.height + ScreenInfo.kExtraInterRowSpacing - ScreenInfo.kExtraBoxSpacing;  // Bottom of last char + gap between lines
+                        nextPosition.y += m_rectLastField.height + ScreenInfo.EXTRA_INTER_ROW_SPACING - ScreenInfo.EXTRA_BOX_SPACING;  // Bottom of last char + gap between lines
                     else if (m_rectAnchor.height > 0)
-                        nextPosition.y += m_rectAnchor.height + ScreenInfo.kExtraInterRowSpacing - ScreenInfo.kExtraBoxSpacing;  // Bottom of last char + gap between lines
+                        nextPosition.y += m_rectAnchor.height + ScreenInfo.EXTRA_INTER_ROW_SPACING - ScreenInfo.EXTRA_BOX_SPACING;  // Bottom of last char + gap between lines
                     else
                         nextPosition.y += m_screenInfo.getRowHeight((BasePanel)m_screen.getScreenField());  // Bottom of last char + gap between lines
                     if (setNewAnchor == ScreenConstants.ANCHOR_DEFAULT)

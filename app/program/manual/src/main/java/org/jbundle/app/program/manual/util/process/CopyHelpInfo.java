@@ -84,25 +84,25 @@ public class CopyHelpInfo extends Screen
         Record recClassInfo = this.getMainRecord();
         
         Record recClassInfo2 = new ClassInfo(this);
-        recClassInfo2.setKeyArea(ClassInfo.kClassNameKey);
+        recClassInfo2.setKeyArea(ClassInfo.CLASS_NAME_KEY);
 
         try   {
-            recClassInfo.setKeyArea(ClassInfo.kIDKey);
+            recClassInfo.setKeyArea(ClassInfo.ID_KEY);
             recClassInfo.close();
             while (recClassInfo.hasNext())
             {
                 recClassInfo.next();
-                String strClassReference = recClassInfo.getField(ClassInfo.kCopyDescFrom).toString();
+                String strClassReference = recClassInfo.getField(ClassInfo.COPY_DESC_FROM).toString();
                 if ((strClassReference != null) && (strClassReference.length() > 0))
                 {
-                    recClassInfo2.getField(ClassInfo.kClassName).setString(strClassReference);
+                    recClassInfo2.getField(ClassInfo.CLASS_NAME).setString(strClassReference);
                     if (recClassInfo2.seek(null))
                     {
                         recClassInfo.edit();
-                        if (!recClassInfo2.getField(ClassInfo.kClassDesc).isNull())
-                            recClassInfo.getField(ClassInfo.kClassDesc).moveFieldToThis(recClassInfo2.getField(ClassInfo.kClassDesc));
-                        recClassInfo.getField(ClassInfo.kClassExplain).moveFieldToThis(recClassInfo2.getField(ClassInfo.kClassExplain));
-                        recClassInfo.getField(ClassInfo.kClassHelp).moveFieldToThis(recClassInfo2.getField(ClassInfo.kClassHelp));
+                        if (!recClassInfo2.getField(ClassInfo.CLASS_DESC).isNull())
+                            recClassInfo.getField(ClassInfo.CLASS_DESC).moveFieldToThis(recClassInfo2.getField(ClassInfo.CLASS_DESC));
+                        recClassInfo.getField(ClassInfo.CLASS_EXPLAIN).moveFieldToThis(recClassInfo2.getField(ClassInfo.CLASS_EXPLAIN));
+                        recClassInfo.getField(ClassInfo.CLASS_HELP).moveFieldToThis(recClassInfo2.getField(ClassInfo.CLASS_HELP));
                         recClassInfo.set();
                     }
                 }
@@ -119,32 +119,32 @@ public class CopyHelpInfo extends Screen
     public void copyMenuHelp()
     {
         Record recClassInfo = this.getMainRecord();
-        recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
+        recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
         
-        Record recMenus = this.getRecord(Menus.kMenusFile);
+        Record recMenus = this.getRecord(Menus.MENUS_FILE);
 
         try   {
-            recMenus.setKeyArea(ClassInfo.kIDKey);
+            recMenus.setKeyArea(ClassInfo.ID_KEY);
             recMenus.close();
             while (recMenus.hasNext())
             {
                 recMenus.next();
-                if (recMenus.getField(Menus.kAutoDesc).getState())
+                if (recMenus.getField(Menus.AUTO_DESC).getState())
                 {
-                    String strClassReference = recMenus.getField(Menus.kProgram).toString();
-                    String strClassType = recMenus.getField(Menus.kType).toString();
+                    String strClassReference = recMenus.getField(Menus.PROGRAM).toString();
+                    String strClassType = recMenus.getField(Menus.TYPE).toString();
                     if ((strClassReference != null) && (strClassReference.length() > 0))
                         if (!strClassType.equalsIgnoreCase("menu"))
                     {
                         if (strClassReference.indexOf('.') != -1)
                             strClassReference = strClassReference.substring(strClassReference.lastIndexOf('.') + 1);
-                        recClassInfo.getField(ClassInfo.kClassName).setString(strClassReference);
+                        recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strClassReference);
                         if (recClassInfo.seek(null))
                         {
                             recMenus.edit();
-                            if (!recClassInfo.getField(ClassInfo.kClassDesc).isNull())
-                                recMenus.getField(Menus.kName).moveFieldToThis(recClassInfo.getField(ClassInfo.kClassDesc));
-                            recMenus.getField(Menus.kComment).moveFieldToThis(recClassInfo.getField(ClassInfo.kClassExplain));
+                            if (!recClassInfo.getField(ClassInfo.CLASS_DESC).isNull())
+                                recMenus.getField(Menus.NAME).moveFieldToThis(recClassInfo.getField(ClassInfo.CLASS_DESC));
+                            recMenus.getField(Menus.COMMENT).moveFieldToThis(recClassInfo.getField(ClassInfo.CLASS_EXPLAIN));
                             recMenus.set();
                         }
                     }
@@ -156,7 +156,7 @@ public class CopyHelpInfo extends Screen
     }
     public void setupSFields()
     {
-        this.getRecord(ClassInfo.kClassInfoFile).getField(ClassInfo.kClassName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(Menus.kMenusFile).getField(Menus.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassInfo.CLASS_INFO_FILE).getField(ClassInfo.CLASS_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(Menus.MENUS_FILE).getField(Menus.NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 }

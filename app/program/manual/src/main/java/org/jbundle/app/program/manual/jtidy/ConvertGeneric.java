@@ -94,12 +94,12 @@ public class ConvertGeneric extends BaseProcess
             while (record.hasNext())
             {
                 record.next();
-//x             if ((record.getField(ClassInfo.kClassName).toString().equals("Account")))
+//x             if ((record.getField(ClassInfo.CLASS_NAME).toString().equals("Account")))
                 {
                     record.edit();
                     
-                    String strHtml = record.getField(ClassInfo.kClassExplain).toString();
-                    String strXml = record.getField(ClassInfo.kClassHelp).toString();
+                    String strHtml = record.getField(ClassInfo.CLASS_EXPLAIN).toString();
+                    String strXml = record.getField(ClassInfo.CLASS_HELP).toString();
 
                     strHtml = this.convertTidy(strHtml, false, false);
                     strXml = this.convertTidy(strXml, true, false);
@@ -109,8 +109,8 @@ public class ConvertGeneric extends BaseProcess
                             strXml = "<html>\n" + strXml + "\n</html>";
                         }
 
-                    record.getField(ClassInfo.kClassExplain).setString(strHtml);
-                    record.getField(ClassInfo.kClassHelp).setString(strXml);
+                    record.getField(ClassInfo.CLASS_EXPLAIN).setString(strHtml);
+                    record.getField(ClassInfo.CLASS_HELP).setString(strXml);
 
                     record.set();
                 }

@@ -73,7 +73,7 @@ public class WriteResourceClass extends WriteClass
      */
     public String getFileName(String strClassName, String strPackage, CodeType codeType, ClassProject recClassProject)
     {
-    	boolean bResourceListBundle = ResourceTypeField.LIST_RESOURCE_BUNDLE.equals(this.getRecord(ProgramControl.kProgramControlFile).getField(ProgramControl.kClassResourceType).toString());
+    	boolean bResourceListBundle = ResourceTypeField.LIST_RESOURCE_BUNDLE.equals(this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.CLASS_RESOURCE_TYPE).toString());
     	codeType = bResourceListBundle ? CodeType.RESOURCE_CODE : CodeType.RESOURCE_PROPERTIES;
     	// For now, put this type of resource in the main code base
     	codeType = CodeType.THICK;
@@ -89,7 +89,7 @@ public class WriteResourceClass extends WriteClass
     {
         if (!this.readThisClass(strClassName))  // Get the field this is based on
             return;
-    	boolean bResourceListBundle = ResourceTypeField.LIST_RESOURCE_BUNDLE.equals(this.getRecord(ProgramControl.kProgramControlFile).getField(ProgramControl.kClassResourceType).toString());
+    	boolean bResourceListBundle = ResourceTypeField.LIST_RESOURCE_BUNDLE.equals(this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.CLASS_RESOURCE_TYPE).toString());
     	String strFileName = strClassName;
     	if (!bResourceListBundle)
     		strFileName += ".properties";
@@ -124,26 +124,26 @@ public class WriteResourceClass extends WriteClass
      */
     public void writeResources(String strClassName)
     {
-    	boolean bResourceListBundle = ResourceTypeField.LIST_RESOURCE_BUNDLE.equals(this.getRecord(ProgramControl.kProgramControlFile).getField(ProgramControl.kClassResourceType).toString());
+    	boolean bResourceListBundle = ResourceTypeField.LIST_RESOURCE_BUNDLE.equals(this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.CLASS_RESOURCE_TYPE).toString());
 	   	if (bResourceListBundle)
 	   	{
 	        m_StreamOut.writeit("protected Object[][] contents = {\n");
 	        m_StreamOut.setTabs(+1);
 	   	}
         ClassResource recClassResource = new ClassResource(this);
-        recClassResource.setKeyArea(ClassResource.kClassNameKey);
-        recClassResource.addListener(new StringSubFileFilter(strClassName, ClassResource.kClassName, null, -1, null, -1));
+        recClassResource.setKeyArea(ClassResource.CLASS_NAME_KEY);
+        recClassResource.addListener(new StringSubFileFilter(strClassName, ClassResource.CLASS_NAME, null, null, null, null));
         try   {
             recClassResource.close();
             while (recClassResource.hasNext())
             {
                 recClassResource.next();
                	if (bResourceListBundle)
-               		m_StreamOut.writeit("{\"" + recClassResource.getField(ClassResource.kKeyName).toString()
-                            + "\"," + WriteResources.fixPropertyValue(recClassResource.getField(ClassResource.kValueName).toString(), bResourceListBundle) + "},\n");
+               		m_StreamOut.writeit("{\"" + recClassResource.getField(ClassResource.KEY_NAME).toString()
+                            + "\"," + WriteResources.fixPropertyValue(recClassResource.getField(ClassResource.VALUE_NAME).toString(), bResourceListBundle) + "},\n");
                	else
-                    m_StreamOut.writeit(recClassResource.getField(ClassResource.kKeyName).toString()
-                        + "=" + WriteResources.fixPropertyValue(recClassResource.getField(ClassResource.kValueName).toString(), bResourceListBundle) + "\n");
+                    m_StreamOut.writeit(recClassResource.getField(ClassResource.KEY_NAME).toString()
+                        + "=" + WriteResources.fixPropertyValue(recClassResource.getField(ClassResource.VALUE_NAME).toString(), bResourceListBundle) + "\n");
             }
         } catch (DBException ex)    {
             ex.printStackTrace();

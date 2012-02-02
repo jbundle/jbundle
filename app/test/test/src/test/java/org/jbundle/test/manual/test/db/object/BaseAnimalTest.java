@@ -96,12 +96,12 @@ public class BaseAnimalTest extends TestCase
 
             vet.setOpenMode(DBConstants.OPEN_REFRESH_AND_LOCK_ON_CHANGE_STRATEGY);
             vet.addNew();
-            vet.getField(Vet.kName).setString("Dr. Smith");
+            vet.getField(Vet.NAME).setString("Dr. Smith");
             iVet1 = (int)vet.getField(Vet.kID).getValue();
             vet.add();
 
             vet.addNew();
-            vet.getField(Vet.kName).setString("Dr. Jones");
+            vet.getField(Vet.NAME).setString("Dr. Jones");
             iVet2 = (int)vet.getField(Vet.kID).getValue();
             vet.add();
             
@@ -162,31 +162,31 @@ public class BaseAnimalTest extends TestCase
 
 
             cat.addNew();
-            cat.getField(Cat.kName).setString("Tabby");
-            cat.getField(Cat.kColor).setString("Black and White");
-            cat.getField(Cat.kWeight).setValue(2.0);
-            cat.getField(Cat.kVet).setValue(iVet1);
+            cat.getField(Cat.NAME).setString("Tabby");
+            cat.getField(Cat.COLOR).setString("Black and White");
+            cat.getField(Cat.WEIGHT).setValue(2.0);
+            cat.getField(Cat.VET).setValue(iVet1);
             cat.add();
 
             cat.addNew();
-            cat.getField(Cat.kName).setString("Manx");
-            cat.getField(Cat.kColor).setString("Grey");
-            cat.getField(Cat.kWeight).setValue(2.5);
-            cat.getField(Cat.kVet).setValue(iVet1);
+            cat.getField(Cat.NAME).setString("Manx");
+            cat.getField(Cat.COLOR).setString("Grey");
+            cat.getField(Cat.WEIGHT).setValue(2.5);
+            cat.getField(Cat.VET).setValue(iVet1);
             cat.add();
 
             cat.addNew();
-            cat.getField(Cat.kName).setString("Siamese");
-            cat.getField(Cat.kColor).setString("Cream");
-            cat.getField(Cat.kWeight).setValue(1.5);
-            cat.getField(Cat.kVet).setValue(iVet2);
+            cat.getField(Cat.NAME).setString("Siamese");
+            cat.getField(Cat.COLOR).setString("Cream");
+            cat.getField(Cat.WEIGHT).setValue(1.5);
+            cat.getField(Cat.VET).setValue(iVet2);
             cat.add();
 
             cat.addNew();
-            cat.getField(Cat.kName).setString("Persian");
-            cat.getField(Cat.kColor).setString("Grey");
-            cat.getField(Cat.kWeight).setValue(3.0);
-            cat.getField(Cat.kVet).setValue(iVet2);
+            cat.getField(Cat.NAME).setString("Persian");
+            cat.getField(Cat.COLOR).setString("Grey");
+            cat.getField(Cat.WEIGHT).setValue(3.0);
+            cat.getField(Cat.VET).setValue(iVet2);
             cat.add();
 
                 category.debug("cats added.\n");
@@ -270,43 +270,43 @@ public class BaseAnimalTest extends TestCase
 
 
             dog.addNew();
-            dog.getField(Dog.kName).setString("Doberman");
-            dog.getField(Dog.kColor).setString("Black");
-            dog.getField(Dog.kWeight).setValue(21.0);
-            dog.getField(Dog.kVet).setValue(iVet2);
-            dog.getField(Dog.kBark).setState(true);
+            dog.getField(Dog.NAME).setString("Doberman");
+            dog.getField(Dog.COLOR).setString("Black");
+            dog.getField(Dog.WEIGHT).setValue(21.0);
+            dog.getField(Dog.VET).setValue(iVet2);
+            dog.getField(Dog.BARK).setState(true);
             dog.add();
 
             dog.addNew();
-            dog.getField(Dog.kName).setString("Poodle");
-            dog.getField(Dog.kColor).setString("White");
-            dog.getField(Dog.kWeight).setValue(3.5);
-            dog.getField(Dog.kVet).setValue(iVet1);
-            dog.getField(Dog.kBark).setState(false);
+            dog.getField(Dog.NAME).setString("Poodle");
+            dog.getField(Dog.COLOR).setString("White");
+            dog.getField(Dog.WEIGHT).setValue(3.5);
+            dog.getField(Dog.VET).setValue(iVet1);
+            dog.getField(Dog.BARK).setState(false);
             dog.add();
 
             dog.addNew();
-            dog.getField(Dog.kName).setString("Saint Bernard");
-            dog.getField(Dog.kColor).setString("Brown and White");
-            dog.getField(Dog.kWeight).setValue(71.0);
-            dog.getField(Dog.kVet).setValue(iVet2);
-            dog.getField(Dog.kBark).setState(true);
+            dog.getField(Dog.NAME).setString("Saint Bernard");
+            dog.getField(Dog.COLOR).setString("Brown and White");
+            dog.getField(Dog.WEIGHT).setValue(71.0);
+            dog.getField(Dog.VET).setValue(iVet2);
+            dog.getField(Dog.BARK).setState(true);
             dog.add();
 
             dog.addNew();
-            dog.getField(Dog.kName).setString("German Shepherd");
-            dog.getField(Dog.kColor).setString("Grey");
-            dog.getField(Dog.kWeight).setValue(30.0);
-            dog.getField(Dog.kVet).setValue(iVet1);
-            dog.getField(Dog.kBark).setState(true);
+            dog.getField(Dog.NAME).setString("German Shepherd");
+            dog.getField(Dog.COLOR).setString("Grey");
+            dog.getField(Dog.WEIGHT).setValue(30.0);
+            dog.getField(Dog.VET).setValue(iVet1);
+            dog.getField(Dog.BARK).setState(true);
             dog.add();
 
             dog.addNew();
-            dog.getField(Dog.kName).setString("Dalmation");
-            dog.getField(Dog.kColor).setString("Black and White");
-            dog.getField(Dog.kWeight).setValue(35.0);
-            dog.getField(Dog.kVet).setValue(iVet2);
-            dog.getField(Dog.kBark).setState(true);
+            dog.getField(Dog.NAME).setString("Dalmation");
+            dog.getField(Dog.COLOR).setString("Black and White");
+            dog.getField(Dog.WEIGHT).setValue(35.0);
+            dog.getField(Dog.VET).setValue(iVet2);
+            dog.getField(Dog.BARK).setState(true);
             dog.add();
 
             category.debug("dogs added.\n");

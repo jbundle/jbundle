@@ -51,7 +51,7 @@ public class DescConverter extends FieldConverter
      */
     public int getMaxLength() 
     {
-        return ScreenConstants.kMaxDescLength;
+        return ScreenConstants.MAX_DESC_LENGTH;
     }
     /**
      * Retrieve (in string format) from this field.

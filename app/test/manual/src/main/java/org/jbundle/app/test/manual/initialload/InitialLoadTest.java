@@ -62,7 +62,7 @@ public class InitialLoadTest extends BaseScreen {
                 testTable.addNew();
                 
                 testTable.getField(TestTable.kID).setValue(7);
-                testTable.setKeyArea(TestTable.kIDKey);
+                testTable.setKeyArea(TestTable.ID_KEY);
                 boolean success = testTable.seek(null);
                 
                 System.out.println(success);

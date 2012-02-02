@@ -785,7 +785,7 @@ public abstract class DatabaseTest extends BaseTest
         FieldTable recordList = record.getTable();
         try   {
             FieldList newRecord = null;
-//          testTable.addListener(new CompareFileFilter(TestTable.kTestKey, "B", ">", null, false));
+//          testTable.addListener(new CompareFileFilter(TestTable.TEST_KEY, "B", ">", null, false));
 
             recordList.close();
             cat.debug("First, lets read a record in the middle.\n");

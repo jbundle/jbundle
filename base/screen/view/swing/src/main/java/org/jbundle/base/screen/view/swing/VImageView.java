@@ -127,7 +127,7 @@ public class VImageView extends VScreenField
             boolean bAddScrollPane = true;
             if (this.getScreenField() != null)  // See if the model is specifying a size
                 if (((SImageView)this.getScreenField()).getImageHeight() != 0)
-                    if (((SImageView)this.getScreenField()).getImageHeight() <= ScreenConstants.kMaxEditLineChars)
+                    if (((SImageView)this.getScreenField()).getImageHeight() <= ScreenConstants.MAX_EDIT_LINE_CHARS)
                         bAddScrollPane = false; // Image is small enough not to need a scroll bar.
             if (bAddScrollPane)
                 new JScrollPane(control, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -151,8 +151,8 @@ public class VImageView extends VScreenField
         }
         if (width == 0)
         {
-            short boxChars, boxLines = ScreenConstants.kMaxDoubleLines;
-            boxChars = ScreenConstants.kMaxSingleChars;
+            short boxChars, boxLines = ScreenConstants.MAX_DOUBLE_LINES;
+            boxChars = ScreenConstants.MAX_SINGLE_CHARS;
             Dimension itsSize = this.getTextBoxSize(boxChars, ScreenConstants.NEXT_LOGICAL, boxLines);
             width = (int)itsSize.getWidth();
             height = (int)itsSize.getHeight();

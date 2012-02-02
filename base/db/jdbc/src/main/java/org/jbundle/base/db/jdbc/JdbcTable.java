@@ -555,7 +555,7 @@ public class JdbcTable extends BaseTable
      */
     public int doMove(int iRelPosition) throws DBException
     {
-        // Note: actually, I should check if (iRelPos == kFirst) rec.moveFirst(),
+        // Note: actually, I should check if (iRelPos == FIRST) rec.moveFirst(),
         //  but, I use the same constants for First/Last as JDBC
         if (this.getRecord().getDefaultOrder() != m_iLastOrder)
         {   // Order was changed

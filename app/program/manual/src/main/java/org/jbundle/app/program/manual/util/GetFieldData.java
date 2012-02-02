@@ -57,29 +57,29 @@ public class GetFieldData extends Object
     public void getBasedField(FieldData fieldInfo, String strRecordClass, String strFieldName, String strBaseFieldName)
     {
         try   {
-            m_ClassInfo.setKeyArea(ClassInfo.kClassNameKey);
-            m_ClassInfo.getField(ClassInfo.kClassName).setString(strRecordClass);   // Class of this record
+            m_ClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
+            m_ClassInfo.getField(ClassInfo.CLASS_NAME).setString(strRecordClass);   // Class of this record
             if ((strRecordClass == null) || (strRecordClass.length() == 0))
                 return;
             if (!m_ClassInfo.seek("="))
                 return;     // End of based records
             
-            String strBaseRecordClass = m_ClassInfo.getField(ClassInfo.kBaseClassName).getString();
-            m_FieldData.getField(FieldData.kFieldFileName).setString(strBaseRecordClass);
+            String strBaseRecordClass = m_ClassInfo.getField(ClassInfo.BASE_CLASS_NAME).getString();
+            m_FieldData.getField(FieldData.FIELD_FILE_NAME).setString(strBaseRecordClass);
             if (strBaseFieldName.length() == 0)   // No class, use the base class, unless override required
-                m_FieldData.getField(FieldData.kFieldName).setString(strFieldName);
+                m_FieldData.getField(FieldData.FIELD_NAME).setString(strFieldName);
             else
-                m_FieldData.getField(FieldData.kFieldName).setString(strBaseFieldName);
-            m_FieldData.setKeyArea(FieldData.kFieldNameKey);
-            String newFieldName = m_FieldData.getField(FieldData.kFieldName).getString();
+                m_FieldData.getField(FieldData.FIELD_NAME).setString(strBaseFieldName);
+            m_FieldData.setKeyArea(FieldData.FIELD_NAME_KEY);
+            String newFieldName = m_FieldData.getField(FieldData.FIELD_NAME).getString();
             String newBaseFieldName = newFieldName;
             if (m_FieldData.seek("="))
             {
-                if (fieldInfo.getField(FieldData.kFieldDescVertical).getLength() == 0)
-                    fieldInfo.getField(FieldData.kFieldDescVertical).moveFieldToThis(fieldInfo.getField(FieldData.kFieldDescription));
+                if (fieldInfo.getField(FieldData.FIELD_DESC_VERTICAL).getLength() == 0)
+                    fieldInfo.getField(FieldData.FIELD_DESC_VERTICAL).moveFieldToThis(fieldInfo.getField(FieldData.FIELD_DESCRIPTION));
                 this.moveupFieldData(fieldInfo);
-                newBaseFieldName = m_FieldData.getField(FieldData.kBaseFieldName).getString();
-                newFieldName = m_FieldData.getField(FieldData.kFieldName).getString();
+                newBaseFieldName = m_FieldData.getField(FieldData.BASE_FIELD_NAME).getString();
+                newFieldName = m_FieldData.getField(FieldData.FIELD_NAME).getString();
             }
             this.getBasedField(fieldInfo, strBaseRecordClass, newFieldName, newBaseFieldName);
         } catch (DBException ex)   {

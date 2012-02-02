@@ -245,7 +245,7 @@ public interface DBConstants extends Constants
      */
     public static final int DATA_SOURCE_HANDLE = 2;
     /**
-     * A bookmark handle is a  Remote path; Can be used with kHandleObjectID, always serializable.
+     * A bookmark handle is a  Remote path; Can be used with HANDLE_OBJECT_ID, always serializable.
      * @see BOOKMARK_HANDLE.
      * @see OBJECT_ID_HANDLE.
      * @see DATA_SOURCE_HANDLE.

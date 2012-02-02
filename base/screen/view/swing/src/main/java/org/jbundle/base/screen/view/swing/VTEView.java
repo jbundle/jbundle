@@ -76,7 +76,7 @@ public class VTEView extends VEditText
     public Component setupControl(boolean bEditableControl)
     {
         int rows = 1;
-        int cols = ScreenConstants.kMaxSingleChars;
+        int cols = ScreenConstants.MAX_SINGLE_CHARS;
         JTextArea control = new JTextArea(rows, cols);
 
         control.setBorder(null);        // No border inside a scroller.

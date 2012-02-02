@@ -117,15 +117,15 @@ public class ConvertClass extends ConvertDB
             while (recClassInfo.hasNext())
             {
                 recClassInfo.next();
-                if (recClassInfo.getField(ClassInfo.kClassName).toString().equals(strFromField))
-//x             int iIndex = recClassInfo.getField(ClassInfo.kBaseClassName).toString().indexOf(strFromField);
-//x             if ((recClassInfo.getField(ClassInfo.kClassName).toString().equals("BaseListener"))
-//x                 || (recClassInfo.getField(ClassInfo.kClassName).toString().equals("FileListener"))
-//x                 || (recClassInfo.getField(ClassInfo.kClassName).toString().equals("FieldListener")))
+                if (recClassInfo.getField(ClassInfo.CLASS_NAME).toString().equals(strFromField))
+//x             int iIndex = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString().indexOf(strFromField);
+//x             if ((recClassInfo.getField(ClassInfo.CLASS_NAME).toString().equals("BaseListener"))
+//x                 || (recClassInfo.getField(ClassInfo.CLASS_NAME).toString().equals("FileListener"))
+//x                 || (recClassInfo.getField(ClassInfo.CLASS_NAME).toString().equals("FieldListener")))
 //x                     iIndex = -1;
 //x             if (iIndex != -1)
                 {
-//x                 strToField = recClassInfo.getField(ClassInfo.kClassName).toString().substring(0, iIndex) + "Handler";
+//x                 strToField = recClassInfo.getField(ClassInfo.CLASS_NAME).toString().substring(0, iIndex) + "Handler";
                     System.out.println("Fixing field " + strToField);
                     this.fixDetail(recClassInfo, recFieldData, strFromField, strToField);
                     this.fixDetail(recClassInfo, recKeyInfo, strFromField, strToField);
@@ -134,9 +134,9 @@ public class ConvertClass extends ConvertDB
                     this.fixDetail(recClassInfo, recLogicFile, strFromField, strToField);
                     this.fixDetail(recClassInfo, recScreenIn, strFromField, strToField);
                     recClassInfo.edit();
-                    if (recClassInfo.getField(ClassInfo.kClassName).toString().equals(recClassInfo.getField(ClassInfo.kClassSourceFile).toString()))
-                        recClassInfo.getField(ClassInfo.kClassSourceFile).setString(strToField);
-                    recClassInfo.getField(ClassInfo.kClassName).setString(strToField);
+                    if (recClassInfo.getField(ClassInfo.CLASS_NAME).toString().equals(recClassInfo.getField(ClassInfo.CLASS_SOURCE_FILE).toString()))
+                        recClassInfo.getField(ClassInfo.CLASS_SOURCE_FILE).setString(strToField);
+                    recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strToField);
 //                  Utility.getLogger().info(recClassInfo.toString());
                     recClassInfo.set();
                 }
@@ -146,10 +146,10 @@ public class ConvertClass extends ConvertDB
             while (recClassInfo.hasNext())
             {
                 recClassInfo.next();
-                if (recClassInfo.getField(ClassInfo.kBaseClassName).toString().equals(strFromField))
+                if (recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString().equals(strFromField))
                 {
                     recClassInfo.edit();
-                    recClassInfo.getField(ClassInfo.kBaseClassName).setString(strToField);
+                    recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).setString(strToField);
                     Utility.getLogger().info(recClassInfo.toString());
                     recClassInfo.set();
                 }
@@ -178,7 +178,7 @@ public class ConvertClass extends ConvertDB
         if (recDetail.getListener(SubFileFilter.class.getName()) == null)
         {
             recDetail.setKeyArea(iKeyArea);
-            recDetail.addListener(filter = new StringSubFileFilter(recClassInfo.getField(ClassInfo.kClassName).toString(), iSeq, null, -1, null, -1));
+            recDetail.addListener(filter = new StringSubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME).toString(), iSeq, null, -1, null, -1));
         }
         try   {
             recDetail.close();
@@ -186,12 +186,12 @@ public class ConvertClass extends ConvertDB
             {
                 recDetail.next();
                 recDetail.edit();
-//              Utility.getLogger().info(recDetail.getField(LogicFile.kMethodName).toString());
+//              Utility.getLogger().info(recDetail.getField(LogicFile.METHOD_NAME).toString());
                 recDetail.getField(iSeq).setString(strToField);
                 if (recDetail.getTableNames(false).equals("LogicFile"))
-                    if (recDetail.getField(LogicFile.kMethodName).toString().equals(strFromField))
+                    if (recDetail.getField(LogicFile.METHOD_NAME).toString().equals(strFromField))
                 {
-                    recDetail.getField(LogicFile.kMethodName).setString(strToField);
+                    recDetail.getField(LogicFile.METHOD_NAME).setString(strToField);
                 }
 
                 filter.setEnabledListener(false);

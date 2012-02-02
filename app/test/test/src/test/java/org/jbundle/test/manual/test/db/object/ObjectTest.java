@@ -61,7 +61,7 @@ public class ObjectTest extends BaseAnimalTest
         Object dbBookmark = null;
 
         try   {
-//          recAnimal.setKeyArea(Animal.kNameKey);
+//          recAnimal.setKeyArea(Animal.NAME_KEY);
             iCount = 0;
             while ((animal = (Animal)animalTable.move(+1)) != null)
             {
@@ -93,7 +93,7 @@ public class ObjectTest extends BaseAnimalTest
         try   {
             category.debug("Now, update animal class");
             animal.edit();
-            animal.getField(Animal.kName).setString("New Animal Name");
+            animal.getField(Animal.NAME).setString("New Animal Name");
             animal.set();
         } catch (DBException ex)    {
             ex.printStackTrace();
@@ -156,8 +156,8 @@ public class ObjectTest extends BaseAnimalTest
         category.debug("Now, test the query record stuff using behaviors");
         recAnimal = new Animal(vet.getRecordOwner());
         animalTable = recAnimal.getTable();
-//x     recAnimal.getField(Animal.kVet).addListener(new ReadSecondaryHandler(vet));
-        recAnimal.addListener(new DisplayReadHandler(Animal.kVet, vet, Vet.kID));
+//x     recAnimal.getField(Animal.VET).addListener(new ReadSecondaryHandler(vet));
+        recAnimal.addListener(new DisplayReadHandler(Animal.VET, vet, Vet.kID));
         try   {
             recAnimal.close();
             while ((animal = (Animal)animalTable.move(+1)) != null)

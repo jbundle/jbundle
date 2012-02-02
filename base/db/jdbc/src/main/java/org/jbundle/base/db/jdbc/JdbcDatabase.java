@@ -843,11 +843,11 @@ public class JdbcDatabase extends BaseDatabase
         
         if (recDatabaseInfo.getEditMode() == DBConstants.EDIT_CURRENT)
         {
-            iStartID = (int)recDatabaseInfo.getField(DatabaseInfo.kStartID).getValue();
-            if (!recDatabaseInfo.getField(DatabaseInfo.kEndID).isNull())
-                this.addDatabaseProperty(ENDING_ID, Integer.toString((int)recDatabaseInfo.getField(DatabaseInfo.kEndID).getValue()));
-            if (!recDatabaseInfo.getField(DatabaseInfo.kBaseDatabase).isNull())
-                this.addDatabaseProperty(BaseDatabase.BASE_DATABASE, recDatabaseInfo.getField(DatabaseInfo.kBaseDatabase).toString());
+            iStartID = (int)recDatabaseInfo.getField(DatabaseInfo.START_ID).getValue();
+            if (!recDatabaseInfo.getField(DatabaseInfo.END_ID).isNull())
+                this.addDatabaseProperty(ENDING_ID, Integer.toString((int)recDatabaseInfo.getField(DatabaseInfo.END_ID).getValue()));
+            if (!recDatabaseInfo.getField(DatabaseInfo.BASE_DATABASE).isNull())
+                this.addDatabaseProperty(BaseDatabase.BASE_DATABASE, recDatabaseInfo.getField(DatabaseInfo.BASE_DATABASE).toString());
         }
         if (iStartID <= 0)
             iStartID = 1;

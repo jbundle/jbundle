@@ -27,7 +27,7 @@ import org.jbundle.thin.base.util.Application;
  * Wait until this field changes to return (or timeout).
  * <code>
  * WaitForFieldChangeHandler listener = new WaitForFieldChangeHandler(iTimeoutMS);
- * recTour.getField(Tour.kTourStatusID).addListener(listener);
+ * recTour.getField(Tour.TOUR_STATUS_ID).addListener(listener);
  * recTour.refreshToCurrent(DBConstants.AFTER_UPDATE_TYPE, false); // Start with the most recent version
  * int iErrorCode = listener.waitForChange();
  * if (iErrorCode == WaitForFieldChangeHandler.TIMEOUT_ERROR)

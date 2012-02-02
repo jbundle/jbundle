@@ -115,11 +115,11 @@ public class VToggleButton extends VBaseButton
         int iTextWidth = 0;
         if (tempString != null)
             iTextWidth = this.getTextExtent(tempString).width;
-//        Dimension descSize = this.getTextBoxSize(ScreenConstants.kMaxDescLength, ScreenConstants.FIELD_DESC, 1);
+//        Dimension descSize = this.getTextBoxSize(ScreenConstants.MAX_DESC_LENGTH, ScreenConstants.FIELD_DESC, 1);
 //        int sizeFix = descSize.width - iTextWidth;
 //        if (tempString != null)
 //            rect.x += -descSize.width + sizeFix;
-        rect.x -= iTextWidth + org.jbundle.base.screen.control.swing.util.ScreenInfo.kExtraColSpacing;
+        rect.x -= iTextWidth + org.jbundle.base.screen.control.swing.util.ScreenInfo.EXTRA_COL_SPACING;
 //        rect.width -= sizeFix;
         if (rect.x < 0)
             rect.x = 0;

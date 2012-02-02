@@ -93,7 +93,7 @@ public class VComboBox extends VPopupBox
         if (maxLength < 15)
             maxLength = 15;
         Dimension itsSize = this.getTextBoxSize(maxLength, ScreenConstants.POPUP_DESC, 1);
-        itsSize.width += ScreenInfo.kExtraColSpacing;
+        itsSize.width += ScreenInfo.EXTRA_COL_SPACING;
         return new Rectangle(ptLocation.x , ptLocation.y, itsSize.width, itsSize.height);
     }
 }

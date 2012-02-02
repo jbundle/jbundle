@@ -113,8 +113,8 @@ public class JdbcDatabaseTest extends DatabaseTest
             cat.debug("Try to add another record.");
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("4");
-            testTable.getField(TestTable.kTestName).setString("F - Fam Trip Agent");
-            testTable.getField(TestTable.kTestKey).setString("X");
+            testTable.getField(TestTable.TEST_NAME).setString("F - Fam Trip Agent");
+            testTable.getField(TestTable.TEST_KEY).setString("X");
             testTable.add();
             cat.debug("good, duplicate not sensed");
         } catch (DBException e)   {
@@ -154,7 +154,7 @@ public class JdbcDatabaseTest extends DatabaseTest
                 if (testTable.getField(TestTable.kID).getString().equals("2"))
                 {
                     testTable.edit();
-                    testTable.getField(TestTable.kTestName).setString("B - Pretty Good Agent");
+                    testTable.getField(TestTable.TEST_NAME).setString("B - Pretty Good Agent");
                     cat.debug("Update record #2.");
                     testTable.set();
                 }

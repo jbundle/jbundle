@@ -173,7 +173,7 @@ public class BaseGridScreen extends BaseScreen
      * Get the heading for this report.
      * <p>Note: The detail screen has to have a way to know what record is the detail record, so you have to either:
      * <pre>
-     * return this.getRecord(AcctDetail.kAcctDetailFile);
+     * return this.getRecord(AcctDetail.ACCT_DETAIL_FILE);
      * </pre>
      * in getMainRecord(), or set up the detail file(s) and listener(s) in the detail screen.
      * @return The detail screen (or null).

@@ -122,19 +122,19 @@ public class WriteClass extends BaseProcess
 
         Record recClassInfo = this.getMainRecord();
 
-        Record recClassFields = this.getRecord(ClassFields.kClassFieldsFile);      // Open the Agency File
-        recClassFields.setKeyArea(ClassFields.kClassInfoClassNameKey);
-        SubFileFilter fileBehavior2 = new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), ClassFields.kClassInfoClassName, null, -1, null, -1);
+        Record recClassFields = this.getRecord(ClassFields.CLASS_FIELDS_FILE);      // Open the Agency File
+        recClassFields.setKeyArea(ClassFields.CLASS_INFO_CLASS_NAME_KEY);
+        SubFileFilter fileBehavior2 = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), ClassFields.CLASS_INFO_CLASS_NAME, null, null, null, null);
         recClassFields.addListener(fileBehavior2);   // Only read through the class fields
 
-        Record recLogicFile = this.getRecord(LogicFile.kLogicFileFile);      // Open the Agency File
-        recLogicFile.setKeyArea(LogicFile.kSequenceKey);
-        SubFileFilter logicBehavior = new SubFileFilter(recClassInfo.getField(ClassInfo.kClassName), LogicFile.kMethodClassName, null, -1, null, -1);
+        Record recLogicFile = this.getRecord(LogicFile.LOGIC_FILE_FILE);      // Open the Agency File
+        recLogicFile.setKeyArea(LogicFile.SEQUENCE_KEY);
+        SubFileFilter logicBehavior = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), LogicFile.METHOD_CLASS_NAME, null, null, null, null);
         recLogicFile.addListener(logicBehavior);
     
-        Record recScreenIn = this.getRecord(ScreenIn.kScreenInFile);
-        recScreenIn.setKeyArea(ScreenIn.kScreenInProgNameKey);
-        SubFileFilter fileBehavior3 = new SubFileFilter(recLogicFile.getField(LogicFile.kMethodClassName), ScreenIn.kScreenInProgName, null, -1, null, -1);
+        Record recScreenIn = this.getRecord(ScreenIn.SCREEN_IN_FILE);
+        recScreenIn.setKeyArea(ScreenIn.SCREEN_IN_PROG_NAME_KEY);
+        SubFileFilter fileBehavior3 = new SubFileFilter(recLogicFile.getField(LogicFile.METHOD_CLASS_NAME), ScreenIn.SCREEN_IN_PROG_NAME, null, null, null, null);
         recScreenIn.addListener(fileBehavior3);      // Only read through the class fields
     }
     /**
@@ -184,8 +184,8 @@ public class WriteClass extends BaseProcess
     {
         try   {
             Record recClassInfo = this.getMainRecord();
-            recClassInfo.getField(ClassInfo.kClassName).setString(strClassName);
-            recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
+            recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strClassName);
+            recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
             return recClassInfo.seek("=");   // Get this class record back
         } catch (DBException ex)   {
             ex.printStackTrace();
@@ -200,8 +200,8 @@ public class WriteClass extends BaseProcess
     public String getPackage(CodeType codeType)
     {
         Record recClassInfo = this.getMainRecord();
-        String packageName = recClassInfo.getField(ClassInfo.kClassPackage).getString();
-        ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.kClassProjectID)).getReference();
+        String packageName = recClassInfo.getField(ClassInfo.CLASS_PACKAGE).getString();
+        ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID)).getReference();
         return classProject.getFullPackage(codeType, packageName);
     }
     /**
@@ -213,7 +213,7 @@ public class WriteClass extends BaseProcess
     	String strFileName = DBConstants.BLANK;
         try   {
             ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
-            ClassProject recClassProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.kClassProjectID)).getReference();
+            ClassProject recClassProject = (ClassProject)((ReferenceField)recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID)).getReference();
         	strFileName = this.getFileName(strClassName, strPackage, codeType, recClassProject);
             File file = new File(strFileName);
             String strPath = file.getParent();
@@ -271,10 +271,10 @@ public class WriteClass extends BaseProcess
     public void writeClassInterface()
     {
         Record recClassInfo = this.getMainRecord();
-        String strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
-        String strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
-        String strClassDesc = recClassInfo.getField(ClassInfo.kClassDesc).getString();
-        String strClassInterface = recClassInfo.getField(ClassInfo.kClassImplements).getString();
+        String strClassName = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
+        String strBaseClass = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).getString();
+        String strClassDesc = recClassInfo.getField(ClassInfo.CLASS_DESC).getString();
+        String strClassInterface = recClassInfo.getField(ClassInfo.CLASS_IMPLEMENTS).getString();
         String implementsClass = null;
         if (((ClassInfo)recClassInfo).isARecord(false))
             implementsClass = strClassName + "Model";
@@ -295,7 +295,7 @@ public class WriteClass extends BaseProcess
         else
             strClassInterface = "\n\t implements " + strClassInterface;
         String strClassType = "class";
-        if ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString()))
+        if ("interface".equals(recClassInfo.getField(ClassInfo.CLASS_TYPE).toString()))
             strClassType = "interface";
         String strExtends = " extends ";
         if (strBaseClass.length() == 0)
@@ -342,17 +342,17 @@ public class WriteClass extends BaseProcess
             recClassInfo2 = new ClassInfo(this);
 
             recClassFields = new ClassFields(this);
-            recClassFields.setKeyArea(ClassFields.kClassInfoClassNameKey);
-            SubFileFilter fileBehavior2 = new SubFileFilter(recClassInfo2.getField(ClassInfo.kClassName), ClassFields.kClassInfoClassName, null, -1, null, -1);
+            recClassFields.setKeyArea(ClassFields.CLASS_INFO_CLASS_NAME_KEY);
+            SubFileFilter fileBehavior2 = new SubFileFilter(recClassInfo2.getField(ClassInfo.CLASS_NAME), ClassFields.CLASS_INFO_CLASS_NAME, null, null, null, null);
             recClassFields.addListener(fileBehavior2);   // Only read through the class fields
 
-            String strFileName = recClassInfo.getField(ClassInfo.kClassSourceFile).toString();
+            String strFileName = recClassInfo.getField(ClassInfo.CLASS_SOURCE_FILE).toString();
             
-            recClassInfo2.setKeyArea(ClassInfo.kClassSourceFileKey);
-            StringSubFileFilter fileBehavior = new StringSubFileFilter(strFileName, ClassInfo.kClassSourceFile, null, -1, null, -1);
+            recClassInfo2.setKeyArea(ClassInfo.CLASS_SOURCE_FILE_KEY);
+            StringSubFileFilter fileBehavior = new StringSubFileFilter(strFileName, ClassInfo.CLASS_SOURCE_FILE, null, null, null, null);
             recClassInfo2.addListener(fileBehavior);  // Only select records which match m_strFileName
 
-            recClassInfo2.setKeyArea(ClassInfo.kClassSourceFileKey);
+            recClassInfo2.setKeyArea(ClassInfo.CLASS_SOURCE_FILE_KEY);
             recClassInfo2.close();
             while (recClassInfo2.hasNext())
             {
@@ -362,7 +362,7 @@ public class WriteClass extends BaseProcess
                 if ((codeType == CodeType.INTERFACE) && (!recClassInfo2.isARecord(true)))
                     continue;
 
-                String strBaseRecordClass = recClassInfo2.getField(ClassInfo.kBaseClassName).getString();
+                String strBaseRecordClass = recClassInfo2.getField(ClassInfo.BASE_CLASS_NAME).getString();
                 if (codeType == CodeType.THICK)
                     m_IncludeNameList.addInclude(strBaseRecordClass);  // Include the base class if it isn't in this file
                 recClassFields.close();
@@ -370,18 +370,18 @@ public class WriteClass extends BaseProcess
                 {
                     recClassFields.next();
                     
-                    if (!((IncludeScopeField)recClassFields.getField(ClassFields.kIncludeScope)).includeThis(codeType, false))
+                    if (!((IncludeScopeField)recClassFields.getField(ClassFields.INCLUDE_SCOPE)).includeThis(codeType, false))
                         continue;
 
-                    String strFieldName = recClassFields.getField(ClassFields.kClassFieldName).getString();
-                    String strFieldClass = recClassFields.getField(ClassFields.kClassFieldClass).getString();
+                    String strFieldName = recClassFields.getField(ClassFields.CLASS_FIELD_NAME).getString();
+                    String strFieldClass = recClassFields.getField(ClassFields.CLASS_FIELD_CLASS).getString();
                     String strReference = "";
-                    String strClassFieldType = recClassFields.getField(ClassFields.kClassFieldsType).toString();
+                    String strClassFieldType = recClassFields.getField(ClassFields.CLASS_FIELDS_TYPE).toString();
                     if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.INCLUDE_PACKAGE))
                     {
                         if (strFieldClass.length() > 0) if (strFieldClass.charAt(0) == '.')
                         {
-                        	ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo2.getField(ClassInfo.kClassProjectID)).getReference();
+                        	ClassProject classProject = (ClassProject)((ReferenceField)recClassInfo2.getField(ClassInfo.CLASS_PROJECT_ID)).getReference();
                         	if ((classProject != null)
                         			&& ((classProject.getEditMode() == DBConstants.EDIT_CURRENT) || (classProject.getEditMode() == DBConstants.EDIT_IN_PROGRESS)))
                         	{
@@ -413,7 +413,7 @@ public class WriteClass extends BaseProcess
                             m_IncludeNameList.addInclude(strFieldClass);
                             strReference = "Y";
                     }
-                    if (recClassFields.getField(ClassFields.kClassFieldProtect).getString().equalsIgnoreCase("S")) // Static, initialize now
+                    if (recClassFields.getField(ClassFields.CLASS_FIELD_PROTECT).getString().equalsIgnoreCase("S")) // Static, initialize now
                     {
                         if (strReference.length() == 0)
                             strReference = "0";
@@ -421,7 +421,7 @@ public class WriteClass extends BaseProcess
                             strReference = "null";
                         else
                         {
-                            strReference = recClassFields.getField(ClassFields.kClassFieldInitial).getString();
+                            strReference = recClassFields.getField(ClassFields.CLASS_FIELD_INITIAL).getString();
                             if (strReference.length() == 0)
                                 strReference = "0";
                         }
@@ -451,17 +451,17 @@ public class WriteClass extends BaseProcess
         try   {
             ClassInfo classInfo = (ClassInfo)this.getRecord(ClassInfo.CLASS_INFO_FILE);
             boolean hasAnInterface = classInfo.isARecord(false);
-            Record recClassFields = this.getRecord(ClassFields.kClassFieldsFile);
+            Record recClassFields = this.getRecord(ClassFields.CLASS_FIELDS_FILE);
             recClassFields.close();
             while (recClassFields.hasNext())
             {
                 recClassFields.next();
-                if (!((IncludeScopeField)recClassFields.getField(ClassFields.kIncludeScope)).includeThis(codeType, hasAnInterface))
+                if (!((IncludeScopeField)recClassFields.getField(ClassFields.INCLUDE_SCOPE)).includeThis(codeType, hasAnInterface))
                     continue;
-                String strFieldName = recClassFields.getField(ClassFields.kClassFieldName).getString();
-                String strFieldClass = recClassFields.getField(ClassFields.kClassFieldClass).getString();
+                String strFieldName = recClassFields.getField(ClassFields.CLASS_FIELD_NAME).getString();
+                String strFieldClass = recClassFields.getField(ClassFields.CLASS_FIELD_CLASS).getString();
                 String strReference = "";
-                String strClassFieldType = recClassFields.getField(ClassFields.kClassFieldsType).toString();
+                String strClassFieldType = recClassFields.getField(ClassFields.CLASS_FIELDS_TYPE).toString();
                 if ((strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_FIELD))
                     || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.NATIVE_FIELD))
                     || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_NAME))
@@ -473,24 +473,24 @@ public class WriteClass extends BaseProcess
                         else
                             strReference = "";
                     String strProtection = "protected";
-                    if (recClassFields.getField(ClassFields.kClassFieldProtect).getString().equalsIgnoreCase("S"))
+                    if (recClassFields.getField(ClassFields.CLASS_FIELD_PROTECT).getString().equalsIgnoreCase("S"))
                         strProtection = "protected static";  // Static member function
-                    else if (!recClassFields.getField(ClassFields.kClassFieldProtect).isNull())
-                        strProtection = recClassFields.getField(ClassFields.kClassFieldProtect).toString();
+                    else if (!recClassFields.getField(ClassFields.CLASS_FIELD_PROTECT).isNull())
+                        strProtection = recClassFields.getField(ClassFields.CLASS_FIELD_PROTECT).toString();
                     String strInitialValue = "";
                     String strAssignmentOperator = " = ";
                     if ("enum".equals(strFieldClass))
                         strAssignmentOperator = " ";
-                    if (!recClassFields.getField(ClassFields.kClassFieldInitialValue).isNull())
-                        strInitialValue = strAssignmentOperator + recClassFields.getField(ClassFields.kClassFieldInitialValue).toString();
+                    if (!recClassFields.getField(ClassFields.CLASS_FIELD_INITIAL_VALUE).isNull())
+                        strInitialValue = strAssignmentOperator + recClassFields.getField(ClassFields.CLASS_FIELD_INITIAL_VALUE).toString();
                     if ((strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_NAME))
                             || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.SCREEN_CLASS_NAME)))
                     {
-                        if (recClassFields.getField(ClassFields.kClassFieldProtect).isNull())
+                        if (recClassFields.getField(ClassFields.CLASS_FIELD_PROTECT).isNull())
                             strProtection = "public static final";  // Default
                         ClassInfo recClassInfo2 = new ClassInfo(this);
-                        recClassInfo2.setKeyArea(ClassInfo.kClassNameKey);
-                        recClassInfo2.getField(ClassInfo.kClassName).setString(strFieldClass);   // Class of this record
+                        recClassInfo2.setKeyArea(ClassInfo.CLASS_NAME_KEY);
+                        recClassInfo2.getField(ClassInfo.CLASS_NAME).setString(strFieldClass);   // Class of this record
                         if (recClassInfo2.seek("="))
                         {
                             strInitialValue = " = \"" + recClassInfo2.getFullClassName() + "\"";
@@ -512,10 +512,10 @@ public class WriteClass extends BaseProcess
     {
         this.readThisMethod(strClassName);
         Record recClassInfo = this.getMainRecord();
-        if ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString()))
+        if ("interface".equals(recClassInfo.getField(ClassInfo.CLASS_TYPE).toString()))
             return;
         MethodInfo methodInfo = new MethodInfo();
-        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
+        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.LOGIC_FILE_FILE);
         m_MethodHelper.getTheMethodInfo(recLogicFile, methodInfo);   // Get the correct interface, etc..
 
         this.writeMethodInterface(null, strClassName, "", "", methodInfo.strMethodThrows, "Default constructor", null);
@@ -543,25 +543,25 @@ public class WriteClass extends BaseProcess
     public boolean readThisMethod(String strMethodName)
     {
         Record recClassInfo = this.getMainRecord();
-        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
+        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.LOGIC_FILE_FILE);
         try   {
-            String strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
-            recLogicFile.getField(LogicFile.kMethodClassName).setString(strClassName);
-            recLogicFile.getField(LogicFile.kMethodName).setString(strMethodName);
-            recLogicFile.setKeyArea(LogicFile.kMethodClassNameKey);
+            String strClassName = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
+            recLogicFile.getField(LogicFile.METHOD_CLASS_NAME).setString(strClassName);
+            recLogicFile.getField(LogicFile.METHOD_NAME).setString(strMethodName);
+            recLogicFile.setKeyArea(LogicFile.METHOD_CLASS_NAME_KEY);
             if (recLogicFile.seek("="))
                 return true;
             else
             {   // Set up a fake record and return
                 recLogicFile.handleNewRecord(false);   // Clear the record
-                recLogicFile.getField(LogicFile.kMethodClassName).setString(strClassName);
-                recLogicFile.getField(LogicFile.kMethodName).setString(strMethodName);
+                recLogicFile.getField(LogicFile.METHOD_CLASS_NAME).setString(strClassName);
+                recLogicFile.getField(LogicFile.METHOD_NAME).setString(strMethodName);
                 return false;
             }
         } catch (DBException ex)    {
             ex.printStackTrace();
         } finally {
-            recLogicFile.setKeyArea(LogicFile.kSequenceKey);   // set this back
+            recLogicFile.setKeyArea(LogicFile.SEQUENCE_KEY);   // set this back
         }
         return false;
     }
@@ -609,8 +609,8 @@ public class WriteClass extends BaseProcess
     {
         String strBaseClass, strMethodVariables = DBConstants.BLANK;
         Record recClassInfo = this.getMainRecord();
-        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
-        strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();  // Get the base class name
+        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.LOGIC_FILE_FILE);
+        strBaseClass = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).getString();  // Get the base class name
         strMethodVariables = this.getMethodVariables(strMethodInterface);
         if (strClassName.equals(strMethodName))
         { // Call super.NewC initializer
@@ -621,7 +621,7 @@ public class WriteClass extends BaseProcess
             else
             {
                 if ((strMethodReturns.length() == 0) || (strMethodReturns.equalsIgnoreCase("void")))
-                    if (recLogicFile.getField(LogicFile.kLogicSource).getLength() > 0)
+                    if (recLogicFile.getField(LogicFile.LOGIC_SOURCE).getLength() > 0)
                         strMethodReturns =  strMethodVariables;   // Special case - if you have code, pass the default variables
                 if ((strMethodReturns.length() == 0) || (strMethodReturns.equalsIgnoreCase("void")))
                     m_StreamOut.writeit("\tthis();\n\tthis.init(" + strMethodVariables + ");\n");
@@ -636,11 +636,11 @@ public class WriteClass extends BaseProcess
                         strMethodReturns = "";
                     this.writeClassInitialize(true);
                     boolean bSuperFound = false;
-                    if (recLogicFile.getField(LogicFile.kLogicSource).getString().length() != 0)
+                    if (recLogicFile.getField(LogicFile.LOGIC_SOURCE).getString().length() != 0)
                     {
                         m_StreamOut.setTabs(+1);
-//x                     bSuperFound = m_MethodsOut.writeit(recLogicFile.getField(LogicFile.kLogicSource).getString() + "\n");
-                        bSuperFound = this.writeTextField(recLogicFile.getField(LogicFile.kLogicSource), strBaseClass, "init", strMethodReturns, strClassName);
+//x                     bSuperFound = m_MethodsOut.writeit(recLogicFile.getField(LogicFile.LOGIC_SOURCE).getString() + "\n");
+                        bSuperFound = this.writeTextField(recLogicFile.getField(LogicFile.LOGIC_SOURCE), strBaseClass, "init", strMethodReturns, strClassName);
                         m_StreamOut.setTabs(-1);
                     }
                     if (!bSuperFound)
@@ -667,8 +667,8 @@ public class WriteClass extends BaseProcess
     public void writeClassInit()
     {
         Record recClassInfo = this.getMainRecord();
-        String strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
-        if ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString()))
+        String strClassName = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
+        if ("interface".equals(recClassInfo.getField(ClassInfo.CLASS_TYPE).toString()))
             return;
         if (this.readThisMethod(strClassName))
             this.writeThisMethod(CodeType.THICK);
@@ -681,7 +681,7 @@ public class WriteClass extends BaseProcess
      */
     public void writeClassInitialize(boolean bUseInitValues)
     {
-        Record recClassFields = this.getRecord(ClassFields.kClassFieldsFile);
+        Record recClassFields = this.getRecord(ClassFields.CLASS_FIELDS_FILE);
         try   {
             String strFieldName, strReference;
             String strFieldClass;
@@ -690,29 +690,29 @@ public class WriteClass extends BaseProcess
             while (recClassFields.hasNext())
             {
                 recClassFields.next();
-                strFieldName = recClassFields.getField(ClassFields.kClassFieldName).getString();
-                String strClassFieldType = recClassFields.getField(ClassFields.kClassFieldsType).toString();
+                strFieldName = recClassFields.getField(ClassFields.CLASS_FIELD_NAME).getString();
+                String strClassFieldType = recClassFields.getField(ClassFields.CLASS_FIELDS_TYPE).toString();
                 if ((strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_FIELD))
                     || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.NATIVE_FIELD)))
                         if (strFieldName.length() != 0)
-                    if (!recClassFields.getField(ClassFields.kClassFieldProtect).getString().equalsIgnoreCase("S"))  // Not static
+                    if (!recClassFields.getField(ClassFields.CLASS_FIELD_PROTECT).getString().equalsIgnoreCase("S"))  // Not static
                 {
                     strReference = "";
                     if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_FIELD))
                         strReference = "null";
                     else
                     {
-                        strReference = recClassFields.getField(ClassFields.kClassFieldInitial).getString();
+                        strReference = recClassFields.getField(ClassFields.CLASS_FIELD_INITIAL).getString();
                         if (strReference.length() == 0)
                         {
                             strReference = "0";
-                            strFieldClass = recClassFields.getField(ClassFields.kClassFieldClass).getString();
+                            strFieldClass = recClassFields.getField(ClassFields.CLASS_FIELD_CLASS).getString();
                             if (strFieldClass.equalsIgnoreCase("String"))
                                 strReference = "\"\"";
                         }
                     }
                     if ((!strReference.equals("(none)"))
-                        && (recClassFields.getField(ClassFields.kClassFieldInitialValue).isNull()))
+                        && (recClassFields.getField(ClassFields.CLASS_FIELD_INITIAL_VALUE).isNull()))
                             m_StreamOut.writeit("\t" + strFieldName + " = " + strReference + ";\n");
                 }
             }
@@ -727,13 +727,13 @@ public class WriteClass extends BaseProcess
     public void writeInit()
     {
         Record recClassInfo = this.getMainRecord();
-        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
-        Record recClassFields = this.getRecord(ClassFields.kClassFieldsFile);
+        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.LOGIC_FILE_FILE);
+        Record recClassFields = this.getRecord(ClassFields.CLASS_FIELDS_FILE);
         try   {
             String strClassName;
             String strMethodName;
-            strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
-            if ("interface".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString()))
+            strClassName = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
+            if ("interface".equalsIgnoreCase(recClassInfo.getField(ClassInfo.CLASS_TYPE).toString()))
                 return;
             if (this.readThisMethod("init"))
                 this.writeThisMethod(CodeType.THICK);
@@ -741,8 +741,8 @@ public class WriteClass extends BaseProcess
             {
                 strMethodName = "init";
                 recLogicFile.addNew();
-                recLogicFile.getField(LogicFile.kMethodClassName).setString(strClassName);
-                recLogicFile.getField(LogicFile.kMethodName).setString(strMethodName);
+                recLogicFile.getField(LogicFile.METHOD_CLASS_NAME).setString(strClassName);
+                recLogicFile.getField(LogicFile.METHOD_NAME).setString(strMethodName);
                 MethodInfo methodInfo = new MethodInfo();
                 m_MethodHelper.getTheMethodInfo(recLogicFile, methodInfo);   // Get the correct interface, etc..
                     //  Now, zero out all the class fields
@@ -784,35 +784,35 @@ public class WriteClass extends BaseProcess
             String getFile = "getMainRecord()";
             int oldRow = 2, oldCol = 21;
 
-            Record recScreenIn = this.getRecord(ScreenIn.kScreenInFile);
-            SubFileFilter newBehavior = new SubFileFilter(recScreenIn.getField(ScreenIn.kScreenFileName), FieldData.kFieldFileName, recScreenIn.getField(ScreenIn.kScreenFieldName), FieldData.kFieldName, null, -1);
+            Record recScreenIn = this.getRecord(ScreenIn.SCREEN_IN_FILE);
+            SubFileFilter newBehavior = new SubFileFilter(recScreenIn.getField(ScreenIn.SCREEN_FILE_NAME), FieldData.FIELD_FILE_NAME, recScreenIn.getField(ScreenIn.SCREEN_FIELD_NAME), FieldData.FIELD_NAME, null, null);
             recFieldData.addListener(newBehavior);
-            recFieldData.setKeyArea(FieldData.kFieldNameKey);
+            recFieldData.setKeyArea(FieldData.FIELD_NAME_KEY);
         
             recScreenIn.close();
             while (recScreenIn.hasNext())
             {
                 recScreenIn.next();
-                if (recScreenIn.getField(ScreenIn.kScreenFieldName).getString().length() != 0)
+                if (recScreenIn.getField(ScreenIn.SCREEN_FIELD_NAME).getString().length() != 0)
                 {
-                    strScreenFieldName = recScreenIn.getField(ScreenIn.kScreenFieldName).getString();
-                    strScreenLocation = recScreenIn.getField(ScreenIn.kScreenLocation).getString();
-                    strScreenFieldDesc = recScreenIn.getField(ScreenIn.kScreenFieldDesc).getString();
-                    strScreenOutNumber = recScreenIn.getField(ScreenIn.kScreenOutNumber).getString();
-                    strScreenSetAnchor = recScreenIn.getField(ScreenIn.kScreenAnchor).getString();
-                    int row = (int)((NumberField)recScreenIn.getField(ScreenIn.kScreenRow)).getValue();
-                    int col = (int)((NumberField)recScreenIn.getField(ScreenIn.kScreenCol)).getValue();
+                    strScreenFieldName = recScreenIn.getField(ScreenIn.SCREEN_FIELD_NAME).getString();
+                    strScreenLocation = recScreenIn.getField(ScreenIn.SCREEN_LOCATION).getString();
+                    strScreenFieldDesc = recScreenIn.getField(ScreenIn.SCREEN_FIELD_DESC).getString();
+                    strScreenOutNumber = recScreenIn.getField(ScreenIn.SCREEN_OUT_NUMBER).getString();
+                    strScreenSetAnchor = recScreenIn.getField(ScreenIn.SCREEN_ANCHOR).getString();
+                    int row = (int)((NumberField)recScreenIn.getField(ScreenIn.SCREEN_ROW)).getValue();
+                    int col = (int)((NumberField)recScreenIn.getField(ScreenIn.SCREEN_COL)).getValue();
                     if (strScreenOutNumber.equalsIgnoreCase("1")) if (strScreenLocation.length() == 0)
                     {
                         if (row > 2)
-                            ((NumberField)recScreenIn.getField(ScreenIn.kScreenRow)).setValue(row-2, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
+                            ((NumberField)recScreenIn.getField(ScreenIn.SCREEN_ROW)).setValue(row-2, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
                     }
-                    strScreenRow = recScreenIn.getField(ScreenIn.kScreenRow).getString();
-                    strScreenCol = recScreenIn.getField(ScreenIn.kScreenCol).getString();
+                    strScreenRow = recScreenIn.getField(ScreenIn.SCREEN_ROW).getString();
+                    strScreenCol = recScreenIn.getField(ScreenIn.SCREEN_COL).getString();
         
-                        if (recScreenIn.getField(ScreenIn.kScreenFileName).getLength() != 0)
+                        if (recScreenIn.getField(ScreenIn.SCREEN_FILE_NAME).getLength() != 0)
                         {
-                            strFileName = recScreenIn.getField(ScreenIn.kScreenFileName).getString();
+                            strFileName = recScreenIn.getField(ScreenIn.SCREEN_FILE_NAME).getString();
                             getFile = "getRecord(" + strFileName + ".k" + strFileName + "File)";
                         }
                         else
@@ -868,7 +868,7 @@ public class WriteClass extends BaseProcess
                         strScreenFieldDesc = "DEFAULT_DISPLAY";
                     strScreenFieldDesc = "ScreenConstants." + strScreenFieldDesc;
 // View Control type
-                    String controlType = recScreenIn.getField(ScreenIn.kScreenControlType).getString();
+                    String controlType = recScreenIn.getField(ScreenIn.SCREEN_CONTROL_TYPE).getString();
                     String strDisabledEnding = DBConstants.BLANK;
                     if ("disabled".equals(controlType))
                     {
@@ -910,10 +910,10 @@ public class WriteClass extends BaseProcess
                     oldRow = row;
                     oldCol = col;
                 }
-                if (recScreenIn.getField(ScreenIn.kScreenText).getString().length() != 0)
+                if (recScreenIn.getField(ScreenIn.SCREEN_TEXT).getString().length() != 0)
                 {
                     m_StreamOut.setTabs(+1);
-                    String tempString = recScreenIn.getField(ScreenIn.kScreenText).getString();
+                    String tempString = recScreenIn.getField(ScreenIn.SCREEN_TEXT).getString();
                     m_StreamOut.writeit(tempString);
                     if (tempString.charAt(tempString.length() - 1) != '\n')
                         m_StreamOut.writeit("\n");
@@ -935,11 +935,11 @@ public class WriteClass extends BaseProcess
     public void writeProgramDesc(String strClassName)
     {
         // Override this to write the program desc.
-        ClassInfo recClassInfo = (ClassInfo)this.getRecord(ClassInfo.kClassInfoFile);
-        if ("Screen".equalsIgnoreCase(recClassInfo.getField(ClassInfo.kClassType).toString()))
+        ClassInfo recClassInfo = (ClassInfo)this.getRecord(ClassInfo.CLASS_INFO_FILE);
+        if ("Screen".equalsIgnoreCase(recClassInfo.getField(ClassInfo.CLASS_TYPE).toString()))
         {
-            if (!recClassInfo.getField(ClassInfo.kClassDesc).isNull())
-                this.writeGetTitleCode(recClassInfo.getField(ClassInfo.kClassDesc).getString());
+            if (!recClassInfo.getField(ClassInfo.CLASS_DESC).isNull())
+                this.writeGetTitleCode(recClassInfo.getField(ClassInfo.CLASS_DESC).getString());
         }
     }
     public void writeGetTitleCode(String strClassDesc)
@@ -954,7 +954,7 @@ public class WriteClass extends BaseProcess
      */
     public void writeClassMethods(CodeType codeType)
     {
-        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
+        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.LOGIC_FILE_FILE);
         try   {
             Set<String> methodsIncluded = new HashSet<String>();
             Set<String> methodInterfaces = new HashSet<String>();
@@ -962,17 +962,17 @@ public class WriteClass extends BaseProcess
             while (recLogicFile.hasNext())
             {
                 recLogicFile.next();
-                if (((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(codeType, false))
+                if (((IncludeScopeField)recLogicFile.getField(LogicFile.INCLUDE_SCOPE)).includeThis(codeType, false))
                 {
                     this.writeThisMethod(codeType);
-                    String strMethodName = recLogicFile.getField(LogicFile.kMethodName).toString();
+                    String strMethodName = recLogicFile.getField(LogicFile.METHOD_NAME).toString();
                     if (strMethodName.length() > 2) if (strMethodName.charAt(strMethodName.length() - 2) == '*')
                         strMethodName = strMethodName.substring(0, strMethodName.length() - 2);
                     methodsIncluded.add(strMethodName);
                 }
-                if (((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(CodeType.INTERFACE, false))
+                if (((IncludeScopeField)recLogicFile.getField(LogicFile.INCLUDE_SCOPE)).includeThis(CodeType.INTERFACE, false))
                 {
-                    String strMethodName = recLogicFile.getField(LogicFile.kMethodName).toString();
+                    String strMethodName = recLogicFile.getField(LogicFile.METHOD_NAME).toString();
                     if (strMethodName.length() > 2) if (strMethodName.charAt(strMethodName.length() - 2) == '*')
                         strMethodName = strMethodName.substring(0, strMethodName.length() - 2);
                     methodInterfaces.add(strMethodName);                    
@@ -983,7 +983,7 @@ public class WriteClass extends BaseProcess
             while (recLogicFile.hasNext())
             {
                 recLogicFile.next();
-                String strMethodName = recLogicFile.getField(LogicFile.kMethodName).toString();
+                String strMethodName = recLogicFile.getField(LogicFile.METHOD_NAME).toString();
                 if (strMethodName.length() > 2) if (strMethodName.charAt(strMethodName.length() - 2) == '*')
                     strMethodName = strMethodName.substring(0, strMethodName.length() - 2);
                 if ((methodInterfaces.contains(strMethodName)) && (!methodsIncluded.contains(strMethodName)))
@@ -1063,13 +1063,13 @@ public class WriteClass extends BaseProcess
     public void writeThisMethod(CodeType codeType)
     {
         Record recClassInfo = this.getMainRecord();
-        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.kLogicFileFile);
-        String strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
+        LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.LOGIC_FILE_FILE);
+        String strClassName = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
         MethodInfo methodInfo = new MethodInfo();
         m_MethodHelper.getTheMethodInfo(recLogicFile, methodInfo);   // Get the correct interface, etc..
-        String strMethodName = recLogicFile.getField(LogicFile.kMethodName).getString();
-        String strMethodDesc = recLogicFile.getField(LogicFile.kLogicDescription).getString();
-        String strProtection = recLogicFile.getField(LogicFile.kProtection).getString();
+        String strMethodName = recLogicFile.getField(LogicFile.METHOD_NAME).getString();
+        String strMethodDesc = recLogicFile.getField(LogicFile.LOGIC_DESCRIPTION).getString();
+        String strProtection = recLogicFile.getField(LogicFile.PROTECTION).getString();
         if (m_MethodNameList.addName(strMethodName) == false)
             return;     // Don't write it, its already here
         if (strMethodName.length() > 2) if (strMethodName.charAt(strMethodName.length() - 2) == '*')
@@ -1087,13 +1087,13 @@ public class WriteClass extends BaseProcess
             if (methodInfo.strMethodReturns.length() >= 7) if (methodInfo.strMethodReturns.substring(methodInfo.strMethodReturns.length() - 7, methodInfo.strMethodReturns.length()).equalsIgnoreCase("  "))
                 methodInfo.strMethodReturns = methodInfo.strMethodReturns.substring(0, methodInfo.strMethodReturns.length() - 6);
             String strCodeBody = null;
-            if ((codeType == CodeType.INTERFACE) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
+            if ((codeType == CodeType.INTERFACE) || ("interface".equals(recClassInfo.getField(ClassInfo.CLASS_TYPE).toString())))
             {
-                if (!((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(CodeType.INTERFACE, false))
+                if (!((IncludeScopeField)recLogicFile.getField(LogicFile.INCLUDE_SCOPE)).includeThis(CodeType.INTERFACE, false))
                     return;
                 strCodeBody = ";\n";
             }
-            else if (!((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(codeType, false))
+            else if (!((IncludeScopeField)recLogicFile.getField(LogicFile.INCLUDE_SCOPE)).includeThis(codeType, false))
             {   // Special case - write a default impl.
                 if ((methodInfo.strMethodReturns == null) || ("void".equals(methodInfo.strMethodReturns)) || (DBConstants.BLANK.equals(methodInfo.strMethodReturns)))
                     strCodeBody = "{\n\t// Empty implementation\n}\n";
@@ -1104,18 +1104,18 @@ public class WriteClass extends BaseProcess
             }
             this.writeMethodInterface(strProtection, strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, strCodeBody);
         }
-        if ((codeType == CodeType.INTERFACE) || ("interface".equals(recClassInfo.getField(ClassInfo.kClassType).toString())))
+        if ((codeType == CodeType.INTERFACE) || ("interface".equals(recClassInfo.getField(ClassInfo.CLASS_TYPE).toString())))
             return;
-        if (!((IncludeScopeField)recLogicFile.getField(LogicFile.kIncludeScope)).includeThis(codeType, false))
+        if (!((IncludeScopeField)recLogicFile.getField(LogicFile.INCLUDE_SCOPE)).includeThis(codeType, false))
             return;
         if (!strMethodName.equals(strClassName))
         {
-            if (recLogicFile.getField(LogicFile.kLogicSource).getString().length() != 0)
+            if (recLogicFile.getField(LogicFile.LOGIC_SOURCE).getString().length() != 0)
             {
                 String strBaseClass;
-                strBaseClass = recClassInfo.getField(ClassInfo.kBaseClassName).getString();
+                strBaseClass = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).getString();
                 m_StreamOut.setTabs(+1);
-                this.writeTextField(recLogicFile.getField(LogicFile.kLogicSource), strBaseClass, strMethodName, methodInfo.strMethodInterface, strClassName);
+                this.writeTextField(recLogicFile.getField(LogicFile.LOGIC_SOURCE), strBaseClass, strMethodName, methodInfo.strMethodInterface, strClassName);
                 m_StreamOut.setTabs(-1);
             }
             else

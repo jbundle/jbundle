@@ -95,12 +95,12 @@ public class ConvertPackage extends ConvertDB
             while (recClassInfo.hasNext())
             {
                 recClassInfo.next();
-//                if (recClassInfo.getField(ClassInfo.kClassName).toString().endsWith(strClass))
-                        if (recClassInfo.getField(ClassInfo.kClassPackage).toString().equals(strFromField))
+//                if (recClassInfo.getField(ClassInfo.CLASS_NAME).toString().endsWith(strClass))
+                        if (recClassInfo.getField(ClassInfo.CLASS_PACKAGE).toString().equals(strFromField))
                 {
                     System.out.println("Fixing field " + strToField);
                     recClassInfo.edit();
-                    recClassInfo.getField(ClassInfo.kClassPackage).setString(strToField);
+                    recClassInfo.getField(ClassInfo.CLASS_PACKAGE).setString(strToField);
                     recClassInfo.set();
                 }
             }

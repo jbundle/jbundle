@@ -90,7 +90,7 @@ public class VCheckBox extends VToggleButton
             control = new JCheckBox(strDesc, this.loadImageIcon(m_strImageButton, null)); // Get this image, then redisplay me when you're done
         control.setOpaque(false);
         control.setHorizontalTextPosition(JToggleButton.LEFT);
-        control.setIconTextGap(org.jbundle.base.screen.control.swing.util.ScreenInfo.kExtraColSpacing);
+        control.setIconTextGap(org.jbundle.base.screen.control.swing.util.ScreenInfo.EXTRA_COL_SPACING);
         if (bEditableControl)
         {
             control.addFocusListener(this);

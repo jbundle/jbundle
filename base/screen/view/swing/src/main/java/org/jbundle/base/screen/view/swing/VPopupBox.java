@@ -196,7 +196,7 @@ public class VPopupBox extends VScreenField
                 m_iMaxLength = 15;
         }
         Dimension itsSize = this.getTextBoxSize(m_iMaxLength, ScreenConstants.POPUP_DESC, 1);
-        itsSize.width += ScreenInfo.kExtraColSpacing;
+        itsSize.width += ScreenInfo.EXTRA_COL_SPACING;
         return new Rectangle(ptLocation.x , ptLocation.y, itsSize.width, itsSize.height);
     }
     /**

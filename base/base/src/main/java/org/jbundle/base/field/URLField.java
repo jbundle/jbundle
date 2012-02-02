@@ -93,8 +93,8 @@ public class URLField extends StringField
      */
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        if (converter.getMaxLength() > ScreenConstants.kMaxSingleChars)
-            converter = new FieldLengthConverter((Converter)converter, ScreenConstants.kMaxSingleChars);   // Show as a single line.
+        if (converter.getMaxLength() > ScreenConstants.MAX_SINGLE_CHARS)
+            converter = new FieldLengthConverter((Converter)converter, ScreenConstants.MAX_SINGLE_CHARS);   // Show as a single line.
         ScreenComponent sScreenField = super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         properties = new HashMap<String,Object>();
         properties.put(ScreenModel.FIELD, this);

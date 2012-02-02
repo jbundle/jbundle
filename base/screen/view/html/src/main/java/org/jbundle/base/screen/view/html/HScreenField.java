@@ -97,7 +97,7 @@ public abstract class HScreenField extends ZScreenField
     }
     /**
      * Get the current string value in HTML.<p/>
-     * May want to check GetRootScreen().GetScreenType() & kInput/DISPLAY_MODE
+     * May want to check GetRootScreen().GetScreenType() & INPUT/DISPLAY_MODE
      * @exception DBException File exception.
      * @param out The html out stream.
      * @param iHtmlAttribures The attributes.
@@ -133,7 +133,7 @@ public abstract class HScreenField extends ZScreenField
     }
     /**
      * Get the current string value in HTML.<p />
-     * May want to check GetRootScreen().GetScreenType() & kInput/DISPLAY_MODE
+     * May want to check GetRootScreen().GetScreenType() & INPUT/DISPLAY_MODE
      * @param out The html out stream.
      * @exception DBException File exception.
      */

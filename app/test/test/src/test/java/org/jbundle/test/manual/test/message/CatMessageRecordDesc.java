@@ -54,7 +54,7 @@ public class CatMessageRecordDesc extends MessageRecordDesc
     public int putRawRecordData(Rec record)
     {
         int iErrorCode = super.putRawRecordData(record);
-        for (int iFieldSeq = Cat.kName; iFieldSeq <= Cat.kWeight; iFieldSeq++)
+        for (int iFieldSeq = Cat.NAME; iFieldSeq <= Cat.WEIGHT; iFieldSeq++)
         {
             this.putRawFieldData(record.getField(iFieldSeq));
         }
@@ -66,7 +66,7 @@ public class CatMessageRecordDesc extends MessageRecordDesc
      */
     public int getRawRecordData(Rec record)
     {
-        for (int iFieldSeq = Cat.kName; iFieldSeq <= Cat.kWeight; iFieldSeq++)
+        for (int iFieldSeq = Cat.NAME; iFieldSeq <= Cat.WEIGHT; iFieldSeq++)
         {
             this.getRawFieldData(record.getField(iFieldSeq));
         }

@@ -33,24 +33,24 @@ import org.jbundle.thin.base.screen.landf.theme.CustomTheme;
  */
 public class ScreenInfo extends Object
 {
-    public static final int kFirstRowOffset = 4;    // start 5 pixels down on displays
-    public static final int kExtraBoxSpacing = 5; // Extra pixels needed for a box (Vertical)
-    public static final int kExtraRowSpacing = 2;
-    public static final int kHorizontalExtraChars = 2;  // Extra chars in horizontal position
-    public static final int kFieldVertOffset = kExtraBoxSpacing / 2; // Offset for a description
-    public static final int kExtraInterRowSpacing = kExtraBoxSpacing + kExtraRowSpacing;    // Extra pixels needed per row
-    public static final int kInitGridRowInset = 4;
-    public static final int kBumpRowHeightLimit = 15; // Bump the row height by one if the height is less than this
-    public static final int kFirstColOffset = 4;    // start 5 pixels down on displays
-    public static final int kFieldHorizOffset = 1;  // Extra pixels needed in each character cell
-    public static final int kExtraColBoxSpacing = kFieldHorizOffset * 2 + 3;    // Extra pixels needed for a box
-    public static final int kExtraColSpacing = kExtraColBoxSpacing * 3;         // Extra space added to buttons and popups
-    public static final int kCellBorderWidth = 2;
-    public static final int kShiftTextDown = +1;
-    public static final int kShiftTextRight = +1;
+    public static final int FIRST_ROW_OFFSET = 4;    // start 5 pixels down on displays
+    public static final int EXTRA_BOX_SPACING = 5; // Extra pixels needed for a box (Vertical)
+    public static final int EXTRA_ROW_SPACING = 2;
+    public static final int HORIZONTAL_EXTRA_CHARS = 2;  // Extra chars in horizontal position
+    public static final int FIELD_VERT_OFFSET = EXTRA_BOX_SPACING / 2; // Offset for a description
+    public static final int EXTRA_INTER_ROW_SPACING = EXTRA_BOX_SPACING + EXTRA_ROW_SPACING;    // Extra pixels needed per row
+    public static final int INIT_GRID_ROW_INSET = 4;
+    public static final int BUMP_ROW_HEIGHT_LIMIT = 15; // Bump the row height by one if the height is less than this
+    public static final int FIRST_COL_OFFSET = 4;    // start 5 pixels down on displays
+    public static final int FIELD_HORIZ_OFFSET = 1;  // Extra pixels needed in each character cell
+    public static final int EXTRA_COL_BOX_SPACING = FIELD_HORIZ_OFFSET * 2 + 3;    // Extra pixels needed for a box
+    public static final int EXTRA_COL_SPACING = EXTRA_COL_BOX_SPACING * 3;         // Extra space added to buttons and popups
+    public static final int CELL_BORDER_WIDTH = 2;
+    public static final int SHIFT_TEXT_DOWN = +1;
+    public static final int SHIFT_TEXT_RIGHT = +1;
 
-    public static final int kHorizBuffer = 5;       // Buffer around view
-    public static final int kVerticalBuffer = 5;
+    public static final int HORIZ_BUFFER = 5;       // Buffer around view
+    public static final int VERTICAL_BUFFER = 5;
 
     protected Color m_colorControl = null;
     protected Color m_colorText = null;
@@ -167,8 +167,8 @@ public class ScreenInfo extends Object
         tm = control.getFontMetrics(m_font);
         m_Ascent = tm.getAscent();
         m_Descent = tm.getDescent();
-        m_InternalLeading = tm.getMaxDescent(); //** + kExtraRowPixels;
-        m_ExternalLeading = tm.getLeading(); //** + kExtraInterRowSpacing;  //*theFontInfo.leading + 3;     // 1 pixel for each box adorner, plus one inbetween
+        m_InternalLeading = tm.getMaxDescent(); //** + EXTRA_ROW_PIXELS;
+        m_ExternalLeading = tm.getLeading(); //** + EXTRA_INTER_ROW_SPACING;  //*theFontInfo.leading + 3;     // 1 pixel for each box adorner, plus one inbetween
         m_AveCharWidth = this.getCharWidth(tm);   //** dc.getCharWidth('0', '0', width);
         m_MaxCharWidth = tm.charWidth('W');
         
@@ -194,12 +194,12 @@ public class ScreenInfo extends Object
      */
     public int getBoxHeight(BasePanel pBasePanel, int rows)
     {
-        int rowHeight = m_Ascent + m_Descent + m_InternalLeading + m_ExternalLeading; //** + kExtraRowPixels;
+        int rowHeight = m_Ascent + m_Descent + m_InternalLeading + m_ExternalLeading; //** + EXTRA_ROW_PIXELS;
         rowHeight = rowHeight * rows;
-        if (rowHeight < kBumpRowHeightLimit)
+        if (rowHeight < BUMP_ROW_HEIGHT_LIMIT)
             rowHeight++;
         if (((pBasePanel.getScreenType() & ScreenConstants.INPUT_TYPE) != 0) || (pBasePanel.getEditing() == true))
-            rowHeight += kExtraBoxSpacing;
+            rowHeight += EXTRA_BOX_SPACING;
         return rowHeight;
     }
     /**
@@ -229,14 +229,14 @@ public class ScreenInfo extends Object
      */
     public int getColumnLocation(int column)
     {
-        return this.getColumnWidth(column - 1) + kFirstColOffset;
+        return this.getColumnWidth(column - 1) + FIRST_COL_OFFSET;
     }
     /**
      * Get the x width of this many columns.
      */
     public int getColumnWidth(int columns)
     {
-        return columns * (m_AveCharWidth + kFieldHorizOffset);
+        return columns * (m_AveCharWidth + FIELD_HORIZ_OFFSET);
     }
     /**
      * Get the current font metrics.
@@ -333,11 +333,11 @@ public class ScreenInfo extends Object
      */
     public int getRowHeight(BasePanel pBasePanel)
     {
-        int rowHeight = m_Ascent + m_Descent + m_InternalLeading + m_ExternalLeading; //** + kExtraRowPixels;
-        if (rowHeight < kBumpRowHeightLimit)
+        int rowHeight = m_Ascent + m_Descent + m_InternalLeading + m_ExternalLeading; //** + EXTRA_ROW_PIXELS;
+        if (rowHeight < BUMP_ROW_HEIGHT_LIMIT)
             rowHeight++;
         if (((pBasePanel.getScreenType() & ScreenConstants.INPUT_TYPE) != 0) || (pBasePanel.getEditing() == true))
-            rowHeight += kExtraInterRowSpacing;
+            rowHeight += EXTRA_INTER_ROW_SPACING;
         return rowHeight;
     }
     /**
@@ -347,7 +347,7 @@ public class ScreenInfo extends Object
     {
         int location = (row - 1) * this.getRowHeight(pBasePanel);
         if (((pBasePanel.getScreenType() & ScreenConstants.INPUT_TYPE) != 0) || (pBasePanel.getEditing() == true))
-            location += kFirstRowOffset;
+            location += FIRST_ROW_OFFSET;
         return location;
     }
     /**

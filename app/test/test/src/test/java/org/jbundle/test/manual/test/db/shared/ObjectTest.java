@@ -61,7 +61,7 @@ public class ObjectTest extends BaseAnimalTest
         Object dbBookmark = null;
 
         try   {
-//          recReptile.setKeyArea(Reptile.kNameKey);
+//          recReptile.setKeyArea(Reptile.NAME_KEY);
             iCount = 0;
             while ((animal = (Reptile)animalTable.move(+1)) != null)
             {
@@ -93,7 +93,7 @@ public class ObjectTest extends BaseAnimalTest
 /*        try   {
             Utility.getLogger().info("Now, update animal class");
             animal.edit();
-            animal.getField(Reptile.kName).setString("New Snake Name");
+            animal.getField(Reptile.NAME).setString("New Snake Name");
             animal.set();
         } catch (DBException ex)    {
             ex.printStackTrace();
@@ -136,19 +136,19 @@ public class ObjectTest extends BaseAnimalTest
                 if (iCount == 0)
                 {
                     animal.edit();
-                    animal.getField(Reptile.kName).setString("New reptile #1");
+                    animal.getField(Reptile.NAME).setString("New reptile #1");
                     animal.set();
                 }
                 if (iCount == 1)
                 {       // This is generally not done, but I need to be able to handle it.
                     recReptile.edit();
-                    recReptile.getField(Reptile.kName).setString("New reptile #2");
+                    recReptile.getField(Reptile.NAME).setString("New reptile #2");
                     recReptile.set();
                 }
                 if (iCount == 2)
                 {       // This is not cools, but it should work.
                     recReptile.edit();
-                    animal.getField(Reptile.kName).setString("New reptile #3");
+                    animal.getField(Reptile.NAME).setString("New reptile #3");
                     recReptile.set();
                 }
                 iCount++;
@@ -165,19 +165,19 @@ public class ObjectTest extends BaseAnimalTest
         try {
             recReptile = new Reptile(snake.getRecordOwner());
             recReptile.addNew();
-            recReptile.getField(Reptile.kReptileTypeID).setValue(ReptileTypeField.LIZARD);
+            recReptile.getField(Reptile.REPTILE_TYPE_ID).setValue(ReptileTypeField.LIZARD);
 //            recReptile.setOpenMode(DBConstants.OPEN_REFRESH_AND_LOCK_ON_CHANGE);
             recReptile.addNew();
 
             recReptile = (Lizard)recReptile.getTable().getCurrentTable().getRecord();  // lizard
-            recReptile.getField(Reptile.kName).setString("Barney");
+            recReptile.getField(Reptile.NAME).setString("Barney");
             
             recReptile.add();
             Object objBookmark = recReptile.getLastModified(DBConstants.BOOKMARK_HANDLE);
             Object recReturned = recReptile.setHandle(objBookmark, DBConstants.BOOKMARK_HANDLE);
             
             recReptile.edit();
-            recReptile.getField(Reptile.kWeight).setValue(240);
+            recReptile.getField(Reptile.WEIGHT).setValue(240);
             recReptile.set();
         } catch (DBException ex)   {
             Utility.getLogger().info("Error: " + ex.getMessage() + "\n");

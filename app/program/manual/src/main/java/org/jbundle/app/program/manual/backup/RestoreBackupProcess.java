@@ -107,8 +107,8 @@ public class RestoreBackupProcess extends BaseProcess
                         {
                         	ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
                             recClassInfo.addNew();
-                            recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
-                            recClassInfo.getField(ClassInfo.kClassName).setString(strTableName);
+                            recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
+                            recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strTableName);
                             if (recClassInfo.seek(DBConstants.EQUALS))
                             {
                                 strTableName = recClassInfo.getPackageName() + '.' + strTableName;

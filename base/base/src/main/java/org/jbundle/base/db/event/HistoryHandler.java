@@ -174,7 +174,7 @@ public class HistoryHandler extends FreeOnFreeHandler
             if (m_iSourceDateSeq != null)
                 m_fldSourceHistoryDate = this.getOwner().getField(m_iSourceDateSeq);
             else if (this.getHistoryRecord() instanceof VirtualRecord)
-                m_fldSourceHistoryDate = this.getOwner().getField(VirtualRecord.kLastChanged);
+                m_fldSourceHistoryDate = this.getOwner().getField(VirtualRecord.LAST_CHANGED);
         }
         return m_fldSourceHistoryDate;
     }

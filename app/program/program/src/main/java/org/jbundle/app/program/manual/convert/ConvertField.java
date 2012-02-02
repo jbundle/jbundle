@@ -115,16 +115,16 @@ public class ConvertField extends ConvertDB
     public void convertFields(String strFromFile, String strFromField, String strToField) throws DBException
     {
         FieldData fieldInfo = new FieldData(null);
-        fieldInfo.setKeyArea(FieldData.kFieldNameKey);
-        fieldInfo.addListener(new StringSubFileFilter(strFromFile, FieldData.kFieldFileName, null, -1, null, -1));
+        fieldInfo.setKeyArea(FieldData.FIELD_NAME_KEY);
+        fieldInfo.addListener(new StringSubFileFilter(strFromFile, FieldData.FIELD_FILE_NAME, null, null, null, null));
         while (fieldInfo.hasNext())
         {
             fieldInfo.next();
-            if (fieldInfo.getField(FieldData.kFieldName).toString().equals(strFromField))
+            if (fieldInfo.getField(FieldData.FIELD_NAME).toString().equals(strFromField))
             {
                 System.out.println("Fixing field " + strToField);
                 fieldInfo.edit();
-                fieldInfo.getField(FieldData.kFieldName).setString(strToField);
+                fieldInfo.getField(FieldData.FIELD_NAME).setString(strToField);
                 fieldInfo.set();
             }
         }
@@ -134,13 +134,13 @@ public class ConvertField extends ConvertDB
     public void convertKeys(String strFromFile, String strFromField, String strToField) throws DBException
     {
         KeyInfo fieldInfo = new KeyInfo(null);
-        fieldInfo.setKeyArea(KeyInfo.kKeyFilenameKey);
-        fieldInfo.addListener(new StringSubFileFilter(strFromFile, KeyInfo.kKeyFilename, null, -1, null, -1));
+        fieldInfo.setKeyArea(KeyInfo.KEY_FILENAME_KEY);
+        fieldInfo.addListener(new StringSubFileFilter(strFromFile, KeyInfo.KEY_FILENAME, null, null, null, null));
         while (fieldInfo.hasNext())
         {
             fieldInfo.next();
             boolean bChanged = false;
-            for (int iFieldSeq = KeyInfo.kKeyField1; iFieldSeq <= KeyInfo.kKeyField9; iFieldSeq++)
+            for (int iFieldSeq = fieldInfo.getFieldSeq(KeyInfo.KEY_FIELD_1); iFieldSeq <= fieldInfo.getFieldSeq(KeyInfo.KEY_FIELD_9); iFieldSeq++)
             {
                 if (fieldInfo.getField(iFieldSeq).toString().equals(strFromField))
                 {
@@ -171,12 +171,12 @@ public class ConvertField extends ConvertDB
                 String strFromField =  m_strChange[i][0].substring(m_strChange[i][0].indexOf(".k") + 2);
                 String strToField =  m_strChange[i][1].substring(m_strChange[i][1].indexOf(".k") + 2);
                 
-                if (screenIn.getField(ScreenIn.kScreenFileName).toString().equals(strFromFile))
-                    if (screenIn.getField(ScreenIn.kScreenFieldName).toString().equals(strFromField))
+                if (screenIn.getField(ScreenIn.SCREEN_FILE_NAME).toString().equals(strFromFile))
+                    if (screenIn.getField(ScreenIn.SCREEN_FIELD_NAME).toString().equals(strFromField))
                 {
                     System.out.println("Fixing screen " + strToField);
                     screenIn.edit();
-                    screenIn.getField(ScreenIn.kScreenFieldName).setString(strToField);
+                    screenIn.getField(ScreenIn.SCREEN_FIELD_NAME).setString(strToField);
                     screenIn.set();
                 }
             }

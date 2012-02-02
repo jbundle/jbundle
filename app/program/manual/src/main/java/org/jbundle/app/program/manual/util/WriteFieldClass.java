@@ -73,33 +73,33 @@ public class WriteFieldClass extends WriteSharedClass
         String strFieldClass;
         Record recClassInfo = this.getMainRecord();
 
-        String strFieldDataHandle = this.getProperty(FieldData.kFieldDataFile);
+        String strFieldDataHandle = this.getProperty(FieldData.FIELD_DATA_FILE);
         if (strFieldDataHandle != null)
         {
-            FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
+            FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);
             try {
                 recFieldData.setHandle(strFieldDataHandle, DBConstants.OBJECT_ID_HANDLE);  // Get the record
-                String strRecordClass = recFieldData.getField(FieldData.kFieldFileName).toString();
-                String strFieldName = recFieldData.getField(FieldData.kFieldName).toString();
-                String strBaseFieldName = recFieldData.getField(FieldData.kBaseFieldName).toString();
+                String strRecordClass = recFieldData.getField(FieldData.FIELD_FILE_NAME).toString();
+                String strFieldName = recFieldData.getField(FieldData.FIELD_NAME).toString();
+                String strBaseFieldName = recFieldData.getField(FieldData.BASE_FIELD_NAME).toString();
                 m_BasedFieldHelper.getBasedField(recFieldData, strRecordClass, strFieldName, strBaseFieldName);  // Get the field this is based on
         
-                String strClassInfoHandle = this.getProperty(ClassInfo.kClassInfoFile);
+                String strClassInfoHandle = this.getProperty(ClassInfo.CLASS_INFO_FILE);
                 if (strClassInfoHandle != null)
                     recClassInfo.setHandle(strClassInfoHandle, DBConstants.OBJECT_ID_HANDLE);  // Get the record
                 else
                 {   // Had to fake a class for this field
                     recClassInfo.addNew();
-                    recClassInfo.getField(ClassInfo.kClassName).setString(this.getProperty(recClassInfo.getField(ClassInfo.kClassName).getFieldName()));
-                    recClassInfo.getField(ClassInfo.kBaseClassName).setString(this.getProperty(recClassInfo.getField(ClassInfo.kBaseClassName).getFieldName()));
-                    recClassInfo.getField(ClassInfo.kClassPackage).setString(this.getProperty(recClassInfo.getField(ClassInfo.kClassPackage).getFieldName()));
-                    recClassInfo.getField(ClassInfo.kClassProjectID).setString(this.getProperty(recClassInfo.getField(ClassInfo.kClassProjectID).getFieldName()));
+                    recClassInfo.getField(ClassInfo.CLASS_NAME).setString(this.getProperty(recClassInfo.getField(ClassInfo.CLASS_NAME).getFieldName()));
+                    recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).setString(this.getProperty(recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).getFieldName()));
+                    recClassInfo.getField(ClassInfo.CLASS_PACKAGE).setString(this.getProperty(recClassInfo.getField(ClassInfo.CLASS_PACKAGE).getFieldName()));
+                    recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID).setString(this.getProperty(recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID).getFieldName()));
                 }
             } catch (DBException ex)    {
                 ex.printStackTrace();
             }
         }
-        strFieldClass = recClassInfo.getField(ClassInfo.kClassName).getString();
+        strFieldClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
 
         this.writeHeading(strFieldClass, this.getPackage(codeType), CodeType.THICK);   // Write the first few lines of the files
         this.writeIncludes(CodeType.THICK);
@@ -126,7 +126,7 @@ public class WriteFieldClass extends WriteSharedClass
     {
         String strClassName;
         Record recClassInfo = this.getMainRecord();
-        strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
+        strClassName = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
         if (this.readThisMethod(strClassName))
             this.writeThisMethod(CodeType.THICK);
         else
@@ -137,12 +137,12 @@ public class WriteFieldClass extends WriteSharedClass
      */
     public void writeInitField()
     {
-        Record recLogicFile = this.getRecord(LogicFile.kLogicFileFile);
+        Record recLogicFile = this.getRecord(LogicFile.LOGIC_FILE_FILE);
         try   {
             String strClassName;
             Record recClassInfo = this.getMainRecord();
-            FieldData recFieldData = (FieldData)this.getRecord(FieldData.kFieldDataFile);
-            strClassName = recClassInfo.getField(ClassInfo.kClassName).getString();
+            FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);
+            strClassName = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
             if (this.readThisMethod("initField"))
                 this.writeThisMethod(CodeType.THICK);
             else
@@ -150,8 +150,8 @@ public class WriteFieldClass extends WriteSharedClass
                 String strInitField = this.getInitField(recFieldData, false, false);
                 if (strInitField.length() != 0)
                 {
-                    recLogicFile.getField(LogicFile.kMethodName).setString("initField");
-                    recLogicFile.setKeyArea(LogicFile.kMethodClassNameKey);
+                    recLogicFile.getField(LogicFile.METHOD_NAME).setString("initField");
+                    recLogicFile.setKeyArea(LogicFile.METHOD_CLASS_NAME_KEY);
                     if (!recLogicFile.seek("="))
                     {
                         this.writeMethodInterface(null, "initField", "int", "boolean displayOption", "", "Initialize the field.", null);
@@ -191,7 +191,7 @@ public class WriteFieldClass extends WriteSharedClass
         } catch (DBException ex)    {
             ex.printStackTrace();
         } finally {
-            recLogicFile.setKeyArea(LogicFile.kSequenceKey);   // set this back
+            recLogicFile.setKeyArea(LogicFile.SEQUENCE_KEY);   // set this back
         }
     }
 }

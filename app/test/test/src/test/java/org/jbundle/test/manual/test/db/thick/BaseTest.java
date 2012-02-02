@@ -102,11 +102,11 @@ public class BaseTest extends TestCase {
                 testTable.setOpenMode(DBConstants.OPEN_REFRESH_AND_LOCK_ON_CHANGE_STRATEGY);  // Make sure keys are updated before sync
 
             testTable.getField(TestTable.kID).setString("1");
-            testTable.getField(TestTable.kTestName).setString("A - Excellent Agent");
-            testTable.getField(TestTable.kTestMemo).setString("This is a very long line\nThis is the second line.");
-            testTable.getField(TestTable.kTestYesNo).setState(true);
-            testTable.getField(TestTable.kTestLong).setValue(15000000);
-            testTable.getField(TestTable.kTestShort).setValue(14000);
+            testTable.getField(TestTable.TEST_NAME).setString("A - Excellent Agent");
+            testTable.getField(TestTable.TEST_MEMO).setString("This is a very long line\nThis is the second line.");
+            testTable.getField(TestTable.TEST_YES_NO).setState(true);
+            testTable.getField(TestTable.TEST_LONG).setValue(15000000);
+            testTable.getField(TestTable.TEST_SHORT).setValue(14000);
             date = new Date();
 //////////////////////////
             BaseField.gCalendar.setTime(date);
@@ -114,49 +114,49 @@ public class BaseTest extends TestCase {
             date = BaseField.gCalendar.getTime();
 //////////////////////////
 
-            ((DateTimeField)testTable.getField(TestTable.kTestDateTime)).setDateTime(date, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
-            ((DateTimeField)testTable.getField(TestTable.kTestDate)).setDate(date, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
-            testTable.getField(TestTable.kTestTime).setString("5:15 PM");
-            Calendar cal = ((DateTimeField)testTable.getField(TestTable.kTestTime)).getCalendar();
+            ((DateTimeField)testTable.getField(TestTable.TEST_DATE_TIME)).setDateTime(date, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
+            ((DateTimeField)testTable.getField(TestTable.TEST_DATE)).setDate(date, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
+            testTable.getField(TestTable.TEST_TIME).setString("5:15 PM");
+            Calendar cal = ((DateTimeField)testTable.getField(TestTable.TEST_TIME)).getCalendar();
             if (cal.get(Calendar.HOUR_OF_DAY) != 17)
-                testTable.getField(TestTable.kTestTime).setString("17:15");
-            testTable.getField(TestTable.kTestFloat).setValue(1234.56);
-            testTable.getField(TestTable.kTestDouble).setValue(1234567.8912);
-            testTable.getField(TestTable.kTestPercent).setValue(34.56);
-            testTable.getField(TestTable.kTestReal).setValue(5432.432);
-            testTable.getField(TestTable.kTestCurrency).setValue(1234567.89);
-            testTable.getField(TestTable.kTestKey).setString("A");
+                testTable.getField(TestTable.TEST_TIME).setString("17:15");
+            testTable.getField(TestTable.TEST_FLOAT).setValue(1234.56);
+            testTable.getField(TestTable.TEST_DOUBLE).setValue(1234567.8912);
+            testTable.getField(TestTable.TEST_PERCENT).setValue(34.56);
+            testTable.getField(TestTable.TEST_REAL).setValue(5432.432);
+            testTable.getField(TestTable.TEST_CURRENCY).setValue(1234567.89);
+            testTable.getField(TestTable.TEST_KEY).setString("A");
 cat.debug(testTable.toString());
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("2");
-            testTable.getField(TestTable.kTestName).setString("B - Good Agent");
-            testTable.getField(TestTable.kTestKey).setString("B");
+            testTable.getField(TestTable.TEST_NAME).setString("B - Good Agent");
+            testTable.getField(TestTable.TEST_KEY).setString("B");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("3");
-            testTable.getField(TestTable.kTestName).setString("C - Average Agent");
-            testTable.getField(TestTable.kTestKey).setString("C");
+            testTable.getField(TestTable.TEST_NAME).setString("C - Average Agent");
+            testTable.getField(TestTable.TEST_KEY).setString("C");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("4");
-            testTable.getField(TestTable.kTestName).setString("F - Fam Trip Agent");
-            testTable.getField(TestTable.kTestKey).setString("B");
+            testTable.getField(TestTable.TEST_NAME).setString("F - Fam Trip Agent");
+            testTable.getField(TestTable.TEST_KEY).setString("B");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("5");
-            testTable.getField(TestTable.kTestName).setString("T - Tour Operator");
-            testTable.getField(TestTable.kTestKey).setString("B");
+            testTable.getField(TestTable.TEST_NAME).setString("T - Tour Operator");
+            testTable.getField(TestTable.TEST_KEY).setString("B");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("6");
-            testTable.getField(TestTable.kTestName).setString("Q - Q Agency");
-            testTable.getField(TestTable.kTestKey).setString("Q");
+            testTable.getField(TestTable.TEST_NAME).setString("Q - Q Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("Q");
             testTable.add();
             cat.debug("6 records added.\n");
         } catch (DBException e)   {
@@ -284,100 +284,100 @@ cat.debug(testTable.toString());
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("1");
-            testTable.getField(TestTable.kTestName).setString("A - Excellent Agent");
-            testTable.getField(TestTable.kTestKey).setString("A");
+            testTable.getField(TestTable.TEST_NAME).setString("A - Excellent Agent");
+            testTable.getField(TestTable.TEST_KEY).setString("A");
             String str = testTable.getField(TestTable.kID).getString();
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("2");
-            testTable.getField(TestTable.kTestName).setString("B - Good Agent");
-            testTable.getField(TestTable.kTestKey).setString("B");
+            testTable.getField(TestTable.TEST_NAME).setString("B - Good Agent");
+            testTable.getField(TestTable.TEST_KEY).setString("B");
             str = testTable.getField(TestTable.kID).getString();
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("3");
-            testTable.getField(TestTable.kTestName).setString("C - Average Agent");
-            testTable.getField(TestTable.kTestKey).setString("C");
+            testTable.getField(TestTable.TEST_NAME).setString("C - Average Agent");
+            testTable.getField(TestTable.TEST_KEY).setString("C");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("4");
-            testTable.getField(TestTable.kTestName).setString("F - Fam Trip Agent");
-            testTable.getField(TestTable.kTestKey).setString("B");
+            testTable.getField(TestTable.TEST_NAME).setString("F - Fam Trip Agent");
+            testTable.getField(TestTable.TEST_KEY).setString("B");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("5");
-            testTable.getField(TestTable.kTestName).setString("T - Tour Operator");
-            testTable.getField(TestTable.kTestKey).setString("B");
+            testTable.getField(TestTable.TEST_NAME).setString("T - Tour Operator");
+            testTable.getField(TestTable.TEST_KEY).setString("B");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("6");
-            testTable.getField(TestTable.kTestName).setString("6 - Q Agency");
-            testTable.getField(TestTable.kTestKey).setString("Q");
+            testTable.getField(TestTable.TEST_NAME).setString("6 - Q Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("Q");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("7");
-            testTable.getField(TestTable.kTestName).setString("7 - Q Agency");
-            testTable.getField(TestTable.kTestKey).setString("G");
+            testTable.getField(TestTable.TEST_NAME).setString("7 - Q Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("G");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("8");
-            testTable.getField(TestTable.kTestName).setString("8 - H Agency");
-            testTable.getField(TestTable.kTestKey).setString("H");
+            testTable.getField(TestTable.TEST_NAME).setString("8 - H Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("H");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("9");
-            testTable.getField(TestTable.kTestName).setString("9 - I Agency");
-            testTable.getField(TestTable.kTestKey).setString("I");
+            testTable.getField(TestTable.TEST_NAME).setString("9 - I Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("I");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("10");
-            testTable.getField(TestTable.kTestName).setString("10 - J Agency");
-            testTable.getField(TestTable.kTestKey).setString("J");
+            testTable.getField(TestTable.TEST_NAME).setString("10 - J Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("J");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("11");
-            testTable.getField(TestTable.kTestName).setString("K - 11 Agency");
-            testTable.getField(TestTable.kTestKey).setString("K");
+            testTable.getField(TestTable.TEST_NAME).setString("K - 11 Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("K");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("12");
-            testTable.getField(TestTable.kTestName).setString("L - 12 Agency");
-            testTable.getField(TestTable.kTestKey).setString("L");
+            testTable.getField(TestTable.TEST_NAME).setString("L - 12 Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("L");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("13");
-            testTable.getField(TestTable.kTestName).setString("M - 13 Agency");
-            testTable.getField(TestTable.kTestKey).setString("M");
+            testTable.getField(TestTable.TEST_NAME).setString("M - 13 Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("M");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("14");
-            testTable.getField(TestTable.kTestName).setString("N - 14 Agency");
-            testTable.getField(TestTable.kTestKey).setString("N");
+            testTable.getField(TestTable.TEST_NAME).setString("N - 14 Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("N");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("15");
-            testTable.getField(TestTable.kTestName).setString("O - 15 Agency");
-            testTable.getField(TestTable.kTestKey).setString("O");
+            testTable.getField(TestTable.TEST_NAME).setString("O - 15 Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("O");
             testTable.add();
 
             testTable.addNew();
             testTable.getField(TestTable.kID).setString("16");
-            testTable.getField(TestTable.kTestName).setString("P - 16 Agency");
-            testTable.getField(TestTable.kTestKey).setString("P");
+            testTable.getField(TestTable.TEST_NAME).setString("P - 16 Agency");
+            testTable.getField(TestTable.TEST_KEY).setString("P");
             testTable.add();
             cat.debug("16 records added.\n");
         } catch (DBException e)   {

@@ -141,7 +141,7 @@ public class HPopupBox extends HScreenField
     }
     /**
      * Get the current string value in HTML.<p/>
-     * May want to check GetRootScreen().GetScreenType() & kInput/DISPLAY_MODE
+     * May want to check GetRootScreen().GetScreenType() & INPUT/DISPLAY_MODE
      * @param out The html out stream.
      * @exception DBException File exception.
      */

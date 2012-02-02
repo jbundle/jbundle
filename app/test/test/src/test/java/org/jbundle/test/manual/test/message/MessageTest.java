@@ -112,13 +112,13 @@ public class MessageTest extends TestCase
         
         TestTable record = new TestTable(this);
         record.addNew();
-        record.getField(TestTable.kTestName).setString("Test Name");
-        record.getField(TestTable.kTestDouble).setValue(1234.56);
-        ((DateTimeField)record.getField(TestTable.kTestDate)).setDate(new Date(), true, Constants.INIT_MOVE);
+        record.getField(TestTable.TEST_NAME).setString("Test Name");
+        record.getField(TestTable.TEST_DOUBLE).setValue(1234.56);
+        ((DateTimeField)record.getField(TestTable.TEST_DATE)).setDate(new Date(), true, Constants.INIT_MOVE);
         message = new TreeMessage(null, null);
-        new MessageFieldDesc(message, record.getField(TestTable.kTestName).getFieldName(), classRawObject, bRequired, objRawDefault);
-        new MessageFieldDesc(message, record.getField(TestTable.kTestDouble).getFieldName(), classRawObject, bRequired, objRawDefault);
-        new MessageFieldDesc(message, record.getField(TestTable.kTestDate).getFieldName(), Date.class, bRequired, objRawDefault);
+        new MessageFieldDesc(message, record.getField(TestTable.TEST_NAME).getFieldName(), classRawObject, bRequired, objRawDefault);
+        new MessageFieldDesc(message, record.getField(TestTable.TEST_DOUBLE).getFieldName(), classRawObject, bRequired, objRawDefault);
+        new MessageFieldDesc(message, record.getField(TestTable.TEST_DATE).getFieldName(), Date.class, bRequired, objRawDefault);
         message.getMessageDataDesc(null).putRawRecordData(record);
         this.printMessage(message);        
         record = new TestTable(null);

@@ -1150,7 +1150,7 @@ public class BaseField extends FieldInfo
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         ScreenComponent screenField = null;
-        if (converter.getMaxLength() <= ScreenConstants.kMaxEditLineChars)
+        if (converter.getMaxLength() <= ScreenConstants.MAX_EDIT_LINE_CHARS)
             screenField = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
         else
         {

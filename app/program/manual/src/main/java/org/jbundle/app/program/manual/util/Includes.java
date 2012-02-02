@@ -18,7 +18,7 @@ import org.jbundle.model.DBException;
         //*******************************************************************
     //  Includes - List of all source files already included in this file
     //*******************************************************************
-//  enum eIncludeType {kNormalInclude, kMethodInclude, kForwardInclude};
+//  enum eIncludeType {kNormalInclude, METHOD_INCLUDE, FORWARD_INCLUDE};
 public class Includes extends NameList
 {
     private static final long serialVersionUID = 1L;
@@ -40,8 +40,8 @@ public class Includes extends NameList
     public void addInclude(String strClassName)
     {
         try   {
-            m_recClassInfo.getField(ClassInfo.kClassName).setString(strClassName);
-            m_recClassInfo.setKeyArea(ClassInfo.kClassNameKey);
+            m_recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strClassName);
+            m_recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
             if ((m_recClassInfo.seek("=")) && (strClassName != null) && (strClassName.length() > 0))
             {   // If the based record class is in another file, include it!
                 String strPackage = m_recClassInfo.getPackageName();

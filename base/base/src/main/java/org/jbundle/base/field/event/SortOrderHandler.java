@@ -31,9 +31,9 @@ import org.jbundle.model.screen.ScreenComponent;
  * For example, you might code a vendor grid screen display as:
  * <pre>
  * QueryKeyHandler keyBehavior = new QueryKeyHandler(this);
- * keyBehavior.setGridTable(Vendor.kNameSortKey, recVendor, 0);
- * keyBehavior.setGridTable(Vendor.kCodeKey, recVendor, 1);
- * recScreenRecord.getField(VendorScreenRecord.kVendorKey).addListener(keyBehavior);
+ * keyBehavior.setGridTable(Vendor.NAME_SORT_KEY, recVendor, 0);
+ * keyBehavior.setGridTable(Vendor.CODE_KEY, recVendor, 1);
+ * recScreenRecord.getField(VendorScreenRecord.VENDOR_KEY).addListener(keyBehavior);
  * </pre>
  * Then, index 0 if name order, index 1 is code order.
  *
