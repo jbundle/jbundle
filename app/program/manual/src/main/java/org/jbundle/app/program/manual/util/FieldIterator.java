@@ -39,20 +39,20 @@ import org.jbundle.model.DBException;
     /**
      * Constructor.
      */
-    public FieldIterator(Record recFileHdr, Record recClassInfo, Record recFieldData)
+    public FieldIterator(Record recFileHdr, Record recClassInfo, Record recFieldData, boolean bSharedOnly)
     {
         this();
-        this.init(recFileHdr, recClassInfo, recFieldData);
+        this.init(recFileHdr, recClassInfo, recFieldData, bSharedOnly);
     }
     /**
      * Constructor.
      */
-    public void init(Record recFileHdr, Record recClassInfo, Record recFieldData)
+    public void init(Record recFileHdr, Record recClassInfo, Record recFieldData, boolean bSharedOnly)
     {
         m_recFileHdr = recFileHdr;
         m_recClassInfo = recClassInfo;
         m_recFieldData = recFieldData;
-        m_bSharedOnly = true;
+        m_bSharedOnly = bSharedOnly;
 
         int iOldKeyOrder = m_recFileHdr.getDefaultOrder();
         try {
@@ -399,7 +399,7 @@ import org.jbundle.model.DBException;
     {
         for (int i = 1; i < strClassNames.length; i++)
         {
-            this.scanRecordFields(strClassNames, i, true); // Keep unused base fields.
+            this.scanRecordFields(strClassNames, i, m_bSharedOnly); // Keep unused base fields.
         }
 //x        this.scanRecordFields(strClassNames[strClassNames.length -1], recClassInfo, recFieldData, true);
     }

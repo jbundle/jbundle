@@ -138,7 +138,7 @@ public class WriteRecordClass extends WriteSharedClass
         // Now write out the BaseField classes
             Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);
         
-            FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
+            FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData, true);
             while (fieldIterator.hasNext())
             {
                 fieldIterator.next();
@@ -188,7 +188,7 @@ public class WriteRecordClass extends WriteSharedClass
         Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);
         Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);
 
-        FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
+        FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData, true);
         while (fieldIterator.hasNext())
         {
             fieldIterator.next();
@@ -364,7 +364,7 @@ public class WriteRecordClass extends WriteSharedClass
         m_StreamOut.setTabs(+1);
 
         this.readRecordClass(strClassName);     // Return the record to the original position
-        FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
+        FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData, true);
         this.writeFieldOffsets(fieldIterator, CodeType.INTERFACE);
         this.writeKeyOffsets(CodeType.INTERFACE);   // Write the Key offsets
         this.writeClassFields(CodeType.INTERFACE);    // Write the thin class fields.
@@ -451,9 +451,10 @@ public class WriteRecordClass extends WriteSharedClass
         m_StreamOut.setTabs(-1);
         m_StreamOut.writeit("{\n");
         m_StreamOut.setTabs(+1);
+        m_StreamOut.writeit("private static final long serialVersionUID = 1L;\n");
 
         this.readRecordClass(strClassName);     // Return the record to the original position
-        FieldIterator fieldIterator = new ThinFieldIterator(recFileHdr, recClassInfo, recFieldData);
+        FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData, false);
         this.writeFieldOffsets(fieldIterator, CodeType.THIN);
         this.writeClassFields(CodeType.THIN);    // Write the thin class fields.
         
@@ -581,7 +582,9 @@ public class WriteRecordClass extends WriteSharedClass
                             fieldStuff.strFieldLength = Integer.toString(TimeField.TIME_DEFAULT_LENGTH);
                     }
                 }
-                m_StreamOut.writeit(strPre + "field = new " + fieldStuff.strFieldClass + "(this, \"" + fieldStuff.strFileFieldName + "\", " + fieldStuff.strFieldLength + ", " + fieldStuff.strFieldDesc + ", " + fieldStuff.strDefaultField + ");\n");
+
+                m_StreamOut.writeit(strPre + "field = new " + fieldStuff.strFieldClass + "(this, " + this.convertNameToConstant(fieldStuff.strFileFieldName) + ", " + fieldStuff.strFieldLength + ", " + fieldStuff.strFieldDesc + ", " + fieldStuff.strDefaultField + ");\n");
+
                 if (fieldStuff.strDataClass.equals("Percent"))
                     fieldStuff.strDataClass = "Float";
                 if ((fieldStuff.strDataClass.equals("Currency")) || (fieldStuff.strDataClass.equals("Real")))
@@ -727,7 +730,7 @@ public class WriteRecordClass extends WriteSharedClass
 
             Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);
             Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);
-            FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
+            FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData, true);
         	this.writeFieldOffsets(fieldIterator, CodeType.THICK); // Write the BaseField offsets
             this.writeKeyOffsets(CodeType.THICK);   // Write the Key offsets
         
@@ -754,11 +757,11 @@ public class WriteRecordClass extends WriteSharedClass
 
                 if ((dBFileName != null) && (dBFileName.length() > 0))
                 {
-                    m_StreamOut.writeit("\npublic static final String k" + strRecordClass + "File = \"" + dBFileName + "\";\n");
+                    //m_StreamOut.writeit("\npublic static final String k" + strRecordClass + "File = \"" + dBFileName + "\";\n");
                     if (!this.readThisMethod("getTableNames"))
                     {
                     	this.writeMethodInterface(null, "getTableNames", "String", "boolean bAddQuotes", "", "Get the table name.", null);
-                    	m_StreamOut.writeit("\treturn (m_tableName == null) ? Record.formatTableNames(k" + strRecordClass + "File, bAddQuotes) : super.getTableNames(bAddQuotes);\n}\n");
+                    	m_StreamOut.writeit("\treturn (m_tableName == null) ? Record.formatTableNames(" + this.convertNameToConstant(strRecordClass + "File") + ", bAddQuotes) : super.getTableNames(bAddQuotes);\n}\n");
                     }
                 }
                 String recordName = recFileHdr.getField(FileHdr.FILE_REC_CALLED).getString();    // Description of a record
@@ -812,7 +815,7 @@ public class WriteRecordClass extends WriteSharedClass
      */
     public void writeFieldOffsets(FieldIterator fieldIterator, CodeType codeType)
     { // Now, write all the field offsets out in the header file
-        Record recClassInfo = this.getMainRecord();
+        ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
         boolean firstTime = true;
         String strBaseRecordClass, strBaseFieldName, strFieldName, strRecordClass;
         strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
@@ -847,8 +850,10 @@ public class WriteRecordClass extends WriteSharedClass
             return;
         }
 */
-        String strLastField = strBaseRecordClass + "LastField";
-
+        //String strLastField = strBaseRecordClass + "LastField";
+        boolean alwaysIncludeInModel = false;
+        if (!recClassInfo.isARecord(true))
+            alwaysIncludeInModel = true;      // Always include in model for records
         for (int pass = 1; pass <= 2; ++pass) // Do this two times (two passes)
         {
             fieldIterator.close();
@@ -857,9 +862,7 @@ public class WriteRecordClass extends WriteSharedClass
                 fieldIterator.next();
                 strFieldName = recFieldData.getField(FieldData.FIELD_NAME).getString();
                 strBaseFieldName = recFieldData.getField(FieldData.BASE_FIELD_NAME).getString();
-                String type = "int";
-                if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
-                    type = "String";
+                String type = "String";
                 switch (pass)
                 {
                 case 1:     // First, add all fields based on the super.New8 class
@@ -876,33 +879,40 @@ public class WriteRecordClass extends WriteSharedClass
 //                            if (!concreteClass)
 //                                break;
                         String value;
-                        if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
+                        //if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
                             value = convertNameToConstant(strBaseFieldName);
-                        else
-                            value = "k" + strBaseFieldName;
+                        //else
+                        //    value = "k" + strBaseFieldName;
                         String strPre = DBConstants.BLANK;
                         if (recFieldData.getField(FieldData.FIELD_NAME).getString().equals(strBaseFieldName))
                             strPre = "//";
-                        if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
+                        //if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
                             strFieldName = convertNameToConstant(strFieldName);
-                        else
-                            strFieldName = "k" + strFieldName;
-                        m_StreamOut.writeit("\n" + strPre + "public static final " + type + " " + strFieldName + " = " + value + ";");
+                        //else
+                        //    strFieldName = "k" + strFieldName;
+                        boolean includeThis = ((IncludeScopeField)recFieldData.getField(FieldData.INCLUDE_SCOPE)).includeThis(codeType, true);
+                        if (alwaysIncludeInModel)
+                            includeThis = codeType == CodeType.INTERFACE ? true : false;
+                        if (includeThis)
+                            m_StreamOut.writeit("\n" + strPre + "public static final " + type + " " + strFieldName + " = " + value + ";");
                     }
                     break;
                 case 2:     // Now, add all fields new to this class
                     if (strBaseFieldName.length() == 0)
                     {
                         firstTime = false;
-                        if (((IncludeScopeField)recFieldData.getField(FieldData.INCLUDE_SCOPE)).includeThis(codeType, true))
+                        boolean includeThis = ((IncludeScopeField)recFieldData.getField(FieldData.INCLUDE_SCOPE)).includeThis(codeType, true);
+                        if (alwaysIncludeInModel)
+                            includeThis = codeType == CodeType.INTERFACE ? true : false;
+                        if (includeThis)
                         {
                             String strFieldConstant = this.convertNameToConstant(strFieldName);
                             m_StreamOut.writeit("\n" + "public static final String " + strFieldConstant + " = \"" + strFieldName + "\";");
                         }
-                        String tempStr3 = " = k" + strLastField + " + 1;";
-                        if (codeType == CodeType.THICK)
-                            m_StreamOut.writeit("\npublic static final int k" + strFieldName + tempStr3);
-                        strLastField = strFieldName;
+                        //String tempStr3 = " = k" + strLastField + " + 1;";
+                        //if (codeType == CodeType.THICK)
+                        //    m_StreamOut.writeit("\npublic static final int k" + strFieldName + tempStr3);
+                        //strLastField = strFieldName;
                         break;
                     }
                 }
@@ -912,12 +922,12 @@ public class WriteRecordClass extends WriteSharedClass
             {
                 if (!firstTime)
                 {
-                    if (codeType == CodeType.THICK)
-                    {
-                        m_StreamOut.writeit("\npublic static final int k" + strRecordClass + "LastField = k" + strLastField + ";\n");
-                        m_StreamOut.writeit("public static final int k" + strRecordClass + "Fields = k" + strLastField + " - DBConstants.MAIN_FIELD + 1;\n");
-                    }
-                    else
+                    //if (codeType == CodeType.THICK)
+                    //{
+                    //    m_StreamOut.writeit("\npublic static final int k" + strRecordClass + "LastField = k" + strLastField + ";\n");
+                    //    m_StreamOut.writeit("public static final int k" + strRecordClass + "Fields = k" + strLastField + " - DBConstants.MAIN_FIELD + 1;\n");
+                    //}
+                    //else
                         m_StreamOut.writeit("\n");
                 }
             }
@@ -931,7 +941,7 @@ public class WriteRecordClass extends WriteSharedClass
     { // Now, write all the key offsets out
         Record recClassInfo = this.getMainRecord();
         try   {
-            String previousKey;
+            //String previousKey;
             String strKeyName = "";
             String strRecordClass;
             String uniqueKeyFields[] = new String[10];
@@ -942,7 +952,7 @@ public class WriteRecordClass extends WriteSharedClass
             Record recKeyInfo = this.getRecord(KeyInfo.KEY_INFO_FILE);
             recKeyInfo.close();
             int count = 0;
-            String strLastKeyName = "DBConstants.MAIN_KEY_FIELD;";
+            //String strLastKeyName = "DBConstants.MAIN_KEY_FIELD;";
             while (recKeyInfo.hasNext())
             {
                 recKeyInfo.next();
@@ -954,25 +964,25 @@ public class WriteRecordClass extends WriteSharedClass
                 }
                 if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
                     strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
-                if (count == 1)
-                {
-                    previousKey = "DBConstants.MAIN_KEY_FIELD;";
-                }
-                else
-                    previousKey = "k" + strLastKeyName + "Key + 1;";
+                //if (count == 1)
+                //{
+                //    previousKey = "DBConstants.MAIN_KEY_FIELD;";
+                //}
+                //else
+                //    previousKey = "k" + strLastKeyName + "Key + 1;";
                 
-                if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
-                {
+                //if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
+                //{
                     if (!((IncludeScopeField)recKeyInfo.getField(KeyInfo.INCLUDE_SCOPE)).includeThis(codeType, true))
                         continue;
                     if (keyInBase(recClassInfo, recKeyInfo))
                         continue;
                     if (count > 1)
                         m_StreamOut.writeit("\npublic static final String " + this.convertNameToConstant(strKeyName + "Key") + " = \"" + strKeyName +"\";\n");
-                    continue;
-                }
+                //    continue;
+                //}
                     
-                m_StreamOut.writeit("\npublic static final int k" + strKeyName + "Key = " + previousKey);
+                //m_StreamOut.writeit("\npublic static final int k" + strKeyName + "Key = " + previousKey);
                     // This logic here checks to see if this is a unique key with one field, if yes adds field to array
                 String keyTypeStr, strKeyFieldName;
                 keyTypeStr = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
@@ -986,15 +996,15 @@ public class WriteRecordClass extends WriteSharedClass
                     uniqueKeySeq[uniqueKeyCount] = strKeyName;
                     uniqueKeyCount++;
                 }
-                strLastKeyName = strKeyName;
+                //strLastKeyName = strKeyName;
             }
             recKeyInfo.close();
-            if (count > 0)
-                if (codeType == CodeType.THICK)
-            {
-                m_StreamOut.writeit("\npublic static final int k" + strRecordClass + "LastKey = k" + strKeyName + "Key;\n");
-                m_StreamOut.writeit("public static final int k" + strRecordClass + "Keys = k" + strKeyName + "Key - DBConstants.MAIN_KEY_FIELD + 1;\n");
-            }
+            //if (count > 0)
+            //    if (codeType == CodeType.THICK)
+            //{
+            //    m_StreamOut.writeit("\npublic static final int k" + strRecordClass + "LastKey = k" + strKeyName + "Key;\n");
+            //    m_StreamOut.writeit("public static final int k" + strRecordClass + "Keys = k" + strKeyName + "Key - DBConstants.MAIN_KEY_FIELD + 1;\n");
+            //}
             return;
         } catch (DBException ex)   {
             ex.printStackTrace();
@@ -1119,17 +1129,18 @@ public class WriteRecordClass extends WriteSharedClass
     // Now, write all the record methods
         Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);          // Open the Agency File
         Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);          // Open the Agency File
-        FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData);
+        FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData, false);
         if (!fieldIterator.hasNext())
             return;
 
     // Initialization method
-        String strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
+        //String strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
 
         this.writeMethodInterface(null, "setupField", "BaseField", "int iFieldSeq", "", "Add this field in the Record's field sequence.", null);
         m_StreamOut.setTabs(+1);
         m_StreamOut.writeit("BaseField field = null;\n");
 
+        int count = 0;
         while (fieldIterator.hasNext())
         {
             recFieldData = (Record)fieldIterator.next();
@@ -1148,7 +1159,7 @@ public class WriteRecordClass extends WriteSharedClass
 
             if ((recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase("N")) || (fieldStuff.bNotNullField))
                 strPre = DBConstants.BLANK;
-            m_StreamOut.writeit(strPre + "if (iFieldSeq == k" + fieldStuff.strFieldName + ")\n");
+            m_StreamOut.writeit(strPre + "if (iFieldSeq == " + count++ + ")\n");
             String strFieldType = recFieldData.getField(FieldData.FIELD_TYPE).getString();
             String strDefaultValue = recFieldData.getField(FieldData.DEFAULT_VALUE).getString();
             String strMinimumLength = recFieldData.getField(FieldData.MINIMUM_LENGTH).getString();
@@ -1160,7 +1171,9 @@ public class WriteRecordClass extends WriteSharedClass
             if (!fieldStuff.strFieldDesc.equals("null"))
                 fieldStuff.strFieldDesc = "\"" + fieldStuff.strFieldDesc + "\"";
             fieldStuff.strFieldDesc = "null";   // Use the resource file!
-            m_StreamOut.writeit(strPre + "\tfield = new " + fieldStuff.strFieldClass + "(this, \"" + fieldStuff.strFileFieldName + "\", " + fieldStuff.strFieldLength + ", " + fieldStuff.strFieldDesc + ", " + fieldStuff.strDefaultField + ");\n");
+
+            m_StreamOut.writeit(strPre + "\tfield = new " + fieldStuff.strFieldClass + "(this, " + this.convertNameToConstant(fieldStuff.strFileFieldName) + ", " + fieldStuff.strFieldLength + ", " + fieldStuff.strFieldDesc + ", " + fieldStuff.strDefaultField + ");\n");
+
             if (strFieldType.equalsIgnoreCase("N"))     // Virtual BaseField?
                 m_StreamOut.writeit(strPre + "\tfield.setVirtual(true);\n");
             if (bHidden)     // Virtual BaseField?
@@ -1176,14 +1189,14 @@ public class WriteRecordClass extends WriteSharedClass
         }
     //  m_MethodsOut.writeit("default:\n");
         m_StreamOut.writeit("if (field == null)\n");
-        m_StreamOut.writeit("{\n");
+        //m_StreamOut.writeit("{\n");
         m_StreamOut.setTabs(+1);
         m_StreamOut.writeit("field = super.setupField(iFieldSeq);\n");
-        m_StreamOut.writeit("if (field == null) if (iFieldSeq < k" + strRecordClass + "LastField)\n");
-        m_StreamOut.writeit("\tfield = new EmptyField(this);\n");
+        //m_StreamOut.writeit("if (field == null) if (iFieldSeq < k" + strRecordClass + "LastField)\n");
+        //m_StreamOut.writeit("\tfield = new EmptyField(this);\n");
         m_StreamOut.setTabs(-1);
     //  m_MethodsOut.SetTabs(-1);
-        m_StreamOut.writeit("}\n");
+        //m_StreamOut.writeit("}\n");
         m_StreamOut.writeit("return field;\n");
         m_StreamOut.setTabs(-1);
         m_StreamOut.writeit("}\n");
@@ -1219,13 +1232,12 @@ public class WriteRecordClass extends WriteSharedClass
             while (recKeyInfo.hasNext())
             {
                 recKeyInfo.next();
-                count++;
                 strDaoKeyName = "";
                 strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
                 if (strKeyName.length() == 0)
                 {
                     strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
-                    if (count == 1)
+                    if (count == 0)
                         strDaoKeyName = DBConstants.PRIMARY_KEY;
                     else
                     {   // No key name, use the field name!
@@ -1244,7 +1256,7 @@ public class WriteRecordClass extends WriteSharedClass
                     strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
                 strKeyName = strKeyName + "Key";
         //      m_MethodsOut.writeit("case k" + strKeyName + ":\n");
-                m_StreamOut.writeit("if (iKeyArea == k" + strKeyName + ")\n");
+                m_StreamOut.writeit("if (iKeyArea == " + count++ + ")\n");
                 m_StreamOut.writeit("{\n");
                 m_StreamOut.setTabs(+1);
                 String strKeyType, strKeyFieldName;
@@ -1276,25 +1288,25 @@ public class WriteRecordClass extends WriteSharedClass
                     String strAscending = "ASCENDING";
                     if (!bAscending)
                         strAscending = "DESCENDING";
-                    m_StreamOut.writeit("keyArea.addKeyField(k" + strKeyFieldName + ", DBConstants." + strAscending + ");\n");
+                    m_StreamOut.writeit("keyArea.addKeyField(" + this.convertNameToConstant(strKeyFieldName) + ", DBConstants." + strAscending + ");\n");
                 }
         //      m_MethodsOut.writeit("break;\n");
                 m_StreamOut.setTabs(-1);
                 m_StreamOut.writeit("}\n");
             }
             recKeyInfo.close();
-            m_StreamOut.writeit("if (keyArea == null) if (iKeyArea < k" + strRecordClass + "LastKey)\n");
+            m_StreamOut.writeit("if (keyArea == null)\n");
         //  m_MethodsOut.writeit("default:\n");
-            m_StreamOut.writeit("{\n");
+            //m_StreamOut.writeit("{\n");
             m_StreamOut.setTabs(+1);
             m_StreamOut.writeit("keyArea = super.setupKey(iKeyArea);\t\t\n");
-            if (strKeyName.length() != 0)
-            {
-                m_StreamOut.writeit("if (keyArea == null) if (iKeyArea < k" + strRecordClass + "LastKey)\n");
-                m_StreamOut.writeit("\tkeyArea = new EmptyKey(this);\n");
-            }
+            //if (strKeyName.length() != 0)
+            //{
+            //    m_StreamOut.writeit("if (keyArea == null) if (iKeyArea < k" + strRecordClass + "LastKey)\n");
+            //    m_StreamOut.writeit("\tkeyArea = new EmptyKey(this);\n");
+            //}
             m_StreamOut.setTabs(-1);
-            m_StreamOut.writeit("}\n");
+            //m_StreamOut.writeit("}\n");
         //  m_MethodsOut.writeit("break;\n");
         //  m_MethodsOut.SetTabs(-1);
         //  m_MethodsOut.writeit("}\n");

@@ -243,7 +243,7 @@ public class CompareFileFilter extends FileFilter
         if (m_fldToCheck == null)
             if (fieldNameToCheck != null)
                 recordField = this.getOwner().getField(fieldNameToCheck);   //.getText(recordString);
-        if (m_fldToCheck == null)
+        if (recordField == null)
             recordField = this.getOwner().getField(m_iFieldSeqToCheck);   //.getText(recordString);
         if (m_fldToCompare != null)
             if (m_bDontFilterIfNullCompare)

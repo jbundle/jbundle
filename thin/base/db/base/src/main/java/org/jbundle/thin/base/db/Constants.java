@@ -115,7 +115,7 @@ public interface Constants extends Constant
     public static final String IMAGE_LOCATION = RES_LOCATION + "/images";
     public static final String DOC_LOCATION = RES_LOCATION + "/docs";
     public static final String SEEK_CURRENT_RECORD = "*"; // Package prefix
-    public static final String PRIMARY_KEY = "PrimaryKey";
+    public static final String PRIMARY_KEY = "ID";
     public static final String TIP = "Tip";     // Suffix on field tips
     public static final int NO_PARAMS_FOUND = -2;
     public static final int ACCESS_DENIED = 101;
