@@ -15,10 +15,8 @@ import org.jbundle.model.main.calendar.db.*;
 public class CalendarControl extends FieldList
     implements CalendarControlModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public CalendarControl()
     {
@@ -57,33 +55,33 @@ public class CalendarControl extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastUpdateDate", 25, null, null);
+        field = new FieldInfo(this, LAST_UPDATE_DATE, 25, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "StartAnnivDate", 25, null, null);
+        field = new FieldInfo(this, START_ANNIV_DATE, 25, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "EndAnnivDate", 25, null, null);
+        field = new FieldInfo(this, END_ANNIV_DATE, 25, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "UpdateDays", 10, null, new Integer(1));
+        field = new FieldInfo(this, UPDATE_DAYS, 10, null, new Integer(1));
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "AnnivBackDays", 10, null, new Integer(0));
+        field = new FieldInfo(this, ANNIV_BACK_DAYS, 10, null, new Integer(0));
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "AnniversaryDays", 10, null, new Integer(60));
+        field = new FieldInfo(this, ANNIVERSARY_DAYS, 10, null, new Integer(60));
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "AnniversaryCategoryID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ANNIVERSARY_CATEGORY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "AppointmentCategoryID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, APPOINTMENT_CATEGORY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
     }
     /**
@@ -92,7 +90,7 @@ public class CalendarControl extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
     }
 

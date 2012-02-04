@@ -99,12 +99,12 @@ public class ClassProjectGridScreen extends FolderGridScreen
      */
     public void setupSFields()
     {
-        this.getRecord(ClassProject.kClassProjectFile).getField(ClassProject.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassProject.kClassProjectFile).getField(ClassProject.kDescription).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassProject.kClassProjectFile).getField(ClassProject.kProjectPath).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassProject.kClassProjectFile).getField(ClassProject.kThinProjectPath).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassProject.kClassProjectFile).getField(ClassProject.kResProjectPath).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassProject.kClassProjectFile).getField(ClassProject.kPackageName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassProject.CLASS_PROJECT_FILE).getField(ClassProject.NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassProject.CLASS_PROJECT_FILE).getField(ClassProject.DESCRIPTION).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassProject.CLASS_PROJECT_FILE).getField(ClassProject.PROJECT_PATH).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassProject.CLASS_PROJECT_FILE).getField(ClassProject.THIN_PROJECT_PATH).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassProject.CLASS_PROJECT_FILE).getField(ClassProject.RES_PROJECT_PATH).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassProject.CLASS_PROJECT_FILE).getField(ClassProject.PACKAGE_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

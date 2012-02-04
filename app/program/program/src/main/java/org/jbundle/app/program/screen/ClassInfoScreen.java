@@ -145,8 +145,8 @@ public class ClassInfoScreen extends Screen
      */
     public void setupSFields()
     {
-        this.getRecord(ClassInfo.kClassInfoFile).getField(ClassInfo.kClassName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassInfo.kClassInfoFile).getField(ClassInfo.kBaseClassName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassInfo.CLASS_INFO_FILE).getField(ClassInfo.CLASS_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassInfo.CLASS_INFO_FILE).getField(ClassInfo.BASE_CLASS_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * Make a sub-screen.

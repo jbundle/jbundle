@@ -33,16 +33,6 @@ public class Messages extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kDescription = kVirtualRecordLastField + 1;
-    public static final int kEmail = kDescription + 1;
-    public static final int kUserIDField = kEmail + 1;
-    public static final int kMessagesLastField = kUserIDField;
-    public static final int kMessagesFields = kUserIDField - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kMessagesLastKey = kIDKey;
-    public static final int kMessagesKeys = kIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -65,14 +55,12 @@ public class Messages extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kMessagesFile = "Messages";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kMessagesFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(MESSAGES_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -101,23 +89,29 @@ public class Messages extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kDescription)
-            field = new MemoField(this, "Description", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kEmail)
-            field = new StringField(this, "Email", 70, null, null);
-        if (iFieldSeq == kUserIDField)
-            field = new StringField(this, "UserIDField", 50, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new MemoField(this, DESCRIPTION, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, EMAIL, 70, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, USER_ID_FIELD, 50, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kMessagesLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -126,17 +120,13 @@ public class Messages extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kMessagesLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kMessagesLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

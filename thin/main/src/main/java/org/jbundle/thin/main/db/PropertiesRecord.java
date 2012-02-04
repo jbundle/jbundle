@@ -15,8 +15,8 @@ import org.jbundle.model.main.db.*;
 public class PropertiesRecord extends FieldList
     implements PropertiesRecordModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
 
     public PropertiesRecord()
     {

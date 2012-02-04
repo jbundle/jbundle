@@ -81,14 +81,14 @@ public class PackagesReportHeading extends HeadingScreen
      */
     public void setupSFields()
     {
-        this.getRecord(PackagesReportScreenRecord.kPackagesReportScreenRecordFile).getField(PackagesReportScreenRecord.kReportDate).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(PackagesReportScreenRecord.kPackagesReportScreenRecordFile).getField(PackagesReportScreenRecord.kReportTime).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(PackagesReportScreenRecord.kPackagesReportScreenRecordFile).getField(PackagesReportScreenRecord.kReportUserID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(PackagesReportScreenRecord.PACKAGES_REPORT_SCREEN_RECORD_FILE).getField(PackagesReportScreenRecord.REPORT_DATE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(PackagesReportScreenRecord.PACKAGES_REPORT_SCREEN_RECORD_FILE).getField(PackagesReportScreenRecord.REPORT_TIME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(PackagesReportScreenRecord.PACKAGES_REPORT_SCREEN_RECORD_FILE).getField(PackagesReportScreenRecord.REPORT_USER_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, this.getScreenRecord().getField(PackagesReportScreenRecord.JNLP_FILE_ID), ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(JnlpFile.kJnlpFileFile).getField(JnlpFile.kDescription).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(JnlpFile.kJnlpFileFile).getField(JnlpFile.kShortDesc).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(JnlpFile.kJnlpFileFile).getField(JnlpFile.kTitle).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(JnlpFile.kJnlpFileFile).getField(JnlpFile.kIcon).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(JnlpFile.JNLP_FILE_FILE).getField(JnlpFile.DESCRIPTION).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(JnlpFile.JNLP_FILE_FILE).getField(JnlpFile.SHORT_DESC).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(JnlpFile.JNLP_FILE_FILE).getField(JnlpFile.TITLE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(JnlpFile.JNLP_FILE_FILE).getField(JnlpFile.ICON).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

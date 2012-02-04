@@ -15,10 +15,8 @@ import org.jbundle.model.main.db.base.*;
 public class ContactType extends FieldList
     implements ContactTypeModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public ContactType()
     {
@@ -57,24 +55,24 @@ public class ContactType extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Description", 30, null, null);
-        field = new FieldInfo(this, "Code", 15, null, null);
-        field = new FieldInfo(this, "Level", 5, null, new Short((short)1));
+        field = new FieldInfo(this, DESCRIPTION, 30, null, null);
+        field = new FieldInfo(this, CODE, 15, null, null);
+        field = new FieldInfo(this, LEVEL, 5, null, new Short((short)1));
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "ParentContactTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PARENT_CONTACT_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "Icon", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ICON, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "RecordClass", 128, null, null);
+        field = new FieldInfo(this, RECORD_CLASS, 128, null, null);
     }
     /**
     * Set up the key areas.
@@ -82,7 +80,7 @@ public class ContactType extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Description");
         keyArea.addKeyField("Description", Constants.ASCENDING);

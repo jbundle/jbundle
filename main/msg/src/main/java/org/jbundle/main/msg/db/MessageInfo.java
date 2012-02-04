@@ -38,24 +38,6 @@ public class MessageInfo extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kDescription = kVirtualRecordLastField + 1;
-    public static final int kCode = kDescription + 1;
-    public static final int kMessageClass = kCode + 1;
-    public static final int kMessageProperties = kMessageClass + 1;
-    public static final int kMessageInfoTypeID = kMessageProperties + 1;
-    public static final int kReverseMessageInfoID = kMessageInfoTypeID + 1;
-    public static final int kContactTypeID = kReverseMessageInfoID + 1;
-    public static final int kRequestTypeID = kContactTypeID + 1;
-    public static final int kMessageInfoLastField = kRequestTypeID;
-    public static final int kMessageInfoFields = kRequestTypeID - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kDescriptionKey = kIDKey + 1;
-    public static final int kCodeKey = kDescriptionKey + 1;
-    public static final int kMessageInfoTypeIDKey = kCodeKey + 1;
-    public static final int kMessageInfoLastKey = kMessageInfoTypeIDKey;
-    public static final int kMessageInfoKeys = kMessageInfoTypeIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     public static final int PROCESS_DETAIL_MODE = ScreenConstants.LAST_MODE * 4;
     public static final int TRANSPORT_DETAIL_MODE = ScreenConstants.LAST_MODE * 2;
     public static final String ELEMENT = "ota.element";
@@ -83,14 +65,12 @@ public class MessageInfo extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kMessageInfoFile = "MessageInfo";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kMessageInfoFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(MESSAGE_INFO_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -130,36 +110,42 @@ public class MessageInfo extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", 50, null, null);
-        if (iFieldSeq == kCode)
-            field = new StringField(this, "Code", 30, null, null);
-        if (iFieldSeq == kMessageClass)
-            field = new StringField(this, "MessageClass", 127, null, null);
-        if (iFieldSeq == kMessageProperties)
-            field = new PropertiesField(this, "MessageProperties", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageInfoTypeID)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, DESCRIPTION, 50, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, CODE, 30, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, MESSAGE_CLASS, 127, null, null);
+        if (iFieldSeq == 6)
+            field = new PropertiesField(this, MESSAGE_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
         {
-            field = new MessageInfoTypeField(this, "MessageInfoTypeID", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1));
+            field = new MessageInfoTypeField(this, MESSAGE_INFO_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1));
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kReverseMessageInfoID)
-            field = new MessageInfoField(this, "ReverseMessageInfoID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kContactTypeID)
-            field = new ContactTypeField(this, "ContactTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kRequestTypeID)
-            field = new RequestTypeField(this, "RequestTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new MessageInfoField(this, REVERSE_MESSAGE_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
+            field = new ContactTypeField(this, CONTACT_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new RequestTypeField(this, REQUEST_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kMessageInfoLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -168,34 +154,30 @@ public class MessageInfo extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kDescriptionKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Description");
-            keyArea.addKeyField(kDescription, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kCodeKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Code");
-            keyArea.addKeyField(kCode, DBConstants.ASCENDING);
+            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kMessageInfoTypeIDKey)
+        if (iKeyArea == 3)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "MessageInfoTypeID");
-            keyArea.addKeyField(kMessageInfoTypeID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kContactTypeID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kRequestTypeID, DBConstants.ASCENDING);
+            keyArea.addKeyField(MESSAGE_INFO_TYPE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(CONTACT_TYPE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(REQUEST_TYPE_ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kMessageInfoLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kMessageInfoLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

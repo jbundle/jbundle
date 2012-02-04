@@ -34,17 +34,6 @@ public class Anniversary extends CalendarEntry
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    //public static final int kCalendarEntryTypeID = kCalendarEntryTypeID;
-    //public static final int kStartDateTime = kStartDateTime;
-    //public static final int kEndDateTime = kEndDateTime;
-    //public static final int kDescription = kDescription;
-    //public static final int kCalendarCategoryID = kCalendarCategoryID;
-    //public static final int kHidden = kHidden;
-    //public static final int kProperties = kProperties;
-    //public static final int kAnnivMasterID = kAnnivMasterID;
-    public static final int kAnniversaryLastField = kCalendarEntryLastField;
-    public static final int kAnniversaryFields = kCalendarEntryLastField - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -67,14 +56,12 @@ public class Anniversary extends CalendarEntry
     {
         super.init(screen);
     }
-
-    public static final String kAnniversaryFile = "CalendarEntry";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kAnniversaryFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(ANNIVERSARY_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -118,39 +105,45 @@ public class Anniversary extends CalendarEntry
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        //if (iFieldSeq == kCalendarEntryTypeID)
+        //if (iFieldSeq == 1)
         //{
-        //  field = new CalendarEntryTypeField(this, "CalendarEntryTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        //if (iFieldSeq == kStartDateTime)
-        //  field = new DateTimeField(this, "StartDateTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kEndDateTime)
-        //  field = new DateTimeField(this, "EndDateTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kDescription)
-        //  field = new StringField(this, "Description", 60, null, null);
-        //if (iFieldSeq == kCalendarCategoryID)
+        //if (iFieldSeq == 2)
         //{
-        //  field = new CalendarCategoryField(this, "CalendarCategoryID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 3)
+        //{
+        //  field = new CalendarEntryTypeField(this, CALENDAR_ENTRY_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 4)
+        //  field = new DateTimeField(this, START_DATE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 5)
+        //  field = new DateTimeField(this, END_DATE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 6)
+        //  field = new StringField(this, DESCRIPTION, 60, null, null);
+        //if (iFieldSeq == 7)
+        //{
+        //  field = new CalendarCategoryField(this, CALENDAR_CATEGORY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.addListener(new InitOnceFieldHandler(null));
         //}
-        //if (iFieldSeq == kHidden)
-        //  field = new BooleanField(this, "Hidden", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
-        //if (iFieldSeq == kProperties)
-        //  field = new PropertiesField(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kAnnivMasterID)
-            field = new AnnivMasterField(this, "AnnivMasterID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 8)
+        //  field = new BooleanField(this, HIDDEN, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //if (iFieldSeq == 9)
+        //  field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new AnnivMasterField(this, ANNIV_MASTER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kAnniversaryLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**

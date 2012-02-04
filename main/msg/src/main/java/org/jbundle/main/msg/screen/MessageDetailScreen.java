@@ -168,17 +168,17 @@ public class MessageDetailScreen extends DetailScreen
      */
     public void setupSFields()
     {
-        this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageTransportID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kDefaultMessageVersionID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageProcessInfoID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kDestinationSite).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kDestinationPath).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kReturnSite).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kXSLTDocument).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.MESSAGE_TRANSPORT_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.DEFAULT_MESSAGE_VERSION_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.MESSAGE_PROCESS_INFO_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.DESTINATION_SITE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.DESTINATION_PATH).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.RETURN_SITE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.XSLT_DOCUMENT).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         Converter convDefaultTransport = new CheckConverter(this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.DEFAULT_MESSAGE_TRANSPORT_ID), this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.MESSAGE_TRANSPORT_ID), null, true);
         convDefaultTransport.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kInitialManualTransportStatusID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kProperties).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.INITIAL_MANUAL_TRANSPORT_STATUS_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.PROPERTIES).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * Get the command string to restore screen.

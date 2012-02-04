@@ -65,7 +65,7 @@ public class TestReportFooting extends HeadingScreen
      */
     public void setupSFields()
     {
-        this.getRecord(TestReportScreenRecord.kTestReportScreenRecordFile).getField(TestReportScreenRecord.kReportCount).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(TestReportScreenRecord.TEST_REPORT_SCREEN_RECORD_FILE).getField(TestReportScreenRecord.REPORT_COUNT).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

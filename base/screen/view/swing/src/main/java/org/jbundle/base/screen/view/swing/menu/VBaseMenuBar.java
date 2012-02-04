@@ -10,6 +10,7 @@ package org.jbundle.base.screen.view.swing.menu;
  *      don@tourgeek.com
  */
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -84,7 +85,7 @@ public class VBaseMenuBar extends VBasePanel
         if (bSuccess)
             this.getScreenField().getParentScreen().addSField(this.getScreenField(), iToolbarOrder);    // Add this control to the beginning
     
-        JMenuBar control = ((SBaseMenuBar)this.getScreenField()).addMenu(this);
+        JMenuBar control = (JMenuBar)((SBaseMenuBar)this.getScreenField()).addMenu(this);
         control.setAlignmentX(Component.LEFT_ALIGNMENT);
         control.setAlignmentY(Component.TOP_ALIGNMENT);
         control.setOpaque(false);
@@ -92,19 +93,42 @@ public class VBaseMenuBar extends VBasePanel
         return control;
     }
     /**
+     * Create a standard top-level menu.
+     * @return The new menubar.
+     */
+    public JMenuBar createMenu()
+    {
+        JMenuBar menubar = new JMenuBar()
+        {
+            private static final long serialVersionUID = 1L;
+
+            public Dimension getMaximumSize()
+            {   // HACK - Not sure why menu takes up 1/2 of screen...?
+                return new Dimension(super.getMaximumSize().width, super.getPreferredSize().height);
+            }
+        };
+        menubar.setBorderPainted(false);
+        menubar.setOpaque(false);
+        return menubar;
+    }
+    /**
      * Add a standard top-level menu item and the standard detail actions.
      */
-    public JMenu addStandardMenu(String strMenuName, char rgchShortcuts[])
+    public JMenu addStandardMenu(Object menubar, String strMenuName, char rgchShortcuts[])
     {
+        JMenu menu = null;
         if (MenuConstants.FILE.equalsIgnoreCase(strMenuName))
-            return this.addFileMenu(rgchShortcuts);
+            menu = this.addFileMenu(rgchShortcuts);
         if (MenuConstants.EDIT.equalsIgnoreCase(strMenuName))
-            return this.addEditMenu(rgchShortcuts);
+            menu = this.addEditMenu(rgchShortcuts);
         if (MenuConstants.RECORD.equalsIgnoreCase(strMenuName))
-            return this.addRecordMenu(rgchShortcuts);
+            menu = this.addRecordMenu(rgchShortcuts);
         if (MenuConstants.HELP.equalsIgnoreCase(strMenuName))
-            return this.addHelpMenu(rgchShortcuts);
-        return null;
+            menu = this.addHelpMenu(rgchShortcuts);
+
+        ((JMenuBar)menubar).add(menu);
+        
+        return menu;
     }
     /**
      * Add the standard file items to a menu item.
@@ -310,10 +334,10 @@ public class VBaseMenuBar extends VBasePanel
     /**
      * Add the menu items to this frame.
      */
-    public JMenuItem addMenuItem(JMenu menu, String strMenuDesc)
+    public JMenuItem addMenuItem(Object menu, String strMenuDesc)
     {
         JMenuItem menuItem;
-        menu.add(menuItem = new JMenuItem(strMenuDesc));
+        ((JMenu)menu).add(menuItem = new JMenuItem(strMenuDesc));
         menuItem.setOpaque(false);
         menuItem.addActionListener(this);
         return menuItem;

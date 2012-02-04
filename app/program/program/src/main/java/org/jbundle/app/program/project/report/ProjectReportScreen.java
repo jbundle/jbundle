@@ -99,8 +99,8 @@ public class ProjectReportScreen extends ReportScreen
      */
     public void setupSFields()
     {
-        this.getRecord(ProjectTask.kProjectTaskFile).getField(ProjectTask.kStartDateTime).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ProjectTask.kProjectTaskFile).getField(ProjectTask.kDuration).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ProjectTask.PROJECT_TASK_FILE).getField(ProjectTask.START_DATE_TIME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ProjectTask.PROJECT_TASK_FILE).getField(ProjectTask.DURATION).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         Converter converter = this.getRecord(ProjectTask.PROJECT_TASK_FILE).getField(ProjectTask.NAME);
         Converter convIndent = this.getScreenRecord().getField(ProjectTaskScreenRecord.CURRENT_LEVEL);
         converter = new NameIndentConverter(converter, convIndent, +4);

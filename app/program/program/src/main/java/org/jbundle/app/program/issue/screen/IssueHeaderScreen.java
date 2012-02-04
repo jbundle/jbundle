@@ -62,7 +62,7 @@ public class IssueHeaderScreen extends HeaderScreen
      */
     public void setupSFields()
     {
-        this.getRecord(Issue.kIssueFile).getField(Issue.kDescription).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), this, ScreenConstants.DISPLAY_FIELD_DESC);
+        this.getRecord(Issue.ISSUE_FILE).getField(Issue.DESCRIPTION).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), this, ScreenConstants.DISPLAY_FIELD_DESC);
     }
 
 }

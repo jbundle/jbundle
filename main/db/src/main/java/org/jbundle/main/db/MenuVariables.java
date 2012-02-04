@@ -37,13 +37,11 @@ public class MenuVariables extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
-    public static final int kCurrentMenu = kScreenRecordLastField + 1;
-    public static final int kMenuTitle = kCurrentMenu + 1;
-    public static final int kMenuFilter = kMenuTitle + 1;
-    public static final int kMenuHistory = kMenuFilter + 1;
-    public static final int kMenuFormat = kMenuHistory + 1;
-    public static final int kMenuVariablesLastField = kMenuFormat;
-    public static final int kMenuVariablesFields = kMenuFormat - DBConstants.MAIN_FIELD + 1;
+    public static final String CURRENT_MENU = "CurrentMenu";
+    public static final String MENU_TITLE = "MenuTitle";
+    public static final String MENU_FILTER = "MenuFilter";
+    public static final String MENU_HISTORY = "MenuHistory";
+    public static final String MENU_FORMAT = "MenuFormat";
     /**
      * Default constructor.
      */
@@ -67,29 +65,25 @@ public class MenuVariables extends ScreenRecord
         super.init(screen);
     }
 
-    public static final String kMenuVariablesFile = null; // Screen field
+    public static final String MENU_VARIABLES_FILE = null;  // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kCurrentMenu)
-            field = new StringField(this, "CurrentMenu", 30, null, null);
-        if (iFieldSeq == kMenuTitle)
-            field = new StringField(this, "MenuTitle", 255, null, null);
-        if (iFieldSeq == kMenuFilter)
-            field = new StringField(this, "MenuFilter", 255, null, null);
-        if (iFieldSeq == kMenuHistory)
-            field = new StringField(this, "MenuHistory", 255, null, null);
-        if (iFieldSeq == kMenuFormat)
-            field = new MenuVariables_MenuFormat(this, "MenuFormat", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 0)
+            field = new StringField(this, CURRENT_MENU, 30, null, null);
+        if (iFieldSeq == 1)
+            field = new StringField(this, MENU_TITLE, 255, null, null);
+        if (iFieldSeq == 2)
+            field = new StringField(this, MENU_FILTER, 255, null, null);
+        if (iFieldSeq == 3)
+            field = new StringField(this, MENU_HISTORY, 255, null, null);
+        if (iFieldSeq == 4)
+            field = new MenuVariables_MenuFormat(this, MENU_FORMAT, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kMenuVariablesLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

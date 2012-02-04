@@ -36,34 +36,6 @@ public class Person extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kCode = kVirtualRecordLastField + 1;
-    public static final int kName = kCode + 1;
-    public static final int kAddressLine1 = kName + 1;
-    public static final int kAddressLine2 = kAddressLine1 + 1;
-    public static final int kCityOrTown = kAddressLine2 + 1;
-    public static final int kStateOrRegion = kCityOrTown + 1;
-    public static final int kPostalCode = kStateOrRegion + 1;
-    public static final int kCountry = kPostalCode + 1;
-    public static final int kTel = kCountry + 1;
-    public static final int kFax = kTel + 1;
-    public static final int kEmail = kFax + 1;
-    public static final int kWeb = kEmail + 1;
-    public static final int kDateEntered = kWeb + 1;
-    public static final int kDateChanged = kDateEntered + 1;
-    public static final int kChangedID = kDateChanged + 1;
-    public static final int kComments = kChangedID + 1;
-    public static final int kUserID = kComments + 1;
-    public static final int kPassword = kUserID + 1;
-    public static final int kNameSort = kPassword + 1;
-    public static final int kPostalCodeSort = kNameSort + 1;
-    public static final int kPersonLastField = kPostalCodeSort;
-    public static final int kPersonFields = kPostalCodeSort - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kCodeKey = kIDKey + 1;
-    public static final int kPersonLastKey = kCodeKey;
-    public static final int kPersonKeys = kCodeKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -87,64 +59,70 @@ public class Person extends VirtualRecord
         super.init(screen);
     }
 
-    public static final String kPersonFile = null;  // Screen field
+    public static final String PERSON_FILE = null;  // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kID)
+        if (iFieldSeq == 0)
         {
-            field = new CounterField(this, "ID", 8, null, null);
+            field = new CounterField(this, ID, 8, null, null);
             field.setHidden(true);
         }
-        if (iFieldSeq == kCode)
-            field = new StringField(this, "Code", 16, null, null);
-        if (iFieldSeq == kName)
-            field = new StringField(this, "Name", 30, null, null);
-        if (iFieldSeq == kAddressLine1)
-            field = new StringField(this, "AddressLine1", 40, null, null);
-        if (iFieldSeq == kAddressLine2)
-            field = new StringField(this, "AddressLine2", 40, null, null);
-        if (iFieldSeq == kCityOrTown)
-            field = new StringField(this, "CityOrTown", 15, null, null);
-        if (iFieldSeq == kStateOrRegion)
-            field = new StringField(this, "StateOrRegion", 15, null, null);
-        if (iFieldSeq == kPostalCode)
-            field = new StringField(this, "PostalCode", 10, null, null);
-        if (iFieldSeq == kCountry)
-            field = new StringField(this, "Country", 15, null, null);
-        if (iFieldSeq == kTel)
-            field = new PhoneField(this, "Tel", 24, null, null);
-        if (iFieldSeq == kFax)
-            field = new FaxField(this, "Fax", 24, null, null);
-        if (iFieldSeq == kEmail)
-            field = new EMailField(this, "Email", 40, null, null);
-        if (iFieldSeq == kWeb)
-            field = new URLField(this, "Web", 60, null, null);
-        if (iFieldSeq == kDateEntered)
-            field = new Person_DateEntered(this, "DateEntered", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kDateChanged)
-            field = new DateField(this, "DateChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kChangedID)
-            field = new ReferenceField(this, "ChangedID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kComments)
-            field = new MemoField(this, "Comments", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kUserID)
-            field = new UserField(this, "UserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kPassword)
-            field = new StringField(this, "Password", 16, null, null);
-        if (iFieldSeq == kNameSort)
-            field = new StringField(this, "NameSort", 6, null, null);
-        if (iFieldSeq == kPostalCodeSort)
-            field = new StringField(this, "PostalCodeSort", 5, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, CODE, 16, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, NAME, 30, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, ADDRESS_LINE_1, 40, null, null);
+        if (iFieldSeq == 6)
+            field = new StringField(this, ADDRESS_LINE_2, 40, null, null);
+        if (iFieldSeq == 7)
+            field = new StringField(this, CITY_OR_TOWN, 15, null, null);
+        if (iFieldSeq == 8)
+            field = new StringField(this, STATE_OR_REGION, 15, null, null);
+        if (iFieldSeq == 9)
+            field = new StringField(this, POSTAL_CODE, 10, null, null);
+        if (iFieldSeq == 10)
+            field = new StringField(this, COUNTRY, 15, null, null);
+        if (iFieldSeq == 11)
+            field = new PhoneField(this, TEL, 24, null, null);
+        if (iFieldSeq == 12)
+            field = new FaxField(this, FAX, 24, null, null);
+        if (iFieldSeq == 13)
+            field = new EMailField(this, EMAIL, 40, null, null);
+        if (iFieldSeq == 14)
+            field = new URLField(this, WEB, 60, null, null);
+        if (iFieldSeq == 15)
+            field = new Person_DateEntered(this, DATE_ENTERED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 16)
+            field = new DateField(this, DATE_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 17)
+            field = new ReferenceField(this, CHANGED_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 18)
+            field = new MemoField(this, COMMENTS, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 19)
+            field = new UserField(this, USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 20)
+            field = new StringField(this, PASSWORD, 16, null, null);
+        if (iFieldSeq == 21)
+            field = new StringField(this, NAME_SORT, 6, null, null);
+        if (iFieldSeq == 22)
+            field = new StringField(this, POSTAL_CODE_SORT, 5, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kPersonLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**

@@ -39,29 +39,6 @@ public class Menus extends Folder
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    //public static final int kSequence = kSequence;
-    //public static final int kName = kName;
-    //public static final int kComment = kComment;
-    //public static final int kParentFolderID = kParentFolderID;
-    //public static final int kCode = kCode;
-    public static final int kType = kFolderLastField + 1;
-    public static final int kAutoDesc = kType + 1;
-    public static final int kProgram = kAutoDesc + 1;
-    public static final int kParams = kProgram + 1;
-    public static final int kIconResource = kParams + 1;
-    public static final int kKeywords = kIconResource + 1;
-    public static final int kXmlData = kKeywords + 1;
-    public static final int kMenusHelp = kXmlData + 1;
-    public static final int kMenusLastField = kMenusHelp;
-    public static final int kMenusFields = kMenusHelp - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kParentFolderIDKey = kIDKey + 1;
-    public static final int kCodeKey = kParentFolderIDKey + 1;
-    public static final int kTypeKey = kCodeKey + 1;
-    public static final int kMenusLastKey = kTypeKey;
-    public static final int kMenusKeys = kTypeKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -84,14 +61,12 @@ public class Menus extends Folder
     {
         super.init(screen);
     }
-
-    public static final String kMenusFile = "Menus";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kMenusFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(MENUS_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -138,43 +113,49 @@ public class Menus extends Folder
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kSequence)
-            field = new ShortField(this, "Sequence", Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)0));
-        if (iFieldSeq == kType)
-            field = new StringField(this, "Type", 10, null, null);
-        if (iFieldSeq == kName)
-            field = new StringField(this, "Name", 50, null, null);
-        if (iFieldSeq == kAutoDesc)
-            field = new BooleanField(this, "AutoDesc", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
-        if (iFieldSeq == kComment)
-            field = new XmlField(this, "Comment", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProgram)
-            field = new StringField(this, "Program", 255, null, null);
-        if (iFieldSeq == kParams)
-            field = new XMLPropertiesField(this, "Params", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kIconResource)
-            field = new StringField(this, "IconResource", 255, null, null);
-        if (iFieldSeq == kKeywords)
-            field = new StringField(this, "Keywords", 50, null, null);
-        if (iFieldSeq == kParentFolderID)
-            field = new MenusField(this, "ParentFolderID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kCode)
-        //  field = new StringField(this, "Code", 30, null, null);
-        if (iFieldSeq == kXmlData)
-            field = new XmlField(this, "XmlData", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMenusHelp)
-            field = new XmlField(this, "MenusHelp", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, NAME, 50, null, null);
+        if (iFieldSeq == 4)
+            field = new MenusField(this, PARENT_FOLDER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new ShortField(this, SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)0));
+        if (iFieldSeq == 6)
+            field = new XmlField(this, COMMENT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 7)
+        //  field = new StringField(this, CODE, 30, null, null);
+        if (iFieldSeq == 8)
+            field = new StringField(this, TYPE, 10, null, null);
+        if (iFieldSeq == 9)
+            field = new BooleanField(this, AUTO_DESC, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
+        if (iFieldSeq == 10)
+            field = new StringField(this, PROGRAM, 255, null, null);
+        if (iFieldSeq == 11)
+            field = new XMLPropertiesField(this, PARAMS, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 12)
+            field = new StringField(this, ICON_RESOURCE, 255, null, null);
+        if (iFieldSeq == 13)
+            field = new StringField(this, KEYWORDS, 50, null, null);
+        if (iFieldSeq == 14)
+            field = new XmlField(this, XML_DATA, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 15)
+            field = new XmlField(this, MENUS_HELP, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kMenusLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -183,36 +164,32 @@ public class Menus extends Folder
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kParentFolderIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ParentFolderID");
-            keyArea.addKeyField(kParentFolderID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kSequence, DBConstants.ASCENDING);
-            keyArea.addKeyField(kType, DBConstants.ASCENDING);
-            keyArea.addKeyField(kName, DBConstants.ASCENDING);
+            keyArea.addKeyField(PARENT_FOLDER_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
+            keyArea.addKeyField(TYPE, DBConstants.ASCENDING);
+            keyArea.addKeyField(NAME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kCodeKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Code");
-            keyArea.addKeyField(kCode, DBConstants.ASCENDING);
+            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kTypeKey)
+        if (iKeyArea == 3)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Type");
-            keyArea.addKeyField(kType, DBConstants.ASCENDING);
-            keyArea.addKeyField(kProgram, DBConstants.ASCENDING);
+            keyArea.addKeyField(TYPE, DBConstants.ASCENDING);
+            keyArea.addKeyField(PROGRAM, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kMenusLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kMenusLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

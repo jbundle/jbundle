@@ -11,6 +11,8 @@ public interface ScriptModel extends FolderModel
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     //public static final String NAME = NAME;
     //public static final String PARENT_FOLDER_ID = PARENT_FOLDER_ID;
     //public static final String SEQUENCE = SEQUENCE;

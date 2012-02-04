@@ -34,13 +34,6 @@ public class Cat extends Animal
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    //public static final int kName = kName;
-    //public static final int kColor = kColor;
-    //public static final int kWeight = kWeight;
-    //public static final int kVet = kVet;
-    public static final int kCatLastField = kAnimalLastField;
-    public static final int kCatFields = kAnimalLastField - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -63,14 +56,12 @@ public class Cat extends Animal
     {
         super.init(screen);
     }
-
-    public static final String kCatFile = "Cat";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kCatFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(CAT_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -113,28 +104,34 @@ public class Cat extends Animal
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        //if (iFieldSeq == kName)
-        //  field = new StringField(this, "Name", 40, null, null);
-        //if (iFieldSeq == kColor)
+        //if (iFieldSeq == 1)
         //{
-        //  field = new StringField(this, "Color", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 3)
+        //  field = new StringField(this, NAME, 40, null, null);
+        //if (iFieldSeq == 4)
+        //{
+        //  field = new StringField(this, COLOR, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.addListener(new InitOnceFieldHandler(null));
         //}
-        //if (iFieldSeq == kWeight)
-        //  field = new FloatField(this, "Weight", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kVet)
-        //  field = new VetField(this, "Vet", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 5)
+        //  field = new FloatField(this, WEIGHT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 6)
+        //  field = new VetField(this, VET, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kCatLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

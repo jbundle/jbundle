@@ -98,9 +98,9 @@ public class ProjectTaskPredecessorScreen extends DetailScreen
      */
     public void setupSFields()
     {
-        this.getRecord(ProjectTaskPredecessor.kProjectTaskPredecessorFile).getField(ProjectTaskPredecessor.kProjectTaskPredecessorID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ProjectTaskPredecessor.kProjectTaskPredecessorFile).getField(ProjectTaskPredecessor.kPredecessorType).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ProjectTaskPredecessor.kProjectTaskPredecessorFile).getField(ProjectTaskPredecessor.kPredecessorDelay).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_FILE).getField(ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_FILE).getField(ProjectTaskPredecessor.PREDECESSOR_TYPE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ProjectTaskPredecessor.PROJECT_TASK_PREDECESSOR_FILE).getField(ProjectTaskPredecessor.PREDECESSOR_DELAY).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * Make a sub-screen.

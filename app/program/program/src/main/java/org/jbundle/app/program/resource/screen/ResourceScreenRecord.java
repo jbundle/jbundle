@@ -32,11 +32,7 @@ public class ResourceScreenRecord extends ScreenRecord
     private static final long serialVersionUID = 1L;
 
     public static final String LANGUAGE = "Language";
-    public static final int kLanguage = kScreenRecordLastField + 1;
     public static final String LOCALE = "Locale";
-    public static final int kLocale = kLanguage + 1;
-    public static final int kResourceScreenRecordLastField = kLocale;
-    public static final int kResourceScreenRecordFields = kLocale - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -60,29 +56,25 @@ public class ResourceScreenRecord extends ScreenRecord
         super.init(screen);
     }
 
-    public static final String kResourceScreenRecordFile = null;    // Screen field
+    public static final String RESOURCE_SCREEN_RECORD_FILE = null;  // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kLanguage)
+        if (iFieldSeq == 0)
         {
-            field = new StringField(this, "Language", 2, null, null);
+            field = new StringField(this, LANGUAGE, 2, null, null);
             field.setNullable(false);
         }
-        if (iFieldSeq == kLocale)
+        if (iFieldSeq == 1)
         {
-            field = new StringField(this, "Locale", 2, null, null);
+            field = new StringField(this, LOCALE, 2, null, null);
             field.setNullable(false);
         }
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kResourceScreenRecordLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

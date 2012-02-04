@@ -15,10 +15,8 @@ import org.jbundle.model.app.program.packages.db.*;
 public class JnlpFile extends FieldList
     implements JnlpFileModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public JnlpFile()
     {
@@ -57,21 +55,21 @@ public class JnlpFile extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Name", 30, null, null);
-        field = new FieldInfo(this, "Description", 40, null, null);
-        field = new FieldInfo(this, "ShortDesc", 128, null, null);
-        field = new FieldInfo(this, "Title", 40, null, null);
-        field = new FieldInfo(this, "Icon", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "FileLocation", 255, null, null);
+        field = new FieldInfo(this, NAME, 30, null, null);
+        field = new FieldInfo(this, DESCRIPTION, 40, null, null);
+        field = new FieldInfo(this, SHORT_DESC, 128, null, null);
+        field = new FieldInfo(this, TITLE, 40, null, null);
+        field = new FieldInfo(this, ICON, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, FILE_LOCATION, 255, null, null);
     }
     /**
     * Set up the key areas.
@@ -79,7 +77,7 @@ public class JnlpFile extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Name");
         keyArea.addKeyField("Name", Constants.ASCENDING);

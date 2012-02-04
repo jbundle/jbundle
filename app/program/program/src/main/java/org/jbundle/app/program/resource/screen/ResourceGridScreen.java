@@ -142,7 +142,7 @@ public class ResourceGridScreen extends DetailGridScreen
     {
         Converter converter = new FieldLengthConverter(this.getMainRecord().getField(Resource.CODE), 60);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(Resource.kResourceFile).getField(Resource.kDescription).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(Resource.RESOURCE_FILE).getField(Resource.DESCRIPTION).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * Make a sub-screen.

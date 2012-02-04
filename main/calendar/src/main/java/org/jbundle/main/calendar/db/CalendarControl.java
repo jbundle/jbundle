@@ -33,21 +33,6 @@ public class CalendarControl extends ControlRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kLastUpdateDate = kControlRecordLastField + 1;
-    public static final int kStartAnnivDate = kLastUpdateDate + 1;
-    public static final int kEndAnnivDate = kStartAnnivDate + 1;
-    public static final int kUpdateDays = kEndAnnivDate + 1;
-    public static final int kAnnivBackDays = kUpdateDays + 1;
-    public static final int kAnniversaryDays = kAnnivBackDays + 1;
-    public static final int kAnniversaryCategoryID = kAnniversaryDays + 1;
-    public static final int kAppointmentCategoryID = kAnniversaryCategoryID + 1;
-    public static final int kCalendarControlLastField = kAppointmentCategoryID;
-    public static final int kCalendarControlFields = kAppointmentCategoryID - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kCalendarControlLastKey = kIDKey;
-    public static final int kCalendarControlKeys = kIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -70,14 +55,12 @@ public class CalendarControl extends ControlRecord
     {
         super.init(screen);
     }
-
-    public static final String kCalendarControlFile = "CalendarControl";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kCalendarControlFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(CALENDAR_CONTROL_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -99,42 +82,48 @@ public class CalendarControl extends ControlRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kLastUpdateDate)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
         {
-            field = new DateTimeField(this, "LastUpdateDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new DateTimeField(this, LAST_UPDATE_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setHidden(true);
         }
-        if (iFieldSeq == kStartAnnivDate)
+        if (iFieldSeq == 4)
         {
-            field = new DateTimeField(this, "StartAnnivDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new DateTimeField(this, START_ANNIV_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setHidden(true);
         }
-        if (iFieldSeq == kEndAnnivDate)
+        if (iFieldSeq == 5)
         {
-            field = new DateTimeField(this, "EndAnnivDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new DateTimeField(this, END_ANNIV_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setHidden(true);
         }
-        if (iFieldSeq == kUpdateDays)
-            field = new IntegerField(this, "UpdateDays", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1));
-        if (iFieldSeq == kAnnivBackDays)
-            field = new IntegerField(this, "AnnivBackDays", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0));
-        if (iFieldSeq == kAnniversaryDays)
-            field = new IntegerField(this, "AnniversaryDays", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(60));
-        if (iFieldSeq == kAnniversaryCategoryID)
-            field = new CalendarCategoryField(this, "AnniversaryCategoryID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kAppointmentCategoryID)
-            field = new CalendarCategoryField(this, "AppointmentCategoryID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new IntegerField(this, UPDATE_DAYS, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1));
+        if (iFieldSeq == 7)
+            field = new IntegerField(this, ANNIV_BACK_DAYS, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0));
+        if (iFieldSeq == 8)
+            field = new IntegerField(this, ANNIVERSARY_DAYS, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(60));
+        if (iFieldSeq == 9)
+            field = new CalendarCategoryField(this, ANNIVERSARY_CATEGORY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new CalendarCategoryField(this, APPOINTMENT_CATEGORY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kCalendarControlLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -143,17 +132,13 @@ public class CalendarControl extends ControlRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kCalendarControlLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kCalendarControlLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

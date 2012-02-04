@@ -34,22 +34,6 @@ public class MessageVersion extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kDescription = kVirtualRecordLastField + 1;
-    public static final int kCode = kDescription + 1;
-    public static final int kNamespace = kCode + 1;
-    public static final int kSchemaLocation = kNamespace + 1;
-    public static final int kNumericVersion = kSchemaLocation + 1;
-    public static final int kVersionID = kNumericVersion + 1;
-    public static final int kProperties = kVersionID + 1;
-    public static final int kMessageVersionLastField = kProperties;
-    public static final int kMessageVersionFields = kProperties - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kCodeKey = kIDKey + 1;
-    public static final int kDescriptionKey = kCodeKey + 1;
-    public static final int kMessageVersionLastKey = kDescriptionKey;
-    public static final int kMessageVersionKeys = kDescriptionKey - DBConstants.MAIN_KEY_FIELD + 1;
     public static final int NO_VERSION = 0;
     public static final String VERSION_ID = "messageVersionID"; //TrxMessageHeader.MESSAGE_VERSION_ID;
     /**
@@ -74,14 +58,12 @@ public class MessageVersion extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kMessageVersionFile = "MessageVersion";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kMessageVersionFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(MESSAGE_VERSION_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -103,31 +85,37 @@ public class MessageVersion extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", 30, null, null);
-        if (iFieldSeq == kCode)
-            field = new StringField(this, "Code", 20, null, null);
-        if (iFieldSeq == kNamespace)
-            field = new StringField(this, "Namespace", 128, null, null);
-        if (iFieldSeq == kSchemaLocation)
-            field = new StringField(this, "SchemaLocation", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kNumericVersion)
-            field = new StringField(this, "NumericVersion", 20, null, null);
-        if (iFieldSeq == kVersionID)
-            field = new StringField(this, "VersionID", 20, null, null);
-        if (iFieldSeq == kProperties)
-            field = new PropertiesField(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, DESCRIPTION, 30, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, CODE, 20, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, NAMESPACE, 128, null, null);
+        if (iFieldSeq == 6)
+            field = new StringField(this, SCHEMA_LOCATION, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new StringField(this, NUMERIC_VERSION, 20, null, null);
+        if (iFieldSeq == 8)
+            field = new StringField(this, VERSION_ID, 20, null, null);
+        if (iFieldSeq == 9)
+            field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kMessageVersionLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -136,27 +124,23 @@ public class MessageVersion extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kCodeKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Code");
-            keyArea.addKeyField(kCode, DBConstants.ASCENDING);
+            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kDescriptionKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Description");
-            keyArea.addKeyField(kDescription, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kMessageVersionLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kMessageVersionLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

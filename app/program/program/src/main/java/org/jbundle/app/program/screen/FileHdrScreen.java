@@ -81,11 +81,11 @@ public class FileHdrScreen extends Screen
     public void setupSFields()
     {
         Record query = this.getMainRecord();
-        for (int fieldSeq = FileHdr.kFileName; fieldSeq < FileHdr.kFileNotes; fieldSeq++)
+        for (int fieldSeq = query.getFieldSeq(FileHdr.FILE_NAME); fieldSeq < query.getFieldSeq(FileHdr.FILE_NOTES); fieldSeq++)
             query.getField(fieldSeq).setupFieldView(this);  // Add this view to the list
-        for (int fieldSeq = FileHdr.kFileNotes+1; fieldSeq <= FileHdr.kFileHdrLastField; fieldSeq++)
+        for (int fieldSeq = query.getFieldSeq(FileHdr.FILE_NOTES)+1; fieldSeq < query.getFieldCount(); fieldSeq++)
             query.getField(fieldSeq).setupFieldView(this);  // Add this view to the list
-        query.getField(FileHdr.kFileNotes).setupFieldView(this);    // Add this view to the list
+        query.getField(FileHdr.FILE_NOTES).setupFieldView(this);    // Add this view to the list
     }
 
 }

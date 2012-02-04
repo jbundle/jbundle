@@ -36,30 +36,6 @@ public class ClassInfo extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kClassName = kVirtualRecordLastField + 1;
-    public static final int kBaseClassName = kClassName + 1;
-    public static final int kClassDesc = kBaseClassName + 1;
-    public static final int kClassProjectID = kClassDesc + 1;
-    public static final int kClassPackage = kClassProjectID + 1;
-    public static final int kClassSourceFile = kClassPackage + 1;
-    public static final int kClassType = kClassSourceFile + 1;
-    public static final int kClassExplain = kClassType + 1;
-    public static final int kClassHelp = kClassExplain + 1;
-    public static final int kClassImplements = kClassHelp + 1;
-    public static final int kSeeAlso = kClassImplements + 1;
-    public static final int kTechnicalInfo = kSeeAlso + 1;
-    public static final int kCopyDescFrom = kTechnicalInfo + 1;
-    public static final int kClassInfoLastField = kCopyDescFrom;
-    public static final int kClassInfoFields = kCopyDescFrom - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kClassNameKey = kIDKey + 1;
-    public static final int kClassSourceFileKey = kClassNameKey + 1;
-    public static final int kBaseClassNameKey = kClassSourceFileKey + 1;
-    public static final int kClassProjectIDKey = kBaseClassNameKey + 1;
-    public static final int kClassInfoLastKey = kClassProjectIDKey;
-    public static final int kClassInfoKeys = kClassProjectIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     public static final String RESOURCE_CLASS = "ListResourceBundle";
     public static final String MAINT_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassInfoScreen";
     public static final String GRID_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassInfoGridScreen";
@@ -85,14 +61,12 @@ public class ClassInfo extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kClassInfoFile = "ClassInfo";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kClassInfoFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(CLASS_INFO_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -135,55 +109,61 @@ public class ClassInfo extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kClassName)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
         {
-            field = new StringField(this, "ClassName", 40, null, null);
+            field = new StringField(this, CLASS_NAME, 40, null, null);
             field.setNullable(false);
         }
-        if (iFieldSeq == kBaseClassName)
-            field = new StringField(this, "BaseClassName", 40, null, null);
-        if (iFieldSeq == kClassDesc)
-            field = new StringField(this, "ClassDesc", 255, null, null);
-        if (iFieldSeq == kClassProjectID)
+        if (iFieldSeq == 4)
+            field = new StringField(this, BASE_CLASS_NAME, 40, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, CLASS_DESC, 255, null, null);
+        if (iFieldSeq == 6)
         {
-            field = new ClassProjectField(this, "ClassProjectID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new ClassProjectField(this, CLASS_PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kClassPackage)
+        if (iFieldSeq == 7)
         {
-            field = new StringField(this, "ClassPackage", 60, null, null);
+            field = new StringField(this, CLASS_PACKAGE, 60, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kClassSourceFile)
-            field = new StringField(this, "ClassSourceFile", 40, null, null);
-        if (iFieldSeq == kClassType)
+        if (iFieldSeq == 8)
+            field = new StringField(this, CLASS_SOURCE_FILE, 40, null, null);
+        if (iFieldSeq == 9)
         {
-            field = new StringField(this, "ClassType", 20, null, null);
+            field = new StringField(this, CLASS_TYPE, 20, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kClassExplain)
-            field = new XmlField(this, "ClassExplain", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kClassHelp)
-            field = new XmlField(this, "ClassHelp", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kClassImplements)
-            field = new StringField(this, "ClassImplements", 60, null, null);
-        if (iFieldSeq == kSeeAlso)
-            field = new MemoField(this, "SeeAlso", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTechnicalInfo)
-            field = new MemoField(this, "TechnicalInfo", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kCopyDescFrom)
-            field = new StringField(this, "CopyDescFrom", 50, null, null);
+        if (iFieldSeq == 10)
+            field = new XmlField(this, CLASS_EXPLAIN, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 11)
+            field = new XmlField(this, CLASS_HELP, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 12)
+            field = new StringField(this, CLASS_IMPLEMENTS, 60, null, null);
+        if (iFieldSeq == 13)
+            field = new MemoField(this, SEE_ALSO, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 14)
+            field = new MemoField(this, TECHNICAL_INFO, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 15)
+            field = new StringField(this, COPY_DESC_FROM, 50, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kClassInfoLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -192,39 +172,35 @@ public class ClassInfo extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kClassNameKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "ClassName");
-            keyArea.addKeyField(kClassName, DBConstants.ASCENDING);
+            keyArea.addKeyField(CLASS_NAME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kClassSourceFileKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "ClassSourceFile");
-            keyArea.addKeyField(kClassSourceFile, DBConstants.ASCENDING);
-            keyArea.addKeyField(kClassName, DBConstants.ASCENDING);
+            keyArea.addKeyField(CLASS_SOURCE_FILE, DBConstants.ASCENDING);
+            keyArea.addKeyField(CLASS_NAME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kBaseClassNameKey)
+        if (iKeyArea == 3)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "BaseClassName");
-            keyArea.addKeyField(kBaseClassName, DBConstants.ASCENDING);
+            keyArea.addKeyField(BASE_CLASS_NAME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kClassProjectIDKey)
+        if (iKeyArea == 4)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassProjectID");
-            keyArea.addKeyField(kClassProjectID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kClassName, DBConstants.ASCENDING);
+            keyArea.addKeyField(CLASS_PROJECT_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(CLASS_NAME, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kClassInfoLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kClassInfoLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

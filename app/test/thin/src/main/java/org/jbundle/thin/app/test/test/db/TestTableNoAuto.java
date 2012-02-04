@@ -16,33 +16,8 @@ import org.jbundle.model.app.test.test.db.*;
 public class TestTableNoAuto extends TestTable
     implements TestTableNoAutoModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
-    //public static final String TEST_CODE = TEST_CODE;
-    //public static final String TEST_NAME = TEST_NAME;
-    //public static final String TEST_MEMO = TEST_MEMO;
-    //public static final String TEST_YES_NO = TEST_YES_NO;
-    //public static final String TEST_LONG = TEST_LONG;
-    //public static final String TEST_SHORT = TEST_SHORT;
-    //public static final String TEST_DATE_TIME = TEST_DATE_TIME;
-    //public static final String TEST_DATE = TEST_DATE;
-    //public static final String TEST_TIME = TEST_TIME;
-    //public static final String TEST_FLOAT = TEST_FLOAT;
-    //public static final String TEST_DOUBLE = TEST_DOUBLE;
-    //public static final String TEST_PERCENT = TEST_PERCENT;
-    //public static final String TEST_REAL = TEST_REAL;
-    //public static final String TEST_CURRENCY = TEST_CURRENCY;
-    //public static final String TEST_PASSWORD = TEST_PASSWORD;
-    //public static final String TEST_VIRTUAL = TEST_VIRTUAL;
-    //public static final String TEST_KEY = TEST_KEY;
-    //public static final String TEST_IMAGE = TEST_IMAGE;
-    //public static final String TEST_HTML = TEST_HTML;
-    //public static final String TEST_XML = TEST_XML;
-    //public static final String TEST_PROPERTIES = TEST_PROPERTIES;
-    //public static final String TEST_SECOND = TEST_SECOND;
-    //public static final String TEST_ENCRYPTED = TEST_ENCRYPTED;
 
     public TestTableNoAuto()
     {
@@ -81,59 +56,59 @@ public class TestTableNoAuto extends TestTable
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", 10, null, null);
+        field = new FieldInfo(this, ID, 10, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "TestCode", 10, null, null);
-        field = new FieldInfo(this, "TestName", 30, null, null);
-        field = new FieldInfo(this, "TestMemo", 32000, null, null);
+        field = new FieldInfo(this, TEST_CODE, 10, null, null);
+        field = new FieldInfo(this, TEST_NAME, 30, null, null);
+        field = new FieldInfo(this, TEST_MEMO, 32000, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "TestYesNo", 10, null, new Boolean(true));
+        field = new FieldInfo(this, TEST_YES_NO, 10, null, new Boolean(true));
         field.setDataClass(Boolean.class);
-        field = new FieldInfo(this, "TestLong", 10, null, new Integer(1234567));
+        field = new FieldInfo(this, TEST_LONG, 10, null, new Integer(1234567));
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "TestShort", 5, null, new Short((short)1234));
+        field = new FieldInfo(this, TEST_SHORT, 5, null, new Short((short)1234));
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "TestDateTime", 25, null, null);
+        field = new FieldInfo(this, TEST_DATE_TIME, 25, null, null);
         field.setDataClass(Date.class);
-        field = new FieldInfo(this, "TestDate", 12, null, null);
+        field = new FieldInfo(this, TEST_DATE, 12, null, null);
         field.setDataClass(Date.class);
         field.setScale(Constants.DATE_ONLY);
-        field = new FieldInfo(this, "TestTime", 10, null, null);
+        field = new FieldInfo(this, TEST_TIME, 10, null, null);
         field.setDataClass(Date.class);
         field.setScale(Constants.TIME_ONLY);
-        field = new FieldInfo(this, "TestFloat", 8, null, null);
+        field = new FieldInfo(this, TEST_FLOAT, 8, null, null);
         field.setDataClass(Float.class);
-        field = new FieldInfo(this, "TestDouble", 18, null, null);
+        field = new FieldInfo(this, TEST_DOUBLE, 18, null, null);
         field.setDataClass(Double.class);
-        field = new FieldInfo(this, "TestPercent", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, TEST_PERCENT, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Float.class);
-        field = new FieldInfo(this, "TestReal", 15, null, null);
+        field = new FieldInfo(this, TEST_REAL, 15, null, null);
         field.setDataClass(Double.class);
         field.setScale(-1);
-        field = new FieldInfo(this, "TestCurrency", 18, null, null);
+        field = new FieldInfo(this, TEST_CURRENCY, 18, null, null);
         field.setDataClass(Double.class);
-        field = new FieldInfo(this, "TestPassword", 10, null, null);
-        //field = new FieldInfo(this, "TestVirtual", 18, null, null);
+        field = new FieldInfo(this, TEST_PASSWORD, 10, null, null);
+        //field = new FieldInfo(this, TEST_VIRTUAL, 18, null, null);
         //field.setDataClass(Double.class);
-        field = new FieldInfo(this, "TestKey", 1, null, null);
-        field = new FieldInfo(this, "TestImage", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, TEST_KEY, 1, null, null);
+        field = new FieldInfo(this, TEST_IMAGE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "TestHtml", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, TEST_HTML, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "TestXml", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, TEST_XML, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "TestProperties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, TEST_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "TestSecond", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, TEST_SECOND, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "TestEncrypted", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, TEST_ENCRYPTED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
     }
     /**
@@ -142,7 +117,7 @@ public class TestTableNoAuto extends TestTable
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.SECONDARY_KEY, "TestCode");
         keyArea.addKeyField("TestCode", Constants.ASCENDING);

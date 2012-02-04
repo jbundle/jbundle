@@ -7,15 +7,9 @@
  */
 package org.jbundle.base.model;
 
-import java.awt.Component;
-import java.awt.LayoutManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ResourceBundle;
-
-import javax.servlet.ServletException;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
@@ -52,17 +46,17 @@ public interface ScreenFieldView extends FieldComponent
      * @param bEditableControl Is this control editable?
      * @return The new control.
      */
-    public Component setupControl(boolean bEditableControl);
+    public Object setupControl(boolean bEditableControl);
     /**
      * Set the physical control for this view.
      * @param control The physical control for this view.
      */
-    public void setControl(Component control);
+    public void setControl(Object control);
     /**
      * Get the physical component associated with this view.
      * @return The physical control.
      */
-    public Component getControl();
+    public Object getControl();
     /**
      * Get one of the physical components associated with this SField.
      * @param int iLevel    CONTROL_TOP - Parent physical control; CONTROL_BOTTOM - Lowest child control
@@ -71,7 +65,7 @@ public interface ScreenFieldView extends FieldComponent
      * @param iLevel The level for this control (top/bottom/etc).
      * @return The control for this view.
      */
-    public Component getControl(int iLevel);
+    public Object getControl(int iLevel);
     /**
      * Set the the physical control color, font etc.
      * @param control The physical control.
@@ -79,7 +73,7 @@ public interface ScreenFieldView extends FieldComponent
      * @param bIsInput This this an input (vs a display) field?
      * @param bGridControl Is it a grid control?
      */
-    public void setControlAttributes(Component control, boolean bIsInput, boolean bSelected, boolean bGridControl);
+    public void setControlAttributes(Object control, boolean bIsInput, boolean bSelected, boolean bGridControl);
     /**
      * Synchronize the physical control with the ScreenField.
      */
@@ -96,13 +90,13 @@ public interface ScreenFieldView extends FieldComponent
      * @param control The control to get the state from.
      * @return The control's value.
      */
-    public Object getComponentState(Component control);
+    public Object getComponentState(Object control);
     /**
      * Set the component to this state. State is defined by the component.
      * @param control The control to set the state to.
      * @param objValue The value to set the control to.
      */
-    public void setComponentState(Component control, Object objValue);
+    public void setComponentState(Object control, Object objValue);
     /**
      * Set the converter to this state. State is defined by the component.
      * @param objValue The value to set the control to (class of object depends on the control).
@@ -141,7 +135,7 @@ public interface ScreenFieldView extends FieldComponent
      * Usually, you use JAVA layout managers, but you may also use ScreenLayout.
      * @return The new layout manager.
      */
-    public LayoutManager addScreenLayout();
+    public Object addScreenLayout();
     /**
      * Process the command using this view.
      * @param strCommand The command to process.
@@ -149,16 +143,24 @@ public interface ScreenFieldView extends FieldComponent
      */
     public boolean doCommand(String strCommand);
     /**
+     * Create a standard top-level menu.
+     * @return The new menubar.
+     */
+    public Object createMenu();
+    /**
      * Add a standard top-level menu item and the standard detail actions.
      * @param strMenuName The menu name to add.
      * @param rgchShortcuts The shortcuts for the menu.
      * @return The new menu.
      */
-    public JMenu addStandardMenu(String strMenuName, char rgchShortcuts[]);
+    public Object addStandardMenu(Object menubar, String strMenuName, char rgchShortcuts[]);
     /**
      * Add the menu items to this frame.
+     * @param menu a JMenu
+     * @desc the menu desc
+     * @return a menuitem
      */
-    public JMenuItem addMenuItem(JMenu menu, String strMenuDesc);
+    public Object addMenuItem(Object menu, String strMenuDesc);
     /**
      * Manually setup the JTable from this model.
      */
@@ -419,7 +421,6 @@ public interface ScreenFieldView extends FieldComponent
      * You must override this method.
      * @param req The servlet request.
      * @param res The servlet response object.
-     * @exception ServletException From inherited class.
      * @exception IOException From inherited class.
      */
     public void sendData(Object req, Object res) 

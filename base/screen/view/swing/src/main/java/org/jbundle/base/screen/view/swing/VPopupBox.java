@@ -277,7 +277,7 @@ public class VPopupBox extends VScreenField
      * @param control The control to get the state from.
      * @return The control's value.
      */
-    public Object getComponentState(Component control)
+    public Object getComponentState(Object control)
     {
         int iCurrentIndex = -1;
         if (control != null)
@@ -295,7 +295,7 @@ public class VPopupBox extends VScreenField
      * @param control The control to set the state to.
      * @param objValue The value to set the control to.
      */
-    public void setComponentState(Component control, Object objValue)
+    public void setComponentState(Object control, Object objValue)
     {
         int iCurrentIndex = -1;
         if (objValue instanceof Integer)

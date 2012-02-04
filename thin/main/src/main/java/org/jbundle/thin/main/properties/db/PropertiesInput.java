@@ -18,6 +18,7 @@ import org.jbundle.model.main.properties.db.*;
 public class PropertiesInput extends FieldList
     implements PropertiesInputModel
 {
+    private static final long serialVersionUID = 1L;
 
 
     public PropertiesInput()
@@ -57,11 +58,11 @@ public class PropertiesInput extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "Key", 128, null, null);
-        field = new FieldInfo(this, "Value", 255, null, null);
-        field = new FieldInfo(this, "Comment", 255, null, null);
+        field = new FieldInfo(this, KEY, 128, null, null);
+        field = new FieldInfo(this, VALUE, 255, null, null);
+        field = new FieldInfo(this, COMMENT, 255, null, null);
     }
     /**
     * Set up the key areas.
@@ -69,7 +70,7 @@ public class PropertiesInput extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "Key");
         keyArea.addKeyField("Key", Constants.ASCENDING);

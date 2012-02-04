@@ -87,9 +87,9 @@ public class ClassFieldsGridScreen extends GridScreen
      */
     public void setupSFields()
     {
-        this.getRecord(ClassFields.kClassFieldsFile).getField(ClassFields.kClassFieldSequence).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassFields.kClassFieldsFile).getField(ClassFields.kClassFieldName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassFields.kClassFieldsFile).getField(ClassFields.kClassFieldClass).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassFields.CLASS_FIELDS_FILE).getField(ClassFields.CLASS_FIELD_SEQUENCE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassFields.CLASS_FIELDS_FILE).getField(ClassFields.CLASS_FIELD_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassFields.CLASS_FIELDS_FILE).getField(ClassFields.CLASS_FIELD_CLASS).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

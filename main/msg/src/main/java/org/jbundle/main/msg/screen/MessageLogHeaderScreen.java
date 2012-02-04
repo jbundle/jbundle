@@ -73,15 +73,15 @@ public class MessageLogHeaderScreen extends HeaderScreen
      */
     public void setupSFields()
     {
-        this.getRecord(MessageLogScreenRecord.kMessageLogScreenRecordFile).getField(MessageLogScreenRecord.kContactTypeID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageLogScreenRecord.kMessageLogScreenRecordFile).getField(MessageLogScreenRecord.kContactID).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.DONT_SET_ANCHOR), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageLogScreenRecord.kMessageLogScreenRecordFile).getField(MessageLogScreenRecord.kMessageInfoTypeID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageLogScreenRecord.kMessageLogScreenRecordFile).getField(MessageLogScreenRecord.kMessageTypeID).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.DONT_SET_ANCHOR), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageLogScreenRecord.kMessageLogScreenRecordFile).getField(MessageLogScreenRecord.kMessageStatusID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageLogScreenRecord.kMessageLogScreenRecordFile).getField(MessageLogScreenRecord.kMessageTransportID).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.DONT_SET_ANCHOR), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageLogScreenRecord.kMessageLogScreenRecordFile).getField(MessageLogScreenRecord.kUserID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageLogScreenRecord.kMessageLogScreenRecordFile).getField(MessageLogScreenRecord.kStartDate).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageLogScreenRecord.kMessageLogScreenRecordFile).getField(MessageLogScreenRecord.kEndDate).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.DONT_SET_ANCHOR), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageLogScreenRecord.MESSAGE_LOG_SCREEN_RECORD_FILE).getField(MessageLogScreenRecord.CONTACT_TYPE_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageLogScreenRecord.MESSAGE_LOG_SCREEN_RECORD_FILE).getField(MessageLogScreenRecord.CONTACT_ID).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.DONT_SET_ANCHOR), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageLogScreenRecord.MESSAGE_LOG_SCREEN_RECORD_FILE).getField(MessageLogScreenRecord.MESSAGE_INFO_TYPE_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageLogScreenRecord.MESSAGE_LOG_SCREEN_RECORD_FILE).getField(MessageLogScreenRecord.MESSAGE_TYPE_ID).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.DONT_SET_ANCHOR), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageLogScreenRecord.MESSAGE_LOG_SCREEN_RECORD_FILE).getField(MessageLogScreenRecord.MESSAGE_STATUS_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageLogScreenRecord.MESSAGE_LOG_SCREEN_RECORD_FILE).getField(MessageLogScreenRecord.MESSAGE_TRANSPORT_ID).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.DONT_SET_ANCHOR), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageLogScreenRecord.MESSAGE_LOG_SCREEN_RECORD_FILE).getField(MessageLogScreenRecord.USER_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageLogScreenRecord.MESSAGE_LOG_SCREEN_RECORD_FILE).getField(MessageLogScreenRecord.START_DATE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageLogScreenRecord.MESSAGE_LOG_SCREEN_RECORD_FILE).getField(MessageLogScreenRecord.END_DATE).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.DONT_SET_ANCHOR), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

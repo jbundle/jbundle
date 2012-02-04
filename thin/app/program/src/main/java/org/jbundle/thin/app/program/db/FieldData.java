@@ -15,10 +15,8 @@ import org.jbundle.model.app.program.db.*;
 public class FieldData extends FieldList
     implements FieldDataModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public FieldData()
     {
@@ -57,39 +55,39 @@ public class FieldData extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "FieldName", 40, null, null);
-        field = new FieldInfo(this, "FieldClass", 40, null, null);
-        field = new FieldInfo(this, "BaseFieldName", 40, null, null);
-        field = new FieldInfo(this, "DependentFieldName", 40, null, null);
-        field = new FieldInfo(this, "MinimumLength", 4, null, null);
+        field = new FieldInfo(this, FIELD_NAME, 40, null, null);
+        field = new FieldInfo(this, FIELD_CLASS, 40, null, null);
+        field = new FieldInfo(this, BASE_FIELD_NAME, 40, null, null);
+        field = new FieldInfo(this, DEPENDENT_FIELD_NAME, 40, null, null);
+        field = new FieldInfo(this, MINIMUM_LENGTH, 4, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "MaximumLength", 5, null, null);
+        field = new FieldInfo(this, MAXIMUM_LENGTH, 5, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "DefaultValue", 50, null, null);
-        field = new FieldInfo(this, "InitialValue", 50, null, null);
-        field = new FieldInfo(this, "FieldDescription", 100, null, null);
-        field = new FieldInfo(this, "FieldDescVertical", 14, null, null);
-        field = new FieldInfo(this, "FieldType", 1, null, null);
-        field = new FieldInfo(this, "FieldDimension", 3, null, null);
+        field = new FieldInfo(this, DEFAULT_VALUE, 50, null, null);
+        field = new FieldInfo(this, INITIAL_VALUE, 50, null, null);
+        field = new FieldInfo(this, FIELD_DESCRIPTION, 100, null, null);
+        field = new FieldInfo(this, FIELD_DESC_VERTICAL, 14, null, null);
+        field = new FieldInfo(this, FIELD_TYPE, 1, null, null);
+        field = new FieldInfo(this, FIELD_DIMENSION, 3, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "FieldFileName", 40, null, null);
-        field = new FieldInfo(this, "FieldSeqNo", 4, null, null);
+        field = new FieldInfo(this, FIELD_FILE_NAME, 40, null, null);
+        field = new FieldInfo(this, FIELD_SEQ_NO, 4, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "FieldNotNull", 1, null, null);
+        field = new FieldInfo(this, FIELD_NOT_NULL, 1, null, null);
         field.setDataClass(Boolean.class);
-        //field = new FieldInfo(this, "DataClass", 20, null, null);
-        field = new FieldInfo(this, "Hidden", 10, null, null);
+        //field = new FieldInfo(this, DATA_CLASS, 20, null, null);
+        field = new FieldInfo(this, HIDDEN, 10, null, null);
         field.setDataClass(Boolean.class);
-        field = new FieldInfo(this, "IncludeScope", 10, null, new Integer(0x001));
+        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x001));
         field.setDataClass(Integer.class);
     }
     /**
@@ -98,7 +96,7 @@ public class FieldData extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "FieldFileName");
         keyArea.addKeyField("FieldFileName", Constants.ASCENDING);

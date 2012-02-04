@@ -15,10 +15,8 @@ import org.jbundle.model.app.program.db.*;
 public class KeyInfo extends FieldList
     implements KeyInfoModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public KeyInfo()
     {
@@ -57,30 +55,30 @@ public class KeyInfo extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "KeyFilename", 40, null, null);
-        field = new FieldInfo(this, "KeyNumber", 2, null, null);
+        field = new FieldInfo(this, KEY_FILENAME, 40, null, null);
+        field = new FieldInfo(this, KEY_NUMBER, 2, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "KeyField1", 40, null, null);
-        field = new FieldInfo(this, "KeyField2", 40, null, null);
-        field = new FieldInfo(this, "KeyField3", 40, null, null);
-        field = new FieldInfo(this, "KeyField4", 40, null, null);
-        field = new FieldInfo(this, "KeyField5", 40, null, null);
-        field = new FieldInfo(this, "KeyField6", 40, null, null);
-        field = new FieldInfo(this, "KeyField7", 40, null, null);
-        field = new FieldInfo(this, "KeyField8", 40, null, null);
-        field = new FieldInfo(this, "KeyField9", 40, null, null);
-        field = new FieldInfo(this, "KeyName", 40, null, null);
-        field = new FieldInfo(this, "KeyType", 1, null, null);
-        field = new FieldInfo(this, "IncludeScope", 10, null, new Integer(0x001));
+        field = new FieldInfo(this, KEY_FIELD_1, 40, null, null);
+        field = new FieldInfo(this, KEY_FIELD_2, 40, null, null);
+        field = new FieldInfo(this, KEY_FIELD_3, 40, null, null);
+        field = new FieldInfo(this, KEY_FIELD_4, 40, null, null);
+        field = new FieldInfo(this, KEY_FIELD_5, 40, null, null);
+        field = new FieldInfo(this, KEY_FIELD_6, 40, null, null);
+        field = new FieldInfo(this, KEY_FIELD_7, 40, null, null);
+        field = new FieldInfo(this, KEY_FIELD_8, 40, null, null);
+        field = new FieldInfo(this, KEY_FIELD_9, 40, null, null);
+        field = new FieldInfo(this, KEY_NAME, 40, null, null);
+        field = new FieldInfo(this, KEY_TYPE, 1, null, null);
+        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x001));
         field.setDataClass(Integer.class);
     }
     /**
@@ -89,7 +87,7 @@ public class KeyInfo extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "KeyFilename");
         keyArea.addKeyField("KeyFilename", Constants.ASCENDING);

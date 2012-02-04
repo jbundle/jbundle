@@ -68,7 +68,7 @@ public class UserResourceHeaderScreen extends HeaderScreen
      */
     public void setupSFields()
     {
-        this.getRecord(UserResource.kUserResourceFile).getField(UserResource.kDescription).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(UserResource.USER_RESOURCE_FILE).getField(UserResource.DESCRIPTION).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

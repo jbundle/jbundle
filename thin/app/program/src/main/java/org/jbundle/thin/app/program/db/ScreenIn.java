@@ -15,10 +15,8 @@ import org.jbundle.model.app.program.db.*;
 public class ScreenIn extends FieldList
     implements ScreenInModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public ScreenIn()
     {
@@ -57,35 +55,35 @@ public class ScreenIn extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "ScreenInProgName", 40, null, null);
-        field = new FieldInfo(this, "ScreenOutNumber", 2, null, null);
+        field = new FieldInfo(this, SCREEN_IN_PROG_NAME, 40, null, null);
+        field = new FieldInfo(this, SCREEN_OUT_NUMBER, 2, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "ScreenItemNumber", 4, null, null);
+        field = new FieldInfo(this, SCREEN_ITEM_NUMBER, 4, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "ScreenFileName", 40, null, null);
-        field = new FieldInfo(this, "ScreenFieldName", 40, null, null);
-        field = new FieldInfo(this, "ScreenRow", 8, null, null);
+        field = new FieldInfo(this, SCREEN_FILE_NAME, 40, null, null);
+        field = new FieldInfo(this, SCREEN_FIELD_NAME, 40, null, null);
+        field = new FieldInfo(this, SCREEN_ROW, 8, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "ScreenCol", 4, null, null);
+        field = new FieldInfo(this, SCREEN_COL, 4, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "ScreenGroup", 4, null, null);
-        field = new FieldInfo(this, "ScreenPhysicalNum", 4, null, null);
+        field = new FieldInfo(this, SCREEN_GROUP, 4, null, null);
+        field = new FieldInfo(this, SCREEN_PHYSICAL_NUM, 4, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "ScreenLocation", 20, null, null);
-        field = new FieldInfo(this, "ScreenFieldDesc", 30, null, null);
-        field = new FieldInfo(this, "ScreenText", 9999, null, null);
+        field = new FieldInfo(this, SCREEN_LOCATION, 20, null, null);
+        field = new FieldInfo(this, SCREEN_FIELD_DESC, 30, null, null);
+        field = new FieldInfo(this, SCREEN_TEXT, 9999, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "ScreenAnchor", 20, null, null);
-        field = new FieldInfo(this, "ScreenControlType", 20, null, null);
+        field = new FieldInfo(this, SCREEN_ANCHOR, 20, null, null);
+        field = new FieldInfo(this, SCREEN_CONTROL_TYPE, 20, null, null);
     }
     /**
     * Set up the key areas.
@@ -93,7 +91,7 @@ public class ScreenIn extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ScreenInProgName");
         keyArea.addKeyField("ScreenInProgName", Constants.ASCENDING);

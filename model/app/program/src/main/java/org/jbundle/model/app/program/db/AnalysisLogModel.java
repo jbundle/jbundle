@@ -11,6 +11,8 @@ public interface AnalysisLogModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String SYSTEM_ID = "SystemID";
     public static final String OBJECT_ID = "ObjectID";
     public static final String CLASS_NAME = "ClassName";

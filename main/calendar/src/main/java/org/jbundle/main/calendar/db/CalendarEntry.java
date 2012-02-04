@@ -37,24 +37,6 @@ public class CalendarEntry extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kCalendarEntryTypeID = kVirtualRecordLastField + 1;
-    public static final int kStartDateTime = kCalendarEntryTypeID + 1;
-    public static final int kEndDateTime = kStartDateTime + 1;
-    public static final int kDescription = kEndDateTime + 1;
-    public static final int kCalendarCategoryID = kDescription + 1;
-    public static final int kHidden = kCalendarCategoryID + 1;
-    public static final int kProperties = kHidden + 1;
-    public static final int kAnnivMasterID = kProperties + 1;
-    public static final int kCalendarEntryLastField = kAnnivMasterID;
-    public static final int kCalendarEntryFields = kAnnivMasterID - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kStartDateTimeKey = kIDKey + 1;
-    public static final int kAnnivMasterIDKey = kStartDateTimeKey + 1;
-    public static final int kCalendarCategoryIDKey = kAnnivMasterIDKey + 1;
-    public static final int kCalendarEntryLastKey = kCalendarCategoryIDKey;
-    public static final int kCalendarEntryKeys = kCalendarCategoryIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     public static final String JOB_PROCESS_NAME = "org.jbundle.main.schedule.app.JobSchedulerProcess";
     /**
      * Default constructor.
@@ -78,14 +60,12 @@ public class CalendarEntry extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kCalendarEntryFile = "CalendarEntry";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kCalendarEntryFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(CALENDAR_ENTRY_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -114,39 +94,45 @@ public class CalendarEntry extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kCalendarEntryTypeID)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
         {
-            field = new CalendarEntryTypeField(this, "CalendarEntryTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new CalendarEntryTypeField(this, CALENDAR_ENTRY_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setHidden(true);
         }
-        if (iFieldSeq == kStartDateTime)
-            field = new DateTimeField(this, "StartDateTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kEndDateTime)
-            field = new DateTimeField(this, "EndDateTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", 60, null, null);
-        if (iFieldSeq == kCalendarCategoryID)
+        if (iFieldSeq == 4)
+            field = new DateTimeField(this, START_DATE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new DateTimeField(this, END_DATE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new StringField(this, DESCRIPTION, 60, null, null);
+        if (iFieldSeq == 7)
         {
-            field = new CalendarCategoryField(this, "CalendarCategoryID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new CalendarCategoryField(this, CALENDAR_CATEGORY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kHidden)
-            field = new BooleanField(this, "Hidden", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
-        if (iFieldSeq == kProperties)
-            field = new PropertiesField(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kAnnivMasterID)
-            field = new AnnivMasterField(this, "AnnivMasterID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new BooleanField(this, HIDDEN, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        if (iFieldSeq == 9)
+            field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new AnnivMasterField(this, ANNIV_MASTER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kCalendarEntryLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -155,34 +141,30 @@ public class CalendarEntry extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kStartDateTimeKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "StartDateTime");
-            keyArea.addKeyField(kStartDateTime, DBConstants.ASCENDING);
+            keyArea.addKeyField(START_DATE_TIME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kAnnivMasterIDKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "AnnivMasterID");
-            keyArea.addKeyField(kAnnivMasterID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kStartDateTime, DBConstants.ASCENDING);
+            keyArea.addKeyField(ANNIV_MASTER_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(START_DATE_TIME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kCalendarCategoryIDKey)
+        if (iKeyArea == 3)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "CalendarCategoryID");
-            keyArea.addKeyField(kCalendarCategoryID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kStartDateTime, DBConstants.ASCENDING);
+            keyArea.addKeyField(CALENDAR_CATEGORY_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(START_DATE_TIME, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kCalendarEntryLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kCalendarEntryLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

@@ -34,17 +34,6 @@ public class PropertiesInput extends Record
 {
     private static final long serialVersionUID = 1L;
 
-    public static final int kID = kRecordLastField + 1;
-    public static final int kKey = kID + 1;
-    public static final int kValue = kKey + 1;
-    public static final int kComment = kValue + 1;
-    public static final int kPropertiesInputLastField = kComment;
-    public static final int kPropertiesInputFields = kComment - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kKeyKey = kIDKey + 1;
-    public static final int kPropertiesInputLastKey = kKeyKey;
-    public static final int kPropertiesInputKeys = kKeyKey - DBConstants.MAIN_KEY_FIELD + 1;
     protected PropertiesField m_fldProperties = null;
     /**
      * Default constructor.
@@ -69,14 +58,12 @@ public class PropertiesInput extends Record
         m_fldProperties = null;
         super.init(screen);
     }
-
-    public static final String kPropertiesInputFile = "PropertiesInput";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kPropertiesInputFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(PROPERTIES_INPUT_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -119,20 +106,16 @@ public class PropertiesInput extends Record
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kID)
-            field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kKey)
-            field = new StringField(this, "Key", 128, null, null);
-        if (iFieldSeq == kValue)
-            field = new StringField(this, "Value", 255, null, null);
-        if (iFieldSeq == kComment)
-            field = new StringField(this, "Comment", 255, null, null);
+        if (iFieldSeq == 0)
+            field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 1)
+            field = new StringField(this, KEY, 128, null, null);
+        if (iFieldSeq == 2)
+            field = new StringField(this, VALUE, 255, null, null);
+        if (iFieldSeq == 3)
+            field = new StringField(this, COMMENT, 255, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kPropertiesInputLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -141,22 +124,18 @@ public class PropertiesInput extends Record
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kKeyKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "Key");
-            keyArea.addKeyField(kKey, DBConstants.ASCENDING);
+            keyArea.addKeyField(KEY, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kPropertiesInputLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kPropertiesInputLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

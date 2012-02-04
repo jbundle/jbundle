@@ -34,16 +34,6 @@ public class UserGroup extends PropertiesRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kDescription = kPropertiesRecordLastField + 1;
-    public static final int kAccessMap = kDescription + 1;
-    public static final int kUserGroupLastField = kAccessMap;
-    public static final int kUserGroupFields = kAccessMap - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kDescriptionKey = kIDKey + 1;
-    public static final int kUserGroupLastKey = kDescriptionKey;
-    public static final int kUserGroupKeys = kDescriptionKey - DBConstants.MAIN_KEY_FIELD + 1;
     public static final int USER_INFO_DETAIL_SCREEN = ScreenConstants.DETAIL_MODE * 2;
     /**
      * Default constructor.
@@ -67,14 +57,12 @@ public class UserGroup extends PropertiesRecord
     {
         super.init(screen);
     }
-
-    public static final String kUserGroupFile = "UserGroup";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kUserGroupFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(USER_GROUP_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -112,21 +100,29 @@ public class UserGroup extends PropertiesRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", 30, null, null);
-        if (iFieldSeq == kAccessMap)
-            field = new MemoField(this, "AccessMap", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 3)
+        //  field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, DESCRIPTION, 30, null, null);
+        if (iFieldSeq == 5)
+            field = new MemoField(this, ACCESS_MAP, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kUserGroupLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -135,22 +131,18 @@ public class UserGroup extends PropertiesRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kDescriptionKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Description");
-            keyArea.addKeyField(kDescription, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kUserGroupLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kUserGroupLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

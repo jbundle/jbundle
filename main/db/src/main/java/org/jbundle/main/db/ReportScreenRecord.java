@@ -32,21 +32,12 @@ public class ReportScreenRecord extends ScreenRecord
     private static final long serialVersionUID = 1L;
 
     public static final String REPORT_DATE = "ReportDate";
-    public static final int kReportDate = kScreenRecordLastField + 1;
     public static final String REPORT_TIME = "ReportTime";
-    public static final int kReportTime = kReportDate + 1;
     public static final String REPORT_USER_ID = "ReportUserID";
-    public static final int kReportUserID = kReportTime + 1;
     public static final String REPORT_PAGE = "ReportPage";
-    public static final int kReportPage = kReportUserID + 1;
     public static final String REPORT_COUNT = "ReportCount";
-    public static final int kReportCount = kReportPage + 1;
     public static final String REPORT_TOTAL = "ReportTotal";
-    public static final int kReportTotal = kReportCount + 1;
     public static final String REPORT_KEY_AREA = "ReportKeyArea";
-    public static final int kReportKeyArea = kReportTotal + 1;
-    public static final int kReportScreenRecordLastField = kReportKeyArea;
-    public static final int kReportScreenRecordFields = kReportKeyArea - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -70,33 +61,29 @@ public class ReportScreenRecord extends ScreenRecord
         super.init(screen);
     }
 
-    public static final String kReportScreenRecordFile = null;  // Screen field
+    public static final String REPORT_SCREEN_RECORD_FILE = null;    // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kReportDate)
-            field = new ReportScreenRecord_ReportDate(this, "ReportDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kReportTime)
-            field = new ReportScreenRecord_ReportTime(this, "ReportTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kReportUserID)
-            field = new ReportScreenRecord_ReportUserID(this, "ReportUserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kReportPage)
-            field = new ShortField(this, "ReportPage", Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)1));
-        if (iFieldSeq == kReportCount)
-            field = new IntegerField(this, "ReportCount", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0));
-        if (iFieldSeq == kReportTotal)
-            field = new CurrencyField(this, "ReportTotal", Constants.DEFAULT_FIELD_LENGTH, null, new Double(0));
-        if (iFieldSeq == kReportKeyArea)
-            field = new IntegerField(this, "ReportKeyArea", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 0)
+            field = new ReportScreenRecord_ReportDate(this, REPORT_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 1)
+            field = new ReportScreenRecord_ReportTime(this, REPORT_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 2)
+            field = new ReportScreenRecord_ReportUserID(this, REPORT_USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 3)
+            field = new ShortField(this, REPORT_PAGE, Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)1));
+        if (iFieldSeq == 4)
+            field = new IntegerField(this, REPORT_COUNT, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0));
+        if (iFieldSeq == 5)
+            field = new CurrencyField(this, REPORT_TOTAL, Constants.DEFAULT_FIELD_LENGTH, null, new Double(0));
+        if (iFieldSeq == 6)
+            field = new IntegerField(this, REPORT_KEY_AREA, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kReportScreenRecordLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

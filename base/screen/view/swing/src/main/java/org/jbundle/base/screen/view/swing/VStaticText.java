@@ -83,7 +83,7 @@ public class VStaticText extends VEditText
      * @param control The control to get the state from.
      * @return The control's value.
      */
-    public Object getComponentState(Component control)
+    public Object getComponentState(Object control)
     {
         return ((JLabel)control).getText();
     }
@@ -92,7 +92,7 @@ public class VStaticText extends VEditText
      * @param control The control to set the state to.
      * @param objValue The value to set the control to.
      */
-    public void setComponentState(Component control, Object objValue)
+    public void setComponentState(Object control, Object objValue)
     {
         if (objValue == null)
             objValue = Constants.BLANK;

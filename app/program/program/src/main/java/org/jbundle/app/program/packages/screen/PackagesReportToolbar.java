@@ -63,9 +63,9 @@ public class PackagesReportToolbar extends ReportToolbar
         super.setupSFields();
         //if (this.isPrintReport())
         //  return;   // Don't display params if entered
-        this.getRecord(PackagesReportScreenRecord.kPackagesReportScreenRecordFile).getField(PackagesReportScreenRecord.kJnlpFileID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(PackagesReportScreenRecord.kPackagesReportScreenRecordFile).getField(PackagesReportScreenRecord.ktemplate).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(PackagesReportScreenRecord.kPackagesReportScreenRecordFile).getField(PackagesReportScreenRecord.kfileout).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(PackagesReportScreenRecord.PACKAGES_REPORT_SCREEN_RECORD_FILE).getField(PackagesReportScreenRecord.JNLP_FILE_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(PackagesReportScreenRecord.PACKAGES_REPORT_SCREEN_RECORD_FILE).getField(PackagesReportScreenRecord.TEMPLATE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(PackagesReportScreenRecord.PACKAGES_REPORT_SCREEN_RECORD_FILE).getField(PackagesReportScreenRecord.FILEOUT).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

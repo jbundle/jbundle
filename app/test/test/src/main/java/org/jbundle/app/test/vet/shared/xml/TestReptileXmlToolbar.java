@@ -64,7 +64,7 @@ public class TestReptileXmlToolbar extends ReportToolbar
         super.setupSFields();
         //if (this.isPrintReport())
         //  return;   // Don't display params if entered
-        this.getScreenRecord().getField(TestReportScreenRecord.ktemplate).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getScreenRecord().getField(TestReportScreenRecord.TEMPLATE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

@@ -91,9 +91,9 @@ public class LogicFileScreen extends Screen
     public void setupSFields()
     {
         Converter converter = null;
-        this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kMethodName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kLogicSource).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kLogicDescription).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.METHOD_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.LOGIC_SOURCE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.LOGIC_DESCRIPTION).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         converter = this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.METHOD_RETURNS);
         converter = new FieldLengthConverter(converter, 50);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, converter, ScreenConstants.DEFAULT_DISPLAY);
@@ -102,11 +102,11 @@ public class LogicFileScreen extends Screen
         BaseField field = query.getField(LogicFile.METHOD_INTERFACE);
         Converter converter2 = new FieldLengthConverter(field, 40);
         SEditText screenField = new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, converter2, ScreenConstants.DISPLAY_DESC);
-        this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kSequence).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kLogicThrows).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kProtection).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kCopyFrom).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kIncludeScope).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.SEQUENCE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.LOGIC_THROWS).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.PROTECTION).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.COPY_FROM).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.INCLUDE_SCOPE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

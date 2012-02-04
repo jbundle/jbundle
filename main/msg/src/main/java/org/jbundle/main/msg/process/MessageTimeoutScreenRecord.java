@@ -33,13 +33,8 @@ public class MessageTimeoutScreenRecord extends ScreenRecord
     private static final long serialVersionUID = 1L;
 
     public static final String MESSAGE_STATUS_ID = "MessageStatusID";
-    public static final int kMessageStatusID = kScreenRecordLastField + 1;
     public static final String START_TIMEOUT = "StartTimeout";
-    public static final int kStartTimeout = kMessageStatusID + 1;
     public static final String END_TIMEOUT = "EndTimeout";
-    public static final int kEndTimeout = kStartTimeout + 1;
-    public static final int kMessageTimeoutScreenRecordLastField = kEndTimeout;
-    public static final int kMessageTimeoutScreenRecordFields = kEndTimeout - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -63,25 +58,21 @@ public class MessageTimeoutScreenRecord extends ScreenRecord
         super.init(screen);
     }
 
-    public static final String kMessageTimeoutScreenRecordFile = null;  // Screen field
+    public static final String MESSAGE_TIMEOUT_SCREEN_RECORD_FILE = null; // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kMessageStatusID)
-            field = new MessageStatusField(this, "MessageStatusID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kStartTimeout)
-            field = new DateTimeField(this, "StartTimeout", Constants.DEFAULT_FIELD_LENGTH, null, new Date(0));
-        if (iFieldSeq == kEndTimeout)
-            field = new MessageTimeoutScreenRecord_EndTimeout(this, "EndTimeout", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 0)
+            field = new MessageStatusField(this, MESSAGE_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 1)
+            field = new DateTimeField(this, START_TIMEOUT, Constants.DEFAULT_FIELD_LENGTH, null, new Date(0));
+        if (iFieldSeq == 2)
+            field = new MessageTimeoutScreenRecord_EndTimeout(this, END_TIMEOUT, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kMessageTimeoutScreenRecordLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

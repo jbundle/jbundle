@@ -12,6 +12,8 @@ public interface MessageLogModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String MESSAGE_INFO_TYPE_ID = "MessageInfoTypeID";
     public static final String MESSAGE_TYPE_ID = "MessageTypeID";
     public static final String MESSAGE_STATUS_ID = "MessageStatusID";

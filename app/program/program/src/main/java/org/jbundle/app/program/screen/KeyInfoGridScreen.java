@@ -87,9 +87,9 @@ public class KeyInfoGridScreen extends GridScreen
      */
     public void setupSFields()
     {
-        this.getRecord(KeyInfo.kKeyInfoFile).getField(KeyInfo.kKeyName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(KeyInfo.kKeyInfoFile).getField(KeyInfo.kKeyType).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(KeyInfo.kKeyInfoFile).getField(KeyInfo.kKeyField1).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(KeyInfo.KEY_INFO_FILE).getField(KeyInfo.KEY_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(KeyInfo.KEY_INFO_FILE).getField(KeyInfo.KEY_TYPE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(KeyInfo.KEY_INFO_FILE).getField(KeyInfo.KEY_FIELD_1).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

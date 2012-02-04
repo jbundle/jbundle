@@ -33,21 +33,6 @@ public class DatabaseInfo extends ControlRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kName = kControlRecordLastField + 1;
-    public static final int kDescription = kName + 1;
-    public static final int kVersion = kDescription + 1;
-    public static final int kStartID = kVersion + 1;
-    public static final int kEndID = kStartID + 1;
-    public static final int kBaseDatabase = kEndID + 1;
-    public static final int kProperties = kBaseDatabase + 1;
-    public static final int kDatabaseInfoLastField = kProperties;
-    public static final int kDatabaseInfoFields = kProperties - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kNameKey = kIDKey + 1;
-    public static final int kDatabaseInfoLastKey = kNameKey;
-    public static final int kDatabaseInfoKeys = kNameKey - DBConstants.MAIN_KEY_FIELD + 1;
     protected String m_strDatabaseName;
     protected int m_iDatabaseType = 0;
     /**
@@ -73,39 +58,43 @@ public class DatabaseInfo extends ControlRecord
         // Don't auto-init local fields
         super.init(screen);
     }
-
-    public static final String kDatabaseInfoFile = "DatabaseInfo";
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kName)
-            field = new StringField(this, "Name", 30, null, null);
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", 30, null, null);
-        if (iFieldSeq == kVersion)
-            field = new StringField(this, "Version", 20, null, null);
-        if (iFieldSeq == kStartID)
-            field = new IntegerField(this, "StartID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kEndID)
-            field = new IntegerField(this, "EndID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kBaseDatabase)
-            field = new StringField(this, "BaseDatabase", 30, null, null);
-        if (iFieldSeq == kProperties)
-            field = new PropertiesField(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, NAME, 30, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, DESCRIPTION, 30, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, VERSION, 20, null, null);
+        if (iFieldSeq == 6)
+            field = new IntegerField(this, START_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new IntegerField(this, END_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new StringField(this, BASE_DATABASE, 30, null, null);
+        if (iFieldSeq == 9)
+            field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kDatabaseInfoLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -114,22 +103,18 @@ public class DatabaseInfo extends ControlRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kNameKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Name");
-            keyArea.addKeyField(kName, DBConstants.ASCENDING);
+            keyArea.addKeyField(NAME, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kDatabaseInfoLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kDatabaseInfoLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**
@@ -147,7 +132,7 @@ public class DatabaseInfo extends ControlRecord
             if (this.getDatabaseName() != null)
                 if (!this.getDatabaseName().endsWith("_" + this.getDatabaseName()))
                     strDatabaseName = "_" + this.getDatabaseName();
-            return Record.formatTableNames(kDatabaseInfoFile, bAddQuotes) + strDatabaseName;
+            return Record.formatTableNames(DATABASE_INFO_FILE, bAddQuotes) + strDatabaseName;
         }
         return super.getTableNames(bAddQuotes);
     }

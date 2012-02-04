@@ -36,31 +36,17 @@ public class MessageLogScreenRecord extends ScreenRecord
     private static final long serialVersionUID = 1L;
 
     public static final String CONTACT_TYPE_ID = "ContactTypeID";
-    public static final int kContactTypeID = kScreenRecordLastField + 1;
     public static final String CONTACT_ID = "ContactID";
-    public static final int kContactID = kContactTypeID + 1;
     public static final String MESSAGE_INFO_TYPE_ID = "MessageInfoTypeID";
-    public static final int kMessageInfoTypeID = kContactID + 1;
     public static final String MESSAGE_TYPE_ID = "MessageTypeID";
-    public static final int kMessageTypeID = kMessageInfoTypeID + 1;
     public static final String MESSAGE_STATUS_ID = "MessageStatusID";
-    public static final int kMessageStatusID = kMessageTypeID + 1;
     public static final String MESSAGE_TRANSPORT_ID = "MessageTransportID";
-    public static final int kMessageTransportID = kMessageStatusID + 1;
     public static final String USER_ID = "UserID";
-    public static final int kUserID = kMessageTransportID + 1;
     public static final String START_DATE = "StartDate";
-    public static final int kStartDate = kUserID + 1;
     public static final String END_DATE = "EndDate";
-    public static final int kEndDate = kStartDate + 1;
     public static final String SORT_KEY = "SortKey";
-    public static final int kSortKey = kEndDate + 1;
     public static final String REFERENCE_TYPE = "ReferenceType";
-    public static final int kReferenceType = kSortKey + 1;
     public static final String REFERENCE_ID = "ReferenceID";
-    public static final int kReferenceID = kReferenceType + 1;
-    public static final int kMessageLogScreenRecordLastField = kReferenceID;
-    public static final int kMessageLogScreenRecordFields = kReferenceID - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -84,43 +70,39 @@ public class MessageLogScreenRecord extends ScreenRecord
         super.init(screen);
     }
 
-    public static final String kMessageLogScreenRecordFile = null;  // Screen field
+    public static final String MESSAGE_LOG_SCREEN_RECORD_FILE = null; // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kContactTypeID)
-            field = new ContactTypeLevelOneField(this, "ContactTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kContactID)
-            field = new ContactField(this, "ContactID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageInfoTypeID)
-            field = new MessageInfoTypeField(this, "MessageInfoTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageTypeID)
-            field = new MessageTypeField(this, "MessageTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageStatusID)
-            field = new MessageStatusField(this, "MessageStatusID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageTransportID)
-            field = new MessageTransportSelect(this, "MessageTransportID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kUserID)
-            field = new UserField(this, "UserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kStartDate)
-            field = new DateField(this, "StartDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kEndDate)
-            field = new DateField(this, "EndDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kSortKey)
-            field = new ShortField(this, "SortKey", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kReferenceType)
-            field = new StringField(this, "ReferenceType", 60, null, null);
-        if (iFieldSeq == kReferenceID)
-            field = new ReferenceField(this, "ReferenceID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 0)
+            field = new ContactTypeLevelOneField(this, CONTACT_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 1)
+            field = new ContactField(this, CONTACT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 2)
+            field = new MessageInfoTypeField(this, MESSAGE_INFO_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 3)
+            field = new MessageTypeField(this, MESSAGE_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new MessageStatusField(this, MESSAGE_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new MessageTransportSelect(this, MESSAGE_TRANSPORT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new UserField(this, USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new DateField(this, START_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new DateField(this, END_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
+            field = new ShortField(this, SORT_KEY, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new StringField(this, REFERENCE_TYPE, 60, null, null);
+        if (iFieldSeq == 11)
+            field = new ReferenceField(this, REFERENCE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kMessageLogScreenRecordLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

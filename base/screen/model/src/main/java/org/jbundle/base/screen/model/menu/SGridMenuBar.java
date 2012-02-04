@@ -9,11 +9,7 @@ package org.jbundle.base.screen.model.menu;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.awt.Dimension;
 import java.util.Map;
-
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 
 import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.model.ScreenFieldView;
@@ -63,29 +59,20 @@ public class SGridMenuBar extends SBaseMenuBar
      * @param sfView The screenfield to add the menu to.
      * @return The new menu.
      */
-    public JMenuBar addMenu(ScreenFieldView sfView)
+    public Object addMenu(ScreenFieldView sfView)
     {
         char rgchShortcuts[] = new char[30];
-        JMenuBar menubar = new JMenuBar()
-        {
-            private static final long serialVersionUID = 1L;
+        Object menubar = sfView.createMenu();
 
-            public Dimension getMaximumSize()
-            {   // HACK - Not sure why menu takes up 1/2 of screen...?
-                return new Dimension(super.getMaximumSize().width, super.getPreferredSize().height);
-            }
-        };
-        menubar.setBorderPainted(false);
-        menubar.setOpaque(false);
-        menubar.add(sfView.addStandardMenu(MenuConstants.FILE, rgchShortcuts));
-        menubar.add(sfView.addStandardMenu(MenuConstants.EDIT, rgchShortcuts));
-        JMenu menu = null;
-        menubar.add(menu = sfView.addStandardMenu(MenuConstants.RECORD, rgchShortcuts));
-        menu.addSeparator();
+        sfView.addStandardMenu(menubar, MenuConstants.FILE, rgchShortcuts);
+        sfView.addStandardMenu(menubar, MenuConstants.EDIT, rgchShortcuts);
+        Object menu = null;
+        menu = sfView.addStandardMenu(menubar, MenuConstants.RECORD, rgchShortcuts);
+        //?menu.addSeparator();
         sfView.addMenuItem(menu, this.getString(MenuConstants.REQUERY));
 //+        menuItem.setIcon(this.loadImageIcon(MenuConstants.REQUERY, null));
 
-        menubar.add(sfView.addStandardMenu(MenuConstants.HELP, rgchShortcuts));
+        sfView.addStandardMenu(menubar, MenuConstants.HELP, rgchShortcuts);
         return menubar;
     }
 }

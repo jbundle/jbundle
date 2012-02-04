@@ -9,6 +9,7 @@ package org.jbundle.base.screen.model;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import java.awt.Component;
 import java.util.Map;
 
 import org.jbundle.base.field.BaseField;
@@ -176,7 +177,7 @@ public class AppletScreen extends TopScreen
         {   // Special - handle undo
             if (m_sfTarget != null)
                 if (m_sfTarget.getScreenFieldView().getControl() != null)
-                if (m_sfTarget.getScreenFieldView().getControl().hasFocus())
+                if (((Component)m_sfTarget.getScreenFieldView().getControl()).hasFocus())
             {
                 if (m_objUndo == m_sfTarget)
                 {

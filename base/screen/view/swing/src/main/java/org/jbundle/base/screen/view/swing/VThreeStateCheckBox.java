@@ -97,7 +97,7 @@ public class VThreeStateCheckBox extends VCheckBox
      * @param control The control to get the state from.
      * @return The control's value.
      */
-    public Object getComponentState(Component control)
+    public Object getComponentState(Object control)
     {
         return ((JThreeStateCheckBox)control).getControlValue();
     }
@@ -106,7 +106,7 @@ public class VThreeStateCheckBox extends VCheckBox
      * @param control The control to set the state to.
      * @param objValue The value to set the control to.
      */
-    public void setComponentState(Component control, Object objValue)
+    public void setComponentState(Object control, Object objValue)
     {
         ((JThreeStateCheckBox)control).setControlValue(objValue);
     }

@@ -34,18 +34,6 @@ public class IssueControl extends ControlRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kProjectID = kControlRecordLastField + 1;
-    public static final int kProjectVersionID = kProjectID + 1;
-    public static final int kIssueTypeID = kProjectVersionID + 1;
-    public static final int kIssueStatusID = kIssueTypeID + 1;
-    public static final int kIssuePriorityID = kIssueStatusID + 1;
-    public static final int kIssueControlLastField = kIssuePriorityID;
-    public static final int kIssueControlFields = kIssuePriorityID - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kIssueControlLastKey = kIDKey;
-    public static final int kIssueControlKeys = kIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -68,14 +56,12 @@ public class IssueControl extends ControlRecord
     {
         super.init(screen);
     }
-
-    public static final String kIssueControlFile = "IssueControl";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kIssueControlFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(ISSUE_CONTROL_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -97,27 +83,33 @@ public class IssueControl extends ControlRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kProjectID)
-            field = new ProjectField(this, "ProjectID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProjectVersionID)
-            field = new ProjectVersionField(this, "ProjectVersionID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kIssueTypeID)
-            field = new IssueTypeField(this, "IssueTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kIssueStatusID)
-            field = new IssueStatusField(this, "IssueStatusID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kIssuePriorityID)
-            field = new IssuePriorityField(this, "IssuePriorityID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new ProjectField(this, PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new ProjectVersionField(this, PROJECT_VERSION_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new IssueTypeField(this, ISSUE_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new IssueStatusField(this, ISSUE_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new IssuePriorityField(this, ISSUE_PRIORITY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kIssueControlLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -126,17 +118,13 @@ public class IssueControl extends ControlRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kIssueControlLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kIssueControlLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

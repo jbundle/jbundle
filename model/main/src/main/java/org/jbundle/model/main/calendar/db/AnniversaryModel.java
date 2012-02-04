@@ -11,6 +11,8 @@ public interface AnniversaryModel extends CalendarEntryModel
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     //public static final String CALENDAR_ENTRY_TYPE_ID = CALENDAR_ENTRY_TYPE_ID;
     //public static final String START_DATE_TIME = START_DATE_TIME;
     //public static final String END_DATE_TIME = END_DATE_TIME;

@@ -63,7 +63,7 @@ public class ProjectReportToolbar extends ReportToolbar
     public void setupSFields()
     {
         super.setupSFields();
-        this.getRecord(ProjectTaskScreenRecord.kProjectTaskScreenRecordFile).getField(ProjectTaskScreenRecord.kProjectTaskID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ProjectTaskScreenRecord.PROJECT_TASK_SCREEN_RECORD_FILE).getField(ProjectTaskScreenRecord.PROJECT_TASK_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

@@ -33,16 +33,6 @@ public class TestTableHistory extends TestTable
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kCounterID = kTestTableLastField + 1;
-    public static final int kModDate = kCounterID + 1;
-    public static final int kTestTableHistoryLastField = kModDate;
-    public static final int kTestTableHistoryFields = kModDate - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kCounterIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kModDateKey = kCounterIDKey + 1;
-    public static final int kTestTableHistoryLastKey = kModDateKey;
-    public static final int kTestTableHistoryKeys = kModDateKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -65,14 +55,12 @@ public class TestTableHistory extends TestTable
     {
         super.init(screen);
     }
-
-    public static final String kTestTableHistoryFile = "TestTableHistory";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kTestTableHistoryFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(TEST_TABLE_HISTORY_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -101,21 +89,85 @@ public class TestTableHistory extends TestTable
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kCounterID)
-            field = new CounterField(this, "CounterID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kID)
+        if (iFieldSeq == 0)
         {
-            field = new IntegerField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new IntegerField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setHidden(true);
         }
-        if (iFieldSeq == kModDate)
-            field = new DateTimeField(this, "ModDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (field == null)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 3)
+        //  field = new StringField(this, TEST_CODE, 10, null, null);
+        //if (iFieldSeq == 4)
+        //  field = new StringField(this, TEST_NAME, 30, null, null);
+        //if (iFieldSeq == 5)
+        //  field = new MemoField(this, TEST_MEMO, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 6)
+        //  field = new BooleanField(this, TEST_YES_NO, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
+        //if (iFieldSeq == 7)
+        //  field = new IntegerField(this, TEST_LONG, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1234567));
+        //if (iFieldSeq == 8)
+        //  field = new ShortField(this, TEST_SHORT, Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)1234));
+        //if (iFieldSeq == 9)
+        //  field = new TestTableHistory_TestDateTime(this, TEST_DATE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 10)
+        //  field = new DateField(this, TEST_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 11)
+        //  field = new TestTableHistory_TestTime(this, TEST_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 12)
+        //  field = new FloatField(this, TEST_FLOAT, Constants.DEFAULT_FIELD_LENGTH, null, new Float(12345.67));
+        //if (iFieldSeq == 13)
+        //  field = new DoubleField(this, TEST_DOUBLE, Constants.DEFAULT_FIELD_LENGTH, null, new Double(123456789.01));
+        //if (iFieldSeq == 14)
+        //  field = new PercentField(this, TEST_PERCENT, Constants.DEFAULT_FIELD_LENGTH, null, new Float(0.32));
+        //if (iFieldSeq == 15)
+        //{
+        //  field = new RealField(this, TEST_REAL, Constants.DEFAULT_FIELD_LENGTH, null, new Double(12345.67));
+        //  field.addListener(new InitOnceFieldHandler(null));
+        //}
+        //if (iFieldSeq == 16)
+        //{
+        //  field = new CurrencyField(this, TEST_CURRENCY, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.addListener(new InitOnceFieldHandler(null));
+        //}
+        //if (iFieldSeq == 17)
+        //  field = new PasswordField(this, TEST_PASSWORD, 10, null, null);
+        if (iFieldSeq == 18)
         {
-            field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kTestTableHistoryLastField)
-                field = new EmptyField(this);
+            field = new CurrencyField(this, TEST_VIRTUAL, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field.setVirtual(true);
         }
+        //if (iFieldSeq == 19)
+        //{
+        //  field = new StringField(this, TEST_KEY, 1, null, null);
+        //  field.setMinimumLength(1);
+        //}
+        //if (iFieldSeq == 20)
+        //  field = new ImageField(this, TEST_IMAGE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 21)
+        //  field = new HtmlField(this, TEST_HTML, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 22)
+        //  field = new XmlField(this, TEST_XML, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 23)
+        //  field = new PropertiesField(this, TEST_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 24)
+        //  field = new TestSecondField(this, TEST_SECOND, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 25)
+        //  field = new RsaEncryptedPropertyField(this, TEST_ENCRYPTED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 26)
+            field = new CounterField(this, COUNTER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 27)
+            field = new DateTimeField(this, MOD_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (field == null)
+            field = super.setupField(iFieldSeq);
         return field;
     }
     /**
@@ -124,23 +176,19 @@ public class TestTableHistory extends TestTable
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kCounterIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kCounterID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(COUNTER_ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kModDateKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "ModDate");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kModDate, DBConstants.ASCENDING);
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(MOD_DATE, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kTestTableHistoryLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kTestTableHistoryLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

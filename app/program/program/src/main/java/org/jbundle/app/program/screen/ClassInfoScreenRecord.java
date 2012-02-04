@@ -33,13 +33,8 @@ public class ClassInfoScreenRecord extends ScreenRecord
     private static final long serialVersionUID = 1L;
 
     public static final String CLASS_PROJECT_ID = "ClassProjectID";
-    public static final int kClassProjectID = kScreenRecordLastField + 1;
     public static final String NAME = "Name";
-    public static final int kName = kClassProjectID + 1;
     public static final String PACKAGE = "Package";
-    public static final int kPackage = kName + 1;
-    public static final int kClassInfoScreenRecordLastField = kPackage;
-    public static final int kClassInfoScreenRecordFields = kPackage - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -63,25 +58,21 @@ public class ClassInfoScreenRecord extends ScreenRecord
         super.init(screen);
     }
 
-    public static final String kClassInfoScreenRecordFile = null; // Screen field
+    public static final String CLASS_INFO_SCREEN_RECORD_FILE = null;    // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kClassProjectID)
-            field = new ClassProjectField(this, "ClassProjectID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kName)
-            field = new StringField(this, "Name", 10, null, null);
-        if (iFieldSeq == kPackage)
-            field = new StringField(this, "Package", 20, null, null);
+        if (iFieldSeq == 0)
+            field = new ClassProjectField(this, CLASS_PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 1)
+            field = new StringField(this, NAME, 10, null, null);
+        if (iFieldSeq == 2)
+            field = new StringField(this, PACKAGE, 20, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kClassInfoScreenRecordLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

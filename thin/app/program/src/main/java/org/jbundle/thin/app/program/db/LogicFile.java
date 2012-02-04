@@ -15,10 +15,8 @@ import org.jbundle.model.app.program.db.*;
 public class LogicFile extends FieldList
     implements LogicFileModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public LogicFile()
     {
@@ -57,29 +55,29 @@ public class LogicFile extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Sequence", 10, null, new Integer(1000));
+        field = new FieldInfo(this, SEQUENCE, 10, null, new Integer(1000));
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "MethodName", 40, null, null);
-        field = new FieldInfo(this, "LogicDescription", 32000, null, null);
+        field = new FieldInfo(this, METHOD_NAME, 40, null, null);
+        field = new FieldInfo(this, LOGIC_DESCRIPTION, 32000, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "MethodReturns", 255, null, null);
-        field = new FieldInfo(this, "MethodInterface", 255, null, null);
-        field = new FieldInfo(this, "MethodClassName", 40, null, null);
-        field = new FieldInfo(this, "LogicSource", 32000, null, null);
+        field = new FieldInfo(this, METHOD_RETURNS, 255, null, null);
+        field = new FieldInfo(this, METHOD_INTERFACE, 255, null, null);
+        field = new FieldInfo(this, METHOD_CLASS_NAME, 40, null, null);
+        field = new FieldInfo(this, LOGIC_SOURCE, 32000, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "LogicThrows", 255, null, null);
-        field = new FieldInfo(this, "Protection", 60, null, null);
-        field = new FieldInfo(this, "CopyFrom", 40, null, null);
-        field = new FieldInfo(this, "IncludeScope", 10, null, new Integer(0x001));
+        field = new FieldInfo(this, LOGIC_THROWS, 255, null, null);
+        field = new FieldInfo(this, PROTECTION, 60, null, null);
+        field = new FieldInfo(this, COPY_FROM, 40, null, null);
+        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x001));
         field.setDataClass(Integer.class);
     }
     /**
@@ -88,7 +86,7 @@ public class LogicFile extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "MethodClassName");
         keyArea.addKeyField("MethodClassName", Constants.ASCENDING);

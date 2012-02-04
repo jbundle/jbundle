@@ -33,21 +33,6 @@ public class ProjectControl extends ControlRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kStartIcon = kControlRecordLastField + 1;
-    public static final int kEndIcon = kStartIcon + 1;
-    public static final int kStartParentIcon = kEndIcon + 1;
-    public static final int kEndParentIcon = kStartParentIcon + 1;
-    public static final int kTaskColor = kEndParentIcon + 1;
-    public static final int kTaskSelectColor = kTaskColor + 1;
-    public static final int kParentTaskColor = kTaskSelectColor + 1;
-    public static final int kParentTaskSelectColor = kParentTaskColor + 1;
-    public static final int kProjectControlLastField = kParentTaskSelectColor;
-    public static final int kProjectControlFields = kParentTaskSelectColor - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kProjectControlLastKey = kIDKey;
-    public static final int kProjectControlKeys = kIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -70,14 +55,12 @@ public class ProjectControl extends ControlRecord
     {
         super.init(screen);
     }
-
-    public static final String kProjectControlFile = "ProjectControl";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kProjectControlFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(PROJECT_CONTROL_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -99,33 +82,39 @@ public class ProjectControl extends ControlRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kStartIcon)
-            field = new ImageField(this, "StartIcon", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kEndIcon)
-            field = new ImageField(this, "EndIcon", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kStartParentIcon)
-            field = new ImageField(this, "StartParentIcon", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kEndParentIcon)
-            field = new ImageField(this, "EndParentIcon", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTaskColor)
-            field = new ColorField(this, "TaskColor", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTaskSelectColor)
-            field = new ColorField(this, "TaskSelectColor", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kParentTaskColor)
-            field = new ColorField(this, "ParentTaskColor", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kParentTaskSelectColor)
-            field = new ColorField(this, "ParentTaskSelectColor", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new ImageField(this, START_ICON, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new ImageField(this, END_ICON, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new ImageField(this, START_PARENT_ICON, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new ImageField(this, END_PARENT_ICON, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new ColorField(this, TASK_COLOR, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new ColorField(this, TASK_SELECT_COLOR, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
+            field = new ColorField(this, PARENT_TASK_COLOR, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new ColorField(this, PARENT_TASK_SELECT_COLOR, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kProjectControlLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -134,17 +123,13 @@ public class ProjectControl extends ControlRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kProjectControlLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kProjectControlLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

@@ -15,10 +15,8 @@ import org.jbundle.model.main.msg.db.*;
 public class QueueName extends FieldList
     implements QueueNameModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public QueueName()
     {
@@ -57,22 +55,22 @@ public class QueueName extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Code", 30, null, null);
-        field = new FieldInfo(this, "Name", 30, null, null);
-        field = new FieldInfo(this, "ExternalQueueName", 60, null, null);
-        field = new FieldInfo(this, "QueueType", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "PrivateQueue", 10, null, null);
+        field = new FieldInfo(this, CODE, 30, null, null);
+        field = new FieldInfo(this, NAME, 30, null, null);
+        field = new FieldInfo(this, EXTERNAL_QUEUE_NAME, 60, null, null);
+        field = new FieldInfo(this, QUEUE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PRIVATE_QUEUE, 10, null, null);
         field.setDataClass(Boolean.class);
-        field = new FieldInfo(this, "ReverseQueueNameID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, REVERSE_QUEUE_NAME_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
     }
     /**
@@ -81,7 +79,7 @@ public class QueueName extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.SECONDARY_KEY, "Name");
         keyArea.addKeyField("Name", Constants.ASCENDING);

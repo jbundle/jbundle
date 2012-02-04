@@ -96,11 +96,11 @@ public class TestTableAnalysis extends AnalysisScreen
      */
     public void setupSFields()
     {
-        this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestCode).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestKey).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestCount).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestShort).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(TestTableSummary.kTestTableSummaryFile).getField(TestTableSummary.kTestDouble).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(TestTableSummary.TEST_TABLE_SUMMARY_FILE).getField(TestTableSummary.TEST_CODE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(TestTableSummary.TEST_TABLE_SUMMARY_FILE).getField(TestTableSummary.TEST_KEY).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(TestTableSummary.TEST_TABLE_SUMMARY_FILE).getField(TestTableSummary.TEST_COUNT).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(TestTableSummary.TEST_TABLE_SUMMARY_FILE).getField(TestTableSummary.TEST_SHORT).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(TestTableSummary.TEST_TABLE_SUMMARY_FILE).getField(TestTableSummary.TEST_DOUBLE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * Add/update this summary record.

@@ -33,19 +33,6 @@ public class MessageControl extends ControlRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kProperties = kControlRecordLastField + 1;
-    public static final int kWebServicesServer = kProperties + 1;
-    public static final int kDefaultVersionID = kWebServicesServer + 1;
-    public static final int kBaseNamespace = kDefaultVersionID + 1;
-    public static final int kBaseSchemaLocation = kBaseNamespace + 1;
-    public static final int kWebMessageTransportID = kBaseSchemaLocation + 1;
-    public static final int kMessageControlLastField = kWebMessageTransportID;
-    public static final int kMessageControlFields = kWebMessageTransportID - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kMessageControlLastKey = kIDKey;
-    public static final int kMessageControlKeys = kIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -68,14 +55,12 @@ public class MessageControl extends ControlRecord
     {
         super.init(screen);
     }
-
-    public static final String kMessageControlFile = "MessageControl";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kMessageControlFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(MESSAGE_CONTROL_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -97,29 +82,35 @@ public class MessageControl extends ControlRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kProperties)
-            field = new PropertiesField(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kWebServicesServer)
-            field = new StringField(this, "WebServicesServer", 128, null, "/ws");
-        if (iFieldSeq == kDefaultVersionID)
-            field = new MessageVersionField(this, "DefaultVersionID", 20, null, null);
-        if (iFieldSeq == kBaseNamespace)
-            field = new URLField(this, "BaseNamespace", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kBaseSchemaLocation)
-            field = new URLField(this, "BaseSchemaLocation", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kWebMessageTransportID)
-            field = new MessageTransportField(this, "WebMessageTransportID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, WEB_SERVICES_SERVER, 128, null, "/ws");
+        if (iFieldSeq == 5)
+            field = new MessageVersionField(this, DEFAULT_VERSION_ID, 20, null, null);
+        if (iFieldSeq == 6)
+            field = new URLField(this, BASE_NAMESPACE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new URLField(this, BASE_SCHEMA_LOCATION, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new MessageTransportField(this, WEB_MESSAGE_TRANSPORT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kMessageControlLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -128,17 +119,13 @@ public class MessageControl extends ControlRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kMessageControlLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kMessageControlLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

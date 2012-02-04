@@ -16,15 +16,8 @@ import org.jbundle.model.app.program.db.*;
 public class Layout extends Folder
     implements LayoutModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
-    //public static final String NAME = NAME;
-    //public static final String PARENT_FOLDER_ID = PARENT_FOLDER_ID;
-    //public static final String SEQUENCE = SEQUENCE;
-    //public static final String COMMENT = COMMENT;
-    //public static final String CODE = CODE;
 
     public Layout()
     {
@@ -63,30 +56,30 @@ public class Layout extends Folder
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Name", 50, null, null);
-        field = new FieldInfo(this, "ParentFolderID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, NAME, 50, null, null);
+        field = new FieldInfo(this, PARENT_FOLDER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "Sequence", 5, null, null);
+        field = new FieldInfo(this, SEQUENCE, 5, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "Comment", 255, null, null);
+        field = new FieldInfo(this, COMMENT, 255, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "Code", 30, null, null);
-        field = new FieldInfo(this, "Type", 50, null, null);
-        field = new FieldInfo(this, "FieldValue", 255, null, null);
-        field = new FieldInfo(this, "ReturnsValue", 50, null, null);
-        field = new FieldInfo(this, "Max", 10, null, null);
+        field = new FieldInfo(this, CODE, 30, null, null);
+        field = new FieldInfo(this, TYPE, 50, null, null);
+        field = new FieldInfo(this, FIELD_VALUE, 255, null, null);
+        field = new FieldInfo(this, RETURNS_VALUE, 50, null, null);
+        field = new FieldInfo(this, MAX, 10, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "System", 30, null, null);
-        field = new FieldInfo(this, "Comments", 10, null, null);
+        field = new FieldInfo(this, SYSTEM, 30, null, null);
+        field = new FieldInfo(this, COMMENTS, 10, null, null);
         field.setDataClass(Boolean.class);
     }
     /**
@@ -95,7 +88,7 @@ public class Layout extends Folder
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ParentFolderID");
         keyArea.addKeyField("ParentFolderID", Constants.ASCENDING);

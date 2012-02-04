@@ -11,8 +11,13 @@ public interface ClassProjectModel extends FolderModel
 {
 
     //public static final String ID = ID;
-    //public static final String PARENT_FOLDER_ID = PARENT_FOLDER_ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     //public static final String NAME = NAME;
+    //public static final String PARENT_FOLDER_ID = PARENT_FOLDER_ID;
+    //public static final String SEQUENCE = SEQUENCE;
+    //public static final String COMMENT = COMMENT;
+    //public static final String CODE = CODE;
     public static final String DESCRIPTION = "Description";
     public static final String SYSTEM_CLASSES = "SystemClasses";
     public static final String PACKAGE_NAME = "PackageName";

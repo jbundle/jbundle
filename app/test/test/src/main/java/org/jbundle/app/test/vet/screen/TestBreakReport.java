@@ -103,7 +103,7 @@ public class TestBreakReport extends ReportScreen
         Record recVet = this.getRecord(Vet.VET_FILE);
         this.getMainRecord().getField(Cat.VET).addListener(new ReadSecondaryHandler(recVet));
         
-        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.REPORT_COUNT), -1, true, true, true));
+        this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.REPORT_COUNT), null, true, true, true));
         this.getMainRecord().addListener(new SubCountHandler(this.getScreenRecord().getField(TestReportScreenRecord.REPORT_TOTAL), Cat.WEIGHT, true, true, true));
     }
     /**
@@ -120,8 +120,8 @@ public class TestBreakReport extends ReportScreen
     public void setupSFields()
     {
         new TestBreakBreak(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC | HtmlConstants.HEADING_SCREEN, null);
-        this.getRecord(Cat.kCatFile).getField(Cat.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(Cat.kCatFile).getField(Cat.kWeight).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(Cat.CAT_FILE).getField(Cat.NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(Cat.CAT_FILE).getField(Cat.WEIGHT).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         new TestBreakBreak(null, null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC | HtmlConstants.FOOTING_SCREEN, null);
     }
     /**

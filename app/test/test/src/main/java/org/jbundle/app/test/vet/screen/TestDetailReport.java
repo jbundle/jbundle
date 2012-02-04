@@ -120,7 +120,7 @@ public class TestDetailReport extends ReportScreen
      */
     public void setupSFields()
     {
-        this.getRecord(Vet.kVetFile).getField(Vet.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(Vet.VET_FILE).getField(Vet.NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * Get the detail screen for this report item (null = none).

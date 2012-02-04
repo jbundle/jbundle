@@ -11,6 +11,8 @@ public interface FieldDataModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String FIELD_NAME = "FieldName";
     public static final String FIELD_CLASS = "FieldClass";
     public static final String BASE_FIELD_NAME = "BaseFieldName";

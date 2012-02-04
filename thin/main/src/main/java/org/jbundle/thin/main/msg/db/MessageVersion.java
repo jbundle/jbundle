@@ -15,10 +15,8 @@ import org.jbundle.model.main.msg.db.*;
 public class MessageVersion extends FieldList
     implements MessageVersionModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public MessageVersion()
     {
@@ -57,22 +55,22 @@ public class MessageVersion extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Description", 30, null, null);
-        field = new FieldInfo(this, "Code", 20, null, null);
-        field = new FieldInfo(this, "Namespace", 128, null, null);
-        field = new FieldInfo(this, "SchemaLocation", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "NumericVersion", 20, null, null);
-        field = new FieldInfo(this, "VersionID", 20, null, null);
-        field = new FieldInfo(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, DESCRIPTION, 30, null, null);
+        field = new FieldInfo(this, CODE, 20, null, null);
+        field = new FieldInfo(this, NAMESPACE, 128, null, null);
+        field = new FieldInfo(this, SCHEMA_LOCATION, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, NUMERIC_VERSION, 20, null, null);
+        field = new FieldInfo(this, VERSION_ID, 20, null, null);
+        field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
     }
     /**
@@ -81,7 +79,7 @@ public class MessageVersion extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.SECONDARY_KEY, "Code");
         keyArea.addKeyField("Code", Constants.ASCENDING);

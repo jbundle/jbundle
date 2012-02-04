@@ -16,11 +16,8 @@ import org.jbundle.model.main.msg.db.*;
 public class MessageDetail extends PropertiesRecord
     implements MessageDetailModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
-    //public static final String PROPERTIES = PROPERTIES;
 
     public MessageDetail()
     {
@@ -59,35 +56,35 @@ public class MessageDetail extends PropertiesRecord
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "ContactTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, CONTACT_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "PersonID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PERSON_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "MessageTransportID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, MESSAGE_TRANSPORT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "MessageProcessInfoID", 60, null, null);
+        field = new FieldInfo(this, MESSAGE_PROCESS_INFO_ID, 60, null, null);
         field.setDataClass(Integer.class);
-        //field = new FieldInfo(this, "DestinationSite", 127, null, null);
-        //field = new FieldInfo(this, "DestinationPath", 127, null, null);
-        //field = new FieldInfo(this, "ReturnSite", 127, null, null);
-        //field = new FieldInfo(this, "ReturnPath", 127, null, null);
-        //field = new FieldInfo(this, "XSLTDocument", 127, null, null);
-        //field = new FieldInfo(this, "DefaultMessageVersionID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //field = new FieldInfo(this, DESTINATION_SITE, 127, null, null);
+        //field = new FieldInfo(this, DESTINATION_PATH, 127, null, null);
+        //field = new FieldInfo(this, RETURN_SITE, 127, null, null);
+        //field = new FieldInfo(this, RETURN_PATH, 127, null, null);
+        //field = new FieldInfo(this, XSLT_DOCUMENT, 127, null, null);
+        //field = new FieldInfo(this, DEFAULT_MESSAGE_VERSION_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "DefaultMessageTransportID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, DEFAULT_MESSAGE_TRANSPORT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        //field = new FieldInfo(this, "InitialManualTransportStatusID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //field = new FieldInfo(this, INITIAL_MANUAL_TRANSPORT_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //field.setDataClass(Integer.class);
     }
     /**
@@ -96,7 +93,7 @@ public class MessageDetail extends PropertiesRecord
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ContactTypeID");
         keyArea.addKeyField("ContactTypeID", Constants.ASCENDING);

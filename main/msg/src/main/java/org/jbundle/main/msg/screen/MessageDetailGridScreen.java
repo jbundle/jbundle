@@ -166,10 +166,10 @@ public class MessageDetailGridScreen extends DetailGridScreen
      */
     public void setupSFields()
     {
-        this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageProcessInfoID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.MESSAGE_PROCESS_INFO_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         Converter convDefaultTransport = new CheckConverter(this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.DEFAULT_MESSAGE_TRANSPORT_ID), this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.MESSAGE_TRANSPORT_ID), null, true);
         convDefaultTransport.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageDetail.kMessageDetailFile).getField(MessageDetail.kMessageTransportID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageDetail.MESSAGE_DETAIL_FILE).getField(MessageDetail.MESSAGE_TRANSPORT_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * Get the command string to restore screen.

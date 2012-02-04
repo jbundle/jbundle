@@ -14,7 +14,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.util.Hashtable;
 import java.util.Map;
@@ -136,7 +135,7 @@ public class VBaseMenuScreen extends VBaseScreen
      * Usually, you use JAVA layout managers, but you may also use ScreenLayout.
      * @return The new GridBagLayout.
      */
-    public LayoutManager addScreenLayout()
+    public Object addScreenLayout()
     {
         GridBagLayout screenLayout = null;
         if (this.getScreenLayout() == null)   // Only if no parent screens
@@ -207,7 +206,7 @@ public class VBaseMenuScreen extends VBaseScreen
                 String strToolTip = null;
                 ScreenLocation loc = menuScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR);
                 ScreenField sbutton = new SMenuButton(loc, menuScreen, null, ScreenConstants.DISPLAY_DESC, null, strDescription, strIcon, strCommand, strToolTip, strText);
-                Component button = sbutton.getScreenFieldView().getControl(DBConstants.CONTROL_TOP);
+                Component button = (Component)sbutton.getScreenFieldView().getControl(DBConstants.CONTROL_TOP);
                 screenLayout.setConstraints(button, gbConstraints);
 
                 iRowCount++;

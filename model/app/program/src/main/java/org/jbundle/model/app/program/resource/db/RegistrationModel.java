@@ -11,6 +11,8 @@ public interface RegistrationModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String RESOURCE_ID = "ResourceID";
     public static final String CODE = "Code";
     public static final String LANGUAGE = "Language";

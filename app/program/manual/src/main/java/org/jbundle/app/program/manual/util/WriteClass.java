@@ -813,7 +813,7 @@ public class WriteClass extends BaseProcess
                         if (recScreenIn.getField(ScreenIn.SCREEN_FILE_NAME).getLength() != 0)
                         {
                             strFileName = recScreenIn.getField(ScreenIn.SCREEN_FILE_NAME).getString();
-                            getFile = "getRecord(" + strFileName + ".k" + strFileName + "File)";
+                            getFile = "getRecord(" + strFileName + "." + this.convertNameToConstant(strFileName + "File") + ")";
                         }
                         else
                             getFile = "getMainRecord()";
@@ -875,7 +875,7 @@ public class WriteClass extends BaseProcess
                         controlType = DBConstants.BLANK;
                         strDisabledEnding = ".setEnabled(false)";
                     }
-                    String fieldString = "this." + getFile + ".getField(" + strFileName + ".k" + strScreenFieldName + ")";
+                    String fieldString = "this." + getFile + ".getField(" + strFileName + "." + this.convertNameToConstant(strScreenFieldName) + ")";
                     if (controlType.length() == 1)
                     {
                         switch (controlType.charAt(0))

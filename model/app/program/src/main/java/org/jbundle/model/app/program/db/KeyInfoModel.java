@@ -11,6 +11,8 @@ public interface KeyInfoModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String KEY_FILENAME = "KeyFilename";
     public static final String KEY_NUMBER = "KeyNumber";
     public static final String KEY_FIELD_1 = "KeyField1";

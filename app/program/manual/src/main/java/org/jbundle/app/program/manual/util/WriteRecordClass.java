@@ -37,6 +37,7 @@ import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.model.app.program.db.ClassProjectModel.CodeType;
+import org.jbundle.model.db.Rec;
 
 
 /**
@@ -112,7 +113,8 @@ public class WriteRecordClass extends WriteSharedClass
      */
     public void writeClass(String strClassName, ClassProject.CodeType codeType)
     {
-        Record recClassInfo = this.getMainRecord();
+        FieldStuff fieldStuff = new FieldStuff();
+        ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
         if (!this.readThisClass(strClassName))  // Get the field this is based on
             return;
         if (RESOURCE_CLASS.equals(recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString()))
@@ -125,7 +127,7 @@ public class WriteRecordClass extends WriteSharedClass
         this.writeIncludes(CodeType.THICK);
     // Now include any BaseField classes not included in this source (method include)
         try   {
-            Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);
+            FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);
 
             this.writeRecordClassDetail(strClassName);  // Write the Thick Record Class
 
@@ -141,8 +143,14 @@ public class WriteRecordClass extends WriteSharedClass
             FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData, true);
             while (fieldIterator.hasNext())
             {
-                fieldIterator.next();
+                recFieldData = (FieldData)fieldIterator.next();
                 ClassInfo recClassInfo2 = null;
+                boolean ignoreThisField = this.ignoreFieldData(recFieldData);
+                this.getFieldData(fieldStuff, false);
+                if ((recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase("N")) || (fieldStuff.bNotNullField))
+                    ignoreThisField = false;
+                if (ignoreThisField)
+                    continue;
                 if ((recClassInfo2 = this.readFieldClass()) != null)
                     if (recClassInfo2.getField(ClassInfo.CLASS_SOURCE_FILE).equals(recClassInfo.getField(ClassInfo.CLASS_SOURCE_FILE)))
                 {   // If they are in the same source file, write the field class also.
@@ -163,11 +171,11 @@ public class WriteRecordClass extends WriteSharedClass
                         properties.put(recClassInfo2.getField(ClassInfo.CLASS_PROJECT_ID).getFieldName(), recClassInfo2.getField(ClassInfo.CLASS_PROJECT_ID).toString());
                     }
 
-                    WriteFieldClass classWriter = new WriteFieldClass(this.getTask(), null, properties);
-                    String strFieldClassName = null;
-                    classWriter.writeClass(strFieldClassName, codeType);
-                    classWriter.free();
-                    classWriter = null;
+                        WriteFieldClass classWriter = new WriteFieldClass(this.getTask(), null, properties);
+                        String strFieldClassName = null;
+                        classWriter.writeClass(strFieldClassName, codeType);
+                        classWriter.free();
+                        classWriter = null;
                 }
             }
             recFieldData.close();
@@ -184,14 +192,21 @@ public class WriteRecordClass extends WriteSharedClass
         if (codeType != CodeType.THICK)
             return;
         // Thick only
-        Record recClassInfo = this.getMainRecord();
-        Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);
+        FieldStuff fieldStuff = new FieldStuff();
+        ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
+        FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);
         Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);
 
         FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData, true);
         while (fieldIterator.hasNext())
         {
             fieldIterator.next();
+            boolean ignoreThisField = this.ignoreFieldData(recFieldData);
+            this.getFieldData(fieldStuff, false);
+            if ((recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase("N")) || (fieldStuff.bNotNullField))
+                ignoreThisField = false;
+            if (ignoreThisField)
+                continue;
             ClassInfo recClassInfo2 = null;
             if ((recClassInfo2 = this.readFieldClass()) != null)   // Get the field this is based on
             {       // Not in this source
@@ -719,7 +734,7 @@ public class WriteRecordClass extends WriteSharedClass
      */
     public void writeRecordClassDetail(String strRecordClass)
     {
-        Record recClassInfo = this.getMainRecord();
+        ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
         try   {
             this.readRecordClass(strRecordClass);
             if (m_MethodNameList.size() != 0)
@@ -796,7 +811,8 @@ public class WriteRecordClass extends WriteSharedClass
             }
             else
                 if (recClassInfo.getField(ClassInfo.CLASS_TYPE).getString().equalsIgnoreCase("Record"))
-                    m_StreamOut.writeit("\npublic static final String k" + strRecordClass + "File = null;\t// Screen field\n");    // Screen fields
+                    m_StreamOut.writeit("\npublic static final String " + this.convertNameToConstant(strRecordClass + "File") + " = null;\t// Screen field\n");    // Screen fields
+                    
 
             this.writeSetupField();
             this.readRecordClass(strRecordClass); // Must re-read this record class
@@ -817,10 +833,8 @@ public class WriteRecordClass extends WriteSharedClass
     { // Now, write all the field offsets out in the header file
         ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
         boolean firstTime = true;
-        String strBaseRecordClass, strBaseFieldName, strFieldName, strRecordClass;
-        strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
-        strBaseRecordClass = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).getString();
-        strFieldName = "MainField";     // In case there are no fields
+        String strBaseFieldName;
+        String strFieldName = "MainField";     // In case there are no fields
         Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);
 
 /*        if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
@@ -851,9 +865,22 @@ public class WriteRecordClass extends WriteSharedClass
         }
 */
         //String strLastField = strBaseRecordClass + "LastField";
-        boolean alwaysIncludeInModel = false;
-        if (!recClassInfo.isARecord(true))
-            alwaysIncludeInModel = true;      // Always include in model for records
+        boolean alwaysInclude = false;
+        boolean alwaysExclude = false;
+        if (recClassInfo.isARecord(false))
+        {   // For record, all the fields are in the model class
+            if (codeType == CodeType.INTERFACE)
+                alwaysInclude = true;
+            else
+                alwaysExclude = true;
+        }
+        else
+        {   // screen record are thick only - no model
+            if (codeType == CodeType.THICK)
+                alwaysInclude = true;
+            else
+                alwaysExclude = true;
+        }
         for (int pass = 1; pass <= 2; ++pass) // Do this two times (two passes)
         {
             fieldIterator.close();
@@ -891,8 +918,10 @@ public class WriteRecordClass extends WriteSharedClass
                         //else
                         //    strFieldName = "k" + strFieldName;
                         boolean includeThis = ((IncludeScopeField)recFieldData.getField(FieldData.INCLUDE_SCOPE)).includeThis(codeType, true);
-                        if (alwaysIncludeInModel)
-                            includeThis = codeType == CodeType.INTERFACE ? true : false;
+                        if (alwaysInclude)
+                            includeThis = true;
+                        if (alwaysExclude)
+                            includeThis = false;
                         if (includeThis)
                             m_StreamOut.writeit("\n" + strPre + "public static final " + type + " " + strFieldName + " = " + value + ";");
                     }
@@ -902,8 +931,12 @@ public class WriteRecordClass extends WriteSharedClass
                     {
                         firstTime = false;
                         boolean includeThis = ((IncludeScopeField)recFieldData.getField(FieldData.INCLUDE_SCOPE)).includeThis(codeType, true);
-                        if (alwaysIncludeInModel)
-                            includeThis = codeType == CodeType.INTERFACE ? true : false;
+                        if (alwaysInclude)
+                            includeThis = true;
+                        if (alwaysExclude)
+                            includeThis = false;
+                        if (Rec.ID.equals(strFieldName))
+                            includeThis = false;    // HACK
                         if (includeThis)
                         {
                             String strFieldConstant = this.convertNameToConstant(strFieldName);
@@ -1118,6 +1151,19 @@ public class WriteRecordClass extends WriteSharedClass
             }
         }
     }
+    public boolean ignoreFieldData(FieldData recFieldData)
+    {
+        if (recFieldData.getField(FieldData.kID).isNull())
+            return true;
+        if (recFieldData.getField(FieldData.FIELD_NAME).getString().equals(recFieldData.getField(FieldData.BASE_FIELD_NAME).getString()))
+        if (recFieldData.getField(FieldData.FIELD_CLASS).getLength() == 0)
+        if (recFieldData.getField(FieldData.MAXIMUM_LENGTH).getLength() == 0)
+        if (recFieldData.getField(FieldData.FIELD_DESC_VERTICAL).getLength() == 0)
+        if (recFieldData.getField(FieldData.DEFAULT_VALUE).getLength() == 0)
+        if (recFieldData.getField(FieldData.INITIAL_VALUE).getLength() == 0)
+            return true;
+        return false;
+    }
     /**
      *  WriteSetupField.
      *  WARNING: This method changes the Class Info File Position
@@ -1125,11 +1171,11 @@ public class WriteRecordClass extends WriteSharedClass
     public void writeSetupField()
     {
         FieldStuff fieldStuff = new FieldStuff();
-        Record recClassInfo = this.getMainRecord();
+        ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
     // Now, write all the record methods
         Record recFileHdr = this.getRecord(FileHdr.FILE_HDR_FILE);          // Open the Agency File
-        Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);          // Open the Agency File
-        FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData, false);
+        FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);          // Open the Agency File
+        FieldIterator fieldIterator = new FieldIterator(recFileHdr, recClassInfo, recFieldData, true);
         if (!fieldIterator.hasNext())
             return;
 
@@ -1143,16 +1189,9 @@ public class WriteRecordClass extends WriteSharedClass
         int count = 0;
         while (fieldIterator.hasNext())
         {
-            recFieldData = (Record)fieldIterator.next();
+            recFieldData = (FieldData)fieldIterator.next();
             String strPre = DBConstants.BLANK;
-            if (recFieldData.getField(FieldData.kID).isNull())
-                strPre = "//";
-            if (recFieldData.getField(FieldData.FIELD_NAME).getString().equals(recFieldData.getField(FieldData.BASE_FIELD_NAME).getString()))
-            if (recFieldData.getField(FieldData.FIELD_CLASS).getLength() == 0)
-            if (recFieldData.getField(FieldData.MAXIMUM_LENGTH).getLength() == 0)
-            if (recFieldData.getField(FieldData.FIELD_DESC_VERTICAL).getLength() == 0)
-            if (recFieldData.getField(FieldData.DEFAULT_VALUE).getLength() == 0)
-            if (recFieldData.getField(FieldData.INITIAL_VALUE).getLength() == 0)
+            if (this.ignoreFieldData(recFieldData))
                 strPre = "//";
 
             this.getFieldData(fieldStuff, false);
@@ -1443,21 +1482,20 @@ public class WriteRecordClass extends WriteSharedClass
         fieldStuff.strDefaultField = this.getInitField(recFieldData, true, bThin);
         if ((fieldStuff.strDefaultField == null) || (fieldStuff.strDefaultField.length() == 0))
             fieldStuff.strDefaultField = "null";
-        else
-            if (fieldStuff.strDefaultField.charAt(0) != '\"')
+        else if (fieldStuff.strDefaultField.charAt(0) != '\"')
+        {
+            if ((fieldStuff.strDataClass.equals("String")) || (fieldStuff.strDataClass.equals("Object")) || (fieldStuff.strDataClass == null))
+                fieldStuff.strDefaultField = "\"" + fieldStuff.strDefaultField + "\"";
+            else
             {
-                if ((fieldStuff.strDataClass.equals("String")) || (fieldStuff.strDataClass.equals("Object")) || (fieldStuff.strDataClass == null))
-                    fieldStuff.strDefaultField = "\"" + fieldStuff.strDefaultField + "\"";
-                else
-                {
-                    if (fieldStuff.strDataClass.equals("Short"))
-                        fieldStuff.strDefaultField = "(short)" + fieldStuff.strDefaultField;
-                    if (fieldStuff.strDataClass.equals("Currency"))
-                        fieldStuff.strDataClass = "Double";
-                    if (!fieldStuff.strDefaultField.startsWith("new "))
-                        fieldStuff.strDefaultField = "new " + fieldStuff.strDataClass + "(" + fieldStuff.strDefaultField + ")";
-                }
+                if (fieldStuff.strDataClass.equals("Short"))
+                    fieldStuff.strDefaultField = "(short)" + fieldStuff.strDefaultField;
+                if (fieldStuff.strDataClass.equals("Currency"))
+                    fieldStuff.strDataClass = "Double";
+                if (!fieldStuff.strDefaultField.startsWith("new "))
+                    fieldStuff.strDefaultField = "new " + fieldStuff.strDataClass + "(" + fieldStuff.strDefaultField + ")";
             }
+        }
     }
     /**
      *  Read thru the classes until you get a Physical data class.

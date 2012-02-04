@@ -15,10 +15,8 @@ import org.jbundle.model.app.test.vet.shared.db.*;
 public class Reptile extends FieldList
     implements ReptileModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public Reptile()
     {
@@ -57,25 +55,25 @@ public class Reptile extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "ReptileTypeID", 10, null, null);
+        field = new FieldInfo(this, REPTILE_TYPE_ID, 10, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "Extra", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "Special", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "Name", 30, null, null);
-        field = new FieldInfo(this, "VetID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, EXTRA, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, SPECIAL, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, NAME, 30, null, null);
+        field = new FieldInfo(this, VET_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "Weight", 5, null, null);
+        field = new FieldInfo(this, WEIGHT, 5, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "Clearance", 5, null, null);
+        field = new FieldInfo(this, CLEARANCE, 5, null, null);
         field.setDataClass(Short.class);
     }
     /**
@@ -84,7 +82,7 @@ public class Reptile extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "VetID");
         keyArea.addKeyField("VetID", Constants.ASCENDING);

@@ -70,9 +70,9 @@ public class ClassProjectHeaderScreen extends HeaderScreen
      */
     public void setupSFields()
     {
-        this.getRecord(ClassInfoScreenRecord.kClassInfoScreenRecordFile).getField(ClassInfoScreenRecord.kClassProjectID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassInfoScreenRecord.kClassInfoScreenRecordFile).getField(ClassInfoScreenRecord.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ClassInfoScreenRecord.kClassInfoScreenRecordFile).getField(ClassInfoScreenRecord.kPackage).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassInfoScreenRecord.CLASS_INFO_SCREEN_RECORD_FILE).getField(ClassInfoScreenRecord.CLASS_PROJECT_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassInfoScreenRecord.CLASS_INFO_SCREEN_RECORD_FILE).getField(ClassInfoScreenRecord.NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ClassInfoScreenRecord.CLASS_INFO_SCREEN_RECORD_FILE).getField(ClassInfoScreenRecord.PACKAGE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

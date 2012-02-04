@@ -87,8 +87,8 @@ public class FieldDataGridScreen extends GridScreen
      */
     public void setupSFields()
     {
-        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kFieldName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kFieldClass).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.FIELD_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.FIELD_CLASS).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         Converter converter = this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.FIELD_DESCRIPTION);
         converter = new FieldLengthConverter(converter, 50);
         converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);

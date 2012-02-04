@@ -33,19 +33,6 @@ public class UserPermission extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kUserGroupID = kVirtualRecordLastField + 1;
-    public static final int kUserResourceID = kUserGroupID + 1;
-    public static final int kLoginLevel = kUserResourceID + 1;
-    public static final int kAccessLevel = kLoginLevel + 1;
-    public static final int kUserPermissionLastField = kAccessLevel;
-    public static final int kUserPermissionFields = kAccessLevel - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kUserGroupIDKey = kIDKey + 1;
-    public static final int kUserResourceIDKey = kUserGroupIDKey + 1;
-    public static final int kUserPermissionLastKey = kUserResourceIDKey;
-    public static final int kUserPermissionKeys = kUserResourceIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -68,14 +55,12 @@ public class UserPermission extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kUserPermissionFile = "UserPermission";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kUserPermissionFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(USER_PERMISSION_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -111,28 +96,34 @@ public class UserPermission extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kUserGroupID)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
         {
-            field = new UserGroupField(this, "UserGroupID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new UserGroupField(this, USER_GROUP_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setNullable(false);
         }
-        if (iFieldSeq == kUserResourceID)
-            field = new UserResourceField(this, "UserResourceID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kLoginLevel)
-            field = new LoginLevelField(this, "LoginLevel", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kAccessLevel)
-            field = new AccessLevelField(this, "AccessLevel", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new UserResourceField(this, USER_RESOURCE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new LoginLevelField(this, LOGIN_LEVEL, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new AccessLevelField(this, ACCESS_LEVEL, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kUserPermissionLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -141,31 +132,27 @@ public class UserPermission extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kUserGroupIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "UserGroupID");
-            keyArea.addKeyField(kUserGroupID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kUserResourceID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kLoginLevel, DBConstants.ASCENDING);
+            keyArea.addKeyField(USER_GROUP_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(USER_RESOURCE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(LOGIN_LEVEL, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kUserResourceIDKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "UserResourceID");
-            keyArea.addKeyField(kUserResourceID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kUserGroupID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kLoginLevel, DBConstants.ASCENDING);
+            keyArea.addKeyField(USER_RESOURCE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(USER_GROUP_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(LOGIN_LEVEL, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kUserPermissionLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kUserPermissionLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

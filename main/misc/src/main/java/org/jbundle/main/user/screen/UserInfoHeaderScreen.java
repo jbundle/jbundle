@@ -61,7 +61,7 @@ public class UserInfoHeaderScreen extends HeaderScreen
      */
     public void setupSFields()
     {
-        this.getRecord(UserInfo.kUserInfoFile).getField(UserInfo.kUserName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(UserInfo.USER_INFO_FILE).getField(UserInfo.USER_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

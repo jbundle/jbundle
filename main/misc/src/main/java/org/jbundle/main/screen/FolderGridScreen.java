@@ -154,7 +154,7 @@ public class FolderGridScreen extends BaseFolderGridScreen
      */
     public void setupSFields()
     {
-        this.getRecord(Folder.kFolderFile).getField(Folder.kName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(Folder.FOLDER_FILE).getField(Folder.NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

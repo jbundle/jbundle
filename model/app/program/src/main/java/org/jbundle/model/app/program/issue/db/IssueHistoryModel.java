@@ -11,6 +11,8 @@ public interface IssueHistoryModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String COMMENT = "Comment";
     public static final String ISSUE_ID = "IssueID";
 

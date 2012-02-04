@@ -70,7 +70,7 @@ public class MessageProcessInfoHeaderScreen extends HeaderScreen
      */
     public void setupSFields()
     {
-        this.getRecord(MessageInfoScreenRecord.kMessageInfoScreenRecordFile).getField(MessageInfoScreenRecord.kMessageProcessInfoID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageInfoScreenRecord.MESSAGE_INFO_SCREEN_RECORD_FILE).getField(MessageInfoScreenRecord.MESSAGE_PROCESS_INFO_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

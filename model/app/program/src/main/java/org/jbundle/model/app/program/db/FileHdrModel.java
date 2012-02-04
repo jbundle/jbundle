@@ -11,6 +11,8 @@ public interface FileHdrModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String FILE_NAME = "FileName";
     public static final String FILE_DESC = "FileDesc";
     public static final String FILE_MAIN_FILENAME = "FileMainFilename";

@@ -12,6 +12,7 @@ public interface UserInfoModel extends PropertiesRecordModel
 
     //public static final String ID = ID;
     //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     //public static final String PROPERTIES = PROPERTIES;
     public static final String USER_NAME = "UserName";
     public static final String FIRST_NAME = "FirstName";

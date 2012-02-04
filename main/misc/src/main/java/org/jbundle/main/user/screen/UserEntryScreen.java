@@ -132,8 +132,8 @@ public class UserEntryScreen extends UserInfoBaseScreen
     public void setupSFields()
     {
         super.setupSFields();
-        this.getRecord(UserInfo.kUserInfoFile).getField(UserInfo.kFirstName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(UserInfo.kUserInfoFile).getField(UserInfo.kLastName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(UserInfo.USER_INFO_FILE).getField(UserInfo.FIRST_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(UserInfo.USER_INFO_FILE).getField(UserInfo.LAST_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.addOtherSFields();   // Add other screen fields here
         Converter converter = new HashSHAConverter(this.getScreenRecord().getField(UserScreenRecord.NEW_PASSWORD_1));
         converter = new FieldLengthConverter(converter, 20, 6);
@@ -141,13 +141,13 @@ public class UserEntryScreen extends UserInfoBaseScreen
         converter = new HashSHAConverter(this.getScreenRecord().getField(UserScreenRecord.NEW_PASSWORD_2));
         converter = new FieldLengthConverter(converter, 20, 6);
         converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.ksaveuser).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(UserScreenRecord.USER_SCREEN_RECORD_FILE).getField(UserScreenRecord.SAVEUSER).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         String strSubmitText = MenuConstants.SUBMIT;
         if (this.getTask() != null)
             if (this.getTask().getApplication() != null)
                 strSubmitText = this.getTask().getApplication().getResources(ResourceConstants.MAIN_RESOURCE, true).getString(strSubmitText);
         new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, strSubmitText, MenuConstants.SUBMIT, MenuConstants.SUBMIT, null);
-        this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kTerms).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(UserScreenRecord.USER_SCREEN_RECORD_FILE).getField(UserScreenRecord.TERMS).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * AddOtherSFields Method.

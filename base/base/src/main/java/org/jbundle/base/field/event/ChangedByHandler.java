@@ -27,7 +27,7 @@ public class ChangedByHandler extends FieldListener
     /**
      * The field sequence of the "changed by" field.
      */
-    int m_iMainFilesFieldSeq = -1;
+    String m_iMainFilesFieldSeq = null;
 
     /**
      * Constructor.
@@ -40,7 +40,7 @@ public class ChangedByHandler extends FieldListener
      * Constructor.
      * param iMainFilesField The field sequence of the "changed by" field in this field's record.
      */
-    public ChangedByHandler(int iMainFilesField)
+    public ChangedByHandler(String iMainFilesField)
     {
         this();
         this.init(null, iMainFilesField);
@@ -50,7 +50,7 @@ public class ChangedByHandler extends FieldListener
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      * param iMainFilesField The field sequence of the "changed by" field in this field's record.
      */
-    public void init(BaseField field, int iMainFilesField)
+    public void init(BaseField field, String iMainFilesField)
     {
         super.init(field);
         m_iMainFilesFieldSeq = iMainFilesField;
@@ -83,7 +83,7 @@ public class ChangedByHandler extends FieldListener
      * Set the main file's field seq.
      * @param iMainFilesFieldSeq
      */
-    public void setMainFilesFieldSeq(int iMainFilesFieldSeq )
+    public void setMainFilesFieldSeq(String iMainFilesFieldSeq )
     {
         m_iMainFilesFieldSeq = iMainFilesFieldSeq;
     }

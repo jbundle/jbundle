@@ -32,13 +32,8 @@ public class TestScreenRecord extends ScreenRecord
     private static final long serialVersionUID = 1L;
 
     public static final String NAME_SORT = "NameSort";
-    public static final int kNameSort = kScreenRecordLastField + 1;
     public static final String CODE_SORT = "CodeSort";
-    public static final int kCodeSort = kNameSort + 1;
     public static final String SORT_KEY = "SortKey";
-    public static final int kSortKey = kCodeSort + 1;
-    public static final int kTestScreenRecordLastField = kSortKey;
-    public static final int kTestScreenRecordFields = kSortKey - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -62,25 +57,21 @@ public class TestScreenRecord extends ScreenRecord
         super.init(screen);
     }
 
-    public static final String kTestScreenRecordFile = null;    // Screen field
+    public static final String TEST_SCREEN_RECORD_FILE = null;  // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kNameSort)
-            field = new StringField(this, "NameSort", 10, null, null);
-        if (iFieldSeq == kCodeSort)
-            field = new StringField(this, "CodeSort", 10, null, null);
-        if (iFieldSeq == kSortKey)
-            field = new ShortField(this, "SortKey", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 0)
+            field = new StringField(this, NAME_SORT, 10, null, null);
+        if (iFieldSeq == 1)
+            field = new StringField(this, CODE_SORT, 10, null, null);
+        if (iFieldSeq == 2)
+            field = new ShortField(this, SORT_KEY, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kTestScreenRecordLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

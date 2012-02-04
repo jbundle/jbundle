@@ -33,21 +33,6 @@ public class Part extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kDescription = kVirtualRecordLastField + 1;
-    public static final int kSequence = kDescription + 1;
-    public static final int kKind = kSequence + 1;
-    public static final int kPartType = kKind + 1;
-    public static final int kJnlpFileID = kPartType + 1;
-    public static final int kPath = kJnlpFileID + 1;
-    public static final int kPartLastField = kPath;
-    public static final int kPartFields = kPath - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kDescriptionKey = kIDKey + 1;
-    public static final int kJnlpFileIDKey = kDescriptionKey + 1;
-    public static final int kPartLastKey = kJnlpFileIDKey;
-    public static final int kPartKeys = kJnlpFileIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -70,14 +55,12 @@ public class Part extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kPartFile = "Part";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kPartFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(PART_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -99,29 +82,35 @@ public class Part extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", 60, null, null);
-        if (iFieldSeq == kSequence)
-            field = new IntegerField(this, "Sequence", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kKind)
-            field = new StringField(this, "Kind", 10, null, null);
-        if (iFieldSeq == kPartType)
-            field = new PartTypeField(this, "PartType", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kJnlpFileID)
-            field = new JnlpFileField(this, "JnlpFileID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kPath)
-            field = new StringField(this, "Path", 128, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, DESCRIPTION, 60, null, null);
+        if (iFieldSeq == 4)
+            field = new IntegerField(this, SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, KIND, 10, null, null);
+        if (iFieldSeq == 6)
+            field = new PartTypeField(this, PART_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new JnlpFileField(this, JNLP_FILE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new StringField(this, PATH, 128, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kPartLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -130,29 +119,25 @@ public class Part extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kDescriptionKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Description");
-            keyArea.addKeyField(kDescription, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kJnlpFileIDKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "JnlpFileID");
-            keyArea.addKeyField(kJnlpFileID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kSequence, DBConstants.ASCENDING);
-            keyArea.addKeyField(kDescription, DBConstants.ASCENDING);
+            keyArea.addKeyField(JNLP_FILE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kPartLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kPartLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

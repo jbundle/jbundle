@@ -59,7 +59,6 @@ public class SubCountHandler extends FileListener
     /**
      * The target field to receive the count.
      */
-    protected int m_fsToCount = -1;
     protected String fsToCount = null;
     /**
      * The (optional) field break.
@@ -90,7 +89,7 @@ public class SubCountHandler extends FileListener
     public SubCountHandler(BaseField fieldMain, boolean bRecountOnSelect, boolean bVerifyOnEOF)
     {
         this();
-        this.init(null, null, -1, fieldMain, -1, null, bRecountOnSelect, bVerifyOnEOF, false);
+        this.init(null, null, null, fieldMain, null, bRecountOnSelect, bVerifyOnEOF, false);
     }
     /**
      * Constructor for counting the value of a field in this record.
@@ -102,32 +101,7 @@ public class SubCountHandler extends FileListener
     public SubCountHandler(BaseField fieldMain, String fsToCount, boolean bRecountOnSelect, boolean bVerifyOnEOF)   // Init this field override for other value
     {
         this();
-        this.init(null, null, -1, fieldMain, -1, fsToCount, bRecountOnSelect, bVerifyOnEOF, false);
-    }
-    /**
-     * Constructor for counting the value of a field in this record.
-     * @param fieldMain The field to receive the count.
-     * @param ifsToCount The field in this record to add up.
-     * @param bVerifyOnEOF Verify the total on End of File (true default).
-     * @param bRecountOnSelect Recount the total each time a file select is called (False default).
-     */
-    public SubCountHandler(BaseField fieldMain, int ifsToCount, boolean bRecountOnSelect, boolean bVerifyOnEOF)   // Init this field override for other value
-    {
-        this();
-        this.init(null, null, -1, fieldMain, ifsToCount, null, bRecountOnSelect, bVerifyOnEOF, false);
-    }
-    /**
-     * Constructor for counting the value of a field in this record.
-     * @param fieldMain The field to receive the count.
-     * @param ifsToCount The field in this record to add up.
-     * @param bVerifyOnEOF Verify the total on End of File (true default).
-     * @param bRecountOnSelect Recount the total each time a file select is called (False default).
-     * @param bResetOnBreak Reset the counter on a control break?
-     */
-    public SubCountHandler(BaseField fieldMain, int ifsToCount, boolean bRecountOnSelect, boolean bVerifyOnEOF, boolean bResetOnBreak)   // Init this field override for other value
-    {
-        this();
-        this.init(null, null, -1, fieldMain, ifsToCount, null, bRecountOnSelect, bVerifyOnEOF, bResetOnBreak);
+        this.init(null, null, null, fieldMain, fsToCount, bRecountOnSelect, bVerifyOnEOF, false);
     }
     /**
      * Constructor for counting the value of a field in this record.
@@ -140,7 +114,7 @@ public class SubCountHandler extends FileListener
     public SubCountHandler(BaseField fieldMain, String fsToCount, boolean bRecountOnSelect, boolean bVerifyOnEOF, boolean bResetOnBreak)   // Init this field override for other value
     {
         this();
-        this.init(null, null, -1, fieldMain, -1, fsToCount, bRecountOnSelect, bVerifyOnEOF, bResetOnBreak);
+        this.init(null, null, null, fieldMain, fsToCount, bRecountOnSelect, bVerifyOnEOF, bResetOnBreak);
     }
     /**
      * Constructor for counting the value of a field in this record.
@@ -150,10 +124,9 @@ public class SubCountHandler extends FileListener
      * @param bRecountOnSelect Recount the total each time a file select is called (False default).
      * @param bResetOnBreak Reset the counter on a control break?
      */
-    public void init(Record record, Record recordMain, int iMainFilesField, BaseField fieldMain, int ifsToCount, String fsToCount, boolean bRecountOnSelect, boolean bVerifyOnEOF, boolean bResetOnBreak)    // Init this field override for other value
+    public void init(Record record, Record recordMain, String iMainFilesField, BaseField fieldMain, String fsToCount, boolean bRecountOnSelect, boolean bVerifyOnEOF, boolean bResetOnBreak)    // Init this field override for other value
     {
         super.init(record);
-        m_fsToCount = ifsToCount;
         this.fsToCount = fsToCount;
         if (fieldMain != null)
             m_fldMain = fieldMain;
@@ -188,7 +161,7 @@ public class SubCountHandler extends FileListener
     public Object clone()
     {   // The listener is cloned along with any cloned files
         SubCountHandler handler = new SubCountHandler();
-        handler.init(null, null, -1, m_fldMain, m_fsToCount, fsToCount, m_bRecountOnSelect, m_bVerifyOnEOF, m_bResetOnBreak);    // Init this field override for other value
+        handler.init(null, null, null, m_fldMain, fsToCount, m_bRecountOnSelect, m_bVerifyOnEOF, m_bResetOnBreak);    // Init this field override for other value
         return handler;
     }
     /**
@@ -313,8 +286,6 @@ public class SubCountHandler extends FileListener
     { // Read a valid record
         if (fsToCount != null)
             return this.getOwner().getField(fsToCount).getValue();    // Default implementation only counts records!
-        if (m_fsToCount != -1)
-            return this.getOwner().getField(m_fsToCount).getValue();    // Default implementation only counts records!
         else
             return 1; // Count records.
     }

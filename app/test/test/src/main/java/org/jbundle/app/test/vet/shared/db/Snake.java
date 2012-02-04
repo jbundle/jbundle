@@ -36,22 +36,6 @@ public class Snake extends Reptile
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    //public static final int kReptileTypeID = kReptileTypeID;
-    //public static final int kExtra = kExtra;
-    //public static final int kSpecial = kSpecial;
-    //public static final int kName = kName;
-    //public static final int kVetID = kVetID;
-    //public static final int kWeight = kWeight;
-    //public static final int kClearance = kClearance;
-    public static final int kSnakeLastField = kReptileLastField;
-    public static final int kSnakeFields = kReptileLastField - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kVetIDKey = kIDKey + 1;
-    public static final int kNameKey = kVetIDKey + 1;
-    public static final int kSnakeLastKey = kNameKey;
-    public static final int kSnakeKeys = kNameKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -74,14 +58,12 @@ public class Snake extends Reptile
     {
         super.init(screen);
     }
-
-    public static final String kSnakeFile = "Reptile";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kSnakeFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(SNAKE_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -117,34 +99,40 @@ public class Snake extends Reptile
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        //if (iFieldSeq == kReptileTypeID)
+        //if (iFieldSeq == 1)
         //{
-        //  field = new ReptileTypeField(this, "ReptileTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 3)
+        //{
+        //  field = new ReptileTypeField(this, REPTILE_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.addListener(new InitOnceFieldHandler(null));
         //}
-        //if (iFieldSeq == kExtra)
-        //  field = new StringField(this, "Extra", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kSpecial)
-        //  field = new StringField(this, "Special", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kName)
-        //  field = new StringField(this, "Name", 30, null, null);
-        //if (iFieldSeq == kVetID)
-        //  field = new VetField(this, "VetID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kWeight)
-        //  field = new ShortField(this, "Weight", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kClearance)
-            field = new UnusedField(this, "Clearance", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 4)
+        //  field = new StringField(this, EXTRA, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 5)
+        //  field = new StringField(this, SPECIAL, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 6)
+        //  field = new StringField(this, NAME, 30, null, null);
+        //if (iFieldSeq == 7)
+        //  field = new VetField(this, VET_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 8)
+        //  field = new ShortField(this, WEIGHT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
+            field = new UnusedField(this, CLEARANCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kSnakeLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -153,27 +141,23 @@ public class Snake extends Reptile
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kVetIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "VetID");
-            keyArea.addKeyField(kVetID, DBConstants.ASCENDING);
+            keyArea.addKeyField(VET_ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kNameKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Name");
-            keyArea.addKeyField(kName, DBConstants.ASCENDING);
+            keyArea.addKeyField(NAME, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kSnakeLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kSnakeLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

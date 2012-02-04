@@ -34,20 +34,6 @@ public class ProjectVersion extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kDescription = kVirtualRecordLastField + 1;
-    public static final int kProjectID = kDescription + 1;
-    public static final int kUserID = kProjectID + 1;
-    public static final int kClosed = kUserID + 1;
-    public static final int kDueDate = kClosed + 1;
-    public static final int kProjectVersionLastField = kDueDate;
-    public static final int kProjectVersionFields = kDueDate - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kDescriptionKey = kIDKey + 1;
-    public static final int kProjectIDKey = kDescriptionKey + 1;
-    public static final int kProjectVersionLastKey = kProjectIDKey;
-    public static final int kProjectVersionKeys = kProjectIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -70,14 +56,12 @@ public class ProjectVersion extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kProjectVersionFile = "ProjectVersion";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kProjectVersionFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(PROJECT_VERSION_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -99,27 +83,33 @@ public class ProjectVersion extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProjectID)
-            field = new ProjectField(this, "ProjectID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kUserID)
-            field = new UserField(this, "UserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kClosed)
-            field = new BooleanField(this, "Closed", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
-        if (iFieldSeq == kDueDate)
-            field = new DateField(this, "DueDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, DESCRIPTION, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new ProjectField(this, PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new UserField(this, USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new BooleanField(this, CLOSED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        if (iFieldSeq == 7)
+            field = new DateField(this, DUE_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kProjectVersionLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -128,27 +118,23 @@ public class ProjectVersion extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kDescriptionKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Description");
-            keyArea.addKeyField(kDescription, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kProjectIDKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ProjectID");
-            keyArea.addKeyField(kProjectID, DBConstants.ASCENDING);
+            keyArea.addKeyField(PROJECT_ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kProjectVersionLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kProjectVersionLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

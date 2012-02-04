@@ -87,8 +87,8 @@ public class LogicFileGridScreen extends GridScreen
      */
     public void setupSFields()
     {
-        this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kSequence).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(LogicFile.kLogicFileFile).getField(LogicFile.kMethodName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.SEQUENCE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(LogicFile.LOGIC_FILE_FILE).getField(LogicFile.METHOD_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

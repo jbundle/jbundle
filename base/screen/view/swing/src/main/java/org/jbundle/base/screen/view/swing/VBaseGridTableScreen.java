@@ -11,7 +11,6 @@ package org.jbundle.base.screen.view.swing;
  */
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -153,7 +152,7 @@ public class VBaseGridTableScreen extends VBaseGridScreen
      * Don't set it up for a grid screen.
      * @return The screen layout (none here).
      */
-    public LayoutManager addScreenLayout()
+    public Object addScreenLayout()
     {
         return null;
     }

@@ -11,8 +11,11 @@ public interface DogModel extends AnimalModel
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     //public static final String NAME = NAME;
     //public static final String COLOR = COLOR;
+    //public static final String WEIGHT = WEIGHT;
     //public static final String VET = VET;
     public static final String BARK = "Bark";
 

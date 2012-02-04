@@ -9,11 +9,8 @@ package org.jbundle.base.screen.model.menu;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.awt.Dimension;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import javax.swing.JMenuBar;
 
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.ResourceConstants;
@@ -116,23 +113,15 @@ public class SBaseMenuBar extends BasePanel
      * Add the menu items to this frame.
      * @return The new menu.
      */
-    public JMenuBar addMenu(ScreenFieldView sfView)
+    public Object addMenu(ScreenFieldView sfView)
     {
         char rgchShortcuts[] = new char[10];
-        JMenuBar menubar = new JMenuBar()
-        {
-            private static final long serialVersionUID = 1L;
+        Object menubar = sfView.createMenu();
 
-            public Dimension getMaximumSize()
-            {   // HACK - Not sure why menu takes up 1/2 of screen...?
-                return new Dimension(super.getMaximumSize().width, super.getPreferredSize().height);
-            }
-        };
-        menubar.setBorderPainted(false);
-        menubar.setOpaque(false);
-        menubar.add(sfView.addStandardMenu(ThinMenuConstants.FILE, rgchShortcuts));
-        menubar.add(sfView.addStandardMenu(ThinMenuConstants.EDIT, rgchShortcuts));
-        menubar.add(sfView.addStandardMenu(ThinMenuConstants.HELP, rgchShortcuts));
+        sfView.addStandardMenu(menubar, ThinMenuConstants.FILE, rgchShortcuts);
+        sfView.addStandardMenu(menubar, ThinMenuConstants.EDIT, rgchShortcuts);
+        sfView.addStandardMenu(menubar, ThinMenuConstants.HELP, rgchShortcuts);
+
         return menubar;
     }
     /**

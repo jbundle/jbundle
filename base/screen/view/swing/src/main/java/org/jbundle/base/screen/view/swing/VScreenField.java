@@ -171,9 +171,9 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
      * Set the physical control.
      * @param control The physical control.
      */
-    public void setControl(Component control)
+    public void setControl(Object control)
     {
-        m_control = control;
+        m_control = (Component)control;
     }
     /**
      * Get the physical component associated with this SField.
@@ -301,9 +301,9 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
      * @param bIsInput This this an input (vs a display) field?
      * @param bGridControl Is it a grid control?
      */
-    public void setControlAttributes(Component control, boolean bIsInput, boolean bSelected, boolean bGridControl)
+    public void setControlAttributes(Object control, boolean bIsInput, boolean bSelected, boolean bGridControl)
     {
-        if (control != null)
+        if (control instanceof Component)
         {
             ScreenInfo screenInfo = this.getScreenInfo();
             if (screenInfo != null)
@@ -319,13 +319,13 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
                             if (control != null)
                     {
                         if (m_colorNormal == null)
-                            m_colorNormal = control.getBackground();
+                            m_colorNormal = ((Component)control).getBackground();
                         colorBackground = m_colorNormal;
                     }
                     if (colorText != null)
-                        control.setForeground(colorText);
+                        ((Component)control).setForeground(colorText);
                     if (colorBackground != null)
-                        control.setBackground(colorBackground);
+                        ((Component)control).setBackground(colorBackground);
                     if (!screenInfo.isCustomTheme())
                         if (control instanceof JTextComponent)
                             if (((JTextComponent)control).getDisabledTextColor().getRGB() == -4665371)
@@ -342,24 +342,24 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
                             m_colorSelected = jtable.getSelectionBackground();
                         }
                         if (m_colorSelected == null)
-                            m_colorSelected = control.getBackground();
+                            m_colorSelected = ((Component)control).getBackground();
                         if ((m_colorSelected == null) || (m_colorSelected.equals(Color.white)) || (m_colorSelected.equals(Color.black)))
                             m_colorSelected = Color.lightGray;
                     }
-                    control.setBackground(m_colorSelected);
+                    ((Component)control).setBackground(m_colorSelected);
                     if (bGridControl)
                         if (this.getScreenField().getParentScreen() instanceof GridScreen)  // Double-check
                             if (bIsInput)
                                 if (this.getScreenField().isEnabled())
                     {
                         JTable jtable = (JTable)this.getScreenField().getParentScreen().getScreenFieldView().getControl();
-                        control.setBackground(jtable.getBackground());
+                        ((Component)control).setBackground(jtable.getBackground());
                     }
                 }
                 if (screenInfo != null)
                     if (!screenInfo.isCustomTheme()) // If there is a custom theme, the theme will set the fonts
                         if (screenInfo.getFont() != null)
-                            control.setFont(screenInfo.getFont());
+                            ((Component)control).setFont(screenInfo.getFont());
             }
         }
     }

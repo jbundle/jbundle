@@ -159,7 +159,7 @@ public class VFrameScreen extends VBasePanel
             frame.repaint();
         }
         else
-            appletScreen.getScreenFieldView().getControl().repaint();
+            ((Component)appletScreen.getScreenFieldView().getControl()).repaint();
     }
     /**
      * Calculate the frame size.

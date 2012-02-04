@@ -34,16 +34,6 @@ public class IssueHistory extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kComment = kVirtualRecordLastField + 1;
-    public static final int kIssueID = kComment + 1;
-    public static final int kIssueHistoryLastField = kIssueID;
-    public static final int kIssueHistoryFields = kIssueID - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kIssueIDKey = kIDKey + 1;
-    public static final int kIssueHistoryLastKey = kIssueIDKey;
-    public static final int kIssueHistoryKeys = kIssueIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -66,14 +56,12 @@ public class IssueHistory extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kIssueHistoryFile = "IssueHistory";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kIssueHistoryFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(ISSUE_HISTORY_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -109,21 +97,27 @@ public class IssueHistory extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kComment)
-            field = new MemoField(this, "Comment", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kIssueID)
-            field = new IssueField(this, "IssueID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new MemoField(this, COMMENT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new IssueField(this, ISSUE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kIssueHistoryLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -132,22 +126,18 @@ public class IssueHistory extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kIssueIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "IssueID");
-            keyArea.addKeyField(kIssueID, DBConstants.ASCENDING);
+            keyArea.addKeyField(ISSUE_ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kIssueHistoryLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kIssueHistoryLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

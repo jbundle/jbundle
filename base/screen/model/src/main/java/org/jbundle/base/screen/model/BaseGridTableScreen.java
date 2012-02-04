@@ -251,8 +251,7 @@ public class BaseGridTableScreen extends BaseGridScreen
                 if (!(sField instanceof ToolScreen))
                     sField.setEnabled(true);
             }
-            if (this.getScreenFieldView().getControl() != null)
-                this.getScreenFieldView().getControl().setEnabled(true);    // Sorry, but the JTable needs to be enabled always
+            this.getScreenFieldView().setEnabled(true);    // Sorry, but the JTable needs to be enabled always
         }
     }
 }

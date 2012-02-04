@@ -26,7 +26,7 @@ public class DateUpdatedHandler extends FieldListener
     /**
      * The field to move the current date to.
      */
-    int m_iMainFilesFieldSeq = -1;
+    String m_iMainFilesFieldSeq = null;
     /**
      * If true, moves the current time (defaults to false).
      */
@@ -43,7 +43,7 @@ public class DateUpdatedHandler extends FieldListener
      * Constructor to move the current date to this field on change.
      * @param iMainFilesField The field to move the current date to on change.
      */
-    public DateUpdatedHandler(int iMainFilesField)
+    public DateUpdatedHandler(String iMainFilesField)
     {
         this();
         this.init(null, iMainFilesField, false);
@@ -53,7 +53,7 @@ public class DateUpdatedHandler extends FieldListener
      * @param iMainFilesField The field to move the current date to on change.
      * @param bMoveCurrentTime If true, moves the current time (rather than the current date).
      */
-    public DateUpdatedHandler(int iMainFilesField, boolean bMoveCurrentTime)
+    public DateUpdatedHandler(String iMainFilesField, boolean bMoveCurrentTime)
     {
         this();
         this.init(null, iMainFilesField, bMoveCurrentTime);
@@ -62,7 +62,7 @@ public class DateUpdatedHandler extends FieldListener
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      */
-    public void init(BaseField field, int iMainFilesField, boolean bMoveCurrentTime)
+    public void init(BaseField field, String iMainFilesField, boolean bMoveCurrentTime)
     {
         super.init(field);
         m_iMainFilesFieldSeq = iMainFilesField;

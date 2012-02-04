@@ -34,26 +34,6 @@ public class LogicFile extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kSequence = kVirtualRecordLastField + 1;
-    public static final int kMethodName = kSequence + 1;
-    public static final int kLogicDescription = kMethodName + 1;
-    public static final int kMethodReturns = kLogicDescription + 1;
-    public static final int kMethodInterface = kMethodReturns + 1;
-    public static final int kMethodClassName = kMethodInterface + 1;
-    public static final int kLogicSource = kMethodClassName + 1;
-    public static final int kLogicThrows = kLogicSource + 1;
-    public static final int kProtection = kLogicThrows + 1;
-    public static final int kCopyFrom = kProtection + 1;
-    public static final int kIncludeScope = kCopyFrom + 1;
-    public static final int kLogicFileLastField = kIncludeScope;
-    public static final int kLogicFileFields = kIncludeScope - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kMethodClassNameKey = kIDKey + 1;
-    public static final int kSequenceKey = kMethodClassNameKey + 1;
-    public static final int kLogicFileLastKey = kSequenceKey;
-    public static final int kLogicFileKeys = kSequenceKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -76,14 +56,12 @@ public class LogicFile extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kLogicFileFile = "LogicFile";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kLogicFileFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(LOGIC_FILE_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -126,45 +104,51 @@ public class LogicFile extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kSequence)
-            field = new IntegerField(this, "Sequence", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1000));
-        if (iFieldSeq == kMethodName)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new IntegerField(this, SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1000));
+        if (iFieldSeq == 4)
         {
-            field = new StringField(this, "MethodName", 40, null, null);
+            field = new StringField(this, METHOD_NAME, 40, null, null);
             field.setNullable(false);
         }
-        if (iFieldSeq == kLogicDescription)
-            field = new MemoField(this, "LogicDescription", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMethodReturns)
-            field = new StringField(this, "MethodReturns", 255, null, null);
-        if (iFieldSeq == kMethodInterface)
-            field = new StringField(this, "MethodInterface", 255, null, null);
-        if (iFieldSeq == kMethodClassName)
-            field = new StringField(this, "MethodClassName", 40, null, null);
-        if (iFieldSeq == kLogicSource)
-            field = new MemoField(this, "LogicSource", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kLogicThrows)
-            field = new StringField(this, "LogicThrows", 255, null, null);
-        if (iFieldSeq == kProtection)
-            field = new StringField(this, "Protection", 60, null, null);
-        if (iFieldSeq == kCopyFrom)
-            field = new StringField(this, "CopyFrom", 40, null, null);
-        if (iFieldSeq == kIncludeScope)
+        if (iFieldSeq == 5)
+            field = new MemoField(this, LOGIC_DESCRIPTION, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new StringField(this, METHOD_RETURNS, 255, null, null);
+        if (iFieldSeq == 7)
+            field = new StringField(this, METHOD_INTERFACE, 255, null, null);
+        if (iFieldSeq == 8)
+            field = new StringField(this, METHOD_CLASS_NAME, 40, null, null);
+        if (iFieldSeq == 9)
+            field = new MemoField(this, LOGIC_SOURCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new StringField(this, LOGIC_THROWS, 255, null, null);
+        if (iFieldSeq == 11)
+            field = new StringField(this, PROTECTION, 60, null, null);
+        if (iFieldSeq == 12)
+            field = new StringField(this, COPY_FROM, 40, null, null);
+        if (iFieldSeq == 13)
         {
-            field = new IncludeScopeField(this, "IncludeScope", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
+            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kLogicFileLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -173,30 +157,26 @@ public class LogicFile extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kMethodClassNameKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "MethodClassName");
-            keyArea.addKeyField(kMethodClassName, DBConstants.ASCENDING);
-            keyArea.addKeyField(kMethodName, DBConstants.ASCENDING);
+            keyArea.addKeyField(METHOD_CLASS_NAME, DBConstants.ASCENDING);
+            keyArea.addKeyField(METHOD_NAME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kSequenceKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Sequence");
-            keyArea.addKeyField(kMethodClassName, DBConstants.ASCENDING);
-            keyArea.addKeyField(kSequence, DBConstants.ASCENDING);
-            keyArea.addKeyField(kMethodName, DBConstants.ASCENDING);
+            keyArea.addKeyField(METHOD_CLASS_NAME, DBConstants.ASCENDING);
+            keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
+            keyArea.addKeyField(METHOD_NAME, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kLogicFileLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kLogicFileLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

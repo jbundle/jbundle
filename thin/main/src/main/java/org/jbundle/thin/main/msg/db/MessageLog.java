@@ -16,10 +16,8 @@ import org.jbundle.model.main.msg.db.*;
 public class MessageLog extends FieldList
     implements MessageLogModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public MessageLog()
     {
@@ -58,61 +56,61 @@ public class MessageLog extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "MessageInfoTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, MESSAGE_INFO_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "MessageTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, MESSAGE_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "MessageStatusID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, MESSAGE_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "MessageTransportID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, MESSAGE_TRANSPORT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "MessageProcessInfoID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, MESSAGE_PROCESS_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "ContactTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, CONTACT_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "ContactID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, CONTACT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "Description", 60, null, null);
-        field = new FieldInfo(this, "MessageTime", 25, null, null);
+        field = new FieldInfo(this, DESCRIPTION, 60, null, null);
+        field = new FieldInfo(this, MESSAGE_TIME, 25, null, null);
         field.setDataClass(Date.class);
-        field = new FieldInfo(this, "TimeoutSeconds", 10, null, null);
+        field = new FieldInfo(this, TIMEOUT_SECONDS, 10, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "TimeoutTime", 25, null, null);
+        field = new FieldInfo(this, TIMEOUT_TIME, 25, null, null);
         field.setDataClass(Date.class);
-        field = new FieldInfo(this, "UserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "ReferenceType", 60, null, null);
-        field = new FieldInfo(this, "ReferenceID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, REFERENCE_TYPE, 60, null, null);
+        field = new FieldInfo(this, REFERENCE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "ResponseMessageLogID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, RESPONSE_MESSAGE_LOG_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "MessageHeaderProperties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, MESSAGE_HEADER_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "MessageInfoProperties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, MESSAGE_INFO_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "MessageTransportProperties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, MESSAGE_TRANSPORT_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "MessageClassName", 128, null, null);
-        field = new FieldInfo(this, "MessageHeaderClassName", 128, null, null);
-        field = new FieldInfo(this, "MessageDataClassName", 128, null, null);
-        field = new FieldInfo(this, "ExternalMessageClassName", 128, null, null);
-        field = new FieldInfo(this, "MessageQueueName", 60, null, null);
-        field = new FieldInfo(this, "MessageQueueType", 60, null, null);
-        field = new FieldInfo(this, "MessageDataType", 30, null, null);
-        field = new FieldInfo(this, "XMLMessageData", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, MESSAGE_CLASS_NAME, 128, null, null);
+        field = new FieldInfo(this, MESSAGE_HEADER_CLASS_NAME, 128, null, null);
+        field = new FieldInfo(this, MESSAGE_DATA_CLASS_NAME, 128, null, null);
+        field = new FieldInfo(this, EXTERNAL_MESSAGE_CLASS_NAME, 128, null, null);
+        field = new FieldInfo(this, MESSAGE_QUEUE_NAME, 60, null, null);
+        field = new FieldInfo(this, MESSAGE_QUEUE_TYPE, 60, null, null);
+        field = new FieldInfo(this, MESSAGE_DATA_TYPE, 30, null, null);
+        field = new FieldInfo(this, XML_MESSAGE_DATA, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "MessageData", 32000, null, null);
+        field = new FieldInfo(this, MESSAGE_DATA, 32000, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "ErrorText", 127, null, null);
+        field = new FieldInfo(this, ERROR_TEXT, 127, null, null);
     }
     /**
     * Set up the key areas.
@@ -120,7 +118,7 @@ public class MessageLog extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ReferenceID");
         keyArea.addKeyField("ReferenceID", Constants.ASCENDING);

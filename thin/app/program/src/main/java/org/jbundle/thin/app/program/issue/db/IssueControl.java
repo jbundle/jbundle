@@ -15,10 +15,8 @@ import org.jbundle.model.app.program.issue.db.*;
 public class IssueControl extends FieldList
     implements IssueControlModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public IssueControl()
     {
@@ -57,24 +55,24 @@ public class IssueControl extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "ProjectID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "ProjectVersionID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PROJECT_VERSION_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "IssueTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ISSUE_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "IssueStatusID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ISSUE_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "IssuePriorityID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ISSUE_PRIORITY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
     }
     /**
@@ -83,7 +81,7 @@ public class IssueControl extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
     }
 

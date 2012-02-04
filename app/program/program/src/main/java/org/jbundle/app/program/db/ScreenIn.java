@@ -34,28 +34,6 @@ public class ScreenIn extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kScreenInProgName = kVirtualRecordLastField + 1;
-    public static final int kScreenOutNumber = kScreenInProgName + 1;
-    public static final int kScreenItemNumber = kScreenOutNumber + 1;
-    public static final int kScreenFileName = kScreenItemNumber + 1;
-    public static final int kScreenFieldName = kScreenFileName + 1;
-    public static final int kScreenRow = kScreenFieldName + 1;
-    public static final int kScreenCol = kScreenRow + 1;
-    public static final int kScreenGroup = kScreenCol + 1;
-    public static final int kScreenPhysicalNum = kScreenGroup + 1;
-    public static final int kScreenLocation = kScreenPhysicalNum + 1;
-    public static final int kScreenFieldDesc = kScreenLocation + 1;
-    public static final int kScreenText = kScreenFieldDesc + 1;
-    public static final int kScreenAnchor = kScreenText + 1;
-    public static final int kScreenControlType = kScreenAnchor + 1;
-    public static final int kScreenInLastField = kScreenControlType;
-    public static final int kScreenInFields = kScreenControlType - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kScreenInProgNameKey = kIDKey + 1;
-    public static final int kScreenInLastKey = kScreenInProgNameKey;
-    public static final int kScreenInKeys = kScreenInProgNameKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -78,14 +56,12 @@ public class ScreenIn extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kScreenInFile = "ScreenIn";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kScreenInFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(SCREEN_IN_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -128,48 +104,54 @@ public class ScreenIn extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kScreenInProgName)
-            field = new StringField(this, "ScreenInProgName", 40, null, null);
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kScreenOutNumber)
-            field = new ShortField(this, "ScreenOutNumber", 2, null, null);
-        if (iFieldSeq == kScreenItemNumber)
-            field = new ShortField(this, "ScreenItemNumber", 4, null, null);
-        if (iFieldSeq == kScreenFileName)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, SCREEN_IN_PROG_NAME, 40, null, null);
+        if (iFieldSeq == 4)
+            field = new ShortField(this, SCREEN_OUT_NUMBER, 2, null, null);
+        if (iFieldSeq == 5)
+            field = new ShortField(this, SCREEN_ITEM_NUMBER, 4, null, null);
+        if (iFieldSeq == 6)
         {
-            field = new StringField(this, "ScreenFileName", 40, null, null);
+            field = new StringField(this, SCREEN_FILE_NAME, 40, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kScreenFieldName)
-            field = new StringField(this, "ScreenFieldName", 40, null, null);
-        if (iFieldSeq == kScreenRow)
-            field = new ShortField(this, "ScreenRow", 8, null, null);
-        if (iFieldSeq == kScreenCol)
-            field = new ShortField(this, "ScreenCol", 4, null, null);
-        if (iFieldSeq == kScreenGroup)
-            field = new StringField(this, "ScreenGroup", 4, null, null);
-        if (iFieldSeq == kScreenPhysicalNum)
-            field = new ShortField(this, "ScreenPhysicalNum", 4, null, null);
-        if (iFieldSeq == kScreenLocation)
-            field = new ScreenLocField(this, "ScreenLocation", 20, null, null);
-        if (iFieldSeq == kScreenFieldDesc)
-            field = new FieldDescField(this, "ScreenFieldDesc", 30, null, null);
-        if (iFieldSeq == kScreenText)
-            field = new MemoField(this, "ScreenText", 9999, null, null);
-        if (iFieldSeq == kScreenAnchor)
-            field = new ScreenAnchorField(this, "ScreenAnchor", 20, null, null);
-        if (iFieldSeq == kScreenControlType)
-            field = new ControlTypeField(this, "ScreenControlType", 20, null, null);
+        if (iFieldSeq == 7)
+            field = new StringField(this, SCREEN_FIELD_NAME, 40, null, null);
+        if (iFieldSeq == 8)
+            field = new ShortField(this, SCREEN_ROW, 8, null, null);
+        if (iFieldSeq == 9)
+            field = new ShortField(this, SCREEN_COL, 4, null, null);
+        if (iFieldSeq == 10)
+            field = new StringField(this, SCREEN_GROUP, 4, null, null);
+        if (iFieldSeq == 11)
+            field = new ShortField(this, SCREEN_PHYSICAL_NUM, 4, null, null);
+        if (iFieldSeq == 12)
+            field = new ScreenLocField(this, SCREEN_LOCATION, 20, null, null);
+        if (iFieldSeq == 13)
+            field = new FieldDescField(this, SCREEN_FIELD_DESC, 30, null, null);
+        if (iFieldSeq == 14)
+            field = new MemoField(this, SCREEN_TEXT, 9999, null, null);
+        if (iFieldSeq == 15)
+            field = new ScreenAnchorField(this, SCREEN_ANCHOR, 20, null, null);
+        if (iFieldSeq == 16)
+            field = new ControlTypeField(this, SCREEN_CONTROL_TYPE, 20, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kScreenInLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -178,23 +160,19 @@ public class ScreenIn extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kScreenInProgNameKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ScreenInProgName");
-            keyArea.addKeyField(kScreenInProgName, DBConstants.ASCENDING);
-            keyArea.addKeyField(kScreenItemNumber, DBConstants.ASCENDING);
+            keyArea.addKeyField(SCREEN_IN_PROG_NAME, DBConstants.ASCENDING);
+            keyArea.addKeyField(SCREEN_ITEM_NUMBER, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kScreenInLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kScreenInLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

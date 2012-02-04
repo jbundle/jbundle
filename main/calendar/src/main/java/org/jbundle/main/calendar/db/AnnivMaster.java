@@ -36,22 +36,6 @@ public class AnnivMaster extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kStartDateTime = kVirtualRecordLastField + 1;
-    public static final int kEndDateTime = kStartDateTime + 1;
-    public static final int kDescription = kEndDateTime + 1;
-    public static final int kRepeatIntervalID = kDescription + 1;
-    public static final int kRepeatCount = kRepeatIntervalID + 1;
-    public static final int kCalendarCategoryID = kRepeatCount + 1;
-    public static final int kHidden = kCalendarCategoryID + 1;
-    public static final int kProperties = kHidden + 1;
-    public static final int kAnnivMasterLastField = kProperties;
-    public static final int kAnnivMasterFields = kProperties - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kStartDateTimeKey = kIDKey + 1;
-    public static final int kAnnivMasterLastKey = kStartDateTimeKey;
-    public static final int kAnnivMasterKeys = kStartDateTimeKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -74,14 +58,12 @@ public class AnnivMaster extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kAnnivMasterFile = "AnnivMaster";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kAnnivMasterFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(ANNIV_MASTER_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -124,33 +106,39 @@ public class AnnivMaster extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kStartDateTime)
-            field = new DateTimeField(this, "StartDateTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kEndDateTime)
-            field = new DateTimeField(this, "EndDateTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", 60, null, null);
-        if (iFieldSeq == kRepeatIntervalID)
-            field = new RepeatIntervalField(this, "RepeatIntervalID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kRepeatCount)
-            field = new ShortField(this, "RepeatCount", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kCalendarCategoryID)
-            field = new CalendarCategoryField(this, "CalendarCategoryID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kHidden)
-            field = new BooleanField(this, "Hidden", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
-        if (iFieldSeq == kProperties)
-            field = new PropertiesField(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new DateTimeField(this, START_DATE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new DateTimeField(this, END_DATE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, DESCRIPTION, 60, null, null);
+        if (iFieldSeq == 6)
+            field = new RepeatIntervalField(this, REPEAT_INTERVAL_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new ShortField(this, REPEAT_COUNT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new CalendarCategoryField(this, CALENDAR_CATEGORY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
+            field = new BooleanField(this, HIDDEN, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        if (iFieldSeq == 10)
+            field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kAnnivMasterLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -159,22 +147,18 @@ public class AnnivMaster extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kStartDateTimeKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "StartDateTime");
-            keyArea.addKeyField(kStartDateTime, DBConstants.ASCENDING);
+            keyArea.addKeyField(START_DATE_TIME, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kAnnivMasterLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kAnnivMasterLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

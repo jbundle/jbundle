@@ -11,6 +11,8 @@ public interface UserControlModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String ANON_USER_GROUP_ID = "AnonUserGroupID";
     public static final String ANON_USER_INFO_ID = "AnonUserInfoID";
     public static final String TEMPLATE_USER_ID = "TemplateUserID";

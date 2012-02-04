@@ -90,10 +90,10 @@ public class FieldDataScreen extends Screen
      */
     public void setupSFields()
     {
-        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kFieldName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kFieldSeqNo).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kBaseFieldName).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kFieldClass).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.FIELD_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.FIELD_SEQ_NO).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.BASE_FIELD_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.FIELD_CLASS).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         ScreenLocation lastFieldPosition;
         Record query = this.getMainRecord();
         for (int fieldSeq = query.getFieldSeq(FieldData.DEPENDENT_FIELD_NAME); fieldSeq <= query.getFieldSeq(FieldData.FIELD_FILE_NAME); fieldSeq++)
@@ -101,9 +101,9 @@ public class FieldDataScreen extends Screen
             lastFieldPosition = this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR);
             query.getField(fieldSeq).setupDefaultView(lastFieldPosition, this, ScreenConstants.DISPLAY_DESC); // Add this view to the list
         }
-        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kFieldNotNull).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kIncludeScope).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(FieldData.kFieldDataFile).getField(FieldData.kHidden).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.FIELD_NOT_NULL).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.INCLUDE_SCOPE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.HIDDEN).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

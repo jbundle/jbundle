@@ -37,33 +37,6 @@ public class ProjectTask extends Folder
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    //public static final int kName = kName;
-    public static final int kParentProjectTaskID = kParentFolderID;
-    //public static final int kSequence = kSequence;
-    //public static final int kComment = kComment;
-    public static final int kStartDateTime = kFolderLastField + 1;
-    public static final int kDuration = kStartDateTime + 1;
-    public static final int kEndDateTime = kDuration + 1;
-    public static final int kProgress = kEndDateTime + 1;
-    public static final int kProjectID = kProgress + 1;
-    public static final int kProjectVersionID = kProjectID + 1;
-    public static final int kProjectTypeID = kProjectVersionID + 1;
-    public static final int kProjectStatusID = kProjectTypeID + 1;
-    public static final int kAssignedUserID = kProjectStatusID + 1;
-    public static final int kProjectPriorityID = kAssignedUserID + 1;
-    public static final int kEnteredDate = kProjectPriorityID + 1;
-    public static final int kEnteredByUserID = kEnteredDate + 1;
-    public static final int kChangedDate = kEnteredByUserID + 1;
-    public static final int kChangedByUserID = kChangedDate + 1;
-    public static final int kHasChildren = kChangedByUserID + 1;
-    public static final int kProjectTaskLastField = kHasChildren;
-    public static final int kProjectTaskFields = kHasChildren - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kParentProjectTaskIDKey = kIDKey + 1;
-    public static final int kProjectTaskLastKey = kParentProjectTaskIDKey;
-    public static final int kProjectTaskKeys = kParentProjectTaskIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     protected ProjectTask m_recDetail = null;
     protected ProjectTask m_recDetailChildren = null;
     protected ProjectTaskPredecessor m_recProjectTaskPredecessor = null;
@@ -94,14 +67,12 @@ public class ProjectTask extends Folder
         m_recProjectTaskPredecessor = null;
         super.init(screen);
     }
-
-    public static final String kProjectTaskFile = "ProjectTask";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kProjectTaskFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(PROJECT_TASK_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -145,64 +116,72 @@ public class ProjectTask extends Folder
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kName)
-            field = new StringField(this, "Name", 120, null, null);
-        if (iFieldSeq == kParentProjectTaskID)
-            field = new ProjectTaskField(this, "ParentProjectTaskID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kSequence)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, NAME, 120, null, null);
+        if (iFieldSeq == 4)
+            field = new ProjectTaskField(this, PARENT_PROJECT_TASK_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
         {
-            field = new ShortField(this, "Sequence", Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)0));
+            field = new ShortField(this, SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)0));
             field.setNullable(false);
         }
-        if (iFieldSeq == kStartDateTime)
-            field = new DateTimeField(this, "StartDateTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kDuration)
+        //if (iFieldSeq == 6)
+        //  field = new MemoField(this, COMMENT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 7)
+        //  field = new StringField(this, CODE, 30, null, null);
+        if (iFieldSeq == 8)
+            field = new DateTimeField(this, START_DATE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
         {
-            field = new RealField(this, "Duration", Constants.DEFAULT_FIELD_LENGTH, null, new Double(1));
+            field = new RealField(this, DURATION, Constants.DEFAULT_FIELD_LENGTH, null, new Double(1));
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kEndDateTime)
+        if (iFieldSeq == 10)
         {
-            field = new DateTimeField(this, "EndDateTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new DateTimeField(this, END_DATE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kProgress)
-            field = new PercentField(this, "Progress", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProjectID)
-            field = new ProjectFilter(this, "ProjectID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProjectVersionID)
-            field = new ProjectVersionField(this, "ProjectVersionID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProjectTypeID)
-            field = new IssueStatusField(this, "ProjectTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProjectStatusID)
-            field = new IssueStatusField(this, "ProjectStatusID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kAssignedUserID)
-            field = new UserField(this, "AssignedUserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProjectPriorityID)
-            field = new IssuePriorityField(this, "ProjectPriorityID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kEnteredDate)
-            field = new ProjectTask_EnteredDate(this, "EnteredDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kEnteredByUserID)
-            field = new UserField(this, "EnteredByUserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kChangedDate)
-            field = new DateTimeField(this, "ChangedDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kChangedByUserID)
-            field = new UserField(this, "ChangedByUserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kHasChildren)
-            field = new BooleanField(this, "HasChildren", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
-        //if (iFieldSeq == kComment)
-        //  field = new MemoField(this, "Comment", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 11)
+            field = new PercentField(this, PROGRESS, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 12)
+            field = new ProjectFilter(this, PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 13)
+            field = new ProjectVersionField(this, PROJECT_VERSION_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 14)
+            field = new IssueStatusField(this, PROJECT_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 15)
+            field = new IssueStatusField(this, PROJECT_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 16)
+            field = new UserField(this, ASSIGNED_USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 17)
+            field = new IssuePriorityField(this, PROJECT_PRIORITY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 18)
+            field = new ProjectTask_EnteredDate(this, ENTERED_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 19)
+            field = new UserField(this, ENTERED_BY_USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 20)
+            field = new DateTimeField(this, CHANGED_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 21)
+            field = new UserField(this, CHANGED_BY_USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 22)
+            field = new BooleanField(this, HAS_CHILDREN, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kProjectTaskLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -211,25 +190,21 @@ public class ProjectTask extends Folder
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kParentProjectTaskIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ParentProjectTaskID");
-            keyArea.addKeyField(kParentProjectTaskID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kStartDateTime, DBConstants.ASCENDING);
-            keyArea.addKeyField(kSequence, DBConstants.ASCENDING);
-            keyArea.addKeyField(kName, DBConstants.ASCENDING);
+            keyArea.addKeyField(PARENT_PROJECT_TASK_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(START_DATE_TIME, DBConstants.ASCENDING);
+            keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
+            keyArea.addKeyField(NAME, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kProjectTaskLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kProjectTaskLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

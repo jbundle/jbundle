@@ -140,7 +140,7 @@ public class VToggleButton extends VBaseButton
      * @param control The control to get the state from.
      * @return The control's value.
      */
-    public Object getComponentState(Component control)
+    public Object getComponentState(Object control)
     {
         if (((JToggleButton)control).isSelected())
             return Boolean.TRUE;
@@ -152,7 +152,7 @@ public class VToggleButton extends VBaseButton
      * @param control The control to set the state to.
      * @param objValue The value to set the control to.
      */
-    public void setComponentState(Component control, Object objValue)
+    public void setComponentState(Object control, Object objValue)
     {
         if (objValue == null)
             objValue = Boolean.FALSE;

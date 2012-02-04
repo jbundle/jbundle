@@ -33,13 +33,6 @@ public class EmptyMemoryRecord extends Record
 {
     private static final long serialVersionUID = 1L;
 
-    public static final int kID = kRecordLastField + 1;
-    public static final int kEmptyMemoryRecordLastField = kID;
-    public static final int kEmptyMemoryRecordFields = kID - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kEmptyMemoryRecordLastKey = kIDKey;
-    public static final int kEmptyMemoryRecordKeys = kIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -62,14 +55,12 @@ public class EmptyMemoryRecord extends Record
     {
         super.init(screen);
     }
-
-    public static final String kEmptyMemoryRecordFile = "EmptyMemoryRecord";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kEmptyMemoryRecordFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(EMPTY_MEMORY_RECORD_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -91,14 +82,10 @@ public class EmptyMemoryRecord extends Record
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kID)
-            field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 0)
+            field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kEmptyMemoryRecordLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -107,17 +94,13 @@ public class EmptyMemoryRecord extends Record
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kEmptyMemoryRecordLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kEmptyMemoryRecordLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

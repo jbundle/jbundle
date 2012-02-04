@@ -66,7 +66,7 @@ public class TestReportToolbar extends ReportToolbar
         super.setupSFields();
         //if (this.isPrintReport())
         //  return;   // Don't display params if entered
-        this.getRecord(TestReportScreenRecord.kTestReportScreenRecordFile).getField(TestReportScreenRecord.kVetID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(TestReportScreenRecord.TEST_REPORT_SCREEN_RECORD_FILE).getField(TestReportScreenRecord.VET_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

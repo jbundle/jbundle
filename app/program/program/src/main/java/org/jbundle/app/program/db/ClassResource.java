@@ -34,18 +34,6 @@ public class ClassResource extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kClassName = kVirtualRecordLastField + 1;
-    public static final int kSequenceNo = kClassName + 1;
-    public static final int kKeyName = kSequenceNo + 1;
-    public static final int kValueName = kKeyName + 1;
-    public static final int kClassResourceLastField = kValueName;
-    public static final int kClassResourceFields = kValueName - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kClassNameKey = kIDKey + 1;
-    public static final int kClassResourceLastKey = kClassNameKey;
-    public static final int kClassResourceKeys = kClassNameKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -68,14 +56,12 @@ public class ClassResource extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kClassResourceFile = "ClassResource";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kClassResourceFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(CLASS_RESOURCE_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -118,25 +104,31 @@ public class ClassResource extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kClassName)
-            field = new StringField(this, "ClassName", 40, null, null);
-        if (iFieldSeq == kSequenceNo)
-            field = new IntegerField(this, "SequenceNo", 4, null, null);
-        if (iFieldSeq == kKeyName)
-            field = new StringField(this, "KeyName", 40, null, null);
-        if (iFieldSeq == kValueName)
-            field = new StringField(this, "ValueName", 255, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, CLASS_NAME, 40, null, null);
+        if (iFieldSeq == 4)
+            field = new IntegerField(this, SEQUENCE_NO, 4, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, KEY_NAME, 40, null, null);
+        if (iFieldSeq == 6)
+            field = new StringField(this, VALUE_NAME, 255, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kClassResourceLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -145,23 +137,19 @@ public class ClassResource extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kClassNameKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassName");
-            keyArea.addKeyField(kClassName, DBConstants.ASCENDING);
-            keyArea.addKeyField(kSequenceNo, DBConstants.ASCENDING);
+            keyArea.addKeyField(CLASS_NAME, DBConstants.ASCENDING);
+            keyArea.addKeyField(SEQUENCE_NO, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kClassResourceLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kClassResourceLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

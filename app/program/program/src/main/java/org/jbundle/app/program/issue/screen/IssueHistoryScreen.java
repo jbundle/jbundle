@@ -72,7 +72,7 @@ public class IssueHistoryScreen extends DetailScreen
      */
     public void setupSFields()
     {
-        this.getRecord(IssueHistory.kIssueHistoryFile).getField(IssueHistory.kComment).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(IssueHistory.ISSUE_HISTORY_FILE).getField(IssueHistory.COMMENT).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * Make a sub-screen.

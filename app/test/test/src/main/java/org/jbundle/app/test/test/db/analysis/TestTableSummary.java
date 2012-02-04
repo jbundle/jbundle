@@ -31,19 +31,12 @@ public class TestTableSummary extends ScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
+    //public static final String ID = ID;
     public static final String TEST_CODE = "TestCode";
-    public static final int kTestCode = kScreenRecordLastField + 1;
     public static final String TEST_KEY = "TestKey";
-    public static final int kTestKey = kTestCode + 1;
     public static final String TEST_COUNT = "TestCount";
-    public static final int kTestCount = kTestKey + 1;
     public static final String TEST_SHORT = "TestShort";
-    public static final int kTestShort = kTestCount + 1;
     public static final String TEST_DOUBLE = "TestDouble";
-    public static final int kTestDouble = kTestShort + 1;
-    public static final int kTestTableSummaryLastField = kTestDouble;
-    public static final int kTestTableSummaryFields = kTestDouble - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -67,31 +60,27 @@ public class TestTableSummary extends ScreenRecord
         super.init(screen);
     }
 
-    public static final String kTestTableSummaryFile = null;    // Screen field
+    public static final String TEST_TABLE_SUMMARY_FILE = null;  // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
-        //  field = new (this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestCode)
-            field = new StringField(this, "TestCode", 10, null, null);
-        if (iFieldSeq == kTestKey)
-            field = new StringField(this, "TestKey", 1, null, null);
-        if (iFieldSeq == kTestCount)
-            field = new IntegerField(this, "TestCount", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestShort)
-            field = new ShortField(this, "TestShort", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestDouble)
-            field = new DoubleField(this, "TestDouble", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 0)
+        //  field = new (this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 1)
+            field = new StringField(this, TEST_CODE, 10, null, null);
+        if (iFieldSeq == 2)
+            field = new StringField(this, TEST_KEY, 1, null, null);
+        if (iFieldSeq == 3)
+            field = new IntegerField(this, TEST_COUNT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new ShortField(this, TEST_SHORT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new DoubleField(this, TEST_DOUBLE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kTestTableSummaryLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

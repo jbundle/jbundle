@@ -11,6 +11,8 @@ public interface ProgramControlModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String PROJECT_NAME = "ProjectName";
     public static final String BASE_DIRECTORY = "BaseDirectory";
     public static final String SOURCE_DIRECTORY = "SourceDirectory";

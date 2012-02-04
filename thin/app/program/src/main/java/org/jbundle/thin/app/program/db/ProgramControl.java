@@ -15,10 +15,8 @@ import org.jbundle.model.app.program.db.*;
 public class ProgramControl extends FieldList
     implements ProgramControlModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public ProgramControl()
     {
@@ -57,30 +55,30 @@ public class ProgramControl extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "ProjectName", 30, null, null);
-        field = new FieldInfo(this, "BaseDirectory", 127, null, "/home/don/workspace/tour/");
-        field = new FieldInfo(this, "SourceDirectory", 127, null, "src/main/java/");
-        field = new FieldInfo(this, "ClassDirectory", 127, null, "target/classes/");
-        field = new FieldInfo(this, "ArchiveDirectory", 127, null, "data/archive/");
-        field = new FieldInfo(this, "ResourceType", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "ClassResourceType", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "PackageName", 40, null, null);
-        field = new FieldInfo(this, "InterfacePackage", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "ThinPackage", 40, null, null);
-        field = new FieldInfo(this, "ResourcePackage", 40, null, null);
-        field = new FieldInfo(this, "LastPackageUpdate", 25, null, null);
+        field = new FieldInfo(this, PROJECT_NAME, 30, null, null);
+        field = new FieldInfo(this, BASE_DIRECTORY, 127, null, "/home/don/workspace/tour/");
+        field = new FieldInfo(this, SOURCE_DIRECTORY, 127, null, "src/main/java/");
+        field = new FieldInfo(this, CLASS_DIRECTORY, 127, null, "target/classes/");
+        field = new FieldInfo(this, ARCHIVE_DIRECTORY, 127, null, "data/archive/");
+        field = new FieldInfo(this, RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, CLASS_RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PACKAGE_NAME, 40, null, null);
+        field = new FieldInfo(this, INTERFACE_PACKAGE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, THIN_PACKAGE, 40, null, null);
+        field = new FieldInfo(this, RESOURCE_PACKAGE, 40, null, null);
+        field = new FieldInfo(this, LAST_PACKAGE_UPDATE, 25, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "PackagesBasePath", 128, null, null);
-        field = new FieldInfo(this, "PackagesPath", 128, null, null);
+        field = new FieldInfo(this, PACKAGES_BASE_PATH, 128, null, null);
+        field = new FieldInfo(this, PACKAGES_PATH, 128, null, null);
         field.setDataClass(Object.class);
     }
     /**
@@ -89,7 +87,7 @@ public class ProgramControl extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
     }
 

@@ -34,28 +34,6 @@ public class KeyInfo extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kKeyFilename = kVirtualRecordLastField + 1;
-    public static final int kKeyNumber = kKeyFilename + 1;
-    public static final int kKeyField1 = kKeyNumber + 1;
-    public static final int kKeyField2 = kKeyField1 + 1;
-    public static final int kKeyField3 = kKeyField2 + 1;
-    public static final int kKeyField4 = kKeyField3 + 1;
-    public static final int kKeyField5 = kKeyField4 + 1;
-    public static final int kKeyField6 = kKeyField5 + 1;
-    public static final int kKeyField7 = kKeyField6 + 1;
-    public static final int kKeyField8 = kKeyField7 + 1;
-    public static final int kKeyField9 = kKeyField8 + 1;
-    public static final int kKeyName = kKeyField9 + 1;
-    public static final int kKeyType = kKeyName + 1;
-    public static final int kIncludeScope = kKeyType + 1;
-    public static final int kKeyInfoLastField = kIncludeScope;
-    public static final int kKeyInfoFields = kIncludeScope - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kKeyFilenameKey = kIDKey + 1;
-    public static final int kKeyInfoLastKey = kKeyFilenameKey;
-    public static final int kKeyInfoKeys = kKeyFilenameKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -78,14 +56,12 @@ public class KeyInfo extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kKeyInfoFile = "KeyInfo";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kKeyInfoFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(KEY_INFO_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -128,48 +104,54 @@ public class KeyInfo extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kKeyFilename)
-            field = new StringField(this, "KeyFilename", 40, null, null);
-        if (iFieldSeq == kKeyNumber)
-            field = new ShortField(this, "KeyNumber", 2, null, null);
-        if (iFieldSeq == kKeyField1)
-            field = new StringField(this, "KeyField1", 40, null, null);
-        if (iFieldSeq == kKeyField2)
-            field = new StringField(this, "KeyField2", 40, null, null);
-        if (iFieldSeq == kKeyField3)
-            field = new StringField(this, "KeyField3", 40, null, null);
-        if (iFieldSeq == kKeyField4)
-            field = new StringField(this, "KeyField4", 40, null, null);
-        if (iFieldSeq == kKeyField5)
-            field = new StringField(this, "KeyField5", 40, null, null);
-        if (iFieldSeq == kKeyField6)
-            field = new StringField(this, "KeyField6", 40, null, null);
-        if (iFieldSeq == kKeyField7)
-            field = new StringField(this, "KeyField7", 40, null, null);
-        if (iFieldSeq == kKeyField8)
-            field = new StringField(this, "KeyField8", 40, null, null);
-        if (iFieldSeq == kKeyField9)
-            field = new StringField(this, "KeyField9", 40, null, null);
-        if (iFieldSeq == kKeyName)
-            field = new StringField(this, "KeyName", 40, null, null);
-        if (iFieldSeq == kKeyType)
-            field = new StringField(this, "KeyType", 1, null, null);
-        if (iFieldSeq == kIncludeScope)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, KEY_FILENAME, 40, null, null);
+        if (iFieldSeq == 4)
+            field = new ShortField(this, KEY_NUMBER, 2, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, KEY_FIELD_1, 40, null, null);
+        if (iFieldSeq == 6)
+            field = new StringField(this, KEY_FIELD_2, 40, null, null);
+        if (iFieldSeq == 7)
+            field = new StringField(this, KEY_FIELD_3, 40, null, null);
+        if (iFieldSeq == 8)
+            field = new StringField(this, KEY_FIELD_4, 40, null, null);
+        if (iFieldSeq == 9)
+            field = new StringField(this, KEY_FIELD_5, 40, null, null);
+        if (iFieldSeq == 10)
+            field = new StringField(this, KEY_FIELD_6, 40, null, null);
+        if (iFieldSeq == 11)
+            field = new StringField(this, KEY_FIELD_7, 40, null, null);
+        if (iFieldSeq == 12)
+            field = new StringField(this, KEY_FIELD_8, 40, null, null);
+        if (iFieldSeq == 13)
+            field = new StringField(this, KEY_FIELD_9, 40, null, null);
+        if (iFieldSeq == 14)
+            field = new StringField(this, KEY_NAME, 40, null, null);
+        if (iFieldSeq == 15)
+            field = new StringField(this, KEY_TYPE, 1, null, null);
+        if (iFieldSeq == 16)
         {
-            field = new IncludeScopeField(this, "IncludeScope", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
+            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kKeyInfoLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -178,23 +160,19 @@ public class KeyInfo extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kKeyFilenameKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "KeyFilename");
-            keyArea.addKeyField(kKeyFilename, DBConstants.ASCENDING);
-            keyArea.addKeyField(kKeyNumber, DBConstants.ASCENDING);
+            keyArea.addKeyField(KEY_FILENAME, DBConstants.ASCENDING);
+            keyArea.addKeyField(KEY_NUMBER, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kKeyInfoLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kKeyInfoLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

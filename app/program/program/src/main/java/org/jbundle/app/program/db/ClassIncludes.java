@@ -34,16 +34,6 @@ public class ClassIncludes extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kClassInfoID = kVirtualRecordLastField + 1;
-    public static final int kClassIncludesClass = kClassInfoID + 1;
-    public static final int kClassIncludesLastField = kClassIncludesClass;
-    public static final int kClassIncludesFields = kClassIncludesClass - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kClassInfoIDKey = kIDKey + 1;
-    public static final int kClassIncludesLastKey = kClassInfoIDKey;
-    public static final int kClassIncludesKeys = kClassInfoIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -66,14 +56,12 @@ public class ClassIncludes extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kClassIncludesFile = "ClassIncludes";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kClassIncludesFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(CLASS_INCLUDES_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -109,21 +97,27 @@ public class ClassIncludes extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kClassInfoID)
-            field = new ReferenceField(this, "ClassInfoID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kClassIncludesClass)
-            field = new StringField(this, "ClassIncludesClass", 128, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new ReferenceField(this, CLASS_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, CLASS_INCLUDES_CLASS, 128, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kClassIncludesLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -132,22 +126,18 @@ public class ClassIncludes extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kClassInfoIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassInfoID");
-            keyArea.addKeyField(kClassInfoID, DBConstants.ASCENDING);
+            keyArea.addKeyField(CLASS_INFO_ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kClassIncludesLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kClassIncludesLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

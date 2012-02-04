@@ -32,9 +32,6 @@ public class ClassVars extends ScreenRecord
     private static final long serialVersionUID = 1L;
 
     public static final String CLASS_KEY = "ClassKey";
-    public static final int kClassKey = kScreenRecordLastField + 1;
-    public static final int kClassVarsLastField = kClassKey;
-    public static final int kClassVarsFields = kClassKey - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -58,21 +55,17 @@ public class ClassVars extends ScreenRecord
         super.init(screen);
     }
 
-    public static final String kClassVarsFile = null; // Screen field
+    public static final String CLASS_VARS_FILE = null;  // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kClassKey)
-            field = new ShortField(this, "ClassKey", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 0)
+            field = new ShortField(this, CLASS_KEY, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kClassVarsLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

@@ -11,6 +11,8 @@ public interface MessageControlModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String PROPERTIES = "Properties";
     public static final String WEB_SERVICES_SERVER = "WebServicesServer";
     public static final String DEFAULT_VERSION_ID = "DefaultVersionID";

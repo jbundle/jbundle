@@ -39,45 +39,6 @@ public class MessageLog extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kMessageInfoTypeID = kVirtualRecordLastField + 1;
-    public static final int kMessageTypeID = kMessageInfoTypeID + 1;
-    public static final int kMessageStatusID = kMessageTypeID + 1;
-    public static final int kMessageTransportID = kMessageStatusID + 1;
-    public static final int kMessageProcessInfoID = kMessageTransportID + 1;
-    public static final int kContactTypeID = kMessageProcessInfoID + 1;
-    public static final int kContactID = kContactTypeID + 1;
-    public static final int kDescription = kContactID + 1;
-    public static final int kMessageTime = kDescription + 1;
-    public static final int kTimeoutSeconds = kMessageTime + 1;
-    public static final int kTimeoutTime = kTimeoutSeconds + 1;
-    public static final int kUserID = kTimeoutTime + 1;
-    public static final int kReferenceType = kUserID + 1;
-    public static final int kReferenceID = kReferenceType + 1;
-    public static final int kResponseMessageLogID = kReferenceID + 1;
-    public static final int kMessageHeaderProperties = kResponseMessageLogID + 1;
-    public static final int kMessageInfoProperties = kMessageHeaderProperties + 1;
-    public static final int kMessageTransportProperties = kMessageInfoProperties + 1;
-    public static final int kMessageClassName = kMessageTransportProperties + 1;
-    public static final int kMessageHeaderClassName = kMessageClassName + 1;
-    public static final int kMessageDataClassName = kMessageHeaderClassName + 1;
-    public static final int kExternalMessageClassName = kMessageDataClassName + 1;
-    public static final int kMessageQueueName = kExternalMessageClassName + 1;
-    public static final int kMessageQueueType = kMessageQueueName + 1;
-    public static final int kMessageDataType = kMessageQueueType + 1;
-    public static final int kXMLMessageData = kMessageDataType + 1;
-    public static final int kMessageData = kXMLMessageData + 1;
-    public static final int kErrorText = kMessageData + 1;
-    public static final int kMessageLogLastField = kErrorText;
-    public static final int kMessageLogFields = kErrorText - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kReferenceIDKey = kIDKey + 1;
-    public static final int kContactTypeIDKey = kReferenceIDKey + 1;
-    public static final int kMessageTimeKey = kContactTypeIDKey + 1;
-    public static final int kTimeoutKey = kMessageTimeKey + 1;
-    public static final int kMessageLogLastKey = kTimeoutKey;
-    public static final int kMessageLogKeys = kTimeoutKey - DBConstants.MAIN_KEY_FIELD + 1;
     public static final int MESSAGE_SCREEN_MODE = ScreenConstants.LAST_MODE * 2;
     public static final int SOURCE_SCREEN_MODE = ScreenConstants.LAST_MODE * 4;
     /**
@@ -102,14 +63,12 @@ public class MessageLog extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kMessageLogFile = "MessageLog";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kMessageLogFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(MESSAGE_LOG_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -203,73 +162,79 @@ public class MessageLog extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kMessageInfoTypeID)
-            field = new MessageInfoTypeField(this, "MessageInfoTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageTypeID)
-            field = new MessageTypeField(this, "MessageTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageStatusID)
-            field = new MessageStatusField(this, "MessageStatusID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageTransportID)
-            field = new MessageTransportField(this, "MessageTransportID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageProcessInfoID)
-            field = new MessageProcessInfoField(this, "MessageProcessInfoID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kContactTypeID)
-            field = new ContactTypeField(this, "ContactTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kContactID)
-            field = new ContactField(this, "ContactID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", 60, null, null);
-        if (iFieldSeq == kMessageTime)
-            field = new MessageLog_MessageTime(this, "MessageTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTimeoutSeconds)
-            field = new IntegerField(this, "TimeoutSeconds", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTimeoutTime)
-            field = new DateTimeField(this, "TimeoutTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kUserID)
-            field = new UserField(this, "UserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kReferenceType)
-            field = new StringField(this, "ReferenceType", 60, null, null);
-        if (iFieldSeq == kReferenceID)
-            field = new ReferenceField(this, "ReferenceID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kResponseMessageLogID)
-            field = new MessageLogField(this, "ResponseMessageLogID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageHeaderProperties)
-            field = new PropertiesField(this, "MessageHeaderProperties", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageInfoProperties)
-            field = new PropertiesField(this, "MessageInfoProperties", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageTransportProperties)
-            field = new PropertiesField(this, "MessageTransportProperties", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageClassName)
-            field = new StringField(this, "MessageClassName", 128, null, null);
-        if (iFieldSeq == kMessageHeaderClassName)
-            field = new StringField(this, "MessageHeaderClassName", 128, null, null);
-        if (iFieldSeq == kMessageDataClassName)
-            field = new StringField(this, "MessageDataClassName", 128, null, null);
-        if (iFieldSeq == kExternalMessageClassName)
-            field = new StringField(this, "ExternalMessageClassName", 128, null, null);
-        if (iFieldSeq == kMessageQueueName)
-            field = new StringField(this, "MessageQueueName", 60, null, null);
-        if (iFieldSeq == kMessageQueueType)
-            field = new StringField(this, "MessageQueueType", 60, null, null);
-        if (iFieldSeq == kMessageDataType)
-            field = new StringField(this, "MessageDataType", 30, null, null);
-        if (iFieldSeq == kXMLMessageData)
-            field = new XmlField(this, "XMLMessageData", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageData)
-            field = new MemoField(this, "MessageData", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kErrorText)
-            field = new StringField(this, "ErrorText", 127, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new MessageInfoTypeField(this, MESSAGE_INFO_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new MessageTypeField(this, MESSAGE_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new MessageStatusField(this, MESSAGE_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new MessageTransportField(this, MESSAGE_TRANSPORT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new MessageProcessInfoField(this, MESSAGE_PROCESS_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new ContactTypeField(this, CONTACT_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
+            field = new ContactField(this, CONTACT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new StringField(this, DESCRIPTION, 60, null, null);
+        if (iFieldSeq == 11)
+            field = new MessageLog_MessageTime(this, MESSAGE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 12)
+            field = new IntegerField(this, TIMEOUT_SECONDS, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 13)
+            field = new DateTimeField(this, TIMEOUT_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 14)
+            field = new UserField(this, USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 15)
+            field = new StringField(this, REFERENCE_TYPE, 60, null, null);
+        if (iFieldSeq == 16)
+            field = new ReferenceField(this, REFERENCE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 17)
+            field = new MessageLogField(this, RESPONSE_MESSAGE_LOG_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 18)
+            field = new PropertiesField(this, MESSAGE_HEADER_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 19)
+            field = new PropertiesField(this, MESSAGE_INFO_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 20)
+            field = new PropertiesField(this, MESSAGE_TRANSPORT_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 21)
+            field = new StringField(this, MESSAGE_CLASS_NAME, 128, null, null);
+        if (iFieldSeq == 22)
+            field = new StringField(this, MESSAGE_HEADER_CLASS_NAME, 128, null, null);
+        if (iFieldSeq == 23)
+            field = new StringField(this, MESSAGE_DATA_CLASS_NAME, 128, null, null);
+        if (iFieldSeq == 24)
+            field = new StringField(this, EXTERNAL_MESSAGE_CLASS_NAME, 128, null, null);
+        if (iFieldSeq == 25)
+            field = new StringField(this, MESSAGE_QUEUE_NAME, 60, null, null);
+        if (iFieldSeq == 26)
+            field = new StringField(this, MESSAGE_QUEUE_TYPE, 60, null, null);
+        if (iFieldSeq == 27)
+            field = new StringField(this, MESSAGE_DATA_TYPE, 30, null, null);
+        if (iFieldSeq == 28)
+            field = new XmlField(this, XML_MESSAGE_DATA, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 29)
+            field = new MemoField(this, MESSAGE_DATA, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 30)
+            field = new StringField(this, ERROR_TEXT, 127, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kMessageLogLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -278,41 +243,37 @@ public class MessageLog extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kReferenceIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ReferenceID");
-            keyArea.addKeyField(kReferenceID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kMessageTime, DBConstants.ASCENDING);
+            keyArea.addKeyField(REFERENCE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(MESSAGE_TIME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kContactTypeIDKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ContactTypeID");
-            keyArea.addKeyField(kContactTypeID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kContactID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kMessageTime, DBConstants.ASCENDING);
+            keyArea.addKeyField(CONTACT_TYPE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(CONTACT_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(MESSAGE_TIME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kMessageTimeKey)
+        if (iKeyArea == 3)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "MessageTime");
-            keyArea.addKeyField(kMessageTime, DBConstants.ASCENDING);
+            keyArea.addKeyField(MESSAGE_TIME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kTimeoutKey)
+        if (iKeyArea == 4)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Timeout");
-            keyArea.addKeyField(kMessageStatusID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kTimeoutTime, DBConstants.ASCENDING);
+            keyArea.addKeyField(MESSAGE_STATUS_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(TIMEOUT_TIME, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kMessageLogLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kMessageLogLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

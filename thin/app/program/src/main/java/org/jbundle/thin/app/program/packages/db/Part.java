@@ -15,10 +15,8 @@ import org.jbundle.model.app.program.packages.db.*;
 public class Part extends FieldList
     implements PartModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public Part()
     {
@@ -57,23 +55,23 @@ public class Part extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Description", 60, null, null);
-        field = new FieldInfo(this, "Sequence", 10, null, null);
+        field = new FieldInfo(this, DESCRIPTION, 60, null, null);
+        field = new FieldInfo(this, SEQUENCE, 10, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "Kind", 10, null, null);
-        field = new FieldInfo(this, "PartType", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "JnlpFileID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, KIND, 10, null, null);
+        field = new FieldInfo(this, PART_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, JNLP_FILE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "Path", 128, null, null);
+        field = new FieldInfo(this, PATH, 128, null, null);
     }
     /**
     * Set up the key areas.
@@ -81,7 +79,7 @@ public class Part extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Description");
         keyArea.addKeyField("Description", Constants.ASCENDING);

@@ -34,19 +34,6 @@ public class ProjectTaskPredecessor extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kProjectTaskID = kVirtualRecordLastField + 1;
-    public static final int kProjectTaskPredecessorID = kProjectTaskID + 1;
-    public static final int kPredecessorType = kProjectTaskPredecessorID + 1;
-    public static final int kPredecessorDelay = kPredecessorType + 1;
-    public static final int kProjectTaskPredecessorLastField = kPredecessorDelay;
-    public static final int kProjectTaskPredecessorFields = kPredecessorDelay - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kProjectTaskIDKey = kIDKey + 1;
-    public static final int kProjectTaskPredecessorIDKey = kProjectTaskIDKey + 1;
-    public static final int kProjectTaskPredecessorLastKey = kProjectTaskPredecessorIDKey;
-    public static final int kProjectTaskPredecessorKeys = kProjectTaskPredecessorIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -69,14 +56,12 @@ public class ProjectTaskPredecessor extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kProjectTaskPredecessorFile = "ProjectTaskPredecessor";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kProjectTaskPredecessorFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(PROJECT_TASK_PREDECESSOR_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -112,28 +97,34 @@ public class ProjectTaskPredecessor extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kProjectTaskID)
-            field = new ProjectTaskField(this, "ProjectTaskID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProjectTaskPredecessorID)
-            field = new ProjectTaskField(this, "ProjectTaskPredecessorID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kPredecessorType)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new ProjectTaskField(this, PROJECT_TASK_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new ProjectTaskField(this, PROJECT_TASK_PREDECESSOR_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
         {
-            field = new PredecessorTypeField(this, "PredecessorType", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new PredecessorTypeField(this, PREDECESSOR_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kPredecessorDelay)
-            field = new IntegerField(this, "PredecessorDelay", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new IntegerField(this, PREDECESSOR_DELAY, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kProjectTaskPredecessorLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -142,29 +133,25 @@ public class ProjectTaskPredecessor extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kProjectTaskIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ProjectTaskID");
-            keyArea.addKeyField(kProjectTaskID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kProjectTaskPredecessorID, DBConstants.ASCENDING);
+            keyArea.addKeyField(PROJECT_TASK_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(PROJECT_TASK_PREDECESSOR_ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kProjectTaskPredecessorIDKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ProjectTaskPredecessorID");
-            keyArea.addKeyField(kProjectTaskPredecessorID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kProjectTaskID, DBConstants.ASCENDING);
+            keyArea.addKeyField(PROJECT_TASK_PREDECESSOR_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(PROJECT_TASK_ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kProjectTaskPredecessorLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kProjectTaskPredecessorLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

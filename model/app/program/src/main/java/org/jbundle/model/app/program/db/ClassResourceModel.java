@@ -11,6 +11,8 @@ public interface ClassResourceModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String CLASS_NAME = "ClassName";
     public static final String SEQUENCE_NO = "SequenceNo";
     public static final String KEY_NAME = "KeyName";

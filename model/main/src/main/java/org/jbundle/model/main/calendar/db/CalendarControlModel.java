@@ -11,6 +11,8 @@ public interface CalendarControlModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String LAST_UPDATE_DATE = "LastUpdateDate";
     public static final String START_ANNIV_DATE = "StartAnnivDate";
     public static final String END_ANNIV_DATE = "EndAnnivDate";

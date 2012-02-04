@@ -74,8 +74,8 @@ public class ResourceHeaderScreen extends HeaderScreen
     {
         Converter converter = new FieldLengthConverter(this.getRecord(Resource.RESOURCE_FILE).getField(Resource.CODE), 30);
         new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this,converter, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ResourceScreenRecord.kResourceScreenRecordFile).getField(ResourceScreenRecord.kLanguage).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(ResourceScreenRecord.kResourceScreenRecordFile).getField(ResourceScreenRecord.kLocale).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ResourceScreenRecord.RESOURCE_SCREEN_RECORD_FILE).getField(ResourceScreenRecord.LANGUAGE).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(ResourceScreenRecord.RESOURCE_SCREEN_RECORD_FILE).getField(ResourceScreenRecord.LOCALE).setupDefaultView(this.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

@@ -15,10 +15,8 @@ import org.jbundle.model.main.calendar.db.*;
 public class CalendarEntry extends FieldList
     implements CalendarEntryModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public CalendarEntry()
     {
@@ -57,30 +55,30 @@ public class CalendarEntry extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "CalendarEntryTypeID", 10, null, null);
+        field = new FieldInfo(this, CALENDAR_ENTRY_TYPE_ID, 10, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "StartDateTime", 25, null, null);
+        field = new FieldInfo(this, START_DATE_TIME, 25, null, null);
         field.setDataClass(Date.class);
-        field = new FieldInfo(this, "EndDateTime", 25, null, null);
+        field = new FieldInfo(this, END_DATE_TIME, 25, null, null);
         field.setDataClass(Date.class);
-        field = new FieldInfo(this, "Description", 60, null, null);
-        field = new FieldInfo(this, "CalendarCategoryID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, DESCRIPTION, 60, null, null);
+        field = new FieldInfo(this, CALENDAR_CATEGORY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "Hidden", 10, null, new Boolean(false));
+        field = new FieldInfo(this, HIDDEN, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
-        field = new FieldInfo(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "AnnivMasterID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ANNIV_MASTER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
     }
     /**
@@ -89,7 +87,7 @@ public class CalendarEntry extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "StartDateTime");
         keyArea.addKeyField("StartDateTime", Constants.ASCENDING);

@@ -15,6 +15,7 @@ import org.jbundle.model.app.program.script.data.importfix.db.*;
 public class EmptyMemoryRecord extends FieldList
     implements EmptyMemoryRecordModel
 {
+    private static final long serialVersionUID = 1L;
 
 
     public EmptyMemoryRecord()
@@ -54,7 +55,7 @@ public class EmptyMemoryRecord extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
     }
     /**
@@ -63,7 +64,7 @@ public class EmptyMemoryRecord extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
     }
 

@@ -119,7 +119,7 @@ public class VEditText extends VScreenField
      * @param bIsInput This this an input (vs a display) field?
      * @param bGridControl Is it a grid control?
      */
-    public void setControlAttributes(Component component, boolean bIsInput, boolean bSelected, boolean bGridControl)
+    public void setControlAttributes(Object component, boolean bIsInput, boolean bSelected, boolean bGridControl)
     {
         super.setControlAttributes(component, bIsInput, bSelected, bGridControl);
     }
@@ -224,7 +224,7 @@ public class VEditText extends VScreenField
      * @param control The control to get the state from.
      * @return The control's value.
      */
-    public Object getComponentState(Component control)
+    public Object getComponentState(Object control)
     {
         return ((JTextComponent)control).getText();
     }
@@ -233,7 +233,7 @@ public class VEditText extends VScreenField
      * @param control The control to set the state to.
      * @param objValue The value to set the control to.
      */
-    public void setComponentState(Component control, Object objValue)
+    public void setComponentState(Object control, Object objValue)
     {
         if (objValue == null)
             objValue = Constants.BLANK;

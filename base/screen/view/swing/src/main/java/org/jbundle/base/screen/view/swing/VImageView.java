@@ -92,7 +92,7 @@ public class VImageView extends VScreenField
             Component sParent = null;
             if (this.getScreenField().getParentScreen() != null)
                 if (this.getScreenField().getParentScreen().getScreenFieldView() != null)
-                    sParent = this.getScreenField().getParentScreen().getScreenFieldView().getControl();
+                    sParent = (Component)this.getScreenField().getParentScreen().getScreenFieldView().getControl();
             while ((!(parent instanceof JScrollPane)) && (parent != null))
             {
                 parent = parent.getParent();

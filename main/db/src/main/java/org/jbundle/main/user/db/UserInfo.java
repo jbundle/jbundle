@@ -36,39 +36,6 @@ public class UserInfo extends PropertiesRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    //public static final int kLastChanged = kLastChanged;
-    //public static final int kProperties = kProperties;
-    public static final int kUserName = kPropertiesRecordLastField + 1;
-    public static final int kFirstName = kUserName + 1;
-    public static final int kLastName = kFirstName + 1;
-    public static final int kExtension = kLastName + 1;
-    public static final int kPassword = kExtension + 1;
-    public static final int kTerminationDate = kPassword + 1;
-    public static final int kReadOnlyRecord = kTerminationDate + 1;
-    public static final int kUserGroupID = kReadOnlyRecord + 1;
-    public static final int kUserReference = kUserGroupID + 1;
-    public static final int kFrames = kUserReference + 1;
-    public static final int kMenubars = kFrames + 1;
-    public static final int kNavMenus = kMenubars + 1;
-    public static final int kJava = kNavMenus + 1;
-    public static final int kBanners = kJava + 1;
-    public static final int kLogos = kBanners + 1;
-    public static final int kTrailers = kLogos + 1;
-    public static final int kHelpPage = kTrailers + 1;
-    public static final int kLanguage = kHelpPage + 1;
-    public static final int kHome = kLanguage + 1;
-    public static final int kMenu = kHome + 1;
-    public static final int kMenuDesc = kMenu + 1;
-    public static final int kContactTypeID = kMenuDesc + 1;
-    public static final int kContactID = kContactTypeID + 1;
-    public static final int kUserInfoLastField = kContactID;
-    public static final int kUserInfoFields = kContactID - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kUserNameKey = kIDKey + 1;
-    public static final int kUserInfoLastKey = kUserNameKey;
-    public static final int kUserInfoKeys = kUserNameKey - DBConstants.MAIN_KEY_FIELD + 1;
     public static final int ENTRY_SCREEN_MODE = ScreenConstants.MAINT_MODE;
     public static final int VERBOSE_MAINT_MODE = ScreenConstants.LAST_MODE * 2;
     public static final int LOGIN_SCREEN_MODE = VERBOSE_MAINT_MODE * 2;
@@ -96,14 +63,12 @@ public class UserInfo extends PropertiesRecord
     {
         super.init(screen);
     }
-
-    public static final String kUserInfoFile = "UserInfo";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kUserInfoFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(USER_INFO_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -156,112 +121,113 @@ public class UserInfo extends PropertiesRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kUserName)
-            field = new ShortStringField(this, "UserName", 60, null, null);
-        if (iFieldSeq == kFirstName)
-            field = new StringField(this, "FirstName", 20, null, null);
-        if (iFieldSeq == kLastName)
-            field = new StringField(this, "LastName", 20, null, null);
-        if (iFieldSeq == kExtension)
-            field = new StringField(this, "Extension", 4, null, null);
-        if (iFieldSeq == kPassword)
-            field = new PasswordField(this, "Password", 80, null, null);
-        if (iFieldSeq == kTerminationDate)
-            field = new DateField(this, "TerminationDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kReadOnlyRecord)
-            field = new BooleanField(this, "ReadOnlyRecord", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kUserGroupID)
-            field = new UserGroupField(this, "UserGroupID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kUserReference)
-            field = new ReferenceField(this, "UserReference", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kLastChanged)
+        //if (iFieldSeq == 1)
         //{
-        //  field = new RecordChangedField(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kFrames)
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 3)
+        //  field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new ShortStringField(this, USER_NAME, 60, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, FIRST_NAME, 20, null, null);
+        if (iFieldSeq == 6)
+            field = new StringField(this, LAST_NAME, 20, null, null);
+        if (iFieldSeq == 7)
+            field = new StringField(this, EXTENSION, 4, null, null);
+        if (iFieldSeq == 8)
+            field = new PasswordField(this, PASSWORD, 80, null, null);
+        if (iFieldSeq == 9)
+            field = new DateField(this, TERMINATION_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new BooleanField(this, READ_ONLY_RECORD, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 11)
+            field = new UserGroupField(this, USER_GROUP_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 12)
+            field = new ReferenceField(this, USER_REFERENCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 13)
         {
-            field = new BooleanField(this, "Frames", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new BooleanField(this, FRAMES, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kMenubars)
+        if (iFieldSeq == 14)
         {
-            field = new UserMenubarField(this, "Menubars", 10, null, null);
+            field = new UserMenubarField(this, MENUBARS, 10, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kNavMenus)
+        if (iFieldSeq == 15)
         {
-            field = new UserNavMenusField(this, "NavMenus", 10, null, null);
+            field = new UserNavMenusField(this, NAV_MENUS, 10, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kJava)
+        if (iFieldSeq == 16)
         {
-            field = new UserJavaField(this, "Java", 10, null, null);
+            field = new UserJavaField(this, JAVA, 10, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kBanners)
+        if (iFieldSeq == 17)
         {
-            field = new StringField(this, "Banners", 10, null, null);
+            field = new StringField(this, BANNERS, 10, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kLogos)
+        if (iFieldSeq == 18)
         {
-            field = new UserLogosField(this, "Logos", 10, null, null);
+            field = new UserLogosField(this, LOGOS, 10, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kTrailers)
+        if (iFieldSeq == 19)
         {
-            field = new UserLogosField(this, "Trailers", 10, null, null);
+            field = new UserLogosField(this, TRAILERS, 10, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kHelpPage)
+        if (iFieldSeq == 20)
         {
-            field = new HelpPageField(this, "HelpPage", 10, null, null);
+            field = new HelpPageField(this, HELP_PAGE, 10, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kLanguage)
+        if (iFieldSeq == 21)
         {
-            field = new UserLanguageField(this, "Language", 2, null, null);
+            field = new UserLanguageField(this, LANGUAGE, 2, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kHome)
+        if (iFieldSeq == 22)
         {
-            field = new UserHomeField(this, "Home", 30, null, null);
+            field = new UserHomeField(this, HOME, 30, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kMenu)
+        if (iFieldSeq == 23)
         {
-            field = new UserMenuField(this, "Menu", 30, null, null);
+            field = new UserMenuField(this, MENU, 30, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kMenuDesc)
+        if (iFieldSeq == 24)
         {
-            field = new BooleanField(this, "MenuDesc", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new BooleanField(this, MENU_DESC, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kContactTypeID)
+        if (iFieldSeq == 25)
         {
-            field = new ContactTypeLevelOneField(this, "ContactTypeID", 10, null, null);
+            field = new ContactTypeLevelOneField(this, CONTACT_TYPE_ID, 10, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kContactID)
+        if (iFieldSeq == 26)
         {
-            field = new ContactField(this, "ContactID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new ContactField(this, CONTACT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setVirtual(true);
         }
-        //if (iFieldSeq == kProperties)
-        //  field = new PropertiesField(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kUserInfoLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -270,22 +236,18 @@ public class UserInfo extends PropertiesRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kUserNameKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "UserName");
-            keyArea.addKeyField(kUserName, DBConstants.ASCENDING);
+            keyArea.addKeyField(USER_NAME, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kUserInfoLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kUserInfoLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

@@ -187,7 +187,7 @@ public class VMenuButton extends VCannedBox
      * @param bIsInput This this an input (vs a display) field?
      * @param bGridControl Is it a grid control?
      */
-    public void setControlAttributes(Component control, boolean bIsInput, boolean bSelected, boolean bGridControl)
+    public void setControlAttributes(Object control, boolean bIsInput, boolean bSelected, boolean bGridControl)
     {
         super.setControlAttributes(control, bIsInput, bSelected, bGridControl);
         if (this.getScreenInfo() != null)
@@ -197,7 +197,7 @@ public class VMenuButton extends VCannedBox
             if (UIManager.getLookAndFeel() instanceof MetalLookAndFeel)
                 backgroundColor = Color.gray;   // HACK! (For the metal L and F, if the button color is the same as the background, I get a gradient button)
             if (backgroundColor != null)
-                control.setBackground(backgroundColor);
+                ((Component)control).setBackground(backgroundColor);
         }
     }
 }

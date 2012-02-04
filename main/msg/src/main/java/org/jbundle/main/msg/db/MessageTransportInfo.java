@@ -34,21 +34,6 @@ public class MessageTransportInfo extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kCode = kVirtualRecordLastField + 1;
-    public static final int kMessageProcessInfoID = kCode + 1;
-    public static final int kMessageTransportID = kMessageProcessInfoID + 1;
-    public static final int kMessageVersionID = kMessageTransportID + 1;
-    public static final int kActive = kMessageVersionID + 1;
-    public static final int kDefaultTransport = kActive + 1;
-    public static final int kProperties = kDefaultTransport + 1;
-    public static final int kMessageTransportInfoLastField = kProperties;
-    public static final int kMessageTransportInfoFields = kProperties - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kMessageProcessInfoIDKey = kIDKey + 1;
-    public static final int kMessageTransportInfoLastKey = kMessageProcessInfoIDKey;
-    public static final int kMessageTransportInfoKeys = kMessageProcessInfoIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -71,14 +56,12 @@ public class MessageTransportInfo extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kMessageTransportInfoFile = "MessageTransportInfo";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kMessageTransportInfoFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(MESSAGE_TRANSPORT_INFO_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -114,34 +97,40 @@ public class MessageTransportInfo extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kCode)
-            field = new StringField(this, "Code", 30, null, null);
-        if (iFieldSeq == kMessageProcessInfoID)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, CODE, 30, null, null);
+        if (iFieldSeq == 4)
         {
-            field = new MessageProcessInfoField(this, "MessageProcessInfoID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new MessageProcessInfoField(this, MESSAGE_PROCESS_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setNullable(false);
         }
-        if (iFieldSeq == kMessageTransportID)
-            field = new MessageTransportField(this, "MessageTransportID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageVersionID)
-            field = new MessageVersionField(this, "MessageVersionID", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(MessageVersion.NO_VERSION));
-        if (iFieldSeq == kActive)
-            field = new BooleanField(this, "Active", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
-        if (iFieldSeq == kDefaultTransport)
-            field = new BooleanField(this, "DefaultTransport", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProperties)
-            field = new PropertiesField(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new MessageTransportField(this, MESSAGE_TRANSPORT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new MessageVersionField(this, MESSAGE_VERSION_ID, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(MessageVersion.NO_VERSION));
+        if (iFieldSeq == 7)
+            field = new BooleanField(this, ACTIVE, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
+        if (iFieldSeq == 8)
+            field = new BooleanField(this, DEFAULT_TRANSPORT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
+            field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kMessageTransportInfoLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -150,24 +139,20 @@ public class MessageTransportInfo extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kMessageProcessInfoIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "MessageProcessInfoID");
-            keyArea.addKeyField(kMessageProcessInfoID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kMessageTransportID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kMessageVersionID, DBConstants.ASCENDING);
+            keyArea.addKeyField(MESSAGE_PROCESS_INFO_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(MESSAGE_TRANSPORT_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(MESSAGE_VERSION_ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kMessageTransportInfoLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kMessageTransportInfoLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

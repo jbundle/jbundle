@@ -16,10 +16,8 @@ import org.jbundle.model.app.program.db.*;
 public class AnalysisLog extends FieldList
     implements AnalysisLogModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public AnalysisLog()
     {
@@ -58,27 +56,27 @@ public class AnalysisLog extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "SystemID", 10, null, null);
+        field = new FieldInfo(this, SYSTEM_ID, 10, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "ObjectID", 10, null, null);
+        field = new FieldInfo(this, OBJECT_ID, 10, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "ClassName", 255, null, null);
-        field = new FieldInfo(this, "DatabaseName", 255, null, null);
-        field = new FieldInfo(this, "InitTime", 25, null, null);
+        field = new FieldInfo(this, CLASS_NAME, 255, null, null);
+        field = new FieldInfo(this, DATABASE_NAME, 255, null, null);
+        field = new FieldInfo(this, INIT_TIME, 25, null, null);
         field.setDataClass(Date.class);
-        field = new FieldInfo(this, "FreeTime", 25, null, null);
+        field = new FieldInfo(this, FREE_TIME, 25, null, null);
         field.setDataClass(Date.class);
-        field = new FieldInfo(this, "RecordOwner", 255, null, null);
-        field = new FieldInfo(this, "StackTrace", 32000, null, null);
+        field = new FieldInfo(this, RECORD_OWNER, 255, null, null);
+        field = new FieldInfo(this, STACK_TRACE, 32000, null, null);
         field.setDataClass(Object.class);
     }
     /**
@@ -87,7 +85,7 @@ public class AnalysisLog extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ObjectID");
         keyArea.addKeyField("SystemID", Constants.ASCENDING);

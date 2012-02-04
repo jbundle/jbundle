@@ -16,15 +16,8 @@ import org.jbundle.model.app.program.db.*;
 public class ClassProject extends Folder
     implements ClassProjectModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
-    //public static final String NAME = NAME;
-    //public static final String PARENT_FOLDER_ID = PARENT_FOLDER_ID;
-    //public static final String SEQUENCE = SEQUENCE;
-    //public static final String COMMENT = COMMENT;
-    //public static final String CODE = CODE;
 
     public ClassProject()
     {
@@ -63,38 +56,38 @@ public class ClassProject extends Folder
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Name", 40, null, null);
-        field = new FieldInfo(this, "ParentFolderID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, NAME, 40, null, null);
+        field = new FieldInfo(this, PARENT_FOLDER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "Sequence", 5, null, null);
+        field = new FieldInfo(this, SEQUENCE, 5, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "Comment", 32000, null, null);
+        field = new FieldInfo(this, COMMENT, 32000, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "Code", 30, null, null);
-        field = new FieldInfo(this, "Description", 40, null, null);
-        field = new FieldInfo(this, "SystemClasses", 10, null, null);
+        field = new FieldInfo(this, CODE, 30, null, null);
+        field = new FieldInfo(this, DESCRIPTION, 40, null, null);
+        field = new FieldInfo(this, SYSTEM_CLASSES, 10, null, null);
         field.setDataClass(Boolean.class);
-        field = new FieldInfo(this, "PackageName", 30, null, null);
-        field = new FieldInfo(this, "ProjectPath", 128, null, null);
-        field = new FieldInfo(this, "InterfacePackage", 40, null, null);
-        field = new FieldInfo(this, "InterfaceProjectPath", 128, null, null);
-        field = new FieldInfo(this, "ThinPackage", 40, null, null);
-        field = new FieldInfo(this, "ThinProjectPath", 128, null, null);
-        field = new FieldInfo(this, "ResourcePackage", 40, null, null);
-        field = new FieldInfo(this, "ResProjectPath", 128, null, null);
-        field = new FieldInfo(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PACKAGE_NAME, 30, null, null);
+        field = new FieldInfo(this, PROJECT_PATH, 128, null, null);
+        field = new FieldInfo(this, INTERFACE_PACKAGE, 40, null, null);
+        field = new FieldInfo(this, INTERFACE_PROJECT_PATH, 128, null, null);
+        field = new FieldInfo(this, THIN_PACKAGE, 40, null, null);
+        field = new FieldInfo(this, THIN_PROJECT_PATH, 128, null, null);
+        field = new FieldInfo(this, RESOURCE_PACKAGE, 40, null, null);
+        field = new FieldInfo(this, RES_PROJECT_PATH, 128, null, null);
+        field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "ArtifactId", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "GroupId", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ARTIFACT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, GROUP_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
     }
     /**
     * Set up the key areas.
@@ -102,7 +95,7 @@ public class ClassProject extends Folder
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ParentFolderID");
         keyArea.addKeyField("ParentFolderID", Constants.ASCENDING);

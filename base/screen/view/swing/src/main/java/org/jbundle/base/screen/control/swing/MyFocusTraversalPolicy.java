@@ -109,7 +109,7 @@ public class MyFocusTraversalPolicy extends LayoutFocusTraversalPolicy
                 org.jbundle.base.model.ScreenFieldView sFieldView = sField.getScreenFieldView();
                 if (sFieldView != null)
                 {
-                    return sFieldView.getControl();
+                    return (Component)sFieldView.getControl();
                 }
             }
         }

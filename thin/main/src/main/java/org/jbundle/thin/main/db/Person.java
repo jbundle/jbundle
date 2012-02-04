@@ -15,8 +15,8 @@ import org.jbundle.model.main.db.*;
 public class Person extends FieldList
     implements PersonModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
 
     public Person()
     {

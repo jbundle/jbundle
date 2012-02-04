@@ -9,16 +9,10 @@ package org.jbundle.base.screen.view;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.awt.Component;
-import java.awt.LayoutManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import javax.servlet.ServletException;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBConstants;
@@ -102,7 +96,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * @param bEditableControl Is this control editable?
      * @return The new control.
      */
-    public Component setupControl(boolean bEditableControl)
+    public Object setupControl(boolean bEditableControl)
     {
         return null;
     }
@@ -110,14 +104,14 @@ public abstract class ScreenFieldViewAdapter extends Object
      * Set the physical control for this view.
      * @param control The physical control for this view.
      */
-    public void setControl(Component control)
+    public void setControl(Object control)
     {
     }
     /**
      * Get the physical component associated with this view.
      * @return The physical control.
      */
-    public Component getControl()
+    public Object getControl()
     {
         return null;
     }
@@ -129,7 +123,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * @param iLevel The level for this control (top/bottom/etc).
      * @return The control for this view.
      */
-    public Component getControl(int iLevel)
+    public Object getControl(int iLevel)
     {
         return this.getControl();
     }
@@ -140,7 +134,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * @param bIsInput This this an input (vs a display) field?
      * @param bGridControl Is it a grid control?
      */
-    public void setControlAttributes(Component component, boolean bIsInput, boolean bSelected, boolean bGridControl)
+    public void setControlAttributes(Object component, boolean bIsInput, boolean bSelected, boolean bGridControl)
     {
     }
     /**
@@ -180,7 +174,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * @param control The control to get the state from.
      * @return The control's value.
      */
-    public Object getComponentState(Component control)
+    public Object getComponentState(Object control)
     {
         return null;    // Must override
     }
@@ -189,7 +183,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * @param control The control to set the state to.
      * @param objValue The value to set the control to.
      */
-    public void setComponentState(Component control, Object objValue)
+    public void setComponentState(Object control, Object objValue)
     {
         // Must override
     }
@@ -245,7 +239,7 @@ public abstract class ScreenFieldViewAdapter extends Object
      * Usually, you use JAVA layout managers, but you may also use ScreenLayout.
      * @return The new layout manager.
      */
-    public LayoutManager addScreenLayout()
+    public Object addScreenLayout()
     {
         return null;    // This is only called for Containers such as BasePanel, etc.
     }
@@ -259,19 +253,27 @@ public abstract class ScreenFieldViewAdapter extends Object
         return false; // Not processed, BasePanels and above will override
     }
     /**
+     * Create a standard top-level menu.
+     * @return The new menubar.
+     */
+    public Object createMenu()
+    {
+        return null;    // Override this in SBaseMenuBar views.
+    }
+    /**
      * Add a standard top-level menu item and the standard detail actions.
      * @param strMenuName The menu name to add.
      * @param rgchShortcuts The shortcuts for the menu.
      * @return The new menu.
      */
-    public JMenu addStandardMenu(String strMenuName, char rgchShortcuts[])
+    public Object addStandardMenu(Object menubar, String strMenuName, char rgchShortcuts[])
     {
         return null;    // Override this in SBaseMenuBar views.
     }
     /**
      * Add the menu items to this frame.
      */
-    public JMenuItem addMenuItem(JMenu menu, String strMenuDesc)
+    public Object addMenuItem(Object menu, String strMenuDesc)
     {
         return null;    // Override this in SBaseMenuBar views.
     }
@@ -750,7 +752,6 @@ public abstract class ScreenFieldViewAdapter extends Object
      * You must override this method.
      * @param req The servlet request.
      * @param res The servlet response object.
-     * @exception ServletException From inherited class.
      * @exception IOException From inherited class.
      */
     public void sendData(Object req, Object res) 

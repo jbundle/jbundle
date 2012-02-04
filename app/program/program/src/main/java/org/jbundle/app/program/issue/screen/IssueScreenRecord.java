@@ -35,21 +35,12 @@ public class IssueScreenRecord extends ScreenRecord
     private static final long serialVersionUID = 1L;
 
     public static final String KEY_ORDER = "KeyOrder";
-    public static final int kKeyOrder = kScreenRecordLastField + 1;
     public static final String PROJECT_ID = "ProjectID";
-    public static final int kProjectID = kKeyOrder + 1;
     public static final String PROJECT_VERSION_ID = "ProjectVersionID";
-    public static final int kProjectVersionID = kProjectID + 1;
     public static final String ISSUE_TYPE_ID = "IssueTypeID";
-    public static final int kIssueTypeID = kProjectVersionID + 1;
     public static final String ISSUE_STATUS_ID = "IssueStatusID";
-    public static final int kIssueStatusID = kIssueTypeID + 1;
     public static final String ASSIGNED_USER_ID = "AssignedUserID";
-    public static final int kAssignedUserID = kIssueStatusID + 1;
     public static final String ISSUE_PRIORITY_ID = "IssuePriorityID";
-    public static final int kIssuePriorityID = kAssignedUserID + 1;
-    public static final int kIssueScreenRecordLastField = kIssuePriorityID;
-    public static final int kIssueScreenRecordFields = kIssuePriorityID - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -73,33 +64,29 @@ public class IssueScreenRecord extends ScreenRecord
         super.init(screen);
     }
 
-    public static final String kIssueScreenRecordFile = null; // Screen field
+    public static final String ISSUE_SCREEN_RECORD_FILE = null;   // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kKeyOrder)
-            field = new ShortField(this, "KeyOrder", Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)0));
-        if (iFieldSeq == kProjectID)
-            field = new ProjectFilter(this, "ProjectID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProjectVersionID)
-            field = new ProjectVersionField(this, "ProjectVersionID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kIssueTypeID)
-            field = new IssueTypeField(this, "IssueTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kIssueStatusID)
-            field = new IssueStatusField(this, "IssueStatusID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kAssignedUserID)
-            field = new UserField(this, "AssignedUserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kIssuePriorityID)
-            field = new IssuePriorityField(this, "IssuePriorityID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 0)
+            field = new ShortField(this, KEY_ORDER, Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)0));
+        if (iFieldSeq == 1)
+            field = new ProjectFilter(this, PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 2)
+            field = new ProjectVersionField(this, PROJECT_VERSION_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 3)
+            field = new IssueTypeField(this, ISSUE_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new IssueStatusField(this, ISSUE_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new UserField(this, ASSIGNED_USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new IssuePriorityField(this, ISSUE_PRIORITY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kIssueScreenRecordLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

@@ -15,10 +15,8 @@ import org.jbundle.model.app.program.project.db.*;
 public class ProjectTaskPredecessor extends FieldList
     implements ProjectTaskPredecessorModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public ProjectTaskPredecessor()
     {
@@ -57,21 +55,21 @@ public class ProjectTaskPredecessor extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "ProjectTaskID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PROJECT_TASK_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "ProjectTaskPredecessorID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PROJECT_TASK_PREDECESSOR_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "PredecessorType", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "PredecessorDelay", 10, null, null);
+        field = new FieldInfo(this, PREDECESSOR_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, PREDECESSOR_DELAY, 10, null, null);
         field.setDataClass(Integer.class);
     }
     /**
@@ -80,7 +78,7 @@ public class ProjectTaskPredecessor extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ProjectTaskID");
         keyArea.addKeyField("ProjectTaskID", Constants.ASCENDING);

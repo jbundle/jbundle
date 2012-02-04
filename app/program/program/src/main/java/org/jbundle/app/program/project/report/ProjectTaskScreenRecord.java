@@ -33,11 +33,7 @@ public class ProjectTaskScreenRecord extends ScreenRecord
     private static final long serialVersionUID = 1L;
 
     public static final String PROJECT_TASK_ID = "ProjectTaskID";
-    public static final int kProjectTaskID = kScreenRecordLastField + 1;
     public static final String CURRENT_LEVEL = "CurrentLevel";
-    public static final int kCurrentLevel = kProjectTaskID + 1;
-    public static final int kProjectTaskScreenRecordLastField = kCurrentLevel;
-    public static final int kProjectTaskScreenRecordFields = kCurrentLevel - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -61,23 +57,19 @@ public class ProjectTaskScreenRecord extends ScreenRecord
         super.init(screen);
     }
 
-    public static final String kProjectTaskScreenRecordFile = null;   // Screen field
+    public static final String PROJECT_TASK_SCREEN_RECORD_FILE = null;  // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kProjectTaskID)
-            field = new ProjectTaskField(this, "ProjectTaskID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kCurrentLevel)
-            field = new IntegerField(this, "CurrentLevel", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0));
+        if (iFieldSeq == 0)
+            field = new ProjectTaskField(this, PROJECT_TASK_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 1)
+            field = new IntegerField(this, CURRENT_LEVEL, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0));
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kProjectTaskScreenRecordLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

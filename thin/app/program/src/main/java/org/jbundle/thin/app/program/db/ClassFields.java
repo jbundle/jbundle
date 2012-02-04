@@ -15,10 +15,8 @@ import org.jbundle.model.app.program.db.*;
 public class ClassFields extends FieldList
     implements ClassFieldsModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
 
     public ClassFields()
     {
@@ -57,30 +55,30 @@ public class ClassFields extends FieldList
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "ClassInfoClassName", 40, null, null);
-        field = new FieldInfo(this, "ClassInfoID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, CLASS_INFO_CLASS_NAME, 40, null, null);
+        field = new FieldInfo(this, CLASS_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "ClassFieldClass", 60, null, null);
-        field = new FieldInfo(this, "ClassFieldSequence", 10, null, new Integer(0));
+        field = new FieldInfo(this, CLASS_FIELD_CLASS, 60, null, null);
+        field = new FieldInfo(this, CLASS_FIELD_SEQUENCE, 10, null, new Integer(0));
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "ClassFieldName", 40, null, null);
-        field = new FieldInfo(this, "ClassFieldDesc", 30, null, null);
-        field = new FieldInfo(this, "ClassFieldProtect", 30, null, null);
-        field = new FieldInfo(this, "ClassFieldInitial", 32000, null, null);
+        field = new FieldInfo(this, CLASS_FIELD_NAME, 40, null, null);
+        field = new FieldInfo(this, CLASS_FIELD_DESC, 30, null, null);
+        field = new FieldInfo(this, CLASS_FIELD_PROTECT, 30, null, null);
+        field = new FieldInfo(this, CLASS_FIELD_INITIAL, 32000, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "ClassFieldInitialValue", 32000, null, null);
+        field = new FieldInfo(this, CLASS_FIELD_INITIAL_VALUE, 32000, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "ClassFieldsType", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, "IncludeScope", 10, null, new Integer(0x001));
+        field = new FieldInfo(this, CLASS_FIELDS_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x001));
         field.setDataClass(Integer.class);
     }
     /**
@@ -89,7 +87,7 @@ public class ClassFields extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ClassInfoClassName");
         keyArea.addKeyField("ClassInfoClassName", Constants.ASCENDING);

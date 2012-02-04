@@ -12,7 +12,6 @@ package org.jbundle.base.screen.view.swing;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -175,7 +174,7 @@ public class VBasePanel extends VScreenField
      * Usually, you use JAVA layout managers, but you may also use ScreenLayout.
      * @return The screen layout.
      */
-    public LayoutManager addScreenLayout()
+    public Object addScreenLayout()
     {
         return null;
     }
@@ -186,7 +185,7 @@ public class VBasePanel extends VScreenField
      * @param bIsInput This this an input (vs a display) field?
      * @param bGridControl Is it a grid control?
      */
-    public void setControlAttributes(Component component, boolean bIsInput, boolean bSelected, boolean bGridControl)
+    public void setControlAttributes(Object component, boolean bIsInput, boolean bSelected, boolean bGridControl)
     {
         super.setControlAttributes(component, bIsInput, bSelected, bGridControl);
         BasePanel basePanel = (BasePanel)this.getScreenField();

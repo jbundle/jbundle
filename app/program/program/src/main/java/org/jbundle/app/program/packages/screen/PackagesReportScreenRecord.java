@@ -33,18 +33,18 @@ public class PackagesReportScreenRecord extends ReportScreenRecord
 {
     private static final long serialVersionUID = 1L;
 
+    //public static final String REPORT_DATE = REPORT_DATE;
+    //public static final String REPORT_TIME = REPORT_TIME;
+    //public static final String REPORT_USER_ID = REPORT_USER_ID;
+    //public static final String REPORT_PAGE = REPORT_PAGE;
+    //public static final String REPORT_COUNT = REPORT_COUNT;
+    //public static final String REPORT_TOTAL = REPORT_TOTAL;
+    //public static final String REPORT_KEY_AREA = REPORT_KEY_AREA;
     public static final String JNLP_FILE_ID = "JnlpFileID";
-    public static final int kJnlpFileID = kReportScreenRecordLastField + 1;
     public static final String TEMPLATE = "template";
-    public static final int ktemplate = kJnlpFileID + 1;
     public static final String FILEOUT = "fileout";
-    public static final int kfileout = ktemplate + 1;
     public static final String PACKAGES_TREE = "PackagesTree";
-    public static final int kPackagesTree = kfileout + 1;
     public static final String EXCLUDE_PACKAGES = "ExcludePackages";
-    public static final int kExcludePackages = kPackagesTree + 1;
-    public static final int kPackagesReportScreenRecordLastField = kExcludePackages;
-    public static final int kPackagesReportScreenRecordFields = kExcludePackages - DBConstants.MAIN_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -68,29 +68,39 @@ public class PackagesReportScreenRecord extends ReportScreenRecord
         super.init(screen);
     }
 
-    public static final String kPackagesReportScreenRecordFile = null;  // Screen field
+    public static final String PACKAGES_REPORT_SCREEN_RECORD_FILE = null; // Screen field
     /**
      * Add this field in the Record's field sequence.
      */
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        if (iFieldSeq == kJnlpFileID)
-            field = new JnlpFileField(this, "JnlpFileID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == ktemplate)
-            field = new StringField(this, "template", 120, null, "docs/styles/xsl/cocoon/program/templatebuild.xsl");
-        if (iFieldSeq == kfileout)
-            field = new StringField(this, "fileout", 256, null, null);
-        if (iFieldSeq == kPackagesTree)
-            field = new StringField(this, "PackagesTree", 120, null, null);
-        if (iFieldSeq == kExcludePackages)
-            field = new XmlField(this, "ExcludePackages", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 0)
+        //  field = new PackagesReportScreenRecord_ReportDate(this, REPORT_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //  field = new PackagesReportScreenRecord_ReportTime(this, REPORT_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 2)
+        //  field = new PackagesReportScreenRecord_ReportUserID(this, REPORT_USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 3)
+        //  field = new ShortField(this, REPORT_PAGE, Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)1));
+        //if (iFieldSeq == 4)
+        //  field = new IntegerField(this, REPORT_COUNT, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0));
+        //if (iFieldSeq == 5)
+        //  field = new CurrencyField(this, REPORT_TOTAL, Constants.DEFAULT_FIELD_LENGTH, null, new Double(0));
+        //if (iFieldSeq == 6)
+        //  field = new IntegerField(this, REPORT_KEY_AREA, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new JnlpFileField(this, JNLP_FILE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new StringField(this, TEMPLATE, 120, null, "docs/styles/xsl/cocoon/program/templatebuild.xsl");
+        if (iFieldSeq == 9)
+            field = new StringField(this, FILEOUT, 256, null, null);
+        if (iFieldSeq == 10)
+            field = new StringField(this, PACKAGES_TREE, 120, null, null);
+        if (iFieldSeq == 11)
+            field = new XmlField(this, EXCLUDE_PACKAGES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kPackagesReportScreenRecordLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
 

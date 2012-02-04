@@ -41,28 +41,6 @@ public class MessageProcessInfo extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kCode = kVirtualRecordLastField + 1;
-    public static final int kDescription = kCode + 1;
-    public static final int kQueueNameID = kDescription + 1;
-    public static final int kReplyMessageProcessInfoID = kQueueNameID + 1;
-    public static final int kLocalMessageProcessInfoID = kReplyMessageProcessInfoID + 1;
-    public static final int kMessageInfoID = kLocalMessageProcessInfoID + 1;
-    public static final int kMessageTypeID = kMessageInfoID + 1;
-    public static final int kProcessTypeID = kMessageTypeID + 1;
-    public static final int kProcessorClass = kProcessTypeID + 1;
-    public static final int kProperties = kProcessorClass + 1;
-    public static final int kDefaultMessageTransportID = kProperties + 1;
-    public static final int kInitialMessageStatusID = kDefaultMessageTransportID + 1;
-    public static final int kMessageProcessInfoLastField = kInitialMessageStatusID;
-    public static final int kMessageProcessInfoFields = kInitialMessageStatusID - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kMessageInfoIDKey = kIDKey + 1;
-    public static final int kDescriptionKey = kMessageInfoIDKey + 1;
-    public static final int kCodeKey = kDescriptionKey + 1;
-    public static final int kMessageProcessInfoLastKey = kCodeKey;
-    public static final int kMessageProcessInfoKeys = kCodeKey - DBConstants.MAIN_KEY_FIELD + 1;
     protected MessageDetail m_recMessageDetail = null;
     protected MessageTransport m_recMessageTransport = null;
     protected MessageTransportInfo m_recMessageTransportInfo = null;
@@ -93,14 +71,12 @@ public class MessageProcessInfo extends VirtualRecord
         m_recMessageControl = null;
         super.init(screen);
     }
-
-    public static final String kMessageProcessInfoFile = "MessageProcessInfo";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kMessageProcessInfoFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(MESSAGE_PROCESS_INFO_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -138,41 +114,47 @@ public class MessageProcessInfo extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kCode)
-            field = new StringField(this, "Code", 30, null, null);
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", 50, null, null);
-        if (iFieldSeq == kQueueNameID)
-            field = new QueueNameField(this, "QueueNameID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kReplyMessageProcessInfoID)
-            field = new MessageProcessInfoField(this, "ReplyMessageProcessInfoID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kLocalMessageProcessInfoID)
-            field = new MessageProcessInfoField(this, "LocalMessageProcessInfoID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageInfoID)
-            field = new MessageInfoField(this, "MessageInfoID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kMessageTypeID)
-            field = new MessageTypeField(this, "MessageTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProcessTypeID)
-            field = new ProcessTypeField(this, "ProcessTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kProcessorClass)
-            field = new StringField(this, "ProcessorClass", 127, null, null);
-        if (iFieldSeq == kProperties)
-            field = new PropertiesField(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kDefaultMessageTransportID)
-            field = new MessageTransportSelect(this, "DefaultMessageTransportID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kInitialMessageStatusID)
-            field = new BaseStatusSelect(this, "InitialMessageStatusID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, CODE, 30, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, DESCRIPTION, 50, null, null);
+        if (iFieldSeq == 5)
+            field = new QueueNameField(this, QUEUE_NAME_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new MessageProcessInfoField(this, REPLY_MESSAGE_PROCESS_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new MessageProcessInfoField(this, LOCAL_MESSAGE_PROCESS_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new MessageInfoField(this, MESSAGE_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
+            field = new MessageTypeField(this, MESSAGE_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new ProcessTypeField(this, PROCESS_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 11)
+            field = new StringField(this, PROCESSOR_CLASS, 127, null, null);
+        if (iFieldSeq == 12)
+            field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 13)
+            field = new MessageTransportSelect(this, DEFAULT_MESSAGE_TRANSPORT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 14)
+            field = new BaseStatusSelect(this, INITIAL_MESSAGE_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kMessageProcessInfoLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -181,34 +163,30 @@ public class MessageProcessInfo extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kMessageInfoIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "MessageInfoID");
-            keyArea.addKeyField(kMessageInfoID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kMessageTypeID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kProcessTypeID, DBConstants.ASCENDING);
+            keyArea.addKeyField(MESSAGE_INFO_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(MESSAGE_TYPE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(PROCESS_TYPE_ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kDescriptionKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Description");
-            keyArea.addKeyField(kDescription, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kCodeKey)
+        if (iKeyArea == 3)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Code");
-            keyArea.addKeyField(kCode, DBConstants.ASCENDING);
+            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kMessageProcessInfoLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kMessageProcessInfoLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

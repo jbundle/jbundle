@@ -11,6 +11,8 @@ public interface ScreenInModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String SCREEN_IN_PROG_NAME = "ScreenInProgName";
     public static final String SCREEN_OUT_NUMBER = "ScreenOutNumber";
     public static final String SCREEN_ITEM_NUMBER = "ScreenItemNumber";

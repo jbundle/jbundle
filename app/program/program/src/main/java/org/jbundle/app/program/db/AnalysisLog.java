@@ -33,22 +33,6 @@ public class AnalysisLog extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kSystemID = kVirtualRecordLastField + 1;
-    public static final int kObjectID = kSystemID + 1;
-    public static final int kClassName = kObjectID + 1;
-    public static final int kDatabaseName = kClassName + 1;
-    public static final int kInitTime = kDatabaseName + 1;
-    public static final int kFreeTime = kInitTime + 1;
-    public static final int kRecordOwner = kFreeTime + 1;
-    public static final int kStackTrace = kRecordOwner + 1;
-    public static final int kAnalysisLogLastField = kStackTrace;
-    public static final int kAnalysisLogFields = kStackTrace - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kObjectIDKey = kIDKey + 1;
-    public static final int kAnalysisLogLastKey = kObjectIDKey;
-    public static final int kAnalysisLogKeys = kObjectIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -71,14 +55,12 @@ public class AnalysisLog extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kAnalysisLogFile = "AnalysisLog";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kAnalysisLogFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(ANALYSIS_LOG_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -100,33 +82,39 @@ public class AnalysisLog extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kSystemID)
-            field = new IntegerField(this, "SystemID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kObjectID)
-            field = new IntegerField(this, "ObjectID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kClassName)
-            field = new StringField(this, "ClassName", 255, null, null);
-        if (iFieldSeq == kDatabaseName)
-            field = new StringField(this, "DatabaseName", 255, null, null);
-        if (iFieldSeq == kInitTime)
-            field = new AnalysisLog_InitTime(this, "InitTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kFreeTime)
-            field = new DateTimeField(this, "FreeTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kRecordOwner)
-            field = new StringField(this, "RecordOwner", 255, null, null);
-        if (iFieldSeq == kStackTrace)
-            field = new MemoField(this, "StackTrace", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new IntegerField(this, SYSTEM_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 4)
+            field = new IntegerField(this, OBJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, CLASS_NAME, 255, null, null);
+        if (iFieldSeq == 6)
+            field = new StringField(this, DATABASE_NAME, 255, null, null);
+        if (iFieldSeq == 7)
+            field = new AnalysisLog_InitTime(this, INIT_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new DateTimeField(this, FREE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
+            field = new StringField(this, RECORD_OWNER, 255, null, null);
+        if (iFieldSeq == 10)
+            field = new MemoField(this, STACK_TRACE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kAnalysisLogLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -135,23 +123,19 @@ public class AnalysisLog extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kObjectIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ObjectID");
-            keyArea.addKeyField(kSystemID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kObjectID, DBConstants.ASCENDING);
+            keyArea.addKeyField(SYSTEM_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(OBJECT_ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kAnalysisLogLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kAnalysisLogLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

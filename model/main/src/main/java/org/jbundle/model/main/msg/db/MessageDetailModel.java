@@ -11,6 +11,8 @@ public interface MessageDetailModel extends PropertiesRecordModel
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     //public static final String PROPERTIES = PROPERTIES;
     public static final String CONTACT_TYPE_ID = "ContactTypeID";
     public static final String PERSON_ID = "PersonID";

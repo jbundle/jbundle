@@ -209,10 +209,10 @@ public class MessageProcessInfoGridScreen extends DetailGridScreen
      */
     public void setupSFields()
     {
-        this.getRecord(MessageProcessInfo.kMessageProcessInfoFile).getField(MessageProcessInfo.kCode).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageProcessInfo.kMessageProcessInfoFile).getField(MessageProcessInfo.kDescription).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageProcessInfo.kMessageProcessInfoFile).getField(MessageProcessInfo.kQueueNameID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(MessageProcessInfo.kMessageProcessInfoFile).getField(MessageProcessInfo.kProcessorClass).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageProcessInfo.MESSAGE_PROCESS_INFO_FILE).getField(MessageProcessInfo.CODE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageProcessInfo.MESSAGE_PROCESS_INFO_FILE).getField(MessageProcessInfo.DESCRIPTION).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageProcessInfo.MESSAGE_PROCESS_INFO_FILE).getField(MessageProcessInfo.QUEUE_NAME_ID).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(MessageProcessInfo.MESSAGE_PROCESS_INFO_FILE).getField(MessageProcessInfo.PROCESSOR_CLASS).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
 
 }

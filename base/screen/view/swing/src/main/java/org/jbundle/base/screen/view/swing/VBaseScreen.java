@@ -68,7 +68,7 @@ public class VBaseScreen extends VBasePanel
      * Usually, you use JAVA layout managers, but you may also use ScreenLayout.
      * @return The new screen layout.
      */
-    public LayoutManager addScreenLayout()
+    public Object addScreenLayout()
     {
         LayoutManager screenLayout = null;
         if (this.getScreenLayout() == null)   // Only if no parent screens

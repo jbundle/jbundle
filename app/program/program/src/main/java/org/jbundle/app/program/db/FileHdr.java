@@ -33,23 +33,6 @@ public class FileHdr extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kFileName = kVirtualRecordLastField + 1;
-    public static final int kFileDesc = kFileName + 1;
-    public static final int kFileMainFilename = kFileDesc + 1;
-    public static final int kType = kFileMainFilename + 1;
-    public static final int kFileNotes = kType + 1;
-    public static final int kDatabaseName = kFileNotes + 1;
-    public static final int kFileRecCalled = kDatabaseName + 1;
-    public static final int kDisplayClass = kFileRecCalled + 1;
-    public static final int kMaintClass = kDisplayClass + 1;
-    public static final int kFileHdrLastField = kMaintClass;
-    public static final int kFileHdrFields = kMaintClass - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kFileNameKey = kIDKey + 1;
-    public static final int kFileHdrLastKey = kFileNameKey;
-    public static final int kFileHdrKeys = kFileNameKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -72,14 +55,12 @@ public class FileHdr extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kFileHdrFile = "FileHdr";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kFileHdrFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(FILE_HDR_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -120,38 +101,44 @@ public class FileHdr extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kFileName)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
         {
-            field = new StringField(this, "FileName", 40, null, null);
+            field = new StringField(this, FILE_NAME, 40, null, null);
             field.setNullable(false);
         }
-        if (iFieldSeq == kFileDesc)
-            field = new StringField(this, "FileDesc", 40, null, null);
-        if (iFieldSeq == kFileMainFilename)
-            field = new StringField(this, "FileMainFilename", 40, null, null);
-        if (iFieldSeq == kType)
-            field = new StringField(this, "Type", 60, null, null);
-        if (iFieldSeq == kFileNotes)
-            field = new MemoField(this, "FileNotes", 9999, null, null);
-        if (iFieldSeq == kDatabaseName)
-            field = new StringField(this, "DatabaseName", 20, null, null);
-        if (iFieldSeq == kFileRecCalled)
-            field = new StringField(this, "FileRecCalled", 40, null, null);
-        if (iFieldSeq == kDisplayClass)
-            field = new StringField(this, "DisplayClass", 40, null, null);
-        if (iFieldSeq == kMaintClass)
-            field = new StringField(this, "MaintClass", 40, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, FILE_DESC, 40, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, FILE_MAIN_FILENAME, 40, null, null);
+        if (iFieldSeq == 6)
+            field = new StringField(this, TYPE, 60, null, null);
+        if (iFieldSeq == 7)
+            field = new MemoField(this, FILE_NOTES, 9999, null, null);
+        if (iFieldSeq == 8)
+            field = new StringField(this, DATABASE_NAME, 20, null, null);
+        if (iFieldSeq == 9)
+            field = new StringField(this, FILE_REC_CALLED, 40, null, null);
+        if (iFieldSeq == 10)
+            field = new StringField(this, DISPLAY_CLASS, 40, null, null);
+        if (iFieldSeq == 11)
+            field = new StringField(this, MAINT_CLASS, 40, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kFileHdrLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -160,22 +147,18 @@ public class FileHdr extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kFileNameKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "FileName");
-            keyArea.addKeyField(kFileName, DBConstants.ASCENDING);
+            keyArea.addKeyField(FILE_NAME, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kFileHdrLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kFileHdrLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

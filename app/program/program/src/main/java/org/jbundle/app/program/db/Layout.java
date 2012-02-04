@@ -35,25 +35,6 @@ public class Layout extends Folder
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    //public static final int kName = kName;
-    //public static final int kParentFolderID = kParentFolderID;
-    //public static final int kSequence = kSequence;
-    //public static final int kComment = kComment;
-    //public static final int kCode = kCode;
-    public static final int kType = kFolderLastField + 1;
-    public static final int kFieldValue = kType + 1;
-    public static final int kReturnsValue = kFieldValue + 1;
-    public static final int kMax = kReturnsValue + 1;
-    public static final int kSystem = kMax + 1;
-    public static final int kComments = kSystem + 1;
-    public static final int kLayoutLastField = kComments;
-    public static final int kLayoutFields = kComments - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kParentFolderIDKey = kIDKey + 1;
-    public static final int kLayoutLastKey = kParentFolderIDKey;
-    public static final int kLayoutKeys = kParentFolderIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -76,14 +57,12 @@ public class Layout extends Folder
     {
         super.init(screen);
     }
-
-    public static final String kLayoutFile = "Layout";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kLayoutFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(LAYOUT_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -126,39 +105,45 @@ public class Layout extends Folder
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kName)
-            field = new StringField(this, "Name", 50, null, null);
-        if (iFieldSeq == kType)
-            field = new StringField(this, "Type", 50, null, null);
-        if (iFieldSeq == kFieldValue)
-            field = new StringField(this, "FieldValue", 255, null, null);
-        if (iFieldSeq == kReturnsValue)
-            field = new StringField(this, "ReturnsValue", 50, null, null);
-        if (iFieldSeq == kMax)
-            field = new IntegerField(this, "Max", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kParentFolderID)
-        //  field = new FolderField(this, "ParentFolderID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kSequence)
-        //  field = new ShortField(this, "Sequence", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kComment)
-            field = new MemoField(this, "Comment", 255, null, null);
-        if (iFieldSeq == kSystem)
-            field = new StringField(this, "System", 30, null, null);
-        if (iFieldSeq == kComments)
-            field = new BooleanField(this, "Comments", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kCode)
-        //  field = new StringField(this, "Code", 30, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, NAME, 50, null, null);
+        //if (iFieldSeq == 4)
+        //  field = new FolderField(this, PARENT_FOLDER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 5)
+        //  field = new ShortField(this, SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new MemoField(this, COMMENT, 255, null, null);
+        //if (iFieldSeq == 7)
+        //  field = new StringField(this, CODE, 30, null, null);
+        if (iFieldSeq == 8)
+            field = new StringField(this, TYPE, 50, null, null);
+        if (iFieldSeq == 9)
+            field = new StringField(this, FIELD_VALUE, 255, null, null);
+        if (iFieldSeq == 10)
+            field = new StringField(this, RETURNS_VALUE, 50, null, null);
+        if (iFieldSeq == 11)
+            field = new IntegerField(this, MAX, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 12)
+            field = new StringField(this, SYSTEM, 30, null, null);
+        if (iFieldSeq == 13)
+            field = new BooleanField(this, COMMENTS, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kLayoutLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -167,24 +152,20 @@ public class Layout extends Folder
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kParentFolderIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ParentFolderID");
-            keyArea.addKeyField(kParentFolderID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kSequence, DBConstants.ASCENDING);
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea.addKeyField(PARENT_FOLDER_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kLayoutLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kLayoutLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

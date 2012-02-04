@@ -33,38 +33,6 @@ public class TestTable extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kTestCode = kVirtualRecordLastField + 1;
-    public static final int kTestName = kTestCode + 1;
-    public static final int kTestMemo = kTestName + 1;
-    public static final int kTestYesNo = kTestMemo + 1;
-    public static final int kTestLong = kTestYesNo + 1;
-    public static final int kTestShort = kTestLong + 1;
-    public static final int kTestDateTime = kTestShort + 1;
-    public static final int kTestDate = kTestDateTime + 1;
-    public static final int kTestTime = kTestDate + 1;
-    public static final int kTestFloat = kTestTime + 1;
-    public static final int kTestDouble = kTestFloat + 1;
-    public static final int kTestPercent = kTestDouble + 1;
-    public static final int kTestReal = kTestPercent + 1;
-    public static final int kTestCurrency = kTestReal + 1;
-    public static final int kTestPassword = kTestCurrency + 1;
-    public static final int kTestVirtual = kTestPassword + 1;
-    public static final int kTestKey = kTestVirtual + 1;
-    public static final int kTestImage = kTestKey + 1;
-    public static final int kTestHtml = kTestImage + 1;
-    public static final int kTestXml = kTestHtml + 1;
-    public static final int kTestProperties = kTestXml + 1;
-    public static final int kTestSecond = kTestProperties + 1;
-    public static final int kTestEncrypted = kTestSecond + 1;
-    public static final int kTestTableLastField = kTestEncrypted;
-    public static final int kTestTableFields = kTestEncrypted - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kTestCodeKey = kIDKey + 1;
-    public static final int kTestKeyKey = kTestCodeKey + 1;
-    public static final int kTestTableLastKey = kTestKeyKey;
-    public static final int kTestTableKeys = kTestKeyKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -87,14 +55,12 @@ public class TestTable extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kTestTableFile = "TestTable";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kTestTableFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(TEST_TABLE_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -123,75 +89,81 @@ public class TestTable extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kTestCode)
-            field = new StringField(this, "TestCode", 10, null, null);
-        if (iFieldSeq == kTestName)
-            field = new StringField(this, "TestName", 30, null, null);
-        if (iFieldSeq == kTestMemo)
-            field = new MemoField(this, "TestMemo", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestYesNo)
-            field = new BooleanField(this, "TestYesNo", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
-        if (iFieldSeq == kTestLong)
-            field = new IntegerField(this, "TestLong", Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1234567));
-        if (iFieldSeq == kTestShort)
-            field = new ShortField(this, "TestShort", Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)1234));
-        if (iFieldSeq == kTestDateTime)
-            field = new TestTable_TestDateTime(this, "TestDateTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestDate)
-            field = new DateField(this, "TestDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestTime)
-            field = new TestTable_TestTime(this, "TestTime", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestFloat)
-            field = new FloatField(this, "TestFloat", Constants.DEFAULT_FIELD_LENGTH, null, new Float(12345.67));
-        if (iFieldSeq == kTestDouble)
-            field = new DoubleField(this, "TestDouble", Constants.DEFAULT_FIELD_LENGTH, null, new Double(123456789.01));
-        if (iFieldSeq == kTestPercent)
-            field = new PercentField(this, "TestPercent", Constants.DEFAULT_FIELD_LENGTH, null, new Float(0.32));
-        if (iFieldSeq == kTestReal)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, TEST_CODE, 10, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, TEST_NAME, 30, null, null);
+        if (iFieldSeq == 5)
+            field = new MemoField(this, TEST_MEMO, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new BooleanField(this, TEST_YES_NO, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
+        if (iFieldSeq == 7)
+            field = new IntegerField(this, TEST_LONG, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1234567));
+        if (iFieldSeq == 8)
+            field = new ShortField(this, TEST_SHORT, Constants.DEFAULT_FIELD_LENGTH, null, new Short((short)1234));
+        if (iFieldSeq == 9)
+            field = new TestTable_TestDateTime(this, TEST_DATE_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new DateField(this, TEST_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 11)
+            field = new TestTable_TestTime(this, TEST_TIME, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 12)
+            field = new FloatField(this, TEST_FLOAT, Constants.DEFAULT_FIELD_LENGTH, null, new Float(12345.67));
+        if (iFieldSeq == 13)
+            field = new DoubleField(this, TEST_DOUBLE, Constants.DEFAULT_FIELD_LENGTH, null, new Double(123456789.01));
+        if (iFieldSeq == 14)
+            field = new PercentField(this, TEST_PERCENT, Constants.DEFAULT_FIELD_LENGTH, null, new Float(0.32));
+        if (iFieldSeq == 15)
         {
-            field = new RealField(this, "TestReal", Constants.DEFAULT_FIELD_LENGTH, null, new Double(12345.67));
+            field = new RealField(this, TEST_REAL, Constants.DEFAULT_FIELD_LENGTH, null, new Double(12345.67));
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kTestCurrency)
+        if (iFieldSeq == 16)
         {
-            field = new CurrencyField(this, "TestCurrency", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new CurrencyField(this, TEST_CURRENCY, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kTestPassword)
-            field = new PasswordField(this, "TestPassword", 10, null, null);
-        if (iFieldSeq == kTestVirtual)
+        if (iFieldSeq == 17)
+            field = new PasswordField(this, TEST_PASSWORD, 10, null, null);
+        if (iFieldSeq == 18)
         {
-            field = new CurrencyField(this, "TestVirtual", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new CurrencyField(this, TEST_VIRTUAL, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kTestKey)
+        if (iFieldSeq == 19)
         {
-            field = new StringField(this, "TestKey", 1, null, null);
+            field = new StringField(this, TEST_KEY, 1, null, null);
             field.setMinimumLength(1);
         }
-        if (iFieldSeq == kTestImage)
-            field = new ImageField(this, "TestImage", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestHtml)
-            field = new HtmlField(this, "TestHtml", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestXml)
-            field = new XmlField(this, "TestXml", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestProperties)
-            field = new PropertiesField(this, "TestProperties", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestSecond)
-            field = new TestSecondField(this, "TestSecond", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kTestEncrypted)
-            field = new RsaEncryptedPropertyField(this, "TestEncrypted", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 20)
+            field = new ImageField(this, TEST_IMAGE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 21)
+            field = new HtmlField(this, TEST_HTML, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 22)
+            field = new XmlField(this, TEST_XML, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 23)
+            field = new PropertiesField(this, TEST_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 24)
+            field = new TestSecondField(this, TEST_SECOND, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 25)
+            field = new RsaEncryptedPropertyField(this, TEST_ENCRYPTED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kTestTableLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -200,28 +172,24 @@ public class TestTable extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kTestCodeKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "TestCode");
-            keyArea.addKeyField(kTestCode, DBConstants.ASCENDING);
+            keyArea.addKeyField(TEST_CODE, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kTestKeyKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "TestKey");
-            keyArea.addKeyField(kTestKey, DBConstants.ASCENDING);
-            keyArea.addKeyField(kTestCode, DBConstants.ASCENDING);
+            keyArea.addKeyField(TEST_KEY, DBConstants.ASCENDING);
+            keyArea.addKeyField(TEST_CODE, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kTestTableLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kTestTableLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

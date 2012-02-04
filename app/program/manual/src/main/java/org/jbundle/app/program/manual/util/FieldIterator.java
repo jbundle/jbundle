@@ -24,11 +24,18 @@ import org.jbundle.model.DBException;
         implements Iterator<Object>
 {
     protected Record m_recFileHdr = null;
-    protected Record m_recClassInfo = null;
+    protected ClassInfo m_recClassInfo = null;
     protected Record m_recFieldData = null;
-    protected boolean m_bSharedOnly = true;
+
+    protected boolean markUnusedFields = false;
+
     protected String[] m_rgstrClasses = null;
 
+    public static final String UNUSED = "UnusedField";
+    private boolean m_bFirstTime = true;
+    private Vector<FieldSummary> m_vFieldList = null;
+    private int m_iCurrentIndex = 0;
+    
     /**
      *
      */
@@ -39,21 +46,22 @@ import org.jbundle.model.DBException;
     /**
      * Constructor.
      */
-    public FieldIterator(Record recFileHdr, Record recClassInfo, Record recFieldData, boolean bSharedOnly)
+    public FieldIterator(Record recFileHdr, ClassInfo recClassInfo, Record recFieldData, boolean markUnusedFields)
     {
         this();
-        this.init(recFileHdr, recClassInfo, recFieldData, bSharedOnly);
+        this.init(recFileHdr, recClassInfo, recFieldData, markUnusedFields);
     }
     /**
      * Constructor.
      */
-    public void init(Record recFileHdr, Record recClassInfo, Record recFieldData, boolean bSharedOnly)
+    public void init(Record recFileHdr, ClassInfo recClassInfo, Record recFieldData, boolean markUnusedFields)
     {
         m_recFileHdr = recFileHdr;
         m_recClassInfo = recClassInfo;
         m_recFieldData = recFieldData;
-        m_bSharedOnly = bSharedOnly;
-
+        
+        this.markUnusedFields = markUnusedFields;
+        
         int iOldKeyOrder = m_recFileHdr.getDefaultOrder();
         try {
             if (!m_recFileHdr.getField(FileHdr.FILE_NAME).equals(m_recClassInfo.getField(ClassInfo.CLASS_NAME)))
@@ -79,41 +87,6 @@ import org.jbundle.model.DBException;
         m_recFileHdr = null;
         
         m_bFirstTime = true;
-    }
-    /** Returns <tt>true</tt> if the iteration has more elements. (In other
-     * words, returns <tt>true</tt> if <tt>next</tt> would return an element
-     * rather than throwing an exception.)
-     *
-     * @return <tt>true</tt> if the iterator has more elements.
-     *
-     */
-    public boolean hasNext()
-    {
-        try {
-            if (this.isShared())
-                return this.hasNextShared();
-            return m_recFieldData.hasNext();
-        } catch (DBException ex)    {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-    /** Returns the next element in the iteration.
-     *
-     * @return the next element in the iteration.
-     * @exception NoSuchElementException iteration has no more elements.
-     *
-     */
-    public Object next()
-    {
-        try {
-            if (this.isShared())
-                return this.nextShared();
-            return m_recFieldData.next();
-        } catch (DBException ex)    {
-            ex.printStackTrace();
-            return null;
-        }
     }
     /**
      * Removes from the underlying collection the last element returned by the
@@ -149,24 +122,7 @@ import org.jbundle.model.DBException;
      * @return <tt>true</tt> if the iterator has more elements.
      *
      */
-    public boolean isShared()
-    {
-        if (m_recFileHdr.getEditMode() != DBConstants.EDIT_CURRENT)
-            return false;   // Non-file record is never shared
-        if (m_recFileHdr.getField(FileHdr.TYPE).toString().indexOf("SHARED_TABLE") != -1)
-            return true;
-        if (!m_bSharedOnly)
-            return true;    // For thin, always process as shared.
-        return false;
-    }
-    /** Returns <tt>true</tt> if the iteration has more elements. (In other
-     * words, returns <tt>true</tt> if <tt>next</tt> would return an element
-     * rather than throwing an exception.)
-     *
-     * @return <tt>true</tt> if the iterator has more elements.
-     *
-     */
-    public boolean hasNextShared()
+    public boolean hasNext()
     {
         if (m_bFirstTime)
             this.scanSharedFields();
@@ -178,7 +134,7 @@ import org.jbundle.model.DBException;
      * @exception NoSuchElementException iteration has no more elements.
      *
      */
-    public Object nextShared()
+    public Object next()
     {
         int iOldKeyOrder = m_recFieldData.getDefaultOrder();
         try {
@@ -203,21 +159,15 @@ import org.jbundle.model.DBException;
                 m_recFieldData.getField(FieldData.FIELD_CLASS).setString(fieldSummary.m_strNewFieldClass);
                 m_recFieldData.getField(FieldData.DEFAULT_VALUE).setString(DBConstants.BLANK);
                 m_recFieldData.getField(FieldData.INITIAL_VALUE).setString(DBConstants.BLANK);
-                m_recFieldData.getField(FieldData.INCLUDE_SCOPE).setValue(0);
             }
             else if (this.inBaseField(fieldSummary.m_strFieldFileName, m_rgstrClasses))
             {   // This field is in a base record class, so fake the record to think it just overrides the field
-                int scope = (int)(m_recFieldData.getField(FieldData.INCLUDE_SCOPE).getValue() + 0.5);
                 m_recFieldData.addNew();
-                m_recFieldData.getField(FieldData.INCLUDE_SCOPE).setValue(scope & ~fieldSummary.m_iIncludeScope);
                 m_recFieldData.getField(FieldData.BASE_FIELD_NAME).setString(fieldSummary.m_strFieldName);
                 m_recFieldData.getField(FieldData.FIELD_NAME).setString(fieldSummary.m_strFieldName);
                 m_recFieldData.getField(FieldData.FIELD_FILE_NAME).setString(m_rgstrClasses[m_rgstrClasses.length-1]);
             }
-            else if ((fieldSummary.m_iFieldType == FieldSummary.EXTENDED_FIELD) && (!m_recClassInfo.getField(ClassInfo.CLASS_NAME).toString().equals(fieldSummary.m_strFieldFileName)))
-                m_recFieldData.getField(FieldData.INCLUDE_SCOPE).setValue(fieldSummary.m_iIncludeScope);   // Field name not included here
-            else
-                m_recFieldData.getField(FieldData.INCLUDE_SCOPE).setValue(fieldSummary.m_iIncludeScope);
+            m_recFieldData.getField(FieldData.INCLUDE_SCOPE).setValue(fieldSummary.m_iIncludeScope);
 
             return m_recFieldData;  // This is the next field data record
             
@@ -229,7 +179,7 @@ import org.jbundle.model.DBException;
         }
     }
     /**
-     *
+     * Is this field in my field list already?
      */
     private boolean inBaseField(String strFieldFileName, String[] rgstrClassNames)
     {
@@ -241,13 +191,8 @@ import org.jbundle.model.DBException;
         return false;
     }
     
-    public static final String UNUSED = "UnusedField";
-    private boolean m_bFirstTime = true;
-    private Vector<FieldSummary> m_vFieldList = null;
-    private int m_iCurrentIndex = 0;
-    
     /**
-     *
+     * Build the field list from the concrete and base record classes.
      */
     private void scanSharedFields()
     {
@@ -259,10 +204,11 @@ import org.jbundle.model.DBException;
 
         String strClassName = m_recClassInfo.getField(ClassInfo.CLASS_NAME).toString();
 
-        m_rgstrClasses = this.getBaseRecordClasses(strClassName, m_bSharedOnly);
+        // Step one - Get a list of all the base classes to the origin [0] = VirtualRecord.
+        m_rgstrClasses = this.getBaseRecordClasses(strClassName);
 
-        String strBaseSharedRecord = m_rgstrClasses[0];
-        if (m_bSharedOnly == false)
+        String strBaseSharedRecord = null;
+        //if (includeSharedFields == true)
         {
 	        // Now add all the classes from the first shared record up the chain
 	    	FileHdr recFileHdr = new FileHdr(Record.findRecordOwner(m_recFileHdr));
@@ -286,6 +232,7 @@ import org.jbundle.model.DBException;
 	        		recFileHdr.free();
 	        }
         }
+        
         for (int i = 0; i < m_rgstrClasses.length; i++)
         {
         	this.scanBaseFields(m_rgstrClasses[i], (i == m_rgstrClasses.length - 1));
@@ -293,9 +240,11 @@ import org.jbundle.model.DBException;
         		break;
         }
 
-        this.scanExtendedClasses(strBaseSharedRecord);
+        if (strBaseSharedRecord != null)
+            this.scanExtendedClasses(strBaseSharedRecord);
 
-        if (!strClassName.equals(strBaseSharedRecord))
+        if (strBaseSharedRecord != null)
+            if (!strClassName.equals(strBaseSharedRecord))
         {   // This class is not the base class, merge the two
              this.scanRecordsFields(m_rgstrClasses);
         }
@@ -304,10 +253,10 @@ import org.jbundle.model.DBException;
      * Get the hierarchy of classes starting with this class name.
      * @param strClassName The class to start with.
      * @param recClassInfo The class record I can use to look through the classes.
-     * @param bSharedOnly Only return the shared class hierarchy (otherwise the entire hierarchy is returned).
+     * @param excludeSharedFields Only return the shared class hierarchy (otherwise the entire hierarchy is returned).
      * @return The class name hierarchy (with position[0] being the lowest and the last is the passing in name).
      */
-    private String[] getBaseRecordClasses(String strClassName, boolean bSharedOnly)
+    private String[] getBaseRecordClasses(String strClassName)
     {
         ClassInfo recClassInfo = new ClassInfo(Record.findRecordOwner(m_recClassInfo));
         String[] rgstrClasses = new String[0];
@@ -324,15 +273,15 @@ import org.jbundle.model.DBException;
                     break;  // No class, Parent is the base.
                 if ("Record".equalsIgnoreCase(recClassInfo.getField(ClassInfo.CLASS_NAME).toString()))
                     break;
-                if (bSharedOnly)
-                {
-                    recFileHdr.getField(FileHdr.FILE_NAME).moveFieldToThis(recClassInfo.getField(ClassInfo.CLASS_NAME));
-                    recFileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
-                    if (!recFileHdr.seek("="))
-                        break;  // No file, Parent is the base.
-                    if (recFileHdr.getField(FileHdr.TYPE).toString().indexOf("SHARED_TABLE") == -1)
-                        break;  // Not shared, Parent is the base.
-                }
+//                if (!includeBaseFields)
+  //              {
+    //                recFileHdr.getField(FileHdr.FILE_NAME).moveFieldToThis(recClassInfo.getField(ClassInfo.CLASS_NAME));
+      //              recFileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
+        //            if (!recFileHdr.seek("="))
+          //              break;  // No file, Parent is the base.
+            //        if (recFileHdr.getField(FileHdr.TYPE).toString().indexOf("SHARED_TABLE") == -1)
+              //          break;  // Not shared, Parent is the base.
+                //}
                 strClassName = strBaseClass;    // This is the new valid base.
                 strBaseClass = recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).toString();  // Continue down.
                 // Now add this base class to the bottom of the list
@@ -399,7 +348,7 @@ import org.jbundle.model.DBException;
     {
         for (int i = 1; i < strClassNames.length; i++)
         {
-            this.scanRecordFields(strClassNames, i, m_bSharedOnly); // Keep unused base fields.
+            this.scanRecordFields(strClassNames, i, markUnusedFields); // Keep unused base fields.
         }
 //x        this.scanRecordFields(strClassNames[strClassNames.length -1], recClassInfo, recFieldData, true);
     }

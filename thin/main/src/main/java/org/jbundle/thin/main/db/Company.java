@@ -16,6 +16,7 @@ import org.jbundle.model.main.db.*;
 public class Company extends Person
     implements CompanyModel
 {
+    private static final long serialVersionUID = 1L;
 
 
     public Company()

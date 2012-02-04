@@ -35,22 +35,6 @@ public class Resource extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kCode = kVirtualRecordLastField + 1;
-    public static final int kDescription = kCode + 1;
-    public static final int kLocation = kDescription + 1;
-    public static final int kType = kLocation + 1;
-    public static final int kBaseResourceID = kType + 1;
-    public static final int kClassProjectID = kBaseResourceID + 1;
-    public static final int kResourceLastField = kClassProjectID;
-    public static final int kResourceFields = kClassProjectID - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kCodeKey = kIDKey + 1;
-    public static final int kDescriptionKey = kCodeKey + 1;
-    public static final int kClassProjectIDKey = kDescriptionKey + 1;
-    public static final int kResourceLastKey = kClassProjectIDKey;
-    public static final int kResourceKeys = kClassProjectIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -73,14 +57,12 @@ public class Resource extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kResourceFile = "Resource";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kResourceFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(RESOURCE_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -116,29 +98,35 @@ public class Resource extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kCode)
-            field = new StringField(this, "Code", 250, null, null);
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", 40, null, null);
-        if (iFieldSeq == kLocation)
-            field = new StringField(this, "Location", 128, null, null);
-        if (iFieldSeq == kType)
-            field = new ResourceTypeField(this, "Type", 20, null, null);
-        if (iFieldSeq == kBaseResourceID)
-            field = new ResourceField(this, "BaseResourceID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kClassProjectID)
-            field = new ClassProjectField(this, "ClassProjectID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, CODE, 250, null, null);
+        if (iFieldSeq == 4)
+            field = new StringField(this, DESCRIPTION, 40, null, null);
+        if (iFieldSeq == 5)
+            field = new StringField(this, LOCATION, 128, null, null);
+        if (iFieldSeq == 6)
+            field = new ResourceTypeField(this, TYPE, 20, null, null);
+        if (iFieldSeq == 7)
+            field = new ResourceField(this, BASE_RESOURCE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 8)
+            field = new ClassProjectField(this, CLASS_PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kResourceLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -147,33 +135,29 @@ public class Resource extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kCodeKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Code");
-            keyArea.addKeyField(kCode, DBConstants.ASCENDING);
+            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kDescriptionKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Description");
-            keyArea.addKeyField(kDescription, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kClassProjectIDKey)
+        if (iKeyArea == 3)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassProjectID");
-            keyArea.addKeyField(kClassProjectID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kDescription, DBConstants.ASCENDING);
+            keyArea.addKeyField(CLASS_PROJECT_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kResourceLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kResourceLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

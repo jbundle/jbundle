@@ -229,7 +229,7 @@ public class VCannedBox extends VButtonBox
      * @param control The control to get the state from.
      * @return The control's value (Boolean).
      */
-    public Object getComponentState(Component control)
+    public Object getComponentState(Object control)
     {
         if (CALENDAR.equals(((SCannedBox)this.getScreenField()).getButtonCommand()))
             return m_date;    // This will set the value to true for buttons linked to components

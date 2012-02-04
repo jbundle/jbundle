@@ -16,15 +16,8 @@ import org.jbundle.model.app.program.script.db.*;
 public class Script extends Folder
     implements ScriptModel
 {
+    private static final long serialVersionUID = 1L;
 
-    //public static final String ID = ID;
-    //public static final String LAST_CHANGED = LAST_CHANGED;
-    //public static final String DELETED = DELETED;
-    //public static final String NAME = NAME;
-    //public static final String PARENT_FOLDER_ID = PARENT_FOLDER_ID;
-    //public static final String SEQUENCE = SEQUENCE;
-    //public static final String COMMENT = COMMENT;
-    //public static final String CODE = CODE;
 
     public Script()
     {
@@ -63,28 +56,28 @@ public class Script extends Folder
     public void setupFields()
     {
         FieldInfo field = null;
-        field = new FieldInfo(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Date.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Deleted", 10, null, new Boolean(false));
+        field = new FieldInfo(this, DELETED, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field.setHidden(true);
-        field = new FieldInfo(this, "Name", 40, null, null);
-        field = new FieldInfo(this, "ParentFolderID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, NAME, 40, null, null);
+        field = new FieldInfo(this, PARENT_FOLDER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, "Sequence", 5, null, null);
+        field = new FieldInfo(this, SEQUENCE, 5, null, null);
         field.setDataClass(Short.class);
-        field = new FieldInfo(this, "Comment", 32000, null, null);
+        field = new FieldInfo(this, COMMENT, 32000, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "Code", 30, null, null);
-        field = new FieldInfo(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        field = new FieldInfo(this, CODE, 30, null, null);
+        field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Object.class);
-        field = new FieldInfo(this, "Command", Constants.DEFAULT_FIELD_LENGTH, null, "true");
-        //field = new FieldInfo(this, "Source", 128, null, null);
-        //field = new FieldInfo(this, "Destination", 128, null, null);
+        field = new FieldInfo(this, COMMAND, Constants.DEFAULT_FIELD_LENGTH, null, "true");
+        //field = new FieldInfo(this, SOURCE, 128, null, null);
+        //field = new FieldInfo(this, DESTINATION, 128, null, null);
     }
     /**
     * Set up the key areas.
@@ -92,7 +85,7 @@ public class Script extends Folder
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "PrimaryKey");
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ParentFolderID");
         keyArea.addKeyField("ParentFolderID", Constants.ASCENDING);

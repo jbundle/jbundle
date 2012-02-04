@@ -34,21 +34,6 @@ public class Registration extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kResourceID = kVirtualRecordLastField + 1;
-    public static final int kCode = kResourceID + 1;
-    public static final int kLanguage = kCode + 1;
-    public static final int kLocale = kLanguage + 1;
-    public static final int kKeyValue = kLocale + 1;
-    public static final int kObjectValue = kKeyValue + 1;
-    public static final int kRegistrationLastField = kObjectValue;
-    public static final int kRegistrationFields = kObjectValue - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kResourceIDKey = kIDKey + 1;
-    public static final int kCodeKey = kResourceIDKey + 1;
-    public static final int kRegistrationLastKey = kCodeKey;
-    public static final int kRegistrationKeys = kCodeKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -71,14 +56,12 @@ public class Registration extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kRegistrationFile = "Registration";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kRegistrationFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(REGISTRATION_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -121,38 +104,44 @@ public class Registration extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kResourceID)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
         {
-            field = new ResourceField(this, "ResourceID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new ResourceField(this, RESOURCE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setNullable(false);
         }
-        if (iFieldSeq == kCode)
-            field = new StringField(this, "Code", 40, null, null);
-        if (iFieldSeq == kLanguage)
+        if (iFieldSeq == 4)
+            field = new StringField(this, CODE, 40, null, null);
+        if (iFieldSeq == 5)
         {
-            field = new StringField(this, "Language", 2, null, null);
+            field = new StringField(this, LANGUAGE, 2, null, null);
             field.setNullable(false);
         }
-        if (iFieldSeq == kLocale)
+        if (iFieldSeq == 6)
         {
-            field = new StringField(this, "Locale", 2, null, null);
+            field = new StringField(this, LOCALE, 2, null, null);
             field.setNullable(false);
         }
-        if (iFieldSeq == kKeyValue)
-            field = new StringField(this, "KeyValue", 80, null, null);
-        if (iFieldSeq == kObjectValue)
-            field = new MemoField(this, "ObjectValue", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 7)
+            field = new StringField(this, KEY_VALUE, 80, null, null);
+        if (iFieldSeq == 8)
+            field = new MemoField(this, OBJECT_VALUE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kRegistrationLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -161,34 +150,30 @@ public class Registration extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kResourceIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "ResourceID");
-            keyArea.addKeyField(kResourceID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kLanguage, DBConstants.ASCENDING);
-            keyArea.addKeyField(kLocale, DBConstants.ASCENDING);
-            keyArea.addKeyField(kKeyValue, DBConstants.ASCENDING);
+            keyArea.addKeyField(RESOURCE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(LANGUAGE, DBConstants.ASCENDING);
+            keyArea.addKeyField(LOCALE, DBConstants.ASCENDING);
+            keyArea.addKeyField(KEY_VALUE, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kCodeKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "Code");
-            keyArea.addKeyField(kResourceID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kCode, DBConstants.ASCENDING);
-            keyArea.addKeyField(kLanguage, DBConstants.ASCENDING);
-            keyArea.addKeyField(kLocale, DBConstants.ASCENDING);
-            keyArea.addKeyField(kKeyValue, DBConstants.ASCENDING);
+            keyArea.addKeyField(RESOURCE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
+            keyArea.addKeyField(LANGUAGE, DBConstants.ASCENDING);
+            keyArea.addKeyField(LOCALE, DBConstants.ASCENDING);
+            keyArea.addKeyField(KEY_VALUE, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kRegistrationLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kRegistrationLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
 

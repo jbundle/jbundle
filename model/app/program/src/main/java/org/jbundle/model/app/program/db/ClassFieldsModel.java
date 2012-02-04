@@ -11,6 +11,8 @@ public interface ClassFieldsModel extends Rec
 {
 
     //public static final String ID = ID;
+    //public static final String LAST_CHANGED = LAST_CHANGED;
+    //public static final String DELETED = DELETED;
     public static final String CLASS_INFO_CLASS_NAME = "ClassInfoClassName";
     public static final String CLASS_INFO_ID = "ClassInfoID";
     public static final String CLASS_FIELD_CLASS = "ClassFieldClass";

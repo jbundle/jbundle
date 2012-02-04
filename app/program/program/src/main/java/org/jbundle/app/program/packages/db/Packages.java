@@ -41,29 +41,6 @@ public class Packages extends Folder
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    //public static final int kName = kName;
-    //public static final int kParentFolderID = kParentFolderID;
-    //public static final int kSequence = kSequence;
-    //public static final int kComment = kComment;
-    //public static final int kCode = kCode;
-    public static final int kClassProjectID = kFolderLastField + 1;
-    public static final int kCodeType = kClassProjectID + 1;
-    public static final int kPartID = kCodeType + 1;
-    public static final int kRecursive = kPartID + 1;
-    public static final int kExclude = kRecursive + 1;
-    public static final int kManual = kExclude + 1;
-    public static final int kLastUpdated = kManual + 1;
-    public static final int kPackagesLastField = kLastUpdated;
-    public static final int kPackagesFields = kLastUpdated - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kParentFolderIDKey = kIDKey + 1;
-    public static final int kCodeKey = kParentFolderIDKey + 1;
-    public static final int kNameKey = kCodeKey + 1;
-    public static final int kPartIDKey = kNameKey + 1;
-    public static final int kPackagesLastKey = kPartIDKey;
-    public static final int kPackagesKeys = kPartIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -86,14 +63,12 @@ public class Packages extends Folder
     {
         super.init(screen);
     }
-
-    public static final String kPackagesFile = "Packages";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kPackagesFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(PACKAGES_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -129,44 +104,50 @@ public class Packages extends Folder
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        //if (iFieldSeq == kName)
-        //  field = new StringField(this, "Name", 40, null, null);
-        if (iFieldSeq == kParentFolderID)
-            field = new PackagesField(this, "ParentFolderID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kSequence)
-        //  field = new ShortField(this, "Sequence", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kClassProjectID)
-            field = new ClassProjectField(this, "ClassProjectID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kCodeType)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 3)
+        //  field = new StringField(this, NAME, 40, null, null);
+        if (iFieldSeq == 4)
+            field = new PackagesField(this, PARENT_FOLDER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 5)
+        //  field = new ShortField(this, SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 6)
+        //  field = new MemoField(this, COMMENT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 7)
+        //  field = new StringField(this, CODE, 30, null, null);
+        if (iFieldSeq == 8)
+            field = new ClassProjectField(this, CLASS_PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
         {
-            field = new CodeTypeField(this, "CodeType", Constants.DEFAULT_FIELD_LENGTH, null, "BASE");
+            field = new CodeTypeField(this, CODE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, "BASE");
             field.addListener(new InitOnceFieldHandler(null));
         }
-        //if (iFieldSeq == kComment)
-        //  field = new MemoField(this, "Comment", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kCode)
-        //  field = new StringField(this, "Code", 30, null, null);
-        if (iFieldSeq == kPartID)
-            field = new PartField(this, "PartID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kRecursive)
-            field = new BooleanField(this, "Recursive", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
-        if (iFieldSeq == kExclude)
-            field = new BooleanField(this, "Exclude", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kManual)
-            field = new BooleanField(this, "Manual", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
-        if (iFieldSeq == kLastUpdated)
-            field = new DateTimeField(this, "LastUpdated", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new PartField(this, PART_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 11)
+            field = new BooleanField(this, RECURSIVE, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        if (iFieldSeq == 12)
+            field = new BooleanField(this, EXCLUDE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 13)
+            field = new BooleanField(this, MANUAL, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        if (iFieldSeq == 14)
+            field = new DateTimeField(this, LAST_UPDATED, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kPackagesLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -175,42 +156,38 @@ public class Packages extends Folder
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kParentFolderIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ParentFolderID");
-            keyArea.addKeyField(kParentFolderID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kSequence, DBConstants.ASCENDING);
-            keyArea.addKeyField(kName, DBConstants.ASCENDING);
+            keyArea.addKeyField(PARENT_FOLDER_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
+            keyArea.addKeyField(NAME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kCodeKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Code");
-            keyArea.addKeyField(kCode, DBConstants.ASCENDING);
+            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kNameKey)
+        if (iKeyArea == 3)
         {
             keyArea = this.makeIndex(DBConstants.UNIQUE, "Name");
-            keyArea.addKeyField(kParentFolderID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kName, DBConstants.ASCENDING);
-            keyArea.addKeyField(kClassProjectID, DBConstants.ASCENDING);
+            keyArea.addKeyField(PARENT_FOLDER_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(NAME, DBConstants.ASCENDING);
+            keyArea.addKeyField(CLASS_PROJECT_ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kPartIDKey)
+        if (iKeyArea == 4)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "PartID");
-            keyArea.addKeyField(kPartID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kSequence, DBConstants.ASCENDING);
+            keyArea.addKeyField(PART_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kPackagesLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kPackagesLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

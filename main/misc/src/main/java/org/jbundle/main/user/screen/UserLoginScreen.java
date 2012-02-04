@@ -124,11 +124,11 @@ public class UserLoginScreen extends Screen
     {
         Converter fieldConverter = this.getScreenRecord().getField(UserScreenRecord.STATUS_LINE);
         new SStaticText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, fieldConverter, ScreenConstants.DONT_DISPLAY_FIELD_DESC);
-        this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.kuser).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        Converter converter = new HashSHAConverter(this.getScreenRecord().getField(UserScreenRecord.kpassword));
+        this.getRecord(UserScreenRecord.USER_SCREEN_RECORD_FILE).getField(UserScreenRecord.USER).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        Converter converter = new HashSHAConverter(this.getScreenRecord().getField(UserScreenRecord.PASSWORD));
         converter = new FieldLengthConverter(converter, 20);
         converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(UserScreenRecord.kUserScreenRecordFile).getField(UserScreenRecord.ksaveuser).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(UserScreenRecord.USER_SCREEN_RECORD_FILE).getField(UserScreenRecord.SAVEUSER).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         SCannedBox loginButton = new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, MenuConstants.LOGIN);
         loginButton.setRequestFocusEnabled(true);
         BaseApplication application = (BaseApplication)this.getTask().getApplication();

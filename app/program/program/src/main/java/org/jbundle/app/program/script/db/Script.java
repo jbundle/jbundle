@@ -38,24 +38,6 @@ public class Script extends Folder
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    //public static final int kName = kName;
-    //public static final int kParentFolderID = kParentFolderID;
-    //public static final int kSequence = kSequence;
-    //public static final int kComment = kComment;
-    //public static final int kCode = kCode;
-    public static final int kProperties = kFolderLastField + 1;
-    public static final int kCommand = kProperties + 1;
-    public static final int kSource = kCommand + 1;
-    public static final int kDestination = kSource + 1;
-    public static final int kScriptLastField = kDestination;
-    public static final int kScriptFields = kDestination - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kParentFolderIDKey = kIDKey + 1;
-    public static final int kCodeKey = kParentFolderIDKey + 1;
-    public static final int kScriptLastKey = kCodeKey;
-    public static final int kScriptKeys = kCodeKey - DBConstants.MAIN_KEY_FIELD + 1;
     protected Script m_recSubScript = null;
     /**
      * Default constructor.
@@ -80,14 +62,12 @@ public class Script extends Folder
         m_recSubScript = null;
         super.init(screen);
     }
-
-    public static final String kScriptFile = "Script";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kScriptFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(SCRIPT_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -127,41 +107,47 @@ public class Script extends Folder
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        //if (iFieldSeq == kName)
-        //  field = new StringField(this, "Name", 40, null, null);
-        //if (iFieldSeq == kParentFolderID)
-        //  field = new FolderField(this, "ParentFolderID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kSequence)
-        //  field = new ShortField(this, "Sequence", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kComment)
-        //  field = new MemoField(this, "Comment", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == kCode)
-        //  field = new StringField(this, "Code", 30, null, null);
-        if (iFieldSeq == kProperties)
-            field = new PropertiesField(this, "Properties", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kCommand)
-            field = new ScriptCommandField(this, "Command", Constants.DEFAULT_FIELD_LENGTH, null, "true");
-        if (iFieldSeq == kSource)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 3)
+        //  field = new StringField(this, NAME, 40, null, null);
+        //if (iFieldSeq == 4)
+        //  field = new FolderField(this, PARENT_FOLDER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 5)
+        //  field = new ShortField(this, SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 6)
+        //  field = new MemoField(this, COMMENT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 7)
+        //  field = new StringField(this, CODE, 30, null, null);
+        if (iFieldSeq == 8)
+            field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
+            field = new ScriptCommandField(this, COMMAND, Constants.DEFAULT_FIELD_LENGTH, null, "true");
+        if (iFieldSeq == 10)
         {
-            field = new StringField(this, "Source", 128, null, null);
+            field = new StringField(this, SOURCE, 128, null, null);
             field.setVirtual(true);
         }
-        if (iFieldSeq == kDestination)
+        if (iFieldSeq == 11)
         {
-            field = new StringField(this, "Destination", 128, null, null);
+            field = new StringField(this, DESTINATION, 128, null, null);
             field.setVirtual(true);
         }
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kScriptLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -170,29 +156,25 @@ public class Script extends Folder
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kParentFolderIDKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ParentFolderID");
-            keyArea.addKeyField(kParentFolderID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kSequence, DBConstants.ASCENDING);
-            keyArea.addKeyField(kName, DBConstants.ASCENDING);
+            keyArea.addKeyField(PARENT_FOLDER_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
+            keyArea.addKeyField(NAME, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kCodeKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Code");
-            keyArea.addKeyField(kCode, DBConstants.ASCENDING);
+            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kScriptLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kScriptLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**

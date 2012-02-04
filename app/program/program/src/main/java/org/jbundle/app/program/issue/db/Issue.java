@@ -37,29 +37,6 @@ public class Issue extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    //public static final int kID = kID;
-    public static final int kDescription = kVirtualRecordLastField + 1;
-    public static final int kProjectID = kDescription + 1;
-    public static final int kProjectVersionID = kProjectID + 1;
-    public static final int kIssueTypeID = kProjectVersionID + 1;
-    public static final int kIssueStatusID = kIssueTypeID + 1;
-    public static final int kAssignedUserID = kIssueStatusID + 1;
-    public static final int kIssuePriorityID = kAssignedUserID + 1;
-    public static final int kIssueSequence = kIssuePriorityID + 1;
-    public static final int kEnteredDate = kIssueSequence + 1;
-    public static final int kEnteredByUserID = kEnteredDate + 1;
-    public static final int kChangedDate = kEnteredByUserID + 1;
-    public static final int kChangedByUserID = kChangedDate + 1;
-    public static final int kClassInfoID = kChangedByUserID + 1;
-    public static final int kIssueLastField = kClassInfoID;
-    public static final int kIssueFields = kClassInfoID - DBConstants.MAIN_FIELD + 1;
-
-    public static final int kIDKey = DBConstants.MAIN_KEY_FIELD;
-    public static final int kDescriptionKey = kIDKey + 1;
-    public static final int kIssuePriorityIDKey = kDescriptionKey + 1;
-    public static final int kClassInfoIDKey = kIssuePriorityIDKey + 1;
-    public static final int kIssueLastKey = kClassInfoIDKey;
-    public static final int kIssueKeys = kClassInfoIDKey - DBConstants.MAIN_KEY_FIELD + 1;
     /**
      * Default constructor.
      */
@@ -82,14 +59,12 @@ public class Issue extends VirtualRecord
     {
         super.init(screen);
     }
-
-    public static final String kIssueFile = "Issue";
     /**
      * Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(kIssueFile, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(ISSUE_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -132,58 +107,64 @@ public class Issue extends VirtualRecord
     public BaseField setupField(int iFieldSeq)
     {
         BaseField field = null;
-        //if (iFieldSeq == kID)
+        //if (iFieldSeq == 0)
         //{
-        //  field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == kDescription)
-            field = new StringField(this, "Description", 120, null, null);
-        if (iFieldSeq == kProjectID)
+        //if (iFieldSeq == 1)
+        //{
+        //  field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.setHidden(true);
+        //}
+        //if (iFieldSeq == 2)
+        //{
+        //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+        //  field.setHidden(true);
+        //}
+        if (iFieldSeq == 3)
+            field = new StringField(this, DESCRIPTION, 120, null, null);
+        if (iFieldSeq == 4)
         {
-            field = new ProjectFilter(this, "ProjectID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new ProjectFilter(this, PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kProjectVersionID)
+        if (iFieldSeq == 5)
         {
-            field = new ProjectVersionField(this, "ProjectVersionID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new ProjectVersionField(this, PROJECT_VERSION_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kIssueTypeID)
+        if (iFieldSeq == 6)
         {
-            field = new IssueTypeField(this, "IssueTypeID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new IssueTypeField(this, ISSUE_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kIssueStatusID)
+        if (iFieldSeq == 7)
         {
-            field = new IssueStatusField(this, "IssueStatusID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new IssueStatusField(this, ISSUE_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kAssignedUserID)
-            field = new Issue_AssignedUserID(this, "AssignedUserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kIssuePriorityID)
+        if (iFieldSeq == 8)
+            field = new Issue_AssignedUserID(this, ASSIGNED_USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 9)
         {
-            field = new IssuePriorityField(this, "IssuePriorityID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new IssuePriorityField(this, ISSUE_PRIORITY_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == kIssueSequence)
-            field = new IntegerField(this, "IssueSequence", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kEnteredDate)
-            field = new Issue_EnteredDate(this, "EnteredDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kEnteredByUserID)
-            field = new UserField(this, "EnteredByUserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kChangedDate)
-            field = new DateTimeField(this, "ChangedDate", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kChangedByUserID)
-            field = new UserField(this, "ChangedByUserID", Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == kClassInfoID)
-            field = new ClassInfoField(this, "ClassInfoID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 10)
+            field = new IntegerField(this, ISSUE_SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 11)
+            field = new Issue_EnteredDate(this, ENTERED_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 12)
+            field = new UserField(this, ENTERED_BY_USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 13)
+            field = new DateTimeField(this, CHANGED_DATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 14)
+            field = new UserField(this, CHANGED_BY_USER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 15)
+            field = new ClassInfoField(this, CLASS_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
-        {
             field = super.setupField(iFieldSeq);
-            if (field == null) if (iFieldSeq < kIssueLastField)
-                field = new EmptyField(this);
-        }
         return field;
     }
     /**
@@ -192,34 +173,30 @@ public class Issue extends VirtualRecord
     public KeyArea setupKey(int iKeyArea)
     {
         KeyArea keyArea = null;
-        if (iKeyArea == kIDKey)
+        if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "PrimaryKey");
-            keyArea.addKeyField(kID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kDescriptionKey)
+        if (iKeyArea == 1)
         {
             keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Description");
-            keyArea.addKeyField(kDescription, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kIssuePriorityIDKey)
+        if (iKeyArea == 2)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "IssuePriorityID");
-            keyArea.addKeyField(kIssuePriorityID, DBConstants.ASCENDING);
-            keyArea.addKeyField(kIssueSequence, DBConstants.ASCENDING);
-            keyArea.addKeyField(kDescription, DBConstants.ASCENDING);
+            keyArea.addKeyField(ISSUE_PRIORITY_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(ISSUE_SEQUENCE, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
-        if (iKeyArea == kClassInfoIDKey)
+        if (iKeyArea == 3)
         {
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassInfoID");
-            keyArea.addKeyField(kClassInfoID, DBConstants.ASCENDING);
+            keyArea.addKeyField(CLASS_INFO_ID, DBConstants.ASCENDING);
         }
-        if (keyArea == null) if (iKeyArea < kIssueLastKey)
-        {
+        if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
-            if (keyArea == null) if (iKeyArea < kIssueLastKey)
-                keyArea = new EmptyKey(this);
-        }
         return keyArea;
     }
     /**
