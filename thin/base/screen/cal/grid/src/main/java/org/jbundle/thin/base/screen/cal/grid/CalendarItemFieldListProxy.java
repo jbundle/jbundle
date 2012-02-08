@@ -3,11 +3,11 @@
  */
 package org.jbundle.thin.base.screen.cal.grid;
 
-import java.awt.Color;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
 
+import org.jbundle.model.util.Colors;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
@@ -119,16 +119,16 @@ public class CalendarItemFieldListProxy extends Object
     /**
      * Highlight color (optional).
      */
-    public Color getHighlightColor()
+    public int getHighlightColor()
     {
-        return Color.green;
+        return Colors.GREEN;
     }
     /**
      * Highlight color (optional).
      */
-    public Color getSelectColor()
+    public int getSelectColor()
     {
-        return Color.red;
+        return Colors.RED;
     }
     /**
      * Change the start time of this service.

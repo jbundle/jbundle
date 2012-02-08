@@ -3,12 +3,12 @@
  */
 package org.jbundle.thin.base.screen.cal.opt;
 
-import java.awt.Color;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
 
+import org.jbundle.model.util.Colors;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.cal.popup.ProductTypeInfo;
@@ -30,8 +30,8 @@ public class CachedInfo extends Object
     protected Date m_startTime = null;
     protected Date m_endTime = null;
     protected String[] m_rgstrMeals = null;
-    protected Color m_colorHighlight = null;
-    protected Color m_colorSelect = null;
+    protected int m_colorHighlight = Colors.NULL;
+    protected int m_colorSelect = Colors.NULL;
     protected int m_iStatus = 0;
 
     private ImageIcon m_rgIcons[] = null;
@@ -151,14 +151,14 @@ public class CachedInfo extends Object
     /**
      * Highlight color (optional).
      */
-    public Color getHighlightColor()
+    public int getHighlightColor()
     {
         return m_colorHighlight;
     }
     /**
      * Highlight color (optional).
      */
-    public Color getSelectColor()
+    public int getSelectColor()
     {
         return m_colorSelect;
     }

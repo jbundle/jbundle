@@ -3,7 +3,6 @@
  */
 package org.jbundle.base.screen.model.calendar;
 
-import java.awt.Color;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -160,20 +159,20 @@ public class CalendarRecordItem extends Object
      * Highlight color (optional).
      * @return The highlight color (green).
      */
-    public Color getHighlightColor()
+    public int getHighlightColor()
     {
         return DEFAULT_HIGHTLIGHT_COLOR;
     }
-    public static final Color DEFAULT_HIGHTLIGHT_COLOR = new Color(0xDDDDFF);
+    public static final int DEFAULT_HIGHTLIGHT_COLOR = 0xDDDDFF;
     /**
      * Highlight color (optional).
      * @return The select color (red).
      */
-    public Color getSelectColor()
+    public int getSelectColor()
     {
         return DEFAULT_SELECTION_COLOR;
     }
-    public static final Color DEFAULT_SELECTION_COLOR = new Color(0xDDDDDD);
+    public static final int DEFAULT_SELECTION_COLOR = 0xDDDDDD;
     /**
      * Change the start time of this service.
      * @param time The new start date.

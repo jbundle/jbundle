@@ -3,14 +3,14 @@
  */
 package org.jbundle.thin.base.screen.cal.sample.remote;
 
-import java.awt.Color;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
 
+import org.jbundle.model.util.Colors;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.util.calendarpanel.model.CalendarItem;
 import org.jbundle.thin.main.calendar.db.Appointment;
+import org.jbundle.util.calendarpanel.model.CalendarItem;
 
 
 public class AppointmentCalendarItem extends Appointment
@@ -110,16 +110,16 @@ public class AppointmentCalendarItem extends Appointment
     /**
      * Highlight color (optional).
      */
-    public Color getHighlightColor()
+    public int getHighlightColor()
     {
-        return Color.green;
+        return Colors.GREEN;
     }
     /**
      * Highlight color (optional).
      */
-    public Color getSelectColor()
+    public int getSelectColor()
     {
-        return Color.red;
+        return Colors.RED;
     }
     /**
      * Change the start time of this service.

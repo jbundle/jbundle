@@ -3,19 +3,19 @@
  */
 package org.jbundle.thin.app.calendar;
 
-import java.awt.Color;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
 
+import org.jbundle.model.util.Colors;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.cal.popup.ProductTypeInfo;
-import org.jbundle.util.calendarpanel.model.CalendarConstants;
-import org.jbundle.util.calendarpanel.model.CalendarItem;
 import org.jbundle.thin.main.calendar.db.Appointment;
 import org.jbundle.thin.main.calendar.db.CalendarEntry;
+import org.jbundle.util.calendarpanel.model.CalendarConstants;
+import org.jbundle.util.calendarpanel.model.CalendarItem;
 
 
 public class AppointmentCalendarItem extends CalendarEntry
@@ -24,7 +24,7 @@ public class AppointmentCalendarItem extends CalendarEntry
 	private static final long serialVersionUID = 1L;
 
 	//x   ProductTypeInfo m_productTypeInfo = new ProductTypeInfo(ProductConstants.ITEM, new Color(224, 224, 224), null, true);
-    ProductTypeInfo m_productTypeInfo = new ProductTypeInfo(null, new Color(224, 224, 224), null, true);
+    ProductTypeInfo m_productTypeInfo = new ProductTypeInfo(null, 0x00e0e0e0, Colors.NULL, true);
 
     /**
      * Constructor.
@@ -149,14 +149,14 @@ public class AppointmentCalendarItem extends CalendarEntry
     /**
      * Highlight color (optional).
      */
-    public Color getHighlightColor()
+    public int getHighlightColor()
     {
         return m_productTypeInfo.getHighlightColor();
     }
     /**
      * Highlight color (optional).
      */
-    public Color getSelectColor()
+    public int getSelectColor()
     {
         return m_productTypeInfo.getSelectColor();
     }

@@ -3,17 +3,16 @@
  */
 package org.jbundle.thin.base.screen.cal.opt;
 
-import java.awt.Color;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
 
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.screen.cal.popup.ProductTypeInfo;
+import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.calendarpanel.model.CachedCalendarModel;
 import org.jbundle.util.calendarpanel.model.CalendarItem;
 import org.jbundle.util.calendarpanel.model.CalendarModel;
-import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -105,14 +104,14 @@ public class CachedItem extends Object
     /**
      * Highlight color (optional).
      */
-    public Color getHighlightColor()
+    public int getHighlightColor()
     {
         return m_cachedInfo.getHighlightColor();
     }
     /**
      * Highlight color (optional).
      */
-    public Color getSelectColor()
+    public int getSelectColor()
     {
         return m_cachedInfo.getSelectColor();
     }

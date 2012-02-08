@@ -5,28 +5,28 @@
  */
 package org.jbundle.app.program.project.screen;
 
-import java.awt.*;
-import java.util.*;
+import java.util.Map;
+import java.util.Vector;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.model.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.model.db.*;
-import org.jbundle.model.screen.*;
-import org.jbundle.app.program.project.db.*;
-import org.jbundle.base.screen.model.calendar.*;
-import javax.swing.*;
-import org.jbundle.util.calendarpanel.model.*;
+import javax.swing.ImageIcon;
+
+import org.jbundle.app.program.project.db.ColorField;
+import org.jbundle.app.program.project.db.ProjectControl;
+import org.jbundle.app.program.project.db.ProjectTask;
+import org.jbundle.app.program.project.db.ProjectTaskParentFilter;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.filter.FileFilter;
+import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.ImageField;
+import org.jbundle.base.model.ScreenConstants;
+import org.jbundle.base.screen.model.BasePanel;
+import org.jbundle.base.screen.model.CalendarScreen;
+import org.jbundle.base.screen.model.calendar.CalendarRecordItem;
+import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.model.db.Rec;
+import org.jbundle.thin.base.db.Converter;
+import org.jbundle.util.calendarpanel.model.CalendarConstants;
+import org.jbundle.util.calendarpanel.model.CalendarItem;
 
 /**
  *  ProjectTaskCalendar - .
@@ -112,7 +112,7 @@ public class ProjectTaskCalendar extends CalendarScreen
         this.setEditing(true);
         this.getMainRecord().addListener(new FileFilter(null)
         {
-            public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector vParamList)
+            public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
             {   // Between start and end dates? (Defaults to Currentdate thru +1 year)
                 boolean bDontSkip = true;
                 if (this.getOwner().getField(ProjectTask.START_DATE_TIME).isNull())
@@ -153,7 +153,7 @@ public class ProjectTaskCalendar extends CalendarScreen
                     return super.getIcon(iIconType);
                 return new ImageIcon(field.getImage().getImage());
             }
-            public Color getHighlightColor()
+            public int getHighlightColor()
             {
                 Record recProjectControl = getRecord(ProjectControl.PROJECT_CONTROL_FILE);
                 ColorField field = null;
@@ -165,7 +165,7 @@ public class ProjectTaskCalendar extends CalendarScreen
                     return super.getHighlightColor();
                 return field.getColor();
             }
-            public Color getSelectColor()
+            public int getSelectColor()
             {
                 Record recProjectControl = getRecord(ProjectControl.PROJECT_CONTROL_FILE);
                 ColorField field = null;
