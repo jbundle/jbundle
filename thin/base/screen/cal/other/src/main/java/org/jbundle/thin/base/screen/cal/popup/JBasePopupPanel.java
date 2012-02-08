@@ -83,7 +83,7 @@ public class JBasePopupPanel extends JPanel
         button.setName(strLink);
         
         button.setOpaque(false);
-        Color colorBackground = productType.getSelectColor();
+        Color colorBackground = new Color(productType.getSelectColor());
         button.setBackground(colorBackground); // Since the button is opaque, this is only needed for those look and feels that want their own background color.
         button.setBorderPainted(false);
         button.addActionListener(m_actionListener);

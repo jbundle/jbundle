@@ -5,28 +5,31 @@
  */
 package org.jbundle.app.program.project.db;
 
-import java.awt.Color;
-import java.util.Map;
+import java.awt.*;
+import java.util.*;
 
-import org.jbundle.base.db.Record;
-import org.jbundle.base.field.IntegerField;
-import org.jbundle.base.model.DBConstants;
-import org.jbundle.model.db.Convert;
-import org.jbundle.model.screen.ComponentParent;
-import org.jbundle.model.screen.ScreenComponent;
-import org.jbundle.model.screen.ScreenLoc;
-import org.jbundle.model.util.Colors;
+import org.jbundle.base.db.*;
+import org.jbundle.thin.base.util.*;
+import org.jbundle.thin.base.db.*;
+import org.jbundle.base.db.event.*;
+import org.jbundle.base.db.filter.*;
+import org.jbundle.base.field.*;
+import org.jbundle.base.field.convert.*;
+import org.jbundle.base.field.event.*;
+import org.jbundle.base.screen.model.*;
+import org.jbundle.base.screen.model.util.*;
+import org.jbundle.base.model.*;
+import org.jbundle.base.util.*;
+import org.jbundle.model.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
+import org.jbundle.model.util.*;
 
 /**
  *  ColorField - .
  */
 public class ColorField extends IntegerField
 {
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-    
     /**
      * Default constructor.
      */

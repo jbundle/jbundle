@@ -138,12 +138,12 @@ public class CalendarTestApplet extends BaseApplet
         m_calendar.set(1998, Calendar.JUNE, 13, 0, 0, 0);
         lEndTime = m_calendar.getTime();
 
-        Color colorHotel = new Color(192, 255, 255);    // HACK Light blue
-        Color colorSelectHotel = colorHotel.darker();
-        Color colorLand = new Color(192, 192, 255);   // HACK Light blue
-        Color colorSelectLand = colorLand.darker();
-        Color colorAir = new Color(255, 192, 192);  // HACK Light blue
-        Color colorSelectAir = colorAir.darker();
+        int colorHotel = 0x00c0ffff;    // HACK Light blue
+        int colorSelectHotel = 0x00e0ffff;
+        int colorLand = 0x00c0c0ff;   // HACK Light blue
+        int colorSelectLand = 0x00e0e0ff;
+        int colorAir = 0x00ffc0c0;  // HACK Light blue
+        int colorSelectAir = 0x00ffe0e0;
         
         model.addElement(new CalendarProduct(model, lStartTime, lEndTime, "Mandarin Hotel - 3 Nights $200.00", applet.loadImageIcon("tour/buttons/Hotel.gif", null), new ImageIcon("images/tour/buttons/Hotel.gif"), "M", colorHotel, colorSelectHotel, 1));
         

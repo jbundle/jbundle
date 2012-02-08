@@ -11,9 +11,6 @@ import java.awt.image.ColorModel;
 import java.awt.image.ImageObserver;
 import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -21,14 +18,10 @@ import java.io.Serializable;
  * @author Don Corley <don@donandann.com>
  *
  */
-public class SerializableImage extends Object
+public class SerializableImage extends PortableImage
     implements Serializable, ImageObserver {
 
     private static final long serialVersionUID = 1L;
-
-    int width;
-    int height;
-    int[] pixels;
 
     /**
      * Creates an Image that can be serialized.
@@ -37,33 +30,7 @@ public class SerializableImage extends Object
     }
 
     public SerializableImage(Image image) {
-        this.setImage(image);
-    }
-
-    private void readObject(ObjectInputStream s) throws ClassNotFoundException,
-            IOException {
-        s.defaultReadObject();
-
-        width = s.readInt();
-        height = s.readInt();
-        pixels = (int[]) (s.readObject());
-
-    }
-
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-
-        s.writeInt(width);
-        s.writeInt(height);
-        s.writeObject(pixels);
-    }
-
-    public int getImageWidth() {
-        return width;
-    }
-
-    public int getImageHeight() {
-        return height;
+        super(image);
     }
 
     public Image getImage() {
@@ -77,17 +44,17 @@ public class SerializableImage extends Object
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(Object image) {
         
-        loadImage(image);
+        loadImage((Image)image);
 
-        width = image.getWidth(this);
-        height = image.getHeight(this);
+        width = ((Image)image).getWidth(this);
+        height = ((Image)image).getHeight(this);
         pixels = image != null ? new int[width * height] : null;
 
         if (image != null) {
             try {
-                PixelGrabber pg = new PixelGrabber(image, 0, 0, width, height, pixels, 0, width);
+                PixelGrabber pg = new PixelGrabber((Image)image, 0, 0, width, height, pixels, 0, width);
                 pg.grabPixels();
                 if ((pg.getStatus() & ImageObserver.ABORT) != 0) {
                     throw new RuntimeException("failed to load image contents");
