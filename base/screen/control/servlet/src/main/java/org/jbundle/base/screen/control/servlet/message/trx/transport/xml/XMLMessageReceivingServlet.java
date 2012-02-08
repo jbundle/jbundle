@@ -19,7 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.XmlTrxMessageIn;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;

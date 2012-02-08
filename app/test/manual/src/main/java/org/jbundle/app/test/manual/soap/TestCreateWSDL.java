@@ -12,7 +12,7 @@ import javax.xml.bind.*;
 import javax.xml.namespace.QName;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.transport.soap.SOAPMessageTransport;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.model.RecordOwnerParent;

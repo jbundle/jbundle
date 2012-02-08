@@ -15,12 +15,11 @@ import org.jbundle.base.field.HtmlField;
 import org.jbundle.base.field.XMLPropertiesField;
 import org.jbundle.base.field.XmlField;
 import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.model.Utility;
 import org.jbundle.base.model.XMLTags;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.screen.view.zml.ZScreenField;
+import org.jbundle.base.screen.view.yml.YScreenField;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ScreenComponent;
@@ -29,7 +28,7 @@ import org.jbundle.model.screen.ScreenComponent;
 /**
  * The base view for XML components.
  */
-public abstract class XScreenField extends ZScreenField
+public abstract class XScreenField extends YScreenField
 {
     public static final String DEFAULT_CONTROL_TYPE = "textbox";
     public static final String DEFAULT_CONTROL_LENGTH = "40";

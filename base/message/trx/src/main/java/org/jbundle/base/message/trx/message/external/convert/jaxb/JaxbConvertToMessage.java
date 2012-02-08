@@ -12,7 +12,7 @@ import java.io.Reader;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.BaseXmlTrxMessageIn;
 import org.jbundle.base.message.trx.message.external.ExternalTrxMessageIn;
 import org.jbundle.base.message.trx.message.external.convert.BaseXmlConvertToMessage;

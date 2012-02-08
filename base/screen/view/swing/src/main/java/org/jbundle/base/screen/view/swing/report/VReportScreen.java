@@ -26,8 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
-import org.jbundle.base.message.trx.message.internal.ManualMessage;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.internal.ManualMessage;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.HtmlConstants;

@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.message.trx.message;
+package org.jbundle.base.message.core.trx;
 
 /**
  * RecordMessage.java

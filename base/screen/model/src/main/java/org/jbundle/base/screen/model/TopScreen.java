@@ -12,7 +12,6 @@ package org.jbundle.base.screen.model;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.ServletException;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;

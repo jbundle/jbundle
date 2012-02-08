@@ -27,8 +27,8 @@ import org.jbundle.thin.base.message.*;
 import org.jbundle.base.message.trx.processor.*;
 import org.jbundle.base.message.trx.transport.local.*;
 import java.net.*;
-import org.jbundle.base.message.trx.message.*;
-import org.jbundle.base.message.trx.message.internal.*;
+import org.jbundle.base.message.core.trx.*;
+import org.jbundle.base.message.core.trx.internal.*;
 import org.jbundle.model.message.*;
 
 /**

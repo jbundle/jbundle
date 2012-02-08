@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.screen.control.servlet.html.HTMLServlet;

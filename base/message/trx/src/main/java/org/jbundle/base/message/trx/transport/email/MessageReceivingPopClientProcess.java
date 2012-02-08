@@ -24,7 +24,7 @@ import javax.mail.search.SubjectTerm;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.PasswordPropertiesField;
 import org.jbundle.base.field.PropertiesField;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.EMailTrxMessageIn;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.Utility;

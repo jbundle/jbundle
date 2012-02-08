@@ -38,7 +38,7 @@ import java.text.*;
 import org.jbundle.thin.base.message.*;
 import org.jbundle.main.msg.db.*;
 import org.jbundle.base.message.remote.*;
-import org.jbundle.base.message.trx.message.*;
+import org.jbundle.base.message.core.trx.*;
 import org.jbundle.model.message.*;
 
 /**

@@ -5,7 +5,7 @@ package org.jbundle.base.message.trx.transport.fax;
 
 import javax.mail.Message;
 
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.transport.email.EmailMessageTransport;
 import org.jbundle.model.main.msg.db.MessageTransportModel;
 import org.jbundle.model.Task;

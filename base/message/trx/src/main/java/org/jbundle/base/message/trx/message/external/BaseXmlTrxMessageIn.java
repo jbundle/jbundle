@@ -9,7 +9,7 @@ package org.jbundle.base.message.trx.message.external;
 
 import javax.xml.soap.SOAPMessage;
 
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.convert.BaseConvertToMessage;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.RecordOwner;

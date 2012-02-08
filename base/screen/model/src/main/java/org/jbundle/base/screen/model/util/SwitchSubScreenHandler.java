@@ -9,7 +9,7 @@ package org.jbundle.base.screen.model.util;
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.awt.Cursor;
+
 import java.util.Map;
 
 import org.jbundle.base.field.BaseField;
@@ -116,7 +116,7 @@ public class SwitchSubScreenHandler extends FieldListener
         	applet = (BaseApplet)m_screenParent.getTask();
         Object oldCursor = null;
         if (applet != null)
-        	oldCursor = applet.setStatus(Cursor.WAIT_CURSOR, applet, null);
+        	oldCursor = applet.setStatus(DBConstants.WAIT, applet, null);
 
         ScreenField sField = m_screenParent.getSField(m_iScreenSeq);
         if ((sField != null) && (sField instanceof BaseScreen))

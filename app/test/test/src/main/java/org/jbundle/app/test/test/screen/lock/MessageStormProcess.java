@@ -26,7 +26,8 @@ import org.jbundle.model.screen.*;
 import org.jbundle.base.thread.*;
 import org.jbundle.thin.base.message.*;
 import org.jbundle.main.msg.db.*;
-import org.jbundle.base.message.trx.message.*;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.*;
 
 /**
  *  MessageStormProcess - .

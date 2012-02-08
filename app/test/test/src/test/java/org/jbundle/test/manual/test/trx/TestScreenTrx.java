@@ -11,7 +11,7 @@ import org.jbundle.app.test.test.db.TestTable;
 import org.jbundle.app.test.test.screen.TestScreen;
 import org.jbundle.app.test.test.screen.lock.TourEventScreenRecord;
 import org.jbundle.base.db.Record;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.Utility;

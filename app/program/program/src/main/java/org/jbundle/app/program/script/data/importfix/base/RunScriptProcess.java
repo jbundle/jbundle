@@ -27,7 +27,7 @@ import org.jbundle.base.thread.*;
 import org.jbundle.app.program.script.db.*;
 import java.io.*;
 import org.jbundle.thin.base.message.*;
-import org.jbundle.base.message.trx.message.*;
+import org.jbundle.base.message.core.trx.*;
 
 /**
  *  RunScriptProcess - Transfer data from one table to another.

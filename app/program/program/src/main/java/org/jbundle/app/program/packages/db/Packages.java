@@ -28,7 +28,7 @@ import org.jbundle.app.program.packages.screen.*;
 import org.jbundle.app.program.script.scan.*;
 import org.jbundle.app.program.manual.*;
 import org.jbundle.thin.base.message.*;
-import org.jbundle.base.message.trx.message.*;
+import org.jbundle.base.message.core.trx.*;
 import org.jbundle.base.thread.*;
 import org.jbundle.app.program.db.*;
 import org.jbundle.model.app.program.packages.db.*;

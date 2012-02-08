@@ -5,12 +5,12 @@
 
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.base.message.trx.message.internal;
+package org.jbundle.base.message.core.trx.internal;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.MapMessage;
 

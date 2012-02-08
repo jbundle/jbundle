@@ -16,10 +16,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.jbundle.base.field.PasswordPropertiesField;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.internal.ManualMessage;
 import org.jbundle.base.message.trx.message.external.EMailTrxMessageIn;
 import org.jbundle.base.message.trx.message.external.EMailTrxMessageOut;
-import org.jbundle.base.message.trx.message.internal.ManualMessage;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.Utility;

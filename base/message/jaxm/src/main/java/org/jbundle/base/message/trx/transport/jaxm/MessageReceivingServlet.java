@@ -22,7 +22,7 @@ import javax.xml.messaging.JAXMServlet;
 import javax.xml.messaging.ReqRespListener;
 import javax.xml.soap.SOAPMessage;
 
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.SoapTrxMessageIn;
 import org.jbundle.base.message.trx.transport.soap.SOAPMessageTransport;
 import org.jbundle.base.model.DBConstants;

@@ -14,11 +14,9 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.HtmlConstants;
-import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Converter;
 
 /**
@@ -77,7 +75,7 @@ public class AppletHtmlScreen extends BaseScreen
      * 
      * @return
      */
-    public Map<String,Object> getAppletProperties(Map<String,Object> propApplet)
+    public Map<String,Object> getAppletProperties(Map<String,Object> propApplet, Map<String,Object> properties)
     {
         String strAppletScreen = this.getProperty(DBParams.APPLET);   // Applet page
         if (strAppletScreen == null)
@@ -109,12 +107,6 @@ public class AppletHtmlScreen extends BaseScreen
             strName = HtmlConstants.DEFAULT_NAME;
         propApplet.put(HtmlConstants.NAME, strName);
 
-        Task task = this.getTask();
-        Map<String,Object> properties = null;
-        if (task instanceof ServletTask)
-            properties = ((ServletTask)task).getRequestProperties(((ServletTask)task).getServletRequest(), true);
-        else
-            properties = task.getProperties();
         properties.remove(DBParams.APPLET);
         properties.remove(HtmlConstants.HEIGHT);
         properties.remove(HtmlConstants.ARCHIVE);

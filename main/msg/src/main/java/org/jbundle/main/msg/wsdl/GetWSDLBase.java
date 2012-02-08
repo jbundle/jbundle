@@ -29,7 +29,7 @@ import javax.xml.bind.*;
 import javax.xml.namespace.*;
 import java.io.*;
 import org.jbundle.thin.base.screen.*;
-import org.jbundle.base.message.trx.message.*;
+import org.jbundle.base.message.core.trx.*;
 import org.jbundle.base.message.trx.message.external.convert.jaxb.*;
 
 /**

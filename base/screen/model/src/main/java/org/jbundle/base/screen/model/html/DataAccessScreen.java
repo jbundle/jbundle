@@ -16,10 +16,9 @@ import org.jbundle.base.model.ScreenFieldView;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.base.screen.view.data.DJnlpAccessScreen;
-import org.jbundle.base.screen.view.data.DObjectAccessScreen;
-import org.jbundle.base.screen.view.data.DTableAccessScreen;
+import org.jbundle.base.screen.view.ScreenFieldViewAdapter;
 import org.jbundle.thin.base.db.Converter;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
 /**
@@ -93,16 +92,24 @@ public class DataAccessScreen extends BaseScreen
      */
     public ScreenFieldView setupScreenFieldView(boolean bEditableControl)
     {
+        String screenClass = null;
         String strDatatype = this.getProperty(DBParams.DATATYPE);
         if (DBParams.TABLE_PARAM.equalsIgnoreCase(strDatatype))
-            return new DTableAccessScreen(this, bEditableControl);
+            screenClass = "DTableAccessScreen";
         if (DBParams.WEBSTART_PARAM.equalsIgnoreCase(strDatatype))
-            return new DJnlpAccessScreen(this, bEditableControl);
+            screenClass = "DJnlpAccessScreen";
         if (DBParams.WEBSTART_APPLET_PARAM.equalsIgnoreCase(strDatatype))
-            return new DJnlpAccessScreen(this, bEditableControl);
-//        if (DBParams.WSDL_PARAM.equalsIgnoreCase(strDatatype))
-//            return new DWsdlAccessScreen(this, bEditableControl);
-//        else //if (DBParams.IMAGE_PATH.equalsIgnoreCase(strDatatype))
-            return new DObjectAccessScreen(this, bEditableControl);
+            screenClass = "DJnlpAccessScreen";
+        if (DBParams.WSDL_PARAM.equalsIgnoreCase(strDatatype))
+            screenClass = "DWsdlAccessScreen";
+        else //if (DBParams.IMAGE_PATH.equalsIgnoreCase(strDatatype))
+            screenClass = "DObjectAccessScreen";
+
+        if ((screenClass != null) && (screenClass.indexOf('.') == -1))
+            screenClass = ScreenFieldViewAdapter.class.getPackage().getName() + ".data." + screenClass;
+        ScreenFieldView dataScreen = (ScreenFieldView)ClassServiceUtility.getClassService().makeObjectFromClassName(screenClass);    // Ignore class not found
+
+        dataScreen.init(this, bEditableControl);
+        return dataScreen;
     }
 }

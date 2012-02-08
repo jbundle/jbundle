@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.PropertiesField;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.transport.BaseMessageTransport;
 import org.jbundle.base.message.trx.transport.soap.SOAPMessageTransport;
 import org.jbundle.base.model.Utility;

@@ -19,7 +19,7 @@ import org.jbundle.base.db.RecordList;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.field.CounterField;
 import org.jbundle.base.field.ReferenceField;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;

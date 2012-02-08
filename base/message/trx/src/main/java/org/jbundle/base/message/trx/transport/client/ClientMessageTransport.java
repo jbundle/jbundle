@@ -4,7 +4,7 @@
 package org.jbundle.base.message.trx.transport.client;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.ExternalMapTrxMessageIn;
 import org.jbundle.base.message.trx.message.external.ExternalMapTrxMessageOut;
 import org.jbundle.base.message.trx.processor.BaseExternalMessageProcessor;

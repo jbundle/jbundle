@@ -10,7 +10,7 @@ package org.jbundle.base.message.trx.message.external;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.message.BaseMessage;

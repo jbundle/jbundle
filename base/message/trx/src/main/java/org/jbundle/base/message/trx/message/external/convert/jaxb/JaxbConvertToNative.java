@@ -14,7 +14,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.ExternalTrxMessageOut;
 import org.jbundle.base.message.trx.message.external.convert.BaseXmlConvertToNative;
 import org.jbundle.base.message.trx.transport.soap.SOAPMessageTransport;

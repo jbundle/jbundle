@@ -10,7 +10,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.field.DateTimeField;
 import org.jbundle.base.field.PropertiesField;
 import org.jbundle.base.field.ReferenceField;
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.ExternalTrxMessage;
 import org.jbundle.base.message.trx.processor.BaseExternalMessageProcessor;
 import org.jbundle.base.message.trx.processor.BaseInternalMessageProcessor;

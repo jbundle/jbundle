@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Properties;
 
-import org.jbundle.base.message.trx.message.TrxMessageHeader;
+import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.XmlTrxMessageIn;
 import org.jbundle.base.message.trx.message.external.XmlTrxMessageOut;
 import org.jbundle.base.message.trx.processor.BaseMessageProcessor;
