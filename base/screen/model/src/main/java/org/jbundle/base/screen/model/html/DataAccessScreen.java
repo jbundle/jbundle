@@ -96,11 +96,11 @@ public class DataAccessScreen extends BaseScreen
         String strDatatype = this.getProperty(DBParams.DATATYPE);
         if (DBParams.TABLE_PARAM.equalsIgnoreCase(strDatatype))
             screenClass = "DTableAccessScreen";
-        if (DBParams.WEBSTART_PARAM.equalsIgnoreCase(strDatatype))
+        else if (DBParams.WEBSTART_PARAM.equalsIgnoreCase(strDatatype))
             screenClass = "DJnlpAccessScreen";
-        if (DBParams.WEBSTART_APPLET_PARAM.equalsIgnoreCase(strDatatype))
+        else if (DBParams.WEBSTART_APPLET_PARAM.equalsIgnoreCase(strDatatype))
             screenClass = "DJnlpAccessScreen";
-        if (DBParams.WSDL_PARAM.equalsIgnoreCase(strDatatype))
+        else if (DBParams.WSDL_PARAM.equalsIgnoreCase(strDatatype))
             screenClass = "DWsdlAccessScreen";
         else //if (DBParams.IMAGE_PATH.equalsIgnoreCase(strDatatype))
             screenClass = "DObjectAccessScreen";
