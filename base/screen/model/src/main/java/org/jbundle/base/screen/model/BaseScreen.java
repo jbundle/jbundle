@@ -135,15 +135,19 @@ public class BaseScreen extends BasePanel
             else
             {
                 try   {
-                    if (properties.get(ScreenModel.LOCATION) != null)
+                    if (properties.get(ScreenModel.LOCATION) instanceof Short)
+                        itsLocation = new ScreenLocation(((Short)properties.get(ScreenModel.DISPLAY)).shortValue(), ScreenConstants.ANCHOR_DEFAULT);
+                    else if (properties.get(ScreenModel.LOCATION) instanceof Integer)
+                        itsLocation = new ScreenLocation(((Integer)properties.get(ScreenModel.DISPLAY)).shortValue(), ScreenConstants.ANCHOR_DEFAULT);
+                    else if (properties.get(ScreenModel.LOCATION) != null)
                         itsLocation = new ScreenLocation(Short.parseShort(properties.get(ScreenModel.LOCATION).toString()), ScreenConstants.ANCHOR_DEFAULT);
                 } catch (Exception ex) {
                 }
             }
             if (properties.get(ScreenModel.DISPLAY) instanceof Short)
-                itsLocation = new ScreenLocation(((Short)properties.get(ScreenModel.DISPLAY)).shortValue(), ScreenConstants.ANCHOR_DEFAULT);
+                iDisplayFieldDesc = ((Short)properties.get(ScreenModel.DISPLAY)).intValue();
             if (properties.get(ScreenModel.DISPLAY) instanceof Integer)
-                itsLocation = new ScreenLocation(((Integer)properties.get(ScreenModel.DISPLAY)).shortValue(), ScreenConstants.ANCHOR_DEFAULT);
+                iDisplayFieldDesc = ((Integer)properties.get(ScreenModel.DISPLAY)).intValue();
             else
             {
                 try   {

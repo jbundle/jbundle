@@ -321,7 +321,7 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
         
             if (bundle == null)
                 return false;   // Couldn't file files
-            OsgiJnlpServlet.transferBundleFiles(bundle, templateDir, srcDir);
+            OsgiWebStartServlet.transferBundleFiles(bundle, templateDir, srcDir);
         }
         else if (!"file".equalsIgnoreCase(fromDirUrl.getProtocol()))
             return false;
