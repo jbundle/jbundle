@@ -16,7 +16,7 @@
   <name>jbundle-res-images-reactor - Images parent</name>
 
   <modules>
-  	<module>buttons</module>
+  	<module>images</module>
   	<module>misc</module>
   </modules>
   
