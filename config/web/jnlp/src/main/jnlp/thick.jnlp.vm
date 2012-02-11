@@ -13,7 +13,7 @@
 <resources>
 <java max-heap-size="512m" initial-heap-size="128m" version="1.6+"/>
 <property value="true" name="jnlp.packEnabled"/>
-<jar href="lib/org.jbundle.base.db-${project.version}.jar" part="org.jbundle.base.db" download="eager"/>
+<jar href="lib/org.jbundle.base-${project.version}.jar" part="org.jbundle.base.db" download="eager"/>
 <package name="org.jbundle.base.db.*" part="org.jbundle.base.db"/>
 <package name="org.jbundle.base.db.event.*" part="org.jbundle.base.db" recursive="true"/>
 <package name="org.jbundle.base.db.filter.*" part="org.jbundle.base.db" recursive="true"/>
@@ -24,6 +24,13 @@
 <package name="org.jbundle.base.field.*" part="org.jbundle.base.db" recursive="true"/>
 <package name="org.jbundle.base.db.netutil.*" part="org.jbundle.base.db" recursive="true"/>
 <package name="org.jbundle.base.db.xmlutil.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.message.core.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.message.record.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.message.opt.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.message.trx.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.message.app.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.thread.*" part="org.jbundle.base.db" recursive="true"/>
+<package name="org.jbundle.base.services.*" part="org.jbundle.base.db" recursive="true"/>
 <jar href="lib/org.jbundle.base.db.client-${project.version}.jar" part="org.jbundle.base.db.client"/>
 <package name="org.jbundle.base.db.Client.*" part="org.jbundle.base.db.client" recursive="true"/>
 <jar href="lib/org.jbundle.base.db.mapped-${project.version}.jar" part="org.jbundle.base.db.mapped" download="lazy"/>
@@ -40,24 +47,14 @@
 <package name="org.jbundle.base.db.Serial.*" part="org.jbundle.base.db.serial" recursive="true"/>
 <jar href="lib/org.jbundle.base.db.xml-${project.version}.jar" part="org.jbundle.base.db.xml" download="lazy"/>
 <package name="org.jbundle.base.db.Xml.*" part="org.jbundle.base.db.xml" recursive="true"/>
-<jar href="lib/org.jbundle.base.message.core-${project.version}.jar" part="org.jbundle.base.message.core" download="lazy"/>
-<package name="org.jbundle.base.message.core.*" part="org.jbundle.base.message.core" recursive="true"/>
-<jar href="lib/org.jbundle.base.message.misc-${project.version}.jar" part="org.jbundle.base.message.misc" download="lazy"/>
-<package name="org.jbundle.base.message.record.*" part="org.jbundle.base.message.misc" recursive="true"/>
-<package name="org.jbundle.base.message.opt.*" part="org.jbundle.base.message.misc" recursive="true"/>
-<package name="org.jbundle.base.message.trx.*" part="org.jbundle.base.message.misc" recursive="true"/>
-<package name="org.jbundle.base.message.app.*" part="org.jbundle.base.message.misc" recursive="true"/>
-<jar href="lib/org.jbundle.base.other-${project.version}.jar" part="org.jbundle.base.other" download="eager"/>
-<package name="org.jbundle.base.thread.*" part="org.jbundle.base.other" recursive="true"/>
-<package name="org.jbundle.base.services.*" part="org.jbundle.base.other" recursive="true"/>
 <jar href="lib/org.jbundle.base.remote-${project.version}.jar" part="org.jbundle.base.remote" download="lazy"/>
 <package name="org.jbundle.base.remote.*" part="org.jbundle.base.remote" recursive="true"/>
-<jar href="lib/org.jbundle.base.screen.misc-${project.version}.jar" part="org.jbundle.base.screen.misc" download="eager"/>
-<package name="org.jbundle.*" part="org.jbundle.base.screen.misc"/>
-<package name="org.jbundle.base.screen.model.*" part="org.jbundle.base.screen.misc" recursive="true"/>
-<package name="org.jbundle.base.screen.view.*" part="org.jbundle.base.screen.misc"/>
-<package name="org.jbundle.base.screen.view.data.*" part="org.jbundle.base.screen.misc" recursive="true"/>
-<package name="org.jbundle.base.screen.view.zml.*" part="org.jbundle.base.screen.misc" recursive="true"/>
+<jar href="lib/org.jbundle.base.screen.model-${project.version}.jar" part="org.jbundle.base.screen.model" download="eager"/>
+<package name="org.jbundle.*" part="org.jbundle.base.screen.model"/>
+<package name="org.jbundle.base.screen.model.*" part="org.jbundle.base.screen.model" recursive="true"/>
+<package name="org.jbundle.base.screen.view.*" part="org.jbundle.base.screen.model"/>
+<package name="org.jbundle.base.screen.view.data.*" part="org.jbundle.base.screen.model" recursive="true"/>
+<package name="org.jbundle.base.screen.view.zml.*" part="org.jbundle.base.screen.model" recursive="true"/>
 <jar href="lib/org.jbundle.base.screen.view.swing-${project.version}.jar" part="org.jbundle.base.screen.view.swing"/>
 <package name="org.jbundle.base.screen.view.swing.*" part="org.jbundle.base.screen.view.swing"/>
 <package name="org.jbundle.base.screen.view.swing.calendar.*" part="org.jbundle.base.screen.view.swing" recursive="true"/>
@@ -83,6 +80,8 @@
 <package name="org.jbundle.main.msg.*" part="org.jbundle.main.msg" recursive="true"/>
 <jar href="lib/org.jbundle.res.data-${project.version}.jar" part="org.jbundle.res.data" download="lazy"/>
 <package name="org.jbundle.res.data.*" part="org.jbundle.res.data" recursive="true"/>
+<jar href="lib/org.jbundle.base.model-0.8.0-SNAPSHOT.jar" part="org.jbundle.base.model"/>
+<package name="org.jbundle.base.model" part="org.jbundle.base.model"/>
 </resources>
 <component-desc/>
 </jnlp>

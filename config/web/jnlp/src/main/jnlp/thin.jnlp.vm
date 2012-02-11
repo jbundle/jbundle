@@ -88,6 +88,13 @@
 <package name="org.jbundle.util.muffinmanager.*" part="org.jbundle.util.muffinmanager" recursive="true"/>
 <jar href="lib/org.jbundle.util.osgi-${jbundleOsgiVersion}.jar" part="org.jbundle.util.osgi" download="lazy"/>
 <package name="org.jbundle.util.osgi.*" part="org.jbundle.util.osgi" recursive="true"/>
+<jar href="lib/org.jbundle.model.main-0.8.0-SNAPSHOT.jar" part="org.jbundle.model.main" download="lazy"/>
+<package name="org.jbundle.model.main.db.base.*" part="org.jbundle.model.main"/>
+<package name="org.jbundle.model.main.properties.db.*" part="org.jbundle.model.main"/>
+<package name="org.jbundle.model.main.user.db.*" part="org.jbundle.model.main"/>
+<package name="org.jbundle.model.main.msg.db.*" part="org.jbundle.model.main"/>
+<package name="org.jbundle.model.main.calendar.db.*" part="org.jbundle.model.main"/>
+<package name="org.jbundle.model.main.db.*" part="org.jbundle.model.main"/>
 </resources>
 <component-desc/>
 </jnlp>

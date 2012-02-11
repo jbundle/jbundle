@@ -102,10 +102,13 @@ public class TopScreen extends BasePanel
                    m_recordOwnerParent = (Task)properties.get(DBParams.TASK);
             if (m_recordOwnerParent != null)
                 m_recordOwnerParent.addRecordOwner(this);
-            for (String key : properties.keySet())
+            if (properties != null)
             {
-                if (!DBParams.TASK.equals(key))
-                    m_recordOwnerParent.setProperty(key, properties.get(key).toString());
+                for (String key : properties.keySet())
+                {
+                    if (!DBParams.TASK.equals(key))
+                        m_recordOwnerParent.setProperty(key, properties.get(key).toString());
+                }
             }
             
             parentScreen = null;
