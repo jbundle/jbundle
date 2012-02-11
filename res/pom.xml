@@ -18,7 +18,7 @@
   <modules>
   	<module>docs</module>
   	<module>images</module>
-  	<module>main</module>
+  	<module>res</module>
   	<module>app</module>
   	<module>data</module>
   </modules>
