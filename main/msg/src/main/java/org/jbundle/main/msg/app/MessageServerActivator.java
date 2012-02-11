@@ -90,7 +90,7 @@ public class MessageServerActivator extends BaseRemoteSessionActivator
             {
                 try {
                     // Tell the remote session who my main session is
-                    // so it can NOW where not to send server record
+                    // so it can KNOW where not to send server record
                     // messages (to eliminate echos in the client).
                     appServer.setRemoteMessageTask(server); // Should have done all the apps in this env!
                 } catch (RemoteException ex)    {
