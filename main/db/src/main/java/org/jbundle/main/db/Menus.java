@@ -241,8 +241,9 @@ public class Menus extends Folder
         { // Default is usually okay
             if ((strLink == null) || (strLink.length() == 0))
                 strParams = Utility.addURLParam(null, strType, DBParams.BASE_APPLET); // Default command
-            if (strParams.indexOf(DBConstants.DEFAULT_SERVLET) != 0)
-                strParams = DBConstants.DEFAULT_SERVLET + strParams;   // Make sure applets don't go through cocoon
+            if (strParams.indexOf(DBConstants.DEFAULT_SERVLET) == 0)
+                strParams = strParams.substring(DBConstants.WEBSTART_SERVLET.length());
+            strParams = DBConstants.WEBSTART_SERVLET + strParams;   // Make sure applets don't go through cocoon
         }
         else
         { // Default is okay

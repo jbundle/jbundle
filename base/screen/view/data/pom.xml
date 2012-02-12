@@ -47,6 +47,21 @@
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.core</artifactId>
+        <scope>provided</scope> <!-- This better be provided -->
+    </dependency>
+    <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.compendium</artifactId>
+        <scope>provided</scope> <!-- This better be provided -->
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.osgi</groupId>
+      <artifactId>org.jbundle.util.osgi.webstart</artifactId>
+      <version>${jbundleOsgiWebStartVersionRange}</version>
+    </dependency>
 
   </dependencies>
 

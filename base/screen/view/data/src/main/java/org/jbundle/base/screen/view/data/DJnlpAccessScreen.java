@@ -4,32 +4,27 @@
 package org.jbundle.base.screen.view.data;
 
 /**
- * @(#)ScreenField.java   0.00 12-Feb-97 Don Corley
+ * @(#)DJnlpAccessScreen.java   0.00 12-Feb-97 Don Corley
+ * 
+ * Note: This class is obsolete. I now just use the osgi-webstart servlet
  *
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.HtmlConstants;
-import org.jbundle.base.model.Utility;
-import org.jbundle.base.screen.control.servlet.ServletTask;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.base.util.BaseApplication;
 import org.jbundle.model.screen.ScreenComponent;
-import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.screen.splash.Splash;
-import org.jbundle.thin.base.screen.ThinApplet;
+import org.jbundle.util.osgi.ClassFinder;
+import org.jbundle.util.osgi.ClassService;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
+import org.jbundle.util.webapp.base.HttpServiceActivator;
+import org.jbundle.util.webapp.base.HttpServiceTracker;
 
 
 /**
@@ -82,19 +77,36 @@ public class DJnlpAccessScreen extends DDataAccessScreen
     public void sendData(HttpServletRequest req, HttpServletResponse res) 
         throws ServletException, IOException
     {
-        res.setContentType("application/x-java-jnlp-file");
+//        res.setContentType("application/x-java-jnlp-file");
 //x        PrintWriter out = new PrintWriter(res.getOutputStream());
-        PrintWriter out = res.getWriter();
+//        PrintWriter out = res.getWriter();
 
-        this.printXML(req, out);
-        out.flush();
+//        this.printXML(req, out);
+//        out.flush();
+        
+        ClassService classService = ClassServiceUtility.getClassService();
+        if (classService == null)
+            return;    // Never
+        ClassFinder classFinder = classService.getClassFinder(null);
+        if (classFinder == null)
+            return;
+        HttpServiceActivator service = (HttpServiceActivator)classFinder.getClassBundleService(WEB_START_ACTIVATOR_CLASS, null, null, -1);
+        HttpServiceTracker tracker = service.getServiceTracker();
+        if (tracker == null)
+            return;
+        Servlet servlet = tracker.getServlet();
+        if (servlet == null)
+            return;
+        servlet.service((HttpServletRequest)req, (HttpServletResponse)res);
     }
-    public static final String THINBASE_JAR = "lib/jbundle-thin-base";
+    public static final String WEB_START_ACTIVATOR_CLASS = org.jbundle.util.osgi.webstart.HttpServiceActivator.class.getName();
+    //public static final String THINBASE_JAR = "lib/jbundle-thin-base";
     /**
      * This hack sends the hard-coded JNLP file down the pipe.
      * @param req The servlet request.
      * @param res The servlet response object.
      */
+    /*
     public void printXML(HttpServletRequest req, PrintWriter out)
     {
         ServletTask task = (ServletTask)this.getTask();
@@ -298,4 +310,5 @@ public class DJnlpAccessScreen extends DDataAccessScreen
 
         out.println(sbJnlp);
     }
+    */
 }

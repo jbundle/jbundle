@@ -18,6 +18,7 @@ if (!tourapp.util)
  * Browser back support.
  */
 tourapp.java = {
+	    SERVLET_NAME: "webstart",          // The generic queue for remote sent transaction messages.
 	/**
 	 * This is called from the history state object when the state is popped by a browser back command.
 	 * I Call the java doJavaBrowserBack method.
@@ -206,10 +207,10 @@ tourapp.java = {
 		if (!params.baseURL)
 		{
 			params.baseURL = location.host;
-			if ((location.pathname.indexOf('tourapp') < 1) && (location.pathname.indexOf('tourapp/') != 0))
+			if ((location.pathname.indexOf(tourapp.java.SERVLET_NAME) < 1) && (location.pathname.indexOf(tourapp.java.SERVLET_NAME + '/') != 0))
 				params.baseURL += "/";
 			else
-				params.baseURL += location.pathname.substring(0, location.pathname.indexOf('tourapp'));
+				params.baseURL += location.pathname.substring(0, location.pathname.indexOf(tourapp.java.SERVLET_NAME));
 		}
 		if (!params.url)
 			params.url = location.protocol + '//' + location.host + location.pathname;
@@ -241,7 +242,7 @@ tourapp.java = {
 		if (!jnlp.applet)
 			if (attributes['code'])
 				jnlp['applet'] = attributes['code'];
-		var command = attributes.codebase + 'tourapp' + tourapp.util.propertiesToCommand(jnlp);
+		var command = attributes.codebase + tourapp.java.SERVLET_NAME + tourapp.util.propertiesToCommand(jnlp);
 		return command;
 	},
     /**
