@@ -94,7 +94,7 @@ public class PropertiesInputGridScreen extends GridScreen
                     ex.printStackTrace();
                 }
             }
-            this.getMainRecord().getField(PropertiesInput.KEY).setEnabled(false);
+            //?this.getMainRecord().getField(PropertiesInput.KEY).setEnabled(false);
         }
     }
     /**
