@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jbundle-res-reactor</artifactId>
+    <groupId>org.jbundle.res</groupId>
+    <version>0.8.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>org.jbundle.res.main</artifactId>
+  <packaging>bundle</packaging>
+  <name>jbundle-res-main - Resources</name>
+
+ <build>
+   <resources>
+     <resource>
+       <directory>${basedir}/src/main/java</directory>
+       <includes>
+       <include>**/*.properties</include>
+       </includes>
+       <filtering>true</filtering>
+     </resource>
+   </resources>
+   
+   <plugins>
+     <!-- plugin>
+                <groupId>com.systemsplanet.plugin</groupId>
+                <artifactId>google-api-translate-java-maven-plugin</artifactId>
+                <version>1.5</version>
+                <inherited>false</inherited>
+                <configuration>
+                    <debug>true</debug>
+                    <sourceTranslationPath>
+                        ${basedir}/src/main/java/org/jbundle/res/base/screen/
+                    </sourceTranslationPath>
+                    <languageFilePattern>
+                 Language_{0}.properties
+                        AmountResources.properties
+                    </languageFilePattern>
+                    <sourceLanguage>
+                        en
+                    </sourceLanguage>
+                    <destinationPath>
+                        ${project.build.directory}/classes/
+                    </destinationPath>
+                    <targetLanguages>
+                        nl,fr,de,it,es
+                    </targetLanguages>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-projects</id>
+                        <goals>
+                            <goal>localize</goal>
+                        </goals>
+                    </execution>
+                </executions>
+     </plugin -->
+   </plugins>
+ </build>
+
+</project>
