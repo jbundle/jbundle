@@ -240,8 +240,8 @@ tourapp.java = {
 		}
 		jnlp['datatype']='jnlpapplet';
 		if (!jnlp.applet)
-			if (attributes['code'])
-				jnlp['applet'] = attributes['code'];
+				if (attributes['code'])
+					jnlp['appletClass'] = attributes['code'];
 		var command = attributes.codebase + tourapp.java.SERVLET_NAME + tourapp.util.propertiesToCommand(jnlp);
 		return command;
 	},
