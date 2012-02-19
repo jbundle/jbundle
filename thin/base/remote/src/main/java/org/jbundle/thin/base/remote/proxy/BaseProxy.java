@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.thin.base.remote.proxy;
 
@@ -11,7 +11,7 @@ import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
 /**
  *  ApplicationServer - The interface to server objects.
- *  Copyright  *  Copyright (c) 2005 jbundle.org. All rights reserved.
+ *  Copyright  *  Copyright © 2012 jbundle.org. All rights reserved.
 � 1997 jbundle.org. All rights reserved.
  */
 

@@ -1,6 +1,6 @@
 /**
  * @(#)TestScreenLockStorm.
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
 package org.jbundle.app.test.test.screen.lock;
@@ -26,7 +26,6 @@ import org.jbundle.model.screen.*;
 import org.jbundle.app.test.test.screen.*;
 import org.jbundle.thin.base.screen.*;
 import org.jbundle.thin.base.message.*;
-import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.core.trx.*;
 import org.jbundle.main.msg.db.*;
 import org.jbundle.base.thread.*;

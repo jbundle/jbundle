@@ -1,11 +1,11 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.thin.base.screen.menu;
 
 /**
  * JMenuScreen.java:    Applet
- *  Copyright (c) 2005 jbundle.org. All rights reserved.
+ *  Copyright © 2012 jbundle.org. All rights reserved.
  */
 import java.awt.Color;
 import java.awt.Component;

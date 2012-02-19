@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.app.program.manual.util;
 
@@ -241,13 +241,13 @@ public class WriteClass extends BaseProcess
 	        {
 		        header = "/**\n" +
 		        		" * @(#)${className}.\n" +
-		        		" * Copyright © 2011 tourapp.com. All rights reserved.\n" +
+		        		" * Copyright © 2012 tourapp.com. All rights reserved.\n" +
 		        		" */";
 	        }
 	        else
 	        {
 		        header = "# ${className}.\n" +
-		        	"# Copyright © 2011 tourapp.com. All rights reserved.";
+		        	"# Copyright © 2012 tourapp.com. All rights reserved.";
 	        }
         }
         Map<String,Object> map = new HashMap<String,Object>();

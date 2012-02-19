@@ -1,6 +1,6 @@
 /**
  * @(#)MessageInfoType.
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
 package org.jbundle.thin.main.msg.db;

@@ -1,11 +1,11 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.thin.opt.chat;
 
 /**
  * OrderEntry.java:   Applet
- *  Copyright (c) 2005 jbundle.org. All rights reserved.
+ *  Copyright © 2012 jbundle.org. All rights reserved.
  *  
  *  @author Don Corley don@tourgeek.com
  *  @version 1.0.0.

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.screen.view.data;
 
@@ -8,7 +8,7 @@ package org.jbundle.base.screen.view.data;
  * 
  * Note: This class is obsolete. I now just use the osgi-webstart servlet
  *
- * Copyright (c) 2009 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
 import java.io.IOException;

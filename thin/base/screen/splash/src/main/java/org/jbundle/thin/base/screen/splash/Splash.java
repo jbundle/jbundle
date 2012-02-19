@@ -1,12 +1,12 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.thin.base.screen.splash;
 
 /*
  * @(#)Splash.java  2.2  2005-04-03
  *
- * Copyright (c) 2003-2005 Werner Randelshofer
+ * Copyright © 2012-2005 Werner Randelshofer
  * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
  * All rights reserved.
  *

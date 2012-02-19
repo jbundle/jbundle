@@ -3,7 +3,7 @@
  *
  * Created on March 25, 2002, 1:00 AM
 
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.remote.lock;
 

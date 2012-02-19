@@ -1,11 +1,11 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.app.program.manual.util.stream;
 
 /**
  *  WriteJava
- *  Copyright (c) 2005 jbundle.org. All rights reserved.
+ *  Copyright © 2012 jbundle.org. All rights reserved.
  */
 import java.io.FileWriter;
 import java.io.IOException;

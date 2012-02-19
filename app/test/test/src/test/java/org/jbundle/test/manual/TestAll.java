@@ -3,7 +3,7 @@
  *
  * Created on March 19, 2001, 2:31 AM
 
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.test.manual;
 

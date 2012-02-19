@@ -1,6 +1,6 @@
 /*
  *  @(#)HotelRateRequestSOAPMessageOutA2006.
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.app.test.manual.soap;
 

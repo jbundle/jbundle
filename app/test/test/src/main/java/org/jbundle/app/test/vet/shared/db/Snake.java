@@ -1,6 +1,6 @@
 /**
  * @(#)Snake.
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
 package org.jbundle.app.test.vet.shared.db;
@@ -25,7 +25,6 @@ import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.base.db.shared.*;
 import org.jbundle.app.test.vet.shared.screen.*;
-import org.jbundle.app.test.vet.db.*;
 import org.jbundle.model.app.test.vet.shared.db.*;
 
 /**

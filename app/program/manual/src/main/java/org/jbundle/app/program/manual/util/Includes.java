@@ -1,11 +1,11 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.app.program.manual.util;
 
 /**
  *  WriteJava
- *  Copyright (c) 2005 jbundle.org. All rights reserved.
+ *  Copyright © 2012 jbundle.org. All rights reserved.
  */
 import org.jbundle.app.program.db.ClassInfo;
 import org.jbundle.app.program.manual.util.data.NameList;

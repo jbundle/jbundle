@@ -3,7 +3,7 @@
  *
  * Created on September 20, 2001, 10:18 PM
 
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.message.record;
 

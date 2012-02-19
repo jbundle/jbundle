@@ -3,7 +3,7 @@
  *
  * Created on March 29, 2001, 2:16 AM
 
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.db.jdbc.properties;
 

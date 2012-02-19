@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.model;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @(#)TableException.java  1.16 95/12/14 Don Corley
  *
- * Copyright (c) 2009 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
 

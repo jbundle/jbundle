@@ -1,12 +1,12 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.screen.model;
 
 /**
  * @(#)SPasswordField.java  0.00 12-Feb-97 Don Corley
  *
- * Copyright (c) 1996 jbundle.org. All Rights Reserved.
+ * Copyright © 2012 jbundle.org. All Rights Reserved.
  *      don@tourgeek.com
  */
 

@@ -3,7 +3,7 @@
  *
  * Created on November 16, 2002, 8:53 PM
 
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.remote.proxy;
 

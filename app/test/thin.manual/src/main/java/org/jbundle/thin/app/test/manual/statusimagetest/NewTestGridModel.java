@@ -1,11 +1,11 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.thin.app.test.manual.statusimagetest;
 
 /**
  * OrderEntry.java:   Applet
- * Copyright (c) 2009 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourapp.com. All Rights Reserved.
  *  
  *  @author Don Corley don@tourgeek.com
  *  @version 1.0.0.

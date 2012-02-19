@@ -3,7 +3,7 @@
  *
  * Created on January 28, 2001, 4:48 AM
  
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.thin.base.screen.grid;
 

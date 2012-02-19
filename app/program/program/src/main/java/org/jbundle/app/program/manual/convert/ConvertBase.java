@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.app.program.manual.convert;
 
@@ -13,7 +13,7 @@ import org.jbundle.model.Task;
 
 
 /**
- * Copyright (c) 1996 jbundle.org. All Rights Reserved.
+ * Copyright © 2012 jbundle.org. All Rights Reserved.
  *  .
  *      don@tourgeek.com
  */

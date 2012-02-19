@@ -3,7 +3,7 @@
  *
  * Created on August 23, 2005, 3:15 AM
 
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.thin.base.screen.landf;
 

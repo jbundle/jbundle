@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.screen.view.yml;
 
@@ -7,7 +7,7 @@ package org.jbundle.base.screen.view.yml;
  * @(#)YScreenField.java   0.00 12-Feb-97 Don Corley
  * HTML and XML Shared code.
  *
- * Copyright (c) 2009 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
 import java.io.PrintWriter;

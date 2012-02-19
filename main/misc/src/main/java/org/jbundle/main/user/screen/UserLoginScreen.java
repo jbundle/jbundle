@@ -1,6 +1,6 @@
 /**
  * @(#)UserLoginScreen.
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
 package org.jbundle.main.user.screen;
@@ -25,6 +25,7 @@ import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.main.user.db.*;
 import org.jbundle.base.field.convert.encode.*;
+import org.jbundle.base.screen.control.servlet.*;
 
 /**
  *  UserLoginScreen - User sign in screen.
@@ -232,12 +233,13 @@ public class UserLoginScreen extends Screen
     /**
      * Get this screen's hidden params.
      * @return This screens hidden params.
+    .
      */
     public Map<String, Object> getHiddenParams()
     {
         Map<String, Object> mapParams = super.getHiddenParams();
-//+        if (this.getTask() instanceof ServletTask)
-//+            mapParams = ((ServletTask)this.getTask()).getRequestProperties(((ServletTask)this.getTask()).getServletRequest(), false);
+        if (this.getTask() instanceof ServletTask)
+            mapParams = ((ServletTask)this.getTask()).getRequestProperties(((ServletTask)this.getTask()).getServletRequest(), false);
         mapParams.remove(DBParams.USER_NAME);
         mapParams.remove(DBParams.USER_ID);
         return mapParams;

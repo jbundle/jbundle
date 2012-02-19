@@ -1,7 +1,7 @@
 /*
  * Task to check the inbox for incomming automated requests.
 
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.message.trx.transport.email;
 

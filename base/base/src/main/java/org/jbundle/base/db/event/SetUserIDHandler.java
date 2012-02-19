@@ -2,7 +2,7 @@
  * @(#)SetUserIDHandler.java    0.00 12-Feb-97 Don Corley
  *
  *      don@tourgeek.com
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.base.db.event;
 

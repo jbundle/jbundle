@@ -1,11 +1,11 @@
 /*
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.thin.base.remote.proxy.transport.test;
 
 /**
  *  ApplicationServer - The interface to server objects.
- *  Copyright (c) 2005 jbundle.org. All rights reserved.
+ *  Copyright © 2012 jbundle.org. All rights reserved.
  */
 import java.io.BufferedReader;
 import java.io.IOException;

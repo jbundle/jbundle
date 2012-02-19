@@ -3,7 +3,7 @@
  *
  * Created on July 19, 2001, 12:45 AM
 
- * Copyright © 2011 jbundle.org. All rights reserved.
+ * Copyright © 2012 jbundle.org. All rights reserved.
  */
 package org.jbundle.app.program.manual.jtidy;
 
