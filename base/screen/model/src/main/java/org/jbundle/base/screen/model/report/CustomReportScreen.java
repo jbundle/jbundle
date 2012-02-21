@@ -9,16 +9,7 @@ package org.jbundle.base.screen.model.report;
 * Copyright © 2012 tourapp.com. All Rights Reserved.
 *   don@tourgeek.com
 */
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
 import java.util.Map;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.text.JTextComponent;
 
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.GridTable;
@@ -106,55 +97,5 @@ public class CustomReportScreen extends BaseReportScreen
     public ToolScreen addToolbars()
     {   // Override this to add (call this) or replace (don't call) this default toolbar.
         return new ReportToolbar(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
-    }
-    /**
-     * Setup the print control for this custom report screen.
-     * Override this if you don't want a JPanel.
-     * @return A component
-     */
-    public Component setupPrintControl()
-    {
-        JPanel control = new JPanel();   // Set up the "fake" control to render on print
-        control.setOpaque(false);
-        control.setLayout(null);
-        control.setBounds(0, 0, (int)(7.5 * 72), 10 * 72);
-        control.setBackground(Color.WHITE); // Just being careful
-        return control;
-    }
-    /**
-     * Set up the physical control (that implements Component).
-     */
-    public void layoutPrintControl(Component control) // Must o/r
-    {
-        // Override this to do something
-    }
-    /**
-     * Setup the standard attributes of a component to print.
-     */
-    public void setupComponent(JComponent component, int x, int y, int width, int height)
-    {
-        component.setBounds(x, y, width, height);
-        component.setBorder(null);
-        component.setOpaque(false);
-        if (component instanceof JScrollPane)
-        {
-            ((JScrollPane)component).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            ((JScrollPane)component).setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-            ((JScrollPane)component).getViewport().setOpaque(false);
-            component = (JComponent)((JScrollPane)component).getViewport().getView();
-            this.setupComponent(component, 0, 0, width, height);
-        }
-        else
-        {
-            component.setForeground(Color.black);
-            component.setFont(new Font("SansSerif", Font.PLAIN, 12));
-            if (component instanceof JTextComponent)
-                ((JTextComponent)component).setText("This is the extra text. This is the extra text. This is the extra text. This is the extra text. This is the extra text. This is more extra text This is more extra text This is more extra text This is more extra text this is the last extra text");
-            if (component instanceof JTextArea)
-            {
-                ((JTextArea)component).setWrapStyleWord(true);
-                ((JTextArea)component).setLineWrap(true);
-            }
-        }
     }
 }
