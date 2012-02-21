@@ -9,7 +9,6 @@ package org.jbundle.base.screen.model;
  * Copyright © 2012 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
-import java.awt.Component;
 import java.util.Map;
 
 import org.jbundle.base.field.BaseField;
