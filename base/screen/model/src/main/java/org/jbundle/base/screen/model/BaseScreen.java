@@ -32,6 +32,7 @@ import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.DatabaseCollection;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.App;
+import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
@@ -49,7 +50,6 @@ import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.MessageListenerFilterList;
-import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 
 
@@ -928,9 +928,9 @@ public class BaseScreen extends BasePanel
         }
         if (record != null)
         {
-            BaseApplet applet = null;
-            if (screenParent.getTask() instanceof BaseApplet)
-            	applet = (BaseApplet)screenParent.getTask();
+            BaseAppletReference applet = null;
+            if (screenParent.getTask() instanceof BaseAppletReference)
+            	applet = (BaseAppletReference)screenParent.getTask();
             Object oldCursor = null;
             if (applet != null)
             	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
@@ -960,9 +960,9 @@ public class BaseScreen extends BasePanel
             if (recordOwner != null)
                 recordOwner.removeRecord(record);    // Should be set to the new screen.
             int iDocMode = record.commandToDocType(strDocMode);
-            BaseApplet applet = null;
-            if (screenParent.getTask() instanceof BaseApplet)
-            	applet = (BaseApplet)screenParent.getTask();
+            BaseAppletReference applet = null;
+            if (screenParent.getTask() instanceof BaseAppletReference)
+            	applet = (BaseAppletReference)screenParent.getTask();
             Object oldCursor = null;
             if (applet != null)
             	oldCursor = applet.setStatus(Constant.WAIT, applet, null);

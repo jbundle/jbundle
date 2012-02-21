@@ -11,14 +11,9 @@ package org.jbundle.base.screen.model;
  */
 import java.util.Map;
 
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-
 import org.jbundle.base.db.Record;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.thin.base.db.Converter;
 
@@ -59,41 +54,6 @@ public class STreeCtrl extends BaseScreen
     public void init(Record mainRecord, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
         super.init(mainRecord, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
-// Put the grid table in front of this record, so grid operations will work.
-        // Add in the columns
-        JTree control = (JTree)this.getScreenFieldView().getControl();
-        DefaultMutableTreeNode node[] = new DefaultMutableTreeNode[20];
-        for (int i = 0; i < 20; i++)
-            node[i] = null;
-        node[0] = new DefaultMutableTreeNode("Products");
-        Record record = this.getMainRecord();
-        try   {
-            record.close();
-            while (record.hasNext())
-            {
-                record.next();
-                int i = 0;
-                for (int iIndex = 0; iIndex < this.getSFieldCount(); iIndex++)
-                {
-                    ScreenField sField = this.getSField(iIndex);
-                    if (sField instanceof ToolScreen)
-                        continue;
-                    if (sField.getConverter() == null)
-                        continue;
-                    String string = sField.getConverter().toString();
-                    if ((node[i + 1] == null) || 
-                        (iIndex == this.getSFieldCount() - 1) || 
-                        (!node[i + 1].toString().equalsIgnoreCase(string)))
-                    {   // New level, or leaf, or New value
-                        node[i].add(node [i + 1] = new DefaultMutableTreeNode(string));
-                        node[i + 2] = null;     // New level - add to all
-                    }
-                    i++;
-                }
-            }
-        } catch (DBException ex)    {
-        }
-        control.setModel(new DefaultTreeModel(node[0]));
 
         this.resizeToContent(this.getTitle());
     }

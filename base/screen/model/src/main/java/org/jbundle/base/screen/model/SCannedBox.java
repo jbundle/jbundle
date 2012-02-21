@@ -32,7 +32,6 @@ import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
 
@@ -257,8 +256,8 @@ public class SCannedBox extends SButtonBox
                 Task task = null;
                 if (this.getRecord().getRecordOwner() != null)
                     task = this.getRecord().getRecordOwner().getTask();
-                if (task == null)
-                    task = BaseApplet.getSharedInstance();
+                //xif (task == null)
+                //x    task = BaseApplet.getSharedInstance();
                 Application application = (Application)task.getApplication();
                 if (strCommand.equalsIgnoreCase(ThinMenuConstants.LOOKUP))
                 {
@@ -376,8 +375,8 @@ public class SCannedBox extends SButtonBox
                             recordOwner = ((BaseField)this.getConverter().getField()).getRecord().getRecordOwner();
                 if (recordOwner != null)
                     task = recordOwner.getTask();
-                if (task == null)
-                    task = BaseApplet.getSharedInstance();
+                //xif (task == null)
+                //x    task = BaseApplet.getSharedInstance();
                 Application application = (Application)task.getApplication();
                 BasePanel screenParent = BasePanel.makeWindow(application);
                 if (strCommand.equals("Record"))

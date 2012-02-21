@@ -39,6 +39,7 @@ import org.jbundle.base.screen.view.ViewFactory;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.UserProperties;
 import org.jbundle.model.App;
+import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
@@ -52,7 +53,6 @@ import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.Params;
-import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.thread.RecordOwnerCollection;
 import org.jbundle.thin.base.thread.TaskScheduler;
 import org.jbundle.thin.base.util.Application;
@@ -431,8 +431,8 @@ public class BasePanel extends ScreenField
             if ((strCommand.indexOf(Param.TASK + '=') != -1) || (strCommand.indexOf(Params.APPLET + '=') != -1))
             { // Asking to start a job
                 Task task = this.getTask();
-                if (task == null)
-                    task = BaseApplet.getSharedInstance();  // ??
+                //xif (task == null)
+                //x    task = BaseApplet.getSharedInstance();  // ??
                 TaskScheduler js = ((Application)task.getApplication()).getTaskScheduler();
                 js.addTask(strCommand);
                 return true;
@@ -785,10 +785,10 @@ public class BasePanel extends ScreenField
     		this.getTask().getApplication().setProperty("helplanguage", this.getTask().getApplication().getLanguage(true));
         strPrevAction = Utility.fixDisplayURL(strPrevAction, true, true, true, this);
 
-        BaseApplet applet = null;
+        BaseAppletReference applet = null;
         if (this.getAppletScreen() != null)
         	if (this.getAppletScreen().getScreenFieldView() != null)
-        		applet = (BaseApplet)this.getAppletScreen().getScreenFieldView().getControl();
+        		applet = (BaseAppletReference)this.getAppletScreen().getScreenFieldView().getControl();
         if (applet != null)
         	iOptions = applet.getHelpPageOptions(iOptions);
         if ((MenuConstants.HELP_WEB_OPTION & iOptions) == MenuConstants.HELP_WEB_OPTION)
@@ -1107,10 +1107,9 @@ public class BasePanel extends ScreenField
         	if (this.getAppletScreen().getScreenFieldView() != null)
         		this.getAppletScreen().getScreenFieldView().showDocument(strHelp, MenuConstants.HELP_WINDOW_CHANGE);
         if (bPushToBrowser)
-        	if (this.getAppletScreen() != null) 
-            	if (this.getAppletScreen().getTask() instanceof BaseApplet)
-                	if (((BaseApplet)this.getAppletScreen().getTask()).getBrowserManager() != null)    	// Let browser know about the new screen
-        				((BaseApplet)this.getAppletScreen().getTask()).getBrowserManager().pushBrowserHistory(strHistory, this.getTitle());    	// Let browser know about the new screen
+        	if (this.getAppletScreen() != null)
+            	if (this.getAppletScreen().getTask() instanceof BaseAppletReference)
+    				((BaseAppletReference)this.getAppletScreen().getTask()).pushBrowserHistory(strHistory, this.getTitle(), bPushToBrowser);    	// Let browser know about the new screen
     }
     /**
      * Pop a command off the history stack.
@@ -1136,9 +1135,8 @@ public class BasePanel extends ScreenField
         }
         if (bPushToBrowser)
         	if (this.getAppletScreen() != null) 
-            	if (this.getAppletScreen().getTask() instanceof BaseApplet)
-                	if (((BaseApplet)this.getAppletScreen().getTask()).getBrowserManager() != null)    	// Let browser know about the new screen
-        				((BaseApplet)this.getAppletScreen().getTask()).getBrowserManager().popBrowserHistory(quanityToPop, strHistory != null, this.getTitle());    	// Let browser know about the new screen
+            	if (this.getAppletScreen().getTask() instanceof BaseAppletReference)
+    				((BaseAppletReference)this.getAppletScreen().getTask()).popBrowserHistory(quanityToPop, strHistory != null, this.getTitle());    	// Let browser know about the new screen
         return strHistory;
     }
     /**

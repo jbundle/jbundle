@@ -21,7 +21,7 @@ import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.thin.base.screen.BaseApplet;
+import org.jbundle.model.BaseAppletReference;
 
 
 /**
@@ -111,9 +111,9 @@ public class SwitchSubScreenHandler extends FieldListener
         // First, find the current sub-screen
         this.setCurrentSubScreen(null);     // Make your best guess as to the old sub-screen
         // Display wait cursor
-        BaseApplet applet = null;
-        if (m_screenParent.getTask() instanceof BaseApplet)
-        	applet = (BaseApplet)m_screenParent.getTask();
+        BaseAppletReference applet = null;
+        if (m_screenParent.getTask() instanceof BaseAppletReference)
+        	applet = (BaseAppletReference)m_screenParent.getTask();
         Object oldCursor = null;
         if (applet != null)
         	oldCursor = applet.setStatus(DBConstants.WAIT, applet, null);

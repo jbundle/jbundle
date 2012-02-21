@@ -1229,9 +1229,17 @@ public class BaseApplet extends JApplet
         m_vHistory.addElement(strHistory);
         String strHelpURL = ThinUtil.fixDisplayURL(strHistory, true, true, true, this);
     	this.getApplication().showTheDocument(strHelpURL, this, ThinMenuConstants.HELP_WINDOW_CHANGE);
+        this.pushBrowserHistory(strHistory, this.getStatusText(Constants.INFORMATION), bPushToBrowser);    	// Let browser know about the new screen
+    }
+    /**
+     * Push this command onto the history stack.
+     * @param strHistory The history command to push onto the stack.
+     */
+    public void pushBrowserHistory(String strHistory, String browserTitle, boolean bPushToBrowser)
+    {
         if (bPushToBrowser)
-			if (this.getBrowserManager() != null)
-				this.getBrowserManager().pushBrowserHistory(strHistory, this.getStatusText(Constants.INFORMATION));    	// Let browser know about the new screen
+            if (this.getBrowserManager() != null)
+                this.getBrowserManager().pushBrowserHistory(strHistory, browserTitle);     // Let browser know about the new screen
     }
     /**
      * Pop a command off the history stack.
@@ -1255,10 +1263,19 @@ public class BaseApplet extends JApplet
 	        if (m_vHistory != null) if (m_vHistory.size() > 0)
 	            strHistory = (String)m_vHistory.remove(m_vHistory.size() - 1);
         }
-        if (bPushToBrowser)
-			if (this.getBrowserManager() != null)
-				this.getBrowserManager().popBrowserHistory(quanityToPop, strHistory != null, this.getStatusText(Constants.INFORMATION));    	// Let browser know about the new screen
+        this.popBrowserHistory(quanityToPop, strHistory != null, this.getStatusText(Constants.INFORMATION));    	// Let browser know about the new screen
         return strHistory;
+    }
+    /**
+     * Pop this command off the history stack.
+     * NOTE: Do not use this method in most cases, use the method in BaseApplet.
+     * @return The history command on top of the stack.
+     */
+    public void popBrowserHistory(int quanityToPop, boolean bPushToBrowser, String browserTitle)
+    {
+        if (bPushToBrowser)
+            if (this.getBrowserManager() != null)
+                this.getBrowserManager().popBrowserHistory(quanityToPop, bPushToBrowser, this.getStatusText(Constants.INFORMATION));        // Let browser know about the new screen
     }
     /**
      * The browser back button was pressed (Javascript called me).
@@ -1501,16 +1518,16 @@ public class BaseApplet extends JApplet
      * Display the status text.
      * @param strMessage The message to display.
      */
-    public Object setStatus(int iStatus, Component comp, Object cursor)
+    public Object setStatus(int iStatus, Object comp, Object cursor)
     {
         Cursor oldCursor = null;
-        if (comp != null)
+        if (comp instanceof Component)
         	if (SwingUtilities.isEventDispatchThread())	// Just being careful
         {
-            oldCursor = comp.getCursor();
+            oldCursor = ((Component)comp).getCursor();
             if (cursor == null)
                 cursor = (Cursor)Cursor.getPredefinedCursor(iStatus);
-            comp.setCursor((Cursor)cursor);
+            ((Component)comp).setCursor((Cursor)cursor);
         }
         if (m_statusbar != null)
             m_statusbar.setStatus(iStatus);

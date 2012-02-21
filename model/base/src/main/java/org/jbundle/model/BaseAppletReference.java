@@ -30,4 +30,25 @@ public interface BaseAppletReference extends Freeable {
      * @return The applet if this was started as an applet.
      */
     public BaseAppletReference getApplet();
+    /**
+     * Display the status text.
+     * @param strMessage The message to display.
+     */
+    public Object setStatus(int iStatus, Object comp, Object cursor);
+    /**
+     * Get the display preference for the help window.
+     * @return
+     */
+    public int getHelpPageOptions(int iOptions);
+    /**
+     * Push this command onto the history stack.
+     * @param strHistory The history command to push onto the stack.
+     */
+    public void pushBrowserHistory(String strHistory, String browserTitle, boolean bPushToBrowser);
+    /**
+     * Pop this command off the history stack.
+     * NOTE: Do not use this method in most cases, use the method in BaseApplet.
+     * @return The history command on top of the stack.
+     */
+    public void popBrowserHistory(int quanityToPop, boolean bPushToBrowser, String browserTitle);
 }

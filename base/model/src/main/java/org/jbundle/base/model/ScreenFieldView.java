@@ -208,7 +208,7 @@ public interface ScreenFieldView extends FieldComponent
     /**
      * This is a utility method to show an HTML page.
      * @param strURL The URL to show.
-     * @param iOptions TODO
+     * @param iOptions 
      * @return True if successful.
      */
     public boolean showDocument(String strURL, int iOptions);
@@ -227,14 +227,14 @@ public interface ScreenFieldView extends FieldComponent
      * - Render this screen as Html (by calling printHtmlScreen()).
      * </ol>
      * @param out The output stream.
-     * @param reg TODO
+     * @param reg 
      * @exception DBException File exception.
      */
     public void printReport(PrintWriter out, ResourceBundle reg) throws DBException;
     /**
      * Print this screen's content area.
      * @param out The out stream.
-     * @param reg TODO
+     * @param reg 
      * @exception DBException File exception.
      */
     public void printScreen(PrintWriter out, ResourceBundle reg) throws DBException;

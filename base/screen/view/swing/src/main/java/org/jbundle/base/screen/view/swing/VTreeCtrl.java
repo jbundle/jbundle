@@ -17,9 +17,15 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
+import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.screen.model.STreeCtrl;
 import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.base.screen.model.ToolScreen;
+import org.jbundle.model.DBException;
 import org.jbundle.model.screen.ScreenComponent;
 
 
@@ -78,6 +84,9 @@ public class VTreeCtrl extends VBaseScreen
         scrollpane.getViewport().setOpaque(false);
         panel.add(scrollpane);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        
+        this.setupModel();
+        
         return control;
     }
     /**
@@ -102,5 +111,43 @@ public class VTreeCtrl extends VBaseScreen
         if (iLevel == DBConstants.CONTROL_BOTTOM)
             return null;    // Make sure controls are not directly added to this JTable
         return super.getControl(iLevel);
+    }
+    public void setupModel()
+    {
+     // Put the grid table in front of this record, so grid operations will work.
+        // Add in the columns
+        JTree control = (JTree)this.getControl();
+        DefaultMutableTreeNode node[] = new DefaultMutableTreeNode[20];
+        for (int i = 0; i < 20; i++)
+            node[i] = null;
+        node[0] = new DefaultMutableTreeNode("Products");
+        Record record = this.getMainRecord();
+        try   {
+            record.close();
+            while (record.hasNext())
+            {
+                record.next();
+                int i = 0;
+                for (int iIndex = 0; iIndex < ((STreeCtrl)this.getScreenField()).getSFieldCount(); iIndex++)
+                {
+                    ScreenField sField = ((STreeCtrl)this.getScreenField()).getSField(iIndex);
+                    if (sField instanceof ToolScreen)
+                        continue;
+                    if (sField.getConverter() == null)
+                        continue;
+                    String string = sField.getConverter().toString();
+                    if ((node[i + 1] == null) || 
+                        (iIndex == ((STreeCtrl)this.getScreenField()).getSFieldCount() - 1) || 
+                        (!node[i + 1].toString().equalsIgnoreCase(string)))
+                    {   // New level, or leaf, or New value
+                        node[i].add(node [i + 1] = new DefaultMutableTreeNode(string));
+                        node[i + 2] = null;     // New level - add to all
+                    }
+                    i++;
+                }
+            }
+        } catch (DBException ex)    {
+        }
+        control.setModel(new DefaultTreeModel(node[0]));        
     }
 }

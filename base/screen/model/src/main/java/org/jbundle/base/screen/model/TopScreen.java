@@ -12,7 +12,6 @@ package org.jbundle.base.screen.model;
 import java.io.IOException;
 import java.util.Map;
 
-
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.StringField;
@@ -32,6 +31,7 @@ import org.jbundle.base.screen.model.report.HelpScreen;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.MainApplication;
+import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
@@ -39,7 +39,6 @@ import org.jbundle.model.main.user.db.UserInfoModel;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.Application;
 
 
@@ -294,9 +293,9 @@ public class TopScreen extends BasePanel
         }
 
                 // First, see if they want to see a screen
-        BaseApplet applet = null;
-        if (this.getTask() instanceof BaseApplet)
-        	applet = (BaseApplet)this.getTask();
+        BaseAppletReference applet = null;
+        if (this.getTask() instanceof BaseAppletReference)
+        	applet = (BaseAppletReference)this.getTask();
         Object oldCursor = null;
         if (applet != null)
         	oldCursor = applet.setStatus(Constant.WAIT, applet, null);
@@ -425,7 +424,6 @@ public class TopScreen extends BasePanel
     }
     /**
      * Change the session parameters.
-     * @exception ServletException From inherited class.
      * @exception IOException From inherited class.
      */
     public void changeParameters()
