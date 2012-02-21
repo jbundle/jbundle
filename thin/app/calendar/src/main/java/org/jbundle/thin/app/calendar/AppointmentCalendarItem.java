@@ -203,7 +203,7 @@ public class AppointmentCalendarItem extends CalendarEntry
     /**
      * Set the icon (opt).
      */
-    public void setIcon(ImageIcon icon, int iIconType)
+    public void setIcon(Object icon, int iIconType)
     {
     }
     /**

@@ -143,7 +143,7 @@ public class CalendarRecordItem extends Object
      * Get the icon (opt). Not implemented.
      * @return The icon.
      */
-    public ImageIcon getIcon(int iIconType)
+    public Object getIcon(int iIconType)
     {
         if (m_iIconField == -1)
             return null;
@@ -195,7 +195,7 @@ public class CalendarRecordItem extends Object
      * Set the icon (opt).
      * Not implemented.
      */
-    public void setIcon(ImageIcon icon, int iIconType)
+    public void setIcon(Object icon, int iIconType)
     {
     }
     /**

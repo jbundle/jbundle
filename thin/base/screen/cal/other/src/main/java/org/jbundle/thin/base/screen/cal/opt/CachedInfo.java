@@ -34,7 +34,7 @@ public class CachedInfo extends Object
     protected int m_colorSelect = Colors.NULL;
     protected int m_iStatus = 0;
 
-    private ImageIcon m_rgIcons[] = null;
+    private Object m_rgIcons[] = null;
 
     /**
      * Constructor.
@@ -188,7 +188,7 @@ public class CachedInfo extends Object
     /**
      * Get the icon (opt).
      */
-    public ImageIcon getIcon(int iIconType)
+    public Object getIcon(int iIconType)
     {
         if (m_rgIcons == null)
             return null;
@@ -197,7 +197,7 @@ public class CachedInfo extends Object
     /**
      * Set the icon (opt).
      */
-    public synchronized void setIcon(ImageIcon icon, int iIconType)
+    public synchronized void setIcon(Object icon, int iIconType)
     {
         if (m_rgIcons == null)
             m_rgIcons = new ImageIcon[CalendarConstants.END_ICON - CalendarConstants.START_ICON + 1];
@@ -217,7 +217,7 @@ public class CachedInfo extends Object
     {
         if (m_rgIcons == null)
             return;
-        ImageIcon icon = m_rgIcons[iIconType - CalendarConstants.START_ICON];
+        Object icon = m_rgIcons[iIconType - CalendarConstants.START_ICON];
         if (icon == null)
             return;
         m_rgIcons[iIconType - CalendarConstants.START_ICON] = null;   // Always at location 0

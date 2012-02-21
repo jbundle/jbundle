@@ -5,8 +5,6 @@ package org.jbundle.thin.base.screen.cal.sample.basic;
 
 import java.util.Date;
 
-import javax.swing.ImageIcon;
-
 import org.jbundle.model.util.Colors;
 import org.jbundle.util.calendarpanel.model.CalendarConstants;
 import org.jbundle.util.calendarpanel.model.CalendarItem;
@@ -21,8 +19,8 @@ public class CalendarProduct extends Object
     protected String m_description = null;
     protected Date m_startTime = null;
     protected Date m_endTime = null;
-    protected ImageIcon m_iconStart = null;
-    protected ImageIcon m_iconEnd = null;
+    protected Object m_iconStart = null;
+    protected Object m_iconEnd = null;
     protected String m_strMeals = null;
     protected int m_colorHighlight = Colors.NULL;
     protected int m_colorSelect = Colors.NULL;
@@ -31,7 +29,7 @@ public class CalendarProduct extends Object
     /**
      * Constructor.
      */
-    public CalendarProduct(CalendarModel model, Date startTime, Date endTime, String description, ImageIcon iconStart, ImageIcon iconEnd, String strMeals, int colorHighlight, int colorSelect, int iStatus)
+    public CalendarProduct(CalendarModel model, Date startTime, Date endTime, String description, Object iconStart, Object iconEnd, String strMeals, int colorHighlight, int colorSelect, int iStatus)
     {
         super();
         this.init(model, startTime, endTime, description, iconStart, iconEnd, strMeals, colorHighlight, colorSelect, iStatus);
@@ -40,7 +38,7 @@ public class CalendarProduct extends Object
     /**
      * Constructor.
      */
-    public void init(CalendarModel model, Date startTime, Date endTime, String description, ImageIcon iconStart, ImageIcon iconEnd, String strMeals, int colorHighlight, int colorSelect, int iStatus)
+    public void init(CalendarModel model, Date startTime, Date endTime, String description, Object iconStart, Object iconEnd, String strMeals, int colorHighlight, int colorSelect, int iStatus)
     {
         m_startTime = startTime;
         m_endTime = endTime;
@@ -108,7 +106,7 @@ public class CalendarProduct extends Object
     /**
      * Get the icon (opt).
      */
-    public ImageIcon getIcon(int iIconType)
+    public Object getIcon(int iIconType)
     {
         if (iIconType == CalendarConstants.END_ICON)
             return m_iconEnd;
@@ -155,7 +153,7 @@ public class CalendarProduct extends Object
     /**
      * Set the icon (opt).
      */
-    public void setIcon(ImageIcon icon, int iIconType)
+    public void setIcon(Object icon, int iIconType)
     {
         if (iIconType == CalendarConstants.END_ICON)
             m_iconEnd = icon;

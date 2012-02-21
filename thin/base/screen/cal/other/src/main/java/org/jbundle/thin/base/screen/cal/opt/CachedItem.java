@@ -163,14 +163,14 @@ public class CachedItem extends Object
     /**
      * Get the icon (opt).
      */
-    public ImageIcon getIcon(int iIconType)
+    public Object getIcon(int iIconType)
     {
         return m_cachedInfo.getIcon(iIconType);
     }
     /**
      * Set the icon (opt).
      */
-    public synchronized void setIcon(ImageIcon icon, int iIconType)
+    public synchronized void setIcon(Object icon, int iIconType)
     {
         m_cachedInfo.setIcon(icon, iIconType);  // Always at location 0
     }

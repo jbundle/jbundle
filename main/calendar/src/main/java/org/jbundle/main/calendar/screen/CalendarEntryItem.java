@@ -59,7 +59,7 @@ public class CalendarEntryItem extends CalendarRecordItem
      * Get the icon (opt).
      * @return The icon.
      */
-    public ImageIcon getIcon(int iIconType)
+    public Object getIcon(int iIconType)
     {
         if (iIconType == CalendarConstants.START_ICON)
             return ((CalendarEntry)this.getMainRecord().getTable().getCurrentTable().getRecord()).getStartIcon();

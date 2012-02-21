@@ -105,7 +105,7 @@ public class AppointmentCalendarItem extends Appointment
      */
     public ImageIcon getIcon(int iIconType)
     {
-            return null;
+        return null;
     }
     /**
      * Highlight color (optional).
@@ -154,7 +154,7 @@ public class AppointmentCalendarItem extends Appointment
     /**
      * Set the icon (opt).
      */
-    public void setIcon(ImageIcon icon, int iIconType)
+    public void setIcon(Object icon, int iIconType)
     {
     }
     /**

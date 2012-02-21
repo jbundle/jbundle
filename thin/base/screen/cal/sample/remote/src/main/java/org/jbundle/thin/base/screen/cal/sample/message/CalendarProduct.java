@@ -80,7 +80,7 @@ public class CalendarProduct extends CachedItem implements CalendarItem
     /**
      * Set the icon (opt).
      */
-    public void setIcon(ImageIcon icon, int iIconType)
+    public void setIcon(Object icon, int iIconType)
     {
         super.setIcon(icon, iIconType);
     }

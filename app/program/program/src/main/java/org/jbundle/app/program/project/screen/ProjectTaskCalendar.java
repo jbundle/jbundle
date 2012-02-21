@@ -139,7 +139,7 @@ public class ProjectTaskCalendar extends CalendarScreen
     {
         return new CalendarRecordItem(this, -1, 0, 1, 2, -1)
         {
-            public ImageIcon getIcon(int iIconType)
+            public Object getIcon(int iIconType)
             {
                 Record recProjectControl = getRecord(ProjectControl.PROJECT_CONTROL_FILE);
                 ImageField field = null;
