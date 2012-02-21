@@ -218,6 +218,13 @@ public abstract class ScreenFieldViewAdapter extends Object
         return string;
     }
     /**
+     * Does this control have the input focus?
+     */
+    public boolean hasFocus()
+    {
+        return false;   // Override this
+    }
+    /**
      * Give this control the input focus.
      * @return True if successful.
      */

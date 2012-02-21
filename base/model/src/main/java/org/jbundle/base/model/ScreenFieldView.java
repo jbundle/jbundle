@@ -116,6 +116,10 @@ public interface ScreenFieldView extends FieldComponent
      */
     public void requestFocus();
     /**
+     * Does this control have the input focus?
+     */
+    public boolean hasFocus();
+    /**
      * Do I create a separate control for the description for this type of control.
      * Generally yes, but you may want to override in checkboxes or buttons to include the description in the control.
      * @return True as buttons have the description contained in the control.

@@ -898,6 +898,15 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
      */
     private static boolean m_bDisableMessages = false;
     /**
+     * Does this control have the input focus?
+     */
+    public boolean hasFocus()
+    {
+        if (this.getControl() == null)
+            return super.hasFocus();
+        return this.getControl().hasFocus();
+    }
+    /**
      * Give this control the input focus.
      */
     public void requestFocus()

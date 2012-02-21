@@ -177,7 +177,7 @@ public class AppletScreen extends TopScreen
         {   // Special - handle undo
             if (m_sfTarget != null)
                 if (m_sfTarget.getScreenFieldView().getControl() != null)
-                if (((Component)m_sfTarget.getScreenFieldView().getControl()).hasFocus())
+                if (m_sfTarget.getScreenFieldView().hasFocus())
             {
                 if (m_objUndo == m_sfTarget)
                 {
