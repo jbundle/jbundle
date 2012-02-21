@@ -1,7 +1,7 @@
 /*
  * Copyright © 2012 jbundle.org. All rights reserved.
  */
-package org.jbundle.thin.base.screen.util;
+package org.jbundle.model.util;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,18 +9,19 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
- * Serialize a platform and android/java independent image.
+ * Platform independent image.
+ * Serializable and android/java independent image.
+ * Override this with your concrete implementation.
  * @author Don Corley <don@donandann.com>
- *
  */
 public class PortableImage extends Object
     implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    int width;
-    int height;
-    int[] pixels;
+    protected int width;
+    protected int height;
+    protected int[] pixels;
 
     /**
      * Creates an Image that can be serialized.

@@ -13,6 +13,8 @@ import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
 import java.io.Serializable;
 
+import org.jbundle.model.util.PortableImage;
+
 /**
  * Serialize an image.
  * @author Don Corley <don@donandann.com>

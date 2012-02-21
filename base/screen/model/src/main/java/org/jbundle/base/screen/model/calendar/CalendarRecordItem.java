@@ -5,8 +5,6 @@ package org.jbundle.base.screen.model.calendar;
 
 import java.util.Date;
 
-import javax.swing.ImageIcon;
-
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.screen.model.BaseScreen;
@@ -14,8 +12,8 @@ import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.ToolScreen;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.util.PortableImage;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.screen.util.SerializableImage;
 import org.jbundle.util.calendarpanel.model.CalendarItem;
 
 
@@ -148,12 +146,12 @@ public class CalendarRecordItem extends Object
         if (m_iIconField == -1)
             return null;
         Object data = this.getFieldData(m_iIconField);
-        if (data instanceof SerializableImage)
-            return new ImageIcon(((SerializableImage)data).getImage());     // Make sure you cache this
-        else if (data instanceof ImageIcon)
-            return (ImageIcon)this.getFieldData(m_iIconField);
-        else
-            return null;
+        if (data instanceof PortableImage)
+            return ((PortableImage)data).getImage();     // Make sure you cache this
+        else //if (data instanceof ImageIcon)
+            return this.getFieldData(m_iIconField);
+        //else
+        //    return null;
     }
     /**
      * Highlight color (optional).
