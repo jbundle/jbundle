@@ -58,10 +58,9 @@ public class CatsMessageRecordDesc extends MessageRecordDesc
                 cat.next();
                 record = cat;
                 super.handlePutRawRecordData(record);
-                for (int iFieldSeq = Cat.NAME; iFieldSeq <= Cat.WEIGHT; iFieldSeq++)
-                {
-                    this.putRawFieldData(record.getField(iFieldSeq));
-                }
+                this.putRawFieldData(record.getField(Cat.NAME));
+                this.putRawFieldData(record.getField(Cat.COLOR));
+                this.putRawFieldData(record.getField(Cat.WEIGHT));
             }
         } catch (DBException ex) {
             ex.printStackTrace();
@@ -80,10 +79,9 @@ public class CatsMessageRecordDesc extends MessageRecordDesc
         try {
             cat.addNew();
             iErrorCode = super.getRawRecordData(cat);
-            for (int iFieldSeq = Cat.NAME; iFieldSeq <= Cat.WEIGHT; iFieldSeq++)
-            {
-                this.getRawFieldData(cat.getField(iFieldSeq));
-            }
+            this.getRawFieldData(record.getField(Cat.NAME));
+            this.getRawFieldData(record.getField(Cat.COLOR));
+            this.getRawFieldData(record.getField(Cat.WEIGHT));
             cat.add();
         } catch (DBException ex) {
             ex.printStackTrace();

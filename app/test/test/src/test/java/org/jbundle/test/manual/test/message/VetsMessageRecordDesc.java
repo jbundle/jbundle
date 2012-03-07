@@ -54,10 +54,7 @@ public class VetsMessageRecordDesc extends MessageRecordDesc
     public int putRawRecordData(Rec record)
     {
         int iErrorCode = super.putRawRecordData(record);
-        for (int iFieldSeq = Vet.NAME; iFieldSeq <= Vet.NAME; iFieldSeq++)
-        {
-            this.putRawFieldData(record.getField(iFieldSeq));
-        }
+        this.putRawFieldData(record.getField(Vet.NAME));
         return iErrorCode;
     }
     /**
@@ -66,10 +63,7 @@ public class VetsMessageRecordDesc extends MessageRecordDesc
      */
     public int getRawRecordData(Rec record)
     {
-        for (int iFieldSeq = Vet.NAME; iFieldSeq <= Vet.NAME; iFieldSeq++)
-        {
-            this.getRawFieldData(record.getField(iFieldSeq));
-        }
+        this.getRawFieldData(record.getField(Vet.NAME));
         return super.getRawRecordData(record);
     }
 

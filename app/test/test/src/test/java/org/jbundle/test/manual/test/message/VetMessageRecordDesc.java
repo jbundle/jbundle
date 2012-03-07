@@ -51,10 +51,7 @@ public class VetMessageRecordDesc extends MessageRecordDesc
     {
         int iErrorCode = super.putRawRecordData(record);
         FieldList vet = ((ReferenceField)record.getField(Cat.VET)).getReference();
-        for (int iFieldSeq = Vet.NAME; iFieldSeq <= Vet.NAME; iFieldSeq++)
-        {
-            this.putRawFieldData(vet.getField(iFieldSeq));
-        }
+        this.putRawFieldData(vet.getField(Vet.NAME));
         return iErrorCode;
     }
     /**
@@ -66,10 +63,7 @@ public class VetMessageRecordDesc extends MessageRecordDesc
         Vet vet = new Vet(null);
         try {
             vet.addNew();
-            for (int iFieldSeq = Vet.NAME; iFieldSeq <= Vet.NAME; iFieldSeq++)
-            {
-                this.getRawFieldData(vet.getField(iFieldSeq));
-            }
+            this.getRawFieldData(vet.getField(Vet.NAME));
             vet.add();
             Object bookmark = vet.getLastModified(DBConstants.BOOKMARK_HANDLE);
             record.getField(Cat.VET).setData(bookmark);

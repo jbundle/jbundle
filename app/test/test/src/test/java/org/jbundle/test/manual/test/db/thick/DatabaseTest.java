@@ -703,7 +703,7 @@ System.exit(0);
         testTable.close();
         testTable.setKeyArea("TestKey");
         iCount = 0;
-        FileListener listener = new StringSubFileFilter("B", TestTable.TEST_KEY, null, -1, null, -1);
+        FileListener listener = new StringSubFileFilter("B", TestTable.TEST_KEY, null, null, null, null);
         testTable.addListener(listener);
         testTable.close();
         while (testTable.hasNext())   {
@@ -731,7 +731,7 @@ System.exit(0);
         testTable.close();
         testTable.setKeyArea("TestKey");
         iCount = 0;
-        FileListener listener = new StringSubFileFilter("Z", TestTable.TEST_KEY, null, -1, null, -1);
+        FileListener listener = new StringSubFileFilter("Z", TestTable.TEST_KEY, null, null, null, null);
         testTable.addListener(listener);
         testTable.close();
         while (testTable.hasNext())   {

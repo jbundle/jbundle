@@ -157,7 +157,7 @@ public class ObjectTest extends BaseAnimalTest
         recAnimal = new Animal(vet.getRecordOwner());
         animalTable = recAnimal.getTable();
 //x     recAnimal.getField(Animal.VET).addListener(new ReadSecondaryHandler(vet));
-        recAnimal.addListener(new DisplayReadHandler(Animal.VET, vet, Vet.kID));
+        recAnimal.addListener(new DisplayReadHandler(Animal.VET, vet, Vet.ID));
         try   {
             recAnimal.close();
             while ((animal = (Animal)animalTable.move(+1)) != null)
