@@ -6,11 +6,15 @@ package org.jbundle.thin.base.db.model;
 
 import java.util.Map;
 
+import org.jbundle.model.Freeable;
+
 /**
  * @author don
  *
  */
-public interface ThinPhysicalDatabaseParent {
+public interface ThinPhysicalDatabaseParent
+    extends Freeable
+{
 
     /**
      * The initial cache time param.

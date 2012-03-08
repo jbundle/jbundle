@@ -233,6 +233,7 @@ public class PhysicalDatabaseParent extends Object
             checkCache();
             if (timerCache != null)   // Schedule the next one
             {
+                timerTask = new DBTimerTask();  // I don't think I can reuse a timer task
                 //x timerCache.cancel();
                 timerCache.schedule(timerTask, cacheMinutes * 60 * 1000);
             }

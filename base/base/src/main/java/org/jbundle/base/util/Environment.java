@@ -147,6 +147,12 @@ public class Environment extends Object
         
         m_applicationDefault = null;    // Will have been freed
         
+        if (m_PhysicalDatabaseParent != null)
+        {
+            m_PhysicalDatabaseParent.free();
+            m_PhysicalDatabaseParent = null;
+        }
+        
         if (gEnv == this)
         	gEnv = null;
         
