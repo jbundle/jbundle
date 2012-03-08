@@ -141,14 +141,14 @@ public class VStaticString extends VScreenField
      * Get this component's current state in an object that can be used to set this
      * component's converter value using setConverterState(obj).
      */
-    public Object getComponentState(Component control)
+    public Object getComponentState(Object control)
     {
         return ((JLabel)control).getText();
     }
     /**
      * Set the component to this state. State is defined by the component.
      */
-    public void setComponentState(Component control, Object objValue)
+    public void setComponentState(Object control, Object objValue)
     {
         if (objValue == null)
             objValue = Constants.BLANK;

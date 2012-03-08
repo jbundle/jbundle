@@ -205,7 +205,7 @@ public class VImageView extends VScreenField
      * @param control The control to get the state from.
      * @return The control's value.
      */
-    public Object getComponentState(Component control)
+    public Object getComponentState(Object control)
     {
         return ((JFSImage)control).getControlValue();
 //        return ((JLabel)control).getIcon();
@@ -215,7 +215,7 @@ public class VImageView extends VScreenField
      * @param control The control to set the state to.
      * @param objValue The value to set the control to.
      */
-    public void setComponentState(Component control, Object objValue)
+    public void setComponentState(Object control, Object objValue)
     {
         if (objValue instanceof SerializableImage)
             objValue = new ImageIcon(((SerializableImage)objValue).getImage());

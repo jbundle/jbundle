@@ -350,7 +350,7 @@ public class VGridScreen extends VBaseGridTableScreen
      * @param control The control to set the state to.
      * @param objValue The value to set the control to.
      */
-    public void setComponentState(Component control, Object objValue)
+    public void setComponentState(Object control, Object objValue)
     {
         super.setComponentState(control, objValue);
         int iColumn = 0;
