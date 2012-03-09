@@ -414,6 +414,8 @@ public class BaseRecordOwner extends Object
      */
     public void addDatabase(Database database)
     {
+        if (m_databaseCollection == null)
+            m_databaseCollection = new DatabaseCollection(this);
         m_databaseCollection.addDatabase(database);
     }
     /**

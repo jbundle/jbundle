@@ -68,4 +68,13 @@ public class FakeDatabase extends BaseDatabase
     {
         return new FakeTable(this, record);
     }
+    /**
+     * Get the Database Name.
+     * @param bPhysicalName Return the full physical name of the database
+     * @return The db name.
+     */
+    public String getDatabaseName(boolean bPhysicalName)
+    {
+        return "Fake";
+    }
 }
