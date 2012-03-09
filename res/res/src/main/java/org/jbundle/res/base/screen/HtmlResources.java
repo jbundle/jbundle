@@ -1,6 +1,3 @@
-/*
- * Copyright © 2012 jbundle.org. All rights reserved.
- */
 package org.jbundle.res.base.screen;
 /**
  * @(#)HtmlResources.java  0.00 1-Jan-10 Don Corley
