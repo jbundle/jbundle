@@ -204,6 +204,8 @@ public class SortOrderHandler extends FieldReSelectHandler
         iKeyOrder--;    // 0 Based
         if (iKeyOrder < m_iNextArrayIndex)
         {
+            if (m_recGrid == null)
+                m_recGrid = (Record)m_gridScreen.getMainRecord();
             for (int i = 0; i < m_recGrid.getKeyAreaCount(); i++)
             {
                 if (m_recGrid.getKeyArea(i).getKeyName().equals(m_iKeyAreaArray[iKeyOrder]))
