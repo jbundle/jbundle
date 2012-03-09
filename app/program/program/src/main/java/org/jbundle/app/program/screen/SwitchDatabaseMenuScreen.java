@@ -67,6 +67,8 @@ public class SwitchDatabaseMenuScreen extends MenuScreen
             BaseApplication app = (BaseApplication)task.getApplication();
         
             properties.remove(DBParams.SCREEN);
+            properties.remove(ScreenModel.LOCATION);    // Lame
+            properties.remove(ScreenModel.DISPLAY);     // Lame
             boolean isSameProperties = true;
             for (String key : properties.keySet())
             {
