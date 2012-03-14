@@ -502,7 +502,7 @@ import org.jbundle.model.DBException;
             FieldSummary fieldData = (FieldSummary)m_vFieldList.elementAt(i);
             if (!bInBaseField)
             {
-                if (strFieldName.equalsIgnoreCase(fieldData.m_strFieldName))
+                if (fieldData.isNameMatch(strFieldName))
                     return i;    // found
             }
             else
@@ -510,8 +510,8 @@ import org.jbundle.model.DBException;
                 if (strBaseFieldName.equalsIgnoreCase(fieldData.m_strFieldName))
                     return i;    // found
 //?                if (strSourceRecord.equalsIgnoreCase(fieldData.m_strFieldFileName))
-                    if (strFieldName.equalsIgnoreCase(fieldData.m_strFieldName))
-                        return i;    // found (only in base because of me)
+                if (fieldData.isNameMatch(strFieldName))
+                    return i;    // found (only in base because of me)
             }
         }
         return -1;   // Not found
@@ -530,6 +530,26 @@ import org.jbundle.model.DBException;
             this.m_iIncludeScope = (int)(recFieldData.getField(FieldData.INCLUDE_SCOPE).getValue() + 0.5);
             this.m_iIncludeScopeCumulative = (int)(recFieldData.getField(FieldData.INCLUDE_SCOPE).getValue() + 0.5);
             this.m_iFieldType = iFieldType;
+        }
+        /**
+         * Is this the same field name?
+         * @param fieldName
+         * @return
+         */
+        public boolean isNameMatch(String fieldName)
+        {
+            if (fieldName.equalsIgnoreCase(this.m_strFieldName))
+                return true;
+            if (this.m_strOtherNames != null)
+            {
+                String[] names = m_strOtherNames.split(",");
+                for (String name : names)
+                {
+                    if (fieldName.equals(name))
+                        return true;
+                }
+            }
+            return false;
         }
         public FieldSummary mergeNewSummary(FieldSummary fieldSummary, boolean topLevel, String strClassName)
         {
@@ -554,6 +574,13 @@ import org.jbundle.model.DBException;
                     fieldSummary.m_iIncludeScope = fieldSummary.m_iIncludeScopeCumulative;
                 }
             }
+            if (!this.m_strFieldName.equals(fieldSummary.m_strFieldName))
+            {
+                if (fieldSummary.m_strOtherNames == null)
+                    fieldSummary.m_strOtherNames = this.m_strFieldName;
+                else
+                    fieldSummary.m_strOtherNames = fieldSummary.m_strOtherNames + "," + this.m_strFieldName;
+            }
             return fieldSummary;
         }
         public Object m_objID = null;
@@ -566,6 +593,7 @@ import org.jbundle.model.DBException;
         public int m_iFieldType = -1;
         public int m_iIncludeScope = 0;
         public int m_iIncludeScopeCumulative = 0;
+        public String m_strOtherNames = null;
         
         public static final int BASE_FIELD = 1;
         public static final int RECORD_FIELD = 2;
