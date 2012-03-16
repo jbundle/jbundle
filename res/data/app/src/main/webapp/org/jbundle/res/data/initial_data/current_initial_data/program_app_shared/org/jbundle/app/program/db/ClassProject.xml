@@ -11,6 +11,8 @@
 		<SystemClasses>N</SystemClasses>
 		<PackageName>.app.dance</PackageName>
 		<ProjectPath/>
+		<InterfacePackage>.app.dance</InterfacePackage>
+		<InterfaceProjectPath/>
 		<ThinPackage>.app.dance</ThinPackage>
 		<ThinProjectPath/>
 		<ResourcePackage>.app.dance</ResourcePackage>
@@ -20,7 +22,7 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="3">
-		<LastChanged>2011-03-10T10:08:27</LastChanged>
+		<LastChanged>2012-01-13T10:57:38</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>contact</Name>
 		<ParentFolderID>7</ParentFolderID>
@@ -31,6 +33,8 @@
 		<SystemClasses/>
 		<PackageName>.app.contact</PackageName>
 		<ProjectPath>contact/contact</ProjectPath>
+		<InterfacePackage>.app.contact</InterfacePackage>
+		<InterfaceProjectPath>contact/model</InterfaceProjectPath>
 		<ThinPackage>.app.contact</ThinPackage>
 		<ThinProjectPath>contact/thin</ThinProjectPath>
 		<ResourcePackage>.app.contact</ResourcePackage>
@@ -51,6 +55,8 @@
 		<SystemClasses/>
 		<PackageName>.app.picture</PackageName>
 		<ProjectPath/>
+		<InterfacePackage>.app.picture</InterfacePackage>
+		<InterfaceProjectPath/>
 		<ThinPackage>.app.picture</ThinPackage>
 		<ThinProjectPath/>
 		<ResourcePackage>.app.picture</ResourcePackage>
@@ -71,6 +77,8 @@
 		<SystemClasses/>
 		<PackageName>.test</PackageName>
 		<ProjectPath/>
+		<InterfacePackage>.test</InterfacePackage>
+		<InterfaceProjectPath/>
 		<ThinPackage>.test</ThinPackage>
 		<ThinProjectPath/>
 		<ResourcePackage>.test</ResourcePackage>
@@ -91,6 +99,8 @@
 		<SystemClasses/>
 		<PackageName/>
 		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath/>
 		<ThinPackage/>
 		<ThinProjectPath/>
 		<ResourcePackage/>
@@ -111,6 +121,8 @@
 		<SystemClasses/>
 		<PackageName/>
 		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath/>
 		<ThinPackage/>
 		<ThinProjectPath/>
 		<ResourcePackage/>
@@ -131,6 +143,8 @@
 		<SystemClasses/>
 		<PackageName/>
 		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath/>
 		<ThinPackage/>
 		<ThinProjectPath/>
 		<ResourcePackage/>

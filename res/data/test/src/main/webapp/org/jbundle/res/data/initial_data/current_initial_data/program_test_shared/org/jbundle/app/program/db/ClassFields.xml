@@ -11,9 +11,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="806">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -27,9 +26,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="808">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -43,9 +41,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="809">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -59,9 +56,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="810">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -75,9 +71,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="811">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -91,9 +86,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="829">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -107,9 +101,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1284">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -123,9 +116,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1386">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -139,9 +131,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1600">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -155,9 +146,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1601">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -171,9 +161,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1672">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -187,9 +176,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1673">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -203,9 +191,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1990">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -219,9 +206,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1991">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -235,9 +221,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1992">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -251,9 +236,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1993">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -267,9 +251,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1994">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -283,9 +266,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="1995">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -299,9 +281,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2058">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -315,9 +296,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2721">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -331,9 +311,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2848">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -347,9 +326,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2849">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -363,9 +341,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2850">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -379,9 +356,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2851">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -395,9 +371,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2852">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -411,9 +386,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2853">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -427,9 +401,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2854">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -443,9 +416,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2855">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -459,9 +431,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2856">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -475,9 +446,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="2857">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -491,9 +461,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="3451">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -507,9 +476,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="3452">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -523,9 +491,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="3453">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -539,9 +506,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="3454">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -555,9 +521,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="3455">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -571,9 +536,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="3457">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -587,9 +551,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="4200">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -603,9 +566,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="4348">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -619,9 +581,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="4349">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -635,9 +596,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="4481">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -651,9 +611,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="4486">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -667,9 +626,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="5010">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -683,9 +641,8 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="5011">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -699,8 +656,127 @@
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ThinInclude/>
-		<ThickInclude>Y</ThickInclude>
 		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5012">
+		<LastChanged>2012-01-13T13:24:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Vet</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>int</ClassFieldClass>
+		<ClassFieldSequence>10</ClassFieldSequence>
+		<ClassFieldName>CAT_VET_GRID_SCREEN</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>ScreenConstants.DETAIL_MODE</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5014">
+		<LastChanged>2012-01-15T12:09:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Animal</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>AnimalGridScreen</ClassFieldClass>
+		<ClassFieldSequence>1,010</ClassFieldSequence>
+		<ClassFieldName>ANIMAL_GRID_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>DISPLAY_MODE</ClassFieldInitialValue>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5015">
+		<LastChanged>2012-01-15T12:09:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Cat</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>CatVetScreen</ClassFieldClass>
+		<ClassFieldSequence>1,000</ClassFieldSequence>
+		<ClassFieldName>CAT_VET_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>MAINT_MODE</ClassFieldInitialValue>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5016">
+		<LastChanged>2012-01-15T12:09:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Cat</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>CatVetGridScreen</ClassFieldClass>
+		<ClassFieldSequence>1,010</ClassFieldSequence>
+		<ClassFieldName>CAT_VET_GRID_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>DISPLAY_MODE</ClassFieldInitialValue>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5017">
+		<LastChanged>2012-01-15T12:09:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Snake</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>SnakeScreen</ClassFieldClass>
+		<ClassFieldSequence>1,000</ClassFieldSequence>
+		<ClassFieldName>SNAKE_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>MAINT_MODE</ClassFieldInitialValue>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5018">
+		<LastChanged>2012-01-15T12:09:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Snake</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>SnakeGridScreen</ClassFieldClass>
+		<ClassFieldSequence>1,010</ClassFieldSequence>
+		<ClassFieldName>SNAKE_GRID_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>DISPLAY_MODE</ClassFieldInitialValue>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5019">
+		<LastChanged>2012-01-15T12:09:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Lizard</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>LizardScreen</ClassFieldClass>
+		<ClassFieldSequence>1,000</ClassFieldSequence>
+		<ClassFieldName>LIZARD_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>MAINT_MODE</ClassFieldInitialValue>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5020">
+		<LastChanged>2012-01-15T12:09:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Lizard</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>LizardGridScreen</ClassFieldClass>
+		<ClassFieldSequence>1,010</ClassFieldSequence>
+		<ClassFieldName>LIZARD_GRID_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>DISPLAY_MODE</ClassFieldInitialValue>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
 	</ClassFields>
 </file>

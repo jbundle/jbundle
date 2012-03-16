@@ -18,9 +18,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5643">
 		<LastChanged>2009-02-12T14:49:24</LastChanged>
@@ -41,9 +40,8 @@
 		<FieldSeqNo>70</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5645">
 		<LastChanged>2009-02-12T14:49:24</LastChanged>
@@ -64,9 +62,8 @@
 		<FieldSeqNo>40</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5646">
 		<LastChanged>2009-02-12T14:49:24</LastChanged>
@@ -87,9 +84,8 @@
 		<FieldSeqNo>80</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5648">
 		<LastChanged>2009-02-12T14:49:24</LastChanged>
@@ -110,9 +106,8 @@
 		<FieldSeqNo>50</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5672">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -133,9 +128,8 @@
 		<FieldSeqNo>90</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5759">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -156,9 +150,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5760">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -179,9 +172,8 @@
 		<FieldSeqNo>30</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5761">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -202,9 +194,8 @@
 		<FieldSeqNo>60</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5763">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -225,9 +216,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5764">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -248,9 +238,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5765">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -271,9 +260,8 @@
 		<FieldSeqNo>30</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5766">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -294,9 +282,8 @@
 		<FieldSeqNo>40</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5767">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -317,9 +304,8 @@
 		<FieldSeqNo>50</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5768">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -340,9 +326,8 @@
 		<FieldSeqNo>60</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5769">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -363,9 +348,8 @@
 		<FieldSeqNo>70</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5770">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -386,9 +370,8 @@
 		<FieldSeqNo>80</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5771">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -409,9 +392,8 @@
 		<FieldSeqNo>90</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5772">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -432,9 +414,8 @@
 		<FieldSeqNo>100</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5773">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -455,9 +436,8 @@
 		<FieldSeqNo>110</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5774">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -478,9 +458,8 @@
 		<FieldSeqNo>120</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5775">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -501,9 +480,8 @@
 		<FieldSeqNo>130</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5776">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -524,9 +502,8 @@
 		<FieldSeqNo>140</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5777">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -547,9 +524,8 @@
 		<FieldSeqNo>150</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5778">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -570,9 +546,8 @@
 		<FieldSeqNo>160</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5779">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -593,9 +568,8 @@
 		<FieldSeqNo>170</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5780">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -616,9 +590,8 @@
 		<FieldSeqNo>180</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5781">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -639,9 +612,8 @@
 		<FieldSeqNo>190</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5782">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -662,9 +634,8 @@
 		<FieldSeqNo>220</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5783">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -685,9 +656,8 @@
 		<FieldSeqNo>230</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5784">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -708,9 +678,8 @@
 		<FieldSeqNo>250</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5785">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -731,9 +700,8 @@
 		<FieldSeqNo>270</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5786">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -754,9 +722,8 @@
 		<FieldSeqNo>280</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5794">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -777,9 +744,8 @@
 		<FieldSeqNo>100</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5799">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -800,9 +766,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5800">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -823,9 +788,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5801">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -846,9 +810,8 @@
 		<FieldSeqNo>30</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5802">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -869,9 +832,8 @@
 		<FieldSeqNo>27</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5803">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -892,9 +854,8 @@
 		<FieldSeqNo>22</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5804">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -915,9 +876,8 @@
 		<FieldSeqNo>60</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5805">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -938,9 +898,8 @@
 		<FieldSeqNo>80</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5806">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -961,9 +920,8 @@
 		<FieldSeqNo>110</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5808">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -984,9 +942,8 @@
 		<FieldSeqNo>120</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5809">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1007,9 +964,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5810">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1030,9 +986,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5812">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1053,9 +1008,8 @@
 		<FieldSeqNo>110</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5813">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1076,9 +1030,8 @@
 		<FieldSeqNo>130</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5814">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1099,9 +1052,8 @@
 		<FieldSeqNo>200</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5815">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1122,9 +1074,8 @@
 		<FieldSeqNo>210</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="5824">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1145,9 +1096,8 @@
 		<FieldSeqNo>230</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6772">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1168,9 +1118,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6773">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1191,9 +1140,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6774">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1214,9 +1162,8 @@
 		<FieldSeqNo>30</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6775">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1237,9 +1184,8 @@
 		<FieldSeqNo>40</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6776">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1260,9 +1206,8 @@
 		<FieldSeqNo>50</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6777">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1283,9 +1228,8 @@
 		<FieldSeqNo>98</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6778">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1306,9 +1250,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6779">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1329,9 +1272,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6882">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1352,9 +1294,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="6933">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1375,9 +1316,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6934">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1398,9 +1338,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6935">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1421,9 +1360,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6936">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1444,9 +1382,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6937">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1467,9 +1404,8 @@
 		<FieldSeqNo>60</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6938">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1490,9 +1426,8 @@
 		<FieldSeqNo>70</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6939">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1513,9 +1448,8 @@
 		<FieldSeqNo>80</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6940">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1536,9 +1470,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6941">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1559,9 +1492,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6942">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1582,9 +1514,8 @@
 		<FieldSeqNo>30</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6985">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1605,9 +1536,8 @@
 		<FieldSeqNo>55</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6986">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1628,9 +1558,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6987">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1651,9 +1580,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6988">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1674,9 +1602,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6989">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1697,9 +1624,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="6990">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1720,9 +1646,8 @@
 		<FieldSeqNo>65</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7022">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1743,9 +1668,8 @@
 		<FieldSeqNo>100</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7062">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1766,9 +1690,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7063">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1789,9 +1712,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7064">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1812,9 +1734,8 @@
 		<FieldSeqNo>30</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7067">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1835,9 +1756,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7068">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1858,9 +1778,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7069">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1881,9 +1800,8 @@
 		<FieldSeqNo>300</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7070">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1904,9 +1822,8 @@
 		<FieldSeqNo>40</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7393">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1927,9 +1844,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7394">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1950,9 +1866,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7395">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1973,9 +1888,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7396">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -1996,9 +1910,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7397">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2019,9 +1932,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7398">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2042,9 +1954,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7399">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2065,9 +1976,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7400">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2088,9 +1998,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7401">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2111,9 +2020,8 @@
 		<FieldSeqNo>82</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7402">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2134,9 +2042,8 @@
 		<FieldSeqNo>84</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7403">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2157,9 +2064,8 @@
 		<FieldSeqNo>86</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7404">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2180,9 +2086,8 @@
 		<FieldSeqNo>87</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7405">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2203,9 +2108,8 @@
 		<FieldSeqNo>88</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7407">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2226,9 +2130,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7408">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2249,9 +2152,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7409">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2272,9 +2174,8 @@
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7410">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2295,9 +2196,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7411">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2318,9 +2218,8 @@
 		<FieldSeqNo>110</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7412">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2341,9 +2240,8 @@
 		<FieldSeqNo>90</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7413">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2364,9 +2262,8 @@
 		<FieldSeqNo>92</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7414">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2387,9 +2284,8 @@
 		<FieldSeqNo>94</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7415">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2410,9 +2306,8 @@
 		<FieldSeqNo>96</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7416">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2433,9 +2328,8 @@
 		<FieldSeqNo>95</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="7417">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2456,9 +2350,8 @@
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7418">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2479,9 +2372,8 @@
 		<FieldSeqNo>30</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7419">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2502,9 +2394,8 @@
 		<FieldSeqNo>40</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7421">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2525,9 +2416,8 @@
 		<FieldSeqNo>70</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7422">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2548,9 +2438,8 @@
 		<FieldSeqNo>80</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7423">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2571,9 +2460,8 @@
 		<FieldSeqNo>90</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7424">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2594,9 +2482,8 @@
 		<FieldSeqNo>100</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7425">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2617,9 +2504,8 @@
 		<FieldSeqNo>130</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7426">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
@@ -2640,9 +2526,8 @@
 		<FieldSeqNo>140</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7427">
 		<LastChanged>2009-02-12T14:49:26</LastChanged>
@@ -2663,9 +2548,8 @@
 		<FieldSeqNo>25</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="7462">
 		<LastChanged>2009-02-12T14:49:26</LastChanged>
@@ -2686,8 +2570,7 @@
 		<FieldSeqNo>150</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
-		<ThinInclude/>
-		<ThickInclude/>
 		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 </file>

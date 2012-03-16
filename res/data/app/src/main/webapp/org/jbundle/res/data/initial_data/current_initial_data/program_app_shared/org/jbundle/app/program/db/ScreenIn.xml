@@ -528,7 +528,7 @@ new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstant
 		<ScreenControlType/>
 	</ScreenIn>
 	<ScreenIn ID="1961">
-		<LastChanged>2009-02-12T14:49:23</LastChanged>
+		<LastChanged>2012-02-01T18:48:24</LastChanged>
 		<Deleted>N</Deleted>
 		<ScreenInProgName>PictureGridScreen</ScreenInProgName>
 		<ScreenOutNumber/>
@@ -541,7 +541,7 @@ new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstant
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[Converter converter = this.getRecord(Picture.kPictureFile).getField(Picture.kPictureFile, Picture.kShortDesc);
+		<ScreenText><![CDATA[Converter converter = this.getRecord(Picture.PICTURE_FILE).getField(Picture.PICTURE_FILE, Picture.SHORT_DESC);
 converter = new FieldLengthConverter(converter, 30);
 this.addColumn(converter);]]></ScreenText>
 		<ScreenAnchor/>
@@ -692,7 +692,7 @@ this.addColumn(converter);]]></ScreenText>
 		<ScreenControlType/>
 	</ScreenIn>
 	<ScreenIn ID="1980">
-		<LastChanged>2010-02-18T07:39:06</LastChanged>
+		<LastChanged>2012-01-30T19:58:11</LastChanged>
 		<Deleted>N</Deleted>
 		<ScreenInProgName>ExportPictures</ScreenInProgName>
 		<ScreenOutNumber/>
@@ -706,8 +706,8 @@ this.addColumn(converter);]]></ScreenText>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
 		<ScreenText><![CDATA[String strJob = null;
-strJob = org.jbundle.base.util.Utility.addURLParam(strJob, DBParams.TASK, DBConstants.ROOT_PACKAGE + "screen.thread.ProcessRunner");	// Processrunner class
-strJob = org.jbundle.base.util.Utility.addURLParam(strJob, DBParams.PROCESS, DBConstants.ROOT_PACKAGE + "personal.manual.ExportPictures");	// Process class
+strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.ROOT_PACKAGE + "screen.thread.ProcessRunner");	// Processrunner class
+strJob = Utility.addURLParam(strJob, DBParams.PROCESS, DBConstants.ROOT_PACKAGE + "personal.manual.ExportPictures");	// Process class
 new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Export now");]]></ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>

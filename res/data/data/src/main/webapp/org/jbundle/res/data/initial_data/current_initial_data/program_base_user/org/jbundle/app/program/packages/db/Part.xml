@@ -40,14 +40,14 @@
 		<Path/>
 	</Part>
 	<Part ID="9">
-		<LastChanged>2011-04-30T15:46:48</LastChanged>
+		<LastChanged>2011-12-09T04:48:14</LastChanged>
 		<Deleted>N</Deleted>
 		<Description>org.jbundle.util.calendarpanel</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
 		<JnlpFileID>2</JnlpFileID>
-		<Path>lib/org.jbundle.util.calendarpanel-${jbundle-calendarpanelVersion}.jar</Path>
+		<Path>lib/org.jbundle.util.calendarpanel-${jbundleCalendarpanelVersion}.jar</Path>
 	</Part>
 	<Part ID="10">
 		<LastChanged>2009-02-12T14:51:14</LastChanged>
@@ -160,24 +160,24 @@
 		<Path/>
 	</Part>
 	<Part ID="67">
-		<LastChanged>2011-04-30T15:45:46</LastChanged>
+		<LastChanged>2011-12-09T04:47:49</LastChanged>
 		<Deleted>N</Deleted>
 		<Description>org.jbundle.util.jcalendarbutton</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
 		<JnlpFileID>2</JnlpFileID>
-		<Path>lib/org.jbundle.util.jcalendarbutton-${jbundle-jcalendarbuttonVersion}.jar</Path>
+		<Path>lib/org.jbundle.util.jcalendarbutton-${jbundleJcalendarbuttonVersion}.jar</Path>
 	</Part>
 	<Part ID="68">
-		<LastChanged>2011-04-30T15:44:33</LastChanged>
+		<LastChanged>2011-12-09T04:48:02</LastChanged>
 		<Deleted>N</Deleted>
 		<Description>org.jbundle.util.muffinmanager</Description>
 		<Sequence/>
 		<Kind>lazy</Kind>
 		<PartType/>
 		<JnlpFileID>2</JnlpFileID>
-		<Path>lib/org.jbundle.util.muffinmanager-${jbundle-util-muffinmanagerVersion}.jar</Path>
+		<Path>lib/org.jbundle.util.muffinmanager-${jbundleUtilMuffinmanagerVersion}.jar</Path>
 	</Part>
 	<Part ID="69">
 		<LastChanged>2010-04-17T20:55:27</LastChanged>

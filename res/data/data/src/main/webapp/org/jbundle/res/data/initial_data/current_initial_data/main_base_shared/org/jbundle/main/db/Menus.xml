@@ -68,7 +68,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="676">
-		<LastChanged>2010-04-27T23:59:00</LastChanged>
+		<LastChanged>2010-04-09T13:20:24</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Screen Test</Name>
 		<ParentFolderID>1,174</ParentFolderID>
@@ -85,7 +85,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="687">
-		<LastChanged>2010-04-09T13:20:52</LastChanged>
+		<LastChanged>2010-04-12T05:00:55</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Grid Test with Merge Tables</Name>
 		<ParentFolderID>1,174</ParentFolderID>
@@ -316,7 +316,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1188">
-		<LastChanged>2010-02-12T05:00:06</LastChanged>
+		<LastChanged>2010-02-20T06:18:45</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>User Information</Name>
 		<ParentFolderID>1,185</ParentFolderID>
@@ -1332,7 +1332,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1601">
-		<LastChanged>2010-08-05T15:59:47</LastChanged>
+		<LastChanged>2010-04-09T13:19:23</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Packages</Name>
 		<ParentFolderID>1,598</ParentFolderID>
@@ -2291,7 +2291,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1807">
-		<LastChanged>2010-02-20T06:57:24</LastChanged>
+		<LastChanged>2010-02-20T06:57:15</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Big grid screen</Name>
 		<ParentFolderID>1,512</ParentFolderID>
@@ -2353,7 +2353,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1847">
-		<LastChanged>2010-02-20T06:19:25</LastChanged>
+		<LastChanged>2011-08-05T15:59:47</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>New Thick Applet</Name>
 		<ParentFolderID>1,193</ParentFolderID>
@@ -2796,7 +2796,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1872">
-		<LastChanged>2010-12-09T17:21:52</LastChanged>
+		<LastChanged>2010-12-09T17:01:00</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Spanish data entry</Name>
 		<ParentFolderID>1,859</ParentFolderID>

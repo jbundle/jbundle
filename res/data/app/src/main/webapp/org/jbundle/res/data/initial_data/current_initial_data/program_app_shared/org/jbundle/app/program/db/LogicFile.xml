@@ -12,6 +12,7 @@
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2726">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -26,6 +27,7 @@
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2727">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -40,6 +42,7 @@
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2728">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -58,6 +61,7 @@ super;	// Next buttons will be "First!"]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2729">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -76,6 +80,7 @@ new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenCo
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2730">
 		<LastChanged>2009-09-15T22:51:12</LastChanged>
@@ -93,6 +98,7 @@ else
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2731">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -107,9 +113,10 @@ else
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2732">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-19T18:13:19</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -117,17 +124,18 @@ else
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>Picture</MethodClassName>
-		<LogicSource><![CDATA[BaseScreen screen = null;
+		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
-	screen = new PictureGridScreen(this, null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+	screen = new PictureGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-	screen = new PictureScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+	screen = new PictureScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 else
-	screen = new PictureGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+	screen = new PictureGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2733">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -142,6 +150,7 @@ return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2768">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -156,6 +165,7 @@ return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2769">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -170,6 +180,7 @@ return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2770">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -184,9 +195,10 @@ return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2771">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T10:30:05</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -196,27 +208,28 @@ return screen;]]></LogicSource>
 		<MethodClassName>ContactGridScreen</MethodClassName>
 		<LogicSource><![CDATA[super;
 Record recContact = this.getMainRecord();
-recContact.setKeyArea(Contact.kNameSortKey);
+recContact.setKeyArea(Contact.NAME_SORT_KEY);
 SortOrderHandler keyBehavior = new SortOrderHandler(this);
-keyBehavior.setGridTable(Contact.kNameSortKey, recContact, 0);
-keyBehavior.setGridTable(Contact.kContactKey, recContact, 1);
-keyBehavior.setGridTable(-1, recContact, 2);
-keyBehavior.setGridTable(Contact.kPostalCodeSortKey, recContact, 3);
-keyBehavior.setGridTable(-1, recContact, 4);
-keyBehavior.setGridTable(-1, recContact, 5);
-keyBehavior.setGridTable(-1, recContact, 6);
-this.getScreenRecord().getField(ContactScreenRecord.kProfileKey).addListener(keyBehavior);
+keyBehavior.setGridTable(Contact.NAME_SORT_KEY, recContact, 0);
+keyBehavior.setGridTable(Contact.CONTACT_KEY, recContact, 1);
+keyBehavior.setGridTable(null, recContact, 2);
+keyBehavior.setGridTable(Contact.POSTAL_CODE_SORT_KEY, recContact, 3);
+keyBehavior.setGridTable(null, recContact, 4);
+keyBehavior.setGridTable(null, recContact, 5);
+keyBehavior.setGridTable(null, recContact, 6);
+this.getScreenRecord().getField(ContactScreenRecord.PROFILE_KEY).addListener(keyBehavior);
 
-recContact.addListener(new ExtractRangeFilter(Contact.kPostalCodeSort, this.getScreenRecord().getField(ContactScreenRecord.kPostalCodeSort)));
-recContact.addListener(new ExtractRangeFilter(Contact.kNameSort, this.getScreenRecord().getField(ContactScreenRecord.kNameSort)));
-recContact.addListener(new CompareFileFilter(Contact.kContactCategoryID, this.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID), "=", null, true));
+recContact.addListener(new ExtractRangeFilter(Contact.POSTAL_CODE_SORT, this.getScreenRecord().getField(ContactScreenRecord.POSTAL_CODE_SORT)));
+recContact.addListener(new ExtractRangeFilter(Contact.NAME_SORT, this.getScreenRecord().getField(ContactScreenRecord.NAME_SORT)));
+recContact.addListener(new CompareFileFilter(Contact.CONTACT_CATEGORY_ID, this.getScreenRecord().getField(ContactScreenRecord.CONTACT_CATEGORY_ID), "=", null, true));
 
-this.getScreenRecord().getField(ContactScreenRecord.kNameSort).addListener(new FieldReSelectHandler(this));
-this.getScreenRecord().getField(ContactScreenRecord.kPostalCodeSort).addListener(new FieldReSelectHandler(this));
-this.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).addListener(new FieldReSelectHandler(this));]]></LogicSource>
+this.getScreenRecord().getField(ContactScreenRecord.NAME_SORT).addListener(new FieldReSelectHandler(this));
+this.getScreenRecord().getField(ContactScreenRecord.POSTAL_CODE_SORT).addListener(new FieldReSelectHandler(this));
+this.getScreenRecord().getField(ContactScreenRecord.CONTACT_CATEGORY_ID).addListener(new FieldReSelectHandler(this));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2772">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -231,6 +244,7 @@ this.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).addListe
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2773">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -245,6 +259,7 @@ this.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).addListe
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2775">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -259,6 +274,7 @@ this.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).addListe
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2777">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -273,6 +289,7 @@ this.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).addListe
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2778">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -288,6 +305,7 @@ new PictureControl(this);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2780">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -302,6 +320,7 @@ new PictureControl(this);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2781">
 		<LastChanged>2010-02-18T07:36:24</LastChanged>
@@ -328,6 +347,7 @@ return bFlag;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2782">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -342,6 +362,7 @@ return bFlag;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2783">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -357,6 +378,7 @@ new PictureControl(this);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2785">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -371,6 +393,7 @@ new PictureControl(this);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2786">
 		<LastChanged>2010-02-18T07:37:30</LastChanged>
@@ -397,6 +420,7 @@ return bFlag;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2787">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -411,9 +435,10 @@ return bFlag;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2795">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -423,13 +448,14 @@ return bFlag;]]></LogicSource>
 		<MethodClassName>ExportPictures</MethodClassName>
 		<LogicSource><![CDATA[super;
 try	{
-	this.getRecord(PictureControl.kPictureControlFile).open();	// Get the control record
+	this.getRecord(PictureControl.PICTURE_CONTROL_FILE).open();	// Get the control record
 } catch (DBException ex)	{
 	ex.printStackTrace();
 }]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2797">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -444,6 +470,7 @@ try	{
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2798">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -459,6 +486,7 @@ new PictureControl(this);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2799">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -473,9 +501,10 @@ new PictureControl(this);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2800">
-		<LastChanged>2010-02-18T07:38:06</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>doCommand</MethodName>
@@ -487,16 +516,16 @@ new PictureControl(this);]]></LogicSource>
 
 if (strCommand.indexOf("ExportPictures") != -1)
 {
-	Properties properties = new Properties();
-	Record recPictureControl = this.getRecord(PictureControl.kPictureControlFile);
+	Map<String,Object> properties = new HashMap<String,Object>();
+	Record recPictureControl = this.getRecord(PictureControl.PICTURE_CONTROL_FILE);
 	String strDate = "";
-	if (!recPictureControl.getField(PictureControl.kLastExported).isNull())
+	if (!recPictureControl.getField(PictureControl.LAST_EXPORTED).isNull())
 	{
-		Date date = ((DateTimeField)recPictureControl.getField(PictureControl.kLastExported)).getDateTime();
+		Date date = ((DateTimeField)recPictureControl.getField(PictureControl.LAST_EXPORTED)).getDateTime();
 		strDate = DateFormat.getInstance().format(date);
 	}
-	properties.setProperty("date", strDate);
-	String strRoot = recPictureControl.getField(PictureControl.kBaseDirectory).toString();
+	properties.put("date", strDate);
+	String strRoot = recPictureControl.getField(PictureControl.BASE_DIRECTORY).toString();
 	if (strRoot.length() > 0)
 		if ((strRoot.charAt(strRoot.length() - 1) != '/')
 			|| (strRoot.charAt(strRoot.length() - 1) != '\\'))
@@ -504,13 +533,13 @@ if (strCommand.indexOf("ExportPictures") != -1)
 	String strRecord = "Picture";
 	String strPackage = "personal";
 	String strFilename = strRoot + strPackage.replace('.', '/') + '/' + strRecord + ".xml";
-	properties.setProperty("filename", strFilename);
+	properties.put("filename", strFilename);
 	org.jbundle.app.picture.manual.ExportPictureRecord convert = new org.jbundle.app.picture.manual.ExportPictureRecord(null, null, properties);
 	convert.run();
 	convert.free();
 	try	{
 		recPictureControl.edit();
-		((DateTimeField)recPictureControl.getField(PictureControl.kLastExported)).setDateTime(new Date(), true, DBConstants.SCREEN_MOVE);
+		((DateTimeField)recPictureControl.getField(PictureControl.LAST_EXPORTED)).setDateTime(new Date(), true, DBConstants.SCREEN_MOVE);
 		recPictureControl.set();
 	} catch (DBException ex)	{
 		ex.printStackTrace();
@@ -524,9 +553,10 @@ return bFlag;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="4479">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>1,000</Sequence>
 		<MethodName>addMasterListeners</MethodName>
@@ -536,13 +566,13 @@ return bFlag;]]></LogicSource>
 		<MethodClassName>Contact</MethodClassName>
 		<LogicSource><![CDATA[super;
 
-CopyFieldHandler copyName = (CopyFieldHandler)this.getField(Contact.kName).getListener(CopyFieldHandler.class.getName());
-this.getField(Contact.kName).removeListener(copyName, true);
-copyName = new CopyFieldHandler(Contact.kNameSort)
+CopyFieldHandler copyName = (CopyFieldHandler)this.getField(Contact.NAME).getListener(CopyFieldHandler.class.getName());
+this.getField(Contact.NAME).removeListener(copyName, true);
+copyName = new CopyFieldHandler(Contact.NAME_SORT)
 {
     public int moveIt(boolean bDisplayOption, int iMoveMode)
     {
-        BaseField fldContact = getOwner().getRecord().getField(Contact.kContact);
+        BaseField fldContact = getOwner().getRecord().getField(Contact.CONTACT);
         BaseField fldName = getOwner();
         if ((fldName.isNull()) && (!fldContact.isNull()))
         {
@@ -551,25 +581,26 @@ copyName = new CopyFieldHandler(Contact.kNameSort)
         return super.moveIt(bDisplayOption, iMoveMode);
     }
 };
-this.getField(Contact.kName).addListener(copyName);
+this.getField(Contact.NAME).addListener(copyName);
 
-CopyFieldHandler copyLast = new CopyLastHandler(Contact.kNameSort)
+CopyFieldHandler copyLast = new CopyLastHandler(Contact.NAME_SORT)
 {
     public int moveIt(boolean bDisplayOption, int iMoveMode)
     {
-        BaseField fldName = getOwner().getRecord().getField(Contact.kName);
+        BaseField fldName = getOwner().getRecord().getField(Contact.NAME);
         if (!fldName.isNull())
             return DBConstants.NORMAL_RETURN;   // Don't wipe the name
         return super.moveIt(bDisplayOption, iMoveMode);
     }
 };
-this.getField(Contact.kContact).addListener(copyLast);]]></LogicSource>
+this.getField(Contact.CONTACT).addListener(copyLast);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5190">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>setupDefaultView</MethodName>
@@ -577,10 +608,11 @@ this.getField(Contact.kContact).addListener(copyLast);]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceField</MethodClassName>
-		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), Dance.kNameKey, Dance.kName, true, true);</LogicSource>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), Dance.NAME_KEY, Dance.NAME, true, true);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5191">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -595,6 +627,7 @@ this.getField(Contact.kContact).addListener(copyLast);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5474">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -609,6 +642,7 @@ this.getField(Contact.kContact).addListener(copyLast);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5475">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -623,9 +657,10 @@ this.getField(Contact.kContact).addListener(copyLast);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5476">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-19T18:13:20</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -633,19 +668,20 @@ this.getField(Contact.kContact).addListener(copyLast);]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>Dance</MethodClassName>
-		<LogicSource><![CDATA[BaseScreen screen = null;
+		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
-    screen = new DanceStepGridScreen(this, null, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = new DanceStepGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-    screen = new DanceScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = new DanceScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
-    screen = new DanceGridScreen(this, itsLocation, parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = new DanceGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 else
     screen = super;
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5477">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -660,6 +696,7 @@ return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5478">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -674,6 +711,7 @@ return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5479">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -688,6 +726,7 @@ return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5480">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -704,6 +743,7 @@ super;  // Next buttons will be "First!"]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5481">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -720,9 +760,10 @@ super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5482">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>40</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -731,13 +772,14 @@ super;]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>DanceHeaderScreen</MethodClassName>
 		<LogicSource><![CDATA[super;
-this.getScreenRecord().getField(DanceScreenRecord.kDanceID).setEnabled(true);
-this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn).setEnabled(true);
-this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID).setEnabled(true);
-this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).setEnabled(true);]]></LogicSource>
+this.getScreenRecord().getField(DanceScreenRecord.DANCE_ID).setEnabled(true);
+this.getScreenRecord().getField(DanceScreenRecord.DANCE_FOOT_IN).setEnabled(true);
+this.getScreenRecord().getField(DanceScreenRecord.DANCE_DIRECTION_ID).setEnabled(true);
+this.getScreenRecord().getField(DanceScreenRecord.MOVE_CLASS_ID).setEnabled(true);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5483">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -752,9 +794,10 @@ this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).setEnabled(true)
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5484">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-23T08:58:35</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>makeSubScreen</MethodName>
@@ -762,10 +805,11 @@ this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).setEnabled(true)
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepGridScreen</MethodClassName>
-		<LogicSource>return new DanceHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);</LogicSource>
+		<LogicSource>return new DanceHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5485">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -780,9 +824,10 @@ this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).setEnabled(true)
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5486">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -791,26 +836,27 @@ this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).setEnabled(true)
 		<MethodInterface/>
 		<MethodClassName>DanceStepGridScreen</MethodClassName>
 		<LogicSource><![CDATA[super;
-this.getMainRecord().setKeyArea(DanceStep.kDateKey);
+this.getMainRecord().setKeyArea(DanceStep.DATE_KEY);
 this.getMainRecord().getKeyArea().setKeyOrder(DBConstants.DESCENDING);
     // Link the screen field to the passed in record
-((ReferenceField)this.getScreenRecord().getField(DanceScreenRecord.kDanceID)).syncReference(this.getHeaderRecord());
-this.getScreenRecord().getField(DanceScreenRecord.kDanceID).addListener(new FieldReSelectHandler(this));
+((ReferenceField)this.getScreenRecord().getField(DanceScreenRecord.DANCE_ID)).syncReference(this.getHeaderRecord());
+this.getScreenRecord().getField(DanceScreenRecord.DANCE_ID).addListener(new FieldReSelectHandler(this));
 
-this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn).addListener(new FieldReSelectHandler(this));
-this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceFootIn, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn), DBConstants.EQUALS, null, true));
+this.getScreenRecord().getField(DanceScreenRecord.DANCE_FOOT_IN).addListener(new FieldReSelectHandler(this));
+this.getMainRecord().addListener(new CompareFileFilter(DanceStep.DANCE_FOOT_IN, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.DANCE_FOOT_IN), DBConstants.EQUALS, null, true));
 
-this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID).addListener(new FieldReSelectHandler(this));
-this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceDirectionID, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID), DBConstants.EQUALS, null, true));
+this.getScreenRecord().getField(DanceScreenRecord.DANCE_DIRECTION_ID).addListener(new FieldReSelectHandler(this));
+this.getMainRecord().addListener(new CompareFileFilter(DanceStep.DANCE_DIRECTION_ID, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.DANCE_DIRECTION_ID), DBConstants.EQUALS, null, true));
 
-this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID).addListener(new FieldReSelectHandler(this));
-this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kMoveClassID, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID), DBConstants.EQUALS, null, true));]]></LogicSource>
+this.getScreenRecord().getField(DanceScreenRecord.MOVE_CLASS_ID).addListener(new FieldReSelectHandler(this));
+this.getMainRecord().addListener(new CompareFileFilter(DanceStep.MOVE_CLASS_ID, (BaseField)this.getScreenRecord().getField(DanceScreenRecord.MOVE_CLASS_ID), DBConstants.EQUALS, null, true));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5487">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>40</Sequence>
 		<MethodName>addSubFileFilter</MethodName>
@@ -818,11 +864,12 @@ this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kMoveClassID, (
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepGridScreen</MethodClassName>
-		<LogicSource><![CDATA[this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
-this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));]]></LogicSource>
+		<LogicSource><![CDATA[this.getMainRecord().addListener(new CompareFileFilter(DanceStep.DANCE_ID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
+this.getMainRecord().getField(DanceStep.DANCE_ID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5488">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -837,6 +884,7 @@ this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandl
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5489">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -853,6 +901,7 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5490">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -867,6 +916,7 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5491">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -881,9 +931,10 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5492">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>40</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -893,13 +944,14 @@ return super;]]></LogicSource>
 		<MethodClassName>DanceStepScreen</MethodClassName>
 		<LogicSource><![CDATA[super;
     // Link the screen field to the passed in record
-((ReferenceField)this.getScreenRecord().getField(DanceScreenRecord.kDanceID)).syncReference(this.getHeaderRecord());]]></LogicSource>
+((ReferenceField)this.getScreenRecord().getField(DanceScreenRecord.DANCE_ID)).syncReference(this.getHeaderRecord());]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5493">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-23T08:58:36</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>90</Sequence>
 		<MethodName>makeSubScreen</MethodName>
@@ -907,13 +959,14 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepScreen</MethodClassName>
-		<LogicSource>return new DanceHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC);</LogicSource>
+		<LogicSource>return new DanceHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5494">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>300</Sequence>
 		<MethodName>addSubFileFilter</MethodName>
@@ -921,11 +974,12 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepScreen</MethodClassName>
-		<LogicSource><![CDATA[this.getMainRecord().addListener(new CompareFileFilter(DanceStep.kDanceID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
-this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));]]></LogicSource>
+		<LogicSource><![CDATA[this.getMainRecord().addListener(new CompareFileFilter(DanceStep.DANCE_ID, (BaseField)this.getHeaderRecord().getCounterField(), DBConstants.EQUALS, null, true));
+this.getMainRecord().getField(DanceStep.DANCE_ID).addListener(new InitFieldHandler((BaseField)this.getHeaderRecord().getCounterField(), false));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5495">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -940,9 +994,10 @@ this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandl
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5498">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>50</Sequence>
 		<MethodName>getHeaderRecord</MethodName>
@@ -950,10 +1005,11 @@ this.getMainRecord().getField(DanceStep.kDanceID).addListener(new InitFieldHandl
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepGridScreen</MethodClassName>
-		<LogicSource>return this.getRecord(Dance.kDanceFile);</LogicSource>
+		<LogicSource>return this.getRecord(Dance.DANCE_FILE);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5499">
 		<LastChanged>2009-09-15T23:27:49</LastChanged>
@@ -977,6 +1033,7 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5503">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -991,6 +1048,7 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5638">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1005,9 +1063,10 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5639">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>setupDefaultView</MethodName>
@@ -1015,10 +1074,11 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceTypeField</MethodClassName>
-		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), DanceType.kDescriptionKey, DanceType.kDescription, true, true);</LogicSource>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), DanceType.DESCRIPTION_KEY, DanceType.DESCRIPTION, true, true);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5640">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1033,9 +1093,10 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5641">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>setupDefaultView</MethodName>
@@ -1043,10 +1104,11 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DancePositionField</MethodClassName>
-		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), DancePosition.kDescriptionKey, DancePosition.kDescription, true, true);</LogicSource>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), DancePosition.DESCRIPTION_KEY, DancePosition.DESCRIPTION, true, true);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5642">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1061,9 +1123,10 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5643">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>setupDefaultView</MethodName>
@@ -1071,10 +1134,11 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>DanceStepField</MethodClassName>
-		<LogicSource>return this.setupTableLookup(itsLocation, targetScreen, iDisplayFieldDesc, this.makeReferenceRecord(), DanceStep.kDescriptionKey, DanceStep.kDescription, true);</LogicSource>
+		<LogicSource>return this.setupTableLookup(itsLocation, targetScreen, iDisplayFieldDesc, this.makeReferenceRecord(), DanceStep.DESCRIPTION_KEY, DanceStep.DESCRIPTION, true);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5723">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1089,9 +1153,10 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5724">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>setupDefaultView</MethodName>
@@ -1099,10 +1164,11 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>MoveClassField</MethodClassName>
-		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), MoveClass.kDescriptionKey, MoveClass.kDescription, true, true);</LogicSource>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), MoveClass.DESCRIPTION_KEY, MoveClass.DESCRIPTION, true, true);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5725">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1117,9 +1183,10 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5726">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>setupDefaultView</MethodName>
@@ -1127,13 +1194,14 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>HandPositionField</MethodClassName>
-		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), HandPosition.kDescriptionKey, HandPosition.kDescription, true, true);</LogicSource>
+		<LogicSource>return this.setupTablePopup(itsLocation, targetScreen, converter, iDisplayFieldDesc, this.makeReferenceRecord(), HandPosition.DESCRIPTION_KEY, HandPosition.DESCRIPTION, true, true);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5876">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>10</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -1143,12 +1211,13 @@ return super;]]></LogicSource>
 		<MethodClassName>ContactScreenRecord</MethodClassName>
 		<LogicSource><![CDATA[super;
 FieldToUpperHandler upper = new FieldToUpperHandler(null);
-this.getField(ContactScreenRecord.kNameSort).addListener(upper);
+this.getField(ContactScreenRecord.NAME_SORT).addListener(upper);
 CheckForTheHandler the = new CheckForTheHandler(null);
-this.getField(ContactScreenRecord.kNameSort).addListener(the);]]></LogicSource>
+this.getField(ContactScreenRecord.NAME_SORT).addListener(the);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5877">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1163,6 +1232,7 @@ this.getField(ContactScreenRecord.kNameSort).addListener(the);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5878">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -1177,6 +1247,7 @@ this.getField(ContactScreenRecord.kNameSort).addListener(the);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5879">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -1191,9 +1262,10 @@ this.getField(ContactScreenRecord.kNameSort).addListener(the);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5880">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>addToolbarButtons</MethodName>
@@ -1202,12 +1274,13 @@ this.getField(ContactScreenRecord.kNameSort).addListener(the);]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>ContactGridScreen</MethodClassName>
 		<LogicSource><![CDATA[new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, MenuConstants.FORMDETAIL, null);
-toolScreen.getScreenRecord().getField(ContactScreenRecord.kNameSort).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
-toolScreen.getScreenRecord().getField(ContactScreenRecord.kPostalCodeSort).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
-toolScreen.getScreenRecord().getField(ContactScreenRecord.kContactCategoryID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
+toolScreen.getScreenRecord().getField(ContactScreenRecord.NAME_SORT).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+toolScreen.getScreenRecord().getField(ContactScreenRecord.POSTAL_CODE_SORT).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.NEXT_INPUT_LOCATION, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);
+toolScreen.getScreenRecord().getField(ContactScreenRecord.CONTACT_CATEGORY_ID).setupDefaultView(toolScreen.getNextLocation(ScreenConstants.RIGHT_WITH_DESC, ScreenConstants.SET_ANCHOR), toolScreen, ScreenConstants.DEFAULT_DISPLAY);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5976">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -1223,6 +1296,7 @@ this.setupSubMenus(HtmlConstants.MAIN_MENU_KEY);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5977">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -1243,6 +1317,7 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5978">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -1257,9 +1332,10 @@ return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5979">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-02-01T19:01:29</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>setupSubMenus</MethodName>
@@ -1272,14 +1348,14 @@ try   {
     boolean bIsNumeric = Utility.isNumeric(strMenu);
     if (bIsNumeric)
     {
-        recMenu.setKeyArea(Picture.kIDKey);
-        recMenu.getField(Picture.kID).setString(strMenu);
+        recMenu.setKeyArea(Picture.ID_KEY);
+        recMenu.getField(Picture.ID).setString(strMenu);
         bIsNumeric = recMenu.seek("=");
     }
     if (!bIsNumeric)
     {
-        recMenu.setKeyArea(Picture.kCodeKey);
-        recMenu.getField(Picture.kCode).setString(strMenu);
+        recMenu.setKeyArea(Picture.CODE_KEY);
+        recMenu.getField(Picture.CODE).setString(strMenu);
         if (recMenu.seek("="))
         {
         }
@@ -1287,17 +1363,18 @@ try   {
 } catch (DBException ex)    {
     ex.printStackTrace(); // Never
 }
-String strParentID = recMenu.getField(Picture.kID).toString();
+String strParentID = recMenu.getField(Picture.ID).toString();
 BaseListener listener = recMenu.getListener(StringSubFileFilter.class.getName());
 if (listener != null)
 { // Should just change the string
     recMenu.removeListener(listener, true);
 }
-recMenu.setKeyArea(Picture.kParentFolderIDKey);
-recMenu.addListener(new StringSubFileFilter(strParentID, Picture.kParentFolderID, null, -1, null, -1));]]></LogicSource>
+recMenu.setKeyArea(Picture.PARENT_FOLDER_ID_KEY);
+recMenu.addListener(new StringSubFileFilter(strParentID, Picture.PARENT_FOLDER_ID, null, null, null, null));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5980">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -1312,6 +1389,7 @@ recMenu.addListener(new StringSubFileFilter(strParentID, Picture.kParentFolderID
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="6411">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -1328,6 +1406,7 @@ super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="6813">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1342,6 +1421,7 @@ super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="6814">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1356,6 +1436,7 @@ super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="6815">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1370,6 +1451,7 @@ super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="6816">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1384,6 +1466,7 @@ super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="6817">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1398,6 +1481,7 @@ super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="6818">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
@@ -1417,6 +1501,7 @@ return string;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="6819">
 		<LastChanged>2009-05-23T03:33:24</LastChanged>
@@ -1431,9 +1516,10 @@ return string;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="6937">
-		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>70</Sequence>
 		<MethodName>getScreenURL</MethodName>
@@ -1442,16 +1528,17 @@ return string;]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>DanceStepScreen</MethodClassName>
 		<LogicSource><![CDATA[String strURL = super;
-strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn));
-strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID));
-strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID));
+strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.DANCE_FOOT_IN));
+strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.DANCE_DIRECTION_ID));
+strURL = Utility.addFieldParam(strURL, this.getScreenRecord().getField(DanceScreenRecord.MOVE_CLASS_ID));
 return strURL;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="6938">
-		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<LastChanged>2012-01-31T06:23:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>60</Sequence>
 		<MethodName>syncHeaderToMain</MethodName>
@@ -1460,11 +1547,12 @@ return strURL;]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>DanceStepScreen</MethodClassName>
 		<LogicSource><![CDATA[super;
-Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.kDanceFootIn));
-Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.kDanceDirectionID));
-Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.kMoveClassID));]]></LogicSource>
+Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.DANCE_FOOT_IN));
+Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.DANCE_DIRECTION_ID));
+Utility.restoreFieldParam(this, this.getScreenRecord().getField(DanceScreenRecord.MOVE_CLASS_ID));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 </file>

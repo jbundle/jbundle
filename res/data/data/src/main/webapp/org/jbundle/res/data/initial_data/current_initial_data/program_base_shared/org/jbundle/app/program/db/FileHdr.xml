@@ -221,7 +221,7 @@
 		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777413">
-		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<LastChanged>2012-01-15T11:00:27</LastChanged>
 		<Deleted>N</Deleted>
 		<FileName>Appointment</FileName>
 		<FileDesc>Calendar Appointments</FileDesc>
@@ -871,14 +871,14 @@
 		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777574">
-		<LastChanged>2009-11-18T23:52:44</LastChanged>
+		<LastChanged>2012-01-11T05:52:11</LastChanged>
 		<Deleted>N</Deleted>
 		<FileName>DatabaseInfo</FileName>
-		<FileDesc/>
-		<FileMainFilename/>
+		<FileDesc>DatabaseInfo</FileDesc>
+		<FileMainFilename>DatabaseInfo</FileMainFilename>
 		<Type>REMOTE | SHARED_DATA</Type>
 		<FileNotes>This table can be in any database</FileNotes>
-		<DatabaseName/>
+		<DatabaseName>DatabaseInfo</DatabaseName>
 		<FileRecCalled/>
 		<DisplayClass/>
 		<MaintClass/>

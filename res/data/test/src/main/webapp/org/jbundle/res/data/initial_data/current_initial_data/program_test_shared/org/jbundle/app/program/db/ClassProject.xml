@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><file>
 	<ClassProject ID="65537">
-		<LastChanged>2011-03-10T07:34:31</LastChanged>
+		<LastChanged>2012-01-13T10:54:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>test</Name>
-		<ParentFolderID>16,777,291</ParentFolderID>
+		<ParentFolderID>65,538</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
@@ -11,9 +11,33 @@
 		<SystemClasses/>
 		<PackageName>.test</PackageName>
 		<ProjectPath/>
+		<InterfacePackage>.test</InterfacePackage>
+		<InterfaceProjectPath>../test/model/</InterfaceProjectPath>
 		<ThinPackage>.test</ThinPackage>
-		<ThinProjectPath/>
+		<ThinProjectPath>../test/thin/</ThinProjectPath>
 		<ResourcePackage>.test</ResourcePackage>
+		<ResProjectPath>../test/res/</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="65538">
+		<LastChanged>2012-01-05T05:05:50</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>test</Name>
+		<ParentFolderID>16,777,291</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Test (parent)</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
 		<ResProjectPath/>
 		<Properties/>
 		<ArtifactId/>

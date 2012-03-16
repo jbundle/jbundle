@@ -971,7 +971,7 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1954">
-		<LastChanged>2010-02-11T12:07:12</LastChanged>
+		<LastChanged>2010-02-11T12:07:35</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>CatSession</ClassName>
 		<BaseClassName>Session</BaseClassName>

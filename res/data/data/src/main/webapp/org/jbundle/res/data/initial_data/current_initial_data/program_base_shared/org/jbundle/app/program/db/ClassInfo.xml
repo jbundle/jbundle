@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><file>
 	<ClassInfo ID="16777217">
-		<LastChanged>2011-09-12T11:52:35</LastChanged>
+		<LastChanged>2012-01-13T08:30:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassInfo</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
@@ -11,7 +11,7 @@
 		<ClassType>record</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
-		<ClassImplements>ClassInfoService</ClassImplements>
+		<ClassImplements/>
 		<SeeAlso/>
 		<TechnicalInfo/>
 		<CopyDescFrom/>
@@ -294,7 +294,7 @@
 		<ClassName>Company</ClassName>
 		<BaseClassName>Person</BaseClassName>
 		<ClassDesc>Mailing list of company names</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>Person</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -987,7 +987,7 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<ClassName>BaseFolderGridScreen</ClassName>
 		<BaseClassName>DetailGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>BaseFolderScreen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
@@ -1038,7 +1038,7 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<ClassName>BaseFolderScreen</ClassName>
 		<BaseClassName>DetailScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>BaseFolderScreen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
@@ -1140,7 +1140,7 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<ClassName>Menus</ClassName>
 		<BaseClassName>Folder</BaseClassName>
 		<ClassDesc>Menu maintenance</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>Menus</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -1235,7 +1235,7 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<ClassName>MenuVariables</ClassName>
 		<BaseClassName>ScreenRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>Menus</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -1269,7 +1269,7 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<ClassName>Messages</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message or Bug report submitted from users</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>Messages</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -1371,7 +1371,7 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<ClassName>Person</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>List of People's Names, Addr</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>Person</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -1576,7 +1576,7 @@ Just override the compute value method to re-calculate the target field's value.
 		<ClassName>ReportScreenRecord</ClassName>
 		<BaseClassName>ScreenRecord</BaseClassName>
 		<ClassDesc>The base record for screens</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ReportScreenRecord</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -2665,7 +2665,7 @@ Just override the compute value method to re-calculate the target field's value.
 		<ClassName>UserInfo</ClassName>
 		<BaseClassName>PropertiesRecord</BaseClassName>
 		<ClassDesc>User Information</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserInfo</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -2684,7 +2684,7 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc>Popup "All" users</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserInfo</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -2701,7 +2701,7 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserFileHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc>Only read the record for the current user (similar to Control File Behavior)</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserInfo</ClassSourceFile>
 		<ClassType>Behavior</ClassType>
@@ -2718,7 +2718,7 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserFilter</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserInfo</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -2735,26 +2735,9 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserHomeField</ClassName>
 		<BaseClassName>UserMenuField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserHomeField</ClassSourceFile>
-		<ClassType>Field</ClassType>
-		<ClassExplain/>
-		<ClassHelp/>
-		<ClassImplements/>
-		<SeeAlso/>
-		<TechnicalInfo/>
-		<CopyDescFrom/>
-	</ClassInfo>
-	<ClassInfo ID="16778059">
-		<LastChanged>2010-02-05T11:20:56</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassName>UserJavaField</ClassName>
-		<BaseClassName>StringPopupField</BaseClassName>
-		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.user.db</ClassPackage>
-		<ClassSourceFile>UserInfo</ClassSourceFile>
 		<ClassType>Field</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
@@ -2769,7 +2752,7 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserLanguageField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserInfo</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -2786,7 +2769,7 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserLogosField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserLogosField</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -2803,7 +2786,7 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserMenubarField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserInfo</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -2820,7 +2803,7 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserMenuField</ClassName>
 		<BaseClassName>StringField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserMenuField</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -2837,7 +2820,7 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserNavMenusField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserInfo</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -2854,7 +2837,7 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserPreferenceScreen</ClassName>
 		<BaseClassName>UserInfoBaseScreen</BaseClassName>
 		<ClassDesc>User preferences screen</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserInfoScreen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
@@ -2946,7 +2929,7 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserInfoScreen</ClassName>
 		<BaseClassName>UserInfoBaseScreen</BaseClassName>
 		<ClassDesc>User Information</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserInfoScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -2982,7 +2965,7 @@ This screen displays all the system users and their preferences.
 		<ClassName>UserRegistration</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>User registration</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserRegistration</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -3188,7 +3171,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>BaseFolder</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>This is a base class for a record that represents a hierarchial folder</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>BaseFolder</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -3205,7 +3188,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>Folder</ClassName>
 		<BaseClassName>BaseFolder</BaseClassName>
 		<ClassDesc>Folder</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>Folder</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -3222,7 +3205,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>FolderGridScreen</ClassName>
 		<BaseClassName>BaseFolderGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>FolderScreen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
@@ -3239,7 +3222,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>FolderScreen</ClassName>
 		<BaseClassName>BaseFolderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>FolderScreen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
@@ -3256,7 +3239,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>FolderHeaderScreen</ClassName>
 		<BaseClassName>HeaderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>FolderScreen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
@@ -3273,7 +3256,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>FolderField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>Folder</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -3324,7 +3307,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>MenusScreen</ClassName>
 		<BaseClassName>FolderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>MenusScreen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
@@ -3341,7 +3324,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>MenusGridScreen</ClassName>
 		<BaseClassName>FolderGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>MenusScreen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
@@ -3358,7 +3341,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>MenusSession</ClassName>
 		<BaseClassName>Session</BaseClassName>
 		<ClassDesc>Handle the remote end of thin menus</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,321</ClassProjectID>
 		<ClassPackage>.remote</ClassPackage>
 		<ClassSourceFile>MenusSession</ClassSourceFile>
 		<ClassType>Session</ClassType>
@@ -3443,29 +3426,12 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>Anniversary</ClassName>
 		<BaseClassName>CalendarEntry</BaseClassName>
 		<ClassDesc>Recurring appointments</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.db</ClassPackage>
 		<ClassSourceFile>Anniversary</ClassSourceFile>
 		<ClassType>record</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
-		<ClassImplements/>
-		<SeeAlso/>
-		<TechnicalInfo/>
-		<CopyDescFrom/>
-	</ClassInfo>
-	<ClassInfo ID="16778195">
-		<LastChanged>2010-02-05T11:20:58</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassName>Appointment</ClassName>
-		<BaseClassName>CalendarEntry</BaseClassName>
-		<ClassDesc>Calendar appointments</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.calendar.db</ClassPackage>
-		<ClassSourceFile>Appointment</ClassSourceFile>
-		<ClassType>record</ClassType>
-		<ClassExplain>Enter one-time calendar entries.</ClassExplain>
-		<ClassHelp type="XML"><paragraph>Enter one-time calendar entries.</paragraph></ClassHelp>
 		<ClassImplements/>
 		<SeeAlso/>
 		<TechnicalInfo/>
@@ -3477,7 +3443,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>CalendarEntry</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Calendar</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.db</ClassPackage>
 		<ClassSourceFile>CalendarEntry</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -3494,7 +3460,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>CalendarGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc>Calendar grid</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.screen</ClassPackage>
 		<ClassSourceFile>CalendarGridScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -3545,7 +3511,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>AnnivMaster</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Recurring appointments</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.db</ClassPackage>
 		<ClassSourceFile>AnnivMaster</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -3562,7 +3528,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>AnnivMasterField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc>Anniversary Master file reference</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.db</ClassPackage>
 		<ClassSourceFile>AnnivMasterField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -3579,7 +3545,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>AnnivMasterScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.screen</ClassPackage>
 		<ClassSourceFile>AnnivMasterScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -3596,7 +3562,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<ClassName>RepeatInterval</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Interval descriptions</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.db</ClassPackage>
 		<ClassSourceFile>RepeatInterval</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -3625,7 +3591,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778215">
-		<LastChanged>2011-05-12T21:31:30</LastChanged>
+		<LastChanged>2012-01-18T10:41:32</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseStatus</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
@@ -3638,8 +3604,8 @@ The possible status values are:
 4 - VALID - Info valid
 5 - NOT_VALID
 The t]]></ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.msg.db.base</ClassPackage>
+		<ClassProjectID>16,777,317</ClassProjectID>
+		<ClassPackage>.db.base</ClassPackage>
 		<ClassSourceFile>BaseStatus</ClassSourceFile>
 		<ClassType>Record</ClassType>
 		<ClassExplain>The possible status values are:
@@ -3742,7 +3708,7 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<ClassName>CalendarModelSession</ClassName>
 		<BaseClassName>TableModelSession</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,321</ClassProjectID>
 		<ClassPackage>.calendar.remote</ClassPackage>
 		<ClassSourceFile>CalendarModelSession</ClassSourceFile>
 		<ClassType>session</ClassType>
@@ -3980,7 +3946,7 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<ClassName>AnniversaryTableSession</ClassName>
 		<BaseClassName>TableSession</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,321</ClassProjectID>
 		<ClassPackage>.calendar.remote</ClassPackage>
 		<ClassSourceFile>AnniversaryTableSession</ClassSourceFile>
 		<ClassType>Session</ClassType>
@@ -4014,7 +3980,7 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<ClassName>CheckNonNumericListener</ClassName>
 		<BaseClassName>FieldListener</BaseClassName>
 		<ClassDesc>Check to make sure this field is not numeric</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>UserInfo</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -4043,13 +4009,13 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778282">
-		<LastChanged>2010-02-05T11:18:06</LastChanged>
+		<LastChanged>2012-02-07T19:02:47</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>TrxMessageHeader</ClassName>
 		<BaseClassName>BaseMessageHeader</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,240</ClassProjectID>
-		<ClassPackage>.message.trx.message</ClassPackage>
+		<ClassPackage>.message.core.trx</ClassPackage>
 		<ClassSourceFile>TrxMessageHeader</ClassSourceFile>
 		<ClassType>class</ClassType>
 		<ClassExplain/>
@@ -4361,13 +4327,13 @@ As a travel agent, you may order more than one of each brochure.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778607">
-		<LastChanged>2010-02-05T11:21:00</LastChanged>
+		<LastChanged>2012-01-15T13:57:32</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>DetailGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.screen</ClassPackage>
+		<ClassProjectID>16,777,240</ClassProjectID>
+		<ClassPackage>.screen.model</ClassPackage>
 		<ClassSourceFile>DetailGridScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
 		<ClassExplain>Detail grid screen with a header record</ClassExplain>
@@ -4383,7 +4349,7 @@ As a travel agent, you may order more than one of each brochure.
 		<ClassName>DetailScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>DetailScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -4434,7 +4400,7 @@ As a travel agent, you may order more than one of each brochure.
 		<ClassName>MessageDetail</ClassName>
 		<BaseClassName>PropertiesRecord</BaseClassName>
 		<ClassDesc>Message detail</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageDetail</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -4494,7 +4460,7 @@ Application specific message properties are used in:
 		<ClassName>MessageDetailGridScreen</ClassName>
 		<BaseClassName>DetailGridScreen</BaseClassName>
 		<ClassDesc>Message detail</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageDetailScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -4554,7 +4520,7 @@ Application specific message properties are used in:
 		<ClassName>MessageDetailScreen</ClassName>
 		<BaseClassName>DetailScreen</BaseClassName>
 		<ClassDesc>Message detail</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageDetailScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -4614,7 +4580,7 @@ Application specific message properties are used in:
 		<ClassName>MessageTransport</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message transports</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageTransport</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -4688,7 +4654,7 @@ Any of these properties can be overidden in the
 		<ClassName>MessageTransportField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageTransport</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -4700,13 +4666,13 @@ Any of these properties can be overidden in the
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778642">
-		<LastChanged>2011-05-12T21:32:09</LastChanged>
+		<LastChanged>2012-01-18T10:42:14</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ContactType</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Contact type</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.msg.db.base</ClassPackage>
+		<ClassProjectID>16,777,317</ClassProjectID>
+		<ClassPackage>.db.base</ClassPackage>
 		<ClassSourceFile>ContactType</ClassSourceFile>
 		<ClassType>record</ClassType>
 		<ClassExplain>Type of message contact</ClassExplain>
@@ -4735,7 +4701,7 @@ This code is stored in the
 		<ClassName>MessageInfo</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message information</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageInfo</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -4778,7 +4744,7 @@ To display the process detail, press the
 		<ClassName>MessageInfoField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageInfo</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -4796,7 +4762,7 @@ To display the process detail, press the
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc><![CDATA[A Record with a property field that is moved to and from
 some virtual fields.]]></ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>PropertiesRecord</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -4808,13 +4774,13 @@ some virtual fields.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778646">
-		<LastChanged>2011-05-12T21:32:23</LastChanged>
+		<LastChanged>2012-01-18T10:42:24</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ContactTypeField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc>Contact type</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.msg.db.base</ClassPackage>
+		<ClassProjectID>16,777,317</ClassProjectID>
+		<ClassPackage>.db.base</ClassPackage>
 		<ClassSourceFile>ContactType</ClassSourceFile>
 		<ClassType>field</ClassType>
 		<ClassExplain/>
@@ -4830,7 +4796,7 @@ some virtual fields.]]></ClassDesc>
 		<ClassName>MessageDetailHeaderScreen</ClassName>
 		<BaseClassName>HeaderScreen</BaseClassName>
 		<ClassDesc>Header screen</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageDetailScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -4898,7 +4864,7 @@ some virtual fields.]]></ClassDesc>
 		<ClassName>MessageLog</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message log display</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageLog</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -4961,7 +4927,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>MessageStatus</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message status</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageStatus</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -4988,7 +4954,7 @@ These codes specify the current status of a message as it is displayed in the
 		<ClassName>MessageStatusField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageStatus</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -5000,13 +4966,13 @@ These codes specify the current status of a message as it is displayed in the
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778665">
-		<LastChanged>2010-02-05T11:18:08</LastChanged>
+		<LastChanged>2012-01-24T03:45:34</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MessageScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc>The special screen for responding to messages.</ClassDesc>
-		<ClassProjectID>16,777,240</ClassProjectID>
-		<ClassPackage>.message.trx.transport.screen</ClassPackage>
+		<ClassProjectID>16,777,320</ClassProjectID>
+		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
 		<ClassExplain/>
@@ -5091,7 +5057,7 @@ external and send it back.]]></ClassDesc>
 		<ClassName>MessageTransportSelect</ClassName>
 		<BaseClassName>MessageTransportField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageTransportSelect</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -5108,7 +5074,7 @@ external and send it back.]]></ClassDesc>
 		<ClassName>MessageTransportTypeField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc>Type of message transport</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageTransportTypeField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -5444,13 +5410,13 @@ The class maintains the converter chain.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778755">
-		<LastChanged>2011-05-12T21:31:40</LastChanged>
+		<LastChanged>2012-01-18T10:41:42</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseStatusField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc>The base reference field for a status field</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.msg.db.base</ClassPackage>
+		<ClassProjectID>16,777,317</ClassProjectID>
+		<ClassPackage>.db.base</ClassPackage>
 		<ClassSourceFile>BaseStatus</ClassSourceFile>
 		<ClassType>field</ClassType>
 		<ClassExplain/>
@@ -5636,7 +5602,7 @@ The class maintains the converter chain.]]></ClassDesc>
 		<ClassName>MessageLogScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc>Message log display</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageLogScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -5699,7 +5665,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>MessageLogGridScreen</ClassName>
 		<BaseClassName>DetailGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageLogScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -5716,7 +5682,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>MessageLogHeaderScreen</ClassName>
 		<BaseClassName>HeaderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageLogScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -5733,7 +5699,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>MessageLogScreenRecord</ClassName>
 		<BaseClassName>ScreenRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageLogScreen</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -5745,13 +5711,13 @@ If a message has a input screen associated with it, you may press the
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778819">
-		<LastChanged>2010-02-05T11:18:10</LastChanged>
+		<LastChanged>2012-01-24T04:08:13</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ScreenMessageTransport</ClassName>
 		<BaseClassName>BaseMessageTransport</BaseClassName>
-		<ClassDesc/>
-		<ClassProjectID>16,777,240</ClassProjectID>
-		<ClassPackage>.message.trx.transport.screen</ClassPackage>
+		<ClassDesc>This is the base class to process an external message.</ClassDesc>
+		<ClassProjectID>16,777,320</ClassProjectID>
+		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>ScreenMessageTransport</ClassSourceFile>
 		<ClassType>transport</ClassType>
 		<ClassExplain/>
@@ -5767,7 +5733,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>MessageLogField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc>Message log ID (Trx ID)</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageLogField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -5784,7 +5750,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>CalendarEntryCalendarScreen</ClassName>
 		<BaseClassName>CalendarScreen</BaseClassName>
 		<ClassDesc>Calendar entry screen</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.screen</ClassPackage>
 		<ClassSourceFile>CalendarEntryCalendarScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6107,7 +6073,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>RequestType</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message request type</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>RequestType</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -6135,7 +6101,7 @@ file.
 		<ClassName>RequestTypeField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>RequestType</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -6152,7 +6118,7 @@ file.
 		<ClassName>ProcessType</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message process type</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>ProcessType</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -6186,7 +6152,7 @@ The current message types are:
 		<ClassName>ProcessTypeField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>ProcessType</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -6203,7 +6169,7 @@ The current message types are:
 		<ClassName>MessageProcessInfo</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message process information</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageProcessInfo</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -6242,7 +6208,7 @@ Since a specific message can be received on any number of transports, you can cl
 		<ClassName>MessageTransportInfo</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message Process Transport Detail</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageTransportInfo</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -6297,7 +6263,7 @@ The <bold>Local</bold> specific message properties are:
 		<ClassName>MessageInfoGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc>Message information</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageInfoScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6340,7 +6306,7 @@ To display the process detail, press the
 		<ClassName>MessageInfoScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc>Message information</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageInfoScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6383,7 +6349,7 @@ To display the process detail, press the
 		<ClassName>MessageTransportInfoGridScreen</ClassName>
 		<BaseClassName>DetailGridScreen</BaseClassName>
 		<ClassDesc>Message Process Transport Detail</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageTransportInfoScreen</ClassSourceFile>
 		<ClassType>screeh</ClassType>
@@ -6438,7 +6404,7 @@ The <bold>Local</bold> specific message properties are:
 		<ClassName>MessageTransportInfoScreen</ClassName>
 		<BaseClassName>DetailScreen</BaseClassName>
 		<ClassDesc>Message Process Transport Detail</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageTransportInfoScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6493,7 +6459,7 @@ The <bold>Local</bold> specific message properties are:
 		<ClassName>MessageProcessInfoGridScreen</ClassName>
 		<BaseClassName>DetailGridScreen</BaseClassName>
 		<ClassDesc>Message process information</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageProcessInfoScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6532,7 +6498,7 @@ Since a specific message can be received on any number of transports, you can cl
 		<ClassName>MessageProcessInfoScreen</ClassName>
 		<BaseClassName>DetailScreen</BaseClassName>
 		<ClassDesc>Message process information</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageProcessInfoScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6571,7 +6537,7 @@ Since a specific message can be received on any number of transports, you can cl
 		<ClassName>MessageProcessInfoField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageProcessInfo</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -6588,7 +6554,7 @@ Since a specific message can be received on any number of transports, you can cl
 		<ClassName>MessageType</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message type</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageType</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -6610,14 +6576,14 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778991">
-		<LastChanged>2010-02-05T11:21:04</LastChanged>
+		<LastChanged>2012-01-18T10:42:48</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MessageTypeField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.msg.db</ClassPackage>
-		<ClassSourceFile>MessageType</ClassSourceFile>
+		<ClassProjectID>16,777,317</ClassProjectID>
+		<ClassPackage>.db.base</ClassPackage>
+		<ClassSourceFile>MessageTypeField</ClassSourceFile>
 		<ClassType>field</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
@@ -6632,7 +6598,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<ClassName>MessageInfoHeaderScreen</ClassName>
 		<BaseClassName>HeaderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageProcessInfoScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6649,7 +6615,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<ClassName>MessageProcessInfoHeaderScreen</ClassName>
 		<BaseClassName>HeaderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageTransportInfoScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6666,7 +6632,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<ClassName>MessageInfoScreenRecord</ClassName>
 		<BaseClassName>ScreenRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.screen</ClassPackage>
 		<ClassSourceFile>MessageInfoScreenRecord</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -6683,7 +6649,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<ClassName>MessageInfoType</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message type</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageInfoType</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -6704,7 +6670,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<ClassName>MessageInfoTypeField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageInfoType</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -6772,7 +6738,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<ClassName>MessageDetailTarget</ClassName>
 		<BaseClassName/>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageDetailTarget</ClassSourceFile>
 		<ClassType>interface</ClassType>
@@ -6789,7 +6755,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<ClassName>CalendarEntryTypeField</ClassName>
 		<BaseClassName>IntegerField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.db</ClassPackage>
 		<ClassSourceFile>CalendarEntryTypeField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -6954,13 +6920,13 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779126">
-		<LastChanged>2011-05-12T21:32:38</LastChanged>
+		<LastChanged>2012-01-18T10:42:38</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ContactTypeLevelOneField</ClassName>
 		<BaseClassName>ContactTypeField</BaseClassName>
 		<ClassDesc>Level one field display</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.msg.db.base</ClassPackage>
+		<ClassProjectID>16,777,317</ClassProjectID>
+		<ClassPackage>.db.base</ClassPackage>
 		<ClassSourceFile>ContactType</ClassSourceFile>
 		<ClassType>field</ClassType>
 		<ClassExplain/>
@@ -6971,7 +6937,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779127">
-		<LastChanged>2011-05-12T21:32:01</LastChanged>
+		<LastChanged>2012-01-18T10:42:05</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ContactField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
@@ -6980,8 +6946,8 @@ Either a Vendor or a Profile.
 Note: This class has a bunch of very specialized logic to take care of
 the fact that a contact can come from the Vendor or the Profile file
 depending on the contact type.]]></ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.msg.db.base</ClassPackage>
+		<ClassProjectID>16,777,317</ClassProjectID>
+		<ClassPackage>.db.base</ClassPackage>
 		<ClassSourceFile>ContactType</ClassSourceFile>
 		<ClassType>field</ClassType>
 		<ClassExplain/>
@@ -7783,7 +7749,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<ClassName>PropertiesInput</ClassName>
 		<BaseClassName>Record</BaseClassName>
 		<ClassDesc>Memory table for inputting properties</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.properties.db</ClassPackage>
 		<ClassSourceFile>PropertiesInput</ClassSourceFile>
 		<ClassType/>
@@ -7800,7 +7766,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<ClassName>PropertiesInputGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.properties.screen</ClassPackage>
 		<ClassSourceFile>PropertiesInputGridScreen</ClassSourceFile>
 		<ClassType/>
@@ -7817,7 +7783,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<ClassName>MessageDetailDefTransHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc>This listener updates the default transport handler for a message detail</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageDetailDefTransHandler</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -7902,7 +7868,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<ClassName>MessageTransportManualSelect</ClassName>
 		<BaseClassName>MessageTransportSelect</BaseClassName>
 		<ClassDesc>Only the manual messages</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageTransportSelect</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7920,7 +7886,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<BaseClassName>MessageProcessInfoField</BaseClassName>
 		<ClassDesc><![CDATA[Display only the manual messages on lookup.
 Override doCommand in your screen to intercept the LOOKUP_WITH_PARAMS command.]]></ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageProcessInfoField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7937,7 +7903,7 @@ Override doCommand in your screen to intercept the LOOKUP_WITH_PARAMS command.]]
 		<ClassName>CalendarControl</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>
 		<ClassDesc>Calendar control</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.db</ClassPackage>
 		<ClassSourceFile>CalendarControl</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7956,7 +7922,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<ClassName>CalendarCategory</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Calendar category entry</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.db</ClassPackage>
 		<ClassSourceFile>CalendarCategory</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7973,7 +7939,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<ClassName>CalendarCategoryField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.db</ClassPackage>
 		<ClassSourceFile>CalendarCategory</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7990,7 +7956,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<ClassName>RepeatIntervalField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.db</ClassPackage>
 		<ClassSourceFile>RepeatInterval</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -8007,7 +7973,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<ClassName>AppointmentGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.screen</ClassPackage>
 		<ClassSourceFile>AppointmentScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8024,7 +7990,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<ClassName>AppointmentScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.screen</ClassPackage>
 		<ClassSourceFile>AppointmentScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8041,7 +8007,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<ClassName>AnnivMasterGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.screen</ClassPackage>
 		<ClassSourceFile>AnnivMasterScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8058,7 +8024,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<ClassName>AnnivMasterHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc>Update the appointment detail when this file is updated</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.db</ClassPackage>
 		<ClassSourceFile>AnnivMaster</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -8078,7 +8044,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 1 - Locally
 2 - Locally as a process
 3 - Remotely]]></ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>RunProcessInField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -8095,7 +8061,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<ClassName>QueueName</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message queues</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>QueueName</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -8112,7 +8078,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<ClassName>QueueNameField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>QueueName</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -8129,7 +8095,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<ClassName>QueueTypeField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc>Queue type</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>QueueName</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -8181,7 +8147,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<BaseClassName>BaseApplication</BaseClassName>
 		<ClassDesc><![CDATA[This application schedules jobs on the calendar queue for execution
 and executes them on the correct dates.]]></ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,322</ClassProjectID>
 		<ClassPackage>.schedule.app</ClassPackage>
 		<ClassSourceFile>JobSchedulerApp</ClassSourceFile>
 		<ClassType>application</ClassType>
@@ -8198,7 +8164,7 @@ and executes them on the correct dates.]]></ClassDesc>
 		<ClassName>JobSchedulerProcess</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,322</ClassProjectID>
 		<ClassPackage>.schedule.app</ClassPackage>
 		<ClassSourceFile>JobSchedulerProcess</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -8249,7 +8215,7 @@ and executes them on the correct dates.]]></ClassDesc>
 		<ClassName>CalendarEntryItem</ClassName>
 		<BaseClassName>CalendarRecordItem</BaseClassName>
 		<ClassDesc>Customize the calendar screen</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,318</ClassProjectID>
 		<ClassPackage>.calendar.screen</ClassPackage>
 		<ClassSourceFile>CalendarEntryCalendarScreen</ClassSourceFile>
 		<ClassType>object</ClassType>
@@ -8266,7 +8232,7 @@ and executes them on the correct dates.]]></ClassDesc>
 		<ClassName>CalendarUpdateProcess</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc>Update this calendar entry to say that it ran.</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,322</ClassProjectID>
 		<ClassPackage>.schedule.app</ClassPackage>
 		<ClassSourceFile>CalendarUpdateProcess</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -8286,7 +8252,7 @@ and executes them on the correct dates.]]></ClassDesc>
 NOTE: Typically there is only one of these.
 In demo deployments, there is one for each sub-domain, so the incoming message
 will be handled using the correct databases.]]></ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.app</ClassPackage>
 		<ClassSourceFile>MessageInfoApplication</ClassSourceFile>
 		<ClassType>application</ClassType>
@@ -8315,13 +8281,13 @@ will be handled using the correct databases.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779275">
-		<LastChanged>2010-02-05T11:18:11</LastChanged>
+		<LastChanged>2012-01-26T19:37:16</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>TrxMessageListener</ClassName>
 		<BaseClassName>BaseMessageListener</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,240</ClassProjectID>
-		<ClassPackage>.message.trx.server</ClassPackage>
+		<ClassPackage>.message.process</ClassPackage>
 		<ClassSourceFile>TrxMessageListener</ClassSourceFile>
 		<ClassType>listener</ClassType>
 		<ClassExplain/>
@@ -8451,13 +8417,13 @@ will be handled using the correct databases.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779346">
-		<LastChanged>2010-02-05T11:18:11</LastChanged>
+		<LastChanged>2012-02-07T19:03:11</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ManualMessage</ClassName>
 		<BaseClassName>TreeMessage</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,240</ClassProjectID>
-		<ClassPackage>.message.trx.message.internal</ClassPackage>
+		<ClassPackage>.message.core.trx.internal</ClassPackage>
 		<ClassSourceFile>ManualMessage</ClassSourceFile>
 		<ClassType>message</ClassType>
 		<ClassExplain/>
@@ -8507,7 +8473,7 @@ will be handled using the correct databases.]]></ClassDesc>
 		<ClassName>UserGroup</ClassName>
 		<BaseClassName>PropertiesRecord</BaseClassName>
 		<ClassDesc>User security group</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserGroup</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -8539,7 +8505,7 @@ button to view the users in the selected group</paragraph></ClassHelp>
 		<ClassName>UserGroupField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserGroup</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -8556,7 +8522,7 @@ button to view the users in the selected group</paragraph></ClassHelp>
 		<ClassName>LoginLevelField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>LoginLevelField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -8573,7 +8539,7 @@ button to view the users in the selected group</paragraph></ClassHelp>
 		<ClassName>UserResource</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>System resource</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserResource</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -8598,7 +8564,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserPermission</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>User permissions to resources</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserPermission</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -8615,7 +8581,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserResourceField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserResource</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -8632,7 +8598,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserInfoGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserInfoScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8649,7 +8615,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>AccessLevelField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>AccessLevelField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -8666,7 +8632,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserScreenRecord</ClassName>
 		<BaseClassName>ScreenRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserScreenRecord</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -8683,7 +8649,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserGroupFilter</ClassName>
 		<BaseClassName>UserGroupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserGroup</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -8700,7 +8666,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserGroupScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserGroupScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8717,7 +8683,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserGroupGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserGroupScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8734,7 +8700,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserPermissionGridScreen</ClassName>
 		<BaseClassName>DetailGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserPermissionScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8751,7 +8717,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserPermissionScreen</ClassName>
 		<BaseClassName>DetailScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserPermissionScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8768,7 +8734,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserResourceScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserResourceScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8785,7 +8751,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserResourceGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserResourceScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8802,7 +8768,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserGroupHeaderScreen</ClassName>
 		<BaseClassName>HeaderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserGroupHeaderScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8819,7 +8785,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserResourceHeaderScreen</ClassName>
 		<BaseClassName>HeaderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserResourceHeaderScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8836,7 +8802,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UpdateGroupPermissionHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UpdateGroupPermissionHandler</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -8853,7 +8819,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UpdateResourcePermissionHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UpdateResourcePermissionHandler</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -8870,7 +8836,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserLoginScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc>User sign in screen</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserLoginScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8887,7 +8853,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserControl</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>
 		<ClassDesc>User Control file</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserControl</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -8906,7 +8872,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserPasswordChange</ClassName>
 		<BaseClassName>UserInfoBaseScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserPasswordChange</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8923,7 +8889,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserEntryScreen</ClassName>
 		<BaseClassName>UserInfoBaseScreen</BaseClassName>
 		<ClassDesc>Create new user account</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserEntryScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8940,7 +8906,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserPasswordHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc>Verify and move the password to the UserInfo record</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserPasswordHandler</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -8974,7 +8940,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserInfoBaseScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc>Base screen for all User Info screens</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserInfoBaseScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -8991,7 +8957,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserLog</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>User log</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserLog</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -9008,7 +8974,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserLogTypeField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc>Log entry type field</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserLogType</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -9025,7 +8991,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UserLogType</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserLogType</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -9042,7 +9008,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>AjaxScreenSession</ClassName>
 		<BaseClassName>Session</BaseClassName>
 		<ClassDesc>Main session for Ajax remote screens</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,321</ClassProjectID>
 		<ClassPackage>.remote</ClassPackage>
 		<ClassSourceFile>AjaxScreenSession</ClassSourceFile>
 		<ClassType>session</ClassType>
@@ -9059,7 +9025,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>UpdatePreferencesHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserInfoScreen</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -9093,7 +9059,7 @@ button to view the resource's user group permissions.</paragraph></ClassHelp>
 		<ClassName>MessageInitialProcess</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.app</ClassPackage>
 		<ClassSourceFile>MessageInitialProcess</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -9225,7 +9191,7 @@ There are several possible source transactions in the system:
 		<ClassName>ShortStringField</ClassName>
 		<BaseClassName>StringField</BaseClassName>
 		<ClassDesc>Short input field for a long string field</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>ShortStringField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -9259,7 +9225,7 @@ There are several possible source transactions in the system:
 		<ClassName>CalcTimeoutTimeHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc>Calc the timeout time for this log entry</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageLog</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -9276,7 +9242,7 @@ There are several possible source transactions in the system:
 		<ClassName>MessageTimeoutProcess</ClassName>
 		<BaseClassName>BaseInternalMessageProcessor</BaseClassName>
 		<ClassDesc>Process the current message timeouts</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.process</ClassPackage>
 		<ClassSourceFile>MessageTimeoutProcess</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -9293,7 +9259,7 @@ There are several possible source transactions in the system:
 		<ClassName>MessageTimeoutScreenRecord</ClassName>
 		<BaseClassName>ScreenRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.process</ClassPackage>
 		<ClassSourceFile>MessageTimeoutScreenRecord</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -9310,7 +9276,7 @@ There are several possible source transactions in the system:
 		<ClassName>NotifyTimeoutProcessHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc>Notify the message timeout process to watch for a timeout on this message.</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>NotifyTimeoutProcess</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -9339,7 +9305,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779456">
-		<LastChanged>2010-02-06T12:59:00</LastChanged>
+		<LastChanged>2012-01-13T08:30:32</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>AnalysisLog</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
@@ -9350,7 +9316,7 @@ There are several possible source transactions in the system:
 		<ClassType>record</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
-		<ClassImplements>AnalysisLogService</ClassImplements>
+		<ClassImplements/>
 		<SeeAlso/>
 		<TechnicalInfo/>
 		<CopyDescFrom/>
@@ -9373,12 +9339,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779463">
-		<LastChanged>2010-02-05T11:21:10</LastChanged>
+		<LastChanged>2012-02-18T09:23:21</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>DWsdlAccessScreen</ClassName>
 		<BaseClassName>DDataAccessScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,324</ClassProjectID>
 		<ClassPackage>.msg.wsdl</ClassPackage>
 		<ClassSourceFile>DWsdlAccessScreen</ClassSourceFile>
 		<ClassType/>
@@ -9407,12 +9373,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779465">
-		<LastChanged>2010-02-05T11:21:11</LastChanged>
+		<LastChanged>2012-02-18T09:23:08</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>CreateWSDL</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,324</ClassProjectID>
 		<ClassPackage>.msg.wsdl</ClassPackage>
 		<ClassSourceFile>CreateWSDL</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -9429,7 +9395,7 @@ There are several possible source transactions in the system:
 		<ClassName>MessageControl</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>
 		<ClassDesc>Message control information</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageControl</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -9441,12 +9407,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779472">
-		<LastChanged>2010-02-05T11:21:11</LastChanged>
+		<LastChanged>2012-02-18T09:24:19</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>GetWSDL</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,324</ClassProjectID>
 		<ClassPackage>.msg.wsdl</ClassPackage>
 		<ClassSourceFile>GetWSDL</ClassSourceFile>
 		<ClassType/>
@@ -9644,23 +9610,6 @@ There are several possible source transactions in the system:
 		<TechnicalInfo/>
 		<CopyDescFrom/>
 	</ClassInfo>
-	<ClassInfo ID="16779500">
-		<LastChanged>2010-02-05T11:21:11</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassName>JobSchedulerReference</ClassName>
-		<BaseClassName/>
-		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.calendar.db</ClassPackage>
-		<ClassSourceFile>JobSchedulerReference</ClassSourceFile>
-		<ClassType>interface</ClassType>
-		<ClassExplain/>
-		<ClassHelp/>
-		<ClassImplements/>
-		<SeeAlso/>
-		<TechnicalInfo/>
-		<CopyDescFrom/>
-	</ClassInfo>
 	<ClassInfo ID="16779501">
 		<LastChanged>2010-06-06T22:09:56</LastChanged>
 		<Deleted>N</Deleted>
@@ -9696,12 +9645,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779505">
-		<LastChanged>2010-02-05T11:21:11</LastChanged>
+		<LastChanged>2012-02-18T09:22:55</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>CreateWSDL20</ClassName>
 		<BaseClassName>CreateWSDL</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,324</ClassProjectID>
 		<ClassPackage>.msg.wsdl</ClassPackage>
 		<ClassSourceFile>CreateWSDL20</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -9713,12 +9662,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779506">
-		<LastChanged>2010-02-05T11:21:11</LastChanged>
+		<LastChanged>2012-02-18T09:22:42</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>CreateWSDL11</ClassName>
 		<BaseClassName>CreateWSDL</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,324</ClassProjectID>
 		<ClassPackage>.msg.wsdl</ClassPackage>
 		<ClassSourceFile>CreateWSDL11</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -9730,12 +9679,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779507">
-		<LastChanged>2010-02-05T11:21:11</LastChanged>
+		<LastChanged>2012-02-18T09:23:50</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>GetWSDL20</ClassName>
 		<BaseClassName>GetWSDLBase</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,324</ClassProjectID>
 		<ClassPackage>.msg.wsdl</ClassPackage>
 		<ClassSourceFile>GetWSDL20</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -9747,12 +9696,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779508">
-		<LastChanged>2010-02-05T11:21:12</LastChanged>
+		<LastChanged>2012-02-18T09:23:36</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>GetWSDL11</ClassName>
 		<BaseClassName>GetWSDLBase</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,324</ClassProjectID>
 		<ClassPackage>.msg.wsdl</ClassPackage>
 		<ClassSourceFile>GetWSDL11</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -9764,12 +9713,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779509">
-		<LastChanged>2010-02-05T11:21:12</LastChanged>
+		<LastChanged>2012-02-18T09:24:04</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>GetWSDLBase</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,324</ClassProjectID>
 		<ClassPackage>.msg.wsdl</ClassPackage>
 		<ClassSourceFile>GetWSDLBase</ClassSourceFile>
 		<ClassType/>
@@ -9820,7 +9769,7 @@ There are several possible source transactions in the system:
 		<ClassName>MessageVersion</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Message version</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageVersion</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -9837,7 +9786,7 @@ There are several possible source transactions in the system:
 		<ClassName>MessageVersionField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,320</ClassProjectID>
 		<ClassPackage>.msg.db</ClassPackage>
 		<ClassSourceFile>MessageVersion</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -10291,13 +10240,13 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779619">
-		<LastChanged>2011-05-12T21:31:49</LastChanged>
+		<LastChanged>2012-01-18T10:41:55</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseStatusSelect</ClassName>
 		<BaseClassName>BaseStatusField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.msg.db.base</ClassPackage>
+		<ClassProjectID>16,777,317</ClassProjectID>
+		<ClassPackage>.db.base</ClassPackage>
 		<ClassSourceFile>BaseStatus</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -10342,15 +10291,15 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779627">
-		<LastChanged>2010-02-05T11:21:12</LastChanged>
+		<LastChanged>2012-01-11T05:16:16</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>DatabaseInfo</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>
 		<ClassDesc>Database information</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>DatabaseInfo</ClassSourceFile>
-		<ClassType>record</ClassType>
+		<ClassType>Record</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
@@ -10364,7 +10313,7 @@ There are several possible source transactions in the system:
 		<ClassName>DatabaseInfoScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>DatabaseInfoScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -10381,7 +10330,7 @@ There are several possible source transactions in the system:
 		<ClassName>DatabaseInfoNameHandler</ClassName>
 		<BaseClassName>FieldListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>DatabaseInfoScreen</ClassSourceFile>
 		<ClassType/>
@@ -10398,7 +10347,7 @@ There are several possible source transactions in the system:
 		<ClassName>HelpPageField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc>Help page preference</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>HelpPageField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -10415,7 +10364,7 @@ There are several possible source transactions in the system:
 		<ClassName>UserContactHandler</ClassName>
 		<BaseClassName>FieldListener</BaseClassName>
 		<ClassDesc>Make sure the user info from the contact is synced with the contact from the userinfo file</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>UserContactHandler</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -10665,7 +10614,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779650">
-		<LastChanged>2010-02-05T11:20:01</LastChanged>
+		<LastChanged>2012-01-10T22:20:30</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassInfoScreenRecord</ClassName>
 		<BaseClassName>ScreenRecord</BaseClassName>
@@ -10733,7 +10682,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779654">
-		<LastChanged>2010-02-13T06:42:31</LastChanged>
+		<LastChanged>2012-01-10T22:17:45</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>CodeTypeField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
@@ -10741,7 +10690,7 @@ There are several possible source transactions in the system:
 		<ClassProjectID>16,777,221</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>CodeTypeField</ClassSourceFile>
-		<ClassType>record</ClassType>
+		<ClassType>field</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
@@ -10823,7 +10772,7 @@ There are several possible source transactions in the system:
 		<ClassName>MainControl</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>MainControl</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -10840,7 +10789,7 @@ There are several possible source transactions in the system:
 		<ClassName>UserRegistrationGridScreen</ClassName>
 		<BaseClassName>DetailGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserRegistrationGridScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -10852,15 +10801,15 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779661">
-		<LastChanged>2010-03-17T10:33:06</LastChanged>
+		<LastChanged>2012-01-11T05:12:51</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>UserInfoHeaderScreen</ClassName>
 		<BaseClassName>HeaderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.user.screen</ClassPackage>
 		<ClassSourceFile>UserInfoScreen</ClassSourceFile>
-		<ClassType>Record</ClassType>
+		<ClassType>ScreenRecord</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
@@ -10869,13 +10818,13 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779662">
-		<LastChanged>2010-03-17T12:10:22</LastChanged>
+		<LastChanged>2012-01-15T14:54:02</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>SetupNewUserHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc>Setup a new user by replicating the user template and the registration that comes with it.</ClassDesc>
-		<ClassProjectID>16,777,217</ClassProjectID>
-		<ClassPackage>.user.screen</ClassPackage>
+		<ClassProjectID>16,777,317</ClassProjectID>
+		<ClassPackage>.user.db</ClassPackage>
 		<ClassSourceFile>SetupNewUserHandler</ClassSourceFile>
 		<ClassType>listener</ClassType>
 		<ClassExplain/>
@@ -10955,15 +10904,15 @@ then display the menu.</ClassExplain>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779668">
-		<LastChanged>2010-05-05T03:57:29</LastChanged>
+		<LastChanged>2012-01-11T04:22:51</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MenusField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,217</ClassProjectID>
+		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>Menus</ClassSourceFile>
-		<ClassType>Record</ClassType>
+		<ClassType>Field</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
@@ -11316,6 +11265,176 @@ previous date was oem]]></ClassDesc>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>SourceHeaderScanListener</ClassSourceFile>
 		<ClassType/>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779690">
+		<LastChanged>2012-01-15T07:37:53</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>Convert</ClassName>
+		<BaseClassName/>
+		<ClassDesc/>
+		<ClassProjectID>16,777,292</ClassProjectID>
+		<ClassPackage/>
+		<ClassSourceFile>Convert</ClassSourceFile>
+		<ClassType>interface</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779691">
+		<LastChanged>2012-01-08T00:24:43</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>IncludeScopeField</ClassName>
+		<BaseClassName>IntegerField</BaseClassName>
+		<ClassDesc>Include scope</ClassDesc>
+		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>IncludeScopeField</ClassSourceFile>
+		<ClassType>Field</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779692">
+		<LastChanged>2012-01-11T16:01:02</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>UserJavaField</ClassName>
+		<BaseClassName>StringPopupField</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,317</ClassProjectID>
+		<ClassPackage>.user.db</ClassPackage>
+		<ClassSourceFile>UserJavaField</ClassSourceFile>
+		<ClassType>Field</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779693">
+		<LastChanged>2012-01-12T15:29:09</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>Message</ClassName>
+		<BaseClassName/>
+		<ClassDesc/>
+		<ClassProjectID>16,777,292</ClassProjectID>
+		<ClassPackage>.message</ClassPackage>
+		<ClassSourceFile>Message</ClassSourceFile>
+		<ClassType>Object</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779694">
+		<LastChanged>2012-01-17T11:05:06</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>Field</ClassName>
+		<BaseClassName/>
+		<ClassDesc/>
+		<ClassProjectID>16,777,292</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>Field</ClassSourceFile>
+		<ClassType>interface</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779695">
+		<LastChanged>2012-01-15T11:27:50</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>Appointment</ClassName>
+		<BaseClassName>CalendarEntry</BaseClassName>
+		<ClassDesc>Appointments</ClassDesc>
+		<ClassProjectID>16,777,318</ClassProjectID>
+		<ClassPackage>.calendar.db</ClassPackage>
+		<ClassSourceFile>Appointment</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779696">
+		<LastChanged>2012-01-17T09:31:01</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>MessageServerActivator</ClassName>
+		<BaseClassName>BaseRemoteSessionActivator</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,320</ClassProjectID>
+		<ClassPackage>.msg.app</ClassPackage>
+		<ClassSourceFile>MessageServerActivator</ClassSourceFile>
+		<ClassType>application</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779697">
+		<LastChanged>2012-01-17T09:34:16</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>BaseRemoteSessionActivator</ClassName>
+		<BaseClassName>BaseBundleService</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+		<ClassPackage>.remote.server</ClassPackage>
+		<ClassSourceFile>BaseRemoteSessionActivator</ClassSourceFile>
+		<ClassType>application</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779698">
+		<LastChanged>2012-01-17T09:43:30</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>RemoteTask</ClassName>
+		<BaseClassName/>
+		<ClassDesc/>
+		<ClassProjectID>16,777,323</ClassProjectID>
+		<ClassPackage/>
+		<ClassSourceFile>RemoteTask</ClassSourceFile>
+		<ClassType>interface</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779699">
+		<LastChanged>2012-01-17T11:04:58</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>ScreenComponent</ClassName>
+		<BaseClassName/>
+		<ClassDesc/>
+		<ClassProjectID>16,777,292</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>ScreenComponent</ClassSourceFile>
+		<ClassType>interface</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>

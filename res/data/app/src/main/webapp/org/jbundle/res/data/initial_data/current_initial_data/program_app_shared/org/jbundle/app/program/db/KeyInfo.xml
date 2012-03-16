@@ -15,6 +15,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="383">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
@@ -32,6 +33,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="420">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
@@ -49,6 +51,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="421">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
@@ -66,6 +69,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="422">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
@@ -83,6 +87,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="423">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
@@ -100,6 +105,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="426">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
@@ -117,6 +123,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="433">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
@@ -134,6 +141,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="434">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
@@ -151,6 +159,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="435">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
@@ -168,6 +177,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="671">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -185,6 +195,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="672">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -202,6 +213,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="673">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -219,6 +231,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="674">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -236,6 +249,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>S</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="713">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -253,6 +267,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="714">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -270,6 +285,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>S</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="715">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -287,6 +303,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="716">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -304,6 +321,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="717">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -321,6 +339,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="718">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -338,6 +357,7 @@
 		<KeyField9/>
 		<KeyName>DancePositionIn</KeyName>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="719">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -355,6 +375,7 @@
 		<KeyField9/>
 		<KeyName>DancePositionOut</KeyName>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="720">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -372,6 +393,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="721">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -389,6 +411,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="730">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -406,6 +429,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="731">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -423,6 +447,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="732">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -440,6 +465,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="733">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -457,6 +483,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="745">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -474,6 +501,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="746">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -491,6 +519,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>S</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="788">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -508,6 +537,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="814">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -525,6 +555,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="815">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -542,6 +573,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="816">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -559,6 +591,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>S</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="817">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -576,6 +609,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="818">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -593,6 +627,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>S</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="819">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -610,6 +645,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="820">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -627,6 +663,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>S</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="822">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -644,6 +681,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="823">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -661,6 +699,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>S</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="824">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -678,6 +717,7 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>U</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="825">
 		<LastChanged>2009-02-12T14:49:22</LastChanged>
@@ -695,5 +735,6 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
+		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 </file>

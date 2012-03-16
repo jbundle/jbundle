@@ -184,15 +184,16 @@ public class TableLink extends Object
         // Note that the right record does NOT get the current record (because you will need the BASE record to do a seek).
         return this.getRightRecord().getField(m_rgiFldRight[iFieldSeq]);
     }
-    public String getLeftFieldNameOrValue(int iFieldSeq, boolean bAddQuotes, boolean bOther)
+    public String getLeftFieldNameOrValue(int iFieldSeq, boolean bAddQuotes, boolean bIncludeFileName)
     {
         if (m_rgiFldLeft.length <= iFieldSeq)
             return null;
+        BaseField field = this.getLeftField(iFieldSeq);
+        if (field != null)
+            return field.getFieldName(bAddQuotes, bIncludeFileName);
         if ((m_rgiFldLeft[iFieldSeq] instanceof String))
             if (!Utility.isNumeric((String)m_rgiFldLeft[iFieldSeq]))
                 return (String)m_rgiFldLeft[iFieldSeq];
-        if (m_rgiFldLeft[iFieldSeq] instanceof Integer)
-            return this.getLeftField(iFieldSeq).getFieldName(bAddQuotes, bOther);
         return m_rgiFldLeft[iFieldSeq].toString();
     }
     /**
