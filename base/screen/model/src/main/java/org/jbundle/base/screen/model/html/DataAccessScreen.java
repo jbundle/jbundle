@@ -101,7 +101,7 @@ public class DataAccessScreen extends BaseScreen
         else if (DBParams.WEBSTART_APPLET_PARAM.equalsIgnoreCase(strDatatype))
             screenClass = "DJnlpAccessScreen";
         else if (DBParams.WSDL_PARAM.equalsIgnoreCase(strDatatype))
-            screenClass = "DWsdlAccessScreen";
+            screenClass = "org.jbundle.main.msg.wsdl.DWsdlAccessScreen";
         else //if (DBParams.IMAGE_PATH.equalsIgnoreCase(strDatatype))
             screenClass = "DObjectAccessScreen";
 
