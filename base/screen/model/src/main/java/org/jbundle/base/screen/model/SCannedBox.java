@@ -356,6 +356,10 @@ public class SCannedBox extends SButtonBox
                         if (this.getScreenFieldView() != null)
                             this.getScreenFieldView().showDocument(strHyperlink, 0);
                 }
+                else if (m_strValue != null)
+                {
+                    m_field.setString(m_strValue);
+                }
                 else
                     return super.doCommand(strCommand, sourceSField, iCommandOptions);    // Command handled
                 return true;    // Command handled

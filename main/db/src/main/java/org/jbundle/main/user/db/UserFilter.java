@@ -83,29 +83,11 @@ public class UserFilter extends ReferenceField
         ScreenComponent screenField = this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, user, UserInfo.USER_NAME_KEY, convName, true, false);
         properties = new HashMap<String,Object>();
         properties.put(ScreenModel.FIELD, this);
-        properties.put(ScreenModel.COMMAND, ThinMenuConstants.HOME);
+        properties.put(ScreenModel.TOOLTIP, ThinMenuConstants.HOME);
+        String userID = ((BaseApplication)this.getRecord().getRecordOwner().getTask().getApplication()).getUserID();
+        properties.put(ScreenModel.VALUE, userID);
         properties.put(ScreenModel.IMAGE, ThinMenuConstants.HOME);
         createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-        /*
-        new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ThinMenuConstants.HOME, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this)
-        {
-            public boolean doCommand(String strCommand, ScreenField sourceSField, int iCommandOptions)
-            {
-                boolean bHandled = false;
-                if (ThinMenuConstants.HOME.equals(strCommand))
-                {
-                    bHandled = true;
-                    String strUserID = ((BaseApplication)getField().getRecord().getRecordOwner().getTask().getApplication()).getUserID();
-                    if (strUserID != null)
-                        if (strUserID.length() > 0)
-                            getField().setString(strUserID, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
-                }
-                if (!bHandled)
-                    bHandled = super.doCommand(strCommand, sourceSField, iCommandOptions);
-                return bHandled;
-            }
-        };
-         */        
         return screenField;
     }
 

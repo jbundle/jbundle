@@ -1207,7 +1207,8 @@ public class BaseField extends FieldInfo
     {
         String keyAreaName = null;
         if (iQueryKeySeq != -1)
-            keyAreaName = this.getRecord().getKeyArea(iQueryKeySeq).getKeyName();
+            if (this.getRecord().getKeyArea(iQueryKeySeq) != null)
+                keyAreaName = this.getRecord().getKeyArea(iQueryKeySeq).getKeyName();
         String displayFieldName = null;
         if (iDisplayFieldSeq != -1)
             displayFieldName = record.getField(iDisplayFieldSeq).getFieldName();
