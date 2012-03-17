@@ -15,8 +15,8 @@ import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.db.event.FileRemoveBOnCloseHandler;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.model.screen.GridComponent;
 import org.jbundle.model.screen.GridScreenParent;
-import org.jbundle.model.screen.ScreenComponent;
 
 /**
  * Reselect a grid screen when this field changes.
@@ -33,7 +33,7 @@ public class FieldReSelectHandler extends FieldListener
     /**
      * The grid screen to reselect on change.
      */
-    protected ScreenComponent m_sPopupBox = null;
+    protected GridComponent m_sPopupBox = null;
 
     /**
      * Constructor.
@@ -55,7 +55,7 @@ public class FieldReSelectHandler extends FieldListener
      * Constructor.
      * @param gridScreen The grid screen to reselect on change.
      */
-    public FieldReSelectHandler(ScreenComponent sPopupBox)
+    public FieldReSelectHandler(GridComponent sPopupBox)
     { // For this to work right, the field needs a listener to re-select this file whenever it changes
         this();
         this.init(null, null, sPopupBox);
@@ -65,7 +65,7 @@ public class FieldReSelectHandler extends FieldListener
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      * @param gridScreen The grid screen to reselect on change.
      */
-    public void init(BaseField field, GridScreenParent gridScreen, ScreenComponent sPopupBox)
+    public void init(BaseField field, GridScreenParent gridScreen, GridComponent sPopupBox)
     {
         super.init(field);
         m_gridScreen = gridScreen;
@@ -104,8 +104,8 @@ public class FieldReSelectHandler extends FieldListener
     {
         if (m_gridScreen != null)
             m_gridScreen.reSelectRecords();
-//        if (m_sPopupBox != null)
-//            m_sPopupBox.reSelectRecords();
+        if (m_sPopupBox != null)
+            m_sPopupBox.reSelectRecords();
         return DBConstants.NORMAL_RETURN;
     }
 } 

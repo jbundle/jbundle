@@ -13,6 +13,7 @@ package org.jbundle.base.screen.model;
 import java.util.Map;
 
 import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.model.screen.GridComponent;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -31,6 +32,7 @@ import org.jbundle.thin.base.db.Converter;
  * @author    Don Corley
  */
 public class SPopupBox extends ScreenField
+    implements GridComponent
 {
     public static final int MAX_POPUP_ITEMS = 100; // ** HACK ** Increase this to 250
 
