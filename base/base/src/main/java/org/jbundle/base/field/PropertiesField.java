@@ -323,7 +323,7 @@ public class PropertiesField extends MemoField
             {
                 properties = new HashMap<String,Object>();
                 properties.put(ScreenModel.DISPLAY_STRING, strDisplay);
-                createScreenComponent(ScreenModel.STATIC_STRING, descLocation, targetScreen, converter, iDisplayFieldDesc, properties);
+                createScreenComponent(ScreenModel.STATIC_STRING, descLocation, targetScreen, null, iDisplayFieldDesc, properties);
             }
         }
         else
