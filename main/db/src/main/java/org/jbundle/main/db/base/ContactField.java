@@ -175,13 +175,12 @@ public class ContactField extends ReferenceField
         ScreenComponent sfDesc = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, convContactName, iDisplayFieldDesc, properties);
         sfDesc.setEnabled(false);
         // Add the lookup button and form (opt) button (Even though SSelectBoxes don't use converter, pass it, so field.enable(true), etc will work)
-        properties = new HashMap<String,Object>();
-        properties.put(ScreenModel.RECORD, m_recVendor);
-        properties.put(ScreenModel.COMMAND, ThinMenuConstants.LOOKUP);
-        properties.put(ScreenModel.IMAGE, ThinMenuConstants.LOOKUP);
-        createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_DESC, properties);
-        /* ??
-        new SSelectBox(, targetScreen, converter, , m_recVendor)
+        //properties = new HashMap<String,Object>();
+        //properties.put(ScreenModel.RECORD, m_recVendor);
+        //properties.put(ScreenModel.COMMAND, ThinMenuConstants.LOOKUP);
+        //properties.put(ScreenModel.IMAGE, ThinMenuConstants.LOOKUP);
+        //screenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_DESC, properties);
+        new SCannedBox((ScreenLocation)targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), (BasePanel)targetScreen, (Converter)converter, ThinMenuConstants.LOOKUP, ScreenConstants.DONT_DISPLAY_DESC, m_recVendor)
         {
             public Record getRecord()
             {
@@ -194,7 +193,6 @@ public class ContactField extends ReferenceField
                 return m_record;
             }
         };
-        */
         return screenField;
     }
     /**
