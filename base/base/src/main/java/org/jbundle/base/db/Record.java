@@ -3338,6 +3338,16 @@ public class Record extends FieldList
     			strArchiveFolder = this.getTable().getDatabase().getProperty(DBConstants.ARCHIVE_FOLDER);
         }
         if ((strArchiveFolder == null) || (strArchiveFolder.length() == 0))
+            if (this.getRecordOwner() != null)
+        {
+            if ((this.getDatabaseType() & DBConstants.USER_DATA) != 0)
+                strArchiveFolder = this.getRecordOwner().getProperty(DBConstants.USER_ARCHIVE_FOLDER);
+            else
+                strArchiveFolder = this.getRecordOwner().getProperty(DBConstants.SHARED_ARCHIVE_FOLDER);
+            if (strArchiveFolder == null)
+                strArchiveFolder = this.getRecordOwner().getProperty(DBConstants.ARCHIVE_FOLDER);
+        }
+        if ((strArchiveFolder == null) || (strArchiveFolder.length() == 0))
             strArchiveFolder = DBConstants.DEFAULT_ARCHIVE_FOLDER;
         String tableDomain = this.getClass().getName();
         if ((tableDomain.indexOf('.') != -1)
