@@ -64,7 +64,7 @@ public class SStaticString extends ScreenField
             m_StaticString = (String)properties.get(ScreenModel.DISPLAY_STRING);
         if (m_StaticString == null)
             m_StaticString = DBConstants.BLANK;
-        super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
+        super.init(itsLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_DESC, properties);
     }
     /**
      * Initialize.

@@ -13,6 +13,7 @@ package org.jbundle.base.field;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.ScreenModel;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.Convert;
@@ -191,7 +192,7 @@ public abstract class NumberField extends BaseField
                 if (task == null)
                     task = BaseApplet.getSharedInstance();
                 if (task == null)
-                    return -1;
+                    return DBConstants.ERROR_RETURN;
                 return task.setLastError(strError);
             }
         }

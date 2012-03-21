@@ -12,6 +12,7 @@ package org.jbundle.base.screen.view.swing;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -179,13 +180,13 @@ public class VImageView extends VScreenField
     {
         if (this.getScreenField().getConverter() == null)
             return DBConstants.NORMAL_RETURN;
-        if (objValue instanceof SerializableImage)
-            objValue = new ImageIcon(((SerializableImage)objValue).getImage());
-        if (!(objValue instanceof ImageIcon))
+        if (objValue instanceof ImageIcon)
+            objValue = new SerializableImage(((ImageIcon)objValue).getImage());
+        else if (objValue instanceof Image)
+            objValue = new SerializableImage((Image)objValue);
+        if (!(objValue instanceof SerializableImage))
             objValue = null;
-        if (objValue != null)
-            System.out.println("Error: .............Trying to set a imageicon...............");
-        return this.getScreenField().getConverter().setData((ImageIcon)objValue, bDisplayOption, iMoveMode);
+        return this.getScreenField().getConverter().setData(objValue, bDisplayOption, iMoveMode);
     }
     /**
      * Get this field's current state in an object that can be used to set this

@@ -8,13 +8,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.ScreenModel;
+import org.jbundle.model.Task;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.util.SerializableImage;
 
 
@@ -126,7 +129,19 @@ public class ImageField extends ObjectField
         //if (data instanceof ImageIcon)
         //    data = new SerializableImage(((ImageIcon)data).getImage());
         if ((data != null) && (!(data instanceof SerializableImage)))
-            System.out.println("Error - Incorrect image format, must be a SerializableImage");   // TODO - Get rid of this
+        {
+            String strError = "Error - Incorrect image format, must be a SerializableImage";
+            System.out.println(strError);   // TODO - Get rid of this
+            Task task = null;
+            if (this.getRecord() != null)
+                if (this.getRecord().getRecordOwner() != null)
+                    task = this.getRecord().getRecordOwner().getTask();
+            if (task == null)
+                task = BaseApplet.getSharedInstance();
+            if (task == null)
+                return DBConstants.ERROR_RETURN;
+            return task.setLastError(strError);
+        }
         return super.setData(data, bDisplayOption, iMoveMode);
     }
 } 

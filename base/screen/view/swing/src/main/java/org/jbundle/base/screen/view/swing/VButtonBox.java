@@ -149,17 +149,15 @@ public class VButtonBox extends VBaseButton
     {
         if (control != null)
         {
-        	if (this.getScreenField().getConverter() != null)
-        	{
-        	    if (((Converter)this.getScreenField().getConverter()).getBitmap() != null)
+        	if ((this.getScreenField().getConverter() != null) && (((Converter)this.getScreenField().getConverter()).getBitmap() != null))
         	        ((JButton)control).setIcon(this.loadImageIcon(((Converter)this.getScreenField().getConverter()).getBitmap(), null));
-            }
             else
             {
                 if (objValue instanceof ImageIcon)
                     ((JButton)control).setIcon((ImageIcon)objValue);
                 else if (objValue instanceof SerializableImage)
-                    ((JButton)control).setIcon(new ImageIcon(((SerializableImage)objValue).getImage()));
+                    if (((SerializableImage)objValue).getImage() != null)
+                        ((JButton)control).setIcon(new ImageIcon(((SerializableImage)objValue).getImage()));
             }
     	}
     }

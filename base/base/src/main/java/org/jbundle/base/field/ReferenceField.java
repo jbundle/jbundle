@@ -309,7 +309,7 @@ public class ReferenceField extends RecordReferenceField
             FieldConverter fldDescConverter = new FieldDescConverter(fldDisplayFieldDesc, (Converter)converter);
             Map<String,Object> properties = new HashMap<String,Object>();
             properties.put(ScreenModel.IMAGE, ScreenModel.CLEAR);
-            createScreenComponent(ScreenModel.BUTTON_BOX, itsLocation, targetScreen, fldDescConverter, iDisplayFieldDesc, properties);
+            screenField = createScreenComponent(ScreenModel.BUTTON_BOX, itsLocation, targetScreen, fldDescConverter, iDisplayFieldDesc, properties);
             //?{
             //?    public void setEnabled(boolean bEnabled)
             //?    {
