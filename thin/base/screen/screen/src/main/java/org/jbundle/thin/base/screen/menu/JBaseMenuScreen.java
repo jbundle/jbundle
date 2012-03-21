@@ -17,6 +17,7 @@ import java.awt.GridBagLayout;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
@@ -220,7 +221,7 @@ public class JBaseMenuScreen extends JScreen
         String strLink = this.getMenuLink(record);
 
         String strIcon = this.getMenuIcon(record);
-        strIcon = BaseApplet.getSharedInstance().getImageFilename(strIcon, "icons");
+        strIcon = Util.getImageFilename(strIcon, "icons");
 
         JUnderlinedButton button = null;
         if (strIcon == null)

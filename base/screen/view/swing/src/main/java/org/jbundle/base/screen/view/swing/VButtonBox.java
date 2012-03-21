@@ -11,6 +11,7 @@ package org.jbundle.base.screen.view.swing;
  */
 import java.awt.Color;
 import java.awt.Component;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,7 +20,9 @@ import javax.swing.border.LineBorder;
 
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.screen.model.SButtonBox;
+import org.jbundle.base.screen.model.SImageView;
 import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.model.db.Field;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.screen.util.SerializableImage;
@@ -148,16 +151,29 @@ public class VButtonBox extends VBaseButton
     public void setComponentState(Object control, Object objValue)
     {
         if (control != null)
+            if (this.getScreenField().getConverter() != null)
         {
-        	if ((this.getScreenField().getConverter() != null) && (((Converter)this.getScreenField().getConverter()).getBitmap() != null))
+        	if (((Converter)this.getScreenField().getConverter()).getBitmap() != null)
         	        ((JButton)control).setIcon(this.loadImageIcon(((Converter)this.getScreenField().getConverter()).getBitmap(), null));
             else
             {
+                Field field = null;
+                if (this.getScreenField().getConverter() != null)
+                    field = this.getScreenField().getConverter().getField();
+                for (int i = 0; ; i++)
+                {   // Not happy with this logic - If image is already displayed, this is a button.
+                    if (field.getComponent(i) == null)
+                        break;
+                    if (field.getComponent(i) instanceof SImageView)
+                        return;
+                }
                 if (objValue instanceof ImageIcon)
                     ((JButton)control).setIcon((ImageIcon)objValue);
-                else if (objValue instanceof SerializableImage)
-                    if (((SerializableImage)objValue).getImage() != null)
+                else if ((objValue instanceof SerializableImage)
+                    && (((SerializableImage)objValue).getImage() != null))
                         ((JButton)control).setIcon(new ImageIcon(((SerializableImage)objValue).getImage()));
+                else if (objValue instanceof URL)
+                    ((JButton)control).setIcon(new ImageIcon((URL)objValue));
             }
     	}
     }
@@ -170,7 +186,8 @@ public class VButtonBox extends VBaseButton
     {
     	if (this.getScreenField().getConverter() != null)
     		if ((this.getScreenField().getConverter().getData() instanceof ImageIcon)
-    				|| (this.getScreenField().getConverter().getData() instanceof SerializableImage))
+    				|| (this.getScreenField().getConverter().getData() instanceof SerializableImage)
+    		        || (this.getScreenField().getConverter().getData() instanceof URL))
     			return this.getScreenField().getConverter().getData();
         Object state = super.getFieldState();
         if (state == null)

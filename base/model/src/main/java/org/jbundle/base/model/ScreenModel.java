@@ -69,6 +69,7 @@ public interface ScreenModel extends ComponentParent {
     public static final String OPEN = "Open";
     public static final String EDIT = "Edit";
     public static final String CLEAR = "Clear";
+    public static final String NONE = "None";
 
     /**
      * Output this complete report to the output file.

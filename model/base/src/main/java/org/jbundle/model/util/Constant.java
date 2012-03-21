@@ -64,6 +64,10 @@ public interface Constant
     public static final String THIN_SUBPACKAGE = "thin.";   // All thin are in this package
     public static final String RES_SUBPACKAGE = "res.";     // All resources are in this package
 
+    public static final String RES_LOCATION = "org/jbundle/res";
+    public static final String IMAGE_LOCATION = RES_LOCATION + "/images";
+    public static final String DOC_LOCATION = RES_LOCATION + "/docs";
+
     public static final int FIRST_YEAR = 1970;  // 1970
     public static final long KMS_IN_A_DAY = 24 * 60 * 60 * 1000;    // Milliseconds in a day
 

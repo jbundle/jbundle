@@ -26,12 +26,14 @@ import org.jbundle.base.field.event.ReadSecondaryHandler;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.ScreenModel;
+import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.GridScreenParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
+import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 
@@ -284,8 +286,13 @@ public class ReferenceField extends RecordReferenceField
                 {
                     String NONE = "None";
                     if (getRecord().getTask() != null)
+                    {
+                        BaseAppletReference reference = null;
+                        if (getRecord().getTask() instanceof BaseAppletReference)
+                            reference = (BaseAppletReference)getRecord().getTask();
                         if (getRecord().getTask().getApplication() != null)
-                            NONE_BUTTON = getRecord().getTask().getApplication().getResourceURL(NONE, null);
+                            NONE_BUTTON = getRecord().getTask().getApplication().getResourceURL(Util.getImageFilename(NONE, "buttons"), reference);
+                    }
                 }
                 return NONE_BUTTON;
             }
@@ -308,7 +315,7 @@ public class ReferenceField extends RecordReferenceField
         {    // The next two lines are so in GridScreen(s), the converter leads to this field, while it displays the fielddesc.
             FieldConverter fldDescConverter = new FieldDescConverter(fldDisplayFieldDesc, (Converter)converter);
             Map<String,Object> properties = new HashMap<String,Object>();
-            properties.put(ScreenModel.IMAGE, ScreenModel.CLEAR);
+            properties.put(ScreenModel.IMAGE, ScreenModel.NONE);
             screenField = createScreenComponent(ScreenModel.BUTTON_BOX, itsLocation, targetScreen, fldDescConverter, iDisplayFieldDesc, properties);
             //?{
             //?    public void setEnabled(boolean bEnabled)

@@ -592,8 +592,23 @@ public class Util extends Object
    public static final String PROPERTIES = ".properties";
    /**
     * Get this image's full filename.
+    * @param filename The filename of this image (if no path, assumes images/buttons; if not ext assumes .gif).
+    * @param strSubDirectory The sub-directory.
+    * @return The full (relative) filename for this image.
+    */
+   public static String getImageFilename(String strFilename, String strSubDirectory)
+   {
+       if ((strFilename == null) || (strFilename.length() == 0))
+           return null;    // A null will tell a JButton not to load an image
+       if (strFilename.indexOf('.') == -1)
+           strFilename += ".gif";
+       strFilename = Util.getFullFilename(strFilename, strSubDirectory, Constant.IMAGE_LOCATION, true);
+       return strFilename;
+   }
+   /**
+    * Get this image's full filename.
  * @param strSubDirectory The sub-directory.
- * @param fixRelativePaths TODO
+ * @param fixRelativePaths Fix the relative paths
  * @param filename The filename of this image (if no path, assumes images/buttons; if not ext assumes .gif).
     * @return The full (relative) filename for this image.
     */

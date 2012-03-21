@@ -639,7 +639,7 @@ public class BaseApplet extends JApplet
      */
     public ImageIcon loadImageIcon(String filename, String description)
     {
-        filename = this.getImageFilename(filename);
+        filename = Util.getImageFilename(filename, "buttons");
         URL url = null;
         if (this.getApplication() != null)
             url = this.getApplication().getResourceURL(filename, this);
@@ -653,28 +653,6 @@ public class BaseApplet extends JApplet
             }
         }
         return new ImageIcon(url, description);
-    }
-    /**
-     * Get this image, then redisplay sField when you're done.
-     */
-    public String getImageFilename(String strFilename)
-    {
-        return this.getImageFilename(strFilename, "buttons");
-    }
-    /**
-     * Get this image's full filename.
-     * @param filename The filename of this image (if no path, assumes images/buttons; if not ext assumes .gif).
-     * @param strSubDirectory The sub-directory.
-     * @return The full (relative) filename for this image.
-     */
-    public String getImageFilename(String strFilename, String strSubDirectory)
-    {
-        if ((strFilename == null) || (strFilename.length() == 0))
-            return null;    // A null will tell a JButton not to load an image
-        if (strFilename.indexOf('.') == -1)
-            strFilename += ".gif";
-        strFilename = Util.getFullFilename(strFilename, strSubDirectory, Constants.IMAGE_LOCATION, true);
-        return strFilename;
     }
     /**
      * Get the initial applet or the initial application instance.
