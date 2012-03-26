@@ -246,7 +246,7 @@
                 </jarResource>
                 <jarResource>
                   <groupId>org.jbundle.main</groupId>
-                  <artifactId>org.jbundle.main.misc</artifactId>
+                  <artifactId>org.jbundle.main.screen</artifactId>
                   <version>${project.version}</version>
                 </jarResource>
                 <jarResource>

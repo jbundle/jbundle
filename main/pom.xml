@@ -21,7 +21,7 @@
   <modules>
     <module>calendar</module>
     <module>db</module>
-    <module>misc</module>
+    <module>screen</module>
     <module>msg</module>
     <module>msg.wsdl</module>
     <module>remote</module>

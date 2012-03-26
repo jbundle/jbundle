@@ -9,8 +9,8 @@
   </parent>
 
   <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
-  <artifactId>org.jbundle.main.misc</artifactId>
-  <name>jbundle-main-misc</name>
+  <artifactId>org.jbundle.main.screen</artifactId>
+  <name>jbundle-main-screen</name>
   <packaging>bundle</packaging>
 
   <build>
