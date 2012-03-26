@@ -16,8 +16,6 @@ import org.jbundle.base.db.filter.*;
 import org.jbundle.base.field.*;
 import org.jbundle.base.field.convert.*;
 import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.model.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
@@ -93,10 +91,10 @@ public class Anniversary extends CalendarEntry
             // Disconnect recAnnivMaster and free this
             ((ReferenceField)this.getField(Anniversary.ANNIV_MASTER_ID)).setReferenceRecord(null);
             this.free();
-            return recAnnivMaster.makeScreen((ScreenLocation)itsLocation, (BasePanel)parentScreen, iDocMode, properties);
+            return recAnnivMaster.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         }
         else
-            screen = super.makeScreen((ScreenLocation)itsLocation, (BasePanel)parentScreen, iDocMode, properties);
+            screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
     }
     /**

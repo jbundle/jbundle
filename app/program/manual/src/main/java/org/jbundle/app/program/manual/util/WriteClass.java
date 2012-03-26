@@ -313,6 +313,7 @@ public class WriteClass extends BaseProcess
         ClassFields recClassFields = null;
         try   {
         	ClassInfo recClassInfo = (ClassInfo)this.getMainRecord();
+        	String classType = recClassInfo.getField(ClassInfo.CLASS_TYPE).toString();
             String strPackage = this.getPackage(codeType);
             m_StreamOut.writeit("package " + strPackage + ";\n\n");
             m_IncludeNameList.addName(strPackage);     // Don't include this!!!
@@ -330,8 +331,11 @@ public class WriteClass extends BaseProcess
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.field");     // Don't include this!!!
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.field.convert");     // Don't include this!!!
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.field.event");   // Don't include this!!!
-                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.screen.model");      // Don't include this!!!
-                m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.screen.model.util");     // Don't include this!!!
+                if (("Screen".equalsIgnoreCase(classType)) || ("Report".equalsIgnoreCase(classType)))
+                {
+                    m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.screen.model");      // Don't include this!!!
+                    m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.screen.model.util");     // Don't include this!!!
+                }
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.model");      // Don't include this!!!
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.util");      // Don't include this!!!
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "model");      // Don't include this!!!

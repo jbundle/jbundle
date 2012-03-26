@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.jbundle.app.program.db.ClassProject;
 import org.jbundle.app.program.db.ClassResource;
-import org.jbundle.app.program.db.LogicFile;
 import org.jbundle.app.program.db.ProgramControl;
 import org.jbundle.app.program.resource.db.ResourceTypeField;
 import org.jbundle.app.program.resource.screen.WriteResources;

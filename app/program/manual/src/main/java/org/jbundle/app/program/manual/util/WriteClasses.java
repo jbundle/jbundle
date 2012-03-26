@@ -140,7 +140,7 @@ public class WriteClasses extends Screen
                 String strRecordType = classInfo.getField(ClassInfo.CLASS_TYPE).getString();
                 if (strRecordType.length() == 0)
                     strRecordType = " ";
-                String strPackage =  classInfo.getField(ClassInfo.CLASS_PACKAGE).getString();
+                //String strPackage =  classInfo.getField(ClassInfo.CLASS_PACKAGE).getString();
                 String strFileName = classInfo.getField(ClassInfo.CLASS_SOURCE_FILE).getString();
                 Record classProject = ((ReferenceField)classInfo.getField(ClassInfo.CLASS_PROJECT_ID)).getReference();
                 if (classProject != null)

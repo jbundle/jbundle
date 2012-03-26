@@ -16,8 +16,6 @@ import org.jbundle.base.db.filter.*;
 import org.jbundle.base.field.*;
 import org.jbundle.base.field.convert.*;
 import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.model.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
@@ -30,6 +28,7 @@ import org.jbundle.thin.base.remote.*;
 import java.io.*;
 import org.jbundle.base.screen.control.servlet.xml.*;
 import org.jbundle.thin.base.screen.*;
+import org.jbundle.base.screen.model.*;
 
 /**
  *  AjaxScreenSession - Main session for Ajax remote screens.

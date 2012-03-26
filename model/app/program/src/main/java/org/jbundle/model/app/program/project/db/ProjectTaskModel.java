@@ -39,6 +39,8 @@ public interface ProjectTaskModel extends FolderModel
     public static final String PROJECT_TASK_CALENDAR_SCREEN = "Project Calendar";
     public static final String PROJECT_TASK_SCREEN_CLASS = "org.jbundle.app.program.project.screen.ProjectTaskScreen";
     public static final String PROJECT_TASK_GRID_SCREEN_CLASS = "org.jbundle.app.program.project.screen.ProjectTaskGridScreen";
+    public static final String PROJECT_TASK_PREDECESSOR_GRID_CLASS = "org.jbundle.app.program.project.screen.ProjectTaskPredecessorGridScreen";
+    public static final String PROJECT_TASK_CALENDAR_CLASS = "org.jbundle.app.program.project.screen.ProjectTaskCalendar";
 
     public static final String PROJECT_TASK_FILE = "ProjectTask";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.project.db.ProjectTask";

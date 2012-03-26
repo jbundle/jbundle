@@ -34,6 +34,7 @@ public interface IssueModel extends Rec
     public static final String CLASS_INFO_ID_KEY = "ClassInfoID";
     public static final String ISSUE_SCREEN_CLASS = "org.jbundle.app.program.issue.screen.IssueScreen";
     public static final String ISSUE_GRID_SCREEN_CLASS = "org.jbundle.app.program.issue.screen.IssueGridScreen";
+    public static final String ISSUE_HISTORY_GRID_SCREEN_CLASS = "org.jbundle.app.program.issue.screen.IssueHistoryGridScreen";
 
     public static final String ISSUE_FILE = "Issue";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.issue.db.Issue";

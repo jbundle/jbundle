@@ -1,9 +1,9 @@
 /**
- * @(#)UserInfoHeaderScreen.
+ * @(#)SContactButtonBox.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.main.user.screen;
+package org.jbundle.main.screen;
 
 import java.awt.*;
 import java.util.*;
@@ -16,24 +16,24 @@ import org.jbundle.base.db.filter.*;
 import org.jbundle.base.field.*;
 import org.jbundle.base.field.convert.*;
 import org.jbundle.base.field.event.*;
+import org.jbundle.base.screen.model.*;
+import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.model.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.main.user.db.*;
+import org.jbundle.main.db.base.*;
 
 /**
- *  UserInfoHeaderScreen - .
+ *  SContactButtonBox - Button for a contact lookup.
  */
-public class UserInfoHeaderScreen extends HeaderScreen
+public class SContactButtonBox extends SCannedBox
 {
     /**
      * Default constructor.
      */
-    public UserInfoHeaderScreen()
+    public SContactButtonBox()
     {
         super();
     }
@@ -44,7 +44,7 @@ public class UserInfoHeaderScreen extends HeaderScreen
      * @param fieldConverter The field this screen field is linked to.
      * @param iDisplayFieldDesc Do I display the field desc?.
      */
-    public UserInfoHeaderScreen(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
+    public SContactButtonBox(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
         this();
         this.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
@@ -57,11 +57,25 @@ public class UserInfoHeaderScreen extends HeaderScreen
         super.init(itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
-     * SetupSFields Method.
+     * Get the screen display title.
      */
-    public void setupSFields()
+    public String getTitle()
     {
-        this.getRecord(UserInfo.USER_INFO_FILE).getField(UserInfo.USER_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        return "Button for a contact lookup";
+    }
+    /**
+     * GetRecord Method.
+     */
+    public Record getRecord()
+    {
+        ContactField field = (ContactField)m_field;
+        if (field.getContactTypeField() != null)
+        {
+            String strContactTypeID = field.getContactTypeField().toString();
+            if (field.PROFILE_CONTACT_TYPE_ID.equals(strContactTypeID))
+                return field.m_recProfile;
+        }
+        return m_record;
     }
 
 }

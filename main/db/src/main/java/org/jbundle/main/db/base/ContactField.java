@@ -16,13 +16,12 @@ import org.jbundle.base.db.filter.*;
 import org.jbundle.base.field.*;
 import org.jbundle.base.field.convert.*;
 import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.model.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
+import org.jbundle.model.message.*;
 import org.jbundle.main.db.*;
 
 /**
@@ -34,10 +33,11 @@ depending on the contact type..
  */
 public class ContactField extends ReferenceField
 {
-    protected Company m_recVendor = null;
-    protected Company m_recProfile = null;
-    protected String VENDOR_CONTACT_TYPE_ID;
-    protected String PROFILE_CONTACT_TYPE_ID;
+    public static final String CONTACT_BUTTON_BOX = "org.jbundle.main.screen.SContactButtonBox";
+    public Company m_recVendor = null;
+    public Company m_recProfile = null;
+    public String VENDOR_CONTACT_TYPE_ID;
+    public String PROFILE_CONTACT_TYPE_ID;
     /**
      * Default constructor.
      */
@@ -175,24 +175,11 @@ public class ContactField extends ReferenceField
         ScreenComponent sfDesc = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocation, targetScreen, convContactName, iDisplayFieldDesc, properties);
         sfDesc.setEnabled(false);
         // Add the lookup button and form (opt) button (Even though SSelectBoxes don't use converter, pass it, so field.enable(true), etc will work)
-        //properties = new HashMap<String,Object>();
-        //properties.put(ScreenModel.RECORD, m_recVendor);
-        //properties.put(ScreenModel.COMMAND, ThinMenuConstants.LOOKUP);
-        //properties.put(ScreenModel.IMAGE, ThinMenuConstants.LOOKUP);
-        //screenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_DESC, properties);
-        new SCannedBox((ScreenLocation)targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), (BasePanel)targetScreen, (Converter)converter, ThinMenuConstants.LOOKUP, ScreenConstants.DONT_DISPLAY_DESC, m_recVendor)
-        {
-            public Record getRecord()
-            {
-                if (getContactTypeField() != null)
-                {
-                    String strContactTypeID = getContactTypeField().toString();
-                    if (PROFILE_CONTACT_TYPE_ID.equals(strContactTypeID))
-                        return m_recProfile;
-                }
-                return m_record;
-            }
-        };
+        properties = new HashMap<String,Object>();
+        properties.put(ScreenModel.FIELD, this);
+        properties.put(ScreenModel.COMMAND, ThinMenuConstants.LOOKUP);
+        properties.put(ScreenModel.IMAGE, ThinMenuConstants.LOOKUP);
+        screenField = createScreenComponent(CONTACT_BUTTON_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_DESC, properties);
         return screenField;
     }
     /**

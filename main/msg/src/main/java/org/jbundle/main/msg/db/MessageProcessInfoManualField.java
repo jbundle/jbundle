@@ -16,8 +16,6 @@ import org.jbundle.base.db.filter.*;
 import org.jbundle.base.field.*;
 import org.jbundle.base.field.convert.*;
 import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.model.*;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
@@ -76,9 +74,9 @@ public class MessageProcessInfoManualField extends MessageProcessInfoField
             Object comp = converter.getField().getComponent(i);
             if (comp == null)
                 break;
-            if (comp instanceof SCannedBox)
+            if (comp instanceof ScreenComponent)
             {
-                ((SCannedBox)comp).free();
+                ((ScreenComponent)comp).free();
                 i--;
             }
         }
