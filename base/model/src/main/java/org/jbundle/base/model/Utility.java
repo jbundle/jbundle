@@ -38,9 +38,11 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.Task;
 import org.jbundle.model.db.Field;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
+import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.util.ThinUtil;
 import org.w3c.dom.Node;
 
@@ -780,5 +782,27 @@ public class Utility extends ThinUtil
      	else if ((path.length() > 1) && (path.endsWith("/")))
      		path = path.substring(0, path.length() -1);
     	return path;
+    }
+    /**
+     * Get the path to the target servlet.
+     * @param strServletParam The servlet type (html or xml)
+     * @return the servlet path.
+     */
+    public static String getServletPath(Task task, String strServletParam)
+    {
+        String strServletName = null;
+        if (strServletParam == null)
+            strServletParam = Params.SERVLET;
+        if (task != null)
+            strServletName = task.getProperty(strServletParam);
+        if ((strServletName == null) || (strServletName.length() == 0))
+        {
+            strServletName = Constants.DEFAULT_SERVLET;
+ //?            if (this.getTask() instanceof RemoteRecordOwner)
+ //?             strServletName = strServletName + "xsl";    // Special case - if task is a session, servlet should be tourappxsl
+            if (Params.XHTMLSERVLET.equalsIgnoreCase(strServletParam))
+                strServletName = Constants.DEFAULT_XHTML_SERVLET;
+        }
+        return strServletName;
     }
 }

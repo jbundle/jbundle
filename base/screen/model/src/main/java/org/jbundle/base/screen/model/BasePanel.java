@@ -1453,23 +1453,11 @@ public class BasePanel extends ScreenField
      * Get the path to the target servlet.
      * @param strServletParam The servlet type (html or xml)
      * @return the servlet path.
+     * NOTE: Move this down.
      */
     public String getServletPath(String strServletParam)
     {
-        String strServletName = null;
-        if (strServletParam == null)
-            strServletParam = Params.SERVLET;
-        if (this.getTask() != null)
-            strServletName = this.getTask().getProperty(strServletParam);
-        if ((strServletName == null) || (strServletName.length() == 0))
-        {
-            strServletName = Constants.DEFAULT_SERVLET;
-//?            if (this.getTask() instanceof RemoteRecordOwner)
-//?            	strServletName = strServletName + "xsl";	// Special case - if task is a session, servlet should be tourappxsl
-            if (Params.XHTMLSERVLET.equalsIgnoreCase(strServletParam))
-                strServletName = Constants.DEFAULT_XHTML_SERVLET;
-        }
-        return strServletName;
+        return Utility.getServletPath(this.getTask(), strServletParam);
     }
     /**
      * Get the view subpackage name (such as swing/xml/etc.).
