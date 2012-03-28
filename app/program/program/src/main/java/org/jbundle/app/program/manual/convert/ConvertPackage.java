@@ -88,19 +88,20 @@ public class ConvertPackage extends ConvertDB
     public void go()
     {
 //        String strClass = "Data";
-        String strFromField = "tourutil.script.import";
-        String strToField = "tourutil.script.importdata";
+        String strFromField = ".report";
+        String strToField = ".report";
         try   {
             ClassInfo recClassInfo = new ClassInfo(this);
             while (recClassInfo.hasNext())
             {
                 recClassInfo.next();
-//                if (recClassInfo.getField(ClassInfo.CLASS_NAME).toString().endsWith(strClass))
-                        if (recClassInfo.getField(ClassInfo.CLASS_PACKAGE).toString().equals(strFromField))
+                if (recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID).getValue() == 1048580)
+                        if (recClassInfo.getField(ClassInfo.CLASS_PACKAGE).toString().startsWith(strFromField))
                 {
                     System.out.println("Fixing field " + strToField);
                     recClassInfo.edit();
-                    recClassInfo.getField(ClassInfo.CLASS_PACKAGE).setString(strToField);
+//                    recClassInfo.getField(ClassInfo.CLASS_PACKAGE).setString(strToField);
+                    recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID).setValue(1048605);
                     recClassInfo.set();
                 }
             }
