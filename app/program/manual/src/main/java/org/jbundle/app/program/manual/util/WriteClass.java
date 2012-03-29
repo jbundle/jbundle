@@ -280,13 +280,13 @@ public class WriteClass extends BaseProcess
             implementsClass = strClassName + "Model";
         if ((implementsClass != null) && (implementsClass.length() > 0))
         {
-            m_IncludeNameList.addInclude(this.getPackage(CodeType.INTERFACE));    // Make sure this is included
+            m_IncludeNameList.addInclude(this.getPackage(CodeType.INTERFACE), null);    // Make sure this is included
             if ((strClassInterface == null) || (strClassInterface.length() == 0))
                 strClassInterface = implementsClass;
             else
                 strClassInterface = implementsClass + ", " + strClassInterface;
         }
-        m_IncludeNameList.addInclude(strBaseClass);    // Make sure this is included
+        m_IncludeNameList.addInclude(strBaseClass, null);    // Make sure this is included
     
         m_StreamOut.writeit("\n/**\n *\t" + strClassName + " - " + strClassDesc + ".\n */\n");
 
@@ -368,7 +368,7 @@ public class WriteClass extends BaseProcess
 
                 String strBaseRecordClass = recClassInfo2.getField(ClassInfo.BASE_CLASS_NAME).getString();
                 if (codeType == CodeType.THICK)
-                    m_IncludeNameList.addInclude(strBaseRecordClass);  // Include the base class if it isn't in this file
+                    m_IncludeNameList.addInclude(strBaseRecordClass, null);  // Include the base class if it isn't in this file
                 recClassFields.close();
                 while (recClassFields.hasNext())
                 {
@@ -411,11 +411,21 @@ public class WriteClass extends BaseProcess
                         m_IncludeNameList.addPackage(strFieldClass);
                     }
                     else if ((strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.INCLUDE_CLASS_PACKAGE))
+                        || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.INCLUDE_MODEL_PACKAGE))   // For now
+                        || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.INCLUDE_RES_PACKAGE))   // For now
+                        || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.INCLUDE_THIN_PACKAGE))   // For now
                         || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.CLASS_FIELD))   // For now
                         || (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.INCLUDE_CLASS)))
                     {
-                            m_IncludeNameList.addInclude(strFieldClass);
-                            strReference = "Y";
+                        CodeType codeType3 = CodeType.THICK;
+                        if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.INCLUDE_MODEL_PACKAGE))
+                            codeType3 = CodeType.INTERFACE;
+                        if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.INCLUDE_RES_PACKAGE))   // For now
+                            codeType3 = CodeType.RESOURCE_CODE;
+                        if (strClassFieldType.equalsIgnoreCase(ClassFieldsTypeField.INCLUDE_THIN_PACKAGE))   // For now
+                            codeType3 = CodeType.THIN;
+                        m_IncludeNameList.addInclude(strFieldClass, codeType3);
+                        strReference = "Y";
                     }
                     if (recClassFields.getField(ClassFields.CLASS_FIELD_PROTECT).getString().equalsIgnoreCase("S")) // Static, initialize now
                     {

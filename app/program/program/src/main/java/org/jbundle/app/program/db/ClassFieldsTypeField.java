@@ -34,6 +34,9 @@ public class ClassFieldsTypeField extends StringPopupField
     public static final String INCLUDE_PACKAGE = "P";
     public static final String CLASS_NAME = "X";
     public static final String SCREEN_CLASS_NAME = "S";
+    public static final String INCLUDE_MODEL_PACKAGE = "M";
+    public static final String INCLUDE_THIN_PACKAGE = "T";
+    public static final String INCLUDE_RES_PACKAGE = "R";
     /**
      * Default constructor.
      */
@@ -93,6 +96,9 @@ public class ClassFieldsTypeField extends StringPopupField
         {NATIVE_FIELD, "Native field"},
         {CLASS_NAME, "Class name"},
         {SCREEN_CLASS_NAME, "Screen class name"},
+        {INCLUDE_MODEL_PACKAGE, "Include model package"},
+        {INCLUDE_THIN_PACKAGE, "Include thin package"},
+        {INCLUDE_RES_PACKAGE, "Include resource package"},
         };
         return string;
     }

@@ -281,13 +281,15 @@ public class ClassInfo extends VirtualRecord
     /**
      * Get the full class name.
      */
-    public String getPackageName()
+    public String getPackageName(ClassProject.CodeType codeType)
     {
+        if (codeType == null)
+            codeType = ClassProject.CodeType.THICK;
         String packageName = this.getField(ClassInfo.CLASS_PACKAGE).toString();
         ClassProject classProject = (ClassProject)((ReferenceField)this.getField(ClassInfo.CLASS_PROJECT_ID)).getReference();
         if (classProject != null)
             if ((classProject.getEditMode() == DBConstants.EDIT_IN_PROGRESS) || (classProject.getEditMode() == DBConstants.EDIT_CURRENT))
-                packageName = classProject.getFullPackage(ClassProject.CodeType.THICK, packageName);
+                packageName = classProject.getFullPackage(codeType, packageName);
         return packageName;
     }
     /**

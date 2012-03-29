@@ -211,7 +211,7 @@ public class WriteRecordClass extends WriteSharedClass
             if ((recClassInfo2 = this.readFieldClass()) != null)   // Get the field this is based on
             {       // Not in this source
                 String strFieldClass = recClassInfo2.getField(ClassInfo.CLASS_NAME).getString();
-                m_IncludeNameList.addInclude(strFieldClass); // include the source
+                m_IncludeNameList.addInclude(strFieldClass, null); // include the source
             }
         }
     }
@@ -1520,7 +1520,7 @@ public class WriteRecordClass extends WriteSharedClass
                 }
                 if (fieldStuff.strBaseFieldClass == null)
                 {
-                	String packageName = ((ClassInfo)recClassInfo2).getPackageName();
+                	String packageName = ((ClassInfo)recClassInfo2).getPackageName(null);
                     if (packageName.endsWith(".base.field"))
                         fieldStuff.strBaseFieldClass = recClassInfo2.getField(ClassInfo.CLASS_NAME).toString();
                 }

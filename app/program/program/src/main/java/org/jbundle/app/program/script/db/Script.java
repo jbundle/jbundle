@@ -240,7 +240,7 @@ public class Script extends Folder
                     recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strRecordName);
                     recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
                     if (recClassInfo.seek(null))
-                        strRecordName = recClassInfo.getPackageName() + '.' + strRecordName;
+                        strRecordName = recClassInfo.getPackageName(null) + '.' + strRecordName;
                 } catch (DBException ex) {
                     ex.printStackTrace();
                 } finally {

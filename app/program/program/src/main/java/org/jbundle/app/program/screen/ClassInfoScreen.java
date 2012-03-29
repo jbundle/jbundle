@@ -183,7 +183,7 @@ public class ClassInfoScreen extends Screen
         {
             iCommandOptions = ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER;
             strCommand = Utility.addURLParam(strCommand, DBParams.RECORD, this.getMainRecord().getField(ClassInfo.CLASS_NAME).toString());
-            String packageName = ((ClassInfo)this.getMainRecord()).getPackageName();
+            String packageName = ((ClassInfo)this.getMainRecord()).getPackageName(null);
             strCommand = Utility.addURLParam(strCommand, "package", packageName);
             strCommand = Utility.addURLParam(strCommand, "project", Converter.stripNonNumber(this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).toString()));
         }

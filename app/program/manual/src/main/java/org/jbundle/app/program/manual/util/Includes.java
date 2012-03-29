@@ -8,6 +8,7 @@ package org.jbundle.app.program.manual.util;
  *  Copyright © 2012 jbundle.org. All rights reserved.
  */
 import org.jbundle.app.program.db.ClassInfo;
+import org.jbundle.app.program.db.ClassProject;
 import org.jbundle.app.program.manual.util.data.NameList;
 import org.jbundle.app.program.manual.util.data.StreamOut;
 import org.jbundle.base.model.DBConstants;
@@ -37,14 +38,14 @@ public class Includes extends NameList
     /**
      *  Include the source file for this class if it isn't in this source
      */
-    public void addInclude(String strClassName)
+    public void addInclude(String strClassName, ClassProject.CodeType codeType)
     {
         try   {
             m_recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strClassName);
             m_recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
             if ((m_recClassInfo.seek("=")) && (strClassName != null) && (strClassName.length() > 0))
             {   // If the based record class is in another file, include it!
-                String strPackage = m_recClassInfo.getPackageName();
+                String strPackage = m_recClassInfo.getPackageName(codeType);
                 this.addPackage(strPackage);
             }
             else if ((strClassName.indexOf("java.") != -1) || (strClassName.indexOf("javax.") != -1)) // If a java class is explicitly included, add it!
