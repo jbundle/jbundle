@@ -22,23 +22,23 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="3">
-		<LastChanged>2012-01-13T10:57:38</LastChanged>
+		<LastChanged>2012-03-26T05:34:40</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>contact</Name>
-		<ParentFolderID>7</ParentFolderID>
+		<Name>db</Name>
+		<ParentFolderID>9</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
 		<Description>Contact sample application</Description>
 		<SystemClasses/>
-		<PackageName>.app.contact</PackageName>
-		<ProjectPath>contact/contact</ProjectPath>
-		<InterfacePackage>.app.contact</InterfacePackage>
-		<InterfaceProjectPath>contact/model</InterfaceProjectPath>
-		<ThinPackage>.app.contact</ThinPackage>
-		<ThinProjectPath>contact/thin</ThinProjectPath>
-		<ResourcePackage>.app.contact</ResourcePackage>
-		<ResProjectPath>contact/res</ResProjectPath>
+		<PackageName/>
+		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath>model</InterfaceProjectPath>
+		<ThinPackage/>
+		<ThinProjectPath>thin</ThinProjectPath>
+		<ResourcePackage/>
+		<ResProjectPath>res</ResProjectPath>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>
@@ -149,6 +149,50 @@
 		<ThinProjectPath/>
 		<ResourcePackage/>
 		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="9">
+		<LastChanged>2012-03-26T05:29:07</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>contact</Name>
+		<ParentFolderID>7</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Contact project</Description>
+		<SystemClasses/>
+		<PackageName>.app.contact</PackageName>
+		<ProjectPath/>
+		<InterfacePackage>.app.contact</InterfacePackage>
+		<InterfaceProjectPath/>
+		<ThinPackage>.app.contact</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.app.contact</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="10">
+		<LastChanged>2012-03-26T05:37:24</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>screen</Name>
+		<ParentFolderID>9</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Contact screens</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath>res</ResProjectPath>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>

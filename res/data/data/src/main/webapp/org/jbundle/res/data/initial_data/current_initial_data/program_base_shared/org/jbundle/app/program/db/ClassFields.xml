@@ -2677,7 +2677,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16780657">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2012-03-25T11:22:29</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>ContactField</ClassInfoClassName>
 		<ClassInfoID/>
@@ -2685,14 +2685,14 @@
 		<ClassFieldSequence>30</ClassFieldSequence>
 		<ClassFieldName>VENDOR_CONTACT_TYPE_ID</ClassFieldName>
 		<ClassFieldDesc/>
-		<ClassFieldProtect/>
+		<ClassFieldProtect>public</ClassFieldProtect>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>N</ClassFieldsType>
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16780658">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2012-03-25T11:22:37</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>ContactField</ClassInfoClassName>
 		<ClassInfoID/>
@@ -2700,14 +2700,14 @@
 		<ClassFieldSequence>40</ClassFieldSequence>
 		<ClassFieldName>PROFILE_CONTACT_TYPE_ID</ClassFieldName>
 		<ClassFieldDesc/>
-		<ClassFieldProtect/>
+		<ClassFieldProtect>public</ClassFieldProtect>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>N</ClassFieldsType>
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16780659">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2012-03-25T11:26:55</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>ContactField</ClassInfoClassName>
 		<ClassInfoID/>
@@ -2715,14 +2715,14 @@
 		<ClassFieldSequence>10</ClassFieldSequence>
 		<ClassFieldName>m_recVendor</ClassFieldName>
 		<ClassFieldDesc/>
-		<ClassFieldProtect/>
+		<ClassFieldProtect>public</ClassFieldProtect>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>F</ClassFieldsType>
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16780660">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2012-03-25T11:27:04</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>ContactField</ClassInfoClassName>
 		<ClassInfoID/>
@@ -2730,7 +2730,7 @@
 		<ClassFieldSequence>20</ClassFieldSequence>
 		<ClassFieldName>m_recProfile</ClassFieldName>
 		<ClassFieldDesc/>
-		<ClassFieldProtect/>
+		<ClassFieldProtect>public</ClassFieldProtect>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>F</ClassFieldsType>
@@ -12336,7 +12336,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782574">
-		<LastChanged>2012-01-15T14:33:56</LastChanged>
+		<LastChanged>2011-09-09T14:49:05</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>UserPermission</ClassInfoClassName>
 		<ClassInfoID/>
@@ -12829,5 +12829,260 @@
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>P</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782608">
+		<LastChanged>2012-03-16T14:16:50</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ContactField</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>MessageManager</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>5</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782609">
+		<LastChanged>2012-03-25T11:21:15</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SContactButtonBox</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ContactField</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782610">
+		<LastChanged>2012-03-25T11:27:17</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ContactField</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>SContactButtonBox</ClassFieldClass>
+		<ClassFieldSequence>10</ClassFieldSequence>
+		<ClassFieldName>CONTACT_BUTTON_BOX</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>5</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782611">
+		<LastChanged>2012-03-25T13:16:14</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>PropertiesInput</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>Screen</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782612">
+		<LastChanged>2012-03-25T13:20:21</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>AjaxScreenSession</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>BaseScreen</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782613">
+		<LastChanged>2012-03-25T13:21:53</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>JavaButton</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ScreenLocation</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782614">
+		<LastChanged>2012-03-25T13:22:36</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SwitchClassSub</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>BaseScreen</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782615">
+		<LastChanged>2012-03-25T13:36:38</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ProjectTask</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ProjectTaskPredecessorGridScreen</ClassFieldClass>
+		<ClassFieldSequence>1,030</ClassFieldSequence>
+		<ClassFieldName>PROJECT_TASK_PREDECESSOR_GRID_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782616">
+		<LastChanged>2012-03-25T13:36:59</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ProjectTask</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ProjectTaskCalendar</ClassFieldClass>
+		<ClassFieldSequence>1,050</ClassFieldSequence>
+		<ClassFieldName>PROJECT_TASK_CALENDAR_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782617">
+		<LastChanged>2012-03-25T13:43:56</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassProject</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>Screen</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782618">
+		<LastChanged>2012-03-25T13:46:18</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Issue</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>IssueHistoryGridScreen</ClassFieldClass>
+		<ClassFieldSequence>1,030</ClassFieldSequence>
+		<ClassFieldName>ISSUE_HISTORY_GRID_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782619">
+		<LastChanged>2012-03-25T13:52:12</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Resource</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>RegistrationGridScreen</ClassFieldClass>
+		<ClassFieldSequence>1,030</ClassFieldSequence>
+		<ClassFieldName>REGISTRATION_GRID_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782620">
+		<LastChanged>2012-03-25T22:00:36</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SwitchClassSub</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ScreenLocation</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782621">
+		<LastChanged>2012-03-25T22:03:48</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassProject</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ScreenLocation</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782622">
+		<LastChanged>2012-03-28T17:33:41</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassFieldsTypeField</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>80</ClassFieldSequence>
+		<ClassFieldName>INCLUDE_MODEL_PACKAGE</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"M"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>5</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782623">
+		<LastChanged>2012-03-28T17:34:06</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassFieldsTypeField</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>90</ClassFieldSequence>
+		<ClassFieldName>INCLUDE_THIN_PACKAGE</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"T"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>5</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782624">
+		<LastChanged>2012-03-28T17:34:27</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassFieldsTypeField</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>100</ClassFieldSequence>
+		<ClassFieldName>INCLUDE_RES_PACKAGE</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"R"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 </file>

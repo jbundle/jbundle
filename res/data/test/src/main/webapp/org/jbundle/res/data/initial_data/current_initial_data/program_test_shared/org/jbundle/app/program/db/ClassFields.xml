@@ -779,4 +779,64 @@
 		<ClassFieldsType>S</ClassFieldsType>
 		<IncludeScope>4</IncludeScope>
 	</ClassFields>
+	<ClassFields ID="5021">
+		<LastChanged>2012-03-26T04:36:14</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Reptile</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>BasePanel</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5022">
+		<LastChanged>2012-03-26T04:36:17</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Reptile</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ScreenLocation</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5023">
+		<LastChanged>2012-03-26T04:38:01</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Vet</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>BasePanel</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5024">
+		<LastChanged>2012-03-26T04:38:09</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Vet</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ScreenLocation</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
 </file>

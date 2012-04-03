@@ -78,7 +78,7 @@
 		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="207">
-		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<LastChanged>2009-08-05T15:59:47</LastChanged>
 		<Deleted>N</Deleted>
 		<FileName>TestTableNoAuto</FileName>
 		<FileDesc>Test table without auto-counter field</FileDesc>

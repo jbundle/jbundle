@@ -34,7 +34,7 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="958">
-		<LastChanged>2010-04-09T14:29:46</LastChanged>
+		<LastChanged>2012-03-26T05:00:38</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>PictureGridScreen</ClassName>
 		<BaseClassName>FolderGridScreen</BaseClassName>
@@ -42,7 +42,7 @@
 		<ClassProjectID>4</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>PictureScreen</ClassSourceFile>
-		<ClassType>Source</ClassType>
+		<ClassType>screen</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
@@ -68,12 +68,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="965">
-		<LastChanged>2010-04-09T14:29:46</LastChanged>
+		<LastChanged>2012-03-26T05:32:20</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ContactScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>3</ClassProjectID>
+		<ClassProjectID>10</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>ContactScreen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
@@ -85,12 +85,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="966">
-		<LastChanged>2010-04-09T14:29:46</LastChanged>
+		<LastChanged>2012-03-26T05:32:33</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ContactGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>3</ClassProjectID>
+		<ClassProjectID>10</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>ContactScreen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
@@ -544,12 +544,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1912">
-		<LastChanged>2010-04-09T14:29:46</LastChanged>
+		<LastChanged>2012-03-26T05:33:13</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ContactScreenRecord</ClassName>
 		<BaseClassName>ScreenRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>3</ClassProjectID>
+		<ClassProjectID>10</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>ContactScreen</ClassSourceFile>
 		<ClassType>record</ClassType>

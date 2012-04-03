@@ -784,7 +784,7 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1683">
-		<LastChanged>2010-02-11T12:07:11</LastChanged>
+		<LastChanged>2012-03-26T04:33:50</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>TestReptileReport</ClassName>
 		<BaseClassName>ReportScreen</BaseClassName>
@@ -792,7 +792,7 @@ A test paragraph.
 		<ClassProjectID>65,537</ClassProjectID>
 		<ClassPackage>.vet.shared.report</ClassPackage>
 		<ClassSourceFile>TestReptileReport</ClassSourceFile>
-		<ClassType/>
+		<ClassType>report</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
@@ -971,7 +971,7 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1954">
-		<LastChanged>2010-02-11T12:07:35</LastChanged>
+		<LastChanged>2010-02-11T12:07:12</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>CatSession</ClassName>
 		<BaseClassName>Session</BaseClassName>

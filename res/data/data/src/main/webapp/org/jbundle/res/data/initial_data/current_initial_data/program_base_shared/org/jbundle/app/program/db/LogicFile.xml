@@ -1943,7 +1943,7 @@ this.getMainRecord().getField(KeyInfo.KEY_NUMBER).addListener(fieldBeh);
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778579">
-		<LastChanged>2012-01-19T18:04:58</LastChanged>
+		<LastChanged>2012-03-25T13:49:34</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -1953,11 +1953,11 @@ this.getMainRecord().getField(KeyInfo.KEY_NUMBER).addListener(fieldBeh);
 		<MethodClassName>Layout</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
-	screen = new LayoutGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(LAYOUT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-	screen = new LayoutScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(LAYOUT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else
-	screen = new LayoutGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(LAYOUT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -3679,7 +3679,7 @@ try	{		// Open this table and move to the control record
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16779347">
-		<LastChanged>2012-01-29T12:14:59</LastChanged>
+		<LastChanged>2012-03-15T21:49:48</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>setupDefaultView</MethodName>
@@ -3694,29 +3694,11 @@ Converter convName = new FirstMLastConverter(user, null, UserInfo.FIRST_NAME, nu
 ScreenComponent screenField = this.setupTableLookup(itsLocation, targetScreen, converter, iDisplayFieldDesc, user, UserInfo.USER_NAME_KEY, convName, true, false);
 properties = new HashMap<String,Object>();
 properties.put(ScreenModel.FIELD, this);
-properties.put(ScreenModel.COMMAND, ThinMenuConstants.HOME);
+properties.put(ScreenModel.TOOLTIP, ThinMenuConstants.HOME);
+String userID = ((BaseApplication)this.getRecord().getRecordOwner().getTask().getApplication()).getUserID();
+properties.put(ScreenModel.VALUE, userID);
 properties.put(ScreenModel.IMAGE, ThinMenuConstants.HOME);
 createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-/*
-new SCannedBox(targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ThinMenuConstants.HOME, ScreenConstants.DONT_DISPLAY_FIELD_DESC, this)
-{
-    public boolean doCommand(String strCommand, ScreenField sourceSField, int iCommandOptions)
-    {
-        boolean bHandled = false;
-        if (ThinMenuConstants.HOME.equals(strCommand))
-        {
-            bHandled = true;
-            String strUserID = ((BaseApplication)getField().getRecord().getRecordOwner().getTask().getApplication()).getUserID();
-            if (strUserID != null)
-                if (strUserID.length() > 0)
-                    getField().setString(strUserID, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
-        }
-        if (!bHandled)
-            bHandled = super.doCommand(strCommand, sourceSField, iCommandOptions);
-        return bHandled;
-    }
-};
- */        
 return screenField;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -4414,7 +4396,7 @@ The base code is now in the swing implementation
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16779593">
-		<LastChanged>2012-01-26T23:22:44</LastChanged>
+		<LastChanged>2012-03-29T06:50:35</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>300</Sequence>
 		<MethodName>doCommand</MethodName>
@@ -4432,7 +4414,7 @@ if ((strCommand.indexOf("ExportRecordsToXml") != -1)
 {
     iCommandOptions = ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER;
     strCommand = Utility.addURLParam(strCommand, DBParams.RECORD, this.getMainRecord().getField(ClassInfo.CLASS_NAME).toString());
-    String packageName = ((ClassInfo)this.getMainRecord()).getPackageName();
+    String packageName = ((ClassInfo)this.getMainRecord()).getPackageName(null);
     strCommand = Utility.addURLParam(strCommand, "package", packageName);
     strCommand = Utility.addURLParam(strCommand, "project", Converter.stripNonNumber(this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).toString()));
 }
@@ -8189,7 +8171,7 @@ return null;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16781913">
-		<LastChanged>2012-01-19T18:05:03</LastChanged>
+		<LastChanged>2012-03-25T13:48:15</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -8199,15 +8181,15 @@ return null;]]></LogicSource>
 		<MethodClassName>Script</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
-	screen = new ScriptGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(SCRIPT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-	screen = new ScriptScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(SCRIPT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
-	screen = new ScriptGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(SCRIPT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MENU_MODE) != 0)
-	screen = new ScriptScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(SCRIPT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else
-	screen = super;
+    screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -9240,7 +9222,7 @@ this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.DESCRIPTION
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16782192">
-		<LastChanged>2012-01-19T18:05:03</LastChanged>
+		<LastChanged>2012-03-25T13:41:05</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>50</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -9250,11 +9232,11 @@ this.addColumn(new MultipleTableFieldConverter(record, CalendarEntry.DESCRIPTION
 		<MethodClassName>Packages</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
-    screen = new PackagesGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PACKAGES_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-    screen = new PackagesScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PACKAGES_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
-    screen = new PackagesGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PACKAGES_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -11998,7 +11980,7 @@ else
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783034">
-		<LastChanged>2012-01-19T18:05:03</LastChanged>
+		<LastChanged>2012-03-25T13:51:47</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -12008,11 +11990,11 @@ else
 		<MethodClassName>Resource</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
-    screen = new RegistrationGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(REGISTRATION_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-    screen = new ResourceScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(RESOURCE_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else
-    screen = new ResourceGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(RESOURCE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -12349,7 +12331,7 @@ return record;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783090">
-		<LastChanged>2012-02-01T19:00:11</LastChanged>
+		<LastChanged>2012-03-25T11:30:04</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>setupDefaultView</MethodName>
@@ -12411,25 +12393,10 @@ ScreenComponent sfDesc = createScreenComponent(ScreenModel.EDIT_TEXT, itsLocatio
 sfDesc.setEnabled(false);
 // Add the lookup button and form (opt) button (Even though SSelectBoxes don't use converter, pass it, so field.enable(true), etc will work)
 properties = new HashMap<String,Object>();
-properties.put(ScreenModel.RECORD, m_recVendor);
+properties.put(ScreenModel.FIELD, this);
 properties.put(ScreenModel.COMMAND, ThinMenuConstants.LOOKUP);
 properties.put(ScreenModel.IMAGE, ThinMenuConstants.LOOKUP);
-createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_DESC, properties);
-/* ??
-new SSelectBox(, targetScreen, converter, , m_recVendor)
-{
-    public Record getRecord()
-    {
-        if (getContactTypeField() != null)
-        {
-            String strContactTypeID = getContactTypeField().toString();
-            if (PROFILE_CONTACT_TYPE_ID.equals(strContactTypeID))
-                return m_recProfile;
-        }
-        return m_record;
-    }
-};
-*/
+screenField = createScreenComponent(CONTACT_BUTTON_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, ScreenConstants.DONT_DISPLAY_DESC, properties);
 return screenField;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -12549,7 +12516,7 @@ this.addListener(new DateChangedHandler(Issue.CHANGED_DATE));]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783107">
-		<LastChanged>2012-01-19T18:05:03</LastChanged>
+		<LastChanged>2012-03-25T13:30:44</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -12559,15 +12526,15 @@ this.addListener(new DateChangedHandler(Issue.CHANGED_DATE));]]></LogicSource>
 		<MethodClassName>Project</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
-    screen = new ProjectGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PROJECT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-    screen = new ProjectScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PROJECT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
-    screen = new ProjectGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PROJECT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MENU_MODE) != 0)
-    screen = new ProjectScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PROJECT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else
-    screen = super.makeScreen((ScreenLocation)itsLocation, (BasePanel)parentScreen, iDocMode, properties);
+    screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -12840,7 +12807,7 @@ new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenCo
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783124">
-		<LastChanged>2012-01-19T18:05:03</LastChanged>
+		<LastChanged>2012-03-25T13:45:50</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -12850,11 +12817,11 @@ new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenCo
 		<MethodClassName>Issue</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
-	screen = new IssueHistoryGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(ISSUE_HISTORY_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-	screen = new IssueScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(ISSUE_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else
-	screen = new IssueGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(ISSUE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -13499,7 +13466,7 @@ this.addListener(new SubFileIntegrityHandler(ProjectTaskPredecessor.class.getNam
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783178">
-		<LastChanged>2012-01-19T18:05:03</LastChanged>
+		<LastChanged>2012-03-25T13:38:51</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>5</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -13509,19 +13476,19 @@ this.addListener(new SubFileIntegrityHandler(ProjectTaskPredecessor.class.getNam
 		<MethodClassName>ProjectTask</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ProjectTask.PROJECT_TASK_CALENDAR_MODE) == ProjectTask.PROJECT_TASK_CALENDAR_MODE)
-    screen = new ProjectTaskCalendar(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PROJECT_TASK_CALENDAR_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ProjectTask.PROJECT_PREDECESSOR_DETAIL_MODE) == ProjectTask.PROJECT_PREDECESSOR_DETAIL_MODE)
-    screen = new ProjectTaskPredecessorGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PROJECT_TASK_PREDECESSOR_GRID_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
-    screen = new ProjectTaskGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PROJECT_TASK_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-    screen = new ProjectTaskScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PROJECT_TASK_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
-    screen = new ProjectTaskGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PROJECT_TASK_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MENU_MODE) != 0)
-    screen = new ProjectTaskScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(PROJECT_TASK_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else
-    screen = super.makeScreen((ScreenLocation)itsLocation, (BasePanel)parentScreen, iDocMode, properties);
+    screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -15338,7 +15305,7 @@ return record;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783518">
-		<LastChanged>2012-01-18T10:10:42</LastChanged>
+		<LastChanged>2012-03-25T13:12:13</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>setupDefaultView</MethodName>
@@ -15353,9 +15320,9 @@ for (int i = 0; ; i++)
     Object comp = converter.getField().getComponent(i);
     if (comp == null)
         break;
-    if (comp instanceof SCannedBox)
+    if (comp instanceof ScreenComponent)
     {
-        ((SCannedBox)comp).free();
+        ((ScreenComponent)comp).free();
         i--;
     }
 }
@@ -16190,7 +16157,7 @@ if (bUpdateDates)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783557">
-		<LastChanged>2012-01-26T23:22:48</LastChanged>
+		<LastChanged>2012-03-25T13:07:23</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>50</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -16209,10 +16176,10 @@ if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
     // Disconnect recAnnivMaster and free this
     ((ReferenceField)this.getField(Anniversary.ANNIV_MASTER_ID)).setReferenceRecord(null);
     this.free();
-    return recAnnivMaster.makeScreen((ScreenLocation)itsLocation, (BasePanel)parentScreen, iDocMode, properties);
+    return recAnnivMaster.makeScreen(itsLocation, parentScreen, iDocMode, properties);
 }
 else
-    screen = super.makeScreen((ScreenLocation)itsLocation, (BasePanel)parentScreen, iDocMode, properties);
+    screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -17288,7 +17255,7 @@ fldProperties.addPropertiesFieldBehavior(this.getField(Script.DESTINATION_PARAM)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783648">
-		<LastChanged>2012-01-26T23:22:48</LastChanged>
+		<LastChanged>2012-03-29T06:50:06</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>getTargetRecord</MethodName>
@@ -17317,7 +17284,7 @@ if ((strRecordName != null) && (strRecordName.length() > 0))
             recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strRecordName);
             recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
             if (recClassInfo.seek(null))
-                strRecordName = recClassInfo.getPackageName() + '.' + strRecordName;
+                strRecordName = recClassInfo.getPackageName(null) + '.' + strRecordName;
         } catch (DBException ex) {
             ex.printStackTrace();
         } finally {
@@ -17781,7 +17748,7 @@ The calling program will change the status if required.
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783904">
-		<LastChanged>2012-01-15T10:26:28</LastChanged>
+		<LastChanged>2012-03-28T17:35:21</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>getPopupMap</MethodName>
@@ -17797,6 +17764,9 @@ The calling program will change the status if required.
 {NATIVE_FIELD, "Native field"},
 {CLASS_NAME, "Class name"},
 {SCREEN_CLASS_NAME, "Screen class name"},
+{INCLUDE_MODEL_PACKAGE, "Include model package"},
+{INCLUDE_THIN_PACKAGE, "Include thin package"},
+{INCLUDE_RES_PACKAGE, "Include resource package"},
 };
 return string;]]></LogicSource>
 		<LogicThrows/>
@@ -28094,19 +28064,21 @@ new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenCo
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784983">
-		<LastChanged>2012-01-26T23:22:50</LastChanged>
+		<LastChanged>2012-03-28T21:44:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>getPackageName</MethodName>
 		<LogicDescription>Get the full class name</LogicDescription>
 		<MethodReturns>String</MethodReturns>
-		<MethodInterface/>
+		<MethodInterface>ClassProject.CodeType codeType</MethodInterface>
 		<MethodClassName>ClassInfo</MethodClassName>
-		<LogicSource><![CDATA[String packageName = this.getField(ClassInfo.CLASS_PACKAGE).toString();
+		<LogicSource><![CDATA[if (codeType == null)
+    codeType = ClassProject.CodeType.THICK;
+String packageName = this.getField(ClassInfo.CLASS_PACKAGE).toString();
 ClassProject classProject = (ClassProject)((ReferenceField)this.getField(ClassInfo.CLASS_PROJECT_ID)).getReference();
 if (classProject != null)
     if ((classProject.getEditMode() == DBConstants.EDIT_IN_PROGRESS) || (classProject.getEditMode() == DBConstants.EDIT_CURRENT))
-        packageName = classProject.getFullPackage(ClassProject.CodeType.THICK, packageName);
+        packageName = classProject.getFullPackage(codeType, packageName);
 return packageName;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -32439,6 +32411,28 @@ return transport;
 		<MethodInterface/>
 		<MethodClassName>Record</MethodClassName>
 		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785161">
+		<LastChanged>2012-03-25T11:28:23</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>getRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns>Record</MethodReturns>
+		<MethodInterface/>
+		<MethodClassName>SContactButtonBox</MethodClassName>
+		<LogicSource><![CDATA[ContactField field = (ContactField)m_field;
+if (field.getContactTypeField() != null)
+{
+    String strContactTypeID = field.getContactTypeField().toString();
+    if (field.PROFILE_CONTACT_TYPE_ID.equals(strContactTypeID))
+        return field.m_recProfile;
+}
+return m_record;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>

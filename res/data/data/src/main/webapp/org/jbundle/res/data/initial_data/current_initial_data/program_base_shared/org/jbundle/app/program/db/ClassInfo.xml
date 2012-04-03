@@ -6852,7 +6852,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779112">
-		<LastChanged>2010-02-05T11:19:54</LastChanged>
+		<LastChanged>2012-03-25T12:48:31</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ResourceScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
@@ -6860,7 +6860,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<ClassProjectID>16,777,221</ClassProjectID>
 		<ClassPackage>.resource.screen</ClassPackage>
 		<ClassSourceFile>ResourceScreen</ClassSourceFile>
-		<ClassType/>
+		<ClassType>screen</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
@@ -7761,7 +7761,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779209">
-		<LastChanged>2010-02-05T11:21:05</LastChanged>
+		<LastChanged>2012-03-25T12:46:02</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>PropertiesInputGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
@@ -7769,7 +7769,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<ClassProjectID>16,777,319</ClassProjectID>
 		<ClassPackage>.properties.screen</ClassPackage>
 		<ClassSourceFile>PropertiesInputGridScreen</ClassSourceFile>
-		<ClassType/>
+		<ClassType>screen</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
@@ -9339,7 +9339,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779463">
-		<LastChanged>2012-02-18T09:23:21</LastChanged>
+		<LastChanged>2012-03-25T12:47:30</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>DWsdlAccessScreen</ClassName>
 		<BaseClassName>DDataAccessScreen</BaseClassName>
@@ -9347,7 +9347,7 @@ There are several possible source transactions in the system:
 		<ClassProjectID>16,777,324</ClassProjectID>
 		<ClassPackage>.msg.wsdl</ClassPackage>
 		<ClassSourceFile>DWsdlAccessScreen</ClassSourceFile>
-		<ClassType/>
+		<ClassType>screen</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
@@ -10580,7 +10580,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779648">
-		<LastChanged>2010-02-05T11:20:01</LastChanged>
+		<LastChanged>2012-03-25T12:48:14</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassProjectScreen</ClassName>
 		<BaseClassName>FolderScreen</BaseClassName>
@@ -10588,7 +10588,7 @@ There are several possible source transactions in the system:
 		<ClassProjectID>16,777,221</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>ClassProjectScreen</ClassSourceFile>
-		<ClassType/>
+		<ClassType>screen</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
@@ -10597,7 +10597,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779649">
-		<LastChanged>2010-02-05T11:20:01</LastChanged>
+		<LastChanged>2012-03-25T21:58:41</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassProjectHeaderScreen</ClassName>
 		<BaseClassName>HeaderScreen</BaseClassName>
@@ -10605,7 +10605,7 @@ There are several possible source transactions in the system:
 		<ClassProjectID>16,777,221</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>ClassProjectScreen</ClassSourceFile>
-		<ClassType/>
+		<ClassType>screen</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
@@ -10665,7 +10665,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779653">
-		<LastChanged>2010-02-09T05:41:08</LastChanged>
+		<LastChanged>2010-12-03T05:41:08</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ScanPackagesProcess</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
@@ -11435,6 +11435,57 @@ previous date was oem]]></ClassDesc>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>ScreenComponent</ClassSourceFile>
 		<ClassType>interface</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779700">
+		<LastChanged>2012-03-17T07:37:45</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>MessageManager</ClassName>
+		<BaseClassName/>
+		<ClassDesc/>
+		<ClassProjectID>16,777,292</ClassProjectID>
+		<ClassPackage>.message</ClassPackage>
+		<ClassSourceFile>MessageManager</ClassSourceFile>
+		<ClassType>Object</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779701">
+		<LastChanged>2012-03-25T11:25:25</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>SContactButtonBox</ClassName>
+		<BaseClassName>SCannedBox</BaseClassName>
+		<ClassDesc>Button for a contact lookup</ClassDesc>
+		<ClassProjectID>16,777,319</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>SContactButtonBox</ClassSourceFile>
+		<ClassType>Screen</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779702">
+		<LastChanged>2012-03-25T22:04:48</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>ScreenLocation</ClassName>
+		<BaseClassName/>
+		<ClassDesc/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+		<ClassPackage>.screen.model.util</ClassPackage>
+		<ClassSourceFile>ScreenLocation</ClassSourceFile>
+		<ClassType>Screen</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
