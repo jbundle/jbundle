@@ -361,9 +361,9 @@ public class WriteClass extends BaseProcess
             while (recClassInfo2.hasNext())
             {
                 recClassInfo2.next();
-                if ((codeType == CodeType.THIN) && (!recClassInfo2.isARecord(true)))
+                if ((codeType == CodeType.THIN) && (!recClassInfo2.isARecord(false)))
                     continue;
-                if ((codeType == CodeType.INTERFACE) && (!recClassInfo2.isARecord(true)))
+                if ((codeType == CodeType.INTERFACE) && (!recClassInfo2.isARecord(false)))
                     continue;
 
                 String strBaseRecordClass = recClassInfo2.getField(ClassInfo.BASE_CLASS_NAME).getString();
@@ -1113,6 +1113,8 @@ public class WriteClass extends BaseProcess
                     strCodeBody = "{\n\t// Empty implementation\n}\n";
                 else if ("boolean".equals(methodInfo.strMethodReturns))
                     strCodeBody = "{\n\treturn false; // Empty implementation\n}\n";
+                else if (("int".equals(methodInfo.strMethodReturns)) || ("short".equals(methodInfo.strMethodReturns)))
+                    strCodeBody = "{\n\treturn -1; // Empty implementation\n}\n";
                 else
                     strCodeBody = "{\n\treturn null; // Empty implementation\n}\n";
             }
