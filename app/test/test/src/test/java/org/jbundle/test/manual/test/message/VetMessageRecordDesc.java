@@ -10,9 +10,9 @@ import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.FieldList;
-import org.jbundle.thin.base.message.MessageDataParent;
 import org.jbundle.thin.base.message.MessageRecordDesc;
 import org.jbundle.model.db.*;
+import org.jbundle.model.message.MessageDataParent;
 
 
 /**

@@ -23,6 +23,7 @@ import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.thin.base.message.*;
 import org.jbundle.main.user.db.*;
+import org.jbundle.model.message.*;
 
 /**
  *  UserInfoMessageData - .

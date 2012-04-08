@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.message.MessageDataParent;
 import org.jbundle.model.util.Constant;
 
 
@@ -127,7 +128,7 @@ public class MessageDataDesc extends Object
     {
         if (m_messageDataParent == null)
             return null;
-        return m_messageDataParent.getMessage();
+        return (BaseMessage)m_messageDataParent.getMessage();
     }
     /**
      * Get the message description for this (xpath) key.
@@ -148,7 +149,7 @@ public class MessageDataDesc extends Object
     /**
      * Add a child message data desc.
      */
-    public void addMessageDataDesc(MessageDataDesc messageDataDesc)
+    public void addMessageDataDesc(MessageDataParent messageDataDesc)
     {
         // Override this in MessageRecordDesc!
     }

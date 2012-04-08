@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 import org.jbundle.model.message.Message;
+import org.jbundle.model.message.MessageDataParent;
 import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.Util;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
@@ -384,7 +385,7 @@ public abstract class BaseMessage extends Object
     /**
      * Add a child message data desc.
      */
-    public void addMessageDataDesc(MessageDataDesc messageDataDesc)
+    public void addMessageDataDesc(MessageDataParent messageDataDesc)
     {
         if (messageDataDesc instanceof MessageFieldDesc)
         {
@@ -394,7 +395,7 @@ public abstract class BaseMessage extends Object
         }
         else
         {
-            m_messageDataDesc = messageDataDesc;
+            m_messageDataDesc = (MessageDataDesc)messageDataDesc;
             if (m_messageDataDesc != null)
                 m_messageDataDesc.setMessageDataParent(this);
         }

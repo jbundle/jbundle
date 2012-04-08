@@ -13,6 +13,7 @@ import java.util.Map;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.message.MessageDataParent;
 import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.DataConverters;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
@@ -116,14 +117,14 @@ public class BaseMessageRecordDesc extends MessageDataDesc
     /**
      * Add a child message data desc.
      */
-    public void addMessageDataDesc(MessageDataDesc messageDataDesc)
+    public void addMessageDataDesc(MessageDataParent messageDataDesc)
     {
         if (m_messageDataDescChildren == null)
             m_messageDataDescChildren = new HashMap<String,MessageDataDesc>();
         if (messageDataDesc != null)
         {
-            m_messageDataDescChildren.put(messageDataDesc.getKey(), messageDataDesc);
-            messageDataDesc.setMessageDataParent(this);
+            m_messageDataDescChildren.put(((MessageDataDesc)messageDataDesc).getKey(), (MessageDataDesc)messageDataDesc);
+            ((MessageDataDesc)messageDataDesc).setMessageDataParent(this);
         }
     }
     /**

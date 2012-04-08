@@ -9,6 +9,7 @@ package org.jbundle.thin.base.message;
 
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.message.MessageDataParent;
 import org.jbundle.model.util.Constant;
 
 /**

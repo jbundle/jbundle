@@ -14,6 +14,7 @@ import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.message.MessageDataParent;
 import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.DataConverters;
 

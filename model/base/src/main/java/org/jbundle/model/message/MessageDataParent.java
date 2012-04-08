@@ -5,7 +5,8 @@
 
  * Copyright © 2012 jbundle.org. All rights reserved.
  */
-package org.jbundle.thin.base.message;
+package org.jbundle.model.message;
+
 
 /**
  * This is the base message for sending and receiving requests.
@@ -25,9 +26,9 @@ public interface MessageDataParent
      * Get the parent message for this data.
      * @return The message.
      */
-    public BaseMessage getMessage();
+    public Message getMessage();
     /**
      * Add a child message data desc.
      */
-    public void addMessageDataDesc(MessageDataDesc messageDataDesc);
+    public void addMessageDataDesc(MessageDataParent messageDataDesc);
 }

@@ -6,9 +6,9 @@ package org.jbundle.test.manual.test.message;
 
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
-import org.jbundle.thin.base.message.MessageDataParent;
 import org.jbundle.thin.base.message.MessageRecordDesc;
 import org.jbundle.model.db.*;
+import org.jbundle.model.message.MessageDataParent;
 
 /**
  *  BookingMessageData - .

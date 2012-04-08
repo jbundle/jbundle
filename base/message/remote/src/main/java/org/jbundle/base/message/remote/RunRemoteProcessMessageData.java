@@ -5,7 +5,7 @@
 package org.jbundle.base.message.remote;
 
 import org.jbundle.base.model.DBParams;
-import org.jbundle.thin.base.message.MessageDataParent;
+import org.jbundle.model.message.MessageDataParent;
 import org.jbundle.thin.base.message.MessageFieldDesc;
 import org.jbundle.thin.base.message.MessageRecordDesc;
 
