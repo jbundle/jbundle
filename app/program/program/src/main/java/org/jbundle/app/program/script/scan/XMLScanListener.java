@@ -22,7 +22,6 @@ import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import java.io.*;
-import org.jbundle.thin.base.screen.*;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.*;
 import org.jbundle.app.program.manual.convert.*;

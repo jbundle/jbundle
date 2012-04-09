@@ -21,8 +21,6 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.model.message.*;
-import org.jbundle.main.db.*;
 
 /**
  *  ContactTypeField - Contact type.

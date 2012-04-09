@@ -26,7 +26,6 @@ import java.io.*;
 import org.jbundle.app.program.resource.db.*;
 import org.jbundle.app.program.manual.util.stream.*;
 import org.jbundle.app.program.db.*;
-import org.jbundle.thin.base.screen.*;
 
 /**
  *  WriteResources - Write all the resources from the resource file.

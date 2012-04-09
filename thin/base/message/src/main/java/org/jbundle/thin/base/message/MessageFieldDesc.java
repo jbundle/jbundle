@@ -14,6 +14,7 @@ import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.message.Message;
 import org.jbundle.model.message.MessageDataParent;
 import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.DataConverters;
@@ -414,12 +415,12 @@ public class MessageFieldDesc extends MessageDataDesc
      * Override this to be more specific.
      * Add some code like: this.put(messageRequest.get());
      */
-    public void moveRequestInfoToReply(BaseMessage messageRequest)
+    public void moveRequestInfoToReply(Message messageRequest)
     {
         super.moveRequestInfoToReply(messageRequest);
         if ((this.getKeyInformation() & ECHO_PARAM) != 0)
         {   // Move this to reply
-            this.put(messageRequest.get(this.getFullKey(null)));
+            this.put(((BaseMessage)messageRequest).get(this.getFullKey(null)));
         }
     }
     /**

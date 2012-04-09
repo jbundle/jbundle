@@ -31,4 +31,10 @@ public interface MessageDataParent
      * Add a child message data desc.
      */
     public void addMessageDataDesc(MessageDataParent messageDataDesc);
+    /**
+     * Move the pertinenent information from the request to this reply message.
+     * Override this to be more specific.
+     * Add some code like: this.put(messageRequest.get());
+     */
+    public void moveRequestInfoToReply(Message messageRequest);
 }

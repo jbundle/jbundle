@@ -22,7 +22,6 @@ import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.base.thread.*;
-import org.jbundle.thin.base.screen.*;
 
 /**
  *  UpdateRecordProcess - .

@@ -13,6 +13,7 @@ import java.util.Map;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.message.Message;
 import org.jbundle.model.message.MessageDataParent;
 import org.jbundle.model.util.Constant;
 import org.jbundle.model.util.DataConverters;
@@ -462,14 +463,14 @@ public class BaseMessageRecordDesc extends MessageDataDesc
      * Move the pertinenent information from the request to this reply message.
      * Override this to actually move information.
      */
-    public void moveRequestInfoToReply(BaseMessage messageRequest)
+    public void moveRequestInfoToReply(Message messageRequest)
     {
         if (m_messageDataDescChildren != null)
         {
             for (String strKey : m_messageDataDescChildren.keySet())
             {
                 MessageDataDesc messageDataDesc = m_messageDataDescChildren.get(strKey);
-                MessageDataDesc requestMessageDataDesc = messageRequest.getMessageDataDesc(messageDataDesc.getFullKey(null));
+                MessageDataDesc requestMessageDataDesc = ((BaseMessage)messageRequest).getMessageDataDesc(messageDataDesc.getFullKey(null));
                 if (requestMessageDataDesc != null)
                     messageDataDesc.moveRequestInfoToReply(messageRequest);
             }

@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.db.Rec;
+import org.jbundle.model.message.Message;
 import org.jbundle.model.message.MessageDataParent;
 import org.jbundle.model.util.Constant;
 
@@ -233,7 +234,7 @@ public class MessageDataDesc extends Object
      * Override this to be more specific.
      * Add some code like: this.put(messageRequest.get());
      */
-    public void moveRequestInfoToReply(BaseMessage messageRequest)
+    public void moveRequestInfoToReply(Message messageRequest)
     {
         // Override this
     }

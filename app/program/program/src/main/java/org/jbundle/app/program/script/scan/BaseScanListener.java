@@ -24,7 +24,6 @@ import org.jbundle.model.screen.*;
 import org.jbundle.base.screen.model.*;
 import java.io.*;
 import org.jbundle.app.program.manual.*;
-import org.jbundle.thin.base.screen.*;
 import org.jbundle.thin.base.thread.*;
 
 /**

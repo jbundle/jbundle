@@ -317,6 +317,8 @@ public class WriteClass extends BaseProcess
             String strPackage = this.getPackage(codeType);
             m_StreamOut.writeit("package " + strPackage + ";\n\n");
             m_IncludeNameList.addName(strPackage);     // Don't include this!!!
+            if ("interface".equalsIgnoreCase(classType))
+                codeType = CodeType.INTERFACE;
 
             if (codeType == CodeType.THICK)
             {
@@ -363,8 +365,8 @@ public class WriteClass extends BaseProcess
                 recClassInfo2.next();
                 if ((codeType == CodeType.THIN) && (!recClassInfo2.isARecord(false)))
                     continue;
-                if ((codeType == CodeType.INTERFACE) && (!recClassInfo2.isARecord(false)))
-                    continue;
+                //if ((codeType == CodeType.INTERFACE) && (!recClassInfo2.isARecord(false)))
+                //    continue;
 
                 String strBaseRecordClass = recClassInfo2.getField(ClassInfo.BASE_CLASS_NAME).getString();
                 if (codeType == CodeType.THICK)

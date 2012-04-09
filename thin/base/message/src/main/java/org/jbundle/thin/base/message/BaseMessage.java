@@ -489,4 +489,13 @@ public abstract class BaseMessage extends Object
    {
        return this.getXML(true);
    }
+   /**
+    * Move the pertinenent information from the request to this reply message.
+    * Override this to be more specific.
+    * Add some code like: this.put(messageRequest.get());
+    */
+   public void moveRequestInfoToReply(Message messageRequest)
+   {
+       // Empty implementation
+   }
 }
