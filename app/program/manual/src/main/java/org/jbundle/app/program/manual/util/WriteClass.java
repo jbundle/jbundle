@@ -1115,7 +1115,7 @@ public class WriteClass extends BaseProcess
                     strCodeBody = "{\n\t// Empty implementation\n}\n";
                 else if ("boolean".equals(methodInfo.strMethodReturns))
                     strCodeBody = "{\n\treturn false; // Empty implementation\n}\n";
-                else if (("int".equals(methodInfo.strMethodReturns)) || ("short".equals(methodInfo.strMethodReturns)))
+                else if (("int".equals(methodInfo.strMethodReturns)) || ("short".equals(methodInfo.strMethodReturns)) || ("long".equals(methodInfo.strMethodReturns)))
                     strCodeBody = "{\n\treturn -1; // Empty implementation\n}\n";
                 else
                     strCodeBody = "{\n\treturn null; // Empty implementation\n}\n";
