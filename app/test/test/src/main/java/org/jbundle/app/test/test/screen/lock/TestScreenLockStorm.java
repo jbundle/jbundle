@@ -24,7 +24,6 @@ import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.app.test.test.screen.*;
-import org.jbundle.thin.base.screen.*;
 import org.jbundle.thin.base.message.*;
 import org.jbundle.base.message.core.trx.*;
 import org.jbundle.main.msg.db.*;
