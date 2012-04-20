@@ -98,7 +98,12 @@ public class DetailGridScreen extends GridScreen
         if (m_recHeader != null)
             this.addRecord(m_recHeader, false);
         else
+        {
+            Record mainRecord = this.getMainRecord();
             m_recHeader = this.openHeaderRecord();
+            if (mainRecord == m_recHeader)  // Passed in the header record as main
+                this.openMainRecord();
+        }
     }
     /**
      * Add all the screen listeners.

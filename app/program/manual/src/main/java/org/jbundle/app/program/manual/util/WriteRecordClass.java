@@ -1129,15 +1129,19 @@ public class WriteRecordClass extends WriteSharedClass
                             this.writeMethodInterface(null, "makeScreen", "ScreenParent", "ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties", "", "Make a default screen.", null);
                             m_StreamOut.writeit("\tScreenParent screen = null;\n");
                         }
-                        firstTime = false;
                         String screenMode = recClassFields.getField(ClassFields.CLASS_FIELD_INITIAL_VALUE).toString();
                         if ((screenMode == null) || (screenMode.length() == 0))
                             screenMode = "MAINT_MODE";
                         if (!screenMode.contains("."))
                             screenMode = "ScreenConstants." + screenMode;
                         String fieldName = recClassFields.getField(ClassFields.CLASS_FIELD_NAME).toString();
-                        m_StreamOut.writeit("\tif ((iDocMode & " + screenMode + ") == " + screenMode + ")\n");
+                        if (firstTime)
+                            m_StreamOut.writeit("\t");
+                        else
+                            m_StreamOut.writeit("\telse ");
+                        m_StreamOut.write("if ((iDocMode & " + screenMode + ") == " + screenMode + ")\n");
                         m_StreamOut.writeit("\t\tscreen = Record.makeNewScreen(" + fieldName + ", itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);\n");
+                        firstTime = false;
                     }
                 }
                 if (!firstTime)
