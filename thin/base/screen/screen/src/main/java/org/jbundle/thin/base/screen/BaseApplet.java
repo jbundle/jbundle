@@ -1290,16 +1290,21 @@ public class BaseApplet extends JApplet
 	        	strCommand = Util.addURLParam(strCommand, Params.APPLET, this.getProperty("code"));
 	        else
 	        	strCommand = Util.addURLParam(strCommand, Params.APPLET, this.getClass().getName());
-	        if (this.getProperty("jnlpjars") != null)
-	        	strCommand = Util.addURLParam(strCommand, "jnlpjars", this.getProperty("jnlpjars"));
-	        if (this.getProperty("jnlpextensions") != null)
-	        	strCommand = Util.addURLParam(strCommand, "jnlpextensions", this.getProperty("jnlpextensions"));
-	        if (this.getProperty(ScreenUtil.BACKGROUND_COLOR) != null)
-	        	strCommand = Util.addURLParam(strCommand, ScreenUtil.BACKGROUND_COLOR, this.getProperty(ScreenUtil.BACKGROUND_COLOR));
-	        if (this.getProperty(Params.BACKGROUND) != null)
-	        	strCommand = Util.addURLParam(strCommand, Params.BACKGROUND, this.getProperty(Params.BACKGROUND));
-	        if (this.getProperty("webStart") != null)
-	        	strCommand = Util.addURLParam(strCommand, "webStart", this.getProperty("webStart"));
+            if (this.getProperty("webStartPropertiesFile") != null)
+                strCommand = Util.addURLParam(strCommand, "webStartPropertiesFile", this.getProperty("webStartPropertiesFile"));
+            else
+            {
+    	        if (this.getProperty("jnlpjars") != null)
+    	        	strCommand = Util.addURLParam(strCommand, "jnlpjars", this.getProperty("jnlpjars"));
+    	        if (this.getProperty("jnlpextensions") != null)
+    	        	strCommand = Util.addURLParam(strCommand, "jnlpextensions", this.getProperty("jnlpextensions"));
+    	        if (this.getProperty(ScreenUtil.BACKGROUND_COLOR) != null)
+    	        	strCommand = Util.addURLParam(strCommand, ScreenUtil.BACKGROUND_COLOR, this.getProperty(ScreenUtil.BACKGROUND_COLOR));
+    	        if (this.getProperty(Params.BACKGROUND) != null)
+    	        	strCommand = Util.addURLParam(strCommand, Params.BACKGROUND, this.getProperty(Params.BACKGROUND));
+    	        if (this.getProperty("webStart") != null)
+    	        	strCommand = Util.addURLParam(strCommand, "webStart", this.getProperty("webStart"));
+            }
 	        if (this.getProperty(Params.USER_ID) != null)
 	        	strCommand = Util.addURLParam(strCommand, Params.USER_ID, this.getProperty(Params.USER_ID));
 	        if (this.getProperty(Params.USER_NAME) != null)

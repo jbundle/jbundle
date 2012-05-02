@@ -316,8 +316,11 @@ tourapp.java = {
 	{
 		if (hash)
 			if (hash.length > 0)
-				if (hash.substring(0, 1) == '#')
-					hash = hash.substring(1);
+		{
+			hash = unescape(hash);
+			if (hash.substring(0, 1) == '#')
+				hash = hash.substring(1);
+		}
 		return hash;
 	},
 	ignoreBack: false
