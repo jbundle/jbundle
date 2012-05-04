@@ -26,20 +26,21 @@ tourapp.xml = {
 		  this.xmlLoaded = true;
 		  this.load(xslUrl, 'xsl');
 		}
-
 };
 
 	tourapp.xml.InsertTransformTo.prototype.load = function (url, propertyName) {
-	  var httpRequest = null;
-	  if (typeof XMLHttpRequest != 'undefined') {
-	    httpRequest = new XMLHttpRequest();
-	  }
-	  else if (typeof ActiveXObject != 'undefined') {
-	    try {
-	      httpRequest = new ActiveXObject('Msxml2.XMLHTTP.3.0');
-	    }
-	    catch (e) {}
-	  }
+		var httpRequest = null;
+		if (window.XMLHttpRequest) {
+			httpRequest = new window.XMLHttpRequest;
+		}
+		else {
+		    try {
+		    	httpRequest = new ActiveXObject("MSXML2.XMLHTTP.3.0");
+		    }
+		    catch(ex) {
+		        //?return null;
+		    }
+		}
 	  if (httpRequest != null) {
 	    var thisObject = this;
 	    httpRequest.open('GET', url, true);
@@ -63,12 +64,32 @@ tourapp.xml = {
 	    var frag = xsltProcessor.transformToFragment(this.xml, this.elementToInsert.ownerDocument);
 	    this.elementToInsert.appendChild(frag);
 	  }
-	  else if (typeof this.xml.transformNode != 'undefined') {
+	  else if (typeof this.xml.transformNode != 'undefined') {	// IE
 	    this.elementToInsert.insertAdjacentHTML('beforeEnd', this.xml.transformNode(this.xsl));
 	  }
-	  
-	  if (this.handler)
-		this.handler(this.elementToInsert);
-	};
+	    else {
 
+	        try {
+	            // 3
+	            if (window.ActiveXObject) {
+	                var xslt = new ActiveXObject("Msxml2.XSLTemplate");
+	                var xslDoc = new ActiveXObject("Msxml2.FreeThreadedDOMDocument");
+	                xslDoc.loadXML(this.xsl.xml);
+	                xslt.stylesheet = xslDoc;
+	                var xslProc = xslt.createProcessor();
+	                xslProc.input = this.xml;
+	                xslProc.transform();
+
+	                this.elementToInsert.insertAdjacentHTML('beforeEnd', xslProc.output);
+	            }
+	        }
+	        catch (e) {
+	            // 4
+//?	            alert("The type [XSLTProcessor] and the function [XmlDocument.transformNode] are not supported by this browser, can't transform XML document to HTML string!");
+	        }
+
+	    }
+	if (this.handler)
+               this.handler(this.elementToInsert);
+	};
 }

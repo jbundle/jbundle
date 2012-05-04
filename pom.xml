@@ -28,9 +28,9 @@
     <module>thin</module>
     <module>base</module>
     <module>app</module>
-    <module>config</module>
     <module>model</module>
     <module>main</module>
+    <module>config</module>	<!-- Must be last since obr is here -->
   </modules>
 
   <properties>
