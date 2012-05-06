@@ -3,6 +3,7 @@
  */
 package org.jbundle.thin.base.util;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -554,6 +555,9 @@ public class Application extends Object
     private URL urlCodeBase = null;
     public URL getResourceURL(String filepath, BaseAppletReference task)
     {
+        if (filepath != null)
+            if (File.separatorChar != '/')
+                filepath = filepath.replace(File.separatorChar, '/'); // Just in case I get a window's path
    // Get current classloader
         if (classLoader == null)
         	classLoader = this.getClass().getClassLoader();
