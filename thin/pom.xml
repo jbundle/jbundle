@@ -16,6 +16,10 @@
   <packaging>pom</packaging>
   <name>jbundle-thin - Thin code parent</name>
 
+  <properties>
+    <projectName>jbundle</projectName>
+  </properties>
+
   <modules>
     <module>base</module>
     <module>opt</module>

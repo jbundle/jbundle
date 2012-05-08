@@ -53,9 +53,9 @@
               <argument>codebase=localhost:8181/</argument>
               <argument>connectionType=proxy</argument>
               <argument>mainSharedDBName=main_base</argument>
-              <argument>local=Jdbc</argument>
+              <!-- argument>local=Jdbc</argument>
               <argument>remote=Jdbc</argument>
-              <argument>table=Jdbc</argument>
+              <argument>table=Jdbc</argument -->
             </arguments>
           <systemProperties>
             <systemProperty>

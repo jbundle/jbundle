@@ -17,6 +17,10 @@
   <description>Parent project for the jbundle framework</description>
   <url>http://www.jbundle.org</url>
  
+  <properties>
+    <projectName>jbundle</projectName>
+  </properties>
+
   <scm>
     <url>https://github.com/jbundle/jbundle</url>
     <connection>scm:git:git://github.com/jbundle/jbundle.git</connection>
@@ -32,9 +36,5 @@
     <module>main</module>
     <module>config</module>	<!-- Must be last since obr is here -->
   </modules>
-
-  <properties>
-    <jbundleScmPath>jbundle</jbundleScmPath>
-  </properties>
 
 </project>
