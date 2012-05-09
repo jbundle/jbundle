@@ -16,7 +16,6 @@
   <modules>
     <module>dep</module>
     <module>web</module>
-    <module>archetype</module>
     <module>obr</module>	<!-- Must be last -->
   </modules>
 

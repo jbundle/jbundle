@@ -97,7 +97,7 @@
 							<excludes>docs\/programmer\/**,docs\/help\/specifications\/**,docs\/test\/**
 							</excludes>
 						</artifactItem>
-						<artifactItem>
+						<!-- artifactItem>
 							<groupId>org.jbundle.config.web</groupId>
 							<artifactId>jbundle-config-web-jnlp</artifactId>
 							<version>${project.version}</version>
@@ -105,7 +105,7 @@
 							<type>zip</type>
 							<outputDirectory>${project.build.directory}/${project.build.finalName}
 							</outputDirectory>
-						</artifactItem>
+						</artifactItem -->
 						<artifactItem>
 						  <groupId>org.jbundle.util.osgi.wrapped</groupId>
 						  <artifactId>org.jbundle.util.osgi.wrapped.uk.org.pajhome.crypt.sha1</artifactId>
