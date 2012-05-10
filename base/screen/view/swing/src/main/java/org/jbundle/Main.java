@@ -4,7 +4,7 @@
 package org.jbundle;
 
 /**
- * This is a convience class, so users don't have to remember the path to SApplet.
+ * This is a convenience class, so users don't have to remember the path to SApplet.
  */
 public class Main extends org.jbundle.base.screen.control.swing.SApplet
 {

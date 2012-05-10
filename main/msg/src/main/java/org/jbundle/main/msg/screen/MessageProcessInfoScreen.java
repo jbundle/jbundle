@@ -121,7 +121,7 @@ public class MessageProcessInfoScreen extends DetailScreen
     public void addToolbarButtons(ToolScreen toolScreen)
     {
         BaseApplication application = (BaseApplication)this.getTask().getApplication();
-        new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageInfo.TRANSPORT_DETAIL_SCREEN), MenuConstants.GRID, MessageInfo.TRANSPORT_DETAIL_SCREEN, null);
+        new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageProcessInfo.TRANSPORT_DETAIL_SCREEN), MenuConstants.GRID, MessageProcessInfo.TRANSPORT_DETAIL_SCREEN, null);
         super.addToolbarButtons(toolScreen);
     }
     /**

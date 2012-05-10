@@ -33,6 +33,7 @@ public interface MessageProcessInfoModel extends Rec
     public static final String DESCRIPTION_KEY = "Description";
 
     public static final String CODE_KEY = "Code";
+    public static final String TRANSPORT_DETAIL_SCREEN = "Transport detail";
     public static final String SAFE = "ota.safe";
     public static final String MESSAGE_PROCESS_INFO_SCREEN_CLASS = "org.jbundle.main.msg.screen.MessageProcessInfoScreen";
     public static final String MESSAGE_PROCESS_INFO_GRID_SCREEN_CLASS = "org.jbundle.main.msg.screen.MessageProcessInfoGridScreen";

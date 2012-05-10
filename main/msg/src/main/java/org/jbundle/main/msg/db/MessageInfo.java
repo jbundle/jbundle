@@ -36,8 +36,7 @@ public class MessageInfo extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
-    public static final int PROCESS_DETAIL_MODE = ScreenConstants.LAST_MODE * 4;
-    public static final int TRANSPORT_DETAIL_MODE = ScreenConstants.LAST_MODE * 2;
+    public static final int PROCESS_DETAIL_MODE = (ScreenConstants.LAST_MODE * 4) | ScreenConstants.DETAIL_MODE;
     public static final String ELEMENT = "ota.element";
     public static final String SCHEMA_LOCATION = TrxMessageHeader.SCHEMA_LOCATION;
     public static final String NAMESPACE = "namespace";
@@ -90,8 +89,8 @@ public class MessageInfo extends VirtualRecord
     public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties)
     {
         ScreenParent screen = null;
-        if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
-            screen = Record.makeNewScreen(MESSAGE_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == PROCESS_DETAIL_MODE)
+            screen = Record.makeNewScreen(MessageProcessInfo.MESSAGE_PROCESS_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
             screen = Record.makeNewScreen(MESSAGE_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)

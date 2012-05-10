@@ -39,6 +39,7 @@ public class MessageProcessInfo extends VirtualRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final int TRANSPORT_DETAIL_MODE = (ScreenConstants.LAST_MODE * 2) | ScreenConstants.DETAIL_MODE;
     protected MessageDetail m_recMessageDetail = null;
     protected MessageTransport m_recMessageTransport = null;
     protected MessageTransportInfo m_recMessageTransportInfo = null;
@@ -96,12 +97,12 @@ public class MessageProcessInfo extends VirtualRecord
     public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties)
     {
         ScreenParent screen = null;
-        if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+        if ((iDocMode & TRANSPORT_DETAIL_MODE) == TRANSPORT_DETAIL_MODE)
+            screen = Record.makeNewScreen(MessageTransportInfoModel.MESSAGE_TRANSPORT_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
             screen = Record.makeNewScreen(MESSAGE_PROCESS_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
             screen = Record.makeNewScreen(MESSAGE_PROCESS_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
-        else if ((iDocMode & MessageInfo.TRANSPORT_DETAIL_MODE) == MessageInfo.TRANSPORT_DETAIL_MODE)
-            screen = Record.makeNewScreen(MessageTransportInfoModel.MESSAGE_TRANSPORT_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
             screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
@@ -205,8 +206,8 @@ public class MessageProcessInfo extends VirtualRecord
      */
     public int commandToDocType(String strCommand)
     {
-        if (MessageInfo.TRANSPORT_DETAIL_SCREEN.equalsIgnoreCase(strCommand))
-            return MessageInfo.TRANSPORT_DETAIL_MODE;
+        if (TRANSPORT_DETAIL_SCREEN.equalsIgnoreCase(strCommand))
+            return TRANSPORT_DETAIL_MODE;
         return super.commandToDocType(strCommand);
     }
     /**

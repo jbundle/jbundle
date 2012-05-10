@@ -19,7 +19,7 @@ public class RunRemoteProcessMessageData extends MessageRecordDesc
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final String RUN_REMOTE_PROCESS = "RunRemoteProcess";
-	public static final String PROCESS_CLASS_NAME = "ProcessClassName";
+	public static final String PROCESS_CLASS_NAME = DBParams.PROCESS;
     /**
      * Default constructor.
      */

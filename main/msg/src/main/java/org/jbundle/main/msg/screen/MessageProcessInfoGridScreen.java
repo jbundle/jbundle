@@ -184,7 +184,7 @@ public class MessageProcessInfoGridScreen extends DetailGridScreen
     public void addNavButtons()
     {
         BaseApplication application = (BaseApplication)this.getTask().getApplication();
-        new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.GRID, MessageInfo.TRANSPORT_DETAIL_SCREEN, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageInfo.TRANSPORT_DETAIL_SCREEN));
+        new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.GRID, MessageProcessInfo.TRANSPORT_DETAIL_SCREEN, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageProcessInfo.TRANSPORT_DETAIL_SCREEN));
         super.addNavButtons();  // Next buttons will be "First!"
     }
     /**
@@ -193,7 +193,7 @@ public class MessageProcessInfoGridScreen extends DetailGridScreen
     public void addToolbarButtons(ToolScreen toolScreen)
     {
         BaseApplication application = (BaseApplication)this.getTask().getApplication();
-        new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageInfo.TRANSPORT_DETAIL_SCREEN), MenuConstants.GRID, MessageInfo.TRANSPORT_DETAIL_SCREEN, null);
+        new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageProcessInfo.TRANSPORT_DETAIL_SCREEN), MenuConstants.GRID, MessageProcessInfo.TRANSPORT_DETAIL_SCREEN, null);
         super.addToolbarButtons(toolScreen);
     }
     /**
