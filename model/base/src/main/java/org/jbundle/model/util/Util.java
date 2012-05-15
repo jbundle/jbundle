@@ -26,6 +26,7 @@ import java.util.logging.SimpleFormatter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -276,8 +277,15 @@ public class Util extends Object
     private static final ThreadLocal < DocumentBuilder > m_dbs = 
         new ThreadLocal < DocumentBuilder > () {
             @Override protected DocumentBuilder initialValue() {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
+            DocumentBuilderFactory dbf = null;
+            try {
+                dbf = DocumentBuilderFactory.newInstance("com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl", this.getClass().getClassLoader());
+            } catch (Exception e) {
+                dbf = null;
+            }
+            if (dbf == null)
+                dbf = DocumentBuilderFactory.newInstance();
             // Optional: set various configuration options
             dbf.setValidating(false);
             dbf.setNamespaceAware(true);

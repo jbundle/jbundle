@@ -60,7 +60,7 @@ public class MessageTypeField extends ReferenceField
      */
     public Record makeReferenceRecord(RecordOwner recordOwner)
     {
-        return Record.makeRecordFromClassName(MessageTypeModel.MESSAGE_TYPE_FILE, recordOwner);
+        return Record.makeRecordFromClassName(MessageTypeModel.THICK_CLASS, recordOwner);
     }
 
 }

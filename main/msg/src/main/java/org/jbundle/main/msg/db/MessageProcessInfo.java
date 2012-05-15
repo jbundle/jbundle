@@ -634,7 +634,7 @@ public class MessageProcessInfo extends VirtualRecord
                             int iMessageVersionIDDefault = 0;
                             int iMessageVersionIDBestGuess = iMessageVersionID;
                             boolean bDefaultExists = false;
-                            addListener(subFileFilter = new SubFileFilter(this.getField(MessageProcessInfo.ID), MessageTransportInfo.MESSAGE_PROCESS_INFO_ID, m_recMessageTransport.getField(MessageTransport.ID), MessageTransportInfo.MESSAGE_TRANSPORT_ID, null, null));
+                            m_recMessageTransportInfo.addListener(subFileFilter = new SubFileFilter(this.getField(MessageProcessInfo.ID), MessageTransportInfo.MESSAGE_PROCESS_INFO_ID, m_recMessageTransport.getField(MessageTransport.ID), MessageTransportInfo.MESSAGE_TRANSPORT_ID, null, null));
                             while  (m_recMessageTransportInfo.hasNext())
                             {
                                 m_recMessageTransportInfo.next();

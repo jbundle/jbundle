@@ -96,8 +96,10 @@ public class MessageStatus extends VirtualRecord
         //  field.setHidden(true);
         //}
         if (iFieldSeq == 3)
-            field = new StringField(this, CODE, 10, null, null);
+            field = new StringField(this, DESCRIPTION, 30, null, null);
         if (iFieldSeq == 4)
+            field = new StringField(this, CODE, 10, null, null);
+        if (iFieldSeq == 5)
             field = new ImageField(this, ICON, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);
