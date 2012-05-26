@@ -73,7 +73,7 @@
             <configuration>
               <properties>
                 <process>org.jbundle.app.program.manual.convert.ConvertCode</process>
-                <listenerClass>org.jbundle.app.program.manual.scan.XslImportScanListener</listenerClass>
+                <listenerClass>org.jbundle.app.program.script.scan.XslImportScanListener</listenerClass>
                 <converterPath>${resourceLocation}/docs/styles/xsl/program/</converterPath>
                 <sourcePrefix>${resourceLocation}/docs/styles/xsl</sourcePrefix>
                 <sourceDir>/com/tourgeek</sourceDir>
@@ -91,7 +91,7 @@
             <configuration>
               <properties>
                 <process>org.jbundle.app.program.manual.convert.ConvertCode</process>
-                <listenerClass>org.jbundle.app.program.manual.scan.XslImportScanListener</listenerClass>
+                <listenerClass>org.jbundle.app.program.script.scan.XslImportScanListener</listenerClass>
                 <converterPath>${resourceLocation}/docs/styles/xsl/program/</converterPath>
                 <sourcePrefix>${resourceLocation}/docs/styles/xsl</sourcePrefix>
                 <sourceDir>/ajax/base</sourceDir>
