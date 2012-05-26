@@ -435,8 +435,9 @@ public class BaseRecordOwner extends Object
      */
     public Environment getEnvironment()
     {
-        if ((this.getTask() != null) && (this.getTask().getApplication() != null))
-            return ((BaseApplication)this.getTask().getApplication()).getEnvironment();
+        if (this.getTask() != null)
+        	if (this.getTask().getApplication() instanceof BaseApplication)
+        		return ((BaseApplication)this.getTask().getApplication()).getEnvironment();
         return null;
     }
     /**
