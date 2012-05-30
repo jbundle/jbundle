@@ -7,6 +7,7 @@ import java.io.File;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.AccessControlException;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Locale;
@@ -178,6 +179,10 @@ public class Application extends Object
             } catch (java.security.AccessControlException ex) {
                 // Ignore this, I'm probably runing in an Applet
             }
+        }
+        try {	// Since I send this over the wire, make sure I'm using the default dom implementation
+	        System.setProperty("javax.xml.parsers.DocumentBuilderFactory", "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
+        } catch (AccessControlException e) {	// Ignore this error
         }
     }
     /**

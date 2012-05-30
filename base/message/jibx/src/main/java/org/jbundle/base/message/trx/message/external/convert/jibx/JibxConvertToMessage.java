@@ -65,11 +65,13 @@ public class JibxConvertToMessage extends BaseXmlConvertToMessage
      */
     public Object unmarshalRootElement(Reader inStream, BaseXmlTrxMessageIn soapTrxMessage) throws Exception
     {
+    	String packageName = null;
+    	String bindingName = null;
         try {
             // create a JAXBContext capable of handling classes generated into
             // the primer.po package
-            String packageName = (String)((TrxMessageHeader)soapTrxMessage.getMessage().getMessageHeader()).get(SOAPMessageTransport.JIBX_PACKAGE_NAME);
-            String bindingName = (String)((TrxMessageHeader)soapTrxMessage.getMessage().getMessageHeader()).get(SOAPMessageTransport.JIBX_BINDING_NAME);
+            packageName = (String)((TrxMessageHeader)soapTrxMessage.getMessage().getMessageHeader()).get(SOAPMessageTransport.JIBX_PACKAGE_NAME);
+            bindingName = (String)((TrxMessageHeader)soapTrxMessage.getMessage().getMessageHeader()).get(SOAPMessageTransport.JIBX_BINDING_NAME);
             if (packageName != null)
             {
                 Object obj = null;
@@ -87,6 +89,7 @@ public class JibxConvertToMessage extends BaseXmlConvertToMessage
 //+            ex.printStackTrace();
         } catch (JiBXException ex)  {
             ex.printStackTrace();
+            throw new Exception("Error: " + ex.getMessage() + " binding: " + bindingName + " package: " + packageName);
         }
 
         return null;

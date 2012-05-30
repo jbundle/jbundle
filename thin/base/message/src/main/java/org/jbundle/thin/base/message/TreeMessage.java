@@ -271,13 +271,18 @@ public class TreeMessage extends BaseMessage
         if (((node == null) && (createMode != CreateMode.DONT_CREATE))
                 || (createMode == CreateMode.CREATE_NEW_NODE))
         {
-            node = ((Document)m_data).createElement(key);
+        	Document doc = null;
+        	if (m_data instanceof Document)
+        		doc = (Document)m_data;
+        	if (doc == null)
+        		doc = ((Node)m_data).getOwnerDocument();
+            node = doc.createElement(key);
             if (bReturnTextNode)
             {
                 if (createMode != CreateMode.CREATE_CDATA_NODE)
-                    node.appendChild(((Document)m_data).createTextNode(Constant.BLANK));
+                    node.appendChild(doc.createTextNode(Constant.BLANK));
                 else
-                    node.appendChild(((Document)m_data).createCDATASection(Constant.BLANK));
+                    node.appendChild(doc.createCDATASection(Constant.BLANK));
             }
             nodeStart.appendChild(node);
         }
@@ -307,7 +312,8 @@ public class TreeMessage extends BaseMessage
             }
         }
         if (bDataRoot)
-            return ((Document)m_data).getDocumentElement();
+        	if (m_data instanceof Document)
+        		return ((Document)m_data).getDocumentElement();
         return (Node)m_data;
     }
     /**
