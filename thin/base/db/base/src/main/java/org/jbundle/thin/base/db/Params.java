@@ -38,12 +38,12 @@ public interface Params extends Param
     /**
      * The default RMI resource name.
      */
-    public static final String DEFAULT_REMOTE_APP = "org.jbundle.base.remote.server.RemoteSessionActivator";
     public static final String REMOTE_SESSION_SERVER_CLASS = "org.jbundle.base.remote.server.RemoteSessionServer";   // RemoteSessionServer
+    public static final String DEFAULT_REMOTE_APP = REMOTE_SESSION_SERVER_CLASS;
     /**
      * The default RMI resource name.
      */
-    public static final String REMOTE_MESSAGE_APP = "org.jbundle.main.msg.app.MessageServerActivator";
+    public static final String REMOTE_MESSAGE_APP = REMOTE_SESSION_SERVER_CLASS;
     /**
      * Set this to "true" to make the application service the incoming external JMS requests.
      */

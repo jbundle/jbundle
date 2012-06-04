@@ -11,104 +11,75 @@ import java.util.Map;
 
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.Utility;
-import org.jbundle.base.util.EnvironmentActivator;
+import org.jbundle.base.util.BaseThickActivator;
+import org.jbundle.base.util.Environment;
+import org.jbundle.model.Env;
+import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.remote.ApplicationServer;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.util.osgi.bundle.BaseBundleService;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceEvent;
 
-public class BaseRemoteSessionActivator extends BaseBundleService
+
+public class BaseRemoteSessionActivator extends BaseThickActivator
 	implements ApplicationServer
 {
-	protected RemoteSessionServer server = null;
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
-	    this.setupProperties();
-        
-        super.start(context);
-	}
 	/**
 	 * Setup the application properties.
 	 * Override this to set the properties.
 	 */
-	public void setupProperties()
+	public void init()
 	{
-        if (this.getProperty(DBParams.LOCAL) == null)
-        	this.setProperty(DBParams.LOCAL, DBParams.JDBC); // Remote Server ALWAYS uses Jdbc
-        if (this.getProperty(DBParams.REMOTE) == null)
-        	this.setProperty(DBParams.REMOTE, DBParams.JDBC);
-        if (this.getProperty(DBParams.TABLE) == null)
-        	this.setProperty(DBParams.TABLE, DBParams.JDBC);
-        if (this.getProperty(DBParams.APP_NAME) == null)
-            this.setProperty(DBParams.APP_NAME, Params.DEFAULT_REMOTE_APP);
-        this.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
-        //this.setProperty(DBParams.REMOTE_HOST, "linux-laptop");    // TODO No No No
-        if (this.getProperty(DBParams.FREEIFDONE) == null)
-            this.setProperty(DBParams.FREEIFDONE, DBConstants.FALSE);   // Don't free when only the last app is running.
-        if (this.getProperty(MessageConstants.MESSAGE_FILTER) == null)
-            this.setProperty(MessageConstants.MESSAGE_FILTER, MessageConstants.TREE_FILTER);  // Default for a server
+        super.init();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	/**
+	 * Get the activator properties to pass to the service.
+	 * @return The properties in String,Object format
 	 */
-	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
-	}
-
-    @Override
-    public void serviceChanged(ServiceEvent event) {
-        if (event.getType() == ServiceEvent.REGISTERED)
-        { // Osgi Service is up, Okay to start the server
-        	Utility.getLogger().info("Starting Server");
-    		if (server == null)
-    		{
-    			BundleContext context = event.getServiceReference().getBundle().getBundleContext();
-    	        this.checkDependentServicesAndStartup(context, EnvironmentActivator.class.getName(), null);
-    		}
-        }
-        if (event.getType() == ServiceEvent.UNREGISTERING)
-        {
-            if (server != null)
-            	server.shutdown();
-            server = null;
-        }
+    public Map<String,Object> getServiceProperties()
+    {
+        Map<String,Object> properties = super.getServiceProperties();
+        properties = addConfigProperty(properties, DBParams.LOCAL, DBParams.JDBC); // Remote Server ALWAYS uses Jdbc
+        properties = addConfigProperty(properties, DBParams.REMOTE, DBParams.JDBC);
+        properties = addConfigProperty(properties, DBParams.TABLE, DBParams.JDBC);
+        properties = addConfigProperty(properties, Params.APP_NAME, Params.DEFAULT_REMOTE_APP);
+        properties = addConfigProperty(properties, Params.JMSSERVER, DBConstants.TRUE);
+        properties = addConfigProperty(properties, DBParams.FREEIFDONE, Constants.FALSE);   // Don't free when only the last app is running.
+        properties = addConfigProperty(properties, MessageConstants.MESSAGE_FILTER, MessageConstants.TREE_FILTER);  // Default for a server
+        return properties;
+    }
+    /**
+     * Make sure the dependent services are up, then call startupService.
+     * @param versionRange Bundle version
+     * @param baseBundleServiceClassName
+     * @return false if I'm waiting for the service to startup.
+     */
+    public boolean checkDependentServices(BundleContext bundleContext)
+    {	// Note: I pass my properties up to the environment
+    	boolean success = this.addDependentService(context, Env.class.getName(), Environment.class.getName(), null, this.getProperties());
+    	success = success & super.checkDependentServices(bundleContext);
+    	return success;
     }
     /**
      * Start this service.
      * Override this to do all the startup.
      * @return true if successful.
      */
-    public boolean startupThisService(BundleContext bundleContext)
+    public Object startupService(BundleContext bundleContext)
     {
-        Map<String,Object> props = Utility.propertiesToMap(this.getProperties());
-        try {
-            server = new RemoteSessionServer(null, null, props);	// Doesn't create environment
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    	return true;
+    	return null;	// Override this
     }
-
     /**
      * 
      */
 	@Override
 	public RemoteTask createRemoteTask(Map<String, Object> properties)
 			throws RemoteException {
-		if (server == null)
+		if (service == null)
 			return null;
-		return server.createRemoteTask(properties);
+		return ((RemoteSessionServer)service).createRemoteTask(properties);
 	}
     /**
      * Get the environment.
@@ -116,6 +87,6 @@ public class BaseRemoteSessionActivator extends BaseBundleService
      */
     public RemoteSessionServer getRemoteSessionServer()
     {
-        return server;
+        return (RemoteSessionServer)service;
     }
 }

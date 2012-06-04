@@ -445,7 +445,7 @@ public class Application extends Object
                     if ((strRemoteApp == null) || (strRemoteApp.indexOf('.') == -1))
                         strRemoteApp = Params.DEFAULT_REMOTE_APP;
                     // WARNING: This may take a while, so don't run this in your main thread.
-                	appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(strRemoteApp, null, null, -1);
+                	appServer = (ApplicationServer)ClassServiceUtility.getClassService().getClassFinder(null).getClassBundleService(null, strRemoteApp, null, null, -1);
                 }
                 if (appServer == null)
                 {

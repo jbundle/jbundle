@@ -3,12 +3,11 @@
  */
 package org.jbundle.base.db.jdbc.service;
 
-import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.jdbc.JdbcDatabase;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.model.util.Util;
-import org.jbundle.util.osgi.BundleService;
-import org.jbundle.util.osgi.bundle.BaseBundleService;
+import org.jbundle.util.osgi.BundleActivatorModel;
+import org.jbundle.util.osgi.bundle.BaseBundleActivator;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -18,7 +17,7 @@ import org.osgi.framework.BundleContext;
  * @author don
  *
  */
-public class JdbcBundleService extends BaseBundleService
+public class JdbcBundleActivator extends BaseBundleActivator
 	implements BundleActivator
 {    
     /**
@@ -27,9 +26,9 @@ public class JdbcBundleService extends BaseBundleService
     public void start(BundleContext context) throws Exception {
     	Util.getLogger().info("Starting Jdbc bundle");
         
-        this.setProperty(BundleService.PACKAGE_NAME, Util.getPackageName(JdbcDatabase.class.getName()));
+        //xthis.setProperty(BundleActivatorModel.PACKAGE_NAME, Util.getPackageName(JdbcDatabase.class.getName()));
         //x this.setProperty(BundleService.INTERFACE, BaseDatabase.class.getName());
-        this.setProperty(BundleService.TYPE, DBParams.JDBC);
+        this.setProperty(BundleActivatorModel.TYPE, DBParams.JDBC);
         
         super.start(context);
     }    

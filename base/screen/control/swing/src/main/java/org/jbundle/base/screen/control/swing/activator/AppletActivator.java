@@ -7,22 +7,17 @@
  */
 package org.jbundle.base.screen.control.swing.activator;
 
-import java.util.Hashtable;
 import java.util.Map;
 
-import org.jbundle.base.screen.control.swing.*;
-import org.jbundle.model.BaseAppletReference;
+import org.jbundle.base.screen.control.swing.SApplet;
+import org.jbundle.base.util.BaseThickActivator;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.util.osgi.bundle.BaseBundleService;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceEvent;
 
-public class AppletActivator extends BaseBundleService
+public class AppletActivator extends BaseThickActivator
 {
-	protected BaseAppletReference applet = null;
-	
     String[] args = {
 //x    		"menu=dev.tourapp.com",
 //x    		"background=backgrounds/worldmapalpha.gif",
@@ -33,50 +28,37 @@ public class AppletActivator extends BaseBundleService
 //x    		"table=Jdbc",
     		};	// TODO(don) Fix this
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
-	}
+    /**
+     * Start this service.
+     * Override this to do all the startup.
+     * @param context bundle context
+     * @return true if successful.
+     */
+    public Object startupService(BundleContext bundleContext)
+    {
+	        Map<String,Object> propertiesTemp = this.getServiceProperties();
+	        Util.parseArgs(propertiesTemp, args);
 
-    @Override
-    public void serviceChanged(ServiceEvent event) {
-        if (event.getType() == ServiceEvent.REGISTERED)
-        { // Osgi Service is up, Okay to start the server
-            System.out.println("Starting Applet");
-    		if (applet == null)
-    		{
-    	        Map<String,Object> propertiesTemp = new Hashtable<String,Object>();
-    	        Util.parseArgs(propertiesTemp, args);
-
-    	        //?server = new SApplet(args);
-    	        SApplet.main(args);
-    	        applet = Application.getRootApplet();
+	        //?server = new SApplet(args);
+	        SApplet.main(args);
+	        return Application.getRootApplet();
 
 //?    	        Environment env = new Environment(propertiesTemp);
-    	        // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
-    		}
-        }
-        if (event.getType() == ServiceEvent.UNREGISTERING)
-        {
-            if (applet != null)
-            {
-            	if (((Task)(applet)).getApplication() != null)
-            		((Task)(applet)).getApplication().free();
-            	else
-            		applet.free();
-            }
-            applet = null;
-        }        
+	        // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
+    }
+    /**
+     * Stop this service.
+     * Override this to do all the startup.
+     * @param bundleService
+     * @param context bundle context
+     * @return true if successful.
+     */
+    public boolean shutdownService(Object service, BundleContext context)
+    {
+    	if (((Task)(service)).getApplication() != null)
+    		((Task)(service)).getApplication().free();
+    	else
+    		((Task)(service)).free();
+    	return true;
     }
 }

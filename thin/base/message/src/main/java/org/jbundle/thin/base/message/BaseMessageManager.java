@@ -56,7 +56,7 @@ public class BaseMessageManager extends AutoTask
     {
         super.init(application, strParams, properties);
         if (this.getProperty(Param.REMOTE_APP_NAME) == null)
-            this.setProperty(Param.REMOTE_APP_NAME, "org.jbundle.main.msg.app.MessageServerActivator"/*Param.REMOTE_MESSAGE_APP*/);
+            this.setProperty(Param.REMOTE_APP_NAME, "org.jbundle.base.remote.server.RemoteSessionServer"/*Param.REMOTE_MESSAGE_APP*/);
         m_messageMap = new Hashtable<String,BaseMessageQueue>();
     }
     /**

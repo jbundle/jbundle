@@ -7,12 +7,13 @@
  */
 package org.jbundle.base.remote.server;
 
+import java.util.Map;
+
 import org.jbundle.base.model.Utility;
-import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
-import org.jbundle.base.util.EnvironmentActivator;
-import org.jbundle.base.util.MainApplication;
-import org.jbundle.util.osgi.finder.ClassServiceUtility;
+import org.jbundle.model.App;
+import org.jbundle.model.Env;
+import org.jbundle.thin.base.remote.RemoteException;
 import org.osgi.framework.BundleContext;
 
 
@@ -23,26 +24,18 @@ public class RemoteSessionActivator extends BaseRemoteSessionActivator
      * Override this to do all the startup.
      * @return true if successful.
      */
-    public boolean startupThisService(BundleContext bundleContext)
+    public Object startupService(BundleContext bundleContext)
     {
-        boolean success = super.startupThisService(bundleContext);
-
-        EnvironmentActivator environmentActivator = (EnvironmentActivator)ClassServiceUtility.getClassService().getClassFinder(bundleContext).getClassBundleService(EnvironmentActivator.class.getName(), null, null, -1);
-        Environment env = environmentActivator.getEnvironment();
-        // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
-        BaseApplication app = new MainApplication();
-        server.init(app, null, null);
-        app.init(env, Utility.propertiesToMap(this.getProperties()), null); // Default application (with params).
-//        app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
-//        app.getMessageManager(true);
-        return success;
+        try {
+            Environment env = (Environment)this.getService(Env.class);
+            // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
+            App app = env.getMessageApplication(true, getServiceProperties());
+//            app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
+//            app.getMessageManager(true);
+            return new RemoteSessionServer(app, null, getServiceProperties());	// Doesn't create environment
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    	return null;
     }
-
-	/**
-     * Setup the application properties.
-	 */
-	public void setupProperties()
-	{
-	    super.setupProperties();
-	}
 }

@@ -10,53 +10,49 @@ package org.jbundle.base.util;
 import java.util.Map;
 
 import org.jbundle.base.model.Utility;
-import org.jbundle.util.osgi.bundle.BaseBundleService;
+import org.jbundle.model.Env;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceEvent;
 
-public class EnvironmentActivator extends BaseBundleService
+public class EnvironmentActivator extends BaseThickActivator
 {
-	protected Environment environment = null;
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
-	}
-
-    @Override
-    public void serviceChanged(ServiceEvent event) {
-        if (event.getType() == ServiceEvent.REGISTERED)
-        { // Osgi Service is up, Okay to start the server
-        	Utility.getLogger().info("Starting Environment");
-
-            Map<String,Object> props = Utility.propertiesToMap(this.getProperties());
-    	    environment = Environment.getEnvironment(props);	// There is no need to check if it is already up (only 1 can run)
-    	}
-        if (event.getType() == ServiceEvent.UNREGISTERING)
-        {
-            if (environment != null)
-            	environment.free();
-            environment = null;
-        }        
+    /**
+     * Start this service.
+     * Override this to do all the startup.
+     * @param context bundle context
+     * @return true if successful.
+     */
+    public Object startupService(BundleContext bundleContext)
+    {
+        Map<String,Object> props = this.getServiceProperties();
+	    return Environment.getEnvironment(props);	// There is no need to check if it is already up (only 1 can run)
     }
-    
+    /**
+     * Stop this service.
+     * Override this to do all the startup.
+     * @param bundleService
+     * @param context bundle context
+     * @return true if successful.
+     */
+    public boolean shutdownService(Object service, BundleContext context)
+    {
+    	getEnvironment().free();
+    	return true;
+    }
+
     /**
      * Get the environment.
      * @return
      */
     public Environment getEnvironment()
     {
-    	return environment;
+    	return (Environment)service;
+    }
+    /**
+     * Get the interface/service class name.
+     * @return
+     */
+    public Class<?> getInterfaceClass()
+    {
+		return Env.class;
     }
 }

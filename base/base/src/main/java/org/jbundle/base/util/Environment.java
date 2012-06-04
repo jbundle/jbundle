@@ -21,6 +21,7 @@ import org.jbundle.base.model.LockManager;
 import org.jbundle.base.model.MessageApp;
 import org.jbundle.base.model.Utility;
 import org.jbundle.model.App;
+import org.jbundle.model.Env;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.main.msg.db.MessageInfoModel;
 import org.jbundle.model.message.MessageManager;
@@ -43,7 +44,7 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
  * @author    Don Corley
  */
 public class Environment extends Object
-    implements PropertyOwner
+    implements Env
 {
     /**
      * The default database type for local files.
