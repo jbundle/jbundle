@@ -3,7 +3,6 @@
  */
 package org.jbundle.base.db.jdbc.service;
 
-import org.jbundle.base.db.jdbc.JdbcDatabase;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.model.util.Util;
 import org.jbundle.util.osgi.BundleActivatorModel;
