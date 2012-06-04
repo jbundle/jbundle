@@ -32,7 +32,7 @@ import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.util.osgi.ClassService;
+import org.jbundle.util.osgi.BundleConstants;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
@@ -166,7 +166,7 @@ public class ObjectField extends BaseField
                 Object objData = null;
                 if (rgBytes.length > 0)
                 {
-                    String string = new String(rgBytes, ClassService.OBJECT_ENCODING);
+                    String string = new String(rgBytes, BundleConstants.OBJECT_ENCODING);
                     objData = ClassServiceUtility.getClassService().convertStringToObject(string, null);
 //x                    ByteArrayInputStream ibyStream = new ByteArrayInputStream(rgBytes);
 //x                    ObjectInputStream iStream = new ObjectInputStream(ibyStream);

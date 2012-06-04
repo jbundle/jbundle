@@ -69,7 +69,7 @@ import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.util.osgi.ClassService;
+import org.jbundle.util.osgi.BundleConstants;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**
@@ -2616,7 +2616,7 @@ public class Record extends FieldList
         } catch (RuntimeException ex) {
         	if (className.startsWith("."))
         		if (recordOwner != null)
-        			if (!recordOwner.getClass().getName().startsWith(ClassService.ROOT_PACKAGE))
+        			if (!recordOwner.getClass().getName().startsWith(BundleConstants.ROOT_PACKAGE))
 			{
 				String packageName = Utility.getPackageName(recordOwner.getClass().getName());
 				int domainEnd = packageName.indexOf(".");
