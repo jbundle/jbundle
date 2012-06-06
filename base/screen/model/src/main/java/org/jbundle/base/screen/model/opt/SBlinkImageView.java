@@ -15,6 +15,7 @@ import java.util.Map;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.model.screen.ExtendedComponent;
 import org.jbundle.thin.base.db.Converter;
 
 /**
@@ -115,7 +116,7 @@ public class SBlinkImageView extends ScreenField
     public void addIcon(Object icon, int iIndex)
     {
         m_rgIcons[iIndex] = icon;
-//        if (this.getScreenFieldView().getControl() != null)
-//            ((JBlinkLabel)this.getScreenFieldView().getControl()).addIcon((ImageIcon)icon, iIndex);
+        if (this.getScreenFieldView().getControl() instanceof ExtendedComponent)	// Always
+            ((ExtendedComponent)this.getScreenFieldView().getControl()).addIcon(icon, iIndex);
     }
 }

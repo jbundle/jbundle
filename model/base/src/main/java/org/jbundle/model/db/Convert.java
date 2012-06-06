@@ -182,7 +182,7 @@ public interface Convert
     public int convertFieldToIndex();
     /**
      * Convert this index value to a display string.
-     * Ususally used for fields that are displayed as popups.
+     * Usually used for fields that are displayed as popups.
      * Override if you want to display the string.
      * @return The string for this index.
      */

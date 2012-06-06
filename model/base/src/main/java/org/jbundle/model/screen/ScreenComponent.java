@@ -10,7 +10,7 @@ import org.jbundle.model.Freeable;
 import org.jbundle.model.db.Convert;
 
 /**
- * FieldComponent.java
+ * ScreenComponent - A display widget.
  *
  * Created on November 9, 2000, 2:31 AM
  */

@@ -22,7 +22,7 @@ import javax.swing.table.TableColumnModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
-import org.jbundle.model.screen.FieldComponent;
+import org.jbundle.model.screen.ExtendedComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.util.Constant;
 
@@ -32,7 +32,7 @@ import org.jbundle.model.util.Constant;
  * This control is typically used to indicate that something is being processed.
  * This control cycles through the icons depending on the bitmap retrieved from the Model.
  * Each bit set, corresponds to an Icon in the table. If bit 0 is set, the 0 icon is
- * displayed on every other click.
+ * displayed on every other tick.
  * (ie., 0011001 will cycle - img0, img3, img0, img4, img0, etc)
  * (ie., 0011100 will cycle - img2, img3, img4, img2, etc)
  * WARNING WARNING WARNING - Do not use this control in a JTable unless your TableModel's
@@ -43,7 +43,7 @@ import org.jbundle.model.util.Constant;
  * @version 1.0.0
  */
 public class JBlinkLabel extends JLabel
-    implements TableCellRenderer, ActionListener, FieldComponent
+    implements TableCellRenderer, ActionListener, ExtendedComponent
 {
 	private static final long serialVersionUID = 1L;
 
@@ -204,7 +204,7 @@ public class JBlinkLabel extends JLabel
      * @param icon The icon to add.
      * @param iIndex The index for this icon.
      */
-    public void addIcon(ImageIcon icon, int iIndex)
+    public void addIcon(Object icon, int iIndex)
     {
         if (m_rgIcons == null)
         {
@@ -213,7 +213,8 @@ public class JBlinkLabel extends JLabel
             m_timer.start();
         }
         if (iIndex < MAX_ICONS)
-            m_rgIcons[iIndex] = icon;
+        	if (icon instanceof ImageIcon)		// Always
+        		m_rgIcons[iIndex] = (ImageIcon)icon;
     }
     /**
      * Remove this icon from the list of icons alternating for this label.
