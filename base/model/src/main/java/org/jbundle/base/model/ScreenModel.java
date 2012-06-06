@@ -54,7 +54,8 @@ public interface ScreenModel extends ComponentParent {
     public static final String VALUE = "value";
     public static final String DESC = "description";
     public static final String TOOLTIP = "tooltip";
-    public static final String FIELD = "field";          
+    public static final String FIELD = "field";
+    public static final String NEVER_DISABLE = "neverDisable";    
     /**
      * Constants.
      */

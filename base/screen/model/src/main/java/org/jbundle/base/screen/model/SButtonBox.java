@@ -15,6 +15,7 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 
 
@@ -33,6 +34,10 @@ public class SButtonBox extends SBaseButton
      * The button description.
      */
     protected String m_strButtonDesc = null;
+    /**
+     * Don't allow button to be disabled
+     */
+    protected boolean neverDisable = false;
 
     /**
      * Constructor.
@@ -119,6 +124,8 @@ public class SButtonBox extends SBaseButton
             strImage = (String)properties.get(ScreenModel.IMAGE);
             strCommand = (String)properties.get(ScreenModel.COMMAND);
             strToolTip = (String)properties.get(ScreenModel.TOOLTIP);
+            if (Constants.TRUE.equals(properties.get(ScreenModel.NEVER_DISABLE)))
+                neverDisable = true;;
         }
         
         this.init((ScreenLocation)itsLocation, (BasePanel)parentScreen, (Converter)fieldConverter, iDisplayFieldDesc, strValue, strDesc, strImage, strCommand, strToolTip);
@@ -188,5 +195,16 @@ public class SButtonBox extends SBaseButton
     public boolean isInputField()
     {
         return super.isInputField();	// Must be enabled, so the control will display for HTML
+    }
+    /**
+     * Enable or disable this control.
+     * @param bEnable If true, enable this field.
+     */
+    public void setEnabled(boolean bEnable)
+    {
+        if (neverDisable)
+            if (!bEnable)
+                return;
+        super.setEnabled(bEnable);
     }
 }
