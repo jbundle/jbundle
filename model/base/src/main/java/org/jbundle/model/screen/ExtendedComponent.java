@@ -16,7 +16,7 @@ package org.jbundle.model.screen;
  * @author  Administrator
  * @version 1.0.0
  */
-public interface ExtendedComponent extends FieldComponent
+public interface ExtendedComponent
 {
     /**
      * Add this icon to the list of icons alternating for this label.

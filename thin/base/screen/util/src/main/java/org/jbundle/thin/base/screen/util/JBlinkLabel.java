@@ -23,6 +23,7 @@ import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ExtendedComponent;
+import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.util.Constant;
 
@@ -43,7 +44,7 @@ import org.jbundle.model.util.Constant;
  * @version 1.0.0
  */
 public class JBlinkLabel extends JLabel
-    implements TableCellRenderer, ActionListener, ExtendedComponent
+    implements TableCellRenderer, ActionListener, FieldComponent, ExtendedComponent
 {
 	private static final long serialVersionUID = 1L;
 

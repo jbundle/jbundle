@@ -43,6 +43,7 @@ public interface ScreenModel extends ComponentParent {
     public static final String TREE_CTRL = "STreeCtrl";
     public static final String TOOL_SCREEN = "ToolScreen";
     public static final String TOP_SCREEN = "TopScreen";
+    public static final String BLINK_IMAGE = "org.jbundle.base.screen.model.opt.SBlinkImageView";
     
     public static final String LOCATION = "location";
     public static final String DISPLAY = "display";
@@ -54,7 +55,8 @@ public interface ScreenModel extends ComponentParent {
     public static final String VALUE = "value";
     public static final String DESC = "description";
     public static final String TOOLTIP = "tooltip";
-    public static final String FIELD = "field";          
+    public static final String FIELD = "field";
+    public static final String NEVER_DISABLE = "neverDisable";    
     /**
      * Constants.
      */
