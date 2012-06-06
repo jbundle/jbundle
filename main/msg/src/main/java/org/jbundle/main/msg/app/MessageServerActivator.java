@@ -5,16 +5,26 @@
  */
 package org.jbundle.main.msg.app;
 
-import java.util.Map;
+import java.awt.*;
+import java.util.*;
 
-import org.jbundle.base.model.DBParams;
-import org.jbundle.base.remote.server.BaseRemoteSessionActivator;
-import org.jbundle.base.remote.server.RemoteSessionServer;
-import org.jbundle.base.util.Environment;
-import org.jbundle.model.App;
-import org.jbundle.model.Env;
-import org.jbundle.thin.base.remote.RemoteException;
-import org.osgi.framework.BundleContext;
+import org.jbundle.base.db.*;
+import org.jbundle.thin.base.util.*;
+import org.jbundle.thin.base.db.*;
+import org.jbundle.base.db.event.*;
+import org.jbundle.base.db.filter.*;
+import org.jbundle.base.field.*;
+import org.jbundle.base.field.convert.*;
+import org.jbundle.base.field.event.*;
+import org.jbundle.base.model.*;
+import org.jbundle.base.util.*;
+import org.jbundle.model.*;
+import org.jbundle.model.db.*;
+import org.jbundle.model.screen.*;
+import org.jbundle.base.remote.server.*;
+import org.osgi.framework.*;
+import org.jbundle.util.osgi.finder.*;
+import org.jbundle.thin.base.remote.*;
 
 /**
  *  MessageServerActivator - .
@@ -29,12 +39,29 @@ public class MessageServerActivator extends BaseRemoteSessionActivator
         super();
     }
     /**
-     * SetupProperties Method.
+     * MessageServerActivator Method.
      */
-    public void init(BundleContext bundleContext)
+    public MessageServerActivator(Object object)
+    {
+        this();
+        this.init(object);
+    }
+    /**
+     * Initialize class fields.
+     */
+    public void init(Object object)
+    {
+        /*
+        super.init(object);   // Never used
+        */
+    }
+    /**
+     * Init Method.
+     */
+    public void init()
     {
         super.init();
-
+        
         if (this.getProperty(DBParams.APP_NAME) == null)
             this.setProperty(DBParams.APP_NAME, this.getClass().getName());
     }
@@ -56,15 +83,15 @@ public class MessageServerActivator extends BaseRemoteSessionActivator
                 service = new RemoteSessionServer(app, null, props);
             }
             app.init(env, props, null); // Default application (with params).
-        	if (service == null)
-        		service = new RemoteSessionServer(app, null, props);
-//            app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
-//            app.getMessageManager(true);
-            return service;	// Doesn't create environment
+            if (service == null)
+                service = new RemoteSessionServer(app, null, props);
+        //            app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
+        //            app.getMessageManager(true);
+            return service;    // Doesn't create environment
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-    	return null;
+        return null;
     }
 
 }
