@@ -25,6 +25,7 @@ import org.jbundle.thin.base.db.Converter;
  * @author    Don Corley
  */
 public class SBlinkImageView extends ScreenField
+    implements ExtendedComponent
 {
 
     /**
