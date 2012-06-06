@@ -27,6 +27,7 @@ import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.model.Task;
 import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.thin.base.screen.landf.ScreenUtil;
 
 
 /**
@@ -221,5 +222,13 @@ public class VBasePanel extends VScreenField
         }
         else
             ((JComponent)this.getControl()).getRootPane().setDefaultButton(null);
+    }
+    /**
+     * Enable or disable this control.
+     * @param bEnable If true, enable this field.
+     */
+    public void setEnabled(boolean bEnable)
+    {
+        // Don't disable a (swing) panel (Note: child components will be disabled individually)
     }
 }

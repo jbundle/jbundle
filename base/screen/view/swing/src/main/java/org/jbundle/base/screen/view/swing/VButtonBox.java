@@ -86,7 +86,19 @@ public class VButtonBox extends VBaseButton
         if (strImageButton == null)
             control = new JButton(strDesc);   // Physical control
         else if ((strDesc == null) || (strDesc.length() == 0))
+        {
+            boolean flag = false;
+            if (flag)
+                control = new JButton(this.loadImageIcon(strImageButton, null))
+            {
+                public void setEnabled(boolean b)
+                {
+                    super.setEnabled(b);
+                }
+            };
+            else
             control = new JButton(this.loadImageIcon(strImageButton, null));    // Get this image, then redisplay me when you're done
+        }
         else
             control = new JButton(strDesc, this.loadImageIcon(strImageButton, null)); // Get this image, then redisplay me when you're done
         if (this.getScreenInfo() != null)
