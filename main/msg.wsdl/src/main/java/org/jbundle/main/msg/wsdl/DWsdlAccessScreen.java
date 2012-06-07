@@ -81,10 +81,10 @@ public class DWsdlAccessScreen extends DDataAccessScreen
         Map<String,Object> properties = task.getRequestProperties(task.getServletRequest(), true);
         
         CreateWSDL wsdl = null;
-        if ("1.1".equalsIgnoreCase(this.getProperty(WSDL_VERSION)))
-            wsdl = new CreateWSDL11(task, null, properties);
-        else
+        if ("2.0".equalsIgnoreCase(this.getProperty(WSDL_VERSION)))
             wsdl = new CreateWSDL20(task, null, properties);    // Default
+        else    // 1.1 Is the default for now
+            wsdl = new CreateWSDL11(task, null, properties);
         Object data = wsdl.createMarshallableObject();
         String xml = wsdl.getXML(data);
         out.println(xml);

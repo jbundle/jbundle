@@ -49,7 +49,7 @@ public class CreateWSDL extends BaseProcess
     };
     protected org.w3._2001.xmlschema.ObjectFactory schemaFactory = null;
     protected Set<String> names = new HashSet<String>();
-    public static Map<String,Object> DESCRIPTIONS = null;
+    protected Map<String,Object> DESCRIPTIONS = null;
     protected String[][] DEFAULTS = null;
     /**
      * Default constructor.
