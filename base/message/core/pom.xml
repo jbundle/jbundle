@@ -9,7 +9,6 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <!-- This project is temporary until the circular dependencies have been resolved -->
   <artifactId>org.jbundle.base.message.core</artifactId>
   <name>jbundle-base-message-core</name>
   <packaging>bundle</packaging>

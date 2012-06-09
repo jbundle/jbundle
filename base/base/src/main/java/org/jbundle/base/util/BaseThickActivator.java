@@ -10,12 +10,8 @@ package org.jbundle.base.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.Utility;
-import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Params;
-import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.util.osgi.bundle.BaseBundleActivator;
 
 public class BaseThickActivator extends BaseBundleActivator

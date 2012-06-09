@@ -30,6 +30,7 @@ public interface MessageTransportModel extends Rec
     public static final String MAIL = "Mail";
     public static final String SCREEN = "Screen";
     public static final String SOAP = "SOAP";
+    public static final String SERVICE = "Service"; // OSGi Service
     public static final String XML = "XML";
     public static final String UPS = "UPS";
     public static final String MANUAL = "Manual";

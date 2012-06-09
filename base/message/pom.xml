@@ -21,5 +21,6 @@
     <module>remote</module>
     <module>jibx</module>
     <module>jaxm</module>
+    <module>service</module>
   </modules>
 </project>

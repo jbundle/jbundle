@@ -7,8 +7,6 @@
  */
 package org.jbundle.base.message.trx.message.external;
 
-import javax.xml.soap.SOAPMessage;
-
 import org.jbundle.base.message.core.trx.TrxMessageHeader;
 import org.jbundle.base.message.trx.message.external.convert.BaseConvertToMessage;
 import org.jbundle.base.model.DBConstants;
@@ -44,7 +42,7 @@ public class BaseXmlTrxMessageIn extends ExternalTrxMessageIn
      * This is used for outgoing EC transactions where you have the jaxb message and you need to convert it.
      * @param objRawMessage The (optional) raw data of the message.
      */
-    public BaseXmlTrxMessageIn(BaseMessage message, SOAPMessage soapMessage)
+    public BaseXmlTrxMessageIn(BaseMessage message, Object soapMessage)
     {
         this();
         this.init(message, soapMessage);
