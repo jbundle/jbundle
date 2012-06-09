@@ -30,12 +30,12 @@ public interface MessageTransportModel extends Rec
     public static final String MAIL = "Mail";
     public static final String SCREEN = "Screen";
     public static final String SOAP = "SOAP";
-    public static final String SERVICE = "Service"; // OSGi Service
     public static final String XML = "XML";
     public static final String UPS = "UPS";
     public static final String MANUAL = "Manual";
     public static final String CLIENT = "Client";
     public static final String SERVER = "Server";
+    public static final String SERVICE = "Service";
     public static final String DEFAULT = MessageTransportModel.CLIENT;
     public static final String SEND_MESSAGE_BY_PARAM = "sendMessageBy";
     public static final String TRANSPORT_ID_PARAM = "transportID";

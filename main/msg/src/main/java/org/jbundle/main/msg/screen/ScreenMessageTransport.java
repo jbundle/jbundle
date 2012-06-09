@@ -39,7 +39,7 @@ public class ScreenMessageTransport extends BaseMessageTransport
         super();
     }
     /**
-     * ScreenMessageTransport Method.
+     * Constructor.
      */
     public ScreenMessageTransport(Task messageSenderReceiver)
     {
