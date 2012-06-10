@@ -125,6 +125,8 @@ public abstract class BaseMessageProcessor extends BaseProcess
         messageProcessor = (BaseMessageProcessor)ClassServiceUtility.getClassService().makeObjectFromClassName(strClass);
         if (messageProcessor != null)
         	messageProcessor.init(taskParent, null, null);
+        else
+            Utility.getLogger().warning("Message processor not found: " + strClass);
         return messageProcessor;
     }
     /**
