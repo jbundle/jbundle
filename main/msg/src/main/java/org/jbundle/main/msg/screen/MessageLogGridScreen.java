@@ -315,9 +315,9 @@ public class MessageLogGridScreen extends DetailGridScreen
         if (this.isContactDisplay())
             return null;
         Record recHeader = this.getHeaderRecord();
-        Record recMessageDetail = this.getMainRecord();
+        Record recMessageLog = this.getMainRecord();
         if (recHeader instanceof Company)   // Profile
-            ((ReferenceField)recMessageDetail.getField(MessageDetail.PERSON_ID)).setReferenceRecord(recHeader);   // Make sure this is hooked up
+            ((ReferenceField)recMessageLog.getField(MessageLog.CONTACT_ID)).setReferenceRecord(recHeader);   // Make sure this is hooked up
         return new MessageLogHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
     /**
