@@ -1093,8 +1093,9 @@ public class WriteClass extends BaseProcess
         if (strMethodName.equals(strClassName))
         {
             if (codeType == CodeType.THICK)
-                if (!"void".equalsIgnoreCase(methodInfo.strMethodInterface))    // Default constructor is already there
             {
+                if ("".equalsIgnoreCase(methodInfo.strMethodInterface))
+                    return;    // Default constructor is already there
                 this.writeMethodInterface(strProtection, strMethodName, "", methodInfo.strMethodInterface, methodInfo.strMethodThrows, strMethodDesc, null);
                 this.writeDefaultMethodCode(strMethodName, methodInfo.strMethodReturns, methodInfo.strMethodInterface, strClassName);
             }
