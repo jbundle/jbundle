@@ -112,7 +112,7 @@ public class SendMessageAfterUpdateHandler extends FileListener
                         // Set up the trx message hander in my local message listener
                         BaseApplication application = (BaseApplication)this.getOwner().getTask().getApplication();
                         // Note: By adding this to the message app, I don't have to worry about a message being added to a freed app.
-                        application = (BaseApplication)application.getEnvironment().getMessageApplication(false, application.getProperties());
+                        application = (BaseApplication)application.getEnvironment().getMessageApplication(true, application.getProperties());
                         new TrxMessageListener(messageFilter, application, strProcessClass, properties);   // This listener was added to the filter
                         messageReceiver.addMessageFilter(messageFilter);
                     }

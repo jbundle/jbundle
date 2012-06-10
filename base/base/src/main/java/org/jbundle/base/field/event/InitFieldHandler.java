@@ -15,6 +15,7 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.model.db.Field;
 
 /**
  * When this field is initialized, move the source value to this field.
@@ -61,7 +62,7 @@ public class InitFieldHandler extends FieldListener
      * Constructor.
      * @param sourceField The source field to initialize the field owner to.
      */
-    public InitFieldHandler(BaseField sourceField)
+    public InitFieldHandler(Field sourceField)
     {
         this();
         this.init(null, sourceField, null, true, false);
@@ -91,11 +92,11 @@ public class InitFieldHandler extends FieldListener
      * @param sourceField The source field to initialize the field owner to.
      * @param sourceString The source string to initialize the field owner to.
      */
-    public void init(BaseField field, BaseField sourceField, Object sourceString, boolean bInitIfSourceNull, boolean bOnlyInitIfDestNull)
+    public void init(BaseField field, Field sourceField, Object sourceString, boolean bInitIfSourceNull, boolean bOnlyInitIfDestNull)
     {
         super.init(field);
         m_objSource = sourceString;
-        m_fldSource = sourceField;
+        m_fldSource = (BaseField)sourceField;
         m_bInitIfSourceNull = bInitIfSourceNull;
         m_bOnlyInitIfDestNull = bOnlyInitIfDestNull;
         

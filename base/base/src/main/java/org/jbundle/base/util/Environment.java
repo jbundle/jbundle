@@ -403,6 +403,10 @@ Utility.getLogger().info("removeApp: " + application);
 				strDBPrefix = (String)propDomain.get(DBConstants.DB_USER_PREFIX);
 				strSubSystem = (String)propDomain.get(DBConstants.SUB_SYSTEM_LN_SUFFIX);
 			}
+	        if ((properties != null) && (strDBPrefix == null))
+	            strDBPrefix = (String)properties.get(DBConstants.DB_USER_PREFIX);
+            if ((properties != null) && (strSubSystem == null))
+                strSubSystem = (String)properties.get(DBConstants.SUB_SYSTEM_LN_SUFFIX);
 		}    			
 		MessageApp messageApplication = this.getMessageApplication(strDBPrefix, strSubSystem);
         if (bCreateIfNotFound)
