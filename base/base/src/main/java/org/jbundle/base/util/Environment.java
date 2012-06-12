@@ -275,16 +275,16 @@ public class Environment extends Object
     public void setDefaultApplication(App application)
     {
         m_applicationDefault = application;
-        if (m_applicationDefault != null)
+        if (!(m_applicationDefault instanceof MainApplication))
         {
             if (m_args != null)
                 Util.parseArgs(m_properties, m_args);
-            if (this.getProperty(DBParams.LOCAL) == null)
-                m_properties.put(DBParams.LOCAL, DEFAULT_LOCAL_DB);
-            if (this.getProperty(DBParams.REMOTE) == null)
-                m_properties.put(DBParams.REMOTE, DEFAULT_REMOTE_DB);
-            if (this.getProperty(DBParams.TABLE) == null)
-                m_properties.put(DBParams.TABLE, DEFAULT_TABLE_DB);
+            if (m_properties.get(DBParams.LOCAL) == null)
+                m_properties.put(DBParams.LOCAL, (application.getProperty(DBParams.LOCAL) != null) ? application.getProperty(DBParams.LOCAL) : DEFAULT_LOCAL_DB);
+            if (m_properties.get(DBParams.REMOTE) == null)
+                m_properties.put(DBParams.REMOTE, (application.getProperty(DBParams.REMOTE) != null) ? application.getProperty(DBParams.REMOTE) : DEFAULT_REMOTE_DB);
+            if (m_properties.get(DBParams.TABLE) == null)
+                m_properties.put(DBParams.TABLE,  (application.getProperty(DBParams.TABLE) != null) ? application.getProperty(DBParams.TABLE) :DEFAULT_TABLE_DB);
         }
     }
     /**
@@ -297,7 +297,8 @@ public class Environment extends Object
 Utility.getLogger().info("addApp: " + application);
         m_vApplication.add(application);
         ((BaseApplication)application).setEnvironment(this);
-        if (m_applicationDefault == null)
+        if ((m_applicationDefault == null)
+                || ((!(m_applicationDefault instanceof MainApplication))) && (application instanceof MainApplication))
             this.setDefaultApplication(application);        // Initialization app
     }
     /**
