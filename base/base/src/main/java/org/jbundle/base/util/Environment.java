@@ -275,8 +275,9 @@ public class Environment extends Object
     public void setDefaultApplication(App application)
     {
         m_applicationDefault = application;
-        if (!(m_applicationDefault instanceof MainApplication))
-        {
+        if (application != null)
+            if ((!(m_applicationDefault instanceof MainApplication)) || (application == m_applicationDefault))
+        {   // Move db access properties down
             if (m_args != null)
                 Util.parseArgs(m_properties, m_args);
             if (m_properties.get(DBParams.LOCAL) == null)
