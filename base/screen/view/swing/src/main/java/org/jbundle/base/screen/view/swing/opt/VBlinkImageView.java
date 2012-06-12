@@ -20,7 +20,7 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.swing.VBaseButton;
-import org.jbundle.base.screen.view.swing.VScreenField;
+import org.jbundle.base.screen.view.swing.VButtonBox;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.screen.util.JBlinkLabel;
 
@@ -32,7 +32,7 @@ import org.jbundle.thin.base.screen.util.JBlinkLabel;
  *  1. Scroll into view if focused
  *  2. Tab = tab, even for JTextAreas (Could be a swing bug)
  */
-public class VBlinkImageView extends VScreenField
+public class VBlinkImageView extends VButtonBox
 {
 
     /**
@@ -174,5 +174,14 @@ public class VBlinkImageView extends VScreenField
     	if (label != null)
     		label.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     	return component;
+    }
+    /**
+     * Do I create a separate control for the description for this type of control.
+     * Generally yes, but you may want to override in checkboxes or buttons to include the description in the control.
+     * @return True as buttons have the description contained in the control.
+     */
+    public boolean getSeparateFieldDesc()
+    {
+        return true;
     }
 }

@@ -125,7 +125,7 @@ public class SButtonBox extends SBaseButton
             strCommand = (String)properties.get(ScreenModel.COMMAND);
             strToolTip = (String)properties.get(ScreenModel.TOOLTIP);
             if (Constants.TRUE.equals(properties.get(ScreenModel.NEVER_DISABLE)))
-                neverDisable = true;;
+                neverDisable = true;
         }
         
         this.init((ScreenLocation)itsLocation, (BasePanel)parentScreen, (Converter)fieldConverter, iDisplayFieldDesc, strValue, strDesc, strImage, strCommand, strToolTip);

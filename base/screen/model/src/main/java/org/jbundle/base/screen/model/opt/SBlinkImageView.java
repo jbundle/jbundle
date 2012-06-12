@@ -13,7 +13,7 @@ package org.jbundle.base.screen.model.opt;
 import java.util.Map;
 
 import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.base.screen.model.SButtonBox;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.model.screen.ExtendedComponent;
 import org.jbundle.thin.base.db.Converter;
@@ -24,7 +24,7 @@ import org.jbundle.thin.base.db.Converter;
  * @version 1.0.0
  * @author    Don Corley
  */
-public class SBlinkImageView extends ScreenField
+public class SBlinkImageView extends SButtonBox
     implements ExtendedComponent
 {
 
