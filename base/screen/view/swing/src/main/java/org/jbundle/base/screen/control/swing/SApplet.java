@@ -114,7 +114,7 @@ public class SApplet extends BaseApplet
             m_screenField.setScreenFieldView(m_screenField.setupScreenFieldView(true));
             // NOTE: When an Applet Screen passes no parent, the SApplet peer is not created, set it!
             m_screenField.init(null, null, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
-            this.addRecordOwner(m_screenField);
+            //x this.addRecordOwner(m_screenField);
             
             this.setupLookAndFeel(null);
             Container container = this.getBottomPane();
