@@ -121,11 +121,8 @@ public class DetailGridScreen extends GridScreen
         // Override this if it is not correct.
         SubFileFilter listener = null;
         this.getMainRecord().addListener(listener = new SubFileFilter(this.getHeaderRecord()));
-        if (this.getMainRecord().getKeyArea().getField(DBConstants.MAIN_KEY_FIELD).isNullable() == false)
-        {
-            listener.setFilterIfNull(true);
-            listener.setAddNewHeaderOnAdd(false);
-        }
+        if (!this.getMainRecord().getKeyArea().getField(DBConstants.MAIN_KEY_FIELD).isNullable())
+            listener.setFilterIfNull(true); // If the header record's key can't be null, don't display any detail if new record
     }
 
 }

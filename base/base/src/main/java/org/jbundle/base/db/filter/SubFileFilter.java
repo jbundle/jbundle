@@ -426,6 +426,9 @@ public class SubFileFilter extends DependentFileFilter
     public void setAddNewHeaderOnAdd(boolean bAddNewHeaderOnAdd)
     {
         m_bAddNewHeaderOnAdd = bAddNewHeaderOnAdd;
+        if (m_bAddNewHeaderOnAdd)
+            if (this.getMainRecord() != null)
+                this.getMainRecord().setOpenMode((this.getMainRecord().getOpenMode() | DBConstants.OPEN_REFRESH_AND_LOCK_ON_CHANGE_STRATEGY));
     }
     /**
      * Get the foreign field that references this record.

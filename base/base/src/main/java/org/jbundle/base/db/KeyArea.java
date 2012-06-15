@@ -671,4 +671,17 @@ public class KeyArea extends KeyAreaInfo
         }
         return false;   // is not null
     }
+    /**
+     * Can any of the fields in this key be null?
+     * @return
+     */
+    public boolean isNullable()
+    {
+        for (int i = 0; i < this.getKeyFields(); i++)
+        {
+            if (this.getKeyField(i).getField(DBConstants.FILE_KEY_AREA).isNullable())
+                return true;    // Is nullable
+        }
+        return false;   // is not nullable
+    }
 }
