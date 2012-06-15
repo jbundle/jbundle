@@ -128,7 +128,7 @@ public class ImageField extends ObjectField
             data = null;
         //if (data instanceof ImageIcon)
         //    data = new SerializableImage(((ImageIcon)data).getImage());
-        if ((data != null) && (!(data instanceof SerializableImage)))
+        if ((data != null) && (!(data instanceof SerializableImage)) && (!(data instanceof String)))
         {
             String strError = "Error - Incorrect image format, must be a SerializableImage";
             System.out.println(strError);   // TODO - Get rid of this
@@ -143,5 +143,18 @@ public class ImageField extends ObjectField
             return task.setLastError(strError);
         }
         return super.setData(data, bDisplayOption, iMoveMode);
+    }
+    /**
+     * Move this physical binary data to this field.
+     * @param data The physical data to move to this field (must be the correct raw data class).
+     * @param bDisplayOption If true, display after setting the data.
+     * @param iMoveMode The type of move.
+     * @return an error code (0 if success).
+     */
+    public int doSetData(Object data, boolean bDisplayOption, int iMoveMode)
+    {
+        if (data instanceof String)
+            return DBConstants.NORMAL_RETURN;   // Special case, button pressed
+        return super.doSetData(data, bDisplayOption, iMoveMode);
     }
 } 
