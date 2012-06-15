@@ -175,7 +175,7 @@ public class DatabaseException extends DBException
         case DBConstants.ERROR_STRING:
         default:
             strError = super.getMessage();  // See if there is a built-in message
-            if ((strError == null) || (strError.length() == 0))
+            if ((strError == null) || (strError.length() == 0) || (strError.startsWith("null")))
                 if (task != null)
             {   // Unknown error code, see if it was the last error
                 strError = task.getLastError(m_iErrorCode);
