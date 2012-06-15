@@ -708,7 +708,7 @@ public class BaseApplet extends JApplet
         panelMain.setOpaque(false);
         panelContainer.setLayout(new BorderLayout());
         panelContainer.add(panelMain, BorderLayout.CENTER);
-        if (this.getApplet() == null)
+        // if (this.getApplet() == null)    // Always display status bar (Since I can't tell the difference between a standalone and applet)
         	if (m_bAddStatusbar)
         		panelContainer.add(m_statusbar = new JStatusbar(null), BorderLayout.SOUTH);
         JBaseHelpPane helpPane = (JBaseHelpPane)ClassServiceUtility.getClassService().makeObjectFromClassName("org.jbundle.thin.base.screen.util.html.JHelpPane");
@@ -1450,10 +1450,10 @@ public class BaseApplet extends JApplet
             strStatus = Constants.BLANK;
         m_strCurrentStatus = strStatus;
         m_iCurrentWarningLevel = iWarningLevel;
-        if (this.getApplet() != null)
-            ((BaseApplet)this.getApplet()).showStatus(strStatus);
-        else
-        {
+        //xif (this.getApplet() != null)
+        //x    ((BaseApplet)this.getApplet()).showStatus(strStatus);
+        //xelse
+        //x{
             if (iWarningLevel != Constants.ERROR)
             {   // Warning or information
                 ImageIcon icon = null;
@@ -1480,7 +1480,7 @@ public class BaseApplet extends JApplet
                     }
                 }
             }
-        }
+        //x}
     }
     /**
      * Get the last status message if it is at this level or above.
