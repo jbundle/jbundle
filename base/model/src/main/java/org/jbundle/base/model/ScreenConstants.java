@@ -29,13 +29,13 @@ public interface ScreenConstants extends JScreenConstants
     public static final String HTML_SCREEN_TYPE = "html"; // Sets up screen for HTML display
     // Document mode - Bits 8+ (values 256, 512, 1024, 2048, 4096) (For screens only)
     public static final int MENU_MODE = 256;        // Display file as a menu
-    public static final int MAINT_MODE = 512;
-    public static final int INPUT_TYPE = 512;   // SAME
-    public static final int DISPLAY_TYPE = 1024;
+    public static final int MAINT_MODE = 512;       // Screen input/display screen
+    public static final int INPUT_TYPE = 512;       // SAME
+    public static final int DISPLAY_TYPE = 1024;    // Grid screen
     public static final int DISPLAY_MODE = 1024;    // SAME
-    public static final int SELECT_MODE = DISPLAY_MODE | 2048;
-    public static final int DETAIL_MODE = DISPLAY_MODE | 64;
-    public static final int POST_MODE = DISPLAY_MODE | 128;
+    public static final int DETAIL_MODE = DISPLAY_MODE | 64;    // Data detail grid screen
+    public static final int SELECT_MODE = DISPLAY_MODE | 2048;  // Grid screen with select
+    public static final int POST_MODE = DISPLAY_MODE | 128;     // Post data
     public static final int SECURITY_MODE = MAINT_MODE | 2048;  // Special login screen.
     public static final int LAST_MODE = 2048;    // If mode is higher than this it is user defined.
 // Command options
