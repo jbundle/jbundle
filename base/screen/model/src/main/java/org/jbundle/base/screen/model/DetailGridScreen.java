@@ -10,6 +10,7 @@ import java.util.Map;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.thin.base.db.Converter;
@@ -47,6 +48,7 @@ public class DetailGridScreen extends GridScreen
     {
         m_recHeader = null;
         if ((iDisplayFieldDesc & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
+            if ((properties == null) || (properties.get(DBParams.HEADER_OBJECT_ID) == null))    // Would not pass in a header id and a header file
         {
             m_recHeader = record;
             record = null;
@@ -95,11 +97,27 @@ public class DetailGridScreen extends GridScreen
     public void openOtherRecords()
     {
         super.openOtherRecords();
+        Record mainRecord = this.getMainRecord();
         if (m_recHeader != null)
+        {
+            if ((mainRecord != m_recHeader)
+                && (mainRecord.getClass() == m_recHeader.getClass())
+                && (mainRecord.getRecordName().equals(m_recHeader.getRecordName())))
+            {   // Special case... the main record was passed in, but I was expecting a header record, swap them
+                Record correctHeaderRecord = this.openHeaderRecord();  // The new correct header record
+                if (mainRecord.getClass() != correctHeaderRecord.getClass())    // Just being sure that the main and header are different
+                {   // That's what I thought the header is different
+                    mainRecord.free();  // Should not have opened this
+                    this.addRecord(m_recHeader, true);  // The passed in record is the correct main record
+                    m_recHeader = correctHeaderRecord;   // And this is the correct header record.
+                }
+                else
+                    correctHeaderRecord.free(); // Forget what I just said, the header and detail records are the same (record class not object)
+            }
             this.addRecord(m_recHeader, false);
+        }
         else
         {
-            Record mainRecord = this.getMainRecord();
             m_recHeader = this.openHeaderRecord();
             if (mainRecord == m_recHeader)  // Passed in the header record as main
                 this.openMainRecord();
