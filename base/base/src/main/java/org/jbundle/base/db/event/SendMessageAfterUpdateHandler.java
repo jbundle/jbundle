@@ -123,11 +123,12 @@ public class SendMessageAfterUpdateHandler extends FileListener
                     {   // Since this may be time-consuming, display the hour glass (and lock the window, since I'm using your task).
                         Map<String,Object> map = new HashMap<String,Object>();
                         map.put("message", m_message);
+                        map.put("transport", getDirectMessageTransport(this.getOwner().getTask()));
                         SwingSyncPageWorker worker = new SwingSyncPageWorker(((SyncPage)this.getOwner().getTask()), map, true)
                         {
                             public void done()
                             {
-                                BaseRecordOwner transport = getDirectMessageTransport((Task)m_syncPage);
+                                BaseRecordOwner transport = (BaseRecordOwner)this.get("transport");
                                 BaseMessage message = (BaseMessage)this.get("message");
                                 ((MessageSender)transport).sendMessage(message);
                                 transport.free();
