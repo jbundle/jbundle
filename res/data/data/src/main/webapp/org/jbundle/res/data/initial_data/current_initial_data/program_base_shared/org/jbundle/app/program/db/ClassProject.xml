@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><file>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<ClassProject ID="16777217">
 		<LastChanged>2012-01-16T07:50:30</LastChanged>
 		<Deleted>N</Deleted>
@@ -132,22 +132,22 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777253">
-		<LastChanged>2011-03-10T05:30:13</LastChanged>
+		<LastChanged>2012-04-09T03:39:13</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>mixed</Name>
+		<Name>thread</Name>
 		<ParentFolderID>16,777,258</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
 		<Description>Thin base code (not generated)</Description>
 		<SystemClasses>Y</SystemClasses>
-		<PackageName/>
+		<PackageName>.thread</PackageName>
 		<ProjectPath/>
-		<InterfacePackage/>
+		<InterfacePackage>.thread</InterfacePackage>
 		<InterfaceProjectPath/>
-		<ThinPackage/>
+		<ThinPackage>.thread</ThinPackage>
 		<ThinProjectPath/>
-		<ResourcePackage/>
+		<ResourcePackage>.thread</ResourcePackage>
 		<ResProjectPath/>
 		<Properties/>
 		<ArtifactId/>
@@ -748,7 +748,7 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777281">
-		<LastChanged>2012-03-10T05:30:01</LastChanged>
+		<LastChanged>2011-03-10T05:30:01</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>opt</Name>
 		<ParentFolderID>16,777,250</ParentFolderID>
@@ -770,7 +770,7 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777282">
-		<LastChanged>2011-03-10T05:30:15</LastChanged>
+		<LastChanged>2012-04-09T03:38:58</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>db</Name>
 		<ParentFolderID>16,777,258</ParentFolderID>
@@ -779,13 +779,13 @@
 		<Code/>
 		<Description>Thin db code (not generated)</Description>
 		<SystemClasses>Y</SystemClasses>
-		<PackageName/>
+		<PackageName>.db</PackageName>
 		<ProjectPath/>
-		<InterfacePackage/>
+		<InterfacePackage>.db</InterfacePackage>
 		<InterfaceProjectPath/>
-		<ThinPackage/>
+		<ThinPackage>.db</ThinPackage>
 		<ThinProjectPath/>
-		<ResourcePackage/>
+		<ResourcePackage>.db</ResourcePackage>
 		<ResProjectPath/>
 		<Properties/>
 		<ArtifactId/>
@@ -1689,6 +1689,50 @@
 		<ThinProjectPath>.</ThinProjectPath>
 		<ResourcePackage/>
 		<ResProjectPath>.</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777325">
+		<LastChanged>2012-04-09T06:23:50</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>message</Name>
+		<ParentFolderID>16,777,258</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Thin message</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.message</PackageName>
+		<ProjectPath/>
+		<InterfacePackage>.message</InterfacePackage>
+		<InterfaceProjectPath/>
+		<ThinPackage>.message</ThinPackage>
+		<ThinProjectPath/>
+		<ResourcePackage>.message</ResourcePackage>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777326">
+		<LastChanged>2012-06-09T12:45:43</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>service</Name>
+		<ParentFolderID>16,777,287</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>OSGI service transport</Description>
+		<SystemClasses>Y</SystemClasses>
+		<PackageName>.service</PackageName>
+		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>

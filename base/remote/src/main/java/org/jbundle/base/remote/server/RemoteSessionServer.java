@@ -172,7 +172,7 @@ public class RemoteSessionServer extends RemoteObject
         if (m_app != null)
         	m_app.free();
         m_app = null;
-        ClassServiceUtility.getClassService().shutdownService(this);
+        ClassServiceUtility.getClassService().shutdownService(null, this);
         if (env != null)
         	env.freeIfDone();
 //x        System.exit(0);

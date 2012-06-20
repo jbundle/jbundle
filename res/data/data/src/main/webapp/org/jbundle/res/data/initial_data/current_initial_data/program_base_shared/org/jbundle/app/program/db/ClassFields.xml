@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><file>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<ClassFields ID="16777673">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
@@ -2091,23 +2091,8 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="16780117">
-		<LastChanged>2012-01-12T12:28:04</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>MessageInfo</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>int</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName>TRANSPORT_DETAIL_MODE</ClassFieldName>
-		<ClassFieldDesc/>
-		<ClassFieldProtect>public static final</ClassFieldProtect>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue>ScreenConstants.LAST_MODE * 2</ClassFieldInitialValue>
-		<ClassFieldsType>N</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="16780118">
-		<LastChanged>2012-01-12T12:28:09</LastChanged>
+		<LastChanged>2012-05-10T10:04:50</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>MessageInfo</ClassInfoClassName>
 		<ClassInfoID/>
@@ -2117,7 +2102,7 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue>ScreenConstants.LAST_MODE * 4</ClassFieldInitialValue>
+		<ClassFieldInitialValue>(ScreenConstants.LAST_MODE * 4) | ScreenConstants.DETAIL_MODE</ClassFieldInitialValue>
 		<ClassFieldsType>N</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
@@ -2163,21 +2148,6 @@
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue>"Process detail"</ClassFieldInitialValue>
-		<ClassFieldsType>N</ClassFieldsType>
-		<IncludeScope>5</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="16780123">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>MessageInfo</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>String</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName>TRANSPORT_DETAIL_SCREEN</ClassFieldName>
-		<ClassFieldDesc/>
-		<ClassFieldProtect>public static final</ClassFieldProtect>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue>"Transport detail"</ClassFieldInitialValue>
 		<ClassFieldsType>N</ClassFieldsType>
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
@@ -2557,7 +2527,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16780483">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2012-04-09T03:15:33</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>MessageDetailTarget</ClassInfoClassName>
 		<ClassInfoID/>
@@ -2569,7 +2539,7 @@
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
+		<IncludeScope>4</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16780484">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -3607,7 +3577,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16780901">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2012-04-09T06:43:32</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>AnnivMasterHandler</ClassInfoClassName>
 		<ClassInfoID/>
@@ -3619,10 +3589,10 @@
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>F</ClassFieldsType>
-		<IncludeScope>5</IncludeScope>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16780902">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2012-04-09T06:43:39</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>AnnivMasterHandler</ClassInfoClassName>
 		<ClassInfoID/>
@@ -3634,7 +3604,7 @@
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>F</ClassFieldsType>
-		<IncludeScope>5</IncludeScope>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16780903">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
@@ -6136,7 +6106,7 @@
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16781751">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2012-06-06T22:19:27</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>CreateWSDL</ClassInfoClassName>
 		<ClassInfoID/>
@@ -6144,7 +6114,7 @@
 		<ClassFieldSequence>3,100</ClassFieldSequence>
 		<ClassFieldName>DESCRIPTIONS</ClassFieldName>
 		<ClassFieldDesc/>
-		<ClassFieldProtect>public static</ClassFieldProtect>
+		<ClassFieldProtect>protected</ClassFieldProtect>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue>null</ClassFieldInitialValue>
 		<ClassFieldsType>N</ClassFieldsType>
@@ -9314,7 +9284,7 @@
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782340">
-		<LastChanged>2010-05-25T15:08:13</LastChanged>
+		<LastChanged>2012-04-09T03:18:28</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>ScanListener</ClassInfoClassName>
 		<ClassInfoID/>
@@ -9326,10 +9296,10 @@
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
+		<IncludeScope>4</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782341">
-		<LastChanged>2010-05-25T15:09:57</LastChanged>
+		<LastChanged>2012-04-09T03:18:34</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>ScanListener</ClassInfoClassName>
 		<ClassInfoID/>
@@ -9341,7 +9311,7 @@
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
+		<IncludeScope>4</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782343">
 		<LastChanged>2010-05-25T15:14:52</LastChanged>
@@ -12336,7 +12306,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782574">
-		<LastChanged>2011-09-09T14:49:05</LastChanged>
+		<LastChanged>2012-01-15T14:33:56</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>UserPermission</ClassInfoClassName>
 		<ClassInfoID/>
@@ -13082,6 +13052,111 @@
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue>"R"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>5</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782625">
+		<LastChanged>2012-04-07T23:30:09</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>UserInfoMessageData</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>MessageDataParent</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782626">
+		<LastChanged>2012-04-07T23:30:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>CreateSiteMessageData</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>MessageDataParent</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782627">
+		<LastChanged>2012-04-07T23:31:12</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>MenusMessageData</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>MessageDataParent</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782628">
+		<LastChanged>2012-04-09T03:19:37</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ScanListener</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>RecordOwnerParent</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782629">
+		<LastChanged>2012-05-10T10:07:08</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>MessageProcessInfo</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>int</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName>TRANSPORT_DETAIL_MODE</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>(ScreenConstants.LAST_MODE * 2) | ScreenConstants.DETAIL_MODE</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782630">
+		<LastChanged>2012-05-10T10:06:35</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>MessageProcessInfo</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName>TRANSPORT_DETAIL_SCREEN</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"Transport detail"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>5</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782631">
+		<LastChanged>2012-06-09T14:07:07</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>MessageTransport</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>98</ClassFieldSequence>
+		<ClassFieldName>SERVICE</ClassFieldName>
+		<ClassFieldDesc>OSGi Service</ClassFieldDesc>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"Service"</ClassFieldInitialValue>
 		<ClassFieldsType>N</ClassFieldsType>
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>

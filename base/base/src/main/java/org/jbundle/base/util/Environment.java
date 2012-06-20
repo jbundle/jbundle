@@ -157,7 +157,7 @@ public class Environment extends Object
         if (gEnv == this)
         	gEnv = null;
         
-        ClassServiceUtility.getClassService().shutdownService(this);	// Careful of circular calls
+        ClassServiceUtility.getClassService().shutdownService(Env.class.getName(), this);	// Careful of circular calls
     }
     /**
      * Free this environment if you don't have any more user applications.

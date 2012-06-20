@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><file>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<LogicFile ID="189">
 		<LastChanged>2009-02-12T14:49:28</LastChanged>
 		<Deleted>N</Deleted>
@@ -1846,7 +1846,7 @@ this.getRecord(Vet.VET_FILE).getField(Vet.NAME).setupDefaultView(this.getNextLoc
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5160">
-		<LastChanged>2012-01-23T14:49:26</LastChanged>
+		<LastChanged>2012-01-23T09:37:47</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>addToolbars</MethodName>

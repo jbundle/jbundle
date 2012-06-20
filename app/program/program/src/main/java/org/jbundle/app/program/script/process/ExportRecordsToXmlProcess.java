@@ -75,6 +75,8 @@ public class ExportRecordsToXmlProcess extends BaseProcessRecords
      */
     public boolean processThisRecord(Record record)
     {
+        if (record == null)
+            return false;
         boolean bPhysicalName = true;
         if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty("useDatabaseName")))
             bPhysicalName = false;

@@ -189,7 +189,7 @@ public class SApplet extends BaseApplet
             m_screenField = null;
         }
         super.free();
-        ClassServiceUtility.getClassService().shutdownService(this);	// Careful of circular calls
+        ClassServiceUtility.getClassService().shutdownService(null, this);	// Careful of circular calls
     }
     /**
      * This application is done, stop the application.

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><file>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<Menus ID="415">
 		<LastChanged/>
 		<Deleted>N</Deleted>
@@ -2064,7 +2064,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1752">
-		<LastChanged>2010-04-09T13:30:28</LastChanged>
+		<LastChanged>2010-04-09T13:22:55</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Test report screen</Name>
 		<ParentFolderID>1,337</ParentFolderID>
@@ -2525,7 +2525,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1861">
-		<LastChanged>2010-12-09T17:20:28</LastChanged>
+		<LastChanged>2012-06-19T15:30:25</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>App development</Name>
 		<ParentFolderID>1,859</ParentFolderID>
@@ -2540,11 +2540,11 @@
 <entry key="programSharedDBName">program_app</entry>
 <entry key="mainUserDBName">main</entry>
 <entry key="mainSharedDBName">main_base</entry>
-<entry key="dbSuffix">_app</entry>
 <entry key="background"/>
 <entry key="backgroundcolor">#CCFFCC</entry>
 <entry key="menu">Development</entry>
-</properties></Params>
+</properties>
+</Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
@@ -2577,7 +2577,7 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1863">
-		<LastChanged>2010-12-09T17:21:21</LastChanged>
+		<LastChanged>2012-06-19T20:21:37</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Test</Name>
 		<ParentFolderID>1,859</ParentFolderID>
@@ -2591,11 +2591,11 @@
 <comment>Field properties</comment>
 <entry key="programSharedDBName">program_test</entry>
 <entry key="mainUserDBName">main</entry>
-<entry key="dbSuffix">_test</entry>
 <entry key="background"/>
 <entry key="backgroundcolor">#CCFFFF</entry>
 <entry key="menu">test</entry>
-</properties></Params>
+</properties>
+</Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
@@ -2928,6 +2928,58 @@
 		<AutoDesc>Y</AutoDesc>
 		<Program>app</Program>
 		<Params/>
+		<IconResource/>
+		<Keywords/>
+		<XmlData/>
+		<MenusHelp/>
+	</Menus>
+	<Menus ID="1878">
+		<LastChanged>2012-06-11T11:23:32</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Fred  old demo</Name>
+		<ParentFolderID>1,859</ParentFolderID>
+		<Sequence>237</Sequence>
+		<Comment/>
+		<Code/>
+		<Type>screen</Type>
+		<AutoDesc>Y</AutoDesc>
+		<Program>org.jbundle.app.program.screen.SwitchDatabaseMenuScreen</Program>
+		<Params type="XML"><properties>
+<comment>Field properties</comment>
+<entry key="remotehost">fred.demo.tourgeek.com</entry>
+<entry key="url">http://fred.demo.tourgeek.com:8181/tourapp</entry>
+<entry key="domain">fred.demo.tourgeek.com</entry>
+<entry key="baseURL">fred.demo.tourgeek.com:8181/</entry>
+<entry key="connectionType">proxy</entry>
+<entry key="codebase">fred.demo.tourgeek.com:8181/</entry>
+</properties>
+</Params>
+		<IconResource/>
+		<Keywords/>
+		<XmlData/>
+		<MenusHelp/>
+	</Menus>
+	<Menus ID="1879">
+		<LastChanged>2012-06-10T12:06:58</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Fred demo</Name>
+		<ParentFolderID>1,859</ParentFolderID>
+		<Sequence>235</Sequence>
+		<Comment/>
+		<Code/>
+		<Type>screen</Type>
+		<AutoDesc>Y</AutoDesc>
+		<Program>org.jbundle.app.program.screen.SwitchDatabaseMenuScreen</Program>
+		<Params type="XML"><properties>
+<comment>Field properties</comment>
+<entry key="loadInitialData">true</entry>
+<entry key="userArchiveFolder">/home/don/.tourapp/fred/current_test_data</entry>
+<entry key="dbPrefix">fred_</entry>
+<entry key="mainUser">fred@tourgeek.com</entry>
+<entry key="xslTemplate">org/jbundle/res/docs/styles/xsl/program/fixdemotemplate.xsl</entry>
+<entry key="domain">fred.demo.tourgeek.com</entry>
+</properties>
+</Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>

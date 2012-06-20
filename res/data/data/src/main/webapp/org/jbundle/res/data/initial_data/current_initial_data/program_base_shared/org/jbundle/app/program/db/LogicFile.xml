@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><file>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<LogicFile ID="16777636">
 		<LastChanged>2009-02-12T14:49:28</LastChanged>
 		<Deleted>N</Deleted>
@@ -4182,13 +4182,13 @@ Need the position of the toolbars and whether the detail should be displayed.]]>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16779559">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-06-09T12:50:03</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>5</Sequence>
 		<MethodName>BaseRecordOwner</MethodName>
 		<LogicDescription>Constructor</LogicDescription>
 		<MethodReturns/>
-		<MethodInterface>Record record</MethodInterface>
+		<MethodInterface>RecordOwnerParent parent, Rec recordMain, Map&lt;String, Object&gt; properties</MethodInterface>
 		<MethodClassName>BaseRecordOwner</MethodClassName>
 		<LogicSource/>
 		<LogicThrows/>
@@ -6705,7 +6705,7 @@ This is more usefull in the queryrecord.
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16781522">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-04-13T15:58:19</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>openOtherRecords</MethodName>
@@ -6717,7 +6717,12 @@ This is more usefull in the queryrecord.
 if (m_recHeader != null)
     this.addRecord(m_recHeader, false);
 else
-    m_recHeader = this.openHeaderRecord();]]></LogicSource>
+{
+    Record mainRecord = this.getMainRecord();
+    m_recHeader = this.openHeaderRecord();
+    if (mainRecord == m_recHeader)  // Passed in the header record as main
+        this.openMainRecord();
+}]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -8755,7 +8760,7 @@ return strURL;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16782098">
-		<LastChanged>2012-01-26T23:22:45</LastChanged>
+		<LastChanged>2012-06-10T05:54:42</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>90</Sequence>
 		<MethodName>makeSubScreen</MethodName>
@@ -8766,9 +8771,9 @@ return strURL;]]></LogicSource>
 		<LogicSource><![CDATA[if (this.isContactDisplay())
     return null;
 Record recHeader = this.getHeaderRecord();
-Record recMessageDetail = this.getMainRecord();
+Record recMessageLog = this.getMainRecord();
 if (recHeader instanceof Company)   // Profile
-    ((ReferenceField)recMessageDetail.getField(MessageDetail.PERSON_ID)).setReferenceRecord(recHeader);   // Make sure this is hooked up
+    ((ReferenceField)recMessageLog.getField(MessageLog.CONTACT_ID)).setReferenceRecord(recHeader);   // Make sure this is hooked up
 return new MessageLogHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -10248,7 +10253,7 @@ try {
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16782430">
-		<LastChanged>2012-01-20T06:36:29</LastChanged>
+		<LastChanged>2012-05-10T11:02:09</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>50</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -10257,8 +10262,8 @@ try {
 		<MethodInterface/>
 		<MethodClassName>MessageInfo</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
-if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
-    screen = Record.makeNewScreen(MESSAGE_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == PROCESS_DETAIL_MODE)
+    screen = Record.makeNewScreen(MessageProcessInfo.MESSAGE_PROCESS_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
     screen = Record.makeNewScreen(MESSAGE_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
@@ -10351,7 +10356,7 @@ return screen;]]></LogicSource>
 	<LogicFile ID="16782436">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
 		<Deleted>N</Deleted>
-		<Sequence>60</Sequence>
+		<Sequence>40</Sequence>
 		<MethodName>commandToDocType</MethodName>
 		<LogicDescription/>
 		<MethodReturns/>
@@ -10523,7 +10528,7 @@ super;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16782449">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-05-10T10:50:34</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>addToolbarButtons</MethodName>
@@ -10532,7 +10537,7 @@ super;]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>MessageProcessInfoScreen</MethodClassName>
 		<LogicSource><![CDATA[BaseApplication application = (BaseApplication)this.getTask().getApplication();
-new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageInfo.TRANSPORT_DETAIL_SCREEN), MenuConstants.GRID, MessageInfo.TRANSPORT_DETAIL_SCREEN, null);
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageProcessInfo.TRANSPORT_DETAIL_SCREEN), MenuConstants.GRID, MessageProcessInfo.TRANSPORT_DETAIL_SCREEN, null);
 super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -10540,7 +10545,7 @@ super;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16782450">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-05-10T10:51:21</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>70</Sequence>
 		<MethodName>addNavButtons</MethodName>
@@ -10549,7 +10554,7 @@ super;]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>MessageProcessInfoGridScreen</MethodClassName>
 		<LogicSource><![CDATA[BaseApplication application = (BaseApplication)this.getTask().getApplication();
-new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.GRID, MessageInfo.TRANSPORT_DETAIL_SCREEN, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageInfo.TRANSPORT_DETAIL_SCREEN));
+new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.GRID, MessageProcessInfo.TRANSPORT_DETAIL_SCREEN, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageProcessInfo.TRANSPORT_DETAIL_SCREEN));
 super;  // Next buttons will be "First!"]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -10557,7 +10562,7 @@ super;  // Next buttons will be "First!"]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16782451">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-05-10T10:51:40</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>addToolbarButtons</MethodName>
@@ -10566,7 +10571,7 @@ super;  // Next buttons will be "First!"]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>MessageProcessInfoGridScreen</MethodClassName>
 		<LogicSource><![CDATA[BaseApplication application = (BaseApplication)this.getTask().getApplication();
-new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageInfo.TRANSPORT_DETAIL_SCREEN), MenuConstants.GRID, MessageInfo.TRANSPORT_DETAIL_SCREEN, null);
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, application.getResources(ResourceConstants.PRODUCT_RESOURCE, true).getString(MessageProcessInfo.TRANSPORT_DETAIL_SCREEN), MenuConstants.GRID, MessageProcessInfo.TRANSPORT_DETAIL_SCREEN, null);
 super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -10574,7 +10579,7 @@ super;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16782452">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-05-10T10:07:41</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>commandToDocType</MethodName>
@@ -10582,8 +10587,8 @@ super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>MessageProcessInfo</MethodClassName>
-		<LogicSource><![CDATA[if (MessageInfo.TRANSPORT_DETAIL_SCREEN.equalsIgnoreCase(strCommand))
-    return MessageInfo.TRANSPORT_DETAIL_MODE;
+		<LogicSource><![CDATA[if (TRANSPORT_DETAIL_SCREEN.equalsIgnoreCase(strCommand))
+    return TRANSPORT_DETAIL_MODE;
 return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -10591,7 +10596,7 @@ return super;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16782453">
-		<LastChanged>2012-01-20T06:36:29</LastChanged>
+		<LastChanged>2012-05-10T11:09:13</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>90</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -10600,12 +10605,12 @@ return super;]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>MessageProcessInfo</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
-if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+if ((iDocMode & TRANSPORT_DETAIL_MODE) == TRANSPORT_DETAIL_MODE)
+    screen = Record.makeNewScreen(MessageTransportInfoModel.MESSAGE_TRANSPORT_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
     screen = Record.makeNewScreen(MESSAGE_PROCESS_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
     screen = Record.makeNewScreen(MESSAGE_PROCESS_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
-else if ((iDocMode & MessageInfo.TRANSPORT_DETAIL_MODE) == MessageInfo.TRANSPORT_DETAIL_MODE)
-    screen = Record.makeNewScreen(MessageTransportInfoModel.MESSAGE_TRANSPORT_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else
     screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
 return screen;]]></LogicSource>
@@ -10615,7 +10620,7 @@ return screen;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16782454">
-		<LastChanged>2012-01-16T09:24:47</LastChanged>
+		<LastChanged>2012-05-10T14:03:06</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>makeReferenceRecord</MethodName>
@@ -10623,7 +10628,7 @@ return screen;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>MessageTypeField</MethodClassName>
-		<LogicSource>return Record.makeRecordFromClassName(MessageTypeModel.MESSAGE_TYPE_FILE, recordOwner);</LogicSource>
+		<LogicSource>return Record.makeRecordFromClassName(MessageTypeModel.THICK_CLASS, recordOwner);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -11248,7 +11253,7 @@ return trxMessageHeader;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16782482">
-		<LastChanged>2012-02-01T19:00:11</LastChanged>
+		<LastChanged>2012-05-26T01:53:54</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>1,400</Sequence>
 		<MethodName>addTransportProperties</MethodName>
@@ -11329,7 +11334,7 @@ return trxMessageHeader;]]></LogicSource>
                     int iMessageVersionIDDefault = 0;
                     int iMessageVersionIDBestGuess = iMessageVersionID;
                     boolean bDefaultExists = false;
-                    addListener(subFileFilter = new SubFileFilter(this.getField(MessageProcessInfo.ID), MessageTransportInfo.MESSAGE_PROCESS_INFO_ID, m_recMessageTransport.getField(MessageTransport.ID), MessageTransportInfo.MESSAGE_TRANSPORT_ID, null, null));
+                    m_recMessageTransportInfo.addListener(subFileFilter = new SubFileFilter(this.getField(MessageProcessInfo.ID), MessageTransportInfo.MESSAGE_PROCESS_INFO_ID, m_recMessageTransport.getField(MessageTransport.ID), MessageTransportInfo.MESSAGE_TRANSPORT_ID, null, null));
                     while  (m_recMessageTransportInfo.hasNext())
                     {
                         m_recMessageTransportInfo.next();
@@ -17733,13 +17738,13 @@ The calling program will change the status if required.
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783855">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-04-08T10:47:00</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>700</Sequence>
 		<MethodName>moveRequestInfoToReply</MethodName>
 		<LogicDescription>Move the pertinenent information from the request to this reply message.</LogicDescription>
 		<MethodReturns/>
-		<MethodInterface>BaseMessage messageRequest</MethodInterface>
+		<MethodInterface>Message messageRequest</MethodInterface>
 		<MethodClassName>MessageDataDesc</MethodClassName>
 		<LogicSource/>
 		<LogicThrows/>
@@ -20934,7 +20939,7 @@ out.flush();]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784367">
-		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<LastChanged>2012-06-06T22:33:54</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>printXML</MethodName>
@@ -20946,10 +20951,10 @@ out.flush();]]></LogicSource>
 Map<String,Object> properties = task.getRequestProperties(task.getServletRequest(), true);
 
 CreateWSDL wsdl = null;
-if ("1.1".equalsIgnoreCase(this.getProperty(WSDL_VERSION)))
-    wsdl = new CreateWSDL11(task, null, properties);
-else
+if ("2.0".equalsIgnoreCase(this.getProperty(WSDL_VERSION)))
     wsdl = new CreateWSDL20(task, null, properties);    // Default
+else	// 1.1 Is the default for now
+    wsdl = new CreateWSDL11(task, null, properties);
 Object data = wsdl.createMarshallableObject();
 String xml = wsdl.getXML(data);
 out.println(xml);
@@ -32002,60 +32007,53 @@ return screen;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785141">
-		<LastChanged>2012-01-17T09:37:20</LastChanged>
+		<LastChanged>2012-06-06T08:35:14</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
-		<MethodName>setupProperties</MethodName>
+		<MethodName>init</MethodName>
 		<LogicDescription/>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>MessageServerActivator</MethodClassName>
-		<LogicSource><![CDATA[if (this.getProperty(DBParams.APP_NAME) == null)
-    this.setProperty(DBParams.APP_NAME, this.getClass().getName());
+		<LogicSource><![CDATA[super;
 
-super;]]></LogicSource>
+if (this.getProperty(DBParams.APP_NAME) == null)
+    this.setProperty(DBParams.APP_NAME, this.getClass().getName());]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785142">
-		<LastChanged>2012-02-18T09:27:55</LastChanged>
+		<LastChanged>2012-06-06T08:17:08</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>110</Sequence>
-		<MethodName>startupThisService</MethodName>
+		<MethodName>startupService</MethodName>
 		<LogicDescription/>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>MessageServerActivator</MethodClassName>
-		<LogicSource><![CDATA[boolean success = super.startupThisService(bundleContext);
-
-EnvironmentActivator environmentActivator = (EnvironmentActivator)ClassServiceUtility.getClassService().getClassFinder(bundleContext).getClassBundleService(EnvironmentActivator.class.getName(), null, null, -1);
-Environment env = environmentActivator.getEnvironment();
-// Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
-BaseApplication app = new MessageInfoApplication();
-server.init(app, null, null);
-app.init(env, Utility.propertiesToMap(this.getProperties()), null); // Default application (with params).
-//app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
-//app.getMessageManager(true);
-if (env.getDefaultApplication() != null)
-    if (env.getDefaultApplication() != app)
-{
-    RemoteTask server = (RemoteTask)app.getRemoteTask(null);
-    RemoteTask appServer = (RemoteTask)env.getDefaultApplication().getRemoteTask(null, null, false);
-    if ((server != null) && (appServer != null))
-    {
-        try {
-            // Tell the remote session who my main session is
-            // so it can KNOW where not to send server record
-            // messages (to eliminate echos in the client).
-            appServer.setRemoteMessageTask(server); // Should have done all the apps in this env!
-        } catch (RemoteException ex)    {
-            ex.printStackTrace();
-        }
+		<LogicSource><![CDATA[Map<String,Object> props = this.getServiceProperties();
+try {
+    Environment env = (Environment)this.getService(Env.class);
+    // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
+    App app = env.getMessageApplication(false, props);
+    RemoteSessionServer service = null;
+    if (app == null)
+    { // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
+        app = new MessageInfoApplication();
+        service = new RemoteSessionServer(app, null, props);
     }
+    app.init(env, props, null); // Default application (with params).
+    if (service == null)
+        service = new RemoteSessionServer(app, null, props);
+//            app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
+//            app.getMessageManager(true);
+    return service;    // Doesn't create environment
+} catch (RemoteException e) {
+    e.printStackTrace();
 }
-return success;]]></LogicSource>
+return null;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -32077,31 +32075,16 @@ return success;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785144">
-		<LastChanged>2012-01-17T09:35:45</LastChanged>
+		<LastChanged>2012-06-06T08:23:16</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>110</Sequence>
-		<MethodName>startupThisService</MethodName>
+		<MethodName>startupService</MethodName>
 		<LogicDescription><![CDATA[Start this service.
 @return true if successful.]]></LogicDescription>
-		<MethodReturns>boolean</MethodReturns>
+		<MethodReturns>Object</MethodReturns>
 		<MethodInterface>BundleContext bundleContext</MethodInterface>
 		<MethodClassName>BaseRemoteSessionActivator</MethodClassName>
 		<LogicSource/>
-		<LogicThrows/>
-		<Protection/>
-		<CopyFrom/>
-		<IncludeScope>1</IncludeScope>
-	</LogicFile>
-	<LogicFile ID="16785145">
-		<LastChanged>2012-01-17T09:38:12</LastChanged>
-		<Deleted>N</Deleted>
-		<Sequence>10</Sequence>
-		<MethodName>init</MethodName>
-		<LogicDescription/>
-		<MethodReturns/>
-		<MethodInterface>Record record, String strName, int iDataLength, String strDesc, Object strDefault</MethodInterface>
-		<MethodClassName>MessageServerActivator</MethodClassName>
-		<LogicSource>// No super methods</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -32433,6 +32416,142 @@ if (field.getContactTypeField() != null)
         return field.m_recProfile;
 }
 return m_record;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785162">
+		<LastChanged>2012-05-25T22:09:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>70</Sequence>
+		<MethodName>convertString</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>XslRepositoryScanListener</MethodClassName>
+		<LogicSource><![CDATA[if (string.indexOf("<referral") != -1)
+{
+    int iStart = string.indexOf("url=\"") + 5;
+    int iEnd = string.indexOf('\"', iStart);
+    if ((iStart != 4) && (iEnd != -1))
+    {
+        String filename = string.substring(iStart, iEnd);
+        if (filename.indexOf(":/") == -1)
+        {
+            String stringFile = readFile(filename);
+            
+            if (stringFile != null)
+            	string = "<!-- " + "Repository inlined from: " + filename  + " -->"
+            		+ "\n" + stringFile + "\n";
+        }        
+    }
+}
+return string;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785163">
+		<LastChanged>2012-05-25T22:09:40</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>readFile</MethodName>
+		<LogicDescription/>
+		<MethodReturns>String</MethodReturns>
+		<MethodInterface>String filename</MethodInterface>
+		<MethodClassName>XslRepositoryScanListener</MethodClassName>
+		<LogicSource><![CDATA[String path = m_fileSource.getParent();
+String string = Utility.transferURLStream("file:" + path + '/' + filename, null, null, null);
+if (string != null)
+{
+	int start = string.indexOf("<repository");
+	if (start != -1)
+		start = string.indexOf(">", start);
+	int end = string.lastIndexOf("</repository>");
+	if ((start != -1) && (end != -1))
+		string = string.substring(start + 1, end);
+}
+return string;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785165">
+		<LastChanged>2012-06-06T08:42:59</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>BaseRemoteSessionActivator</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface>void</MethodInterface>
+		<MethodClassName>BaseRemoteSessionActivator</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785166">
+		<LastChanged>2012-06-06T08:47:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>MessageServerActivator</MethodName>
+		<LogicDescription/>
+		<MethodReturns>void</MethodReturns>
+		<MethodInterface>Object object</MethodInterface>
+		<MethodClassName>MessageServerActivator</MethodClassName>
+		<LogicSource><![CDATA[/*
+super;	// Never used
+*/]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785167">
+		<LastChanged>2012-06-09T12:42:31</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>createMessageService</MethodName>
+		<LogicDescription>Create the service implementation</LogicDescription>
+		<MethodReturns>Object</MethodReturns>
+		<MethodInterface>RecordOwnerParent task, Record recordMain, Map&lt;String, Object&gt; properties</MethodInterface>
+		<MethodClassName>BaseMessageServiceActivator</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785168">
+		<LastChanged>2012-06-09T12:42:01</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>getInterfaceClass</MethodName>
+		<LogicDescription><![CDATA[Get the interface/service class name.
+@return The interface class]]></LogicDescription>
+		<MethodReturns>Class&lt;?&gt;</MethodReturns>
+		<MethodInterface/>
+		<MethodClassName>BaseMessageServiceActivator</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785169">
+		<LastChanged>2012-06-09T12:44:51</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>BaseMessageServiceActivator</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface>void</MethodInterface>
+		<MethodClassName>BaseMessageServiceActivator</MethodClassName>
+		<LogicSource/>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>

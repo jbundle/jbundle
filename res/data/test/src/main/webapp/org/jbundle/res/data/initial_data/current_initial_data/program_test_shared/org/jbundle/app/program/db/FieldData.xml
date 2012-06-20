@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><file>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<FieldData ID="3651">
 		<LastChanged>2009-02-12T14:49:24</LastChanged>
 		<Deleted>N</Deleted>
@@ -1166,7 +1166,7 @@
 		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="6217">
-		<LastChanged>2012-01-31T09:37:09</LastChanged>
+		<LastChanged>2012-01-31T09:49:05</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>TestShort</FieldName>
 		<FieldClass>ShortField</FieldClass>

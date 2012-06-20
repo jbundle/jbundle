@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><file>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<KeyInfo ID="16777221">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
 		<Deleted>N</Deleted>
@@ -1044,7 +1044,7 @@
 		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="16777838">
-		<LastChanged>2009-02-12T14:49:22</LastChanged>
+		<LastChanged>2009-02-12T14:49:59</LastChanged>
 		<Deleted>N</Deleted>
 		<KeyFilename>MessageLog</KeyFilename>
 		<KeyNumber>1</KeyNumber>

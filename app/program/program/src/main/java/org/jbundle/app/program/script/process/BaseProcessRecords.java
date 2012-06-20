@@ -199,17 +199,17 @@ public class BaseProcessRecords extends BaseProcess
                 {                    
                     String strClassPackage = this.getFullPackageName(recClassInfo.getField(ClassInfo.CLASS_PROJECT_ID).toString(), recClassInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
                     if (this.includeRecord(recFileHdr, recClassInfo, strPackage))
-                            {
-                               Record record = this.getThisRecord(strRecord, strClassPackage, null);
-                                boolean success = this.processThisRecord(record);                        
-                                if (success)
-                                {
-                                       String databaseName = record.getTable().getDatabase().getDatabaseName(true);
-                                       if (databaseName.lastIndexOf('_') != -1)        // always
-                                               databaseName = databaseName.substring(0, databaseName.lastIndexOf('_'));
-                                       mapDatabaseList.put(databaseName, strClassPackage);
-                                }
-                            }
+                    {
+                        Record record = this.getThisRecord(strRecord, strClassPackage, null);
+                        boolean success = this.processThisRecord(record);                        
+                        if (success)
+                        {
+                               String databaseName = record.getTable().getDatabase().getDatabaseName(true);
+                               if (databaseName.lastIndexOf('_') != -1)        // always
+                                       databaseName = databaseName.substring(0, databaseName.lastIndexOf('_'));
+                               mapDatabaseList.put(databaseName, strClassPackage);
+                        }
+                    }
                 }
             }
             // Now export any control records
@@ -275,6 +275,8 @@ public class BaseProcessRecords extends BaseProcess
         if (!strRecordClass.contains("."))
             strRecordClass = strPackage + '.' + strRecordClass;
         Record record = Record.makeRecordFromClassName(strRecordClass, this, false, true);
+        if (record == null)
+            return null;
         
         String strMode = this.getProperty("mode");
         boolean bExport = false;

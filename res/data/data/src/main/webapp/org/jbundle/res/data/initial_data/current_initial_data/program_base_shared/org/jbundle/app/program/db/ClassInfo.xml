@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><file>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<ClassInfo ID="16777217">
 		<LastChanged>2012-01-13T08:30:49</LastChanged>
 		<Deleted>N</Deleted>
@@ -17,13 +17,13 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777355">
-		<LastChanged>2010-02-05T11:22:46</LastChanged>
+		<LastChanged>2012-04-09T06:20:44</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseApplet</ClassName>
 		<BaseClassName>JApplet</BaseClassName>
 		<ClassDesc>Base Applet</ClassDesc>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.screen</ClassPackage>
+		<ClassProjectID>16,777,293</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>Screen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
 		<ClassExplain/>
@@ -2943,13 +2943,13 @@ This screen displays all the system users and their preferences.
 		<CopyDescFrom>UserInfo</CopyDescFrom>
 	</ClassInfo>
 	<ClassInfo ID="16778095">
-		<LastChanged>2010-02-15T19:15:20</LastChanged>
+		<LastChanged>2012-04-09T03:33:03</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Application</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc>Main object for a screen task</ClassDesc>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.screen</ClassPackage>
+		<ClassProjectID>16,777,298</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>screen</ClassSourceFile>
 		<ClassType>Object</ClassType>
 		<ClassExplain/>
@@ -3472,13 +3472,13 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778199">
-		<LastChanged>2010-02-05T11:22:46</LastChanged>
+		<LastChanged>2012-04-09T03:34:59</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>AutoTask</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.thread</ClassPackage>
+		<ClassPackage/>
 		<ClassSourceFile>AutoTask</ClassSourceFile>
 		<ClassType>Java</ClassType>
 		<ClassExplain/>
@@ -3489,13 +3489,13 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778200">
-		<LastChanged>2010-02-05T11:22:46</LastChanged>
+		<LastChanged>2012-04-09T03:43:39</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseMessageSender</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>BaseMessageSender</ClassSourceFile>
 		<ClassType>Java</ClassType>
 		<ClassExplain/>
@@ -3669,13 +3669,13 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778228">
-		<LastChanged>2010-02-05T11:22:46</LastChanged>
+		<LastChanged>2012-04-09T03:40:46</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseMessage</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc>Message</ClassDesc>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>BaseMessage</ClassSourceFile>
 		<ClassType>message</ClassType>
 		<ClassExplain/>
@@ -3737,13 +3737,13 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778238">
-		<LastChanged>2010-02-05T11:22:46</LastChanged>
+		<LastChanged>2012-04-09T03:44:57</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MessageConstants</ClassName>
 		<BaseClassName>Interface</BaseClassName>
 		<ClassDesc>Constants</ClassDesc>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>MessageConstants</ClassSourceFile>
 		<ClassType>interface</ClassType>
 		<ClassExplain/>
@@ -3788,13 +3788,13 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778243">
-		<LastChanged>2010-02-05T11:22:46</LastChanged>
+		<LastChanged>2012-04-09T03:41:56</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseMessageListener</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>BaseMessageListener</ClassSourceFile>
 		<ClassType>MessageListener</ClassType>
 		<ClassExplain/>
@@ -3805,13 +3805,13 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778244">
-		<LastChanged>2010-02-05T11:22:47</LastChanged>
+		<LastChanged>2012-04-09T03:42:55</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseMessageReceiver</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>BaseMessageReceiver</ClassSourceFile>
 		<ClassType>MessageReceiver</ClassType>
 		<ClassExplain/>
@@ -4114,13 +4114,13 @@ This class handles two distinct but related functions:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778321">
-		<LastChanged>2010-02-05T11:22:47</LastChanged>
+		<LastChanged>2012-04-09T03:50:20</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>TaskScheduler</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.thread</ClassPackage>
+		<ClassPackage/>
 		<ClassSourceFile>TaskScheduler</ClassSourceFile>
 		<ClassType>class</ClassType>
 		<ClassExplain/>
@@ -4808,10 +4808,10 @@ some virtual fields.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778650">
-		<LastChanged>2010-02-05T11:18:08</LastChanged>
+		<LastChanged>2012-06-09T12:49:18</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseMessageTransport</ClassName>
-		<BaseClassName>Object</BaseClassName>
+		<BaseClassName>BaseRecordOwner</BaseClassName>
 		<ClassDesc>This is the base class to process an external message.</ClassDesc>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<ClassPackage>.message.trx.transport</ClassPackage>
@@ -5103,13 +5103,13 @@ external and send it back.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778687">
-		<LastChanged>2010-02-05T11:22:47</LastChanged>
+		<LastChanged>2012-04-09T05:57:09</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseMessageManager</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc>Message Manager</ClassDesc>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>BaseMessageManager</ClassSourceFile>
 		<ClassType>object</ClassType>
 		<ClassExplain/>
@@ -5120,13 +5120,13 @@ external and send it back.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778688">
-		<LastChanged>2008-08-29T02:13:48</LastChanged>
+		<LastChanged>2012-04-09T03:41:12</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseMessageFilter</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>BaseMessageFilter</ClassSourceFile>
 		<ClassType>object</ClassType>
 		<ClassExplain/>
@@ -5137,13 +5137,13 @@ external and send it back.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778689">
-		<LastChanged>2010-02-05T11:22:47</LastChanged>
+		<LastChanged>2012-04-09T03:41:33</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseMessageHeader</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>BaseMessageHeader</ClassSourceFile>
 		<ClassType>object</ClassType>
 		<ClassExplain/>
@@ -5154,13 +5154,13 @@ external and send it back.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778690">
-		<LastChanged>2010-02-05T11:22:47</LastChanged>
+		<LastChanged>2012-04-09T03:42:32</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseMessageQueue</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>BaseMessageQueue</ClassSourceFile>
 		<ClassType>object</ClassType>
 		<ClassExplain/>
@@ -5171,14 +5171,14 @@ external and send it back.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778691">
-		<LastChanged>2010-02-05T11:22:47</LastChanged>
+		<LastChanged>2012-04-09T03:44:23</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>LinkedConverter</ClassName>
 		<BaseClassName>Converter</BaseClassName>
 		<ClassDesc><![CDATA[The base converter for fields.
 The class maintains the converter chain.]]></ClassDesc>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.screen.util</ClassPackage>
+		<ClassProjectID>16,777,282</ClassProjectID>
+		<ClassPackage>.convert</ClassPackage>
 		<ClassSourceFile>LinkedConverter</ClassSourceFile>
 		<ClassType>converter</ClassType>
 		<ClassExplain/>
@@ -5240,13 +5240,13 @@ The class maintains the converter chain.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778721">
-		<LastChanged>2011-05-11T18:15:14</LastChanged>
+		<LastChanged>2012-04-09T05:58:42</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>RemoteMessageManager</ClassName>
 		<BaseClassName>Obect</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.screen.message</ClassPackage>
+		<ClassProjectID>16,777,293</ClassProjectID>
+		<ClassPackage>.message</ClassPackage>
 		<ClassSourceFile>RemoteMessageManager</ClassSourceFile>
 		<ClassType>object</ClassType>
 		<ClassExplain/>
@@ -6699,13 +6699,13 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778999">
-		<LastChanged>2010-02-05T11:22:47</LastChanged>
+		<LastChanged>2012-04-09T09:52:12</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>SessionMessageHeader</ClassName>
 		<BaseClassName>BaseMessageFilter</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message.session</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage>.session</ClassPackage>
 		<ClassSourceFile>SessionMessageHeader</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -6937,7 +6937,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779127">
-		<LastChanged>2012-01-18T10:42:05</LastChanged>
+		<LastChanged>2012-04-09T06:37:34</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ContactField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
@@ -6948,7 +6948,7 @@ the fact that a contact can come from the Vendor or the Profile file
 depending on the contact type.]]></ClassDesc>
 		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db.base</ClassPackage>
-		<ClassSourceFile>ContactType</ClassSourceFile>
+		<ClassSourceFile>ContactField</ClassSourceFile>
 		<ClassType>field</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
@@ -8193,13 +8193,13 @@ and executes them on the correct dates.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779270">
-		<LastChanged>2010-02-05T11:22:48</LastChanged>
+		<LastChanged>2012-04-09T03:50:09</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>PrivateTaskScheduler</ClassName>
 		<BaseClassName>TaskScheduler</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.thread</ClassPackage>
+		<ClassPackage/>
 		<ClassSourceFile>PrivateTaskScheduler</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -8332,13 +8332,13 @@ will be handled using the correct databases.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779319">
-		<LastChanged>2010-02-05T11:22:48</LastChanged>
+		<LastChanged>2012-04-09T03:45:54</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MessageRecordDesc</ClassName>
 		<BaseClassName>BaseMessageRecordDesc</BaseClassName>
 		<ClassDesc>Message record</ClassDesc>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>MessageRecordDesc</ClassSourceFile>
 		<ClassType>data</ClassType>
 		<ClassExplain/>
@@ -8349,13 +8349,13 @@ will be handled using the correct databases.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779329">
-		<LastChanged>2010-02-05T11:22:48</LastChanged>
+		<LastChanged>2012-04-09T03:45:36</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MessageFieldDesc</ClassName>
 		<BaseClassName>MessageDataDesc</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>MessageFieldDesc</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -8366,12 +8366,12 @@ will be handled using the correct databases.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779330">
-		<LastChanged>2010-02-05T11:22:48</LastChanged>
+		<LastChanged>2012-04-07T18:16:53</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MessageDataParent</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
+		<ClassProjectID>16,777,292</ClassProjectID>
 		<ClassPackage>.message</ClassPackage>
 		<ClassSourceFile>MessageDataParent</ClassSourceFile>
 		<ClassType/>
@@ -8383,13 +8383,13 @@ will be handled using the correct databases.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779331">
-		<LastChanged>2010-02-05T11:22:48</LastChanged>
+		<LastChanged>2012-04-09T03:45:17</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MessageDataDesc</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>MessageDataDesc</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -9288,13 +9288,13 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779455">
-		<LastChanged>2010-02-05T11:22:48</LastChanged>
+		<LastChanged>2012-04-09T03:43:17</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseMessageRecordDesc</ClassName>
 		<BaseClassName>MessageDataDesc</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>BaseMessageRecordDesc</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -9458,13 +9458,13 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779483">
-		<LastChanged>2010-02-05T11:22:48</LastChanged>
+		<LastChanged>2012-04-09T03:49:29</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>VectorBuffer</ClassName>
 		<BaseClassName>BaseBuffer</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.db.buff</ClassPackage>
+		<ClassProjectID>16,777,282</ClassProjectID>
+		<ClassPackage>.buff</ClassPackage>
 		<ClassSourceFile>VectorBuffer</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -9475,13 +9475,13 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779484">
-		<LastChanged>2010-02-05T11:22:48</LastChanged>
+		<LastChanged>2012-04-09T03:37:02</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseBuffer</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.db.buff</ClassPackage>
+		<ClassProjectID>16,777,282</ClassProjectID>
+		<ClassPackage>.buff</ClassPackage>
 		<ClassSourceFile>BaseBuffer</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -9492,13 +9492,13 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779486">
-		<LastChanged>2011-05-11T18:05:19</LastChanged>
+		<LastChanged>2012-04-09T03:48:30</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>SwingSyncPageWorker</ClassName>
 		<BaseClassName>SyncPageWorker</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.screen.print.thread</ClassPackage>
+		<ClassProjectID>16,777,293</ClassProjectID>
+		<ClassPackage>.print.thread</ClassPackage>
 		<ClassSourceFile>SwingSyncPageWorker</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -9509,13 +9509,13 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779487">
-		<LastChanged>2010-02-05T11:22:48</LastChanged>
+		<LastChanged>2012-04-09T03:48:56</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>SyncPageWorker</ClassName>
 		<BaseClassName>Thread</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.thread</ClassPackage>
+		<ClassPackage/>
 		<ClassSourceFile>SyncPageWorker</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -9730,13 +9730,13 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779510">
-		<LastChanged>2010-02-05T11:22:49</LastChanged>
+		<LastChanged>2012-04-09T03:27:06</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>RecordOwnerParent</ClassName>
 		<BaseClassName>PropertyOwner</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.screen</ClassPackage>
+		<ClassProjectID>16,777,292</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>RecordOwnerParent</ClassSourceFile>
 		<ClassType>interface</ClassType>
 		<ClassExplain/>
@@ -10257,13 +10257,13 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779623">
-		<LastChanged>2010-02-05T11:22:49</LastChanged>
+		<LastChanged>2012-04-09T03:44:38</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MapMessage</ClassName>
 		<BaseClassName>BaseMessage</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.message</ClassPackage>
+		<ClassProjectID>16,777,325</ClassProjectID>
+		<ClassPackage/>
 		<ClassSourceFile>MapMessage</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -10444,13 +10444,13 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779640">
-		<LastChanged>2011-05-11T18:32:36</LastChanged>
+		<LastChanged>2012-04-09T06:47:57</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>RecordOwnerCollection</ClassName>
 		<BaseClassName>HashSet</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,253</ClassProjectID>
-		<ClassPackage>.thread</ClassPackage>
+		<ClassPackage/>
 		<ClassSourceFile>RecordOwnerCollection</ClassSourceFile>
 		<ClassType/>
 		<ClassExplain/>
@@ -10665,7 +10665,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779653">
-		<LastChanged>2010-12-03T05:41:08</LastChanged>
+		<LastChanged>2010-02-09T05:41:08</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ScanPackagesProcess</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
@@ -11392,10 +11392,10 @@ previous date was oem]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779697">
-		<LastChanged>2012-01-17T09:34:16</LastChanged>
+		<LastChanged>2012-06-06T08:18:29</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseRemoteSessionActivator</ClassName>
-		<BaseClassName>BaseBundleService</BaseClassName>
+		<BaseClassName>BaseBundleActivator</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,240</ClassProjectID>
 		<ClassPackage>.remote.server</ClassPackage>
@@ -11486,6 +11486,91 @@ previous date was oem]]></ClassDesc>
 		<ClassPackage>.screen.model.util</ClassPackage>
 		<ClassSourceFile>ScreenLocation</ClassSourceFile>
 		<ClassType>Screen</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779703">
+		<LastChanged>2012-04-09T03:20:28</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>Freeable</ClassName>
+		<BaseClassName/>
+		<ClassDesc/>
+		<ClassProjectID>16,777,292</ClassProjectID>
+		<ClassPackage/>
+		<ClassSourceFile>Freeable</ClassSourceFile>
+		<ClassType/>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779704">
+		<LastChanged>2012-05-25T22:08:44</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>XslRepositoryScanListener</ClassName>
+		<BaseClassName>BaseScanListener</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassPackage>.script.scan</ClassPackage>
+		<ClassSourceFile>XslRepositoryScanListener</ClassSourceFile>
+		<ClassType/>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779705">
+		<LastChanged>2012-06-09T12:33:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>BaseServiceMessageTransport</ClassName>
+		<BaseClassName>BaseMessageTransport</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,326</ClassProjectID>
+		<ClassPackage/>
+		<ClassSourceFile>BaseServiceMessageTransport</ClassSourceFile>
+		<ClassType>process</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779706">
+		<LastChanged>2012-06-09T12:34:06</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>BaseMessageServiceActivator</ClassName>
+		<BaseClassName>BaseThickActivator</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,326</ClassProjectID>
+		<ClassPackage/>
+		<ClassSourceFile>BaseMessageServiceActivator</ClassSourceFile>
+		<ClassType>process</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779707">
+		<LastChanged>2012-06-09T12:35:59</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>BaseThickActivator</ClassName>
+		<BaseClassName>BaseBundleActivator</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,240</ClassProjectID>
+		<ClassPackage/>
+		<ClassSourceFile>BaseThickActivator</ClassSourceFile>
+		<ClassType>process</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
