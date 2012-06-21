@@ -177,12 +177,12 @@ public class ClassInfo extends VirtualRecord
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ClassName");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassName");
             keyArea.addKeyField(CLASS_NAME, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ClassSourceFile");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassSourceFile");
             keyArea.addKeyField(CLASS_SOURCE_FILE, DBConstants.ASCENDING);
             keyArea.addKeyField(CLASS_NAME, DBConstants.ASCENDING);
         }
