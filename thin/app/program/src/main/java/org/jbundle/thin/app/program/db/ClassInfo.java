@@ -94,9 +94,9 @@ public class ClassInfo extends FieldList
         KeyAreaInfo keyArea = null;
         keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
         keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ClassName");
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ClassName");
         keyArea.addKeyField("ClassName", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ClassSourceFile");
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ClassSourceFile");
         keyArea.addKeyField("ClassSourceFile", Constants.ASCENDING);
         keyArea.addKeyField("ClassName", Constants.ASCENDING);
         keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "BaseClassName");

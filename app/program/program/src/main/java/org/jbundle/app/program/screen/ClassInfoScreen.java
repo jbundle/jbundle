@@ -93,6 +93,7 @@ public class ClassInfoScreen extends Screen
     {
         super.addListeners();
         this.addMainKeyBehavior();
+        this.getMainRecord().getField(ClassInfo.CLASS_NAME).addListener(new MainFieldHandler(ClassInfo.CLASS_NAME_KEY));
         this.getMainRecord().addListener(new EnableOnPhysicalHandler(null));
         this.getMainRecord().getField(ClassInfo.CLASS_NAME).addListener(new MoveOnChangeHandler(this.getMainRecord().getField(ClassInfo.CLASS_SOURCE_FILE), this.getMainRecord().getField(ClassInfo.CLASS_NAME), false, true));
     }
