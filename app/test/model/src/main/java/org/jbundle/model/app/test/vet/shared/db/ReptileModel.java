@@ -24,6 +24,7 @@ public interface ReptileModel extends Rec
     public static final String VET_ID_KEY = "VetID";
 
     public static final String NAME_KEY = "Name";
+    public static final String REPTILE_GRID_SCREEN_CLASS = "org.jbundle.app.test.vet.shared.screen.ReptileGridScreen";
 
     public static final String REPTILE_FILE = "Reptile";
     public static final String THIN_CLASS = "org.jbundle.thin.app.test.vet.shared.db.Reptile";

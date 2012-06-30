@@ -1,5 +1,5 @@
 /**
- * @(#)Animal.
+ * @(#)Cat.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -21,28 +21,27 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.app.test.vet.screen.*;
 import org.jbundle.model.app.test.vet.db.*;
 
 /**
- *  Animal - .
+ *  Cat - .
  */
-public class Animal extends VirtualRecord
-     implements AnimalModel
+public class Cat extends Animal
+     implements CatModel
 {
     private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
      */
-    public Animal()
+    public Cat()
     {
         super();
     }
     /**
      * Constructor.
      */
-    public Animal(RecordOwner screen)
+    public Cat(RecordOwner screen)
     {
         this();
         this.init(screen);
@@ -59,14 +58,14 @@ public class Animal extends VirtualRecord
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(ANIMAL_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(CAT_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
      */
     public String getRecordName()
     {
-        return "Animal";
+        return "Cat";
     }
     /**
      * Get the Database Name.
@@ -80,7 +79,7 @@ public class Animal extends VirtualRecord
      */
     public int getDatabaseType()
     {
-        return DBConstants.MEMORY | DBConstants.BASE_TABLE_CLASS | DBConstants.USER_DATA;
+        return DBConstants.REMOTE | DBConstants.USER_DATA;
     }
     /**
      * Make a default screen.
@@ -88,8 +87,10 @@ public class Animal extends VirtualRecord
     public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties)
     {
         ScreenParent screen = null;
-        if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
-            screen = Record.makeNewScreen(ANIMAL_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+            screen = Record.makeNewScreen(CAT_VET_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
+            screen = Record.makeNewScreen(CAT_VET_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
             screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
@@ -115,59 +116,20 @@ public class Animal extends VirtualRecord
         //  field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
         //  field.setHidden(true);
         //}
-        if (iFieldSeq == 3)
-            field = new StringField(this, NAME, 40, null, null);
-        if (iFieldSeq == 4)
-        {
-            field = new StringField(this, COLOR, Constants.DEFAULT_FIELD_LENGTH, null, null);
-            field.addListener(new InitOnceFieldHandler(null));
-        }
-        if (iFieldSeq == 5)
-            field = new FloatField(this, WEIGHT, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == 6)
-            field = new VetField(this, VET, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 3)
+        //  field = new StringField(this, NAME, 40, null, null);
+        //if (iFieldSeq == 4)
+        //{
+        //  field = new StringField(this, COLOR, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //  field.addListener(new InitOnceFieldHandler(null));
+        //}
+        //if (iFieldSeq == 5)
+        //  field = new FloatField(this, WEIGHT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 6)
+        //  field = new VetField(this, VET, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);
         return field;
-    }
-    /**
-     * Add this key area description to the Record.
-     */
-    public KeyArea setupKey(int iKeyArea)
-    {
-        KeyArea keyArea = null;
-        if (iKeyArea == 0)
-        {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
-            keyArea.addKeyField(ID, DBConstants.ASCENDING);
-        }
-        if (iKeyArea == 1)
-        {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Name");
-            keyArea.addKeyField(NAME, DBConstants.ASCENDING);
-        }
-        if (iKeyArea == 2)
-        {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Vet");
-            keyArea.addKeyField(VET, DBConstants.ASCENDING);
-        }
-        if (keyArea == null)
-            keyArea = super.setupKey(iKeyArea);     
-        return keyArea;
-    }
-    /**
-     * Override this to Setup all the records for this query.
-     * Only used for querys and abstract-record queries.
-     * Actually adds records not tables, but the records aren't physically
-     * added here, the record's tables are added to my table.
-     * @param The recordOwner to pass to the records that are added.
-     * @see addTable.
-     */
-    public void addTables(RecordOwner recordOwner)
-    {
-        this.addTable(new Cat(recordOwner));
-        this.addTable(new Dog(recordOwner));
-
     }
 
 }

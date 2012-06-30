@@ -21,9 +21,6 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.app.test.vet.shared.screen.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
 import org.jbundle.app.test.vet.db.*;
 import org.jbundle.model.app.test.vet.shared.db.*;
 
@@ -96,12 +93,15 @@ public class Reptile extends VirtualRecord
             if (objObjectID != null)
                 parentScreen.setProperty(DBConstants.STRING_OBJECT_ID_HANDLE, objObjectID.toString());
             if (this.getField(Reptile.REPTILE_TYPE_ID).getValue() == ReptileTypeField.SNAKE)
-                screen = new SnakeScreen(null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        //        screen = new SnakeScreen(null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+                    screen = Record.makeNewScreen(SnakeModel.SNAKE_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
             else //if (this.getField(Reptile.REPTILE_TYPE_ID).getValue() == ReptileTypeField.LIZARD)
-                screen = new LizardScreen(null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        //        screen = new LizardScreen(null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+                    screen = Record.makeNewScreen(LizardModel.LIZARD_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         }
         else //if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
-            screen = new ReptileGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        //    screen = new ReptileGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+              screen = Record.makeNewScreen(REPTILE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         return screen;
     }
     /**

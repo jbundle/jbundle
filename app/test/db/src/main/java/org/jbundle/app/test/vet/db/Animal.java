@@ -1,5 +1,5 @@
 /**
- * @(#)Vet.
+ * @(#)Animal.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -21,31 +21,27 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.app.test.vet.screen.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
 import org.jbundle.model.app.test.vet.db.*;
 
 /**
- *  Vet - .
+ *  Animal - .
  */
-public class Vet extends VirtualRecord
-     implements VetModel
+public class Animal extends VirtualRecord
+     implements AnimalModel
 {
     private static final long serialVersionUID = 1L;
 
-    public static final int CAT_VET_GRID_SCREEN = ScreenConstants.DETAIL_MODE;
     /**
      * Default constructor.
      */
-    public Vet()
+    public Animal()
     {
         super();
     }
     /**
      * Constructor.
      */
-    public Vet(RecordOwner screen)
+    public Animal(RecordOwner screen)
     {
         this();
         this.init(screen);
@@ -62,7 +58,14 @@ public class Vet extends VirtualRecord
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(VET_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(ANIMAL_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
+    }
+    /**
+     * Get the name of a single record.
+     */
+    public String getRecordName()
+    {
+        return "Animal";
     }
     /**
      * Get the Database Name.
@@ -76,20 +79,18 @@ public class Vet extends VirtualRecord
      */
     public int getDatabaseType()
     {
-        return DBConstants.REMOTE | DBConstants.USER_DATA;
+        return DBConstants.MEMORY | DBConstants.BASE_TABLE_CLASS | DBConstants.USER_DATA;
     }
     /**
-     * MakeScreen Method.
+     * Make a default screen.
      */
     public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties)
     {
         ScreenParent screen = null;
-        if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == Vet.CAT_VET_GRID_SCREEN)
-            screen = new CatVetGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
-        else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = new VetScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
+            screen = Record.makeNewScreen(ANIMAL_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
-            screen = new VetGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
     }
     /**
@@ -116,7 +117,14 @@ public class Vet extends VirtualRecord
         if (iFieldSeq == 3)
             field = new StringField(this, NAME, 40, null, null);
         if (iFieldSeq == 4)
-            field = new AnimalField(this, FAVORITE_ANIMAL, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        {
+            field = new StringField(this, COLOR, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field.addListener(new InitOnceFieldHandler(null));
+        }
+        if (iFieldSeq == 5)
+            field = new FloatField(this, WEIGHT, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 6)
+            field = new VetField(this, VET, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);
         return field;
@@ -137,9 +145,28 @@ public class Vet extends VirtualRecord
             keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Name");
             keyArea.addKeyField(NAME, DBConstants.ASCENDING);
         }
+        if (iKeyArea == 2)
+        {
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Vet");
+            keyArea.addKeyField(VET, DBConstants.ASCENDING);
+        }
         if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
         return keyArea;
+    }
+    /**
+     * Override this to Setup all the records for this query.
+     * Only used for querys and abstract-record queries.
+     * Actually adds records not tables, but the records aren't physically
+     * added here, the record's tables are added to my table.
+     * @param The recordOwner to pass to the records that are added.
+     * @see addTable.
+     */
+    public void addTables(RecordOwner recordOwner)
+    {
+        this.addTable(new Cat(recordOwner));
+        this.addTable(new Dog(recordOwner));
+
     }
 
 }

@@ -19,6 +19,7 @@
     <module>model</module>
     <module>thin</module>
     <module>thin.manual</module>
+    <module>db</module>
     <module>test</module>
     <module>manual</module>
   </modules>

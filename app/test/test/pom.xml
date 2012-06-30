@@ -30,8 +30,13 @@
             <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Export-Package>
-                ${project.artifactId}.*;version=${project.version},
-		org.jbundle.app.test.vet.*;version=${project.version},
+                ${project.artifactId}.screen.*;version=${project.version},
+                ${project.artifactId}.db.analysis.*;version=${project.version},
+		org.jbundle.app.test.vet.screen.*;version=${project.version},
+		org.jbundle.app.test.vet.remote.*;version=${project.version},
+		org.jbundle.app.test.vet.shared.report.*;version=${project.version},
+		org.jbundle.app.test.vet.shared.screen.*;version=${project.version},
+		org.jbundle.app.test.vet.shared.xml.*;version=${project.version},
             </Export-Package>
             <Import-Package>
                 *;resolution:=optional,
@@ -68,9 +73,14 @@
 	<dependency>
 	  <groupId>log4j</groupId>
 	  <artifactId>log4j</artifactId>
-      <scope>test</scope>
+	  <scope>test</scope>
 	</dependency>
 
+    <dependency>
+      <groupId>org.jbundle.app.test</groupId>
+      <artifactId>org.jbundle.app.test.db</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-main</artifactId>
