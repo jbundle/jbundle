@@ -14,6 +14,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -249,7 +250,22 @@ public class XmlInOut extends BaseProcess
     public void importArchives(String strArchiveDir, File fileDir)
     {
         if (fileDir == null)
-            fileDir = new File(strArchiveDir);
+        {
+            if (!strArchiveDir.contains(","))
+                fileDir = new File(strArchiveDir);
+            else
+            {   // Comma delimited file list
+                StringTokenizer st = new StringTokenizer(strArchiveDir, ", \t\n\r\f");
+                while (st.hasMoreTokens()) {
+                    archiveRoot = st.nextToken();
+                    archiveRoot = archiveRoot.replace(" ", "");
+                    if (archiveRoot.endsWith(File.separator))
+                        archiveRoot = archiveRoot.substring(0, archiveRoot.length() - 1);
+                    this.importArchives(archiveRoot, null);
+                }
+                return;
+            }
+        }
         else
             strArchiveDir = fileDir.getName();
         Utility.getLogger().info(strArchiveDir);
