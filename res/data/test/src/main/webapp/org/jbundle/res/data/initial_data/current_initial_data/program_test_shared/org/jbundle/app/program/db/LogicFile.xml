@@ -707,7 +707,7 @@ else
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="2265">
-		<LastChanged>2012-01-19T18:13:35</LastChanged>
+		<LastChanged>2012-06-30T10:47:13</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -717,11 +717,14 @@ else
 		<MethodClassName>Vet</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == Vet.CAT_VET_GRID_SCREEN)
-	screen = new CatVetGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+//	screen = new CatVetGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+	screen = Record.makeNewScreen(CAT_VET_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-	screen = new VetScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+//	screen = new VetScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+	screen = Record.makeNewScreen(VET_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else
-	screen = new VetGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+//	screen = new VetGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+	screen = Record.makeNewScreen(VET_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -1325,7 +1328,7 @@ this.getMainRecord().getField(Cat.VET).addListener(new InitOnceFieldHandler(fals
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="4536">
-		<LastChanged>2012-01-31T06:27:17</LastChanged>
+		<LastChanged>2012-06-30T11:03:41</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>5</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -1346,12 +1349,15 @@ if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
     if (objObjectID != null)
         parentScreen.setProperty(DBConstants.STRING_OBJECT_ID_HANDLE, objObjectID.toString());
     if (this.getField(Reptile.REPTILE_TYPE_ID).getValue() == ReptileTypeField.SNAKE)
-        screen = new SnakeScreen(null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+//        screen = new SnakeScreen(null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = Record.makeNewScreen(SnakeModel.SNAKE_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
     else //if (this.getField(Reptile.REPTILE_TYPE_ID).getValue() == ReptileTypeField.LIZARD)
-        screen = new LizardScreen(null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+//        screen = new LizardScreen(null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = Record.makeNewScreen(LizardModel.LIZARD_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 }
 else //if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
-    screen = new ReptileGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+//    screen = new ReptileGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+      screen = Record.makeNewScreen(REPTILE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>

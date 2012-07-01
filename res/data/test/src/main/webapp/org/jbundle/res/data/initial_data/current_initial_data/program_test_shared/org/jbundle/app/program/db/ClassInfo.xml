@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<ClassInfo ID="61">
-		<LastChanged>2010-02-11T12:07:04</LastChanged>
+		<LastChanged>2012-06-30T10:41:30</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Animal</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.db</ClassPackage>
 		<ClassSourceFile>Animal</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -17,12 +17,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="62">
-		<LastChanged>2010-02-11T12:07:04</LastChanged>
+		<LastChanged>2012-06-30T10:41:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>AnimalVets</ClassName>
 		<BaseClassName>QueryRecord</BaseClassName>
 		<ClassDesc>Test Query</ClassDesc>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.db</ClassPackage>
 		<ClassSourceFile>AnimalVets</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -34,12 +34,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="240">
-		<LastChanged>2010-02-11T12:07:04</LastChanged>
+		<LastChanged>2012-06-30T10:41:57</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Cat</ClassName>
 		<BaseClassName>Animal</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.db</ClassPackage>
 		<ClassSourceFile>Cat</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -51,12 +51,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="335">
-		<LastChanged>2010-02-11T12:07:04</LastChanged>
+		<LastChanged>2012-06-30T10:42:05</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Dog</ClassName>
 		<BaseClassName>Animal</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.db</ClassPackage>
 		<ClassSourceFile>Dog</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -68,12 +68,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="743">
-		<LastChanged>2010-02-11T12:07:05</LastChanged>
+		<LastChanged>2012-06-30T10:40:56</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>TestTable</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Test</ClassDesc>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.test.db</ClassPackage>
 		<ClassSourceFile>TestTable</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -87,12 +87,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="871">
-		<LastChanged>2010-02-11T12:07:05</LastChanged>
+		<LastChanged>2012-06-30T10:40:24</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Vet</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.db</ClassPackage>
 		<ClassSourceFile>Vet</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -121,12 +121,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="883">
-		<LastChanged>2010-02-11T12:07:05</LastChanged>
+		<LastChanged>2012-06-30T10:42:18</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>VetField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc>Popup for Vets</ClassDesc>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.db</ClassPackage>
 		<ClassSourceFile>Vet</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -223,12 +223,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="889">
-		<LastChanged>2010-02-11T12:07:06</LastChanged>
+		<LastChanged>2012-06-30T10:42:28</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>VetPopupField</ClassName>
 		<BaseClassName>VetField</BaseClassName>
 		<ClassDesc>Set the view to a popup</ClassDesc>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.db</ClassPackage>
 		<ClassSourceFile>VetPopupField</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -376,12 +376,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1058">
-		<LastChanged>2010-02-11T12:07:07</LastChanged>
+		<LastChanged>2012-06-30T10:41:20</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>TestTableNoAuto</ClassName>
 		<BaseClassName>TestTable</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.test.db</ClassPackage>
 		<ClassSourceFile>TestTableNoAuto</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -393,12 +393,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1060">
-		<LastChanged>2010-02-11T12:07:07</LastChanged>
+		<LastChanged>2012-06-30T10:41:08</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>TestTableHistory</ClassName>
 		<BaseClassName>TestTable</BaseClassName>
 		<ClassDesc>The test table history file</ClassDesc>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.test.db</ClassPackage>
 		<ClassSourceFile>TestTableHistory</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -410,12 +410,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1074">
-		<LastChanged>2010-02-11T12:07:08</LastChanged>
+		<LastChanged>2012-06-30T10:40:38</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>TestSecond</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Test secondary file</ClassDesc>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.test.db</ClassPackage>
 		<ClassSourceFile>TestSecond</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -427,12 +427,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1075">
-		<LastChanged>2010-02-11T12:07:08</LastChanged>
+		<LastChanged>2012-06-30T10:40:48</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>TestSecondField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.test.db</ClassPackage>
 		<ClassSourceFile>TestSecond</ClassSourceFile>
 		<ClassType/>
@@ -580,12 +580,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1412">
-		<LastChanged>2010-02-11T12:07:09</LastChanged>
+		<LastChanged>2012-06-30T10:42:47</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Reptile</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.shared.db</ClassPackage>
 		<ClassSourceFile>Reptile</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -597,12 +597,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1413">
-		<LastChanged>2010-02-11T12:07:09</LastChanged>
+		<LastChanged>2012-06-30T10:42:38</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Lizard</ClassName>
 		<BaseClassName>Reptile</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.shared.db</ClassPackage>
 		<ClassSourceFile>Lizard</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -614,12 +614,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1414">
-		<LastChanged>2010-02-11T12:07:09</LastChanged>
+		<LastChanged>2012-06-30T10:43:05</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Snake</ClassName>
 		<BaseClassName>Reptile</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.shared.db</ClassPackage>
 		<ClassSourceFile>Snake</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -631,12 +631,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1415">
-		<LastChanged>2010-02-11T12:07:09</LastChanged>
+		<LastChanged>2012-06-30T10:42:57</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ReptileTypeField</ClassName>
 		<BaseClassName>IntegerField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.shared.db</ClassPackage>
 		<ClassSourceFile>ReptileTypeField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -1090,12 +1090,12 @@ A test paragraph.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="2408">
-		<LastChanged>2010-02-11T12:07:13</LastChanged>
+		<LastChanged>2012-06-30T10:41:39</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>AnimalField</ClassName>
 		<BaseClassName>MultiReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>65,537</ClassProjectID>
+		<ClassProjectID>65,539</ClassProjectID>
 		<ClassPackage>.vet.db</ClassPackage>
 		<ClassSourceFile>Animal</ClassSourceFile>
 		<ClassType>field</ClassType>

@@ -108,7 +108,7 @@
 		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="16777397">
-		<LastChanged>2009-02-12T14:49:21</LastChanged>
+		<LastChanged>2012-06-26T19:04:22</LastChanged>
 		<Deleted>N</Deleted>
 		<KeyFilename>ClassInfo</KeyFilename>
 		<KeyNumber>2</KeyNumber>
@@ -122,11 +122,11 @@
 		<KeyField8/>
 		<KeyField9/>
 		<KeyName/>
-		<KeyType>U</KeyType>
+		<KeyType>N</KeyType>
 		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="16777398">
-		<LastChanged>2009-02-12T14:49:21</LastChanged>
+		<LastChanged>2012-06-26T19:04:23</LastChanged>
 		<Deleted>N</Deleted>
 		<KeyFilename>ClassInfo</KeyFilename>
 		<KeyNumber>3</KeyNumber>
@@ -140,7 +140,7 @@
 		<KeyField8/>
 		<KeyField9/>
 		<KeyName/>
-		<KeyType>U</KeyType>
+		<KeyType>N</KeyType>
 		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="16777442">

@@ -43,4 +43,26 @@
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
+	<ClassProject ID="65539">
+		<LastChanged>2012-06-30T10:39:38</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>db</Name>
+		<ParentFolderID>65,538</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Test db</Description>
+		<SystemClasses/>
+		<PackageName>.test</PackageName>
+		<ProjectPath/>
+		<InterfacePackage>.test</InterfacePackage>
+		<InterfaceProjectPath>../test/model/</InterfaceProjectPath>
+		<ThinPackage>.test</ThinPackage>
+		<ThinProjectPath>../test/thin/</ThinProjectPath>
+		<ResourcePackage>.test</ResourcePackage>
+		<ResProjectPath>../test/res/</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
 </file>

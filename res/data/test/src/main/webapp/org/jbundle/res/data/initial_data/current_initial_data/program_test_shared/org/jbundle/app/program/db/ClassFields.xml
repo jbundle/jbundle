@@ -59,21 +59,6 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="810">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Vet</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>VetScreen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="811">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
@@ -179,21 +164,6 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="1673">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Cat</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>CatVetScreen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="1990">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
@@ -209,57 +179,12 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="1991">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Snake</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>SnakeScreen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="1992">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>LizardScreen</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>Lizard</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="1993">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Lizard</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>LizardScreen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="1994">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Reptile</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ReptileGridScreen</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -644,21 +569,6 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="5011">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Animal</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>AnimalGridScreen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="5012">
 		<LastChanged>2012-01-13T13:24:46</LastChanged>
 		<Deleted>N</Deleted>
@@ -779,64 +689,64 @@
 		<ClassFieldsType>S</ClassFieldsType>
 		<IncludeScope>4</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="5021">
-		<LastChanged>2012-03-26T04:36:14</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Reptile</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>BasePanel</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="5022">
-		<LastChanged>2012-03-26T04:36:17</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Reptile</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ScreenLocation</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="5023">
-		<LastChanged>2012-03-26T04:38:01</LastChanged>
+	<ClassFields ID="5025">
+		<LastChanged>2012-06-30T10:53:48</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>Vet</ClassInfoClassName>
 		<ClassInfoID/>
-		<ClassFieldClass>BasePanel</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
+		<ClassFieldClass>CatVetGridScreen</ClassFieldClass>
+		<ClassFieldSequence>1</ClassFieldSequence>
+		<ClassFieldName>CAT_VET_GRID_SCREEN_CLASS</ClassFieldName>
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
+		<ClassFieldsType>S</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="5024">
-		<LastChanged>2012-03-26T04:38:09</LastChanged>
+	<ClassFields ID="5026">
+		<LastChanged>2012-06-30T10:55:09</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>Vet</ClassInfoClassName>
 		<ClassInfoID/>
-		<ClassFieldClass>ScreenLocation</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
+		<ClassFieldClass>VetGridScreen</ClassFieldClass>
+		<ClassFieldSequence>1</ClassFieldSequence>
+		<ClassFieldName>VET_GRID_SCREEN_CLASS</ClassFieldName>
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
+		<ClassFieldsType>S</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5027">
+		<LastChanged>2012-06-30T10:55:35</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Vet</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>VetScreen</ClassFieldClass>
+		<ClassFieldSequence>1</ClassFieldSequence>
+		<ClassFieldName>VET_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="5030">
+		<LastChanged>2012-06-30T11:05:51</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>Reptile</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ReptileGridScreen</ClassFieldClass>
+		<ClassFieldSequence>1</ClassFieldSequence>
+		<ClassFieldName>REPTILE_GRID_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
 	</ClassFields>
 </file>

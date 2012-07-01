@@ -1267,7 +1267,7 @@
 		<ClassName>ProcessType</ClassName>
 		<DatabaseName>main</DatabaseName>
 		<InitTime>2008-02-12T05:00:27</InitTime>
-		<FreeTime>2008-02-12T05:00:27</FreeTime>
+		<FreeTime>2011-03-09T08:02:09</FreeTime>
 		<RecordOwner>BookingHeaderScreen</RecordOwner>
 		<StackTrace><![CDATA[java.lang.Exception
 	at com.tourstudio.base.util.Debug.getStackTrace(Debug.java:236)
@@ -4752,7 +4752,7 @@
 		<ObjectID>159</ObjectID>
 		<ClassName>MessageTransport</ClassName>
 		<DatabaseName>main</DatabaseName>
-		<InitTime>2008-02-12T05:00:28</InitTime>
+		<InitTime>2010-04-09T13:23:45</InitTime>
 		<FreeTime>2008-02-12T05:00:28</FreeTime>
 		<RecordOwner>BookingHeaderScreen</RecordOwner>
 		<StackTrace><![CDATA[java.lang.Exception
@@ -14605,7 +14605,7 @@
 		<ClassName>MessageTransport</ClassName>
 		<DatabaseName>main</DatabaseName>
 		<InitTime>2008-02-12T05:00:46</InitTime>
-		<FreeTime>2008-02-12T05:00:46</FreeTime>
+		<FreeTime>2008-02-12T05:00:15</FreeTime>
 		<RecordOwner>BookingHotelScreen</RecordOwner>
 		<StackTrace><![CDATA[java.lang.Exception
 	at com.tourstudio.base.util.Debug.getStackTrace(Debug.java:236)
@@ -15021,7 +15021,7 @@
 		<ClassName>ContactType</ClassName>
 		<DatabaseName>main</DatabaseName>
 		<InitTime>2008-02-12T05:00:47</InitTime>
-		<FreeTime>2008-02-12T05:00:47</FreeTime>
+		<FreeTime>2008-02-12T05:00:15</FreeTime>
 		<RecordOwner>BaseProcess</RecordOwner>
 		<StackTrace><![CDATA[java.lang.Exception
 	at com.tourstudio.base.util.Debug.getStackTrace(Debug.java:236)
@@ -24084,7 +24084,7 @@
 ]]></StackTrace>
 	</AnalysisLog>
 	<AnalysisLog ID="16777915">
-		<LastChanged>2009-02-12T14:49:26</LastChanged>
+		<LastChanged>2008-02-12T05:00:59</LastChanged>
 		<Deleted>N</Deleted>
 		<SystemID>2,062,514,756</SystemID>
 		<ObjectID>290</ObjectID>
@@ -24286,7 +24286,7 @@
 ]]></StackTrace>
 	</AnalysisLog>
 	<AnalysisLog ID="16777936">
-		<LastChanged>2009-02-12T14:49:26</LastChanged>
+		<LastChanged>2011-02-12T14:49:26</LastChanged>
 		<Deleted>N</Deleted>
 		<SystemID>2,062,514,756</SystemID>
 		<ObjectID>308</ObjectID>

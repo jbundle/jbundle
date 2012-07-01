@@ -1842,7 +1842,7 @@ screen.screen=com.tourapp.tour.booking.message.hotel.screen.HotelAvailResponseSc
 		<InitialMessageStatusID/>
 	</MessageProcessInfo>
 	<MessageProcessInfo ID="118">
-		<LastChanged>2011-09-09T15:49:04</LastChanged>
+		<LastChanged>2011-09-12T14:49:26</LastChanged>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Description>Item Availability Outbound Update Request</Description>
@@ -3360,7 +3360,7 @@ ota.safe=false
 		<InitialMessageStatusID/>
 	</MessageProcessInfo>
 	<MessageProcessInfo ID="212">
-		<LastChanged>2011-09-09T15:49:05</LastChanged>
+		<LastChanged>2011-07-01T02:32:54</LastChanged>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Description>Cruise Information Outbound Response</Description>

@@ -1503,7 +1503,7 @@ Just override the compute value method to re-calculate the target field's value.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777853">
-		<LastChanged>2010-02-05T11:18:01</LastChanged>
+		<LastChanged>2010-09-24T23:56:36</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>RecordChangedField</ClassName>
 		<BaseClassName>DateTimeField</BaseClassName>
@@ -2943,7 +2943,7 @@ This screen displays all the system users and their preferences.
 		<CopyDescFrom>UserInfo</CopyDescFrom>
 	</ClassInfo>
 	<ClassInfo ID="16778095">
-		<LastChanged>2012-04-09T03:33:03</LastChanged>
+		<LastChanged>2010-12-06T05:05:58</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Application</ClassName>
 		<BaseClassName>Object</BaseClassName>
@@ -4344,7 +4344,7 @@ As a travel agent, you may order more than one of each brochure.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778609">
-		<LastChanged>2010-02-05T11:21:00</LastChanged>
+		<LastChanged>2012-07-01T11:21:00</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>DetailScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
@@ -4696,7 +4696,7 @@ This code is stored in the
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778643">
-		<LastChanged>2010-02-05T11:21:01</LastChanged>
+		<LastChanged>2011-05-01T15:23:34</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MessageInfo</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
@@ -5257,7 +5257,7 @@ The class maintains the converter chain.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778722">
-		<LastChanged>2010-02-05T11:18:09</LastChanged>
+		<LastChanged>2011-09-05T23:38:13</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>RecordMessageConstants</ClassName>
 		<BaseClassName>Object</BaseClassName>

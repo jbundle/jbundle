@@ -2543,8 +2543,7 @@
 <entry key="background"/>
 <entry key="backgroundcolor">#CCFFCC</entry>
 <entry key="menu">Development</entry>
-</properties>
-</Params>
+</properties></Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
@@ -2594,8 +2593,7 @@
 <entry key="background"/>
 <entry key="backgroundcolor">#CCFFFF</entry>
 <entry key="menu">test</entry>
-</properties>
-</Params>
+</properties></Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
@@ -2952,8 +2950,7 @@
 <entry key="baseURL">fred.demo.tourgeek.com:8181/</entry>
 <entry key="connectionType">proxy</entry>
 <entry key="codebase">fred.demo.tourgeek.com:8181/</entry>
-</properties>
-</Params>
+</properties></Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
@@ -2978,8 +2975,7 @@
 <entry key="mainUser">fred@tourgeek.com</entry>
 <entry key="xslTemplate">org/jbundle/res/docs/styles/xsl/program/fixdemotemplate.xsl</entry>
 <entry key="domain">fred.demo.tourgeek.com</entry>
-</properties>
-</Params>
+</properties></Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>

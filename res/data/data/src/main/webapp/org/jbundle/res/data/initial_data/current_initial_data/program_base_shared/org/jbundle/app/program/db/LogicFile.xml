@@ -750,7 +750,7 @@ return strLink;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778029">
-		<LastChanged>2012-01-26T23:22:44</LastChanged>
+		<LastChanged>2012-06-26T19:03:57</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>40</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -760,6 +760,7 @@ return strLink;]]></LogicSource>
 		<MethodClassName>ClassInfoScreen</MethodClassName>
 		<LogicSource><![CDATA[super;
 this.addMainKeyBehavior();
+this.getMainRecord().getField(ClassInfo.CLASS_NAME).addListener(new MainFieldHandler(ClassInfo.CLASS_NAME_KEY));
 this.getMainRecord().addListener(new EnableOnPhysicalHandler(null));
 this.getMainRecord().getField(ClassInfo.CLASS_NAME).addListener(new MoveOnChangeHandler(this.getMainRecord().getField(ClassInfo.CLASS_SOURCE_FILE), this.getMainRecord().getField(ClassInfo.CLASS_NAME), false, true));]]></LogicSource>
 		<LogicThrows/>
@@ -26853,7 +26854,7 @@ return false;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784934">
-		<LastChanged>2011-12-06T08:31:09</LastChanged>
+		<LastChanged>2012-06-26T19:01:06</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>processThisRecord</MethodName>
@@ -26861,7 +26862,9 @@ return false;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ExportRecordsToXmlProcess</MethodClassName>
-		<LogicSource><![CDATA[boolean bPhysicalName = true;
+		<LogicSource><![CDATA[if (record == null)
+    return false;
+boolean bPhysicalName = true;
 if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty("useDatabaseName")))
     bPhysicalName = false;
 String strFilename = record.getArchiveFilename(bPhysicalName);
@@ -27253,7 +27256,7 @@ return;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784949">
-		<LastChanged>2012-01-26T23:22:49</LastChanged>
+		<LastChanged>2012-06-26T19:02:54</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>90</Sequence>
 		<MethodName>getThisRecord</MethodName>
@@ -27265,6 +27268,8 @@ return;]]></LogicSource>
 if (!strRecordClass.contains("."))
     strRecordClass = strPackage + '.' + strRecordClass;
 Record record = Record.makeRecordFromClassName(strRecordClass, this, false, true);
+if (record == null)
+    return null;
 
 String strMode = this.getProperty("mode");
 boolean bExport = false;

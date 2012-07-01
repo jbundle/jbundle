@@ -2577,7 +2577,7 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 		<ObjectValue>Home</ObjectValue>
 	</Registration>
 	<Registration ID="503">
-		<LastChanged>2007-06-25T01:26:00</LastChanged>
+		<LastChanged>2007-06-25T15:59:50</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>17</ResourceID>
 		<Code>Xml</Code>
@@ -3392,7 +3392,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<ObjectValue>${jbundleVersion}</ObjectValue>
 	</Registration>
 	<Registration ID="546">
-		<LastChanged>2011-05-01T00:05:52</LastChanged>
+		<LastChanged>2011-08-05T15:59:50</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>19</ResourceID>
 		<Code>Jnlp</Code>
