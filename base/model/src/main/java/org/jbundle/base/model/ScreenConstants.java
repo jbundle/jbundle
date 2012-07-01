@@ -3,8 +3,6 @@
  */
 package org.jbundle.base.model;
 
-import org.jbundle.thin.base.screen.JScreenConstants;
-
 /**
  * @(#)Constants.java 1.16 95/12/14 Don Corley
  *
@@ -16,7 +14,7 @@ import org.jbundle.thin.base.screen.JScreenConstants;
 /**
  * ScreenConstants - Screen constants.
  */
-public interface ScreenConstants extends JScreenConstants
+public interface ScreenConstants //x extends JScreenConstants
 {
 // Screen constants
     // Display description constants. Display desc bits 0-2 (values 1-7)

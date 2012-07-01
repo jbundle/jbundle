@@ -29,6 +29,7 @@ import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.menu.SBaseMenuBar;
 import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.thin.base.screen.JScreenConstants;
 
 
 /**
@@ -149,7 +150,7 @@ public class VFrameScreen extends VBasePanel
             System.exit(0);
         }
         Dimension dimFrame = this.getFrameSize(frame);
-        if ((bFirstTime) || ((frame.getWidth() < ScreenConstants.MIN_SCREEN_SIZE.width) && (frame.getHeight() < ScreenConstants.MIN_SCREEN_SIZE.height)))
+        if ((bFirstTime) || ((frame.getWidth() < JScreenConstants.MIN_SCREEN_SIZE.width) && (frame.getHeight() < JScreenConstants.MIN_SCREEN_SIZE.height)))
         {
             frame.setSize(dimFrame);
             if (m_rectExtent == null)   // Always
@@ -168,7 +169,7 @@ public class VFrameScreen extends VBasePanel
      */
     public Dimension getFrameSize(JFrame frame)
     {
-        Dimension dimFrame = new Dimension(ScreenConstants.PREFERRED_SCREEN_SIZE.width, ScreenConstants.PREFERRED_SCREEN_SIZE.height);  // Default
+        Dimension dimFrame = new Dimension(JScreenConstants.PREFERRED_SCREEN_SIZE.width, JScreenConstants.PREFERRED_SCREEN_SIZE.height);  // Default
         
         Dimension dimScreen = null;
         Toolkit toolkit = frame.getToolkit();

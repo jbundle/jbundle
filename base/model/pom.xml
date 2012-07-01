@@ -14,41 +14,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.mail</groupId>
-      <artifactId>mail</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jbundle.model</groupId>
-      <artifactId>org.jbundle.model.main</artifactId>
+      <groupId>org.jbundle.thin.base.db</groupId>
       <version>0.8.0-SNAPSHOT</version>
+      <artifactId>org.jbundle.thin.base.db</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jbundle.thin.app</groupId>
-      <artifactId>org.jbundle.thin.app.calendar</artifactId> <!-- I should be able to eventually change this to jbundle-thinbase -->
+      <groupId>org.jbundle.thin.base</groupId>
       <version>0.8.0-SNAPSHOT</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.jbundle.thin.base.screen</groupId>
-      <artifactId>org.jbundle.thin.base.screen.splash</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.jbundle.util.jcalendarbutton</groupId>
-      <artifactId>org.jbundle.util.jcalendarbutton</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.core</artifactId>
-      <scope>provided</scope> <!-- This better be provided -->
+      <artifactId>org.jbundle.thin.base.util</artifactId>
     </dependency>
   </dependencies>
 

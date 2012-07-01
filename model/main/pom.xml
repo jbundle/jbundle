@@ -14,11 +14,11 @@
   <name>jbundle-model-main - Record intefaces</name>
 
   <dependencies>
-  <dependency>
-    <groupId>org.jbundle</groupId>
-    <artifactId>org.jbundle.model</artifactId>
-    <version>0.8.0-SNAPSHOT</version>
-  </dependency>
+	  <dependency>
+	    <groupId>org.jbundle</groupId>
+	    <artifactId>org.jbundle.model</artifactId>
+	    <version>0.8.0-SNAPSHOT</version>
+	  </dependency>
   </dependencies>
 
 </project>

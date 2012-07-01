@@ -52,6 +52,7 @@ import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.BaseApplet;
+import org.jbundle.thin.base.screen.JScreenConstants;
 import org.jbundle.thin.base.screen.landf.ScreenDialog;
 import org.jbundle.thin.base.screen.landf.ScreenUtil;
 import org.jbundle.thin.base.screen.print.ScreenPrinter;
@@ -102,7 +103,7 @@ public class VAppletScreen extends VBasePanel
         m_ScreenInfo.setControl((BaseApplet)this.getControl());
         if (this.getScreenField().getParentScreen() == null)
         {
-            this.setControlExtent(new Rectangle(new Point(0, 0), ScreenConstants.PREFERRED_SCREEN_SIZE));
+            this.setControlExtent(new Rectangle(new Point(0, 0), JScreenConstants.PREFERRED_SCREEN_SIZE));
         }
     }
     /**

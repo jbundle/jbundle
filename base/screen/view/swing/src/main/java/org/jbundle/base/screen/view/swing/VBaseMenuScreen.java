@@ -36,6 +36,7 @@ import org.jbundle.base.screen.model.util.ScreenLocation;
 import org.jbundle.model.DBException;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.util.Util;
+import org.jbundle.thin.base.screen.JScreenConstants;
 
 
 /**
@@ -93,7 +94,7 @@ public class VBaseMenuScreen extends VBaseScreen
     public Component setupControl(boolean bEditableControl)   // Must o/r
     {
         JPanel screen = new JPanel();
-        this.setControlExtent(new Rectangle(0, 0, ScreenConstants.PREFERRED_SCREEN_SIZE.width, ScreenConstants.PREFERRED_SCREEN_SIZE.height));
+        this.setControlExtent(new Rectangle(0, 0, JScreenConstants.PREFERRED_SCREEN_SIZE.width, JScreenConstants.PREFERRED_SCREEN_SIZE.height));
         JScrollPane scrollpane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollpane.setPreferredSize(new Dimension(10,10));
         scrollpane.setAlignmentX(Component.LEFT_ALIGNMENT);
