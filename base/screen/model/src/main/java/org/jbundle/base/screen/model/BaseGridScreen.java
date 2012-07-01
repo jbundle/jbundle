@@ -23,6 +23,7 @@ import org.jbundle.base.util.BaseApplication;
 import org.jbundle.model.DBException;
 import org.jbundle.model.screen.GridScreenParent;
 import org.jbundle.thin.base.db.Converter;
+import org.jbundle.model.screen.ExtendedComponent;
 
 
 /**
@@ -113,7 +114,8 @@ public class BaseGridScreen extends BaseScreen
     {
         if (sField instanceof SButtonBox)
             if (((SButtonBox)sField).getImageButtonName() == null)
-                return true;    // Buttons need their descriptions (if there is no icon) in grid screens
+                if (!(sField instanceof ExtendedComponent))
+                    return true;    // Buttons need their descriptions (if there is no icon) in grid screens
         return false; // Descriptions are in the header bar (Don't put descriptions in the controls)!
     }
     /**

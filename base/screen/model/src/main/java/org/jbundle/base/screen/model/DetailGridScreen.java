@@ -104,7 +104,7 @@ public class DetailGridScreen extends GridScreen
             {   // Special case... the main record was passed in, but I was expecting a header record, swap them
                 Record oldHeaderRecord = m_recHeader;
                 m_recHeader = this.openHeaderRecord();  // The new correct header record
-                if (mainRecord.getClass() != m_recHeader.getClass())    // Just being sure that the main and header are different
+                if ((m_recHeader != null) && (mainRecord.getClass() != m_recHeader.getClass()))    // Just being sure that the main and header are different
                 {   // That's what I thought the header is different
                     mainRecord.free();  // Should not have opened this
                     this.addRecord(oldHeaderRecord, true);  // The passed in header is the correct main record
@@ -113,7 +113,8 @@ public class DetailGridScreen extends GridScreen
                 {   // Hmmm, the header and detail records are the same (record class not object)
                     if (m_recHeader != oldHeaderRecord)
                     {   // Always
-                        m_recHeader.free();
+                    	if (m_recHeader != null)
+                    		m_recHeader.free();
                         m_recHeader = oldHeaderRecord;  // It was okay to begin with, restore the original values
                     }
                 }
