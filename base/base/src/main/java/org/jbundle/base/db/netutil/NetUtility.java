@@ -9,8 +9,6 @@ import java.io.OutputStream;
 import java.util.Hashtable;
 import java.util.Map;
 
-import javax.servlet.ServletException;
-
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
