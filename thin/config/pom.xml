@@ -15,8 +15,9 @@
   <name>jbundle-thin-config-reactor - Thin config parent</name>
 
   <modules>
-    <module>thin</module>
+    <module>thin-db</module>
     <module>thin-base</module>
+    <module>thin</module>
   </modules>
   
 </project>

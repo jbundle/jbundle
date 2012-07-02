@@ -8,44 +8,44 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>jbundle-config-dep-thin-base</artifactId>
+  <artifactId>jbundle-config-dep-thin-db</artifactId>
   <packaging>pom</packaging>
 
   <dependencies>
     <dependency>
-      <groupId>org.jbundle.config.dep</groupId>
-      <artifactId>jbundle-config-dep-thin-db</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-      <type>pom</type>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jbundle.thin.base.screen</groupId>
-      <artifactId>org.jbundle.thin.base.screen</artifactId>
+      <groupId>org.jbundle.thin.base.db</groupId>
+      <artifactId>org.jbundle.thin.base.db</artifactId>
       <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.jbundle.thin.base.screen</groupId>
-      <artifactId>org.jbundle.thin.base.screen.grid</artifactId>
+      <groupId>org.jbundle.thin.base.db</groupId>
+      <artifactId>org.jbundle.thin.base.db.misc</artifactId>
       <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.jbundle.thin.base.screen</groupId>
-      <artifactId>org.jbundle.thin.base.screen.util</artifactId>
+      <groupId>org.jbundle.thin.base</groupId>
+      <artifactId>org.jbundle.thin.base.message</artifactId>
       <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.jbundle.thin.base.screen</groupId>
-      <artifactId>org.jbundle.thin.base.screen.util.misc</artifactId>
+      <groupId>org.jbundle.thin.base</groupId>
+      <artifactId>org.jbundle.thin.base.remote</artifactId>
       <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.jbundle.util</groupId>
-      <artifactId>org.jbundle.util.muffinmanager</artifactId>
+      <groupId>org.jbundle.thin.base</groupId>
+      <artifactId>org.jbundle.thin.base.thread</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.jbundle.util.jcalendarbutton</groupId>
-      <artifactId>org.jbundle.util.jcalendarbutton</artifactId>
+      <groupId>org.jbundle.thin.base</groupId>
+      <artifactId>org.jbundle.thin.base.util</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.thin.base</groupId>
+      <artifactId>org.jbundle.thin.base.util.base64</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
