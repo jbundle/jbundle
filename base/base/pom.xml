@@ -23,6 +23,7 @@
             <Export-Package>
             org.jbundle.base.db.*;version=${project.version},
             org.jbundle.base.field.*;version=${project.version},
+            !org.jbundle.base.message.core.*,            
             org.jbundle.base.message.*;version=${project.version},
             org.jbundle.base.util.*;version=${project.version},
             org.jbundle.base.thread.*;version=${project.version},
