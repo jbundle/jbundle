@@ -42,6 +42,7 @@ import org.jbundle.base.model.Utility;
 import org.jbundle.base.model.XMLTags;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.util.base64.Base64;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -380,19 +381,20 @@ public class XmlUtilities extends Object
         if (field.getData() == null)
             return DBConstants.BLANK;
         ByteArrayOutputStream baOut = new ByteArrayOutputStream();
-        try   {
-            OutputStream enOut = javax.mail.internet.MimeUtility.encode(baOut, BINARYENCODING);
-            DataOutputStream daOut = new DataOutputStream(enOut);
+        DataOutputStream daOut = new DataOutputStream(baOut);
+        try {
             field.write(daOut, false);
-            if (baOut.size() > 0)
-                return baOut.toString();
-        } catch (javax.mail.MessagingException ex)  {
-            ex.printStackTrace();
+            daOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return DBConstants.BLANK;
+        char[] chOut = Base64.encode(baOut.toByteArray());
+        if (chOut == null)
+            return DBConstants.BLANK;   // Never
+        return new String(chOut);
     }
     /**
-     * Change the data in this field to base64.
+     * Change this base64 string to raw data and set the value in this field.
      * WARNING - This requires 64bit encoding found in javax.mail!
      * @param field The field containing the binary data to decode.
      * @param The string to decode using base64.
@@ -401,21 +403,9 @@ public class XmlUtilities extends Object
     {
         if ((string == null) || (string.length() == 0))
             return;
-        ByteArrayOutputStream baOut = new ByteArrayOutputStream();
-        OutputStreamWriter os = new OutputStreamWriter(baOut);
-        try   {
-            os.write(string, 0, string.length());
-            os.flush();
-        } catch (IOException ex)    {
-            ex.printStackTrace();
-        }
-        try   {
-            InputStream is = new ByteArrayInputStream(baOut.toByteArray());
-            InputStream enIn = javax.mail.internet.MimeUtility.decode(is, BINARYENCODING);
-            DataInputStream daIn = new DataInputStream(enIn);
-            field.read(daIn, false);
-        } catch (javax.mail.MessagingException ex)  {
-            ex.printStackTrace();
-        }
+        byte[] ba = Base64.decode(string.toCharArray());
+        InputStream is = new ByteArrayInputStream(ba);
+        DataInputStream daIn = new DataInputStream(is);
+        field.read(daIn, false);
     }
 }
