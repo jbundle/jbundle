@@ -15,17 +15,22 @@ import javax.swing.SwingWorker;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.screen.JBasePanel;
+import org.jbundle.thin.base.thread.SyncNotify;
+import org.jbundle.thin.base.thread.SyncPage;
+import org.jbundle.thin.base.thread.SyncWorker;
 import org.jbundle.thin.base.util.ThinResourceConstants;
 
 /**
  * This is a utility class that makes sure the wait message and cursor are displayed before starting
  * a compute intensive task in the awt thread (in done()) . It is preferable to use SwingWorker and do
  * the tasks in a separate thread, but if you want to lock the screen while doing a task and
- * GUARANTEE DONE() IS EXECUTED IN THE AWT THREAD, use this utility.
+ * GUARANTEE done() IS EXECUTED IN THE AWT THREAD, use this utility.
  */
 public class SwingSyncPageWorker extends SyncPageWorker
+    implements SyncWorker
 {
     protected boolean m_bManageCursor = true;
+    SyncNotify syncNotify = null;
     
     public static final String WAIT_MESSAGE = "Please wait...";
 
@@ -38,34 +43,37 @@ public class SwingSyncPageWorker extends SyncPageWorker
     /**
      * Constructor.
      */
-    public SwingSyncPageWorker(SyncPage p, boolean bManageCursor) {
+    public SwingSyncPageWorker(SyncPage syncPage, boolean bManageCursor) {
         this();
         
-        this.init(p, null, null, bManageCursor);
+        this.init(syncPage, null, null, null, bManageCursor);
     }
     /**
      * Constructor.
      */
-    public SwingSyncPageWorker(SyncPage p, Map<String,Object> map, boolean bManageCursor) {
+    public SwingSyncPageWorker(SyncPage syncPage, Map<String,Object> map, boolean bManageCursor) {
         this();
         
-        this.init(p, null, map, bManageCursor);
+        this.init(syncPage, null, null, map, bManageCursor);
     }
     /**
      * Constructor.
      */
-    public SwingSyncPageWorker(SyncPage p, Runnable swingPageLoader) {
+    public SwingSyncPageWorker(SyncPage syncPage, Runnable swingPageLoader) {
         this();
         
-        this.init(p, swingPageLoader, null, true);
+        this.init(syncPage, null, swingPageLoader, null, true);
     }
     /**
      * Constructor.
      */
-    public void init(SyncPage p, Runnable swingPageLoader, Map<String,Object> map, boolean bManageCursor) 
+    public void init(SyncPage syncPage, SyncNotify syncNotify, Runnable swingPageLoader, Map<String,Object> map, boolean bManageCursor) 
     {
         m_bManageCursor = bManageCursor;
-        super.init(p, swingPageLoader, map);
+        this.syncNotify = syncNotify;
+        if (syncNotify != null)
+            syncNotify.setSyncWorker(this);
+        super.init(syncPage, swingPageLoader, map);
     }
     /**
      * Invoke the page loader that was passed into the constructor.
@@ -151,7 +159,8 @@ public class SwingSyncPageWorker extends SyncPageWorker
      * 
      */
     public void done()
-    {
-        // Override this
+    {   // Override this
+        if (syncNotify != null)
+            syncNotify.done();
     }
 }

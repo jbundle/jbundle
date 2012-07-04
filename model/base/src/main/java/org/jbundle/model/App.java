@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.jbundle.model.screen.BaseAppletReference;
+
 /**
  * A Application contains all of a single user's apps.
  * For client apps, there is only one Application class, for server apps there

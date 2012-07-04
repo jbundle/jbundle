@@ -17,7 +17,7 @@ import javax.swing.ImageIcon;
 
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
-import org.jbundle.thin.base.screen.util.LinkedConverter;
+import org.jbundle.thin.base.db.LinkedConverter;
 
 
 /**

@@ -16,10 +16,8 @@ import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
+import org.jbundle.model.util.PortableImage;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.screen.BaseApplet;
-import org.jbundle.thin.base.screen.util.SerializableImage;
-
 
 /**
  * ImageField - A GIF Picture.
@@ -97,14 +95,14 @@ public class ImageField extends ObjectField
     /**
      * Get this image as an icon.
      */
-    public SerializableImage getImage()
+    public PortableImage getImage()
     {
         if (this.isNull())
             return null;
         /*if (this.getData() instanceof ImageIcon)
             return (ImageIcon)this.getData();   // Never (legacy)
-        else*/ if (this.getData() instanceof SerializableImage)
-            return (SerializableImage)this.getData();
+        else*/ if (this.getData() instanceof PortableImage)
+            return (PortableImage)this.getData();
         else
             return null;
     }
@@ -128,7 +126,7 @@ public class ImageField extends ObjectField
             data = null;
         //if (data instanceof ImageIcon)
         //    data = new SerializableImage(((ImageIcon)data).getImage());
-        if ((data != null) && (!(data instanceof SerializableImage)) && (!(data instanceof String)))
+        if ((data != null) && (!(data instanceof PortableImage)) && (!(data instanceof String)))
         {
             String strError = "Error - Incorrect image format, must be a SerializableImage";
             System.out.println(strError);   // TODO - Get rid of this
@@ -136,8 +134,8 @@ public class ImageField extends ObjectField
             if (this.getRecord() != null)
                 if (this.getRecord().getRecordOwner() != null)
                     task = this.getRecord().getRecordOwner().getTask();
-            if (task == null)
-                task = BaseApplet.getSharedInstance();
+            //if (task == null)
+            //    task = BaseApplet.getSharedInstance();
             if (task == null)
                 return DBConstants.ERROR_RETURN;
             return task.setLastError(strError);

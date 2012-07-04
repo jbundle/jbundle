@@ -15,6 +15,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.logging.Level;
 
 import org.jbundle.model.App;
 import org.jbundle.model.Freeable;
@@ -213,4 +214,25 @@ public class TaskScheduler extends Object
     {
         return m_application;
     }
+    /**
+     * Start a task that calls the syncNotify 'done' method when the screen is done displaying.
+     * This class is a platform-neutral implementation of SwinSyncPageWorker that
+     * guarantees a page has displayed before doing a compute-intensive task.
+     */
+    public static SyncWorker startPageWorker(SyncPage syncPage, SyncNotify syncNotify, Runnable swingPageLoader, Map<String,Object> map, boolean bManageCursor)
+    {
+        SyncWorker syncWorker = (SyncWorker)ClassServiceUtility.getClassService().makeObjectFromClassName(JAVA_WORKER);
+        if (syncWorker == null)
+            syncWorker = (SyncWorker)ClassServiceUtility.getClassService().makeObjectFromClassName(ANDROID_WORKER);
+        if (syncWorker != null)
+        {
+            syncWorker.init(syncPage, syncNotify, swingPageLoader, map, bManageCursor);
+            syncWorker.start();
+        }
+        else
+            Util.getLogger().severe("SyncWorker does not exist!");
+        return syncWorker;
+    }
+    public static final String JAVA_WORKER = "org.jbundle.thin.base.screen.print.thread.SwingSyncPageWorker";
+    public static final String ANDROID_WORKER = "org.jbundle.thin.base.screen.print.thread.SwingSyncPageWorker";
 }

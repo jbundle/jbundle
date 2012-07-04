@@ -55,7 +55,7 @@ public class TestThinGridScreen extends JGridScreen
     {
         super.init(parent, record);
         
-        ThinMessageManager.createGridScreenMessageListener(this.getFieldList(), this);
+        ThinMessageManager.createScreenMessageListener(this.getFieldList(), this);
     }
     /**
      * Cleanup.

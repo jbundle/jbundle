@@ -61,6 +61,9 @@ public interface ThinMenuConstants
     public static final String ABOUT = "About";
     public static final String HELP_MENU = "HelpMenu";
 
+    public static final String CALENDAR = "Calendar";
+    public static final String DATE = "Date";
+    public static final String TIME = "Time";
     // These are preferences for displaying the help screen
     public static final String HELP_PANE = "pane";
     public static final String HELP_WEB = "web";

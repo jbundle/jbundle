@@ -13,9 +13,9 @@ package org.jbundle.thin.base.screen.db.converter;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.thin.base.db.LinkedConverter;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.screen.BaseApplet;
-import org.jbundle.thin.base.screen.util.LinkedConverter;
 
 /**
  * Main Class for applet OrderEntry.

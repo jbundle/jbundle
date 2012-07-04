@@ -21,7 +21,7 @@ import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.BasePanel;
 import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.screen.model.ScreenField;
-import org.jbundle.model.BaseAppletReference;
+import org.jbundle.model.screen.BaseAppletReference;
 
 
 /**

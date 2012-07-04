@@ -21,8 +21,6 @@ import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.screen.BaseApplet;
-
 
 /**
  * The base field for all numbers. 
@@ -189,8 +187,8 @@ public abstract class NumberField extends BaseField
                 if (this.getRecord() != null)
                     if (this.getRecord().getRecordOwner() != null)
                         task = this.getRecord().getRecordOwner().getTask();
-                if (task == null)
-                    task = BaseApplet.getSharedInstance();
+                //if (task == null)
+                //    task = BaseApplet.getSharedInstance();
                 if (task == null)
                     return DBConstants.ERROR_RETURN;
                 return task.setLastError(strError);

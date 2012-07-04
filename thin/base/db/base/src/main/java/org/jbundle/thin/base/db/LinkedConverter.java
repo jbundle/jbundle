@@ -1,7 +1,7 @@
 /*
  * Copyright © 2012 jbundle.org. All rights reserved.
  */
-package org.jbundle.thin.base.screen.util;
+package org.jbundle.thin.base.db;
 
 /**
  * @(#)FieldConverter.java  0.00 12-Feb-97 Don Corley
@@ -12,8 +12,6 @@ package org.jbundle.thin.base.screen.util;
 
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ScreenComponent;
-import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.db.FieldInfo;
 
 /**
  * The base converter for fields.

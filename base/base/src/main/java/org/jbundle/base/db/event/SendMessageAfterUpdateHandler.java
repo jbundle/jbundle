@@ -27,8 +27,10 @@ import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.MessageConstants;
-import org.jbundle.thin.base.screen.print.thread.SwingSyncPageWorker;
-import org.jbundle.thin.base.screen.print.thread.SyncPage;
+import org.jbundle.thin.base.thread.SyncNotify;
+import org.jbundle.thin.base.thread.SyncNotifyAdapter;
+import org.jbundle.thin.base.thread.SyncPage;
+import org.jbundle.thin.base.thread.TaskScheduler;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.main.msg.db.MessageTransport;
 
@@ -124,7 +126,7 @@ public class SendMessageAfterUpdateHandler extends FileListener
                         Map<String,Object> map = new HashMap<String,Object>();
                         map.put("message", m_message);
                         map.put("transport", getDirectMessageTransport(this.getOwner().getTask()));
-                        SwingSyncPageWorker worker = new SwingSyncPageWorker(((SyncPage)this.getOwner().getTask()), map, true)
+                        SyncNotify syncNotify = new SyncNotifyAdapter()
                         {
                             public void done()
                             {
@@ -132,9 +134,9 @@ public class SendMessageAfterUpdateHandler extends FileListener
                                 BaseMessage message = (BaseMessage)this.get("message");
                                 ((MessageSender)transport).sendMessage(message);
                                 transport.free();
-                            }
+                            }                            
                         };
-                        worker.start();
+                        TaskScheduler.startPageWorker((SyncPage)this.getOwner().getTask(), syncNotify, null, map, true);
                     }
                     else
                     {

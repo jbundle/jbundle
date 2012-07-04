@@ -18,11 +18,11 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 
 import org.jbundle.model.App;
-import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
 import org.jbundle.model.message.MessageManager;
+import org.jbundle.model.screen.BaseAppletReference;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;

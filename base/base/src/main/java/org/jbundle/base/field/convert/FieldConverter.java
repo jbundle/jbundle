@@ -19,7 +19,7 @@ import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.screen.util.LinkedConverter;
+import org.jbundle.thin.base.db.LinkedConverter;
 
 
 /**

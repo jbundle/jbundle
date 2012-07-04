@@ -18,7 +18,6 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.ResourceConstants;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.model.Task;
-import org.jbundle.thin.base.screen.BaseApplet;
 
 
 /**
@@ -130,8 +129,8 @@ public class CheckRangeHandler extends FieldScratchHandler
 		            task = this.getOwner().getRecord().getRecordOwner().getTask();
 		        if (task != null)
 		            application = (BaseApplication)task.getApplication();
-		        if (application == null)
-		            application = (BaseApplication)BaseApplet.getSharedInstance().getApplication();
+		        //if (application == null)
+		        //    application = (BaseApplication)BaseApplet.getSharedInstance().getApplication();
 		        if (m_dStartRange != Double.MIN_VALUE) if (dValue < m_dStartRange)
 		            return task.setLastError(MessageFormat.format(application.getResources(ResourceConstants.ERROR_RESOURCE, true).getString(TOO_SMALL), m_dStartRange));
 		        if (m_dEndRange != Double.MAX_VALUE) if (dValue > m_dEndRange)

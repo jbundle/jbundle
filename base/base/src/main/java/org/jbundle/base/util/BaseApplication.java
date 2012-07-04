@@ -15,7 +15,7 @@ import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
-import org.jbundle.thin.base.screen.ThinApplication;
+import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -23,7 +23,7 @@ import org.jbundle.thin.base.screen.ThinApplication;
  * For example, a standalone app, an applet, an ongoing or stateless HTML BaseApplication,
  * a user's server BaseApplication, or a user's EJB app server BaseApplication.
  */
-public class BaseApplication extends ThinApplication
+public class BaseApplication extends Application
     implements DatabaseOwner
 { 
     /**

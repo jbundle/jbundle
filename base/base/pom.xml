@@ -38,7 +38,7 @@
   <dependencies>
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
-      <artifactId>jbundle-config-dep-thin-db</artifactId>
+      <artifactId>jbundle-config-dep-thin-base</artifactId>
       <version>0.8.0-SNAPSHOT</version>
       <type>pom</type>
     </dependency>

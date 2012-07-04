@@ -10,7 +10,7 @@ package org.jbundle.thin.base.screen;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.jbundle.model.BaseAppletReference;
+import org.jbundle.model.screen.BaseAppletReference;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.osgi.bundle.BaseBundleActivator;

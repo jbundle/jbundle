@@ -7,8 +7,8 @@ import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.jbundle.model.BaseAppletReference;
 import org.jbundle.model.message.MessageManager;
+import org.jbundle.model.screen.BaseAppletReference;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.screen.message.RemoteMessageManager;

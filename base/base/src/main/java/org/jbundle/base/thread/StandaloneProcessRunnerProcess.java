@@ -10,9 +10,10 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
+import org.jbundle.model.App;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
-import org.jbundle.thin.base.screen.BaseApplet;
+import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -55,7 +56,6 @@ public class StandaloneProcessRunnerProcess extends BaseProcess
      */
     public static void main(String[] args)
     {
-        BaseApplet.main(args);      // This says I'm stand-alone
         Map<String,Object> properties = null;
         if (args != null)
         {
@@ -65,7 +65,9 @@ public class StandaloneProcessRunnerProcess extends BaseProcess
         properties.put(DBParams.TABLE, DBParams.JDBC);
         properties.put(DBParams.LOCAL, DBParams.JDBC);
         properties.put(DBParams.REMOTE, DBParams.JDBC);
-        StandaloneProcessRunnerProcess process = new StandaloneProcessRunnerProcess(null, null, properties);
+        App app = new Application(null, properties, null);
+        ProcessRunnerTask task = new ProcessRunnerTask(app, null, null);
+        StandaloneProcessRunnerProcess process = new StandaloneProcessRunnerProcess(task, null, properties);
         process.run();
         process.free();
         System.exit(0);

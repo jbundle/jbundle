@@ -50,6 +50,7 @@ import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.message.MessageManager;
+import org.jbundle.model.screen.BaseAppletReference;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.model.screen.ScreenParent;
@@ -67,7 +68,6 @@ import org.jbundle.thin.base.remote.LocalTask;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.osgi.BundleConstants;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
@@ -1948,8 +1948,8 @@ public class Record extends FieldList
                 Task task = null;
                 if (this.getRecordOwner() != null)
                     task = this.getRecordOwner().getTask();
-                if (task == null)
-                    task = BaseApplet.getSharedInstance();
+                //if (task == null)
+                //    task = BaseApplet.getSharedInstance();
                 Object[] rgobjEnabledFields = null;
                 try   {
                     if (this.getEditMode() == Constants.EDIT_ADD) // No status = no action
@@ -2239,9 +2239,9 @@ public class Record extends FieldList
             Task task = parent.getTask();
             task.setProperties(properties);
         }
-        BaseApplet applet = null;
-        if (parent.getTask() instanceof BaseApplet)
-        	applet = (BaseApplet)parent.getTask();
+        BaseAppletReference applet = null;
+        if (parent.getTask() instanceof BaseAppletReference)
+        	applet = (BaseAppletReference)parent.getTask();
         Object oldCursor = null;
         if (applet != null)
         	oldCursor = applet.setStatus(Constants.WAIT, applet, null);
@@ -2312,9 +2312,9 @@ public class Record extends FieldList
         }
         if (screen != null)
         {
-            BaseApplet applet = null;
-            if (screenParent.getTask() instanceof BaseApplet)
-                applet = (BaseApplet)screenParent.getTask();
+            BaseAppletReference applet = null;
+            if (screenParent.getTask() instanceof BaseAppletReference)
+                applet = (BaseAppletReference)screenParent.getTask();
             if (initScreen)
             {
                 Object oldCursor = null;

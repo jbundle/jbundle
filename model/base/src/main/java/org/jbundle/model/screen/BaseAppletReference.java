@@ -1,11 +1,14 @@
 /*
  * Copyright © 2012 jbundle.org. All rights reserved.
  */
-package org.jbundle.model;
+package org.jbundle.model.screen;
 
 import java.net.URL;
 
-public interface BaseAppletReference extends Freeable {
+import org.jbundle.model.Freeable;
+import org.jbundle.model.Task;
+
+public interface BaseAppletReference extends Task, Freeable {
     /**
      * Initializes the applet.  You never need to call this directly; it is
      * called automatically by the system once the applet is created.

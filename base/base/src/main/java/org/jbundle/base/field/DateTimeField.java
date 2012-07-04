@@ -28,6 +28,7 @@ import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.field.convert.DateConverter;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBSQLTypes;
+import org.jbundle.base.model.MenuConstants;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.ScreenModel;
 import org.jbundle.model.db.Convert;
@@ -37,8 +38,6 @@ import org.jbundle.model.screen.ScreenComponent;
 import org.jbundle.model.screen.ScreenLoc;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.util.jcalendarbutton.JCalendarPopup;
-import org.jbundle.util.jcalendarbutton.JTimePopup;
 
 /**
  * DateTimeField - Set up the Date field.
@@ -388,8 +387,8 @@ public class DateTimeField extends NumberField
         {   // Add Calendar button (If not HTML)
             properties = new HashMap<String,Object>();
             properties.put(ScreenModel.FIELD, this);
-            properties.put(ScreenModel.COMMAND, JCalendarPopup.CALENDAR_ICON);
-            properties.put(ScreenModel.IMAGE, JCalendarPopup.CALENDAR_ICON);
+            properties.put(ScreenModel.COMMAND, MenuConstants.CALENDAR);
+            properties.put(ScreenModel.IMAGE, MenuConstants.CALENDAR);
             ScreenComponent pSScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
             pSScreenField.setRequestFocusEnabled(false);
         }
@@ -406,8 +405,8 @@ public class DateTimeField extends NumberField
         {   // Add Calendar button (If not HTML)
             properties = new HashMap<String,Object>();
             properties.put(ScreenModel.FIELD, this);
-            properties.put(ScreenModel.COMMAND, JTimePopup.TIME_ICON);
-            properties.put(ScreenModel.IMAGE, JTimePopup.TIME_ICON);
+            properties.put(ScreenModel.COMMAND, MenuConstants.TIME);
+            properties.put(ScreenModel.IMAGE, MenuConstants.TIME);
             ScreenComponent pSScreenField = createScreenComponent(ScreenModel.CANNED_BOX, targetScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), targetScreen, converter, iDisplayFieldDesc, properties);
             pSScreenField.setRequestFocusEnabled(false);
         }
@@ -541,7 +540,7 @@ public class DateTimeField extends NumberField
      */
     public void propertyChange(PropertyChangeEvent evt)
     {
-        if (JCalendarPopup.DATE_PARAM.equalsIgnoreCase(evt.getPropertyName()))
+        if (MenuConstants.DATE.equalsIgnoreCase(evt.getPropertyName()))
             if (evt.getNewValue() instanceof java.util.Date)
                 this.setDateTime((java.util.Date)evt.getNewValue(), true, DBConstants.SCREEN_MOVE);
     }

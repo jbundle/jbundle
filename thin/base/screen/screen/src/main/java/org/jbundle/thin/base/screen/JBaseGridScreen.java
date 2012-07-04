@@ -3,6 +3,13 @@
  */
 package org.jbundle.thin.base.screen;
 
+import java.util.Properties;
+
+import org.jbundle.model.db.Rec;
+import org.jbundle.thin.base.message.JMessageListener;
+import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.message.event.ModelMessageHandler;
+
 /**
  * JScreen.java:    Applet
  *  Copyright © 2012 jbundle.org. All rights reserved.
@@ -59,4 +66,11 @@ public abstract class JBaseGridScreen extends JBaseScreen
      * @return This screen's table model.
      */
     public abstract AbstractThinTableModel getGridModel();
+
+    @Override
+    public Object addMessageHandler(Rec record, Properties properties) {
+        JMessageListener listenerForSession = new ModelMessageHandler(null, this.getGridModel());
+        properties.setProperty(MessageConstants.CLASS_NAME, MessageConstants.GRID_FILTER);
+        return listenerForSession;
+    }
 }

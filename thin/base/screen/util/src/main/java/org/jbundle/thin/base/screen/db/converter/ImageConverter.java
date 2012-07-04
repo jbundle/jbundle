@@ -14,8 +14,8 @@ import javax.swing.ImageIcon;
 
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
+import org.jbundle.thin.base.db.LinkedConverter;
 import org.jbundle.thin.base.screen.BaseApplet;
-import org.jbundle.thin.base.screen.util.LinkedConverter;
 import org.jbundle.thin.base.screen.util.SerializableImage;
 
 /**

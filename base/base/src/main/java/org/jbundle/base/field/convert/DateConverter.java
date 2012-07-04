@@ -20,7 +20,6 @@ import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
-import org.jbundle.thin.base.screen.BaseApplet;
 
 
 /**
@@ -122,8 +121,8 @@ public class DateConverter extends FieldConverter
                     if (((BaseField)this.getField()).getRecord() != null)
                         if (((BaseField)this.getField()).getRecord().getRecordOwner() != null)
                             task = ((BaseField)this.getField()).getRecord().getRecordOwner().getTask();
-                if (task == null)
-                    task = BaseApplet.getSharedInstance();
+                //if (task == null)
+                //    task = BaseApplet.getSharedInstance();
                 return task.setLastError(strError);
             }
         }

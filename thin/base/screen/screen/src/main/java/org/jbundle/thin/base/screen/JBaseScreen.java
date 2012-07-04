@@ -12,14 +12,20 @@ package org.jbundle.thin.base.screen;
  */
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.util.Properties;
 import java.util.Vector;
 
 import org.jbundle.model.DBException;
 import org.jbundle.model.Freeable;
+import org.jbundle.model.db.Rec;
+import org.jbundle.model.screen.BaseScreenModel;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
+import org.jbundle.thin.base.message.JMessageListener;
+import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.message.event.FieldListMessageHandler;
 
 
 /**
@@ -28,6 +34,7 @@ import org.jbundle.thin.base.db.FieldList;
  * Data fields in the second column aligned left.
  */
 public class JBaseScreen extends JBasePanel
+    implements BaseScreenModel
 {
 	private static final long serialVersionUID = 1L;
 
@@ -313,4 +320,11 @@ public class JBaseScreen extends JBasePanel
         return null;
     }
     public static final FieldInfo SKIP_THIS_FIELD = new FieldInfo(null, null, -1, null, null);
+
+    @Override
+    public Object addMessageHandler(Rec record, Properties properties) {
+        JMessageListener listenerForSession = new FieldListMessageHandler((FieldList)record);
+        properties.setProperty(MessageConstants.CLASS_NAME, MessageConstants.RECORD_FILTER);
+        return listenerForSession;
+    }
 }

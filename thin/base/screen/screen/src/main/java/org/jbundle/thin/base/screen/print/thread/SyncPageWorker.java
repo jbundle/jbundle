@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.swing.SwingUtilities;
 
+import org.jbundle.thin.base.thread.SyncPage;
+
 /**
  * Schedule a compute-intensive task to occur only after a page has displayed.
  * This thread can also be used to stack display tasks in the (private) task queue
@@ -31,25 +33,25 @@ public class SyncPageWorker extends Thread
     /**
      * Constructor.
      */
-    public SyncPageWorker(SyncPage p, Map<String,Object> map) {
+    public SyncPageWorker(SyncPage syncPage, Map<String,Object> map) {
         this();
         
-        this.init(p, null, map);
+        this.init(syncPage, null, map);
     }
     /**
      * Constructor.
      */
-    public SyncPageWorker(SyncPage p, Runnable swingPageLoader) {
+    public SyncPageWorker(SyncPage syncPage, Runnable swingPageLoader) {
         this();
         
-        this.init(p, swingPageLoader, null);
+        this.init(syncPage, swingPageLoader, null);
     }
     /**
      * Constructor.
      */
-    public void init(SyncPage p, Runnable swingPageLoader, Map<String,Object> map) 
+    public void init(SyncPage syncPage, Runnable swingPageLoader, Map<String,Object> map) 
     {
-        m_syncPage = p;
+        m_syncPage = syncPage;
         m_swingPageLoader = swingPageLoader;
         m_map = map;
     }

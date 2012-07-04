@@ -21,7 +21,7 @@ import org.jbundle.model.Task;
 import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.Params;
-import org.jbundle.thin.base.screen.ThinApplication;
+import org.jbundle.thin.base.util.Application;
 
 
 /**
@@ -152,7 +152,7 @@ public class FakeRecordOwner extends BaseRecordOwner
         return task;
     }
     protected FakeTask m_taskFake = null;
-    class FakeApplication extends ThinApplication
+    class FakeApplication extends Application
     {
         /**
          * Default constructor.
