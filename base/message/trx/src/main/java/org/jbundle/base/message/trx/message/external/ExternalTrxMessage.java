@@ -31,9 +31,9 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.Utility;
 import org.jbundle.model.App;
 import org.jbundle.model.Task;
+import org.jbundle.model.screen.BaseAppletReference;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.ExternalMessage;
-import org.jbundle.thin.base.screen.BaseApplet;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
@@ -340,11 +340,11 @@ public class ExternalTrxMessage extends Object
             if (source == null)
             {       // Now, try it as a URL
                 Task task = null;//this.getTask();
-                if (task == null)
-                    task = BaseApplet.getSharedInstance();
-                BaseApplet applet = null;
-                if (task instanceof BaseApplet)
-                    applet = (BaseApplet)task;
+                //if (task == null)
+                //    task = BaseApplet.getSharedInstance();
+                BaseAppletReference applet = null;
+                if (task instanceof BaseAppletReference)
+                    applet = (BaseAppletReference)task;
                 App app = null;
                 if (task != null)
                     app = task.getApplication();

@@ -21,7 +21,7 @@ import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.screen.JScreen;
 import org.jbundle.thin.base.screen.JScreenToolbar;
-import org.jbundle.thin.base.screen.message.ThinMessageManager;
+import org.jbundle.thin.base.util.message.ThinMessageManager;
 
 
 /**

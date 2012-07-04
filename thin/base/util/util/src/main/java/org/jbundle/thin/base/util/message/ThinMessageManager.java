@@ -1,7 +1,7 @@
 /*
  * Copyright © 2012 jbundle.org. All rights reserved.
  */
-package org.jbundle.thin.base.screen.message;
+package org.jbundle.thin.base.util.message;
 
 import java.util.Map;
 import java.util.Properties;
@@ -68,7 +68,7 @@ public class ThinMessageManager extends BaseMessageManager
     {
         // Now add listeners to update screen when data changes
         FieldTable table = record.getTable();
-        RemoteSession remoteSession = ((org.jbundle.thin.base.db.client.RemoteFieldTable) table).getRemoteTableType(org.jbundle.model.Remote.class);
+        RemoteSession remoteSession = (RemoteSession)table.getRemoteTableType(org.jbundle.model.Remote.class);
 
         MessageManager messageManager = ((Application)screen.getBaseApplet().getApplication()).getMessageManager();
         MessageReceiver handler = messageManager.getMessageQueue(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE).getMessageReceiver();

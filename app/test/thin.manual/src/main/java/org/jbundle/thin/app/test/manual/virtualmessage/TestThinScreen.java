@@ -27,7 +27,7 @@ import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JScreen;
 import org.jbundle.thin.base.screen.JScreenToolbar;
-import org.jbundle.thin.base.screen.message.ThinMessageManager;
+import org.jbundle.thin.base.util.message.ThinMessageManager;
 
 
 /**

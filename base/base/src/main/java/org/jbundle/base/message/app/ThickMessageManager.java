@@ -12,7 +12,7 @@ import org.jbundle.base.util.BaseApplication;
 import org.jbundle.model.App;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.MessageConstants;
-import org.jbundle.thin.base.screen.message.ThinMessageManager;
+import org.jbundle.thin.base.util.message.ThinMessageManager;
 
 
 /**

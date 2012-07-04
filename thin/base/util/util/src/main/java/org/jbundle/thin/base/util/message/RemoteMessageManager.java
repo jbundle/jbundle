@@ -1,7 +1,7 @@
 /*
  * Copyright © 2012 jbundle.org. All rights reserved.
  */
-package org.jbundle.thin.base.screen.message;
+package org.jbundle.thin.base.util.message;
 
 import java.util.Map;
 
