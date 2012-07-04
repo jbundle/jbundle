@@ -4,6 +4,7 @@
 package org.jbundle.base.screen.view.swing.calendar;
 
 import java.util.Date;
+import java.util.EventListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.event.EventListenerList;
@@ -156,17 +157,17 @@ public class CalendarTableModel extends GridTableModel
      * Add a listener to my list.
      * @param l The listener to add to my list.
      */
-    public void addMySelectionListener(MyListSelectionListener l)
+    public void addMySelectionListener(EventListener l)
     {
-        listenerList.add(MyListSelectionListener.class, l);
+        listenerList.add(MyListSelectionListener.class, (MyListSelectionListener)l);
     }
     /**
      * Remove a listener from my list.
      * @param l The listener to remove from the list.
      */
-    public void removeMySelectionListener(MyListSelectionListener l)
+    public void removeMySelectionListener(EventListener l)
     {
-        listenerList.remove(MyListSelectionListener.class, l);
+        listenerList.remove(MyListSelectionListener.class, (MyListSelectionListener)l);
     }
     /**
      * Notify all listeners that have registered interest for

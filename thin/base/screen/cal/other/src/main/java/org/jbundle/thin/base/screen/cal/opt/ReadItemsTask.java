@@ -3,10 +3,12 @@
  */
 package org.jbundle.thin.base.screen.cal.opt;
 
+import java.util.EventListener;
+
 import org.jbundle.model.App;
 import org.jbundle.util.calendarpanel.event.MyListSelectionListener;
-import org.jbundle.util.calendarpanel.model.CachedCalendarModel;
 import org.jbundle.util.calendarpanel.model.CalendarModel;
+import org.jbundle.util.calendarpanel.model.swing.CachedCalendarModel;
 import org.jbundle.thin.base.thread.AutoTask;
 
 
@@ -80,14 +82,14 @@ public class ReadItemsTask extends AutoTask
     /**
      * Add a listener to my list.
      */
-    public void addMySelectionListener(MyListSelectionListener l)
+    public void addMySelectionListener(EventListener l)
     {
         m_model.addMySelectionListener(l);
     }
     /**
      * Remove a listener from my list.
      */
-    public void removeMySelectionListener(MyListSelectionListener l)
+    public void removeMySelectionListener(EventListener l)
     {
         m_model.removeMySelectionListener(l);
     }

@@ -10,9 +10,9 @@ import javax.swing.ImageIcon;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.screen.cal.popup.ProductTypeInfo;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.util.calendarpanel.model.CachedCalendarModel;
 import org.jbundle.util.calendarpanel.model.CalendarItem;
 import org.jbundle.util.calendarpanel.model.CalendarModel;
+import org.jbundle.util.calendarpanel.model.swing.CachedCalendarModel;
 
 
 /**

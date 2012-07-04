@@ -18,8 +18,8 @@ import org.jbundle.thin.base.screen.JBaseFrame;
 import org.jbundle.thin.base.screen.cal.opt.TaskCalendarStatusHandler;
 import org.jbundle.thin.base.screen.cal.popup.ProductConstants;
 import org.jbundle.util.calendarpanel.CalendarPanel;
-import org.jbundle.util.calendarpanel.model.CachedCalendarModel;
 import org.jbundle.util.calendarpanel.model.CalendarModel;
+import org.jbundle.util.calendarpanel.model.swing.CachedCalendarModel;
 
 
 public class CalendarTestApplet extends BaseApplet

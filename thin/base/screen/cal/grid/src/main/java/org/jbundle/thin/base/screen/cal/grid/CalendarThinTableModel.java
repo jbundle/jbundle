@@ -4,6 +4,7 @@
 package org.jbundle.thin.base.screen.cal.grid;
 
 import java.util.Date;
+import java.util.EventListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.event.EventListenerList;
@@ -143,16 +144,16 @@ public class CalendarThinTableModel extends ThinTableModel
     /**
      * Add a listener to my list.
      */
-    public void addMySelectionListener(MyListSelectionListener l)
+    public void addMySelectionListener(EventListener l)
     {
-        listenerList.add(MyListSelectionListener.class, l);
+        listenerList.add(MyListSelectionListener.class, (MyListSelectionListener)l);
     }
     /**
      * Remove a listener from my list.
      */
-    public void removeMySelectionListener(MyListSelectionListener l)
+    public void removeMySelectionListener(EventListener l)
     {
-        listenerList.remove(MyListSelectionListener.class, l);
+        listenerList.remove(MyListSelectionListener.class, (MyListSelectionListener)l);
     }
     /**
      * Notify all listeners that have registered interest for
