@@ -675,6 +675,8 @@ public class Application extends Object
      */
     public boolean showTheDocument(String strURL, BaseAppletReference applet, int iOptions)
     {
+        if (applet != null)
+            return applet.showTheDocument(this, strURL, iOptions);
         return false;    // Override this
     }
     /**

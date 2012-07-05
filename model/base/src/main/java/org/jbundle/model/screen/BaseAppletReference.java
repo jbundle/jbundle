@@ -5,6 +5,7 @@ package org.jbundle.model.screen;
 
 import java.net.URL;
 
+import org.jbundle.model.App;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.Task;
 
@@ -54,4 +55,13 @@ public interface BaseAppletReference extends Task, Freeable {
      * @return The history command on top of the stack.
      */
     public void popBrowserHistory(int quanityToPop, boolean bPushToBrowser, String browserTitle);
+    /**
+     * Display this URL in a web browser.
+     * Uses the applet or jnlp context.
+     * @param strURL The local URL to display (not fully qualified).
+     * @param iOptions ThinMenuConstants.HELP_WINDOW_CHANGE If help pane is already displayed, change to this content.
+     * @param The applet (optional).
+     * @return True if successfully displayed.
+     */
+    public boolean showTheDocument(App app, String strURL, int iOptions);
 }
