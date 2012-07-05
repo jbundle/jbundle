@@ -29,7 +29,6 @@ public interface ScreenConstants //x extends JScreenConstants
     public static final int MENU_MODE = 256;        // Display file as a menu
     public static final int MAINT_MODE = 512;       // Screen input/display screen
     public static final int INPUT_TYPE = 512;       // SAME
-    public static final int DISPLAY_TYPE = 1024;    // Grid screen
     public static final int DISPLAY_MODE = 1024;    // SAME
     public static final int DETAIL_MODE = DISPLAY_MODE | 64;    // Data detail grid screen
     public static final int SELECT_MODE = DISPLAY_MODE | 2048;  // Grid screen with select
