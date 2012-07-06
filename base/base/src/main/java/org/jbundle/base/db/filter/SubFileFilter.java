@@ -258,7 +258,12 @@ public class SubFileFilter extends DependentFileFilter
     {
         SubFileFilter newBehavior = null;
         if (m_fldMainFile != null)
-            newBehavior = new SubFileFilter(m_fldMainFile, m_iThisFileFieldSeq, m_fldMainFile2, m_iThisFileFieldSeq2, m_fldMainFile3, m_iThisFileFieldSeq3);
+        {
+            if (thisFileFieldName != null)
+                newBehavior = new SubFileFilter(m_fldMainFile, thisFileFieldName, m_fldMainFile2, thisFileFieldName2, m_fldMainFile3, thisFileFieldName3);
+            else
+                newBehavior = new SubFileFilter(m_fldMainFile, m_iThisFileFieldSeq, m_fldMainFile2, m_iThisFileFieldSeq2, m_fldMainFile3, m_iThisFileFieldSeq3);            
+        }
         else if (m_recordMain != null)
             newBehavior = new SubFileFilter(m_recordMain);
         return newBehavior;
