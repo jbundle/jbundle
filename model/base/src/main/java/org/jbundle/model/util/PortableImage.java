@@ -3,9 +3,6 @@
  */
 package org.jbundle.model.util;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -33,22 +30,10 @@ public class PortableImage extends Object
         this.setImage(image);
     }
 
-    private void readObject(ObjectInputStream s) throws ClassNotFoundException,
-            IOException {
-        s.defaultReadObject();
-
-        width = s.readInt();
-        height = s.readInt();
-        pixels = (int[]) (s.readObject());
-
-    }
-
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-
-        s.writeInt(width);
-        s.writeInt(height);
-        s.writeObject(pixels);
+    public PortableImage(int[] pixels, int width, int height) {
+        this.pixels = pixels;
+        this.width = width;
+        this.height = height;
     }
 
     public int getImageWidth() {
@@ -59,11 +44,28 @@ public class PortableImage extends Object
         return height;
     }
 
+    public int[] getPixels() {
+        return pixels;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setPixels(int[] pixels) {
+        this.pixels = pixels;
+    }
+
     public Object getImage() {
-        return null;
+        return Util.getPortableImageUtil().getImage(this);
     }
 
     public void setImage(Object image) {
+        Util.getPortableImageUtil().setImage(this, image);
     }
     
 }

@@ -23,6 +23,7 @@ import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
 import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.screen.BaseAppletReference;
+import org.jbundle.model.util.PortableImageUtil;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
@@ -176,12 +177,23 @@ public class Application extends Object
                 strUser = System.getProperties().getProperty("user.name");
                 this.setProperty(Params.USER_NAME, strUser);   // User name is required
             } catch (java.security.AccessControlException ex) {
-                // Ignore this, I'm probably runing in an Applet
+                // Ignore this, I'm probably running in an Applet
             }
         }
         try {	// Since I send this over the wire, make sure I'm using the default dom implementation
 	        System.setProperty("javax.xml.parsers.DocumentBuilderFactory", "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
         } catch (Exception e) {	// Ignore this error
+        }
+        if (Util.getPortableImageUtil() == null)
+        {
+            PortableImageUtil portableImageUtil = null;
+            try   {
+                Class.forName("javax.swing.ImageIcon"); // Test if swing exists
+                portableImageUtil = (PortableImageUtil)ClassServiceUtility.getClassService().makeObjectFromClassName("org.jbundle.thin.base.screen.util.SwingPortableImageUtil");
+            } catch (Exception ex)  { // Android
+                portableImageUtil = (PortableImageUtil)ClassServiceUtility.getClassService().makeObjectFromClassName("org.jbundle.android.base.screen.util.AndroidPortableImageUtil");
+            }
+            Util.setPortableImageUtil(portableImageUtil);
         }
     }
     /**

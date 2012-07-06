@@ -16,6 +16,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -31,8 +32,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.text.JTextComponent;
 
+import org.jbundle.model.util.PortableImage;
 import org.jbundle.thin.base.screen.JBaseScreen;
-import org.jbundle.thin.base.screen.util.SerializableImage;
 
 
 /**
@@ -259,9 +260,9 @@ public class JAltGridScreen extends JBaseScreen implements TableModelListener
         {
             component = new JLabel((ImageIcon)aValue);
         }
-        if (aValue instanceof SerializableImage)
+        if (aValue instanceof PortableImage)
         {
-            component = new JLabel(new ImageIcon(((SerializableImage)aValue).getImage()));
+            component = new JLabel(new ImageIcon((Image)((PortableImage)aValue).getImage()));
         }
         else if (aValue != null)
         {

@@ -684,4 +684,14 @@ public class Util extends Object
     	   m_logger.setLevel(Level.WARNING);
    }
    private static Logger m_logger = null;
+   
+   protected static PortableImageUtil portableImageUtil = null;
+   public static PortableImageUtil getPortableImageUtil()
+   {
+       return portableImageUtil;
+   }
+   public static void setPortableImageUtil(PortableImageUtil portableImageUtil)
+   {
+       Util.portableImageUtil = portableImageUtil;
+   }
 }

@@ -35,8 +35,8 @@ import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.view.swing.grid.GridTableModel;
 import org.jbundle.model.main.properties.db.PropertiesInputModel;
 import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.util.PortableImage;
 import org.jbundle.thin.base.screen.BaseApplet;
-import org.jbundle.thin.base.screen.util.SerializableImage;
 import org.jbundle.util.jcalendarbutton.JCalendarPopup;
 import org.jbundle.util.jcalendarbutton.JTimePopup;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
@@ -256,7 +256,7 @@ public class VCannedBox extends VButtonBox
         {
             String strPath = chooser.getSelectedFile().getPath();
             ImageIcon imageIcon = new ImageIcon(strPath);
-            SerializableImage data = new SerializableImage(imageIcon.getImage());
+            PortableImage data = new PortableImage(imageIcon.getImage());
             int i = 0;
             while (imageIcon.getImageLoadStatus() != MediaTracker.COMPLETE)
             {

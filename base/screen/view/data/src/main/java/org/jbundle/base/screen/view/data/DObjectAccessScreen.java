@@ -10,6 +10,7 @@ package org.jbundle.base.screen.view.data;
  *      don@tourgeek.com
  */
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -26,8 +27,7 @@ import org.jbundle.base.field.ImageField;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.base.screen.model.html.DataAccessScreen;
 import org.jbundle.model.screen.ScreenComponent;
-import org.jbundle.thin.base.screen.util.SerializableImage;
-import java.awt.Image;
+import org.jbundle.model.util.PortableImage;
 
 /**
  * DObjectAccessScreen converts image data to JPG and sends it down the pipe.
@@ -102,11 +102,11 @@ public class DObjectAccessScreen extends DDataAccessScreen
                     {
                         if (field.getData() instanceof ImageIcon)
                             imageIcon = (ImageIcon)field.getData();
-                        else if (field.getData() instanceof SerializableImage)
+                        else if (field.getData() instanceof PortableImage)
                         {
-                            image = ((SerializableImage)field.getData()).getImage();
-                            scaledW = ((SerializableImage)field.getData()).getImageWidth();
-                            scaledH = ((SerializableImage)field.getData()).getImageHeight();
+                            image = (Image)((PortableImage)field.getData()).getImage();
+                            scaledW = ((PortableImage)field.getData()).getImageWidth();
+                            scaledH = ((PortableImage)field.getData()).getImageHeight();
                         }
                     }
                 }                

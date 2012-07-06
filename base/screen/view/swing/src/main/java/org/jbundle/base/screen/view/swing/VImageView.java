@@ -27,8 +27,8 @@ import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.model.SImageView;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.util.PortableImage;
 import org.jbundle.thin.base.screen.util.JFSImage;
-import org.jbundle.thin.base.screen.util.SerializableImage;
 
 /**
  * Image display.
@@ -181,10 +181,10 @@ public class VImageView extends VScreenField
         if (this.getScreenField().getConverter() == null)
             return DBConstants.NORMAL_RETURN;
         if (objValue instanceof ImageIcon)
-            objValue = new SerializableImage(((ImageIcon)objValue).getImage());
+            objValue = new PortableImage(((ImageIcon)objValue).getImage());
         else if (objValue instanceof Image)
-            objValue = new SerializableImage((Image)objValue);
-        if (!(objValue instanceof SerializableImage))
+            objValue = new PortableImage((Image)objValue);
+        if (!(objValue instanceof PortableImage))
             objValue = null;
         return this.getScreenField().getConverter().setData(objValue, bDisplayOption, iMoveMode);
     }
@@ -196,7 +196,7 @@ public class VImageView extends VScreenField
     public Object getFieldState()
     {
         Object tempIcon = this.getScreenField().getConverter().getData();
-        if (!(tempIcon instanceof ImageIcon) && !(tempIcon instanceof SerializableImage))
+        if (!(tempIcon instanceof ImageIcon) && !(tempIcon instanceof PortableImage))
             tempIcon = null;
         return tempIcon;
     }
@@ -218,8 +218,8 @@ public class VImageView extends VScreenField
      */
     public void setComponentState(Object control, Object objValue)
     {
-        if (objValue instanceof SerializableImage)
-            objValue = new ImageIcon(((SerializableImage)objValue).getImage());
+        if (objValue instanceof PortableImage)
+            objValue = new ImageIcon((Image)((PortableImage)objValue).getImage());
         if (!(objValue instanceof ImageIcon))
             objValue = null;
         ((JFSImage)control).setControlValue((ImageIcon)objValue);

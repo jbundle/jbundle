@@ -11,6 +11,7 @@ package org.jbundle.base.screen.view.swing;
  */
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -24,8 +25,8 @@ import org.jbundle.base.screen.model.SImageView;
 import org.jbundle.base.screen.model.ScreenField;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.screen.ScreenComponent;
+import org.jbundle.model.util.PortableImage;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.screen.util.SerializableImage;
 
 
 /**
@@ -169,9 +170,9 @@ public class VButtonBox extends VBaseButton
                 }
                 if (objValue instanceof ImageIcon)
                     ((JButton)control).setIcon((ImageIcon)objValue);
-                else if ((objValue instanceof SerializableImage)
-                    && (((SerializableImage)objValue).getImage() != null))
-                        ((JButton)control).setIcon(new ImageIcon(((SerializableImage)objValue).getImage()));
+                else if ((objValue instanceof PortableImage)
+                    && (((PortableImage)objValue).getImage() != null))
+                        ((JButton)control).setIcon(new ImageIcon((Image)((PortableImage)objValue).getImage()));
                 else if (objValue instanceof URL)
                     ((JButton)control).setIcon(new ImageIcon((URL)objValue));
             }
@@ -186,7 +187,7 @@ public class VButtonBox extends VBaseButton
     {
     	if (this.getScreenField().getConverter() != null)
     		if ((this.getScreenField().getConverter().getData() instanceof ImageIcon)
-    				|| (this.getScreenField().getConverter().getData() instanceof SerializableImage)
+    				|| (this.getScreenField().getConverter().getData() instanceof PortableImage)
     		        || (this.getScreenField().getConverter().getData() instanceof URL))
     			return this.getScreenField().getConverter().getData();
         Object state = super.getFieldState();

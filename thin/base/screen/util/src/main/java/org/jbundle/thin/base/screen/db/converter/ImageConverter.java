@@ -10,13 +10,15 @@ package org.jbundle.thin.base.screen.db.converter;
  *      don@tourgeek.com
  */
 
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
 
+import org.jbundle.model.util.PortableImage;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.LinkedConverter;
 import org.jbundle.thin.base.screen.BaseApplet;
-import org.jbundle.thin.base.screen.util.SerializableImage;
 
 /**
  * The base converter for fields.
@@ -90,8 +92,8 @@ public class ImageConverter extends LinkedConverter
         ImageIcon image = null;
         if (objValue instanceof ImageIcon)
             image = (ImageIcon)objValue;
-        else if (objValue instanceof SerializableImage)
-            image = new ImageIcon(((SerializableImage)objValue).getImage());
+        else if (objValue instanceof PortableImage)
+            image = new ImageIcon((Image)((PortableImage)objValue).getImage());
         else
         {
             String strImage = this.convertValueToImageName(objValue);
