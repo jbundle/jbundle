@@ -57,6 +57,11 @@ public class DetailScreen extends Screen
     public void init(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
         m_recHeader = null;
+        if ((iDisplayFieldDesc & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
+        {
+            m_recHeader = record;
+            record = null;
+        }
         super.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
@@ -105,10 +110,38 @@ public class DetailScreen extends Screen
     public void openOtherRecords()
     {
         super.openOtherRecords();
+        Record mainRecord = this.getMainRecord();
         if (m_recHeader != null)
+        {
+            if ((mainRecord != m_recHeader)
+                && (mainRecord.getClass() == m_recHeader.getClass())
+                && (mainRecord.getRecordName().equals(m_recHeader.getRecordName())))
+            {   // Special case... the main record was passed in, but I was expecting a header record, swap them
+                Record oldHeaderRecord = m_recHeader;
+                m_recHeader = this.openHeaderRecord();  // The new correct header record
+                if ((m_recHeader != null) && (mainRecord.getClass() != m_recHeader.getClass()))    // Just being sure that the main and header are different
+                {   // That's what I thought the header is different
+                    mainRecord.free();  // Should not have opened this
+                    this.addRecord(oldHeaderRecord, true);  // The passed in header is the correct main record
+                }
+                else
+                {   // Hmmm, the header and detail records are the same (record class not object)
+                    if (m_recHeader != oldHeaderRecord)
+                    {   // Always
+                        if (m_recHeader != null)
+                            m_recHeader.free();
+                        m_recHeader = oldHeaderRecord;  // It was okay to begin with, restore the original values
+                    }
+                }
+            }
             this.addRecord(m_recHeader, false);
+        }
         else
+        {
             m_recHeader = this.openHeaderRecord();
+            if (mainRecord == m_recHeader)  // Passed in the header record as main
+                this.openMainRecord();
+        }
     }
     /**
      * Open the header record.
