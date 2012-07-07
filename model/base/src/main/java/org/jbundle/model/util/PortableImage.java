@@ -18,7 +18,8 @@ public class PortableImage extends Object
 
     protected int width;
     protected int height;
-    protected int[] pixels;
+    protected byte[] data;
+	protected String format;
 
     /**
      * Creates an Image that can be serialized.
@@ -30,8 +31,8 @@ public class PortableImage extends Object
         this.setImage(image);
     }
 
-    public PortableImage(int[] pixels, int width, int height) {
-        this.pixels = pixels;
+    public PortableImage(byte[] data, int width, int height) {
+        this.data = data;
         this.width = width;
         this.height = height;
     }
@@ -44,8 +45,8 @@ public class PortableImage extends Object
         return height;
     }
 
-    public int[] getPixels() {
-        return pixels;
+    public byte[] getData() {
+        return data;
     }
 
     public void setWidth(int width) {
@@ -56,9 +57,17 @@ public class PortableImage extends Object
         this.height = height;
     }
 
-    public void setPixels(int[] pixels) {
-        this.pixels = pixels;
+    public void setData(byte[] data) {
+        this.data = data;
     }
+
+    public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
 
     public Object getImage() {
         return Util.getPortableImageUtil().getImage(this);

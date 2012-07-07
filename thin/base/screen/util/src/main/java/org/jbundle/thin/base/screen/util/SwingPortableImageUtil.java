@@ -6,11 +6,13 @@ package org.jbundle.thin.base.screen.util;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.MediaTracker;
-import java.awt.Toolkit;
-import java.awt.image.ColorModel;
+import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.awt.image.MemoryImageSource;
-import java.awt.image.PixelGrabber;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import org.jbundle.model.util.PortableImage;
 import org.jbundle.model.util.PortableImageUtil;
@@ -31,22 +33,40 @@ public class SwingPortableImageUtil extends Object
     }
 
     public Image getImage(PortableImage portableImage) {
+    	
         Image image = null;
 
-        if (portableImage.getPixels() != null) {
+        byte[] data = portableImage.getData();
+        ByteArrayInputStream baIn = new ByteArrayInputStream(data);
+        try {
+			image = ImageIO.read(baIn);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+/*        if (portableImage.getPixels() != null) {
             Toolkit tk = Toolkit.getDefaultToolkit();
             ColorModel cm = ColorModel.getRGBdefault();
             image = tk.createImage(new MemoryImageSource(portableImage.getImageWidth(), portableImage.getImageHeight(), cm, portableImage.getPixels(), 0, portableImage.getImageWidth()));
         }
-        return image;
+*/      return image;
     }
 
     public void setImage(PortableImage portableImage, Object image) {
         
         loadImage((Image)image);
-        
-        int height = ((Image)image).getHeight(observer);
+
+    	int height = ((Image)image).getHeight(observer);
         int width = ((Image)image).getWidth(observer);
+
+        BufferedImage bufferedImage = null;
+        if (image instanceof BufferedImage)
+        	bufferedImage = (BufferedImage)image;
+        else
+        {
+	        bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	        bufferedImage.getGraphics().drawImage((Image)image, 0 , 0, observer);
+	        /* or?
         int[] pixels = image != null ? new int[width * height] : null;
 
         if (image != null) {
@@ -61,9 +81,25 @@ public class SwingPortableImageUtil extends Object
             }
         }
 
+        DataBufferInt db = new DataBufferInt(pixels, pixels.length);
+        SampleModel sm = new SampleModel();
+        WritableRaster wr = Raster.createWritableRaster(sm, db, null);
+        BufferedImage bi = BufferedImage.
+
+  //      * Create a BufferedImage using the WritableRaster	         
+	         */
+        }
+        ByteArrayOutputStream baOut = new ByteArrayOutputStream();
+        try {
+			ImageIO.write(bufferedImage, DEFAULT_FORMAT, baOut);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
         portableImage.setHeight(height);
         portableImage.setWidth(width);
-        portableImage.setPixels(pixels);
+        portableImage.setFormat(DEFAULT_FORMAT);
+        portableImage.setData(baOut.toByteArray());
     }
     
     static MediaTracker tracker = null;
