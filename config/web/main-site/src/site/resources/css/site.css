@@ -1,0 +1,13 @@
+/* You can override this file with your own styles */
+table th {
+  color: white;
+  background-color: #bbb;
+  text-align: left;
+  font-weight: bold;
+}
+
+table td {
+  background-color: white;
+  text-align: left;
+  font-weight: bold;
+}

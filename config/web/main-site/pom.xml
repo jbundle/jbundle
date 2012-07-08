@@ -8,8 +8,8 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>jbundle-config-web-site</artifactId>
-  <name>jbundle-config-web-site - Web site</name>
+  <artifactId>jbundle-config-web-main-site</artifactId>
+  <name>jbundle-config-web-main-site - Main Web site</name>
   <packaging>pom</packaging>
 
   <inceptionYear>2001</inceptionYear>
@@ -46,7 +46,7 @@
   <distributionManagement>
     <site>
       <id>jbundle.org</id>
-      <url>scp://www.donandann.com://space/web/jbundle/jbundle/</url>
+      <url>scp://www.donandann.com://space/web/jbundle/</url>
     </site>
   </distributionManagement>
 </project>

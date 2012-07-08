@@ -14,6 +14,7 @@
   <name>jbundle-config-web-reactor - Web packaging parent</name>
   
   <modules>
+    <module>main-site</module>
     <module>site</module>
     <module>httpservice</module>
     <module>httpweb</module>

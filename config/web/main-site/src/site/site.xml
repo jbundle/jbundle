@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd"
+    name="JBundle">
+  <bannerLeft>
+    <name>JBundle Open Source Software Projects</name>
+  </bannerLeft>
+  <body>
+    <links>
+      <item name="JBundle" href="http://www.jbundle.org/" />
+    </links>
+
+    <menu name="JBundle Projects">
+      <item name="OSGi Web Servlet" href="/osgi-webstart"/>
+      <item name="OSGi Utilities" href="/osgi"/>
+      <item name="Simple Servlets" href="/simpleservlets"/>
+      <item name="JCalendarButton" href="/jcalendarbutton"/>
+      <item name="Calendar Panel" href="/calendarpanel"/>      
+    </menu>
+  
+  <menu ref="reports"/>
+
+  </body>
+
+</project>

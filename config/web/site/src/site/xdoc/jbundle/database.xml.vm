@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+  <properties>
+    <title>Welcome</title>
+    <author email="don@tourgeek.com">Don Corley</author>
+  </properties>
+  <body>
+    <section name="JBundle - Database Design">
+      <p>
+      The jbundle database is very simple. Fields stored in records, records stored in tables.
+      Navigation is also very simple. Just the essentials.
+      </p>
+      <p>
+      What makes the jbundle database different is real-time conflict resolution. Simultaneous changes to the
+      same record are usually resolved automatically. Users are notified of changes as they
+      occur, so they have up-to-date data.
+      </p>
+    </section>
+  </body>
+</document>
+
