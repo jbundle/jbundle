@@ -191,7 +191,7 @@ public class Application extends Object
                 Class.forName("javax.swing.ImageIcon"); // Test if swing exists
                 portableImageUtil = (PortableImageUtil)ClassServiceUtility.getClassService().makeObjectFromClassName("org.jbundle.thin.base.screen.util.SwingPortableImageUtil");
             } catch (Exception ex)  { // Android
-                portableImageUtil = (PortableImageUtil)ClassServiceUtility.getClassService().makeObjectFromClassName("org.jbundle.android.base.screen.util.AndroidPortableImageUtil");
+                portableImageUtil = (PortableImageUtil)ClassServiceUtility.getClassService().makeObjectFromClassName("org.jbundle.android.thin.base.screen.util.AndroidPortableImageUtil");
             }
             Util.setPortableImageUtil(portableImageUtil);
         }
