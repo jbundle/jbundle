@@ -54,7 +54,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             BaseServlet.JNLP_DOWNLOAD,
             BaseServlet.MESSAGE,
             BaseServlet.XMLWS,
-            BaseServlet.ROOT,
+            BaseServlet.ROOT,  // This must always be the LAST servlet declaration
     };
 
     /**
