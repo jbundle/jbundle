@@ -1244,13 +1244,24 @@ public class JdbcTable extends BaseTable
                     String strKeyName = keyArea.getKeyName();
                     String strTableNames = record.makeTableNames(true);
                     if (DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_DUPLICATE_KEY_NAMES)))
-                        strKeyName = strTableNames + "_" + strKeyName;
+                    {
+                    	if (strTableNames.endsWith("_temp"))
+                    		strKeyName = strTableNames.substring(0, strTableNames.length() - 5) + "_" + strKeyName;
+                    	else
+                    		strKeyName = strTableNames + "_" + strKeyName;
+                    }
                     String strMaxKeyNameLength = (String)this.getDatabase().getProperties().get(SQLParams.MAX_KEY_NAME_LENGTH);
                     if (strMaxKeyNameLength != null)
                     {
                         int iMaxKeyNameLength = Integer.parseInt(strMaxKeyNameLength);
                         if (strKeyName.length() > iMaxKeyNameLength)
+                        {
+                        	strKeyName = strKeyName + (int)(Math.random() * 100000);
                             strKeyName = strKeyName.substring(strKeyName.length() - iMaxKeyNameLength);
+                            while (!Character.isLetter(strKeyName.charAt(0))) {
+                            	strKeyName = strKeyName.substring(1);
+                            }
+                        }
                     }
                     sql = Utility.replace(sql, "{keyname}", strKeyName);
                     sql = Utility.replace(sql, "{table}", strTableNames);

@@ -35,6 +35,7 @@
             	*;resolution:=optional,
                 com.mysql.jdbc;resolution:=optional, <!-- Why doesn't this happen automatically? -->
                 com.mysql.jdbc.jdbc2.optional;resolution:=optional,
+                org.apache.derby.jdbc;resolution:=optional,
                 org.osgi.framework;resolution:=optional, <!-- I Don't explicitly reference this, but I need to check to see if this exists to enable OSGi -->
 			    org.jbundle.util.osgi.*;resolution:=optional, <!-- This allows me to start it once I deploy it -->
             </Import-Package>
@@ -55,10 +56,15 @@
 	  <type>pom</type>
     </dependency>
     
-    <dependency>     <!-- **** NOTE: This should be a 'runtime' dependency! Fix your code ***** -->
+    <dependency>     <!-- **** NOTE: These should be 'runtime' dependencies! Fix your code ***** -->
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
     </dependency>
+	<dependency>
+	    <groupId>org.apache.derby</groupId>
+	    <artifactId>derby</artifactId>
+	    <version>10.9.1.0</version>
+	</dependency>
 
 	<dependency>
       <groupId>org.jbundle.util.osgi.wrapped</groupId>

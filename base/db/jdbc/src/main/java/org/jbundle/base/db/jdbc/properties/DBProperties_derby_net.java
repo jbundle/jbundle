@@ -19,7 +19,7 @@ import org.jbundle.base.model.DBSQLTypes;
  * @author  don
  * @version 
  */
-public class DBProperties_derby extends ListResourceBundle
+public class DBProperties_derby_net extends ListResourceBundle
 {
   public Object[][] getContents() {
       return contents;
@@ -51,8 +51,8 @@ public class DBProperties_derby extends ListResourceBundle
       {DBConstants.LOAD_INITIAL_DATA, DBConstants.TRUE},  // Load the initial data
 
       {SQLParams.INTERNAL_DB_NAME, "derby"},
-      {SQLParams.JDBC_DRIVER_PARAM, "org.apache.derby.jdbc.EmbeddedDriver"},
-      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:derby:derby/{dbname};create=true;"},
+      {SQLParams.JDBC_DRIVER_PARAM, "org.apache.derby.jdbc.ClientDriver"},
+      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:derby://{dbserver}/{dbname};create=true;"},
       {SQLParams.DEFAULT_USERNAME_PARAM, "tourapp"},
       {SQLParams.DEFAULT_PASSWORD_PARAM, "sa1sa"}
 //      {SQLParams.DEFAULT_DATASOURCE_PARAM, "jdbc/{dbname}"},

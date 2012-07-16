@@ -24,15 +24,8 @@ import org.apache.log4j.SimpleLayout;
  * @author  don
  * @version 
  */
-public class TestAll extends TestCase {
-
-    /**
-     *Creates new TestAll
-     */
-    public TestAll(String strTestName)
-    {
-        super(strTestName);
-    }
+public class TestAll extends Object {
+	// Not needed for maven
     /**
      * Add the required args to the passed in args
      * @param args
@@ -40,7 +33,9 @@ public class TestAll extends TestCase {
      */
     public static String[] fixArgs(String[] args)
     {
-    	String[] argsBase = {/*"dbSuffix=_test", */"mainUserDBName=main", "programSharedDBName=program_test", "connectionType=proxy", /*"remotehost=linux-laptop", */"codebase=localhost:8181"};
+    	// "dbSuffix=_test", 
+    	// "remotehost=linux-laptop",
+    	String[] argsBase = {"mainUserDBName=main", "programSharedDBName=program_test", "connectionType=proxy", "codebase=localhost:8181"};
     	String[] argsNew = new String[args.length + argsBase.length];
     	for (int i= 0; i < argsBase.length; i++)
     	{
@@ -53,6 +48,18 @@ public class TestAll extends TestCase {
     	return argsNew;
     }
 
+};
+/*
+	 extends TestCase {
+}
+
+    /**
+     *Creates new TestAll
+     /
+    public TestAll(String strTestName)
+    {
+        super(strTestName);
+    }
     public static Test suite()
     {
        Category cat = Category.getRoot();
@@ -95,3 +102,4 @@ public class TestAll extends TestCase {
         assertTrue(true);
     }
 }
+*/
