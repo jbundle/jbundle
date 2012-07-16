@@ -3408,14 +3408,14 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Code>Program</Code>
 		<Language/>
 		<Locale/>
-		<KeyValue>com.tourapp.java.header</KeyValue>
+		<KeyValue>xcom.tourapp.java.header</KeyValue>
 		<ObjectValue><![CDATA[/**
  * @(#)${className}.
  * Copyright © 2012 tourapp.com. All rights reserved.
  */]]></ObjectValue>
 	</Registration>
 	<Registration ID="548">
-		<LastChanged>2012-03-08T17:52:55</LastChanged>
+		<LastChanged>2012-07-05T21:19:05</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>20</ResourceID>
 		<Code>Program</Code>
@@ -3433,12 +3433,12 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Code>Program</Code>
 		<Language/>
 		<Locale/>
-		<KeyValue>com.tourapp.header</KeyValue>
+		<KeyValue>xcom.tourapp.header</KeyValue>
 		<ObjectValue><![CDATA[# ${className}.
 # Copyright © 2012 tourapp.com. All rights reserved.]]></ObjectValue>
 	</Registration>
 	<Registration ID="550">
-		<LastChanged>2012-03-08T17:55:21</LastChanged>
+		<LastChanged>2012-07-05T21:19:16</LastChanged>
 		<Deleted>N</Deleted>
 		<ResourceID>20</ResourceID>
 		<Code>Program</Code>
@@ -3450,5 +3450,31 @@ titles in the TOS are for convenience only and have no legal or contractual effe
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */]]></ObjectValue>
+	</Registration>
+	<Registration ID="551">
+		<LastChanged>2012-07-05T20:38:48</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>20</ResourceID>
+		<Code>Program</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>com.tourapp.header</KeyValue>
+		<ObjectValue><![CDATA[# ${className}.
+# Copyright © 2012 tourapp.com. All rights reserved.
+# GPL3 Open Source Software License.]]></ObjectValue>
+	</Registration>
+	<Registration ID="552">
+		<LastChanged>2012-07-05T20:39:29</LastChanged>
+		<Deleted>N</Deleted>
+		<ResourceID>20</ResourceID>
+		<Code>Program</Code>
+		<Language/>
+		<Locale/>
+		<KeyValue>com.tourapp.java.header</KeyValue>
+		<ObjectValue><![CDATA[/**
+  * @(#)${className}.
+  * Copyright © 2012 tourapp.com. All rights reserved.
+  * GPL3 Open Source Software License.
+  */]]></ObjectValue>
 	</Registration>
 </file>

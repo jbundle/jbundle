@@ -450,7 +450,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16778085">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2009-02-12T02:49:27</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>FolderHeaderScreen</ClassInfoClassName>
 		<ClassInfoID/>
@@ -2242,7 +2242,7 @@
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16780157">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2009-08-05T15:59:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>MessageType</ClassInfoClassName>
 		<ClassInfoID/>
@@ -2497,7 +2497,7 @@
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16780192">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2012-07-01T02:34:52</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>RequestType</ClassInfoClassName>
 		<ClassInfoID/>
@@ -5173,7 +5173,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16781530">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2011-08-05T15:59:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>DemoRegistrationScreen</ClassInfoClassName>
 		<ClassInfoID/>
@@ -5533,7 +5533,7 @@
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16781662">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2011-08-05T15:59:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>CalendarEntryTypeField</ClassInfoClassName>
 		<ClassInfoID/>
@@ -5818,7 +5818,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16781704">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2009-08-05T15:59:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>MessageTransport</ClassInfoClassName>
 		<ClassInfoID/>
@@ -7883,7 +7883,7 @@
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782239">
-		<LastChanged>2012-01-16T11:44:21</LastChanged>
+		<LastChanged>2012-01-01T00:00:00</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>UserContactHandler</ClassInfoClassName>
 		<ClassInfoID/>
@@ -9269,7 +9269,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782339">
-		<LastChanged>2010-05-25T14:53:59</LastChanged>
+		<LastChanged>2010-11-25T15:48:13</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>ImportXMLScanListener</ClassInfoClassName>
 		<ClassInfoID/>
@@ -10311,7 +10311,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782436">
-		<LastChanged>2010-11-05T09:10:35</LastChanged>
+		<LastChanged>2010-01-15T09:10:35</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>BaseRegistrationScreen</ClassInfoClassName>
 		<ClassInfoID/>
@@ -10446,7 +10446,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782445">
-		<LastChanged>2011-08-05T20:13:26</LastChanged>
+		<LastChanged>2011-08-05T20:13:09</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>GetWSDL</ClassInfoClassName>
 		<ClassInfoID/>
@@ -10461,7 +10461,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782446">
-		<LastChanged>2011-08-18T14:34:00</LastChanged>
+		<LastChanged>2011-08-15T12:09:59</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>CalendarEntryCalendarScreen</ClassInfoClassName>
 		<ClassInfoID/>

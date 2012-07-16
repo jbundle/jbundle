@@ -1737,4 +1737,26 @@
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
+	<ClassProject ID="16777327">
+		<LastChanged>2012-07-05T07:41:03</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>app</Name>
+		<ParentFolderID>16,777,278</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Non-oss apps</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
 </file>

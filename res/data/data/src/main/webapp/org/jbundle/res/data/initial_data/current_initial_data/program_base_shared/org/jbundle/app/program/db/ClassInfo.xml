@@ -51,7 +51,7 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777358">
-		<LastChanged>2010-02-05T11:17:56</LastChanged>
+		<LastChanged>2011-09-02T12:22:07</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BasePanel</ClassName>
 		<BaseClassName>ScreenField</BaseClassName>
@@ -2031,7 +2031,7 @@ Just override the compute value method to re-calculate the target field's value.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777934">
-		<LastChanged>2010-02-05T11:18:03</LastChanged>
+		<LastChanged>2011-09-01T21:09:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>SStaticText</ClassName>
 		<BaseClassName>ScreenField</BaseClassName>
@@ -5240,12 +5240,12 @@ The class maintains the converter chain.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778721">
-		<LastChanged>2012-04-09T05:58:42</LastChanged>
+		<LastChanged>2012-07-05T17:20:47</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>RemoteMessageManager</ClassName>
-		<BaseClassName>Obect</BaseClassName>
+		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,293</ClassProjectID>
+		<ClassProjectID>16,777,298</ClassProjectID>
 		<ClassPackage>.message</ClassPackage>
 		<ClassSourceFile>RemoteMessageManager</ClassSourceFile>
 		<ClassType>object</ClassType>
@@ -8002,7 +8002,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779259">
-		<LastChanged>2010-02-05T11:21:06</LastChanged>
+		<LastChanged>2010-02-01T11:21:06</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>AnnivMasterGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
@@ -8107,7 +8107,7 @@ Enter the number of days to wait to update the recurring calendar entries and th
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779265">
-		<LastChanged>2010-02-05T11:18:11</LastChanged>
+		<LastChanged>2011-05-01T15:27:27</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>FieldInfo</ClassName>
 		<BaseClassName>Converter</BaseClassName>
@@ -11571,6 +11571,23 @@ previous date was oem]]></ClassDesc>
 		<ClassPackage/>
 		<ClassSourceFile>BaseThickActivator</ClassSourceFile>
 		<ClassType>process</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779708">
+		<LastChanged>2012-07-05T18:05:36</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>SyncPage</ClassName>
+		<BaseClassName/>
+		<ClassDesc/>
+		<ClassProjectID>16,777,253</ClassProjectID>
+		<ClassPackage/>
+		<ClassSourceFile>SyncPage</ClassSourceFile>
+		<ClassType>interface</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>

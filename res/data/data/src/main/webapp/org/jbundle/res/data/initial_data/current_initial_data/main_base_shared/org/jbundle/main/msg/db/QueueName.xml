@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<QueueName ID="1">
-		<LastChanged>2006-09-03T13:31:00</LastChanged>
+		<LastChanged>2011-01-15T15:29:47</LastChanged>
 		<Deleted>N</Deleted>
 		<Code>recordQueue</Code>
 		<Name>Record message queue</Name>
@@ -50,7 +50,7 @@
 		<ReverseQueueNameID/>
 	</QueueName>
 	<QueueName ID="6">
-		<LastChanged>2006-09-05T13:44:00</LastChanged>
+		<LastChanged>2006-09-05T00:00:00</LastChanged>
 		<Deleted>N</Deleted>
 		<Code>jobSchedulerQueue</Code>
 		<Name>Job Scheduler Queue</Name>

@@ -2667,9 +2667,9 @@
 		<MenusHelp/>
 	</Menus>
 	<Menus ID="1867">
-		<LastChanged>2011-03-10T13:38:47</LastChanged>
+		<LastChanged>2012-07-06T01:12:02</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>Tourapp jdbc</Name>
+		<Name>Tourapp dev jdbc</Name>
 		<ParentFolderID>1,859</ParentFolderID>
 		<Sequence>220</Sequence>
 		<Comment/>
@@ -2976,6 +2976,30 @@
 <entry key="xslTemplate">org/jbundle/res/docs/styles/xsl/program/fixdemotemplate.xsl</entry>
 <entry key="domain">fred.demo.tourgeek.com</entry>
 </properties></Params>
+		<IconResource/>
+		<Keywords/>
+		<XmlData/>
+		<MenusHelp/>
+	</Menus>
+	<Menus ID="1880">
+		<LastChanged>2012-07-06T01:12:33</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Tourapp JDBC</Name>
+		<ParentFolderID>1,859</ParentFolderID>
+		<Sequence>221</Sequence>
+		<Comment/>
+		<Code/>
+		<Type>screen</Type>
+		<AutoDesc>Y</AutoDesc>
+		<Program>org.jbundle.app.program.screen.SwitchDatabaseMenuScreen</Program>
+		<Params type="XML"><properties>
+<comment>Field properties</comment>
+<entry key="local">Jdbc</entry>
+<entry key="table">Jdbc</entry>
+<entry key="remote">Jdbc</entry>
+<entry key="menu">app</entry>
+</properties>
+</Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<TestTable ID="1">
-		<LastChanged>2012-06-19T22:05:40</LastChanged>
+		<LastChanged>2012-07-15T13:59:47</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>A - Excellent Agent</TestName>
@@ -9,8 +9,8 @@ This is the second line.]]></TestMemo>
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>15,000,000</TestLong>
 		<TestShort>14,000</TestShort>
-		<TestDateTime>2012-06-19T22:05:39</TestDateTime>
-		<TestDate>2012-06-19</TestDate>
+		<TestDateTime>2012-07-15T13:59:46</TestDateTime>
+		<TestDate>2012-07-15</TestDate>
 		<TestTime>17:15:00</TestTime>
 		<TestFloat>1,234.56</TestFloat>
 		<TestDouble>1,234,567.89</TestDouble>
@@ -28,7 +28,7 @@ This is the second line.]]></TestMemo>
 		<TestEncrypted/>
 	</TestTable>
 	<TestTable ID="2">
-		<LastChanged>2012-06-19T22:05:41</LastChanged>
+		<LastChanged>2012-07-15T13:59:48</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>B - Pretty Good Agent</TestName>
@@ -36,9 +36,9 @@ This is the second line.]]></TestMemo>
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime>2012-06-19T22:05:39</TestDateTime>
+		<TestDateTime>2012-07-15T13:59:46</TestDateTime>
 		<TestDate/>
-		<TestTime>22:05:39</TestTime>
+		<TestTime>13:59:46</TestTime>
 		<TestFloat>12,345.70</TestFloat>
 		<TestDouble>123,456,789.01</TestDouble>
 		<TestPercent>0.3200</TestPercent>
@@ -55,7 +55,7 @@ This is the second line.]]></TestMemo>
 		<TestEncrypted/>
 	</TestTable>
 	<TestTable ID="4">
-		<LastChanged>2012-06-19T22:05:40</LastChanged>
+		<LastChanged>2012-07-15T13:59:47</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>F - Fam Trip Agent</TestName>
@@ -63,9 +63,9 @@ This is the second line.]]></TestMemo>
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime>2012-06-19T22:05:39</TestDateTime>
+		<TestDateTime>2012-07-15T13:59:46</TestDateTime>
 		<TestDate/>
-		<TestTime>22:05:39</TestTime>
+		<TestTime>13:59:46</TestTime>
 		<TestFloat>12,345.70</TestFloat>
 		<TestDouble>123,456,789.01</TestDouble>
 		<TestPercent>0.3200</TestPercent>
@@ -82,7 +82,7 @@ This is the second line.]]></TestMemo>
 		<TestEncrypted/>
 	</TestTable>
 	<TestTable ID="5">
-		<LastChanged>2012-06-19T22:05:40</LastChanged>
+		<LastChanged>2012-07-15T13:59:47</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>T - Tour Operator</TestName>
@@ -90,9 +90,9 @@ This is the second line.]]></TestMemo>
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime>2012-06-19T22:05:39</TestDateTime>
+		<TestDateTime>2012-07-15T13:59:46</TestDateTime>
 		<TestDate/>
-		<TestTime>22:05:39</TestTime>
+		<TestTime>13:59:46</TestTime>
 		<TestFloat>12,345.70</TestFloat>
 		<TestDouble>123,456,789.01</TestDouble>
 		<TestPercent>0.3200</TestPercent>
@@ -109,7 +109,7 @@ This is the second line.]]></TestMemo>
 		<TestEncrypted/>
 	</TestTable>
 	<TestTable ID="6">
-		<LastChanged>2012-06-19T22:05:40</LastChanged>
+		<LastChanged>2012-07-15T13:59:47</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>Q - Q Agency</TestName>
@@ -117,9 +117,9 @@ This is the second line.]]></TestMemo>
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime>2012-06-19T22:05:39</TestDateTime>
+		<TestDateTime>2012-07-15T13:59:46</TestDateTime>
 		<TestDate/>
-		<TestTime>22:05:39</TestTime>
+		<TestTime>13:59:46</TestTime>
 		<TestFloat>12,345.70</TestFloat>
 		<TestDouble>123,456,789.01</TestDouble>
 		<TestPercent>0.3200</TestPercent>
@@ -136,7 +136,7 @@ This is the second line.]]></TestMemo>
 		<TestEncrypted/>
 	</TestTable>
 	<TestTable ID="7">
-		<LastChanged>2012-06-19T22:05:40</LastChanged>
+		<LastChanged>2012-07-15T13:59:47</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>F - Fam Trip Agent</TestName>
@@ -144,9 +144,9 @@ This is the second line.]]></TestMemo>
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime>2012-06-19T22:05:39</TestDateTime>
+		<TestDateTime>2012-07-15T13:59:46</TestDateTime>
 		<TestDate/>
-		<TestTime>22:05:39</TestTime>
+		<TestTime>13:59:46</TestTime>
 		<TestFloat>12,345.70</TestFloat>
 		<TestDouble>123,456,789.01</TestDouble>
 		<TestPercent>0.3200</TestPercent>

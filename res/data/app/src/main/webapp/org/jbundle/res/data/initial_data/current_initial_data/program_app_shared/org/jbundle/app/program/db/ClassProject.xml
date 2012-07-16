@@ -88,10 +88,10 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="6">
-		<LastChanged>2011-03-10T07:31:40</LastChanged>
+		<LastChanged>2012-07-05T09:22:58</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>picture</Name>
-		<ParentFolderID>16,777,309</ParentFolderID>
+		<ParentFolderID>16,777,327</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
@@ -132,10 +132,10 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="8">
-		<LastChanged>2011-03-10T07:31:45</LastChanged>
+		<LastChanged>2012-07-05T09:23:15</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>dance</Name>
-		<ParentFolderID>16,777,309</ParentFolderID>
+		<ParentFolderID>16,777,327</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>

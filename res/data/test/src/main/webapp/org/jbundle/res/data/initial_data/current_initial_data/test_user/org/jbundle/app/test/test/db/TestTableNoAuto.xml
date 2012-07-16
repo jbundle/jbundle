@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<TestTableNoAuto>
 		<ID>1</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>A - Excellent Agent</TestName>
@@ -9,14 +9,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>A</TestKey>
@@ -29,7 +29,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>2</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>B - Good Agent</TestName>
@@ -37,14 +37,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>B</TestKey>
@@ -57,7 +57,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>3</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>C - Average Agent</TestName>
@@ -65,14 +65,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>C</TestKey>
@@ -85,7 +85,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>4</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>F - Fam Trip Agent</TestName>
@@ -93,14 +93,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>B</TestKey>
@@ -113,7 +113,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>5</ID>
-		<LastChanged>2012-06-19T22:05:35</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>B - Good Agent</TestName>
@@ -121,14 +121,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>B</TestKey>
@@ -141,7 +141,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>6</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>6 - Q Agency</TestName>
@@ -149,14 +149,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>Q</TestKey>
@@ -169,7 +169,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>7</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>7 - Q Agency</TestName>
@@ -177,14 +177,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>G</TestKey>
@@ -197,7 +197,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>8</ID>
-		<LastChanged>2012-06-19T22:05:35</LastChanged>
+		<LastChanged>2012-07-15T13:28:30</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>New Agent</TestName>
@@ -205,14 +205,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>H</TestKey>
@@ -225,7 +225,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>9</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>9 - I Agency</TestName>
@@ -233,14 +233,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>I</TestKey>
@@ -253,7 +253,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>10</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>10 - J Agency</TestName>
@@ -261,14 +261,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>J</TestKey>
@@ -281,7 +281,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>11</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>K - 11 Agency</TestName>
@@ -289,14 +289,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>K</TestKey>
@@ -309,7 +309,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>12</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>L - 12 Agency</TestName>
@@ -317,14 +317,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>L</TestKey>
@@ -337,7 +337,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>13</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>M - 13 Agency</TestName>
@@ -345,14 +345,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>M</TestKey>
@@ -365,7 +365,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>14</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>N - 14 Agency</TestName>
@@ -373,14 +373,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>N</TestKey>
@@ -393,7 +393,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>15</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>O - 15 Agency</TestName>
@@ -401,14 +401,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>O</TestKey>
@@ -421,7 +421,7 @@
 	</TestTableNoAuto>
 	<TestTableNoAuto>
 		<ID>16</ID>
-		<LastChanged>2012-06-19T22:05:34</LastChanged>
+		<LastChanged>2012-07-15T13:28:29</LastChanged>
 		<Deleted>N</Deleted>
 		<TestCode/>
 		<TestName>P - 16 Agency</TestName>
@@ -429,14 +429,14 @@
 		<TestYesNo>Y</TestYesNo>
 		<TestLong>1,234,567</TestLong>
 		<TestShort>1,234</TestShort>
-		<TestDateTime/>
+		<TestDateTime>2012-07-15T13:28:29</TestDateTime>
 		<TestDate/>
-		<TestTime/>
-		<TestFloat/>
-		<TestDouble/>
-		<TestPercent/>
-		<TestReal/>
-		<TestCurrency/>
+		<TestTime>13:28:29</TestTime>
+		<TestFloat>12,345.70</TestFloat>
+		<TestDouble>123,456,789.01</TestDouble>
+		<TestPercent>0.3200</TestPercent>
+		<TestReal>5,432.43200000</TestReal>
+		<TestCurrency>1,234,567.89</TestCurrency>
 		<TestPassword/>
 		<TestVirtual/>
 		<TestKey>P</TestKey>
