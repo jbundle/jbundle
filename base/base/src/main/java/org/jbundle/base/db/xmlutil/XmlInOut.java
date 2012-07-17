@@ -523,7 +523,14 @@ public class XmlInOut extends BaseProcess
             if (field != null)
             {   // Set the data
                 if (field instanceof ObjectField)
-                    XmlUtilities.decodeFieldData(field, strValue);
+                {
+                    try {
+						XmlUtilities.decodeFieldData(field, strValue);
+					} catch (Exception e) {
+						Utility.getLogger().severe("Error - bad base64 input field: " + record.getRecordName());
+						e.printStackTrace();
+					}
+                }
                 else if (field instanceof DateTimeField)
                     XmlUtilities.decodeDateTime((DateTimeField)field, strValue);
                 else

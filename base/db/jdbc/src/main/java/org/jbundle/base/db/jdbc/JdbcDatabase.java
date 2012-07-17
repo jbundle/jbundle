@@ -835,7 +835,7 @@ public class JdbcDatabase extends BaseDatabase
         recDatabaseInfo.setDatabaseName(dbName);
 
         int iOldOpenMode = recDatabaseInfo.getOpenMode();
-        recDatabaseInfo.setOpenMode(recDatabaseInfo.getOpenMode() | DBConstants.OPEN_DONT_CREATE);
+        //x recDatabaseInfo.setOpenMode(recDatabaseInfo.getOpenMode() | DBConstants.OPEN_DONT_CREATE); // Removed 
 
         recDatabaseInfo.init(recordOwner);
 
