@@ -21,6 +21,7 @@
     <module>util-misc</module>
     <module>util</module>
     <module>cal</module>
+    <module>activator</module>
   </modules>
 
 </project>

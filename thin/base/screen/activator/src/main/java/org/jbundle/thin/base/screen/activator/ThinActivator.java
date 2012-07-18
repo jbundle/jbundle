@@ -5,7 +5,7 @@
  
  * Copyright © 2012 jbundle.org. All rights reserved.
  */
-package org.jbundle.thin.base.screen;
+package org.jbundle.thin.base.screen.activator;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -15,6 +15,7 @@ import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.util.osgi.bundle.BaseBundleActivator;
 import org.osgi.framework.BundleContext;
+import org.jbundle.thin.base.screen.*;
 
 public class ThinActivator extends BaseBundleActivator
 {

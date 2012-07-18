@@ -9,24 +9,15 @@ package org.jbundle.base.screen.control.swing.activator;
 
 import java.util.Map;
 
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.screen.control.swing.SApplet;
 import org.jbundle.base.util.BaseThickActivator;
 import org.jbundle.model.Task;
-import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.util.Application;
 import org.osgi.framework.BundleContext;
 
 public class AppletActivator extends BaseThickActivator
 {
-    String[] args = {
-//x    		"menu=dev.tourapp.com",
-//x    		"background=backgrounds/worldmapalpha.gif",
-//x    		"backgroundcolor=#EEEEFF",
-//x    		"mainSharedDBName=main_base",
-//x    		"local=Jdbc",
-//x    		"remote=Jdbc",
-//x    		"table=Jdbc",
-    		};	// TODO(don) Fix this
 
     /**
      * Start this service.
@@ -37,10 +28,9 @@ public class AppletActivator extends BaseThickActivator
     public Object startupService(BundleContext bundleContext)
     {
 	        Map<String,Object> propertiesTemp = this.getServiceProperties();
-	        Util.parseArgs(propertiesTemp, args);
 
 	        //?server = new SApplet(args);
-	        SApplet.main(args);
+	        SApplet.main(Utility.propertiesToArgs(propertiesTemp));
 	        return Application.getRootApplet();
 
 //?    	        Environment env = new Environment(propertiesTemp);

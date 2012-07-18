@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>jbundle-thin-base-screen-reactor</artifactId>
     <groupId>org.jbundle.thin.base.screen</groupId>
+    <artifactId>jbundle-thin-base-screen-reactor</artifactId>
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.jbundle.thin.base.screen.util.misc</artifactId>
-  <name>jbundle-thin-base-screen-util-misc</name>
+  <artifactId>org.jbundle.thin.base.screen.activator</artifactId>
+  <name>jbundle-thin-base-screen-activator</name>
   <packaging>bundle</packaging>
 
   <build>
@@ -21,10 +21,7 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
-            <Export-Package>
-            org.jbundle.thin.base.screen.util.html;version=${project.version},
-            org.jbundle.thin.base.screen.util.mail;version=${project.version},
-            </Export-Package>
+            <Bundle-Activator>org.jbundle.thin.base.screen.activator.ThinActivator</Bundle-Activator>
           </instructions>
         </configuration>
       </plugin>
@@ -33,19 +30,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.jbundle</groupId>
-      <artifactId>org.jbundle.model</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen</artifactId>
       <version>0.8.0-SNAPSHOT</version>
     </dependency>
-    <dependency>	<!-- No No No -->
-      <groupId>org.jbundle.util.jcalendarbutton</groupId>
-      <artifactId>org.jbundle.util.jcalendarbutton</artifactId>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <scope>provided</scope> <!-- This better be provided -->
     </dependency>
   </dependencies>
 
