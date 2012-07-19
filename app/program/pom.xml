@@ -15,8 +15,10 @@
 
   <modules>
     <module>db</module>
-    <module>program</module>
+    <module>screen</module>
     <module>script</module>
+    <module>packages</module>
+    <module>project</module>
     <module>plugin</module>
     <module>manual</module>
     <module>demo</module>

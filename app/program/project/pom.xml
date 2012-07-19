@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.app.program</groupId>
+    <artifactId>jbundle-app-program-reactor</artifactId>
+    <version>0.8.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>org.jbundle.app.program.project</artifactId>
+  <packaging>bundle</packaging>
+  <name>jbundle-app-program-project - Program framework</name>
+
+  <properties>
+    <jbundlePackageExport>
+        ${jbundlePackageFilter};version=${project.version},
+        org.jbundle.app.program.issue;version=${project.version},
+    </jbundlePackageExport> <!-- Bundle package to export -->
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program.db</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program.script</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.model</groupId>
+      <artifactId>org.jbundle.model.app.program</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res.app.program</artifactId> <!-- I should be able to eventually change this to jbundle-thinbase -->
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.config.dep</groupId>
+      <artifactId>jbundle-config-dep-main</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+	  <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.calendarpanel</groupId>
+      <artifactId>org.jbundle.util.calendarpanel</artifactId>
+    </dependency>
+  </dependencies>
+  
+<profiles>
+<profile>
+  <id>importxml</id>
+  <activation>
+    <activeByDefault>false</activeByDefault>
+  </activation>
+  <build>
+    <plugins>      
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+          	<phase>run</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+	        <executable>java</executable>
+		    <arguments>
+	            <argument>${debug}</argument>
+	            <argument>-Xms256m</argument>
+	            <argument>-Xmx512m</argument>
+	        	<argument>-classpath</argument>
+	        	<classpath />
+	            <argument>${mainClass}</argument>
+	            <argument>${arg1}</argument>
+	        </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <!-- You will have to manually update these since they are in a profile -->
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle.config</groupId>
+      <artifactId>jbundle-config-dep-all</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+      <type>pom</type>
+      <!-- scope>runtime</scope **** WHY DOESN'T THIS WORK? -->
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.base.db</groupId>
+      <artifactId>org.jbundle.base.db.jdbc</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.model</groupId>
+      <artifactId>org.jbundle.model.app.program</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.base</groupId>
+      <artifactId>org.jbundle.app</artifactId>
+      <version>0.7.7-SNAPSHOT</version>
+      <!-- scope>runtime</scope **** WHY DOESN'T THIS WORK? -->
+    </dependency>
+  </dependencies>
+</profile>
+</profiles>
+
+</project>
