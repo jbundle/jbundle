@@ -55,7 +55,7 @@ public class SourceHeaderScanListener extends BaseScanListener
         beforePackage = "";
         foundComment = false;
         foundPackage = false;
-        lineSeparator = "";//(String) java.security.AccessController.doPrivileged(new sun.security.action.GetPropertyAction("line.separator"));;
+        lineSeparator = (String) java.security.AccessController.doPrivileged(new sun.security.action.GetPropertyAction("line.separator"));;
         super.init(parent, strSourcePrefix);
     }
     /**
