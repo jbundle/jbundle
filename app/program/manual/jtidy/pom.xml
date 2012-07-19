@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.app.program</groupId>
+    <artifactId>jbundle-app-program-manual-reactor</artifactId>
+    <version>0.8.0-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>org.jbundle.app.program.manual.jtidy</artifactId>
+  <packaging>bundle</packaging>
+  <name>jbundle-app-program-manual-jtidy - Program manual code</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.jtidy</groupId>
+      <artifactId>jtidy</artifactId>
+    </dependency>
+</dependencies>
+</project>
