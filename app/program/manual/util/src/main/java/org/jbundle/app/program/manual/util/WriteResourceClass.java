@@ -8,8 +8,8 @@ import java.util.Map;
 import org.jbundle.app.program.db.ClassProject;
 import org.jbundle.app.program.db.ClassResource;
 import org.jbundle.app.program.db.ProgramControl;
+import org.jbundle.app.program.db.util.ResourcesUtilities;
 import org.jbundle.app.program.resource.db.ResourceTypeField;
-import org.jbundle.app.program.resource.screen.WriteResources;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.model.DBException;
@@ -139,10 +139,10 @@ public class WriteResourceClass extends WriteClass
                 recClassResource.next();
                	if (bResourceListBundle)
                		m_StreamOut.writeit("{\"" + recClassResource.getField(ClassResource.KEY_NAME).toString()
-                            + "\"," + WriteResources.fixPropertyValue(recClassResource.getField(ClassResource.VALUE_NAME).toString(), bResourceListBundle) + "},\n");
+                            + "\"," + ResourcesUtilities.fixPropertyValue(recClassResource.getField(ClassResource.VALUE_NAME).toString(), bResourceListBundle) + "},\n");
                	else
                     m_StreamOut.writeit(recClassResource.getField(ClassResource.KEY_NAME).toString()
-                        + "=" + WriteResources.fixPropertyValue(recClassResource.getField(ClassResource.VALUE_NAME).toString(), bResourceListBundle) + "\n");
+                        + "=" + ResourcesUtilities.fixPropertyValue(recClassResource.getField(ClassResource.VALUE_NAME).toString(), bResourceListBundle) + "\n");
             }
         } catch (DBException ex)    {
             ex.printStackTrace();

@@ -16,9 +16,9 @@ import org.jbundle.app.program.db.FileHdr;
 import org.jbundle.app.program.db.IncludeScopeField;
 import org.jbundle.app.program.db.KeyInfo;
 import org.jbundle.app.program.db.ProgramControl;
+import org.jbundle.app.program.db.util.ResourcesUtilities;
 import org.jbundle.app.program.manual.util.data.FieldStuff;
 import org.jbundle.app.program.resource.db.ResourceTypeField;
-import org.jbundle.app.program.resource.screen.WriteResources;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.SubFileFilter;
 import org.jbundle.base.field.CurrencyField;
@@ -277,9 +277,9 @@ public class WriteRecordClass extends WriteSharedClass
                         if (fieldStuff.strFieldDesc.equals("null"))
                             fieldStuff.strFieldDesc = fieldStuff.strFieldName;
                         if (bResourceListBundle)
-                        	m_StreamOut.writeit("\t\t{\"" + WriteResources.fixPropertyKey(fieldStuff.strFieldName) + "\", " + WriteResources.fixPropertyValue(fieldStuff.strFieldDesc, bResourceListBundle) + "}");
+                        	m_StreamOut.writeit("\t\t{\"" + ResourcesUtilities.fixPropertyKey(fieldStuff.strFieldName) + "\", " + ResourcesUtilities.fixPropertyValue(fieldStuff.strFieldDesc, bResourceListBundle) + "}");
                         else
-                        	m_StreamOut.writeit(WriteResources.fixPropertyKey(fieldStuff.strFieldName) + "=" + WriteResources.fixPropertyValue(fieldStuff.strFieldDesc, bResourceListBundle));
+                        	m_StreamOut.writeit(ResourcesUtilities.fixPropertyKey(fieldStuff.strFieldName) + "=" + ResourcesUtilities.fixPropertyValue(fieldStuff.strFieldDesc, bResourceListBundle));
                         count++;
                     }
                 }
@@ -315,9 +315,9 @@ public class WriteRecordClass extends WriteSharedClass
                         m_StreamOut.writeit("\n");
 
                     if (bResourceListBundle)
-                    	m_StreamOut.writeit(strPre + "\t\t{\"" + WriteResources.fixPropertyKey(fieldStuff.strFieldName + strTipSuffix) + "\", " + WriteResources.fixPropertyValue(fieldStuff.strFieldTip, bResourceListBundle) + "}");
+                    	m_StreamOut.writeit(strPre + "\t\t{\"" + ResourcesUtilities.fixPropertyKey(fieldStuff.strFieldName + strTipSuffix) + "\", " + ResourcesUtilities.fixPropertyValue(fieldStuff.strFieldTip, bResourceListBundle) + "}");
                     else
-                    	m_StreamOut.writeit(strPre + WriteResources.fixPropertyKey(fieldStuff.strFieldName + strTipSuffix) + "=" + WriteResources.fixPropertyValue(fieldStuff.strFieldTip, bResourceListBundle));
+                    	m_StreamOut.writeit(strPre + ResourcesUtilities.fixPropertyKey(fieldStuff.strFieldName + strTipSuffix) + "=" + ResourcesUtilities.fixPropertyValue(fieldStuff.strFieldTip, bResourceListBundle));
 //                    m_MethodsOut.writeit(strPre + "\t\t{\"" + fieldStuff.strFieldName + strTipSuffix + "\", \"" + fieldStuff.strFieldTip + "\"}");
                     count++;
                 }

@@ -19,6 +19,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program.db</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.jbundle.model</groupId>
       <artifactId>org.jbundle.model.app.program</artifactId>
       <version>0.8.0-SNAPSHOT</version>
