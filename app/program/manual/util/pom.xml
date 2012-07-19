@@ -9,10 +9,6 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
   
-  <!-- properties>
-      <jbundlePackageImport>!org.jbundle.app.program.*,*;resolution:=optional</jbundlePackageImport>
-  </properties -->
-  
   <artifactId>org.jbundle.app.program.manual.util</artifactId>
   <packaging>bundle</packaging>
   <name>jbundle-app-program-manual-util - Program manual code</name>

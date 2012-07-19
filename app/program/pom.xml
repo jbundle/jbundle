@@ -16,6 +16,7 @@
   <modules>
     <module>db</module>
     <module>program</module>
+    <module>script</module>
     <module>plugin</module>
     <module>manual</module>
     <module>demo</module>

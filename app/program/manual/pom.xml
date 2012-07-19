@@ -18,7 +18,6 @@
     <module>importexport</module>
     <module>backup</module>
     <module>jtidy</module>
-    <module>convert</module>
   </modules>
 
 </project>

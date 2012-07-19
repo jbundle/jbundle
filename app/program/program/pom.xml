@@ -17,7 +17,9 @@
     <jbundlePackageExport>
         !org.jbundle.app.program.db.*,
         !org.jbundle.app.program.resource.db,
-        ${jbundlePackageFilter};version=${project.version},
+	!org.jbundle.app.program.script,
+	!org.jbundle.app.program.manual.convert,
+	${jbundlePackageFilter};version=${project.version},
     </jbundlePackageExport> <!-- Bundle package to export -->
     <debug>-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=y</debug>
   </properties>  
@@ -26,6 +28,11 @@
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
       <artifactId>org.jbundle.app.program.db</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program.script</artifactId>
       <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -43,10 +50,6 @@
       <artifactId>jbundle-config-dep-main</artifactId>
       <version>0.8.0-SNAPSHOT</version>
 	  <type>pom</type>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.util</groupId>
-      <artifactId>org.jbundle.util.jbackup</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.util.calendarpanel</groupId>

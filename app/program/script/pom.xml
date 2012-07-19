@@ -9,15 +9,26 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
   
-  <artifactId>org.jbundle.app.program.manual.convert</artifactId>
+  <artifactId>org.jbundle.app.program.script</artifactId>
   <packaging>bundle</packaging>
-  <name>jbundle-app-program-manual-convert - Program manual code</name>
+  <name>jbundle-app-program-script - Program manual code</name>
 
+  <properties>
+    <jbundlePackageExport>
+        ${jbundlePackageFilter};version=${project.version},
+        org.jbundle.app.program.manual.convert;version=${project.version},
+    </jbundlePackageExport> <!-- Bundle package to export -->
+  </properties>
+  
   <dependencies>
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
-      <artifactId>org.jbundle.app.program</artifactId>
+      <artifactId>org.jbundle.app.program.db</artifactId>
       <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.util</groupId>
+      <artifactId>org.jbundle.util.jbackup</artifactId>
     </dependency>
 </dependencies>
 </project>
