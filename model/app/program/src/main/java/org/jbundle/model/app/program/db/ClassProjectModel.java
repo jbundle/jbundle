@@ -36,6 +36,8 @@ public interface ClassProjectModel extends FolderModel
     public static enum CodeType {THICK, THIN, RESOURCE_PROPERTIES, RESOURCE_CODE, INTERFACE};
     public static final String CLASS_DETAIL_SCREEN = "ClassDetail";
     public static final String RESOURCE_DETAIL_SCREEN = "ResourceDetail";
+    public static final String CLASS_PROJECT_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassProjectScreen";
+    public static final String CLASS_PROJECT_GRID_SCREEN_CLASS = "org.jbundle.app.program.screen.ClassProjectGridScreen";
 
     public static final String CLASS_PROJECT_FILE = "ClassProject";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.db.ClassProject";

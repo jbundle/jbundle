@@ -1,5 +1,5 @@
 /**
- * @(#)Layout.
+ * @(#)LogicFile.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -21,29 +21,27 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.main.db.*;
-import org.jbundle.app.program.screen.*;
 import org.jbundle.model.app.program.db.*;
 
 /**
- *  Layout - Record layouts.
+ *  LogicFile - Method Descriptions.
  */
-public class Layout extends Folder
-     implements LayoutModel
+public class LogicFile extends VirtualRecord
+     implements LogicFileModel
 {
     private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
      */
-    public Layout()
+    public LogicFile()
     {
         super();
     }
     /**
      * Constructor.
      */
-    public Layout(RecordOwner screen)
+    public LogicFile(RecordOwner screen)
     {
         this();
         this.init(screen);
@@ -60,14 +58,14 @@ public class Layout extends Folder
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(LAYOUT_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(LOGIC_FILE_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
      */
     public String getRecordName()
     {
-        return "Layout";
+        return "Logic";
     }
     /**
      * Get the Database Name.
@@ -81,20 +79,20 @@ public class Layout extends Folder
      */
     public int getDatabaseType()
     {
-        return DBConstants.REMOTE | DBConstants.USER_DATA;
+        return DBConstants.REMOTE | DBConstants.SHARED_DATA | DBConstants.HIERARCHICAL;
     }
     /**
-     * MakeScreen Method.
+     * Make a default screen.
      */
     public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties)
     {
         ScreenParent screen = null;
-        if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
-            screen = Record.makeNewScreen(LAYOUT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
-        else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = Record.makeNewScreen(LAYOUT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+            screen = Record.makeNewScreen(LOGIC_FILE_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
+            screen = Record.makeNewScreen(LOGIC_FILE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
-            screen = Record.makeNewScreen(LAYOUT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+            screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
     }
     /**
@@ -119,27 +117,33 @@ public class Layout extends Folder
         //  field.setHidden(true);
         //}
         if (iFieldSeq == 3)
-            field = new StringField(this, NAME, 50, null, null);
-        //if (iFieldSeq == 4)
-        //  field = new FolderField(this, PARENT_FOLDER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        //if (iFieldSeq == 5)
-        //  field = new ShortField(this, SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new IntegerField(this, SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1000));
+        if (iFieldSeq == 4)
+        {
+            field = new StringField(this, METHOD_NAME, 40, null, null);
+            field.setNullable(false);
+        }
+        if (iFieldSeq == 5)
+            field = new MemoField(this, LOGIC_DESCRIPTION, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 6)
-            field = new MemoField(this, COMMENT, 255, null, null);
-        //if (iFieldSeq == 7)
-        //  field = new StringField(this, CODE, 30, null, null);
+            field = new StringField(this, METHOD_RETURNS, 255, null, null);
+        if (iFieldSeq == 7)
+            field = new StringField(this, METHOD_INTERFACE, 255, null, null);
         if (iFieldSeq == 8)
-            field = new StringField(this, TYPE, 50, null, null);
+            field = new StringField(this, METHOD_CLASS_NAME, 40, null, null);
         if (iFieldSeq == 9)
-            field = new StringField(this, FIELD_VALUE, 255, null, null);
+            field = new MemoField(this, LOGIC_SOURCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 10)
-            field = new StringField(this, RETURNS_VALUE, 50, null, null);
+            field = new StringField(this, LOGIC_THROWS, 255, null, null);
         if (iFieldSeq == 11)
-            field = new IntegerField(this, MAX, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new StringField(this, PROTECTION, 60, null, null);
         if (iFieldSeq == 12)
-            field = new StringField(this, SYSTEM, 30, null, null);
+            field = new StringField(this, COPY_FROM, 40, null, null);
         if (iFieldSeq == 13)
-            field = new BooleanField(this, COMMENTS, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        {
+            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
+            field.addListener(new InitOnceFieldHandler(null));
+        }
         if (field == null)
             field = super.setupField(iFieldSeq);
         return field;
@@ -157,10 +161,16 @@ public class Layout extends Folder
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ParentFolderID");
-            keyArea.addKeyField(PARENT_FOLDER_ID, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "MethodClassName");
+            keyArea.addKeyField(METHOD_CLASS_NAME, DBConstants.ASCENDING);
+            keyArea.addKeyField(METHOD_NAME, DBConstants.ASCENDING);
+        }
+        if (iKeyArea == 2)
+        {
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Sequence");
+            keyArea.addKeyField(METHOD_CLASS_NAME, DBConstants.ASCENDING);
             keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
-            keyArea.addKeyField(ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(METHOD_NAME, DBConstants.ASCENDING);
         }
         if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     

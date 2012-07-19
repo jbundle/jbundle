@@ -1,9 +1,9 @@
 /**
- * @(#)Registration.
+ * @(#)Layout.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.app.program.resource.db;
+package org.jbundle.app.program.db;
 
 import java.awt.*;
 import java.util.*;
@@ -21,28 +21,28 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.app.program.resource.screen.*;
-import org.jbundle.model.app.program.resource.db.*;
+import org.jbundle.main.db.*;
+import org.jbundle.model.app.program.db.*;
 
 /**
- *  Registration - Temporary database to emulate a system key registry.
+ *  Layout - .
  */
-public class Registration extends VirtualRecord
-     implements RegistrationModel
+public class Layout extends Folder
+     implements LayoutModel
 {
     private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
      */
-    public Registration()
+    public Layout()
     {
         super();
     }
     /**
      * Constructor.
      */
-    public Registration(RecordOwner screen)
+    public Layout(RecordOwner screen)
     {
         this();
         this.init(screen);
@@ -59,14 +59,14 @@ public class Registration extends VirtualRecord
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(REGISTRATION_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(LAYOUT_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
      */
     public String getRecordName()
     {
-        return "Registration";
+        return "Layout";
     }
     /**
      * Get the Database Name.
@@ -80,20 +80,20 @@ public class Registration extends VirtualRecord
      */
     public int getDatabaseType()
     {
-        return DBConstants.LOCAL | DBConstants.USER_DATA;
+        return DBConstants.REMOTE | DBConstants.USER_DATA;
     }
     /**
-     * Make a default screen.
+     * MakeScreen Method.
      */
     public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties)
     {
         ScreenParent screen = null;
-        if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = Record.makeNewScreen(REGISTRATION_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
-        else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
-            screen = Record.makeNewScreen(REGISTRATION_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
+            screen = Record.makeNewScreen(LAYOUT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+            screen = Record.makeNewScreen(LAYOUT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
-            screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
+            screen = Record.makeNewScreen(LAYOUT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         return screen;
     }
     /**
@@ -118,26 +118,27 @@ public class Registration extends VirtualRecord
         //  field.setHidden(true);
         //}
         if (iFieldSeq == 3)
-        {
-            field = new ResourceField(this, RESOURCE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
-            field.setNullable(false);
-        }
-        if (iFieldSeq == 4)
-            field = new StringField(this, CODE, 40, null, null);
-        if (iFieldSeq == 5)
-        {
-            field = new StringField(this, LANGUAGE, 2, null, null);
-            field.setNullable(false);
-        }
+            field = new StringField(this, NAME, 50, null, null);
+        //if (iFieldSeq == 4)
+        //  field = new FolderField(this, PARENT_FOLDER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        //if (iFieldSeq == 5)
+        //  field = new ShortField(this, SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 6)
-        {
-            field = new StringField(this, LOCALE, 2, null, null);
-            field.setNullable(false);
-        }
-        if (iFieldSeq == 7)
-            field = new StringField(this, KEY_VALUE, 80, null, null);
+            field = new MemoField(this, COMMENT, 255, null, null);
+        //if (iFieldSeq == 7)
+        //  field = new StringField(this, CODE, 30, null, null);
         if (iFieldSeq == 8)
-            field = new MemoField(this, OBJECT_VALUE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new StringField(this, TYPE, 50, null, null);
+        if (iFieldSeq == 9)
+            field = new StringField(this, FIELD_VALUE, 255, null, null);
+        if (iFieldSeq == 10)
+            field = new StringField(this, RETURNS_VALUE, 50, null, null);
+        if (iFieldSeq == 11)
+            field = new IntegerField(this, MAX, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 12)
+            field = new StringField(this, SYSTEM, 30, null, null);
+        if (iFieldSeq == 13)
+            field = new BooleanField(this, COMMENTS, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);
         return field;
@@ -155,20 +156,10 @@ public class Registration extends VirtualRecord
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ResourceID");
-            keyArea.addKeyField(RESOURCE_ID, DBConstants.ASCENDING);
-            keyArea.addKeyField(LANGUAGE, DBConstants.ASCENDING);
-            keyArea.addKeyField(LOCALE, DBConstants.ASCENDING);
-            keyArea.addKeyField(KEY_VALUE, DBConstants.ASCENDING);
-        }
-        if (iKeyArea == 2)
-        {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "Code");
-            keyArea.addKeyField(RESOURCE_ID, DBConstants.ASCENDING);
-            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
-            keyArea.addKeyField(LANGUAGE, DBConstants.ASCENDING);
-            keyArea.addKeyField(LOCALE, DBConstants.ASCENDING);
-            keyArea.addKeyField(KEY_VALUE, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ParentFolderID");
+            keyArea.addKeyField(PARENT_FOLDER_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     

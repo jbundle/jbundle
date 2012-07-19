@@ -1,5 +1,5 @@
 /**
- * @(#)Resource.
+ * @(#)Registration.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -21,29 +21,27 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.app.program.resource.screen.*;
-import org.jbundle.app.program.db.*;
 import org.jbundle.model.app.program.resource.db.*;
 
 /**
- *  Resource - .
+ *  Registration - Temporary database to emulate a system key registry.
  */
-public class Resource extends VirtualRecord
-     implements ResourceModel
+public class Registration extends VirtualRecord
+     implements RegistrationModel
 {
     private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
      */
-    public Resource()
+    public Registration()
     {
         super();
     }
     /**
      * Constructor.
      */
-    public Resource(RecordOwner screen)
+    public Registration(RecordOwner screen)
     {
         this();
         this.init(screen);
@@ -60,7 +58,14 @@ public class Resource extends VirtualRecord
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(RESOURCE_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(REGISTRATION_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
+    }
+    /**
+     * Get the name of a single record.
+     */
+    public String getRecordName()
+    {
+        return "Registration";
     }
     /**
      * Get the Database Name.
@@ -74,20 +79,20 @@ public class Resource extends VirtualRecord
      */
     public int getDatabaseType()
     {
-        return DBConstants.REMOTE | DBConstants.USER_DATA;
+        return DBConstants.LOCAL | DBConstants.USER_DATA;
     }
     /**
-     * MakeScreen Method.
+     * Make a default screen.
      */
     public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties)
     {
         ScreenParent screen = null;
-        if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
+        if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+            screen = Record.makeNewScreen(REGISTRATION_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
             screen = Record.makeNewScreen(REGISTRATION_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
-        else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = Record.makeNewScreen(RESOURCE_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
-            screen = Record.makeNewScreen(RESOURCE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+            screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
     }
     /**
@@ -112,17 +117,26 @@ public class Resource extends VirtualRecord
         //  field.setHidden(true);
         //}
         if (iFieldSeq == 3)
-            field = new StringField(this, CODE, 250, null, null);
+        {
+            field = new ResourceField(this, RESOURCE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field.setNullable(false);
+        }
         if (iFieldSeq == 4)
-            field = new StringField(this, DESCRIPTION, 40, null, null);
+            field = new StringField(this, CODE, 40, null, null);
         if (iFieldSeq == 5)
-            field = new StringField(this, LOCATION, 128, null, null);
+        {
+            field = new StringField(this, LANGUAGE, 2, null, null);
+            field.setNullable(false);
+        }
         if (iFieldSeq == 6)
-            field = new ResourceTypeField(this, TYPE, 20, null, null);
+        {
+            field = new StringField(this, LOCALE, 2, null, null);
+            field.setNullable(false);
+        }
         if (iFieldSeq == 7)
-            field = new ResourceField(this, BASE_RESOURCE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new StringField(this, KEY_VALUE, 80, null, null);
         if (iFieldSeq == 8)
-            field = new ClassProjectField(this, CLASS_PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new MemoField(this, OBJECT_VALUE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);
         return field;
@@ -140,19 +154,20 @@ public class Resource extends VirtualRecord
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Code");
-            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "ResourceID");
+            keyArea.addKeyField(RESOURCE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(LANGUAGE, DBConstants.ASCENDING);
+            keyArea.addKeyField(LOCALE, DBConstants.ASCENDING);
+            keyArea.addKeyField(KEY_VALUE, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Description");
-            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
-        }
-        if (iKeyArea == 3)
-        {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassProjectID");
-            keyArea.addKeyField(CLASS_PROJECT_ID, DBConstants.ASCENDING);
-            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "Code");
+            keyArea.addKeyField(RESOURCE_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
+            keyArea.addKeyField(LANGUAGE, DBConstants.ASCENDING);
+            keyArea.addKeyField(LOCALE, DBConstants.ASCENDING);
+            keyArea.addKeyField(KEY_VALUE, DBConstants.ASCENDING);
         }
         if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     

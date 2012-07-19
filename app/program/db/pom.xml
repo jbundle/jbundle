@@ -8,10 +8,17 @@
     <artifactId>jbundle-app-program-reactor</artifactId>
     <version>0.8.0-SNAPSHOT</version>
   </parent>
-
+  
   <artifactId>org.jbundle.app.program.db</artifactId>
   <packaging>bundle</packaging>
   <name>jbundle-app-program-db - Program databases</name>
+
+  <properties>
+    <jbundlePackageExport>
+        ${jbundlePackageFilter};version=${project.version},
+        org.jbundle.app.program.resource.db;version=${project.version},
+    </jbundlePackageExport> <!-- Bundle package to export -->
+  </properties>
 
   <dependencies>
     <dependency>

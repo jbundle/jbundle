@@ -1,5 +1,5 @@
 /**
- * @(#)ResourceTypeField.
+ * @(#)ResourceField.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -21,19 +21,16 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.app.program.resource.screen.*;
 
 /**
- *  ResourceTypeField - .
+ *  ResourceField - .
  */
-public class ResourceTypeField extends StringPopupField
+public class ResourceField extends ReferenceField
 {
-    public static final String LIST_RESOURCE_BUNDLE = "ListResourceBundle";
-    public static final String PROPERTIES = "Properties";
     /**
      * Default constructor.
      */
-    public ResourceTypeField()
+    public ResourceField()
     {
         super();
     }
@@ -45,7 +42,7 @@ public class ResourceTypeField extends StringPopupField
      * @param strDesc The string description (usually pass null, to use the resource file desc).
      * @param strDefault The default value (if object, this value is the default value, if string, the string is the default).
      */
-    public ResourceTypeField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
+    public ResourceField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
     {
         this();
         this.init(record, strName, iDataLength, strDesc, strDefault);
@@ -58,15 +55,11 @@ public class ResourceTypeField extends StringPopupField
         super.init(record, strName, iDataLength, strDesc, strDefault);
     }
     /**
-     * Get the conversion Map.
+     * Get (or make) the current record for this reference.
      */
-    public String[][] getPopupMap()
+    public Record makeReferenceRecord(RecordOwner recordOwner)
     {
-        String[][] string = {
-            {LIST_RESOURCE_BUNDLE, "ListResourceBundle"},
-            {PROPERTIES, "Properties"}
-        };
-        return string;
+        return new Resource(recordOwner);
     }
 
 }

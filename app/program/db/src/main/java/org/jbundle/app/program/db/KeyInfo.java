@@ -1,5 +1,5 @@
 /**
- * @(#)LogicFile.
+ * @(#)KeyInfo.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -21,28 +21,27 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.app.program.screen.*;
 import org.jbundle.model.app.program.db.*;
 
 /**
- *  LogicFile - Method Descriptions.
+ *  KeyInfo - Record Key Information.
  */
-public class LogicFile extends VirtualRecord
-     implements LogicFileModel
+public class KeyInfo extends VirtualRecord
+     implements KeyInfoModel
 {
     private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
      */
-    public LogicFile()
+    public KeyInfo()
     {
         super();
     }
     /**
      * Constructor.
      */
-    public LogicFile(RecordOwner screen)
+    public KeyInfo(RecordOwner screen)
     {
         this();
         this.init(screen);
@@ -59,14 +58,14 @@ public class LogicFile extends VirtualRecord
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(LOGIC_FILE_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(KEY_INFO_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
      */
     public String getRecordName()
     {
-        return "Logic";
+        return "Key";
     }
     /**
      * Get the Database Name.
@@ -89,9 +88,9 @@ public class LogicFile extends VirtualRecord
     {
         ScreenParent screen = null;
         if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = Record.makeNewScreen(LOGIC_FILE_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+            screen = Record.makeNewScreen(KEY_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
-            screen = Record.makeNewScreen(LOGIC_FILE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+            screen = Record.makeNewScreen(KEY_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
             screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
@@ -118,29 +117,32 @@ public class LogicFile extends VirtualRecord
         //  field.setHidden(true);
         //}
         if (iFieldSeq == 3)
-            field = new IntegerField(this, SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1000));
+            field = new StringField(this, KEY_FILENAME, 40, null, null);
         if (iFieldSeq == 4)
-        {
-            field = new StringField(this, METHOD_NAME, 40, null, null);
-            field.setNullable(false);
-        }
+            field = new ShortField(this, KEY_NUMBER, 2, null, null);
         if (iFieldSeq == 5)
-            field = new MemoField(this, LOGIC_DESCRIPTION, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new StringField(this, KEY_FIELD_1, 40, null, null);
         if (iFieldSeq == 6)
-            field = new StringField(this, METHOD_RETURNS, 255, null, null);
+            field = new StringField(this, KEY_FIELD_2, 40, null, null);
         if (iFieldSeq == 7)
-            field = new StringField(this, METHOD_INTERFACE, 255, null, null);
+            field = new StringField(this, KEY_FIELD_3, 40, null, null);
         if (iFieldSeq == 8)
-            field = new StringField(this, METHOD_CLASS_NAME, 40, null, null);
+            field = new StringField(this, KEY_FIELD_4, 40, null, null);
         if (iFieldSeq == 9)
-            field = new MemoField(this, LOGIC_SOURCE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new StringField(this, KEY_FIELD_5, 40, null, null);
         if (iFieldSeq == 10)
-            field = new StringField(this, LOGIC_THROWS, 255, null, null);
+            field = new StringField(this, KEY_FIELD_6, 40, null, null);
         if (iFieldSeq == 11)
-            field = new StringField(this, PROTECTION, 60, null, null);
+            field = new StringField(this, KEY_FIELD_7, 40, null, null);
         if (iFieldSeq == 12)
-            field = new StringField(this, COPY_FROM, 40, null, null);
+            field = new StringField(this, KEY_FIELD_8, 40, null, null);
         if (iFieldSeq == 13)
+            field = new StringField(this, KEY_FIELD_9, 40, null, null);
+        if (iFieldSeq == 14)
+            field = new StringField(this, KEY_NAME, 40, null, null);
+        if (iFieldSeq == 15)
+            field = new StringField(this, KEY_TYPE, 1, null, null);
+        if (iFieldSeq == 16)
         {
             field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
             field.addListener(new InitOnceFieldHandler(null));
@@ -162,16 +164,9 @@ public class LogicFile extends VirtualRecord
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "MethodClassName");
-            keyArea.addKeyField(METHOD_CLASS_NAME, DBConstants.ASCENDING);
-            keyArea.addKeyField(METHOD_NAME, DBConstants.ASCENDING);
-        }
-        if (iKeyArea == 2)
-        {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Sequence");
-            keyArea.addKeyField(METHOD_CLASS_NAME, DBConstants.ASCENDING);
-            keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
-            keyArea.addKeyField(METHOD_NAME, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.UNIQUE, "KeyFilename");
+            keyArea.addKeyField(KEY_FILENAME, DBConstants.ASCENDING);
+            keyArea.addKeyField(KEY_NUMBER, DBConstants.ASCENDING);
         }
         if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     

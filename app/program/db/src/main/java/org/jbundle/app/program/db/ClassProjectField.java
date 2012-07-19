@@ -1,9 +1,9 @@
 /**
- * @(#)ResourceField.
+ * @(#)ClassProjectField.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.app.program.resource.db;
+package org.jbundle.app.program.db;
 
 import java.awt.*;
 import java.util.*;
@@ -21,17 +21,18 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.app.program.resource.screen.*;
+import org.jbundle.main.db.*;
+import org.jbundle.app.program.resource.db.*;
 
 /**
- *  ResourceField - .
+ *  ClassProjectField - .
  */
-public class ResourceField extends ReferenceField
+public class ClassProjectField extends FolderField
 {
     /**
      * Default constructor.
      */
-    public ResourceField()
+    public ClassProjectField()
     {
         super();
     }
@@ -43,7 +44,7 @@ public class ResourceField extends ReferenceField
      * @param strDesc The string description (usually pass null, to use the resource file desc).
      * @param strDefault The default value (if object, this value is the default value, if string, the string is the default).
      */
-    public ResourceField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
+    public ClassProjectField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
     {
         this();
         this.init(record, strName, iDataLength, strDesc, strDefault);
@@ -60,7 +61,7 @@ public class ResourceField extends ReferenceField
      */
     public Record makeReferenceRecord(RecordOwner recordOwner)
     {
-        return new Resource(recordOwner);
+        return new ClassProject(recordOwner);
     }
 
 }

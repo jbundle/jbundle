@@ -22,10 +22,7 @@ import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.main.db.*;
-import org.jbundle.app.program.screen.*;
-import org.jbundle.app.program.resource.screen.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
+import org.jbundle.app.program.resource.db.*;
 import org.jbundle.model.app.program.db.*;
 
 /**
@@ -36,8 +33,8 @@ public class ClassProject extends Folder
 {
     private static final long serialVersionUID = 1L;
 
-    public static final int CLASS_DETAIL_MODE = ScreenConstants.LAST_MODE * 4;
-    public static final int RESOURCE_DETAIL_MODE = ScreenConstants.LAST_MODE * 8;
+    public static final int CLASS_DETAIL_MODE = ScreenConstants.DETAIL_MODE | ScreenConstants.LAST_MODE * 4;
+    public static final int RESOURCE_DETAIL_MODE = ScreenConstants.DETAIL_MODE | ScreenConstants.LAST_MODE * 8;
     /**
      * Default constructor.
      */
@@ -88,19 +85,19 @@ public class ClassProject extends Folder
     {
         ScreenParent screen = null;
         if ((iDocMode & ClassProject.CLASS_DETAIL_MODE) == ClassProject.CLASS_DETAIL_MODE)
-            screen = new ClassInfoGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = Record.makeNewScreen(ClassInfo.CLASS_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ClassProject.RESOURCE_DETAIL_MODE) == ClassProject.RESOURCE_DETAIL_MODE)
-            screen = new ResourceGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = Record.makeNewScreen(Resource.RESOURCE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
-            screen = new ClassProjectGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = Record.makeNewScreen(CLASS_PROJECT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = new ClassProjectScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = Record.makeNewScreen(CLASS_PROJECT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
-            screen = new ClassProjectGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = Record.makeNewScreen(CLASS_PROJECT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.MENU_MODE) != 0)
-            screen = new ClassProjectScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+            screen = Record.makeNewScreen(CLASS_PROJECT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
-            screen = super.makeScreen((ScreenLocation)itsLocation, (BasePanel)parentScreen, iDocMode, properties);
+            screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
     }
     /**

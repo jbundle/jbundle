@@ -1,5 +1,5 @@
 /**
- * @(#)ClassFields.
+ * @(#)ClassResource.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -21,28 +21,27 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.app.program.screen.*;
 import org.jbundle.model.app.program.db.*;
 
 /**
- *  ClassFields - Class Field Detail.
+ *  ClassResource - Resource detail for "Resource" class types..
  */
-public class ClassFields extends VirtualRecord
-     implements ClassFieldsModel
+public class ClassResource extends VirtualRecord
+     implements ClassResourceModel
 {
     private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
      */
-    public ClassFields()
+    public ClassResource()
     {
         super();
     }
     /**
      * Constructor.
      */
-    public ClassFields(RecordOwner screen)
+    public ClassResource(RecordOwner screen)
     {
         this();
         this.init(screen);
@@ -59,14 +58,14 @@ public class ClassFields extends VirtualRecord
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(CLASS_FIELDS_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(CLASS_RESOURCE_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
      */
     public String getRecordName()
     {
-        return "Field";
+        return "Class Resource";
     }
     /**
      * Get the Database Name.
@@ -80,7 +79,7 @@ public class ClassFields extends VirtualRecord
      */
     public int getDatabaseType()
     {
-        return DBConstants.REMOTE | DBConstants.SHARED_DATA | DBConstants.HIERARCHICAL;
+        return DBConstants.REMOTE | DBConstants.USER_DATA;
     }
     /**
      * Make a default screen.
@@ -89,9 +88,9 @@ public class ClassFields extends VirtualRecord
     {
         ScreenParent screen = null;
         if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = Record.makeNewScreen(CLASS_FIELDS_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+            screen = Record.makeNewScreen(CLASS_RESOURCE_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
-            screen = Record.makeNewScreen(CLASS_FIELDS_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+            screen = Record.makeNewScreen(CLASS_RESOURCE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
             screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
@@ -118,39 +117,13 @@ public class ClassFields extends VirtualRecord
         //  field.setHidden(true);
         //}
         if (iFieldSeq == 3)
-            field = new StringField(this, CLASS_INFO_CLASS_NAME, 40, null, null);
+            field = new StringField(this, CLASS_NAME, 40, null, null);
         if (iFieldSeq == 4)
-            field = new ReferenceField(this, CLASS_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new IntegerField(this, SEQUENCE_NO, 4, null, null);
         if (iFieldSeq == 5)
-            field = new StringField(this, CLASS_FIELD_CLASS, 60, null, null);
+            field = new StringField(this, KEY_NAME, 40, null, null);
         if (iFieldSeq == 6)
-            field = new IntegerField(this, CLASS_FIELD_SEQUENCE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0));
-        if (iFieldSeq == 7)
-        {
-            field = new StringField(this, CLASS_FIELD_NAME, 40, null, null);
-            field.setNullable(false);
-        }
-        if (iFieldSeq == 8)
-            field = new StringField(this, CLASS_FIELD_DESC, 30, null, null);
-        if (iFieldSeq == 9)
-        {
-            field = new StringField(this, CLASS_FIELD_PROTECT, 30, null, null);
-            field.addListener(new InitOnceFieldHandler(null));
-        }
-        if (iFieldSeq == 10)
-            field = new MemoField(this, CLASS_FIELD_INITIAL, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == 11)
-            field = new MemoField(this, CLASS_FIELD_INITIAL_VALUE, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == 12)
-        {
-            field = new ClassFieldsTypeField(this, CLASS_FIELDS_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, "ClassFieldsTypeField.NATIVE_FIELD");
-            field.addListener(new InitOnceFieldHandler(null));
-        }
-        if (iFieldSeq == 13)
-        {
-            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
-            field.addListener(new InitOnceFieldHandler(null));
-        }
+            field = new StringField(this, VALUE_NAME, 255, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);
         return field;
@@ -168,10 +141,9 @@ public class ClassFields extends VirtualRecord
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassInfoClassName");
-            keyArea.addKeyField(CLASS_INFO_CLASS_NAME, DBConstants.ASCENDING);
-            keyArea.addKeyField(CLASS_FIELD_SEQUENCE, DBConstants.ASCENDING);
-            keyArea.addKeyField(CLASS_FIELD_NAME, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassName");
+            keyArea.addKeyField(CLASS_NAME, DBConstants.ASCENDING);
+            keyArea.addKeyField(SEQUENCE_NO, DBConstants.ASCENDING);
         }
         if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     

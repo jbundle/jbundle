@@ -1,9 +1,9 @@
 /**
- * @(#)ClassProjectField.
+ * @(#)ResourceTypeField.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.app.program.db;
+package org.jbundle.app.program.resource.db;
 
 import java.awt.*;
 import java.util.*;
@@ -21,21 +21,18 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.main.db.*;
-import org.jbundle.app.program.screen.*;
-import org.jbundle.app.program.resource.screen.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
 
 /**
- *  ClassProjectField - .
+ *  ResourceTypeField - .
  */
-public class ClassProjectField extends FolderField
+public class ResourceTypeField extends StringPopupField
 {
+    public static final String LIST_RESOURCE_BUNDLE = "ListResourceBundle";
+    public static final String PROPERTIES = "Properties";
     /**
      * Default constructor.
      */
-    public ClassProjectField()
+    public ResourceTypeField()
     {
         super();
     }
@@ -47,7 +44,7 @@ public class ClassProjectField extends FolderField
      * @param strDesc The string description (usually pass null, to use the resource file desc).
      * @param strDefault The default value (if object, this value is the default value, if string, the string is the default).
      */
-    public ClassProjectField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
+    public ResourceTypeField(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
     {
         this();
         this.init(record, strName, iDataLength, strDesc, strDefault);
@@ -60,11 +57,15 @@ public class ClassProjectField extends FolderField
         super.init(record, strName, iDataLength, strDesc, strDefault);
     }
     /**
-     * Get (or make) the current record for this reference.
+     * Get the conversion Map.
      */
-    public Record makeReferenceRecord(RecordOwner recordOwner)
+    public String[][] getPopupMap()
     {
-        return new ClassProject(recordOwner);
+        String[][] string = {
+            {LIST_RESOURCE_BUNDLE, "ListResourceBundle"},
+            {PROPERTIES, "Properties"}
+        };
+        return string;
     }
 
 }

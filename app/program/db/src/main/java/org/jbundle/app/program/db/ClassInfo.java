@@ -24,6 +24,7 @@ import org.jbundle.model.screen.*;
 import java.io.*;
 import org.jbundle.base.db.xmlutil.*;
 import java.util.*;
+import org.jbundle.app.program.*;
 import org.jbundle.model.app.program.db.*;
 
 /**

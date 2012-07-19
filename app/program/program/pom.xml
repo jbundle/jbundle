@@ -14,6 +14,11 @@
   <name>jbundle-app-program - Program framework</name>
 
   <properties>
+    <jbundlePackageExport>
+        !org.jbundle.app.program.db.*,
+        !org.jbundle.app.program.resource.db,
+        ${jbundlePackageFilter};version=${project.version},
+    </jbundlePackageExport> <!-- Bundle package to export -->
     <debug>-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=y</debug>
   </properties>  
 

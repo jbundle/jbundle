@@ -1,9 +1,9 @@
 /**
- * @(#)ScreenIn.
+ * @(#)Resource.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
-package org.jbundle.app.program.db;
+package org.jbundle.app.program.resource.db;
 
 import java.awt.*;
 import java.util.*;
@@ -21,28 +21,28 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.app.program.screen.*;
-import org.jbundle.model.app.program.db.*;
+import org.jbundle.app.program.db.*;
+import org.jbundle.model.app.program.resource.db.*;
 
 /**
- *  ScreenIn - Screen In File.
+ *  Resource - .
  */
-public class ScreenIn extends VirtualRecord
-     implements ScreenInModel
+public class Resource extends VirtualRecord
+     implements ResourceModel
 {
     private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
      */
-    public ScreenIn()
+    public Resource()
     {
         super();
     }
     /**
      * Constructor.
      */
-    public ScreenIn(RecordOwner screen)
+    public Resource(RecordOwner screen)
     {
         this();
         this.init(screen);
@@ -59,14 +59,7 @@ public class ScreenIn extends VirtualRecord
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(SCREEN_IN_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
-    }
-    /**
-     * Get the name of a single record.
-     */
-    public String getRecordName()
-    {
-        return "Screen";
+        return (m_tableName == null) ? Record.formatTableNames(RESOURCE_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -80,20 +73,20 @@ public class ScreenIn extends VirtualRecord
      */
     public int getDatabaseType()
     {
-        return DBConstants.REMOTE | DBConstants.SHARED_DATA | DBConstants.HIERARCHICAL;
+        return DBConstants.REMOTE | DBConstants.USER_DATA;
     }
     /**
-     * Make a default screen.
+     * MakeScreen Method.
      */
     public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties)
     {
         ScreenParent screen = null;
-        if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = Record.makeNewScreen(SCREEN_IN_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
-        else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
-            screen = Record.makeNewScreen(SCREEN_IN_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
+            screen = Record.makeNewScreen(REGISTRATION_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
+            screen = Record.makeNewScreen(RESOURCE_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
-            screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
+            screen = Record.makeNewScreen(RESOURCE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         return screen;
     }
     /**
@@ -118,36 +111,17 @@ public class ScreenIn extends VirtualRecord
         //  field.setHidden(true);
         //}
         if (iFieldSeq == 3)
-            field = new StringField(this, SCREEN_IN_PROG_NAME, 40, null, null);
+            field = new StringField(this, CODE, 250, null, null);
         if (iFieldSeq == 4)
-            field = new ShortField(this, SCREEN_OUT_NUMBER, 2, null, null);
+            field = new StringField(this, DESCRIPTION, 40, null, null);
         if (iFieldSeq == 5)
-            field = new ShortField(this, SCREEN_ITEM_NUMBER, 4, null, null);
+            field = new StringField(this, LOCATION, 128, null, null);
         if (iFieldSeq == 6)
-        {
-            field = new StringField(this, SCREEN_FILE_NAME, 40, null, null);
-            field.addListener(new InitOnceFieldHandler(null));
-        }
+            field = new ResourceTypeField(this, TYPE, 20, null, null);
         if (iFieldSeq == 7)
-            field = new StringField(this, SCREEN_FIELD_NAME, 40, null, null);
+            field = new ResourceField(this, BASE_RESOURCE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 8)
-            field = new ShortField(this, SCREEN_ROW, 8, null, null);
-        if (iFieldSeq == 9)
-            field = new ShortField(this, SCREEN_COL, 4, null, null);
-        if (iFieldSeq == 10)
-            field = new StringField(this, SCREEN_GROUP, 4, null, null);
-        if (iFieldSeq == 11)
-            field = new ShortField(this, SCREEN_PHYSICAL_NUM, 4, null, null);
-        if (iFieldSeq == 12)
-            field = new ScreenLocField(this, SCREEN_LOCATION, 20, null, null);
-        if (iFieldSeq == 13)
-            field = new FieldDescField(this, SCREEN_FIELD_DESC, 30, null, null);
-        if (iFieldSeq == 14)
-            field = new MemoField(this, SCREEN_TEXT, 9999, null, null);
-        if (iFieldSeq == 15)
-            field = new ScreenAnchorField(this, SCREEN_ANCHOR, 20, null, null);
-        if (iFieldSeq == 16)
-            field = new ControlTypeField(this, SCREEN_CONTROL_TYPE, 20, null, null);
+            field = new ClassProjectField(this, CLASS_PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);
         return field;
@@ -165,9 +139,19 @@ public class ScreenIn extends VirtualRecord
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ScreenInProgName");
-            keyArea.addKeyField(SCREEN_IN_PROG_NAME, DBConstants.ASCENDING);
-            keyArea.addKeyField(SCREEN_ITEM_NUMBER, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Code");
+            keyArea.addKeyField(CODE, DBConstants.ASCENDING);
+        }
+        if (iKeyArea == 2)
+        {
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Description");
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
+        }
+        if (iKeyArea == 3)
+        {
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassProjectID");
+            keyArea.addKeyField(CLASS_PROJECT_ID, DBConstants.ASCENDING);
+            keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
         if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     

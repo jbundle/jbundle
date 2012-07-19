@@ -1,5 +1,5 @@
 /**
- * @(#)KeyInfo.
+ * @(#)ClassIncludes.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -21,28 +21,27 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
-import org.jbundle.app.program.screen.*;
 import org.jbundle.model.app.program.db.*;
 
 /**
- *  KeyInfo - Record Key Information.
+ *  ClassIncludes - .
  */
-public class KeyInfo extends VirtualRecord
-     implements KeyInfoModel
+public class ClassIncludes extends VirtualRecord
+     implements ClassIncludesModel
 {
     private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
      */
-    public KeyInfo()
+    public ClassIncludes()
     {
         super();
     }
     /**
      * Constructor.
      */
-    public KeyInfo(RecordOwner screen)
+    public ClassIncludes(RecordOwner screen)
     {
         this();
         this.init(screen);
@@ -59,14 +58,7 @@ public class KeyInfo extends VirtualRecord
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(KEY_INFO_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
-    }
-    /**
-     * Get the name of a single record.
-     */
-    public String getRecordName()
-    {
-        return "Key";
+        return (m_tableName == null) ? Record.formatTableNames(CLASS_INCLUDES_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the Database Name.
@@ -80,7 +72,7 @@ public class KeyInfo extends VirtualRecord
      */
     public int getDatabaseType()
     {
-        return DBConstants.REMOTE | DBConstants.SHARED_DATA | DBConstants.HIERARCHICAL;
+        return DBConstants.REMOTE | DBConstants.USER_DATA;
     }
     /**
      * Make a default screen.
@@ -89,9 +81,9 @@ public class KeyInfo extends VirtualRecord
     {
         ScreenParent screen = null;
         if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-            screen = Record.makeNewScreen(KEY_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+            screen = Record.makeNewScreen(CLASS_INCLUDES_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DISPLAY_MODE) == ScreenConstants.DISPLAY_MODE)
-            screen = Record.makeNewScreen(KEY_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+            screen = Record.makeNewScreen(CLASS_INCLUDES_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else
             screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
         return screen;
@@ -118,36 +110,9 @@ public class KeyInfo extends VirtualRecord
         //  field.setHidden(true);
         //}
         if (iFieldSeq == 3)
-            field = new StringField(this, KEY_FILENAME, 40, null, null);
+            field = new ReferenceField(this, CLASS_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 4)
-            field = new ShortField(this, KEY_NUMBER, 2, null, null);
-        if (iFieldSeq == 5)
-            field = new StringField(this, KEY_FIELD_1, 40, null, null);
-        if (iFieldSeq == 6)
-            field = new StringField(this, KEY_FIELD_2, 40, null, null);
-        if (iFieldSeq == 7)
-            field = new StringField(this, KEY_FIELD_3, 40, null, null);
-        if (iFieldSeq == 8)
-            field = new StringField(this, KEY_FIELD_4, 40, null, null);
-        if (iFieldSeq == 9)
-            field = new StringField(this, KEY_FIELD_5, 40, null, null);
-        if (iFieldSeq == 10)
-            field = new StringField(this, KEY_FIELD_6, 40, null, null);
-        if (iFieldSeq == 11)
-            field = new StringField(this, KEY_FIELD_7, 40, null, null);
-        if (iFieldSeq == 12)
-            field = new StringField(this, KEY_FIELD_8, 40, null, null);
-        if (iFieldSeq == 13)
-            field = new StringField(this, KEY_FIELD_9, 40, null, null);
-        if (iFieldSeq == 14)
-            field = new StringField(this, KEY_NAME, 40, null, null);
-        if (iFieldSeq == 15)
-            field = new StringField(this, KEY_TYPE, 1, null, null);
-        if (iFieldSeq == 16)
-        {
-            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
-            field.addListener(new InitOnceFieldHandler(null));
-        }
+            field = new StringField(this, CLASS_INCLUDES_CLASS, 128, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);
         return field;
@@ -165,9 +130,8 @@ public class KeyInfo extends VirtualRecord
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "KeyFilename");
-            keyArea.addKeyField(KEY_FILENAME, DBConstants.ASCENDING);
-            keyArea.addKeyField(KEY_NUMBER, DBConstants.ASCENDING);
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassInfoID");
+            keyArea.addKeyField(CLASS_INFO_ID, DBConstants.ASCENDING);
         }
         if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
